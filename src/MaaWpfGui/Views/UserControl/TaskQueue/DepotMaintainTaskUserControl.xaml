@@ -1,4 +1,4 @@
-<UserControl
+﻿<UserControl
     x:Class="MaaWpfGui.Views.UserControl.TaskQueue.DepotMaintainTaskUserControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -236,7 +236,7 @@
                                         <!--  当 IsStageManually 为 true 时显示 TextBox  -->
                                         <TextBox
                                             Height="30"
-                                            hc:InfoElement.Placeholder="{DynamicResource TaskQueue.Stage.Default}"
+                                            hc:InfoElement.Placeholder="{DynamicResource TaskQueue.Stage.Label.Default}"
                                             IsEnabled="{c:Binding !IsStageItemDragging,
                                                                   Source={x:Static ui_vms:TaskQueueViewModel.FightTask}}"
                                             Text="{Binding Stage, UpdateSourceTrigger=PropertyChanged}"

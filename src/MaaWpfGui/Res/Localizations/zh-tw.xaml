@@ -1367,9 +1367,9 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
     <system:String x:Key="Mall.BlacklistDefault">碳;傢俱;加急許可</system:String>
     <system:String x:Key="Mall.CreditFight">借助戰打 OF-1 賺信用</system:String>
     <system:String x:Key="Mall.CreditFight.Tip" xml:space="preserve">訪問好友後借助戰打一把 OF-1 賺 30 信用。
-關卡選擇為 ｢{key=TaskQueue.Stage.Default}｣ 時此功能無效。
+關卡選擇為 ｢{key=TaskQueue.Stage.Label.Default}｣ 時此功能無效。
 別傳 ｢火藍之心｣ 關卡 OF-1 未解鎖時請勿勾選。</system:String>
-    <system:String x:Key="Mall.CreditFight.WhenOF1Warning">當 ｢{key=TaskQueue.Task.Fight}｣ 任務關卡列表中已包含 ｢{key=TaskQueue.Stage.Default}｣ 時，｢{key=TaskQueue.Task.Mall}｣ 任務將不再借助戰打一把 OF-1。任務名稱: {0} (序號{1}), 關卡序號 {2}</system:String>
+    <system:String x:Key="Mall.CreditFight.WhenOF1Warning">當 ｢{key=TaskQueue.Task.Fight}｣ 任務關卡列表中已包含 ｢{key=TaskQueue.Stage.Label.Default}｣ 時，｢{key=TaskQueue.Task.Mall}｣ 任務將不再借助戰打一把 OF-1。任務名稱: {0} (序號{1}), 關卡序號 {2}</system:String>
     <system:String x:Key="Mall.CurrentFormation">目前</system:String>
     <system:String x:Key="Mall.Drink">要來一杯美酒嗎🍷？博士</system:String>
     <system:String x:Key="Mall.ForceShoppingIfCreditFull">信用溢出時無視黑名單</system:String>
@@ -2162,13 +2162,13 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
     <system:String x:Key="TaskQueue.Schedule.TimerCustomConfig">自訂設定檔選擇</system:String>
     <system:String x:Key="TaskQueue.Schedule.TimerCustomConfig.Tip">定時啟動前兩分鐘重新啟動 MAA 並切換設定檔</system:String>
     <system:String x:Key="TaskQueue.SelectAll">全選</system:String>
-    <system:String x:Key="TaskQueue.Stage.17">1-7</system:String>
+    <system:String x:Key="TaskQueue.Stage.1-7">1-7</system:String>
+    <system:String x:Key="TaskQueue.Stage.AP-5">紅票-5</system:String>
     <system:String x:Key="TaskQueue.Stage.AP.Tip">AP-5: 紅票</system:String>
-    <system:String x:Key="TaskQueue.Stage.AP5">紅票-5</system:String>
+    <system:String x:Key="TaskQueue.Stage.CA-5">技能書-5</system:String>
     <system:String x:Key="TaskQueue.Stage.CA.Tip">CA-5: 技能書</system:String>
-    <system:String x:Key="TaskQueue.Stage.CA5">技能書-5</system:String>
+    <system:String x:Key="TaskQueue.Stage.CE-6">龍門幣-6/5</system:String>
     <system:String x:Key="TaskQueue.Stage.CE.Tip">CE-6: 龍門幣</system:String>
-    <system:String x:Key="TaskQueue.Stage.CE6">龍門幣-6/5</system:String>
     <system:String x:Key="TaskQueue.Stage.ChipShort.Caster">術</system:String>
     <system:String x:Key="TaskQueue.Stage.ChipShort.Defender">盾</system:String>
     <system:String x:Key="TaskQueue.Stage.ChipShort.Guard">近</system:String>
@@ -2177,28 +2177,28 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
     <system:String x:Key="TaskQueue.Stage.ChipShort.Specialist">特</system:String>
     <system:String x:Key="TaskQueue.Stage.ChipShort.Supporter">輔</system:String>
     <system:String x:Key="TaskQueue.Stage.ChipShort.Vanguard">先</system:String>
-    <system:String x:Key="TaskQueue.Stage.DaysLeftOpen" xml:space="preserve">剩餘天數: </system:String>
-    <system:String x:Key="TaskQueue.Stage.Default">目前/上次</system:String>
-    <system:String x:Key="TaskQueue.Stage.Inventory">庫存</system:String>
+    <system:String x:Key="TaskQueue.Stage.LS-6">經驗-6/5</system:String>
     <system:String x:Key="TaskQueue.Stage.LS.Tip">LS-6: 經驗</system:String>
-    <system:String x:Key="TaskQueue.Stage.LS6">經驗-6/5</system:String>
-    <system:String x:Key="TaskQueue.Stage.LessThanOneDay">不到 1 天</system:String>
-    <system:String x:Key="TaskQueue.Stage.PRA.Tip">PR-A-1/2: {0}&amp;{1}晶片</system:String>
-    <system:String x:Key="TaskQueue.Stage.PRA1">奶/盾晶片</system:String>
-    <system:String x:Key="TaskQueue.Stage.PRA2">奶/盾晶片組</system:String>
-    <system:String x:Key="TaskQueue.Stage.PRB.Tip">PR-B-1/2: {0}&amp;{1}晶片</system:String>
-    <system:String x:Key="TaskQueue.Stage.PRB1">術/狙晶片</system:String>
-    <system:String x:Key="TaskQueue.Stage.PRB2">術/狙晶片組</system:String>
-    <system:String x:Key="TaskQueue.Stage.PRC.Tip">PR-C-1/2: {0}&amp;{1}晶片</system:String>
-    <system:String x:Key="TaskQueue.Stage.PRC1">先/輔晶片</system:String>
-    <system:String x:Key="TaskQueue.Stage.PRC2">先/輔晶片組</system:String>
-    <system:String x:Key="TaskQueue.Stage.PRD.Tip">PR-D-1/2: {0}&amp;{1}晶片</system:String>
-    <system:String x:Key="TaskQueue.Stage.PRD1">近/特晶片</system:String>
-    <system:String x:Key="TaskQueue.Stage.PRD2">近/特晶片組</system:String>
-    <system:String x:Key="TaskQueue.Stage.Prompt1">週一了，可以打剿滅了 ~</system:String>
-    <system:String x:Key="TaskQueue.Stage.Prompt2">週日了，記得打剿滅喔 ~</system:String>
+    <system:String x:Key="TaskQueue.Stage.Label.DaysLeftOpen" xml:space="preserve">剩餘天數: </system:String>
+    <system:String x:Key="TaskQueue.Stage.Label.Default">目前/上次</system:String>
+    <system:String x:Key="TaskQueue.Stage.Label.Inventory">庫存</system:String>
+    <system:String x:Key="TaskQueue.Stage.Label.LessThanOneDay">不到 1 天</system:String>
+    <system:String x:Key="TaskQueue.Stage.Label.Prompt1">週一了，可以打剿滅了 ~</system:String>
+    <system:String x:Key="TaskQueue.Stage.Label.Prompt2">週日了，記得打剿滅喔 ~</system:String>
+    <system:String x:Key="TaskQueue.Stage.PR-A-1">奶/盾晶片</system:String>
+    <system:String x:Key="TaskQueue.Stage.PR-A-2">奶/盾晶片組</system:String>
+    <system:String x:Key="TaskQueue.Stage.PR-A.Tip">PR-A-1/2: {0}&amp;{1}晶片</system:String>
+    <system:String x:Key="TaskQueue.Stage.PR-B-1">術/狙晶片</system:String>
+    <system:String x:Key="TaskQueue.Stage.PR-B-2">術/狙晶片組</system:String>
+    <system:String x:Key="TaskQueue.Stage.PR-B.Tip">PR-B-1/2: {0}&amp;{1}晶片</system:String>
+    <system:String x:Key="TaskQueue.Stage.PR-C-1">先/輔晶片</system:String>
+    <system:String x:Key="TaskQueue.Stage.PR-C-2">先/輔晶片組</system:String>
+    <system:String x:Key="TaskQueue.Stage.PR-C.Tip">PR-C-1/2: {0}&amp;{1}晶片</system:String>
+    <system:String x:Key="TaskQueue.Stage.PR-D-1">近/特晶片</system:String>
+    <system:String x:Key="TaskQueue.Stage.PR-D-2">近/特晶片組</system:String>
+    <system:String x:Key="TaskQueue.Stage.PR-D.Tip">PR-D-1/2: {0}&amp;{1}晶片</system:String>
+    <system:String x:Key="TaskQueue.Stage.SK-5">碳-5</system:String>
     <system:String x:Key="TaskQueue.Stage.SK.Tip">SK-5: 碳</system:String>
-    <system:String x:Key="TaskQueue.Stage.SK5">碳-5</system:String>
     <system:String x:Key="TaskQueue.Stage.TodaysStage.Tip" xml:space="preserve">今日關卡小提示: </system:String>
     <system:String x:Key="TaskQueue.Stall.TimeoutEnabled">啟用日誌更新停滯偵測</system:String>
     <system:String x:Key="TaskQueue.Stall.TimeoutMinutes">日誌輸出停滯逾時時間（分鐘）</system:String>

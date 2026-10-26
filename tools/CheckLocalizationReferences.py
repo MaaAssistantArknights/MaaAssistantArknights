@@ -34,7 +34,7 @@ XAML_NS_KEY = "{http://schemas.microsoft.com/winfx/2006/xaml}Key"
 INLINE_KEY_RE = re.compile(r"\{key=([^}]+)\}")
 # 标记扩展形式 {DynamicResource X} / {StaticResource X}；排除 <StaticResource ResourceKey=
 # 属性形式里的属性名（ResourceKey 本身不是 key）
-XAML_RES_RE = re.compile(r"(?:Dynamic|Static)Resource\s+(?!ResourceKey[=\s])([A-Za-z0-9._@]+)")
+XAML_RES_RE = re.compile(r"(?:Dynamic|Static)Resource\s+(?!ResourceKey[=\s])([A-Za-z0-9._@-]+)")
 # 元素属性形式 <StaticResource ResourceKey="X" />；只收静态字面量值，
 # {Binding ...} 等运行时表达式（ResourceReferenceHelper 附加属性的值由 VM 提供）跳过
 XAML_RES_ATTR_RE = re.compile(r'ResourceKey="([^"{]+)"')

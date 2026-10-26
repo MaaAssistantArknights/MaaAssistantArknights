@@ -1,4 +1,4 @@
-// <copyright file="FightTaskUserControlModel.cs" company="MaaAssistantArknights">
+﻿// <copyright file="FightTaskUserControlModel.cs" company="MaaAssistantArknights">
 // Part of the MaaWpfGui project, maintained by the MaaAssistantArknights team (Maa Team)
 // Copyright (C) 2021-2026 MaaAssistantArknights Contributors
 //
@@ -971,7 +971,7 @@ public partial class FightTaskUserControlModel : TaskSettingsViewModel, FightTas
         var stage = GetFightStage(StagePlan.Select(i => i.Stage)) ?? "--";
         if (stage == string.Empty)
         {
-            stage = LocalizationHelper.GetString("TaskQueue.Stage.Default");
+            stage = LocalizationHelper.GetString("TaskQueue.Stage.Label.Default");
         }
 
         StagePlanTip = LocalizationHelper.GetStringFormat("TaskQueue.Fight.StagePlan.Tip", stage);
@@ -1135,7 +1135,7 @@ public partial class FightTaskUserControlModel : TaskSettingsViewModel, FightTas
     }
 
     public LocalizedObservableList<FightStageResetMode> StageResetModeList { get; } = new(
-        (FightStageResetMode.Current, "TaskQueue.Stage.Default"),
+        (FightStageResetMode.Current, "TaskQueue.Stage.Label.Default"),
         (FightStageResetMode.Ignore, "TaskQueue.NotSwitch"));
 
     public FightStageResetMode StageResetMode
@@ -1447,9 +1447,9 @@ public partial class FightTaskUserControlModel : TaskSettingsViewModel, FightTas
             {
                 var activity = activityList.First();
                 var timeLeft = activity.Value.Info.ExpireTimeUtc - time;
-                var day = timeLeft.Days > 0 ? $"{timeLeft.Days}+" : LocalizationHelper.GetString("TaskQueue.Stage.LessThanOneDay");
+                var day = timeLeft.Days > 0 ? $"{timeLeft.Days}+" : LocalizationHelper.GetString("TaskQueue.Stage.Label.LessThanOneDay");
                 ActivityExpireIn2Days = timeLeft.Days < 2;
-                ActivityInfo = $"｢{activity.Value.Info.StageName}｣ {LocalizationHelper.GetString("TaskQueue.Stage.DaysLeftOpen")}{day}";
+                ActivityInfo = $"｢{activity.Value.Info.StageName}｣ {LocalizationHelper.GetString("TaskQueue.Stage.Label.DaysLeftOpen")}{day}";
             }
             else
             {
@@ -1708,7 +1708,7 @@ public partial class FightTaskUserControlModel : TaskSettingsViewModel, FightTas
                 if (stageIndex >= 0 && stageIndex < fight.StagePlan.Count - 1)
                 {
                     var stageName = stage == string.Empty
-                        ? LocalizationHelper.GetString("TaskQueue.Stage.Default")
+                        ? LocalizationHelper.GetString("TaskQueue.Stage.Label.Default")
                         : Instances.StageManager.GetStageInfo(stage).Display;
                     Instances.TaskQueueViewModel.AddLog(
                         LocalizationHelper.GetStringFormat("TaskQueue.Fight.PermanentStageBlocksStages", stageName),

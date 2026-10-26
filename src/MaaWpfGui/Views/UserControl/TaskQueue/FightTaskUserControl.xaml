@@ -1,4 +1,4 @@
-<UserControl
+﻿<UserControl
     x:Class="MaaWpfGui.Views.UserControl.TaskQueue.FightTaskUserControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -224,7 +224,7 @@
                         Value="{Binding DropsQuantity, UpdateSourceTrigger=PropertyChanged}" />
                     <StackPanel Margin="6,2,6,0" Visibility="{c:Binding 'IsSpecifiedDrops and UseInventoryTarget'}">
                         <StackPanel Orientation="Horizontal">
-                            <controls:TextBlock Text="{DynamicResource TaskQueue.Stage.Inventory}" />
+                            <controls:TextBlock Text="{DynamicResource TaskQueue.Stage.Label.Inventory}" />
                             <controls:TextBlock Margin="4,0,0,0" Text=":" />
                             <controls:TextBlock Margin="4,0,0,0" Text="{Binding CurrentDropsInventoryText}" />
                             <controls:TooltipBlock Margin="4,0,0,0" TooltipText="{DynamicResource TaskQueue.Fight.InventoryUpdate.Tip}" />
@@ -394,7 +394,7 @@
                                     <!--  当 CustomStageCode 为 true 时显示 TextBox  -->
                                     <TextBox
                                         Height="30"
-                                        hc:InfoElement.Placeholder="{DynamicResource TaskQueue.Stage.Default}"
+                                        hc:InfoElement.Placeholder="{DynamicResource TaskQueue.Stage.Label.Default}"
                                         IsEnabled="{c:Binding !IsStageItemDragging,
                                                               Source={x:Static ui_vms:TaskQueueViewModel.FightTask}}"
                                         Opacity="{c:Binding 'IsOpen ? 1 : 0.5'}"

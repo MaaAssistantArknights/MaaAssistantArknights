@@ -1369,9 +1369,9 @@ DEBUGディレクトリに保存される画像には数量制限があり、超
     <system:String x:Key="Mall.BlacklistDefault">炭素材;家具;緊急招集票</system:String>
     <system:String x:Key="Mall.CreditFight">サポートを借りて戦闘を行いポイントを獲得します</system:String>
     <system:String x:Key="Mall.CreditFight.Tip" xml:space="preserve">基地訪問後、OF-1でサポートを使用すると、30FP獲得できます。
-この機能は、ステージを ｢{key=TaskQueue.Stage.Default}｣ に選択している場合は無効です。
+この機能は、ステージを ｢{key=TaskQueue.Stage.Label.Default}｣ に選択している場合は無効です。
 ステージOF-1がアンロックされていない場合は、チェックしないでください。</system:String>
-    <system:String x:Key="Mall.CreditFight.WhenOF1Warning">｢{key=TaskQueue.Task.Fight}｣ タスクのステージリストに ｢{key=TaskQueue.Stage.Default}｣ が存在するし、｢{key=TaskQueue.Task.Mall}｣ タスクはOF-1での戦友サポート借用の戦闘をスキップします。タスク名: {0} (シーケンス番号 {1})、レベル シーケンス番号 {2}</system:String>
+    <system:String x:Key="Mall.CreditFight.WhenOF1Warning">｢{key=TaskQueue.Task.Fight}｣ タスクのステージリストに ｢{key=TaskQueue.Stage.Label.Default}｣ が存在するし、｢{key=TaskQueue.Task.Mall}｣ タスクはOF-1での戦友サポート借用の戦闘をスキップします。タスク名: {0} (シーケンス番号 {1})、レベル シーケンス番号 {2}</system:String>
     <system:String x:Key="Mall.CurrentFormation">現在</system:String>
     <system:String x:Key="Mall.Drink">飲み物はいかがですか🍷？ドクター</system:String>
     <system:String x:Key="Mall.ForceShoppingIfCreditFull">FPがあふれた際はブラックリストを無視する</system:String>
@@ -2163,13 +2163,13 @@ MAA は非インストール型のアプリケーションであり、レジス�
     <system:String x:Key="TaskQueue.Schedule.TimerCustomConfig">カスタム構成オプション</system:String>
     <system:String x:Key="TaskQueue.Schedule.TimerCustomConfig.Tip">起動時刻の2分前にMAAを再起動して設定を切り替えます</system:String>
     <system:String x:Key="TaskQueue.SelectAll">全て選択</system:String>
-    <system:String x:Key="TaskQueue.Stage.17">1-7</system:String>
+    <system:String x:Key="TaskQueue.Stage.1-7">1-7</system:String>
+    <system:String x:Key="TaskQueue.Stage.AP-5">購買資格証-5(AP-5)</system:String>
     <system:String x:Key="TaskQueue.Stage.AP.Tip">AP-5：購買資格証</system:String>
-    <system:String x:Key="TaskQueue.Stage.AP5">購買資格証-5(AP-5)</system:String>
+    <system:String x:Key="TaskQueue.Stage.CA-5">アーツ学-5(CA-5)</system:String>
     <system:String x:Key="TaskQueue.Stage.CA.Tip">CA-5：アーツ学</system:String>
-    <system:String x:Key="TaskQueue.Stage.CA5">アーツ学-5(CA-5)</system:String>
+    <system:String x:Key="TaskQueue.Stage.CE-6">龍門幣-6(CE-6)</system:String>
     <system:String x:Key="TaskQueue.Stage.CE.Tip">CE-6：龍門幣</system:String>
-    <system:String x:Key="TaskQueue.Stage.CE6">龍門幣-6(CE-6)</system:String>
     <system:String x:Key="TaskQueue.Stage.ChipShort.Caster">術師</system:String>
     <system:String x:Key="TaskQueue.Stage.ChipShort.Defender">重装</system:String>
     <system:String x:Key="TaskQueue.Stage.ChipShort.Guard">前衛</system:String>
@@ -2178,28 +2178,28 @@ MAA は非インストール型のアプリケーションであり、レジス�
     <system:String x:Key="TaskQueue.Stage.ChipShort.Specialist">特殊</system:String>
     <system:String x:Key="TaskQueue.Stage.ChipShort.Supporter">補助</system:String>
     <system:String x:Key="TaskQueue.Stage.ChipShort.Vanguard">先鋒</system:String>
-    <system:String x:Key="TaskQueue.Stage.DaysLeftOpen" xml:space="preserve">公開日まで: </system:String>
-    <system:String x:Key="TaskQueue.Stage.Default">現在/前回</system:String>
-    <system:String x:Key="TaskQueue.Stage.Inventory">在庫</system:String>
+    <system:String x:Key="TaskQueue.Stage.LS-6">作戦記録-6(LS-6)</system:String>
     <system:String x:Key="TaskQueue.Stage.LS.Tip">LS-6：作戦記録</system:String>
-    <system:String x:Key="TaskQueue.Stage.LS6">作戦記録-6(LS-6)</system:String>
-    <system:String x:Key="TaskQueue.Stage.LessThanOneDay">1日以内</system:String>
-    <system:String x:Key="TaskQueue.Stage.PRA.Tip">PR-A-1/2：{0}&amp;{1}SoC</system:String>
-    <system:String x:Key="TaskQueue.Stage.PRA1">医療/重装SoC・初</system:String>
-    <system:String x:Key="TaskQueue.Stage.PRA2">医療/重装SoC・中</system:String>
-    <system:String x:Key="TaskQueue.Stage.PRB.Tip">PR-B：{0}&amp;{1}SoC</system:String>
-    <system:String x:Key="TaskQueue.Stage.PRB1">術師/狙撃SoC・初</system:String>
-    <system:String x:Key="TaskQueue.Stage.PRB2">術師/狙撃SoC・中</system:String>
-    <system:String x:Key="TaskQueue.Stage.PRC.Tip">PR-C-1/2：{0}&amp;{1}SoC</system:String>
-    <system:String x:Key="TaskQueue.Stage.PRC1">先鋒/補助SoC・初</system:String>
-    <system:String x:Key="TaskQueue.Stage.PRC2">先鋒/補助SoC・中</system:String>
-    <system:String x:Key="TaskQueue.Stage.PRD.Tip">PR-D-1/2：{0}&amp;{1}SoC</system:String>
-    <system:String x:Key="TaskQueue.Stage.PRD1">前衛/特殊SoC・初</system:String>
-    <system:String x:Key="TaskQueue.Stage.PRD2">前衛/特殊SoC・中</system:String>
-    <system:String x:Key="TaskQueue.Stage.Prompt1">月曜です。殲滅作戦がリセットされています〜</system:String>
-    <system:String x:Key="TaskQueue.Stage.Prompt2">日曜です。殲滅作戦は忘れてないですか〜</system:String>
+    <system:String x:Key="TaskQueue.Stage.Label.DaysLeftOpen" xml:space="preserve">公開日まで: </system:String>
+    <system:String x:Key="TaskQueue.Stage.Label.Default">現在/前回</system:String>
+    <system:String x:Key="TaskQueue.Stage.Label.Inventory">在庫</system:String>
+    <system:String x:Key="TaskQueue.Stage.Label.LessThanOneDay">1日以内</system:String>
+    <system:String x:Key="TaskQueue.Stage.Label.Prompt1">月曜です。殲滅作戦がリセットされています〜</system:String>
+    <system:String x:Key="TaskQueue.Stage.Label.Prompt2">日曜です。殲滅作戦は忘れてないですか〜</system:String>
+    <system:String x:Key="TaskQueue.Stage.PR-A-1">医療/重装SoC・初</system:String>
+    <system:String x:Key="TaskQueue.Stage.PR-A-2">医療/重装SoC・中</system:String>
+    <system:String x:Key="TaskQueue.Stage.PR-A.Tip">PR-A-1/2：{0}&amp;{1}SoC</system:String>
+    <system:String x:Key="TaskQueue.Stage.PR-B-1">術師/狙撃SoC・初</system:String>
+    <system:String x:Key="TaskQueue.Stage.PR-B-2">術師/狙撃SoC・中</system:String>
+    <system:String x:Key="TaskQueue.Stage.PR-B.Tip">PR-B：{0}&amp;{1}SoC</system:String>
+    <system:String x:Key="TaskQueue.Stage.PR-C-1">先鋒/補助SoC・初</system:String>
+    <system:String x:Key="TaskQueue.Stage.PR-C-2">先鋒/補助SoC・中</system:String>
+    <system:String x:Key="TaskQueue.Stage.PR-C.Tip">PR-C-1/2：{0}&amp;{1}SoC</system:String>
+    <system:String x:Key="TaskQueue.Stage.PR-D-1">前衛/特殊SoC・初</system:String>
+    <system:String x:Key="TaskQueue.Stage.PR-D-2">前衛/特殊SoC・中</system:String>
+    <system:String x:Key="TaskQueue.Stage.PR-D.Tip">PR-D-1/2：{0}&amp;{1}SoC</system:String>
+    <system:String x:Key="TaskQueue.Stage.SK-5">炭素材-5(SK-5)</system:String>
     <system:String x:Key="TaskQueue.Stage.SK.Tip">SK-5：炭素材</system:String>
-    <system:String x:Key="TaskQueue.Stage.SK5">炭素材-5(SK-5)</system:String>
     <system:String x:Key="TaskQueue.Stage.TodaysStage.Tip" xml:space="preserve">今日のステージのヒント: </system:String>
     <system:String x:Key="TaskQueue.Stall.TimeoutEnabled">ログ更新の停滞検出を有効にする</system:String>
     <system:String x:Key="TaskQueue.Stall.TimeoutMinutes">ログ出力停滞タイムアウト（分）</system:String>

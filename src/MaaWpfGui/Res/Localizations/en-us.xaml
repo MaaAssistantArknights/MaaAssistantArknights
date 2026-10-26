@@ -1366,9 +1366,9 @@ Right Click: Select Target Process</system:String>
     <system:String x:Key="Mall.BlacklistDefault">Carbon;Furniture Part;Expedited Plan</system:String>
     <system:String x:Key="Mall.CreditFight">Combat with Support to earn Credits</system:String>
     <system:String x:Key="Mall.CreditFight.Tip" xml:space="preserve">Combat with Support Unit in OF-1 after Visit Friends to earn 30 credits.
-This function is invalid when the stage is selected as ｢{key=TaskQueue.Stage.Default}｣.
+This function is invalid when the stage is selected as ｢{key=TaskQueue.Stage.Label.Default}｣.
 Please do not check it when the stage OF-1 is not unlocked.</system:String>
-    <system:String x:Key="Mall.CreditFight.WhenOF1Warning">A ｢{key=TaskQueue.Task.Fight}｣ task has ｢{key=TaskQueue.Stage.Default}｣ in its stage list, ｢{key=TaskQueue.Task.Mall}｣ task will skip the Combat with Support Unit in OF-1. Task: {0} (index: {1}), Stage index in list: {2}</system:String>
+    <system:String x:Key="Mall.CreditFight.WhenOF1Warning">A ｢{key=TaskQueue.Task.Fight}｣ task has ｢{key=TaskQueue.Stage.Label.Default}｣ in its stage list, ｢{key=TaskQueue.Task.Mall}｣ task will skip the Combat with Support Unit in OF-1. Task: {0} (index: {1}), Stage index in list: {2}</system:String>
     <system:String x:Key="Mall.CurrentFormation">Current</system:String>
     <system:String x:Key="Mall.Drink">Would you like a drink🍷? doctor</system:String>
     <system:String x:Key="Mall.ForceShoppingIfCreditFull">Ignore blacklist if credits overflow</system:String>
@@ -2161,13 +2161,13 @@ Right-clicking other options will check/uncheck this option simultaneously</syst
     <system:String x:Key="TaskQueue.Schedule.TimerCustomConfig">Custom config</system:String>
     <system:String x:Key="TaskQueue.Schedule.TimerCustomConfig.Tip">Restart MAA and switch the configuration two minutes before the scheduled start</system:String>
     <system:String x:Key="TaskQueue.SelectAll">Select All</system:String>
-    <system:String x:Key="TaskQueue.Stage.17">1-7</system:String>
+    <system:String x:Key="TaskQueue.Stage.1-7">1-7</system:String>
+    <system:String x:Key="TaskQueue.Stage.AP-5">AP-5</system:String>
     <system:String x:Key="TaskQueue.Stage.AP.Tip">AP-5: Purchase Certificate</system:String>
-    <system:String x:Key="TaskQueue.Stage.AP5">AP-5</system:String>
+    <system:String x:Key="TaskQueue.Stage.CA-5">CA-5</system:String>
     <system:String x:Key="TaskQueue.Stage.CA.Tip">CA-5: Skill Summary</system:String>
-    <system:String x:Key="TaskQueue.Stage.CA5">CA-5</system:String>
+    <system:String x:Key="TaskQueue.Stage.CE-6">CE-6</system:String>
     <system:String x:Key="TaskQueue.Stage.CE.Tip">CE-6: LMD</system:String>
-    <system:String x:Key="TaskQueue.Stage.CE6">CE-6</system:String>
     <system:String x:Key="TaskQueue.Stage.ChipShort.Caster">Cst</system:String>
     <system:String x:Key="TaskQueue.Stage.ChipShort.Defender">Def</system:String>
     <system:String x:Key="TaskQueue.Stage.ChipShort.Guard">Grd</system:String>
@@ -2176,28 +2176,28 @@ Right-clicking other options will check/uncheck this option simultaneously</syst
     <system:String x:Key="TaskQueue.Stage.ChipShort.Specialist">Spc</system:String>
     <system:String x:Key="TaskQueue.Stage.ChipShort.Supporter">Sup</system:String>
     <system:String x:Key="TaskQueue.Stage.ChipShort.Vanguard">Pio</system:String>
-    <system:String x:Key="TaskQueue.Stage.DaysLeftOpen" xml:space="preserve">Days left open:&#160;</system:String>
-    <system:String x:Key="TaskQueue.Stage.Default">Cur/Last</system:String>
-    <system:String x:Key="TaskQueue.Stage.Inventory">Inv:</system:String>
+    <system:String x:Key="TaskQueue.Stage.LS-6">LS-6</system:String>
     <system:String x:Key="TaskQueue.Stage.LS.Tip">LS-6: Battle Record</system:String>
-    <system:String x:Key="TaskQueue.Stage.LS6">LS-6</system:String>
-    <system:String x:Key="TaskQueue.Stage.LessThanOneDay">Less than 1 day</system:String>
-    <system:String x:Key="TaskQueue.Stage.PRA.Tip">PR-A-1/2: {0}&amp;{1} Chip</system:String>
-    <system:String x:Key="TaskQueue.Stage.PRA1">Med/Def Ⅰ</system:String>
-    <system:String x:Key="TaskQueue.Stage.PRA2">Med/Def Ⅱ</system:String>
-    <system:String x:Key="TaskQueue.Stage.PRB.Tip">PR-B-1/2: {0}&amp;{1} Chip</system:String>
-    <system:String x:Key="TaskQueue.Stage.PRB1">Cst/Sni Ⅰ</system:String>
-    <system:String x:Key="TaskQueue.Stage.PRB2">Cst/Sni Ⅱ</system:String>
-    <system:String x:Key="TaskQueue.Stage.PRC.Tip">PR-C-1/2: {0}&amp;{1} Chip</system:String>
-    <system:String x:Key="TaskQueue.Stage.PRC1">Pio/Sup Ⅰ</system:String>
-    <system:String x:Key="TaskQueue.Stage.PRC2">Pio/Sup Ⅱ</system:String>
-    <system:String x:Key="TaskQueue.Stage.PRD.Tip">PR-D-1/2: {0}&amp;{1} Chip</system:String>
-    <system:String x:Key="TaskQueue.Stage.PRD1">Grd/Spc Ⅰ</system:String>
-    <system:String x:Key="TaskQueue.Stage.PRD2">Grd/Spc Ⅱ</system:String>
-    <system:String x:Key="TaskQueue.Stage.Prompt1">It's Monday: time to clear the Annihilation</system:String>
-    <system:String x:Key="TaskQueue.Stage.Prompt2">It's Sunday: don't forget about Annihilation</system:String>
+    <system:String x:Key="TaskQueue.Stage.Label.DaysLeftOpen" xml:space="preserve">Days left open:&#160;</system:String>
+    <system:String x:Key="TaskQueue.Stage.Label.Default">Cur/Last</system:String>
+    <system:String x:Key="TaskQueue.Stage.Label.Inventory">Inv:</system:String>
+    <system:String x:Key="TaskQueue.Stage.Label.LessThanOneDay">Less than 1 day</system:String>
+    <system:String x:Key="TaskQueue.Stage.Label.Prompt1">It's Monday: time to clear the Annihilation</system:String>
+    <system:String x:Key="TaskQueue.Stage.Label.Prompt2">It's Sunday: don't forget about Annihilation</system:String>
+    <system:String x:Key="TaskQueue.Stage.PR-A-1">Med/Def Ⅰ</system:String>
+    <system:String x:Key="TaskQueue.Stage.PR-A-2">Med/Def Ⅱ</system:String>
+    <system:String x:Key="TaskQueue.Stage.PR-A.Tip">PR-A-1/2: {0}&amp;{1} Chip</system:String>
+    <system:String x:Key="TaskQueue.Stage.PR-B-1">Cst/Sni Ⅰ</system:String>
+    <system:String x:Key="TaskQueue.Stage.PR-B-2">Cst/Sni Ⅱ</system:String>
+    <system:String x:Key="TaskQueue.Stage.PR-B.Tip">PR-B-1/2: {0}&amp;{1} Chip</system:String>
+    <system:String x:Key="TaskQueue.Stage.PR-C-1">Pio/Sup Ⅰ</system:String>
+    <system:String x:Key="TaskQueue.Stage.PR-C-2">Pio/Sup Ⅱ</system:String>
+    <system:String x:Key="TaskQueue.Stage.PR-C.Tip">PR-C-1/2: {0}&amp;{1} Chip</system:String>
+    <system:String x:Key="TaskQueue.Stage.PR-D-1">Grd/Spc Ⅰ</system:String>
+    <system:String x:Key="TaskQueue.Stage.PR-D-2">Grd/Spc Ⅱ</system:String>
+    <system:String x:Key="TaskQueue.Stage.PR-D.Tip">PR-D-1/2: {0}&amp;{1} Chip</system:String>
+    <system:String x:Key="TaskQueue.Stage.SK-5">SK-5</system:String>
     <system:String x:Key="TaskQueue.Stage.SK.Tip">SK-5: Carbon</system:String>
-    <system:String x:Key="TaskQueue.Stage.SK5">SK-5</system:String>
     <system:String x:Key="TaskQueue.Stage.TodaysStage.Tip" xml:space="preserve">Today's open stages:&#160;</system:String>
     <system:String x:Key="TaskQueue.Stall.TimeoutEnabled">Detect stalled log updates</system:String>
     <system:String x:Key="TaskQueue.Stall.TimeoutMinutes">Log output stall timeout (min)</system:String>

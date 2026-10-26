@@ -1367,9 +1367,9 @@ DEBUG 디렉토리에 저장된 이미지는 수량 제한이 있으며 초과 �
     <system:String x:Key="Mall.BlacklistDefault">카본;가구 부품;즉시 완료 허가증</system:String>
     <system:String x:Key="Mall.CreditFight">크레딧 수급 (지원 유닛)</system:String>
     <system:String x:Key="Mall.CreditFight.Tip" xml:space="preserve">OF-1 스테이지에서 지원 유닛을 사용, 클리어하여 30 크레딧을 획득합니다.
-현재 스테이지가 ｢{key=TaskQueue.Stage.Default}｣으로 설정되어 있을 경우, 이 기능은 작동하지 않습니다.
+현재 스테이지가 ｢{key=TaskQueue.Stage.Label.Default}｣으로 설정되어 있을 경우, 이 기능은 작동하지 않습니다.
 OF-1 스테이지가 개방되지 않은 경우에는 선택하지 마세요.</system:String>
-    <system:String x:Key="Mall.CreditFight.WhenOF1Warning">｢{key=TaskQueue.Task.Fight}｣ 작업의 스테이지 목록에 ｢{key=TaskQueue.Stage.Default}｣가 존재하여, ｢{key=TaskQueue.Task.Mall}｣ 작업은 OF-1에서 지원 유닛을 사용한 전투를 건너뜁니다. 작업 이름: {0} (순서 {1}), 스테이지 순서 {2}</system:String>
+    <system:String x:Key="Mall.CreditFight.WhenOF1Warning">｢{key=TaskQueue.Task.Fight}｣ 작업의 스테이지 목록에 ｢{key=TaskQueue.Stage.Label.Default}｣가 존재하여, ｢{key=TaskQueue.Task.Mall}｣ 작업은 OF-1에서 지원 유닛을 사용한 전투를 건너뜁니다. 작업 이름: {0} (순서 {1}), 스테이지 순서 {2}</system:String>
     <system:String x:Key="Mall.CurrentFormation">현재</system:String>
     <system:String x:Key="Mall.Drink">술 한잔은 어떠십니까🍷? 박사님</system:String>
     <system:String x:Key="Mall.ForceShoppingIfCreditFull">크레딧이 넘칠 시 무시 항목 구매</system:String>
@@ -2162,13 +2162,13 @@ MAA는 비설치형 응용 프로그램으로, 삭제 시 레지스트리 항목
     <system:String x:Key="TaskQueue.Schedule.TimerCustomConfig">커스텀 구성 옵션</system:String>
     <system:String x:Key="TaskQueue.Schedule.TimerCustomConfig.Tip">예약 시작 2분 전에 MAA를 재실행하고 설정을 전환합니다</system:String>
     <system:String x:Key="TaskQueue.SelectAll">모두 선택</system:String>
-    <system:String x:Key="TaskQueue.Stage.17">1-7</system:String>
+    <system:String x:Key="TaskQueue.Stage.1-7">1-7</system:String>
+    <system:String x:Key="TaskQueue.Stage.AP-5">AP-5 (구매증명서)</system:String>
     <system:String x:Key="TaskQueue.Stage.AP.Tip">AP-5: 구매증명서</system:String>
-    <system:String x:Key="TaskQueue.Stage.AP5">AP-5 (구매증명서)</system:String>
+    <system:String x:Key="TaskQueue.Stage.CA-5">CA-5 (스킬개론)</system:String>
     <system:String x:Key="TaskQueue.Stage.CA.Tip">CA-5: 스킬개론</system:String>
-    <system:String x:Key="TaskQueue.Stage.CA5">CA-5 (스킬개론)</system:String>
+    <system:String x:Key="TaskQueue.Stage.CE-6">CE-6 (용문폐)</system:String>
     <system:String x:Key="TaskQueue.Stage.CE.Tip">CE-6: 용문폐</system:String>
-    <system:String x:Key="TaskQueue.Stage.CE6">CE-6 (용문폐)</system:String>
     <system:String x:Key="TaskQueue.Stage.ChipShort.Caster">캐스터</system:String>
     <system:String x:Key="TaskQueue.Stage.ChipShort.Defender">디펜더</system:String>
     <system:String x:Key="TaskQueue.Stage.ChipShort.Guard">가드</system:String>
@@ -2177,28 +2177,28 @@ MAA는 비설치형 응용 프로그램으로, 삭제 시 레지스트리 항목
     <system:String x:Key="TaskQueue.Stage.ChipShort.Specialist">스페셜리스트</system:String>
     <system:String x:Key="TaskQueue.Stage.ChipShort.Supporter">서포터</system:String>
     <system:String x:Key="TaskQueue.Stage.ChipShort.Vanguard">뱅가드</system:String>
-    <system:String x:Key="TaskQueue.Stage.DaysLeftOpen" xml:space="preserve">남은 오픈일 수: </system:String>
-    <system:String x:Key="TaskQueue.Stage.Default">현재/최근</system:String>
-    <system:String x:Key="TaskQueue.Stage.Inventory">재고</system:String>
+    <system:String x:Key="TaskQueue.Stage.LS-6">LS-6 (작전기록)</system:String>
     <system:String x:Key="TaskQueue.Stage.LS.Tip">LS-6: 작전기록</system:String>
-    <system:String x:Key="TaskQueue.Stage.LS6">LS-6 (작전기록)</system:String>
-    <system:String x:Key="TaskQueue.Stage.LessThanOneDay">1일 미만</system:String>
-    <system:String x:Key="TaskQueue.Stage.PRA.Tip">PR-A-1/2: {0}&amp;{1} 칩</system:String>
-    <system:String x:Key="TaskQueue.Stage.PRA1">PR-A-1 (메딕/디펜더)</system:String>
-    <system:String x:Key="TaskQueue.Stage.PRA2">PR-A-2 (메딕/디펜더)</system:String>
-    <system:String x:Key="TaskQueue.Stage.PRB.Tip">PR-B-1/2: {0}&amp;{1} 칩</system:String>
-    <system:String x:Key="TaskQueue.Stage.PRB1">PR-B-1 (캐스터/스나이퍼)</system:String>
-    <system:String x:Key="TaskQueue.Stage.PRB2">PR-B-2 (캐스터/스나이퍼)</system:String>
-    <system:String x:Key="TaskQueue.Stage.PRC.Tip">PR-C-1/2: {0}&amp;{1} 칩</system:String>
-    <system:String x:Key="TaskQueue.Stage.PRC1">PR-C-1 (뱅가드/서포터)</system:String>
-    <system:String x:Key="TaskQueue.Stage.PRC2">PR-C-2 (뱅가드/서포터)</system:String>
-    <system:String x:Key="TaskQueue.Stage.PRD.Tip">PR-D-1/2: {0}&amp;{1} 칩</system:String>
-    <system:String x:Key="TaskQueue.Stage.PRD1">PR-D-1 (가드/스페셜리스트)</system:String>
-    <system:String x:Key="TaskQueue.Stage.PRD2">PR-D-2 (가드/스페셜리스트)</system:String>
-    <system:String x:Key="TaskQueue.Stage.Prompt1">월요일입니다. 섬멸 작전을 잊지 마세요~</system:String>
-    <system:String x:Key="TaskQueue.Stage.Prompt2">일요일입니다. 섬멸 작전을 잊지 마세요~</system:String>
+    <system:String x:Key="TaskQueue.Stage.Label.DaysLeftOpen" xml:space="preserve">남은 오픈일 수: </system:String>
+    <system:String x:Key="TaskQueue.Stage.Label.Default">현재/최근</system:String>
+    <system:String x:Key="TaskQueue.Stage.Label.Inventory">재고</system:String>
+    <system:String x:Key="TaskQueue.Stage.Label.LessThanOneDay">1일 미만</system:String>
+    <system:String x:Key="TaskQueue.Stage.Label.Prompt1">월요일입니다. 섬멸 작전을 잊지 마세요~</system:String>
+    <system:String x:Key="TaskQueue.Stage.Label.Prompt2">일요일입니다. 섬멸 작전을 잊지 마세요~</system:String>
+    <system:String x:Key="TaskQueue.Stage.PR-A-1">PR-A-1 (메딕/디펜더)</system:String>
+    <system:String x:Key="TaskQueue.Stage.PR-A-2">PR-A-2 (메딕/디펜더)</system:String>
+    <system:String x:Key="TaskQueue.Stage.PR-A.Tip">PR-A-1/2: {0}&amp;{1} 칩</system:String>
+    <system:String x:Key="TaskQueue.Stage.PR-B-1">PR-B-1 (캐스터/스나이퍼)</system:String>
+    <system:String x:Key="TaskQueue.Stage.PR-B-2">PR-B-2 (캐스터/스나이퍼)</system:String>
+    <system:String x:Key="TaskQueue.Stage.PR-B.Tip">PR-B-1/2: {0}&amp;{1} 칩</system:String>
+    <system:String x:Key="TaskQueue.Stage.PR-C-1">PR-C-1 (뱅가드/서포터)</system:String>
+    <system:String x:Key="TaskQueue.Stage.PR-C-2">PR-C-2 (뱅가드/서포터)</system:String>
+    <system:String x:Key="TaskQueue.Stage.PR-C.Tip">PR-C-1/2: {0}&amp;{1} 칩</system:String>
+    <system:String x:Key="TaskQueue.Stage.PR-D-1">PR-D-1 (가드/스페셜리스트)</system:String>
+    <system:String x:Key="TaskQueue.Stage.PR-D-2">PR-D-2 (가드/스페셜리스트)</system:String>
+    <system:String x:Key="TaskQueue.Stage.PR-D.Tip">PR-D-1/2: {0}&amp;{1} 칩</system:String>
+    <system:String x:Key="TaskQueue.Stage.SK-5">SK-5 (카본)</system:String>
     <system:String x:Key="TaskQueue.Stage.SK.Tip">SK-5: 카본</system:String>
-    <system:String x:Key="TaskQueue.Stage.SK5">SK-5 (카본)</system:String>
     <system:String x:Key="TaskQueue.Stage.TodaysStage.Tip" xml:space="preserve">오늘 오픈된 스테이지: </system:String>
     <system:String x:Key="TaskQueue.Stall.TimeoutEnabled">로그 업데이트 정지 감지 활성화</system:String>
     <system:String x:Key="TaskQueue.Stall.TimeoutMinutes">로그 출력 정지 타임아웃 (분)</system:String>
