@@ -2535,6 +2535,14 @@
         "sortId": -10000,
         "usage": "用於兌換相應的階段性活動獎勵。"
     },
+    "act3enemyduel_milestone_point": {
+        "classifyType": "NONE",
+        "description": "聽說使用後可在整個爭鋒頻道中發出一則佔滿全螢幕的煙火特效文字，只不過整天拿這個來對罵的有錢人或許並不知道，網站設定內可以一鍵隱藏這些特效。",
+        "icon": "act3enemyduel_milestone_point.png",
+        "name": "爭鋒大禮花",
+        "sortId": -10000,
+        "usage": "爭鋒頻道禮物中比較昂貴的類型，可在網站內兌換一些實體獎勵，免費送到府。"
+    },
     "act3mainss_token": {
         "classifyType": "NONE",
         "description": "打火石撞擊的聲響隱沒在茫茫雪原中，黑暗無垠，唯有這一簇熾熱燃燒的火苗。它靜靜跳動，遠望著那無邊的凜冽，於寒夜中融化冰雪，只待太陽再次升起。",
