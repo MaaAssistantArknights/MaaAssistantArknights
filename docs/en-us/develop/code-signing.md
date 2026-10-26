@@ -9,7 +9,7 @@ Free code signing provided by [SignPath.io](https://signpath.io/), certificate b
 
 ## Scope and release process
 
-GitHub Actions submits Windows stable, beta, and nightly builds to SignPath. Publication stops if the release certificate is unavailable, approval is missing, or signature verification fails. Older releases may be unsigned; check each file's digital signature properties.
+GitHub Actions submits Windows stable and beta builds to SignPath. Publication stops if the release certificate is unavailable, approval is missing, or signature verification fails. Older releases may be unsigned; check each file's digital signature properties.
 
 We sign only the following binaries built from this repository and its pinned MaaUtils source submodule:
 
@@ -21,7 +21,7 @@ We sign only the following binaries built from this repository and its pinned Ma
 
 Third-party dependencies retain the files and signatures supplied by upstream. All signed files share a product version, with file names and product names checked before signing. Private keys remain in SignPath's HSM. Windows identifies the signing publisher as SignPath Foundation.
 
-Stable and beta releases use `.github/workflows/ci.yml`; nightly releases use `.github/workflows/release-nightly-ota.yml`. Both build on GitHub-hosted runners and verify signatures before packaging. Every release signing request, including nightly builds, requires manual approval.
+Stable and beta releases use `.github/workflows/ci.yml`, build on GitHub-hosted runners, and verify signatures before packaging. Every release signing request requires manual approval. Nightly builds use `.github/workflows/release-nightly-ota.yml` and currently skip SignPath signing, so they continue to build and publish automatically without signing approval.
 
 The `test-signing` policy uses an untrusted test certificate only for manually triggered CI checks that are never published. It cannot replace the release certificate.
 

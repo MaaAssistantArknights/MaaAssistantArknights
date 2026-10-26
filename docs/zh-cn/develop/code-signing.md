@@ -9,7 +9,7 @@ Free code signing provided by [SignPath.io](https://signpath.io/), certificate b
 
 ## 签名范围与发布流程
 
-Windows 正式版、测试版和内测版的签名由 GitHub Actions 提交至 SignPath；正式证书未就绪、审批未通过或签名校验失败时，发布流程停止。历史版本可能未签名，以文件的数字签名属性为准。
+Windows 正式版和 Beta 测试版的签名由 GitHub Actions 提交至 SignPath；正式证书未就绪、审批未通过或签名校验失败时，发布流程停止。历史版本可能未签名，以文件的数字签名属性为准。
 
 签名仅覆盖从本项目源代码及固定版本的 MaaUtils 子模块构建的以下文件：
 
@@ -21,7 +21,7 @@ Windows 正式版、测试版和内测版的签名由 GitHub Actions 提交至 S
 
 第三方依赖保留上游提供的文件及签名。签名使用相同的产品版本，并校验文件名和产品名。私钥保留在 SignPath 的 HSM 中，Windows 显示的签名发布者为 SignPath Foundation。
 
-正式发布使用 `.github/workflows/ci.yml`，内测发布使用 `.github/workflows/release-nightly-ota.yml`，均在 GitHub 托管运行器构建，并在打包前完成签名校验。每次发布签名需要批准人手动审批，包含内测版。
+正式版和 Beta 测试版使用 `.github/workflows/ci.yml`，在 GitHub 托管运行器构建，并在打包前完成签名校验。每次发布签名需要批准人手动审批。Nightly（内测版）使用 `.github/workflows/release-nightly-ota.yml`，暂不进行 SignPath 签名，按原流程自动构建和发布，无需签名审批。
 
 `test-signing` 使用不受用户系统信任的测试证书，仅用于手动触发且不发布的 CI 验证，不能替代发布证书。
 

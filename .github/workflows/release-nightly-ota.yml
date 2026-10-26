@@ -27,9 +27,6 @@ on:
 jobs:
   build-win-nightly:
     name: Build Nightly for Windows
-    permissions:
-      actions: write
-      contents: write
     if: github.repository_owner == 'MaaAssistantArknights'
     runs-on: windows-2025-vs2026
     strategy:
@@ -288,14 +285,6 @@ jobs:
 
           cp tools/DependencySetup_依赖库安装.bat install
 
-      - name: Sign Windows binaries
-        timeout-minutes: 250
-        uses: ./.github/actions/sign-windows
-        with:
-          api-token: ${{ secrets.SIGNPATH_API_TOKEN }}
-          version: ${{ steps.set_tag.outputs.tag }}
-          arch: ${{ matrix.arch }}
-
       - name: Generate file list
         run: pwsh tools/GenerateFileList.ps1 -InstallDir install
 
@@ -422,8 +411,6 @@ jobs:
             ${{ inputs.release_body || '' }}
 
             ${{ needs.build-win-nightly.outputs.changelog }}
-
-            [Code signing policy](https://docs.maa.plus/en-us/develop/code-signing.html)
 
             **Full Changelog**: [${{ needs.build-win-nightly.outputs.pre_version }} -> ${{ needs.build-win-nightly.outputs.main_tag_name }}](https://github.com/${{ github.repository }}/compare/${{ needs.build-win-nightly.outputs.pre_version }}...${{ needs.build-win-nightly.outputs.main_tag_name }})
 
