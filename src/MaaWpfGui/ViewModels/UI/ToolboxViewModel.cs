@@ -386,7 +386,7 @@ public class ToolboxViewModel : Screen
         }
 
         string errMsg = string.Empty;
-        RecruitInfo = LocalizationHelper.GetString("TaskQueue.Log.ConnectingToEmulator");
+        RecruitInfo = LocalizationHelper.GetString("Connection.ConnectingToEmulator");
         _runningState.BeginRun(RunOwner.Toolbox);
         var recruitCaught = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
         if (!recruitCaught)
@@ -396,7 +396,7 @@ public class ToolboxViewModel : Screen
             return;
         }
 
-        RecruitInfo = LocalizationHelper.GetString("TaskQueue.Log.Identifying");
+        RecruitInfo = LocalizationHelper.GetString("Toolbox.Identifying");
 
         var levelList = new List<int>();
 
@@ -878,7 +878,7 @@ public class ToolboxViewModel : Screen
             }
         }
 
-        DepotInfo = LocalizationHelper.GetString("TaskQueue.Log.IdentificationCompleted");
+        DepotInfo = LocalizationHelper.GetString("Toolbox.IdentificationCompleted");
         SaveDepotDetails();
         Instances.TaskQueueViewModel.UpdateDatePrompt();
 
@@ -1203,7 +1203,7 @@ public class ToolboxViewModel : Screen
         bool ret = Instances.AsstProxy.AsstStartDepot(startImmediately);
         if (ret && startImmediately)
         {
-            DepotInfo = LocalizationHelper.GetString("TaskQueue.Log.Identifying");
+            DepotInfo = LocalizationHelper.GetString("Toolbox.Identifying");
         }
 
         return ret;
@@ -1225,7 +1225,7 @@ public class ToolboxViewModel : Screen
 
         _runningState.BeginRun(RunOwner.Toolbox);
         string errMsg = string.Empty;
-        DepotInfo = LocalizationHelper.GetString("TaskQueue.Log.ConnectingToEmulator");
+        DepotInfo = LocalizationHelper.GetString("Connection.ConnectingToEmulator");
         bool caught = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
         if (!caught)
         {
@@ -1885,7 +1885,7 @@ public class ToolboxViewModel : Screen
             }
         }
 
-        OperBoxInfo = $"{LocalizationHelper.GetString("TaskQueue.Log.IdentificationCompleted")}  {LocalizationHelper.GetString("Operator.Recognition.Tip")}";
+        OperBoxInfo = $"{LocalizationHelper.GetString("Toolbox.IdentificationCompleted")}  {LocalizationHelper.GetString("Operator.Recognition.Tip")}";
         SaveOperBoxDetails(ownOpers, _operBoxDataSource);
         _tempOperHaveSet = [];
         _tempOperHaveNames = [];
@@ -1911,7 +1911,7 @@ public class ToolboxViewModel : Screen
         bool ret = Instances.AsstProxy.AsstStartOperBox(startImmediately);
         if (ret && startImmediately)
         {
-            OperBoxInfo = LocalizationHelper.GetString("TaskQueue.Log.Identifying");
+            OperBoxInfo = LocalizationHelper.GetString("Toolbox.Identifying");
         }
 
         return ret;
@@ -2006,11 +2006,11 @@ public class ToolboxViewModel : Screen
         }
 
         OperBoxInfo = result switch {
-            YituliuFetchResult.TokenEmpty => LocalizationHelper.GetString("Settings.YituliuTokenEmpty"),
-            YituliuFetchResult.WriteOnly => LocalizationHelper.GetStringFormat("Settings.YituliuFetchFailed", LocalizationHelper.GetString("Settings.YituliuTokenWriteOnly")),
-            YituliuFetchResult.Invalid => LocalizationHelper.GetStringFormat("Settings.YituliuFetchFailed", LocalizationHelper.GetString("Settings.YituliuTokenInvalid")),
-            YituliuFetchResult.NoData => LocalizationHelper.GetString("Settings.YituliuNoOperBoxData"),
-            _ => LocalizationHelper.GetString("Settings.YituliuTokenNetworkError"),
+            YituliuFetchResult.TokenEmpty => LocalizationHelper.GetString("Operator.YituliuTokenEmpty"),
+            YituliuFetchResult.WriteOnly => LocalizationHelper.GetStringFormat("Operator.YituliuFetchFailed", LocalizationHelper.GetString("Operator.YituliuTokenWriteOnly")),
+            YituliuFetchResult.Invalid => LocalizationHelper.GetStringFormat("Operator.YituliuFetchFailed", LocalizationHelper.GetString("Operator.YituliuTokenInvalid")),
+            YituliuFetchResult.NoData => LocalizationHelper.GetString("Operator.YituliuNoOperBoxData"),
+            _ => LocalizationHelper.GetString("Operator.YituliuTokenNetworkError"),
         };
         Instances.TaskQueueViewModel.AddLog(OperBoxInfo, UiLogColor.Error);
         return false;
@@ -2100,7 +2100,7 @@ public class ToolboxViewModel : Screen
     {
         ResetOperBoxRecognitionState();
         string errMsg = string.Empty;
-        OperBoxInfo = LocalizationHelper.GetString("TaskQueue.Log.ConnectingToEmulator");
+        OperBoxInfo = LocalizationHelper.GetString("Connection.ConnectingToEmulator");
         bool caught = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
         if (!caught)
         {
@@ -2421,7 +2421,7 @@ public class ToolboxViewModel : Screen
         _runningState.BeginRun(RunOwner.Toolbox);
 
         string errMsg = string.Empty;
-        GachaInfo = LocalizationHelper.GetString("TaskQueue.Log.ConnectingToEmulator");
+        GachaInfo = LocalizationHelper.GetString("Connection.ConnectingToEmulator");
         bool caught = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg) && Instances.AsstProxy.AsstStartGacha(once));
         if (!caught)
         {
@@ -2473,11 +2473,11 @@ public class ToolboxViewModel : Screen
     {
         var result = MessageBoxHelper.Show(
             LocalizationHelper.GetString("Gacha.Warning"),
-            LocalizationHelper.GetString("Settings.Warning"),
+            LocalizationHelper.GetString("Common.Warning"),
             MessageBoxButton.YesNo,
             MessageBoxImage.Warning,
-            no: LocalizationHelper.GetString("Settings.Confirm"),
-            yes: LocalizationHelper.GetString("Settings.Cancel"),
+            no: LocalizationHelper.GetString("Common.Confirm"),
+            yes: LocalizationHelper.GetString("Common.Cancel"),
             iconBrushKey: "DangerBrush");
         if (result != MessageBoxResult.No)
         {

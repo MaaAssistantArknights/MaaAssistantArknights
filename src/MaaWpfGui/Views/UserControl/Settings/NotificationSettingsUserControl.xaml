@@ -48,14 +48,14 @@
                 Margin="10,10,10,0"
                 HorizontalAlignment="Center"
                 Orientation="Horizontal">
-                <CheckBox Content="{DynamicResource Settings.SystemNotification}" IsChecked="{Binding UseNotify}" />
-                <controls:TooltipBlock TooltipText="{DynamicResource Settings.SystemNotificationInfo}" />
+                <CheckBox Content="{DynamicResource Notification.SystemNotification}" IsChecked="{Binding UseNotify}" />
+                <controls:TooltipBlock TooltipText="{DynamicResource Notification.SystemNotificationInfo}" />
             </StackPanel>
             <StackPanel
                 Margin="10,10,10,0"
                 HorizontalAlignment="Center"
                 Orientation="Horizontal">
-                <CheckBox Content="{DynamicResource Settings.NotifyBeforeScheduledStart}" IsChecked="{Binding NotifyBeforeScheduledStart, Source={x:Static ui_vms:SettingsViewModel.TimerSettings}}" />
+                <CheckBox Content="{DynamicResource Notification.NotifyBeforeScheduledStart}" IsChecked="{Binding NotifyBeforeScheduledStart, Source={x:Static ui_vms:SettingsViewModel.TimerSettings}}" />
                 <hc:NumericUpDown
                     Height="30"
                     Margin="10,-10,0,-10"
@@ -65,7 +65,7 @@
                     Maximum="1439"
                     Minimum="1"
                     Value="{Binding ScheduledStartNotificationMinutes, Source={x:Static ui_vms:SettingsViewModel.TimerSettings}}" />
-                <controls:TooltipBlock TooltipText="{DynamicResource Settings.NotifyBeforeScheduledStartSharedTime.Tip}" />
+                <controls:TooltipBlock TooltipText="{DynamicResource Notification.NotifyBeforeScheduledStartSharedTime.Tip}" />
             </StackPanel>
         </StackPanel>
 

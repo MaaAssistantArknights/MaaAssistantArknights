@@ -158,7 +158,7 @@ public partial class ErrorDialogView : INotifyPropertyChanged
 
         AchievementTrackerHelper.Instance.Unlock(AchievementIds.UnexpectedCrash);
 
-        return $"{LocalizationHelper.GetString("TaskQueue.Log.UnknownErrorOccurs")}\n" +
+        return $"{LocalizationHelper.GetString("RemoteControl.UnknownErrorOccurs")}\n" +
                $"{LocalizationHelper.GetString("ErrorDialog.CrashMessageOpenLog")}\n" +
                $"{LocalizationHelper.GetString("ErrorDialog.CrashMessageGenerateReport")}\n" +
                $"{LocalizationHelper.GetString("ErrorDialog.CrashMessageHelp.Tip")}";

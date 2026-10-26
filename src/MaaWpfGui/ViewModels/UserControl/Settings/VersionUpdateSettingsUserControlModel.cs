@@ -472,12 +472,12 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
             if (!value)
             {
                 var result = MessageBoxHelper.Show(
-                    LocalizationHelper.GetString("Settings.ShowUpdaterProgressWarning"),
-                    LocalizationHelper.GetString("Settings.Warning"),
+                    LocalizationHelper.GetString("Update.ShowUpdaterProgress.Warning"),
+                    LocalizationHelper.GetString("Common.Warning"),
                     MessageBoxButton.YesNo,
                     MessageBoxImage.Warning,
-                    yes: LocalizationHelper.GetString("Settings.Confirm"),
-                    no: LocalizationHelper.GetString("Settings.Cancel"));
+                    yes: LocalizationHelper.GetString("Common.Confirm"),
+                    no: LocalizationHelper.GetString("Common.Cancel"));
                 if (result != MessageBoxResult.Yes)
                 {
                     return;
@@ -511,11 +511,11 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
 
         var toastMessage = ret switch {
             VersionUpdateDialogViewModel.CheckUpdateRetT.NoNeedToUpdate => string.Empty,
-            VersionUpdateDialogViewModel.CheckUpdateRetT.NoNeedToUpdateDebugVersion => LocalizationHelper.GetString("Settings.NoNeedToUpdateDebugVersion"),
-            VersionUpdateDialogViewModel.CheckUpdateRetT.AlreadyLatest => LocalizationHelper.GetString("Settings.AlreadyLatest"),
+            VersionUpdateDialogViewModel.CheckUpdateRetT.NoNeedToUpdateDebugVersion => LocalizationHelper.GetString("Update.NoNeedToUpdateDebugVersion"),
+            VersionUpdateDialogViewModel.CheckUpdateRetT.AlreadyLatest => LocalizationHelper.GetString("Update.AlreadyLatest"),
             VersionUpdateDialogViewModel.CheckUpdateRetT.UnknownError => LocalizationHelper.GetString("Update.NewVersion.DetectFailed.Title"),
-            VersionUpdateDialogViewModel.CheckUpdateRetT.NetworkError => LocalizationHelper.GetString("Settings.CheckNetworking"),
-            VersionUpdateDialogViewModel.CheckUpdateRetT.FailedToGetInfo => LocalizationHelper.GetString("Settings.GetReleaseNoteFailed"),
+            VersionUpdateDialogViewModel.CheckUpdateRetT.NetworkError => LocalizationHelper.GetString("Update.CheckNetworking"),
+            VersionUpdateDialogViewModel.CheckUpdateRetT.FailedToGetInfo => LocalizationHelper.GetString("Update.GetReleaseNoteFailed"),
             VersionUpdateDialogViewModel.CheckUpdateRetT.UpdatePackageDownloadFailed => LocalizationHelper.GetString("Update.NewVersion.DownloadFailed.Title"),
             VersionUpdateDialogViewModel.CheckUpdateRetT.OK => string.Empty,
             VersionUpdateDialogViewModel.CheckUpdateRetT.NewVersionIsBeingBuilt => LocalizationHelper.GetString("Update.NewVersion.IsBeingBuilt"),
@@ -558,9 +558,9 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
 
         var (ret, uri, releaseNote) = await ResourceUpdater.CheckFromMirrorChyanAsync();
         var toastMessage = ret switch {
-            VersionUpdateDialogViewModel.CheckUpdateRetT.AlreadyLatest => LocalizationHelper.GetString("Settings.AlreadyLatest"),
+            VersionUpdateDialogViewModel.CheckUpdateRetT.AlreadyLatest => LocalizationHelper.GetString("Update.AlreadyLatest"),
             VersionUpdateDialogViewModel.CheckUpdateRetT.UnknownError => LocalizationHelper.GetString("Update.NewVersion.DetectFailed.Title"),
-            VersionUpdateDialogViewModel.CheckUpdateRetT.NetworkError => LocalizationHelper.GetString("Settings.CheckNetworking"),
+            VersionUpdateDialogViewModel.CheckUpdateRetT.NetworkError => LocalizationHelper.GetString("Update.CheckNetworking"),
             _ => string.Empty,
         };
 

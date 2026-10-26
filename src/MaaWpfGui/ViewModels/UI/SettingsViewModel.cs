@@ -420,7 +420,7 @@ public class SettingsViewModel : Screen
         ShowEasterEggDialog(
             LocalizationHelper.GetString("EasterEgg.Burping"),
             LocalizationHelper.GetString("EasterEgg.Hangover"),
-            LocalizationHelper.GetString("Settings.Ok"));
+            LocalizationHelper.GetString("Common.Ok"));
     }
 
     /// <summary>
@@ -659,7 +659,7 @@ public class SettingsViewModel : Screen
     {
         var result = MessageBoxHelper.Show(
             LocalizationHelper.GetStringFormat("Settings.ConfirmDeleteConfigurationMessage", delete.Display),
-            LocalizationHelper.GetString("Settings.ConfirmDeleteTask"),
+            LocalizationHelper.GetString("TaskQueue.ConfirmDeleteTask"),
             MessageBoxButton.YesNo,
             MessageBoxImage.Warning);
 
@@ -810,7 +810,7 @@ public class SettingsViewModel : Screen
         TaskSettingVisibilities.Guide = true;
         var result = MessageBoxHelper.Show(
             LocalizationHelper.GetString("Settings.Guide.RestartGuidePrompt"),
-            LocalizationHelper.GetString("Settings.Tip"),
+            LocalizationHelper.GetString("Common.Tip"),
             MessageBoxButton.OKCancel,
             MessageBoxImage.Question);
         if (result == MessageBoxResult.OK)
@@ -831,7 +831,7 @@ public class SettingsViewModel : Screen
     {
         MessageBoxHelper.Show(
             LocalizationHelper.GetString("Guide.DemoTaskAddLimit.Tip"),
-            LocalizationHelper.GetString("Settings.Tip"),
+            LocalizationHelper.GetString("Common.Tip"),
             MessageBoxButton.OK,
             MessageBoxImage.Information);
     }
@@ -935,8 +935,8 @@ public class SettingsViewModel : Screen
         }
 
         var dialog = new Views.Dialogs.TextDialogView(
-            LocalizationHelper.GetString("Settings.RenameTask"),
-            LocalizationHelper.GetString("Settings.RenameTaskPrompt"),
+            LocalizationHelper.GetString("TaskQueue.RenameTask"),
+            LocalizationHelper.GetString("TaskQueue.RenameTaskPrompt"),
             taskItem.Name) {
             Owner = Application.Current.MainWindow,
         };
@@ -969,7 +969,7 @@ public class SettingsViewModel : Screen
     {
         MessageBoxHelper.Show(
             LocalizationHelper.GetString("Settings.StartGuideDemo"),
-            LocalizationHelper.GetString("Settings.Tip"),
+            LocalizationHelper.GetString("Common.Tip"),
             MessageBoxButton.OK,
             MessageBoxImage.Information);
     }
@@ -1288,11 +1288,11 @@ public class SettingsViewModel : Screen
     /// <param name="isYostarEN">Whether to include the YostarEN resolution tip.</param>
     public static void AskRestartToApplySettings(bool isYostarEN = false)
     {
-        var resolutionTip = isYostarEN ? "\n" + LocalizationHelper.GetString("Settings.SwitchResolution.Tip") : string.Empty;
+        var resolutionTip = isYostarEN ? "\n" + LocalizationHelper.GetString("Connection.SwitchResolution.Tip") : string.Empty;
 
         var result = MessageBoxHelper.Show(
             LocalizationHelper.GetString("Settings.PromptRestartForSettingsChange") + resolutionTip,
-            LocalizationHelper.GetString("Settings.Tip"),
+            LocalizationHelper.GetString("Common.Tip"),
             MessageBoxButton.OKCancel,
             MessageBoxImage.Question);
 

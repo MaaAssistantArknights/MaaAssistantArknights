@@ -16,6 +16,7 @@ on:
       - "src/**"
       - "tools/maadeps-download.py"
       - "tools/CheckLocalization.py"
+      - "tools/tests/test_check_localization.py"
       - "!**/*.md"
   pull_request:
     paths:
@@ -28,6 +29,7 @@ on:
       - "src/**"
       - "tools/maadeps-download.py"
       - "tools/CheckLocalization.py"
+      - "tools/tests/test_check_localization.py"
       - "!**/*.md"
   workflow_dispatch:
 
@@ -60,6 +62,9 @@ jobs:
 
       - name: Check localization catalog
         run: python3 tools/CheckLocalization.py
+
+      - name: Test localization checks
+        run: python3 -m unittest discover -s tools/tests -p 'test_check_localization.py'
 
       - name: Set tag
         id: set_tag
@@ -309,7 +314,7 @@ jobs:
         with:
           repository: MaaXYZ/MaaFramework
           latest: true
-          fileName: '*linux-${{ matrix.arch }}*.zip'
+          fileName: "*linux-${{ matrix.arch }}*.zip"
           extract: true
           out-file-path: MaaFramework-temp
 
@@ -607,7 +612,6 @@ jobs:
           name: MAA-macos-runtime-universal
           path: runtime/MAA-${{ needs.meta.outputs.tag }}-macos-runtime-universal.zip
           compression-level: 0
-
 
       - name: Build XCFramework
         run: |

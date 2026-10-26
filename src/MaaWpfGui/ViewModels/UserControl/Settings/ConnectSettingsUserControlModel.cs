@@ -138,8 +138,8 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
             if (value)
             {
                 MessageBoxHelper.Show(
-                    LocalizationHelper.GetString("Connection.AlwaysAutoDetect.Tip"),
-                    LocalizationHelper.GetString("Settings.Tip"),
+                    LocalizationHelper.GetString("Connection.AlwaysAutoDetectConnection.Tip"),
+                    LocalizationHelper.GetString("Common.Tip"),
                     MessageBoxButton.OK,
                     MessageBoxImage.Warning);
             }
@@ -218,12 +218,12 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
                 while (count-- > 0)
                 {
                     var result = MessageBoxHelper.Show(
-                        LocalizationHelper.GetString("Connection.PathFileSelectionErrorPrompt"),
-                        LocalizationHelper.GetString("Settings.Tip"),
+                        LocalizationHelper.GetString("Connection.Adb.PathFileSelectionErrorPrompt"),
+                        LocalizationHelper.GetString("Common.Tip"),
                         MessageBoxButton.OKCancel,
                         MessageBoxImage.Warning,
-                        ok: LocalizationHelper.GetString("Connection.PathFileSelectionErrorImSure") + $"({count + 1})",
-                        cancel: LocalizationHelper.GetString("Connection.PathFileSelectionErrorSelectAgain"));
+                        ok: LocalizationHelper.GetString("Connection.Adb.PathFileSelectionErrorImSure") + $"({count + 1})",
+                        cancel: LocalizationHelper.GetString("Connection.Adb.PathFileSelectionErrorSelectAgain"));
                     if (result == MessageBoxResult.Cancel)
                     {
                         return;
@@ -305,8 +305,8 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
             if (string.IsNullOrEmpty(SettingsViewModel.StartSettings.EmulatorPath))
             {
                 MessageBoxHelper.Show(
-                    LocalizationHelper.GetString("Settings.RetryOnDisconnectedEmulatorPathEmptyError"),
-                    LocalizationHelper.GetString("Settings.Tip"),
+                    LocalizationHelper.GetString("Connection.RetryOnDisconnectedEmulatorPathEmptyError"),
+                    LocalizationHelper.GetString("Common.Tip"),
                     MessageBoxButton.OK,
                     MessageBoxImage.Warning);
                 value = false;
@@ -326,8 +326,8 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
             if (value && string.IsNullOrEmpty(SettingsViewModel.StartSettings.PcClientPath))
             {
                 MessageBoxHelper.Show(
-                    LocalizationHelper.GetString("Settings.RetryOnPcDisconnectedPathEmptyError"),
-                    LocalizationHelper.GetString("Settings.Tip"),
+                    LocalizationHelper.GetString("Connection.RetryOnPcDisconnectedPathEmptyError"),
+                    LocalizationHelper.GetString("Common.Tip"),
                     MessageBoxButton.OK,
                     MessageBoxImage.Warning);
                 value = false;
@@ -483,7 +483,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
         AdbPath = selectedEmulator?.AdbPath ?? AdbPath;
         if (string.IsNullOrEmpty(AdbPath))
         {
-            error = LocalizationHelper.GetString("Connection.Exception");
+            error = LocalizationHelper.GetString("Connection.Adb.Exception");
             return false;
         }
 
@@ -586,7 +586,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
         var dialog = new OpenFileDialog();
         if (MaaWineBridge.Availability == WineBridgeAvailability.NotAvailable)
         {
-            dialog.Filter = LocalizationHelper.GetString("Connection.Program") + "|*.exe";
+            dialog.Filter = LocalizationHelper.GetString("Connection.Adb.Program") + "|*.exe";
         }
 
         if (dialog.ShowDialog() == true)
@@ -637,7 +637,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
         _runningState.SetIdle(false);
 
         var errMsg = string.Empty;
-        TestLinkInfo = LocalizationHelper.GetString("TaskQueue.Log.ConnectingToEmulator");
+        TestLinkInfo = LocalizationHelper.GetString("Connection.ConnectingToEmulator");
         Instances.AsstProxy.Connected = false;
         var caught = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
         if (!caught)
@@ -663,7 +663,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
 
         if (TestLinkImage is null)
         {
-            TestLinkInfo = LocalizationHelper.GetString("TaskQueue.Log.ImageIsNull");
+            TestLinkInfo = LocalizationHelper.GetString("Connection.ImageIsNull");
             return;
         }
 
@@ -905,8 +905,8 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
 
                 if (!downloadResult)
                 {
-                    using var toast = new ToastNotification(LocalizationHelper.GetString("Connection.DownloadFailed.Title"));
-                    toast.AppendContentText(LocalizationHelper.GetString("Connection.DownloadFailedDesc")).Show();
+                    using var toast = new ToastNotification(LocalizationHelper.GetString("Connection.Adb.DownloadFailed.Title"));
+                    toast.AppendContentText(LocalizationHelper.GetString("Connection.Adb.DownloadFailed.Desc")).Show();
                     return;
                 }
             }
@@ -924,7 +924,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
             catch (Exception ex)
             {
                 _logger.Error("An error occurred while deleting directory: {Type}: {ExMessage}", ex.GetType(), ex.Message);
-                ToastNotification.ShowDirect(LocalizationHelper.GetString("Connection.DeletionFailedMessage"));
+                ToastNotification.ShowDirect(LocalizationHelper.GetString("Connection.Adb.DeletionFailedMessage"));
                 return;
             }
 
@@ -935,7 +935,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
             catch (Exception e)
             {
                 _logger.Error(e, "UnzipFailedMessage");
-                ToastNotification.ShowDirect(LocalizationHelper.GetString("TaskQueue.UnzipFailedMessage"));
+                ToastNotification.ShowDirect(LocalizationHelper.GetString("Connection.UnzipFailedMessage"));
                 return;
             }
 
@@ -944,11 +944,11 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
                 AdbPath = NewAdb;
                 AdbReplaced = true;
                 ConfigFactory.CurrentConfig.Gui.ConnectSettings.AdbReplaced = true;
-                ToastNotification.ShowDirect(LocalizationHelper.GetString("TaskQueue.SuccessfullyReplacedAdb"));
+                ToastNotification.ShowDirect(LocalizationHelper.GetString("Connection.SuccessfullyReplacedAdb"));
             }
             else
             {
-                ToastNotification.ShowDirect(LocalizationHelper.GetString("TaskQueue.FailedToReplaceAdbAndUseLocal"));
+                ToastNotification.ShowDirect(LocalizationHelper.GetString("Connection.FailedToReplaceAdbAndUseLocal"));
             }
         }
         finally

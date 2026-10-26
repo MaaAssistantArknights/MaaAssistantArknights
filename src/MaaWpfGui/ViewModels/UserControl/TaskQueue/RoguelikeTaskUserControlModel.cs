@@ -85,7 +85,7 @@ public class RoguelikeTaskUserControlModel : TaskSettingsViewModel, RoguelikeTas
         {
             int value = i;
             var display = value switch {
-                -1 => LocalizationHelper.GetString("Settings.NotSwitch") + " (-1)",
+                -1 => LocalizationHelper.GetString("Common.NotSwitch") + " (-1)",
                 int.MaxValue => $"MAX ({maxThemeDifficulty})",
                 0 => "MIN (0)",
                 _ => value.ToString(),
@@ -154,21 +154,21 @@ public class RoguelikeTaskUserControlModel : TaskSettingsViewModel, RoguelikeTas
         var roguelikeRoles = RoguelikeRoles;
         RoguelikeRolesList =
         [
-            new() { Display = LocalizationHelper.GetString("Settings.FirstMoveAdvantage"), Value = "先手必胜" },
-            new() { Display = LocalizationHelper.GetString("Settings.SlowAndSteadyWinsTheRace"), Value = "稳扎稳打" },
-            new() { Display = LocalizationHelper.GetString("Settings.OvercomingYourWeaknesses"), Value = "取长补短" },
+            new() { Display = LocalizationHelper.GetString("Roguelike.FirstMoveAdvantage"), Value = "先手必胜" },
+            new() { Display = LocalizationHelper.GetString("Roguelike.SlowAndSteadyWinsTheRace"), Value = "稳扎稳打" },
+            new() { Display = LocalizationHelper.GetString("Roguelike.OvercomingYourWeaknesses"), Value = "取长补短" },
         ];
 
         switch (RoguelikeTheme)
         {
             case Theme.JieGarden:
             case Theme.BlackFlow:
-                RoguelikeRolesList.Add(new() { Display = LocalizationHelper.GetString("Settings.FlexibleDeployment"), Value = "灵活部署" });
-                RoguelikeRolesList.Add(new() { Display = LocalizationHelper.GetString("Settings.Unbreakable"), Value = "坚不可摧" });
+                RoguelikeRolesList.Add(new() { Display = LocalizationHelper.GetString("Roguelike.FlexibleDeployment"), Value = "灵活部署" });
+                RoguelikeRolesList.Add(new() { Display = LocalizationHelper.GetString("Roguelike.Unbreakable"), Value = "坚不可摧" });
                 break;
         }
 
-        RoguelikeRolesList.Add(new() { Display = LocalizationHelper.GetString("Settings.AsYourHeartDesires"), Value = "随心所欲" });
+        RoguelikeRolesList.Add(new() { Display = LocalizationHelper.GetString("Roguelike.AsYourHeartDesires"), Value = "随心所欲" });
 
         RoguelikeRoles = RoguelikeRolesList.Any(x => x.Value == roguelikeRoles) ? roguelikeRoles : "稳扎稳打";
     }
@@ -296,7 +296,7 @@ public class RoguelikeTaskUserControlModel : TaskSettingsViewModel, RoguelikeTas
 
         if (RoguelikeTheme is Theme.Phantom or Theme.Mizuki or Theme.Sami or Theme.Sarkaz or Theme.JieGarden)
         {
-            RoguelikeSquadList.Add(new() { Display = LocalizationHelper.GetString("Settings.First-ClassSquad"), Value = "高规格分队" });
+            RoguelikeSquadList.Add(new() { Display = LocalizationHelper.GetString("Roguelike.First-ClassSquad"), Value = "高规格分队" });
         }
 
         // 选择当前分队
@@ -552,7 +552,7 @@ public class RoguelikeTaskUserControlModel : TaskSettingsViewModel, RoguelikeTas
 
     [PropertyDependsOn(nameof(RoguelikeTheme))]
     [PropertyDependsOn(typeof(GuiSettingsUserControlModel), nameof(GuiSettingsUserControlModel.Language))]
-    public string StartingCoreCharTip => LocalizationHelper.GetString("Settings.StartingCoreChar.Tip") + "\n\n" + RoguelikeThemeTip;
+    public string StartingCoreCharTip => LocalizationHelper.GetString("Roguelike.StartingCoreChar.Tip") + "\n\n" + RoguelikeThemeTip;
 
     private ObservableCollection<string> _roguelikeCoreCharList = [];
 
@@ -1606,14 +1606,14 @@ public class RoguelikeTaskUserControlModel : TaskSettingsViewModel, RoguelikeTas
                 {
                     var nodeType = subTaskDetails!["node_type"]?.ToString();
                     var (localizedNodeType, logColor) = nodeType switch {
-                        "Omissions" => (LocalizationHelper.GetString("TaskQueue.BoskyOmissions"), UiLogColor.BoskyOmissionsIS),
-                        "Legend" => (LocalizationHelper.GetString("TaskQueue.BoskyLegend"), UiLogColor.BoskyLegendIS),
-                        "OldShop" => (LocalizationHelper.GetString("TaskQueue.BoskyOldShop"), UiLogColor.BoskyOldShopIS),
-                        "YiTrader" => (LocalizationHelper.GetString("TaskQueue.BoskyYiTrader"), UiLogColor.TraderIS),
-                        "Scheme" => (LocalizationHelper.GetString("TaskQueue.BoskyScheme"), UiLogColor.BoskySchemeIS),
-                        "Playtime" => (LocalizationHelper.GetString("TaskQueue.BoskyPlaytime"), UiLogColor.BoskyPlaytimeIS),
-                        "Doubts" => (LocalizationHelper.GetString("TaskQueue.BoskyDoubts"), UiLogColor.BoskyDoubtsIS),
-                        "Disaster" => (LocalizationHelper.GetString("TaskQueue.BoskyDisaster"), UiLogColor.EmergencyIS),
+                        "Omissions" => (LocalizationHelper.GetString("Roguelike.BoskyOmissions"), UiLogColor.BoskyOmissionsIS),
+                        "Legend" => (LocalizationHelper.GetString("Roguelike.BoskyLegend"), UiLogColor.BoskyLegendIS),
+                        "OldShop" => (LocalizationHelper.GetString("Roguelike.BoskyOldShop"), UiLogColor.BoskyOldShopIS),
+                        "YiTrader" => (LocalizationHelper.GetString("Roguelike.BoskyYiTrader"), UiLogColor.TraderIS),
+                        "Scheme" => (LocalizationHelper.GetString("Roguelike.BoskyScheme"), UiLogColor.BoskySchemeIS),
+                        "Playtime" => (LocalizationHelper.GetString("Roguelike.BoskyPlaytime"), UiLogColor.BoskyPlaytimeIS),
+                        "Doubts" => (LocalizationHelper.GetString("Roguelike.BoskyDoubts"), UiLogColor.BoskyDoubtsIS),
+                        "Disaster" => (LocalizationHelper.GetString("Roguelike.BoskyDisaster"), UiLogColor.EmergencyIS),
                         _ => (nodeType ?? "Unknown", UiLogColor.EventIS),
                     };
 
@@ -1639,7 +1639,7 @@ public class RoguelikeTaskUserControlModel : TaskSettingsViewModel, RoguelikeTas
                 }
 
             case "EncounterOcrError":
-                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("TaskQueue.EncounterOcrError"), UiLogColor.Error);
+                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("Roguelike.EncounterOcrError"), UiLogColor.Error);
                 break;
 
             case "RoguelikeJieGardenTargetFound":
@@ -1656,15 +1656,15 @@ public class RoguelikeTaskUserControlModel : TaskSettingsViewModel, RoguelikeTas
                 }
 
             case "FoldartalGainOcrNextLevel":
-                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("TaskQueue.FoldartalGainOcrNextLevel") + $" {subTaskDetails!["foldartal"]}");
+                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("Roguelike.FoldartalGainOcrNextLevel") + $" {subTaskDetails!["foldartal"]}");
                 break;
 
             case "MonthlySquadCompleted":
-                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("TaskQueue.MonthlySquadCompleted"), UiLogColor.RareOperator);
+                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("Roguelike.MonthlySquadCompleted"), UiLogColor.RareOperator);
                 break;
 
             case "DeepExplorationCompleted":
-                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("TaskQueue.DeepExplorationCompleted"), UiLogColor.RareOperator);
+                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("Roguelike.DeepExplorationCompleted"), UiLogColor.RareOperator);
                 break;
 
             case "RoguelikeCollapsalParadigms":

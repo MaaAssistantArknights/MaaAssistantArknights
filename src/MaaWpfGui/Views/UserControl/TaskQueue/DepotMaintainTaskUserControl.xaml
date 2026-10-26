@@ -40,19 +40,19 @@
                         Margin="0,0,-1,0"
                         hc:BorderElement.CornerRadius="4,0,0,4"
                         Command="{s:Action CollapseAll}"
-                        Content="{DynamicResource Combat.Plan.CollapseAll}" />
+                        Content="{DynamicResource Common.CollapseAll}" />
                     <Button
                         MinWidth="50"
                         Margin="0,0,-1,0"
                         hc:BorderElement.CornerRadius="0"
                         Command="{s:Action ClearPlans}"
-                        Content="{DynamicResource Combat.Plan.ClearPlans}" />
+                        Content="{DynamicResource Depot.Plan.Clear}" />
                     <Button
                         MinWidth="50"
                         Margin="0,0,-1,0"
                         hc:BorderElement.CornerRadius="0"
                         Command="{s:Action AddPlan}"
-                        Content="{DynamicResource Combat.Plan.AddPlan}" />
+                        Content="{DynamicResource Depot.Plan.Add}" />
                     <hc:SplitButton
                         hc:BorderElement.CornerRadius="0,4,4,0"
                         Click="PresetSplitButton_Click"
@@ -240,7 +240,7 @@
                                             IsEnabled="{c:Binding !IsStageItemDragging,
                                                                   Source={x:Static ui_vms:TaskQueueViewModel.FightTask}}"
                                             Text="{Binding Stage, UpdateSourceTrigger=PropertyChanged}"
-                                            ToolTip="{DynamicResource Settings.CustomStageCode.Tip}"
+                                            ToolTip="{DynamicResource Combat.CustomStageCode.Tip}"
                                             Visibility="{c:Binding IsStageManually,
                                                                    Source={x:Static ui_vms:TaskQueueViewModel.DepotMaintainTask}}" />
                                     </Grid>
@@ -413,8 +413,8 @@
 
             <hc:Divider Margin="0,12,0,0" Content="{DynamicResource Depot.GroupStageAndBattle}" />
             <StackPanel Margin="0,6,0,0" Orientation="Horizontal">
-                <CheckBox Content="{DynamicResource Settings.CustomStageCode}" IsChecked="{Binding IsStageManually}" />
-                <controls:TooltipBlock TooltipText="{DynamicResource Settings.CustomStageCode.Tip}" />
+                <CheckBox Content="{DynamicResource Combat.CustomStageCode}" IsChecked="{Binding IsStageManually}" />
+                <controls:TooltipBlock TooltipText="{DynamicResource Combat.CustomStageCode.Tip}" />
             </StackPanel>
             <StackPanel Margin="0,6,0,0" Orientation="Horizontal">
                 <CheckBox Content="{DynamicResource Depot.UseAutoSeries}" IsChecked="{Binding UseAutoSeries}" />

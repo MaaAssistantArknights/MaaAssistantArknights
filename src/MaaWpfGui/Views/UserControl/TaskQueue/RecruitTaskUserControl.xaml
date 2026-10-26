@@ -108,15 +108,15 @@
         <StackPanel Visibility="{c:Binding EnableAdvancedSettings, Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}">
             <hc:ComboBox
                 Margin="0,5"
-                hc:InfoElement.Title="{DynamicResource TaskQueue.AutoRecruitSelectStrategy}"
+                hc:InfoElement.Title="{DynamicResource Recruitment.AutoRecruitSelectStrategy}"
                 DisplayMemberPath="Display"
                 ItemsSource="{Binding AutoRecruitSelectExtraTagsList}"
                 SelectedValue="{Binding SelectExtraTags}"
                 SelectedValuePath="Value" />
             <StackPanel Margin="0,10">
                 <StackPanel Orientation="Horizontal">
-                    <CheckBox Content="{DynamicResource TaskQueue.AutoRecruitHighPriority}" IsChecked="{Binding UseLevel3PreferTags}" />
-                    <controls:TooltipBlock TooltipText="{DynamicResource TaskQueue.AutoRecruitHighPriorityTooltip}" />
+                    <CheckBox Content="{DynamicResource Recruitment.AutoRecruitHighPriority}" IsChecked="{Binding UseLevel3PreferTags}" />
+                    <controls:TooltipBlock TooltipText="{DynamicResource Recruitment.AutoRecruitHighPriority.Tip}" />
                 </StackPanel>
                 <hc:CheckComboBox
                     Margin="0,10,0,0"

@@ -233,7 +233,7 @@ public class MallTaskUserControlModel : TaskSettingsViewModel, MallTaskUserContr
 
             if (mall.IsCreditFightAvailable && fightStageEmpty)
             {
-                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetStringFormat("Roguelike.Credit.WhenOF-1Warning", ConfigFactory.CurrentConfig.TaskQueue[taskIndex].NameOrTaskType, taskIndex + 1, stageIndex + 1), UiLogColor.Warning);
+                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetStringFormat("Mall.CreditFight.WhenOF-1Warning", ConfigFactory.CurrentConfig.TaskQueue[taskIndex].NameOrTaskType, taskIndex + 1, stageIndex + 1), UiLogColor.Warning);
             }
 
             var task = new AsstMallTask() {

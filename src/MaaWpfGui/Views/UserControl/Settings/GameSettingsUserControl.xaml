@@ -27,7 +27,7 @@
             Margin="10,0"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
-            Text="{DynamicResource Settings.ClientType}" />
+            Text="{DynamicResource Connection.ClientType}" />
         <ComboBox
             Width="200"
             Margin="10"
@@ -89,7 +89,7 @@
                 Cursor="Hand"
                 NavigateUri="{Binding Source={x:Static constants:MaaUrls.OverseasAdaptation}}"
                 TextDecorations="None">
-                <TextBlock Style="{StaticResource HyperlinkTextBlockStyle}" Text="{DynamicResource Settings.HelpUsWithOverseasServers.Tip}" />
+                <TextBlock Style="{StaticResource HyperlinkTextBlockStyle}" Text="{DynamicResource Connection.Client.HelpOverseas.Tip}" />
             </Hyperlink>
         </controls:TextBlock>
 
@@ -103,10 +103,10 @@
                 IsChecked="{Binding DeploymentWithPause}">
                 <controls:TextBlock
                     Block.TextAlignment="Center"
-                    Text="{DynamicResource Settings.DeploymentWithPause}"
+                    Text="{DynamicResource Combat.DeploymentWithPause}"
                     TextWrapping="Wrap" />
             </CheckBox>
-            <controls:TooltipBlock VerticalAlignment="Center" TooltipText="{DynamicResource Settings.DeploymentWithPause.Tip}" />
+            <controls:TooltipBlock VerticalAlignment="Center" TooltipText="{DynamicResource Combat.DeploymentWithPause.Tip}" />
         </StackPanel>
 
         <hc:TextBox
@@ -114,8 +114,8 @@
             Width="300"
             Height="30"
             Margin="10"
-            hc:InfoElement.Placeholder="{DynamicResource Settings.StartsWithScriptPlaceholder}"
-            hc:TitleElement.Title="{DynamicResource Settings.StartsWithScript}"
+            hc:InfoElement.Placeholder="{DynamicResource TaskQueue.Script.StartsWith.Placeholder}"
+            hc:TitleElement.Title="{DynamicResource TaskQueue.Script.StartsWith}"
             hc:TitleElement.TitlePlacement="Left"
             AllowDrop="True"
             Drop="StartsWithScript_Drop"
@@ -126,8 +126,8 @@
             Width="300"
             Height="30"
             Margin="10"
-            hc:InfoElement.Placeholder="{DynamicResource Settings.EndsWithScriptPlaceholder}"
-            hc:TitleElement.Title="{DynamicResource Settings.EndsWithScript}"
+            hc:InfoElement.Placeholder="{DynamicResource TaskQueue.Script.EndsWith.Placeholder}"
+            hc:TitleElement.Title="{DynamicResource TaskQueue.Script.EndsWith}"
             hc:TitleElement.TitlePlacement="Left"
             AllowDrop="True"
             Drop="EndsWithScript_Drop"
@@ -155,7 +155,7 @@
                 IsChecked="{Binding ManualStopWithScript}">
                 <TextBlock
                     MaxWidth="200"
-                    Text="{DynamicResource Settings.ManualStopWithScript}"
+                    Text="{DynamicResource TaskQueue.Script.ManualStopWith}"
                     TextWrapping="Wrap" />
             </CheckBox>
         </StackPanel>
@@ -170,7 +170,7 @@
                 IsChecked="{Binding BlockSleep}">
                 <TextBlock
                     MaxWidth="200"
-                    Text="{DynamicResource Settings.BlockSleep}"
+                    Text="{DynamicResource TaskQueue.Power.BlockSleep}"
                     TextWrapping="Wrap" />
             </CheckBox>
             <CheckBox
@@ -180,7 +180,7 @@
                 Visibility="{c:Binding BlockSleep}">
                 <TextBlock
                     MaxWidth="200"
-                    Text="{DynamicResource Settings.Power.WithScreenOn}"
+                    Text="{DynamicResource TaskQueue.Power.WithScreenOn}"
                     TextWrapping="Wrap" />
             </CheckBox>
         </StackPanel>

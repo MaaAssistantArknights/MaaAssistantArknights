@@ -185,7 +185,7 @@ public static class DemoShotService
 
         ConfigFactory.CurrentConfig.Gui.WindowTitlePrefix = string.Empty;
         SettingsViewModel.GuiSettings.WindowTitleSelectShowList =
-            [new KeyValuePair<string, string>("4", LocalizationHelper.GetString("Settings.ClientType"))];
+            [new KeyValuePair<string, string>("4", LocalizationHelper.GetString("Connection.ClientType"))];
 
         // 标题版本段覆盖：ResolveWindowTitleVersionAsync 已把缺省/latest 解析为具体版本（失败保持 null 走原行为）
         SettingsViewModel.DemoWindowTitleVersionOverride = data.WindowTitle?.Version;

@@ -65,7 +65,7 @@
                     <CheckBox
                         HorizontalAlignment="Left"
                         VerticalAlignment="Center"
-                        Content="{DynamicResource Settings.AutoInstallUpdatePackage}"
+                        Content="{DynamicResource Update.AutoInstall}"
                         IsChecked="{Binding AutoInstallUpdatePackage}" />
                     <controls:TooltipBlock TooltipText="{DynamicResource Update.AutoInstall.Tip}" />
                 </StackPanel>
@@ -75,7 +75,7 @@
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
                     IsChecked="{Binding ShowUpdaterConsole}">
-                    <TextBlock Text="{DynamicResource Settings.ShowUpdaterConsole}" TextWrapping="Wrap" />
+                    <TextBlock Text="{DynamicResource Update.ShowUpdaterConsole}" TextWrapping="Wrap" />
                 </CheckBox>
                 <StackPanel Margin="8" Orientation="Horizontal">
                     <CheckBox
@@ -83,9 +83,9 @@
                         HorizontalAlignment="Left"
                         VerticalAlignment="Center"
                         IsChecked="{Binding ShowUpdaterProgress}">
-                        <TextBlock Text="{DynamicResource Settings.ShowUpdaterProgress}" TextWrapping="Wrap" />
+                        <TextBlock Text="{DynamicResource Update.ShowUpdaterProgress}" TextWrapping="Wrap" />
                     </CheckBox>
-                    <controls:TooltipBlock TooltipText="{DynamicResource Settings.ShowUpdaterProgress.Tip}" />
+                    <controls:TooltipBlock TooltipText="{DynamicResource Update.ShowUpdaterProgress.Tip}" />
                 </StackPanel>
                 <StackPanel
                     Margin="8"
@@ -94,9 +94,9 @@
                     <CheckBox
                         HorizontalAlignment="Left"
                         VerticalAlignment="Center"
-                        Content="{DynamicResource Settings.ForceGithubGlobalSource}"
+                        Content="{DynamicResource Update.ForceGithubGlobalSource}"
                         IsChecked="{Binding ForceGithubGlobalSource}" />
-                    <controls:TooltipBlock TooltipText="{DynamicResource Settings.ForceGithubGlobalSource.Tip}" />
+                    <controls:TooltipBlock TooltipText="{DynamicResource Update.ForceGithubGlobalSource.Tip}" />
                 </StackPanel>
                 <StackPanel Margin="8">
                     <StackPanel Margin="0,0,0,5" Orientation="Horizontal">
@@ -139,11 +139,7 @@
                         HorizontalAlignment="Left"
                         Visibility="{c:Binding 'UpdateSource == enums:UpdateSource.MirrorChyan'}">
                         <controls:TextBlock Margin="8,0,0,5" HorizontalAlignment="Left">
-                            <TextBlock.Text>
-                                <MultiBinding StringFormat="{}{0} CDK">
-                                    <Binding Source="{StaticResource Settings.MirrorChyan}" />
-                                </MultiBinding>
-                            </TextBlock.Text>
+                            <Run Text="{DynamicResource Update.MirrorChyan}" /><Run Text=" CDK" />
                         </controls:TextBlock>
                         <Grid Width="150">
                             <Grid.ColumnDefinitions>
@@ -185,7 +181,7 @@
                             Cursor="Hand"
                             NavigateUri="{Binding Source={x:Static constants:MaaUrls.MirrorChyanWebsite}}"
                             TextDecorations="None">
-                            <TextBlock Style="{StaticResource HyperlinkTextBlockStyle}" Text="{DynamicResource Settings.MirrorChyan}" />
+                            <TextBlock Style="{StaticResource HyperlinkTextBlockStyle}" Text="{DynamicResource Update.MirrorChyan}" />
                         </Hyperlink>
                     </controls:TextBlock>
                 </StackPanel>
@@ -472,7 +468,7 @@
                         <Button
                             Margin="5"
                             Command="{s:Action ShowChangelog}"
-                            Content="{DynamicResource Settings.ShowChangelog}"
+                            Content="{DynamicResource Update.ShowChangelog}"
                             IsEnabled="{c:Binding !IsCheckingForUpdates}" />
                     </StackPanel>
                     <StackPanel Grid.Row="4">

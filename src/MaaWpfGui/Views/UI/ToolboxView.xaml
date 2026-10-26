@@ -213,7 +213,7 @@
                                     TextAlignment="Center"
                                     TextWrapping="Wrap" />
                             </CheckBox>
-                            <controls:TooltipBlock TooltipText="{DynamicResource Recruitment.ShowPotentialTips}" />
+                            <controls:TooltipBlock TooltipText="{DynamicResource Recruitment.ShowPotential.Tip}" />
                         </StackPanel>
                     </StackPanel>
 
@@ -1047,11 +1047,11 @@
                 Focusable="True"
                 FontSize="14"
                 Style="{StaticResource TextBlockDefaultBold}"
-                Text="{DynamicResource Video.RecognitionTips}"
+                Text="{DynamicResource Video.Recognition.Tip}"
                 TextWrapping="Wrap" />
         </TabItem>
         -->
-        <TabItem Header="{DynamicResource Gacha.Gacha}">
+        <TabItem Header="{DynamicResource Gacha.Title}">
             <Grid Margin="20,0,20,0">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="80" />
@@ -1179,7 +1179,7 @@
                 </StackPanel>
             </Grid>
         </TabItem>
-        <TabItem Header="{DynamicResource Peep.Peep}">
+        <TabItem Header="{DynamicResource Peep.Title}">
             <Grid Margin="20,0,20,0">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
@@ -1461,7 +1461,7 @@
                                     IsChecked="{Binding EventShopBlackListOther}" />
                                 <TextBox
                                     Margin="0,8,0,0"
-                                    hc:InfoElement.Title="{DynamicResource Settings.Blacklist}"
+                                    hc:InfoElement.Title="{DynamicResource Mall.Blacklist}"
                                     Style="{StaticResource TextBoxExtend}"
                                     Text="{Binding EventShopBlackList, UpdateSourceTrigger=PropertyChanged}"
                                     Visibility="{c:Binding EventShopBlackListOther}" />

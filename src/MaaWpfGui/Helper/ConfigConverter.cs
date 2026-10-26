@@ -338,8 +338,8 @@ public class ConfigConverter
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.ReceiveSpecialAccess);
 
                 mallTask.Shopping = ConfigurationHelper.GetValue(ConfigurationKeys.CreditShopping, true);
-                mallTask.FirstList = ConfigurationHelper.GetValue(ConfigurationKeys.CreditFirstListNew, LocalizationHelper.GetString("Settings.HighPriorityDefault", local)).Replace("；", ";").Trim();
-                mallTask.BlackList = ConfigurationHelper.GetValue(ConfigurationKeys.CreditBlackListNew, LocalizationHelper.GetString("Settings.BlacklistDefault", local)).Replace("；", ";").Trim();
+                mallTask.FirstList = ConfigurationHelper.GetValue(ConfigurationKeys.CreditFirstListNew, LocalizationHelper.GetString("Mall.HighPriorityDefault", local)).Replace("；", ";").Trim();
+                mallTask.BlackList = ConfigurationHelper.GetValue(ConfigurationKeys.CreditBlackListNew, LocalizationHelper.GetString("Mall.BlacklistDefault", local)).Replace("；", ";").Trim();
                 mallTask.ShoppingIgnoreBlackListWhenFull = ConfigurationHelper.GetValue(ConfigurationKeys.CreditForceShoppingIfCreditFull, false);
                 mallTask.OnlyBuyDiscount = ConfigurationHelper.GetValue(ConfigurationKeys.CreditOnlyBuyDiscount, false);
                 mallTask.ReserveMaxCredit = ConfigurationHelper.GetValue(ConfigurationKeys.CreditReserveMaxCredit, false);

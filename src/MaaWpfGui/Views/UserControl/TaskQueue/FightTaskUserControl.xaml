@@ -45,7 +45,7 @@
                         IsEnabled="{c:Binding !UseStoneDisplay}"
                         MouseRightButtonUp="{s:Action ToggleCheckBoxNullOnRightClick,
                                                       Target={x:Type helper:CheckBoxHelper}}"
-                        ToolTip="{DynamicResource Settings.CheckBoxesNotSavedAsNull}" />
+                        ToolTip="{DynamicResource TaskQueue.CheckBoxesNotSavedAsNull}" />
                     <CheckBox
                         Height="30"
                         Margin="6"
@@ -53,7 +53,7 @@
                         IsChecked="{Binding UseStone}"
                         MouseRightButtonUp="{s:Action ToggleCheckBoxNullOnRightClick,
                                                       Target={x:Type helper:CheckBoxHelper}}"
-                        ToolTip="{DynamicResource Settings.CheckBoxesNotSaved}">
+                        ToolTip="{DynamicResource TaskQueue.CheckBoxesNotSaved}">
                         <TextBlock>
                             <Run Text="{DynamicResource Combat.UseOriginitePrime}" /><Run Text="{c:Binding '(AllowUseStoneSave ? &quot;&quot; : &quot;*&quot;)'}" />
                         </TextBlock>
@@ -66,7 +66,7 @@
                         IsChecked="{Binding HasTimesLimited}"
                         MouseRightButtonUp="{s:Action ToggleCheckBoxNullOnRightClick,
                                                       Target={x:Type helper:CheckBoxHelper}}"
-                        ToolTip="{DynamicResource Settings.CheckBoxesNotSavedAsNull}" />
+                        ToolTip="{DynamicResource TaskQueue.CheckBoxesNotSavedAsNull}" />
                 </StackPanel>
                 <StackPanel Grid.Column="1" Orientation="Vertical">
                     <hc:NumericUpDown
@@ -120,12 +120,12 @@
                         IsEnabled="{c:Binding !IsSpecifiedInventoryLocked}"
                         MouseRightButtonUp="{s:Action ToggleCheckBoxNullOnRightClick,
                                                       Target={x:Type helper:CheckBoxHelper}}"
-                        ToolTip="{DynamicResource Settings.CheckBoxesNotSavedAsNull}" />
+                        ToolTip="{DynamicResource TaskQueue.CheckBoxesNotSavedAsNull}" />
                     <controls:TooltipBlock
                         HorizontalAlignment="Right"
                         VerticalAlignment="Top"
                         NormalOpacity="0.25"
-                        TooltipText="{DynamicResource Settings.SpecifiedDrops.Tip}" />
+                        TooltipText="{DynamicResource Combat.SpecifiedDrops.Tip}" />
                 </Grid>
                 <hc:ButtonGroup
                     Grid.Row="1"
@@ -399,7 +399,7 @@
                                                               Source={x:Static ui_vms:TaskQueueViewModel.FightTask}}"
                                         Opacity="{c:Binding 'IsOpen ? 1 : 0.5'}"
                                         Text="{Binding Stage, UpdateSourceTrigger=PropertyChanged}"
-                                        ToolTip="{DynamicResource Settings.CustomStageCode.Tip}"
+                                        ToolTip="{DynamicResource Combat.CustomStageCode.Tip}"
                                         Visibility="{c:Binding CustomStageCode,
                                                                Source={x:Static ui_vms:TaskQueueViewModel.FightTask}}" />
                                 </Grid>
@@ -482,13 +482,13 @@
                     Visibility="{c:Binding UseCustomAnnihilation}" />
             </StackPanel>
             <StackPanel Margin="0,10" Orientation="Horizontal">
-                <CheckBox Content="{DynamicResource Settings.DrGrandet}" IsChecked="{Binding IsDrGrandet}" />
-                <controls:TooltipBlock TooltipText="{DynamicResource Settings.DrGrandet.Tip}" />
+                <CheckBox Content="{DynamicResource Combat.DrGrandet}" IsChecked="{Binding IsDrGrandet}" />
+                <controls:TooltipBlock TooltipText="{DynamicResource Combat.DrGrandet.Tip}" />
             </StackPanel>
             <CheckBox Margin="0,10" IsChecked="{Binding UseExpiringMedicine}">
                 <TextBlock
                     Block.TextAlignment="Left"
-                    Text="{DynamicResource Settings.UseExpiringMedicine}"
+                    Text="{DynamicResource Combat.UseExpiringMedicine}"
                     TextWrapping="Wrap" />
             </CheckBox>
             <StackPanel
@@ -505,12 +505,12 @@
                     Maximum="30"
                     Minimum="1"
                     Value="{Binding MedicineExpireDays, UpdateSourceTrigger=PropertyChanged}" />
-                <controls:TooltipBlock TooltipText="{DynamicResource Settings.MedicineExpireDays.Tip}" />
+                <controls:TooltipBlock TooltipText="{DynamicResource Combat.MedicineExpireDays.Tip}" />
             </StackPanel>
             <CheckBox Margin="0,10" IsChecked="{Binding UseExpireMedicineForActivity}">
                 <TextBlock
                     Block.TextAlignment="Left"
-                    Text="{DynamicResource Settings.UseExpireMedicineForActivity}"
+                    Text="{DynamicResource Combat.UseExpireMedicineForActivity}"
                     TextWrapping="Wrap" />
             </CheckBox>
             <StackPanel
@@ -525,15 +525,15 @@
             </StackPanel>
             <CheckBox
                 Margin="0,10"
-                Content="{DynamicResource Settings.HideSeries}"
+                Content="{DynamicResource Combat.HideSeries}"
                 IsChecked="{Binding HideSeries}" />
             <StackPanel Margin="0,10" Orientation="Horizontal">
-                <CheckBox Content="{DynamicResource Settings.AllowUseStoneSave}" IsChecked="{Binding AllowUseStoneSave}" />
-                <controls:TooltipBlock TooltipText="{DynamicResource Settings.AllowUseStoneSave.Tip}" />
+                <CheckBox Content="{DynamicResource Combat.AllowUseStoneSave}" IsChecked="{Binding AllowUseStoneSave}" />
+                <controls:TooltipBlock TooltipText="{DynamicResource Combat.AllowUseStoneSave.Tip}" />
             </StackPanel>
             <StackPanel Margin="0,10" Orientation="Horizontal">
-                <CheckBox Content="{DynamicResource Settings.CustomStageCode}" IsChecked="{Binding CustomStageCode}" />
-                <controls:TooltipBlock TooltipText="{DynamicResource Settings.CustomStageCode.Tip}" />
+                <CheckBox Content="{DynamicResource Combat.CustomStageCode}" IsChecked="{Binding CustomStageCode}" />
+                <controls:TooltipBlock TooltipText="{DynamicResource Combat.CustomStageCode.Tip}" />
             </StackPanel>
             <ComboBox
                 hc:InfoElement.Title="{DynamicResource Combat.StageResetMode}"
@@ -543,16 +543,16 @@
                 SelectedValuePath="Value" />
             <CheckBox
                 Margin="0,10"
-                Content="{DynamicResource Settings.UseAlternateStage}"
+                Content="{DynamicResource Combat.UseAlternateStage}"
                 IsChecked="{Binding UseAlternateStage}" />
             <CheckBox
                 Margin="0,10"
-                Content="{DynamicResource Settings.HideUnavailableStage}"
+                Content="{DynamicResource Combat.HideUnavailableStage}"
                 IsChecked="{Binding HideUnavailableStage}"
                 IsEnabled="{c:Binding !UseWeeklySchedule}" />
             <StackPanel Margin="0,10" Orientation="Horizontal">
-                <CheckBox Content="{DynamicResource Settings.UseWeeklySchedule}" IsChecked="{Binding UseWeeklySchedule}" />
-                <controls:TooltipBlock TooltipText="{DynamicResource Settings.UseWeeklySchedule.Tip}" />
+                <CheckBox Content="{DynamicResource TaskQueue.WeeklySchedule.Enabled}" IsChecked="{Binding UseWeeklySchedule}" />
+                <controls:TooltipBlock TooltipText="{DynamicResource TaskQueue.WeeklySchedule.Enabled.Tip}" />
             </StackPanel>
             <ListBox
                 MaxHeight="300"

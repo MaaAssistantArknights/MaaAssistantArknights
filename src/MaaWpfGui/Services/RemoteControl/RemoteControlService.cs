@@ -563,7 +563,7 @@ public class RemoteControlService
 
             /*await Task.Run(() => Instances.SettingsViewModel.RunScript("StartsWithScript"));*/
 
-            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("TaskQueue.Log.ConnectingToEmulator"));
+            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("Connection.ConnectingToEmulator"));
 
             // 一般是点了“停止”按钮了
             if (_runningState.GetStopping())
@@ -704,7 +704,7 @@ public class RemoteControlService
 
             if (count == 0)
             {
-                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("TaskQueue.Log.UnselectedTask"));
+                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("RemoteControl.UnselectedTask"));
                 Instances.TaskQueueViewModel.SetStopped();
                 return;
             }
@@ -713,13 +713,13 @@ public class RemoteControlService
 
             if (taskRet)
             {
-                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("TaskQueue.Log.Running"));
+                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("RemoteControl.Running"));
                 Instances.AsstProxy.StartTaskTime = DateTimeOffset.Now;
                 Instances.TaskQueueViewModel.SetRunDeadlineFromSettings();
             }
             else
             {
-                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("TaskQueue.Log.UnknownErrorOccurs"));
+                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("RemoteControl.UnknownErrorOccurs"));
                 await Instances.TaskQueueViewModel.Stop();
                 Instances.TaskQueueViewModel.SetStopped();
             }

@@ -300,7 +300,7 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
         { "1", LocalizationHelper.GetString("Settings.ConfigurationName") },
         { "2", LocalizationHelper.GetString("Connection.Preset") },
         { "3", LocalizationHelper.GetString("Connection.Address") },
-        { "4", LocalizationHelper.GetString("Settings.ClientType") },
+        { "4", LocalizationHelper.GetString("Connection.ClientType") },
     });
 
     private void RefreshWindowTitleAllShowDict()
@@ -311,7 +311,7 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
         WindowTitleAllShowDict[0] = new("1", LocalizationHelper.GetString("Settings.ConfigurationName"));
         WindowTitleAllShowDict[1] = new("2", LocalizationHelper.GetString("Connection.Preset"));
         WindowTitleAllShowDict[2] = new("3", LocalizationHelper.GetString("Connection.Address"));
-        WindowTitleAllShowDict[3] = new("4", LocalizationHelper.GetString("Settings.ClientType"));
+        WindowTitleAllShowDict[3] = new("4", LocalizationHelper.GetString("Connection.ClientType"));
         NotifyOfPropertyChange(nameof(WindowTitleAllShowDict));
         WindowTitleSelectShowList = [.. config
             .Split(' ')
@@ -432,7 +432,7 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
     public string LanguageInfo
     {
         get {
-            var language = (string?)Application.Current.Resources["Language"];
+            var language = (string?)Application.Current.Resources["Settings.Language"];
             return language == "Language" ? language : language + " / Language";
         }
     }

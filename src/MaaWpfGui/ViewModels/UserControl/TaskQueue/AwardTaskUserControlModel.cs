@@ -59,11 +59,11 @@ public class AwardTaskUserControlModel : TaskSettingsViewModel, AwardTaskUserCon
             {
                 var result = MessageBoxHelper.Show(
                     LocalizationHelper.GetString("Gacha.Warning"),
-                    LocalizationHelper.GetString("Settings.Warning"),
+                    LocalizationHelper.GetString("Common.Warning"),
                     MessageBoxButton.YesNo,
                     MessageBoxImage.Warning,
-                    no: LocalizationHelper.GetString("Settings.Confirm"),
-                    yes: LocalizationHelper.GetString("Settings.Cancel"),
+                    no: LocalizationHelper.GetString("Common.Confirm"),
+                    yes: LocalizationHelper.GetString("Common.Cancel"),
                     iconBrushKey: "DangerBrush");
                 if (result != MessageBoxResult.No)
                 {

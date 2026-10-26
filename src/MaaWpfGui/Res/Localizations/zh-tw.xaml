@@ -1,8 +1,6 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:system="clr-namespace:System;assembly=mscorlib">
     <system:String x:Key="About.Discord">Discord</system:String>
     <system:String x:Key="About.Github">原始碼：GitHub</system:String>
-    <system:String x:Key="About.MapPrts">自動戰鬥地圖座標</system:String>
-    <system:String x:Key="About.PrtsPlus">自動戰鬥作業分享</system:String>
     <system:String x:Key="About.QqChannel">QQ 頻道</system:String>
     <system:String x:Key="About.QqGroup">QQ 群</system:String>
     <system:String x:Key="About.Telegram">Telegram</system:String>
@@ -32,7 +30,7 @@
     <system:String x:Key="Achievement.CdnTorture.Description">比宇宙更遠的地方，是 GitHub 的伺服器。</system:String>
     <system:String x:Key="Achievement.CdnTorture.Title">網路折磨人</system:String>
     <system:String x:Key="Achievement.Celebrate">🎉 達成成就</system:String>
-    <system:String x:Key="Achievement.ChangelogReader.Conditions">手動開啟一次 ｢{key=Settings.ShowChangelog}｣</system:String>
+    <system:String x:Key="Achievement.ChangelogReader.Conditions">手動開啟一次 ｢{key=Update.ShowChangelog}｣</system:String>
     <system:String x:Key="Achievement.ChangelogReader.Description">新版本可以不急著下，但不能不先看兩眼更新了啥。</system:String>
     <system:String x:Key="Achievement.ChangelogReader.Title">我先看看更新了啥</system:String>
     <system:String x:Key="Achievement.ClueCollector.Conditions">累計開啟線索交流 20 次</system:String>
@@ -56,10 +54,10 @@
     <system:String x:Key="Achievement.CongratulationError.Conditions">觸發過 MAA 的錯誤</system:String>
     <system:String x:Key="Achievement.CongratulationError.Description">我的 MAA 怎麼用不了了？</system:String>
     <system:String x:Key="Achievement.CongratulationError.Title">喜報</system:String>
-    <system:String x:Key="Achievement.ConnectionTester.Conditions">成功執行一次 ｢{key=Settings.ScreenshotTest}｣ 並顯示截圖</system:String>
+    <system:String x:Key="Achievement.ConnectionTester.Conditions">成功執行一次 ｢{key=Connection.ScreenshotTest}｣ 並顯示截圖</system:String>
     <system:String x:Key="Achievement.ConnectionTester.Description">不先看一眼，總覺得不踏實。</system:String>
     <system:String x:Key="Achievement.ConnectionTester.Title">連線測試員</system:String>
-    <system:String x:Key="Achievement.CopilotError.Conditions">｢{key=Copilot.Copilot}｣ 出現失誤</system:String>
+    <system:String x:Key="Achievement.CopilotError.Conditions">｢{key=Copilot.Title}｣ 出現失誤</system:String>
     <system:String x:Key="Achievement.CopilotError.Description">出事故了……</system:String>
     <system:String x:Key="Achievement.CopilotError.Title">哎呀</system:String>
     <system:String x:Key="Achievement.CopilotLikeGiven1.Conditions">對作業按讚 1 次</system:String>
@@ -74,7 +72,7 @@
     <system:String x:Key="Achievement.CustomizationMaster.Conditions">更換一次 {key=Appearance.Background.Image}</system:String>
     <system:String x:Key="Achievement.CustomizationMaster.Description">咱就是二次元！</system:String>
     <system:String x:Key="Achievement.CustomizationMaster.Title">自訂達人</system:String>
-    <system:String x:Key="Achievement.DisappearTrick.Conditions">開啟 ｢{key=Settings.MinimizeToTray}｣</system:String>
+    <system:String x:Key="Achievement.DisappearTrick.Conditions">開啟 ｢{key=Appearance.MinimizeToTray}｣</system:String>
     <system:String x:Key="Achievement.DisappearTrick.Description">眼不見，心不煩。</system:String>
     <system:String x:Key="Achievement.DisappearTrick.Title">消失術</system:String>
     <system:String x:Key="Achievement.DlcProgressNotice">成就 DLC 標識：#1 隨成就系統首發，後續 DLC 由版本更新追加。部分成就的進度需在所屬 DLC 上線後方可累計。</system:String>
@@ -94,7 +92,7 @@
     <system:String x:Key="Achievement.HrSpecialist.Conditions">單輪公招任務連續招募 10 次</system:String>
     <system:String x:Key="Achievement.HrSpecialist.Description">怎麼全是預備行動組啊！</system:String>
     <system:String x:Key="Achievement.HrSpecialist.Title">人事部專員</system:String>
-    <system:String x:Key="Achievement.Irreplaceable.Conditions">使用 ｢{key=Copilot.Copilot} - {key=Copilot.AutoSquad}｣ 時，缺少至少兩名{key=Operator.Name}</system:String>
+    <system:String x:Key="Achievement.Irreplaceable.Conditions">使用 ｢{key=Copilot.Title} - {key=Copilot.AutoSquad}｣ 時，缺少至少兩名{key=Operator.Name}</system:String>
     <system:String x:Key="Achievement.Irreplaceable.Description">或許我應該換一份作業？</system:String>
     <system:String x:Key="Achievement.Irreplaceable.Title">無可替代</system:String>
     <system:String x:Key="Achievement.LatestVersionInspector.Conditions">手動檢查更新，並發現已經是最新版本</system:String>
@@ -120,7 +118,7 @@
     <system:String x:Key="Achievement.LunarNewYear.Conditions">在農曆新年期間開啟程式</system:String>
     <system:String x:Key="Achievement.LunarNewYear.Description">好運和六星一起到來！</system:String>
     <system:String x:Key="Achievement.LunarNewYear.Title">新春快樂</system:String>
-    <system:String x:Key="Achievement.MapOutdated.Conditions">在未更新資源的情況下使用 ｢{key=Copilot.Copilot}｣</system:String>
+    <system:String x:Key="Achievement.MapOutdated.Conditions">在未更新資源的情況下使用 ｢{key=Copilot.Title}｣</system:String>
     <system:String x:Key="Achievement.MapOutdated.Description">我知道你很急，但你先別急。</system:String>
     <system:String x:Key="Achievement.MapOutdated.Title">急急國王</system:String>
     <system:String x:Key="Achievement.Martian.Conditions">資源時間或版本時間距今超過 3 個月</system:String>
@@ -133,22 +131,22 @@
     <system:String x:Key="Achievement.MidnightLaunch.Conditions">在午夜 0 點後啟動</system:String>
     <system:String x:Key="Achievement.MidnightLaunch.Description">你是深夜行動專家嗎？</system:String>
     <system:String x:Key="Achievement.MidnightLaunch.Title">午夜作戰</system:String>
-    <system:String x:Key="Achievement.MirrorChyanCdkError.Conditions">{key=Settings.MirrorChyan} CDK 填寫錯誤</system:String>
+    <system:String x:Key="Achievement.MirrorChyanCdkError.Conditions">{key=Update.MirrorChyan} CDK 填寫錯誤</system:String>
     <system:String x:Key="Achievement.MirrorChyanCdkError.Description">誰偷吃了我的字母餅乾？</system:String>
     <system:String x:Key="Achievement.MirrorChyanCdkError.Title">這……對嗎？</system:String>
-    <system:String x:Key="Achievement.MirrorChyanFirstUse.Conditions">初次成功使用 {key=Settings.MirrorChyan}</system:String>
-    <system:String x:Key="Achievement.MirrorChyanFirstUse.Description">是 {key=Settings.MirrorChyan}！我們有救了！</system:String>
+    <system:String x:Key="Achievement.MirrorChyanFirstUse.Conditions">初次成功使用 {key=Update.MirrorChyan}</system:String>
+    <system:String x:Key="Achievement.MirrorChyanFirstUse.Description">是 {key=Update.MirrorChyan}！我們有救了！</system:String>
     <system:String x:Key="Achievement.MirrorChyanFirstUse.Title">Mirror～～☆</system:String>
     <system:String x:Key="Achievement.MissionStartCount.Conditions">一天內開始任務超過 3 次</system:String>
     <system:String x:Key="Achievement.MissionStartCount.Description">是信任，也是依賴。</system:String>
     <system:String x:Key="Achievement.MissionStartCount.Title">不離不棄</system:String>
-    <system:String x:Key="Achievement.MosquitoLeg.Conditions">使用 ｢{key=Settings.CreditFight}｣ 功能超過 5 次</system:String>
+    <system:String x:Key="Achievement.MosquitoLeg.Conditions">使用 ｢{key=Mall.CreditFight}｣ 功能超過 5 次</system:String>
     <system:String x:Key="Achievement.MosquitoLeg.Description">您深刻理解了積少成多的道理。</system:String>
     <system:String x:Key="Achievement.MosquitoLeg.Title">蚊子腿也是肉！</system:String>
     <system:String x:Key="Achievement.NotFound404.Conditions">使用遠端協定呼叫錯誤的任務 ID</system:String>
     <system:String x:Key="Achievement.NotFound404.Description">這個任務似乎找不到了</system:String>
     <system:String x:Key="Achievement.NotFound404.Title">404！</system:String>
-    <system:String x:Key="Achievement.OneMoreLook.Conditions">在 ｢{key=Settings.ScreenshotTest}｣ 預覽圖上再點一次，重新截圖</system:String>
+    <system:String x:Key="Achievement.OneMoreLook.Conditions">在 ｢{key=Connection.ScreenshotTest}｣ 預覽圖上再點一次，重新截圖</system:String>
     <system:String x:Key="Achievement.OneMoreLook.Description">看都看了，再刷一張。</system:String>
     <system:String x:Key="Achievement.OneMoreLook.Title">再看一眼</system:String>
     <system:String x:Key="Achievement.OperatorRoster.Conditions">匯出一次幹員表到剪貼簿</system:String>
@@ -160,10 +158,10 @@
     <system:String x:Key="Achievement.PallasCheers.Conditions">點擊 ｢{key=Achievement.Settings}｣ 的帕拉斯頭像</system:String>
     <system:String x:Key="Achievement.PallasCheers.Description">下次不能喝，喝這麼多了。。。</system:String>
     <system:String x:Key="Achievement.PallasCheers.Title">給牛牛喝酒</system:String>
-    <system:String x:Key="Achievement.PallasStarter.Conditions">使用帕拉斯作為肉鴿 ｢{key=Settings.StartingCoreChar}｣</system:String>
+    <system:String x:Key="Achievement.PallasStarter.Conditions">使用帕拉斯作為肉鴿 ｢{key=Roguelike.StartingCoreChar}｣</system:String>
     <system:String x:Key="Achievement.PallasStarter.Description">偉大的戰士們啊，我會在你們身邊，與你們一同奮勇搏殺。</system:String>
     <system:String x:Key="Achievement.PallasStarter.Title">牛牛廚</system:String>
-    <system:String x:Key="Achievement.PeekScreen.Conditions">使用一次 {key=Peep.Peep}</system:String>
+    <system:String x:Key="Achievement.PeekScreen.Conditions">使用一次 {key=Peep.Title}</system:String>
     <system:String x:Key="Achievement.PeekScreen.Description">喜歡盯著看是吧.jpg</system:String>
     <system:String x:Key="Achievement.PeekScreen.Title">暗中觀察</system:String>
     <system:String x:Key="Achievement.Pioneer1.Conditions">將 MAA 更新至 {key=Update.CheckBeta}</system:String>
@@ -195,7 +193,7 @@
     <system:String x:Key="Achievement.QuickCloser.Conditions">1 秒內關閉彈出視窗（你大概根本沒看吧）</system:String>
     <system:String x:Key="Achievement.QuickCloser.Description">｢我知道我在做什麼。｣ —— 某使用者在點擊之前。</system:String>
     <system:String x:Key="Achievement.QuickCloser.Title">YOLO!</system:String>
-    <system:String x:Key="Achievement.RealGacha.Conditions">使用一次 {key=Gacha.Gacha}</system:String>
+    <system:String x:Key="Achievement.RealGacha.Conditions">使用一次 {key=Gacha.Title}</system:String>
     <system:String x:Key="Achievement.RealGacha.Description">不是模擬抽卡嗎？ 怎麼真抽了???</system:String>
     <system:String x:Key="Achievement.RealGacha.Title">真正的抽卡</system:String>
     <system:String x:Key="Achievement.RecruitGambler.Conditions">在公開招募中刷新 Tags 50 次</system:String>
@@ -243,7 +241,7 @@
     <system:String x:Key="Achievement.Rules.Conditions">MAA 員工守則</system:String>
     <system:String x:Key="Achievement.Rules.Description">我會一直注視著你。</system:String>
     <system:String x:Key="Achievement.Rules.Title">嚴重錯訁</system:String>
-    <system:String x:Key="Achievement.SanityExpire.Conditions">使用 ｢{key=Settings.UseExpiringMedicine}｣，單次任務使用 8 瓶及以上即期理智藥</system:String>
+    <system:String x:Key="Achievement.SanityExpire.Conditions">使用 ｢{key=Combat.UseExpiringMedicine}｣，單次任務使用 8 瓶及以上即期理智藥</system:String>
     <system:String x:Key="Achievement.SanityExpire.Description">趕緊衝哇！！</system:String>
     <system:String x:Key="Achievement.SanityExpire.Title">要過期了</system:String>
     <system:String x:Key="Achievement.SanityPlanner.Conditions">完成 {key=TaskQueue.Combat} 時剛好消耗完所有理智</system:String>
@@ -319,7 +317,7 @@
     <system:String x:Key="Achievement.TimeManagementMaster.Conditions">勾選 ｢{key=Schedule.Settings}｣ 的所有計時器</system:String>
     <system:String x:Key="Achievement.TimeManagementMaster.Description">一點時間也不放過。</system:String>
     <system:String x:Key="Achievement.TimeManagementMaster.Title">時間管理大師</system:String>
-    <system:String x:Key="Achievement.TitleTweaker.Conditions">修改一次 ｢{key=Settings.TitleBarDisplay.Content}｣</system:String>
+    <system:String x:Key="Achievement.TitleTweaker.Conditions">修改一次 ｢{key=Appearance.TitleBarDisplay.Content}｣</system:String>
     <system:String x:Key="Achievement.TitleTweaker.Description">這標題，得按我的意思來。</system:String>
     <system:String x:Key="Achievement.TitleTweaker.Title">標題黨</system:String>
     <system:String x:Key="Achievement.UnexpectedCrash.Conditions">出現未處理的例外並被崩潰日誌記錄</system:String>
@@ -332,13 +330,13 @@
     <system:String x:Key="Achievement.UpdateObsession.Conditions">在更新發布後 1 天內完成更新</system:String>
     <system:String x:Key="Achievement.UpdateObsession.Description">有更新？更！</system:String>
     <system:String x:Key="Achievement.UpdateObsession.Title">更新強迫症</system:String>
-    <system:String x:Key="Achievement.UseCopilot1.Conditions">使用 ｢{key=Copilot.Copilot}｣ 功能通關 1 次</system:String>
+    <system:String x:Key="Achievement.UseCopilot1.Conditions">使用 ｢{key=Copilot.Title}｣ 功能通關 1 次</system:String>
     <system:String x:Key="Achievement.UseCopilot1.Description">真正的擺完掛機。</system:String>
     <system:String x:Key="Achievement.UseCopilot1.Title">抄作業</system:String>
-    <system:String x:Key="Achievement.UseCopilot2.Conditions">使用 ｢{key=Copilot.Copilot}｣ 功能通關 10 次</system:String>
+    <system:String x:Key="Achievement.UseCopilot2.Conditions">使用 ｢{key=Copilot.Title}｣ 功能通關 10 次</system:String>
     <system:String x:Key="Achievement.UseCopilot2.Description">活動全交給牛牛打。</system:String>
     <system:String x:Key="Achievement.UseCopilot2.Title">一擺到底</system:String>
-    <system:String x:Key="Achievement.UseCopilot3.Conditions">使用 ｢{key=Copilot.Copilot}｣ 功能通關 100 次</system:String>
+    <system:String x:Key="Achievement.UseCopilot3.Conditions">使用 ｢{key=Copilot.Title}｣ 功能通關 100 次</system:String>
     <system:String x:Key="Achievement.UseCopilot3.Description">到最後也不知道關底 Boss 有什麼機制。</system:String>
     <system:String x:Key="Achievement.UseCopilot3.Title">下次還填非常簡單</system:String>
     <system:String x:Key="Achievement.UseDaily1.Conditions">連續 7 天使用 MAA</system:String>
@@ -360,12 +358,12 @@
     <system:String x:Key="Achievement.WarehouseMiser.Conditions">倉庫辨識功能辨識到倉庫內某種材料數量超過 10,000 個</system:String>
     <system:String x:Key="Achievement.WarehouseMiser.Description">一個都不許用！</system:String>
     <system:String x:Key="Achievement.WarehouseMiser.Title">倉庫守財奴</system:String>
-    <system:String x:Key="Announcement.Announcement">公告</system:String>
     <system:String x:Key="Announcement.CheckAndDownloadAnnouncement">查看公告</system:String>
     <system:String x:Key="Announcement.DoNotRemindThisAnnouncementAgain">下次公告更新前不再顯示</system:String>
     <system:String x:Key="Announcement.NotFinishedConfirm">沒看完點什麼確認？</system:String>
     <system:String x:Key="Announcement.NotFinishedConfirm2">就是在說你，還點！</system:String>
     <system:String x:Key="Announcement.NotFinishedConfirm3">還點</system:String>
+    <system:String x:Key="Announcement.Title">公告</system:String>
     <system:String x:Key="Appearance.Animation.Speed">過渡動畫</system:String>
     <system:String x:Key="Appearance.Animation.SpeedFast">快速</system:String>
     <system:String x:Key="Appearance.Animation.SpeedNone">無動畫</system:String>
@@ -377,8 +375,6 @@
     <system:String x:Key="Appearance.Background.ImageStretchModeNone">保持原比例</system:String>
     <system:String x:Key="Appearance.Background.ImageStretchModeUniform">等比例縮放</system:String>
     <system:String x:Key="Appearance.Background.ImageStretchModeUniformToFill">等比例填滿（裁剪）</system:String>
-    <system:String x:Key="Appearance.Background.LinkStarted">開始執行任務</system:String>
-    <system:String x:Key="Appearance.Background.LinkStopped">任務終止</system:String>
     <system:String x:Key="Appearance.Background.Monet">莫奈取色</system:String>
     <system:String x:Key="Appearance.Background.MonetAuto">自動取色</system:String>
     <system:String x:Key="Appearance.Background.MonetAuto.Tip">將從背景圖自動提取主色產生主題配色</system:String>
@@ -389,10 +385,35 @@
     <system:String x:Key="Appearance.Background.MonetSelectColor">選擇顏色</system:String>
     <system:String x:Key="Appearance.Background.Opacity">背景不透明度</system:String>
     <system:String x:Key="Appearance.Background.Settings">背景設定</system:String>
+    <system:String x:Key="Appearance.Dark">深色模式</system:String>
+    <system:String x:Key="Appearance.HideCloseButton">隱藏關閉按鈕</system:String>
+    <system:String x:Key="Appearance.HideHoverActionButtons">隱藏主任務懸停操作按鈕</system:String>
+    <system:String x:Key="Appearance.HideHoverActionButtons.Tip">相應功能仍可透過右鍵齒輪選單使用</system:String>
+    <system:String x:Key="Appearance.LabelSequence.Tip">標籤順序可拖曳</system:String>
+    <system:String x:Key="Appearance.Light">淺色模式</system:String>
+    <system:String x:Key="Appearance.Log.Settings">日誌顯示設定</system:String>
+    <system:String x:Key="Appearance.LogItemDateFormatString">日期格式字串</system:String>
+    <system:String x:Key="Appearance.MainViewButtonFeature">主介面可選擇按鈕功能</system:String>
+    <system:String x:Key="Appearance.MaxNumberOfLogThumbnails">日誌縮圖最大數量</system:String>
+    <system:String x:Key="Appearance.MinimizeToTray">最小化時隱藏至工作列</system:String>
+    <system:String x:Key="Appearance.OperNameLanguage">{key=Operator.Name}名稱顯示語言</system:String>
+    <system:String x:Key="Appearance.OperNameLanguageClient">跟隨遊戲用戶端</system:String>
+    <system:String x:Key="Appearance.OperNameLanguageForce">強制使用指定語言</system:String>
+    <system:String x:Key="Appearance.OperNameLanguageMAA">跟隨 MAA</system:String>
+    <system:String x:Key="Appearance.OperationGuideSettings">操作與指引</system:String>
     <system:String x:Key="Appearance.PreviewMode">UI 預覽</system:String>
     <system:String x:Key="Appearance.Settings">介面設定</system:String>
+    <system:String x:Key="Appearance.SwitchTheme">更換主題</system:String>
+    <system:String x:Key="Appearance.SyncWithOs">與系統同步</system:String>
     <system:String x:Key="Appearance.Theme">介面主題</system:String>
     <system:String x:Key="Appearance.Theme.AndAnimationSettings">主題與動畫</system:String>
+    <system:String x:Key="Appearance.TitleBarDisplay.Content">標題列顯示內容</system:String>
+    <system:String x:Key="Appearance.TitleBarSettings">標題列設定</system:String>
+    <system:String x:Key="Appearance.TraySettings">工作列</system:String>
+    <system:String x:Key="Appearance.UseCardLog">使用卡片樣式日誌</system:String>
+    <system:String x:Key="Appearance.UseLogItemDateFormat">自訂日誌日期格式</system:String>
+    <system:String x:Key="Appearance.UseTray">顯示工作列圖示</system:String>
+    <system:String x:Key="Appearance.WindowTitleScrollable">視窗標題捲動</system:String>
     <system:String x:Key="BadModules.Confirmation.Heading">警告：效能影響</system:String>
     <system:String x:Key="BadModules.Confirmation.Text" xml:space="preserve">選擇不再顯示警告後，MAA 將使用軟體渲染而不是硬體渲染，這可以緩解介面渲染相關的問題，但不能保證解決所有問題（如彈出視窗失效等）。此外還將導致以下後果：&#x0a;&#x0a;• 效能下降&#x0a;• 介面卡頓&#x0a;• CPU 佔用率增高&#x0a;&#x0a;是否確認忽略警告並接受這些影響？</system:String>
     <system:String x:Key="BadModules.ResetSuccess">已重置為硬體渲染模式。需要重新啟動 MAA 後生效。是否立即重新啟動？</system:String>
@@ -405,7 +426,11 @@
     <system:String x:Key="BadModules.Warning.Heading">悲報</system:String>
     <system:String x:Key="BadModules.Warning.Prolog">偵測到以下第三方軟體向 MAA 注入了 DLL。這些注入的 DLL 會破壞 WPF 渲染和 ONNX/DML 推論，導致 MAA 閃退、介面渲染異常或 OCR 辨識失敗：</system:String>
     <system:String x:Key="Combat.AP.Tip">AP-5: 紅票</system:String>
+    <system:String x:Key="Combat.ActingCommandError">代理指揮失誤</system:String>
     <system:String x:Key="Combat.AddStage">新增備選</system:String>
+    <system:String x:Key="Combat.AllowUseStoneSave">允許吃源石儲存狀態</system:String>
+    <system:String x:Key="Combat.AllowUseStoneSave.Tip">預設 ｢{key=Combat.UseOriginitePrime}｣ 僅生效一次；勾選後其狀態將儲存，左鍵可正常切換，右鍵選取時仍僅生效一次</system:String>
+    <system:String x:Key="Combat.AllowUseStoneSave.Warning">該功能屬於危險功能。按下 ｢{key=Common.Confirm}｣ 鍵即視為您了解並願意承擔可能出現的風險。</system:String>
     <system:String x:Key="Combat.AnnihilationMode">剿滅模式</system:String>
     <system:String x:Key="Combat.AssignedMaterial">指定材料</system:String>
     <system:String x:Key="Combat.CA.Tip">CA-5: 技能書</system:String>
@@ -420,10 +445,24 @@
     <system:String x:Key="Combat.ChipShortSupporter">輔</system:String>
     <system:String x:Key="Combat.ChipShortVanguard">先</system:String>
     <system:String x:Key="Combat.ClosedStage">活動未開放</system:String>
+    <system:String x:Key="Combat.CompleteCombat">完成戰鬥</system:String>
     <system:String x:Key="Combat.Completed">戰鬥完成</system:String>
+    <system:String x:Key="Combat.CurrentSanity" xml:space="preserve">理智: {0}/{1}  </system:String>
+    <system:String x:Key="Combat.CurrentStage">目前關卡: {0}</system:String>
+    <system:String x:Key="Combat.CustomStageCode">手動輸入關卡名稱</system:String>
+    <system:String x:Key="Combat.CustomStageCode.Tip" xml:space="preserve">支援大部分主線關卡名稱與原列表的關卡名稱（如 4-10、AP-5、H10-1-Hard）
+可在關卡結尾輸入 ｢Normal/Hard｣ 切換難度：10-14 章對應標準/磨難，15 章及以後對應常規/險地
+可輸入 ｢SSReopen-XX｣ 一次性代理 SS 複刻的普通關</system:String>
     <system:String x:Key="Combat.DaysLeftOpen" xml:space="preserve">剩餘天數: </system:String>
     <system:String x:Key="Combat.DefaultStage">目前/上次</system:String>
+    <system:String x:Key="Combat.DeploymentWithPause">暫停下{key=Operator.Name}（自動戰鬥相關）（不穩定，暫不推薦開啟）</system:String>
+    <system:String x:Key="Combat.DeploymentWithPause.Tip">自動戰鬥部署{key=Operator.Name}時暫停遊戲，再下{key=Operator.Name}</system:String>
+    <system:String x:Key="Combat.DrGrandet">博朗台模式</system:String>
+    <system:String x:Key="Combat.DrGrandet.Tip">在恢復理智確認介面等待，直到目前的 1 點理智恢復完成再立即確認。</system:String>
+    <system:String x:Key="Combat.Drop" xml:space="preserve">本次掉落：</system:String>
+    <system:String x:Key="Combat.DropRecognitionError">掉落辨識錯誤</system:String>
     <system:String x:Key="Combat.Error">戰鬥出錯</system:String>
+    <system:String x:Key="Combat.ExpiringMedicineUsed">已使用 {0} 天內過期的理智藥</system:String>
     <system:String x:Key="Combat.Failed">戰鬥失敗</system:String>
     <system:String x:Key="Combat.Formation">開始編隊</system:String>
     <system:String x:Key="Combat.Formation.OperUnavailable" xml:space="preserve">{key=Operator.Name}不可用：{0}，原因：{1}</system:String>
@@ -435,6 +474,9 @@
     <system:String x:Key="Combat.Formation.OperboxMatched">預匹配的{key=Operator.Name}（組）：</system:String>
     <system:String x:Key="Combat.Formation.ParseFailed">編隊解析失敗</system:String>
     <system:String x:Key="Combat.Formation.Selected" xml:space="preserve">選擇{key=Operator.Name}: </system:String>
+    <system:String x:Key="Combat.FurnitureDrop">傢俱</system:String>
+    <system:String x:Key="Combat.HideSeries">隱藏代理倍率</system:String>
+    <system:String x:Key="Combat.HideUnavailableStage">下拉選單中隱藏當日不開放關卡</system:String>
     <system:String x:Key="Combat.Inventory">庫存</system:String>
     <system:String x:Key="Combat.KeepInventory">保持庫存</system:String>
     <system:String x:Key="Combat.LS.Tip">LS-6: 經驗</system:String>
@@ -442,26 +484,31 @@
     <system:String x:Key="Combat.LowVersion">版本過低</system:String>
     <system:String x:Key="Combat.LungmenDowntown">龍門市區</system:String>
     <system:String x:Key="Combat.LungmenOutskirts">龍門外環</system:String>
+    <system:String x:Key="Combat.MedicineExpireDays.Tip">只吃遊戲內顯示不足 N 天的理智藥，顯示 ｢N 天｣ 及以上的不吃。</system:String>
+    <system:String x:Key="Combat.MedicineUsed">已使用理智藥</system:String>
+    <system:String x:Key="Combat.MedicineUsedTimes" xml:space="preserve">藥: {0}  </system:String>
+    <system:String x:Key="Combat.MedicineUsedTimesWithExpiring" xml:space="preserve">藥: {0}，{1} (即將過期)  </system:String>
     <system:String x:Key="Combat.MinimumRequirements" xml:space="preserve">最低需求: </system:String>
     <system:String x:Key="Combat.MissionFailedAndStop">代理失敗次數已達上限，任務已停止</system:String>
+    <system:String x:Key="Combat.MissionStart.FightTask">開始行動 {0} 次，消耗 {1} 理智</system:String>
+    <system:String x:Key="Combat.NoActivity">暫無活動</system:String>
+    <system:String x:Key="Combat.NoDrop">無</system:String>
     <system:String x:Key="Combat.NoUse">不選擇</system:String>
     <system:String x:Key="Combat.Ops">關卡: 普通作戰</system:String>
+    <system:String x:Key="Combat.OtherCombatSettings">戰鬥設定</system:String>
     <system:String x:Key="Combat.PR-A.Tip">PR-A-1/2: {0}&amp;{1}晶片</system:String>
     <system:String x:Key="Combat.PR-B.Tip">PR-B-1/2: {0}&amp;{1}晶片</system:String>
     <system:String x:Key="Combat.PR-C.Tip">PR-C-1/2: {0}&amp;{1}晶片</system:String>
     <system:String x:Key="Combat.PR-D.Tip">PR-D-1/2: {0}&amp;{1}晶片</system:String>
     <system:String x:Key="Combat.PerformBattles">指定次數</system:String>
     <system:String x:Key="Combat.PermanentStageBlocksStages">目前選中的關卡 ｢{0}｣ 為常駐關卡或目前/上次，其後的關卡不會被選中執行</system:String>
-    <system:String x:Key="Combat.Plan.AddPlan">新增</system:String>
-    <system:String x:Key="Combat.Plan.ClearPlans">清空</system:String>
-    <system:String x:Key="Combat.Plan.ClearPlansConfirm">確認要清空所有計劃嗎？</system:String>
-    <system:String x:Key="Combat.Plan.CollapseAll">折疊</system:String>
     <system:String x:Key="Combat.Pormpt1">週一了，可以打剿滅了 ~</system:String>
     <system:String x:Key="Combat.Pormpt2">週日了，記得打剿滅喔 ~</system:String>
     <system:String x:Key="Combat.Quantity">刷取數量</system:String>
     <system:String x:Key="Combat.Record">製造站-經驗書</system:String>
     <system:String x:Key="Combat.RemainingSanityStage">剩餘理智</system:String>
     <system:String x:Key="Combat.SK.Tip">SK-5: 碳</system:String>
+    <system:String x:Key="Combat.SanityReport">理智會在 {DateTime} 回滿（{TimeDiff} 後）。</system:String>
     <system:String x:Key="Combat.Series">代理倍率</system:String>
     <system:String x:Key="Combat.Series.Tip" xml:space="preserve">• AUTO:
 自動辨識關卡最大代理倍率，保持最大代理倍率且使用理智藥後理智不溢出
@@ -472,11 +519,16 @@
  或者
 戰鬥次數不足以完成設定倍率 (如僅夠 5 次但設為 6 倍)，也將無法進入戰鬥
 
-• {key=Settings.NotSwitch}:
+• {key=Common.NotSwitch}:
 不調整遊戲內代理倍率設定</system:String>
     <system:String x:Key="Combat.SkippedEmptyStagePlan">關卡計畫為空</system:String>
     <system:String x:Key="Combat.SkippedNoOpenStage">關卡計畫內沒有當日開放的關卡</system:String>
     <system:String x:Key="Combat.SkippedWeeklySchedule">週計畫今日未勾選</system:String>
+    <system:String x:Key="Combat.SpecifiedDrops.Tip" xml:space="preserve">實際進入的關卡仍由下方 ｢{key=Combat.Stage.Select}｣ / ｢{key=Combat.Stage.Select2}｣ 決定。
+• {key=Combat.Quantity}：以目前理智作戰任務中該材料的掉落數量為目標，達到設定數量後停止。
+• {key=Combat.TargetInventory}：會參考 ｢{key=Toolbox.Title}-{key=Depot.Recognition}｣ 中儲存的庫存數據，只補到設定庫存為止。
+  • 庫存數據是快取值，手動刷關、合成或消耗材料後可能與實際不一致；可透過 ｢{key=TaskQueue.UserDataUpdate}｣ 或 ｢{key=Toolbox.Title}-{key=Depot.Recognition}｣ 同步。
+  • 執行時會根據掉落即時更新庫存，前序任務刷出的材料會影響後續任務的缺口計算。</system:String>
     <system:String x:Key="Combat.SpecifiedDropsInventoryEnough">{0} 已充足 {1}/{2}</system:String>
     <system:String x:Key="Combat.SpecifiedDropsInventoryUnavailable">任務 ｢{0}｣ 啟用了 {key=Combat.TargetInventory}，但目前沒有可用的庫存數據，已跳過。可透過 ｢{key=TaskQueue.UserDataUpdate}｣ 任務或 ｢{key=Toolbox.Title}-{key=Depot.Recognition}｣ 更新庫存。</system:String>
     <system:String x:Key="Combat.Stage.1-7">1-7</system:String>
@@ -501,42 +553,96 @@
     <system:String x:Key="Combat.Stage.Select">關卡選擇</system:String>
     <system:String x:Key="Combat.Stage.Select2">備選</system:String>
     <system:String x:Key="Combat.StageResetMode">過期活動關卡重設為</system:String>
+    <system:String x:Key="Combat.StartCombat" xml:space="preserve">開始戰鬥: </system:String>
+    <system:String x:Key="Combat.StoneUsed">已使用源石</system:String>
+    <system:String x:Key="Combat.StoneUsedTimes" xml:space="preserve">石: {0}  </system:String>
     <system:String x:Key="Combat.TargetInventory">目標庫存</system:String>
+    <system:String x:Key="Combat.TheEx">無獎勵關卡，已停止</system:String>
     <system:String x:Key="Combat.TimesMayNotExhausted">戰鬥次數 ({0}) 無法被 {key=Combat.Series} ({1}) 整除，可能無法耗盡</system:String>
     <system:String x:Key="Combat.TimesUnused">已完成 {0} 次戰鬥，下次將執行 {1} 倍率代理，進入後將完成 {2} 次戰鬥，超過 {3} 次限制，不進入戰鬥</system:String>
     <system:String x:Key="Combat.TodaysStage.Tip" xml:space="preserve">今日關卡小提示: </system:String>
+    <system:String x:Key="Combat.TotalDrop" xml:space="preserve">掉落統計：</system:String>
+    <system:String x:Key="Combat.UnableToAgent">無法使用代理指揮</system:String>
+    <system:String x:Key="Combat.UnsupportedLevel">不支援的關卡，請檢查關卡名稱或前往 ｢{key=Settings.Title} - {key=Update.Settings} - {key=Resource.Update}｣ 嘗試更新資源版本！</system:String>
     <system:String x:Key="Combat.UnsupportedStages">不支援的關卡 {0}，如果是新活動的關卡，請等待地圖資源更新後再使用自動戰鬥</system:String>
+    <system:String x:Key="Combat.UseAlternateStage">使用備選關卡</system:String>
     <system:String x:Key="Combat.UseCustomAnnihilation">自訂{key=Combat.Stage.Annihilation}</system:String>
+    <system:String x:Key="Combat.UseExpireMedicineForActivity">活動結束前 48H 吃當週過期理智藥</system:String>
+    <system:String x:Key="Combat.UseExpiringMedicine">無限吃 N 天內過期的理智藥</system:String>
+    <system:String x:Key="Combat.UseFormation">使用編隊</system:String>
+    <system:String x:Key="Combat.UseMedicine.MedicineInfo">藥: {0}, 庫存: {1}</system:String>
     <system:String x:Key="Combat.UseOriginitePrime">吃源石</system:String>
     <system:String x:Key="Combat.UseSanityPotion">吃理智藥</system:String>
-    <system:String x:Key="Combat.UserDataUpdateCannotModifyExistingTask">無法修改已添加的 ｢{key=TaskQueue.UserDataUpdate}｣ 任務參數</system:String>
-    <system:String x:Key="Combat.UserDataUpdateIntervalNotReached">距上次同步未達到 ｢{0}｣ 觸發間隔</system:String>
-    <system:String x:Key="Combat.UserDataUpdateNothingSelected">｢{key=Operator.Recognition}｣ 和 ｢{key=Depot.Recognition}｣ 均未勾選</system:String>
+    <system:String x:Key="Common.Add">新增</system:String>
+    <system:String x:Key="Common.Cancel">取消</system:String>
+    <system:String x:Key="Common.Clear">清空</system:String>
+    <system:String x:Key="Common.CollapseAll">折疊</system:String>
+    <system:String x:Key="Common.Confirm">確認</system:String>
     <system:String x:Key="Common.Copy">複製</system:String>
     <system:String x:Key="Common.Current">目前</system:String>
     <system:String x:Key="Common.Daily">每天</system:String>
     <system:String x:Key="Common.Delete">刪除</system:String>
     <system:String x:Key="Common.Error">錯誤</system:String>
+    <system:String x:Key="Common.Failed">失敗</system:String>
+    <system:String x:Key="Common.ManualRestart">稍後</system:String>
+    <system:String x:Key="Common.No">否</system:String>
+    <system:String x:Key="Common.NotSelected">不選擇</system:String>
+    <system:String x:Key="Common.NotSwitch">不切換</system:String>
     <system:String x:Key="Common.Off">關閉</system:String>
+    <system:String x:Key="Common.Ok">好的</system:String>
     <system:String x:Key="Common.Rename">重新命名</system:String>
+    <system:String x:Key="Common.Select">選擇</system:String>
+    <system:String x:Key="Common.SelectAll">全選</system:String>
+    <system:String x:Key="Common.Skipped">跳過</system:String>
+    <system:String x:Key="Common.Success">成功</system:String>
+    <system:String x:Key="Common.Tip">提示</system:String>
+    <system:String x:Key="Common.UserDefined">自訂</system:String>
+    <system:String x:Key="Common.Warning">警告</system:String>
     <system:String x:Key="Common.Weekly">每週</system:String>
+    <system:String x:Key="Common.Yes">是</system:String>
+    <system:String x:Key="Connection.AVD">Android 虛擬裝置（AVD）</system:String>
+    <system:String x:Key="Connection.Adb.DeletionFailedMessage">無法刪除目錄，可能已被替換或發生其他問題。請檢查日誌以取得更多資訊。</system:String>
+    <system:String x:Key="Connection.Adb.DownloadFailed.Desc">請手動進行操作（將 adb.exe 重新命名後，替換上方模擬器內建的 ADB 即可）</system:String>
+    <system:String x:Key="Connection.Adb.DownloadFailed.Title">ADB 下載失敗</system:String>
+    <system:String x:Key="Connection.Adb.Exception">偵測 ADB 出錯\n請使用系統管理員身分執行本軟體\n或手動設定連線</system:String>
     <system:String x:Key="Connection.Adb.HardRestart">連線失敗後嘗試重新啟動 ADB</system:String>
+    <system:String x:Key="Connection.Adb.LiteEnabled">使用 ADB Lite（實驗性功能）</system:String>
+    <system:String x:Key="Connection.Adb.LiteEnabled.Tip">MAA 自行實作的 ADB 功能，避免每次執行 adb 指令都啟動一個 adb.exe 程式</system:String>
     <system:String x:Key="Connection.Adb.OnExit">關閉時結束 ADB 程式</system:String>
+    <system:String x:Key="Connection.Adb.Path">ADB 路徑</system:String>
+    <system:String x:Key="Connection.Adb.PathFileSelectionErrorImSure">我確定沒選錯</system:String>
+    <system:String x:Key="Connection.Adb.PathFileSelectionErrorPrompt">所選檔案名稱不包含 ADB，請檢查是否選擇了錯誤的檔案，或誤選成了模擬器本體。</system:String>
+    <system:String x:Key="Connection.Adb.PathFileSelectionErrorSelectAgain">好的，我會重新選擇</system:String>
+    <system:String x:Key="Connection.Adb.Program">ADB 程式</system:String>
+    <system:String x:Key="Connection.Adb.ReplacementTips">如果任務完全沒有反應，請使用 ｢{key=Settings.Title} - {key=Settings.Connection} - {key=Connection.ForcedReplaceAdb}｣，或觸控模式選擇 ADB Input（不推薦）。</system:String>
     <system:String x:Key="Connection.Adb.Restart">連線失敗後嘗試重新啟動 ADB 服務</system:String>
-    <system:String x:Key="Connection.Adb.Tip" xml:space="preserve">目前模擬器內建的 ADB 版本通常較新，一般無需手動替換。&#10;點擊後將從 Google 下載最新版本的 ADB 並替換本地路徑中的 ADB 檔案，僅在遇到明確的 ADB 相容性問題時才需要使用。</system:String>
-    <system:String x:Key="Connection.AdbPath">ADB 路徑</system:String>
+    <system:String x:Key="Connection.AdditionCommand">附加命令</system:String>
+    <system:String x:Key="Connection.AdditionCommand.Tip" xml:space="preserve">附加命令用於指定模擬器啟動參數（如 ｢--instance 1｣ 表示啟動 1 號模擬器）。&#10;不同模擬器的命令格式不同，通常包括模擬器編號、視窗模式等參數，請參考您使用的模擬器說明文件。</system:String>
     <system:String x:Key="Connection.Address">連線位址</system:String>
-    <system:String x:Key="Connection.Address.Tip">開啟 ｢{key=Settings.AutoDetectConnection}｣ 並成功後會自動填入。若偵測失敗，請查到模擬器的實際連接埠後填入。</system:String>
-    <system:String x:Key="Connection.AlwaysAutoDetect.Tip" xml:space="preserve">不推薦勾選此選項。
+    <system:String x:Key="Connection.Address.Tip">開啟 ｢{key=Connection.AutoDetectConnection}｣ 並成功後會自動填入。若偵測失敗，請查到模擬器的實際連接埠後填入。</system:String>
+    <system:String x:Key="Connection.AlwaysAutoDetectConnection">每次重新偵測</system:String>
+    <system:String x:Key="Connection.AlwaysAutoDetectConnection.Tip" xml:space="preserve">不推薦勾選此選項。
 偵測時請確保只開啟需要連線的模擬器，同時開啟多個模擬器可能會導致連線到錯誤的目標。
 僅當通訊埠經常發生變化且確認只執行單個模擬器時才建議勾選。</system:String>
+    <system:String x:Key="Connection.Androws">應用寶模擬器</system:String>
     <system:String x:Key="Connection.AutoDetect.NotSupported">該連線類型不支援自動偵測連線，請嘗試手動填寫通訊埠編號</system:String>
-    <system:String x:Key="Connection.AutoDetect.Tip" xml:space="preserve">每次偵測完成後會自動取消勾選，如需重新偵測可再次勾選。
-僅當通訊埠經常發生變化時，才需要勾選 ｢{key=Settings.AlwaysAutoDetectConnection}｣ 選項。
+    <system:String x:Key="Connection.AutoDetectConnection">自動偵測連線</system:String>
+    <system:String x:Key="Connection.AutoDetectConnection.Tip" xml:space="preserve">每次偵測完成後會自動取消勾選，如需重新偵測可再次勾選。
+僅當通訊埠經常發生變化時，才需要勾選 ｢{key=Connection.AlwaysAutoDetectConnection}｣ 選項。
 偵測時請確保只開啟需要連線的模擬器，同時開啟多個模擬器可能會導致連線到錯誤的目標。</system:String>
-    <system:String x:Key="Connection.DeletionFailedMessage">無法刪除目錄，可能已被替換或發生其他問題。請檢查日誌以取得更多資訊。</system:String>
-    <system:String x:Key="Connection.DownloadFailed.Title">ADB 下載失敗</system:String>
-    <system:String x:Key="Connection.DownloadFailedDesc">請手動進行操作（將 adb.exe 重新命名後，替換上方模擬器內建的 ADB 即可）</system:String>
+    <system:String x:Key="Connection.BlueStacks">藍疊模擬器</system:String>
+    <system:String x:Key="Connection.CheckSettings">請 ｢檢查連線設定｣ → ｢嘗試重開模擬器與 ADB｣ → ｢重開電腦｣</system:String>
+    <system:String x:Key="Connection.Client.Bilibili">Bilibili 服</system:String>
+    <system:String x:Key="Connection.Client.HelpOverseas.Tip">外服支援人力吃緊，幫幫我們！不會寫程式也可以參與。</system:String>
+    <system:String x:Key="Connection.Client.Official">官服</system:String>
+    <system:String x:Key="Connection.Client.PC">明日方舟 PC 端（社群維護）</system:String>
+    <system:String x:Key="Connection.Client.Txwy">繁中服 (txwy)</system:String>
+    <system:String x:Key="Connection.Client.YoStarEN">國際服 (YostarEN)</system:String>
+    <system:String x:Key="Connection.Client.YoStarJP">日服 (YostarJP)</system:String>
+    <system:String x:Key="Connection.Client.YoStarKR">韓服 (YostarKR)</system:String>
+    <system:String x:Key="Connection.ClientType">用戶端類型</system:String>
+    <system:String x:Key="Connection.Compatible">相容模式</system:String>
+    <system:String x:Key="Connection.ConnectingToEmulator">正在連線模擬器……</system:String>
     <system:String x:Key="Connection.Emulator.Exception">偵測模擬器出錯\n請使用系統管理員身分執行本軟體\n或手動設定連線</system:String>
     <system:String x:Key="Connection.Emulator.FpsError.Tip">偵測到模擬器設定影格率過低（{0} FPS），可能導致任務異常，請關閉模擬器背景降幀並將影格率設定為 60 FPS</system:String>
     <system:String x:Key="Connection.Emulator.FpsHigh.Tip">偵測到模擬器設定影格率為 {0} FPS，高於遊戲原生影格率上限（60 FPS），可能是模擬器插幀功能，可能導致畫面異常或辨識不穩定，建議關閉插幀並將影格率設定為 60 FPS</system:String>
@@ -562,31 +668,11 @@ C:\leidian\LDPlayer9
     <system:String x:Key="Connection.Emulator.LD.Path">LD 模擬器路徑</system:String>
     <system:String x:Key="Connection.Emulator.LD.PathEmptyError">雷電模擬器安裝路徑為空！佔位符僅為示例，請在 ｢{key=Settings.Title} - {key=Settings.Connection}｣ 填寫實際路徑</system:String>
     <system:String x:Key="Connection.Emulator.LD.PathPlaceholder">範例：C:\leidian\LDPlayer9</system:String>
-    <system:String x:Key="Connection.Emulator.MuMu.12Display">螢幕編號</system:String>
-    <system:String x:Key="Connection.Emulator.MuMu.12EmulatorPath">MuMu 模擬器路徑</system:String>
-    <system:String x:Key="Connection.Emulator.MuMu.12EmulatorPathPlaceholder">範例：C:\Program Files\Netease\MuMuPlayer</system:String>
-    <system:String x:Key="Connection.Emulator.MuMu.12ExtrasEnabled">啟用 MuMu 截圖增強</system:String>
-    <system:String x:Key="Connection.Emulator.MuMu.12ExtrasEnabled.Tip" xml:space="preserve">需使用官版或方舟專版 MuMu V4.1.26 或更新版本，國際版需 V5.21.3 或更新版本。
-強烈建議在開啟本功能後立刻執行一次截圖測試。
-MAA 會自動透過登錄檔取得安裝路徑，若取得失敗則請手動填寫。
-
-安裝路徑應填寫模擬器安裝目錄的根目錄，例如模擬器執行檔路徑為：
-C:\Program Files\Netease\MuMuPlayer\nx_device\12.0\shell\MuMuNxDevice.exe
-則應填寫：
-C:\Program Files\Netease\MuMuPlayer
-
-注意：
-1. 若目前連線位址通訊埠編號為 7555，則需將通訊埠編號改為 16384。
-2. 若正在使用網路橋接，則需勾選 MuMu 網路橋接模式並手動填寫裝置編號（MuMu 裝置清單左上角的 # 數字，主裝置為 0）。</system:String>
-    <system:String x:Key="Connection.Emulator.MuMu.12Index">裝置編號</system:String>
     <system:String x:Key="Connection.Emulator.MuMu.Arm">MuMu 模擬器（Windows ARM）</system:String>
     <system:String x:Key="Connection.Emulator.MuMu.ArmConnectionNotReady">無法讀取 MuMu ARM 的 ADB 位址。請等待模擬器啟動完成後重試，或關閉自動偵測並手動填入連線位址。</system:String>
     <system:String x:Key="Connection.Emulator.MuMu.ArmDetectAndTest">自動偵測並測試</system:String>
     <system:String x:Key="Connection.Emulator.MuMu.BridgeConnection">MuMu 網路橋接模式</system:String>
     <system:String x:Key="Connection.Emulator.MuMu.BridgeConnection.Tip">除非您知道自己在做什麼，否則不要啟用此選項</system:String>
-    <system:String x:Key="Connection.Emulator.MuMu.Emulator12">MuMu 模擬器</system:String>
-    <system:String x:Key="Connection.Emulator.MuMu.Emulator12FullExtrasReady">完整 MuMu 增強已就位——截圖與觸控雙核直連貫通，背景保活亦為我所用！</system:String>
-    <system:String x:Key="Connection.Emulator.MuMu.Emulator12KeepAliveOn">偵測到 MuMu 模擬器開啟了 ｢應用程式執行｣（背景保活），但 MAA 的觸控增強未生效，此狀態下無法操作。請在 MAA ｢{key=Settings.Connection}｣ 中同時勾選 ｢{key=Connection.Emulator.MuMu.12ExtrasEnabled}｣ 及其下的 ｢{key=Connection.Emulator.MuMu.ExtrasTouchEnabled}｣；或不想使用增強時，請在 MuMu ｢裝置設定 - 其他｣ 中關閉 ｢應用程式執行｣（部分版本曾稱 ｢應用保活｣ ｢背景保活｣ ｢背景掛機時保活運行｣ 等）。</system:String>
     <system:String x:Key="Connection.Emulator.MuMu.EmulatorPathEmptyError">MuMu 安裝路徑為空！佔位符僅為示例，請在 ｢{key=Settings.Title} - {key=Settings.Connection}｣ 填寫實際路徑</system:String>
     <system:String x:Key="Connection.Emulator.MuMu.EmulatorPathNotFound">找不到 MuMu 模擬器路徑。</system:String>
     <system:String x:Key="Connection.Emulator.MuMu.ExternalRendererMissing" xml:space="preserve">external_renderer_ipc.dll 未在所選 MuMu 安裝目錄中找到。
@@ -600,9 +686,29 @@ shell/sdk/external_renderer_ipc.dll
     <system:String x:Key="Connection.Emulator.MuMu.ExtrasNotEnabledMessage">MuMu 截圖增強未生效，請在 ｢{key=Settings.Title} - {key=Settings.Connection} - {key=Connection.Preset}｣ 檢查下方顯示的截圖增強設定</system:String>
     <system:String x:Key="Connection.Emulator.MuMu.ExtrasTouchEnabled">啟用 MuMu 觸控增強（實驗性，需 MuMu 模擬器 6.3.2+，支援背景保活）</system:String>
     <system:String x:Key="Connection.Emulator.MuMu.TouchMode">MuMu 觸控增強（實驗功能）</system:String>
+    <system:String x:Key="Connection.Emulator.MuMu12.Display">螢幕編號</system:String>
+    <system:String x:Key="Connection.Emulator.MuMu12.ExtrasEnabled">啟用 MuMu 截圖增強</system:String>
+    <system:String x:Key="Connection.Emulator.MuMu12.ExtrasEnabled.Tip" xml:space="preserve">需使用官版或方舟專版 MuMu V4.1.26 或更新版本，國際版需 V5.21.3 或更新版本。
+強烈建議在開啟本功能後立刻執行一次截圖測試。
+MAA 會自動透過登錄檔取得安裝路徑，若取得失敗則請手動填寫。
+
+安裝路徑應填寫模擬器安裝目錄的根目錄，例如模擬器執行檔路徑為：
+C:\Program Files\Netease\MuMuPlayer\nx_device\12.0\shell\MuMuNxDevice.exe
+則應填寫：
+C:\Program Files\Netease\MuMuPlayer
+
+注意：
+1. 若目前連線位址通訊埠編號為 7555，則需將通訊埠編號改為 16384。
+2. 若正在使用網路橋接，則需勾選 MuMu 網路橋接模式並手動填寫裝置編號（MuMu 裝置清單左上角的 # 數字，主裝置為 0）。</system:String>
+    <system:String x:Key="Connection.Emulator.MuMu12.FullExtrasReady">完整 MuMu 增強已就位——截圖與觸控雙核直連貫通，背景保活亦為我所用！</system:String>
+    <system:String x:Key="Connection.Emulator.MuMu12.Index">裝置編號</system:String>
+    <system:String x:Key="Connection.Emulator.MuMu12.KeepAliveOn">偵測到 MuMu 模擬器開啟了 ｢應用程式執行｣（背景保活），但 MAA 的觸控增強未生效，此狀態下無法操作。請在 MAA ｢{key=Settings.Connection}｣ 中同時勾選 ｢{key=Connection.Emulator.MuMu12.ExtrasEnabled}｣ 及其下的 ｢{key=Connection.Emulator.MuMu.ExtrasTouchEnabled}｣；或不想使用增強時，請在 MuMu ｢裝置設定 - 其他｣ 中關閉 ｢應用程式執行｣（部分版本曾稱 ｢應用保活｣ ｢背景保活｣ ｢背景掛機時保活運行｣ 等）。</system:String>
+    <system:String x:Key="Connection.Emulator.MuMu12.Name">MuMu 模擬器</system:String>
+    <system:String x:Key="Connection.Emulator.MuMu12.Path">MuMu 模擬器路徑</system:String>
+    <system:String x:Key="Connection.Emulator.MuMu12.PathPlaceholder">範例：C:\Program Files\Netease\MuMuPlayer</system:String>
     <system:String x:Key="Connection.Emulator.NotFound">未偵測到任何模擬器\n請確認已啟動模擬器\n若模擬器以系統管理員身分執行，則本軟體也需以系統管理員身分執行\n如仍無法偵測，請手動設定連線</system:String>
     <system:String x:Key="Connection.Emulator.Path">模擬器路徑</system:String>
-    <system:String x:Key="Connection.Emulator.PathEmptyWarning">模擬器路徑為空，｢{key=Settings.RetryOnDisconnected}｣ 與 ｢{key=Settings.OpenEmulatorAfterLaunch}｣ 勾選狀態已被還原</system:String>
+    <system:String x:Key="Connection.Emulator.PathEmptyWarning">模擬器路徑為空，｢{key=Connection.RetryOnDisconnected}｣ 與 ｢{key=Startup.OpenEmulatorAfterLaunch}｣ 勾選狀態已被還原</system:String>
     <system:String x:Key="Connection.Emulator.PathNotExist">模擬器路徑不存在</system:String>
     <system:String x:Key="Connection.Emulator.PathSelectionErrorImSure">我確定沒選錯</system:String>
     <system:String x:Key="Connection.Emulator.PathSelectionErrorPrompt">你也想在酒吧裡點酒吧？</system:String>
@@ -610,35 +716,86 @@ shell/sdk/external_renderer_ipc.dll
     <system:String x:Key="Connection.Emulator.SelectionCancelled">已取消選擇模擬器</system:String>
     <system:String x:Key="Connection.Emulator.StartFailed">無法成功啟動模擬器\n請使用系統管理員權限開啟本軟體\n或手動啟動模擬器。</system:String>
     <system:String x:Key="Connection.Emulator.TooMany">偵測到多個模擬器\n請關閉不需要的模擬器\n或手動設定連線</system:String>
-    <system:String x:Key="Connection.Exception">偵測 ADB 出錯\n請使用系統管理員身分執行本軟體\n或手動設定連線</system:String>
     <system:String x:Key="Connection.Failed">連線失敗</system:String>
-    <system:String x:Key="Connection.LiteEnabled">使用 ADB Lite（實驗性功能）</system:String>
-    <system:String x:Key="Connection.LiteEnabled.Tip">MAA 自行實作的 ADB 功能，避免每次執行 adb 指令都啟動一個 adb.exe 程式</system:String>
+    <system:String x:Key="Connection.FailedToOpenClient">開啟用戶端失敗，請檢查設定檔</system:String>
+    <system:String x:Key="Connection.FailedToReplaceAdbAndUseLocal">替換 ADB 失敗</system:String>
+    <system:String x:Key="Connection.FailedToReplaceAdbAndUseLocal.Desc">已使用本機 ADB 進行連線。如果要再次嘗試，請 ｢關閉模擬器與 ADB｣，或 ｢重新啟動電腦後，在未開啟模擬器的情況下使用系統管理員身分開啟 MAA｣ 進行操作。</system:String>
+    <system:String x:Key="Connection.FastestWayToScreencap">最快截圖耗時: {0}ms ({1})</system:String>
+    <system:String x:Key="Connection.FastestWayToScreencapError.Tip">截圖耗時過長 (平均: {0}ms)，自動戰鬥類功能（如自動肉鴿）很可能無法正常執行，建議嘗試重新啟動或更換模擬器！若使用 MuMu、雷電模擬器，請在 ｢{key=Settings.Title} - {key=Settings.Connection} - {key=Connection.Preset}｣ 選擇對應模擬器，並開啟下方顯示的截圖增強</system:String>
+    <system:String x:Key="Connection.FastestWayToScreencapInfo.Tip">截圖耗時 {0}ms。若使用 MuMu、雷電模擬器，可在 ｢{key=Settings.Title} - {key=Settings.Connection} - {key=Connection.Preset}｣ 選擇對應模擬器，並開啟下方顯示的截圖增強以降低耗時</system:String>
+    <system:String x:Key="Connection.FastestWayToScreencapWarning.Tip">截圖耗時較長 (平均: {0}ms)，執行自動戰鬥類功能（如自動肉鴿）時可能表現異常。若使用 MuMu、雷電模擬器，請在 ｢{key=Settings.Title} - {key=Settings.Connection} - {key=Connection.Preset}｣ 選擇對應模擬器，並開啟下方顯示的截圖增強</system:String>
+    <system:String x:Key="Connection.ForcedReplaceAdb">強制替換 ADB</system:String>
+    <system:String x:Key="Connection.ForcedReplaceAdb.Tip" xml:space="preserve">目前模擬器內建的 ADB 版本通常較新，一般無需手動替換。&#10;點擊後將從 Google 下載最新版本的 ADB 並替換本地路徑中的 ADB 檔案，僅在遇到明確的 ADB 相容性問題時才需要使用。</system:String>
+    <system:String x:Key="Connection.HardRestartAdb">正在嘗試重開 ADB</system:String>
+    <system:String x:Key="Connection.ImageIsNull">截圖為空</system:String>
+    <system:String x:Key="Connection.LDPlayer">雷電模擬器</system:String>
+    <system:String x:Key="Connection.LDPlayerMaaTouchWarning">偵測到目前使用雷電模擬器 + MaaTouch 觸控模式。已知該組合下滑動操作會異常緩慢（滑動實際持續時間遠大於設定值），可能導致後續操作在滑動尚未結束時提前執行，從而引發各種異常。建議更換其他觸控模式。</system:String>
+    <system:String x:Key="Connection.LdIndex">模擬器編號</system:String>
+    <system:String x:Key="Connection.LdManualSetIndex">手動填寫 ｢{key=Connection.LdIndex}｣</system:String>
     <system:String x:Key="Connection.Lost">連線已中斷</system:String>
-    <system:String x:Key="Connection.PathFileSelectionErrorImSure">我確定沒選錯</system:String>
-    <system:String x:Key="Connection.PathFileSelectionErrorPrompt">所選檔案名稱不包含 ADB，請檢查是否選擇了錯誤的檔案，或誤選成了模擬器本體。</system:String>
-    <system:String x:Key="Connection.PathFileSelectionErrorSelectAgain">好的，我會重新選擇</system:String>
+    <system:String x:Key="Connection.MaaFwAdbTouchMode">MaaFwAdb（實驗功能）</system:String>
+    <system:String x:Key="Connection.MaaTouch">MaaTouch</system:String>
+    <system:String x:Key="Connection.NoAdbPathSpecifiedMessage">未指定 ADB 路徑</system:String>
+    <system:String x:Key="Connection.Nox">夜神模擬器</system:String>
     <system:String x:Key="Connection.PcClient.AddCommand.Tip" xml:space="preserve">附加命令用於指定 PC 客戶端的啟動參數，具體格式請參考客戶端或啟動器說明文件。&#10;使用捷徑時，將使用捷徑中儲存的參數。</system:String>
     <system:String x:Key="Connection.PcClient.Path">PC 客戶端路徑</system:String>
     <system:String x:Key="Connection.PcClient.PathEmptyError">PC 客戶端路徑為空，請先選擇客戶端程式。</system:String>
-    <system:String x:Key="Connection.PcClient.PathEmptyWarning">PC 客戶端路徑為空，｢{key=Settings.RetryOnPcDisconnected}｣ 與 ｢{key=Settings.OpenPcClientAfterLaunch}｣ 勾選狀態已被還原</system:String>
+    <system:String x:Key="Connection.PcClient.PathEmptyWarning">PC 客戶端路徑為空，｢{key=Connection.RetryOnPcDisconnected}｣ 與 ｢{key=Startup.OpenPcClientAfterLaunch}｣ 勾選狀態已被還原</system:String>
     <system:String x:Key="Connection.PcClient.PathNotExist">PC 客戶端路徑不存在</system:String>
     <system:String x:Key="Connection.PcClient.StartFailed">無法成功啟動 PC 客戶端\n請使用系統管理員權限開啟本軟體\n或手動啟動客戶端。</system:String>
     <system:String x:Key="Connection.Preset">連線類型</system:String>
-    <system:String x:Key="Connection.Program">ADB 程式</system:String>
-    <system:String x:Key="Connection.ReplacementTips">如果任務完全沒有反應，請使用 ｢{key=Settings.Title} - {key=Settings.Connection} - {key=Settings.ForcedReplaceAdb}｣，或觸控模式選擇 ADB Input（不推薦）。</system:String>
+    <system:String x:Key="Connection.ReconnectFailed">重連失敗，連線已斷開！</system:String>
+    <system:String x:Key="Connection.ReconnectSuccess">重連成功，繼續任務</system:String>
+    <system:String x:Key="Connection.ReplaceAdbNotExists">ADB 路徑不存在</system:String>
     <system:String x:Key="Connection.Resolution.AcquisitionFailure">模擬器解析度取得失敗，建議重新啟動模擬器與 ADB 或重新啟動電腦，或更換模擬器後再次嘗試</system:String>
     <system:String x:Key="Connection.Resolution.Changed">模擬器解析度已變更，連線已中斷。請重新開始任務以套用新解析度</system:String>
     <system:String x:Key="Connection.Resolution.InfoYoStarEN">請確保模擬器設定為 1920x1080</system:String>
     <system:String x:Key="Connection.Resolution.NotSupported">模擬器解析度不支援，請設定為 720p 或更高，且比例為 16:9（建議使用 1280x720 或 1920x1080）</system:String>
     <system:String x:Key="Connection.Resolution.NotSupportedCurrentResolution">目前解析度：{0}x{1}</system:String>
+    <system:String x:Key="Connection.RestartAdb">正在嘗試重開 ADB 服務</system:String>
+    <system:String x:Key="Connection.RetryOnDisconnected">ADB 連線失敗時嘗試啟動模擬器</system:String>
+    <system:String x:Key="Connection.RetryOnDisconnected.Tip">重連失敗後嘗試重新啟動模擬器；使用背景定時任務且設定任務完成後關閉模擬器時，必須勾選此項</system:String>
+    <system:String x:Key="Connection.RetryOnDisconnectedEmulatorPathEmptyError">模擬器路徑為空！請填寫 ｢{key=Settings.Title} - {key=Startup.Settings} - {key=Connection.Emulator.Path}｣ 後重新勾選。</system:String>
+    <system:String x:Key="Connection.RetryOnPcDisconnected">PC 客戶端連線失敗時嘗試啟動客戶端</system:String>
+    <system:String x:Key="Connection.RetryOnPcDisconnected.Tip">視窗連線失敗後啟動 PC 客戶端，並再次嘗試連線</system:String>
+    <system:String x:Key="Connection.RetryOnPcDisconnectedPathEmptyError">PC 客戶端路徑為空！請填寫 ｢{key=Settings.Title} - {key=Startup.Settings} - {key=Connection.PcClient.Path}｣ 後重新勾選。</system:String>
     <system:String x:Key="Connection.Screencap.Cost">截圖耗時 min/avg/max(ms): {0:#,#} / {1:#,#} / {2:#,#} ({3})</system:String>
     <system:String x:Key="Connection.Screencap.Failed">截圖失敗，如反覆出現請嘗試重新啟動或更換模擬器！</system:String>
+    <system:String x:Key="Connection.ScreenshotTest">截圖測試</system:String>
+    <system:String x:Key="Connection.SecondResolution">第二解析度</system:String>
+    <system:String x:Key="Connection.SuccessfullyReplacedAdb">成功替換 ADB 檔案</system:String>
+    <system:String x:Key="Connection.SwitchResolution.Tip">將模擬器解析度更改為 1920x1080！</system:String>
+    <system:String x:Key="Connection.Test">測試</system:String>
+    <system:String x:Key="Connection.Touch.AdbMode">ADB Input（不推薦使用）</system:String>
     <system:String x:Key="Connection.Touch.Maa.Mode">MaaTouch（實驗功能）</system:String>
     <system:String x:Key="Connection.Touch.Mini.Mode">Minitouch（預設）</system:String>
     <system:String x:Key="Connection.Touch.NotAvailable">觸控模式不可用。請進入 ｢{key=Settings.Title} - {key=Settings.Connection}｣ 切換其他觸控模式。</system:String>
-    <system:String x:Key="Connection.Touch.Tip" xml:space="preserve">ADB Input 僅用於相容系統版本過低的實體機裝置，能用其他模式時不要選擇。&#10;ADB Input 的滑動容易拖飛，為此滑動速度會設定得非常慢，且滑動距離與其他模式不同，需要精確控制座標的場景下無法使用。&#10;&#10;MaaFwAdb 不支援額外滑動，依賴額外滑動防止拖飛的頁面在該模式下會拖飛。&#10;額外滑動是主滑動結束後沿垂直方向追加一小段的 ｢剎車｣ 滑動（軌跡類似拐 90° 的 L 形），用於抵消列表慣性。</system:String>
-    <system:String x:Key="Connection.TouchMode">ADB Input（不推薦使用）</system:String>
+    <system:String x:Key="Connection.TouchMode">觸控模式</system:String>
+    <system:String x:Key="Connection.TouchMode.Tip" xml:space="preserve">ADB Input 僅用於相容系統版本過低的實體機裝置，能用其他模式時不要選擇。&#10;ADB Input 的滑動容易拖飛，為此滑動速度會設定得非常慢，且滑動距離與其他模式不同，需要精確控制座標的場景下無法使用。&#10;&#10;MaaFwAdb 不支援額外滑動，依賴額外滑動防止拖飛的頁面在該模式下會拖飛。&#10;額外滑動是主滑動結束後沿垂直方向追加一小段的 ｢剎車｣ 滑動（軌跡類似拐 90° 的 L 形），用於抵消列表慣性。</system:String>
+    <system:String x:Key="Connection.TryToReconnect">模擬器斷開連線，正在嘗試重連</system:String>
+    <system:String x:Key="Connection.TryToReconnectByAdb">正在嘗試重連</system:String>
+    <system:String x:Key="Connection.TryToStartEmulator">正在嘗試啟動模擬器</system:String>
+    <system:String x:Key="Connection.TryToStartPcClient">正在嘗試啟動 PC 客戶端</system:String>
+    <system:String x:Key="Connection.UnzipFailedMessage">無法解壓縮檔案，可能發生意外錯誤。請檢查日誌以取得更多資訊。</system:String>
+    <system:String x:Key="Connection.UseAttachWindow.Tip">使用 Win32 視窗綁定明日方舟 PC 端，而非 ADB 連線模擬器或手機</system:String>
+    <system:String x:Key="Connection.UseAttachWindowWarning" xml:space="preserve">連線明日方舟 PC 端（社群維護）
+
+請注意：
+1. MAA Team 僅提供明日方舟 PC 端的連線功能，維護與問題修復均交由社群，不保證可用性。
+2. 遇到問題或功能不可用時，請在 GitHub 提交 issue，能否得到解決取決於社群開發者是否願意跟進。
+3. QQ 群、影片評論區等其他管道無法解決明日方舟 PC 端的相關問題，請勿在其中詢問。
+
+如非必要，建議優先使用 ADB 連線 Android 模擬器或行動裝置，體驗更穩定。
+
+如需使用，請確認：
+1. 需以系統管理員身分啟動 MAA
+2. 推薦在設定-熱鍵設定中新增 Link start/stop 的熱鍵，以防無法點擊停止的情況
+3. 部分截圖方式下，遊戲視窗不可最小化
+4. 明日方舟設定 → 遊戲 → UI 縮放需設為 100%
+5. 在明日方舟設定中調小滑鼠指標比例，以減少對辨識區域的遮擋
+6. 遊戲解析度需為 16:9，推薦設定 1280x720 或 1920x1080</system:String>
+    <system:String x:Key="Connection.UseAttachWindowWarningRecommendation" xml:space="preserve">7. 推薦滑鼠輸入方式使用 PostMsg-WindowPos，使用此方式可以很大程度解決 PC 端辨識錯誤和卡住的問題</system:String>
+    <system:String x:Key="Connection.WSA">WSA 舊版本</system:String>
     <system:String x:Key="Connection.Window.Failed">AttachWindow 綁定視窗失敗，請檢查截圖/輸入方式設定</system:String>
     <system:String x:Key="Connection.Window.Found">找到視窗 "{0}"</system:String>
     <system:String x:Key="Connection.Window.InputAnchoredTouch">AnchoredTouch（全背景，不搶滑鼠，合成觸控注入，需 Win10 1809+，被遮擋時視窗短暫閃爍）</system:String>
@@ -661,6 +818,22 @@ shell/sdk/external_renderer_ipc.dll
     <system:String x:Key="Connection.Window.ScreencapMethod">截圖方式</system:String>
     <system:String x:Key="Connection.Window.ScreencapPrintWindow">PrintWindow（背景，穩定，可最小化）</system:String>
     <system:String x:Key="Connection.Window.ScreencapScreenDC">ScreenDC（背景，備用，不可最小化）</system:String>
+    <system:String x:Key="Connection.XYAZ">逍遙模擬器</system:String>
+    <system:String x:Key="Copilot.Action.BulletTime">進入子彈時間</system:String>
+    <system:String x:Key="Copilot.Action.Click">點擊</system:String>
+    <system:String x:Key="Copilot.Action.Deploy">部署</system:String>
+    <system:String x:Key="Copilot.Action.DrawCard">調配幹員</system:String>
+    <system:String x:Key="Copilot.Action.MoveCamera">移動相機</system:String>
+    <system:String x:Key="Copilot.Action.Output">輸出描述內容</system:String>
+    <system:String x:Key="Copilot.Action.ResetStopwatch">重置全域計時器</system:String>
+    <system:String x:Key="Copilot.Action.Retreat">撤退</system:String>
+    <system:String x:Key="Copilot.Action.SetUnitLocation">設定單位座標</system:String>
+    <system:String x:Key="Copilot.Action.SingleStep">單步任務</system:String>
+    <system:String x:Key="Copilot.Action.SkillDaemon">開始掛機</system:String>
+    <system:String x:Key="Copilot.Action.SkillUsage">切換技能用法</system:String>
+    <system:String x:Key="Copilot.Action.Swipe">滑動</system:String>
+    <system:String x:Key="Copilot.Action.SwitchSpeed">切換倍速</system:String>
+    <system:String x:Key="Copilot.Action.UseSkill">使用技能</system:String>
     <system:String x:Key="Copilot.ActionWithBothLocAndOper">{0} 同時設定了位置和幹員, 將按位置執行</system:String>
     <system:String x:Key="Copilot.ActionWithBothRectAndLoc">{0} 同時設定了像素區域和位置, 將按像素區域執行</system:String>
     <system:String x:Key="Copilot.AddTask" xml:space="preserve">左鍵加入普通難度
@@ -671,9 +844,9 @@ shell/sdk/external_renderer_ipc.dll
     <system:String x:Key="Copilot.AutoSquad">自動編隊</system:String>
     <system:String x:Key="Copilot.AutoSquad.Tip">自動編隊可能無法辨識 ｢特別關注｣ 的{key=Operator.Name}</system:String>
     <system:String x:Key="Copilot.Caster">術師</system:String>
+    <system:String x:Key="Copilot.CheckTheFile">請檢查檔案內容！</system:String>
     <system:String x:Key="Copilot.ClearTask" xml:space="preserve">左鍵清除所有任務
 右鍵清除未啟用任務</system:String>
-    <system:String x:Key="Copilot.Copilot">自動戰鬥</system:String>
     <system:String x:Key="Copilot.CouldNotSaveFile" xml:space="preserve">無法儲存作業檔案至：</system:String>
     <system:String x:Key="Copilot.DirectiveECTerm">導能組件：</system:String>
     <system:String x:Key="Copilot.DoYouLikeThisWebJson">作業怎麼樣？評價一下吧！</system:String>
@@ -699,9 +872,12 @@ shell/sdk/external_renderer_ipc.dll
     <system:String x:Key="Copilot.LoopTimes">循環次數</system:String>
     <system:String x:Key="Copilot.MainStage">主線</system:String>
     <system:String x:Key="Copilot.MainStageStoryCollectionSideStory">{key=Copilot.MainStage}/{key=Copilot.StoryCollection}/{key=Copilot.SideStory}</system:String>
+    <system:String x:Key="Copilot.MapPrts">自動戰鬥地圖座標</system:String>
     <system:String x:Key="Copilot.Medic">醫療</system:String>
     <system:String x:Key="Copilot.Module">模組</system:String>
+    <system:String x:Key="Copilot.NetworkServiceError">網路服務請求錯誤！</system:String>
     <system:String x:Key="Copilot.NoFound">未找到對應作業！</system:String>
+    <system:String x:Key="Copilot.NotCopilotJson">非作業檔案</system:String>
     <system:String x:Key="Copilot.OperboxAssistRequiresYituliuData">目前沒有可用的一圖流幹員資料，無法輔助編隊。請先從一圖流取得幹員資料，或關閉 ｢{key=Copilot.UseOperBoxAssist}｣。</system:String>
     <system:String x:Key="Copilot.OperboxDataParseFailed">{key=Operator.Recognition}資料解析失敗</system:String>
     <system:String x:Key="Copilot.OtherActivityStage">其他活動</system:String>
@@ -710,8 +886,10 @@ shell/sdk/external_renderer_ipc.dll
     <system:String x:Key="Copilot.ParadoxSimulation">悖論模擬</system:String>
     <system:String x:Key="Copilot.PasteClipboard.Tip">讀取剪貼簿，自動辨識作業/作業集</system:String>
     <system:String x:Key="Copilot.Pioneer">先鋒</system:String>
+    <system:String x:Key="Copilot.PrtsPlus">自動戰鬥作業分享</system:String>
     <system:String x:Key="Copilot.SSS">保全派駐</system:String>
-    <system:String x:Key="Copilot.SSSCopilot">SSS ｢{key=Copilot.Copilot}｣</system:String>
+    <system:String x:Key="Copilot.SSSCopilot">SSS ｢{key=Copilot.Title}｣</system:String>
+    <system:String x:Key="Copilot.SSSGamePass">保全通關啦！</system:String>
     <system:String x:Key="Copilot.SSSNotSupport">不支援的類型：SSS</system:String>
     <system:String x:Key="Copilot.SelectTask.Tip" xml:space="preserve">左鍵：檢視作業資訊
 右鍵：選取該作業並結束多作業模式</system:String>
@@ -762,6 +940,7 @@ shell/sdk/external_renderer_ipc.dll
         • 請在能看到目標關卡名稱的介面啟動，不支援跨章節導航。\n
         • 遇到理智不足、戰鬥失敗、未能三星結算時將會自動中止。
     </system:String>
+    <system:String x:Key="Copilot.Title">自動戰鬥</system:String>
     <system:String x:Key="Copilot.TotalOperatorsCount">共 {0} 名{key=Operator.Name}</system:String>
     <system:String x:Key="Copilot.UnsupportedSkill">{0} 不支援技能 {1}, 不再選擇技能</system:String>
     <system:String x:Key="Copilot.UseCopilotList">多作業模式</system:String>
@@ -774,20 +953,18 @@ shell/sdk/external_renderer_ipc.dll
 
 當 ｢{key=Copilot.UseCopilotList}｣ 啟用後，選擇單一作業時會自動新增至 ｢{key=Copilot.List}｣</system:String>
     <system:String x:Key="Copilot.UseOperBoxAssist">使用一圖流資料輔助編隊</system:String>
-    <system:String x:Key="Copilot.UseOperBoxAssist.Tip" xml:space="preserve">自動編隊前，按一圖流幹員練度資料（含技能與模組資訊）預先匹配作業編隊&#10;需先在 ｢{key=Settings.Title} - {key=Settings.ThirdPartyServiceSettings}｣ 填寫一圖流 token、啟用 ｢{key=Settings.EnableOperBoxYituliuApi}｣ 並取得資料</system:String>
+    <system:String x:Key="Copilot.UseOperBoxAssist.Tip" xml:space="preserve">自動編隊前，按一圖流幹員練度資料（含技能與模組資訊）預先匹配作業編隊&#10;需先在 ｢{key=Settings.Title} - {key=Settings.ThirdPartyServiceSettings}｣ 填寫一圖流 token、啟用 ｢{key=Operator.EnableOperBoxYituliuApi}｣ 並取得資料</system:String>
     <system:String x:Key="Copilot.UserAdditional.Action">操作</system:String>
     <system:String x:Key="Copilot.UserAdditional.Add">新增</system:String>
     <system:String x:Key="Copilot.UserAdditional.OperatorName">{key=Operator.Name}名稱</system:String>
     <system:String x:Key="Copilot.UserAdditional.Skill">技能</system:String>
     <system:String x:Key="Copilot.UserAdditionalNameInvalid">追加自訂{key=Operator.Name}名稱無效：{0}，請檢查拼寫</system:String>
     <system:String x:Key="Copilot.Warrior">近衛</system:String>
-    <system:String x:Key="Copilot.WindowUpdateInfo.Tip">點擊立即更新</system:String>
     <system:String x:Key="Copilot.WithScript">自動戰鬥時啟用上述腳本</system:String>
     <system:String x:Key="Copilot.WithoutModule">不使用模組</system:String>
     <system:String x:Key="Depot.CopiedToClipboard">已複製到剪貼簿</system:String>
     <system:String x:Key="Depot.CountDualChipAsChipPack">晶片組計入雙晶片折算</system:String>
     <system:String x:Key="Depot.CountDualChipAsChipPack.Tip" xml:space="preserve">統計晶片組庫存時，對應職業的雙晶片按合成配方折算計入，每個雙晶片折算為 2 個晶片組。&#10;計劃摘要以 原始 (+折算) 形式顯示，達標判定與缺口計算使用折算後數量。&#10;僅改變計數口徑，不會自動合成。</system:String>
-    <system:String x:Key="Depot.Depot">{key=Depot.Recognition}</system:String>
     <system:String x:Key="Depot.EnableUseMedicine">啟用 ｢{key=Combat.UseSanityPotion}｣ 勾選框</system:String>
     <system:String x:Key="Depot.EnableUseStone">啟用 ｢{key=Combat.UseOriginitePrime}｣ 勾選框</system:String>
     <system:String x:Key="Depot.Export">匯出</system:String>
@@ -804,6 +981,9 @@ shell/sdk/external_renderer_ipc.dll
     <system:String x:Key="Depot.Maintain">庫存保持</system:String>
     <system:String x:Key="Depot.OnlyFirstInsufficientPlan">僅執行第一個庫存不足的計劃</system:String>
     <system:String x:Key="Depot.OnlyFirstInsufficientPlan.Tip" xml:space="preserve">僅執行第一個庫存不足且當日可執行的計劃，日誌也只顯示到該計劃為止。&#10;該計劃補滿後，下次執行會自動接續後續計劃，當日無法執行的會被跳過。</system:String>
+    <system:String x:Key="Depot.Plan.Add">新增</system:String>
+    <system:String x:Key="Depot.Plan.Clear">清空</system:String>
+    <system:String x:Key="Depot.Plan.ClearConfirm">確認要清空所有計劃嗎？</system:String>
     <system:String x:Key="Depot.PlanAddTaskFailed">#{0}：新增任務失敗</system:String>
     <system:String x:Key="Depot.PlanBudget.Tip" xml:space="preserve">本關的藥劑/源石使用上限，各關卡獨立計算。&#10;勾選並設定數量後，本關不會因理智不足被跳過：理智不夠時仍會進圖，並按此數量使用藥劑/源石繼續作戰。&#10;未設定預算的關卡在理智不足時會被直接跳過，不進圖查看。</system:String>
     <system:String x:Key="Depot.PlanCacheStaleSkipped">#{0}：{1} 實際 {2}/{3} 不足，預檢時已跳過的計劃無法在執行中加入，重新執行任務即可刷取</system:String>
@@ -838,6 +1018,7 @@ shell/sdk/external_renderer_ipc.dll
     <system:String x:Key="Depot.SortByProgress.Tip" xml:space="preserve">開啟後，每次執行按庫存達成率從低到高排序執行，缺口比例最大的計劃優先獲得理智。&#10;列表顯示順序不變，拖曳排序僅在關閉時生效。&#10;排序使用上次識別的快取資料，每條計劃開始時仍會按最新庫存重算缺口。</system:String>
     <system:String x:Key="Depot.StartToDepotRecognition">開始辨識</system:String>
     <system:String x:Key="Depot.TemplateLoadError">{key=Depot.Recognition}範本載入失敗（{0}），已停止辨識。</system:String>
+    <system:String x:Key="Depot.Title">{key=Depot.Recognition}</system:String>
     <system:String x:Key="Depot.UpdateBeforeStart">任務開始前更新庫存數據</system:String>
     <system:String x:Key="Depot.UpdateBeforeStart.Tip" xml:space="preserve">任務開始時會先用當時快取的庫存數據逐條計劃判定缺口，這一步稱為預檢。預檢中已充足的計劃不會加入本輪刷取列表，之後也不再複查。&#10;每條計劃開始時都會用最新快取重新判定缺口，前序關卡的掉落會即時計入快取。&#10;勾選後，計劃執行前會先跑一次倉庫辨識，把快取糾正為實際庫存。&#10;辨識後若發現已跳過的計劃實際庫存不足，因預檢跳過的計劃無法在執行中加入，僅記錄提示，重新執行任務即可刷取。</system:String>
     <system:String x:Key="Depot.UseAutoSeries">AUTO 代理倍率</system:String>
@@ -956,7 +1137,6 @@ shell/sdk/external_renderer_ipc.dll
     <system:String x:Key="Gacha.AgreeDisclaimer">知道了</system:String>
     <system:String x:Key="Gacha.DisclaimerEmphasize">真正的抽卡</system:String>
     <system:String x:Key="Gacha.DisclaimerHead">請注意，這是</system:String>
-    <system:String x:Key="Gacha.Gacha">牛牛抽卡</system:String>
     <system:String x:Key="Gacha.Init.Tip">在羅德島竟然有這麼多志同道合的志士。是的，詩歌！戰爭！自由！能在歷史的洪流中匯集眾人的力量，為這片大地的改變而奮鬥。真是令人振奮！這些悲壯又非凡的故事，是應當被傳頌下去的。</system:String>
     <system:String x:Key="Gacha.Once">尋訪一次</system:String>
     <system:String x:Key="Gacha.ShowDisclaimerNoMore">下次不再提示</system:String>
@@ -978,7 +1158,8 @@ shell/sdk/external_renderer_ipc.dll
     <system:String x:Key="Gacha.Tip7">現在可沒有後悔的餘地了。</system:String>
     <system:String x:Key="Gacha.Tip8">無需退路。</system:String>
     <system:String x:Key="Gacha.Tip9">英雄們啊，為這最強大的信念，請站在我們這邊。</system:String>
-    <system:String x:Key="Gacha.Warning">該功能屬於危險功能，可能會造成誤抽\n按下 ｢{key=Settings.Confirm}｣ 鍵即視為您了解並願意承擔可能出現的風險</system:String>
+    <system:String x:Key="Gacha.Title">牛牛抽卡</system:String>
+    <system:String x:Key="Gacha.Warning">該功能屬於危險功能，可能會造成誤抽\n按下 ｢{key=Common.Confirm}｣ 鍵即視為您了解並願意承擔可能出現的風險</system:String>
     <system:String x:Key="GameTheme.Switch.Add">新增主題</system:String>
     <system:String x:Key="GameTheme.Switch.AlreadySet">目標已是目前主題：{0}，無需切換</system:String>
     <system:String x:Key="GameTheme.Switch.Locked">主題未解鎖，無法切換：{0}</system:String>
@@ -990,7 +1171,7 @@ shell/sdk/external_renderer_ipc.dll
     <system:String x:Key="Guide.ConfirmCountdownPrefix" xml:space="preserve">還剩 </system:String>
     <system:String x:Key="Guide.ConfirmCountdownSuffix" xml:space="preserve"> 秒</system:String>
     <system:String x:Key="Guide.DemoTaskAddLimit.Tip">示範列表最多容納 5 個任務，可先刪除部分後再新增</system:String>
-    <system:String x:Key="Guide.DemoTaskRequired.Tip">先透過 ｢{key=Settings.AddTaskQueueTask}｣ 按鈕新增一個任務，再進入下一步</system:String>
+    <system:String x:Key="Guide.DemoTaskRequired.Tip">先透過 ｢{key=TaskQueue.AddTaskQueueTask}｣ 按鈕新增一個任務，再進入下一步</system:String>
     <system:String x:Key="Guide.Documentation.Title">📖 官網與文件</system:String>
     <system:String x:Key="Guide.DocumentationPath">您可以在 ｢{key=Settings.Title} - {key=About.Title} - {key=About.Website}｣ 找到 MAA 的官方網站和完整文件。</system:String>
     <system:String x:Key="Guide.GenerateReport">請使用 ｢{key=Settings.Title} - {key=IssueReport.Title} - {key=IssueReport.GenerateSupportPayload}｣ 產生錯誤報告，並點擊藍色的 ｢{key=IssueReport.Issue}｣ 連結提交回饋。</system:String>
@@ -1002,8 +1183,13 @@ shell/sdk/external_renderer_ipc.dll
     <system:String x:Key="Guide.StepClarification" xml:space="preserve">請確保 ADB 已啟用：
 • BlueStacks：設定 → 進階 → Android 調試橋 (ADB) → 啟用
 • 雷電模擬器：設定 → 其他 → ADB 偵錯 → 開啟本機連接</system:String>
+    <system:String x:Key="Guide.TaskQueue.LeftClick">左鍵</system:String>
+    <system:String x:Key="Guide.TaskQueue.RightClick">右鍵</system:String>
+    <system:String x:Key="Guide.TaskQueue.TaskSettings">任務設定</system:String>
     <system:String x:Key="Guide.UserAgreement">使用 MAA 即表示您同意遵守 ｢使用者協議｣，完整協議內容可在官網底部的連結中查看。</system:String>
     <system:String x:Key="Guide.ViewLog">您可以前往 ｢{key=Settings.Title} - {key=IssueReport.Title} - {key=IssueReport.OpenDebugFolder}｣ 查看日誌，了解錯誤發生的具體原因。</system:String>
+    <system:String x:Key="Hotkey.BackgroundLinkStarted">開始執行任務</system:String>
+    <system:String x:Key="Hotkey.BackgroundLinkStopped">任務終止</system:String>
     <system:String x:Key="Hotkey.Changing.Tip">按 Backspace/Esc/Delete 可清除目前熱鍵</system:String>
     <system:String x:Key="Hotkey.LinkStart">[熱鍵] Link start/stop</system:String>
     <system:String x:Key="Hotkey.NotSet">&lt; 未設定 &gt;</system:String>
@@ -1011,27 +1197,39 @@ shell/sdk/external_renderer_ipc.dll
     <system:String x:Key="Hotkey.RegistrationFailedOccupied">熱鍵註冊失敗：組合鍵可能已被其他程式佔用，請更換組合鍵</system:String>
     <system:String x:Key="Hotkey.Settings">熱鍵設定</system:String>
     <system:String x:Key="Hotkey.ShowGui">[熱鍵] 顯示/收起 MAA</system:String>
+    <system:String x:Key="Infrastructure.153Time3">153 一天 3 換</system:String>
+    <system:String x:Key="Infrastructure.153Time4">153 一天 4 換</system:String>
+    <system:String x:Key="Infrastructure.243Time3">243 一天 3 換</system:String>
+    <system:String x:Key="Infrastructure.243Time4">243 一天 4 換</system:String>
+    <system:String x:Key="Infrastructure.333Time3">333 一天 3 換</system:String>
     <system:String x:Key="Infrastructure.AssistantLowMood">協助者候選心情低於閾值，已跳過，協助者保持原樣：{0}</system:String>
     <system:String x:Key="Infrastructure.AssistantNotFound">協助者候選均未命中，協助者保持原樣：{0}</system:String>
     <system:String x:Key="Infrastructure.AssistantWorkingExcluded">協助者候選正在其他設施工作中，已跳過，協助者保持原樣：{0}</system:String>
+    <system:String x:Key="Infrastructure.BaseSettings">基建設定</system:String>
     <system:String x:Key="Infrastructure.CandidatesLowMood">候選幹員心情不滿足要求，保持原樣，未換班</system:String>
     <system:String x:Key="Infrastructure.CandidatesUnavailable">候選幹員均不可用，保持原樣，未換班</system:String>
     <system:String x:Key="Infrastructure.CandidatesWorking">候選幹員全部在其他設施工作，保持原樣，未換班</system:String>
+    <system:String x:Key="Infrastructure.ClueExchangeUnlocked">已開啟線索交流</system:String>
+    <system:String x:Key="Infrastructure.ContinueTraining">訓練完成後繼續嘗試專精目前技能</system:String>
+    <system:String x:Key="Infrastructure.Control">控制中樞</system:String>
     <system:String x:Key="Infrastructure.Custom.File">自訂基建排班檔案</system:String>
     <system:String x:Key="Infrastructure.Custom.FileHasPlanNoPeriod">自訂基建排班僅有部分計畫設定了時段，可能會產生預期外的行為。若需設定換班時段請確保所有計畫均有設定時段，否則請全部留白。</system:String>
     <system:String x:Key="Infrastructure.Custom.FileParseFailed">自訂基建排班檔案解析錯誤！</system:String>
     <system:String x:Key="Infrastructure.Custom.Generator">自訂基建排班產生器</system:String>
     <system:String x:Key="Infrastructure.Custom.Plan">基建計劃</system:String>
+    <system:String x:Key="Infrastructure.Custom.Plan.DetailsTip">
+        若 ｢{key=Infrastructure.Custom.Plan}｣ 存在執行時間，則在 ｢{key=TaskQueue.Base}｣ 任務開始前或任務執行時不會自動切換，將保持 {key=TaskQueue.LinkStart} 狀態，僅於空閒或任務完成後才會切換。
+    </system:String>
     <system:String x:Key="Infrastructure.Custom.PlanIndexAutoSwitch">自動儲存為下個計劃</system:String>
     <system:String x:Key="Infrastructure.Custom.PlanNotFoundByPeriod">自訂基建排班找不到對應時段的計畫</system:String>
     <system:String x:Key="Infrastructure.Custom.PlanSelectOutOfIndex">自訂基建排班選擇超出索引範圍</system:String>
-    <system:String x:Key="Infrastructure.Custom.PlanTool.Tip">
-        若 ｢{key=Infrastructure.Custom.Plan}｣ 存在執行時間，則在 ｢{key=TaskQueue.Base}｣ 任務開始前或任務執行時不會自動切換，將保持 {key=TaskQueue.LinkStart} 狀態，僅於空閒或任務完成後才會切換。
-    </system:String>
     <system:String x:Key="Infrastructure.Custom.TimeSchedule">時間輪換 ({0})</system:String>
     <system:String x:Key="Infrastructure.Custom.Title" xml:space="preserve">自訂基建排班: </system:String>
+    <system:String x:Key="Infrastructure.CustomizeInfrastSelectionEmpty">自訂設施選擇為空，請檢查設定或關閉自訂功能。</system:String>
+    <system:String x:Key="Infrastructure.DefaultInfrast">內建排班</system:String>
+    <system:String x:Key="Infrastructure.Dorm">宿舍</system:String>
+    <system:String x:Key="Infrastructure.Dorm.FilterNotStationed.Tip">勾選則不會將艾麗妮等{key=Operator.Name}從訓練室移除，但也會導致加工站{key=Operator.Name}不能進入宿舍。</system:String>
     <system:String x:Key="Infrastructure.Dorm.FilterNotStationedEnabled">不將已進駐的{key=Operator.Name}放入宿舍</system:String>
-    <system:String x:Key="Infrastructure.Dorm.FilterNotStationedTips">勾選則不會將艾麗妮等{key=Operator.Name}從訓練室移除，但也會導致加工站{key=Operator.Name}不能進入宿舍。</system:String>
     <system:String x:Key="Infrastructure.Dorm.Threshold">基建工作心情閾值</system:String>
     <system:String x:Key="Infrastructure.Dorm.TrustEnabled">宿舍空位蹭信賴</system:String>
     <system:String x:Key="Infrastructure.DormDoubleConfirmed">偵測到{key=Operator.Name}已進駐其他設施，已自動確認將其調動</system:String>
@@ -1041,7 +1239,7 @@ shell/sdk/external_renderer_ipc.dll
     <system:String x:Key="Infrastructure.FacilitySelection">換班設施</system:String>
     <system:String x:Key="Infrastructure.FacilitySelection.Tip" xml:space="preserve">｢{key=Infrastructure.ModeNormal}｣ 下換班順序由演算法統一安排，此處僅選擇需要換班的設施類別，列表順序不生效。&#10;若需自訂換班順序，請使用 ｢{key=Infrastructure.ModeCustom}｣。</system:String>
     <system:String x:Key="Infrastructure.FiammettaRecovery">啟用菲亞梅塔心情恢復</system:String>
-    <system:String x:Key="Infrastructure.FiammettaRecoveryTips">開啟後，換班開始時會將恢復目標與滿心情的菲亞梅塔放入宿舍互換心情，菲亞梅塔隨後留在宿舍恢復心情。</system:String>
+    <system:String x:Key="Infrastructure.FiammettaRecovery.Tip">開啟後，換班開始時會將恢復目標與滿心情的菲亞梅塔放入宿舍互換心情，菲亞梅塔隨後留在宿舍恢復心情。</system:String>
     <system:String x:Key="Infrastructure.FiammettaTargetClosure">可露希爾</system:String>
     <system:String x:Key="Infrastructure.FiammettaTargetGladiia">歌蕾蒂婭</system:String>
     <system:String x:Key="Infrastructure.FiammettaTargetGreyy2">承曦格雷伊</system:String>
@@ -1056,32 +1254,56 @@ shell/sdk/external_renderer_ipc.dll
     <system:String x:Key="Infrastructure.FiammettaTargetWaaiFu">槐琥</system:String>
     <system:String x:Key="Infrastructure.FiammettaTargetWeedy">溫蒂</system:String>
     <system:String x:Key="Infrastructure.FiammettaTargets">菲亞梅塔恢復目標</system:String>
-    <system:String x:Key="Infrastructure.FiammettaTargetsTips">雖然理論上恢復巫戀和龍舌蘭可以 007，但自動換班情況下難以實現，因此不推薦選擇恢復巫戀和龍舌蘭</system:String>
+    <system:String x:Key="Infrastructure.FiammettaTargets.Tip">雖然理論上恢復巫戀和龍舌蘭可以 007，但自動換班情況下難以實現，因此不推薦選擇恢復巫戀和龍舌蘭</system:String>
+    <system:String x:Key="Infrastructure.Mfg">製造站</system:String>
+    <system:String x:Key="Infrastructure.MissingOperators">以下{key=Operator.Name}組內的{key=Operator.Name}均未擁有（每組只需其一）或未達作業要求：\n{0} ｢特別關注｣ 可能影響{key=Operator.Name}辨識，若實際已擁有，可移除 ｢特別關注｣ 後重試，或關閉 ｢{key=Copilot.AutoSquad}｣ 手動補充；若確實未擁有，僅缺一組時可使用 ｢{key=Copilot.SupportUnitUsage}｣，缺兩組以上請更換作業。</system:String>
     <system:String x:Key="Infrastructure.Mode">基建模式</system:String>
     <system:String x:Key="Infrastructure.ModeCustom">自訂基建排班</system:String>
     <system:String x:Key="Infrastructure.ModeNormal">一般模式</system:String>
     <system:String x:Key="Infrastructure.ModeRotation">隊列輪換</system:String>
-    <system:String x:Key="Infrastructure.ModeRotation.Tip">使用隊列輪換需提前在遊戲中設定好隊列</system:String>
-    <system:String x:Key="Infrastructure.ModeRotationTool.Tip" xml:space="preserve"> ｢{key=Infrastructure.ModeRotation}｣ 的換班邏輯與遊戲內基建右下角的 ｢{key=Infrastructure.ModeRotation}｣ 完全一致：
+    <system:String x:Key="Infrastructure.ModeRotation.DetailsTip" xml:space="preserve"> ｢{key=Infrastructure.ModeRotation}｣ 的換班邏輯與遊戲內基建右下角的 ｢{key=Infrastructure.ModeRotation}｣ 完全一致：
 當目前班次中任意幹員心情值為 0 時，會整隊替換為下一班幹員。
 若需自訂輪換班次，請使用 ｢{key=Infrastructure.ModeCustom}｣。</system:String>
+    <system:String x:Key="Infrastructure.ModeRotation.Tip">使用隊列輪換需提前在遊戲中設定好隊列</system:String>
+    <system:String x:Key="Infrastructure.NotEnoughStaff">可用{key=Operator.Name}不足</system:String>
+    <system:String x:Key="Infrastructure.Office">辦公室</system:String>
+    <system:String x:Key="Infrastructure.OriginiumShardAutoReplenishment">源石碎片自動補貨</system:String>
+    <system:String x:Key="Infrastructure.Power">發電站</system:String>
+    <system:String x:Key="Infrastructure.Processing">加工站</system:String>
+    <system:String x:Key="Infrastructure.ProductChangeFail">產物切換失敗</system:String>
+    <system:String x:Key="Infrastructure.ProductChanged">產物已切換</system:String>
+    <system:String x:Key="Infrastructure.ProductIncorrect">產物與排班不符。</system:String>
+    <system:String x:Key="Infrastructure.ProductUnknown">無法辨識的產物</system:String>
+    <system:String x:Key="Infrastructure.Reception">會客室</system:String>
     <system:String x:Key="Infrastructure.ReceptionClueExchange">進行線索交流</system:String>
-    <system:String x:Key="Infrastructure.ReceptionClueExchangeTips" xml:space="preserve">若無法開啟線索交流，換班時會把線索板上的所有線索都取下來；若能開啟，則會使用一鍵放置。&#10;個人線索上限為 10 張（含已放入會客室的線索），且已放入會客室的線索不計入重複判斷。&#10;提前放入過多線索可能導致到達上限卻無法一鍵贈送或獲取新線索，只能靠好友撈起來。</system:String>
+    <system:String x:Key="Infrastructure.ReceptionClueExchange.Tip" xml:space="preserve">若無法開啟線索交流，換班時會把線索板上的所有線索都取下來；若能開啟，則會使用一鍵放置。&#10;個人線索上限為 10 張（含已放入會客室的線索），且已放入會客室的線索不計入重複判斷。&#10;提前放入過多線索可能導致到達上限卻無法一鍵贈送或獲取新線索，只能靠好友撈起來。</system:String>
     <system:String x:Key="Infrastructure.ReceptionMessageBoardReceive">會客室資訊板收取信用</system:String>
     <system:String x:Key="Infrastructure.ReceptionSendClue">贈送線索</system:String>
+    <system:String x:Key="Infrastructure.Recycle">回收站（推測譯名、未實裝）</system:String>
+    <system:String x:Key="Infrastructure.RoomGroupsMatch" xml:space="preserve">符合編組：</system:String>
+    <system:String x:Key="Infrastructure.RoomGroupsMatchFailed" xml:space="preserve">符合{key=Operator.Name}編組失敗，編組列表：</system:String>
+    <system:String x:Key="Infrastructure.RoomGroupsMatchRecogFailed">編組{key=Operator.Name}辨識失敗，房間保持原樣</system:String>
     <system:String x:Key="Infrastructure.RoomKeptUnchanged">該房間未配置選人名單，保持原樣，未換班</system:String>
+    <system:String x:Key="Infrastructure.RoomOperators" xml:space="preserve">首選{key=Operator.Name}：</system:String>
     <system:String x:Key="Infrastructure.RoomsNotConfigured">間起未配置，保持原樣</system:String>
     <system:String x:Key="Infrastructure.SkippedWeeklySchedule">週計畫今日未勾選</system:String>
+    <system:String x:Key="Infrastructure.ThisFacility" xml:space="preserve">目前設施：</system:String>
     <system:String x:Key="Infrastructure.Threshold.Tip">若啟用自訂換班，該欄位僅針對自動填充 (autofill) 和{key=Operator.Name}編組的房間有效</system:String>
+    <system:String x:Key="Infrastructure.Trade">貿易站</system:String>
     <system:String x:Key="Infrastructure.TraineeNotFound">訓練位候選均未命中，訓練位保持原樣：{0}</system:String>
+    <system:String x:Key="Infrastructure.Training">訓練室</system:String>
+    <system:String x:Key="Infrastructure.TrainingCompleted">訓練完成</system:String>
+    <system:String x:Key="Infrastructure.TrainingIdle">訓練室空閒中</system:String>
+    <system:String x:Key="Infrastructure.TrainingLevel">專精等級</system:String>
+    <system:String x:Key="Infrastructure.TrainingTimeLeft">剩餘時間</system:String>
     <system:String x:Key="Infrastructure.UseAbyssalHunter">使用深海獵人跨設施組合</system:String>
-    <system:String x:Key="Infrastructure.UseAbyssalHunterTips" xml:space="preserve">必要幹員：歌蕾蒂婭（精二）、烏爾比安、斯卡蒂、幽靈鯊、安哲拉&#10;因演算法原因同時勾選紅松騎士團時不會和紅松騎士團同時參與排班</system:String>
+    <system:String x:Key="Infrastructure.UseAbyssalHunter.Tip" xml:space="preserve">必要幹員：歌蕾蒂婭（精二）、烏爾比安、斯卡蒂、幽靈鯊、安哲拉&#10;因演算法原因同時勾選紅松騎士團時不會和紅松騎士團同時參與排班</system:String>
     <system:String x:Key="Infrastructure.UsePerceptionInformation">使用感知資訊跨設施組合</system:String>
-    <system:String x:Key="Infrastructure.UsePerceptionInformationTips" xml:space="preserve">必要幹員：絮雨（精二）、迷迭香（精二）、黑鍵（精二）&#10;參與計算幹員：夕、塑心、愛麗絲、車爾尼&#10;優先度高於人間煙火</system:String>
+    <system:String x:Key="Infrastructure.UsePerceptionInformation.Tip" xml:space="preserve">必要幹員：絮雨（精二）、迷迭香（精二）、黑鍵（精二）&#10;參與計算幹員：夕、塑心、愛麗絲、車爾尼&#10;優先度高於人間煙火</system:String>
     <system:String x:Key="Infrastructure.UsePinusSylvestris">使用紅松騎士團跨設施組合</system:String>
-    <system:String x:Key="Infrastructure.UsePinusSylvestrisTips" xml:space="preserve">必要幹員：焰尾（精二）、薇薇安娜（精二）、野鬃（精二）/灰毫（精二）/遠牙（精二）至少一個&#10;參與計算幹員：礫</system:String>
+    <system:String x:Key="Infrastructure.UsePinusSylvestris.Tip" xml:space="preserve">必要幹員：焰尾（精二）、薇薇安娜（精二）、野鬃（精二）/灰毫（精二）/遠牙（精二）至少一個&#10;參與計算幹員：礫</system:String>
     <system:String x:Key="Infrastructure.UseWorldlyPlight">使用人間煙火跨設施組合</system:String>
-    <system:String x:Key="Infrastructure.UseWorldlyPlightTips" xml:space="preserve">必要幹員：桑葚（精二）、烏有（精二）&#10;參與計算幹員：重岳、令、夕</system:String>
+    <system:String x:Key="Infrastructure.UseWorldlyPlight.Tip" xml:space="preserve">必要幹員：桑葚（精二）、烏有（精二）&#10;參與計算幹員：重岳、令、夕</system:String>
     <system:String x:Key="Inventory.Update.Tip">可透過 ｢{key=Toolbox.Title}-{key=Depot.Recognition}｣ 更新庫存數據</system:String>
     <system:String x:Key="IssueReport.CheckHelpBeforeReportingIssue">請在確認您的問題不屬於 ｢{key=IssueReport.Help}｣ 後，再進行 ｢{key=IssueReport.Issue}｣</system:String>
     <system:String x:Key="IssueReport.CheckUpdateBeforeReportingIssue">請先升級並測試新版是否仍有此問題，確認非 ｢{key=IssueReport.Help}｣ 後再進行 ｢{key=IssueReport.Issue}｣</system:String>
@@ -1110,11 +1332,39 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
     <system:String x:Key="ItemSelection.SelectEmulator">選擇模擬器</system:String>
     <system:String x:Key="ItemSelection.SelectEmulatorPath">選擇模擬器路徑</system:String>
     <system:String x:Key="ItemSelection.SelectItem">選擇項目</system:String>
+    <system:String x:Key="Mall.Blacklist">黑名單（子字串即可，分號分隔）</system:String>
+    <system:String x:Key="Mall.BlacklistDefault">碳;傢俱;加急許可</system:String>
+    <system:String x:Key="Mall.CreditFight">借助戰打 OF-1 賺信用</system:String>
+    <system:String x:Key="Mall.CreditFight.Tip" xml:space="preserve">訪問好友後借助戰打一把 OF-1 賺 30 信用。
+關卡選擇為 ｢{key=Combat.DefaultStage}｣ 時此功能無效。
+別傳 ｢火藍之心｣ 關卡 OF-1 未解鎖時請勿勾選。</system:String>
+    <system:String x:Key="Mall.CreditFight.WhenOF-1Warning">當 ｢{key=TaskQueue.Fight}｣ 任務關卡列表中已包含 ｢{key=Combat.DefaultStage}｣ 時，｢{key=TaskQueue.Mall}｣ 任務將不再借助戰打一把 OF-1。任務名稱: {0} (序號{1}), 關卡序號 {2}</system:String>
+    <system:String x:Key="Mall.CreditFullOnlyBuyDiscount">博士！\n只購買折扣商品讓信用點數溢出了！\n小心信用點數浪費哦！\n剩餘信用點數：</system:String>
+    <system:String x:Key="Mall.Drink">要來一杯美酒嗎🍷？博士</system:String>
+    <system:String x:Key="Mall.ForceShoppingIfCreditFull">信用溢出時無視黑名單</system:String>
+    <system:String x:Key="Mall.HighPriority">優先購買（子字串即可，分號分隔）</system:String>
+    <system:String x:Key="Mall.HighPriorityDefault">招聘許可</system:String>
+    <system:String x:Key="Mall.OnlyBuyDiscount">只購買打折的信用商品</system:String>
+    <system:String x:Key="Mall.OnlyBuyDiscount.Tip">⚠ 可能會導致信用點數溢出！仍然會購買未打折的商品！</system:String>
+    <system:String x:Key="Mall.OnlyOnceADay">一日只執行一次</system:String>
+    <system:String x:Key="Mall.ReceptionOptionsRequireInfrast">以下功能需在{key=TaskQueue.Infrast}中設定並執行</system:String>
+    <system:String x:Key="Mall.ReserveMaxCredit">300 以下信用點數停止購買商品</system:String>
+    <system:String x:Key="Mall.ReserveMaxCredit.Tip">低於 300 信用點數也仍然會購買白名單物品！</system:String>
     <system:String x:Key="Mall.Settings">信用相關</system:String>
+    <system:String x:Key="Mall.SocialPtShop">信用購物</system:String>
+    <system:String x:Key="Notification.NotifyBeforeScheduledStart">定時執行前傳送系統通知</system:String>
+    <system:String x:Key="Notification.NotifyBeforeScheduledStart.Tip" xml:space="preserve">依提前時間傳送系統通知。&#10;外部推播可在 ｢{key=Settings.Title} - {key=Notification.Settings} - {key=ExternalNotification.Settings}｣ 中單獨開啟，兩者共用提前時間。</system:String>
+    <system:String x:Key="Notification.NotifyBeforeScheduledStartSharedTime.Tip">外部推播與系統通知共用此提前時間。</system:String>
     <system:String x:Key="Notification.Settings">通知設定</system:String>
     <system:String x:Key="Notification.SettingsInvalidFilter.Tip" xml:space="preserve">正則表達式無效，請檢查篩選規則。</system:String>
     <system:String x:Key="Notification.SettingsTimeMinutes">日誌有效時間（分鐘）</system:String>
     <system:String x:Key="Notification.SettingsTimeMinutes.Tip" xml:space="preserve">超過有效時間的日誌不再附加至通知。&#10;為 0 時，不按時間篩選。</system:String>
+    <system:String x:Key="Notification.SystemNotification">重要訊息彈出系統通知</system:String>
+    <system:String x:Key="Notification.SystemNotificationInfo" xml:space="preserve">MAA 是非安裝型軟體，通知功能使用 Microsoft.Toolkit.Uwp.Notifications 函式庫，該函式庫預設以程式所在路徑作為註冊辨識。
+若從多個路徑啟動過 MAA，Windows 會為每個路徑產生不同的通知來源圖示（如工作列彈出圖示），這是該函式庫的預設行為，MAA 無法控制或自動清除。
+如需清理，請手動開啟登錄檔編輯器，定位至：
+HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settings
+刪除對應的路徑項目即可。</system:String>
     <system:String x:Key="Notification.Toast.NotificationTest">通知測試</system:String>
     <system:String x:Key="Notification.Toast.NotificationUnavailable">無法使用 Toast 通知，{0}</system:String>
     <system:String x:Key="Notification.Toast.NotificationUnavailable.DisabledByGroupPolicy">被 Windows 群組原則停用</system:String>
@@ -1123,6 +1373,9 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
     <system:String x:Key="Notification.Toast.NotificationUnavailable.DisabledForUser">使用者已在 Windows 設定中關閉所有應用程式通知</system:String>
     <system:String x:Key="Operator.AvatarMode">頭像展示</system:String>
     <system:String x:Key="Operator.CopyToClipboard">複製到剪貼簿</system:String>
+    <system:String x:Key="Operator.EnableOperBoxYituliuApi">{key=Operator.Recognition}從一圖流讀取</system:String>
+    <system:String x:Key="Operator.EnableOperBoxYituliuApi.Tip" xml:space="preserve">開啟後 ｢{key=Toolbox.Title}｣ 與 ｢{key=TaskQueue.UserDataUpdate}｣ 的{key=Operator.Recognition}不再連線模擬器截圖辨識，改為直接讀取 Token 對應的一圖流練度資料。&#10;｢{key=TaskQueue.UserDataUpdate}｣ 觸發時，會在點擊 ｢{key=TaskQueue.LinkStart}｣ 並連線模擬器後直接在背景讀取，不必等其他任務完成。&#10;一圖流資料不會自動更新，練度變動後請重新上傳。&#10;相比本機截圖辨識可額外讀取技能等級、專精等級與模組資訊。&#10;Token 在一圖流 ｢個人中心｣ 的 ｢第三方 API Token｣ 中產生，為保護帳號資料請僅使用唯讀 Token。</system:String>
+    <system:String x:Key="Operator.EnableYituliu">{key=PenguinStats.EnablePenguin}</system:String>
     <system:String x:Key="Operator.ExportHeaderElite">精英化等級</system:String>
     <system:String x:Key="Operator.ExportHeaderEquips">模組</system:String>
     <system:String x:Key="Operator.ExportHeaderId">ID</system:String>
@@ -1141,7 +1394,8 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
     <system:String x:Key="Operator.HaveList">已擁有：{0} 名</system:String>
     <system:String x:Key="Operator.Name">幹員</system:String>
     <system:String x:Key="Operator.NotHaveList">未擁有：{0} 名</system:String>
-    <system:String x:Key="Operator.OperBox">{key=Operator.Recognition}</system:String>
+    <system:String x:Key="Operator.ParseClipboard">從剪貼簿讀取</system:String>
+    <system:String x:Key="Operator.ParseFailed">解析失敗</system:String>
     <system:String x:Key="Operator.Progress.Detail">{key=TaskQueue.OperProgress} {0}:{1} {2}</system:String>
     <system:String x:Key="Operator.Progress.Elite">精英化</system:String>
     <system:String x:Key="Operator.Progress.EliteTarget">精英化 {0}</system:String>
@@ -1158,11 +1412,29 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
     <system:String x:Key="Operator.Recognition">{key=Operator.Name}辨識</system:String>
     <system:String x:Key="Operator.Recognition.Tip">特別關注會影響{key=Operator.Name}辨識準確率，如有特別關注的{key=Operator.Name}辨識錯誤請自行判斷。</system:String>
     <system:String x:Key="Operator.StartToOperBoxRecognition">開始辨識</system:String>
-    <system:String x:Key="Peep.Peep">牛牛監控</system:String>
+    <system:String x:Key="Operator.ThirdPartyGroupYituliu">一圖流</system:String>
+    <system:String x:Key="Operator.Title">{key=Operator.Recognition}</system:String>
+    <system:String x:Key="Operator.YituliuFetchFailed">從一圖流讀取失敗：{0}</system:String>
+    <system:String x:Key="Operator.YituliuNoOperBoxData">Token 對應的一圖流帳號暫無幹員練度資料，已保留本機辨識結果</system:String>
+    <system:String x:Key="Operator.YituliuOpenApiToken">OpenAPI Token</system:String>
+    <system:String x:Key="Operator.YituliuOperBoxCompleted">{key=Operator.Recognition}完成（一圖流）</system:String>
+    <system:String x:Key="Operator.YituliuTokenEmpty">請先填寫 Token</system:String>
+    <system:String x:Key="Operator.YituliuTokenInvalid">Token 無效或已失效，請重新產生</system:String>
+    <system:String x:Key="Operator.YituliuTokenLink">前往{key=Operator.ThirdPartyGroupYituliu}取得 Token</system:String>
+    <system:String x:Key="Operator.YituliuTokenNetworkError">網路錯誤，請稍後重試</system:String>
+    <system:String x:Key="Operator.YituliuTokenValid">Token 有效，共 {0} 名幹員</system:String>
+    <system:String x:Key="Operator.YituliuTokenValidNoData">Token 有效，但帳號暫無幹員練度資料</system:String>
+    <system:String x:Key="Operator.YituliuTokenVerify">驗證</system:String>
+    <system:String x:Key="Operator.YituliuTokenWriteOnly">Token 不具備讀取權限，請使用唯讀或讀寫權限的 Token</system:String>
     <system:String x:Key="Peep.ScreenshotTooLong">截圖耗時過長，建議降低目標影格率至 {0}</system:String>
     <system:String x:Key="Peep.TargetFps">目標影格率 (FPS)</system:String>
     <system:String x:Key="Peep.Tip">看看牛牛眼中的世界？</system:String>
+    <system:String x:Key="Peep.Title">牛牛監控</system:String>
+    <system:String x:Key="PenguinStats.EnablePenguin">掉落與公招資料回報</system:String>
+    <system:String x:Key="PenguinStats.GiveUpUploadingPenguins">放棄上傳企鵝物流</system:String>
     <system:String x:Key="PenguinStats.Id">回報 ID（僅數字部分）</system:String>
+    <system:String x:Key="PenguinStats.ReportSkippedForPcClient">PC 端滑鼠為獨立渲染，可能遮擋掉落物及數量辨識。為避免錯誤資料污染資料池，已自動跳過本次回報{0}</system:String>
+    <system:String x:Key="PenguinStats.ThirdPartyGroupPenguin">企鵝物流</system:String>
     <system:String x:Key="PenguinStats.UploadNotThreeStars">非三星結算</system:String>
     <system:String x:Key="PenguinStats.UploadUnknownDropType">無法辨識掉落類型</system:String>
     <system:String x:Key="PenguinStats.UploadUnknownDrops">無法辨識掉落物</system:String>
@@ -1177,6 +1449,10 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
     <system:String x:Key="Performance.Gpu.ForInference.Tip">使用 GPU 推論能以極低的 GPU 佔用顯著降低 CPU 的負擔</system:String>
     <system:String x:Key="Performance.Gpu.OptionDisable">不使用</system:String>
     <system:String x:Key="Performance.Gpu.OptionSystemDefault">系統預設 GPU</system:String>
+    <system:String x:Key="Reclamation.Algorithm.Badge">繁榮證章</system:String>
+    <system:String x:Key="Reclamation.Algorithm.ConstructionPoint">建造點數</system:String>
+    <system:String x:Key="Reclamation.Algorithm.DoneSmeltGold">鍛造赤金</system:String>
+    <system:String x:Key="Reclamation.Algorithm.Finish">演算結束</system:String>
     <system:String x:Key="Reclamation.ClearStore">任務完成後購買商店商品</system:String>
     <system:String x:Key="Reclamation.IncrementMode">增加方式</system:String>
     <system:String x:Key="Reclamation.IncrementModeClick">連點</system:String>
@@ -1247,6 +1523,9 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
   5. 若任務過程中出錯、點數未刷滿就顯示任務完成，請前往 GitHub 提交 Issue。</system:String>
     <system:String x:Key="Reclamation.ToolToCraft.Tip">支援道具名稱</system:String>
     <system:String x:Key="Reclamation.ToolToCraftPlaceholder">螢光棒</system:String>
+    <system:String x:Key="Recruitment.AutoRecruitHighPriority">3★ Tags 時的 Tags 傾向</system:String>
+    <system:String x:Key="Recruitment.AutoRecruitHighPriority.Tip">會盡可能多選傾向的 Tags</system:String>
+    <system:String x:Key="Recruitment.AutoRecruitSelectStrategy">公招多選 Tags 的策略</system:String>
     <system:String x:Key="Recruitment.AutoRefresh">自動刷新 3★ Tags</system:String>
     <system:String x:Key="Recruitment.AutoSelectLevel3">自動確認 3★</system:String>
     <system:String x:Key="Recruitment.AutoSelectLevel3Tags">自動選擇 3★ Tags</system:String>
@@ -1262,13 +1541,17 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
     <system:String x:Key="Recruitment.AutoUseExpedited.Tip" xml:space="preserve">該選項僅生效一次。
 招募券獲得速度低於消耗速度，正常情況下下一輪公招任務時自然已到招募時間，僅在招募券嚴重溢出等應急場景下使用</system:String>
     <system:String x:Key="Recruitment.Confirm">已確認招募</system:String>
+    <system:String x:Key="Recruitment.ContinueRefresh">無招聘許可，繼續嘗試刷新 Tags</system:String>
+    <system:String x:Key="Recruitment.DefaultNoExtraTags">預設不選擇額外的 Tags</system:String>
     <system:String x:Key="Recruitment.ForceRefresh">無招聘許可時繼續嘗試刷新 Tags</system:String>
+    <system:String x:Key="Recruitment.LabelsRefreshed">已刷新標籤</system:String>
     <system:String x:Key="Recruitment.Level3PermitReserve">3★ 保留招聘許可</system:String>
     <system:String x:Key="Recruitment.Level3PermitReserve.Tip">當剩餘招聘許可小於等於此值時跳過 3★ 招聘</system:String>
     <system:String x:Key="Recruitment.Level3UseShortTime">3★ 設定 7:40 而非 9:00</system:String>
     <system:String x:Key="Recruitment.Level3UseShortTime.Tip">不影響其他星級 Tags</system:String>
     <system:String x:Key="Recruitment.Level3UseShortTime2">3★ 設定 1:00 而非 9:00</system:String>
     <system:String x:Key="Recruitment.MaxTimes">每次執行時最大招募次數</system:String>
+    <system:String x:Key="Recruitment.NoRecruitmentPermit">無招聘許可，已返回</system:String>
     <system:String x:Key="Recruitment.OfBot">公招出現小車囉！</system:String>
     <system:String x:Key="Recruitment.OfStar">公招出現 {0}★ 囉！</system:String>
     <system:String x:Key="Recruitment.PermitCountRecognitionFailed">招聘許可數量辨識失敗，為避免消耗保留許可，已跳過目前的 3★ 招聘</system:String>
@@ -1278,10 +1561,13 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
     <system:String x:Key="Recruitment.Recognition">公招辨識</system:String>
     <system:String x:Key="Recruitment.Recognition.Tip">小提示：和主介面的自動公招是兩個獨立的功能，請手動開啟遊戲公招 Tags 介面後使用 ~</system:String>
     <system:String x:Key="Recruitment.RefreshLimitReached">刷新次數達到上限</system:String>
+    <system:String x:Key="Recruitment.Refreshed">目前欄位已刷新</system:String>
     <system:String x:Key="Recruitment.Results" xml:space="preserve">公招辨識結果：</system:String>
+    <system:String x:Key="Recruitment.SelectExtraOnlyRareTags">盡可能多選且只選高星 Tags</system:String>
+    <system:String x:Key="Recruitment.SelectExtraTags">選擇高星時總是選擇三個 Tags</system:String>
     <system:String x:Key="Recruitment.Settings">自動公招</system:String>
     <system:String x:Key="Recruitment.ShowPotential">顯示{key=Operator.Name}潛能（4/5/6★ Tags）</system:String>
-    <system:String x:Key="Recruitment.ShowPotentialTips">請使用 ｢{key=Operator.Recognition}｣ 取得{key=Operator.Name}資訊。</system:String>
+    <system:String x:Key="Recruitment.ShowPotential.Tip">請使用 ｢{key=Operator.Recognition}｣ 取得{key=Operator.Name}資訊。</system:String>
     <system:String x:Key="Recruitment.StartToRecruit">開始辨識</system:String>
     <system:String x:Key="Recruitment.SupportOperator">編入助戰{key=Operator.Name}：{0}</system:String>
     <system:String x:Key="Recruitment.TagsDetected" xml:space="preserve">辨識結果：</system:String>
@@ -1302,18 +1588,22 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
     <system:String x:Key="RemoteControl.ReceivedTask">收到遠端任務 {0}，任務 ID：{1}。</system:String>
     <system:String x:Key="RemoteControl.RegenerateDeviceIdentity">重新產生</system:String>
     <system:String x:Key="RemoteControl.ReportStatusEndpointLabel">回報任務端點 (Endpoint)</system:String>
+    <system:String x:Key="RemoteControl.Running">正在執行中……</system:String>
     <system:String x:Key="RemoteControl.Settings">遠端控制</system:String>
     <system:String x:Key="RemoteControl.Tooltips">注意：隨意輸入未知來源的位址可能會導致您的帳號遭受損失。</system:String>
+    <system:String x:Key="RemoteControl.UnknownErrorOccurs">出現未知錯誤</system:String>
+    <system:String x:Key="RemoteControl.UnselectedTask">未選擇任務</system:String>
     <system:String x:Key="RemoteControl.UserIdentityLabel">使用者 ID</system:String>
-    <system:String x:Key="Resource.Broken">檔案損毀，可嘗試自動修復（重新下載完整安裝檔），或暫不處理、稍後拖入本機完整包更新。\n\n{key=TaskQueue.Log.FullPackageUpgradeTips}</system:String>
+    <system:String x:Key="Resource.Broken">檔案損毀，可嘗試自動修復（重新下載完整安裝檔），或暫不處理、稍後拖入本機完整包更新。\n\n{key=Update.FullPackageUpgrade.Tips}</system:String>
     <system:String x:Key="Resource.BrokenTaskBlocked">檔案損毀，無法開始任務。請依啟動時的提示修復檔案，或重新下載完整安裝檔後重新啟動 MAA。</system:String>
+    <system:String x:Key="Resource.IntegrityCheck.Desc">偵測到 {0} 個安裝檔案缺失（{1}），部分功能可能無法使用。檔案可能被某些安全軟體攔截或刪除，也可能被手動刪除。若為安全軟體所致，請前往對應軟體的隔離區尋找並還原檔案，並{key=Security.SoftwareWhitelist.Tip}\n\n也可按下方說明手動重灌：\n\n{key=Update.FullPackageUpgrade.Tips}</system:String>
     <system:String x:Key="Resource.IntegrityCheck.Title">安裝檔案缺失</system:String>
-    <system:String x:Key="Resource.IntegrityCheckDesc">偵測到 {0} 個安裝檔案缺失（{1}），部分功能可能無法使用。檔案可能被某些安全軟體攔截或刪除，也可能被手動刪除。若為安全軟體所致，請前往對應軟體的隔離區尋找並還原檔案，並{key=TaskQueue.SecuritySoftwareWhitelistTips}\n\n也可按下方說明手動重灌：\n\n{key=TaskQueue.Log.FullPackageUpgradeTips}</system:String>
     <system:String x:Key="Resource.IntegrityRepairCanceled">已取消自動修復，下次啟動時仍會提醒</system:String>
     <system:String x:Key="Resource.IntegrityRepairDownloading">正在下載完整安裝檔以修復安裝…</system:String>
-    <system:String x:Key="Resource.IntegrityRepairFailed">自動修復失敗，請按提示手動處理。\n\n{key=TaskQueue.Log.FullPackageUpgradeTips}</system:String>
+    <system:String x:Key="Resource.IntegrityRepairFailed">自動修復失敗，請按提示手動處理。\n\n{key=Update.FullPackageUpgrade.Tips}</system:String>
     <system:String x:Key="Resource.IntegrityRepairNo">暫不處理，繼續啟動</system:String>
     <system:String x:Key="Resource.IntegrityRepairYes">自動修復（下載完整安裝檔並在重新啟動後還原）</system:String>
+    <system:String x:Key="Resource.LoadFailed">資源載入失敗</system:String>
     <system:String x:Key="Resource.Repository">資源倉庫</system:String>
     <system:String x:Key="Resource.Update">資源更新</system:String>
     <system:String x:Key="Resource.Update.Tip">任務期間更新的資源，將在系統空閒時自動載入，並於下次任務生效。</system:String>
@@ -1325,21 +1615,14 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
     <system:String x:Key="ResourceUpdate.GameResourceUpdatePreparing">正在建立索引</system:String>
     <system:String x:Key="ResourceUpdate.GameResourceUpdated">遊戲資源已更新。</system:String>
     <system:String x:Key="ResourceUpdate.GameResourceUpdating">遊戲資源正在更新。</system:String>
-    <system:String x:Key="ResourceUpdate.GameResourceUpdatingMirrorChyan">正在使用 ｢{key=Settings.MirrorChyan}｣ 更新資源 {0}……</system:String>
+    <system:String x:Key="ResourceUpdate.GameResourceUpdatingMirrorChyan">正在使用 ｢{key=Update.MirrorChyan}｣ 更新資源 {0}……</system:String>
+    <system:String x:Key="ResourceUpdate.LocalResourcePackageTooOld">資源檔案版本（{0}）小於等於目前版本（{1}），已跳過匯入。</system:String>
     <system:String x:Key="Roguelike.3FirstFloorFoldartal">凹第一層遠見密文板，不進行作戰</system:String>
     <system:String x:Key="Roguelike.3FirstFloorFoldartal.Tip">填寫遠見密文板名稱，多個用英文分號 ｢;｣ 隔開</system:String>
     <system:String x:Key="Roguelike.3NewSquad2StartingFoldartal">生活隊凹開局密文板</system:String>
     <system:String x:Key="Roguelike.3NewSquad2StartingFoldartal.Tip">最多填寫三個，並用英文分號 ｢;｣ 隔開</system:String>
-    <system:String x:Key="Roguelike.Account.ManualRun">立即切換</system:String>
-    <system:String x:Key="Roguelike.Account.Switch">帳號切換</system:String>
-    <system:String x:Key="Roguelike.Account.Tip" xml:space="preserve">需要切換到的帳號，留空以停用。
-輸入登入介面顯示的內容，如 ｢123****4567｣，可輸入 ｢123****4567｣、｢4567｣ 或 ｢23****45｣
-繁中服和韓服帳號為 Email，如 ｢ab****01@gmail.com｣，建議填不含星號的明文片段，如 ｢01@gmail｣。
-僅支援官服、B 服、繁中服及韓服，不支援第三方登入方式。</system:String>
-    <system:String x:Key="Roguelike.Algorithm.Badge">繁榮證章</system:String>
-    <system:String x:Key="Roguelike.Algorithm.ConstructionPoint">建造點數</system:String>
-    <system:String x:Key="Roguelike.Algorithm.DoneSmeltGold">鍛造赤金</system:String>
-    <system:String x:Key="Roguelike.Algorithm.Finish">演算結束</system:String>
+    <system:String x:Key="Roguelike.AsYourHeartDesires">隨心所欲（三張隨機）</system:String>
+    <system:String x:Key="Roguelike.BegunToExplore">已開始探索</system:String>
     <system:String x:Key="Roguelike.BlackFlow.CultivationTargetCat">襁褓中的貓</system:String>
     <system:String x:Key="Roguelike.BlackFlow.CultivationTargetCat.Tip">下一局開局額外獲得 5 源石錠。</system:String>
     <system:String x:Key="Roguelike.BlackFlow.CultivationTargetCerberus">襁褓三頭犬</system:String>
@@ -1560,33 +1843,55 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
     <system:String x:Key="Roguelike.BlackFlow.WarningTargetStateChanged">目標狀態已變更</system:String>
     <system:String x:Key="Roguelike.BlackFlow.WarningTargetUnreachable">目標目前不可達，正在探測未知節點並重新規劃</system:String>
     <system:String x:Key="Roguelike.BlackFlow.WarningUnknown">肉鴿出現異常</system:String>
+    <system:String x:Key="Roguelike.BoskyDisaster">節點: 災禍</system:String>
+    <system:String x:Key="Roguelike.BoskyDoubts">節點: 雜疑</system:String>
+    <system:String x:Key="Roguelike.BoskyLegend">節點: 傳說</system:String>
+    <system:String x:Key="Roguelike.BoskyOldShop">節點: 故肆</system:String>
+    <system:String x:Key="Roguelike.BoskyOmissions">節點: 拾遺</system:String>
+    <system:String x:Key="Roguelike.BoskyPlaytime">節點: 常樂</system:String>
+    <system:String x:Key="Roguelike.BoskyScheme">節點: 籌謀</system:String>
+    <system:String x:Key="Roguelike.BoskyYiTrader">節點: 易與</system:String>
     <system:String x:Key="Roguelike.CollapseList">坍縮範式列表</system:String>
     <system:String x:Key="Roguelike.CollapseList.Tip">用英文分號 ｢;｣ 隔開，留白將使用預設列表。</system:String>
     <system:String x:Key="Roguelike.CollectibleModeShopping">刷開局模式啟用購物</system:String>
     <system:String x:Key="Roguelike.CollectibleModeSquad">刷開局使用分隊</system:String>
     <system:String x:Key="Roguelike.CoppersExchange">通寶交換: {0} → {1}</system:String>
     <system:String x:Key="Roguelike.CoppersRecognitionError">通寶辨識失敗: "{0}"</system:String>
-    <system:String x:Key="Roguelike.CoreCharCleared">已清空{key=Settings.StartingCoreChar}</system:String>
-    <system:String x:Key="Roguelike.CoreCharSet">已設定{key=Settings.StartingCoreChar}: {0}</system:String>
-    <system:String x:Key="Roguelike.Credit.Tip" xml:space="preserve">訪問好友後借助戰打一把 OF-1 賺 30 信用。
-關卡選擇為 ｢{key=Combat.DefaultStage}｣ 時此功能無效。
-別傳 ｢火藍之心｣ 關卡 OF-1 未解鎖時請勿勾選。</system:String>
-    <system:String x:Key="Roguelike.Credit.WhenOF-1Warning">當 ｢{key=TaskQueue.Fight}｣ 任務關卡列表中已包含 ｢{key=Combat.DefaultStage}｣ 時，｢{key=TaskQueue.Mall}｣ 任務將不再借助戰打一把 OF-1。任務名稱: {0} (序號{1}), 關卡序號 {2}</system:String>
+    <system:String x:Key="Roguelike.CoreCharCleared">已清空{key=Roguelike.StartingCoreChar}</system:String>
+    <system:String x:Key="Roguelike.CoreCharSet">已設定{key=Roguelike.StartingCoreChar}: {0}</system:String>
     <system:String x:Key="Roguelike.DeepExplorationAutoIterate">深入調查自動切換</system:String>
+    <system:String x:Key="Roguelike.DeepExplorationCompleted">深入調查清完啦！</system:String>
+    <system:String x:Key="Roguelike.DeepExplorationNotUnlockedComplain">深入調查未解鎖</system:String>
     <system:String x:Key="Roguelike.DeepenParadigm">坍縮範式 {0} 加深為 {1}</system:String>
+    <system:String x:Key="Roguelike.DefaultRoles">預設職業組</system:String>
+    <system:String x:Key="Roguelike.DefaultSquad">預設分隊</system:String>
     <system:String x:Key="Roguelike.DelayAbortUntilCombatComplete">肉鴿在戰鬥結束前延遲 ｢{key=TaskQueue.Stop}｣ 動作</system:String>
     <system:String x:Key="Roguelike.Difficulty">難度</system:String>
+    <system:String x:Key="Roguelike.DreadfulFoe">關卡: 險路惡敵</system:String>
+    <system:String x:Key="Roguelike.EmergencyOps">關卡: 緊急作戰</system:String>
+    <system:String x:Key="Roguelike.EnableAdditionalStartingCoreChar">啟用第 2、3 位{key=Roguelike.StartingCoreChar}</system:String>
+    <system:String x:Key="Roguelike.EnableAdditionalStartingCoreChar.Tip" xml:space="preserve">開啟後可在一般設定中填寫第 2、3 位開局幹員，招募按位置順序進行。&#10;招募只在前幾頁內翻找指定幹員，希望消耗低的幹員可能找不到，屆時該位置會回退預設策略。&#10;建議將希望消耗高的幹員排在前面。</system:String>
     <system:String x:Key="Roguelike.EncounterDisabledOption">不可選選項: {0}</system:String>
     <system:String x:Key="Roguelike.EncounterEnabledOption">可選選項: {0}</system:String>
+    <system:String x:Key="Roguelike.EncounterOcrError">事件名稱辨識錯誤</system:String>
     <system:String x:Key="Roguelike.EncounterOptions">辨識到 {0} 個選項:</system:String>
     <system:String x:Key="Roguelike.Event">事件:</system:String>
     <system:String x:Key="Roguelike.EventSelected">已選擇: {0}</system:String>
     <system:String x:Key="Roguelike.EventSelectedFallback">目標選項不可用，改選備用選項: {0}</system:String>
     <system:String x:Key="Roguelike.EventSelectedWithReason">已選擇: {0}（{1}）</system:String>
+    <system:String x:Key="Roguelike.ExplorationAbandoned">已放棄本次探索</system:String>
+    <system:String x:Key="Roguelike.FilterTruth">節點: 去偽存真</system:String>
     <system:String x:Key="Roguelike.FindPlaytimeTarget">目標常樂節點</system:String>
+    <system:String x:Key="Roguelike.First-ClassSquad">高規格分隊</system:String>
+    <system:String x:Key="Roguelike.FirstMoveAdvantage">先手必勝（先鋒、狙擊、特種）</system:String>
+    <system:String x:Key="Roguelike.FlexibleDeployment">靈活部署（先鋒、輔助、特種）</system:String>
+    <system:String x:Key="Roguelike.FoldartalGainOcrNextLevel">預見:</system:String>
     <system:String x:Key="Roguelike.GainParadigm">坍縮範式加深: {0}</system:String>
     <system:String x:Key="Roguelike.GamePass">肉鴿通關啦！</system:String>
+    <system:String x:Key="Roguelike.GatheringSquad">集群分隊</system:String>
     <system:String x:Key="Roguelike.GeneralMode">通用模式</system:String>
+    <system:String x:Key="Roguelike.GeneralWithoutScreencapErr">通用模式（阻擋異常輸出）</system:String>
+    <system:String x:Key="Roguelike.GoldTimesLimit">投資 N 個源石錠後停止任務</system:String>
     <system:String x:Key="Roguelike.IS2.NewSquad1">心勝於物分隊</system:String>
     <system:String x:Key="Roguelike.IS2.NewSquad2">物盡其用分隊</system:String>
     <system:String x:Key="Roguelike.IS2.NewSquad3">以人為本分隊</system:String>
@@ -1625,25 +1930,36 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
     <system:String x:Key="Roguelike.Investment.WithMoreScore">投資模式啟用購物、招募、進 2 層</system:String>
     <system:String x:Key="Roguelike.InvestmentReachFull">投資源石錠存滿, 停止探索</system:String>
     <system:String x:Key="Roguelike.InvestmentReachLimit">投資源石錠達到設定次數({0}), 停止探索</system:String>
-    <system:String x:Key="Roguelike.JieGardenDifficulty.Tip" xml:space="preserve">解鎖 ｢{key=Roguelike.ThemeJieGarden}｣ 相關科技後，{key=Settings.LeaderSquad}在進行 N3 及以上難度的探索時，會額外攜帶一個 ｢時光之末｣，可以利用其進行 ｢一戰一跳｣ 的存錢策略。
+    <system:String x:Key="Roguelike.JieGardenDifficulty.Tip" xml:space="preserve">解鎖 ｢{key=Roguelike.ThemeJieGarden}｣ 相關科技後，{key=Roguelike.LeaderSquad}在進行 N3 及以上難度的探索時，會額外攜帶一個 ｢時光之末｣，可以利用其進行 ｢一戰一跳｣ 的存錢策略。
 若尚未解鎖該科技，請不要選擇 N3 及以上難度（包括 ｢MAX｣）進行探索；
-若希望啟用此機制，請確保選擇的難度為 N3 及以上（不包括 ｢{key=Settings.NotSwitch} (-1)｣）。</system:String>
+若希望啟用此機制，請確保選擇的難度為 N3 及以上（不包括 ｢{key=Common.NotSwitch} (-1)｣）。</system:String>
     <system:String x:Key="Roguelike.JieGardenTargetFound">發現目標常樂節點 {0}</system:String>
+    <system:String x:Key="Roguelike.LeaderSquad">指揮分隊</system:String>
     <system:String x:Key="Roguelike.LoseParadigm">坍縮範式消退: {1}</system:String>
     <system:String x:Key="Roguelike.MonthlySquadAutoIterate">月度小隊自動切換</system:String>
     <system:String x:Key="Roguelike.MonthlySquadCheckComms">月度小隊通訊</system:String>
     <system:String x:Key="Roguelike.MonthlySquadCheckComms.Tip" xml:space="preserve">勾選後，MAA會檢查是否已解鎖目前小隊的全部通訊，全部解鎖後才會切換至下一個月度小隊&#10;若只需取得獎勵，可取消勾選以減少重複探索&#10;MAA不會因為取消勾選此選項而提前在局內結束探索</system:String>
-    <system:String x:Key="Roguelike.OnlyStartWithEliteTwo">只凹 ｢{key=Settings.StartingCoreChar}｣ 直升精二，不進行作戰</system:String>
+    <system:String x:Key="Roguelike.MonthlySquadCompleted">月度小隊清完啦！</system:String>
+    <system:String x:Key="Roguelike.OnlyStartWithEliteTwo">只凹 ｢{key=Roguelike.StartingCoreChar}｣ 直升精二，不進行作戰</system:String>
+    <system:String x:Key="Roguelike.OvercomingYourWeaknesses">取長補短（近衛、輔助、醫療）</system:String>
     <system:String x:Key="Roguelike.PlaytimeLing">令 - 擲地有聲</system:String>
     <system:String x:Key="Roguelike.PlaytimeNian">年 - 三缺一</system:String>
     <system:String x:Key="Roguelike.PlaytimeShu">黍 - 種因得果</system:String>
-    <system:String x:Key="Roguelike.RequireStartingCoreChar">需先填寫 ｢{key=Settings.StartingCoreChar}｣</system:String>
+    <system:String x:Key="Roguelike.RefreshTraderWithDice">刷新商店（指路鱗）</system:String>
+    <system:String x:Key="Roguelike.RequireStartingCoreChar">需先填寫 ｢{key=Roguelike.StartingCoreChar}｣</system:String>
+    <system:String x:Key="Roguelike.ResearchSquad">研究分隊</system:String>
+    <system:String x:Key="Roguelike.RoutingRestartTooManyBattles">前方戰鬥數：{0}，重新規劃路線</system:String>
+    <system:String x:Key="Roguelike.SafeHouse">節點: 安全的角落</system:String>
     <system:String x:Key="Roguelike.SeedFormatError">格式不正確</system:String>
     <system:String x:Key="Roguelike.Settings">肉鴿設定</system:String>
     <system:String x:Key="Roguelike.Settlement">肉鴿結算: {0}\n探索: {1} 層 {2} 步\n戰鬥: {3}/{4} 緊急/{5} BOSS\n招募: {6}  收藏品: {7}\n難度: {8}  得分: {9}\nExp: {10}  Skill: {11}</system:String>
+    <system:String x:Key="Roguelike.SlowAndSteadyWinsTheRace">穩紮穩打（重裝、術師、狙擊）</system:String>
+    <system:String x:Key="Roguelike.SpearheadSquad">矛頭分隊</system:String>
+    <system:String x:Key="Roguelike.SpecialForceSquad">特勤分隊</system:String>
     <system:String x:Key="Roguelike.SpecialItemBought">購買了特殊商品！</system:String>
+    <system:String x:Key="Roguelike.StartTimesLimit">開始探索 N 次後停止任務</system:String>
     <system:String x:Key="Roguelike.StartWithDice">骰子</system:String>
-    <system:String x:Key="Roguelike.StartWithEliteTwo">凹 ｢{key=Settings.StartingCoreChar}｣ 直升精二</system:String>
+    <system:String x:Key="Roguelike.StartWithEliteTwo">凹 ｢{key=Roguelike.StartingCoreChar}｣ 直升精二</system:String>
     <system:String x:Key="Roguelike.StartWithHope">希望</system:String>
     <system:String x:Key="Roguelike.StartWithIdea">構想</system:String>
     <system:String x:Key="Roguelike.StartWithIngot">源石錠</system:String>
@@ -1655,9 +1971,20 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
     <system:String x:Key="Roguelike.StartWithSelectList">刷開局期望獎勵</system:String>
     <system:String x:Key="Roguelike.StartWithShield">盾</system:String>
     <system:String x:Key="Roguelike.StartWithTicket">票券</system:String>
+    <system:String x:Key="Roguelike.StartingCoreChar">開局{key=Operator.Name}</system:String>
+    <system:String x:Key="Roguelike.StartingCoreChar.Tip">不填寫則使用預設策略。三個位置的職業不能相同。</system:String>
+    <system:String x:Key="Roguelike.StartingCoreChar2">第 2 位{key=Roguelike.StartingCoreChar}</system:String>
+    <system:String x:Key="Roguelike.StartingCoreChar3">第 3 位{key=Roguelike.StartingCoreChar}</system:String>
     <system:String x:Key="Roguelike.StartingCoreCharNotFound">輸入的{key=Operator.Name}未在戰鬥數據 (battle_data) 中。</system:String>
+    <system:String x:Key="Roguelike.StartingCoreCharPosition1">第 1 位{key=Operator.Name}</system:String>
+    <system:String x:Key="Roguelike.StartingCoreCharPosition2">第 2 位{key=Operator.Name}</system:String>
+    <system:String x:Key="Roguelike.StartingCoreCharPosition3">第 3 位{key=Operator.Name}</system:String>
+    <system:String x:Key="Roguelike.StartingRoles">開局職業組</system:String>
+    <system:String x:Key="Roguelike.StartingSquad">開局分隊</system:String>
     <system:String x:Key="Roguelike.StopAtFinalBoss">在第五層 BOSS 前暫停</system:String>
     <system:String x:Key="Roguelike.StopAtMaxLevel">滿級後自動停止</system:String>
+    <system:String x:Key="Roguelike.StopOnGoldLimit">儲備源石錠達到上限時停止</system:String>
+    <system:String x:Key="Roguelike.Strategy">策略</system:String>
     <system:String x:Key="Roguelike.StrategyBlackFlowExp">刷等級，快速前往第三層</system:String>
     <system:String x:Key="Roguelike.StrategyBlackFlowInvestment">刷源石錠，投資完成後自動退出</system:String>
     <system:String x:Key="Roguelike.StrategyBlackFlowStartRun">刷開局，刷到目標後退出並保留這一局</system:String>
@@ -1668,6 +1995,11 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
     <system:String x:Key="Roguelike.StrategyGold">刷源石錠，投資完成後自動退出</system:String>
     <system:String x:Key="Roguelike.StrategyLastReward">刷開局，刷取熱水壺或精二{key=Operator.Name}開局</system:String>
     <system:String x:Key="Roguelike.StrategyMonthlySquad">刷月度小隊，盡可能穩定地打更多層數</system:String>
+    <system:String x:Key="Roguelike.SupportSquad">後勤分隊</system:String>
+    <system:String x:Key="Roguelike.TacticalAssaultOperative">突擊戰術分隊</system:String>
+    <system:String x:Key="Roguelike.TacticalDestructionOperative">破壞戰術分隊</system:String>
+    <system:String x:Key="Roguelike.TacticalFortificationOperative">堡壘戰術分隊</system:String>
+    <system:String x:Key="Roguelike.TacticalRangedOperative">遠程戰術分隊</system:String>
     <system:String x:Key="Roguelike.Theme">肉鴿主題</system:String>
     <system:String x:Key="Roguelike.ThemeBlackFlow">黑流樹海</system:String>
     <system:String x:Key="Roguelike.ThemeJieGarden">界園</system:String>
@@ -1677,9 +2009,9 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
     <system:String x:Key="Roguelike.ThemeSarkaz">薩卡茲</system:String>
     <system:String x:Key="Roguelike.ThemeTipBlackFlow" xml:space="preserve">{key=Roguelike.ThemeBlackFlow}推薦配置：
 
-{key=Settings.StartingCoreChar}: 機械師（必須精二並解鎖 ｢招募精通 II｣ 天賦的 ｢效果提升 II｣）
-{key=Settings.StartingSquad}: ｢{key=Settings.SpecialForceSquad}｣ / ｢{key=Settings.TacticalFortificationOperative}｣
-{key=Settings.StartingRoles}: ｢{key=Settings.SlowAndSteadyWinsTheRace}｣ / ｢{key=Settings.Unbreakable}｣
+{key=Roguelike.StartingCoreChar}: 機械師（必須精二並解鎖 ｢招募精通 II｣ 天賦的 ｢效果提升 II｣）
+{key=Roguelike.StartingSquad}: ｢{key=Roguelike.SpecialForceSquad}｣ / ｢{key=Roguelike.TacticalFortificationOperative}｣
+{key=Roguelike.StartingRoles}: ｢{key=Roguelike.SlowAndSteadyWinsTheRace}｣ / ｢{key=Roguelike.Unbreakable}｣
 
 1. 目前沒有專用戰鬥策略，作戰由招募評分自動決策；
     刷源石錠和快速飛往第三層目前圍繞精二機械師的飛展開，
@@ -1694,432 +2026,138 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
 5. 刷等級勾選 ｢{key=Roguelike.BlackFlow.FastFlight}｣ + 不勾選 ｢{key=Roguelike.Investment.Enabled}｣，即可跳過商店</system:String>
     <system:String x:Key="Roguelike.ThemeTipJieGarden" xml:space="preserve">{key=Roguelike.ThemeJieGarden}推薦配置：
 
-{key=Settings.StartingSquad}: {key=Settings.LeaderSquad} / {key=Settings.TacticalRangedOperative}
-{key=Settings.StartingRoles}: {key=Settings.SlowAndSteadyWinsTheRace}
-{key=Settings.StartingCoreChar}: 維什戴爾
+{key=Roguelike.StartingSquad}: {key=Roguelike.LeaderSquad} / {key=Roguelike.TacticalRangedOperative}
+{key=Roguelike.StartingRoles}: {key=Roguelike.SlowAndSteadyWinsTheRace}
+{key=Roguelike.StartingCoreChar}: 維什戴爾
 
-1. 當策略選擇 ｢刷源石錠｣，難度選擇 ≥ 3 或 ｢MAX｣，{key=Settings.StartingSquad}選擇 ｢{key=Settings.LeaderSquad}｣ 時將啟用指揮避戰策略
+1. 當策略選擇 ｢刷源石錠｣，難度選擇 ≥ 3 或 ｢MAX｣，{key=Roguelike.StartingSquad}選擇 ｢{key=Roguelike.LeaderSquad}｣ 時將啟用指揮避戰策略
 2. 使用指揮避戰策略將大幅提高刷源石錠效率，也可用於快速刷等級（不追求通關），但需要注意策略選擇為 ｢刷源石錠｣
 3. 已解鎖的最高難度 &lt; 3 或未解鎖相關科技時，請不要使用指揮避戰策略，否則會導致出錯
 4. 目前難度 ≥ N15 時，6★ 幹員希望消耗 +1，使用部分分隊時可能無法招募開局 6★ 幹員，導致出錯或失敗</system:String>
     <system:String x:Key="Roguelike.ThemeTipMizuki" xml:space="preserve">{key=Roguelike.ThemeMizuki}推薦配置：
 
-{key=Settings.StartingSquad}: {key=Roguelike.IS2.NewSquad3} / {key=Roguelike.IS2.NewSquad1}
-{key=Settings.StartingRoles}: {key=Settings.SlowAndSteadyWinsTheRace}
-{key=Settings.StartingCoreChar}: 維什戴爾
+{key=Roguelike.StartingSquad}: {key=Roguelike.IS2.NewSquad3} / {key=Roguelike.IS2.NewSquad1}
+{key=Roguelike.StartingRoles}: {key=Roguelike.SlowAndSteadyWinsTheRace}
+{key=Roguelike.StartingCoreChar}: 維什戴爾
 
 1. box 裡強力 6★ 幹員較多時推薦選擇 ｢{key=Roguelike.IS2.NewSquad3}｣
 2. 目前難度 ≥ N4 時，6★ 幹員希望消耗 +1，使用部分分隊時可能無法在開局招募 6★ 幹員，導致出錯或失敗</system:String>
     <system:String x:Key="Roguelike.ThemeTipPhantom" xml:space="preserve">{key=Roguelike.ThemePhantom}推薦配置：
 
-{key=Settings.StartingSquad}: {key=Settings.LeaderSquad} / {key=Settings.TacticalAssaultOperative}
-{key=Settings.StartingRoles}: {key=Settings.OvercomingYourWeaknesses}
-{key=Settings.StartingCoreChar}: 豐川祥子 / 棘刺
+{key=Roguelike.StartingSquad}: {key=Roguelike.LeaderSquad} / {key=Roguelike.TacticalAssaultOperative}
+{key=Roguelike.StartingRoles}: {key=Roguelike.OvercomingYourWeaknesses}
+{key=Roguelike.StartingCoreChar}: 豐川祥子 / 棘刺
 
 目前難度 ≥ N3 時，可能無法在開局招募 6★ 幹員，導致出錯或失敗</system:String>
     <system:String x:Key="Roguelike.ThemeTipRecommended">←強烈推薦看</system:String>
     <system:String x:Key="Roguelike.ThemeTipSami" xml:space="preserve">{key=Roguelike.ThemeSami}推薦配置：
 
-{key=Settings.StartingSquad}: {key=Roguelike.IS3.NewSquad4} / {key=Settings.TacticalRangedOperative}
-{key=Settings.StartingRoles}: {key=Settings.SlowAndSteadyWinsTheRace}
-{key=Settings.StartingCoreChar}: 維什戴爾
+{key=Roguelike.StartingSquad}: {key=Roguelike.IS3.NewSquad4} / {key=Roguelike.TacticalRangedOperative}
+{key=Roguelike.StartingRoles}: {key=Roguelike.SlowAndSteadyWinsTheRace}
+{key=Roguelike.StartingCoreChar}: 維什戴爾
 
 目前難度 ≥ N6 時，6★ 幹員希望消耗 +1，使用部分分隊時可能無法在開局招募 6★ 幹員，導致出錯或失敗</system:String>
     <system:String x:Key="Roguelike.ThemeTipSarkaz" xml:space="preserve">{key=Roguelike.ThemeSarkaz}推薦配置：
 
-{key=Settings.StartingSquad}: {key=Roguelike.IS4.NewSquad3} / {key=Settings.TacticalRangedOperative}
-{key=Settings.StartingRoles}: {key=Settings.SlowAndSteadyWinsTheRace}
-{key=Settings.StartingCoreChar}: 維什戴爾
+{key=Roguelike.StartingSquad}: {key=Roguelike.IS4.NewSquad3} / {key=Roguelike.TacticalRangedOperative}
+{key=Roguelike.StartingRoles}: {key=Roguelike.SlowAndSteadyWinsTheRace}
+{key=Roguelike.StartingCoreChar}: 維什戴爾
 
 1. 使用 ｢{key=Roguelike.IS4.NewSquad3}｣ 時將完全採用避戰策略，適合快速刷等級，不追求通關
 2. 使用 ｢{key=Roguelike.IS4.NewSquad6}｣ 可提升刷源石錠效率，但需要注意策略選擇為 ｢刷源石錠｣
 3. 目前難度 ≥ N15 時，6★ 幹員希望消耗 +1，使用部分分隊時可能無法招募開局 6★ 幹員，導致出錯或失敗</system:String>
+    <system:String x:Key="Roguelike.Trader">節點: 詭意行商</system:String>
+    <system:String x:Key="Roguelike.Unbreakable">堅不可摧（重裝、術師、醫療）</system:String>
+    <system:String x:Key="Roguelike.UpperLimit">投資已達上限</system:String>
     <system:String x:Key="Roguelike.UseNonFriendSupport">可以使用非好友助戰</system:String>
     <system:String x:Key="Roguelike.UseSupportUnitFormat">{0} 使用助戰</system:String>
     <system:String x:Key="Roguelike.WeakenParadigm">坍縮範式 {1} 消退為 {0}</system:String>
+    <system:String x:Key="Schedule.ForceScheduledStart">強制定時啟動</system:String>
+    <system:String x:Key="Schedule.ForceScheduledStart.Tip">停止目前任務，重新啟動遊戲並開始新任務</system:String>
     <system:String x:Key="Schedule.Settings">定時執行</system:String>
+    <system:String x:Key="Schedule.ShowWindowBeforeForceScheduledStart">強制定時啟動前顯示視窗</system:String>
+    <system:String x:Key="Schedule.ShowWindowBeforeForceScheduledStart.Tip">定時啟動前顯示主視窗，避免最小化時看不到倒數</system:String>
     <system:String x:Key="Schedule.StartNotification.Content">定時 {0} 預計於 {1}（{2} 分鐘後）開始執行，請留意遊戲登入狀態。</system:String>
     <system:String x:Key="Schedule.StartNotification.Title">定時任務即將執行</system:String>
     <system:String x:Key="Schedule.StartNotificationMinutes">提前時間（分鐘）</system:String>
+    <system:String x:Key="Schedule.Timer">定時</system:String>
+    <system:String x:Key="Schedule.TimerCustomConfig">自訂設定檔選擇</system:String>
+    <system:String x:Key="Schedule.TimerCustomConfig.Tip">定時啟動前兩分鐘重新啟動 MAA 並切換設定檔</system:String>
     <system:String x:Key="Schedule.WakeUp">定時啟動前嘗試喚醒電腦並啟動 MAA</system:String>
-    <system:String x:Key="Schedule.WakeUp.Tip" xml:space="preserve">該功能透過在 Windows 工作排程器中註冊排程工作實現，在每個啟用的定時項前 5 分鐘嘗試喚醒電腦並啟動 MAA，由定時啟動邏輯接管。&#10;喚醒啟動時將跳過 ｢{key=Startup.Settings}｣ 中的啟動自動執行項（如{key=Settings.RunTaskAfterLaunch}、{key=Settings.OpenEmulatorAfterLaunch}）。&#10;MAA 退出後排程工作仍會保留，關閉本開關時刪除。&#10;任務開始後的長時間執行不再由本功能保持喚醒，若任務耗時較長，建議在 ｢{key=Settings.Game}｣ 中開啟 ｢{key=Settings.BlockSleep}｣，避免任務執行期間系統睡眠。&#10;休眠狀態的定時喚醒依賴裝置韌體支援，部分裝置僅支援從睡眠喚醒。</system:String>
+    <system:String x:Key="Schedule.WakeUp.Tip" xml:space="preserve">該功能透過在 Windows 工作排程器中註冊排程工作實現，在每個啟用的定時項前 5 分鐘嘗試喚醒電腦並啟動 MAA，由定時啟動邏輯接管。&#10;喚醒啟動時將跳過 ｢{key=Startup.Settings}｣ 中的啟動自動執行項（如{key=Startup.RunTaskAfterLaunch}、{key=Startup.OpenEmulatorAfterLaunch}）。&#10;MAA 退出後排程工作仍會保留，關閉本開關時刪除。&#10;任務開始後的長時間執行不再由本功能保持喚醒，若任務耗時較長，建議在 ｢{key=Settings.Game}｣ 中開啟 ｢{key=TaskQueue.Power.BlockSleep}｣，避免任務執行期間系統睡眠。&#10;休眠狀態的定時喚醒依賴裝置韌體支援，部分裝置僅支援從睡眠喚醒。</system:String>
     <system:String x:Key="Security.EncryptionError">加解密失敗，請重新進行相關設定，否則加密內容將以純文字形式儲存在設定檔中。</system:String>
-    <system:String x:Key="Settings.153Time3">153 一天 3 換</system:String>
-    <system:String x:Key="Settings.153Time4">153 一天 4 換</system:String>
-    <system:String x:Key="Settings.243Time3">243 一天 3 換</system:String>
-    <system:String x:Key="Settings.243Time4">243 一天 4 換</system:String>
-    <system:String x:Key="Settings.333Time3">333 一天 3 換</system:String>
-    <system:String x:Key="Settings.AVD">Android 虛擬裝置（AVD）</system:String>
-    <system:String x:Key="Settings.Add">新增</system:String>
+    <system:String x:Key="Security.SoftwareWhitelist.Tip">建議將 MAA 所在資料夾加入對應軟體白名單後再試一次。</system:String>
     <system:String x:Key="Settings.AddConfigSuccess">設定檔 &lt;{0}&gt; 新增成功</system:String>
     <system:String x:Key="Settings.AddConfiguration">新增</system:String>
-    <system:String x:Key="Settings.AddTaskQueueTask">新增任務</system:String>
-    <system:String x:Key="Settings.AdditionCommand">附加命令</system:String>
-    <system:String x:Key="Settings.AdditionCommand.Tip" xml:space="preserve">附加命令用於指定模擬器啟動參數（如 ｢--instance 1｣ 表示啟動 1 號模擬器）。&#10;不同模擬器的命令格式不同，通常包括模擬器編號、視窗模式等參數，請參考您使用的模擬器說明文件。</system:String>
     <system:String x:Key="Settings.Advanced">進階設定</system:String>
-    <system:String x:Key="Settings.AllowUseStoneSave">允許吃源石儲存狀態</system:String>
-    <system:String x:Key="Settings.AllowUseStoneSave.Tip">預設 ｢{key=Combat.UseOriginitePrime}｣ 僅生效一次；勾選後其狀態將儲存，左鍵可正常切換，右鍵選取時仍僅生效一次</system:String>
-    <system:String x:Key="Settings.AllowUseStoneSaveWarning">該功能屬於危險功能。按下 ｢{key=Settings.Confirm}｣ 鍵即視為您了解並願意承擔可能出現的風險。</system:String>
-    <system:String x:Key="Settings.AlreadyLatest">已是最新版本 ~</system:String>
-    <system:String x:Key="Settings.AlwaysAutoDetectConnection">每次重新偵測</system:String>
-    <system:String x:Key="Settings.Androws">應用寶模擬器</system:String>
-    <system:String x:Key="Settings.AsYourHeartDesires">隨心所欲（三張隨機）</system:String>
     <system:String x:Key="Settings.AssistantChange">副手換人</system:String>
-    <system:String x:Key="Settings.AutoDetectConnection">自動偵測連線</system:String>
-    <system:String x:Key="Settings.AutoInstallUpdatePackage">自動安裝更新檔案</system:String>
-    <system:String x:Key="Settings.BaseSettings">基建設定</system:String>
-    <system:String x:Key="Settings.Bilibili">Bilibili 服</system:String>
-    <system:String x:Key="Settings.Blacklist">黑名單（子字串即可，分號分隔）</system:String>
-    <system:String x:Key="Settings.BlacklistDefault">碳;傢俱;加急許可</system:String>
-    <system:String x:Key="Settings.BlockSleep">執行任務時阻止休眠</system:String>
-    <system:String x:Key="Settings.BlueStacks">藍疊模擬器</system:String>
-    <system:String x:Key="Settings.Cancel">取消</system:String>
-    <system:String x:Key="Settings.CheckBoxesNotSaved">該選項僅生效一次</system:String>
-    <system:String x:Key="Settings.CheckBoxesNotSavedAsNull">該選項點擊右鍵選取時僅生效一次</system:String>
-    <system:String x:Key="Settings.CheckBoxesNotSavedAsNullInvert">該選項點擊右鍵選取時僅跳過一次</system:String>
-    <system:String x:Key="Settings.CheckNetworking">請檢查網路連線或 Proxy 代理設定。</system:String>
     <system:String x:Key="Settings.Chip">製造站-晶片組</system:String>
-    <system:String x:Key="Settings.ClientType">用戶端類型</system:String>
-    <system:String x:Key="Settings.ClueExchangeUnlocked">已開啟線索交流</system:String>
-    <system:String x:Key="Settings.Compatible">相容模式</system:String>
     <system:String x:Key="Settings.ConfigExists">設定檔 &lt;{0}&gt; 已存在</system:String>
     <system:String x:Key="Settings.ConfigurationName">設定檔名稱</system:String>
-    <system:String x:Key="Settings.Confirm">確認</system:String>
     <system:String x:Key="Settings.ConfirmDeleteConfigurationMessage">確定要刪除設定檔 &lt;{0}&gt; 嗎？此操作無法復原。</system:String>
-    <system:String x:Key="Settings.ConfirmDeleteTask">確認刪除</system:String>
-    <system:String x:Key="Settings.ConfirmDeleteTaskMessage">確定要刪除 {0} 任務 "{1}" 嗎？</system:String>
     <system:String x:Key="Settings.Connection">連線設定</system:String>
-    <system:String x:Key="Settings.ContinueTraining">訓練完成後繼續嘗試專精目前技能</system:String>
-    <system:String x:Key="Settings.Control">控制中樞</system:String>
-    <system:String x:Key="Settings.CreditFight">借助戰打 OF-1 賺信用</system:String>
-    <system:String x:Key="Settings.CreditFullOnlyBuyDiscount">博士！\n只購買折扣商品讓信用點數溢出了！\n小心信用點數浪費哦！\n剩餘信用點數：</system:String>
-    <system:String x:Key="Settings.CustomStageCode">手動輸入關卡名稱</system:String>
-    <system:String x:Key="Settings.CustomStageCode.Tip" xml:space="preserve">支援大部分主線關卡名稱與原列表的關卡名稱（如 4-10、AP-5、H10-1-Hard）
-可在關卡結尾輸入 ｢Normal/Hard｣ 切換難度：10-14 章對應標準/磨難，15 章及以後對應常規/險地
-可輸入 ｢SSReopen-XX｣ 一次性代理 SS 複刻的普通關</system:String>
-    <system:String x:Key="Settings.CustomizeInfrastSelectionEmpty">自訂設施選擇為空，請檢查設定或關閉自訂功能。</system:String>
-    <system:String x:Key="Settings.DefaultInfrast">內建排班</system:String>
-    <system:String x:Key="Settings.DefaultRoles">預設職業組</system:String>
-    <system:String x:Key="Settings.DefaultSquad">預設分隊</system:String>
-    <system:String x:Key="Settings.DeploymentWithPause">暫停下{key=Operator.Name}（自動戰鬥相關）（不穩定，暫不推薦開啟）</system:String>
-    <system:String x:Key="Settings.DeploymentWithPause.Tip">自動戰鬥部署{key=Operator.Name}時暫停遊戲，再下{key=Operator.Name}</system:String>
-    <system:String x:Key="Settings.Dorm">宿舍</system:String>
-    <system:String x:Key="Settings.DownloadWithAria2">使用 aria2 進行下載</system:String>
-    <system:String x:Key="Settings.DrGrandet">博朗台模式</system:String>
-    <system:String x:Key="Settings.DrGrandet.Tip">在恢復理智確認介面等待，直到目前的 1 點理智恢復完成再立即確認。</system:String>
-    <system:String x:Key="Settings.Drink">要來一杯美酒嗎🍷？博士</system:String>
-    <system:String x:Key="Settings.EnableAdditionalStartingCoreChar">啟用第 2、3 位{key=Settings.StartingCoreChar}</system:String>
-    <system:String x:Key="Settings.EnableAdditionalStartingCoreChar.Tip" xml:space="preserve">開啟後可在一般設定中填寫第 2、3 位開局幹員，招募按位置順序進行。&#10;招募只在前幾頁內翻找指定幹員，希望消耗低的幹員可能找不到，屆時該位置會回退預設策略。&#10;建議將希望消耗高的幹員排在前面。</system:String>
-    <system:String x:Key="Settings.EnableOperBoxYituliuApi">{key=Operator.Recognition}從一圖流讀取</system:String>
-    <system:String x:Key="Settings.EnableOperBoxYituliuApi.Tip" xml:space="preserve">開啟後 ｢{key=Toolbox.Title}｣ 與 ｢{key=TaskQueue.UserDataUpdate}｣ 的{key=Operator.Recognition}不再連線模擬器截圖辨識，改為直接讀取 Token 對應的一圖流練度資料。&#10;｢{key=TaskQueue.UserDataUpdate}｣ 觸發時，會在點擊 ｢{key=TaskQueue.LinkStart}｣ 並連線模擬器後直接在背景讀取，不必等其他任務完成。&#10;一圖流資料不會自動更新，練度變動後請重新上傳。&#10;相比本機截圖辨識可額外讀取技能等級、專精等級與模組資訊。&#10;Token 在一圖流 ｢個人中心｣ 的 ｢第三方 API Token｣ 中產生，為保護帳號資料請僅使用唯讀 Token。</system:String>
-    <system:String x:Key="Settings.EnablePenguin">掉落與公招資料回報</system:String>
-    <system:String x:Key="Settings.EnableYituliu">{key=Settings.EnablePenguin}</system:String>
-    <system:String x:Key="Settings.EndsWithScript">結束後腳本</system:String>
-    <system:String x:Key="Settings.EndsWithScriptPlaceholder">範例："C:\1.cmd" -noWindow</system:String>
-    <system:String x:Key="Settings.Executable">可執行檔</system:String>
-    <system:String x:Key="Settings.Failed">失敗</system:String>
-    <system:String x:Key="Settings.First-ClassSquad">高規格分隊</system:String>
-    <system:String x:Key="Settings.FirstMoveAdvantage">先手必勝（先鋒、狙擊、特種）</system:String>
-    <system:String x:Key="Settings.FlexibleDeployment">靈活部署（先鋒、輔助、特種）</system:String>
-    <system:String x:Key="Settings.ForceGithubGlobalSource">強制使用 GitHub</system:String>
-    <system:String x:Key="Settings.ForceGithubGlobalSource.Tip">偵測到更新後，強制從 GitHub 下載更新壓縮檔</system:String>
-    <system:String x:Key="Settings.ForceScheduledStart">強制定時啟動</system:String>
-    <system:String x:Key="Settings.ForceScheduledStart.Tip">停止目前任務，重新啟動遊戲並開始新任務</system:String>
-    <system:String x:Key="Settings.ForceShoppingIfCreditFull">信用溢出時無視黑名單</system:String>
-    <system:String x:Key="Settings.ForcedReplaceAdb">強制替換 ADB</system:String>
     <system:String x:Key="Settings.Game">執行設定</system:String>
-    <system:String x:Key="Settings.GatheringSquad">集群分隊</system:String>
     <system:String x:Key="Settings.General">一般設定</system:String>
-    <system:String x:Key="Settings.GeneralWithoutScreencapErr">通用模式（阻擋異常輸出）</system:String>
-    <system:String x:Key="Settings.GetReleaseNoteFailed">取得更新資訊失敗。</system:String>
     <system:String x:Key="Settings.GlobalConfig.Tip">此選項分頁為全域設定</system:String>
-    <system:String x:Key="Settings.GlobalSource">全域來源</system:String>
-    <system:String x:Key="Settings.GoldTimesLimit">投資 N 個源石錠後停止任務</system:String>
     <system:String x:Key="Settings.Guide.DoneGuide">完成</system:String>
     <system:String x:Key="Settings.Guide.GearContextMenu.Tip">右鍵齒輪顯示更多操作 ↓</system:String>
     <system:String x:Key="Settings.Guide.HoverActionButtons">懸停顯示 複製/重新命名/刪除</system:String>
-    <system:String x:Key="Settings.Guide.LeftClick">左鍵</system:String>
     <system:String x:Key="Settings.Guide.LinkStartGuide">← 開始任務</system:String>
     <system:String x:Key="Settings.Guide.NextGuide">下一步</system:String>
     <system:String x:Key="Settings.Guide.PrevGuide">上一步</system:String>
     <system:String x:Key="Settings.Guide.RestartGuide">重看設定指引</system:String>
     <system:String x:Key="Settings.Guide.RestartGuidePrompt">設定指引將在主介面顯示，是否立即重新啟動應用程式？</system:String>
-    <system:String x:Key="Settings.Guide.RightClick">右鍵</system:String>
     <system:String x:Key="Settings.Guide.SettingsGuide">設定指引</system:String>
     <system:String x:Key="Settings.Guide.TaskGuide">↑ 任務</system:String>
-    <system:String x:Key="Settings.Guide.TaskSettings">任務設定</system:String>
     <system:String x:Key="Settings.Guide.ToolTipGuide">滑鼠移至此處會有提示喔</system:String>
     <system:String x:Key="Settings.Guide.UserGuide">使用指引</system:String>
-    <system:String x:Key="Settings.HelpUsWithOverseasServers.Tip">外服支援人力吃緊，幫幫我們！不會寫程式也可以參與。</system:String>
-    <system:String x:Key="Settings.HideCloseButton">隱藏關閉按鈕</system:String>
-    <system:String x:Key="Settings.HideHoverActionButtons">隱藏主任務懸停操作按鈕</system:String>
-    <system:String x:Key="Settings.HideHoverActionButtons.Tip">相應功能仍可透過右鍵齒輪選單使用</system:String>
-    <system:String x:Key="Settings.HideSeries">隱藏代理倍率</system:String>
-    <system:String x:Key="Settings.HideTray">隱藏工作列圖示</system:String>
-    <system:String x:Key="Settings.HideUnavailableStage">下拉選單中隱藏當日不開放關卡</system:String>
-    <system:String x:Key="Settings.HighPriority">優先購買（子字串即可，分號分隔）</system:String>
-    <system:String x:Key="Settings.HighPriorityDefault">招聘許可</system:String>
-    <system:String x:Key="Settings.LDPlayer">雷電模擬器</system:String>
-    <system:String x:Key="Settings.LabelSequence.Tip">標籤順序可拖曳</system:String>
     <system:String x:Key="Settings.Language">語言</system:String>
     <system:String x:Key="Settings.Language.Changed.Tip">語言設定已變更，部分內容可能需要重新啟動才能完全生效。</system:String>
     <system:String x:Key="Settings.Language.RestartNow">重新啟動</system:String>
     <system:String x:Key="Settings.Language.Settings">語言</system:String>
     <system:String x:Key="Settings.Language.SwitchNow">切換</system:String>
-    <system:String x:Key="Settings.LaunchOnSystemStartup">開機自動啟動 MAA</system:String>
-    <system:String x:Key="Settings.LaunchOnSystemStartupAdminPrompt">
-        ｢以系統管理員身分執行｣ 不支援開機自動啟動。不建議長期以系統管理員身分執行 MAA。\n如有需要，請前往 控制台 &gt; 系統管理工具 &gt; 工作排程器 建立工作。設定安全性選項時，請確保已勾選 ｢以最高權限執行｣。
-    </system:String>
-    <system:String x:Key="Settings.LaunchOnSystemStartupWarning" xml:space="preserve">此功能透過修改登錄檔來實現開機自動啟動。
-由於 MAA 為非安裝軟體，不會自動清除登錄檔項目。
-若在意登錄檔殘留，請在刪除程式前先取消啟用此選項。</system:String>
-    <system:String x:Key="Settings.LdIndex">模擬器編號</system:String>
-    <system:String x:Key="Settings.LdManualSetIndex">手動填寫 ｢{key=Settings.LdIndex}｣</system:String>
-    <system:String x:Key="Settings.LeaderSquad">指揮分隊</system:String>
-    <system:String x:Key="Settings.LocalResourcePackageTooOld">資源檔案版本（{0}）小於等於目前版本（{1}），已跳過匯入。</system:String>
-    <system:String x:Key="Settings.Log.Settings">日誌顯示設定</system:String>
-    <system:String x:Key="Settings.LogItemDateFormatString">日期格式字串</system:String>
-    <system:String x:Key="Settings.MaaFwAdbTouchMode">MaaFwAdb（實驗功能）</system:String>
-    <system:String x:Key="Settings.MaaTouch">MaaTouch</system:String>
-    <system:String x:Key="Settings.MainTasksNullFunctionality">反轉主任務右鍵點擊效果</system:String>
-    <system:String x:Key="Settings.MainTasksNullFunctionality.Tip">預設僅一次生效，勾選後僅一次跳過</system:String>
-    <system:String x:Key="Settings.MainTasksNullFunctionalitySwitch">可在 ｢{key=Settings.Title} - {key=Appearance.Settings} - {key=Settings.MainTasksNullFunctionality}｣ 切換右鍵單擊效果</system:String>
-    <system:String x:Key="Settings.MainViewButtonFeature">主介面可選擇按鈕功能</system:String>
-    <system:String x:Key="Settings.ManualRestart">稍後</system:String>
-    <system:String x:Key="Settings.ManualStopWithScript">手動停止時啟用上述腳本</system:String>
-    <system:String x:Key="Settings.MaxNumberOfLogThumbnails">日誌縮圖最大數量</system:String>
-    <system:String x:Key="Settings.MedicineExpireDays.Tip">只吃遊戲內顯示不足 N 天的理智藥，顯示 ｢N 天｣ 及以上的不吃。</system:String>
-    <system:String x:Key="Settings.Mfg">製造站</system:String>
-    <system:String x:Key="Settings.MinimizeAfterLaunch">啟動 MAA 後直接最小化</system:String>
-    <system:String x:Key="Settings.MinimizeToTray">最小化時隱藏至工作列</system:String>
-    <system:String x:Key="Settings.MirrorChyan">MirrorChyan</system:String>
     <system:String x:Key="Settings.Money">貿易站-龍門幣</system:String>
-    <system:String x:Key="Settings.MultiTasksShare.Tip">以下選項為多任務共用</system:String>
-    <system:String x:Key="Settings.MuteGameWhileRunning">任務執行時遊戲靜音</system:String>
-    <system:String x:Key="Settings.NightlyWarning" xml:space="preserve">您已啟用內測版更新。感謝您對 MAA 的支持與測試。
-
-請注意：
-
-1. 這是內測版，可能包含不穩定的功能。
-2. 如果遇到問題，請務必在 GitHub 上檢查是否已有相關 issue，若無則提交 issue，並附上日誌檔案。這樣我們可以更高效地處理問題。
-3. 請不要在其他地方討論內測版問題，例如使用者群組、評論區等。這會佔用公共資源且無法及時回饋和解決問題。
-4. 請勿將更新內測版的方法告知其他非開發使用者，以避免對他們造成不必要的困擾和風險。
-
-您可透過點擊 ｢{key=Settings.Title} - {key=IssueReport.Title}｣ 連結來取消該彈出視窗，感謝您的理解與配合！</system:String>
-    <system:String x:Key="Settings.No">否</system:String>
-    <system:String x:Key="Settings.NoActivity">暫無活動</system:String>
-    <system:String x:Key="Settings.NoNeedToUpdateDebugVersion">目前為測試版本，無需更新</system:String>
-    <system:String x:Key="Settings.NotSelected">不選擇</system:String>
-    <system:String x:Key="Settings.NotSwitch">不切換</system:String>
-    <system:String x:Key="Settings.NotifyBeforeScheduledStart">定時執行前傳送系統通知</system:String>
-    <system:String x:Key="Settings.NotifyBeforeScheduledStart.Tip" xml:space="preserve">依提前時間傳送系統通知。&#10;外部推播可在 ｢{key=Settings.Title} - {key=Notification.Settings} - {key=ExternalNotification.Settings}｣ 中單獨開啟，兩者共用提前時間。</system:String>
-    <system:String x:Key="Settings.NotifyBeforeScheduledStartSharedTime.Tip">外部推播與系統通知共用此提前時間。</system:String>
-    <system:String x:Key="Settings.Nox">夜神模擬器</system:String>
-    <system:String x:Key="Settings.Office">辦公室</system:String>
-    <system:String x:Key="Settings.Official">官服</system:String>
-    <system:String x:Key="Settings.Ok">好的</system:String>
-    <system:String x:Key="Settings.OnlyBuyDiscount">只購買打折的信用商品</system:String>
-    <system:String x:Key="Settings.OnlyBuyDiscountTips">⚠ 可能會導致信用點數溢出！仍然會購買未打折的商品！</system:String>
-    <system:String x:Key="Settings.OnlyOnceADay">一日只執行一次</system:String>
-    <system:String x:Key="Settings.OpenEmulatorAfterLaunch">啟動 MAA 後自動開啟模擬器</system:String>
-    <system:String x:Key="Settings.OpenEmulatorAfterLaunch.Tip">僅在啟動 MAA 時開啟一次模擬器，點擊 ｢{key=TaskQueue.LinkStart}｣ 時不會自動開啟；\n如有此需求，請勾選 ｢{key=Settings.RetryOnDisconnected}｣</system:String>
-    <system:String x:Key="Settings.OpenPcClientAfterLaunch">啟動 MAA 後自動開啟 PC 客戶端</system:String>
-    <system:String x:Key="Settings.OpenPcClientAfterLaunch.Tip">僅在啟動 MAA 時開啟一次 PC 客戶端，點擊 ｢{key=TaskQueue.LinkStart}｣ 時不會自動開啟；\n如有此需求，請勾選 ｢{key=Settings.RetryOnPcDisconnected}｣</system:String>
-    <system:String x:Key="Settings.OperationGuideSettings">操作與指引</system:String>
     <system:String x:Key="Settings.OriginStone">製造站-源石碎片</system:String>
-    <system:String x:Key="Settings.OriginiumShardAutoReplenishment">源石碎片自動補貨</system:String>
-    <system:String x:Key="Settings.OtherCombatSettings">戰鬥設定</system:String>
-    <system:String x:Key="Settings.OvercomingYourWeaknesses">取長補短（近衛、輔助、醫療）</system:String>
-    <system:String x:Key="Settings.PC">明日方舟 PC 端（社群維護）</system:String>
-    <system:String x:Key="Settings.ParseClipboard">從剪貼簿讀取</system:String>
-    <system:String x:Key="Settings.ParseFailed">解析失敗</system:String>
-    <system:String x:Key="Settings.PendingFullUpdateManualConfirm.Title">完整檔案更新需要手動確認</system:String>
-    <system:String x:Key="Settings.PendingFullUpdateManualConfirmDesc" xml:space="preserve">偵測到需要使用完整檔案進行更新。
-
-更新邏輯：如果你繼續下載或匯入完整檔案，後續安裝時會先清理目前安裝根目錄下除 cache、config、data、debug、achievement（通關截圖）和 MAA.Updater.exe 外的頂層檔案與資料夾，再把完整檔案內容寫入該目錄。
-
-風險說明：如果你把 MAA 直接放在磁碟根目錄、桌面、下載資料夾，或與其他程式、個人檔案放在同一個目錄層級，這些同層內容也可能一起被刪除或移走。
-
-正確目錄結構示例：請把 MAA 放在獨立資料夾內，例如：
-D:\
-`-- MAA\
-    |-- MAA.exe
-    |-- config\
-    `-- data\
-
-請先手動備份整個安裝目錄，尤其是與 MAA 無關但和它放在同一層級的檔案。
-目前安裝目錄：{0}
-
-只有在你已確認目錄結構正確並完成手動備份後，才繼續下載或匯入完整檔案。</system:String>
-    <system:String x:Key="Settings.PendingFullUpdateManualConfirmNo">暫不更新，繼續啟動目前版本</system:String>
-    <system:String x:Key="Settings.PendingFullUpdateManualConfirmYes">我已手動確認並備份，繼續更新</system:String>
     <system:String x:Key="Settings.Performance">效能設定</system:String>
-    <system:String x:Key="Settings.Power">發電站</system:String>
-    <system:String x:Key="Settings.Power.WithScreenOn">阻止休眠時保持螢幕常亮</system:String>
-    <system:String x:Key="Settings.Processing">加工站</system:String>
     <system:String x:Key="Settings.PromptRestartForSettingsChange">是否立刻重開以套用更改？</system:String>
     <system:String x:Key="Settings.PureGold">製造站-赤金</system:String>
-    <system:String x:Key="Settings.ReceiveDailyAndWeeklyAward">領取每日 / 每週任務獎勵</system:String>
-    <system:String x:Key="Settings.ReceiveFreeGacha">進行限定池贈送的每日免費單抽</system:String>
-    <system:String x:Key="Settings.ReceiveFreeGacha.Tip">若不存在免費單抽，則不會抽取</system:String>
-    <system:String x:Key="Settings.ReceiveMail">領取所有郵件獎勵</system:String>
-    <system:String x:Key="Settings.ReceiveMining">領取限時開採許可的每日合成玉獎勵</system:String>
-    <system:String x:Key="Settings.ReceiveOrundum">收集幸運牆的每日合成玉獎勵</system:String>
-    <system:String x:Key="Settings.ReceiveSignInEvent">領取限時簽到活動獎勵</system:String>
-    <system:String x:Key="Settings.ReceiveSignInEvent.Tip">僅支援常見橫向版型；其他版型不支援，可能無法正常運作</system:String>
-    <system:String x:Key="Settings.ReceiveSpecialAccess">領取特殊贈送月卡獎勵</system:String>
-    <system:String x:Key="Settings.Reception">會客室</system:String>
-    <system:String x:Key="Settings.ReceptionOptionsRequireInfrast">以下功能需在{key=TaskQueue.Infrast}中設定並執行</system:String>
-    <system:String x:Key="Settings.Recycle">回收站（推測譯名、未實裝）</system:String>
-    <system:String x:Key="Settings.RefreshTraderWithDice">刷新商店（指路鱗）</system:String>
-    <system:String x:Key="Settings.RenameTask">重新命名任務</system:String>
-    <system:String x:Key="Settings.RenameTaskPrompt">請輸入新的任務名稱：</system:String>
-    <system:String x:Key="Settings.ResearchSquad">研究分隊</system:String>
-    <system:String x:Key="Settings.ReserveMaxCredit">300 以下信用點數停止購買商品</system:String>
-    <system:String x:Key="Settings.ReserveMaxCreditTips">低於 300 信用點數也仍然會購買白名單物品！</system:String>
-    <system:String x:Key="Settings.RetryOnDisconnected">ADB 連線失敗時嘗試啟動模擬器</system:String>
-    <system:String x:Key="Settings.RetryOnDisconnected.Tip">重連失敗後嘗試重新啟動模擬器；使用背景定時任務且設定任務完成後關閉模擬器時，必須勾選此項</system:String>
-    <system:String x:Key="Settings.RetryOnDisconnectedEmulatorPathEmptyError">模擬器路徑為空！請填寫 ｢{key=Settings.Title} - {key=Startup.Settings} - {key=Connection.Emulator.Path}｣ 後重新勾選。</system:String>
-    <system:String x:Key="Settings.RetryOnPcDisconnected">PC 客戶端連線失敗時嘗試啟動客戶端</system:String>
-    <system:String x:Key="Settings.RetryOnPcDisconnected.Tip">視窗連線失敗後啟動 PC 客戶端，並再次嘗試連線</system:String>
-    <system:String x:Key="Settings.RetryOnPcDisconnectedPathEmptyError">PC 客戶端路徑為空！請填寫 ｢{key=Settings.Title} - {key=Startup.Settings} - {key=Connection.PcClient.Path}｣ 後重新勾選。</system:String>
-    <system:String x:Key="Settings.RunTaskAfterLaunch">啟動 MAA 後直接執行</system:String>
-    <system:String x:Key="Settings.ScreenshotTest">截圖測試</system:String>
-    <system:String x:Key="Settings.SecondResolution">第二解析度</system:String>
-    <system:String x:Key="Settings.Select">選擇</system:String>
-    <system:String x:Key="Settings.SelectPcClient.Tip">可選擇 PC 客戶端主程式或其捷徑，並可透過 ｢{key=Settings.AdditionCommand}｣ 補充啟動參數。</system:String>
-    <system:String x:Key="Settings.SelectShortcut.Tip" xml:space="preserve">可選擇模擬器本體（配合 ｢{key=Settings.AdditionCommand}｣ 啟動參數可指定啟動模擬器實例），也可直接選擇模擬器或遊戲的捷徑。&#10;如因模擬器啟動時間過長導致 ｢{key=TaskQueue.WakeUp}｣ 任務失敗，推薦填寫遊戲捷徑並延長 ｢{key=Settings.WaitForEmulator}｣。</system:String>
-    <system:String x:Key="Settings.ShowChangelog">更新日誌</system:String>
-    <system:String x:Key="Settings.ShowUpdaterConsole">顯示更新程式主控台輸出</system:String>
-    <system:String x:Key="Settings.ShowUpdaterProgress">顯示更新程式進度視窗</system:String>
-    <system:String x:Key="Settings.ShowUpdaterProgress.Tip" xml:space="preserve">更新時由更新程式顯示一個獨立的進度視窗，展示目前更新狀態與檔案處理進度。
-關閉後將無法直觀看到更新進展，更新過程中也不要重複啟動 MAA，否則可能導致更新中斷或檔案損壞。</system:String>
-    <system:String x:Key="Settings.ShowUpdaterProgressWarning" xml:space="preserve">關閉更新進度視窗後，更新過程中將不再顯示進度提示。
-
-請注意：
-1. 更新期間請勿重複啟動 MAA，否則可能因檔案佔用導致更新失敗或檔案損壞。
-2. 若同時關閉了進度視窗和主控台輸出，更新過程將完全無介面提示，難以判斷是否卡住或失敗。
-
-確定要關閉更新進度視窗嗎？</system:String>
-    <system:String x:Key="Settings.ShowWindowBeforeForceScheduledStart">強制定時啟動前顯示視窗</system:String>
-    <system:String x:Key="Settings.ShowWindowBeforeForceScheduledStart.Tip">定時啟動前顯示主視窗，避免最小化時看不到倒數</system:String>
-    <system:String x:Key="Settings.SkipStartupAutoRunAfterUpdate">更新後立即重新啟動時不自動執行</system:String>
-    <system:String x:Key="Settings.SkipStartupAutoRunAfterUpdate.Tip" xml:space="preserve">僅在 ｢{key=Settings.AutoInstallUpdatePackage}｣ 或更新提示中選擇立即重新啟動時生效。
-若選擇 ｢{key=Settings.ManualRestart}｣ 再手動啟動 MAA，仍會依 ｢{key=Settings.RunTaskAfterLaunch}｣ / ｢{key=Settings.OpenEmulatorAfterLaunch}｣ 正常執行。</system:String>
-    <system:String x:Key="Settings.Skipped">跳過</system:String>
-    <system:String x:Key="Settings.SlowAndSteadyWinsTheRace">穩紮穩打（重裝、術師、狙擊）</system:String>
-    <system:String x:Key="Settings.SocialPtShop">信用購物</system:String>
-    <system:String x:Key="Settings.SpearheadSquad">矛頭分隊</system:String>
-    <system:String x:Key="Settings.SpecialForceSquad">特勤分隊</system:String>
-    <system:String x:Key="Settings.SpecifiedDrops.Tip" xml:space="preserve">實際進入的關卡仍由下方 ｢{key=Combat.Stage.Select}｣ / ｢{key=Combat.Stage.Select2}｣ 決定。
-• {key=Combat.Quantity}：以目前理智作戰任務中該材料的掉落數量為目標，達到設定數量後停止。
-• {key=Combat.TargetInventory}：會參考 ｢{key=Toolbox.Title}-{key=Depot.Recognition}｣ 中儲存的庫存數據，只補到設定庫存為止。
-  • 庫存數據是快取值，手動刷關、合成或消耗材料後可能與實際不一致；可透過 ｢{key=TaskQueue.UserDataUpdate}｣ 或 ｢{key=Toolbox.Title}-{key=Depot.Recognition}｣ 同步。
-  • 執行時會根據掉落即時更新庫存，前序任務刷出的材料會影響後續任務的缺口計算。</system:String>
-    <system:String x:Key="Settings.StartGameLaunchClient">是否啟動用戶端</system:String>
     <system:String x:Key="Settings.StartGuideDemo">示範中不會真的執行任務</system:String>
-    <system:String x:Key="Settings.StartTimesLimit">開始探索 N 次後停止任務</system:String>
-    <system:String x:Key="Settings.StartingCoreChar">開局{key=Operator.Name}</system:String>
-    <system:String x:Key="Settings.StartingCoreChar.Tip">不填寫則使用預設策略。三個位置的職業不能相同。</system:String>
-    <system:String x:Key="Settings.StartingCoreChar2">第 2 位{key=Settings.StartingCoreChar}</system:String>
-    <system:String x:Key="Settings.StartingCoreChar3">第 3 位{key=Settings.StartingCoreChar}</system:String>
-    <system:String x:Key="Settings.StartingCoreCharPosition1">第 1 位{key=Operator.Name}</system:String>
-    <system:String x:Key="Settings.StartingCoreCharPosition2">第 2 位{key=Operator.Name}</system:String>
-    <system:String x:Key="Settings.StartingCoreCharPosition3">第 3 位{key=Operator.Name}</system:String>
-    <system:String x:Key="Settings.StartingRoles">開局職業組</system:String>
-    <system:String x:Key="Settings.StartingSquad">開局分隊</system:String>
-    <system:String x:Key="Settings.StartsWithScript">開始前腳本</system:String>
-    <system:String x:Key="Settings.StartsWithScriptPlaceholder">範例："C:\1.cmd" -minimized</system:String>
-    <system:String x:Key="Settings.StopOnGoldLimit">儲備源石錠達到上限時停止</system:String>
-    <system:String x:Key="Settings.Strategy">策略</system:String>
-    <system:String x:Key="Settings.Success">成功</system:String>
-    <system:String x:Key="Settings.SupportSquad">後勤分隊</system:String>
     <system:String x:Key="Settings.SwitchConfiguration">切換設定檔</system:String>
-    <system:String x:Key="Settings.SwitchLanguage">切換語言 🌐</system:String>
-    <system:String x:Key="Settings.SwitchResolution.Tip">將模擬器解析度更改為 1920x1080！</system:String>
     <system:String x:Key="Settings.Switchable">可切換</system:String>
     <system:String x:Key="Settings.SyntheticJade">貿易站-合成玉</system:String>
-    <system:String x:Key="Settings.SystemNotification">重要訊息彈出系統通知</system:String>
-    <system:String x:Key="Settings.SystemNotificationInfo" xml:space="preserve">MAA 是非安裝型軟體，通知功能使用 Microsoft.Toolkit.Uwp.Notifications 函式庫，該函式庫預設以程式所在路徑作為註冊辨識。
-若從多個路徑啟動過 MAA，Windows 會為每個路徑產生不同的通知來源圖示（如工作列彈出圖示），這是該函式庫的預設行為，MAA 無法控制或自動清除。
-如需清理，請手動開啟登錄檔編輯器，定位至：
-HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settings
-刪除對應的路徑項目即可。</system:String>
-    <system:String x:Key="Settings.TacticalAssaultOperative">突擊戰術分隊</system:String>
-    <system:String x:Key="Settings.TacticalDestructionOperative">破壞戰術分隊</system:String>
-    <system:String x:Key="Settings.TacticalFortificationOperative">堡壘戰術分隊</system:String>
-    <system:String x:Key="Settings.TacticalRangedOperative">遠程戰術分隊</system:String>
-    <system:String x:Key="Settings.TaskCopied">已複製任務：{0}</system:String>
-    <system:String x:Key="Settings.TaskCopyFailed">任務複製失敗</system:String>
-    <system:String x:Key="Settings.TaskDeleted">已刪除任務：{0}</system:String>
-    <system:String x:Key="Settings.TaskRenameFailed">任務重新命名失敗</system:String>
-    <system:String x:Key="Settings.TaskRenamed">任務已重新命名為：{0}</system:String>
-    <system:String x:Key="Settings.Test">測試</system:String>
-    <system:String x:Key="Settings.ThirdPartyGroupPenguin">企鵝物流</system:String>
-    <system:String x:Key="Settings.ThirdPartyGroupYituliu">一圖流</system:String>
     <system:String x:Key="Settings.ThirdPartyServiceSettings">三方服務</system:String>
-    <system:String x:Key="Settings.Timer">定時</system:String>
-    <system:String x:Key="Settings.TimerCustomConfig">自訂設定檔選擇</system:String>
-    <system:String x:Key="Settings.TimerCustomConfig.Tip">定時啟動前兩分鐘重新啟動 MAA 並切換設定檔</system:String>
-    <system:String x:Key="Settings.Tip">提示</system:String>
     <system:String x:Key="Settings.Title">設定</system:String>
-    <system:String x:Key="Settings.TitleBarDisplay.Content">標題列顯示內容</system:String>
-    <system:String x:Key="Settings.TitleBarSettings">標題列設定</system:String>
-    <system:String x:Key="Settings.TouchMode">觸控模式</system:String>
-    <system:String x:Key="Settings.Trade">貿易站</system:String>
-    <system:String x:Key="Settings.Training">訓練室</system:String>
-    <system:String x:Key="Settings.TrainingCompleted">訓練完成</system:String>
-    <system:String x:Key="Settings.TrainingIdle">訓練室空閒中</system:String>
-    <system:String x:Key="Settings.TrainingLevel">專精等級</system:String>
-    <system:String x:Key="Settings.TrainingTimeLeft">剩餘時間</system:String>
-    <system:String x:Key="Settings.TraySettings">工作列</system:String>
-    <system:String x:Key="Settings.Txwy">繁中服 (txwy)</system:String>
-    <system:String x:Key="Settings.Unbreakable">堅不可摧（重裝、術師、醫療）</system:String>
-    <system:String x:Key="Settings.UseAlternateStage">使用備選關卡</system:String>
-    <system:String x:Key="Settings.UseCardLog">使用卡片樣式日誌</system:String>
-    <system:String x:Key="Settings.UseExpireMedicineForActivity">活動結束前 48H 吃當週過期理智藥</system:String>
-    <system:String x:Key="Settings.UseExpiringMedicine">無限吃 N 天內過期的理智藥</system:String>
-    <system:String x:Key="Settings.UseLogItemDateFormat">自訂日誌日期格式</system:String>
-    <system:String x:Key="Settings.UseTray">顯示工作列圖示</system:String>
-    <system:String x:Key="Settings.UseWeeklySchedule">使用週計畫</system:String>
-    <system:String x:Key="Settings.UseWeeklySchedule.Tip">此處的星期是根據遊戲時間計算的，並非現實時間。例如遊戲在 4:00 刷新，則 3:59 仍算作前一天。</system:String>
-    <system:String x:Key="Settings.UserDefined">自訂</system:String>
-    <system:String x:Key="Settings.WSA">WSA 舊版本</system:String>
-    <system:String x:Key="Settings.WaitForEmulator">等待模擬器啟動時間（秒）</system:String>
-    <system:String x:Key="Settings.WaitForEmulatorFinish">等待結束</system:String>
-    <system:String x:Key="Settings.WaitForPcClient">等待 PC 客戶端啟動時間（秒）</system:String>
-    <system:String x:Key="Settings.Warning">警告</system:String>
-    <system:String x:Key="Settings.WindowMinimize">視窗最小化</system:String>
-    <system:String x:Key="Settings.WindowRestore">視窗復原</system:String>
-    <system:String x:Key="Settings.WindowTitleScrollable">視窗標題捲動</system:String>
-    <system:String x:Key="Settings.XYAZ">逍遙模擬器</system:String>
-    <system:String x:Key="Settings.Yes">是</system:String>
-    <system:String x:Key="Settings.YituliuFetchFailed">從一圖流讀取失敗：{0}</system:String>
-    <system:String x:Key="Settings.YituliuNoOperBoxData">Token 對應的一圖流帳號暫無幹員練度資料，已保留本機辨識結果</system:String>
-    <system:String x:Key="Settings.YituliuOpenApiToken">OpenAPI Token</system:String>
-    <system:String x:Key="Settings.YituliuOperBoxCompleted">{key=Operator.Recognition}完成（一圖流）</system:String>
-    <system:String x:Key="Settings.YituliuTokenEmpty">請先填寫 Token</system:String>
-    <system:String x:Key="Settings.YituliuTokenInvalid">Token 無效或已失效，請重新產生</system:String>
-    <system:String x:Key="Settings.YituliuTokenLink">前往{key=Settings.ThirdPartyGroupYituliu}取得 Token</system:String>
-    <system:String x:Key="Settings.YituliuTokenNetworkError">網路錯誤，請稍後重試</system:String>
-    <system:String x:Key="Settings.YituliuTokenValid">Token 有效，共 {0} 名幹員</system:String>
-    <system:String x:Key="Settings.YituliuTokenValidNoData">Token 有效，但帳號暫無幹員練度資料</system:String>
-    <system:String x:Key="Settings.YituliuTokenVerify">驗證</system:String>
-    <system:String x:Key="Settings.YituliuTokenWriteOnly">Token 不具備讀取權限，請使用唯讀或讀寫權限的 Token</system:String>
-    <system:String x:Key="Settings.YoStarEN">國際服 (YostarEN)</system:String>
-    <system:String x:Key="Settings.YoStarJP">日服 (YostarJP)</system:String>
-    <system:String x:Key="Settings.YoStarKR">韓服 (YostarKR)</system:String>
     <system:String x:Key="Startup.AutoRunCountdown.Title">即將自動啟動</system:String>
     <system:String x:Key="Startup.AutoRunCountdownEmulatorOnly">即將自動啟動模擬器，是否取消？</system:String>
     <system:String x:Key="Startup.AutoRunCountdownPcClientOnly">即將自動啟動 PC 客戶端，是否取消？</system:String>
     <system:String x:Key="Startup.AutoRunCountdownTaskAndEmulator">即將自動執行任務並啟動模擬器，是否取消？</system:String>
     <system:String x:Key="Startup.AutoRunCountdownTaskAndPcClient">即將自動執行任務並啟動 PC 客戶端，是否取消？</system:String>
     <system:String x:Key="Startup.AutoRunCountdownTaskOnly">即將自動執行任務，是否取消？</system:String>
+    <system:String x:Key="Startup.Executable">可執行檔</system:String>
+    <system:String x:Key="Startup.LaunchOnSystemStartup">開機自動啟動 MAA</system:String>
+    <system:String x:Key="Startup.LaunchOnSystemStartup.Warning" xml:space="preserve">此功能透過修改登錄檔來實現開機自動啟動。
+由於 MAA 為非安裝軟體，不會自動清除登錄檔項目。
+若在意登錄檔殘留，請在刪除程式前先取消啟用此選項。</system:String>
+    <system:String x:Key="Startup.LaunchOnSystemStartupAdminPrompt">
+        ｢以系統管理員身分執行｣ 不支援開機自動啟動。不建議長期以系統管理員身分執行 MAA。\n如有需要，請前往 控制台 &gt; 系統管理工具 &gt; 工作排程器 建立工作。設定安全性選項時，請確保已勾選 ｢以最高權限執行｣。
+    </system:String>
+    <system:String x:Key="Startup.MinimizeAfterLaunch">啟動 MAA 後直接最小化</system:String>
     <system:String x:Key="Startup.MultiInstanceUnderSamePath" xml:space="preserve">同一路徑下只能啟動一個實例！
 如需多開 MAA，請複製一份新的 MAA 到其他資料夾，並設定使用不同的 MAA，搭配相同的 ADB 與不同的模擬器位址進行多開操作。
     </system:String>
+    <system:String x:Key="Startup.OpenEmulatorAfterLaunch">啟動 MAA 後自動開啟模擬器</system:String>
+    <system:String x:Key="Startup.OpenEmulatorAfterLaunch.Tip">僅在啟動 MAA 時開啟一次模擬器，點擊 ｢{key=TaskQueue.LinkStart}｣ 時不會自動開啟；\n如有此需求，請勾選 ｢{key=Connection.RetryOnDisconnected}｣</system:String>
+    <system:String x:Key="Startup.OpenPcClientAfterLaunch">啟動 MAA 後自動開啟 PC 客戶端</system:String>
+    <system:String x:Key="Startup.OpenPcClientAfterLaunch.Tip">僅在啟動 MAA 時開啟一次 PC 客戶端，點擊 ｢{key=TaskQueue.LinkStart}｣ 時不會自動開啟；\n如有此需求，請勾選 ｢{key=Connection.RetryOnPcDisconnected}｣</system:String>
+    <system:String x:Key="Startup.RunTaskAfterLaunch">啟動 MAA 後直接執行</system:String>
+    <system:String x:Key="Startup.SelectPcClient.Tip">可選擇 PC 客戶端主程式或其捷徑，並可透過 ｢{key=Connection.AdditionCommand}｣ 補充啟動參數。</system:String>
+    <system:String x:Key="Startup.SelectShortcut.Tip" xml:space="preserve">可選擇模擬器本體（配合 ｢{key=Connection.AdditionCommand}｣ 啟動參數可指定啟動模擬器實例），也可直接選擇模擬器或遊戲的捷徑。&#10;如因模擬器啟動時間過長導致 ｢{key=TaskQueue.WakeUp}｣ 任務失敗，推薦填寫遊戲捷徑並延長 ｢{key=Startup.WaitForEmulator}｣。</system:String>
     <system:String x:Key="Startup.Settings">啟動設定</system:String>
+    <system:String x:Key="Startup.SkipStartupAutoRunAfterUpdate">更新後立即重新啟動時不自動執行</system:String>
+    <system:String x:Key="Startup.SkipStartupAutoRunAfterUpdate.Tip" xml:space="preserve">僅在 ｢{key=Update.AutoInstall}｣ 或更新提示中選擇立即重新啟動時生效。
+若選擇 ｢{key=Common.ManualRestart}｣ 再手動啟動 MAA，仍會依 ｢{key=Startup.RunTaskAfterLaunch}｣ / ｢{key=Startup.OpenEmulatorAfterLaunch}｣ 正常執行。</system:String>
     <system:String x:Key="Startup.SoftwareLocationWarning">目前軟體所在的位置無法儲存資料，可能會導致設定遺失或執行異常。建議將軟體移動到可寫入的目錄中執行，請勿放置在系統保護目錄（如 Program Files、System32 或 Windows 目錄）中。</system:String>
+    <system:String x:Key="Startup.StartGameLaunchClient">是否啟動用戶端</system:String>
     <system:String x:Key="Startup.UnknownDllDetected" xml:space="preserve">偵測到 MAA 執行目錄下存在未知的 DLL 檔案，可能導致 DLL 劫持並產生意外後果。
 請將 MAA 解壓縮到一個獨立的新資料夾中，或移除不屬於 MAA 的 DLL 檔案。
     </system:String>
@@ -2136,87 +2174,59 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
 • 其他系統依賴缺失
 
 請先確認是否已將壓縮檔完整解壓縮。
-點擊 ｢{key=Settings.Confirm}｣ 將嘗試安裝/更新 VC++ 執行庫並結束 MAA（若為其他原因則無效），點擊 ｢{key=Settings.Cancel}｣ 將直接結束 MAA。
+點擊 ｢{key=Common.Confirm}｣ 將嘗試安裝/更新 VC++ 執行庫並結束 MAA（若為其他原因則無效），點擊 ｢{key=Common.Cancel}｣ 將直接結束 MAA。
     </system:String>
-    <system:String x:Key="TaskQueue.ActingCommandError">代理指揮失誤</system:String>
+    <system:String x:Key="Startup.WaitForEmulator">等待模擬器啟動時間（秒）</system:String>
+    <system:String x:Key="Startup.WaitForEmulatorFinish">等待結束</system:String>
+    <system:String x:Key="Startup.WaitForPcClient">等待 PC 客戶端啟動時間（秒）</system:String>
+    <system:String x:Key="TaskQueue.AccountSwitch">帳號切換</system:String>
+    <system:String x:Key="TaskQueue.AccountSwitch.ManualRun">立即切換</system:String>
+    <system:String x:Key="TaskQueue.AccountSwitch.Tip" xml:space="preserve">需要切換到的帳號，留空以停用。
+輸入登入介面顯示的內容，如 ｢123****4567｣，可輸入 ｢123****4567｣、｢4567｣ 或 ｢23****45｣
+繁中服和韓服帳號為 Email，如 ｢ab****01@gmail.com｣，建議填不含星號的明文片段，如 ｢01@gmail｣。
+僅支援官服、B 服、繁中服及韓服，不支援第三方登入方式。</system:String>
+    <system:String x:Key="TaskQueue.AddTaskQueueTask">新增任務</system:String>
     <system:String x:Key="TaskQueue.Administrator">系統管理員</system:String>
     <system:String x:Key="TaskQueue.AllTaskComplete.Content">MAA 已在 {DateTime} 完成了 {Preset} 設定檔下所有預設的任務（耗時 {TimeDiff}）。</system:String>
     <system:String x:Key="TaskQueue.AllTasksComplete">任務已全部完成！\n(耗時 {0})</system:String>
-    <system:String x:Key="TaskQueue.AutoRecruitHighPriority">3★ Tags 時的 Tags 傾向</system:String>
-    <system:String x:Key="TaskQueue.AutoRecruitHighPriorityTooltip">會盡可能多選傾向的 Tags</system:String>
-    <system:String x:Key="TaskQueue.AutoRecruitSelectStrategy">公招多選 Tags 的策略</system:String>
     <system:String x:Key="TaskQueue.AutoReloadResource">自動重新載入資源</system:String>
     <system:String x:Key="TaskQueue.AutoRoguelike">自動肉鴿</system:String>
     <system:String x:Key="TaskQueue.Award">{key=TaskQueue.Mission}</system:String>
+    <system:String x:Key="TaskQueue.Award.ReceiveDailyAndWeeklyAward">領取每日 / 每週任務獎勵</system:String>
+    <system:String x:Key="TaskQueue.Award.ReceiveFreeGacha">進行限定池贈送的每日免費單抽</system:String>
+    <system:String x:Key="TaskQueue.Award.ReceiveFreeGacha.Tip">若不存在免費單抽，則不會抽取</system:String>
+    <system:String x:Key="TaskQueue.Award.ReceiveMail">領取所有郵件獎勵</system:String>
+    <system:String x:Key="TaskQueue.Award.ReceiveMining">領取限時開採許可的每日合成玉獎勵</system:String>
+    <system:String x:Key="TaskQueue.Award.ReceiveOrundum">收集幸運牆的每日合成玉獎勵</system:String>
+    <system:String x:Key="TaskQueue.Award.ReceiveSignInEvent">領取限時簽到活動獎勵</system:String>
+    <system:String x:Key="TaskQueue.Award.ReceiveSignInEvent.Tip">僅支援常見橫向版型；其他版型不支援，可能無法正常運作</system:String>
+    <system:String x:Key="TaskQueue.Award.ReceiveSpecialAccess">領取特殊贈送月卡獎勵</system:String>
     <system:String x:Key="TaskQueue.BackToAndroidHome">返回模擬器主畫面</system:String>
     <system:String x:Key="TaskQueue.Base">基建換班</system:String>
-    <system:String x:Key="TaskQueue.BegunToExplore">已開始探索</system:String>
-    <system:String x:Key="TaskQueue.BoskyDisaster">節點: 災禍</system:String>
-    <system:String x:Key="TaskQueue.BoskyDoubts">節點: 雜疑</system:String>
-    <system:String x:Key="TaskQueue.BoskyLegend">節點: 傳說</system:String>
-    <system:String x:Key="TaskQueue.BoskyOldShop">節點: 故肆</system:String>
-    <system:String x:Key="TaskQueue.BoskyOmissions">節點: 拾遺</system:String>
-    <system:String x:Key="TaskQueue.BoskyPlaytime">節點: 常樂</system:String>
-    <system:String x:Key="TaskQueue.BoskyScheme">節點: 籌謀</system:String>
-    <system:String x:Key="TaskQueue.BoskyYiTrader">節點: 易與</system:String>
-    <system:String x:Key="TaskQueue.BulletTime">進入子彈時間</system:String>
+    <system:String x:Key="TaskQueue.CheckBoxesNotSaved">該選項僅生效一次</system:String>
+    <system:String x:Key="TaskQueue.CheckBoxesNotSavedAsNull">該選項點擊右鍵選取時僅生效一次</system:String>
+    <system:String x:Key="TaskQueue.CheckBoxesNotSavedAsNullInvert">該選項點擊右鍵選取時僅跳過一次</system:String>
     <system:String x:Key="TaskQueue.CheckIfStartOver">檢查是否重開</system:String>
-    <system:String x:Key="TaskQueue.CheckSettings">請 ｢檢查連線設定｣ → ｢嘗試重開模擬器與 ADB｣ → ｢重開電腦｣</system:String>
     <system:String x:Key="TaskQueue.Choose">選擇</system:String>
-    <system:String x:Key="TaskQueue.Clear">清空</system:String>
-    <system:String x:Key="TaskQueue.Click">點擊</system:String>
     <system:String x:Key="TaskQueue.Combat">刷理智</system:String>
-    <system:String x:Key="TaskQueue.CompleteCombat">完成戰鬥</system:String>
     <system:String x:Key="TaskQueue.CompleteTask" xml:space="preserve">完成任務: </system:String>
-    <system:String x:Key="TaskQueue.ContinueRefresh">無招聘許可，繼續嘗試刷新 Tags</system:String>
+    <system:String x:Key="TaskQueue.ConfirmDeleteTask">確認刪除</system:String>
+    <system:String x:Key="TaskQueue.ConfirmDeleteTaskMessage">確定要刪除 {0} 任務 "{1}" 嗎？</system:String>
     <system:String x:Key="TaskQueue.CoreLoading.Tip">MAA 核心尚未載入完成，請稍後再試。</system:String>
     <system:String x:Key="TaskQueue.CurTimes">目前次數</system:String>
-    <system:String x:Key="TaskQueue.CurrentSanity" xml:space="preserve">理智: {0}/{1}  </system:String>
-    <system:String x:Key="TaskQueue.CurrentStage">目前關卡: {0}</system:String>
     <system:String x:Key="TaskQueue.CurrentSteps">目前步驟：{0} {1}</system:String>
     <system:String x:Key="TaskQueue.Custom">自訂任務</system:String>
-    <system:String x:Key="TaskQueue.CustomTaskName">任務名</system:String>
-    <system:String x:Key="TaskQueue.Dark">深色模式</system:String>
-    <system:String x:Key="TaskQueue.DeepExplorationCompleted">深入調查清完啦！</system:String>
-    <system:String x:Key="TaskQueue.DeepExplorationNotUnlockedComplain">深入調查未解鎖</system:String>
-    <system:String x:Key="TaskQueue.DefaultNoExtraTags">預設不選擇額外的 Tags</system:String>
-    <system:String x:Key="TaskQueue.DelegatedUpdateFailureDetected">上次自動更新失敗，目前的安裝可能不完整，本次啟動已跳過資源載入。請在接下來的對話方塊中選擇修復方式。\n\n失敗原因：{0}</system:String>
-    <system:String x:Key="TaskQueue.DelegatedUpdateFailureReasonFileLocked">更新過程中移動檔案失敗。檔案可能被安全軟體掃描、攔截或鎖定，也可能被其他程式占用。若是安全軟體所致，{key=TaskQueue.SecuritySoftwareWhitelistTips}也可重新開機後再試。</system:String>
-    <system:String x:Key="TaskQueue.DelegatedUpdateFailureReasonPackageError">更新包或其解壓產物可能已損毀或不完整。</system:String>
-    <system:String x:Key="TaskQueue.DelegatedUpdateFailureReasonUnknown">未知原因，詳情請查看 debug 資料夾中的 gui.log。</system:String>
-    <system:String x:Key="TaskQueue.Deploy">部署</system:String>
+    <system:String x:Key="TaskQueue.Custom.TaskName">任務名</system:String>
     <system:String x:Key="TaskQueue.DoNothing">無動作</system:String>
-    <system:String x:Key="TaskQueue.DrawCard">調配幹員</system:String>
-    <system:String x:Key="TaskQueue.DreadfulFoe">關卡: 險路惡敵</system:String>
-    <system:String x:Key="TaskQueue.Drop" xml:space="preserve">本次掉落：</system:String>
-    <system:String x:Key="TaskQueue.DropRecognitionError">掉落辨識錯誤</system:String>
     <system:String x:Key="TaskQueue.ElapsedTime">經過時間：{0}ms</system:String>
-    <system:String x:Key="TaskQueue.EmergencyOps">關卡: 緊急作戰</system:String>
-    <system:String x:Key="TaskQueue.EncounterOcrError">事件名稱辨識錯誤</system:String>
     <system:String x:Key="TaskQueue.ErrorOccurred">出現錯誤</system:String>
-    <system:String x:Key="TaskQueue.EveryTime">每次</system:String>
     <system:String x:Key="TaskQueue.ExitArknights">關閉 明日方舟</system:String>
     <system:String x:Key="TaskQueue.ExitEmulator">關閉 模擬器</system:String>
     <system:String x:Key="TaskQueue.ExitSelf">關閉 MAA</system:String>
-    <system:String x:Key="TaskQueue.ExpiringMedicineUsed">已使用 {0} 天內過期的理智藥</system:String>
-    <system:String x:Key="TaskQueue.ExplorationAbandoned">已放棄本次探索</system:String>
-    <system:String x:Key="TaskQueue.FailedToOpenClient">開啟用戶端失敗，請檢查設定檔</system:String>
-    <system:String x:Key="TaskQueue.FailedToReplaceAdbAndUseLocal">替換 ADB 失敗</system:String>
-    <system:String x:Key="TaskQueue.FailedToReplaceAdbAndUseLocalDesc">已使用本機 ADB 進行連線。如果要再次嘗試，請 ｢關閉模擬器與 ADB｣，或 ｢重新啟動電腦後，在未開啟模擬器的情況下使用系統管理員身分開啟 MAA｣ 進行操作。</system:String>
     <system:String x:Key="TaskQueue.Farming">一鍵長草</system:String>
-    <system:String x:Key="TaskQueue.FastestWayToScreencap">最快截圖耗時: {0}ms ({1})</system:String>
-    <system:String x:Key="TaskQueue.FastestWayToScreencapError.Tip">截圖耗時過長 (平均: {0}ms)，自動戰鬥類功能（如自動肉鴿）很可能無法正常執行，建議嘗試重新啟動或更換模擬器！若使用 MuMu、雷電模擬器，請在 ｢{key=Settings.Title} - {key=Settings.Connection} - {key=Connection.Preset}｣ 選擇對應模擬器，並開啟下方顯示的截圖增強</system:String>
-    <system:String x:Key="TaskQueue.FastestWayToScreencapInfo.Tip">截圖耗時 {0}ms。若使用 MuMu、雷電模擬器，可在 ｢{key=Settings.Title} - {key=Settings.Connection} - {key=Connection.Preset}｣ 選擇對應模擬器，並開啟下方顯示的截圖增強以降低耗時</system:String>
-    <system:String x:Key="TaskQueue.FastestWayToScreencapWarning.Tip">截圖耗時較長 (平均: {0}ms)，執行自動戰鬥類功能（如自動肉鴿）時可能表現異常。若使用 MuMu、雷電模擬器，請在 ｢{key=Settings.Title} - {key=Settings.Connection} - {key=Connection.Preset}｣ 選擇對應模擬器，並開啟下方顯示的截圖增強</system:String>
     <system:String x:Key="TaskQueue.Fight">{key=TaskQueue.Combat}</system:String>
-    <system:String x:Key="TaskQueue.FilterTruth">節點: 去偽存真</system:String>
-    <system:String x:Key="TaskQueue.FoldartalGainOcrNextLevel">預見:</system:String>
-    <system:String x:Key="TaskQueue.ForcedFullPackageUpdateNotice">為修復安裝，將下載完整安裝檔而非增量更新檔</system:String>
-    <system:String x:Key="TaskQueue.FurnitureDrop">傢俱</system:String>
     <system:String x:Key="TaskQueue.GameCrash">遊戲閃退，重新啟動</system:String>
     <system:String x:Key="TaskQueue.GameDrop">遊戲斷線，停止任務</system:String>
-    <system:String x:Key="TaskQueue.GiveUpUploadingPenguins">放棄上傳企鵝物流</system:String>
-    <system:String x:Key="TaskQueue.HardRestartAdb">正在嘗試重開 ADB</system:String>
     <system:String x:Key="TaskQueue.HasReturned">已返回</system:String>
     <system:String x:Key="TaskQueue.Hibernate">休眠</system:String>
     <system:String x:Key="TaskQueue.Hibernate.Tip">需要在 Windows 電源選項中啟用休眠功能，否則該功能無效。</system:String>
@@ -2227,34 +2237,15 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="TaskQueue.Infrast">{key=TaskQueue.Base}</system:String>
     <system:String x:Key="TaskQueue.InitializationError">初始化錯誤！</system:String>
     <system:String x:Key="TaskQueue.Inverse">反向選取</system:String>
-    <system:String x:Key="TaskQueue.LabelsRefreshed">已刷新標籤</system:String>
-    <system:String x:Key="TaskQueue.Light">淺色模式</system:String>
     <system:String x:Key="TaskQueue.LinkStart">Link Start!</system:String>
     <system:String x:Key="TaskQueue.LockScreen">鎖定螢幕</system:String>
+    <system:String x:Key="TaskQueue.LockScreen.Tip">任務已完成，即將鎖定螢幕</system:String>
     <system:String x:Key="TaskQueue.Log.AboutToShutdown">已執行完畢，即將關機，是否取消？</system:String>
-    <system:String x:Key="TaskQueue.Log.CheckTheFile">請檢查檔案內容！</system:String>
     <system:String x:Key="TaskQueue.Log.CloseArknightsFailed">遊戲關閉失敗</system:String>
-    <system:String x:Key="TaskQueue.Log.ConnectingToEmulator">正在連線模擬器……</system:String>
     <system:String x:Key="TaskQueue.Log.ExitEmulatorFailed">模擬器關閉失敗</system:String>
-    <system:String x:Key="TaskQueue.Log.FullPackageUpgradeTips">請下載完整安裝檔並解壓縮至新的資料夾中，切勿直接覆蓋原資料夾。\n可將原有的 config、data 與 debug 資料夾複製到新資料夾中，以保留原有設定與日誌。</system:String>
     <system:String x:Key="TaskQueue.Log.HibernatePrompt">已執行完畢，即將休眠</system:String>
-    <system:String x:Key="TaskQueue.Log.IdentificationCompleted">辨識完成</system:String>
-    <system:String x:Key="TaskQueue.Log.Identifying">正在辨識……</system:String>
-    <system:String x:Key="TaskQueue.Log.ImageIsNull">截圖為空</system:String>
-    <system:String x:Key="TaskQueue.Log.LDPlayerMaaTouchWarning">偵測到目前使用雷電模擬器 + MaaTouch 觸控模式。已知該組合下滑動操作會異常緩慢（滑動實際持續時間遠大於設定值），可能導致後續操作在滑動尚未結束時提前執行，從而引發各種異常。建議更換其他觸控模式。</system:String>
-    <system:String x:Key="TaskQueue.Log.LoadResourceFailed">資源載入失敗</system:String>
-    <system:String x:Key="TaskQueue.Log.LockScreen.Tip">任務已完成，即將鎖定螢幕</system:String>
     <system:String x:Key="TaskQueue.Log.LockScreenFailed">鎖定螢幕失敗</system:String>
-    <system:String x:Key="TaskQueue.Log.NetworkServiceError">網路服務請求錯誤！</system:String>
-    <system:String x:Key="TaskQueue.Log.NotCopilotJson">非作業檔案</system:String>
-    <system:String x:Key="TaskQueue.Log.ProcessPicker.Title">選擇視窗</system:String>
-    <system:String x:Key="TaskQueue.Log.ProcessPickerCancel">取消</system:String>
-    <system:String x:Key="TaskQueue.Log.ProcessPickerConfirm">確定</system:String>
-    <system:String x:Key="TaskQueue.Log.ProcessPickerRefresh">重新整理</system:String>
-    <system:String x:Key="TaskQueue.Log.ProcessPickerTool.Tip" xml:space="preserve">左鍵：開啟 / 關閉日誌浮動視窗
-右鍵：選擇目標程式</system:String>
     <system:String x:Key="TaskQueue.Log.RestartRecommendation">建議重新啟動 MAA 以恢復正常狀態</system:String>
-    <system:String x:Key="TaskQueue.Log.Running">正在執行中……</system:String>
     <system:String x:Key="TaskQueue.Log.SetFailed">設定失敗</system:String>
     <system:String x:Key="TaskQueue.Log.SetSuccessfully">設定成功</system:String>
     <system:String x:Key="TaskQueue.Log.ShutdownPrompt">提示</system:String>
@@ -2266,100 +2257,62 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="TaskQueue.Log.TaskSerialize.Error">{0}: {1} 序列化失敗</system:String>
     <system:String x:Key="TaskQueue.Log.ToggleOverlay">開啟 / 關閉日誌浮動視窗</system:String>
     <system:String x:Key="TaskQueue.Log.UnknownActionAfterCompleted">未知的結束動作</system:String>
-    <system:String x:Key="TaskQueue.Log.UnknownErrorOccurs">出現未知錯誤</system:String>
-    <system:String x:Key="TaskQueue.Log.UnselectedTask">未選擇任務</system:String>
     <system:String x:Key="TaskQueue.Log.Waiting">正在等待目前任務結束……</system:String>
+    <system:String x:Key="TaskQueue.MainTasksNullFunctionality">反轉主任務右鍵點擊效果</system:String>
+    <system:String x:Key="TaskQueue.MainTasksNullFunctionality.Tip">預設僅一次生效，勾選後僅一次跳過</system:String>
+    <system:String x:Key="TaskQueue.MainTasksNullFunctionalitySwitch">可在 ｢{key=Settings.Title} - {key=Appearance.Settings} - {key=TaskQueue.MainTasksNullFunctionality}｣ 切換右鍵單擊效果</system:String>
     <system:String x:Key="TaskQueue.Mall">獲取信用及購物</system:String>
-    <system:String x:Key="TaskQueue.MedicineUsed">已使用理智藥</system:String>
-    <system:String x:Key="TaskQueue.MedicineUsedTimes" xml:space="preserve">藥: {0}  </system:String>
-    <system:String x:Key="TaskQueue.MedicineUsedTimesWithExpiring" xml:space="preserve">藥: {0}，{1} (即將過期)  </system:String>
     <system:String x:Key="TaskQueue.MiniGame">快捷功能</system:String>
-    <system:String x:Key="TaskQueue.MissingOperators">以下{key=Operator.Name}組內的{key=Operator.Name}均未擁有（每組只需其一）或未達作業要求：\n{0} ｢特別關注｣ 可能影響{key=Operator.Name}辨識，若實際已擁有，可移除 ｢特別關注｣ 後重試，或關閉 ｢{key=Copilot.AutoSquad}｣ 手動補充；若確實未擁有，僅缺一組時可使用 ｢{key=Copilot.SupportUnitUsage}｣，缺兩組以上請更換作業。</system:String>
     <system:String x:Key="TaskQueue.Mission">領取獎勵</system:String>
     <system:String x:Key="TaskQueue.MissionStart">已開始行動</system:String>
-    <system:String x:Key="TaskQueue.MissionStart.FightTask">開始行動 {0} 次，消耗 {1} 理智</system:String>
-    <system:String x:Key="TaskQueue.MonthlySquadCompleted">月度小隊清完啦！</system:String>
-    <system:String x:Key="TaskQueue.MoveCamera">移動相機</system:String>
-    <system:String x:Key="TaskQueue.NoAdbPathSpecifiedMessage">未指定 ADB 路徑</system:String>
-    <system:String x:Key="TaskQueue.NoDrop">無</system:String>
-    <system:String x:Key="TaskQueue.NoRecruitmentPermit">無招聘許可，已返回</system:String>
-    <system:String x:Key="TaskQueue.NotEnoughStaff">可用{key=Operator.Name}不足</system:String>
+    <system:String x:Key="TaskQueue.MultiTasksShare.Tip">以下選項為多任務共用</system:String>
+    <system:String x:Key="TaskQueue.MuteGameWhileRunning">任務執行時遊戲靜音</system:String>
     <system:String x:Key="TaskQueue.Once">僅當次*</system:String>
-    <system:String x:Key="TaskQueue.OperNameLanguage">{key=Operator.Name}名稱顯示語言</system:String>
-    <system:String x:Key="TaskQueue.OperNameLanguageClient">跟隨遊戲用戶端</system:String>
-    <system:String x:Key="TaskQueue.OperNameLanguageForce">強制使用指定語言</system:String>
-    <system:String x:Key="TaskQueue.OperNameLanguageMAA">跟隨 MAA</system:String>
     <system:String x:Key="TaskQueue.OperProgress">幹員培養</system:String>
-    <system:String x:Key="TaskQueue.OtaPackageRejectedByBrokenInstall">目前安裝可能處於不完整狀態（資源損毀或上次更新失敗），OTA 增量更新檔無法修復，請改用完整安裝檔</system:String>
     <system:String x:Key="TaskQueue.OutOfMemoryError">{0}任務因記憶體不足停止，請關閉部分程式或重新啟動 MAA 後再試</system:String>
-    <system:String x:Key="TaskQueue.Output">輸出描述內容</system:String>
     <system:String x:Key="TaskQueue.PostActionOnce.Tip" xml:space="preserve">勾選後將不儲存選項變更，下次 MAA 啟動或 {key=TaskQueue.LinkStart} 後將復原
 取消勾選本選項後，其他選項狀態將會正常儲存
 右鍵點擊其他選項時，會同步勾選 / 取消勾選本選項</system:String>
     <system:String x:Key="TaskQueue.PostActionSkippedDueToError">任務出錯，已跳過完成後動作</system:String>
     <system:String x:Key="TaskQueue.PostActions">任務完成後</system:String>
     <system:String x:Key="TaskQueue.PostActionsSettings">完成後動作設定</system:String>
-    <system:String x:Key="TaskQueue.ProductChangeFail">產物切換失敗</system:String>
-    <system:String x:Key="TaskQueue.ProductChanged">產物已切換</system:String>
-    <system:String x:Key="TaskQueue.ProductIncorrect">產物與排班不符。</system:String>
-    <system:String x:Key="TaskQueue.ProductUnknown">無法辨識的產物</system:String>
+    <system:String x:Key="TaskQueue.Power.BlockSleep">執行任務時阻止休眠</system:String>
+    <system:String x:Key="TaskQueue.Power.WithScreenOn">阻止休眠時保持螢幕常亮</system:String>
     <system:String x:Key="TaskQueue.Reclamation">生息演算</system:String>
-    <system:String x:Key="TaskQueue.ReconnectFailed">重連失敗，連線已斷開！</system:String>
-    <system:String x:Key="TaskQueue.ReconnectSuccess">重連成功，繼續任務</system:String>
     <system:String x:Key="TaskQueue.Recruit">{key=TaskQueue.Recruiting}</system:String>
     <system:String x:Key="TaskQueue.Recruiting">自動公招</system:String>
-    <system:String x:Key="TaskQueue.Refreshed">目前欄位已刷新</system:String>
-    <system:String x:Key="TaskQueue.ReplaceAdbNotExists">ADB 路徑不存在</system:String>
-    <system:String x:Key="TaskQueue.ReportSkippedForPcClient">PC 端滑鼠為獨立渲染，可能遮擋掉落物及數量辨識。為避免錯誤資料污染資料池，已自動跳過本次回報{0}</system:String>
-    <system:String x:Key="TaskQueue.ResetStopwatch">重置全域計時器</system:String>
-    <system:String x:Key="TaskQueue.RestartAdb">正在嘗試重開 ADB 服務</system:String>
+    <system:String x:Key="TaskQueue.RenameTask">重新命名任務</system:String>
+    <system:String x:Key="TaskQueue.RenameTaskPrompt">請輸入新的任務名稱：</system:String>
     <system:String x:Key="TaskQueue.RestartAsAdminFailed">請手動以系統管理員身分執行 MAA</system:String>
     <system:String x:Key="TaskQueue.RestartingAsAdmin">正在以系統管理員身分重新啟動…</system:String>
-    <system:String x:Key="TaskQueue.Retreat">撤退</system:String>
     <system:String x:Key="TaskQueue.Roguelike">{key=TaskQueue.AutoRoguelike}</system:String>
-    <system:String x:Key="TaskQueue.RoomGroupsMatch" xml:space="preserve">符合編組：</system:String>
-    <system:String x:Key="TaskQueue.RoomGroupsMatchFailed" xml:space="preserve">符合{key=Operator.Name}編組失敗，編組列表：</system:String>
-    <system:String x:Key="TaskQueue.RoomGroupsMatchRecogFailed">編組{key=Operator.Name}辨識失敗，房間保持原樣</system:String>
-    <system:String x:Key="TaskQueue.RoomOperators" xml:space="preserve">首選{key=Operator.Name}：</system:String>
-    <system:String x:Key="TaskQueue.RoutingRestartTooManyBattles">前方戰鬥數：{0}，重新規劃路線</system:String>
     <system:String x:Key="TaskQueue.RunTaskOnce">單次執行</system:String>
     <system:String x:Key="TaskQueue.RunTasksFromHere">從此處執行</system:String>
-    <system:String x:Key="TaskQueue.SSSGamePass">保全通關啦！</system:String>
-    <system:String x:Key="TaskQueue.SafeHouse">節點: 安全的角落</system:String>
-    <system:String x:Key="TaskQueue.SanityReport">理智會在 {DateTime} 回滿（{TimeDiff} 後）。</system:String>
-    <system:String x:Key="TaskQueue.SecuritySoftwareWhitelistTips">建議將 MAA 所在資料夾加入對應軟體白名單後再試一次。</system:String>
-    <system:String x:Key="TaskQueue.SelectAll">全選</system:String>
-    <system:String x:Key="TaskQueue.SelectExtraOnlyRareTags">盡可能多選且只選高星 Tags</system:String>
-    <system:String x:Key="TaskQueue.SelectExtraTags">選擇高星時總是選擇三個 Tags</system:String>
-    <system:String x:Key="TaskQueue.SetUnitLocation">設定單位座標</system:String>
+    <system:String x:Key="TaskQueue.Script.EndsWith">結束後腳本</system:String>
+    <system:String x:Key="TaskQueue.Script.EndsWith.Placeholder">範例："C:\1.cmd" -noWindow</system:String>
+    <system:String x:Key="TaskQueue.Script.ManualStopWith">手動停止時啟用上述腳本</system:String>
+    <system:String x:Key="TaskQueue.Script.StartsWith">開始前腳本</system:String>
+    <system:String x:Key="TaskQueue.Script.StartsWith.Placeholder">範例："C:\1.cmd" -minimized</system:String>
     <system:String x:Key="TaskQueue.Shutdown">關機</system:String>
-    <system:String x:Key="TaskQueue.SingleStep">單步任務</system:String>
-    <system:String x:Key="TaskQueue.SkillDaemon">開始掛機</system:String>
-    <system:String x:Key="TaskQueue.SkillUsage">切換技能用法</system:String>
     <system:String x:Key="TaskQueue.SkipPostActionOnError">任務出錯時跳過</system:String>
     <system:String x:Key="TaskQueue.SkipPostActionOnError.Tip">勾選後，若任務清單中有一個或多個任務出錯，將跳過以上全部動作。</system:String>
     <system:String x:Key="TaskQueue.Sleep">睡眠</system:String>
-    <system:String x:Key="TaskQueue.StartCombat" xml:space="preserve">開始戰鬥: </system:String>
     <system:String x:Key="TaskQueue.StartTask" xml:space="preserve">開始任務: </system:String>
     <system:String x:Key="TaskQueue.StartUp">{key=TaskQueue.WakeUp}</system:String>
-    <system:String x:Key="TaskQueue.StoneUsed">已使用源石</system:String>
-    <system:String x:Key="TaskQueue.StoneUsedTimes" xml:space="preserve">石: {0}  </system:String>
     <system:String x:Key="TaskQueue.Stop">停止</system:String>
     <system:String x:Key="TaskQueue.StopCurrentTaskFormat">停止目前執行的 {0}</system:String>
-    <system:String x:Key="TaskQueue.SuccessfullyReplacedAdb">成功替換 ADB 檔案</system:String>
-    <system:String x:Key="TaskQueue.Swipe">滑動</system:String>
-    <system:String x:Key="TaskQueue.SwitchSpeed">切換倍速</system:String>
-    <system:String x:Key="TaskQueue.SwitchTheme">更換主題</system:String>
-    <system:String x:Key="TaskQueue.SyncWithOs">與系統同步</system:String>
     <system:String x:Key="TaskQueue.TaskCompletedWithErrors">任務已結束，以下任務出現錯誤:\n{0}\n(耗時 {1})</system:String>
+    <system:String x:Key="TaskQueue.TaskCopied">已複製任務：{0}</system:String>
+    <system:String x:Key="TaskQueue.TaskCopyFailed">任務複製失敗</system:String>
+    <system:String x:Key="TaskQueue.TaskDeleted">已刪除任務：{0}</system:String>
     <system:String x:Key="TaskQueue.TaskError" xml:space="preserve">任務出錯: </system:String>
     <system:String x:Key="TaskQueue.TaskErrorSummary.Title">本輪任務出現以下錯誤：</system:String>
+    <system:String x:Key="TaskQueue.TaskRenameFailed">任務重新命名失敗</system:String>
+    <system:String x:Key="TaskQueue.TaskRenamed">任務已重新命名為：{0}</system:String>
     <system:String x:Key="TaskQueue.TaskTime">\n(耗時 {0})</system:String>
-    <system:String x:Key="TaskQueue.TheEx">無獎勵關卡，已停止</system:String>
-    <system:String x:Key="TaskQueue.ThisFacility" xml:space="preserve">目前設施：</system:String>
     <system:String x:Key="TaskQueue.Timeout.ReminderIntervalMinutes">通知間隔時間（分鐘）</system:String>
     <system:String x:Key="TaskQueue.Timeout.RunDurationLimit.Tip" xml:space="preserve">從點擊 ｢{key=TaskQueue.LinkStart}｣ 開始計時，到達上限後自動停止任務，並依下方選項決定是否執行 ｢{key=TaskQueue.PostActionsSettings}｣ 中的動作（如退出遊戲、關閉模擬器、關機）。
-{key=Settings.CheckBoxesNotSavedAsNull}。</system:String>
+{key=TaskQueue.CheckBoxesNotSavedAsNull}。</system:String>
     <system:String x:Key="TaskQueue.Timeout.RunDurationLimitEnabled">限制單次運行時長</system:String>
     <system:String x:Key="TaskQueue.Timeout.RunDurationLimitExecutePostActions">停止後執行 ｢{key=TaskQueue.PostActionsSettings}｣ 中的動作</system:String>
     <system:String x:Key="TaskQueue.Timeout.RunDurationLimitMinutes">運行時長上限（分鐘）</system:String>
@@ -2367,44 +2320,21 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="TaskQueue.Timeout.StallTimeoutEnabled">啟用日誌更新停滯偵測</system:String>
     <system:String x:Key="TaskQueue.Timeout.StallTimeoutMinutes">日誌輸出停滯逾時時間（分鐘）</system:String>
     <system:String x:Key="TaskQueue.Timeout.TaskStallWarning">任務日誌輸出已超過 {0} 分鐘無更新（目前已停滯 {1} 分鐘）。請確認任務是否正常執行，若任務正常可忽略此提示，若無回應則可能需要手動干預。</system:String>
-    <system:String x:Key="TaskQueue.TotalDrop" xml:space="preserve">掉落統計：</system:String>
-    <system:String x:Key="TaskQueue.Trader">節點: 詭意行商</system:String>
-    <system:String x:Key="TaskQueue.TryToReconnect">模擬器斷開連線，正在嘗試重連</system:String>
-    <system:String x:Key="TaskQueue.TryToReconnectByAdb">正在嘗試重連</system:String>
-    <system:String x:Key="TaskQueue.TryToStartEmulator">正在嘗試啟動模擬器</system:String>
-    <system:String x:Key="TaskQueue.TryToStartPcClient">正在嘗試啟動 PC 客戶端</system:String>
-    <system:String x:Key="TaskQueue.UnableToAgent">無法使用代理指揮</system:String>
     <system:String x:Key="TaskQueue.UnitTime">次</system:String>
     <system:String x:Key="TaskQueue.UnknownTaskInChain">任務鏈引用了未定義的任務（{0}），資源可能損壞或與程式版本不相符，已停止任務。</system:String>
-    <system:String x:Key="TaskQueue.UnsupportedLevel">不支援的關卡，請檢查關卡名稱或前往 ｢{key=Settings.Title} - {key=Update.Settings} - {key=Resource.Update}｣ 嘗試更新資源版本！</system:String>
-    <system:String x:Key="TaskQueue.UnzipFailedMessage">無法解壓縮檔案，可能發生意外錯誤。請檢查日誌以取得更多資訊。</system:String>
-    <system:String x:Key="TaskQueue.UpperLimit">投資已達上限</system:String>
-    <system:String x:Key="TaskQueue.UseAttachWindow.Tip">使用 Win32 視窗綁定明日方舟 PC 端，而非 ADB 連線模擬器或手機</system:String>
-    <system:String x:Key="TaskQueue.UseAttachWindowWarning" xml:space="preserve">連線明日方舟 PC 端（社群維護）
-
-請注意：
-1. MAA Team 僅提供明日方舟 PC 端的連線功能，維護與問題修復均交由社群，不保證可用性。
-2. 遇到問題或功能不可用時，請在 GitHub 提交 issue，能否得到解決取決於社群開發者是否願意跟進。
-3. QQ 群、影片評論區等其他管道無法解決明日方舟 PC 端的相關問題，請勿在其中詢問。
-
-如非必要，建議優先使用 ADB 連線 Android 模擬器或行動裝置，體驗更穩定。
-
-如需使用，請確認：
-1. 需以系統管理員身分啟動 MAA
-2. 推薦在設定-熱鍵設定中新增 Link start/stop 的熱鍵，以防無法點擊停止的情況
-3. 部分截圖方式下，遊戲視窗不可最小化
-4. 明日方舟設定 → 遊戲 → UI 縮放需設為 100%
-5. 在明日方舟設定中調小滑鼠指標比例，以減少對辨識區域的遮擋
-6. 遊戲解析度需為 16:9，推薦設定 1280x720 或 1920x1080</system:String>
-    <system:String x:Key="TaskQueue.UseAttachWindowWarningRecommendation" xml:space="preserve">7. 推薦滑鼠輸入方式使用 PostMsg-WindowPos，使用此方式可以很大程度解決 PC 端辨識錯誤和卡住的問題</system:String>
-    <system:String x:Key="TaskQueue.UseFormation">使用編隊</system:String>
-    <system:String x:Key="TaskQueue.UseMedicine.MedicineInfo">藥: {0}, 庫存: {1}</system:String>
-    <system:String x:Key="TaskQueue.UseSkill">使用技能</system:String>
     <system:String x:Key="TaskQueue.UserDataUpdate">更新使用者資料</system:String>
-    <system:String x:Key="TaskQueue.UserDataUpdateTriggerInterval">觸發間隔</system:String>
+    <system:String x:Key="TaskQueue.UserDataUpdate.CannotModifyExistingTask">無法修改已添加的 ｢{key=TaskQueue.UserDataUpdate}｣ 任務參數</system:String>
+    <system:String x:Key="TaskQueue.UserDataUpdate.EveryTime">每次</system:String>
+    <system:String x:Key="TaskQueue.UserDataUpdate.IntervalNotReached">距上次同步未達到 ｢{0}｣ 觸發間隔</system:String>
+    <system:String x:Key="TaskQueue.UserDataUpdate.NothingSelected">｢{key=Operator.Recognition}｣ 和 ｢{key=Depot.Recognition}｣ 均未勾選</system:String>
+    <system:String x:Key="TaskQueue.UserDataUpdate.TriggerInterval">觸發間隔</system:String>
     <system:String x:Key="TaskQueue.Visiting">訪問好友</system:String>
     <system:String x:Key="TaskQueue.WaitAndStop">等待 &amp; 停止</system:String>
     <system:String x:Key="TaskQueue.WakeUp">開始喚醒</system:String>
+    <system:String x:Key="TaskQueue.WeeklySchedule.Enabled">使用週計畫</system:String>
+    <system:String x:Key="TaskQueue.WeeklySchedule.Enabled.Tip">此處的星期是根據遊戲時間計算的，並非現實時間。例如遊戲在 4:00 刷新，則 3:59 仍算作前一天。</system:String>
+    <system:String x:Key="Toolbox.IdentificationCompleted">辨識完成</system:String>
+    <system:String x:Key="Toolbox.Identifying">正在辨識……</system:String>
     <system:String x:Key="Toolbox.MiniGame.ALL.GreenGrass">爭鋒頻道：青草城</system:String>
     <system:String x:Key="Toolbox.MiniGame.ALL.GreenGrass.Tip" xml:space="preserve">手動跳過教學對話，然後可以直接退出。&#10;在活動主介面（右下角有 ｢加入賽事｣ 處）開始任務。&#10;&#10;跟著鴨總喝口湯。</system:String>
     <system:String x:Key="Toolbox.MiniGame.ALL.HoneyFruit">爭鋒頻道：蜜果城</system:String>
@@ -2519,26 +2449,43 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="Toolbox.Title">小工具</system:String>
     <system:String x:Key="Tray.Exit">結束</system:String>
     <system:String x:Key="Tray.ForceShow">強制顯示 MAA</system:String>
+    <system:String x:Key="Tray.HideTray">隱藏工作列圖示</system:String>
     <system:String x:Key="Tray.Restart">重新啟動</system:String>
-    <system:String x:Key="Update.ApplyMissingUpdater">更新無法繼續，因為缺少 MAA.Updater.exe，無法啟動外部更新程式。本次更新已取消。此檔案可能已被手動刪除，也可能被某些安全軟體攔截或刪除。若是安全軟體所致，請前往對應軟體的隔離區尋找並還原該檔案，並{key=TaskQueue.SecuritySoftwareWhitelistTips}\n\n{key=TaskQueue.Log.FullPackageUpgradeTips}</system:String>
+    <system:String x:Key="Tray.SwitchLanguage">切換語言 🌐</system:String>
+    <system:String x:Key="Update.AlreadyLatest">已是最新版本 ~</system:String>
+    <system:String x:Key="Update.ApplyMissingUpdater">更新無法繼續，因為缺少 MAA.Updater.exe，無法啟動外部更新程式。本次更新已取消。此檔案可能已被手動刪除，也可能被某些安全軟體攔截或刪除。若是安全軟體所致，請前往對應軟體的隔離區尋找並還原該檔案，並{key=Security.SoftwareWhitelist.Tip}\n\n{key=Update.FullPackageUpgrade.Tips}</system:String>
     <system:String x:Key="Update.AutoCheck">定時檢查更新</system:String>
     <system:String x:Key="Update.AutoCheck.Tip">遊戲內 00:00 / 18:00（對應伺服器當地時間 04:00 / 22:00）</system:String>
     <system:String x:Key="Update.AutoDownload">自動下載更新檔案</system:String>
     <system:String x:Key="Update.AutoDownload.Tip" xml:space="preserve">取消勾選後，偵測到新版本時（包含手動觸發 ｢{key=Update.CheckNow}｣）將不再自動下載，僅透過系統通知提示並附上下載連結，可自行下載更新檔案後拖入 MAA 完成更新。
 若系統通知已關閉，則改為軟體內通知，但軟體內通知不提供可互動的下載按鈕。</system:String>
+    <system:String x:Key="Update.AutoInstall">自動安裝更新檔案</system:String>
     <system:String x:Key="Update.AutoInstall.Tip">偵測到新版本後不再彈出視窗詢問，將在任務空閒時自動更新並重新啟動 MAA</system:String>
     <system:String x:Key="Update.Check">更新通道</system:String>
     <system:String x:Key="Update.Check.Tip" xml:space="preserve">• {key=Update.CheckBeta}: 可能存在少量 Bug，新功能新主題支援更快。
 • {key=Update.CheckStable}: Bug 更少，新功能新主題支援更慢。新功能可能需要數週後才會支援。</system:String>
     <system:String x:Key="Update.CheckBeta">公測版</system:String>
+    <system:String x:Key="Update.CheckNetworking">請檢查網路連線或 Proxy 代理設定。</system:String>
     <system:String x:Key="Update.CheckNightly">內測版</system:String>
     <system:String x:Key="Update.CheckNow">軟體更新</system:String>
     <system:String x:Key="Update.CheckStable">穩定版</system:String>
+    <system:String x:Key="Update.ConfirmExit.Text">正在執行更新，此時關閉 MAA 可能導致資源毀損。\n確定要結束嗎？</system:String>
     <system:String x:Key="Update.ConfirmExit.Title">MAA 正在更新</system:String>
-    <system:String x:Key="Update.ConfirmExitText">正在執行更新，此時關閉 MAA 可能導致資源毀損。\n確定要結束嗎？</system:String>
+    <system:String x:Key="Update.DelegatedUpdateFailure.Reason.FileLocked">更新過程中移動檔案失敗。檔案可能被安全軟體掃描、攔截或鎖定，也可能被其他程式占用。若是安全軟體所致，{key=Security.SoftwareWhitelist.Tip}也可重新開機後再試。</system:String>
+    <system:String x:Key="Update.DelegatedUpdateFailure.Reason.PackageError">更新包或其解壓產物可能已損毀或不完整。</system:String>
+    <system:String x:Key="Update.DelegatedUpdateFailure.Reason.Unknown">未知原因，詳情請查看 debug 資料夾中的 gui.log。</system:String>
+    <system:String x:Key="Update.DelegatedUpdateFailureDetected">上次自動更新失敗，目前的安裝可能不完整，本次啟動已跳過資源載入。請在接下來的對話方塊中選擇修復方式。\n\n失敗原因：{0}</system:String>
+    <system:String x:Key="Update.DownloadWithAria2">使用 aria2 進行下載</system:String>
+    <system:String x:Key="Update.ForceGithubGlobalSource">強制使用 GitHub</system:String>
+    <system:String x:Key="Update.ForceGithubGlobalSource.Tip">偵測到更新後，強制從 GitHub 下載更新壓縮檔</system:String>
+    <system:String x:Key="Update.ForcedFullPackageUpdateNotice">為修復安裝，將下載完整安裝檔而非增量更新檔</system:String>
+    <system:String x:Key="Update.FullPackageUpgrade.Tips">請下載完整安裝檔並解壓縮至新的資料夾中，切勿直接覆蓋原資料夾。\n可將原有的 config、data 與 debug 資料夾複製到新資料夾中，以保留原有設定與日誌。</system:String>
+    <system:String x:Key="Update.GetReleaseNoteFailed">取得更新資訊失敗。</system:String>
+    <system:String x:Key="Update.GlobalSource">全域來源</system:String>
+    <system:String x:Key="Update.LocalPackage.Imported.Desc">偵測到可用的本機更新檔案，是否立即更新 MAA？（將重新啟動程式）</system:String>
     <system:String x:Key="Update.LocalPackage.Imported.Title">本機更新檔案已就緒</system:String>
-    <system:String x:Key="Update.LocalPackage.ImportedDesc">偵測到可用的本機更新檔案，是否立即更新 MAA？（將重新啟動程式）</system:String>
     <system:String x:Key="Update.LocalPackage.Unsupported">無法辨識壓縮檔：{0}\n僅支援拖入目前架構的完整檔案，或目前版本到更高版本的 OTA 更新檔案。\n目前版本：{1}\n目前架構：{2}\n支援的檔名範例：MAA-v新版本-win-{2}.zip\n或 MAAComponent-OTA-{1}_v新版本-win-{2}.zip</system:String>
+    <system:String x:Key="Update.MirrorChyan">MirrorChyan</system:String>
     <system:String x:Key="Update.MirrorChyan.BuildingOta">MirrorChyan 正在為此版本打包 OTA 增量更新檔案，將在 10 秒後自動重試</system:String>
     <system:String x:Key="Update.MirrorChyan.CdkBlocked">CDK 已被封鎖，可能由於退款或非正常使用。</system:String>
     <system:String x:Key="Update.MirrorChyan.CdkExpired">CDK 已過期，請使用新的 CDK 進行授權。</system:String>
@@ -2551,38 +2498,82 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="Update.MirrorChyan.ResourceUpdateShort.Tip">偵測到資源更新: {0}</system:String>
     <system:String x:Key="Update.MirrorChyan.SelectedButNoCdk">請前往 ｢{key=Settings.Title} - {key=Update.Settings}｣ 設定 MirrorChyan CDK 或切換到全域來源。</system:String>
     <system:String x:Key="Update.NewVersion.DetectFailed.Title">檢查更新失敗</system:String>
+    <system:String x:Key="Update.NewVersion.DownloadCompleted.Desc">是否立即更新 MAA？（將重新啟動程式）</system:String>
     <system:String x:Key="Update.NewVersion.DownloadCompleted.Title">新版本下載完成</system:String>
-    <system:String x:Key="Update.NewVersion.DownloadCompletedDesc">是否立即更新 MAA？（將重新啟動程式）</system:String>
+    <system:String x:Key="Update.NewVersion.DownloadFailed.Desc">請嘗試手動下載後，將壓縮檔放到目錄下 _(:з」∠)_</system:String>
     <system:String x:Key="Update.NewVersion.DownloadFailed.Title">新版本下載失敗</system:String>
-    <system:String x:Key="Update.NewVersion.DownloadFailedDesc">請嘗試手動下載後，將壓縮檔放到目錄下 _(:з」∠)_</system:String>
     <system:String x:Key="Update.NewVersion.DownloadPreparing">正在準備下載更新檔案……</system:String>
     <system:String x:Key="Update.NewVersion.DownloadRetrying">更新檔案下載失敗，將在 {0} 秒後重試（第 {1}/{2} 次下載失敗）。</system:String>
+    <system:String x:Key="Update.NewVersion.Found.ButtonGoWebpage">前往頁面查看</system:String>
+    <system:String x:Key="Update.NewVersion.Found.DescDownloadingWithGlobalSource">正在使用 ｢{key=Update.GlobalSource}｣ 下載…</system:String>
+    <system:String x:Key="Update.NewVersion.Found.DescDownloadingWithMirrorChyan">正在使用 ｢{key=Update.MirrorChyan}｣ 下載…</system:String>
+    <system:String x:Key="Update.NewVersion.Found.DescId" xml:space="preserve">版本號: </system:String>
+    <system:String x:Key="Update.NewVersion.Found.DescInfo" xml:space="preserve">更新資訊: </system:String>
     <system:String x:Key="Update.NewVersion.Found.Title">偵測到新版本</system:String>
+    <system:String x:Key="Update.NewVersion.FoundButNoPackage.Desc">請手動下載完整檔案更新！</system:String>
     <system:String x:Key="Update.NewVersion.FoundButNoPackage.Title">偵測到新版本，但未找到更新檔案</system:String>
-    <system:String x:Key="Update.NewVersion.FoundButNoPackageDesc">請手動下載完整檔案更新！</system:String>
-    <system:String x:Key="Update.NewVersion.FoundButtonGoWebpage">前往頁面查看</system:String>
-    <system:String x:Key="Update.NewVersion.FoundDescDownloadingWithGlobalSource">正在使用 ｢{key=Settings.GlobalSource}｣ 下載…</system:String>
-    <system:String x:Key="Update.NewVersion.FoundDescDownloadingWithMirrorChyan">正在使用 ｢{key=Settings.MirrorChyan}｣ 下載…</system:String>
-    <system:String x:Key="Update.NewVersion.FoundDescId" xml:space="preserve">版本號: </system:String>
-    <system:String x:Key="Update.NewVersion.FoundDescInfo" xml:space="preserve">更新資訊: </system:String>
     <system:String x:Key="Update.NewVersion.IsBeingBuilt">我知道你很急但你先別急.jpg</system:String>
     <system:String x:Key="Update.NewVersion.NoOtaPackage">偵測到新版本，但無可用的 OTA 增量更新檔案。將下載完整安裝檔，保留 cache、config、data、debug、achievement（通關截圖）和 MAA.Updater.exe，其餘檔案將移至資源回收桶及 .old，如有需要請手動備份</system:String>
+    <system:String x:Key="Update.NewVersion.ZipFileBroken.DescDeleted">已將其刪除！</system:String>
+    <system:String x:Key="Update.NewVersion.ZipFileBroken.DescFilename" xml:space="preserve">檔案名稱: </system:String>
     <system:String x:Key="Update.NewVersion.ZipFileBroken.Title">更新檔案損壞！</system:String>
-    <system:String x:Key="Update.NewVersion.ZipFileBrokenDescDeleted">已將其刪除！</system:String>
-    <system:String x:Key="Update.NewVersion.ZipFileBrokenDescFilename" xml:space="preserve">檔案名稱: </system:String>
+    <system:String x:Key="Update.NewVersion.ZipFileFound.DescDecompressing">正在解壓縮，請稍候……</system:String>
     <system:String x:Key="Update.NewVersion.ZipFileFound.Title">偵測到更新檔案</system:String>
-    <system:String x:Key="Update.NewVersion.ZipFileFoundDescDecompressing">正在解壓縮，請稍候……</system:String>
+    <system:String x:Key="Update.NightlyWarning" xml:space="preserve">您已啟用內測版更新。感謝您對 MAA 的支持與測試。
+
+請注意：
+
+1. 這是內測版，可能包含不穩定的功能。
+2. 如果遇到問題，請務必在 GitHub 上檢查是否已有相關 issue，若無則提交 issue，並附上日誌檔案。這樣我們可以更高效地處理問題。
+3. 請不要在其他地方討論內測版問題，例如使用者群組、評論區等。這會佔用公共資源且無法及時回饋和解決問題。
+4. 請勿將更新內測版的方法告知其他非開發使用者，以避免對他們造成不必要的困擾和風險。
+
+您可透過點擊 ｢{key=Settings.Title} - {key=IssueReport.Title}｣ 連結來取消該彈出視窗，感謝您的理解與配合！</system:String>
+    <system:String x:Key="Update.NoNeedToUpdateDebugVersion">目前為測試版本，無需更新</system:String>
     <system:String x:Key="Update.NotificationOk">好的！</system:String>
+    <system:String x:Key="Update.OtaPackageRejectedByBrokenInstall">目前安裝可能處於不完整狀態（資源損毀或上次更新失敗），OTA 增量更新檔無法修復，請改用完整安裝檔</system:String>
+    <system:String x:Key="Update.PendingFullUpdateManualConfirm.Desc" xml:space="preserve">偵測到需要使用完整檔案進行更新。
+
+更新邏輯：如果你繼續下載或匯入完整檔案，後續安裝時會先清理目前安裝根目錄下除 cache、config、data、debug、achievement（通關截圖）和 MAA.Updater.exe 外的頂層檔案與資料夾，再把完整檔案內容寫入該目錄。
+
+風險說明：如果你把 MAA 直接放在磁碟根目錄、桌面、下載資料夾，或與其他程式、個人檔案放在同一個目錄層級，這些同層內容也可能一起被刪除或移走。
+
+正確目錄結構示例：請把 MAA 放在獨立資料夾內，例如：
+D:\
+`-- MAA\
+    |-- MAA.exe
+    |-- config\
+    `-- data\
+
+請先手動備份整個安裝目錄，尤其是與 MAA 無關但和它放在同一層級的檔案。
+目前安裝目錄：{0}
+
+只有在你已確認目錄結構正確並完成手動備份後，才繼續下載或匯入完整檔案。</system:String>
+    <system:String x:Key="Update.PendingFullUpdateManualConfirm.No">暫不更新，繼續啟動目前版本</system:String>
+    <system:String x:Key="Update.PendingFullUpdateManualConfirm.Title">完整檔案更新需要手動確認</system:String>
+    <system:String x:Key="Update.PendingFullUpdateManualConfirm.Yes">我已手動確認並備份，繼續更新</system:String>
     <system:String x:Key="Update.Settings">更新設定</system:String>
+    <system:String x:Key="Update.ShowChangelog">更新日誌</system:String>
+    <system:String x:Key="Update.ShowUpdaterConsole">顯示更新程式主控台輸出</system:String>
+    <system:String x:Key="Update.ShowUpdaterProgress">顯示更新程式進度視窗</system:String>
+    <system:String x:Key="Update.ShowUpdaterProgress.Tip" xml:space="preserve">更新時由更新程式顯示一個獨立的進度視窗，展示目前更新狀態與檔案處理進度。
+關閉後將無法直觀看到更新進展，更新過程中也不要重複啟動 MAA，否則可能導致更新中斷或檔案損壞。</system:String>
+    <system:String x:Key="Update.ShowUpdaterProgress.Warning" xml:space="preserve">關閉更新進度視窗後，更新過程中將不再顯示進度提示。
+
+請注意：
+1. 更新期間請勿重複啟動 MAA，否則可能因檔案佔用導致更新失敗或檔案損壞。
+2. 若同時關閉了進度視窗和主控台輸出，更新過程將完全無介面提示，難以判斷是否卡住或失敗。
+
+確定要關閉更新進度視窗嗎？</system:String>
     <system:String x:Key="Update.Source">更新來源</system:String>
     <system:String x:Key="Update.Source.Tip" xml:space="preserve">
-🌏 使用 {key=Settings.GlobalSource}：
+🌏 使用 {key=Update.GlobalSource}：
     • {key=Update.CheckNow}：由 MAA Team 提供更新偵測，從 GitHub 下載更新壓縮檔，中國國內同步提供直連鏡像站（頻寬有限，高峰時段可能受限）
-    • {key=Resource.Update}：由 {key=Settings.MirrorChyan} 提供免費的更新偵測，可手動在設定中點擊 ｢{key=Resource.Update}｣ 從 GitHub 下載
+    • {key=Resource.Update}：由 {key=Update.MirrorChyan} 提供免費的更新偵測，可手動在設定中點擊 ｢{key=Resource.Update}｣ 從 GitHub 下載
 
-🔑 使用 {key=Settings.MirrorChyan}：
+🔑 使用 {key=Update.MirrorChyan}：
     • 填寫 CDK 後，支援軟體與資源的自動更新
-    • 優先透過 {key=Settings.MirrorChyan} 高速 CDN 下載，更穩定快速
+    • 優先透過 {key=Update.MirrorChyan} 高速 CDN 下載，更穩定快速
 
 📦 手動更新：
     • {key=Update.CheckNow}：下載完整檔案或 OTA 更新檔案後拖入應用程式，程式會自動解壓縮並清理舊檔案
@@ -2593,10 +2584,11 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     • {key=Resource.Update}：包含自動作戰新關卡、掉落辨識圖示、公招幹員標籤等素材資料
     • 導航熱更新：自動觸發，用於更新主介面提示與活動關卡入口。成功後右上角會顯示 ｢{key=ResourceUpdate.ApiUpdateSuccess}｣
 </system:String>
+    <system:String x:Key="Update.WindowInfo.Tip">點擊立即更新</system:String>
     <system:String x:Key="Version.BuildDateTime">編譯日期</system:String>
     <system:String x:Key="Version.Core">Core 版本</system:String>
     <system:String x:Key="Version.Maa">軟體版本</system:String>
-    <system:String x:Key="Version.Mismatch">UI 和 Core 版本不一致: {0} 和 {1}，可能導致不可預測的行為。請勿手動替換檔案，或在更新時讓檔案處於被佔用狀態。\n\n{key=TaskQueue.Log.FullPackageUpgradeTips}</system:String>
+    <system:String x:Key="Version.Mismatch">UI 和 Core 版本不一致: {0} 和 {1}，可能導致不可預測的行為。請勿手動替換檔案，或在更新時讓檔案處於被佔用狀態。\n\n{key=Update.FullPackageUpgrade.Tips}</system:String>
     <system:String x:Key="Version.Resource">資源版本</system:String>
     <system:String x:Key="Version.ResourceDateTime">資源日期</system:String>
     <system:String x:Key="Version.Ui">UI 版本</system:String>
@@ -2605,9 +2597,17 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="Video.Link">影片連結</system:String>
     <system:String x:Key="Video.OpenVideoRecognitionResult">開啟資料夾</system:String>
     <system:String x:Key="Video.Recognition">影片辨識</system:String>
-    <system:String x:Key="Video.RecognitionTips" xml:space="preserve">請開啟 ｢{key=Copilot.Copilot}｣ 分頁，將攻略影片檔案拖入後開始即可。
+    <system:String x:Key="Video.Recognition.Tip" xml:space="preserve">請開啟 ｢{key=Copilot.Title}｣ 分頁，將攻略影片檔案拖入後開始即可。
 需要影片解析度為 16:9，且無黑邊、模擬器邊框、異形螢幕校正等干擾因素。</system:String>
     <system:String x:Key="Video.StartToVideoRecognition">開始辨識</system:String>
+    <system:String x:Key="Window.ConfirmExit.Text">確定要關閉程式嗎？</system:String>
     <system:String x:Key="Window.ConfirmExit.Title">MAA 正在執行任務</system:String>
-    <system:String x:Key="Window.ConfirmExitText">確定要關閉程式嗎？</system:String>
+    <system:String x:Key="Window.Minimize">視窗最小化</system:String>
+    <system:String x:Key="Window.ProcessPicker.Cancel">取消</system:String>
+    <system:String x:Key="Window.ProcessPicker.Confirm">確定</system:String>
+    <system:String x:Key="Window.ProcessPicker.Refresh">重新整理</system:String>
+    <system:String x:Key="Window.ProcessPicker.Title">選擇視窗</system:String>
+    <system:String x:Key="Window.ProcessPicker.ToolTip" xml:space="preserve">左鍵：開啟 / 關閉日誌浮動視窗
+右鍵：選擇目標程式</system:String>
+    <system:String x:Key="Window.Restore">視窗復原</system:String>
 </ResourceDictionary>

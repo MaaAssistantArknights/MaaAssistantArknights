@@ -47,7 +47,7 @@ public partial class FightTaskUserControlModel
                 if (!report.IsExpiring)
                 {
                     MedicineUsedTimes += report.Count;
-                    medicineLog = LocalizationHelper.GetString("TaskQueue.MedicineUsed") + $" {MedicineUsedTimes}(+{report.Count})";
+                    medicineLog = LocalizationHelper.GetString("Combat.MedicineUsed") + $" {MedicineUsedTimes}(+{report.Count})";
                 }
                 else
                 {
@@ -68,14 +68,14 @@ public partial class FightTaskUserControlModel
                             expireOut = $"{expireDays}";
                         }
                     }
-                    medicineLog = LocalizationHelper.GetStringFormat("TaskQueue.ExpiringMedicineUsed", expireOut) + $" {ExpiringMedicineUsedTimes}(+{report.Count})";
+                    medicineLog = LocalizationHelper.GetStringFormat("Combat.ExpiringMedicineUsed", expireOut) + $" {ExpiringMedicineUsedTimes}(+{report.Count})";
                     AchievementTrackerHelper.Instance.SetProgress(AchievementIds.SanityExpire, ExpiringMedicineUsedTimes);
                 }
 
                 AchievementTrackerHelper.Instance.AddProgressToGroup(AchievementIds.SanitySaverGroup, report.Count);
                 if (report.Medicines?.Count > 0)
                 {
-                    var list = report.Medicines?.Select(i => LocalizationHelper.GetStringFormat("TaskQueue.UseMedicine.MedicineInfo", i.Use, i.Inventory)).ToList();
+                    var list = report.Medicines?.Select(i => LocalizationHelper.GetStringFormat("Combat.UseMedicine.MedicineInfo", i.Use, i.Inventory)).ToList();
                     medicineLog += "\n" + string.Join("\n", list ?? []);
                 }
                 Instances.TaskQueueViewModel.AddLog(medicineLog, UiLogColor.Info);

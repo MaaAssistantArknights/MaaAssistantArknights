@@ -794,7 +794,7 @@ public partial class FightTaskUserControlModel : TaskSettingsViewModel, FightTas
 
     private void InitDrops()
     {
-        AllDrops.Add(new() { Display = LocalizationHelper.GetString("Settings.NotSelected"), Value = string.Empty });
+        AllDrops.Add(new() { Display = LocalizationHelper.GetString("Common.NotSelected"), Value = string.Empty });
         foreach (var (val, value) in ItemListHelper.ArkItems)
         {
             // 不是数字的东西都是正常关卡不会掉的（大概吧）
@@ -935,7 +935,7 @@ public partial class FightTaskUserControlModel : TaskSettingsViewModel, FightTas
         else
         {
             DropsItemId = string.Empty;
-            DropsItemName = LocalizationHelper.GetString("Settings.NotSelected");
+            DropsItemName = LocalizationHelper.GetString("Common.NotSelected");
             NotifyOfPropertyChange(nameof(DropsItemName));
         }
     }
@@ -977,7 +977,7 @@ public partial class FightTaskUserControlModel : TaskSettingsViewModel, FightTas
         StagePlanTip = LocalizationHelper.GetStringFormat("Combat.Stage.Plan.Tip", stage);
         if (CustomStageCode)
         {
-            StagePlanTip += $"\n\n{LocalizationHelper.GetString("Settings.CustomStageCode.Tip")}";
+            StagePlanTip += $"\n\n{LocalizationHelper.GetString("Combat.CustomStageCode.Tip")}";
         }
     }
 
@@ -1064,12 +1064,12 @@ public partial class FightTaskUserControlModel : TaskSettingsViewModel, FightTas
             if (value)
             {
                 var result = MessageBoxHelper.Show(
-                    LocalizationHelper.GetString("Settings.AllowUseStoneSaveWarning"),
-                    LocalizationHelper.GetString("Settings.Warning"),
+                    LocalizationHelper.GetString("Combat.AllowUseStoneSave.Warning"),
+                    LocalizationHelper.GetString("Common.Warning"),
                     MessageBoxButton.YesNo,
                     MessageBoxImage.Warning,
-                    no: LocalizationHelper.GetString("Settings.Confirm"),
-                    yes: LocalizationHelper.GetString("Settings.Cancel"),
+                    no: LocalizationHelper.GetString("Common.Confirm"),
+                    yes: LocalizationHelper.GetString("Common.Cancel"),
                     iconBrushKey: "DangerBrush");
                 if (result != MessageBoxResult.No)
                 {
@@ -1453,7 +1453,7 @@ public partial class FightTaskUserControlModel : TaskSettingsViewModel, FightTas
             }
             else
             {
-                ActivityInfo = LocalizationHelper.GetString("Settings.NoActivity");
+                ActivityInfo = LocalizationHelper.GetString("Combat.NoActivity");
                 ActivityExpireIn2Days = false;
             }
             using (var refresh = new UiRefreshingScope())

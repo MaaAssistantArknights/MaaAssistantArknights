@@ -186,7 +186,7 @@ public class ThirdPartyServiceSettingsUserControlModel : PropertyChangedBase
         var token = YituliuOpenApiToken.Trim();
         if (string.IsNullOrEmpty(token))
         {
-            YituliuTokenValidationText = LocalizationHelper.GetString("Settings.YituliuTokenEmpty");
+            YituliuTokenValidationText = LocalizationHelper.GetString("Operator.YituliuTokenEmpty");
             return;
         }
 
@@ -226,11 +226,11 @@ public class ThirdPartyServiceSettingsUserControlModel : PropertyChangedBase
     {
         return validation.Result switch {
             YituliuApiService.TokenValidationResult.Valid => validation.OperatorCount > 0
-                ? LocalizationHelper.GetStringFormat("Settings.YituliuTokenValid", validation.OperatorCount)
-                : LocalizationHelper.GetString("Settings.YituliuTokenValidNoData"),
-            YituliuApiService.TokenValidationResult.WriteOnly => LocalizationHelper.GetString("Settings.YituliuTokenWriteOnly"),
-            YituliuApiService.TokenValidationResult.Invalid => LocalizationHelper.GetString("Settings.YituliuTokenInvalid"),
-            _ => LocalizationHelper.GetString("Settings.YituliuTokenNetworkError"),
+                ? LocalizationHelper.GetStringFormat("Operator.YituliuTokenValid", validation.OperatorCount)
+                : LocalizationHelper.GetString("Operator.YituliuTokenValidNoData"),
+            YituliuApiService.TokenValidationResult.WriteOnly => LocalizationHelper.GetString("Operator.YituliuTokenWriteOnly"),
+            YituliuApiService.TokenValidationResult.Invalid => LocalizationHelper.GetString("Operator.YituliuTokenInvalid"),
+            _ => LocalizationHelper.GetString("Operator.YituliuTokenNetworkError"),
         };
     }
 

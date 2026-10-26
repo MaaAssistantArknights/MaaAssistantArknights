@@ -33,22 +33,22 @@
                 <CheckBox
                     HorizontalAlignment="Left"
                     Block.TextAlignment="Center"
-                    Content="{DynamicResource Settings.LaunchOnSystemStartup}"
+                    Content="{DynamicResource Startup.LaunchOnSystemStartup}"
                     IsChecked="{Binding StartSelf}" />
-                <controls:TooltipBlock TooltipText="{DynamicResource Settings.LaunchOnSystemStartupWarning}" />
+                <controls:TooltipBlock TooltipText="{DynamicResource Startup.LaunchOnSystemStartup.Warning}" />
             </StackPanel>
             <CheckBox
                 Margin="10"
                 HorizontalAlignment="Left"
                 Block.TextAlignment="Center"
-                Content="{DynamicResource Settings.MinimizeAfterLaunch}"
+                Content="{DynamicResource Startup.MinimizeAfterLaunch}"
                 IsChecked="{Binding MinimizeDirectly}" />
             <hc:Divider />
             <CheckBox
                 Margin="10"
                 HorizontalAlignment="Left"
                 Block.TextAlignment="Center"
-                Content="{DynamicResource Settings.RunTaskAfterLaunch}"
+                Content="{DynamicResource Startup.RunTaskAfterLaunch}"
                 IsChecked="{Binding RunDirectly}" />
             <StackPanel
                 Margin="10"
@@ -58,9 +58,9 @@
                 <CheckBox
                     HorizontalAlignment="Left"
                     Block.TextAlignment="Center"
-                    Content="{DynamicResource Settings.OpenEmulatorAfterLaunch}"
+                    Content="{DynamicResource Startup.OpenEmulatorAfterLaunch}"
                     IsChecked="{Binding OpenEmulatorAfterLaunch}" />
-                <controls:TooltipBlock TooltipText="{DynamicResource Settings.OpenEmulatorAfterLaunch.Tip}" />
+                <controls:TooltipBlock TooltipText="{DynamicResource Startup.OpenEmulatorAfterLaunch.Tip}" />
             </StackPanel>
             <StackPanel
                 Margin="10"
@@ -70,15 +70,15 @@
                 <CheckBox
                     HorizontalAlignment="Left"
                     Block.TextAlignment="Center"
-                    Content="{DynamicResource Settings.OpenPcClientAfterLaunch}"
+                    Content="{DynamicResource Startup.OpenPcClientAfterLaunch}"
                     IsChecked="{Binding OpenPcClientAfterLaunch}" />
-                <controls:TooltipBlock TooltipText="{DynamicResource Settings.OpenPcClientAfterLaunch.Tip}" />
+                <controls:TooltipBlock TooltipText="{DynamicResource Startup.OpenPcClientAfterLaunch.Tip}" />
             </StackPanel>
             <StackPanel Margin="10" Orientation="Horizontal">
                 <CheckBox MaxWidth="210" IsChecked="{Binding SkipStartupAutoRunAfterUpdate}">
-                    <controls:TextBlock Text="{DynamicResource Settings.SkipStartupAutoRunAfterUpdate}" TextWrapping="Wrap" />
+                    <controls:TextBlock Text="{DynamicResource Startup.SkipStartupAutoRunAfterUpdate}" TextWrapping="Wrap" />
                 </CheckBox>
-                <controls:TooltipBlock Grid.Column="1" TooltipText="{DynamicResource Settings.SkipStartupAutoRunAfterUpdate.Tip}" />
+                <controls:TooltipBlock Grid.Column="1" TooltipText="{DynamicResource Startup.SkipStartupAutoRunAfterUpdate.Tip}" />
             </StackPanel>
             <StackPanel
                 Margin="10"
@@ -86,9 +86,9 @@
                 Visibility="{c:Binding '!IsPCConnectConfig',
                                        Source={x:Static settings_vms:ConnectSettingsUserControlModel.Instance}}">
                 <CheckBox MaxWidth="210" IsChecked="{Binding RetryOnDisconnected, Source={x:Static ui_vms:SettingsViewModel.ConnectSettings}}">
-                    <controls:TextBlock Text="{DynamicResource Settings.RetryOnDisconnected}" TextWrapping="Wrap" />
+                    <controls:TextBlock Text="{DynamicResource Connection.RetryOnDisconnected}" TextWrapping="Wrap" />
                 </CheckBox>
-                <controls:TooltipBlock Grid.Column="1" TooltipText="{DynamicResource Settings.RetryOnDisconnected.Tip}" />
+                <controls:TooltipBlock Grid.Column="1" TooltipText="{DynamicResource Connection.RetryOnDisconnected.Tip}" />
             </StackPanel>
             <StackPanel
                 Margin="10"
@@ -96,9 +96,9 @@
                 Visibility="{c:Binding IsPCConnectConfig,
                                        Source={x:Static settings_vms:ConnectSettingsUserControlModel.Instance}}">
                 <CheckBox MaxWidth="210" IsChecked="{Binding RetryPcClientOnDisconnected, Source={x:Static ui_vms:SettingsViewModel.ConnectSettings}}">
-                    <controls:TextBlock Text="{DynamicResource Settings.RetryOnPcDisconnected}" TextWrapping="Wrap" />
+                    <controls:TextBlock Text="{DynamicResource Connection.RetryOnPcDisconnected}" TextWrapping="Wrap" />
                 </CheckBox>
-                <controls:TooltipBlock Grid.Column="1" TooltipText="{DynamicResource Settings.RetryOnPcDisconnected.Tip}" />
+                <controls:TooltipBlock Grid.Column="1" TooltipText="{DynamicResource Connection.RetryOnPcDisconnected.Tip}" />
             </StackPanel>
         </StackPanel>
 
@@ -117,17 +117,17 @@
                         VerticalAlignment="Center"
                         Block.TextAlignment="Center"
                         Text="{DynamicResource Connection.Emulator.Path}" />
-                    <controls:TooltipBlock TooltipText="{DynamicResource Settings.SelectShortcut.Tip}" />
+                    <controls:TooltipBlock TooltipText="{DynamicResource Startup.SelectShortcut.Tip}" />
                     <Button
                         Margin="10,0,0,0"
                         hc:BorderElement.CornerRadius="4,0,0,4"
                         Command="{s:Action SelectEmulatorExec}"
-                        Content="{DynamicResource Settings.Select}" />
+                        Content="{DynamicResource Common.Select}" />
                     <Button
                         hc:BorderElement.CornerRadius="0,4,4,0"
                         BorderThickness="0,1,1,1"
                         Command="{s:Action TestEmulatorExec}"
-                        Content="{DynamicResource Settings.Test}" />
+                        Content="{DynamicResource Connection.Test}" />
                 </StackPanel>
                 <TextBox Text="{Binding EmulatorPath}" />
             </StackPanel>
@@ -137,8 +137,8 @@
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Orientation="Horizontal">
-                    <controls:TextBlock Block.TextAlignment="Center" Text="{DynamicResource Settings.AdditionCommand}" />
-                    <controls:TooltipBlock TooltipText="{DynamicResource Settings.AdditionCommand.Tip}" />
+                    <controls:TextBlock Block.TextAlignment="Center" Text="{DynamicResource Connection.AdditionCommand}" />
+                    <controls:TooltipBlock TooltipText="{DynamicResource Connection.AdditionCommand.Tip}" />
                 </StackPanel>
                 <TextBox IsEnabled="{Binding EmulatorPath.Length}" Text="{Binding EmulatorAddCommand}" />
             </StackPanel>
@@ -150,7 +150,7 @@
                 <controls:TextBlock
                     Margin="3"
                     Block.TextAlignment="Center"
-                    Text="{DynamicResource Settings.WaitForEmulator}" />
+                    Text="{DynamicResource Startup.WaitForEmulator}" />
                 <TextBox
                     Width="50"
                     Margin="3"
@@ -174,17 +174,17 @@
                         VerticalAlignment="Center"
                         Block.TextAlignment="Center"
                         Text="{DynamicResource Connection.PcClient.Path}" />
-                    <controls:TooltipBlock TooltipText="{DynamicResource Settings.SelectPcClient.Tip}" />
+                    <controls:TooltipBlock TooltipText="{DynamicResource Startup.SelectPcClient.Tip}" />
                     <Button
                         Margin="10,0,0,0"
                         hc:BorderElement.CornerRadius="4,0,0,4"
                         Command="{s:Action SelectPcClientExec}"
-                        Content="{DynamicResource Settings.Select}" />
+                        Content="{DynamicResource Common.Select}" />
                     <Button
                         hc:BorderElement.CornerRadius="0,4,4,0"
                         BorderThickness="0,1,1,1"
                         Command="{s:Action TestPcClientExec}"
-                        Content="{DynamicResource Settings.Test}" />
+                        Content="{DynamicResource Connection.Test}" />
                 </StackPanel>
                 <TextBox Text="{Binding PcClientPath}" />
             </StackPanel>
@@ -194,7 +194,7 @@
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Orientation="Horizontal">
-                    <controls:TextBlock Block.TextAlignment="Center" Text="{DynamicResource Settings.AdditionCommand}" />
+                    <controls:TextBlock Block.TextAlignment="Center" Text="{DynamicResource Connection.AdditionCommand}" />
                     <controls:TooltipBlock TooltipText="{DynamicResource Connection.PcClient.AddCommand.Tip}" />
                 </StackPanel>
                 <TextBox IsEnabled="{Binding PcClientPath.Length}" Text="{Binding PcClientAddCommand}" />
@@ -207,7 +207,7 @@
                 <controls:TextBlock
                     Margin="3"
                     Block.TextAlignment="Center"
-                    Text="{DynamicResource Settings.WaitForPcClient}" />
+                    Text="{DynamicResource Startup.WaitForPcClient}" />
                 <TextBox
                     Width="50"
                     Margin="3"

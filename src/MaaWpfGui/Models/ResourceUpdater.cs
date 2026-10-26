@@ -490,7 +490,7 @@ public static class ResourceUpdater
                     localDateTime,
                     localDateTime.ToLocalTime());
                 ToastNotification.ShowDirect(LocalizationHelper.GetStringFormat(
-                    "Settings.LocalResourcePackageTooOld",
+                    "ResourceUpdate.LocalResourcePackageTooOld",
                     packageDateTime.ToLocalTimeString(),
                     localDateTime.ToLocalTimeString()));
                 return LocalResourcePackageImportStatus.VersionTooOld;

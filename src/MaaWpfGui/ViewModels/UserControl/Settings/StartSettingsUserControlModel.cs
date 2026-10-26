@@ -68,7 +68,7 @@ public class StartSettingsUserControlModel : PropertyChangedBase
             if (!AutoStart.SetStart(value, out var error))
             {
                 _logger.Error("Failed to set startup: {Error}", error);
-                MessageBoxHelper.Show(error, LocalizationHelper.GetString("Settings.Warning"), icon: MessageBoxImage.Warning);
+                MessageBoxHelper.Show(error, LocalizationHelper.GetString("Common.Warning"), icon: MessageBoxImage.Warning);
                 return;
             }
 
@@ -120,8 +120,8 @@ public class StartSettingsUserControlModel : PropertyChangedBase
             if (string.IsNullOrEmpty(SettingsViewModel.StartSettings.EmulatorPath))
             {
                 MessageBoxHelper.Show(
-                    LocalizationHelper.GetString("Settings.RetryOnDisconnectedEmulatorPathEmptyError"),
-                    LocalizationHelper.GetString("Settings.Tip"),
+                    LocalizationHelper.GetString("Connection.RetryOnDisconnectedEmulatorPathEmptyError"),
+                    LocalizationHelper.GetString("Common.Tip"),
                     MessageBoxButton.OK,
                     MessageBoxImage.Warning);
                 value = false;
@@ -142,7 +142,7 @@ public class StartSettingsUserControlModel : PropertyChangedBase
             {
                 MessageBoxHelper.Show(
                     LocalizationHelper.GetString("Connection.PcClient.PathEmptyError"),
-                    LocalizationHelper.GetString("Settings.Tip"),
+                    LocalizationHelper.GetString("Common.Tip"),
                     MessageBoxButton.OK,
                     MessageBoxImage.Warning);
                 value = false;
@@ -174,7 +174,7 @@ public class StartSettingsUserControlModel : PropertyChangedBase
                 {
                     var result = MessageBoxHelper.Show(
                         LocalizationHelper.GetString("Connection.Emulator.PathSelectionErrorPrompt"),
-                        LocalizationHelper.GetString("Settings.Tip"),
+                        LocalizationHelper.GetString("Common.Tip"),
                         MessageBoxButton.OKCancel,
                         MessageBoxImage.Warning,
                         ok: LocalizationHelper.GetString("Connection.Emulator.PathSelectionErrorImSure") + $"({count + 1})",
@@ -247,7 +247,7 @@ public class StartSettingsUserControlModel : PropertyChangedBase
                 {
                     var result = MessageBoxHelper.Show(
                         LocalizationHelper.GetString("Connection.Emulator.PathSelectionErrorPrompt"),
-                        LocalizationHelper.GetString("Settings.Tip"),
+                        LocalizationHelper.GetString("Common.Tip"),
                         MessageBoxButton.OKCancel,
                         MessageBoxImage.Warning,
                         ok: LocalizationHelper.GetString("Connection.Emulator.PathSelectionErrorImSure") + $"({count + 1})",
@@ -395,7 +395,7 @@ public class StartSettingsUserControlModel : PropertyChangedBase
                 Thread.Sleep(1000);
             }
 
-            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("Settings.WaitForEmulatorFinish"));
+            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("Startup.WaitForEmulatorFinish"));
             _logger.Information("Waiting for the {TargetName} is over", settings.LogName);
         }
         finally
@@ -621,7 +621,7 @@ public class StartSettingsUserControlModel : PropertyChangedBase
     public void SelectEmulatorExec()
     {
         var dialog = new OpenFileDialog {
-            Filter = LocalizationHelper.GetString("Settings.Executable") + "|*.exe;*.bat;*.lnk",
+            Filter = LocalizationHelper.GetString("Startup.Executable") + "|*.exe;*.bat;*.lnk",
         };
 
         if (dialog.ShowDialog() == true)
@@ -637,7 +637,7 @@ public class StartSettingsUserControlModel : PropertyChangedBase
     public void SelectPcClientExec()
     {
         var dialog = new OpenFileDialog {
-            Filter = LocalizationHelper.GetString("Settings.Executable") + "|*.exe;*.bat;*.lnk",
+            Filter = LocalizationHelper.GetString("Startup.Executable") + "|*.exe;*.bat;*.lnk",
         };
 
         if (dialog.ShowDialog() == true)
@@ -655,13 +655,13 @@ public class StartSettingsUserControlModel : PropertyChangedBase
     {
         if (EmulatorPath.Length == 0)
         {
-            MessageBoxHelper.Show(LocalizationHelper.GetString("Connection.Emulator.PathEmptyWarning"), LocalizationHelper.GetString("Settings.Warning"), icon: MessageBoxImage.Warning);
+            MessageBoxHelper.Show(LocalizationHelper.GetString("Connection.Emulator.PathEmptyWarning"), LocalizationHelper.GetString("Common.Warning"), icon: MessageBoxImage.Warning);
             return;
         }
 
         if (!File.Exists(EmulatorPath))
         {
-            MessageBoxHelper.Show(LocalizationHelper.GetString("Connection.Emulator.PathNotExist"), LocalizationHelper.GetString("Settings.Warning"), icon: MessageBoxImage.Warning);
+            MessageBoxHelper.Show(LocalizationHelper.GetString("Connection.Emulator.PathNotExist"), LocalizationHelper.GetString("Common.Warning"), icon: MessageBoxImage.Warning);
             return;
         }
 
@@ -676,13 +676,13 @@ public class StartSettingsUserControlModel : PropertyChangedBase
     {
         if (PcClientPath.Length == 0)
         {
-            MessageBoxHelper.Show(LocalizationHelper.GetString("Connection.PcClient.PathEmptyError"), LocalizationHelper.GetString("Settings.Warning"), icon: MessageBoxImage.Warning);
+            MessageBoxHelper.Show(LocalizationHelper.GetString("Connection.PcClient.PathEmptyError"), LocalizationHelper.GetString("Common.Warning"), icon: MessageBoxImage.Warning);
             return;
         }
 
         if (!File.Exists(PcClientPath))
         {
-            MessageBoxHelper.Show(LocalizationHelper.GetString("Connection.PcClient.PathNotExist"), LocalizationHelper.GetString("Settings.Warning"), icon: MessageBoxImage.Warning);
+            MessageBoxHelper.Show(LocalizationHelper.GetString("Connection.PcClient.PathNotExist"), LocalizationHelper.GetString("Common.Warning"), icon: MessageBoxImage.Warning);
             return;
         }
 

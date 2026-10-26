@@ -580,10 +580,10 @@ public class VersionUpdateDialogViewModel : Screen
                     _ = Task.Run(() =>
                         MessageBoxHelper.Show(
                             LocalizationHelper.GetString("Update.MirrorChyan.SelectedButNoCdk"),
-                            LocalizationHelper.GetString("Settings.Warning"),
+                            LocalizationHelper.GetString("Common.Warning"),
                             MessageBoxButton.OK,
                             MessageBoxImage.Warning,
-                            ok: LocalizationHelper.GetString("Settings.Ok")));
+                            ok: LocalizationHelper.GetString("Common.Ok")));
                 }
 
                 await VersionUpdateAndAskToRestartAsync();
@@ -620,8 +620,8 @@ public class VersionUpdateDialogViewModel : Screen
             CheckUpdateRetT.NoNeedToUpdateDebugVersion => string.Empty,
             CheckUpdateRetT.AlreadyLatest => string.Empty,
             CheckUpdateRetT.UnknownError => LocalizationHelper.GetString("Update.NewVersion.DetectFailed.Title"),
-            CheckUpdateRetT.NetworkError => LocalizationHelper.GetString("Settings.CheckNetworking"),
-            CheckUpdateRetT.FailedToGetInfo => LocalizationHelper.GetString("Settings.GetReleaseNoteFailed"),
+            CheckUpdateRetT.NetworkError => LocalizationHelper.GetString("Update.CheckNetworking"),
+            CheckUpdateRetT.FailedToGetInfo => LocalizationHelper.GetString("Update.GetReleaseNoteFailed"),
             CheckUpdateRetT.UpdatePackageDownloadFailed => LocalizationHelper.GetString("Update.NewVersion.DownloadFailed.Title"),
             CheckUpdateRetT.OK => string.Empty,
             CheckUpdateRetT.NewVersionIsBeingBuilt => string.Empty,
@@ -794,7 +794,7 @@ public class VersionUpdateDialogViewModel : Screen
         bool otaFound = _assetsObject != null;
         bool goDownload = otaFound && SettingsViewModel.VersionUpdateSettings.AutoDownloadUpdatePackage;
 
-        ShowUpdateInfo(otaFound, LocalizationHelper.GetString("Update.NewVersion.FoundButtonGoWebpage"), true);
+        ShowUpdateInfo(otaFound, LocalizationHelper.GetString("Update.NewVersion.Found.ButtonGoWebpage"), true);
 
         UpdatePackageName = _assetsObject?["name"]?.ToString() ?? string.Empty;
 
@@ -893,8 +893,8 @@ public class VersionUpdateDialogViewModel : Screen
             OutputDownloadProgress(downloading: false, output: LocalizationHelper.GetString("Update.NewVersion.DownloadFailed.Title"));
             {
                 using var toast = new ToastNotification(LocalizationHelper.GetString("Update.NewVersion.DownloadFailed.Title"));
-                toast.AppendContentText(LocalizationHelper.GetString("Update.NewVersion.DownloadFailedDesc"))
-                    .AddButton(LocalizationHelper.GetString("Update.NewVersion.FoundButtonGoWebpage"), ToastNotification.GetActionTagForOpenWeb(UpdateUrl))
+                toast.AppendContentText(LocalizationHelper.GetString("Update.NewVersion.DownloadFailed.Desc"))
+                    .AddButton(LocalizationHelper.GetString("Update.NewVersion.Found.ButtonGoWebpage"), ToastNotification.GetActionTagForOpenWeb(UpdateUrl))
                     .Show();
             }
 
@@ -937,13 +937,13 @@ public class VersionUpdateDialogViewModel : Screen
         {
             OutputDownloadProgress(LocalizationHelper.GetString("Update.NewVersion.DownloadPreparing"), false, globalSource);
             toast.AppendContentText(globalSource
-                ? LocalizationHelper.GetString("Update.NewVersion.FoundDescDownloadingWithGlobalSource")
-                : LocalizationHelper.GetString("Update.NewVersion.FoundDescDownloadingWithMirrorChyan"));
+                ? LocalizationHelper.GetString("Update.NewVersion.Found.DescDownloadingWithGlobalSource")
+                : LocalizationHelper.GetString("Update.NewVersion.Found.DescDownloadingWithMirrorChyan"));
         }
 
         if (!otaFound)
         {
-            toast.AppendContentText(LocalizationHelper.GetString("Update.NewVersion.FoundButNoPackageDesc"));
+            toast.AppendContentText(LocalizationHelper.GetString("Update.NewVersion.FoundButNoPackage.Desc"));
         }
 
         int count = 0;
@@ -982,7 +982,7 @@ public class VersionUpdateDialogViewModel : Screen
 
         bool goDownload = SettingsViewModel.VersionUpdateSettings.AutoDownloadUpdatePackage;
 
-        ShowUpdateInfo(true, LocalizationHelper.GetString("Update.NewVersion.FoundButtonGoWebpage"), false);
+        ShowUpdateInfo(true, LocalizationHelper.GetString("Update.NewVersion.Found.ButtonGoWebpage"), false);
 
         if (!goDownload)
         {
@@ -1011,7 +1011,7 @@ public class VersionUpdateDialogViewModel : Screen
             OutputDownloadProgress(downloading: false, output: LocalizationHelper.GetString("Update.NewVersion.DownloadFailed.Title"));
             {
                 using var toast = new ToastNotification(LocalizationHelper.GetString("Update.NewVersion.DownloadFailed.Title"));
-                toast.AppendContentText(LocalizationHelper.GetString("Update.NewVersion.DownloadFailedDesc"))
+                toast.AppendContentText(LocalizationHelper.GetString("Update.NewVersion.DownloadFailed.Desc"))
                      .Show();
             }
 
@@ -1025,14 +1025,14 @@ public class VersionUpdateDialogViewModel : Screen
     public async Task AskToRestart()
     {
         await AskToRestartCore(
-            LocalizationHelper.GetString("Update.NewVersion.DownloadCompletedDesc"),
+            LocalizationHelper.GetString("Update.NewVersion.DownloadCompleted.Desc"),
             LocalizationHelper.GetString("Update.NewVersion.DownloadCompleted.Title"));
     }
 
     public async Task AskToRestartForImportedPackage()
     {
         await AskToRestartCore(
-            LocalizationHelper.GetString("Update.LocalPackage.ImportedDesc"),
+            LocalizationHelper.GetString("Update.LocalPackage.Imported.Desc"),
             LocalizationHelper.GetString("Update.LocalPackage.Imported.Title"));
     }
 
@@ -1109,7 +1109,7 @@ public class VersionUpdateDialogViewModel : Screen
         // 解释性提示放在流程内部而非重定向入口输出，命中防重入静默返回的调用不会进入流程内部，
         // 重定向入口的进度区因此保持执行中链路的输出；下载日志区为单条目替换，两条提示合并为一次输出避免互相覆盖
         OutputDownloadProgress(
-            LocalizationHelper.GetString("TaskQueue.ForcedFullPackageUpdateNotice") + "\n" + LocalizationHelper.GetString("Resource.IntegrityRepairDownloading"),
+            LocalizationHelper.GetString("Update.ForcedFullPackageUpdateNotice") + "\n" + LocalizationHelper.GetString("Resource.IntegrityRepairDownloading"),
             downloading: false);
 
         // 后续需要弹窗询问重启，保持 UI 上下文，不使用 ConfigureAwait(false)
@@ -1356,12 +1356,12 @@ public class VersionUpdateDialogViewModel : Screen
             : GetPlannedUpdatePackagePath(packagePath);
 
         MessageBoxResult result = MessageBoxHelper.Show(
-            LocalizationHelper.GetStringFormat("Settings.PendingFullUpdateManualConfirmDesc", baseDir, normalizedPackagePath),
-            LocalizationHelper.GetString("Settings.PendingFullUpdateManualConfirm.Title"),
+            LocalizationHelper.GetStringFormat("Update.PendingFullUpdateManualConfirm.Desc", baseDir, normalizedPackagePath),
+            LocalizationHelper.GetString("Update.PendingFullUpdateManualConfirm.Title"),
             MessageBoxButton.YesNo,
             MessageBoxImage.Warning,
-            yes: LocalizationHelper.GetString("Settings.PendingFullUpdateManualConfirmYes"),
-            no: LocalizationHelper.GetString("Settings.PendingFullUpdateManualConfirmNo"));
+            yes: LocalizationHelper.GetString("Update.PendingFullUpdateManualConfirm.Yes"),
+            no: LocalizationHelper.GetString("Update.PendingFullUpdateManualConfirm.No"));
 
         return result == MessageBoxResult.Yes;
     }
@@ -1392,8 +1392,8 @@ public class VersionUpdateDialogViewModel : Screen
             title,
             MessageBoxButton.OKCancel,
             MessageBoxImage.Question,
-            ok: LocalizationHelper.GetString("Settings.Ok"),
-            cancel: LocalizationHelper.GetString("Settings.ManualRestart"));
+            ok: LocalizationHelper.GetString("Common.Ok"),
+            cancel: LocalizationHelper.GetString("Common.ManualRestart"));
         if (result == MessageBoxResult.OK)
         {
             if (FakeUpdateHelper.HasPendingFakeUpdate)

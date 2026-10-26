@@ -32,7 +32,7 @@
                 <Button
                     HorizontalAlignment="Right"
                     Command="{s:Action PostActionsClear}"
-                    Content="{DynamicResource TaskQueue.Clear}"
+                    Content="{DynamicResource Common.Clear}"
                     MouseRightButtonUp="{s:Action PostActionsClearOnce}" />
             </Grid>
 

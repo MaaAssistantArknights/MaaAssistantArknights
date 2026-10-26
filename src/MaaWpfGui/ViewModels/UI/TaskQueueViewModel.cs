@@ -637,8 +637,8 @@ public class TaskQueueViewModel : Screen
             await Execute.OnUIThreadAsync(() => Instances.MainWindowManager?.Show());
             if (await TimerCanceledAsync(
                     LocalizationHelper.GetString("TaskQueue.LockScreen"),
-                    LocalizationHelper.GetString("TaskQueue.Log.LockScreen.Tip"),
-                    LocalizationHelper.GetString("Settings.Cancel"),
+                    LocalizationHelper.GetString("TaskQueue.LockScreen.Tip"),
+                    LocalizationHelper.GetString("Common.Cancel"),
                     60,
                     preventSleep: true))
             {
@@ -660,7 +660,7 @@ public class TaskQueueViewModel : Screen
             if (await TimerCanceledAsync(
                     LocalizationHelper.GetString("TaskQueue.Hibernate"),
                     LocalizationHelper.GetString("TaskQueue.Log.HibernatePrompt"),
-                    LocalizationHelper.GetString("Settings.Cancel"),
+                    LocalizationHelper.GetString("Common.Cancel"),
                     60,
                     preventSleep: true))
             {
@@ -679,7 +679,7 @@ public class TaskQueueViewModel : Screen
             if (await TimerCanceledAsync(
                     LocalizationHelper.GetString("TaskQueue.Shutdown"),
                     LocalizationHelper.GetString("TaskQueue.Log.AboutToShutdown"),
-                    LocalizationHelper.GetString("Settings.Cancel"),
+                    LocalizationHelper.GetString("Common.Cancel"),
                     60,
                     preventSleep: true))
             {
@@ -699,7 +699,7 @@ public class TaskQueueViewModel : Screen
             if (await TimerCanceledAsync(
                     LocalizationHelper.GetString("TaskQueue.Sleep"),
                     LocalizationHelper.GetString("TaskQueue.Log.SleepPrompt"),
-                    LocalizationHelper.GetString("Settings.Cancel"),
+                    LocalizationHelper.GetString("Common.Cancel"),
                     60,
                     preventSleep: true))
             {
@@ -829,7 +829,7 @@ public class TaskQueueViewModel : Screen
         if (SettingsViewModel.VersionUpdateSettings.IsCheckingForUpdates)
         {
             var result = MessageBoxHelper.Show(
-                LocalizationHelper.GetString("Update.ConfirmExitText"),
+                LocalizationHelper.GetString("Update.ConfirmExit.Text"),
                 LocalizationHelper.GetString("Update.ConfirmExit.Title"),
                 MessageBoxButton.YesNo,
                 MessageBoxImage.Question);
@@ -844,7 +844,7 @@ public class TaskQueueViewModel : Screen
         }
 
         var confirmResult = MessageBoxHelper.Show(
-            LocalizationHelper.GetString("Window.ConfirmExitText"),
+            LocalizationHelper.GetString("Window.ConfirmExit.Text"),
             LocalizationHelper.GetString("Window.ConfirmExit.Title"),
             MessageBoxButton.YesNo,
             MessageBoxImage.Question);
@@ -1201,9 +1201,9 @@ public class TaskQueueViewModel : Screen
             }
 
             if (await TimerCanceledAsync(
-                    LocalizationHelper.GetString("Settings.ForceScheduledStart"),
-                    LocalizationHelper.GetString("Settings.ForceScheduledStart.Tip"),
-                    LocalizationHelper.GetString("Settings.Cancel")))
+                    LocalizationHelper.GetString("Schedule.ForceScheduledStart"),
+                    LocalizationHelper.GetString("Schedule.ForceScheduledStart.Tip"),
+                    LocalizationHelper.GetString("Common.Cancel")))
             {
                 return;
             }
@@ -1243,7 +1243,7 @@ public class TaskQueueViewModel : Screen
         return TimerCanceledAsync(
             content,
             tipContent,
-            LocalizationHelper.GetString("Settings.Cancel"),
+            LocalizationHelper.GetString("Common.Cancel"),
             seconds);
     }
 
@@ -1754,7 +1754,7 @@ public class TaskQueueViewModel : Screen
             new TaskTypeItem(LocalizationHelper.GetString("TaskQueue.Roguelike"), typeof(RoguelikeTask)),
             new TaskTypeItem(LocalizationHelper.GetString("TaskQueue.UserDataUpdate"), typeof(UserDataUpdateTask)),
             new TaskTypeItem(LocalizationHelper.GetString("Depot.Maintain"), typeof(DepotMaintainTask)),
-            new TaskTypeItem(LocalizationHelper.GetString("TaskQueue.SwitchTheme"), typeof(SwitchThemeTask), introducedVersion: "6.19.0-beta.2"),
+            new TaskTypeItem(LocalizationHelper.GetString("Appearance.SwitchTheme"), typeof(SwitchThemeTask), introducedVersion: "6.19.0-beta.2"),
             new TaskTypeItem(LocalizationHelper.GetString("TaskQueue.Custom"), typeof(CustomTask), isDebugOnly: true),
         ]);
 
@@ -1773,7 +1773,7 @@ public class TaskQueueViewModel : Screen
                 nameof(RoguelikeTask) => LocalizationHelper.GetString("TaskQueue.Roguelike"),
                 nameof(UserDataUpdateTask) => LocalizationHelper.GetString("TaskQueue.UserDataUpdate"),
                 nameof(DepotMaintainTask) => LocalizationHelper.GetString("Depot.Maintain"),
-                nameof(SwitchThemeTask) => LocalizationHelper.GetString("TaskQueue.SwitchTheme"),
+                nameof(SwitchThemeTask) => LocalizationHelper.GetString("Appearance.SwitchTheme"),
                 nameof(CustomTask) => LocalizationHelper.GetString("TaskQueue.Custom"),
                 _ => item.Display,
             };
@@ -1933,8 +1933,8 @@ public class TaskQueueViewModel : Screen
         var taskType = ConfigFactory.CurrentConfig.TaskQueue[taskItem.Index].TaskType;
         var currentName = taskItem.Name.Replace("\r", string.Empty).Replace("\n", string.Empty);
         var dialog = new Views.Dialogs.TextDialogView(
-            LocalizationHelper.GetString("Settings.RenameTask") + $" {taskItem.Index + 1}-{LocalizationHelper.GetString(taskType.ToString())}",
-            LocalizationHelper.GetString("Settings.RenameTaskPrompt"),
+            LocalizationHelper.GetString("TaskQueue.RenameTask") + $" {taskItem.Index + 1}-{LocalizationHelper.GetString(taskType.ToString())}",
+            LocalizationHelper.GetString("TaskQueue.RenameTaskPrompt"),
             currentName) {
             Owner = Application.Current.MainWindow,
         };
@@ -1948,11 +1948,11 @@ public class TaskQueueViewModel : Screen
             {
                 ConfigFactory.CurrentConfig.TaskQueue[taskItem.Index].Name = newName;
                 taskItem.Name = ConfigFactory.CurrentConfig.TaskQueue[taskItem.Index].NameOrTaskType;
-                AddLog(LocalizationHelper.GetStringFormat("Settings.TaskRenamed", newName), UiLogColor.Info);
+                AddLog(LocalizationHelper.GetStringFormat("TaskQueue.TaskRenamed", newName), UiLogColor.Info);
             }
             else
             {
-                AddLog(LocalizationHelper.GetString("Settings.TaskRenameFailed"), UiLogColor.Error);
+                AddLog(LocalizationHelper.GetString("TaskQueue.TaskRenameFailed"), UiLogColor.Error);
             }
         }
     }
@@ -2041,13 +2041,13 @@ public class TaskQueueViewModel : Screen
         var oldTaskJson = JsonSerializer.Serialize(oldTask);
         if (JsonSerializer.Deserialize(oldTaskJson, oldTask.GetType()) is not BaseTask newTask)
         {
-            AddLog(LocalizationHelper.GetString("Settings.TaskCopyFailed"), UiLogColor.Error);
+            AddLog(LocalizationHelper.GetString("TaskQueue.TaskCopyFailed"), UiLogColor.Error);
             return;
         }
         newTask.Name = newTask.NameOrTaskType + " (2)";
         ConfigFactory.CurrentConfig.TaskQueue.Insert(index + 1, newTask);
         TaskItemViewModels.Insert(index + 1, new TaskItemViewModel(oldTask.IsEnable));
-        AddLog(LocalizationHelper.GetStringFormat("Settings.TaskCopied", newTask.NameOrTaskType), UiLogColor.Info);
+        AddLog(LocalizationHelper.GetStringFormat("TaskQueue.TaskCopied", newTask.NameOrTaskType), UiLogColor.Info);
     }
 
     /// <summary>
@@ -2064,8 +2064,8 @@ public class TaskQueueViewModel : Screen
 
         var taskType = ConfigFactory.CurrentConfig.TaskQueue[taskItem.Index].TaskType;
         var result = MessageBoxHelper.Show(
-            LocalizationHelper.GetStringFormat("Settings.ConfirmDeleteTaskMessage", $"{taskItem.Index + 1}-{LocalizationHelper.GetString(taskType.ToString())}", taskItem.Name),
-            LocalizationHelper.GetString("Settings.ConfirmDeleteTask"),
+            LocalizationHelper.GetStringFormat("TaskQueue.ConfirmDeleteTaskMessage", $"{taskItem.Index + 1}-{LocalizationHelper.GetString(taskType.ToString())}", taskItem.Name),
+            LocalizationHelper.GetString("TaskQueue.ConfirmDeleteTask"),
             MessageBoxButton.YesNo,
             MessageBoxImage.Question);
 
@@ -2075,7 +2075,7 @@ public class TaskQueueViewModel : Screen
             if (index < ConfigFactory.CurrentConfig.TaskQueue.Count)
             {
                 TaskItemViewModels.RemoveAt(index);
-                AddLog(LocalizationHelper.GetStringFormat("Settings.TaskDeleted", taskItem.Name), UiLogColor.Info);
+                AddLog(LocalizationHelper.GetStringFormat("TaskQueue.TaskDeleted", taskItem.Name), UiLogColor.Info);
                 AchievementTrackerHelper.Instance.Unlock(AchievementIds.QueueSimplifier);
             }
         }
@@ -2098,8 +2098,8 @@ public class TaskQueueViewModel : Screen
     /// </summary>
     private void RefreshInverseModeText()
     {
-        InverseShowText = InverseMode ? LocalizationHelper.GetString("TaskQueue.Inverse") : LocalizationHelper.GetString("TaskQueue.Clear");
-        InverseMenuText = InverseMode ? LocalizationHelper.GetString("TaskQueue.Clear") : LocalizationHelper.GetString("TaskQueue.Inverse");
+        InverseShowText = InverseMode ? LocalizationHelper.GetString("TaskQueue.Inverse") : LocalizationHelper.GetString("Common.Clear");
+        InverseMenuText = InverseMode ? LocalizationHelper.GetString("Common.Clear") : LocalizationHelper.GetString("TaskQueue.Inverse");
     }
 
     /// <summary>
@@ -2119,7 +2119,7 @@ public class TaskQueueViewModel : Screen
 
     private string _inverseShowText = ConfigFactory.Root.Gui.TaskQueueInverseMode
         ? LocalizationHelper.GetString("TaskQueue.Inverse")
-        : LocalizationHelper.GetString("TaskQueue.Clear");
+        : LocalizationHelper.GetString("Common.Clear");
 
     /// <summary>
     /// Gets or private Sets the text to be displayed for "Select inversely".
@@ -2131,7 +2131,7 @@ public class TaskQueueViewModel : Screen
     }
 
     private string _inverseMenuText = ConfigFactory.Root.Gui.TaskQueueInverseMode
-        ? LocalizationHelper.GetString("TaskQueue.Clear")
+        ? LocalizationHelper.GetString("Common.Clear")
         : LocalizationHelper.GetString("TaskQueue.Inverse");
 
     /// <summary>
@@ -2252,7 +2252,7 @@ public class TaskQueueViewModel : Screen
             && SettingsViewModel.ConnectSettings.IsPCConnectConfig
             && SettingsViewModel.ConnectSettings.RetryPcClientOnDisconnected)
         {
-            AddLog(LocalizationHelper.GetString("Connection.Failed") + "\n" + LocalizationHelper.GetString("TaskQueue.TryToStartPcClient"));
+            AddLog(LocalizationHelper.GetString("Connection.Failed") + "\n" + LocalizationHelper.GetString("Connection.TryToStartPcClient"));
 
             await Task.Run(() => SettingsViewModel.StartSettings.TryToStartPcClient());
 
@@ -2276,7 +2276,7 @@ public class TaskQueueViewModel : Screen
         // 尝试启动模拟器
         if (!connected && SettingsViewModel.ConnectSettings.RetryOnDisconnected)
         {
-            AddLog(LocalizationHelper.GetString("Connection.Failed") + "\n" + LocalizationHelper.GetString("TaskQueue.TryToStartEmulator"));
+            AddLog(LocalizationHelper.GetString("Connection.Failed") + "\n" + LocalizationHelper.GetString("Connection.TryToStartEmulator"));
 
             await Task.Run(() => SettingsViewModel.StartSettings.TryToStartEmulator());
 
@@ -2292,7 +2292,7 @@ public class TaskQueueViewModel : Screen
         // 尝试断开连接, 然后重新连接
         if (!connected)
         {
-            AddLog(LocalizationHelper.GetString("Connection.Failed") + "\n" + LocalizationHelper.GetString("TaskQueue.TryToReconnectByAdb"));
+            AddLog(LocalizationHelper.GetString("Connection.Failed") + "\n" + LocalizationHelper.GetString("Connection.TryToReconnectByAdb"));
             await Task.Run(() => SettingsViewModel.StartSettings.ReconnectByAdb());
 
             if (_runningState.GetStopping())
@@ -2308,7 +2308,7 @@ public class TaskQueueViewModel : Screen
         // 尝试重启 ADB
         if (!connected && SettingsViewModel.ConnectSettings.AllowAdbRestart)
         {
-            AddLog(LocalizationHelper.GetString("Connection.Failed") + "\n" + LocalizationHelper.GetString("TaskQueue.RestartAdb"));
+            AddLog(LocalizationHelper.GetString("Connection.Failed") + "\n" + LocalizationHelper.GetString("Connection.RestartAdb"));
 
             await Task.Run(() => SettingsViewModel.StartSettings.RestartAdb());
 
@@ -2324,7 +2324,7 @@ public class TaskQueueViewModel : Screen
         // 尝试杀掉 ADB 进程
         if (!connected && SettingsViewModel.ConnectSettings.AllowAdbHardRestart)
         {
-            AddLog(LocalizationHelper.GetString("Connection.Failed") + "\n" + LocalizationHelper.GetString("TaskQueue.HardRestartAdb"));
+            AddLog(LocalizationHelper.GetString("Connection.Failed") + "\n" + LocalizationHelper.GetString("Connection.HardRestartAdb"));
 
             await Task.Run(() => SettingsViewModel.StartSettings.HardRestartAdb());
 
@@ -2497,7 +2497,7 @@ public class TaskQueueViewModel : Screen
         if (SettingsViewModel.ConnectSettings.ConnectConfig == ConnectConfig.LDPlayer &&
             SettingsViewModel.ConnectSettings.TouchMode == TouchMode.MaaTouch)
         {
-            AddLog(LocalizationHelper.GetString("TaskQueue.Log.LDPlayerMaaTouchWarning"), UiLogColor.Warning);
+            AddLog(LocalizationHelper.GetString("Connection.LDPlayerMaaTouchWarning"), UiLogColor.Warning);
         }
 
         // GPU 相关提示在每次开始运行时重新输出，避免被 ClearLog 清空
@@ -2514,13 +2514,13 @@ public class TaskQueueViewModel : Screen
         // InfrastTask.InfrastOrderSelectionChanged();
         await Task.Run(() => SettingsViewModel.GameSettings.RunScript("StartsWithScript"));
 
-        AddLog(LocalizationHelper.GetString("TaskQueue.Log.ConnectingToEmulator"));
+        AddLog(LocalizationHelper.GetString("Connection.ConnectingToEmulator"));
 
         /*
         // 现在的主流模拟器都已经更新过自带的 adb 了，不再需要替换
         if (!Instances.SettingsViewModel.AdbReplaced && !Instances.SettingsViewModel.IsAdbTouchMode())
         {
-            AddLog(LocalizationHelper.GetString("Connection.ReplacementTips"), UiLogColor.Info);
+            AddLog(LocalizationHelper.GetString("Connection.Adb.ReplacementTips"), UiLogColor.Info);
         }
         */
 
@@ -2613,7 +2613,7 @@ public class TaskQueueViewModel : Screen
 
         if (count == 0)
         {
-            AddLog(LocalizationHelper.GetString("TaskQueue.Log.UnselectedTask"));
+            AddLog(LocalizationHelper.GetString("RemoteControl.UnselectedTask"));
             Instances.AsstProxy.AsstStop();
             SetStopped();
             return;
@@ -2637,13 +2637,13 @@ public class TaskQueueViewModel : Screen
 
         if (taskRet)
         {
-            AddLog(LocalizationHelper.GetString("TaskQueue.Log.Running"));
+            AddLog(LocalizationHelper.GetString("RemoteControl.Running"));
             Instances.AsstProxy.StartTaskTime = DateTimeOffset.Now;
             SetRunDeadlineFromSettings();
         }
         else
         {
-            AddLog(LocalizationHelper.GetString("TaskQueue.Log.UnknownErrorOccurs"));
+            AddLog(LocalizationHelper.GetString("RemoteControl.UnknownErrorOccurs"));
             await Stop();
             SetStopped();
         }

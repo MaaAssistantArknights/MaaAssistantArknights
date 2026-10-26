@@ -142,7 +142,7 @@ public partial class VersionUpdateSettingsUserControl : System.Windows.Controls.
             Caption = LocalizationHelper.GetString("EasterEgg.EmployeeGuidelines"),
             IconKey = "EasterEggsRulesIcon",
             IconBrushKey = "PrimaryTextBrush",
-            ConfirmContent = LocalizationHelper.GetString("Window.ConfirmExitText"),
+            ConfirmContent = LocalizationHelper.GetString("Window.ConfirmExit.Text"),
         };
         MessageBoxHelper.Show(info);
 

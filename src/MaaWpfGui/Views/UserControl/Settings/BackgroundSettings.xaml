@@ -95,7 +95,7 @@
                     hc:IconElement.Geometry="{StaticResource FolderOpen20Regular}"
                     BorderThickness="0,1,1,1"
                     Command="{s:Action SelectImagePath}"
-                    ToolTip="{DynamicResource Settings.Select}" />
+                    ToolTip="{DynamicResource Common.Select}" />
             </Grid>
         </StackPanel>
         <StackPanel

@@ -18,9 +18,9 @@
             <ContextMenu ItemContainerStyle="{StaticResource MaaMenuItemDefaultStyle}">
                 <MenuItem Name="startMenu" Header="{DynamicResource TaskQueue.Farming}" />
                 <MenuItem Name="stopMenu" Header="{DynamicResource TaskQueue.Stop}" />
-                <MenuItem Name="switchLangMenu" Header="{DynamicResource Settings.SwitchLanguage}" />
+                <MenuItem Name="switchLangMenu" Header="{DynamicResource Tray.SwitchLanguage}" />
                 <MenuItem Name="forceShowMenu" Header="{DynamicResource Tray.ForceShow}" />
-                <MenuItem Name="hideTrayMenu" Header="{DynamicResource Settings.HideTray}" />
+                <MenuItem Name="hideTrayMenu" Header="{DynamicResource Tray.HideTray}" />
                 <MenuItem Name="toggleOverlayMenu" Header="{DynamicResource TaskQueue.Log.ToggleOverlay}" />
                 <MenuItem Name="restartMenu" Header="{DynamicResource Tray.Restart}" />
                 <MenuItem Name="exitMenu" Header="{DynamicResource Tray.Exit}" />

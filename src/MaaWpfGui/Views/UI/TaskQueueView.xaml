@@ -70,7 +70,7 @@
                             BorderThickness="0"
                             ItemsSource="{Binding TaskItemViewModels}"
                             Style="{DynamicResource NoSelectedHighlightListBoxStyle}"
-                            ToolTip="{DynamicResource Settings.LabelSequence.Tip}">
+                            ToolTip="{DynamicResource Appearance.LabelSequence.Tip}">
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
                                     <Border x:Name="TaskItemBorder" CornerRadius="4">
@@ -150,10 +150,10 @@
                                                     <RadioButton.ToolTip>
                                                         <ToolTip>
                                                             <StackPanel>
-                                                                <TextBlock FontWeight="SemiBold" Text="{DynamicResource Settings.Guide.LeftClick}" />
-                                                                <TextBlock Text="{DynamicResource Settings.Guide.TaskSettings}" />
+                                                                <TextBlock FontWeight="SemiBold" Text="{DynamicResource Guide.TaskQueue.LeftClick}" />
+                                                                <TextBlock Text="{DynamicResource Guide.TaskQueue.TaskSettings}" />
 
-                                                                <TextBlock FontWeight="SemiBold" Text="{DynamicResource Settings.Guide.RightClick}" />
+                                                                <TextBlock FontWeight="SemiBold" Text="{DynamicResource Guide.TaskQueue.RightClick}" />
                                                                 <TextBlock>
                                                                     <Run Text="{DynamicResource TaskQueue.RunTaskOnce}" /><Run Text="/" /><Run Text="{DynamicResource TaskQueue.RunTasksFromHere}" /><Run Text="/" /><Run Text="{DynamicResource Common.Copy}" /><Run Text="/" /><Run Text="{DynamicResource Common.Rename}" /><Run Text="/" /><Run Text="{DynamicResource Common.Delete}" />
                                                                 </TextBlock>
@@ -209,16 +209,16 @@
                                                             <TextBlock HorizontalAlignment="Left">
                                                                 <TextBlock.Style>
                                                                     <Style BasedOn="{StaticResource TextBlockBaseStyle}" TargetType="TextBlock">
-                                                                        <Setter Property="Text" Value="{DynamicResource Settings.CheckBoxesNotSavedAsNull}" />
+                                                                        <Setter Property="Text" Value="{DynamicResource TaskQueue.CheckBoxesNotSavedAsNull}" />
                                                                         <Style.Triggers>
                                                                             <DataTrigger Binding="{Binding Source={x:Static ui_vms:SettingsViewModel.GuiSettings}, Path=MainTasksInvertNullFunction}" Value="True">
-                                                                                <Setter Property="Text" Value="{DynamicResource Settings.CheckBoxesNotSavedAsNullInvert}" />
+                                                                                <Setter Property="Text" Value="{DynamicResource TaskQueue.CheckBoxesNotSavedAsNullInvert}" />
                                                                             </DataTrigger>
                                                                         </Style.Triggers>
                                                                     </Style>
                                                                 </TextBlock.Style>
                                                             </TextBlock>
-                                                            <TextBlock HorizontalAlignment="Left" Text="{DynamicResource Settings.MainTasksNullFunctionalitySwitch}" />
+                                                            <TextBlock HorizontalAlignment="Left" Text="{DynamicResource TaskQueue.MainTasksNullFunctionalitySwitch}" />
                                                         </StackPanel>
                                                     </ToolTip>
                                                 </CheckBox.ToolTip>
@@ -333,7 +333,7 @@
                                     IsEnabled="{c:Binding 'Run.Idle or !Run.Inited'}"
                                     IsPopupOpen="{Binding IsAddTaskMenuOpen}"
                                     Style="{StaticResource MaaButtonDefaultStyle}"
-                                    ToolTip="{DynamicResource Settings.AddTaskQueueTask}">
+                                    ToolTip="{DynamicResource TaskQueue.AddTaskQueueTask}">
                                     <controls:MenuButton.PopupContent>
                                         <Border
                                             Width="190"
@@ -421,7 +421,7 @@
                                 VerticalAlignment="Top"
                                 hc:BorderElement.CornerRadius="0"
                                 Command="{s:Action SelectedAll}"
-                                Content="{DynamicResource TaskQueue.SelectAll}"
+                                Content="{DynamicResource Common.SelectAll}"
                                 IsEnabled="{c:Binding 'Run.Idle or !Run.Inited'}" />
                             <hc:SplitButton
                                 Grid.Column="2"
@@ -1081,7 +1081,7 @@
                             MouseRightButtonDown="{s:Action ChooseOverlayTarget,
                                                             Target={x:Type ui_vms:TaskQueueViewModel}}"
                             NormalOpacity="0.25"
-                            TooltipText="{DynamicResource TaskQueue.Log.ProcessPickerTool.Tip}" />
+                            TooltipText="{DynamicResource Window.ProcessPicker.ToolTip}" />
                     </Grid>
                 </Grid>
             </Grid>

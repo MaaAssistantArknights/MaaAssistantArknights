@@ -174,7 +174,7 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
                     }
                     if (oper is null)
                     {
-                        Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("Settings.ParseFailed") + $"\nunknown oper: {plan.Role}-{plan.Name}", UiLogColor.Error);
+                        Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("Operator.ParseFailed") + $"\nunknown oper: {plan.Role}-{plan.Name}", UiLogColor.Error);
                         return;
                     }
                     list.Add(new Plan(plan.Role, plan.Name, plan.Elite ?? 0, plan.MainSkillLevel ?? 0, plan.SkillMastery ?? SkillMastery.Of(0, 0, 0), false));
@@ -184,7 +184,7 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
             }
             catch (Exception ex)
             {
-                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("Settings.ParseFailed") + $"\n{ex.Message}", UiLogColor.Error);
+                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("Operator.ParseFailed") + $"\n{ex.Message}", UiLogColor.Error);
                 return;
             }
         }

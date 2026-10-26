@@ -91,8 +91,8 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
         foreach (var plan in PlanList)
         {
             var newName = !string.IsNullOrEmpty(plan.DropId)
-                ? ItemListHelper.GetItemName(plan.DropId) ?? LocalizationHelper.GetString("Settings.NotSelected")
-                : LocalizationHelper.GetString("Settings.NotSelected");
+                ? ItemListHelper.GetItemName(plan.DropId) ?? LocalizationHelper.GetString("Common.NotSelected")
+                : LocalizationHelper.GetString("Common.NotSelected");
             plan.DropName = newName;
         }
 
@@ -335,8 +335,8 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
         }
 
         var result = MessageBoxHelper.Show(
-            LocalizationHelper.GetString("Combat.Plan.ClearPlansConfirm"),
-            LocalizationHelper.GetString("Settings.Warning"),
+            LocalizationHelper.GetString("Depot.Plan.ClearConfirm"),
+            LocalizationHelper.GetString("Common.Warning"),
             MessageBoxButton.YesNo,
             MessageBoxImage.Warning);
         if (result != MessageBoxResult.Yes)
@@ -448,7 +448,7 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
         var list = PlanList.ToList();
         foreach (var (stage, dropId, count) in plans)
         {
-            var dropName = ItemListHelper.GetItemName(dropId) ?? LocalizationHelper.GetString("Settings.NotSelected");
+            var dropName = ItemListHelper.GetItemName(dropId) ?? LocalizationHelper.GetString("Common.NotSelected");
             var plan = new DepotPlanItemViewModel(stage, dropId, dropName, count);
             plan.PropertyChanged += PlanItem_PropertyChanged;
             list.Add(plan);
@@ -676,7 +676,7 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
         foreach (var plan in task.PlanList)
         {
             // 根据 DropId 从掉落列表恢复 DropName，避免初始化显示为"不选择"
-            var dropName = FightTaskUserControlModel.Instance.DropsList.FirstOrDefault(i => i.Value == plan.DropId)?.Display ?? LocalizationHelper.GetString("Settings.NotSelected");
+            var dropName = FightTaskUserControlModel.Instance.DropsList.FirstOrDefault(i => i.Value == plan.DropId)?.Display ?? LocalizationHelper.GetString("Common.NotSelected");
 
             var uiPlan = new DepotPlanItemViewModel(plan.Stage, plan.DropId, dropName, plan.DropCount, plan.UseMedicine, plan.MedicineCount, plan.UseStone, plan.StoneCount, plan.TaskId) {
                 Index = index,

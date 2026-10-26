@@ -52,7 +52,7 @@ public partial class ItemSelectionDialogView
         {
             MessageBox.Show(
                 Helper.LocalizationHelper.GetString("ItemSelection.PleaseSelectItem"),
-                Helper.LocalizationHelper.GetString("Settings.Tip"),
+                Helper.LocalizationHelper.GetString("Common.Tip"),
                 MessageBoxButton.OK,
                 MessageBoxImage.Warning);
         }

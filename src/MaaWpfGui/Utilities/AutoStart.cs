@@ -73,7 +73,7 @@ public static class AutoStart
 
         if (set && Bootstrapper.IsAdministratorWithUac())
         {
-            error = LocalizationHelper.GetString("Settings.LaunchOnSystemStartupAdminPrompt");
+            error = LocalizationHelper.GetString("Startup.LaunchOnSystemStartupAdminPrompt");
             return false;
         }
 

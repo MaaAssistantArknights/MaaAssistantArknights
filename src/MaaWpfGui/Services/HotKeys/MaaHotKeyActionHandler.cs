@@ -66,7 +66,7 @@ public class MaaHotKeyActionHandler : IMaaHotKeyActionHandler
                 return;
             }
 
-            ToastNotification.ShowDirect(LocalizationHelper.GetString("Appearance.Background.LinkStarted"));
+            ToastNotification.ShowDirect(LocalizationHelper.GetString("Hotkey.BackgroundLinkStarted"));
         }
         else
         {
@@ -78,7 +78,7 @@ public class MaaHotKeyActionHandler : IMaaHotKeyActionHandler
                 return;
             }
 
-            ToastNotification.ShowDirect(LocalizationHelper.GetString("Appearance.Background.LinkStopped"));
+            ToastNotification.ShowDirect(LocalizationHelper.GetString("Hotkey.BackgroundLinkStopped"));
         }
     }
 }

@@ -241,7 +241,7 @@
                                     Visibility="{c:Binding '(CopilotTabIndex == 0 or CopilotTabIndex == 3) and Form'}">
                                     <CheckBox
                                         Margin="0,5"
-                                        Content="{DynamicResource TaskQueue.UseFormation}"
+                                        Content="{DynamicResource Combat.UseFormation}"
                                         IsChecked="{c:Binding UseFormation}" />
                                     <ComboBox
                                         DisplayMemberPath="Display"
@@ -434,7 +434,7 @@
                                                             Height="25"
                                                             Padding="0"
                                                             Command="{s:Action SaveUserAdditional}"
-                                                            Content="{DynamicResource Settings.Ok}" />
+                                                            Content="{DynamicResource Common.Ok}" />
                                                         <Button
                                                             Grid.Column="2"
                                                             Width="60"
@@ -442,7 +442,7 @@
                                                             Margin="5,0,0,0"
                                                             Padding="0"
                                                             Command="{s:Action CancelUserAdditionalEdit}"
-                                                            Content="{DynamicResource Settings.Cancel}" />
+                                                            Content="{DynamicResource Common.Cancel}" />
                                                     </Grid>
                                                 </StackPanel>
                                             </Border>
@@ -550,7 +550,7 @@
                             IsEnabled="{c:Binding StartEnabled}"
                             ItemsSource="{Binding Path=CopilotItemViewModels}"
                             Style="{DynamicResource NoSelectedHighlightListBoxStyle}"
-                            ToolTip="{DynamicResource Settings.LabelSequence.Tip}">
+                            ToolTip="{DynamicResource Appearance.LabelSequence.Tip}">
                             <ListBox.ItemContainerStyle>
                                 <Style BasedOn="{StaticResource NoSelectedHighlightListBoxItemStyle}" TargetType="ListBoxItem">
                                     <Setter Property="Background" Value="Transparent" />
@@ -711,7 +711,7 @@
                         <TextBlock
                             d:Text="PrtsPlus"
                             Style="{StaticResource HyperlinkTextBlockStyle}"
-                            Text="{DynamicResource About.PrtsPlus}" />
+                            Text="{DynamicResource Copilot.PrtsPlus}" />
                     </Hyperlink>
                 </controls:TextBlock>
             </StackPanel>
@@ -768,7 +768,7 @@
                     MouseRightButtonDown="{s:Action ChooseOverlayTarget,
                                                     Target={x:Type ui_vms:TaskQueueViewModel}}"
                     NormalOpacity="0.25"
-                    TooltipText="{DynamicResource TaskQueue.Log.ProcessPickerTool.Tip}" />
+                    TooltipText="{DynamicResource Window.ProcessPicker.ToolTip}" />
             </Grid>
             <hc:ScrollViewer
                 properties:AutoScroll.AutoScroll="True"
@@ -859,7 +859,7 @@
                     Cursor="Hand"
                     NavigateUri="{Binding MapUrl}"
                     TextDecorations="None">
-                    <TextBlock Style="{StaticResource HyperlinkTextBlockStyle}" Text="{DynamicResource About.MapPrts}" />
+                    <TextBlock Style="{StaticResource HyperlinkTextBlockStyle}" Text="{DynamicResource Copilot.MapPrts}" />
                 </Hyperlink>
             </controls:TextBlock>
         </Grid>

@@ -32,6 +32,148 @@ EXTERNAL_DYNAMIC_RESOURCES = frozenset(
 CALL = re.compile(
     r'LocalizationHelper\.(?:GetString|GetRawString|TryGetString|GetStringFormat|HasTranslation)\(\s*"([^"\n]+)"'
 )
+WPF_RESOURCE_CALL = re.compile(
+    r'(?:SetResourceReference\(\s*[^,]+,\s*|Application\.Current\.Resources\[\s*|(?:Try)?FindResource\(\s*)"([^"\n]+)"'
+)
+# Families with a single semantic owner. Match the old key because runtime data
+# can still send that key, while the map points to its current catalog entry.
+LEGACY_OWNER_RULES = (
+    (re.compile(r"^AccountSwitch"), "TaskQueue"),
+    (re.compile(r"^AdditionCommand"), "Connection"),
+    (re.compile(r"^Adb"), "Connection"),
+    (re.compile(r"^Algorithm"), "Reclamation"),
+    (re.compile(r"^AutoRecruit"), "Recruitment"),
+    (re.compile(r"^BackgroundLink"), "Hotkey"),
+    (re.compile(r"^BlackFlow"), "Roguelike"),
+    (re.compile(r"^Bosky"), "Roguelike"),
+    (re.compile(r"^Credit"), "Mall"),
+    (re.compile(r"^DeepExploration"), "Roguelike"),
+    (re.compile(r"^EndsWithScript"), "TaskQueue"),
+    (re.compile(r"^Executable$"), "Startup"),
+    (re.compile(r"^ExternalNotification"), "ExternalNotification"),
+    (re.compile(r"^Infrast(?=[A-Z])"), "Infrastructure"),
+    (re.compile(r"^(?:LeftClick|RightClick|TaskSettings)$"), "Guide"),
+    (re.compile(r"^Ld"), "Connection"),
+    (re.compile(r"^MirrorChyan"), "Update"),
+    (re.compile(r"^ManualStopWithScript"), "TaskQueue"),
+    (re.compile(r"^MuMu|^Mumu"), "Connection"),
+    (re.compile(r"^NewVersion"), "Update"),
+    (re.compile(r"^OperBox"), "Operator"),
+    (re.compile(r"^Penguin"), "PenguinStats"),
+    (re.compile(r"^Roguelike(?=[A-Z0-9])"), "Roguelike"),
+    (re.compile(r"^StartsWithScript"), "TaskQueue"),
+    (re.compile(r"^(?:SwitchLanguage|HideTray)$"), "Tray"),
+    (re.compile(r"^Test$"), "Connection"),
+    (re.compile(r"^UserDataUpdate"), "TaskQueue"),
+    (re.compile(r"^HelpUsWithOverseasServersTip$"), "Connection"),
+    (re.compile(r"^WindowUpdateInfo"), "Update"),
+    (re.compile(r"^Yituliu"), "Operator"),
+)
+LEGACY_PAIR_SUFFIXES = ("Tooltip", "ToolTip", "Tips", "Tip", "Desc", "Title", "Warning")
+# These old names are homonyms for a different feature or describe the whole
+# feature rather than the old base key.
+LEGACY_PAIR_EXCEPTIONS = frozenset(
+    {"CopilotTip", "GachaWarning", "PeepTip", "RecruitingTips", "SwitchThemeTip"}
+)
+# Task controls live in one flat directory, so the file stem acts as the
+# feature boundary. Common.* is shared UI vocabulary; other cross-feature
+# references must be listed by exact key below after review.
+TASK_CONTROL_PRIMARY = {
+    "AwardTaskUserControl": ("TaskQueue.Award",),
+    "CustomTaskUserControl": ("TaskQueue.Custom",),
+    "DepotMaintainTaskUserControl": ("Depot",),
+    "FightTaskUserControl": ("Combat",),
+    "InfrastTaskUserControl": ("Infrastructure",),
+    "MallTaskUserControl": ("Mall",),
+    "OperProgressTaskUserControl": ("Operator",),
+    "PostActionUserControl": ("TaskQueue",),
+    "RecruitTaskUserControl": ("Recruitment",),
+    "RoguelikeTaskUserControl": ("Roguelike",),
+    "StartUpTaskUserControl": ("Connection", "Startup"),
+    "SwitchThemeTaskUserControl": ("GameTheme",),
+    "UserDataUpdateTaskUserControl": ("TaskQueue.UserDataUpdate",),
+}
+TASK_CONTROL_SHARED: dict[str, frozenset[str]] = {
+    "AwardTaskUserControl": frozenset({"Gacha.Warning"}),
+    "DepotMaintainTaskUserControl": frozenset(
+        {
+            "Combat.CustomStageCode",
+            "Combat.CustomStageCode.Tip",
+            "Combat.DefaultStage",
+            "Combat.UseOriginitePrime",
+            "Combat.UseSanityPotion",
+        }
+    ),
+    "FightTaskUserControl": frozenset(
+        {
+            "Depot.PlanInventoryDataEmpty",
+            "Depot.PlanInventoryEnough",
+            "Depot.PlanInventoryInsufficient",
+            "Depot.PlanSanityInsufficient",
+            "Inventory.Update.Tip",
+            "TaskQueue.CheckBoxesNotSaved",
+            "TaskQueue.CheckBoxesNotSavedAsNull",
+            "TaskQueue.WeeklySchedule.Enabled",
+            "TaskQueue.WeeklySchedule.Enabled.Tip",
+        }
+    ),
+    "InfrastTaskUserControl": frozenset(
+        {
+            "Appearance.LabelSequence.Tip",
+            "TaskQueue.WeeklySchedule.Enabled",
+            "TaskQueue.WeeklySchedule.Enabled.Tip",
+        }
+    ),
+    "MallTaskUserControl": frozenset(
+        {
+            "Combat.UseFormation",
+            "Infrastructure.ReceptionClueExchange",
+            "Infrastructure.ReceptionMessageBoardReceive",
+            "Infrastructure.ReceptionSendClue",
+            "TaskQueue.Visiting",
+        }
+    ),
+    "OperProgressTaskUserControl": frozenset({"Appearance.LabelSequence.Tip"}),
+    "RoguelikeTaskUserControl": frozenset({"TaskQueue.MultiTasksShare.Tip"}),
+    "StartUpTaskUserControl": frozenset(
+        {
+            "TaskQueue.AccountSwitch",
+            "TaskQueue.AccountSwitch.ManualRun",
+            "TaskQueue.AccountSwitch.Tip",
+            "TaskQueue.MultiTasksShare.Tip",
+            "Window.Restore",
+        }
+    ),
+    "UserDataUpdateTaskUserControl": frozenset(
+        {
+            "Depot.LastSyncTime",
+            "Depot.PlanUpdateDepotFailed",
+            "Depot.Recognition",
+            "Operator.Recognition",
+            "Operator.YituliuOperBoxCompleted",
+            "Operator.YituliuTokenEmpty",
+            "Operator.YituliuTokenNetworkError",
+        }
+    ),
+}
+
+
+def check_task_control_owner(
+    path: Path, key: str, catalog_keys: set[str]
+) -> str | None:
+    if key not in catalog_keys or "TaskQueue" not in path.parts:
+        return None
+    for stem, prefixes in TASK_CONTROL_PRIMARY.items():
+        if not path.name.startswith(stem):
+            continue
+        if key.startswith("Common.") or key in TASK_CONTROL_SHARED.get(
+            stem, frozenset()
+        ):
+            return None
+        if any(key == prefix or key.startswith(prefix + ".") for prefix in prefixes):
+            return None
+        return f"{path}: {key} is outside the {stem} localization whitelist"
+    return f"{path}: no localization ownership policy for {path.name}"
 
 
 def check() -> list[str]:
@@ -76,6 +218,8 @@ def check() -> list[str]:
 
     legacy_path = CATALOG / "legacy-key-map.tsv"
     old_keys: set[str] = set()
+    old_to_new: dict[str, str] = {}
+    old_lines: dict[str, int] = {}
     for number, row in enumerate(
         legacy_path.read_text(encoding="utf-8").splitlines(), 1
     ):
@@ -89,6 +233,8 @@ def check() -> list[str]:
         if old in old_keys:
             failures.append(f"{legacy_path}:{number}: duplicate legacy key {old}")
         old_keys.add(old)
+        old_to_new[old] = new
+        old_lines[old] = number
         if old == new or new not in catalog_keys:
             failures.append(
                 f"{legacy_path}:{number}: invalid legacy mapping {old} -> {new}"
@@ -97,6 +243,26 @@ def check() -> list[str]:
             failures.append(
                 f"{legacy_path}:{number}: legacy key also exists in the catalog: {old}"
             )
+        for pattern, owner in LEGACY_OWNER_RULES:
+            if pattern.match(old) and new.split(".", 1)[0] != owner:
+                failures.append(
+                    f"{legacy_path}:{number}: {old} belongs to {owner}, mapped to {new}"
+                )
+                break
+
+    for old, new in old_to_new.items():
+        if old in LEGACY_PAIR_EXCEPTIONS:
+            continue
+        for suffix in LEGACY_PAIR_SUFFIXES:
+            if not old.endswith(suffix):
+                continue
+            base = old[: -len(suffix)]
+            if base in old_to_new and not new.startswith(old_to_new[base] + "."):
+                failures.append(
+                    f"{legacy_path}:{old_lines[old]}: {old} should be grouped under "
+                    f"{old_to_new[base]}, mapped to {new}"
+                )
+            break
 
     # Resource references can also address brushes and styles in other dictionaries.
     other_resources: set[str] = set()
@@ -115,6 +281,9 @@ def check() -> list[str]:
             continue
         source = path.read_text(encoding="utf-8-sig")
         for kind, key in RESOURCE.findall(source):
+            ownership_failure = check_task_control_owner(path, key, catalog_keys)
+            if ownership_failure:
+                failures.append(ownership_failure)
             if kind == "DynamicResource":
                 if (
                     key not in catalog_keys
@@ -122,6 +291,11 @@ def check() -> list[str]:
                     and key not in EXTERNAL_DYNAMIC_RESOURCES
                 ):
                     failures.append(f"{path}: missing DynamicResource {key}")
+                continue
+            if key in catalog_keys:
+                failures.append(
+                    f"{path}: localized StaticResource {key} will not refresh after a language change"
+                )
                 continue
             if (
                 (key.split(".", 1)[0] in domains or key in old_keys)
@@ -137,8 +311,18 @@ def check() -> list[str]:
             r"/\*.*?\*/", "", path.read_text(encoding="utf-8-sig"), flags=re.S
         )
         for key in CALL.findall(source):
+            ownership_failure = check_task_control_owner(path, key, catalog_keys)
+            if ownership_failure:
+                failures.append(ownership_failure)
             if key not in catalog_keys:
                 failures.append(f"{path}: missing localized call key {key}")
+        for key in WPF_RESOURCE_CALL.findall(source):
+            if (
+                (key.split(".", 1)[0] in domains or key in old_keys)
+                and key not in catalog_keys
+                and key not in other_resources
+            ):
+                failures.append(f"{path}: missing WPF resource key {key}")
     return failures
 
 

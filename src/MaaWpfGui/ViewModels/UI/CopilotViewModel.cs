@@ -119,13 +119,13 @@ public partial class CopilotViewModel : Screen
     public CopilotViewModel()
     {
         PropertyDependsOnUtility.InitializePropertyDependencies(this);
-        DisplayName = LocalizationHelper.GetString("Copilot.Copilot");
+        DisplayName = LocalizationHelper.GetString("Copilot.Title");
 
         // 静态使用提示只参与界面展示，不进通知历史，也不算停滞计时器的输出活动
         DisplayLog(LocalizationHelper.GetString("Copilot.Tip"), showTime: false, logToFile: false);
         _runningState = RunningState.Instance;
         LocalizationHelper.LanguageChanged += () => {
-            DisplayName = LocalizationHelper.GetString("Copilot.Copilot");
+            DisplayName = LocalizationHelper.GetString("Copilot.Title");
             SupportUnitUsageList.RefreshLocalization();
             ModuleMapping = BuildModuleMapping();
             foreach (var item in UserAdditionalItems)
@@ -552,11 +552,11 @@ public partial class CopilotViewModel : Screen
             var (result, operatorCount) = await Instances.ToolboxViewModel.FetchAndSaveYituliuOperBoxAsync();
             AddLog(result switch {
                 ToolboxViewModel.YituliuFetchResult.Success => LocalizationHelper.GetStringFormat("Copilot.SyncOperBoxSuccess", operatorCount),
-                ToolboxViewModel.YituliuFetchResult.TokenEmpty => LocalizationHelper.GetString("Settings.YituliuTokenEmpty"),
-                ToolboxViewModel.YituliuFetchResult.NoData => LocalizationHelper.GetString("Settings.YituliuNoOperBoxData"),
-                ToolboxViewModel.YituliuFetchResult.WriteOnly => LocalizationHelper.GetString("Settings.YituliuTokenWriteOnly"),
-                ToolboxViewModel.YituliuFetchResult.Invalid => LocalizationHelper.GetString("Settings.YituliuTokenInvalid"),
-                _ => LocalizationHelper.GetString("Settings.YituliuTokenNetworkError"),
+                ToolboxViewModel.YituliuFetchResult.TokenEmpty => LocalizationHelper.GetString("Operator.YituliuTokenEmpty"),
+                ToolboxViewModel.YituliuFetchResult.NoData => LocalizationHelper.GetString("Operator.YituliuNoOperBoxData"),
+                ToolboxViewModel.YituliuFetchResult.WriteOnly => LocalizationHelper.GetString("Operator.YituliuTokenWriteOnly"),
+                ToolboxViewModel.YituliuFetchResult.Invalid => LocalizationHelper.GetString("Operator.YituliuTokenInvalid"),
+                _ => LocalizationHelper.GetString("Operator.YituliuTokenNetworkError"),
             }, result == ToolboxViewModel.YituliuFetchResult.Success ? UiLogColor.Info : UiLogColor.Error, showTime: false);
         }
         finally
@@ -1187,7 +1187,7 @@ public partial class CopilotViewModel : Screen
             bool isJsonFile = filename.ToLower().EndsWith(".json") || fileSize < 4 * 1024 * 1024;
             if (!isJsonFile)
             {
-                AddLog(LocalizationHelper.GetString("TaskQueue.Log.NotCopilotJson"), UiLogColor.Error, showTime: false);
+                AddLog(LocalizationHelper.GetString("Copilot.NotCopilotJson"), UiLogColor.Error, showTime: false);
                 return;
             }
 
@@ -1679,7 +1679,7 @@ public partial class CopilotViewModel : Screen
         {
             Filename = string.Empty;
             ClearLog();
-            AddLog(LocalizationHelper.GetString("TaskQueue.Log.NotCopilotJson"), UiLogColor.Error, showTime: false);
+            AddLog(LocalizationHelper.GetString("Copilot.NotCopilotJson"), UiLogColor.Error, showTime: false);
         }
     }
 
@@ -2140,7 +2140,7 @@ public partial class CopilotViewModel : Screen
 
         if (ret)
         {
-            AddLog(LocalizationHelper.GetString("TaskQueue.Log.Running"));
+            AddLog(LocalizationHelper.GetString("RemoteControl.Running"));
         }
         else
         {
@@ -2233,13 +2233,13 @@ public partial class CopilotViewModel : Screen
         await Task.Run(() => SettingsViewModel.GameSettings.RunScript("StartsWithScript", showLog: false));
         if (!string.IsNullOrWhiteSpace(SettingsViewModel.GameSettings.StartsWithScript))
         {
-            AddLog(LocalizationHelper.GetString("Settings.StartsWithScript"));
+            AddLog(LocalizationHelper.GetString("TaskQueue.Script.StartsWith"));
         }
     }
 
     private async Task<bool> ConnectToEmulatorAsync()
     {
-        AddLog(LocalizationHelper.GetString("TaskQueue.Log.ConnectingToEmulator"));
+        AddLog(LocalizationHelper.GetString("Connection.ConnectingToEmulator"));
 
         string errMsg = string.Empty;
         bool caught = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));

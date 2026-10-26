@@ -66,7 +66,7 @@
                             <hc:StepBarItem Content="{DynamicResource Appearance.Settings}" />
                             <hc:StepBarItem Content="{DynamicResource Settings.Game}" />
                             <hc:StepBarItem Content="{DynamicResource Settings.Connection}" />
-                            <hc:StepBarItem Content="{DynamicResource Settings.Guide.TaskSettings}" />
+                            <hc:StepBarItem Content="{DynamicResource Guide.TaskQueue.TaskSettings}" />
                             <hc:StepBarItem Content="{DynamicResource Settings.Performance}" />
                             <hc:StepBarItem Content="{DynamicResource Update.Settings}" />
                             <hc:StepBarItem Content="{DynamicResource Settings.Guide.UserGuide}" />
@@ -143,7 +143,7 @@
                                     Width="200"
                                     HorizontalAlignment="Center"
                                     VerticalAlignment="Center"
-                                    hc:InfoElement.Title="{DynamicResource Settings.ClientType}"
+                                    hc:InfoElement.Title="{DynamicResource Connection.ClientType}"
                                     hc:TitleElement.HorizontalAlignment="Center"
                                     DisplayMemberPath="Display"
                                     ItemsSource="{Binding ClientTypeList}"
@@ -155,7 +155,7 @@
                                     IsChecked="{Binding DeploymentWithPause}">
                                     <controls:TextBlock
                                         Block.TextAlignment="Center"
-                                        Text="{DynamicResource Settings.DeploymentWithPause}"
+                                        Text="{DynamicResource Combat.DeploymentWithPause}"
                                         TextWrapping="Wrap" />
                                 </CheckBox>-->
                             </StackPanel>
@@ -344,10 +344,10 @@
                                                                         <RadioButton.ToolTip>
                                                                             <ToolTip>
                                                                                 <StackPanel>
-                                                                                    <TextBlock FontWeight="SemiBold" Text="{DynamicResource Settings.Guide.LeftClick}" />
-                                                                                    <TextBlock Text="{DynamicResource Settings.Guide.TaskSettings}" />
+                                                                                    <TextBlock FontWeight="SemiBold" Text="{DynamicResource Guide.TaskQueue.LeftClick}" />
+                                                                                    <TextBlock Text="{DynamicResource Guide.TaskQueue.TaskSettings}" />
 
-                                                                                    <TextBlock FontWeight="SemiBold" Text="{DynamicResource Settings.Guide.RightClick}" />
+                                                                                    <TextBlock FontWeight="SemiBold" Text="{DynamicResource Guide.TaskQueue.RightClick}" />
                                                                                     <TextBlock>
                                                                                         <Run Text="{DynamicResource TaskQueue.RunTaskOnce}" /><Run Text="/" /><Run Text="{DynamicResource TaskQueue.RunTasksFromHere}" /><Run Text="/" /><Run Text="{DynamicResource Common.Copy}" /><Run Text="/" /><Run Text="{DynamicResource Common.Rename}" /><Run Text="/" /><Run Text="{DynamicResource Common.Delete}" />
                                                                                     </TextBlock>
@@ -402,7 +402,7 @@
                                                     hc:IconElement.Geometry="{StaticResource TaskQueueAddTaskIcon}"
                                                     Foreground="{DynamicResource PrimaryTextBrush}"
                                                     Style="{StaticResource MaaButtonDefaultStyle}"
-                                                    ToolTip="{DynamicResource Settings.AddTaskQueueTask}">
+                                                    ToolTip="{DynamicResource TaskQueue.AddTaskQueueTask}">
                                                     <controls:MenuButton.PopupContent>
                                                         <Border
                                                             Width="190"
@@ -456,7 +456,7 @@
                                                 hc:BorderElement.CornerRadius="0"
                                                 Command="{s:Action SelectAllGuideDemoTasks,
                                                                    Target={x:Static helper:Instances.SettingsViewModel}}"
-                                                Content="{DynamicResource TaskQueue.SelectAll}" />
+                                                Content="{DynamicResource Common.SelectAll}" />
                                             <Button
                                                 Grid.Column="2"
                                                 Height="30"
@@ -465,7 +465,7 @@
                                                 hc:BorderElement.CornerRadius="0,4,4,0"
                                                 Command="{s:Action ClearGuideDemoTasks,
                                                                    Target={x:Static helper:Instances.SettingsViewModel}}"
-                                                Content="{DynamicResource TaskQueue.Clear}" />
+                                                Content="{DynamicResource Common.Clear}" />
                                         </Grid>
                                     </Grid>
                                 </Border>
@@ -473,7 +473,7 @@
                                     Grid.Row="2"
                                     Margin="8,0,0,0"
                                     HorizontalAlignment="Left"
-                                    FontSize="14"><Run Text="↑ " /><Run Text="{DynamicResource Settings.AddTaskQueueTask}" /></controls:TextBlock>
+                                    FontSize="14"><Run Text="↑ " /><Run Text="{DynamicResource TaskQueue.AddTaskQueueTask}" /></controls:TextBlock>
                                 <StackPanel
                                     Grid.Row="3"
                                     Margin="0,10,0,0"
@@ -506,7 +506,7 @@
                                                 <Run Text="{DynamicResource Settings.General}" /><Run xml:space="preserve" Text=" 1" />
                                             </controls:TextBlock>
                                         </CheckBox>
-                                        <controls:TooltipBlock VerticalAlignment="Center" TooltipText="{DynamicResource Settings.CheckBoxesNotSaved}" />
+                                        <controls:TooltipBlock VerticalAlignment="Center" TooltipText="{DynamicResource TaskQueue.CheckBoxesNotSaved}" />
                                         <controls:TextBlock Text="←" TextWrapping="Wrap" />
                                         <controls:TextBlock
                                             MaxWidth="80"
@@ -658,11 +658,7 @@
                                 <StackPanel>
                                     <StackPanel Visibility="{c:Binding 'UpdateSource == enums:UpdateSource.MirrorChyan'}">
                                         <controls:TextBlock Margin="8,0,0,5" HorizontalAlignment="Center">
-                                            <TextBlock.Text>
-                                                <MultiBinding StringFormat="{}{0} CDK">
-                                                    <Binding Source="{StaticResource Settings.MirrorChyan}" />
-                                                </MultiBinding>
-                                            </TextBlock.Text>
+                                            <Run Text="{DynamicResource Update.MirrorChyan}" /><Run Text=" CDK" />
                                         </controls:TextBlock>
                                         <Grid Width="200">
                                             <Grid.ColumnDefinitions>
@@ -703,7 +699,7 @@
                                             Cursor="Hand"
                                             NavigateUri="{Binding Source={x:Static constants:MaaUrls.MirrorChyanWebsite}}"
                                             TextDecorations="None">
-                                            <TextBlock Style="{StaticResource HyperlinkTextBlockStyle}" Text="{DynamicResource Settings.MirrorChyan}" />
+                                            <TextBlock Style="{StaticResource HyperlinkTextBlockStyle}" Text="{DynamicResource Update.MirrorChyan}" />
                                         </Hyperlink>
                                     </controls:TextBlock>
                                 </StackPanel>

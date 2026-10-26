@@ -155,7 +155,7 @@ public class AchievementSettingsUserControlModel : PropertyChangedBase
             SettingsViewModel.ShowEasterEggDialog(
                 LocalizationHelper.GetString("EasterEgg.Burping"),
                 LocalizationHelper.GetString("EasterEgg.DrunkAndStaggering"),
-                LocalizationHelper.GetString("Settings.Ok"),
+                LocalizationHelper.GetString("Common.Ok"),
                 () => Instances.SettingsViewModel.GetDrunk());
             return;
         }
@@ -174,7 +174,7 @@ public class AchievementSettingsUserControlModel : PropertyChangedBase
             SettingsViewModel.ShowEasterEggDialog(
                 LocalizationHelper.GetString("EasterEgg.Burping"),
                 LocalizationHelper.GetString("EasterEgg.DrunkAndStaggering"),
-                LocalizationHelper.GetString("Settings.Ok"),
+                LocalizationHelper.GetString("Common.Ok"),
                 () => Instances.SettingsViewModel.GetDrunk());
         }
     }

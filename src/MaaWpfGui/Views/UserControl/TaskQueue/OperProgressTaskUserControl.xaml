@@ -49,18 +49,18 @@
                         Margin="0,0,-1,0"
                         hc:BorderElement.CornerRadius="4,0,0,4"
                         Command="{s:Action CollapseAll}"
-                        Content="{DynamicResource Combat.Plan.CollapseAll}" />
+                        Content="{DynamicResource Common.CollapseAll}" />
                     <Button
                         MinWidth="50"
                         Margin="0,0,-1,0"
                         hc:BorderElement.CornerRadius="0"
                         Command="{s:Action ClearPlan}"
-                        Content="{DynamicResource TaskQueue.Clear}" />
+                        Content="{DynamicResource Common.Clear}" />
                     <Button
                         Margin="0,0,-1,0"
                         hc:BorderElement.CornerRadius="0,4,4,0"
                         Command="{s:Action ParsePlan}"
-                        Content="{DynamicResource Settings.ParseClipboard}" />
+                        Content="{DynamicResource Operator.ParseClipboard}" />
                 </WrapPanel>
                 <!--  干员选择与添加培养目标  -->
                 <Grid Margin="0,3,0,0">
@@ -112,7 +112,7 @@
                         hc:BorderElement.CornerRadius="0,4,4,0"
                         BorderThickness="0,1,1,1"
                         Command="{s:Action AddOperator}"
-                        Content="{DynamicResource Settings.Add}" />
+                        Content="{DynamicResource Common.Add}" />
                 </Grid>
             </StackPanel>
 
@@ -140,7 +140,7 @@
                 ItemsSource="{Binding PlanItems}"
                 PreviewMouseWheel="{s:Action RouteMouseWheelToParentExceptScrollable,
                                              Target={x:Type helper:MouseWheelHelper}}"
-                ToolTip="{DynamicResource Settings.LabelSequence.Tip}"
+                ToolTip="{DynamicResource Appearance.LabelSequence.Tip}"
                 VirtualizingPanel.IsVirtualizing="True"
                 VirtualizingPanel.ScrollUnit="Pixel"
                 VirtualizingPanel.VirtualizationMode="Recycling">

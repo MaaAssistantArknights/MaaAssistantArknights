@@ -56,7 +56,7 @@ public class MuMu12Extra() : ExtraConfig
 
     private void AutoDetectEmulatorPath()
     {
-        MessageBoxHelper.Show(LocalizationHelper.GetRawString("Connection.Emulator.MuMu.12ExtrasEnabled.Tip"));
+        MessageBoxHelper.Show(LocalizationHelper.GetRawString("Connection.Emulator.MuMu12.ExtrasEnabled.Tip"));
 
         // 读取mumu注册表地址 并填充GUI
         if (!string.IsNullOrEmpty(EmulatorPath))
@@ -147,7 +147,7 @@ public class MuMu12Extra() : ExtraConfig
             if (Enable && !string.IsNullOrEmpty(value) && !Directory.Exists(value))
             {
                 MessageBoxHelper.Show(LocalizationHelper.GetString("Connection.Emulator.MuMu.EmulatorPathNotFound"));
-                MessageBoxHelper.Show(LocalizationHelper.GetRawString("Connection.Emulator.MuMu.12ExtrasEnabled.Tip"));
+                MessageBoxHelper.Show(LocalizationHelper.GetRawString("Connection.Emulator.MuMu12.ExtrasEnabled.Tip"));
                 return;
             }
 
@@ -165,7 +165,7 @@ public class MuMu12Extra() : ExtraConfig
                 if (!candidateRelativePaths.Any(relPath => File.Exists(Path.Combine(value, relPath))))
                 {
                     MessageBoxHelper.Show(LocalizationHelper.GetString("Connection.Emulator.MuMu.ExternalRendererMissing"));
-                    MessageBoxHelper.Show(LocalizationHelper.GetRawString("Connection.Emulator.MuMu.12ExtrasEnabled.Tip"));
+                    MessageBoxHelper.Show(LocalizationHelper.GetRawString("Connection.Emulator.MuMu12.ExtrasEnabled.Tip"));
                     return;
                 }
             }
@@ -190,8 +190,8 @@ public class MuMu12Extra() : ExtraConfig
                     LocalizationHelper.GetString("Connection.Emulator.MuMu.BridgeConnection.Tip"),
                     icon: MessageBoxImage.Warning,
                     buttons: MessageBoxButton.YesNo,
-                    no: LocalizationHelper.GetString("Settings.Confirm"),
-                    yes: LocalizationHelper.GetString("Settings.Cancel"));
+                    no: LocalizationHelper.GetString("Common.Confirm"),
+                    yes: LocalizationHelper.GetString("Common.Cancel"));
                 if (result != MessageBoxResult.No)
                 {
                     return;

@@ -817,8 +817,8 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
                 "MAA",
                 MessageBoxButton.OKCancel,
                 MessageBoxImage.Information,
-                ok: LocalizationHelper.GetString("Settings.Confirm"),
-                cancel: LocalizationHelper.GetString("Settings.Cancel"));
+                ok: LocalizationHelper.GetString("Common.Confirm"),
+                cancel: LocalizationHelper.GetString("Common.Cancel"));
             if (ret == MessageBoxResult.OK)
             {
                 var startInfo = new ProcessStartInfo {

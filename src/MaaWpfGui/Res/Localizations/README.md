@@ -2,7 +2,7 @@
 
 The five language catalogs use the same keys and sort them in ordinal key order. A
 key has the form `Domain[.Topic].Name[.Tip|.Title|.Content|.Description]`, for
-example `Connection.AdbPath`, `Roguelike.BlackFlow.StartRun.Preparing`, or
+example `Connection.Adb.Path`, `Roguelike.BlackFlow.StartRun.Preparing`, or
 `Achievement.AfkWatcher.Title`. Choose the domain from the feature that owns
 the message. Use `.Tip` for help text, `.Title` for headings, `.Content`
 for message bodies, and `.Description` for descriptive copy. If the
@@ -36,6 +36,14 @@ the repository root. The checker validates XML, unique keys, ordering, language
 parity, inline references, and literal C#/XAML references. References assembled
 at runtime cannot be checked statically; review their source and target range
 when changing them.
+
+Task controls in `Views/UserControl/TaskQueue` and their view models have a
+localization ownership policy in `tools/CheckLocalization.py`. Each control
+may use its own feature prefix and shared `Common` words. A cross-feature
+reference must be listed by its exact key in `TASK_CONTROL_SHARED`; a new
+task control needs a `TASK_CONTROL_PRIMARY` entry. The CI checker reports
+every reference outside that policy. Run its regression tests with
+`python -m unittest discover -s tools/tests -p 'test_check_localization.py'`.
 
 `legacy-key-map.tsv` is a frozen bridge for enum names, task/core callbacks,
 saved configuration, and MaaRelease data that can still supply old keys.

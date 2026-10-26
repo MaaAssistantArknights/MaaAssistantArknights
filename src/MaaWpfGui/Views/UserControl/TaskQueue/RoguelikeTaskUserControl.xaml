@@ -57,7 +57,7 @@
             </StackPanel>
             <hc:ComboBox
                 Margin="0,3"
-                hc:InfoElement.Title="{DynamicResource Settings.Strategy}"
+                hc:InfoElement.Title="{DynamicResource Roguelike.Strategy}"
                 DisplayMemberPath="Display"
                 IsHitTestVisible="{Binding Path=Run.Idle, Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingDataContext}}"
                 IsSynchronizedWithCurrentItem="True"
@@ -79,7 +79,7 @@
                                        Source={x:Static taskQueue_vms:RoguelikeTaskUserControlModel.Instance}}" />
             <StackPanel Margin="0,3">
                 <StackPanel Margin="0,0,0,5" Orientation="Horizontal">
-                    <controls:TextBlock Margin="8,0,0,0" Text="{DynamicResource Settings.StartingSquad}" />
+                    <controls:TextBlock Margin="8,0,0,0" Text="{DynamicResource Roguelike.StartingSquad}" />
                     <controls:TooltipBlock TooltipText="{DynamicResource Roguelike.BlackFlow.FastFlightLock.Tip}" Visibility="{c:Binding RoguelikeBlackFlowExpFlightActive}" />
                 </StackPanel>
                 <hc:ComboBox
@@ -93,7 +93,7 @@
             </StackPanel>
             <StackPanel Margin="0,3">
                 <StackPanel Margin="0,0,0,5" Orientation="Horizontal">
-                    <controls:TextBlock Margin="8,0,0,0" Text="{DynamicResource Settings.StartingRoles}" />
+                    <controls:TextBlock Margin="8,0,0,0" Text="{DynamicResource Roguelike.StartingRoles}" />
                     <controls:TooltipBlock TooltipText="{DynamicResource Roguelike.BlackFlow.FastFlightLock.Tip}" Visibility="{c:Binding RoguelikeBlackFlowExpFlightActive}" />
                 </StackPanel>
                 <hc:ComboBox
@@ -117,7 +117,7 @@
                                        Source={x:Static taskQueue_vms:RoguelikeTaskUserControlModel.Instance}}" />
             <StackPanel Margin="0,3" IsEnabled="{c:Binding '!RoguelikeBlackFlowExpFlightActive'}">
                 <StackPanel Margin="0,0,0,5" Orientation="Horizontal">
-                    <controls:TextBlock Margin="8,0,0,0" Text="{DynamicResource Settings.StartingCoreChar}" />
+                    <controls:TextBlock Margin="8,0,0,0" Text="{DynamicResource Roguelike.StartingCoreChar}" />
                     <controls:TooltipBlock TooltipText="{Binding StartingCoreCharTip}" Visibility="{c:Binding '!RoguelikeBlackFlowExpFlightActive'}" />
                     <controls:TooltipBlock TooltipText="{DynamicResource Roguelike.BlackFlow.FastFlightLock.Tip}" Visibility="{c:Binding RoguelikeBlackFlowExpFlightActive}" />
                     <controls:TextBlock
@@ -165,7 +165,7 @@
             </StackPanel>
             <StackPanel Margin="0,3" Visibility="{c:Binding RoguelikeEnableAdditionalCoreChars}">
                 <StackPanel Margin="0,0,0,5" Orientation="Horizontal">
-                    <controls:TextBlock Margin="8,0,0,0" Text="{DynamicResource Settings.StartingCoreChar2}" />
+                    <controls:TextBlock Margin="8,0,0,0" Text="{DynamicResource Roguelike.StartingCoreChar2}" />
                     <controls:TooltipBlock TooltipText="{DynamicResource Roguelike.BlackFlow.FastFlightLock.Tip}" Visibility="{c:Binding RoguelikeBlackFlowExpFlightActive}" />
                 </StackPanel>
                 <Grid IsEnabled="{c:Binding '!RoguelikeBlackFlowExpFlightActive'}">
@@ -205,7 +205,7 @@
             </StackPanel>
             <StackPanel Margin="0,3" Visibility="{c:Binding RoguelikeEnableAdditionalCoreChars}">
                 <StackPanel Margin="0,0,0,5" Orientation="Horizontal">
-                    <controls:TextBlock Margin="8,0,0,0" Text="{DynamicResource Settings.StartingCoreChar3}" />
+                    <controls:TextBlock Margin="8,0,0,0" Text="{DynamicResource Roguelike.StartingCoreChar3}" />
                     <controls:TooltipBlock TooltipText="{DynamicResource Roguelike.BlackFlow.FastFlightLock.Tip}" Visibility="{c:Binding RoguelikeBlackFlowExpFlightActive}" />
                 </StackPanel>
                 <Grid IsEnabled="{c:Binding '!RoguelikeBlackFlowExpFlightActive'}">
@@ -252,7 +252,7 @@
                                    Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}">
             <hc:NumericUpDown
                 Margin="0,5"
-                hc:InfoElement.Title="{DynamicResource Settings.StartTimesLimit}"
+                hc:InfoElement.Title="{DynamicResource Roguelike.StartTimesLimit}"
                 Maximum="99999"
                 Minimum="0"
                 Value="{Binding RoguelikeStartsCount}" />
@@ -289,7 +289,7 @@
                                        Source={x:Static taskQueue_vms:RoguelikeTaskUserControlModel.Instance}}">
                 <TextBlock
                     Block.TextAlignment="Left"
-                    Text="{DynamicResource Settings.StopOnGoldLimit}"
+                    Text="{DynamicResource Roguelike.StopOnGoldLimit}"
                     TextWrapping="Wrap" />
             </CheckBox>
             <CheckBox
@@ -317,7 +317,7 @@
             <hc:NumericUpDown
                 Margin="0,5"
                 d:Visibility="Visible"
-                hc:InfoElement.Title="{DynamicResource Settings.GoldTimesLimit}"
+                hc:InfoElement.Title="{DynamicResource Roguelike.GoldTimesLimit}"
                 Maximum="999"
                 Minimum="0"
                 Visibility="{c:Binding 'RoguelikeInvestmentEnabled and RoguelikeMode == task:RoguelikeMode.Investment',
@@ -326,7 +326,7 @@
             <CheckBox
                 Margin="0,5"
                 d:Visibility="Visible"
-                Content="{DynamicResource Settings.RefreshTraderWithDice}"
+                Content="{DynamicResource Roguelike.RefreshTraderWithDice}"
                 IsChecked="{Binding RoguelikeRefreshTraderWithDiceRaw}"
                 Visibility="{c:Binding 'RoguelikeTheme == task:RoguelikeTheme.Mizuki',
                                        Source={x:Static taskQueue_vms:RoguelikeTaskUserControlModel.Instance}}" />
@@ -435,10 +435,10 @@
                 <CheckBox MaxWidth="{c:Binding '220 - ActualWidth', ElementName=RoguelikeEnableAdditionalCoreCharTooltipBlock}" IsChecked="{Binding RoguelikeEnableAdditionalCoreChars}">
                     <TextBlock
                         Block.TextAlignment="Left"
-                        Text="{DynamicResource Settings.EnableAdditionalStartingCoreChar}"
+                        Text="{DynamicResource Roguelike.EnableAdditionalStartingCoreChar}"
                         TextWrapping="Wrap" />
                 </CheckBox>
-                <controls:TooltipBlock x:Name="RoguelikeEnableAdditionalCoreCharTooltipBlock" TooltipText="{DynamicResource Settings.EnableAdditionalStartingCoreChar.Tip}" />
+                <controls:TooltipBlock x:Name="RoguelikeEnableAdditionalCoreCharTooltipBlock" TooltipText="{DynamicResource Roguelike.EnableAdditionalStartingCoreChar.Tip}" />
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <CheckBox
@@ -748,7 +748,7 @@
                 Margin="0,5"
                 HorizontalAlignment="Center"
                 FontWeight="Bold"
-                Text="{DynamicResource Settings.MultiTasksShare.Tip}"
+                Text="{DynamicResource TaskQueue.MultiTasksShare.Tip}"
                 TextAlignment="Left"
                 TextWrapping="Wrap" />
             <CheckBox Margin="0,5" IsChecked="{Binding RoguelikeDelayAbortUntilCombatComplete}">

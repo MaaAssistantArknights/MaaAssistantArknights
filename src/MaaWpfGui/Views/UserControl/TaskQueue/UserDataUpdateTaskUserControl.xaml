@@ -46,7 +46,7 @@
         <StackPanel Margin="0,10">
             <hc:ComboBox
                 VerticalContentAlignment="Center"
-                hc:InfoElement.Title="{DynamicResource TaskQueue.UserDataUpdateTriggerInterval}"
+                hc:InfoElement.Title="{DynamicResource TaskQueue.UserDataUpdate.TriggerInterval}"
                 hc:TitleElement.HorizontalAlignment="Left"
                 DisplayMemberPath="Display"
                 ItemsSource="{Binding TriggerIntervalList}"

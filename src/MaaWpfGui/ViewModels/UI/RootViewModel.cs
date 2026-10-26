@@ -75,7 +75,7 @@ public class RootViewModel : Conductor<Screen>.Collection.OneActive
         if (SettingsViewModel.VersionUpdateSettings.VersionType == VersionUpdateSettingsUserControlModel.UpdateVersionType.Nightly &&
             !SettingsViewModel.VersionUpdateSettings.HasAcknowledgedNightlyWarning)
         {
-            MessageBoxHelper.Show(LocalizationHelper.GetString("Settings.NightlyWarning"));
+            MessageBoxHelper.Show(LocalizationHelper.GetString("Update.NightlyWarning"));
         }
 
         Task.Run(async () => {
@@ -138,7 +138,7 @@ public class RootViewModel : Conductor<Screen>.Collection.OneActive
             }
 
             var repairChoice = MessageBoxHelper.Show(
-                LocalizationHelper.GetStringFormat("Resource.IntegrityCheckDesc", missingFiles.Count, shownFiles),
+                LocalizationHelper.GetStringFormat("Resource.IntegrityCheck.Desc", missingFiles.Count, shownFiles),
                 LocalizationHelper.GetString("Resource.IntegrityCheck.Title"),
                 MessageBoxButton.YesNo,
                 MessageBoxImage.Error,
@@ -468,8 +468,8 @@ public class RootViewModel : Conductor<Screen>.Collection.OneActive
             {
                 _logger.Information("Dropped OTA package rejected while installation is broken: {PackagePath}", packagePath);
                 MessageBoxHelper.Show(
-                    LocalizationHelper.GetString("TaskQueue.OtaPackageRejectedByBrokenInstall"),
-                    LocalizationHelper.GetString("Settings.Warning"),
+                    LocalizationHelper.GetString("Update.OtaPackageRejectedByBrokenInstall"),
+                    LocalizationHelper.GetString("Common.Warning"),
                     MessageBoxButton.OK,
                     MessageBoxImage.Warning);
                 return;
@@ -536,10 +536,10 @@ public class RootViewModel : Conductor<Screen>.Collection.OneActive
         _logger.Warning("Showing unsupported package warning for dropped package: {PackagePath}", packagePath);
         MessageBoxHelper.Show(
             LocalizationHelper.GetStringFormat("Update.LocalPackage.Unsupported", Path.GetFileName(packagePath), currentVersion, normalizedArchitecture),
-            LocalizationHelper.GetString("Settings.Warning"),
+            LocalizationHelper.GetString("Common.Warning"),
             MessageBoxButton.OK,
             MessageBoxImage.Warning,
-            ok: LocalizationHelper.GetString("Settings.Ok"));
+            ok: LocalizationHelper.GetString("Common.Ok"));
     }
 
 #if DEBUG
