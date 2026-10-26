@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env python3
+#!/usr/bin/env python3
 """校验 MaaAppHostStub 内嵌文案与 Res/Localizations/*.xaml 同步。
 
 MaaAppHostStub.cpp 硬编码了 Error.Congratulations / Error.Solution.MoveMaaExeOutOfFolder

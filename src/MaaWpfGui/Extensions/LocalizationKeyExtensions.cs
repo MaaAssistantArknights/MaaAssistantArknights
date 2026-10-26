@@ -1,4 +1,4 @@
-﻿// <copyright file="LocalizationKeyExtensions.cs" company="MaaAssistantArknights">
+// <copyright file="LocalizationKeyExtensions.cs" company="MaaAssistantArknights">
 // Part of the MaaWpfGui project, maintained by the MaaAssistantArknights team (Maa Team)
 // Copyright (C) 2021-2026 MaaAssistantArknights Contributors
 //
