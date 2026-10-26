@@ -812,10 +812,8 @@
     <system:String x:Key="Connection.Config.General">通用模式</system:String>
     <system:String x:Key="Connection.Config.GeneralWithoutScreencapErr">通用模式（屏蔽异常输出）</system:String>
     <system:String x:Key="Connection.Config.LDPlayer">雷电模拟器</system:String>
-    <system:String x:Key="Connection.Config.MuMu12">MuMu 模拟器</system:String>
+    <system:String x:Key="Connection.Config.MuMu">MuMu 模拟器</system:String>
     <system:String x:Key="Connection.Config.MuMuArm">MuMu 模拟器（Windows ARM）</system:String>
-    <system:String x:Key="Connection.Config.MuMuArmConnectionNotReady">无法读取 MuMu ARM 的 ADB 地址。请等待模拟器启动完成后重试，或关闭自动检测并手动填写连接地址。</system:String>
-    <system:String x:Key="Connection.Config.MuMuArmDetectAndTest">自动检测并测试</system:String>
     <system:String x:Key="Connection.Config.Nox">夜神模拟器</system:String>
     <system:String x:Key="Connection.Config.PC">明日方舟 PC 端（社区维护）</system:String>
     <system:String x:Key="Connection.Config.SecondResolution">第二分辨率</system:String>
@@ -856,10 +854,22 @@ C:\leidian\LDPlayer9
     <system:String x:Key="Connection.LdPlayerEmulatorPathNotFound">未找到 LDPlayer 模拟器路径。</system:String>
     <system:String x:Key="Connection.LdPlayerOpenglMissing">在所选 LDPlayer 路径中未找到 ldopengl64.dll，请确认安装目录。</system:String>
     <system:String x:Key="Connection.Lost">连接已断开</system:String>
-    <system:String x:Key="Connection.MuMu12EmulatorPath">MuMu 安装路径</system:String>
-    <system:String x:Key="Connection.MuMu12EmulatorPath.Placeholder">示例：C:\Program Files\Netease\MuMuPlayer</system:String>
-    <system:String x:Key="Connection.MuMu12ExtrasEnabled">启用 MuMu 截图增强</system:String>
-    <system:String x:Key="Connection.MuMu12ExtrasEnabled.Tip" xml:space="preserve">需使用官版或方舟专版 MuMu V4.1.26 或更新版本，国际版需 V5.21.3 或更新版本。
+    <system:String x:Key="Connection.MuMu.BridgeConnection">MuMu 网络桥接模式</system:String>
+    <system:String x:Key="Connection.MuMu.BridgeConnection.Tip">除非你知道自己在做什么，否则不要启用此选项</system:String>
+    <system:String x:Key="Connection.MuMu.EmulatorPath">MuMu 安装路径</system:String>
+    <system:String x:Key="Connection.MuMu.EmulatorPath.Placeholder">示例：C:\Program Files\Netease\MuMuPlayer</system:String>
+    <system:String x:Key="Connection.MuMu.EmulatorPathEmptyError">MuMu 安装路径为空！占位符仅为示例，请在 ｢{key=Settings.Title} - {key=Settings.Connection.Title}｣ 填写实际路径</system:String>
+    <system:String x:Key="Connection.MuMu.EmulatorPathNotFound">未找到 MuMu 模拟器路径。</system:String>
+    <system:String x:Key="Connection.MuMu.ExternalRendererMissing" xml:space="preserve">external_renderer_ipc.dll 未在所选 MuMu 安装目录中找到。
+
+期望的相对路径：
+nx_device/15.0/shell/sdk/external_renderer_ipc.dll 或
+nx_device/12.0/shell/sdk/external_renderer_ipc.dll 或
+shell/sdk/external_renderer_ipc.dll
+
+请确认安装目录。</system:String>
+    <system:String x:Key="Connection.MuMu.ExtrasEnabled">启用 MuMu 截图增强</system:String>
+    <system:String x:Key="Connection.MuMu.ExtrasEnabled.Tip" xml:space="preserve">需使用官版或方舟专版 MuMu V4.1.26 或更新版本，国际版需 V5.21.3 或更新版本。
 强烈建议在开启本功能后立刻运行一次截图测试。
 MAA 会自动通过注册表获取安装路径，若获取失败则请手动填写。
 
@@ -871,23 +881,13 @@ C:\Program Files\Netease\MuMuPlayer。
 注意：
 1. 若当前连接地址端口号为 7555，则需将端口号改为 16384。
 2. 若正在使用网络桥接，则需勾选 MuMu 网络桥接模式并手动填写序号。</system:String>
-    <system:String x:Key="Connection.MuMu12Index">实例编号</system:String>
-    <system:String x:Key="Connection.MuMuBridgeConnection">MuMu 网络桥接模式</system:String>
-    <system:String x:Key="Connection.MuMuBridgeConnection.Tip">除非你知道自己在做什么，否则不要启用此选项</system:String>
-    <system:String x:Key="Connection.MuMuEmulator12FullExtrasReady">完整 MuMu 增强已就位——截图与触控双核直连贯通，后台保活亦为我所用！</system:String>
-    <system:String x:Key="Connection.MuMuEmulator12KeepAliveOn">检测到 MuMu 模拟器开启了 ｢应用保活｣，但 MAA 的触控增强未生效，在应用保活下无法操作。请在 MAA ｢{key=Settings.Connection.Title}｣ 中同时勾选 ｢{key=Connection.MuMu12ExtrasEnabled}｣ 及其下的 ｢{key=Connection.MuMuExtrasTouchEnabled}｣；或不想使用增强时，请在 MuMu 设置中关闭 ｢应用保活｣（部分版本曾称 ｢后台保活｣ ｢后台挂机时保活运行｣ 等）。</system:String>
-    <system:String x:Key="Connection.MuMuEmulatorPathEmptyError">MuMu 安装路径为空！占位符仅为示例，请在 ｢{key=Settings.Title} - {key=Settings.Connection.Title}｣ 填写实际路径</system:String>
-    <system:String x:Key="Connection.MuMuEmulatorPathNotFound">未找到 MuMu 模拟器路径。</system:String>
-    <system:String x:Key="Connection.MuMuExternalRendererMissing" xml:space="preserve">external_renderer_ipc.dll 未在所选 MuMu 安装目录中找到。
-
-期望的相对路径：
-nx_device/15.0/shell/sdk/external_renderer_ipc.dll 或
-nx_device/12.0/shell/sdk/external_renderer_ipc.dll 或
-shell/sdk/external_renderer_ipc.dll
-
-请确认安装目录。</system:String>
-    <system:String x:Key="Connection.MuMuExtrasNotEnabledMessage">MuMu 截图增强未生效，请在 ｢{key=Settings.Title} - {key=Settings.Connection.Title} - {key=Connection.Config}｣ 检查下方显示的截图增强设置</system:String>
-    <system:String x:Key="Connection.MuMuExtrasTouchEnabled">启用 MuMu 触控增强（实验性，需 MuMu 模拟器 6.3.2+，支持后台保活）</system:String>
+    <system:String x:Key="Connection.MuMu.ExtrasNotEnabledMessage">MuMu 截图增强未生效，请在 ｢{key=Settings.Title} - {key=Settings.Connection.Title} - {key=Connection.Config}｣ 检查下方显示的截图增强设置</system:String>
+    <system:String x:Key="Connection.MuMu.ExtrasTouchEnabled">启用 MuMu 触控增强（实验性，需 MuMu 模拟器 6.3.2+，支持后台保活）</system:String>
+    <system:String x:Key="Connection.MuMu.FullExtrasReady">完整 MuMu 增强已就位——截图与触控双核直连贯通，后台保活亦为我所用！</system:String>
+    <system:String x:Key="Connection.MuMu.Index">实例编号</system:String>
+    <system:String x:Key="Connection.MuMu.KeepAliveOn">检测到 MuMu 模拟器开启了 ｢应用保活｣，但 MAA 的触控增强未生效，在应用保活下无法操作。请在 MAA ｢{key=Settings.Connection.Title}｣ 中同时勾选 ｢{key=Connection.MuMu.ExtrasEnabled}｣ 及其下的 ｢{key=Connection.MuMu.ExtrasTouchEnabled}｣；或不想使用增强时，请在 MuMu 设置中关闭 ｢应用保活｣（部分版本曾称 ｢后台保活｣ ｢后台挂机时保活运行｣ 等）。</system:String>
+    <system:String x:Key="Connection.MuMuArm.ConnectionNotReady">无法读取 MuMu ARM 的 ADB 地址。请等待模拟器启动完成后重试，或关闭自动检测并手动填写连接地址。</system:String>
+    <system:String x:Key="Connection.MuMuArm.DetectAndTest">自动检测并测试</system:String>
     <system:String x:Key="Connection.MultipleAddressesDetected">检测到多个连接地址，请选择您要使用的地址：</system:String>
     <system:String x:Key="Connection.MultipleEmulatorsDetected">检测到多个模拟器安装路径，请选择您要使用的路径：</system:String>
     <system:String x:Key="Connection.MultipleEmulatorsDetectedForConnection">检测到多个模拟器，请选择您要连接的模拟器：</system:String>

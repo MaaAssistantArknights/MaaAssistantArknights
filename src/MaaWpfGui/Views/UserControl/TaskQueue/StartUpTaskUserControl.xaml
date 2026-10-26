@@ -230,8 +230,8 @@
                                 Margin="0,5"
                                 HorizontalAlignment="Left"
                                 Orientation="Horizontal">
-                                <CheckBox Content="{DynamicResource Connection.MuMu12ExtrasEnabled}" IsChecked="{Binding Enable}" />
-                                <controls:TooltipBlock TooltipText="{DynamicResource Connection.MuMu12ExtrasEnabled.Tip}" />
+                                <CheckBox Content="{DynamicResource Connection.MuMu.ExtrasEnabled}" IsChecked="{Binding Enable}" />
+                                <controls:TooltipBlock TooltipText="{DynamicResource Connection.MuMu.ExtrasEnabled.Tip}" />
                             </StackPanel>
                             <StackPanel
                                 HorizontalAlignment="Left"
@@ -239,27 +239,27 @@
                                 Orientation="Vertical"
                                 Visibility="{c:Binding Enable}">
                                 <CheckBox Margin="0,5" IsChecked="{Binding EnableTouch}">
-                                    <TextBlock Text="{DynamicResource Connection.MuMuExtrasTouchEnabled}" TextWrapping="Wrap" />
+                                    <TextBlock Text="{DynamicResource Connection.MuMu.ExtrasTouchEnabled}" TextWrapping="Wrap" />
                                 </CheckBox>
                                 <hc:TextBox
                                     Margin="0,5"
-                                    hc:InfoElement.Placeholder="{DynamicResource Connection.MuMu12EmulatorPath.Placeholder}"
-                                    hc:TitleElement.Title="{DynamicResource Connection.MuMu12EmulatorPath}"
+                                    hc:InfoElement.Placeholder="{DynamicResource Connection.MuMu.EmulatorPath.Placeholder}"
+                                    hc:TitleElement.Title="{DynamicResource Connection.MuMu.EmulatorPath}"
                                     hc:TitleElement.TitlePlacement="Top"
                                     Text="{Binding EmulatorPath}" />
                                 <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
                                     <CheckBox
                                         Margin="0,5"
-                                        Content="{DynamicResource Connection.MuMuBridgeConnection}"
+                                        Content="{DynamicResource Connection.MuMu.BridgeConnection}"
                                         IsChecked="{Binding EnableBridgeConnection}" />
-                                    <controls:TooltipBlock TooltipText="{DynamicResource Connection.MuMuBridgeConnection.Tip}" />
+                                    <controls:TooltipBlock TooltipText="{DynamicResource Connection.MuMu.BridgeConnection.Tip}" />
                                 </StackPanel>
                                 <hc:TextBox
                                     Margin="0,5"
                                     HorizontalAlignment="Left"
                                     HorizontalContentAlignment="Center"
                                     d:Visibility="Visible"
-                                    hc:TitleElement.Title="{DynamicResource Connection.MuMu12Index}"
+                                    hc:TitleElement.Title="{DynamicResource Connection.MuMu.Index}"
                                     hc:TitleElement.TitlePlacement="Top"
                                     Text="{Binding InstanceIndex}"
                                     Visibility="{c:Binding EnableBridgeConnection}" />

@@ -96,7 +96,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
     public LocalizedObservableList<ConnectConfig> ConnectConfigList { get; } = new(
         (ConnectConfig.General, "Connection.Config.General"),
         (ConnectConfig.BlueStacks, "Connection.Config.BlueStacks"),
-        (ConnectConfig.MuMuEmulator12, "Connection.Config.MuMu12"),
+        (ConnectConfig.MuMuEmulator12, "Connection.Config.MuMu"),
         (ConnectConfig.MuMuArm, "Connection.Config.MuMuArm"),
         (ConnectConfig.LDPlayer, "Connection.Config.LDPlayer"),
         (ConnectConfig.Androws, "Connection.Config.Androws"),
@@ -493,7 +493,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
         {
             if (string.IsNullOrEmpty(selectedEmulator.Address))
             {
-                error = LocalizationHelper.GetString("Connection.Config.MuMuArmConnectionNotReady");
+                error = LocalizationHelper.GetString("Connection.MuMuArm.ConnectionNotReady");
                 return false;
             }
 
@@ -673,8 +673,8 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
                 if (ExtraConfig is MuMu12Extra muMu12Extra && muMu12Extra.Enable && ScreencapMethod != "MumuExtras")
                 {
                     var mumuExtrasMsg = string.IsNullOrEmpty(muMu12Extra.EmulatorPath)
-                        ? LocalizationHelper.GetString("Connection.MuMuEmulatorPathEmptyError")
-                        : LocalizationHelper.GetString("Connection.MuMuExtrasNotEnabledMessage");
+                        ? LocalizationHelper.GetString("Connection.MuMu.EmulatorPathEmptyError")
+                        : LocalizationHelper.GetString("Connection.MuMu.ExtrasNotEnabledMessage");
                     TestLinkInfo = $"{mumuExtrasMsg}\n{ScreencapTestCost}";
                     return;
                 }

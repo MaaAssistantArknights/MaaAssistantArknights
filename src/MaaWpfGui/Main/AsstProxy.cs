@@ -1056,10 +1056,10 @@ public class AsstProxy
                 if (_mumuExtrasInputAvailable && wasDeferred)
                 {
                     Instances.TaskQueueViewModel.AddLog(
-                        LocalizationHelper.GetString("Connection.MuMuEmulator12FullExtrasReady"),
+                        LocalizationHelper.GetString("Connection.MuMu.FullExtrasReady"),
                         UiLogColor.Rainbow);
                     Instances.CopilotViewModel.AddLog(
-                        LocalizationHelper.GetString("Connection.MuMuEmulator12FullExtrasReady"),
+                        LocalizationHelper.GetString("Connection.MuMu.FullExtrasReady"),
                         UiLogColor.Rainbow,
                         showTime: false);
                 }
@@ -1071,10 +1071,10 @@ public class AsstProxy
                     && EmulatorHelper.CheckMuMuKeepAlive())
                 {
                     Instances.TaskQueueViewModel.AddLog(
-                        LocalizationHelper.GetString("Connection.MuMuEmulator12KeepAliveOn"),
+                        LocalizationHelper.GetString("Connection.MuMu.KeepAliveOn"),
                         UiLogColor.Error);
                     Instances.CopilotViewModel.AddLog(
-                        LocalizationHelper.GetString("Connection.MuMuEmulator12KeepAliveOn"),
+                        LocalizationHelper.GetString("Connection.MuMu.KeepAliveOn"),
                         UiLogColor.Error, showTime: false);
                     Execute.OnUIThreadAsync(async () => {
                         Connected = false;
@@ -1172,10 +1172,10 @@ public class AsstProxy
                                 && EmulatorHelper.CheckMuMuKeepAlive())
                             {
                                 Instances.TaskQueueViewModel.AddLog(
-                                    LocalizationHelper.GetString("Connection.MuMuEmulator12KeepAliveOn"),
+                                    LocalizationHelper.GetString("Connection.MuMu.KeepAliveOn"),
                                     UiLogColor.Error);
                                 Instances.CopilotViewModel.AddLog(
-                                    LocalizationHelper.GetString("Connection.MuMuEmulator12KeepAliveOn"),
+                                    LocalizationHelper.GetString("Connection.MuMu.KeepAliveOn"),
                                     UiLogColor.Error, showTime: false);
                                 needToStop = true;
                             }
@@ -1188,8 +1188,8 @@ public class AsstProxy
                             if (method != "MumuExtras")
                             {
                                 var mumuExtrasMsg = string.IsNullOrEmpty(muMu12.EmulatorPath)
-                                    ? LocalizationHelper.GetString("Connection.MuMuEmulatorPathEmptyError")
-                                    : LocalizationHelper.GetString("Connection.MuMuExtrasNotEnabledMessage");
+                                    ? LocalizationHelper.GetString("Connection.MuMu.EmulatorPathEmptyError")
+                                    : LocalizationHelper.GetString("Connection.MuMu.ExtrasNotEnabledMessage");
                                 Instances.TaskQueueViewModel.AddLog(mumuExtrasMsg, UiLogColor.Error);
                                 Instances.CopilotViewModel.AddLog(mumuExtrasMsg, UiLogColor.Error, showTime: false);
                                 needToStop = true;
@@ -1202,7 +1202,7 @@ public class AsstProxy
                                 if (_mumuExtrasInputAvailable)
                                 {
                                     Instances.TaskQueueViewModel.AddLog(
-                                        LocalizationHelper.GetString("Connection.MuMuEmulator12FullExtrasReady"),
+                                        LocalizationHelper.GetString("Connection.MuMu.FullExtrasReady"),
                                         UiLogColor.Rainbow);
                                 }
                             }

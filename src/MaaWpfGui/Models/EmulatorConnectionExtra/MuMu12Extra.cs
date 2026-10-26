@@ -56,7 +56,7 @@ public class MuMu12Extra() : ExtraConfig
 
     private void AutoDetectEmulatorPath()
     {
-        MessageBoxHelper.Show(LocalizationHelper.GetRawString("Connection.MuMu12ExtrasEnabled.Tip"));
+        MessageBoxHelper.Show(LocalizationHelper.GetRawString("Connection.MuMu.ExtrasEnabled.Tip"));
 
         // 读取mumu注册表地址 并填充GUI
         if (!string.IsNullOrEmpty(EmulatorPath))
@@ -146,8 +146,8 @@ public class MuMu12Extra() : ExtraConfig
         get; set {
             if (Enable && !string.IsNullOrEmpty(value) && !Directory.Exists(value))
             {
-                MessageBoxHelper.Show(LocalizationHelper.GetString("Connection.MuMuEmulatorPathNotFound"));
-                MessageBoxHelper.Show(LocalizationHelper.GetRawString("Connection.MuMu12ExtrasEnabled.Tip"));
+                MessageBoxHelper.Show(LocalizationHelper.GetString("Connection.MuMu.EmulatorPathNotFound"));
+                MessageBoxHelper.Show(LocalizationHelper.GetRawString("Connection.MuMu.ExtrasEnabled.Tip"));
                 return;
             }
 
@@ -164,8 +164,8 @@ public class MuMu12Extra() : ExtraConfig
 
                 if (!candidateRelativePaths.Any(relPath => File.Exists(Path.Combine(value, relPath))))
                 {
-                    MessageBoxHelper.Show(LocalizationHelper.GetString("Connection.MuMuExternalRendererMissing"));
-                    MessageBoxHelper.Show(LocalizationHelper.GetRawString("Connection.MuMu12ExtrasEnabled.Tip"));
+                    MessageBoxHelper.Show(LocalizationHelper.GetString("Connection.MuMu.ExternalRendererMissing"));
+                    MessageBoxHelper.Show(LocalizationHelper.GetRawString("Connection.MuMu.ExtrasEnabled.Tip"));
                     return;
                 }
             }
@@ -187,7 +187,7 @@ public class MuMu12Extra() : ExtraConfig
             if (value)
             {
                 var result = MessageBoxHelper.Show(
-                    LocalizationHelper.GetString("Connection.MuMuBridgeConnection.Tip"),
+                    LocalizationHelper.GetString("Connection.MuMu.BridgeConnection.Tip"),
                     icon: MessageBoxImage.Warning,
                     buttons: MessageBoxButton.YesNo,
                     no: LocalizationHelper.GetString("Common.Confirm"),

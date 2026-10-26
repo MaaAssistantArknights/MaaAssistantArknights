@@ -812,10 +812,8 @@
     <system:String x:Key="Connection.Config.General">通用模式</system:String>
     <system:String x:Key="Connection.Config.GeneralWithoutScreencapErr">通用模式（阻擋異常輸出）</system:String>
     <system:String x:Key="Connection.Config.LDPlayer">雷電模擬器</system:String>
-    <system:String x:Key="Connection.Config.MuMu12">MuMu 模擬器</system:String>
+    <system:String x:Key="Connection.Config.MuMu">MuMu 模擬器</system:String>
     <system:String x:Key="Connection.Config.MuMuArm">MuMu 模擬器（Windows ARM）</system:String>
-    <system:String x:Key="Connection.Config.MuMuArmConnectionNotReady">無法讀取 MuMu ARM 的 ADB 位址。請等待模擬器啟動完成後重試，或關閉自動偵測並手動填入連線位址。</system:String>
-    <system:String x:Key="Connection.Config.MuMuArmDetectAndTest">自動偵測並測試</system:String>
     <system:String x:Key="Connection.Config.Nox">夜神模擬器</system:String>
     <system:String x:Key="Connection.Config.PC">明日方舟 PC 端（社群維護）</system:String>
     <system:String x:Key="Connection.Config.SecondResolution">第二解析度</system:String>
@@ -856,10 +854,22 @@ C:\leidian\LDPlayer9
     <system:String x:Key="Connection.LdPlayerEmulatorPathNotFound">找不到 LDPlayer 模擬器路徑。</system:String>
     <system:String x:Key="Connection.LdPlayerOpenglMissing">在所選 LDPlayer 路徑中未找到 ldopengl64.dll，請確認安裝目錄。</system:String>
     <system:String x:Key="Connection.Lost">連線已中斷</system:String>
-    <system:String x:Key="Connection.MuMu12EmulatorPath">MuMu 模擬器路徑</system:String>
-    <system:String x:Key="Connection.MuMu12EmulatorPath.Placeholder">範例：C:\Program Files\Netease\MuMuPlayer</system:String>
-    <system:String x:Key="Connection.MuMu12ExtrasEnabled">啟用 MuMu 截圖增強</system:String>
-    <system:String x:Key="Connection.MuMu12ExtrasEnabled.Tip" xml:space="preserve">需使用官版或方舟專版 MuMu V4.1.26 或更新版本，國際版需 V5.21.3 或更新版本。
+    <system:String x:Key="Connection.MuMu.BridgeConnection">MuMu 網路橋接模式</system:String>
+    <system:String x:Key="Connection.MuMu.BridgeConnection.Tip">除非您知道自己在做什麼，否則不要啟用此選項</system:String>
+    <system:String x:Key="Connection.MuMu.EmulatorPath">MuMu 模擬器路徑</system:String>
+    <system:String x:Key="Connection.MuMu.EmulatorPath.Placeholder">範例：C:\Program Files\Netease\MuMuPlayer</system:String>
+    <system:String x:Key="Connection.MuMu.EmulatorPathEmptyError">MuMu 安裝路徑為空！佔位符僅為示例，請在 ｢{key=Settings.Title} - {key=Settings.Connection.Title}｣ 填寫實際路徑</system:String>
+    <system:String x:Key="Connection.MuMu.EmulatorPathNotFound">找不到 MuMu 模擬器路徑。</system:String>
+    <system:String x:Key="Connection.MuMu.ExternalRendererMissing" xml:space="preserve">external_renderer_ipc.dll 未在所選 MuMu 安裝目錄中找到。
+
+預期的相對路徑：
+nx_device/15.0/shell/sdk/external_renderer_ipc.dll 或
+nx_device/12.0/shell/sdk/external_renderer_ipc.dll 或
+shell/sdk/external_renderer_ipc.dll
+
+請確認安裝目錄。</system:String>
+    <system:String x:Key="Connection.MuMu.ExtrasEnabled">啟用 MuMu 截圖增強</system:String>
+    <system:String x:Key="Connection.MuMu.ExtrasEnabled.Tip" xml:space="preserve">需使用官版或方舟專版 MuMu V4.1.26 或更新版本，國際版需 V5.21.3 或更新版本。
 強烈建議在開啟本功能後立刻執行一次截圖測試。
 MAA 會自動透過登錄檔取得安裝路徑，若取得失敗則請手動填寫。
 
@@ -871,23 +881,13 @@ C:\Program Files\Netease\MuMuPlayer
 注意：
 1. 若目前連線位址通訊埠編號為 7555，則需將通訊埠編號改為 16384。
 2. 若正在使用網路橋接，則需勾選 MuMu 網路橋接模式並手動填寫裝置編號（MuMu 裝置清單左上角的 # 數字，主裝置為 0）。</system:String>
-    <system:String x:Key="Connection.MuMu12Index">裝置編號</system:String>
-    <system:String x:Key="Connection.MuMuBridgeConnection">MuMu 網路橋接模式</system:String>
-    <system:String x:Key="Connection.MuMuBridgeConnection.Tip">除非您知道自己在做什麼，否則不要啟用此選項</system:String>
-    <system:String x:Key="Connection.MuMuEmulator12FullExtrasReady">完整 MuMu 增強已就位——截圖與觸控雙核直連貫通，背景保活亦為我所用！</system:String>
-    <system:String x:Key="Connection.MuMuEmulator12KeepAliveOn">偵測到 MuMu 模擬器開啟了 ｢應用程式執行｣（背景保活），但 MAA 的觸控增強未生效，此狀態下無法操作。請在 MAA ｢{key=Settings.Connection.Title}｣ 中同時勾選 ｢{key=Connection.MuMu12ExtrasEnabled}｣ 及其下的 ｢{key=Connection.MuMuExtrasTouchEnabled}｣；或不想使用增強時，請在 MuMu ｢裝置設定 - 其他｣ 中關閉 ｢應用程式執行｣（部分版本曾稱 ｢應用保活｣ ｢背景保活｣ ｢背景掛機時保活運行｣ 等）。</system:String>
-    <system:String x:Key="Connection.MuMuEmulatorPathEmptyError">MuMu 安裝路徑為空！佔位符僅為示例，請在 ｢{key=Settings.Title} - {key=Settings.Connection.Title}｣ 填寫實際路徑</system:String>
-    <system:String x:Key="Connection.MuMuEmulatorPathNotFound">找不到 MuMu 模擬器路徑。</system:String>
-    <system:String x:Key="Connection.MuMuExternalRendererMissing" xml:space="preserve">external_renderer_ipc.dll 未在所選 MuMu 安裝目錄中找到。
-
-預期的相對路徑：
-nx_device/15.0/shell/sdk/external_renderer_ipc.dll 或
-nx_device/12.0/shell/sdk/external_renderer_ipc.dll 或
-shell/sdk/external_renderer_ipc.dll
-
-請確認安裝目錄。</system:String>
-    <system:String x:Key="Connection.MuMuExtrasNotEnabledMessage">MuMu 截圖增強未生效，請在 ｢{key=Settings.Title} - {key=Settings.Connection.Title} - {key=Connection.Config}｣ 檢查下方顯示的截圖增強設定</system:String>
-    <system:String x:Key="Connection.MuMuExtrasTouchEnabled">啟用 MuMu 觸控增強（實驗性，需 MuMu 模擬器 6.3.2+，支援背景保活）</system:String>
+    <system:String x:Key="Connection.MuMu.ExtrasNotEnabledMessage">MuMu 截圖增強未生效，請在 ｢{key=Settings.Title} - {key=Settings.Connection.Title} - {key=Connection.Config}｣ 檢查下方顯示的截圖增強設定</system:String>
+    <system:String x:Key="Connection.MuMu.ExtrasTouchEnabled">啟用 MuMu 觸控增強（實驗性，需 MuMu 模擬器 6.3.2+，支援背景保活）</system:String>
+    <system:String x:Key="Connection.MuMu.FullExtrasReady">完整 MuMu 增強已就位——截圖與觸控雙核直連貫通，背景保活亦為我所用！</system:String>
+    <system:String x:Key="Connection.MuMu.Index">裝置編號</system:String>
+    <system:String x:Key="Connection.MuMu.KeepAliveOn">偵測到 MuMu 模擬器開啟了 ｢應用程式執行｣（背景保活），但 MAA 的觸控增強未生效，此狀態下無法操作。請在 MAA ｢{key=Settings.Connection.Title}｣ 中同時勾選 ｢{key=Connection.MuMu.ExtrasEnabled}｣ 及其下的 ｢{key=Connection.MuMu.ExtrasTouchEnabled}｣；或不想使用增強時，請在 MuMu ｢裝置設定 - 其他｣ 中關閉 ｢應用程式執行｣（部分版本曾稱 ｢應用保活｣ ｢背景保活｣ ｢背景掛機時保活運行｣ 等）。</system:String>
+    <system:String x:Key="Connection.MuMuArm.ConnectionNotReady">無法讀取 MuMu ARM 的 ADB 位址。請等待模擬器啟動完成後重試，或關閉自動偵測並手動填入連線位址。</system:String>
+    <system:String x:Key="Connection.MuMuArm.DetectAndTest">自動偵測並測試</system:String>
     <system:String x:Key="Connection.MultipleAddressesDetected">偵測到多個連線位址，請選擇您要使用的位址：</system:String>
     <system:String x:Key="Connection.MultipleEmulatorsDetected">偵測到多個模擬器安裝路徑，請選擇您要使用的路徑：</system:String>
     <system:String x:Key="Connection.MultipleEmulatorsDetectedForConnection">偵測到多個模擬器，請選擇您要連線的模擬器：</system:String>

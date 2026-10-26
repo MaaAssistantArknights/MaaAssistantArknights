@@ -812,10 +812,8 @@ Please ensure only the target emulator is running during detection. Running mult
     <system:String x:Key="Connection.Config.General">General Mode</system:String>
     <system:String x:Key="Connection.Config.GeneralWithoutScreencapErr">General Mode (Blocked exception output)</system:String>
     <system:String x:Key="Connection.Config.LDPlayer">LD Player</system:String>
-    <system:String x:Key="Connection.Config.MuMu12">MuMu Emulator</system:String>
+    <system:String x:Key="Connection.Config.MuMu">MuMu Emulator</system:String>
     <system:String x:Key="Connection.Config.MuMuArm">MuMu Player (Windows ARM)</system:String>
-    <system:String x:Key="Connection.Config.MuMuArmConnectionNotReady">Unable to read the MuMu ARM ADB address. Wait for the emulator to finish starting and retry, or disable auto detection and enter the connection address manually.</system:String>
-    <system:String x:Key="Connection.Config.MuMuArmDetectAndTest">Detect and test</system:String>
     <system:String x:Key="Connection.Config.Nox">Nox</system:String>
     <system:String x:Key="Connection.Config.PC">Arknights PC Client (Community-maintained)</system:String>
     <system:String x:Key="Connection.Config.SecondResolution">2nd Resolution</system:String>
@@ -856,10 +854,21 @@ If the game is launched in portrait mode and then switched to landscape, it may 
     <system:String x:Key="Connection.LdPlayerEmulatorPathNotFound">LDPlayer emulator path not found.</system:String>
     <system:String x:Key="Connection.LdPlayerOpenglMissing">ldopengl64.dll was not found in the selected LDPlayer path. Please verify the installation directory.</system:String>
     <system:String x:Key="Connection.Lost">Connection lost</system:String>
-    <system:String x:Key="Connection.MuMu12EmulatorPath">MuMu Installation Path</system:String>
-    <system:String x:Key="Connection.MuMu12EmulatorPath.Placeholder">Example: C:\Program Files\Netease\MuMuPlayer</system:String>
-    <system:String x:Key="Connection.MuMu12ExtrasEnabled">Enable MuMu's screenshot enhancement mode</system:String>
-    <system:String x:Key="Connection.MuMu12ExtrasEnabled.Tip" xml:space="preserve">MuMu / MuMu Arknights V4.1.26 or later is required. MuMu Global requires V5.21.3 or later.
+    <system:String x:Key="Connection.MuMu.BridgeConnection">MuMu Network Bridge Connection</system:String>
+    <system:String x:Key="Connection.MuMu.BridgeConnection.Tip">Unless you know what you are doing, do not enable this option</system:String>
+    <system:String x:Key="Connection.MuMu.EmulatorPath">MuMu Installation Path</system:String>
+    <system:String x:Key="Connection.MuMu.EmulatorPath.Placeholder">Example: C:\Program Files\Netease\MuMuPlayer</system:String>
+    <system:String x:Key="Connection.MuMu.EmulatorPathEmptyError">MuMu installation path is empty! The placeholder is only an example, please fill in the actual path in ｢{key=Settings.Title} - {key=Settings.Connection.Title}｣</system:String>
+    <system:String x:Key="Connection.MuMu.EmulatorPathNotFound">MuMu Emulator path not found.</system:String>
+    <system:String x:Key="Connection.MuMu.ExternalRendererMissing" xml:space="preserve">external_renderer_ipc.dll was not found under the selected MuMu installation.
+
+Expected relative path: nx_device/15.0/shell/sdk/external_renderer_ipc.dll or
+nx_device/12.0/shell/sdk/external_renderer_ipc.dll or
+shell/sdk/external_renderer_ipc.dll
+
+Please verify the installation directory.</system:String>
+    <system:String x:Key="Connection.MuMu.ExtrasEnabled">Enable MuMu's screenshot enhancement mode</system:String>
+    <system:String x:Key="Connection.MuMu.ExtrasEnabled.Tip" xml:space="preserve">MuMu / MuMu Arknights V4.1.26 or later is required. MuMu Global requires V5.21.3 or later.
 It's strongly recommended to run a screenshot test immediately after enabling this feature.
 MAA will attempt to automatically fill in the exec path through the registry. If failed, please fill it in manually.
 
@@ -871,22 +880,13 @@ C:\Program Files\Netease\MuMuPlayer
 Note:
 1. If the port number of the connection address is 7555, you need to change the port number to 16384.
 2. If using network bridging, check the MuMu network bridging mode and manually enter the serial number.</system:String>
-    <system:String x:Key="Connection.MuMu12Index">Instance Number</system:String>
-    <system:String x:Key="Connection.MuMuBridgeConnection">MuMu Network Bridge Connection</system:String>
-    <system:String x:Key="Connection.MuMuBridgeConnection.Tip">Unless you know what you are doing, do not enable this option</system:String>
-    <system:String x:Key="Connection.MuMuEmulator12FullExtrasReady">Full MuMu enhancement online — screenshot &amp; touch dual-link engaged. Background keep-alive bows to our will!</system:String>
-    <system:String x:Key="Connection.MuMuEmulator12KeepAliveOn">MuMu emulator has ｢App Keep-Alive｣ enabled, but MAA touch enhancement is not working. Operations are not possible under app keep-alive. Please enable both ｢{key=Connection.MuMu12ExtrasEnabled}｣ and its sub-option ｢{key=Connection.MuMuExtrasTouchEnabled}｣ in MAA ｢{key=Settings.Connection.Title}｣; or if you don't want to use enhancement, disable ｢App Keep-Alive｣ in MuMu settings (some versions previously called it ｢Keep Alive in Background｣, ｢Keep running while AFK in background｣, etc.).</system:String>
-    <system:String x:Key="Connection.MuMuEmulatorPathEmptyError">MuMu installation path is empty! The placeholder is only an example, please fill in the actual path in ｢{key=Settings.Title} - {key=Settings.Connection.Title}｣</system:String>
-    <system:String x:Key="Connection.MuMuEmulatorPathNotFound">MuMu Emulator path not found.</system:String>
-    <system:String x:Key="Connection.MuMuExternalRendererMissing" xml:space="preserve">external_renderer_ipc.dll was not found under the selected MuMu installation.
-
-Expected relative path: nx_device/15.0/shell/sdk/external_renderer_ipc.dll or
-nx_device/12.0/shell/sdk/external_renderer_ipc.dll or
-shell/sdk/external_renderer_ipc.dll
-
-Please verify the installation directory.</system:String>
-    <system:String x:Key="Connection.MuMuExtrasNotEnabledMessage">MuMu screenshot enhancement is not working. Check the enhancement settings shown below in ｢{key=Settings.Title} - {key=Settings.Connection.Title} - {key=Connection.Config}｣</system:String>
-    <system:String x:Key="Connection.MuMuExtrasTouchEnabled">Enable MuMu touch enhancement (experimental, requires MuMu Emulator 6.3.2+, supports background keep-alive)</system:String>
+    <system:String x:Key="Connection.MuMu.ExtrasNotEnabledMessage">MuMu screenshot enhancement is not working. Check the enhancement settings shown below in ｢{key=Settings.Title} - {key=Settings.Connection.Title} - {key=Connection.Config}｣</system:String>
+    <system:String x:Key="Connection.MuMu.ExtrasTouchEnabled">Enable MuMu touch enhancement (experimental, requires MuMu Emulator 6.3.2+, supports background keep-alive)</system:String>
+    <system:String x:Key="Connection.MuMu.FullExtrasReady">Full MuMu enhancement online — screenshot &amp; touch dual-link engaged. Background keep-alive bows to our will!</system:String>
+    <system:String x:Key="Connection.MuMu.Index">Instance Number</system:String>
+    <system:String x:Key="Connection.MuMu.KeepAliveOn">MuMu emulator has ｢App Keep-Alive｣ enabled, but MAA touch enhancement is not working. Operations are not possible under app keep-alive. Please enable both ｢{key=Connection.MuMu.ExtrasEnabled}｣ and its sub-option ｢{key=Connection.MuMu.ExtrasTouchEnabled}｣ in MAA ｢{key=Settings.Connection.Title}｣; or if you don't want to use enhancement, disable ｢App Keep-Alive｣ in MuMu settings (some versions previously called it ｢Keep Alive in Background｣, ｢Keep running while AFK in background｣, etc.).</system:String>
+    <system:String x:Key="Connection.MuMuArm.ConnectionNotReady">Unable to read the MuMu ARM ADB address. Wait for the emulator to finish starting and retry, or disable auto detection and enter the connection address manually.</system:String>
+    <system:String x:Key="Connection.MuMuArm.DetectAndTest">Detect and test</system:String>
     <system:String x:Key="Connection.MultipleAddressesDetected">Multiple connection addresses detected, please select the address you want to use:</system:String>
     <system:String x:Key="Connection.MultipleEmulatorsDetected">Multiple emulator installation paths detected, please select the path you want to use:</system:String>
     <system:String x:Key="Connection.MultipleEmulatorsDetectedForConnection">Multiple emulators detected, please select the emulator you want to connect to:</system:String>
