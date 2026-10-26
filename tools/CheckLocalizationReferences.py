@@ -1,19 +1,23 @@
 #!/usr/bin/env python3
 """校验本地化引用完整性（Res/Localizations/*.xaml 与其引用方）。
 
-五类校验，任一失败以非零退出码退出（供 CI 拦截）：
+六类校验，任一失败以非零退出码退出（供 CI 拦截）：
 
 1. 五语言文件 key 集合完全一致（翻译改动漏某个语言直接失败）；
 2. 代码侧引用的 key 必须存在：XAML 的 DynamicResource/StaticResource、
-   C# 的 GetString/TryGetString/GetRawString/GetStringFormat 字符串字面量参数。
+   C# 的 GetString/TryGetString/GetRawString/GetStringFormat 字符串字面量参数
+   （含首参换行的调用形态）与 Resources["X"] 索引读取形态。
    XAML 资源引用的有效集合为三层：语言 key ∪ 本仓 xaml 自身 x:Key 定义（动态
    收集，视图内部资源天然放行）∪ tools/ExternalWpfResources.txt（HandyControls
    外部资源清单，由 GenerateExternalResources.py 生成）；
 3. 语言文件值内 {key=Xxx} 内联引用的 key 必须存在；
 4. 代码内静态映射值（枚举/协议转换函数的 switch 右侧 key）必须存在；
-5. LocalizedObservableList 列表条目 key 必须存在（切换语言的推荐写法）。
+5. LocalizedObservableList 列表条目 key 必须存在（切换语言的推荐写法）；
+6. 单语言文件内 x:Key 不得重复（WPF 运行时后项覆盖前项，重复即事故）。
 
-（完全动态构造的引用如枚举 ToString() 变量传参无法静态扫描，不在校验范围）
+静态校验的固有盲区（不在校验范围）：key 经包装函数以变量传参
+（FormatText/ShowToast 等）、运行时拼接家族（枚举 ToString、前缀 + N）、
+内核与远端配置下发的动态 key。新增引用形态时优先落上述可扫描形态。
 
 用法：python tools/CheckLocalizationReferences.py
 """
@@ -43,6 +47,11 @@ XKEY_RE = re.compile(r'x:Key="([^"]+)"')
 EXTRA_EXTERNAL_RESOURCES = frozenset({"MdXamlStyle", "MdXamlPlugin"})
 # 末尾负向前瞻排除 "前缀" + N 之类拼接形态（家族成员无法静态判定，不校验）
 CS_CALL_RE = re.compile(r'(?:GetString|TryGetString|GetRawString|GetStringFormat)\(\s*@?"([^"]+)"(?!\s*\+)')
+# 首参换行的调用：上一行以调用名加左括号结尾，下一行以字符串字面量开头
+CS_CALL_OPEN_RE = re.compile(r'(?:GetString|TryGetString|GetRawString|GetStringFormat)\($')
+CS_CALL_CONT_RE = re.compile(r'^\s*@?"([^"]+)"(?!\s*\+)')
+# Resources["X"] 索引读取（排除赋值形态，赋值是写入不是引用）
+RES_INDEX_RE = re.compile(r'Resources\["([^"]+)"\](?!\s*=)')
 
 
 def line_contains_inline_key(line: str) -> bool:
@@ -55,6 +64,21 @@ def lang_keys() -> dict[str, set[str]]:
         tree = ET.parse(LOC / f"{lang}.xaml")
         result[lang] = {el.get(XAML_NS_KEY) for el in tree.iter() if el.get(XAML_NS_KEY)}
     return result
+
+
+def duplicate_keys() -> list[str]:
+    """单语言文件内重复的 x:Key（WPF 运行时后项覆盖前项，直接报失败）。"""
+    failures = []
+    for lang in LANGS:
+        seen: set[str] = set()
+        for el in ET.parse(LOC / f"{lang}.xaml").iter():
+            key = el.get(XAML_NS_KEY)
+            if key is None:
+                continue
+            if key in seen:
+                failures.append(f"{lang}.xaml: x:Key {key!r} 重复定义")
+            seen.add(key)
+    return failures
 
 
 def collect_local_xaml_keys() -> set[str]:
@@ -85,6 +109,7 @@ def scan_code_refs() -> list[tuple[str, int, str, str]]:
         text = p.read_text(encoding="utf-8-sig")
         res_re = XAML_RES_RE if p.suffix == ".xaml" else None
         in_block_comment = False
+        pending_call_open = False
         for lineno, line in enumerate(text.splitlines(), 1):
             stripped = line.strip()
             if in_block_comment:
@@ -96,6 +121,7 @@ def scan_code_refs() -> list[tuple[str, int, str, str]]:
                 else:
                     continue
             if stripped.startswith("//") or stripped.startswith("*") or stripped.startswith("<!--"):
+                pending_call_open = False
                 continue
             # 剥掉单行块注释段 /* ... */，跨行块注释由状态机跟踪
             line = re.sub(r"/\*.*?\*/", "", line)
@@ -109,7 +135,16 @@ def scan_code_refs() -> list[tuple[str, int, str, str]]:
                 for m in XAML_RES_ATTR_RE.finditer(line):
                     refs.append((rel, lineno, m.group(1), stripped))
             if p.suffix == ".cs":
+                # 上一行以调用名加左括号结尾时，本行开头的字符串字面量即首参
+                if pending_call_open:
+                    m = CS_CALL_CONT_RE.match(line)
+                    if m:
+                        refs.append((rel, lineno, m.group(1), stripped))
+                    pending_call_open = False
                 for m in CS_CALL_RE.finditer(line):
+                    refs.append((rel, lineno, m.group(1), stripped))
+                pending_call_open = pending_call_open or bool(CS_CALL_OPEN_RE.search(stripped))
+                for m in RES_INDEX_RE.finditer(line):
                     refs.append((rel, lineno, m.group(1), stripped))
     return refs
 
@@ -233,13 +268,16 @@ def main() -> int:
         if key not in base:
             list_missing.append(f"{rel}:{lineno}: 列表条目 key {key!r} 不在语言文件中: {line[:120]}")
 
-    for f in missing + inline_missing + map_values + list_missing:
+    # 6. 单语言文件内 x:Key 不得重复
+    duplicates = duplicate_keys()
+
+    for f in missing + inline_missing + map_values + list_missing + duplicates:
         print(f"::error::{f}")
     for c in consistency:
         if not c.endswith("缺少 0 个 zh-cn 存在的 key，多出 0 个"):
             print(f"::error::[五语言一致性] {c}")
 
-    if missing or inline_missing or map_values or list_missing or any(
+    if missing or inline_missing or map_values or list_missing or duplicates or any(
             not c.endswith("缺少 0 个 zh-cn 存在的 key，多出 0 个") for c in consistency):
         return 1
     print(f"localization references ok ({len(base)} keys, 5 langs consistent)")

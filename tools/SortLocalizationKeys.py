@@ -5,8 +5,9 @@
 本脚本无参数运行为归位重排（原地改写），--check 运行为校验模式（排序后与
 现状不一致时以非零退出码失败，供 CI 拦截乱插 key 的改动）。
 
-区块标记注释（<!-- 名称 --> / <!-- !名称 -->）与注释掉的旧条目死行在重排时
-一并移除；说明性长注释（如 stub 同步提醒）跟随其后第一个条目移动。
+区块标记注释（<!-- 名称 --> / <!-- !名称 -->，仅纯标识符形态）与注释掉的旧条目
+死行在重排时一并移除；说明性短注释（含空格/标点，如 TODO）与长注释（如 stub
+同步提醒）跟随其后第一个条目移动；跨行 XML 块注释整块移除。
 
 用法：
   python tools/SortLocalizationKeys.py                 # 重排全部五语言文件
@@ -26,7 +27,9 @@ LOC = ROOT / "src/MaaWpfGui/Res/Localizations"
 LANGS = ["zh-cn", "zh-tw", "en-us", "ja-jp", "ko-kr"]
 
 ENTRY_RE = re.compile(r'^(\s*)<system:String\s+x:Key="([^"]+)"')
-SECTION_RE = re.compile(r"^\s*<!--\s*!?\S.*?-->\s*$")
+# 区块标记（<!-- 名称 --> / <!-- !名称 -->）：仅纯标识符形态视为标记并丢弃，
+# 含空格/标点的短注释（如 <!-- TODO: ... -->）是说明性内容，保留并随条目移动
+SECTION_RE = re.compile(r"^\s*<!--\s*!?[A-Za-z0-9_.-]+\s*-->\s*$")
 LONG_COMMENT_RE = re.compile(r"^\s*<!--.*-->\s*$")
 
 
@@ -42,9 +45,18 @@ def parse_file(path: Path):
     head, tail_candidates, entries = [], [], []
     pending_entry = None
     pending_comments = []
+    in_xaml_comment = False
 
     for line in lines:
         stripped = line.strip()
+
+        # 跨行 XML 块注释（<!-- 开、后续行才 -->）：整块丢弃，防止中间行
+        # 被误当条目内容或尾部内容而打乱文件结构
+        if in_xaml_comment:
+            if "-->" in line:
+                in_xaml_comment = False
+            continue
+
         if pending_entry is not None:
             pending_entry["lines"].append(line)
             if "</system:String>" in line:
@@ -63,9 +75,16 @@ def parse_file(path: Path):
             continue
 
         if stripped.startswith("<!--"):
-            # 区块标记（短名开/闭）与注释掉的旧条目：丢弃
+            # 注释掉的旧条目：丢弃
             inner = stripped.removeprefix("<!--").removesuffix("-->").strip()
-            if inner.startswith("<system:String") or (SECTION_RE.match(line) and len(inner) <= 30):
+            if inner.startswith("<system:String"):
+                continue
+            # 未闭合的块注释开头：进入跨行注释状态
+            if "-->" not in stripped:
+                in_xaml_comment = True
+                continue
+            # 区块标记（<!-- 名称 --> / <!-- !名称 -->）：丢弃
+            if SECTION_RE.match(line):
                 continue
             # 说明性长注释：附着到下一个条目；若之后没有条目则保留在尾部
             pending_comments.append(line)
