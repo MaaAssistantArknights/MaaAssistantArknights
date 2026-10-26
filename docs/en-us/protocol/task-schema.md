@@ -55,6 +55,7 @@ Please note that JSON files do not support comments. The comments in this docume
                                             // For identical tasks, second recognition won't occur after first:
                                             //     "next": [ "A", "B", "A", "A" ] -> "next": [ "A", "B" ]
                                             // JustReturn type tasks must not be in non-last positions
+                                            // If the list contains undefined task names, an UnknownTask error is reported back before recognition starts and the whole task chain is stopped
 
         "maxTimes": 10,                     // Optional, maximum execution count for this task
                                             // Default is infinity when not specified
