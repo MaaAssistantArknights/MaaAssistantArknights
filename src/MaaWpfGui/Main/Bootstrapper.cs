@@ -459,7 +459,7 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
 
         ConsumeDelegatedUpdateResult();
 
-        if (!VerifyInstallLocation() || !TryApplyPendingUpdatePackage())
+        if (!VerifyInstallLocation() || !TryApplyPendingUpdatePackage(interactive: false))
         {
             return;
         }
@@ -702,17 +702,20 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
 
     /// <summary>
     /// 应用待处理的更新包：委托外部 updater 或进程内应用，成功后早退重启。
+    /// 签名验证需用户确认而不允许交互时挂起（<see cref="_hasDeferredSignatureIssue"/>），
+    /// 由主窗口加载后的 <see cref="ApplyDeferredPendingUpdatePackage"/> 带交互重入。
     /// </summary>
+    /// <param name="interactive">是否允许弹窗交互；启动早期传 <c>false</c>，签名确认延后到主窗口加载后。</param>
     /// <returns>是否继续启动；false 时已请求退出或已触发重启。</returns>
-    private static bool TryApplyPendingUpdatePackage()
+    private static bool TryApplyPendingUpdatePackage(bool interactive)
     {
         if (!PendingUpdateApplier.HasPendingUpdatePackage())
         {
             return true;
         }
 
-        _logger.Information("Pending update package detected, applying before full startup");
-        var pendingUpdateResult = PendingUpdateApplier.TryApplyPendingUpdatePackage();
+        _logger.Information("Pending update package detected, applying (interactive: {Interactive})", interactive);
+        var pendingUpdateResult = PendingUpdateApplier.TryApplyPendingUpdatePackage(interactive);
         if (pendingUpdateResult.Delegated)
         {
             _logger.Information("Pending update package handed off to external updater, exiting current process");
@@ -734,6 +737,19 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
             return false;
         }
 
+        if (pendingUpdateResult.Status == PendingUpdateApplyResult.StatusKind.UserDeclinedSignature)
+        {
+            _logger.Information("User declined to apply the update package in signature verification, continuing with normal startup");
+            return true;
+        }
+
+        if (pendingUpdateResult.Status == PendingUpdateApplyResult.StatusKind.SignatureIssueDeferred)
+        {
+            _logger.Information("Pending update package has a signature issue; user confirmation deferred until the main window is loaded");
+            _hasDeferredSignatureIssue = true;
+            return true;
+        }
+
         if (pendingUpdateResult.RequiresManualRecovery)
         {
             // 进程内应用失败且安装已变动：写入失败标志持久化，与委托更新失败共用
@@ -745,6 +761,23 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
 
         _logger.Warning("Pending update package could not be applied, continuing with normal startup");
         return true;
+    }
+
+    /// <summary>
+    /// 主窗口加载完成后重入启动早期挂起的待处理更新应用。挂起原因（签名确认需弹窗）此时可安全展示：
+    /// 主窗口在场，弹窗关闭不再触发 WPF 因无窗口直接退出。用户确认后当场继续既有应用链
+    /// （委派后退出或应用成功后早退重启），取消则仅清 pending 状态并保留包文件。
+    /// </summary>
+    public static void ApplyDeferredPendingUpdatePackage()
+    {
+        if (!_hasDeferredSignatureIssue)
+        {
+            return;
+        }
+
+        _hasDeferredSignatureIssue = false;
+        _logger.Information("Retrying deferred pending update package apply after main window loaded");
+        TryApplyPendingUpdatePackage(interactive: true);
     }
 
     /// <summary>
@@ -1385,6 +1418,10 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
     private static bool _isRestartingWithoutArgs;
     private static ProcessStartInfo _restartStartInfo;
     private static bool _skipStartupAutoRun;
+
+    // 启动早期以 interactive:false 应用待处理更新、签名问题挂起时置位，
+    // 由主窗口加载后的 ApplyDeferredPendingUpdatePackage 消费
+    private static bool _hasDeferredSignatureIssue;
 
 #nullable enable
 

@@ -44,6 +44,20 @@ internal sealed record PendingUpdateApplyResult(
         InvalidPackage,
 
         /// <summary>
+        /// Indicates that the user declined to apply the pending update package in the signature verification dialog.
+        /// The package file is kept on disk and only the pending state is cleared.
+        /// </summary>
+        UserDeclinedSignature,
+
+        /// <summary>
+        /// Indicates that the pending update package has a signature issue that requires user confirmation,
+        /// but interactive dialogs are not allowed at this stage (early startup, before the main window exists).
+        /// The pending state and the package file are kept untouched so the apply flow
+        /// can be retried with interaction once the main window is loaded.
+        /// </summary>
+        SignatureIssueDeferred,
+
+        /// <summary>
         /// Indicates that the external updater executable required for delegated update is missing.
         /// </summary>
         MissingUpdaterExecutable,

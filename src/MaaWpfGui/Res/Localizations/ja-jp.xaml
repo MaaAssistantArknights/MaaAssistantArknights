@@ -621,6 +621,12 @@ D:\
 ディレクトリ構成を確認し、手動バックアップが完了した場合にのみ続行してください。</system:String>
     <system:String x:Key="PendingFullUpdateManualConfirmYes">バックアップ済みです。更新を続行します</system:String>
     <system:String x:Key="PendingFullUpdateManualConfirmNo">今は更新せず、このバージョンを起動します</system:String>
+    <system:String x:Key="VersionUpdate.SignatureVerification.Unsigned.Title">更新パッケージの提供元を検証できません</system:String>
+    <system:String x:Key="VersionUpdate.SignatureVerification.Unsigned.Message">更新パッケージ内のファイルにデジタル署名がないため、提供元を確認できません。\n非公式な経路でこのパッケージを入手した場合は、｢{key=Settings} - {key=AboutUs} - {key=Website}｣ から再ダウンロードすることをお勧めします。</system:String>
+    <system:String x:Key="VersionUpdate.SignatureVerification.Failed.Title">更新パッケージの署名検証に失敗しました</system:String>
+    <system:String x:Key="VersionUpdate.SignatureVerification.Failed.Message">更新パッケージ内のファイルのデジタル署名が無効、または署名者が予期したものと一致しないため、ファイルが改ざんされている可能性があります。\nMAA を長期間更新していない場合や非公式な経路でこのパッケージを入手した場合は、｢{key=Settings} - {key=AboutUs} - {key=Website}｣ から再ダウンロードすることをお勧めします。</system:String>
+    <system:String x:Key="VersionUpdate.SignatureVerification.Continue">リスクを理解した上で続行します ({0})</system:String>
+    <system:String x:Key="VersionUpdate.SignatureVerification.Cancel">更新をキャンセル</system:String>
     <system:String x:Key="LocalUpdatePackageImportedTitle">ローカル更新パッケージの準備ができました</system:String>
     <system:String x:Key="LocalUpdatePackageImportedDesc">利用可能なローカル更新パッケージを検出しました。今すぐ MAA を更新しますか？（プロセスを再起動します）</system:String>
     <system:String x:Key="LocalUpdatePackageUnsupported">圧縮ファイルを認識できません: {0}\n現在のアーキテクチャ向けのフルパッケージ、または現在のバージョンからより新しいバージョンへの OTA パッケージのみインポートできます。\n現在のバージョン: {1}\n現在のアーキテクチャ: {2}\n対応するファイル名の例: MAA-vTARGET_VERSION-win-{2}.zip\nまたは MAAComponent-OTA-{1}_vTARGET_VERSION-win-{2}.zip</system:String>

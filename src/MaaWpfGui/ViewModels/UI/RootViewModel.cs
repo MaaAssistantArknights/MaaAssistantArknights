@@ -57,6 +57,11 @@ public class RootViewModel : Conductor<Screen>.Collection.OneActive
         // 必须在其他内容初始化之前执行，否则其他内容语言可能已经被初始化为非宿醉语言
         Instances.SettingsViewModel.HangoverEnd();
 
+        // 启动早期挂起的待处理更新（签名确认需弹窗，早期弹窗是唯一窗口，WPF 会因其关闭直接退出）：
+        // 主窗口在场后带交互重跑完整应用流程，确认则当场委派退出或应用后重启，取消则清 pending 状态保留包文件；
+        // 须在 Demo/预览模式早退之前执行，挂起重入不因展示模式跳过
+        Bootstrapper.ApplyDeferredPendingUpdatePackage();
+
         if (Bootstrapper.IsDemoMode)
         {
             // README 截图演示模式：跳过版本不匹配提示、Nightly 提示、公告下载、

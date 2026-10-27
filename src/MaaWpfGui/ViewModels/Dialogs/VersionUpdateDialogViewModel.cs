@@ -1940,17 +1940,5 @@ public class VersionUpdateDialogViewModel : Screen
         return semVersion.IsPrerelease && !IsNightlyVersion(semVersion);
     }
 
-    public static bool IsNightlyVersion(SemVersion version)
-    {
-        if (!version.IsPrerelease)
-        {
-            return false;
-        }
-
-        // v{Major}.{Minor}.{Patch}-{Prerelease}.{CommitDistance}.g{CommitHash}
-        // v4.6.7-beta.2.1.g1234567
-        // v4.6.8-5.g1234567
-        var lastId = version.PrereleaseIdentifiers.LastOrDefault().ToString();
-        return lastId.StartsWith('g') && lastId.Length >= 7;
-    }
+    public static bool IsNightlyVersion(SemVersion version) => PendingUpdateApplier.IsNightlyVersion(version);
 }
