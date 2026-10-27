@@ -779,11 +779,12 @@ bool asst::InfrastAbstractTask::select_custom_opers_by_role(bool is_dorm_order)
                 if (skip_excluded && is_excluded(name)) {
                     continue; // 阶段一已确认在班/心情不符的候补，不再为其翻页
                 }
-                const battle::Role role = BattleData.get_first_role(name);
-                if (role == battle::Role::Unknown) {
+                const auto roles = BattleData.get_roles(name, true);
+                if (roles.size() != 1) {
                     fallback.emplace_back(name);
                     continue;
                 }
+                const battle::Role role = *roles.begin();
                 auto iter = std::ranges::find_if(buckets, [&](const auto& pair) { return pair.first == role; });
                 if (iter == buckets.end()) {
                     buckets.emplace_back(role, std::vector<std::string> {});
