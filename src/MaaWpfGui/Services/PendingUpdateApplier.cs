@@ -21,9 +21,12 @@ using System.IO.Compression;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Windows;
 using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
+using MaaWpfGui.ViewModels.UserControl.Settings;
+using MaaWpfGui.WineCompat;
 using Newtonsoft.Json.Linq;
 using Semver;
 using Serilog;
@@ -57,6 +60,17 @@ internal static partial class PendingUpdateApplier
         "data",
         "debug",
         "MAA.Updater.exe",
+    };
+
+    // 更新包签名验证的文件集，与 CI 签名白名单 .signpath/windows.xml 保持一致；
+    // 解压目录中存在才验，纯资源 OTA 等不含这些文件的包不受影响
+    private static readonly HashSet<string> _signatureVerificationFileNames = new(StringComparer.OrdinalIgnoreCase)
+    {
+        "MAA.exe",
+        "MAA.dll",
+        "MAA.Updater.exe",
+        "MaaCore.dll",
+        "MaaUtils.dll",
     };
 
     // 完整包清理时的嵌套保留目录（相对安装根目录，反斜杠分隔）：
@@ -277,7 +291,15 @@ internal static partial class PendingUpdateApplier
         return new(LocalPackageImportStatus.OtaPackageRegistered, sourceVersion, targetVersion);
     }
 
-    public static PendingUpdateApplyResult TryApplyPendingUpdatePackage()
+    /// <summary>
+    /// 应用待处理的更新包：委托外部 updater 或进程内应用。
+    /// 签名验证发现需用户确认的问题时按 <paramref name="interactive"/> 分流：允许交互则弹连续确认弹窗，
+    /// 不允许（启动早期，主窗口未创建，弹窗是唯一窗口）则不动 pending 状态与包文件直接返回
+    /// <see cref="PendingUpdateApplyResult.StatusKind.SignatureIssueDeferred"/>，由调用方在主窗口加载后重入本流程。
+    /// </summary>
+    /// <param name="interactive">是否允许弹窗交互。</param>
+    /// <returns>应用结果。</returns>
+    public static PendingUpdateApplyResult TryApplyPendingUpdatePackage(bool interactive = true)
     {
         string updateTag = ConfigFactory.Root.Update.Name;
         string updatePackageName = ConfigFactory.Root.Update.UpdatePackage;
@@ -309,6 +331,25 @@ internal static partial class PendingUpdateApplier
                 _logger.Warning(ex, "Pending update package is invalid: {PackagePath}", context.PackagePath);
                 ClearPendingUpdatePackageState();
                 return new(PendingUpdateApplyResult.StatusKind.InvalidPackage, FailureReason: ex.Message);
+            }
+
+            // 签名验证位于三分支判定（完整包委派 / OTA 委派 / 进程内 OTA）之前，
+            // 同时先于 delegated updater 同名 exe 的覆盖，验证对象即后续被复制/移动的解压产物本身
+            if (TryCollectSignatureIssue(context, out var overallStatus, out string? failureDetail))
+            {
+                if (!interactive)
+                {
+                    _logger.Information(
+                        "Signature issue in pending update package deferred until interaction is allowed: {PackagePath}",
+                        context.PackagePath);
+                    return new(PendingUpdateApplyResult.StatusKind.SignatureIssueDeferred);
+                }
+
+                if (!ConfirmApplyPackageWithSignatureIssue(overallStatus, failureDetail))
+                {
+                    ClearPendingUpdatePackageState();
+                    return new(PendingUpdateApplyResult.StatusKind.UserDeclinedSignature);
+                }
             }
 
             if (!PendingUpdateManifest.HasOtaMetadata(context.ExtractDir))
@@ -619,6 +660,169 @@ internal static partial class PendingUpdateApplier
     private static void ExtractPendingUpdatePackage(string packagePath, string extractDir)
     {
         ZipFile.ExtractToDirectory(packagePath, extractDir, Encoding.Default, overwriteFiles: true);
+    }
+
+    /// <summary>
+    /// 验证解压产物中签名验证文件集内各文件的 Authenticode 签名，判定是否存在需用户确认的签名问题（不含弹窗交互）。
+    /// 多文件异常时取最严重结果（验签失败优先于无签名）作为整体判定；
+    /// 无签名仅当包版本（按解压产物的 PE 版本属性判定）与用户更新通道均为 nightly 时静默放行
+    /// （nightly 包不做签名，与 CI 一致），其余无签名情形一律需用户确认；
+    /// 伪签（有签名却验签失败或发布者不符）恒按强警告处理。
+    /// </summary>
+    /// <param name="context">更新应用上下文。</param>
+    /// <param name="overallStatus">需确认时的整体签名判定，供确认弹窗选择文案强度。</param>
+    /// <param name="failureDetail">需确认时的验证细节描述，仅供日志。</param>
+    /// <returns>存在需用户确认的签名问题时为 <c>true</c>；验证通过或可静默放行时为 <c>false</c>。</returns>
+    private static bool TryCollectSignatureIssue(
+        PendingUpdateContext context,
+        out AuthenticodeHelper.SignatureVerificationStatus overallStatus,
+        out string? failureDetail)
+    {
+        // Wine 的 wintrust 实现不完整，有效签名可能被误判为验证失败，跳过签名检查
+        if (WineRuntimeInformation.IsRunningUnderWine)
+        {
+            _logger.Information("Skipping update package signature verification under Wine");
+            overallStatus = AuthenticodeHelper.SignatureVerificationStatus.Trusted;
+            failureDetail = null;
+            return false;
+        }
+
+        overallStatus = AuthenticodeHelper.SignatureVerificationStatus.Trusted;
+        failureDetail = null;
+        string? packageProductVersion = null;
+        int verifiedCount = 0;
+        int absentCount = 0;
+        foreach (string fileName in _signatureVerificationFileNames)
+        {
+            string filePath = Path.Combine(context.ExtractDir, fileName);
+            if (!File.Exists(filePath))
+            {
+                absentCount++;
+                continue;
+            }
+
+            // 验证文件的 PE ProductVersion 由 CI 保证同值（csproj Taggify 与 MAA_HASH_VERSION 同源写入），
+            // 取首个存在且非空的即可
+            packageProductVersion ??= FileVersionInfo.GetVersionInfo(filePath).ProductVersion;
+
+            var fileStatus = AuthenticodeHelper.VerifyFile(filePath, out string? fileDetail);
+            if (fileStatus == AuthenticodeHelper.SignatureVerificationStatus.Trusted)
+            {
+                verifiedCount++;
+                _logger.Information("Authenticode signature verified: {FileName}", fileName);
+                continue;
+            }
+
+            _logger.Warning(
+                "Authenticode signature check failed: {FileName}, status={Status}, detail={Detail}",
+                fileName,
+                fileStatus,
+                fileDetail);
+
+            if (overallStatus != AuthenticodeHelper.SignatureVerificationStatus.Invalid)
+            {
+                overallStatus = fileStatus;
+                failureDetail = $"{fileName}: {fileDetail ?? fileStatus.ToString()}";
+            }
+        }
+
+        if (overallStatus == AuthenticodeHelper.SignatureVerificationStatus.Trusted)
+        {
+            _logger.Information(
+                "Authenticode signature verification passed: {VerifiedCount} verified, {AbsentCount} absent",
+                verifiedCount,
+                absentCount);
+            return false;
+        }
+
+        if (overallStatus == AuthenticodeHelper.SignatureVerificationStatus.Unsigned
+            && IsNightlyVersion(packageProductVersion)
+            && ConfigFactory.Root.Update.VersionType == VersionUpdateSettingsUserControlModel.UpdateVersionType.Nightly)
+        {
+            _logger.Information(
+                "Unsigned update package accepted because both the package and the update channel are nightly: {PackagePath}, productVersion={ProductVersion}",
+                context.PackagePath,
+                packageProductVersion);
+            return false;
+        }
+
+        return true;
+    }
+
+    /// <summary>
+    /// 弹窗告知更新包签名问题并要求连续确认：需连续 3 次选择 ｢仍要继续｣ 才放行，任意一次取消即中止本次更新。
+    /// 只在主窗口在场后调用（主窗口加载前由 <see cref="TryApplyPendingUpdatePackage"/> 以
+    /// <c>interactive: false</c> 挂起，不在无主窗口阶段弹此窗，避免弹窗成为唯一窗口致 WPF 直接退出）。
+    /// </summary>
+    /// <param name="status">整体签名判定，验签失败弹强警告文案，无签名弹中性文案。</param>
+    /// <param name="failureDetail">验证未通过的细节描述，仅供日志。</param>
+    /// <returns>用户连续确认后为 <c>true</c>；取消时为 <c>false</c>。</returns>
+    private static bool ConfirmApplyPackageWithSignatureIssue(AuthenticodeHelper.SignatureVerificationStatus status, string? failureDetail)
+    {
+        bool strongWarning = status == AuthenticodeHelper.SignatureVerificationStatus.Invalid;
+        string titleKey = strongWarning
+            ? "VersionUpdate.SignatureVerification.Failed.Title"
+            : "VersionUpdate.SignatureVerification.Unsigned.Title";
+        string messageKey = strongWarning
+            ? "VersionUpdate.SignatureVerification.Failed.Message"
+            : "VersionUpdate.SignatureVerification.Unsigned.Message";
+
+        int count = 3;
+        while (count-- > 0)
+        {
+            var result = MessageBoxHelper.Show(
+                LocalizationHelper.GetString(messageKey),
+                LocalizationHelper.GetString(titleKey),
+                MessageBoxButton.OKCancel,
+                strongWarning ? MessageBoxImage.Error : MessageBoxImage.Warning,
+                ok: LocalizationHelper.GetStringFormat("VersionUpdate.SignatureVerification.Continue", count + 1),
+                cancel: LocalizationHelper.GetString("VersionUpdate.SignatureVerification.Cancel"));
+            if (result == MessageBoxResult.Cancel)
+            {
+                _logger.Warning(
+                    "User declined to apply update package with signature issue: status={Status}, detail={Detail}",
+                    status,
+                    failureDetail);
+                return false;
+            }
+        }
+
+        _logger.Warning(
+            "User acknowledged signature issue and chose to continue: status={Status}, detail={Detail}",
+            status,
+            failureDetail);
+        return true;
+    }
+
+    /// <summary>
+    /// 按产品版本号字符串判断是否 nightly 构建。判定依据是解压产物自身的 PE 版本资源
+    /// （CI 将完整版本 tag 写入 InformationalVersion，即 ProductVersion）而非包文件名，
+    /// 避免通过重命名包文件伪装 nightly 通道绕过签名检查。
+    /// </summary>
+    /// <param name="productVersion">解压产物 PE 版本属性中的产品版本号。</param>
+    /// <returns>nightly 构建时为 <c>true</c>。</returns>
+    internal static bool IsNightlyVersion(string? productVersion)
+    {
+        return SemVersion.TryParse(productVersion, SemVersionStyles.AllowLowerV, out var semVersion) && IsNightlyVersion(semVersion);
+    }
+
+    /// <summary>
+    /// 判断版本号是否 nightly 构建（prerelease 末段为 g 嵌 commit hash 形式）。
+    /// </summary>
+    /// <param name="version">待判断版本。</param>
+    /// <returns>nightly 构建时为 <c>true</c>。</returns>
+    internal static bool IsNightlyVersion(SemVersion version)
+    {
+        if (!version.IsPrerelease)
+        {
+            return false;
+        }
+
+        // v{Major}.{Minor}.{Patch}-{Prerelease}.{CommitDistance}.g{CommitHash}
+        // v4.6.7-beta.2.1.g1234567
+        // v4.6.8-5.g1234567
+        var lastId = version.PrereleaseIdentifiers.LastOrDefault().ToString();
+        return lastId.StartsWith('g') && lastId.Length >= 7;
     }
 
     private static bool IsMissingDelegatedUpdaterExecutable(FileNotFoundException ex)

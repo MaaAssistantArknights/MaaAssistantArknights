@@ -621,6 +621,12 @@ D:\
 只有在你已確認目錄結構正確並完成手動備份後，才繼續下載或匯入完整檔案。</system:String>
     <system:String x:Key="PendingFullUpdateManualConfirmYes">我已手動確認並備份，繼續更新</system:String>
     <system:String x:Key="PendingFullUpdateManualConfirmNo">暫不更新，繼續啟動目前版本</system:String>
+    <system:String x:Key="VersionUpdate.SignatureVerification.Unsigned.Title">無法驗證更新包的來源</system:String>
+    <system:String x:Key="VersionUpdate.SignatureVerification.Unsigned.Message">更新包內的檔案沒有數位簽章，無法確認其來源。\n若您從非官方管道取得此更新包，建議前往 ｢{key=Settings} - {key=AboutUs} - {key=Website}｣ 重新下載。</system:String>
+    <system:String x:Key="VersionUpdate.SignatureVerification.Failed.Title">更新包簽章驗證失敗</system:String>
+    <system:String x:Key="VersionUpdate.SignatureVerification.Failed.Message">更新包內檔案的數位簽章無效或發行者與預期不符，檔案可能遭竄改。\n若您長期未更新 MAA，或從非官方管道取得此更新包，建議前往 ｢{key=Settings} - {key=AboutUs} - {key=Website}｣ 重新下載。</system:String>
+    <system:String x:Key="VersionUpdate.SignatureVerification.Continue">我了解風險，仍要繼續 ({0})</system:String>
+    <system:String x:Key="VersionUpdate.SignatureVerification.Cancel">取消更新</system:String>
     <system:String x:Key="LocalUpdatePackageImportedTitle">本機更新檔案已就緒</system:String>
     <system:String x:Key="LocalUpdatePackageImportedDesc">偵測到可用的本機更新檔案，是否立即更新 MAA？（將重新啟動程式）</system:String>
     <system:String x:Key="LocalUpdatePackageUnsupported">無法辨識壓縮檔：{0}\n僅支援拖入目前架構的完整檔案，或目前版本到更高版本的 OTA 更新檔案。\n目前版本：{1}\n目前架構：{2}\n支援的檔名範例：MAA-v新版本-win-{2}.zip\n或 MAAComponent-OTA-{1}_v新版本-win-{2}.zip</system:String>
