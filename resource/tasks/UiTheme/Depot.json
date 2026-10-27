@@ -23,6 +23,7 @@
             "DepotLoneTrail",
             "DepotReconstruct",
             "DepotHunting",
+            "DepotFullMoon",
             "DepotBlackFlow",
             "DepotAct"
         ],
@@ -106,5 +107,13 @@
     "DepotAct": {
         "baseTask": "DepotDefault",
         "template": "Act/DepotEnter.png"
+    },
+    "DepotFullMoon": {
+        "baseTask": "DepotDefault",
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "roi": [1110, 610, 150, 110],
+        "text": ["仓库"],
+        "fullMatch": true
     }
 }

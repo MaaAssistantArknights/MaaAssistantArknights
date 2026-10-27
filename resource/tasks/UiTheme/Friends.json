@@ -24,7 +24,8 @@
             "FriendsReconstruct",
             "FriendsHunting",
             "FriendsBlackFlow",
-            "FriendsAct"
+            "FriendsAct",
+            "FriendsFullMoon"
         ],
         "onErrorNext": ["Friends-Entry@SwitchTheme@ToggleSettingsMenu"]
     },
@@ -104,5 +105,12 @@
     "FriendsAct": {
         "baseTask": "FriendsDefault",
         "template": "Act/Friends.png"
+    },
+    "FriendsFullMoon": {
+        "baseTask": "FriendsDefault",
+        "template": "FullMoon/Friends.png",
+        "roi": [320, 525, 155, 105],
+        "templThreshold": 0.8,
+        "maskRange": [0, 255]
     }
 }

@@ -24,7 +24,8 @@
             "OperBoxReconstruct",
             "OperBoxHunting",
             "OperBoxBlackFlow",
-            "OperBoxAct"
+            "OperBoxAct",
+            "OperBoxFullMoon"
         ],
         "onErrorNext": ["OperBox-Entry@SwitchTheme@ToggleSettingsMenu"]
     },
@@ -104,5 +105,11 @@
     "OperBoxAct": {
         "baseTask": "OperBoxDefault",
         "template": "Act/OperBoxEnter.png"
+    },
+    "OperBoxFullMoon": {
+        "baseTask": "OperBoxDefault",
+        "template": "FullMoon/OperBoxEnter.png",
+        "roi": [1080, 300, 175, 110],
+        "maskRange": [0, 255]
     }
 }

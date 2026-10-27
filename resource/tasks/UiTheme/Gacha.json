@@ -24,7 +24,8 @@
             "GachaReconstruct",
             "GachaHunting",
             "GachaBlackFlow",
-            "GachaAct"
+            "GachaAct",
+            "GachaFullMoon"
         ],
         "onErrorNext": ["Gacha-Entry@SwitchTheme@ToggleSettingsMenu"]
     },
@@ -103,5 +104,17 @@
     "GachaAct": {
         "baseTask": "GachaDefault",
         "template": "Act/GachaEnter.png"
+    },
+    "GachaFullMoon": {
+        "baseTask": "GachaDefault",
+        "algorithm": "OcrDetect",
+        "action": "ClickRect",
+        "roi": [1075, 473, 132, 33],
+        "text": ["HEADHUNT"],
+        "fullMatch": false,
+        "isAscii": true,
+        "withoutDet": true,
+        "binThreshold": [0, 255],
+        "specificRect": [1076, 505, 91, 35]
     }
 }

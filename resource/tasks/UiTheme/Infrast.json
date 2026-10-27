@@ -24,7 +24,8 @@
             "InfrastReconstruct",
             "InfrastHunting",
             "InfrastBlackFlow",
-            "InfrastAct"
+            "InfrastAct",
+            "InfrastFullMoon"
         ],
         "onErrorNext": ["Infrast-Entry@SwitchTheme@ToggleSettingsMenu"]
     },
@@ -103,5 +104,11 @@
     "InfrastAct": {
         "baseTask": "InfrastDefault",
         "template": "Act/EnterInfrast.png"
+    },
+    "InfrastFullMoon": {
+        "baseTask": "InfrastDefault",
+        "template": "FullMoon/EnterInfrast.png",
+        "roi": [990, 610, 160, 110],
+        "maskRange": [0, 255]
     }
 }
