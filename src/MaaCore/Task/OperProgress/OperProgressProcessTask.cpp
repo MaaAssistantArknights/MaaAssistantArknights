@@ -132,6 +132,7 @@ bool asst::OperProgressProcessTask::_run()
     bool training_room_busy = false;
     for (size_t index = 0; index < m_plan.size() && !need_exit(); ++index) {
         const auto& target = m_plan[index];
+        m_operator_recovery_failed = false;
 
         if (training_room_busy && !target.elite && !target.skill_level && target.skill_mastery) {
             continue; // 训练室已占用且无其他目标, 跳过仅专精计划
@@ -155,10 +156,16 @@ bool asst::OperProgressProcessTask::_run()
                 return execute_elite(target.role, target.name, *target.elite);
             });
             report_elite_result(target.role, target.name, elite_ret, *target.elite);
+            if (need_exit() || m_operator_recovery_failed) {
+                continue;
+            }
         }
         if (target.skill_level) {
             auto main_ret = execute_with_material_purchase(target, [&] { return execute_skill(*target.skill_level); });
             report_skill_result(target.role, target.name, main_ret, *target.skill_level);
+            if (need_exit() || m_operator_recovery_failed) {
+                continue;
+            }
         }
         if (!training_room_busy && target.skill_mastery) {
             const auto& arr = *target.skill_mastery;
@@ -176,6 +183,9 @@ bool asst::OperProgressProcessTask::_run()
                     skill_levels[i] = training_level;
                 }
                 report_skill_result(target.role, target.name, skill_ret, skill_levels);
+                if (need_exit() || m_operator_recovery_failed) {
+                    break;
+                }
                 if (skill_ret == ResultDetail::TrainingRoomBusy || skill_ret == ResultDetail::PrerequisiteTraining ||
                     skill_ret == ResultDetail::Completed) {
                     training_room_busy = true;
@@ -213,15 +223,21 @@ asst::OperProgressProcessTask::ResultDetail asst::OperProgressProcessTask::execu
             LogWarn << __FUNCTION__ << "material shortfall did not decrease after purchase" << context << count;
             return ResultDetail::ResourceInsufficient;
         }
-        if (!buy_material_with_green_tickets(item_id, count)) {
-            return need_exit() ? ResultDetail::Interrupt : ResultDetail::ResourceInsufficient;
+        const bool purchased = buy_material_with_green_tickets(item_id, count);
+        if (need_exit()) {
+            return ResultDetail::Interrupt;
         }
-        previous_shortfalls[context] = count;
-        // 商店快捷切换会丢失原页面上下文，复用干员定位，再由原动作现场识别进度与材料。
+        // 无论购买成败都恢复档案页，避免同一干员的后续动作从商店开始。
         const auto located = find_and_open_operator(target.role, target.name);
         if (located != ResultDetail::Completed) {
+            m_operator_recovery_failed = true;
+            LogWarn << __FUNCTION__ << "failed to restore operator after green ticket purchase" << target.name;
             return located;
         }
+        if (!purchased) {
+            return ResultDetail::ResourceInsufficient;
+        }
+        previous_shortfalls[context] = count;
     }
     return ResultDetail::Interrupt;
 }

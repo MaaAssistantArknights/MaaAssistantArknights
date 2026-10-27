@@ -97,6 +97,8 @@ private:
     // 首条目标已定位:任务开始时可能停在主页走完整入口链,之后换干员保证不去主页。
     bool m_entry_completed = false;
     bool m_buy_with_green_tickets = false;
+    // 商店补料后无法恢复档案页时，跳过当前干员的剩余培养动作。
+    bool m_operator_recovery_failed = false;
     std::optional<std::pair<std::string, int>> m_material_shortfall;
     std::string m_material_shortfall_context;
     std::string m_step_context;
