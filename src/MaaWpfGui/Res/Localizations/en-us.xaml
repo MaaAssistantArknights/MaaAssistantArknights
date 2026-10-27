@@ -2086,9 +2086,12 @@ Do not adjust the proxy multiplier setting in the game</system:String>
     <system:String x:Key="TaskQueue.MainViewButtonFeature">Variable function button</system:String>
     <system:String x:Key="TaskQueue.MultiTasksShare.Tip">The following options are for multiple tasks.</system:String>
     <system:String x:Key="TaskQueue.NotSwitch">Don't Switch</system:String>
+    <system:String x:Key="TaskQueue.OperProgress.BuyMaterialsWithGreenTickets">Exchange missing materials with green tickets</system:String>
+    <system:String x:Key="TaskQueue.OperProgress.BuyMaterialsWithGreenTicketsTip" xml:space="preserve">When synthesis cannot fill the gap, exchange only the materials needed for the current step on the second floor.&#10;Unlock the second floor manually first; stop if funds, stock, or recognition are insufficient.</system:String>
     <system:String x:Key="TaskQueue.OperProgress.Detail">{key=TaskQueue.Task.OperProgress} {0}:{1} {2}</system:String>
     <system:String x:Key="TaskQueue.OperProgress.Elite">Elite</system:String>
     <system:String x:Key="TaskQueue.OperProgress.EliteTarget">Elite {0}</system:String>
+    <system:String x:Key="TaskQueue.OperProgress.GreenTicketPurchasedLog">Exchanged {2} green tickets for {0} × {1}</system:String>
     <system:String x:Key="TaskQueue.OperProgress.Mastery1">Mastery 1</system:String>
     <system:String x:Key="TaskQueue.OperProgress.Mastery2">Mastery 2</system:String>
     <system:String x:Key="TaskQueue.OperProgress.Mastery3">Mastery 3</system:String>

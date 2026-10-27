@@ -58,6 +58,37 @@
         "template": "ProcessingUnavailable.png",
         "roi": [794, 553, 181, 127]
     },
+    "MiniGame@MaterialSynthesis@Ingredient1Item": {
+        "baseTask": "MiniGame@MaterialSynthesis@Material",
+        "template": "empty.png",
+        "roi": [560, 208, 128, 128],
+        "specialParams": [100],
+        "specialParams_Doc": "材料图标模板缩放百分比；配方槽小于中央目标材料图标"
+    },
+    "MiniGame@MaterialSynthesis@Ingredient1Quantity": {
+        "baseTask": "NumberOcrReplace",
+        "roi": [560, 288, 112, 40],
+        "binThreshold": [0, 255],
+        "Doc": "完整 owned/单份配方消耗；保留红色库存分子，不能只按白色分母裁剪"
+    },
+    "MiniGame@MaterialSynthesis@Ingredient2Item": {
+        "baseTask": "MiniGame@MaterialSynthesis@Ingredient1Item",
+        "template": "empty.png",
+        "roi": [368, 512, 128, 128]
+    },
+    "MiniGame@MaterialSynthesis@Ingredient2Quantity": {
+        "baseTask": "MiniGame@MaterialSynthesis@Ingredient1Quantity",
+        "roi": [368, 608, 128, 32]
+    },
+    "MiniGame@MaterialSynthesis@Ingredient3Item": {
+        "baseTask": "MiniGame@MaterialSynthesis@Ingredient1Item",
+        "template": "empty.png",
+        "roi": [736, 512, 128, 128]
+    },
+    "MiniGame@MaterialSynthesis@Ingredient3Quantity": {
+        "baseTask": "MiniGame@MaterialSynthesis@Ingredient1Quantity",
+        "roi": [736, 608, 128, 32]
+    },
     "MiniGame@MaterialSynthesis@Increase": {
         "template": "ProcessingIncrease.png",
         "roi": [1008, 224, 133, 127],

@@ -1,6 +1,7 @@
 #pragma once
 #include "Task/AbstractTask.h"
 
+#include <functional>
 #include <optional>
 #include <variant>
 
@@ -25,6 +26,8 @@ public:
     virtual ~OperProgressProcessTask() override = default;
 
     void set_plan(std::vector<OperProgressTask::ProgressPlan> plan) { m_plan = std::move(plan); }
+
+    void set_buy_with_green_tickets(bool enabled) { m_buy_with_green_tickets = enabled; }
 
 protected:
     virtual bool _run() override;
@@ -54,6 +57,9 @@ private:
     };
 
     ResultDetail execute_elite(battle::Role role, const std::string& name, int target);
+    ResultDetail execute_with_material_purchase(
+        const OperProgressTask::ProgressPlan& target,
+        const std::function<ResultDetail()>& execute);
     void report_elite_result(battle::Role role, std::string_view name, ResultDetail result, int elite);
     ResultDetail execute_skill(int level);
     void report_skill_result(battle::Role role, std::string_view name, ResultDetail result, int level);
@@ -80,6 +86,7 @@ private:
     bool manufacture_dual_chip(battle::Role role, const std::string& name);
     bool restore_factory_state();
     bool buy_catalyst(int count);
+    bool buy_material_with_green_tickets(const std::string& item_id, int count);
     std::optional<int> ocr_number(const std::string& task_name);
     std::optional<int> ocr_number(const cv::Mat& image, const std::string& task_name);
 
@@ -89,6 +96,10 @@ private:
     std::vector<OperProgressTask::ProgressPlan> m_plan_finish;
     // 首条目标已定位:任务开始时可能停在主页走完整入口链,之后换干员保证不去主页。
     bool m_entry_completed = false;
+    bool m_buy_with_green_tickets = false;
+    std::optional<std::pair<std::string, int>> m_material_shortfall;
+    std::string m_material_shortfall_context;
+    std::string m_step_context;
     int m_success = 0;
     int m_failed = 0;
     int m_skipped = 0;

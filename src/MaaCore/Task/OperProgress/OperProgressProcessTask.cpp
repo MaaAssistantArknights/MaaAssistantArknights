@@ -9,6 +9,7 @@
 #include "Config/GeneralConfig.h"
 #include "Config/Miscellaneous/BattleDataConfig.h"
 #include "Config/Miscellaneous/InfrastConfig.h"
+#include "Config/Miscellaneous/ItemConfig.h"
 #include "Config/TaskData.h"
 #include "Controller/Controller.h"
 #include "MaaUtils/NoWarningCV.hpp"
@@ -20,9 +21,12 @@
 #include "Utils/Logger.hpp"
 #include "Utils/StringMisc.hpp"
 #include "Vision/BestMatcher.h"
+#include "Vision/FeatureMatcher.h"
 #include "Vision/Hasher.h"
 #include "Vision/Infrast/InfrastOperImageAnalyzer.h"
+#include "Vision/Miscellaneous/MaterialSynthesisImageAnalyzer.h"
 #include "Vision/MultiMatcher.h"
+#include "Vision/OCRer.h"
 #include "Vision/Oper/OperBoxImageAnalyzer.h"
 #include "Vision/Oper/OperFilesImageAnalyzer.h"
 #include "Vision/Oper/OperNameAnalyzer.h"
@@ -147,11 +151,13 @@ bool asst::OperProgressProcessTask::_run()
             continue;
         }
         if (target.elite) {
-            auto elite_ret = execute_elite(target.role, target.name, *target.elite);
+            auto elite_ret = execute_with_material_purchase(target, [&] {
+                return execute_elite(target.role, target.name, *target.elite);
+            });
             report_elite_result(target.role, target.name, elite_ret, *target.elite);
         }
         if (target.skill_level) {
-            auto main_ret = execute_skill(*target.skill_level);
+            auto main_ret = execute_with_material_purchase(target, [&] { return execute_skill(*target.skill_level); });
             report_skill_result(target.role, target.name, main_ret, *target.skill_level);
         }
         if (!training_room_busy && target.skill_mastery) {
@@ -161,7 +167,9 @@ bool asst::OperProgressProcessTask::_run()
                     continue;
                 }
                 int training_level = 0;
-                auto skill_ret = execute_mastery(target.role, target.name, i + 1, arr[i], training_level);
+                auto skill_ret = execute_with_material_purchase(target, [&] {
+                    return execute_mastery(target.role, target.name, i + 1, arr[i], training_level);
+                });
                 std::array<int, 3> skill_levels { 0, 0, 0 };
                 if (skill_ret == ResultDetail::AlreadySatisfied || skill_ret == ResultDetail::Completed ||
                     skill_ret == ResultDetail::PrerequisiteTraining || skill_ret == ResultDetail::TrainingRoomBusy) {
@@ -178,6 +186,44 @@ bool asst::OperProgressProcessTask::_run()
     }
     report_summary();
     return true;
+}
+
+asst::OperProgressProcessTask::ResultDetail asst::OperProgressProcessTask::execute_with_material_purchase(
+    const OperProgressTask::ProgressPlan& target,
+    const std::function<ResultDetail()>& execute)
+{
+    std::unordered_map<std::string, int> previous_shortfalls;
+    constexpr int MaxPurchases = 16;
+    for (int purchases = 0; !need_exit(); ++purchases) {
+        m_material_shortfall.reset();
+        m_material_shortfall_context.clear();
+        const ResultDetail result = execute();
+        if (!m_buy_with_green_tickets ||
+            (result != ResultDetail::ResourceInsufficient && result != ResultDetail::FormulaLocked) ||
+            !m_material_shortfall) {
+            return result;
+        }
+        const auto [item_id, count] = *m_material_shortfall;
+        if (ItemData.get_item_rarity(item_id) != 2 || purchases >= MaxPurchases) {
+            return result;
+        }
+        const auto context = m_step_context + ":" + m_material_shortfall_context + ":" + item_id;
+        if (const auto previous = previous_shortfalls.find(context);
+            previous != previous_shortfalls.end() && count >= previous->second) {
+            LogWarn << __FUNCTION__ << "material shortfall did not decrease after purchase" << context << count;
+            return ResultDetail::ResourceInsufficient;
+        }
+        if (!buy_material_with_green_tickets(item_id, count)) {
+            return need_exit() ? ResultDetail::Interrupt : ResultDetail::ResourceInsufficient;
+        }
+        previous_shortfalls[context] = count;
+        // 商店快捷切换会丢失原页面上下文，复用干员定位，再由原动作现场识别进度与材料。
+        const auto located = find_and_open_operator(target.role, target.name);
+        if (located != ResultDetail::Completed) {
+            return located;
+        }
+    }
+    return ResultDetail::Interrupt;
 }
 
 asst::OperProgressProcessTask::ResultDetail
@@ -286,6 +332,7 @@ asst::OperProgressProcessTask::ResultDetail
     }
 
     for (int phase = current_elite; phase < target; ++phase) {
+        m_step_context = "Elite:" + std::to_string(phase + 1);
         if (need_exit()) {
             return ResultDetail::Interrupt;
         }
@@ -396,6 +443,7 @@ asst::OperProgressProcessTask::ResultDetail asst::OperProgressProcessTask::execu
         return ResultDetail::RecognitionFailed;
     }
     for (int level = current + 1; level <= target; ++level) {
+        m_step_context = "Skill:" + std::to_string(level);
         if (need_exit()) {
             return ResultDetail::Interrupt;
         }
@@ -583,6 +631,7 @@ asst::OperProgressProcessTask::ResultDetail asst::OperProgressProcessTask::execu
     if (!run_task("OperProgress@MasterySelectSkill" + std::to_string(skill))) {
         return ResultDetail::RecognitionFailed;
     }
+    m_step_context = "Mastery:" + std::to_string(skill) + ":" + std::to_string(current_level + 1);
 
     // 选定受训干员与技能后确认面板展示材料行；逐槽检测（同 execute_elite 槽位分派）：
     // 技能书/材料1/材料2 依次跳加工站走自动合成,全部修复后复核仍缺料则不启动专精。
@@ -1069,10 +1118,42 @@ asst::OperProgressProcessTask::ResultDetail
 
     const std::string material_task =
         "OperProgress@" + std::string(task_type_name) + "Material" + std::to_string(material_index);
+    if (m_buy_with_green_tickets) {
+        const auto image = ctrler()->get_image();
+        const auto slot = Task.get(material_task);
+        const auto required = Task.get(
+            material_index == 0 ? "OperProgress@" + std::string(task_type_name) + "SkillSummaryRequired"
+                                : material_task + "Required");
+        const auto item_task = Task.get<MatchTaskInfo>("OperProgress@RefillMaterialItem");
+        const auto quantity_task = Task.get<OcrTaskInfo>("OperProgress@RefillMaterialQuantity");
+        if (slot && required && item_task && quantity_task && item_task->special_params.size() >= 2) {
+            const auto item_roi = slot->specific_rect.center_zoom(item_task->special_params[1], image.cols, image.rows);
+            const auto& size = quantity_task->roi;
+            const Rect quantity_roi {
+                slot->specific_rect.x + (slot->specific_rect.width - size.width) / 2,
+                required->roi.y + (required->roi.height - size.height) / 2,
+                size.width,
+                size.height,
+            };
+            const auto missing = MaterialSynthesisImageAnalyzer::observe_missing_material(
+                image,
+                "OperProgress@RefillMaterial",
+                ItemData.get_ordered_material_item_id(),
+                item_roi,
+                quantity_roi);
+            if (missing) {
+                m_material_shortfall = { missing->item_id, missing->required - missing->owned };
+                m_material_shortfall_context = material_task;
+                if (ItemData.get_item_formula(missing->item_id).empty()) {
+                    return ResultDetail::ResourceInsufficient;
+                }
+            }
+        }
+    }
     if (!run_task(material_task)) {
         return ResultDetail::ResourceInsufficient;
     }
-    // TODO: 以后加上识别缺口数量后上报、自动使用兑换券或者去凭证商店补购
+    // TODO: 自动使用材料兑换券。
     // 快速跳转弹窗内与跳转按钮同 roi 识别到不可用态,说明该材料配方尚未解锁,无法在加工站合成。
     if (run_task(material_task + "JumpProcessingUnable", 2)) {
         LogInfo << __FUNCTION__ << "| formula locked, skip synthesizing" << material_task;
@@ -1084,9 +1165,18 @@ asst::OperProgressProcessTask::ResultDetail
     // 加工站递归合成复用小游戏自动合成逻辑：插件入口校验加工站标志并驱动当前配方。
     MaterialSynthesisTaskPlugin synthesis(m_callback, m_inst, m_task_chain);
     synthesis.set_task_id(m_task_id).set_retry_times(0);
+    synthesis.set_collect_material_shortfall(m_buy_with_green_tickets);
+    // 合成可能已经产出一部分材料，之后只能使用合成现场重新确认的缺口。
+    m_material_shortfall.reset();
     if (!synthesis.run()) {
+        const auto& shortfall = synthesis.get_material_shortfall();
+        if (shortfall && ItemData.get_item_rarity(shortfall->first) == 2) {
+            m_material_shortfall = shortfall;
+            m_material_shortfall_context = material_task + ":" + synthesis.get_material_shortfall_context();
+        }
         return ResultDetail::ResourceInsufficient;
     }
+    m_material_shortfall.reset();
     return run_task("OperProgress@ReturnTo" + std::string(task_type_name) + "Page")
                ? ResultDetail::Completed
                : ResultDetail::ResourceInsufficient;
@@ -1287,6 +1377,87 @@ bool asst::OperProgressProcessTask::buy_catalyst(int count)
     }
     // 购买后返回制造站重新进入芯片产品页或生产详情页
     return run_task("OperProgress@ReturnToMfgPage");
+}
+
+bool asst::OperProgressProcessTask::buy_material_with_green_tickets(const std::string& item_id, int count)
+{
+    constexpr int MaxPurchaseCount = 99;
+    constexpr int MaxSwipes = 8;
+    if (need_exit() || count <= 0 || count > MaxPurchaseCount || ItemData.get_item_rarity(item_id) != 2 ||
+        !run_task("OperProgress@GreenTicketStoreBegin") || !run_task("OperProgress@GreenTicketChooseTicketType")) {
+        return false;
+    }
+
+    bool found = false;
+    for (int swipe = 0; swipe <= MaxSwipes && !need_exit(); ++swipe) {
+        FeatureMatcher matcher(ctrler()->get_image());
+        matcher.set_task_info("GreenTicket@Store@ClickItem");
+        matcher.set_templ(item_id);
+        const auto matches = matcher.analyze();
+        const auto& roi = Task.get("GreenTicket@Store@ClickItem")->roi;
+        const auto complete_match = [&](const FeatureMatchRect& match) {
+            const auto& rect = match.rect;
+            return rect.x >= roi.x && rect.y >= roi.y && rect.x + rect.width <= roi.x + roi.width &&
+                   rect.y + rect.height <= roi.y + roi.height;
+        };
+        if (matches && std::ranges::any_of(*matches, complete_match)) {
+            const auto& match = *std::ranges::find_if(*matches, complete_match);
+            if (!ctrler()->click(match.rect) || !run_task("OperProgress@GreenTicketPurchasePage", 3)) {
+                return false;
+            }
+            found = true;
+            break;
+        }
+        if (swipe < MaxSwipes && !run_task("RedTicket@Store@Swipe")) {
+            return false;
+        }
+    }
+    if (!found || need_exit()) {
+        LogWarn << __FUNCTION__ << "material unavailable in the green ticket store" << item_id;
+        return false;
+    }
+
+    const auto recognize_name = [&](const cv::Mat& image) {
+        OCRer analyzer(image);
+        analyzer.set_task_info("OperProgress@GreenTicketPurchaseName");
+        analyzer.set_required({ ItemData.get_item_name(item_id) });
+        const auto names = analyzer.analyze();
+        return names && names->size() == 1 && names->front().score >= 0.9;
+    };
+    const auto initial_image = ctrler()->get_image();
+    if (!recognize_name(initial_image) ||
+        MaterialSynthesisImageAnalyzer::read_number(initial_image, "OperProgress@GreenTicketPurchaseQuantity") != 1) {
+        return false;
+    }
+    // 仅逐个增加至本次缺口，付款前复核实际数量，库存或余额导致数量被钳制时不付款。
+    for (int selected = 1; selected < count; ++selected) {
+        if (need_exit() || !run_task("Store@Increase")) {
+            return false;
+        }
+    }
+    const auto image = ctrler()->get_image();
+    const auto selected =
+        MaterialSynthesisImageAnalyzer::read_number(image, "OperProgress@GreenTicketPurchaseQuantity");
+    const auto price = MaterialSynthesisImageAnalyzer::read_number(image, "OperProgress@GreenTicketPurchaseTotalPrice");
+    const auto balance = MaterialSynthesisImageAnalyzer::read_number(image, "OperProgress@GreenTicketPurchaseBalance");
+    if (need_exit() || !recognize_name(image) || !selected || *selected != count || !price || *price <= 0 || !balance ||
+        *balance < *price) {
+        LogWarn << __FUNCTION__ << "purchase identity, quantity, price or balance could not be confirmed" << item_id;
+        return false;
+    }
+    // 保留默认识别重试以等待收据；付款节点只执行一次，任务链不会回到付款节点。
+    if (!run_task("OperProgress@GreenTicketPurchase")) {
+        return false;
+    }
+    auto info = basic_info_with_what("OperProgressGreenTicketPurchased");
+    info["details"] = json::object {
+        { "material", ItemData.get_item_name(item_id) },
+        { "material_id", item_id },
+        { "count", count },
+        { "cost", *price },
+    };
+    callback(AsstMsg::SubTaskExtraInfo, info);
+    return true;
 }
 
 bool asst::OperProgressProcessTask::run_task(const std::string& task_name, int retry_times)

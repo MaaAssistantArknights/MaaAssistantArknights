@@ -2087,9 +2087,12 @@ MAA는 비설치형 응용 프로그램으로, 삭제 시 레지스트리 항목
     <system:String x:Key="TaskQueue.MainViewButtonFeature">메인 화면 버튼의 기능</system:String>
     <system:String x:Key="TaskQueue.MultiTasksShare.Tip">다음 옵션은 여러 작업에 적용됩니다</system:String>
     <system:String x:Key="TaskQueue.NotSwitch">미변경</system:String>
+    <system:String x:Key="TaskQueue.OperProgress.BuyMaterialsWithGreenTickets">부족한 재료를 녹색 티켓으로 교환</system:String>
+    <system:String x:Key="TaskQueue.OperProgress.BuyMaterialsWithGreenTicketsTip" xml:space="preserve">가공으로 충당할 수 없으면 현재 단계에 필요한 수량만 2층에서 교환합니다.&#10;2층을 먼저 수동으로 개방하세요. 잔액이나 재고가 부족하거나 인식에 실패하면 보충을 중단합니다.</system:String>
     <system:String x:Key="TaskQueue.OperProgress.Detail">{key=TaskQueue.Task.OperProgress} {0}:{1} {2}</system:String>
     <system:String x:Key="TaskQueue.OperProgress.Elite">정예화</system:String>
     <system:String x:Key="TaskQueue.OperProgress.EliteTarget">정예화 {0}</system:String>
+    <system:String x:Key="TaskQueue.OperProgress.GreenTicketPurchasedLog">녹색 티켓 {2}개로 {0} × {1} 교환</system:String>
     <system:String x:Key="TaskQueue.OperProgress.Mastery1">마스터리 1</system:String>
     <system:String x:Key="TaskQueue.OperProgress.Mastery2">마스터리 2</system:String>
     <system:String x:Key="TaskQueue.OperProgress.Mastery3">마스터리 3</system:String>

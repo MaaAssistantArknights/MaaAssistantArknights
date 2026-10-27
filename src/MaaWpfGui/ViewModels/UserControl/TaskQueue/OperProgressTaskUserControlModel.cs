@@ -103,6 +103,12 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
 
     public OperItem? OperSelect { get; set => SetAndNotify(ref field, value); }
 
+    public bool BuyMaterialsWithGreenTickets
+    {
+        get => GetTaskConfig<OperProgressTask>().BuyMaterialsWithGreenTickets;
+        set => SetTaskConfig<OperProgressTask>(t => t.BuyMaterialsWithGreenTickets == value, t => t.BuyMaterialsWithGreenTickets = value);
+    }
+
     public override void RefreshUI(BaseTask? baseTask)
     {
         if (baseTask is not OperProgressTask task)
@@ -312,7 +318,10 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
                 return (null, []);
             }
 
-            var task = new AsstOperProgressTask { Plans = operProgress.Plans };
+            var task = new AsstOperProgressTask {
+                Plans = operProgress.Plans,
+                BuyMaterialsWithGreenTickets = operProgress.BuyMaterialsWithGreenTickets,
+            };
             return taskId switch {
                 int id when id > 0 => (Instances.AsstProxy.AsstSetTaskParamsEncoded(id, task), [id]),
                 null => FromSingle(Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.OperProgress, task)),
@@ -329,6 +338,16 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
         }
         switch (msg.What)
         {
+            case "OperProgressGreenTicketPurchased":
+                Instances.TaskQueueViewModel.AddLog(
+                    LocalizationHelper.GetStringFormat(
+                        "TaskQueue.OperProgress.GreenTicketPurchasedLog",
+                        msg.Details?["material"]?.ToString() ?? string.Empty,
+                        msg.Details?["count"]?.Value<int>() ?? 0,
+                        msg.Details?["cost"]?.Value<int>() ?? 0),
+                    UiLogColor.Info);
+                break;
+
             case "OperProgressSummary":
                 var summary = msg.Details?.ToObject<ProgressSummary>();
                 Instances.TaskQueueViewModel.AddLog(

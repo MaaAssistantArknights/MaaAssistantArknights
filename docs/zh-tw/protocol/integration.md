@@ -1438,6 +1438,26 @@ Tag 等級（大於等於 3）對應的期望招募時限（單位：分鐘）�
 
 </details>
 
+- `OperProgress`
+  幹員培養
+
+WPF 幹員培養中可勾選 ｢自動用綠票兌換缺少的材料｣。預設關閉。優先合成，無法補齊時，按目前精英化、技能升級或專精步驟的缺口兌換綠票商店二層出售的材料，也支援合成配方中的下級材料。需要事先手動解鎖二層；不會自動購買一層商品來解鎖。
+
+`buy_materials_with_green_tickets`: boolean, optional, default `false`.
+
+兌換前核對商品名、數量、總價及餘額。庫存或餘額不足、辨識失敗或重複辨識到未減少的同一缺口時，停止目前步驟的補料。單次最多兌換 99 件，每個培養動作最多兌換 16 次；不會自動使用材料兌換券。
+
+兌換成功後透過 `SubTaskExtraInfo` 回報 `what: "OperProgressGreenTicketPurchased"`，`details` 包含 `material`（材料名）、`material_id`、`count`（兌換數量）及 `cost`（實際消耗的綠票數）。
+
+```json
+{
+    "plans": [
+        { "role": "Caster", "name": "阿米娅", "elite": 2, "skill_level": 7 }
+    ],
+    "buy_materials_with_green_tickets": false
+}
+```
+
 - `Reclamation`  
   生息演算
 

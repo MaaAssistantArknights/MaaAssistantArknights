@@ -33,6 +33,8 @@ public class OperProgressTask : BaseTask
 
     public List<Plan> Plans { get; set; } = [];
 
+    public bool BuyMaterialsWithGreenTickets { get; set; }
+
     public record Plan(OperatorRole Role, string Name, int Elite, int SkillLevel, SkillMastery SkillMastery, bool ShowRole);
 
     /// <summary>

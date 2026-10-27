@@ -1437,6 +1437,26 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 
 </details>
 
+- `OperProgress`
+  干员培养
+
+WPF 干员培养中可勾选 ｢自动用绿票兑换缺少的材料｣。默认关闭。合成优先，无法合成补齐时，按当前精英化、技能升级或专精步骤的缺口兑换绿票商店二层出售的材料，也支持合成配方中的下级材料。需要事先手动解锁二层；不会自动购买一层商品来解锁。
+
+`buy_materials_with_green_tickets`: boolean, optional, default `false`.
+
+兑换前核对商品名、数量、总价和余额。库存或余额不足、识别失败或重复识别到未减少的同一缺口时，停止当前步骤的补料。单次兑换最多 99 件，每个培养动作最多兑换 16 次；不自动使用材料兑换券。
+
+兑换成功后通过 `SubTaskExtraInfo` 上报 `what: "OperProgressGreenTicketPurchased"`，`details` 包含 `material`（材料名）、`material_id`、`count`（兑换数量）和 `cost`（实际消耗的绿票数）。
+
+```json
+{
+    "plans": [
+        { "role": "Caster", "name": "阿米娅", "elite": 2, "skill_level": 7 }
+    ],
+    "buy_materials_with_green_tickets": false
+}
+```
+
 - `Reclamation`  
   生息演算
 

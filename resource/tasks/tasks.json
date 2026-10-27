@@ -6220,6 +6220,92 @@
             "Stop"
         ]
     },
+    "OperProgress@GreenTicketStoreBegin": {
+        "baseTask": "Store@Begin",
+        "next": [
+            "Store@EnterStore",
+            "Store@EnterTicketStore",
+            "Store@QuickSwitch@ToMall@Entry",
+            "Store@QuickSwitch@ToMall@Open",
+            "OperProgress@GreenTicketStoreReturn"
+        ]
+    },
+    "OperProgress@GreenTicketStoreReturn": {
+        "baseTask": "ReturnButton",
+        "template": ["Return.png", "Return-White.png"],
+        "maxTimes": 20,
+        "next": ["OperProgress@GreenTicketStoreBegin"]
+    },
+    "OperProgress@GreenTicketChooseTicketType": {
+        "baseTask": "GreenTicket@Store@ChooseTicketType",
+        "postDelay": 800,
+        "next": ["OperProgress@GreenTicketSecondFloor"]
+    },
+    "OperProgress@GreenTicketSecondFloor": {
+        "baseTask": "GreenTicket@Store@ClickSecondFloor",
+        "next": [],
+        "doc": "只进入已解锁的二层，不执行一层购买或解锁操作。"
+    },
+    "OperProgress@GreenTicketPurchasePage": {
+        "baseTask": "GreenTicket@Store@Purchase",
+        "action": "DoNothing",
+        "next": []
+    },
+    "OperProgress@GreenTicketPurchaseName": {
+        "algorithm": "OcrDetect",
+        "text": [],
+        "fullMatch": true,
+        "roi": [500, 150, 660, 180]
+    },
+    "OperProgress@GreenTicketPurchaseQuantity": {
+        "baseTask": "NumberOcrReplace",
+        "text": [],
+        "isAscii": true,
+        "withoutDet": true,
+        "binThreshold": [0, 110],
+        "roi": [884, 410, 76, 40]
+    },
+    "OperProgress@GreenTicketPurchaseTotalPrice": {
+        "baseTask": "NumberOcrReplace",
+        "text": [],
+        "isAscii": true,
+        "withoutDet": true,
+        "binThreshold": [105, 255],
+        "roi": [928, 498, 88, 40]
+    },
+    "OperProgress@GreenTicketPurchaseBalance": {
+        "baseTask": "NumberOcrReplace",
+        "text": [],
+        "isAscii": true,
+        "withoutDet": true,
+        "binThreshold": [180, 255],
+        "roi": [1064, 14, 96, 50]
+    },
+    "OperProgress@GreenTicketPurchase": {
+        "baseTask": "GreenTicket@Store@Purchase",
+        "maxTimes": 1,
+        "next": ["OperProgress@GreenTicketPurchasedConfirm"]
+    },
+    "OperProgress@GreenTicketPurchasedConfirm": {
+        "baseTask": "GreenTicket@Store@PurchasedConfirm",
+        "template": "CreditShop-Bought.png",
+        "maxTimes": 1,
+        "next": []
+    },
+    "OperProgress@RefillMaterialItem": {
+        "baseTask": "MiniGame@MaterialSynthesis@Material",
+        "template": "empty.png",
+        "specialParams": [100, 4],
+        "specialParams_Doc": "模板缩放百分比；相对现有材料点击槽位中心扩展的识别区域倍数。"
+    },
+    "OperProgress@RefillMaterialQuantity": {
+        "baseTask": "NumberOcrReplace",
+        "text": [],
+        "isAscii": true,
+        "binThreshold": [0, 255],
+        "roi": [0, 0, 96, 32],
+        "doc": "完整 owned/required 区域尺寸；位置由材料点击槽和缺料检测区域计算。"
+    },
     "RedTicket@Store@ChooseTicketType": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",

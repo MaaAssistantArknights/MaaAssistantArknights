@@ -2088,9 +2088,12 @@ MAA は非インストール型のアプリケーションであり、レジス�
     <system:String x:Key="TaskQueue.MainViewButtonFeature">スタート画面に表示する便利ボタン</system:String>
     <system:String x:Key="TaskQueue.MultiTasksShare.Tip">以下のオプションは複数のタスクで共有されます</system:String>
     <system:String x:Key="TaskQueue.NotSwitch">切り替えない</system:String>
+    <system:String x:Key="TaskQueue.OperProgress.BuyMaterialsWithGreenTickets">不足素材を緑チケットで交換する</system:String>
+    <system:String x:Key="TaskQueue.OperProgress.BuyMaterialsWithGreenTicketsTip" xml:space="preserve">加工で不足を補えない場合、現在の手順に必要な分だけ2階の素材を交換します。&#10;2階は事前に手動で開放してください。残高・在庫不足や認識失敗時は補充を停止します。</system:String>
     <system:String x:Key="TaskQueue.OperProgress.Detail">{key=TaskQueue.Task.OperProgress} {0}:{1} {2}</system:String>
     <system:String x:Key="TaskQueue.OperProgress.Elite">昇進段階</system:String>
     <system:String x:Key="TaskQueue.OperProgress.EliteTarget">昇進段階 {0}</system:String>
+    <system:String x:Key="TaskQueue.OperProgress.GreenTicketPurchasedLog">緑チケット {2} 枚で {0} × {1} を交換しました</system:String>
     <system:String x:Key="TaskQueue.OperProgress.Mastery1">特化 1</system:String>
     <system:String x:Key="TaskQueue.OperProgress.Mastery2">特化 2</system:String>
     <system:String x:Key="TaskQueue.OperProgress.Mastery3">特化 3</system:String>

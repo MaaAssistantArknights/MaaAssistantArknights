@@ -1438,6 +1438,26 @@ Whether to enable this task.
 
 </details>
 
+- `OperProgress`
+  Operator development
+
+The WPF operator development settings include "Exchange missing materials with green tickets", disabled by default. Synthesis takes priority; if it cannot fill the gap, exchange the materials needed for the current promotion, skill upgrade, or mastery step on the second floor of the green ticket store. Ingredients needed by synthesis recipes are supported. Unlock the second floor manually first; this feature does not buy first-floor goods to unlock it.
+
+`buy_materials_with_green_tickets`: boolean, optional, default `false`.
+
+The product name, quantity, total price, and balance are checked before payment. Replenishment for the current step stops if stock or funds are insufficient, recognition fails, or the same shortfall does not decrease after a purchase. Each purchase is limited to 99 items and each development action to 16 purchases. Material exchange vouchers are not used automatically.
+
+A successful purchase emits `SubTaskExtraInfo` with `what: "OperProgressGreenTicketPurchased"`. Its `details` contains `material` (name), `material_id`, `count` (quantity purchased), and `cost` (green tickets spent).
+
+```json
+{
+    "plans": [
+        { "role": "Caster", "name": "阿米娅", "elite": 2, "skill_level": 7 }
+    ],
+    "buy_materials_with_green_tickets": false
+}
+```
+
 - `Reclamation`  
   Reclamation Algorithm
 

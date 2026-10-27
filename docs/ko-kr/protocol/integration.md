@@ -1439,6 +1439,26 @@ Sarkaz 테마, Investment 모드, "연금술 분대" 또는 "지원 분대"일 �
 
 </details>
 
+- `OperProgress`
+  오퍼레이터 육성
+
+WPF 육성 설정에서 "부족한 재료를 녹색 티켓으로 교환"을 활성화할 수 있으며 기본값은 비활성화입니다. 가공을 우선하고 충당할 수 없으면 현재 정예화, 스킬 강화 또는 특화 단계에 필요한 수량만 녹색 티켓 상점 2층에서 교환합니다. 가공식의 하위 재료도 지원합니다. 2층을 미리 수동으로 개방해야 하며 개방을 위해 1층 상품을 자동 구매하지 않습니다.
+
+`buy_materials_with_green_tickets`: boolean, optional, default `false`.
+
+결제 전에 상품명, 수량, 총가격과 잔액을 확인합니다. 재고나 잔액 부족, 인식 실패 또는 구매 후에도 동일한 부족 수량이 줄지 않으면 현재 단계의 보충을 중단합니다. 한 번에 최대 99개, 육성 동작당 최대 16회 구매하며 재료 교환권은 자동 사용하지 않습니다.
+
+교환에 성공하면 `SubTaskExtraInfo`의 `what: "OperProgressGreenTicketPurchased"`를 알립니다. `details`에는 `material`(재료명), `material_id`, `count`(교환 수량), `cost`(소비한 녹색 티켓 수)가 포함됩니다.
+
+```json
+{
+    "plans": [
+        { "role": "Caster", "name": "阿米娅", "elite": 2, "skill_level": 7 }
+    ],
+    "buy_materials_with_green_tickets": false
+}
+```
+
 - `Reclamation`  
   생존 연산
 

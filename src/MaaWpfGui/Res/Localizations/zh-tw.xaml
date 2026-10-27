@@ -2087,9 +2087,12 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
     <system:String x:Key="TaskQueue.MainViewButtonFeature">主介面可選擇按鈕功能</system:String>
     <system:String x:Key="TaskQueue.MultiTasksShare.Tip">以下選項為多任務共用</system:String>
     <system:String x:Key="TaskQueue.NotSwitch">不切換</system:String>
+    <system:String x:Key="TaskQueue.OperProgress.BuyMaterialsWithGreenTickets">自動用綠票兌換缺少的材料</system:String>
+    <system:String x:Key="TaskQueue.OperProgress.BuyMaterialsWithGreenTicketsTip" xml:space="preserve">合成無法補齊時，按目前步驟的缺口兌換二層出售的材料。&#10;需要先自行解鎖二層；餘額、庫存或辨識不足時停止補料。</system:String>
     <system:String x:Key="TaskQueue.OperProgress.Detail">{key=TaskQueue.Task.OperProgress} {0}:{1} {2}</system:String>
     <system:String x:Key="TaskQueue.OperProgress.Elite">精英化</system:String>
     <system:String x:Key="TaskQueue.OperProgress.EliteTarget">精英化 {0}</system:String>
+    <system:String x:Key="TaskQueue.OperProgress.GreenTicketPurchasedLog">使用 {2} 綠票兌換 {0} × {1}</system:String>
     <system:String x:Key="TaskQueue.OperProgress.Mastery1">專精 1</system:String>
     <system:String x:Key="TaskQueue.OperProgress.Mastery2">專精 2</system:String>
     <system:String x:Key="TaskQueue.OperProgress.Mastery3">專精 3</system:String>
