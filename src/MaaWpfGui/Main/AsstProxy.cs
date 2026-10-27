@@ -3192,10 +3192,23 @@ public class AsstProxy
     /// <returns>是否成功。</returns>
     public bool AsstConnect(ref string error)
     {
+        return AsstConnect(ref error, out _);
+    }
+
+    /// <summary>
+    /// 连接设备，并区分是否未找到 PC 客户端窗口。
+    /// </summary>
+    /// <param name="error">具体的连接错误。</param>
+    /// <param name="windowNotFound">仅在未找到 PC 客户端窗口时为 true。</param>
+    /// <returns>是否成功。</returns>
+    public bool AsstConnect(ref string error, out bool windowNotFound)
+    {
+        windowNotFound = false;
+
         // 如果启用了 AttachWindow 模式，则使用窗口绑定而非 ADB 连接
         if (SettingsViewModel.ConnectSettings.IsPCConnectConfig)
         {
-            return AsstAttachWindowConnect(ref error);
+            return AsstAttachWindowConnect(ref error, out windowNotFound);
         }
 
         return AsstAdbConnect(ref error);
@@ -3335,9 +3348,11 @@ public class AsstProxy
     /// 自动搜索当前客户端版本对应的游戏窗口。
     /// </summary>
     /// <param name="error">具体的连接错误。</param>
+    /// <param name="windowNotFound">仅在窗口搜索结果为空时为 true。</param>
     /// <returns>是否成功。</returns>
-    private bool AsstAttachWindowConnect(ref string error)
+    private bool AsstAttachWindowConnect(ref string error, out bool windowNotFound)
     {
+        windowNotFound = false;
         _lastConnectionError = string.Empty;
 
         if (!Bootstrapper.IsUserAdministrator())
@@ -3367,6 +3382,7 @@ public class AsstProxy
 
         if (foundWindows.Count == 0)
         {
+            windowNotFound = true;
             error = LocalizationHelper.GetStringFormat("Asst.Connection.AttachWindow.NotFound", targetWindowName);
             Instances.TaskQueueViewModel.AddLog(error, UiLogColor.Error);
             _logger.Warning("AttachWindow: No window found with name {WindowName}", targetWindowName);

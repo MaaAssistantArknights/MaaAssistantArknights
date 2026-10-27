@@ -2246,10 +2246,12 @@ public class TaskQueueViewModel : Screen
     internal async Task<bool> ConnectToConnectionTarget()
     {
         string errMsg = string.Empty;
-        bool connected = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
+        bool windowNotFound = false;
+        bool connected = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg, out windowNotFound));
 
         if (!connected
             && SettingsViewModel.ConnectSettings.IsPCConnectConfig
+            && windowNotFound
             && SettingsViewModel.ConnectSettings.RetryPcClientOnDisconnected)
         {
             AddLog(LocalizationHelper.GetString("Connection.ConnectFailed") + "\n" + LocalizationHelper.GetString("Connection.TryToStartPcClient"));
