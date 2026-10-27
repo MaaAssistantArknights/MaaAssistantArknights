@@ -1,5 +1,7 @@
 #include "Assistant.h"
 
+#include "MaaUtils/ScopeLeave.hpp"
+
 #include "MaaUtils/NoWarningCV.hpp"
 #include <meojson/json.hpp>
 #include <new>
@@ -33,7 +35,7 @@
 #include "Task/Interface/SwitchThemeTask.h"
 #include "Task/Interface/VideoRecognitionTask.h"
 #include "Utils/Logger.hpp"
-#ifdef ASST_DEBUG
+#if defined(ASST_DEBUG) || defined(ASST_SMOKE_TESTING)
 #include "Task/Interface/DebugTask.h"
 #endif
 
@@ -143,15 +145,11 @@ Assistant::~Assistant()
     ResourceLoader::get_instance().cancel();
 
     m_thread_exit = true;
-    m_thread_idle = true;
+    request_stop();
 
     {
         std::unique_lock<std::mutex> lock(m_call_mutex);
         m_call_condvar.notify_all();
-    }
-    {
-        std::unique_lock<std::mutex> lock(m_mutex);
-        m_condvar.notify_all();
     }
     {
         std::unique_lock<std::mutex> lock(m_msg_mutex);
@@ -167,6 +165,9 @@ Assistant::~Assistant()
     if (m_msg_thread.joinable()) {
         m_msg_thread.join();
     }
+    // 同步连接也可能仍在退出；等待其释放控制器后再销毁实例。
+    std::unique_lock<std::mutex> control_lock(m_control_mutex);
+    m_ctrler.reset();
     if (m_callback) {
         m_callback(static_cast<AsstMsgId>(AsstMsg::Destroyed), "{}", m_callback_arg);
     }
@@ -250,26 +251,59 @@ bool asst::Assistant::set_instance_option(InstanceOptionKey key, const std::stri
     return false;
 }
 
-bool asst::Assistant::ctrl_connect(const std::string& adb_path, const std::string& address, const std::string& config)
+bool asst::Assistant::begin_control_call(AsyncCallId call_id, bool allow_running)
+{
+    std::unique_lock<std::mutex> lock(m_mutex);
+    const auto state = m_lifecycle_state.load();
+    if (m_thread_exit || call_id <= m_cancelled_call_id.load() ||
+        (state != LifecycleState::Idle && !(allow_running && state == LifecycleState::Running))) {
+        return false;
+    }
+    if (state == LifecycleState::Idle) {
+        m_lifecycle_state.store(LifecycleState::Controlling);
+    }
+    return true;
+}
+
+void asst::Assistant::finish_control_call() noexcept
+{
+    std::unique_lock<std::mutex> lock(m_mutex);
+    if (m_lifecycle_state.load() == LifecycleState::Controlling) {
+        m_lifecycle_state.store(LifecycleState::Idle);
+    }
+    m_condvar.notify_all();
+}
+
+bool asst::Assistant::ctrl_connect(
+    const std::string& adb_path,
+    const std::string& address,
+    const std::string& config,
+    AsyncCallId call_id)
 {
     LogTraceFunction;
 
-    std::unique_lock<std::mutex> lock(m_mutex);
-
-    // 仍有任务进行，connect 前需要 stop
-    if (!m_thread_idle) {
+    std::unique_lock<std::mutex> control_lock(m_control_mutex);
+    if (!begin_control_call(call_id)) {
         return false;
     }
+    OnScopeLeave([this]() { finish_control_call(); });
 
-    m_thread_idle = false;
+#ifdef ASST_SMOKE_TESTING
+    if (config == "LIFECYCLE_TEST") {
+        // 持有真实控制器锁模拟在途 I/O，并从连接线程触发内部停止回调。
+        DebugTask task(append_callback_for_inst, this);
+        task.set_params(json::object { { "mode", "lifecycle_internal_stop" } });
+        task.run();
+        return false;
+    }
+#endif
 
     bool ret = m_ctrler->connect(adb_path, address, config.empty() ? "General" : config);
     if (ret) {
         m_uuid = m_ctrler->get_uuid();
     }
 
-    m_thread_idle = true;
-    return ret;
+    return ret && !need_exit();
 }
 
 #ifdef _WIN32
@@ -277,37 +311,44 @@ bool asst::Assistant::ctrl_attach_window(
     void* hwnd,
     Win32ScreencapMethod screencap_method,
     Win32InputMethod mouse_method,
-    Win32InputMethod keyboard_method)
+    Win32InputMethod keyboard_method,
+    AsyncCallId call_id)
 {
     LogTraceFunction;
 
-    std::unique_lock<std::mutex> lock(m_mutex);
-
-    // 仍有任务进行，attach 前需要 stop
-    if (!m_thread_idle) {
+    std::unique_lock<std::mutex> control_lock(m_control_mutex);
+    if (!begin_control_call(call_id)) {
         return false;
     }
-
-    m_thread_idle = false;
+    OnScopeLeave([this]() { finish_control_call(); });
 
     bool ret = m_ctrler->attach_window(hwnd, screencap_method, mouse_method, keyboard_method);
     if (ret) {
         m_uuid = m_ctrler->get_uuid();
     }
 
-    m_thread_idle = true;
-    return ret;
+    return ret && !need_exit();
 }
 #endif
 
-bool asst::Assistant::ctrl_click(int x, int y)
+bool asst::Assistant::ctrl_click(int x, int y, AsyncCallId call_id)
 {
-    return m_ctrler->click(Point(x, y));
+    std::unique_lock<std::mutex> control_lock(m_control_mutex);
+    if (!begin_control_call(call_id, true)) {
+        return false;
+    }
+    OnScopeLeave([this]() { finish_control_call(); });
+    return m_ctrler->click(Point(x, y)) && !need_exit();
 }
 
-bool asst::Assistant::ctrl_screencap()
+bool asst::Assistant::ctrl_screencap(AsyncCallId call_id)
 {
-    return m_ctrler->screencap_for_preview();
+    std::unique_lock<std::mutex> control_lock(m_control_mutex);
+    if (!begin_control_call(call_id, true)) {
+        return false;
+    }
+    OnScopeLeave([this]() { finish_control_call(); });
+    return m_ctrler->screencap_for_preview() && !need_exit();
 }
 
 asst::Assistant::TaskId asst::Assistant::append_task(const std::string& type, const std::string& params)
@@ -349,7 +390,7 @@ asst::Assistant::TaskId asst::Assistant::append_task(const std::string& type, co
     ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(ReclamationTask)
     ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(SwitchThemeTask)
     ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(CustomTask)
-#ifdef ASST_DEBUG
+#if defined(ASST_DEBUG) || defined(ASST_SMOKE_TESTING)
     ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(DebugTask)
 #endif
     else
@@ -370,6 +411,10 @@ asst::Assistant::TaskId asst::Assistant::append_task(const std::string& type, co
     }
 
     std::unique_lock<std::mutex> lock(m_mutex);
+    if (m_lifecycle_state.load() == LifecycleState::Stopping) {
+        LogError << __FUNCTION__ << "assistant is stopping";
+        return 0;
+    }
     int task_id = ++m_task_id;
     ptr->set_task_id(task_id);
     m_tasks_list.emplace_back(task_id, ptr);
@@ -394,6 +439,9 @@ bool asst::Assistant::set_task_params(TaskId task_id, const std::string& params)
 
     bool is_set = false;
     std::unique_lock<std::mutex> lock(m_mutex);
+    if (m_lifecycle_state.load() == LifecycleState::Stopping) {
+        return false;
+    }
     for (auto&& [id, ptr] : m_tasks_list) {
         if (id != task_id) {
             continue;
@@ -438,7 +486,7 @@ bool asst::Assistant::connect(const std::string& adb_path, const std::string& ad
 {
     LogTraceFunction;
 
-    return ctrl_connect(adb_path, address, config);
+    return ctrl_connect(adb_path, address, config, ++m_call_id);
 }
 
 asst::Assistant::AsyncCallId asst::Assistant::async_connect(
@@ -464,7 +512,7 @@ bool asst::Assistant::attach_window(
 {
     LogTraceFunction;
 
-    return ctrl_attach_window(hwnd, screencap_method, mouse_method, keyboard_method);
+    return ctrl_attach_window(hwnd, screencap_method, mouse_method, keyboard_method, ++m_call_id);
 }
 
 asst::Assistant::AsyncCallId asst::Assistant::async_attach_window(
@@ -518,45 +566,103 @@ std::vector<Assistant::TaskId> asst::Assistant::get_tasks_list() const
     return result;
 }
 
-bool asst::Assistant::start(bool block)
+bool asst::Assistant::start()
 {
     LogTraceFunction;
-    Log.info("Start |", block ? "block" : "non block");
+    LogInfo << "Start";
 
-    if (!m_thread_idle) {
+    std::unique_lock<std::mutex> control_lock(m_control_mutex, std::try_to_lock);
+    if (!control_lock.owns_lock()) {
         return false;
     }
-    std::unique_lock<std::mutex> lock;
-    if (block) { // 外部调用
-        lock = std::unique_lock<std::mutex>(m_mutex);
+    std::unique_lock<std::mutex> lock(m_mutex);
+    if (m_thread_exit || m_lifecycle_state.load() != LifecycleState::Idle) {
+        return false;
     }
-    m_thread_idle = false;
-    m_running = true;
+    m_lifecycle_state.store(LifecycleState::Running);
     m_condvar.notify_one();
 
     return true;
 }
 
-bool Assistant::stop(bool block)
+bool Assistant::stop()
 {
     LogTraceFunction;
-    Log.info("Stop |", block ? "block" : "non block");
+    LogInfo << "Stop";
 
-    m_thread_idle = true;
-
-    std::unique_lock<std::mutex> lock;
-    if (block) { // 外部调用
-        lock = std::unique_lock<std::mutex>(m_mutex);
-    }
-    m_tasks_list.clear();
-
-    clear_cache();
+    request_stop();
     return true;
 }
 
 bool asst::Assistant::running() const
 {
-    return m_running;
+    const auto state = m_lifecycle_state.load();
+    return state != LifecycleState::Idle;
+}
+
+void Assistant::request_stop() noexcept
+{
+    std::unique_lock<std::mutex> lock(m_mutex);
+    m_cancelled_call_id.store(m_call_id.load());
+    if (m_lifecycle_state.load() == LifecycleState::Idle && !m_ctrler->has_pending_io()) {
+        // 空闲且没有后台 I/O 时同步清理，保留 Stop -> Append -> Start 的调用方式。
+        m_tasks_list.clear();
+        best_effort([this]() { clear_cache(); });
+    }
+    else {
+        m_lifecycle_state.store(LifecycleState::Stopping);
+    }
+    lock.unlock();
+    m_condvar.notify_all();
+}
+
+void Assistant::complete_run(
+    std::unique_lock<std::mutex>& lock,
+    json::value& callback_json,
+    std::vector<TaskId>& finished_tasks) noexcept
+{
+    // 调用方持有任务锁：完成与停止在这里决定先后，之后的重复停止不改变本轮结果。
+    const bool stopped = m_lifecycle_state.load() == LifecycleState::Stopping;
+    // 连接取消由连接调用返回失败，不伪造任务终止事件让 GUI 提前恢复为空闲。
+    const bool notify = !callback_json.empty() || !m_tasks_list.empty() || !finished_tasks.empty();
+    m_cancelled_call_id.store(m_call_id.load());
+    m_lifecycle_state.store(LifecycleState::Stopping);
+    best_effort([&]() {
+        if (callback_json.empty()) {
+            callback_json = json::object {};
+            if (!m_tasks_list.empty()) {
+                const auto& [id, task] = m_tasks_list.front();
+                callback_json["taskchain"] = std::string(task->get_task_chain());
+                callback_json["taskid"] = id;
+            }
+        }
+        if (!stopped) {
+            callback_json["finished_tasks"] = json::array(finished_tasks);
+        }
+    });
+    m_tasks_list.clear();
+    lock.unlock();
+
+    // 等待连接、点击和预览截图退出后才能发布 Idle；停止请求本身不等待这把锁。
+    std::unique_lock<std::mutex> control_lock(m_control_mutex);
+    best_effort([this]() { m_ctrler->wait_for_pending_io(); });
+    // 收尾期间仍为 Stopping。窗口恢复等控制器操作不能阻塞新的停止请求。
+    best_effort([this]() { clear_cache(); });
+    best_effort([]() { Log.flush(); });
+#ifdef _WIN32
+    best_effort([this]() { m_ctrler->restore_window_position(); });
+#endif
+    lock.lock();
+    control_lock.unlock();
+    m_lifecycle_state.store(LifecycleState::Idle);
+    if (notify) {
+        best_effort([&]() {
+            append_callback(stopped ? AsstMsg::TaskChainStopped : AsstMsg::AllTasksCompleted, callback_json);
+        });
+    }
+    // 发布 Idle 和终止事件共用任务锁；后续 Start 不能抢在旧事件入列之前。
+    finished_tasks.clear();
+    best_effort([&]() { callback_json = json::object {}; });
 }
 
 void Assistant::working_proc()
@@ -564,32 +670,30 @@ void Assistant::working_proc()
     LogTraceFunction;
 
     std::vector<TaskId> finished_tasks;
+    json::value callback_json;
     while (true) {
         try {
             std::unique_lock<std::mutex> lock(m_mutex);
+            m_condvar.wait(lock, [this]() -> bool {
+                const auto state = m_lifecycle_state.load();
+                return m_thread_exit || state == LifecycleState::Running || state == LifecycleState::Stopping;
+            });
+
             if (m_thread_exit) {
-                m_running = false;
                 return;
             }
 
-            if (m_thread_idle || m_tasks_list.empty()) {
-                finished_tasks.clear();
-                m_thread_idle = true;
-                m_running = false;
-                Log.flush();
-#ifdef _WIN32
-                m_ctrler->restore_window_position();
-#endif
-                m_condvar.wait(lock);
+            if (m_lifecycle_state.load() == LifecycleState::Stopping || m_tasks_list.empty()) {
+                complete_run(lock, callback_json, finished_tasks);
                 continue;
             }
 
-            m_running = true;
             const auto [id, task_ptr] = m_tasks_list.front();
             lock.unlock();
-            // only one instance of working_proc running, unlock here to allow set_task_param to the running task
+            // Only one instance of working_proc runs. The task executes without the queue lock so stop requests and
+            // explicitly supported live parameter updates can still be submitted.
 
-            json::value callback_json = json::object {
+            callback_json = json::object {
                 { "taskchain", std::string(task_ptr->get_task_chain()) },
                 { "taskid", id },
             };
@@ -655,12 +759,6 @@ void Assistant::working_proc()
                 best_effort([&] { task_ptr->save_fail_img(); });
             };
 
-            lock.lock();
-            if (!m_tasks_list.empty()) {
-                m_tasks_list.pop_front();
-            }
-            lock.unlock();
-
             if (exception_kind != TaskExceptionKind::OutOfMemory) {
                 finished_tasks.emplace_back(id);
             }
@@ -670,10 +768,7 @@ void Assistant::working_proc()
                 const bool stop_remaining_tasks = exception_kind == TaskExceptionKind::OutOfMemory ||
                                                   exception_kind == TaskExceptionKind::GpuDeviceRemoved;
                 if (stop_remaining_tasks) {
-                    lock.lock();
-                    m_thread_idle = true;
-                    m_tasks_list.clear();
-                    lock.unlock();
+                    request_stop();
                     if (exception_kind == TaskExceptionKind::OutOfMemory) {
                         best_effort([&] { Log.error("Unhandled out of memory in task thread"); });
                     }
@@ -693,54 +788,32 @@ void Assistant::working_proc()
                     append_error();
                 }
             }
-            else {
-                auto msg = m_thread_idle ? AsstMsg::TaskChainStopped
-                                         : (ret ? AsstMsg::TaskChainCompleted : AsstMsg::TaskChainError);
-                if (msg == AsstMsg::TaskChainError) {
-                    save_fail_img();
-                }
-                append_callback(msg, callback_json);
+            else if (!ret && m_lifecycle_state.load() != LifecycleState::Stopping) {
+                save_fail_img();
             }
 
-            if (m_thread_idle) {
-                finished_tasks.clear();
-                if (exception_kind != TaskExceptionKind::None) {
-                    if (exception_kind == TaskExceptionKind::OutOfMemory) {
-                        best_effort([&] { clear_cache(); });
-                        best_effort([&] { append_callback(AsstMsg::TaskChainStopped, callback_json); });
-                    }
-                    else {
-                        clear_cache();
-                        append_callback(AsstMsg::TaskChainStopped, callback_json);
-                    }
-                }
+            lock.lock();
+            // 执行期间只有工作线程能移除任务，外部停止仅提交状态变更。
+            m_tasks_list.pop_front();
+            if (exception_kind == TaskExceptionKind::None && m_lifecycle_state.load() != LifecycleState::Stopping) {
+                append_callback(ret ? AsstMsg::TaskChainCompleted : AsstMsg::TaskChainError, callback_json);
+            }
+
+            if (m_lifecycle_state.load() == LifecycleState::Stopping || m_tasks_list.empty()) {
+                complete_run(lock, callback_json, finished_tasks);
                 continue;
             }
 
-            if (m_tasks_list.empty()) {
-                callback_json["finished_tasks"] = json::array(finished_tasks);
-                append_callback(AsstMsg::AllTasksCompleted, callback_json);
-                finished_tasks.clear();
-                clear_cache();
-            }
-
+            // 间隔只发生在两个任务之间，最后一个任务完成后立即收尾。
             const int delay = Config.get_options().task_delay;
-            lock.lock();
-            m_condvar.wait_for(lock, std::chrono::milliseconds(delay), [&]() -> bool { return m_thread_idle; });
-
-            if (m_thread_idle) {
-                append_callback(AsstMsg::TaskChainStopped, callback_json);
-            }
+            m_condvar.wait_for(lock, std::chrono::milliseconds(delay), [this]() -> bool {
+                return m_thread_exit || m_lifecycle_state.load() == LifecycleState::Stopping;
+            });
         }
         catch (...) {
-            m_thread_idle = true;
-            m_running = false;
-            best_effort([&] {
-                std::unique_lock<std::mutex> recovery_lock(m_mutex);
-                m_tasks_list.clear();
-            });
-            // 任务链可能在 TaskChainStart 后中断于此，补发停止消息，避免上层等待链终结回调悬挂
-            best_effort([&] { append_callback(AsstMsg::TaskChainStopped, json::object {}); });
+            request_stop();
+            std::unique_lock<std::mutex> lock(m_mutex);
+            complete_run(lock, callback_json, finished_tasks);
         }
     }
 }
@@ -848,25 +921,25 @@ void asst::Assistant::call_proc()
                 case AsyncCallItem::Type::Connect: {
                     what = "Connect";
                     const auto& [adb_path, address, config] = std::get<AsyncCallItem::ConnectParams>(call_item.params);
-                    ret = ctrl_connect(adb_path, address, config);
+                    ret = ctrl_connect(adb_path, address, config, call_item.id);
                 } break;
 #ifdef _WIN32
                 case AsyncCallItem::Type::AttachWindow: {
                     what = "AttachWindow";
                     const auto& [hwnd, screencap_method, mouse_method, keyboard_method] =
                         std::get<AsyncCallItem::AttachWindowParams>(call_item.params);
-                    ret = ctrl_attach_window(hwnd, screencap_method, mouse_method, keyboard_method);
+                    ret = ctrl_attach_window(hwnd, screencap_method, mouse_method, keyboard_method, call_item.id);
                 } break;
 #endif
                 case AsyncCallItem::Type::Click: {
                     what = "Click";
                     const auto& [x, y] = std::get<AsyncCallItem::ClickParams>(call_item.params);
-                    ret = ctrl_click(x, y);
+                    ret = ctrl_click(x, y, call_item.id);
                 } break;
                 case AsyncCallItem::Type::Screencap: {
                     what = "Screencap";
                     std::ignore = std::get<AsyncCallItem::ScreencapParams>(call_item.params);
-                    ret = ctrl_screencap();
+                    ret = ctrl_screencap(call_item.id);
                 } break;
                 default:
                     what = "Unknown";
@@ -923,11 +996,7 @@ void asst::Assistant::call_proc()
             }
 
             if (exception_kind == TaskExceptionKind::OutOfMemory) {
-                {
-                    std::unique_lock<std::mutex> task_lock(m_mutex);
-                    m_thread_idle = true;
-                    m_tasks_list.clear();
-                }
+                request_stop();
                 best_effort([&] { Log.error("Unhandled out of memory in async call thread"); });
             }
 
@@ -959,11 +1028,7 @@ void asst::Assistant::call_proc()
             }
         }
         catch (...) {
-            m_thread_idle = true;
-            best_effort([&] {
-                std::unique_lock<std::mutex> recovery_lock(m_mutex);
-                m_tasks_list.clear();
-            });
+            request_stop();
             AsyncCallId discarded_max_id = current_call_id;
             best_effort([&] {
                 std::unique_lock<std::mutex> recovery_lock(m_call_mutex);
@@ -997,13 +1062,13 @@ void Assistant::append_callback(AsstMsg msg, const json::value& detail)
     switch (msg) {
     case AsstMsg::InternalError:
     case AsstMsg::InitFailed:
-        stop(false);
+        request_stop();
         break;
     case AsstMsg::ConnectionInfo:
         // 分辨率被外部修改后连接已失效（invalidate_connection），
         // 自动停止当前任务，待上层整体重连后再重新开始
         if (more_detail["what"] == "ResolutionChanged") {
-            stop(false);
+            request_stop();
         }
         break;
     default:

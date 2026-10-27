@@ -57,6 +57,18 @@ asst::AdbController::~AdbController()
     release();
 }
 
+bool asst::AdbController::has_pending_io() const
+{
+    return m_fps_future.valid() && m_fps_future.wait_for(std::chrono::seconds(0)) != std::future_status::ready;
+}
+
+void asst::AdbController::wait_for_pending_io()
+{
+    if (m_fps_future.valid()) {
+        m_fps_future.wait();
+    }
+}
+
 std::optional<std::string> asst::AdbController::reconnect(const std::string& cmd, int64_t timeout, bool recv_by_socket)
 {
     LogTraceFunction;
@@ -135,6 +147,9 @@ std::optional<std::string> asst::AdbController::call_command(
 
     auto start_time = steady_clock::now();
     std::unique_lock<std::mutex> callcmd_lock(m_callcmd_mutex);
+    if (need_exit()) {
+        return std::nullopt;
+    }
 
     std::optional<int> exit_res;
 

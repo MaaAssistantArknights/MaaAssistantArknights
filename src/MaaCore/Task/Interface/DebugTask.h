@@ -16,6 +16,9 @@ public:
 
     virtual bool run() override;
     virtual bool set_params(const json::value& params) override;
+#ifdef ASST_SMOKE_TESTING
+    static void release_lifecycle_test();
+#endif
 
 private:
     bool set_params_impl(const json::value& params);

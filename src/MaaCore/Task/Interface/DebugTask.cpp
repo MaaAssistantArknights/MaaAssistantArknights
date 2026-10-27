@@ -2,7 +2,9 @@
 
 #include "MaaUtils/Encoding.h"
 #include <boost/regex.hpp>
+#include <condition_variable>
 #include <filesystem>
+#include <mutex>
 #include <shared_mutex>
 
 #include "Common/AsstMsg.h"
@@ -24,15 +26,49 @@
 #include "Vision/OCRer.h"
 #include "Vision/RegionOCRer.h"
 
+#ifdef ASST_SMOKE_TESTING
+namespace asst::lifecycle_test
+{
+std::mutex lifecycle_test_mutex;
+std::condition_variable lifecycle_test_released;
+bool lifecycle_test_can_finish = false;
+}
+#endif
+
 asst::DebugTask::DebugTask(const AsstCallback& callback, Assistant* inst) :
     InterfaceTask(callback, inst, TaskType)
 {
 }
 
+#ifdef ASST_SMOKE_TESTING
+void asst::DebugTask::release_lifecycle_test()
+{
+    {
+        std::lock_guard<std::mutex> lock(lifecycle_test::lifecycle_test_mutex);
+        lifecycle_test::lifecycle_test_can_finish = true;
+    }
+    lifecycle_test::lifecycle_test_released.notify_one();
+}
+#endif
+
 bool asst::DebugTask::run()
 {
     // PackageTask::run 被覆盖，运行标记须自行置位，set_params 据此拒绝运行中更新
     m_running = true;
+
+#ifdef ASST_SMOKE_TESTING
+    if (m_image_test_mode == "lifecycle" || m_image_test_mode == "lifecycle_internal_stop") {
+        // 模拟不检查 need_exit() 的在途控制器调用，由测试显式释放。
+        callback(AsstMsg::SubTaskExtraInfo, basic_info_with_what("LifecycleReady"));
+        std::unique_lock<std::mutex> lock(lifecycle_test::lifecycle_test_mutex);
+        lifecycle_test::lifecycle_test_released.wait(lock, []() { return lifecycle_test::lifecycle_test_can_finish; });
+        lock.unlock();
+        if (m_image_test_mode == "lifecycle_internal_stop") {
+            callback(AsstMsg::InternalError, basic_info());
+        }
+        return true;
+    }
+#endif
 
     if (m_image_test_mode == "report") {
         return image_test_report();
@@ -144,6 +180,16 @@ bool asst::DebugTask::set_params_impl(const json::value& params)
     if (mode.empty()) {
         return true; // 无 mode 的 Debug 任务保持 run() 空跑的旧行为
     }
+#ifdef ASST_SMOKE_TESTING
+    if (mode == "lifecycle" || mode == "lifecycle_internal_stop") {
+        {
+            std::lock_guard<std::mutex> lock(lifecycle_test::lifecycle_test_mutex);
+            lifecycle_test::lifecycle_test_can_finish = false;
+        }
+        m_image_test_mode = std::move(mode);
+        return true;
+    }
+#endif
 
     // 全部解析校验通过后才写成员，AsstSetTaskParams 更新失败时任务保持原有完整参数
     std::vector<std::string> images;

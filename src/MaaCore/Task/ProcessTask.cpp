@@ -270,6 +270,10 @@ ProcessTask::HitDetail ProcessTask::find_first(const TaskList& list) /* const, e
     if (underlying != nullptr) {
         underlying->set_main_screen_recognition(false);
     }
+    // 截图可能因停止而返回，不再启动后续图像识别。
+    if (need_exit()) {
+        return { .task_ptr = nullptr };
+    }
     PipelineAnalyzer analyzer(image, Rect(), m_inst);
     analyzer.set_tasks(list);
 

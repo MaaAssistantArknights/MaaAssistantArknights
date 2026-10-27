@@ -510,23 +510,8 @@ public class StartSettingsUserControlModel : PropertyChangedBase
             return;
         }
 
-        ProcessStartInfo processStartInfo = new ProcessStartInfo {
-            FileName = "cmd.exe",
-            RedirectStandardInput = true,
-            RedirectStandardOutput = true,
-            CreateNoWindow = true,
-            UseShellExecute = false,
-        };
-
-        using Process process = new Process {
-            StartInfo = processStartInfo,
-        };
-
-        process.Start();
-        process.StandardInput.WriteLine($"\"{adbPath}\" kill-server");
-        process.StandardInput.WriteLine($"\"{adbPath}\" start-server");
-        process.StandardInput.WriteLine("exit");
-        process.WaitForExit();
+        RunAdbRecoveryCommand(adbPath, "kill-server");
+        RunAdbRecoveryCommand(adbPath, "start-server");
     }
 
     /// <summary>
@@ -542,20 +527,82 @@ public class StartSettingsUserControlModel : PropertyChangedBase
             return;
         }
 
-        ProcessStartInfo processStartInfo = new ProcessStartInfo {
-            FileName = "cmd.exe",
-            RedirectStandardInput = true,
-            RedirectStandardOutput = true,
-            CreateNoWindow = true,
-            UseShellExecute = false,
+        RunAdbRecoveryCommand(adbPath, "disconnect", address);
+    }
+
+    private readonly object _adbRecoveryLock = new();
+    private Process? _adbRecoveryProcess;
+
+    private void RunAdbRecoveryCommand(string adbPath, params string[] arguments)
+    {
+        // 直接持有本次 ADB 命令，避免 cmd.exe 包装层及无人读取的输出管道。
+        using var process = new Process {
+            StartInfo = new ProcessStartInfo {
+                FileName = adbPath,
+                UseShellExecute = false,
+                CreateNoWindow = true,
+            },
         };
+        foreach (var argument in arguments)
+        {
+            process.StartInfo.ArgumentList.Add(argument);
+        }
 
-        using Process process = new Process { StartInfo = processStartInfo, };
+        try
+        {
+            lock (_adbRecoveryLock)
+            {
+                if (Instances.AsstProxy.IsStoppingOrDestroying || _adbRecoveryProcess != null)
+                {
+                    return;
+                }
 
-        process.Start();
-        process.StandardInput.WriteLine($"\"{adbPath}\" disconnect {address}");
-        process.StandardInput.WriteLine("exit");
-        process.WaitForExit();
+                process.Start();
+                _adbRecoveryProcess = process;
+            }
+
+            process.WaitForExit();
+        }
+        catch (Exception e) when (e is Win32Exception or InvalidOperationException)
+        {
+            _logger.Warning(e, "ADB recovery command failed");
+        }
+        finally
+        {
+            lock (_adbRecoveryLock)
+            {
+                if (ReferenceEquals(_adbRecoveryProcess, process))
+                {
+                    _adbRecoveryProcess = null;
+                }
+            }
+        }
+    }
+
+    internal void CancelAdbRecovery()
+    {
+        // Stop 与 Destroy 共用此入口。只终止本次命令，并等待本机进程退出。
+        lock (_adbRecoveryLock)
+        {
+            if (_adbRecoveryProcess is not { } process)
+            {
+                return;
+            }
+
+            try
+            {
+                if (!process.HasExited)
+                {
+                    process.Kill();
+                }
+
+                process.WaitForExit();
+            }
+            catch (Exception e) when (e is Win32Exception or InvalidOperationException)
+            {
+                _logger.Warning(e, "Failed to cancel ADB recovery command");
+            }
+        }
     }
 
     /// <summary>
@@ -589,6 +636,11 @@ public class StartSettingsUserControlModel : PropertyChangedBase
                         select new { Process = p, Path = (string)mo["ExecutablePath"], };
             foreach (var item in query)
             {
+                if (Instances.AsstProxy.IsStoppingOrDestroying)
+                {
+                    return;
+                }
+
                 if (item.Path != adbPath)
                 {
                     continue;
