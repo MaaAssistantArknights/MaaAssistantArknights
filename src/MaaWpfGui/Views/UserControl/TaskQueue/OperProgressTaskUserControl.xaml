@@ -31,6 +31,12 @@
         <StackPanel Visibility="{c:Binding '!EnableAdvancedSettings', Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}">
             <!--  固定区：在线编辑计划链接、操作按钮行与干员选择添加行  -->
             <StackPanel x:Name="FixedHeaderPanel">
+                <StackPanel Margin="0,0,0,5" Orientation="Horizontal">
+                    <CheckBox MaxWidth="190" IsChecked="{Binding BuyMaterialsWithGreenTickets}">
+                        <controls:TextBlock Text="{DynamicResource TaskQueue.OperProgress.BuyMaterialsWithGreenTickets}" TextWrapping="Wrap" />
+                    </CheckBox>
+                    <controls:TooltipBlock TooltipText="{DynamicResource TaskQueue.OperProgress.BuyMaterialsWithGreenTicketsTip}" />
+                </StackPanel>
                 <!--  在线编辑计划链接  -->
                 <controls:TextBlock>
                     <Hyperlink

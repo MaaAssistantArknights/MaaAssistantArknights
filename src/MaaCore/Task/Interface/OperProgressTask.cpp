@@ -91,6 +91,11 @@ bool asst::OperProgressTask::set_params(const json::value& params)
         LogError << __FUNCTION__ << "task is running, cannot set params";
         return false;
     }
+    const auto& buy_with_green_tickets = params.find_value("buy_materials_with_green_tickets");
+    if (buy_with_green_tickets && !buy_with_green_tickets->is<bool>()) {
+        LogError << __FUNCTION__ << "buy_materials_with_green_tickets must be a boolean";
+        return false;
+    }
 
     const auto& plans = params.find<std::vector<ProgressPlan>>("plans");
     if (!plans) {
@@ -128,5 +133,6 @@ bool asst::OperProgressTask::set_params(const json::value& params)
     }
 
     m_process_task_ptr->set_plan(std::move(validated_plans));
+    m_process_task_ptr->set_buy_with_green_tickets(params.get("buy_materials_with_green_tickets", false));
     return true;
 }
