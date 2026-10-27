@@ -90,8 +90,8 @@ public class PerformanceUserControlModel : PropertyChangedBase
             if (value)
             {
                 MessageBoxHelper.Show(
-                    LocalizationHelper.GetString("BadModules.ResetWarning"),
-                    LocalizationHelper.GetString("Tip"),
+                    LocalizationHelper.GetString("Error.BadModules.ResetWarning"),
+                    LocalizationHelper.GetString("Common.Tip"),
                     MessageBoxButton.OK,
                     MessageBoxImage.Information);
             }
@@ -106,12 +106,12 @@ public class PerformanceUserControlModel : PropertyChangedBase
                 }
 
                 var result = MessageBoxHelper.Show(
-                    LocalizationHelper.GetString("BadModules.ResetSuccess"),
-                    LocalizationHelper.GetString("Tip"),
+                    LocalizationHelper.GetString("Error.BadModules.ResetSuccess"),
+                    LocalizationHelper.GetString("Common.Tip"),
                     MessageBoxButton.OKCancel,
                     MessageBoxImage.Information,
-                    ok: LocalizationHelper.GetString("Ok"),
-                    cancel: LocalizationHelper.GetString("ManualRestart"));
+                    ok: LocalizationHelper.GetString("Common.Confirm"),
+                    cancel: LocalizationHelper.GetString("Common.ManualRestart"));
                 if (result == MessageBoxResult.OK)
                 {
                     Bootstrapper.ShutdownAndRestartWithoutArgs();

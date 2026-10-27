@@ -64,9 +64,9 @@ public class UserDataUpdateTaskUserControlModel : TaskSettingsViewModel, UserDat
     }
 
     public LocalizedObservableList<UserDataUpdateTriggerInterval> TriggerIntervalList { get; } = new(
-        (UserDataUpdateTriggerInterval.EveryTime, "EveryTime"),
-        (UserDataUpdateTriggerInterval.Daily, "Daily"),
-        (UserDataUpdateTriggerInterval.Weekly, "Weekly"));
+        (UserDataUpdateTriggerInterval.EveryTime, "TaskQueue.UserDataUpdate.EveryTime"),
+        (UserDataUpdateTriggerInterval.Daily, "TaskQueue.UserDataUpdate.Daily"),
+        (UserDataUpdateTriggerInterval.Weekly, "TaskQueue.UserDataUpdate.Weekly"));
 
     public override void RefreshUI(BaseTask baseTask)
     {
@@ -89,13 +89,13 @@ public class UserDataUpdateTaskUserControlModel : TaskSettingsViewModel, UserDat
 
             if (taskId is int id && id > 0)
             {
-                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("UserDataUpdateCannotModifyExistingTask"), UiLogColor.Error);
+                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("TaskQueue.UserDataUpdate.CannotModifyExistingTask"), UiLogColor.Error);
                 return (null, []);
             }
 
             if (!updateTask.IsTriggered)
             {
-                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("UserDataUpdateNothingSelected"), UiLogColor.Info);
+                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("TaskQueue.UserDataUpdate.NothingSelected"), UiLogColor.Info);
                 return (null, []);
             }
 
@@ -104,7 +104,7 @@ public class UserDataUpdateTaskUserControlModel : TaskSettingsViewModel, UserDat
 
             if (!operBoxTriggerDue && !depotTriggerDue)
             {
-                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetStringFormat("UserDataUpdateIntervalNotReached", LocalizationHelper.GetString(updateTask.TriggerInterval.ToString())), UiLogColor.Info);
+                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetStringFormat("TaskQueue.UserDataUpdate.IntervalNotReached", LocalizationHelper.GetString(updateTask.TriggerInterval.LocalizationKey())), UiLogColor.Info);
                 return (null, []);
             }
 
@@ -118,7 +118,7 @@ public class UserDataUpdateTaskUserControlModel : TaskSettingsViewModel, UserDat
                     {
                         // 错误才打任务分区标题提供上下文，正常执行不需要
                         Instances.TaskQueueViewModel.AddLogSection(baseTask.NameOrTaskType);
-                        Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("YituliuTokenEmpty"), UiLogColor.Error);
+                        Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("Settings.ThirdParty.Yituliu.TokenEmpty"), UiLogColor.Error);
                         return (false, []);
                     }
 
@@ -145,7 +145,7 @@ public class UserDataUpdateTaskUserControlModel : TaskSettingsViewModel, UserDat
                 var (result, depotTaskId) = Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Depot, (AsstTaskType.Depot, null));
                 if (!result)
                 {
-                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("DepotPlanUpdateDepotFailed"), UiLogColor.Error);
+                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("TaskQueue.DepotMaintain.PlanUpdateDepotFailed"), UiLogColor.Error);
                     return (false, []);
                 }
                 Instances.ToolboxViewModel.MarkDepotRecognitionSyncTimeForReset(depotTaskId);
@@ -197,7 +197,7 @@ public class UserDataUpdateTaskUserControlModel : TaskSettingsViewModel, UserDat
             success = await Instances.ToolboxViewModel.StartOperBoxFromYituliuApiAsync();
             if (success)
             {
-                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("YituliuOperBoxCompleted"), UiLogColor.Info, splitMode: TaskQueueViewModel.LogCardSplitMode.Both);
+                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("OperBox.YituliuUploadCompleted"), UiLogColor.Info, splitMode: TaskQueueViewModel.LogCardSplitMode.Both);
             }
         }
         catch (Exception e)
@@ -207,7 +207,7 @@ public class UserDataUpdateTaskUserControlModel : TaskSettingsViewModel, UserDat
 
             // 内层已 catch 并 return false，正常失败不会抛到这里；此处只接内层 try 之前的意外异常，
             // 补用户可见反馈与内层兜底 catch 一致
-            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("YituliuTokenNetworkError"), UiLogColor.Error);
+            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("Settings.ThirdParty.Yituliu.TokenNetworkError"), UiLogColor.Error);
         }
 
         var index = ConfigFactory.CurrentConfig.TaskQueue.IndexOf(baseTask);

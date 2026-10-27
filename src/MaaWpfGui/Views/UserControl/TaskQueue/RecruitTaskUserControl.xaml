@@ -20,18 +20,18 @@
             <hc:NumericUpDown
                 Margin="0,5"
                 HorizontalAlignment="Left"
-                hc:InfoElement.Title="{DynamicResource RecruitMaxTimes}"
+                hc:InfoElement.Title="{DynamicResource Recruit.MaxTimes}"
                 Minimum="0"
                 Value="{Binding RecruitMaxTimes}" />
 
             <StackPanel Margin="0,10" Orientation="Horizontal">
-                <CheckBox Content="{DynamicResource AutoUseExpedited}" IsChecked="{Binding UseExpeditedWithNull}" />
-                <controls:TooltipBlock TooltipText="{DynamicResource AutoUseExpeditedTip}" />
+                <CheckBox Content="{DynamicResource Recruit.AutoUseExpedited}" IsChecked="{Binding UseExpeditedWithNull}" />
+                <controls:TooltipBlock TooltipText="{DynamicResource Recruit.AutoUseExpedited.Tip}" />
             </StackPanel>
 
             <CheckBox
                 Margin="0,10"
-                Content="{DynamicResource AutoSelectLevel3}"
+                Content="{DynamicResource Recruit.AutoSelectLevel3}"
                 IsChecked="{Binding ChooseLevel3}" />
             <StackPanel
                 Height="30"
@@ -54,7 +54,7 @@
             </StackPanel>
             <CheckBox
                 Margin="0,10"
-                Content="{DynamicResource AutoSelectLevel4}"
+                Content="{DynamicResource Recruit.AutoSelectLevel4}"
                 IsChecked="{Binding ChooseLevel4}" />
             <StackPanel
                 Height="30"
@@ -77,7 +77,7 @@
             </StackPanel>
             <CheckBox
                 Margin="0,10"
-                Content="{DynamicResource AutoSelectLevel5}"
+                Content="{DynamicResource Recruit.AutoSelectLevel5}"
                 IsChecked="{Binding ChooseLevel5}" />
             <StackPanel
                 Height="30"
@@ -90,10 +90,10 @@
             <StackPanel Orientation="Horizontal">
                 <CheckBox
                     Margin="0,10"
-                    Content="{DynamicResource AutoSelectLevel6}"
+                    Content="{DynamicResource Recruit.AutoSelectLevel6}"
                     IsChecked="{Binding ChooseLevel6}"
                     IsEnabled="{Binding ChooseLevel6}" />
-                <controls:TooltipBlock TooltipText="{DynamicResource AutoSelectLevel6Tip}" />
+                <controls:TooltipBlock TooltipText="{DynamicResource Recruit.AutoSelectLevel6.Tip}" />
             </StackPanel>
             <StackPanel
                 Height="30"
@@ -108,15 +108,15 @@
         <StackPanel Visibility="{c:Binding EnableAdvancedSettings, Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}">
             <hc:ComboBox
                 Margin="0,5"
-                hc:InfoElement.Title="{DynamicResource AutoRecruitSelectStrategy}"
+                hc:InfoElement.Title="{DynamicResource Recruit.SelectStrategy}"
                 DisplayMemberPath="Display"
                 ItemsSource="{Binding AutoRecruitSelectExtraTagsList}"
                 SelectedValue="{Binding SelectExtraTags}"
                 SelectedValuePath="Value" />
             <StackPanel Margin="0,10">
                 <StackPanel Orientation="Horizontal">
-                    <CheckBox Content="{DynamicResource AutoRecruitHighPriority}" IsChecked="{Binding UseLevel3PreferTags}" />
-                    <controls:TooltipBlock TooltipText="{DynamicResource AutoRecruitHighPriorityTooltip}" />
+                    <CheckBox Content="{DynamicResource Recruit.HighPriority}" IsChecked="{Binding UseLevel3PreferTags}" />
+                    <controls:TooltipBlock TooltipText="{DynamicResource Recruit.HighPriority.Tip}" />
                 </StackPanel>
                 <hc:CheckComboBox
                     Margin="0,10,0,0"
@@ -129,7 +129,7 @@
 
             <CheckBox
                 Margin="0,10"
-                Content="{DynamicResource AutoRefresh}"
+                Content="{DynamicResource Recruit.AutoRefresh}"
                 IsChecked="{Binding RefreshLevel3}" />
             <WrapPanel Margin="0,10,0,0" IsEnabled="{Binding ChooseLevel3}">
                 <StackPanel Margin="0,0,0,10" Orientation="Horizontal">
@@ -137,9 +137,9 @@
                         MaxWidth="203"
                         VerticalAlignment="Center"
                         IsChecked="{Binding Level3RecruitmentPermitReserveEnabled}">
-                        <TextBlock Text="{DynamicResource RecruitLevel3PermitReserve}" TextWrapping="Wrap" />
+                        <TextBlock Text="{DynamicResource Recruit.Level3PermitReserve}" TextWrapping="Wrap" />
                     </CheckBox>
-                    <controls:TooltipBlock TooltipText="{DynamicResource RecruitLevel3PermitReserveTip}" />
+                    <controls:TooltipBlock TooltipText="{DynamicResource Recruit.Level3PermitReserve.Tip}" />
                 </StackPanel>
                 <hc:NumericUpDown
                     MinWidth="50"
@@ -153,16 +153,16 @@
                 Margin="0,10"
                 IsChecked="{Binding ForceRefresh}"
                 IsEnabled="{c:Binding RefreshLevel3}">
-                <controls:TextBlock Text="{DynamicResource ForceRefresh}" TextWrapping="Wrap" />
+                <controls:TextBlock Text="{DynamicResource Recruit.ForceRefresh}" TextWrapping="Wrap" />
             </CheckBox>
             <StackPanel Margin="0,10">
                 <StackPanel Orientation="Horizontal">
-                    <CheckBox Content="{DynamicResource PreserveTags}" IsChecked="{Binding PreserveTagEnabled}" />
+                    <CheckBox Content="{DynamicResource Recruit.PreserveTags}" IsChecked="{Binding PreserveTagEnabled}" />
                     <controls:TooltipBlock
                         Margin="0,0,5,0"
                         HorizontalAlignment="Right"
                         VerticalAlignment="Top"
-                        TooltipText="{DynamicResource PreserveTagsTip}" />
+                        TooltipText="{DynamicResource Recruit.PreserveTags.Tip}" />
                 </StackPanel>
                 <hc:CheckComboBox
                     Margin="0,10,0,0"

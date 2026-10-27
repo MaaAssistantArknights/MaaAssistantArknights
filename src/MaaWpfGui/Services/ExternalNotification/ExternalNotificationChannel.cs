@@ -40,7 +40,7 @@ public sealed record ExternalNotificationChannel(
         Define<Bark, BarkConfig>("Bark", config => new(config), config => new BarkNotificationProvider(Instances.HttpService, config)),
         Define<Qmsg, QmsgConfig>("Qmsg", config => new(config), config => new QmsgNotificationProvider(Instances.HttpService, config)),
         Define<Gotify, GotifyConfig>("Gotify", config => new(config), config => new GotifyNotificationProvider(Instances.HttpService, config)),
-        Define<CustomWebhook, CustomWebhookConfig>("ExternalNotificationCustomWebhook", config => new(config), config => new CustomWebhookNotificationProvider(Instances.HttpService, config)),
+        Define<CustomWebhook, CustomWebhookConfig>("ExternalNotification.CustomWebhook", config => new(config), config => new CustomWebhookNotificationProvider(Instances.HttpService, config)),
     ]);
 
     public string DisplayName => LocalizationHelper.TryGetString(LocalizationKey, out var name) ? name : FallbackName;

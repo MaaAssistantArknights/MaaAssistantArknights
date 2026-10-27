@@ -1,5 +1,11 @@
 default_install_hook_types: [pre-commit, prepare-commit-msg]
 repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      - id: fix-byte-order-marker
+        name: Remove UTF-8 BOM
+
   - repo: https://github.com/shssoichiro/oxipng
     rev: v10.0.0
     hooks:

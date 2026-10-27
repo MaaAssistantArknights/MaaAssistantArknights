@@ -10,7 +10,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:mdxam="clr-namespace:MdXaml;assembly=MdXaml"
     xmlns:s="https://github.com/canton7/Stylet"
-    Title="{DynamicResource VersionUpdated}"
+    Title="{DynamicResource VersionUpdate.Title}"
     Width="600"
     Height="500"
     d:DataContext="{d:DesignInstance {x:Type dialogs_vms:VersionUpdateDialogViewModel}}"
@@ -38,7 +38,7 @@
                     VerticalAlignment="Bottom"
                     FontSize="20"
                     Style="{StaticResource TextBlockDefaultBold}"
-                    Text="{DynamicResource VersionUpdatedTo}"
+                    Text="{DynamicResource VersionUpdate.UpdatedTo}"
                     TextWrapping="Wrap" />-->
                 <controls:TextBlock
                     Margin="0,10,0,10"

@@ -110,7 +110,8 @@ public static class MessageBoxHelper
         string cancel = "",
         string yes = "",
         string no = "",
-        bool useNativeMethod = false) => Show(WindowHandle.None, messageBoxText, caption, buttons, icon, iconKey, iconBrushKey, ok, cancel, yes, no, useNativeMethod);
+        bool useNativeMethod = false,
+        MessageBoxResult? defaultResult = null) => Show(WindowHandle.None, messageBoxText, caption, buttons, icon, iconKey, iconBrushKey, ok, cancel, yes, no, useNativeMethod, defaultResult);
 
     public static MessageBoxResult Show(
         WindowHandle ownerWindow,
@@ -124,16 +125,18 @@ public static class MessageBoxHelper
         string cancel = "",
         string yes = "",
         string no = "",
-        bool useNativeMethod = false)
+        bool useNativeMethod = false,
+        MessageBoxResult? defaultResult = null)
     {
-        caption = string.IsNullOrEmpty(caption) ? LocalizationHelper.GetString("Tip") : caption;
-        ok = string.IsNullOrEmpty(ok) ? LocalizationHelper.GetString("Ok") : ok;
-        cancel = string.IsNullOrEmpty(cancel) ? LocalizationHelper.GetString("ManualRestart") : cancel;
-        yes = string.IsNullOrEmpty(yes) ? LocalizationHelper.GetString("Yes") : yes;
-        no = string.IsNullOrEmpty(no) ? LocalizationHelper.GetString("No") : no;
+        caption = string.IsNullOrEmpty(caption) ? LocalizationHelper.GetString("Common.Tip") : caption;
+        ok = string.IsNullOrEmpty(ok) ? LocalizationHelper.GetString("Common.Ok") : ok;
+        cancel = string.IsNullOrEmpty(cancel) ? LocalizationHelper.GetString("Common.ManualRestart") : cancel;
+        yes = string.IsNullOrEmpty(yes) ? LocalizationHelper.GetString("Common.Yes") : yes;
+        no = string.IsNullOrEmpty(no) ? LocalizationHelper.GetString("Common.No") : no;
 
         if (useNativeMethod)
         {
+            // TaskDialog 不支持指定默认按钮，defaultResult 仅对 HandyControl 弹窗生效
             return ShowNative(ownerWindow, messageBoxText, string.Empty, caption, buttons, icon, false, ok, cancel, yes, no);
         }
         else
@@ -150,6 +153,7 @@ public static class MessageBoxHelper
                 CancelContent = cancel,
                 YesContent = yes,
                 NoContent = no,
+                DefaultResult = defaultResult ?? MessageBoxResult.None,
             };
 
             DateTime startTime = DateTime.Now;

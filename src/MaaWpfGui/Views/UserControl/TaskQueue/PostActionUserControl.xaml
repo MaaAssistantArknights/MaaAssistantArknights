@@ -25,14 +25,14 @@
                     HorizontalAlignment="Left"
                     Orientation="Horizontal">
                     <CheckBox IsChecked="{Binding Once}">
-                        <controls:TextBlock Text="{DynamicResource Once}" TextWrapping="Wrap" />
+                        <controls:TextBlock Text="{DynamicResource TaskQueue.PostAction.Once}" TextWrapping="Wrap" />
                     </CheckBox>
-                    <controls:TooltipBlock TooltipText="{DynamicResource PostActionOnceTip}" />
+                    <controls:TooltipBlock TooltipText="{DynamicResource TaskQueue.PostAction.Once.Tip}" />
                 </StackPanel>
                 <Button
                     HorizontalAlignment="Right"
                     Command="{s:Action PostActionsClear}"
-                    Content="{DynamicResource Clear}"
+                    Content="{DynamicResource Common.Clear}"
                     MouseRightButtonUp="{s:Action PostActionsClearOnce}" />
             </Grid>
 
@@ -42,49 +42,49 @@
                 IsChecked="{Binding BackToAndroidHome}"
                 IsEnabled="{c:Binding AndroidControlPostActionsEnabled}"
                 MouseRightButtonUp="{s:Action PostActionsAndOnce}">
-                <controls:TextBlock Text="{DynamicResource BackToAndroidHome}" TextWrapping="Wrap" />
+                <controls:TextBlock Text="{DynamicResource TaskQueue.PostAction.BackToAndroidHome}" TextWrapping="Wrap" />
             </CheckBox>
             <CheckBox
                 Margin="0,8"
                 IsChecked="{Binding ExitArknights}"
                 IsEnabled="{c:Binding !ExitEmulator}"
                 MouseRightButtonUp="{s:Action PostActionsAndOnce}">
-                <controls:TextBlock Text="{DynamicResource ExitArknights}" TextWrapping="Wrap" />
+                <controls:TextBlock Text="{DynamicResource TaskQueue.PostAction.ExitArknights}" TextWrapping="Wrap" />
             </CheckBox>
             <CheckBox
                 Margin="0,8"
                 IsChecked="{Binding ExitEmulator}"
                 IsEnabled="{c:Binding ExitEmulatorOptionEnabled}"
                 MouseRightButtonUp="{s:Action PostActionsAndOnce}">
-                <controls:TextBlock Text="{DynamicResource ExitEmulator}" TextWrapping="Wrap" />
+                <controls:TextBlock Text="{DynamicResource TaskQueue.PostAction.ExitEmulator}" TextWrapping="Wrap" />
             </CheckBox>
             <CheckBox
                 Margin="0,8"
                 IsChecked="{Binding ExitSelf}"
                 IsEnabled="{c:Binding !IfNoOtherMaa}"
                 MouseRightButtonUp="{s:Action PostActionsAndOnce}">
-                <controls:TextBlock Text="{DynamicResource ExitSelf}" TextWrapping="Wrap" />
+                <controls:TextBlock Text="{DynamicResource TaskQueue.PostAction.ExitSelf}" TextWrapping="Wrap" />
             </CheckBox>
             <hc:Divider />
             <StackPanel Margin="0,8" Orientation="Horizontal">
                 <CheckBox IsChecked="{Binding IfNoOtherMaa}" IsEnabled="{c:Binding 'LockScreen || Hibernate || Shutdown || Sleep'}">
-                    <controls:TextBlock Text="{DynamicResource IfNoOtherMaa}" TextWrapping="Wrap" />
+                    <controls:TextBlock Text="{DynamicResource TaskQueue.PostAction.IfNoOtherMaa}" TextWrapping="Wrap" />
                 </CheckBox>
-                <controls:TooltipBlock VerticalAlignment="Center" TooltipText="{DynamicResource IfNoOtherMaaTip}" />
+                <controls:TooltipBlock VerticalAlignment="Center" TooltipText="{DynamicResource TaskQueue.PostAction.IfNoOtherMaa.Tip}" />
             </StackPanel>
 
             <CheckBox
                 Margin="0,8"
                 IsChecked="{Binding LockScreen}"
                 MouseRightButtonUp="{s:Action PostActionsAndOnce}">
-                <controls:TextBlock Text="{DynamicResource LockScreen}" TextWrapping="Wrap" />
+                <controls:TextBlock Text="{DynamicResource TaskQueue.PostAction.LockScreen}" TextWrapping="Wrap" />
             </CheckBox>
 
             <CheckBox
                 Margin="0,8"
                 IsChecked="{Binding Sleep}"
                 MouseRightButtonUp="{s:Action PostActionsAndOnce}">
-                <controls:TextBlock Text="{DynamicResource Sleep}" TextWrapping="Wrap" />
+                <controls:TextBlock Text="{DynamicResource TaskQueue.PostAction.Sleep}" TextWrapping="Wrap" />
             </CheckBox>
 
             <StackPanel
@@ -92,15 +92,15 @@
                 HorizontalAlignment="Left"
                 Orientation="Horizontal">
                 <CheckBox IsChecked="{Binding Hibernate}" MouseRightButtonUp="{s:Action PostActionsAndOnce}">
-                    <controls:TextBlock Text="{DynamicResource Hibernate}" TextWrapping="Wrap" />
+                    <controls:TextBlock Text="{DynamicResource TaskQueue.PostAction.Hibernate}" TextWrapping="Wrap" />
                 </CheckBox>
-                <controls:TooltipBlock x:Name="DormFilterNotStationedTipsTooltipBlock" TooltipText="{DynamicResource HibernateTip}" />
+                <controls:TooltipBlock x:Name="DormFilterNotStationedTipsTooltipBlock" TooltipText="{DynamicResource TaskQueue.PostAction.Hibernate.Tip}" />
             </StackPanel>
             <CheckBox
                 Margin="0,8"
                 IsChecked="{Binding Shutdown}"
                 MouseRightButtonUp="{s:Action PostActionsAndOnce}">
-                <controls:TextBlock Text="{DynamicResource Shutdown}" TextWrapping="Wrap" />
+                <controls:TextBlock Text="{DynamicResource TaskQueue.PostAction.Shutdown}" TextWrapping="Wrap" />
             </CheckBox>
 
             <hc:Divider />
@@ -109,9 +109,9 @@
                 HorizontalAlignment="Left"
                 Orientation="Horizontal">
                 <CheckBox IsChecked="{Binding SkipOnError}" MouseRightButtonUp="{s:Action PostActionsAndOnce}">
-                    <controls:TextBlock Text="{DynamicResource SkipPostActionOnError}" TextWrapping="Wrap" />
+                    <controls:TextBlock Text="{DynamicResource TaskQueue.PostAction.SkipOnError}" TextWrapping="Wrap" />
                 </CheckBox>
-                <controls:TooltipBlock TooltipText="{DynamicResource SkipPostActionOnErrorTip}" />
+                <controls:TooltipBlock TooltipText="{DynamicResource TaskQueue.PostAction.SkipOnError.Tip}" />
             </StackPanel>
 
         </StackPanel>

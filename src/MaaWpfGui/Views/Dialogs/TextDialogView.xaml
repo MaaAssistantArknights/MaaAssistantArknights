@@ -7,7 +7,7 @@
     xmlns:hc="https://handyorg.github.io/handycontrol"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     x:Name="TextDialogWindow"
-    Title="{DynamicResource RenameTask}"
+    Title="{DynamicResource TaskQueue.RenameTask}"
     Width="400"
     Height="200"
     Background="{DynamicResource RegionBrush}"
@@ -26,7 +26,7 @@
             x:Name="PromptTextBlock"
             Grid.Row="0"
             Margin="0,0,0,15"
-            Text="{DynamicResource RenameTaskPrompt}"
+            Text="{DynamicResource TaskQueue.RenameTaskPrompt}"
             TextWrapping="Wrap" />
 
         <!--  输入框  -->
@@ -47,12 +47,12 @@
                 Height="32"
                 Margin="0,0,10,0"
                 Click="BtnOk_Click"
-                Content="{DynamicResource Ok}"
+                Content="{DynamicResource Common.Ok}"
                 IsDefault="True" />
             <Button
                 Width="80"
                 Height="32"
-                Content="{DynamicResource Cancel}"
+                Content="{DynamicResource Common.Cancel}"
                 IsCancel="True" />
         </StackPanel>
     </Grid>

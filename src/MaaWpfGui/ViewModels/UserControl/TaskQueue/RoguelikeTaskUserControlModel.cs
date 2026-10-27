@@ -85,7 +85,7 @@ public class RoguelikeTaskUserControlModel : TaskSettingsViewModel, RoguelikeTas
         {
             int value = i;
             var display = value switch {
-                -1 => LocalizationHelper.GetString("NotSwitch") + " (-1)",
+                -1 => LocalizationHelper.GetString("TaskQueue.NotSwitch") + " (-1)",
                 int.MaxValue => $"MAX ({maxThemeDifficulty})",
                 0 => "MIN (0)",
                 _ => value.ToString(),
@@ -117,31 +117,31 @@ public class RoguelikeTaskUserControlModel : TaskSettingsViewModel, RoguelikeTas
         {
             baseList =
             [
-                new() { Display = LocalizationHelper.GetString("RoguelikeStrategyExp"), Value = Mode.Exp },
-                new() { Display = LocalizationHelper.GetString("RoguelikeStrategyBlackFlowInvestment"), Value = Mode.Investment },
-                new() { Display = LocalizationHelper.GetString("RoguelikeStrategyBlackFlowStartRun"), Value = Mode.BlackFlowStartRun },
+                new() { Display = LocalizationHelper.GetString("Roguelike.Strategy.Exp"), Value = Mode.Exp },
+                new() { Display = LocalizationHelper.GetString("Roguelike.BlackFlow.Strategy.Investment"), Value = Mode.Investment },
+                new() { Display = LocalizationHelper.GetString("Roguelike.BlackFlow.Strategy.StartRun"), Value = Mode.BlackFlowStartRun },
             ];
         }
         else
         {
             baseList =
             [
-                new() { Display = LocalizationHelper.GetString("RoguelikeStrategyExp"), Value = Mode.Exp },
-                new() { Display = LocalizationHelper.GetString("RoguelikeStrategyGold"), Value = Mode.Investment },
-                new() { Display = LocalizationHelper.GetString("RoguelikeStrategyLastReward"), Value = Mode.Collectible },
-                new() { Display = LocalizationHelper.GetString("RoguelikeStrategyMonthlySquad"), Value = Mode.Squad },
-                new() { Display = LocalizationHelper.GetString("RoguelikeStrategyDeepExploration"), Value = Mode.Exploration },
+                new() { Display = LocalizationHelper.GetString("Roguelike.Strategy.Exp"), Value = Mode.Exp },
+                new() { Display = LocalizationHelper.GetString("Roguelike.Strategy.Gold"), Value = Mode.Investment },
+                new() { Display = LocalizationHelper.GetString("Roguelike.Strategy.LastReward"), Value = Mode.Collectible },
+                new() { Display = LocalizationHelper.GetString("Roguelike.Strategy.MonthlySquad"), Value = Mode.Squad },
+                new() { Display = LocalizationHelper.GetString("Roguelike.Strategy.DeepExploration"), Value = Mode.Exploration },
             ];
         }
 
         switch (RoguelikeTheme)
         {
             case Theme.Sami:
-                baseList.Add(new() { Display = LocalizationHelper.GetString("RoguelikeStrategyCollapse"), Value = Mode.CLP_PDS });
+                baseList.Add(new() { Display = LocalizationHelper.GetString("Roguelike.Strategy.Collapse"), Value = Mode.CLP_PDS });
                 break;
 
             case Theme.JieGarden:
-                baseList.Add(new() { Display = LocalizationHelper.GetString("RoguelikeStrategyFindPlaytime"), Value = Mode.FindPlaytime });
+                baseList.Add(new() { Display = LocalizationHelper.GetString("Roguelike.Strategy.FindPlaytime"), Value = Mode.FindPlaytime });
                 break;
         }
 
@@ -154,21 +154,21 @@ public class RoguelikeTaskUserControlModel : TaskSettingsViewModel, RoguelikeTas
         var roguelikeRoles = RoguelikeRoles;
         RoguelikeRolesList =
         [
-            new() { Display = LocalizationHelper.GetString("FirstMoveAdvantage"), Value = "先手必胜" },
-            new() { Display = LocalizationHelper.GetString("SlowAndSteadyWinsTheRace"), Value = "稳扎稳打" },
-            new() { Display = LocalizationHelper.GetString("OvercomingYourWeaknesses"), Value = "取长补短" },
+            new() { Display = LocalizationHelper.GetString("Roguelike.Roles.FirstMoveAdvantage"), Value = "先手必胜" },
+            new() { Display = LocalizationHelper.GetString("Roguelike.Roles.SlowAndSteadyWinsTheRace"), Value = "稳扎稳打" },
+            new() { Display = LocalizationHelper.GetString("Roguelike.Roles.OvercomingYourWeaknesses"), Value = "取长补短" },
         ];
 
         switch (RoguelikeTheme)
         {
             case Theme.JieGarden:
             case Theme.BlackFlow:
-                RoguelikeRolesList.Add(new() { Display = LocalizationHelper.GetString("FlexibleDeployment"), Value = "灵活部署" });
-                RoguelikeRolesList.Add(new() { Display = LocalizationHelper.GetString("Unbreakable"), Value = "坚不可摧" });
+                RoguelikeRolesList.Add(new() { Display = LocalizationHelper.GetString("Roguelike.Roles.FlexibleDeployment"), Value = "灵活部署" });
+                RoguelikeRolesList.Add(new() { Display = LocalizationHelper.GetString("Roguelike.Roles.Unbreakable"), Value = "坚不可摧" });
                 break;
         }
 
-        RoguelikeRolesList.Add(new() { Display = LocalizationHelper.GetString("AsYourHeartDesires"), Value = "随心所欲" });
+        RoguelikeRolesList.Add(new() { Display = LocalizationHelper.GetString("Roguelike.Roles.AsYourHeartDesires"), Value = "随心所欲" });
 
         RoguelikeRoles = RoguelikeRolesList.Any(x => x.Value == roguelikeRoles) ? roguelikeRoles : "稳扎稳打";
     }
@@ -176,90 +176,90 @@ public class RoguelikeTaskUserControlModel : TaskSettingsViewModel, RoguelikeTas
     private readonly Dictionary<string, List<(string Key, string Value)>> _squadDictionary = new() {
         ["Phantom_Default"] =
         [
-            ("GatheringSquad", "集群分队"),
-            ("SpearheadSquad", "矛头分队"),
-            ("ResearchSquad", "研究分队"),
+            ("Roguelike.Squad.Gathering", "集群分队"),
+            ("Roguelike.Squad.Spearhead", "矛头分队"),
+            ("Roguelike.Squad.Research", "研究分队"),
         ],
         ["Mizuki_Default"] =
         [
-            ("GatheringSquad", "集群分队"),
-            ("SpearheadSquad", "矛头分队"),
-            ("IS2NewSquad1", "心胜于物分队"),
-            ("IS2NewSquad2", "物尽其用分队"),
-            ("IS2NewSquad3", "以人为本分队"),
-            ("ResearchSquad", "研究分队"),
+            ("Roguelike.Squad.Gathering", "集群分队"),
+            ("Roguelike.Squad.Spearhead", "矛头分队"),
+            ("Roguelike.Squad.IS2NewSquad1", "心胜于物分队"),
+            ("Roguelike.Squad.IS2NewSquad2", "物尽其用分队"),
+            ("Roguelike.Squad.IS2NewSquad3", "以人为本分队"),
+            ("Roguelike.Squad.Research", "研究分队"),
         ],
         ["Sami_Default"] =
         [
-            ("GatheringSquad", "集群分队"),
-            ("SpearheadSquad", "矛头分队"),
-            ("IS3NewSquad1", "永恒狩猎分队"),
-            ("IS3NewSquad2", "生活至上分队"),
-            ("IS3NewSquad3", "科学主义分队"),
-            ("IS3NewSquad4", "特训分队"),
+            ("Roguelike.Squad.Gathering", "集群分队"),
+            ("Roguelike.Squad.Spearhead", "矛头分队"),
+            ("Roguelike.Squad.IS3NewSquad1", "永恒狩猎分队"),
+            ("Roguelike.Squad.IS3NewSquad2", "生活至上分队"),
+            ("Roguelike.Squad.IS3NewSquad3", "科学主义分队"),
+            ("Roguelike.Squad.IS3NewSquad4", "特训分队"),
         ],
         ["Sarkaz_1"] =
         [
-            ("GatheringSquad", "集群分队"),
-            ("SpearheadSquad", "矛头分队"),
-            ("IS4NewSquad2", "博闻广记分队"),
-            ("IS4NewSquad3", "蓝图测绘分队"),
-            ("IS4NewSquad6", "点刺成锭分队"),
-            ("IS4NewSquad7", "拟态学者分队"),
+            ("Roguelike.Squad.Gathering", "集群分队"),
+            ("Roguelike.Squad.Spearhead", "矛头分队"),
+            ("Roguelike.Squad.IS4NewSquad2", "博闻广记分队"),
+            ("Roguelike.Squad.IS4NewSquad3", "蓝图测绘分队"),
+            ("Roguelike.Squad.IS4NewSquad6", "点刺成锭分队"),
+            ("Roguelike.Squad.IS4NewSquad7", "拟态学者分队"),
         ],
         ["Sarkaz_Default"] =
         [
-            ("GatheringSquad", "集群分队"),
-            ("SpearheadSquad", "矛头分队"),
-            ("IS4NewSquad1", "魂灵护送分队"),
-            ("IS4NewSquad2", "博闻广记分队"),
-            ("IS4NewSquad3", "蓝图测绘分队"),
-            ("IS4NewSquad4", "因地制宜分队"),
-            ("IS4NewSquad5", "异想天开分队"),
-            ("IS4NewSquad6", "点刺成锭分队"),
-            ("IS4NewSquad7", "拟态学者分队"),
-            ("IS4NewSquad8", "专业人士分队"),
+            ("Roguelike.Squad.Gathering", "集群分队"),
+            ("Roguelike.Squad.Spearhead", "矛头分队"),
+            ("Roguelike.Squad.IS4NewSquad1", "魂灵护送分队"),
+            ("Roguelike.Squad.IS4NewSquad2", "博闻广记分队"),
+            ("Roguelike.Squad.IS4NewSquad3", "蓝图测绘分队"),
+            ("Roguelike.Squad.IS4NewSquad4", "因地制宜分队"),
+            ("Roguelike.Squad.IS4NewSquad5", "异想天开分队"),
+            ("Roguelike.Squad.IS4NewSquad6", "点刺成锭分队"),
+            ("Roguelike.Squad.IS4NewSquad7", "拟态学者分队"),
+            ("Roguelike.Squad.IS4NewSquad8", "专业人士分队"),
         ],
         ["JieGarden_Default"] =
         [
-            ("SpecialForceSquad", "特勤分队"),
-            ("IS5NewSquad1", "高台突破分队"),
-            ("IS5NewSquad2", "地面突破分队"),
-            ("IS5NewSquad3", "游客分队"),
-            ("IS5NewSquad4", "司岁台分队"),
-            ("IS5NewSquad5", "天师府分队"),
-            ("IS5NewSquad6", "花团锦簇分队"),
-            ("IS5NewSquad7", "棋行险着分队"),
-            ("IS5NewSquad8", "岁影回音分队"),
-            ("IS5NewSquad9", "代理人分队"),
-            ("IS5NewSquad10", "知学分队"),
-            ("IS5NewSquad11", "商贾分队"),
+            ("Roguelike.Squad.SpecialForce", "特勤分队"),
+            ("Roguelike.Squad.IS5NewSquad1", "高台突破分队"),
+            ("Roguelike.Squad.IS5NewSquad2", "地面突破分队"),
+            ("Roguelike.Squad.IS5NewSquad3", "游客分队"),
+            ("Roguelike.Squad.IS5NewSquad4", "司岁台分队"),
+            ("Roguelike.Squad.IS5NewSquad5", "天师府分队"),
+            ("Roguelike.Squad.IS5NewSquad6", "花团锦簇分队"),
+            ("Roguelike.Squad.IS5NewSquad7", "棋行险着分队"),
+            ("Roguelike.Squad.IS5NewSquad8", "岁影回音分队"),
+            ("Roguelike.Squad.IS5NewSquad9", "代理人分队"),
+            ("Roguelike.Squad.IS5NewSquad10", "知学分队"),
+            ("Roguelike.Squad.IS5NewSquad11", "商贾分队"),
         ],
         ["BlackFlow_Default"] =
         [
-            ("SpecialForceSquad", "特勤分队"),
-            ("SpearheadSquad", "矛头分队"),
-            ("IS5NewSquad1", "高台突破分队"),
-            ("IS5NewSquad2", "地面突破分队"),
-            ("IS6NewSquad1", "本源研修分队"),
-            ("IS6NewSquad2", "文明开化分队"),
-            ("IS6NewSquad3", "开拓者分队"),
-            ("IS6NewSquad4", "多边贸易分队"),
-            ("IS6NewSquad5", "地质调查分队"),
-            ("IS6NewSquad6", "团结阵线分队"),
-            ("IS6NewSquad7", "踏足遍历分队"),
+            ("Roguelike.Squad.SpecialForce", "特勤分队"),
+            ("Roguelike.Squad.Spearhead", "矛头分队"),
+            ("Roguelike.Squad.IS5NewSquad1", "高台突破分队"),
+            ("Roguelike.Squad.IS5NewSquad2", "地面突破分队"),
+            ("Roguelike.Squad.IS6NewSquad1", "本源研修分队"),
+            ("Roguelike.Squad.IS6NewSquad2", "文明开化分队"),
+            ("Roguelike.Squad.IS6NewSquad3", "开拓者分队"),
+            ("Roguelike.Squad.IS6NewSquad4", "多边贸易分队"),
+            ("Roguelike.Squad.IS6NewSquad5", "地质调查分队"),
+            ("Roguelike.Squad.IS6NewSquad6", "团结阵线分队"),
+            ("Roguelike.Squad.IS6NewSquad7", "踏足遍历分队"),
         ],
     };
 
     // 通用分队
     private readonly List<(string Key, string Value)> _commonSquads =
     [
-        ("LeaderSquad", "指挥分队"),
-        ("SupportSquad", "后勤分队"),
-        ("TacticalAssaultOperative", "突击战术分队"),
-        ("TacticalFortificationOperative", "堡垒战术分队"),
-        ("TacticalRangedOperative", "远程战术分队"),
-        ("TacticalDestructionOperative", "破坏战术分队"),
+        ("Roguelike.Squad.Leader", "指挥分队"),
+        ("Roguelike.Squad.Support", "后勤分队"),
+        ("Roguelike.Squad.TacticalAssault", "突击战术分队"),
+        ("Roguelike.Squad.TacticalFortification", "堡垒战术分队"),
+        ("Roguelike.Squad.TacticalRanged", "远程战术分队"),
+        ("Roguelike.Squad.TacticalDestruction", "破坏战术分队"),
     ];
 
     private void UpdateRoguelikeSquadList()
@@ -287,7 +287,7 @@ public class RoguelikeTaskUserControlModel : TaskSettingsViewModel, RoguelikeTas
         // 添加通用分队
         foreach (var (key, value) in _commonSquads)
         {
-            if (RoguelikeTheme == Theme.BlackFlow && key == "First-ClassSquad")
+            if (RoguelikeTheme == Theme.BlackFlow && key == "Roguelike.Squad.FirstClass")
             {
                 continue;
             }
@@ -296,7 +296,7 @@ public class RoguelikeTaskUserControlModel : TaskSettingsViewModel, RoguelikeTas
 
         if (RoguelikeTheme is Theme.Phantom or Theme.Mizuki or Theme.Sami or Theme.Sarkaz or Theme.JieGarden)
         {
-            RoguelikeSquadList.Add(new() { Display = LocalizationHelper.GetString("First-ClassSquad"), Value = "高规格分队" });
+            RoguelikeSquadList.Add(new() { Display = LocalizationHelper.GetString("Roguelike.Squad.FirstClass"), Value = "高规格分队" });
         }
 
         // 选择当前分队
@@ -403,12 +403,12 @@ public class RoguelikeTaskUserControlModel : TaskSettingsViewModel, RoguelikeTas
     /// Gets the list of roguelike lists.
     /// </summary>
     public LocalizedObservableList<Theme> RoguelikeThemeList { get; } = new(
-        (Theme.Phantom, "RoguelikeThemePhantom"),
-        (Theme.Mizuki, "RoguelikeThemeMizuki"),
-        (Theme.Sami, "RoguelikeThemeSami"),
-        (Theme.Sarkaz, "RoguelikeThemeSarkaz"),
-        (Theme.JieGarden, "RoguelikeThemeJieGarden"),
-        (Theme.BlackFlow, "RoguelikeThemeBlackFlow"));
+        (Theme.Phantom, "Roguelike.Theme.Phantom"),
+        (Theme.Mizuki, "Roguelike.Theme.Mizuki"),
+        (Theme.Sami, "Roguelike.Theme.Sami"),
+        (Theme.Sarkaz, "Roguelike.Theme.Sarkaz"),
+        (Theme.JieGarden, "Roguelike.Theme.JieGarden"),
+        (Theme.BlackFlow, "Roguelike.Theme.BlackFlow"));
 
     /// <summary>
     /// Gets or sets the Roguelike theme.
@@ -527,8 +527,8 @@ public class RoguelikeTaskUserControlModel : TaskSettingsViewModel, RoguelikeTas
             }
 
             Instances.TaskQueueViewModel.AddLog(string.IsNullOrEmpty(value)
-                ? LocalizationHelper.GetString("RoguelikeCoreCharCleared")
-                : LocalizationHelper.GetStringFormat("RoguelikeCoreCharSet", value));
+                ? LocalizationHelper.GetString("Roguelike.StartingCoreChar.Cleared")
+                : LocalizationHelper.GetStringFormat("Roguelike.StartingCoreChar.Set", value));
         }
     }
 
@@ -552,7 +552,7 @@ public class RoguelikeTaskUserControlModel : TaskSettingsViewModel, RoguelikeTas
 
     [PropertyDependsOn(nameof(RoguelikeTheme))]
     [PropertyDependsOn(typeof(GuiSettingsUserControlModel), nameof(GuiSettingsUserControlModel.Language))]
-    public string StartingCoreCharTip => LocalizationHelper.GetString("StartingCoreCharTip") + "\n\n" + RoguelikeThemeTip;
+    public string StartingCoreCharTip => LocalizationHelper.GetString("Roguelike.StartingCoreChar.Tip") + "\n\n" + RoguelikeThemeTip;
 
     private ObservableCollection<string> _roguelikeCoreCharList = [];
 
@@ -624,17 +624,17 @@ public class RoguelikeTaskUserControlModel : TaskSettingsViewModel, RoguelikeTas
     {
         get {
             var key = RoguelikeTheme switch {
-                Theme.Phantom => "RoguelikeThemeTipPhantom",
-                Theme.Mizuki => "RoguelikeThemeTipMizuki",
-                Theme.Sami => "RoguelikeThemeTipSami",
-                Theme.Sarkaz => "RoguelikeThemeTipSarkaz",
-                Theme.JieGarden => "RoguelikeThemeTipJieGarden",
-                Theme.BlackFlow => "RoguelikeThemeTipBlackFlow",
-                _ => "RoguelikeThemeTipPhantom",
+                Theme.Phantom => "Roguelike.Theme.Phantom.Tip",
+                Theme.Mizuki => "Roguelike.Theme.Mizuki.Tip",
+                Theme.Sami => "Roguelike.Theme.Sami.Tip",
+                Theme.Sarkaz => "Roguelike.Theme.Sarkaz.Tip",
+                Theme.JieGarden => "Roguelike.Theme.JieGarden.Tip",
+                Theme.BlackFlow => "Roguelike.Theme.BlackFlow.Tip",
+                _ => "Roguelike.Theme.Phantom.Tip",
             };
 
             var tip = LocalizationHelper.GetString(key);
-            return string.IsNullOrWhiteSpace(tip) ? LocalizationHelper.GetString("RoguelikeTheme") ?? string.Empty : tip;
+            return string.IsNullOrWhiteSpace(tip) ? LocalizationHelper.GetString("Roguelike.Theme") ?? string.Empty : tip;
         }
     }
 
@@ -643,27 +643,27 @@ public class RoguelikeTaskUserControlModel : TaskSettingsViewModel, RoguelikeTas
         var config = GetTaskConfig<RoguelikeTask>().CollectibleStartAwards;
         var list = new List<GenericCombinedData<RoguelikeCollectibleAward>>()
         {
-           new() { Display = LocalizationHelper.GetString("RoguelikeStartWithKettle"), Value = RoguelikeCollectibleAward.HotWater },
-           new() { Display = LocalizationHelper.GetString("RoguelikeStartWithShield"), Value = RoguelikeCollectibleAward.Shield },
-           new() { Display = LocalizationHelper.GetString("RoguelikeStartWithIngot"), Value = RoguelikeCollectibleAward.Ingot },
-           new() { Display = LocalizationHelper.GetString("RoguelikeStartWithHope"), Value = RoguelikeCollectibleAward.Hope },
-           new() { Display = LocalizationHelper.GetString("RoguelikeStartWithRandomReward"), Value = RoguelikeCollectibleAward.Random },
+           new() { Display = LocalizationHelper.GetString("Roguelike.StartWith.Kettle"), Value = RoguelikeCollectibleAward.HotWater },
+           new() { Display = LocalizationHelper.GetString("Roguelike.StartWith.Shield"), Value = RoguelikeCollectibleAward.Shield },
+           new() { Display = LocalizationHelper.GetString("Roguelike.StartWith.Ingot"), Value = RoguelikeCollectibleAward.Ingot },
+           new() { Display = LocalizationHelper.GetString("Roguelike.StartWith.Hope"), Value = RoguelikeCollectibleAward.Hope },
+           new() { Display = LocalizationHelper.GetString("Roguelike.StartWith.RandomReward"), Value = RoguelikeCollectibleAward.Random },
         };
 
         switch (RoguelikeTheme)
         {
             case Theme.Mizuki:
-                list.Add(new() { Display = LocalizationHelper.GetString("RoguelikeStartWithKey"), Value = RoguelikeCollectibleAward.Key });
-                list.Add(new() { Display = LocalizationHelper.GetString("RoguelikeStartWithDice"), Value = RoguelikeCollectibleAward.Dice });
+                list.Add(new() { Display = LocalizationHelper.GetString("Roguelike.StartWith.Key"), Value = RoguelikeCollectibleAward.Key });
+                list.Add(new() { Display = LocalizationHelper.GetString("Roguelike.StartWith.Dice"), Value = RoguelikeCollectibleAward.Dice });
                 break;
 
             case Theme.Sarkaz:
-                list.Add(new() { Display = LocalizationHelper.GetString("RoguelikeStartWithIdea"), Value = RoguelikeCollectibleAward.Idea });
+                list.Add(new() { Display = LocalizationHelper.GetString("Roguelike.StartWith.Idea"), Value = RoguelikeCollectibleAward.Idea });
                 break;
 
             case Theme.JieGarden:
                 list.Remove(list.First(i => i.Value == RoguelikeCollectibleAward.Hope));
-                list.Add(new() { Display = LocalizationHelper.GetString("RoguelikeStartWithTicket"), Value = RoguelikeCollectibleAward.Ticket });
+                list.Add(new() { Display = LocalizationHelper.GetString("Roguelike.StartWith.Ticket"), Value = RoguelikeCollectibleAward.Ticket });
                 break;
         }
 
@@ -798,8 +798,8 @@ public class RoguelikeTaskUserControlModel : TaskSettingsViewModel, RoguelikeTas
 
     private static string GetUseSupportText(string operName, int position)
         => LocalizationHelper.GetStringFormat(
-            "RoguelikeUseSupportUnitFormat",
-            string.IsNullOrEmpty(operName) ? LocalizationHelper.GetString($"StartingCoreCharPosition{position}") : operName);
+            "Roguelike.UseSupportUnit.Format",
+            string.IsNullOrEmpty(operName) ? LocalizationHelper.GetString($"Roguelike.CoreCharPosition{position}") : operName);
 
     /// <summary>
     /// Gets or sets a value indicating whether can roguelike support unit belong to nonfriend.
@@ -924,9 +924,9 @@ public class RoguelikeTaskUserControlModel : TaskSettingsViewModel, RoguelikeTas
     /// Gets the list of available playtime target options for FindPlaytime mode.
     /// </summary>
     public LocalizedObservableList<RoguelikeBoskySubNodeType> RoguelikeFindPlaytimeTargetList { get; } = new(
-        (RoguelikeBoskySubNodeType.Ling, "RoguelikePlaytimeLing"),
-        (RoguelikeBoskySubNodeType.Shu, "RoguelikePlaytimeShu"),
-        (RoguelikeBoskySubNodeType.Nian, "RoguelikePlaytimeNian"));
+        (RoguelikeBoskySubNodeType.Ling, "Roguelike.Playtime.Ling"),
+        (RoguelikeBoskySubNodeType.Shu, "Roguelike.Playtime.Shu"),
+        (RoguelikeBoskySubNodeType.Nian, "Roguelike.Playtime.Nian"));
 
     /// <summary>
     /// Gets or sets a value indicating whether the BlackFlow exp mode flies to the third floor with the Mechanic.
@@ -951,17 +951,17 @@ public class RoguelikeTaskUserControlModel : TaskSettingsViewModel, RoguelikeTas
     /// 二、三结局暂不开放，选项不出现。
     /// </summary>
     public LocalizedObservableList<RoguelikeBlackFlowEnding> RoguelikeBlackFlowEndingList { get; } = new(
-        (RoguelikeBlackFlowEnding.Ending1, "RoguelikeBlackFlowEnding1"));
+        (RoguelikeBlackFlowEnding.Ending1, "Roguelike.BlackFlow.Ending1"));
 
     /// <summary>
     /// 刷开局动物下拉框的选项。羽蛇最多一只，另一格已选羽蛇时本格的羽蛇不可选。
     /// </summary>
     private static LocalizedObservableList<RoguelikeBlackFlowStartAnimal> CreateBlackFlowStartAnimalOptions() => new(
-        (RoguelikeBlackFlowStartAnimal.None, "RoguelikeBlackFlowStartAnimalNone", null, null),
-        (RoguelikeBlackFlowStartAnimal.Cat, "RoguelikeBlackFlowCultivationTargetCat", null, "RoguelikeBlackFlowCultivationTargetCatTip"),
-        (RoguelikeBlackFlowStartAnimal.Dog, "RoguelikeBlackFlowCultivationTargetDog", null, "RoguelikeBlackFlowCultivationTargetDogTip"),
-        (RoguelikeBlackFlowStartAnimal.Cerberus, "RoguelikeBlackFlowCultivationTargetCerberus", null, "RoguelikeBlackFlowCultivationTargetCerberusTip"),
-        (RoguelikeBlackFlowStartAnimal.FeatheredSerpent, "RoguelikeBlackFlowCultivationTargetFeatheredSerpent", null, "RoguelikeBlackFlowCultivationTargetFeatheredSerpentTip"));
+        (RoguelikeBlackFlowStartAnimal.None, "Roguelike.BlackFlow.StartAnimalNone", null, null),
+        (RoguelikeBlackFlowStartAnimal.Cat, "Roguelike.BlackFlow.CultivationTargetCat", null, "Roguelike.BlackFlow.CultivationTargetCat.Tip"),
+        (RoguelikeBlackFlowStartAnimal.Dog, "Roguelike.BlackFlow.CultivationTargetDog", null, "Roguelike.BlackFlow.CultivationTargetDog.Tip"),
+        (RoguelikeBlackFlowStartAnimal.Cerberus, "Roguelike.BlackFlow.CultivationTargetCerberus", null, "Roguelike.BlackFlow.CultivationTargetCerberus.Tip"),
+        (RoguelikeBlackFlowStartAnimal.FeatheredSerpent, "Roguelike.BlackFlow.CultivationTargetFeatheredSerpent", null, "Roguelike.BlackFlow.CultivationTargetFeatheredSerpent.Tip"));
 
     public LocalizedObservableList<RoguelikeBlackFlowStartAnimal> RoguelikeBlackFlowStartAnimal1List { get; } = CreateBlackFlowStartAnimalOptions();
 
@@ -1006,20 +1006,20 @@ public class RoguelikeTaskUserControlModel : TaskSettingsViewModel, RoguelikeTas
     /// 刷开局奖励下拉框的选项。框内标签只显示名字，效果放在下拉项的悬浮提示里。
     /// </summary>
     public LocalizedObservableList<RoguelikeBlackFlowStartReward> RoguelikeBlackFlowStartRewardList { get; } = new(
-        (RoguelikeBlackFlowStartReward.UnnumberedItem, "RoguelikeBlackFlowRewardUnnumberedItem", null, "RoguelikeBlackFlowRewardUnnumberedItemTip"),
-        (RoguelikeBlackFlowStartReward.SurveyAdvance, "RoguelikeBlackFlowRewardSurveyAdvance", null, "RoguelikeBlackFlowRewardSurveyAdvanceTip"),
-        (RoguelikeBlackFlowStartReward.SpaceLease, "RoguelikeBlackFlowRewardSpaceLease", null, "RoguelikeBlackFlowRewardSpaceLeaseTip"),
-        (RoguelikeBlackFlowStartReward.RegressionCompensation, "RoguelikeBlackFlowRewardRegressionCompensation", null, "RoguelikeBlackFlowRewardRegressionCompensationTip"),
-        (RoguelikeBlackFlowStartReward.ForestRide, "RoguelikeBlackFlowRewardForestRide", null, "RoguelikeBlackFlowRewardForestRideTip"),
-        (RoguelikeBlackFlowStartReward.NestParasitism, "RoguelikeBlackFlowRewardNestParasitism", null, "RoguelikeBlackFlowRewardNestParasitismTip"));
+        (RoguelikeBlackFlowStartReward.UnnumberedItem, "Roguelike.BlackFlow.RewardUnnumberedItem", null, "Roguelike.BlackFlow.RewardUnnumberedItem.Tip"),
+        (RoguelikeBlackFlowStartReward.SurveyAdvance, "Roguelike.BlackFlow.RewardSurveyAdvance", null, "Roguelike.BlackFlow.RewardSurveyAdvance.Tip"),
+        (RoguelikeBlackFlowStartReward.SpaceLease, "Roguelike.BlackFlow.RewardSpaceLease", null, "Roguelike.BlackFlow.RewardSpaceLease.Tip"),
+        (RoguelikeBlackFlowStartReward.RegressionCompensation, "Roguelike.BlackFlow.RewardRegressionCompensation", null, "Roguelike.BlackFlow.RewardRegressionCompensation.Tip"),
+        (RoguelikeBlackFlowStartReward.ForestRide, "Roguelike.BlackFlow.RewardForestRide", null, "Roguelike.BlackFlow.RewardForestRide.Tip"),
+        (RoguelikeBlackFlowStartReward.NestParasitism, "Roguelike.BlackFlow.RewardNestParasitism", null, "Roguelike.BlackFlow.RewardNestParasitism.Tip"));
 
     public LocalizedObservableList<RoguelikeBlackFlowStartReward> RoguelikeBlackFlowSerpentRewardList { get; } = new(
-        (RoguelikeBlackFlowStartReward.Pegasus, "RoguelikeBlackFlowRewardPegasus", null, "RoguelikeBlackFlowRewardPegasusTip"),
-        (RoguelikeBlackFlowStartReward.Hippogriff, "RoguelikeBlackFlowRewardHippogriff", null, "RoguelikeBlackFlowRewardHippogriffTip"),
-        (RoguelikeBlackFlowStartReward.Dragon, "RoguelikeBlackFlowRewardDragon", null, "RoguelikeBlackFlowRewardDragonTip"),
-        (RoguelikeBlackFlowStartReward.Hydra, "RoguelikeBlackFlowRewardHydra", null, "RoguelikeBlackFlowRewardHydraTip"),
-        (RoguelikeBlackFlowStartReward.BaiZe, "RoguelikeBlackFlowRewardBaiZe", null, "RoguelikeBlackFlowRewardBaiZeTip"),
-        (RoguelikeBlackFlowStartReward.GoldenCrow, "RoguelikeBlackFlowRewardGoldenCrow", null, "RoguelikeBlackFlowRewardGoldenCrowTip"));
+        (RoguelikeBlackFlowStartReward.Pegasus, "Roguelike.BlackFlow.RewardPegasus", null, "Roguelike.BlackFlow.RewardPegasus.Tip"),
+        (RoguelikeBlackFlowStartReward.Hippogriff, "Roguelike.BlackFlow.RewardHippogriff", null, "Roguelike.BlackFlow.RewardHippogriff.Tip"),
+        (RoguelikeBlackFlowStartReward.Dragon, "Roguelike.BlackFlow.RewardDragon", null, "Roguelike.BlackFlow.RewardDragon.Tip"),
+        (RoguelikeBlackFlowStartReward.Hydra, "Roguelike.BlackFlow.RewardHydra", null, "Roguelike.BlackFlow.RewardHydra.Tip"),
+        (RoguelikeBlackFlowStartReward.BaiZe, "Roguelike.BlackFlow.RewardBaiZe", null, "Roguelike.BlackFlow.RewardBaiZe.Tip"),
+        (RoguelikeBlackFlowStartReward.GoldenCrow, "Roguelike.BlackFlow.RewardGoldenCrow", null, "Roguelike.BlackFlow.RewardGoldenCrow.Tip"));
 
     private object[] SelectBlackFlowRewards(LocalizedObservableList<RoguelikeBlackFlowStartReward> options)
     {
@@ -1194,13 +1194,13 @@ public class RoguelikeTaskUserControlModel : TaskSettingsViewModel, RoguelikeTas
     }
 
     private static string LocalizeBlackFlowProfile(string? profile) => profile switch {
-        "ending1" => LocalizationHelper.GetString("RoguelikeBlackFlowEnding1"),
-        "ending2" => LocalizationHelper.GetString("RoguelikeBlackFlowEnding2"),
-        "ending3" => LocalizationHelper.GetString("RoguelikeBlackFlowEnding3"),
-        "investment" => LocalizationHelper.GetString("RoguelikeStrategyBlackFlowInvestment"),
-        "burn" or "burn_with_investment" => LocalizationHelper.GetString("RoguelikeStrategyBlackFlowExp"),
-        "baby_animal" or "baby_animal_floor3" or "start_run_animals" or "start_run_rewards" or "start_run_rewards_with_investment" => LocalizationHelper.GetString("RoguelikeStrategyBlackFlowStartRun"),
-        _ => LocalizationHelper.GetString("BlackFlowStrategyUnknown"),
+        "ending1" => LocalizationHelper.GetString("Roguelike.BlackFlow.Ending1"),
+        "ending2" => LocalizationHelper.GetString("Roguelike.BlackFlow.Ending2"),
+        "ending3" => LocalizationHelper.GetString("Roguelike.BlackFlow.Ending3"),
+        "investment" => LocalizationHelper.GetString("Roguelike.BlackFlow.Strategy.Investment"),
+        "burn" or "burn_with_investment" => LocalizationHelper.GetString("Roguelike.BlackFlow.Strategy.Exp"),
+        "baby_animal" or "baby_animal_floor3" or "start_run_animals" or "start_run_rewards" or "start_run_rewards_with_investment" => LocalizationHelper.GetString("Roguelike.BlackFlow.Strategy.StartRun"),
+        _ => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.StrategyUnknown"),
     };
 
     private static string LocalizeBlackFlowIdentifier(string prefix, string? identifier, string fallbackKey)
@@ -1219,105 +1219,105 @@ public class RoguelikeTaskUserControlModel : TaskSettingsViewModel, RoguelikeTas
     }
 
     private static string LocalizeBlackFlowNodeType(string? nodeType) => nodeType switch {
-        "empty" => LocalizationHelper.GetString("BlackFlowNodeEmpty"),
-        "battle_normal" or "combat" => LocalizationHelper.GetString("BlackFlowNodeCombat"),
-        "battle_elite" or "emergency_combat" => LocalizationHelper.GetString("BlackFlowNodeEmergencyCombat"),
-        "battle_boss" or "boss" => LocalizationHelper.GetString("BlackFlowNodeBoss"),
-        "shop" or "battle_shop" => LocalizationHelper.GetString("BlackFlowNodeBattleShop"),
-        "scrap_shop" => LocalizationHelper.GetString("BlackFlowNodeScrapShop"),
-        "incident" or "encounter" => LocalizationHelper.GetString("BlackFlowNodeEncounter"),
-        "hide_invisible" or "mysterious_presage" => LocalizationHelper.GetString("BlackFlowNodeMysteriousPresage"),
-        "hide_battle" or "ferocious_presage" => LocalizationHelper.GetString("BlackFlowNodeFerociousPresage"),
-        "expedition" or "scout" => LocalizationHelper.GetString("BlackFlowNodeScout"),
-        "battle_savage" => LocalizationHelper.GetString("BlackFlowNodeResidentStronghold"),
-        "duel" or "face_off" => LocalizationHelper.GetString("BlackFlowNodeDuel"),
-        "employ" or "emergency_aid" => LocalizationHelper.GetString("BlackFlowNodeEmergencyAid"),
-        "rest" => LocalizationHelper.GetString("BlackFlowNodeRest"),
-        "light" or "feather_point" => LocalizationHelper.GetString("BlackFlowNodeFeatherPoint"),
-        "door" or "winding_passage" => LocalizationHelper.GetString("BlackFlowNodeWindingPassage"),
-        "sacrifice" => LocalizationHelper.GetString("BlackFlowNodeSacrifice"),
-        "wish" => LocalizationHelper.GetString("BlackFlowNodeWish"),
-        "portal" or "bosky_passage" => LocalizationHelper.GetString("BlackFlowNodeBoskyPassage"),
-        "resident_stronghold" => LocalizationHelper.GetString("BlackFlowNodeResidentStronghold"),
-        "final" => LocalizationHelper.GetString("BlackFlowNodeFinal"),
-        "fate" => LocalizationHelper.GetString("BlackFlowNodeFate"),
-        "evacuate" => LocalizationHelper.GetString("BlackFlowNodeEvacuate"),
-        "teleporter" => LocalizationHelper.GetString("BlackFlowNodeTeleporter"),
-        "unclassified" => LocalizationHelper.GetString("BlackFlowNodeUnknown"),
-        "other" => LocalizationHelper.GetString("BlackFlowNodeOther"),
-        _ => LocalizationHelper.GetString("BlackFlowNodeUnknown"),
+        "empty" => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.NodeEmpty"),
+        "battle_normal" or "combat" => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.NodeCombat"),
+        "battle_elite" or "emergency_combat" => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.NodeEmergencyCombat"),
+        "battle_boss" or "boss" => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.NodeBoss"),
+        "shop" or "battle_shop" => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.NodeBattleShop"),
+        "scrap_shop" => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.NodeScrapShop"),
+        "incident" or "encounter" => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.NodeEncounter"),
+        "hide_invisible" or "mysterious_presage" => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.NodeMysteriousPresage"),
+        "hide_battle" or "ferocious_presage" => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.NodeFerociousPresage"),
+        "expedition" or "scout" => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.NodeScout"),
+        "battle_savage" => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.NodeResidentStronghold"),
+        "duel" or "face_off" => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.NodeDuel"),
+        "employ" or "emergency_aid" => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.NodeEmergencyAid"),
+        "rest" => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.NodeRest"),
+        "light" or "feather_point" => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.NodeFeatherPoint"),
+        "door" or "winding_passage" => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.NodeWindingPassage"),
+        "sacrifice" => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.NodeSacrifice"),
+        "wish" => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.NodeWish"),
+        "portal" or "bosky_passage" => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.NodeBoskyPassage"),
+        "resident_stronghold" => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.NodeResidentStronghold"),
+        "final" => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.NodeFinal"),
+        "fate" => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.NodeFate"),
+        "evacuate" => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.NodeEvacuate"),
+        "teleporter" => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.NodeTeleporter"),
+        "unclassified" => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.NodeUnknown"),
+        "other" => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.NodeOther"),
+        _ => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.NodeUnknown"),
     };
 
     private static string LocalizeBlackFlowMilestoneStatus(string? status) => status switch {
-        "available" => LocalizationHelper.GetString("BlackFlowMilestoneStatusAvailable"),
-        "satisfied" => LocalizationHelper.GetString("BlackFlowMilestoneStatusSatisfied"),
-        "missed" => LocalizationHelper.GetString("BlackFlowMilestoneStatusMissed"),
-        "impossible" => LocalizationHelper.GetString("BlackFlowMilestoneStatusImpossible"),
-        _ => LocalizationHelper.GetString("BlackFlowMilestoneStatusUnknown"),
+        "available" => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.MilestoneStatusAvailable"),
+        "satisfied" => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.MilestoneStatusSatisfied"),
+        "missed" => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.MilestoneStatusMissed"),
+        "impossible" => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.MilestoneStatusImpossible"),
+        _ => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.MilestoneStatusUnknown"),
     };
 
     private static string LocalizeBlackFlowStrategyOutcome(string? outcome) => outcome switch {
-        "start_run_prepared" => LocalizationHelper.GetString("BlackFlowStartRunPrepared"),
-        "start_run_utopia_missed" => LocalizationHelper.GetString("BlackFlowStartRunUtopiaMissed"),
-        "investment_completed" => LocalizationHelper.GetString("BlackFlowOutcomeInvestmentCompleted"),
-        "investment_missed" => LocalizationHelper.GetString("BlackFlowOutcomeInvestmentMissed"),
-        "burn_completed" => LocalizationHelper.GetString("BlackFlowOutcomeFloor3RouteCompleted"),
-        "baby_cultivation_completed" => LocalizationHelper.GetString("BlackFlowOutcomeBabyCultivationCompleted"),
-        "baby_cultivation_target_missed" => LocalizationHelper.GetString("BlackFlowOutcomeBabyCultivationTargetMissed"),
-        "ending_prerequisite_failed" => LocalizationHelper.GetString("BlackFlowOutcomeEndingPrerequisiteFailed"),
-        "strategy_completed" => LocalizationHelper.GetString("BlackFlowOutcomeStrategyCompleted"),
-        "page_recovery_failed" => LocalizationHelper.GetString("BlackFlowOutcomePageRecoveryFailed"),
-        "ending2_completed" => LocalizationHelper.GetString("BlackFlowOutcomeEnding2Completed"),
-        "ending3_completed" => LocalizationHelper.GetString("BlackFlowOutcomeEnding3Completed"),
-        "ending2_prerequisite_failed" => LocalizationHelper.GetString("BlackFlowOutcomeEnding2PrerequisiteFailed"),
-        "ending3_prerequisite_failed" => LocalizationHelper.GetString("BlackFlowOutcomeEnding3PrerequisiteFailed"),
-        "baby_cultivation_unfinished" => LocalizationHelper.GetString("BlackFlowOutcomeBabyCultivationUnfinished"),
-        "task_event_failed" => LocalizationHelper.GetString("BlackFlowOutcomeTaskEventFailed"),
-        "perception_port_missing" => LocalizationHelper.GetString("BlackFlowOutcomePerceptionPortMissing"),
-        "map_rebuild_failed" => LocalizationHelper.GetString("BlackFlowOutcomeMapRebuildFailed"),
-        "planning_failed" => LocalizationHelper.GetString("BlackFlowOutcomePlanningFailed"),
-        "transaction_proposal_failed" => LocalizationHelper.GetString("BlackFlowOutcomeTransactionProposalFailed"),
-        "move_preview_failed" => LocalizationHelper.GetString("BlackFlowOutcomeMovePreviewFailed"),
-        "move_preview_rejected" => LocalizationHelper.GetString("BlackFlowOutcomeMovePreviewRejected"),
-        "move_confirmation_failed" => LocalizationHelper.GetString("BlackFlowOutcomeMoveConfirmationFailed"),
-        "post_move_validation_failed" => LocalizationHelper.GetString("BlackFlowOutcomePostMoveValidationFailed"),
-        "planning_retry_exhausted" => LocalizationHelper.GetString("BlackFlowOutcomePlanningRetryExhausted"),
-        "state_machine_dead_end" => LocalizationHelper.GetString("BlackFlowOutcomeStateMachineDeadEnd"),
-        "map_recovery_exhausted" => LocalizationHelper.GetString("BlackFlowOutcomeMapRecoveryExhausted"),
-        "floor_recognition_failed" => LocalizationHelper.GetString("BlackFlowOutcomeFloorRecognitionFailed"),
-        "movement_inventory_observation_failed" => LocalizationHelper.GetString("BlackFlowOutcomeMovementInventoryFailed"),
-        "movement_selection_failed" => LocalizationHelper.GetString("BlackFlowOutcomeMovementSelectionFailed"),
-        "node_dispatch_failed" => LocalizationHelper.GetString("BlackFlowOutcomeNodeDispatchFailed"),
-        "node_result_failed" => LocalizationHelper.GetString("BlackFlowOutcomeNodeResultFailed"),
-        "internal_failure" => LocalizationHelper.GetString("BlackFlowOutcomeInternalFailure"),
-        _ => LocalizationHelper.GetString("BlackFlowOutcomeUnknown"),
+        "start_run_prepared" => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.StartRunPrepared"),
+        "start_run_utopia_missed" => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.StartRunUtopiaMissed"),
+        "investment_completed" => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.OutcomeInvestmentCompleted"),
+        "investment_missed" => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.OutcomeInvestmentMissed"),
+        "burn_completed" => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.OutcomeFloor3RouteCompleted"),
+        "baby_cultivation_completed" => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.OutcomeBabyCultivationCompleted"),
+        "baby_cultivation_target_missed" => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.OutcomeBabyCultivationTargetMissed"),
+        "ending_prerequisite_failed" => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.OutcomeEndingPrerequisiteFailed"),
+        "strategy_completed" => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.OutcomeStrategyCompleted"),
+        "page_recovery_failed" => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.OutcomePageRecoveryFailed"),
+        "ending2_completed" => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.OutcomeEnding2Completed"),
+        "ending3_completed" => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.OutcomeEnding3Completed"),
+        "ending2_prerequisite_failed" => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.OutcomeEnding2PrerequisiteFailed"),
+        "ending3_prerequisite_failed" => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.OutcomeEnding3PrerequisiteFailed"),
+        "baby_cultivation_unfinished" => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.OutcomeBabyCultivationUnfinished"),
+        "task_event_failed" => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.OutcomeTaskEventFailed"),
+        "perception_port_missing" => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.OutcomePerceptionPortMissing"),
+        "map_rebuild_failed" => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.OutcomeMapRebuildFailed"),
+        "planning_failed" => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.OutcomePlanningFailed"),
+        "transaction_proposal_failed" => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.OutcomeTransactionProposalFailed"),
+        "move_preview_failed" => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.OutcomeMovePreviewFailed"),
+        "move_preview_rejected" => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.OutcomeMovePreviewRejected"),
+        "move_confirmation_failed" => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.OutcomeMoveConfirmationFailed"),
+        "post_move_validation_failed" => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.OutcomePostMoveValidationFailed"),
+        "planning_retry_exhausted" => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.OutcomePlanningRetryExhausted"),
+        "state_machine_dead_end" => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.OutcomeStateMachineDeadEnd"),
+        "map_recovery_exhausted" => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.OutcomeMapRecoveryExhausted"),
+        "floor_recognition_failed" => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.OutcomeFloorRecognitionFailed"),
+        "movement_inventory_observation_failed" => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.OutcomeMovementInventoryFailed"),
+        "movement_selection_failed" => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.OutcomeMovementSelectionFailed"),
+        "node_dispatch_failed" => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.OutcomeNodeDispatchFailed"),
+        "node_result_failed" => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.OutcomeNodeResultFailed"),
+        "internal_failure" => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.OutcomeInternalFailure"),
+        _ => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.OutcomeUnknown"),
     };
 
     private static string LocalizeBlackFlowTerminationReason(string? reason) => reason switch {
-        "start_run_prepared" => LocalizationHelper.GetString("BlackFlowStartRunPreparedReason"),
-        "first_floor_without_utopia" => LocalizationHelper.GetString("BlackFlowStartRunUtopiaMissedReason"),
-        "investment_finished" => LocalizationHelper.GetString("BlackFlowTerminationInvestmentFinished"),
-        "investment_shop_window_closed" => LocalizationHelper.GetString("BlackFlowTerminationInvestmentShopWindowClosed"),
-        "third_floor_reached" => LocalizationHelper.GetString("BlackFlowTerminationFloor3Reached"),
-        "cultivation_result_reported" => LocalizationHelper.GetString("BlackFlowTerminationCultivationReported"),
-        "cultivation_target_obtained" => LocalizationHelper.GetString("BlackFlowTerminationCultivationTargetObtained"),
-        "cultivation_target_not_obtained" => LocalizationHelper.GetString("BlackFlowTerminationCultivationTargetNotObtained"),
-        "floor1_shop_has_no_seed" => LocalizationHelper.GetString("BlackFlowTerminationFloor1ShopNoSeed"),
-        "mandatory_prerequisite_missed" => LocalizationHelper.GetString("BlackFlowTerminationMandatoryPrerequisiteMissed"),
-        "strategy_terminal_reached" => LocalizationHelper.GetString("BlackFlowTerminationStrategyTerminalReached"),
-        "node_page_could_not_return_to_map" => LocalizationHelper.GetString("BlackFlowTerminationNodePageRecoveryFailed"),
-        "ending2_terminal_completed" => LocalizationHelper.GetString("BlackFlowTerminationEnding2Completed"),
-        "ending3_terminal_completed" => LocalizationHelper.GetString("BlackFlowTerminationEnding3Completed"),
-        "fifth_floor_reached_without_valid_sandtable_payment" => LocalizationHelper.GetString("BlackFlowTerminationEnding2PrerequisiteMissing"),
-        "fifth_floor_reached_without_special_device" => LocalizationHelper.GetString("BlackFlowTerminationEnding3RelicMissing"),
-        "third_floor_has_no_portal" => LocalizationHelper.GetString("BlackFlowTerminationNoBoskyPassage"),
-        "third_floor_action_points_exhausted" => LocalizationHelper.GetString("BlackFlowTerminationActionPointsExhaustedBeforeCultivation"),
-        "scrap_shop_never_reached" => LocalizationHelper.GetString("BlackFlowTerminationScrapShopNeverReached"),
-        "map recovery port is unavailable" => LocalizationHelper.GetString("BlackFlowTerminationRecoveryPortUnavailable"),
-        "BlackFlow perception and task port is not attached" => LocalizationHelper.GetString("BlackFlowTerminationPerceptionPortUnavailable"),
-        "map rebuild failed twice" => LocalizationHelper.GetString("BlackFlowTerminationMapRebuildFailedTwice"),
-        "preview replanning exceeded the finite candidate limit" => LocalizationHelper.GetString("BlackFlowTerminationPlanningRetryExhausted"),
-        _ => LocalizationHelper.GetString("BlackFlowTerminationUnknown"),
+        "start_run_prepared" => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.StartRunPreparedReason"),
+        "first_floor_without_utopia" => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.StartRunUtopiaMissedReason"),
+        "investment_finished" => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.TerminationInvestmentFinished"),
+        "investment_shop_window_closed" => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.TerminationInvestmentShopWindowClosed"),
+        "third_floor_reached" => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.TerminationFloor3Reached"),
+        "cultivation_result_reported" => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.TerminationCultivationReported"),
+        "cultivation_target_obtained" => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.TerminationCultivationTargetObtained"),
+        "cultivation_target_not_obtained" => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.TerminationCultivationTargetNotObtained"),
+        "floor1_shop_has_no_seed" => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.TerminationFloor1ShopNoSeed"),
+        "mandatory_prerequisite_missed" => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.TerminationMandatoryPrerequisiteMissed"),
+        "strategy_terminal_reached" => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.TerminationStrategyTerminalReached"),
+        "node_page_could_not_return_to_map" => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.TerminationNodePageRecoveryFailed"),
+        "ending2_terminal_completed" => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.TerminationEnding2Completed"),
+        "ending3_terminal_completed" => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.TerminationEnding3Completed"),
+        "fifth_floor_reached_without_valid_sandtable_payment" => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.TerminationEnding2PrerequisiteMissing"),
+        "fifth_floor_reached_without_special_device" => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.TerminationEnding3RelicMissing"),
+        "third_floor_has_no_portal" => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.TerminationNoBoskyPassage"),
+        "third_floor_action_points_exhausted" => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.TerminationActionPointsExhaustedBeforeCultivation"),
+        "scrap_shop_never_reached" => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.TerminationScrapShopNeverReached"),
+        "map recovery port is unavailable" => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.TerminationRecoveryPortUnavailable"),
+        "BlackFlow perception and task port is not attached" => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.TerminationPerceptionPortUnavailable"),
+        "map rebuild failed twice" => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.TerminationMapRebuildFailedTwice"),
+        "preview replanning exceeded the finite candidate limit" => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.TerminationPlanningRetryExhausted"),
+        _ => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.TerminationUnknown"),
     };
 
     public void ProcSubTaskMsg(AsstMsg msg, AsstSubTaskMsg? details)
@@ -1331,16 +1331,16 @@ public class RoguelikeTaskUserControlModel : TaskSettingsViewModel, RoguelikeTas
         switch (details?.What ?? string.Empty)
         {
             case "RoguelikeInvestmentReachFull":
-                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("RoguelikeInvestmentReachFull"), UiLogColor.Info);
+                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("Asst.Roguelike.InvestmentReachFull"), UiLogColor.Info);
                 AchievementTrackerHelper.Instance.SetProgress(AchievementIds.RoguelikeGoldMax, 999);
                 break;
 
             case "RoguelikeInvestmentReachLimit":
-                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetStringFormat("RoguelikeInvestmentReachLimit", subTaskDetails!["limit"]), UiLogColor.Info);
+                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetStringFormat("Asst.Roguelike.InvestmentReachLimit", subTaskDetails!["limit"]), UiLogColor.Info);
                 break;
 
             case "RoguelikeInvestment":
-                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetStringFormat("RoguelikeInvestment", subTaskDetails!["count"], subTaskDetails["total"], subTaskDetails["deposit"]), UiLogColor.Info);
+                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetStringFormat("Asst.Roguelike.Investment", subTaskDetails!["count"], subTaskDetails["total"], subTaskDetails["deposit"]), UiLogColor.Info);
                 AchievementTrackerHelper.Instance.SetProgress(AchievementIds.RoguelikeGoldMax, (int)subTaskDetails["deposit"]!);
                 break;
 
@@ -1364,7 +1364,7 @@ public class RoguelikeTaskUserControlModel : TaskSettingsViewModel, RoguelikeTas
                     }
 
                     var roguelikeInfo = LocalizationHelper.GetStringFormat(
-                        "RoguelikeSettlement",
+                        "Asst.Roguelike.Settlement",
                         pass ? "✓" : "✗",
                         report["floor"],
                         report["step"],
@@ -1411,19 +1411,19 @@ public class RoguelikeTaskUserControlModel : TaskSettingsViewModel, RoguelikeTas
                 break;
 
             case "RoguelikeEvent":
-                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("RoguelikeEvent") + $" {subTaskDetails!["name"]}", UiLogColor.EventIS);
+                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("Asst.Roguelike.Event") + $" {subTaskDetails!["name"]}", UiLogColor.EventIS);
                 break;
 
             case "RoguelikeEncounterOptions":
                 var options = (subTaskDetails!["options"]! as JArray) ?? [];
                 var logLines = new List<string>
                 {
-                    LocalizationHelper.GetStringFormat("RoguelikeEncounterOptions", options.Count),
+                    LocalizationHelper.GetStringFormat("Asst.Roguelike.EncounterOptions", options.Count),
                 };
 
                 foreach (var option in options)
                 {
-                    string messageKey = option["enabled"]!.Value<bool>() ? "RoguelikeEncounterEnabledOption" : "RoguelikeEncounterDisabledOption";
+                    string messageKey = option["enabled"]!.Value<bool>() ? "Asst.Roguelike.EncounterEnabledOption" : "Asst.Roguelike.EncounterDisabledOption";
                     var text = option["text"]!.ToString();
                     logLines.Add(LocalizationHelper.GetStringFormat(messageKey, text));
                 }
@@ -1439,10 +1439,10 @@ public class RoguelikeTaskUserControlModel : TaskSettingsViewModel, RoguelikeTas
                     // 理由取自策略文件里命中规则的 description，随策略配置，兜底选择不显示。
                     var reason = subTaskDetails?["rule_description"]?.ToString();
                     var message = usedFallback
-                        ? LocalizationHelper.GetStringFormat("RoguelikeEventSelectedFallback", optionText)
+                        ? LocalizationHelper.GetStringFormat("Asst.Roguelike.EventSelectedFallback", optionText)
                         : string.IsNullOrWhiteSpace(reason)
-                            ? LocalizationHelper.GetStringFormat("RoguelikeEventSelected", optionText)
-                            : LocalizationHelper.GetStringFormat("RoguelikeEventSelectedWithReason", optionText, reason);
+                            ? LocalizationHelper.GetStringFormat("Asst.Roguelike.EventSelected", optionText)
+                            : LocalizationHelper.GetStringFormat("Asst.Roguelike.EventSelectedWithReason", optionText, reason);
                     Instances.TaskQueueViewModel.AddLog(message, UiLogColor.EventIS);
                     break;
                 }
@@ -1453,8 +1453,8 @@ public class RoguelikeTaskUserControlModel : TaskSettingsViewModel, RoguelikeTas
                     var before = subTaskDetails?["action_points_before"]?.Value<int>() ?? 0;
                     var after = subTaskDetails?["action_points_after"]?.Value<int>() ?? 0;
                     var movement = subTaskDetails?["movement"]?.ToString() == "walk"
-                        ? LocalizationHelper.GetString("BlackFlowMovementWalk")
-                        : LocalizationHelper.GetString("BlackFlowMovementProcessing");
+                        ? LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.MovementWalk")
+                        : LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.MovementProcessing");
                     var nodeName = subTaskDetails?["node_name"]?.ToString();
                     if (string.IsNullOrWhiteSpace(nodeName))
                     {
@@ -1463,7 +1463,7 @@ public class RoguelikeTaskUserControlModel : TaskSettingsViewModel, RoguelikeTas
                     var margin = subTaskDetails?["safety_margin"]?.Value<int>() ?? 0;
                     Instances.TaskQueueViewModel.AddLog(
                         LocalizationHelper.GetStringFormat(
-                            "BlackFlowRoutingDecision",
+                            "Asst.Roguelike.BlackFlow.RoutingDecision",
                             floor,
                             before,
                             after,
@@ -1477,17 +1477,17 @@ public class RoguelikeTaskUserControlModel : TaskSettingsViewModel, RoguelikeTas
             case "BlackFlowRoutingWarning":
                 {
                     var warning = subTaskDetails?["code"]?.ToString() switch {
-                        "map_rebuild_failed" => LocalizationHelper.GetString("BlackFlowWarningMapRebuildFailed"),
-                        "page_recovery_failed" => LocalizationHelper.GetString("BlackFlowWarningPageRecoveryFailed"),
-                        "preview_cost_changed" => LocalizationHelper.GetString("BlackFlowWarningPreviewCostChanged"),
-                        "route_blocked" => LocalizationHelper.GetString("BlackFlowWarningRouteBlocked"),
-                        "insufficient_action_points" => LocalizationHelper.GetString("BlackFlowWarningInsufficientActionPoints"),
-                        "target_state_changed" => LocalizationHelper.GetString("BlackFlowWarningTargetStateChanged"),
-                        "target_unreachable" => LocalizationHelper.GetString("BlackFlowWarningTargetUnreachable"),
-                        "inferred_edge_selected" => LocalizationHelper.GetString("BlackFlowWarningInferredEdge"),
-                        "post_move_mismatch" => LocalizationHelper.GetString("BlackFlowWarningPostMoveMismatch"),
-                        "identity_conflict" => LocalizationHelper.GetString("BlackFlowWarningIdentityConflict"),
-                        _ => LocalizationHelper.GetString("BlackFlowWarningUnknown"),
+                        "map_rebuild_failed" => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.WarningMapRebuildFailed"),
+                        "page_recovery_failed" => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.WarningPageRecoveryFailed"),
+                        "preview_cost_changed" => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.WarningPreviewCostChanged"),
+                        "route_blocked" => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.WarningRouteBlocked"),
+                        "insufficient_action_points" => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.WarningInsufficientActionPoints"),
+                        "target_state_changed" => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.WarningTargetStateChanged"),
+                        "target_unreachable" => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.WarningTargetUnreachable"),
+                        "inferred_edge_selected" => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.WarningInferredEdge"),
+                        "post_move_mismatch" => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.WarningPostMoveMismatch"),
+                        "identity_conflict" => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.WarningIdentityConflict"),
+                        _ => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.WarningUnknown"),
                     };
                     Instances.TaskQueueViewModel.AddLog(warning, UiLogColor.Warning);
                     break;
@@ -1501,9 +1501,9 @@ public class RoguelikeTaskUserControlModel : TaskSettingsViewModel, RoguelikeTas
                         break;
                     }
                     var milestone = LocalizeBlackFlowIdentifier(
-                        "BlackFlowMilestone",
+                        "Asst.Roguelike.BlackFlow.Milestone",
                         subTaskDetails?["milestone_id"]?.ToString(),
-                        "BlackFlowMilestoneUnknown");
+                        "Asst.Roguelike.BlackFlow.MilestoneUnknown");
                     var status = LocalizeBlackFlowMilestoneStatus(statusCode);
                     var color = statusCode switch {
                         "satisfied" => UiLogColor.Success,
@@ -1511,7 +1511,7 @@ public class RoguelikeTaskUserControlModel : TaskSettingsViewModel, RoguelikeTas
                         _ => UiLogColor.Info,
                     };
                     Instances.TaskQueueViewModel.AddLog(
-                        LocalizationHelper.GetStringFormat("BlackFlowMilestoneChanged", milestone, status),
+                        LocalizationHelper.GetStringFormat("Asst.Roguelike.BlackFlow.MilestoneChanged", milestone, status),
                         color);
                     break;
                 }
@@ -1521,13 +1521,13 @@ public class RoguelikeTaskUserControlModel : TaskSettingsViewModel, RoguelikeTas
                     var discardedName = subTaskDetails?["name"]?.ToString() ?? string.Empty;
                     var (message, color) = subTaskDetails?["status"]?.ToString() switch {
                         "started" =>
-                            (LocalizationHelper.GetString("BlackFlowInventoryCleanupStarted"), UiLogColor.Warning),
+                            (LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.InventoryCleanupStarted"), UiLogColor.Warning),
                         "discarded" =>
-                            (LocalizationHelper.GetStringFormat("BlackFlowInventoryCleanupDiscarded", discardedName), UiLogColor.Info),
+                            (LocalizationHelper.GetStringFormat("Asst.Roguelike.BlackFlow.InventoryCleanupDiscarded", discardedName), UiLogColor.Info),
                         "completed" =>
-                            (LocalizationHelper.GetString("BlackFlowInventoryCleanupCompleted"), UiLogColor.Success),
+                            (LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.InventoryCleanupCompleted"), UiLogColor.Success),
                         "failed" =>
-                            (LocalizationHelper.GetString("BlackFlowInventoryCleanupFailed"), UiLogColor.Error),
+                            (LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.InventoryCleanupFailed"), UiLogColor.Error),
                         _ => (string.Empty, UiLogColor.Trace),
                     };
                     if (!string.IsNullOrEmpty(message))
@@ -1542,13 +1542,13 @@ public class RoguelikeTaskUserControlModel : TaskSettingsViewModel, RoguelikeTas
                 {
                     var item = subTaskDetails?["item"]?.ToString() ?? string.Empty;
                     var message = subTaskDetails?["reason"]?.ToString() switch {
-                        "market_unavailable" => LocalizationHelper.GetString("BlackFlowScrapTradeAbortedMarketUnavailable"),
-                        "inventory_incomplete" => LocalizationHelper.GetString("BlackFlowScrapTradeAbortedInventoryIncomplete"),
-                        "page_switch_failed" => LocalizationHelper.GetString("BlackFlowScrapTradeAbortedPageSwitchFailed"),
-                        "sale_search_failed" => LocalizationHelper.GetString("BlackFlowScrapTradeAbortedSaleSearchFailed"),
-                        "sell_back_search_failed" => LocalizationHelper.GetStringFormat("BlackFlowScrapTradeAbortedSellBackSearchFailed", item),
-                        "sale_failed" => LocalizationHelper.GetStringFormat("BlackFlowScrapTradeAbortedSaleFailed", item),
-                        _ => LocalizationHelper.GetString("BlackFlowScrapTradeAbortedUnknown"),
+                        "market_unavailable" => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.ScrapTradeAbortedMarketUnavailable"),
+                        "inventory_incomplete" => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.ScrapTradeAbortedInventoryIncomplete"),
+                        "page_switch_failed" => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.ScrapTradeAbortedPageSwitchFailed"),
+                        "sale_search_failed" => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.ScrapTradeAbortedSaleSearchFailed"),
+                        "sell_back_search_failed" => LocalizationHelper.GetStringFormat("Asst.Roguelike.BlackFlow.ScrapTradeAbortedSellBackSearchFailed", item),
+                        "sale_failed" => LocalizationHelper.GetStringFormat("Asst.Roguelike.BlackFlow.ScrapTradeAbortedSaleFailed", item),
+                        _ => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.ScrapTradeAbortedUnknown"),
                     };
                     Instances.TaskQueueViewModel.AddLog(message, UiLogColor.Warning);
                     break;
@@ -1558,14 +1558,14 @@ public class RoguelikeTaskUserControlModel : TaskSettingsViewModel, RoguelikeTas
                 {
                     var status = subTaskDetails?["status"]?.ToString();
                     var (key, color) = status switch {
-                        "preparing" => ("BlackFlowStartRunPreparing", UiLogColor.Info),
-                        "target_run" => ("BlackFlowStartRunTargetRun", UiLogColor.Info),
-                        "reward_missed" => ("BlackFlowStartRunRewardMissed", UiLogColor.Info),
-                        "reward_picked" => ("BlackFlowStartRunRewardPicked", UiLogColor.Info),
-                        "completed" => ("BlackFlowStartRunCompleted", UiLogColor.Success),
-                        "reward_recognition_failed" => ("BlackFlowStartRunRewardRecognitionFailed", UiLogColor.Error),
-                        "reward_page_missing" => ("BlackFlowStartRunRewardPageMissing", UiLogColor.Error),
-                        "reward_unrecognized" => ("BlackFlowStartRunRewardUnrecognized", UiLogColor.Error),
+                        "preparing" => ("Asst.Roguelike.BlackFlow.StartRunPreparing", UiLogColor.Info),
+                        "target_run" => ("Asst.Roguelike.BlackFlow.StartRunTargetRun", UiLogColor.Info),
+                        "reward_missed" => ("Asst.Roguelike.BlackFlow.StartRunRewardMissed", UiLogColor.Info),
+                        "reward_picked" => ("Asst.Roguelike.BlackFlow.StartRunRewardPicked", UiLogColor.Info),
+                        "completed" => ("Asst.Roguelike.BlackFlow.StartRunCompleted", UiLogColor.Success),
+                        "reward_recognition_failed" => ("Asst.Roguelike.BlackFlow.StartRunRewardRecognitionFailed", UiLogColor.Error),
+                        "reward_page_missing" => ("Asst.Roguelike.BlackFlow.StartRunRewardPageMissing", UiLogColor.Error),
+                        "reward_unrecognized" => ("Asst.Roguelike.BlackFlow.StartRunRewardUnrecognized", UiLogColor.Error),
                         _ => (string.Empty, UiLogColor.Info),
                     };
                     if (key.Length > 0)
@@ -1575,7 +1575,7 @@ public class RoguelikeTaskUserControlModel : TaskSettingsViewModel, RoguelikeTas
                         var rewards = subTaskDetails?["rewards"]?.Values<string>().ToList();
                         if (rewards is { Count: > 0 })
                         {
-                            message += "\n" + LocalizationHelper.GetStringFormat("BlackFlowStartRunRewardsSeen", string.Join("、", rewards));
+                            message += "\n" + LocalizationHelper.GetStringFormat("Asst.Roguelike.BlackFlow.StartRunRewardsSeen", string.Join("、", rewards));
                         }
 
                         Instances.TaskQueueViewModel.AddLog(message, color);
@@ -1588,7 +1588,7 @@ public class RoguelikeTaskUserControlModel : TaskSettingsViewModel, RoguelikeTas
                 {
                     var profile = LocalizeBlackFlowProfile(subTaskDetails?["profile"]?.ToString());
                     Instances.TaskQueueViewModel.AddLog(
-                        LocalizationHelper.GetStringFormat("BlackFlowStrategyStarted", profile),
+                        LocalizationHelper.GetStringFormat("Asst.Roguelike.BlackFlow.StrategyStarted", profile),
                         UiLogColor.Info);
                     break;
                 }
@@ -1598,7 +1598,7 @@ public class RoguelikeTaskUserControlModel : TaskSettingsViewModel, RoguelikeTas
                     var outcome = LocalizeBlackFlowStrategyOutcome(subTaskDetails?["outcome"]?.ToString());
                     var reason = LocalizeBlackFlowTerminationReason(subTaskDetails?["termination_reason"]?.ToString());
                     Instances.TaskQueueViewModel.AddLog(
-                        LocalizationHelper.GetStringFormat("BlackFlowStrategyResult", outcome, reason),
+                        LocalizationHelper.GetStringFormat("Asst.Roguelike.BlackFlow.StrategyResult", outcome, reason),
                         subTaskDetails?["succeeded"]?.Value<bool>() == true ? UiLogColor.Info : UiLogColor.Warning);
                     break;
                 }
@@ -1606,14 +1606,14 @@ public class RoguelikeTaskUserControlModel : TaskSettingsViewModel, RoguelikeTas
                 {
                     var nodeType = subTaskDetails!["node_type"]?.ToString();
                     var (localizedNodeType, logColor) = nodeType switch {
-                        "Omissions" => (LocalizationHelper.GetString("BoskyOmissions"), UiLogColor.BoskyOmissionsIS),
-                        "Legend" => (LocalizationHelper.GetString("BoskyLegend"), UiLogColor.BoskyLegendIS),
-                        "OldShop" => (LocalizationHelper.GetString("BoskyOldShop"), UiLogColor.BoskyOldShopIS),
-                        "YiTrader" => (LocalizationHelper.GetString("BoskyYiTrader"), UiLogColor.TraderIS),
-                        "Scheme" => (LocalizationHelper.GetString("BoskyScheme"), UiLogColor.BoskySchemeIS),
-                        "Playtime" => (LocalizationHelper.GetString("BoskyPlaytime"), UiLogColor.BoskyPlaytimeIS),
-                        "Doubts" => (LocalizationHelper.GetString("BoskyDoubts"), UiLogColor.BoskyDoubtsIS),
-                        "Disaster" => (LocalizationHelper.GetString("BoskyDisaster"), UiLogColor.EmergencyIS),
+                        "Omissions" => (LocalizationHelper.GetString("Asst.Roguelike.Bosky.Omissions"), UiLogColor.BoskyOmissionsIS),
+                        "Legend" => (LocalizationHelper.GetString("Asst.Roguelike.Bosky.Legend"), UiLogColor.BoskyLegendIS),
+                        "OldShop" => (LocalizationHelper.GetString("Asst.Roguelike.Bosky.OldShop"), UiLogColor.BoskyOldShopIS),
+                        "YiTrader" => (LocalizationHelper.GetString("Asst.Roguelike.Bosky.YiTrader"), UiLogColor.TraderIS),
+                        "Scheme" => (LocalizationHelper.GetString("Asst.Roguelike.Bosky.Scheme"), UiLogColor.BoskySchemeIS),
+                        "Playtime" => (LocalizationHelper.GetString("Asst.Roguelike.Bosky.Playtime"), UiLogColor.BoskyPlaytimeIS),
+                        "Doubts" => (LocalizationHelper.GetString("Asst.Roguelike.Bosky.Doubts"), UiLogColor.BoskyDoubtsIS),
+                        "Disaster" => (LocalizationHelper.GetString("Asst.Roguelike.Bosky.Disaster"), UiLogColor.EmergencyIS),
                         _ => (nodeType ?? "Unknown", UiLogColor.EventIS),
                     };
 
@@ -1624,7 +1624,7 @@ public class RoguelikeTaskUserControlModel : TaskSettingsViewModel, RoguelikeTas
             case "RoguelikeCoppersRecognitionError":
                 {
                     var recognizedName = subTaskDetails!["recognized_name"]?.ToString() ?? "Unknown";
-                    var message = LocalizationHelper.GetStringFormat("RoguelikeCoppersRecognitionError", recognizedName);
+                    var message = LocalizationHelper.GetStringFormat("Asst.Roguelike.CoppersRecognitionError", recognizedName);
                     Instances.TaskQueueViewModel.AddLog(message, UiLogColor.Error);
                     break;
                 }
@@ -1633,38 +1633,38 @@ public class RoguelikeTaskUserControlModel : TaskSettingsViewModel, RoguelikeTas
                 {
                     var toDiscard = subTaskDetails!["to_discard"]?.ToString() ?? "Unknown";
                     var toPickup = subTaskDetails["to_pickup"]?.ToString() ?? "Unknown";
-                    var message = LocalizationHelper.GetStringFormat("RoguelikeCoppersExchange", toDiscard, toPickup);
+                    var message = LocalizationHelper.GetStringFormat("Asst.Roguelike.CoppersExchange", toDiscard, toPickup);
                     Instances.TaskQueueViewModel.AddLog(message, UiLogColor.EventIS);
                     break;
                 }
 
             case "EncounterOcrError":
-                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("EncounterOcrError"), UiLogColor.Error);
+                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("Asst.Roguelike.EncounterOcrError"), UiLogColor.Error);
                 break;
 
             case "RoguelikeJieGardenTargetFound":
                 {
                     var targetSubtype = subTaskDetails!["target_subtype"]?.ToString();
                     var localizedTarget = targetSubtype switch {
-                        "Ling" => LocalizationHelper.GetString("RoguelikePlaytimeLing"),
-                        "Shu" => LocalizationHelper.GetString("RoguelikePlaytimeShu"),
-                        "Nian" => LocalizationHelper.GetString("RoguelikePlaytimeNian"),
+                        "Ling" => LocalizationHelper.GetString("Roguelike.Playtime.Ling"),
+                        "Shu" => LocalizationHelper.GetString("Roguelike.Playtime.Shu"),
+                        "Nian" => LocalizationHelper.GetString("Roguelike.Playtime.Nian"),
                         _ => targetSubtype ?? "Unknown",
                     };
-                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetStringFormat("RoguelikeJieGardenTargetFound", localizedTarget), UiLogColor.Success);
+                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetStringFormat("Asst.Roguelike.JieGarden.TargetFound", localizedTarget), UiLogColor.Success);
                     break;
                 }
 
             case "FoldartalGainOcrNextLevel":
-                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("FoldartalGainOcrNextLevel") + $" {subTaskDetails!["foldartal"]}");
+                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("Asst.Roguelike.FoldartalGainOcrNextLevel") + $" {subTaskDetails!["foldartal"]}");
                 break;
 
             case "MonthlySquadCompleted":
-                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("MonthlySquadCompleted"), UiLogColor.RareOperator);
+                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("Asst.Roguelike.MonthlySquadCompleted"), UiLogColor.RareOperator);
                 break;
 
             case "DeepExplorationCompleted":
-                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("DeepExplorationCompleted"), UiLogColor.RareOperator);
+                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("Asst.Roguelike.DeepExplorationCompleted"), UiLogColor.RareOperator);
                 break;
 
             case "RoguelikeCollapsalParadigms":
@@ -1678,19 +1678,19 @@ public class RoguelikeTaskUserControlModel : TaskSettingsViewModel, RoguelikeTas
                 string prev = subTaskDetails["prev"]?.ToString() ?? "UnKnown";
                 if (deepen_or_weaken == 1 && prev == string.Empty)
                 {
-                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetStringFormat("RoguelikeGainParadigm", cur), UiLogColor.Info);
+                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetStringFormat("Asst.Roguelike.GainParadigm", cur), UiLogColor.Info);
                 }
                 else if (deepen_or_weaken == 1 && prev != string.Empty)
                 {
-                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetStringFormat("RoguelikeDeepenParadigm", cur, prev), UiLogColor.Info);
+                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetStringFormat("Asst.Roguelike.DeepenParadigm", cur, prev), UiLogColor.Info);
                 }
                 else if (deepen_or_weaken == -1 && cur == string.Empty)
                 {
-                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetStringFormat("RoguelikeLoseParadigm", string.Empty, prev), UiLogColor.Info);
+                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetStringFormat("Asst.Roguelike.LoseParadigm", string.Empty, prev), UiLogColor.Info);
                 }
                 else if (deepen_or_weaken == -1 && cur != string.Empty)
                 {
-                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetStringFormat("RoguelikeWeakenParadigm", cur, prev), UiLogColor.Info);
+                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetStringFormat("Asst.Roguelike.WeakenParadigm", cur, prev), UiLogColor.Info);
                 }
 
                 break;

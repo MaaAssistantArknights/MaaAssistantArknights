@@ -79,7 +79,7 @@ public class MallTaskUserControlModel : TaskSettingsViewModel, MallTaskUserContr
     /// </summary>
     public List<GenericCombinedData<int>> FormationSelectList { get; } =
     [
-        new() { Display = LocalizationHelper.GetString("Current"), Value = 0 },
+        new() { Display = LocalizationHelper.GetString("Mall.CurrentFormation"), Value = 0 },
         new() { Display = "1", Value = 1 },
         new() { Display = "2", Value = 2 },
         new() { Display = "3", Value = 3 },
@@ -92,7 +92,7 @@ public class MallTaskUserControlModel : TaskSettingsViewModel, MallTaskUserContr
     private void RefreshLocalization()
     {
         // 仅首项 ｢当前编队｣ 为本地化文本，其余为纯数字；GenericCombinedData 自带变更通知，原地重赋即可刷新显示
-        FormationSelectList[0].Display = LocalizationHelper.GetString("Current");
+        FormationSelectList[0].Display = LocalizationHelper.GetString("Mall.CurrentFormation");
     }
 
     public string LastCreditVisitFriendsTime
@@ -233,7 +233,7 @@ public class MallTaskUserControlModel : TaskSettingsViewModel, MallTaskUserContr
 
             if (mall.IsCreditFightAvailable && fightStageEmpty)
             {
-                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetStringFormat("CreditFightWhenOF-1Warning", ConfigFactory.CurrentConfig.TaskQueue[taskIndex].NameOrTaskType, taskIndex + 1, stageIndex + 1), UiLogColor.Warning);
+                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetStringFormat("Mall.CreditFight.WhenOF1Warning", ConfigFactory.CurrentConfig.TaskQueue[taskIndex].NameOrTaskType, taskIndex + 1, stageIndex + 1), UiLogColor.Warning);
             }
 
             var task = new AsstMallTask() {

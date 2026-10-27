@@ -214,7 +214,7 @@ public class AchievementTrackerHelper : PropertyChangedBase
 
         var growlInfo = new GrowlInfo {
             IsCustom = true,
-            Message = $"{LocalizationHelper.GetString("AchievementCelebrate")}: {achievement.Title}\n{achievement.Description}",
+            Message = $"{LocalizationHelper.GetString("Achievement.Celebrate")}: {achievement.Title}\n{achievement.Description}",
             StaysOpen = forceStayOpen || (staysOpen && !SettingsViewModel.AchievementSettings.AchievementPopupAutoClose),
             WaitTime = 15,
             IconKey = "HangoverGeometry",

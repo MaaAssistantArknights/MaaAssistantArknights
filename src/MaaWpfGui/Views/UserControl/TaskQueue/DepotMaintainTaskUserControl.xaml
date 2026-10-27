@@ -40,23 +40,23 @@
                         Margin="0,0,-1,0"
                         hc:BorderElement.CornerRadius="4,0,0,4"
                         Command="{s:Action CollapseAll}"
-                        Content="{DynamicResource CollapseAll}" />
+                        Content="{DynamicResource Common.CollapseAll}" />
                     <Button
                         MinWidth="50"
                         Margin="0,0,-1,0"
                         hc:BorderElement.CornerRadius="0"
                         Command="{s:Action ClearPlans}"
-                        Content="{DynamicResource ClearPlans}" />
+                        Content="{DynamicResource TaskQueue.DepotMaintain.ClearPlans}" />
                     <Button
                         MinWidth="50"
                         Margin="0,0,-1,0"
                         hc:BorderElement.CornerRadius="0"
                         Command="{s:Action AddPlan}"
-                        Content="{DynamicResource AddPlan}" />
+                        Content="{DynamicResource TaskQueue.DepotMaintain.AddPlan}" />
                     <hc:SplitButton
                         hc:BorderElement.CornerRadius="0,4,4,0"
                         Click="PresetSplitButton_Click"
-                        Content="{DynamicResource DepotPreset}">
+                        Content="{DynamicResource TaskQueue.DepotMaintain.Preset}">
                         <hc:SplitButton.DropDownContent>
                             <StackPanel IsVisibleChanged="{s:Action PresetDropDownVisibilityChanged}">
                                 <StackPanel.Resources>
@@ -72,7 +72,7 @@
                                     HorizontalAlignment="Left"
                                     FontWeight="Bold"
                                     Foreground="{DynamicResource SecondaryTextBrush}"
-                                    Text="{DynamicResource DepotPresetPermanent}"
+                                    Text="{DynamicResource TaskQueue.DepotMaintain.PresetPermanent}"
                                     Visibility="{c:Binding 'ActivityPresetList.Count > 0'}" />
                                 <Menu
                                     ItemContainerStyle="{StaticResource PresetMenuItemStyle}"
@@ -90,7 +90,7 @@
                                         HorizontalAlignment="Left"
                                         FontWeight="Bold"
                                         Foreground="{DynamicResource SecondaryTextBrush}"
-                                        Text="{DynamicResource DepotPresetCurrentActivity}" />
+                                        Text="{DynamicResource TaskQueue.DepotMaintain.PresetCurrentActivity}" />
                                     <Menu
                                         ItemContainerStyle="{StaticResource PresetMenuItemStyle}"
                                         ItemsSource="{Binding ActivityPresetList, Source={x:Static taskQueue_vms:DepotMaintainTaskUserControlModel.Instance}}"
@@ -170,7 +170,7 @@
                                         Command="{s:Action RemovePlan,
                                                            Target={x:Static taskQueue_vms:DepotMaintainTaskUserControlModel.Instance}}"
                                         CommandParameter="{Binding}"
-                                        ToolTip="{DynamicResource Delete}">
+                                        ToolTip="{DynamicResource Common.Delete}">
                                         <Button.Style>
                                             <Style BasedOn="{StaticResource {x:Type Button}}" TargetType="Button">
                                                 <Setter Property="Visibility" Value="Collapsed" />
@@ -236,11 +236,11 @@
                                         <!--  当 IsStageManually 为 true 时显示 TextBox  -->
                                         <TextBox
                                             Height="30"
-                                            hc:InfoElement.Placeholder="{DynamicResource DefaultStage}"
+                                            hc:InfoElement.Placeholder="{DynamicResource TaskQueue.Stage.Label.Default}"
                                             IsEnabled="{c:Binding !IsStageItemDragging,
                                                                   Source={x:Static ui_vms:TaskQueueViewModel.FightTask}}"
                                             Text="{Binding Stage, UpdateSourceTrigger=PropertyChanged}"
-                                            ToolTip="{DynamicResource CustomStageCodeTip}"
+                                            ToolTip="{DynamicResource TaskQueue.CustomStageCode.Tip}"
                                             Visibility="{c:Binding IsStageManually,
                                                                    Source={x:Static ui_vms:TaskQueueViewModel.DepotMaintainTask}}" />
                                     </Grid>
@@ -331,12 +331,12 @@
                                                 MaxWidth="110"
                                                 VerticalAlignment="Center"
                                                 IsChecked="{Binding UseMedicine}">
-                                                <TextBlock Text="{DynamicResource UseSanityPotion}" TextWrapping="Wrap" />
+                                                <TextBlock Text="{DynamicResource TaskQueue.Fight.UseSanityPotion}" TextWrapping="Wrap" />
                                             </CheckBox>
                                             <controls:TooltipBlock
                                                 Margin="3,0,0,0"
                                                 VerticalAlignment="Center"
-                                                TooltipText="{DynamicResource DepotPlanBudgetTip}" />
+                                                TooltipText="{DynamicResource TaskQueue.DepotMaintain.PlanBudget.Tip}" />
                                         </StackPanel>
                                         <hc:NumericUpDown
                                             Grid.Column="1"
@@ -359,12 +359,12 @@
                                                 MaxWidth="110"
                                                 VerticalAlignment="Center"
                                                 IsChecked="{Binding UseStone}">
-                                                <TextBlock Text="{DynamicResource UseOriginitePrime}" TextWrapping="Wrap" />
+                                                <TextBlock Text="{DynamicResource TaskQueue.Fight.UseOriginitePrime}" TextWrapping="Wrap" />
                                             </CheckBox>
                                             <controls:TooltipBlock
                                                 Margin="3,0,0,0"
                                                 VerticalAlignment="Center"
-                                                TooltipText="{DynamicResource DepotPlanBudgetTip}" />
+                                                TooltipText="{DynamicResource TaskQueue.DepotMaintain.PlanBudget.Tip}" />
                                         </StackPanel>
                                         <hc:NumericUpDown
                                             Grid.Column="1"
@@ -385,54 +385,54 @@
 
         <!--  高级设置  -->
         <StackPanel d:Visibility="Collapsed" Visibility="{c:Binding EnableAdvancedSettings, Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}">
-            <hc:Divider Content="{DynamicResource DepotGroupTaskBehavior}" />
+            <hc:Divider Content="{DynamicResource TaskQueue.DepotMaintain.GroupTaskBehavior}" />
             <StackPanel Margin="0,6,0,0" Orientation="Horizontal">
-                <CheckBox Content="{DynamicResource DepotUpdateBeforeStart}" IsChecked="{Binding UpdateDepot}" />
-                <controls:TooltipBlock Margin="3,0,0,0" TooltipText="{DynamicResource DepotUpdateBeforeStartTip}" />
+                <CheckBox Content="{DynamicResource TaskQueue.DepotMaintain.UpdateBeforeStart}" IsChecked="{Binding UpdateDepot}" />
+                <controls:TooltipBlock Margin="3,0,0,0" TooltipText="{DynamicResource TaskQueue.DepotMaintain.UpdateBeforeStart.Tip}" />
             </StackPanel>
             <CheckBox
                 Margin="0,6,0,0"
-                Content="{DynamicResource DepotSkipDuringActivity}"
+                Content="{DynamicResource TaskQueue.DepotMaintain.SkipDuringActivity}"
                 IsChecked="{Binding SkipDuringActivity}" />
             <CheckBox
                 Margin="0,6,0,0"
-                Content="{DynamicResource DepotSkipDuringResourceCollection}"
+                Content="{DynamicResource TaskQueue.DepotMaintain.SkipDuringResourceCollection}"
                 IsChecked="{Binding SkipDuringResourceCollection}" />
             <StackPanel Margin="0,6,0,0" Orientation="Horizontal">
-                <CheckBox Content="{DynamicResource DepotOnlyFirstInsufficientPlan}" IsChecked="{Binding OnlyFirstInsufficientPlan}" />
-                <controls:TooltipBlock Margin="3,0,0,0" TooltipText="{DynamicResource DepotOnlyFirstInsufficientPlanTip}" />
+                <CheckBox Content="{DynamicResource TaskQueue.DepotMaintain.OnlyFirstInsufficientPlan}" IsChecked="{Binding OnlyFirstInsufficientPlan}" />
+                <controls:TooltipBlock Margin="3,0,0,0" TooltipText="{DynamicResource TaskQueue.DepotMaintain.OnlyFirstInsufficientPlan.Tip}" />
             </StackPanel>
             <StackPanel Margin="0,6,0,0" Orientation="Horizontal">
-                <CheckBox Content="{DynamicResource DepotSortByProgress}" IsChecked="{Binding SortByProgress}" />
-                <controls:TooltipBlock Margin="3,0,0,0" TooltipText="{DynamicResource DepotSortByProgressTip}" />
+                <CheckBox Content="{DynamicResource TaskQueue.DepotMaintain.SortByProgress}" IsChecked="{Binding SortByProgress}" />
+                <controls:TooltipBlock Margin="3,0,0,0" TooltipText="{DynamicResource TaskQueue.DepotMaintain.SortByProgress.Tip}" />
             </StackPanel>
             <StackPanel Margin="0,6,0,0" Orientation="Horizontal">
-                <CheckBox Content="{DynamicResource DepotCountDualChipAsChipPack}" IsChecked="{Binding CountDualChipAsChipPack}" />
-                <controls:TooltipBlock Margin="3,0,0,0" TooltipText="{DynamicResource DepotCountDualChipAsChipPackTip}" />
+                <CheckBox Content="{DynamicResource TaskQueue.DepotMaintain.CountDualChipAsChipPack}" IsChecked="{Binding CountDualChipAsChipPack}" />
+                <controls:TooltipBlock Margin="3,0,0,0" TooltipText="{DynamicResource TaskQueue.DepotMaintain.CountDualChipAsChipPack.Tip}" />
             </StackPanel>
 
-            <hc:Divider Margin="0,12,0,0" Content="{DynamicResource DepotGroupStageAndBattle}" />
+            <hc:Divider Margin="0,12,0,0" Content="{DynamicResource TaskQueue.DepotMaintain.GroupStageAndBattle}" />
             <StackPanel Margin="0,6,0,0" Orientation="Horizontal">
-                <CheckBox Content="{DynamicResource CustomStageCode}" IsChecked="{Binding IsStageManually}" />
-                <controls:TooltipBlock TooltipText="{DynamicResource CustomStageCodeTip}" />
+                <CheckBox Content="{DynamicResource TaskQueue.CustomStageCode}" IsChecked="{Binding IsStageManually}" />
+                <controls:TooltipBlock TooltipText="{DynamicResource TaskQueue.CustomStageCode.Tip}" />
             </StackPanel>
             <StackPanel Margin="0,6,0,0" Orientation="Horizontal">
-                <CheckBox Content="{DynamicResource DepotUseAutoSeries}" IsChecked="{Binding UseAutoSeries}" />
-                <controls:TooltipBlock Margin="3,0,0,0" TooltipText="{DynamicResource DepotUseAutoSeriesTip}" />
+                <CheckBox Content="{DynamicResource TaskQueue.DepotMaintain.UseAutoSeries}" IsChecked="{Binding UseAutoSeries}" />
+                <controls:TooltipBlock Margin="3,0,0,0" TooltipText="{DynamicResource TaskQueue.DepotMaintain.UseAutoSeries.Tip}" />
             </StackPanel>
 
-            <hc:Divider Margin="0,12,0,0" Content="{DynamicResource DepotGroupSanityRecovery}" />
+            <hc:Divider Margin="0,12,0,0" Content="{DynamicResource TaskQueue.DepotMaintain.GroupSanityRecovery}" />
             <CheckBox
                 Margin="0,6,0,0"
-                Content="{DynamicResource DepotEnableUseMedicine}"
+                Content="{DynamicResource TaskQueue.DepotMaintain.EnableUseMedicine}"
                 IsChecked="{Binding UseMedicine}" />
             <CheckBox
                 Margin="0,6,0,0"
-                Content="{DynamicResource DepotEnableUseStone}"
+                Content="{DynamicResource TaskQueue.DepotMaintain.EnableUseStone}"
                 IsChecked="{Binding UseStone}" />
             <StackPanel Margin="0,6,0,0" Orientation="Horizontal">
-                <CheckBox Content="{DynamicResource DepotUseExpiringMedicine}" IsChecked="{Binding UseExpiringMedicine}" />
-                <controls:TooltipBlock Margin="3,0,0,0" TooltipText="{DynamicResource DepotUseExpiringMedicineTip}" />
+                <CheckBox Content="{DynamicResource TaskQueue.DepotMaintain.UseExpiringMedicine}" IsChecked="{Binding UseExpiringMedicine}" />
+                <controls:TooltipBlock Margin="3,0,0,0" TooltipText="{DynamicResource TaskQueue.DepotMaintain.UseExpiringMedicine.Tip}" />
             </StackPanel>
         </StackPanel>
     </Grid>

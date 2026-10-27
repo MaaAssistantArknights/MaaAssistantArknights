@@ -20,12 +20,14 @@ if not exist "%netbeauty_bin%" (
 
 dotnet restore src/MaaWpfGui/MaaWpfGui.csproj -p:Platform=x64 || goto :error
 
-cmake --build build --config RelWithDebInfo --parallel %NUMBER_OF_PROCESSORS% || goto :error
+:: 按发版形态 configure（关闭 BUILD_RESOURCE_UPDATER 等开发向开关），与 ci.yml 的 windows 链路同源
+cmake -B build --preset windows-publish-x64 || goto :error
+cmake --build --preset windows-publish-x64 --config RelWithDebInfo --parallel %NUMBER_OF_PROCESSORS% || goto :error
 cmake --build build --target MAA.Updater --config RelWithDebInfo || goto :error
-cmake --install build --config RelWithDebInfo --prefix install || goto :error
+cmake --install build --config RelWithDebInfo || goto :error
 
 dotnet publish src/MaaWpfGui/MaaWpfGui.csproj -c Release -r win-x64 -o install /p:DisableBeauty=True || goto :error
-"%netbeauty_bin%" --usepatch --gitcdn="https://gitee.com/liesauer/HostFXRPatcher" "%CD%\install\." ./externals || goto :error
+"%netbeauty_bin%" "%CD%\install\." ./externals || goto :error
 
 if exist ".\build\bin\RelWithDebInfo\MaaAppHostStub.exe" (
     if exist ".\install\MAA.dll" (

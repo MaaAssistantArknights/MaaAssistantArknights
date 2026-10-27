@@ -57,12 +57,12 @@ public class GameSettingsUserControlModel : PropertyChangedBase
     /// Gets the list of the client types.
     /// </summary>
     public LocalizedObservableList<ClientType> ClientTypeList { get; } = new(
-        (ClientType.Official, "Official"),
-        (ClientType.Bilibili, "Bilibili"),
-        (ClientType.EN, "YoStarEN"),
-        (ClientType.JP, "YoStarJP"),
-        (ClientType.KR, "YoStarKR"),
-        (ClientType.Txwy, "Txwy"));
+        (ClientType.Official, "Settings.Game.ClientType.Official"),
+        (ClientType.Bilibili, "Settings.Game.ClientType.Bilibili"),
+        (ClientType.EN, "Settings.Game.ClientType.YoStarEN"),
+        (ClientType.JP, "Settings.Game.ClientType.YoStarJP"),
+        (ClientType.KR, "Settings.Game.ClientType.YoStarKR"),
+        (ClientType.Txwy, "Settings.Game.ClientType.Txwy"));
 
     private ClientType _clientType = ConfigFactory.CurrentConfig.Gui.RuntimeSettings.ClientType;
 
@@ -163,11 +163,23 @@ public class GameSettingsUserControlModel : PropertyChangedBase
         }
     } = ConfigFactory.CurrentConfig.Gui.RuntimeSettings.ExecuteScriptOnManualStop;
 
+    /// <summary>
+    /// RunScript 的 ｢开始前脚本｣ 参数值，兼作任务日志显示用的本地化 key。
+    /// 内部 switch 与全部调用方共用此常量，两侧保持一致，改名只动这里。
+    /// </summary>
+    public const string StartWithScriptKey = "Settings.Game.StartsWithScript";
+
+    /// <summary>
+    /// RunScript 的 ｢结束后脚本｣ 参数值，兼作任务日志显示用的本地化 key。
+    /// 内部 switch 与全部调用方共用此常量，两侧保持一致，改名只动这里。
+    /// </summary>
+    public const string EndWithScriptKey = "Settings.Game.EndsWithScript";
+
     public void RunScript(string str, bool showLog = true)
     {
         bool enable = str switch {
-            "StartsWithScript" => !string.IsNullOrWhiteSpace(StartsWithScript),
-            "EndsWithScript" => !string.IsNullOrWhiteSpace(EndsWithScript),
+            StartWithScriptKey => !string.IsNullOrWhiteSpace(StartsWithScript),
+            EndWithScriptKey => !string.IsNullOrWhiteSpace(EndsWithScript),
             _ => false,
         };
 
@@ -177,8 +189,8 @@ public class GameSettingsUserControlModel : PropertyChangedBase
         }
 
         Func<bool> func = str switch {
-            "StartsWithScript" => () => ExecuteScript(StartsWithScript),
-            "EndsWithScript" => () => ExecuteScript(EndsWithScript),
+            StartWithScriptKey => () => ExecuteScript(StartsWithScript),
+            EndWithScriptKey => () => ExecuteScript(EndsWithScript),
             _ => () => false,
         };
 
@@ -192,14 +204,14 @@ public class GameSettingsUserControlModel : PropertyChangedBase
             return;
         }
 
-        Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("StartTask") + LocalizationHelper.GetString(str));
+        Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("Asst.TaskQueue.StartTask") + LocalizationHelper.GetString(str));
         if (func())
         {
-            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("CompleteTask") + LocalizationHelper.GetString(str));
+            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("Asst.TaskQueue.CompleteTask") + LocalizationHelper.GetString(str));
         }
         else
         {
-            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("TaskError") + LocalizationHelper.GetString(str), UiLogColor.Warning);
+            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("Asst.TaskQueue.TaskError") + LocalizationHelper.GetString(str), UiLogColor.Warning);
         }
     }
 

@@ -6,7 +6,7 @@
     xmlns:hc="https://handyorg.github.io/handycontrol"
     xmlns:helper="clr-namespace:MaaWpfGui.Helper"
     xmlns:uiBehaviors="clr-namespace:MaaWpfGui.Extensions.UIBehaviors"
-    Title="{DynamicResource AchievementList}"
+    Title="{DynamicResource Achievement.List}"
     Width="600"
     Height="400"
     MinWidth="300"
@@ -99,7 +99,7 @@
                             <VirtualizingStackPanel Orientation="Horizontal" Visibility="{c:Binding IsUnlocked}">
                                 <TextBlock
                                     uiBehaviors:ResourceReferenceHelper.ForegroundResourceKey="{Binding MedalBrushKey}"
-                                    Text="{DynamicResource AchievementUnlockedAt}"
+                                    Text="{DynamicResource Achievement.UnlockedAt}"
                                     TextWrapping="Wrap" />
                                 <TextBlock
                                     uiBehaviors:ResourceReferenceHelper.ForegroundResourceKey="{Binding MedalBrushKey}"

@@ -1,6 +1,10 @@
-## v6.21.0-beta.1
+## v6.21.0-beta.2
 
 ### Highlights
+
+#### 本地化资源全量重写
+
+本版本按功能域全量重写了界面语言资源，个别界面可能出现文案显示异常；如遇到问题，请通过 ｢设置 - 问题反馈｣ 提交反馈。
 
 #### 生息演算迁移到 ｢小工具-牛杂｣
 
@@ -10,16 +14,16 @@
 
 刷开局新增 ｢凹第一层实托邦｣ 选项，需难度 6 及以上。
 
-#### 库存保持支持双芯片折算
-
-新增 ｢芯片组计入双芯片折算｣ 选项，统计芯片组库存时计入双芯片的折算数量。
-
 #### 编队与选人提速
 
 自动编队优先在当前页匹配待选干员，减少翻页；自定义基建与宿舍选人按职业分桶定位剩余目标干员。
 
 <details>
 <summary><b>English</b></summary>
+
+#### Localization Resources Fully Rewritten
+
+The UI localization resources have been extensively rewritten by feature domain in this version; a few texts may display incorrectly. If you run into any, please report via Settings - Issue Report.
 
 #### Reclamation Algorithm Moved to Toolbox "Useful Tasks"
 
@@ -28,10 +32,6 @@ Reclamation Algorithm now runs standalone in the Toolbox "Useful Tasks" section;
 #### BlackFlow Start Run: Reroll Until Floor 1 is 实托邦
 
 New option for start-run farming to reroll until Floor 1 is 实托邦 (a Floor 1 variant); requires difficulty 6 or above.
-
-#### Depot Maintain: Count Dual Chips as Chip Packs
-
-New option to count dual chips as chip packs when tracking chip pack inventory.
 
 #### Faster Formation and Operator Selection
 
@@ -44,6 +44,29 @@ Auto formation now matches operators on the current page first, reducing paging;
 以下是详细内容：
 
 <details open>
+<summary><b>v6.21.0-beta.2 (2026-10-27)</b></summary>
+
+### 修复 | Fix
+
+* 缩小萨米肉鸽战斗节点的点击区域，修复与敌人情报区域重合导致的误触 ([#18877](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18877)) @ZiyinLin
+* 修复自定义基建与宿舍选人按职业分桶时，装置与多职业干员被错误分桶导致卡住或漏选的问题 @youzibigg
+* 修复部分确认弹窗的确认与取消按钮语义反转的问题，危险操作弹窗默认聚焦取消按钮 @ABA2396
+* PC 端连接失败时仅在未找到游戏窗口的情况下尝试启动客户端，修复窗口存在但连接失败（如分辨率不符）时误启动客户端的问题 ([#18890](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18890)) @moranfanhua
+
+### 文档 | Docs
+
+* 同步近期行为变更到五语言文档，协议文档补 GpuDeviceRemoved 与 UnknownTask 回调及未定义任务名停止任务链的语义，用户手册补库存保持与黑流树海刷开局等小节 ([#18881](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18881)) @ABA2396
+
+### 其他 | Other
+
+* 本地化 key 按功能域全量重命名，配套排序与引用校验工具 ([#18879](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18879)) @ABA2396
+* 调整 NetBeauty 依赖收纳布局，放行运行时核心组件 @ABA2396
+* 统一源码文件无 BOM，并以 pre-commit 钩子强制 @ABA2396
+* 修订仓库开发约定 @ABA2396
+
+</details>
+
+<details>
 <summary><b>v6.21.0-beta.1 (2026-10-26)</b></summary>
 
 ### 新增 | New

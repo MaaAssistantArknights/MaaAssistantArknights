@@ -275,7 +275,7 @@ typedef void(ASST_CALL* AsstApiCallback)(AsstMsgId msg, const char* details_json
 
 작업 체인이 처리되지 않은 예외로 중단된 경우, `TaskChainError`는 추가로 `details` 필드를 포함합니다:
 
-- `error` (string, required): 예외 유형, 값은 `OpenCVException` | `OutOfMemory` | `UnhandledException` | `UnknownException` 중 하나.
+- `error` (string, required): 예외 유형, 값은 `OpenCVException` | `OutOfMemory` | `GpuDeviceRemoved` | `UnhandledException` | `UnknownException` 중 하나. 이 중 `OutOfMemory`와 `GpuDeviceRemoved`(GPU 추론 장치 손실, 그래픽 드라이버 업데이트 또는 GPU 리셋 등)가 발생하면 남은 작업이 모두 지워지며, 계속하려면 프로그램을 재시작해야 합니다.
 
 ### TaskChainExtraInfo
 
@@ -359,6 +359,8 @@ typedef void(ASST_CALL* AsstApiCallback)(AsstMsgId msg, const char* details_json
   ::::
 
   또한, 작업 실행 횟수가 상한에 도달하면 먼저 `what`가 `ExceededLimit`인 `SubTaskExtraInfo` 메시지가 전송되며, `details`에는 `task`(작업명), `exec_times`(실행된 횟수), `max_times`(최대 실행 횟수)가 포함됩니다.
+
+  인식할 작업 목록에 정의되지 않은 작업명이 존재하면(작업 리소스와 프로그램 버전 불일치 등), 인식 시작 전에 `SubTaskError`로 전달되며 작업 체인 전체가 중지됩니다. `what`는 `UnknownTask`, `details`에는 `tasks`(문자열 배열, 정의되지 않은 작업명 목록)이 포함됩니다.
 
 - `ReportToPenguinStats` / `ReportToYituliu`  
   전투 드롭을 펭귄 물류 통계 / 일도류 빅데이터에 보고 (보고 실패 시 `SubTaskError`로 전달됨).

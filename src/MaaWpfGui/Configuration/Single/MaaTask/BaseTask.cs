@@ -12,13 +12,13 @@
 // </copyright>
 #nullable enable
 using System.Text.Json.Serialization;
+using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Models;
 using static MaaWpfGui.Main.AsstProxy;
 
 namespace MaaWpfGui.Configuration.Single.MaaTask;
 
-// [JsonDerivedType(typeof(VideoRecognition), typeDiscriminator: nameof(VideoRecognition))]
 [JsonDerivedType(typeof(StartUpTask), typeDiscriminator: nameof(StartUpTask))]
 [JsonDerivedType(typeof(CloseDownTask), typeDiscriminator: nameof(CloseDownTask))]
 [JsonDerivedType(typeof(FightTask), typeDiscriminator: nameof(FightTask))]
@@ -42,7 +42,7 @@ public class BaseTask : NotifyPropertyChangedWithValue
     public string Name { get; set; } = string.Empty;
 
     [JsonIgnore]
-    public string NameOrTaskType => string.IsNullOrEmpty(Name) ? LocalizationHelper.GetString(TaskType.ToString()) : Name;
+    public string NameOrTaskType => string.IsNullOrEmpty(Name) ? LocalizationHelper.GetString(TaskType.LocalizationKey()) : Name;
 
     public bool? IsEnable { get; set; } = true;
 

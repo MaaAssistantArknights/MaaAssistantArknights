@@ -64,7 +64,7 @@ public static class ExternalNotificationService
                 var providerName = channel?.DisplayName ?? config.GetType().Name;
                 ToastNotification.ShowDirect(
                     providerName + " " +
-                    LocalizationHelper.GetString(result ? "ExternalNotificationSendSuccess" : "ExternalNotificationSendFail"));
+                    LocalizationHelper.GetString(result ? "ExternalNotification.Send.Success" : "ExternalNotification.Send.Failed"));
             }).ConfigureAwait(false);
         }
     }

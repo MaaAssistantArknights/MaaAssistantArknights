@@ -28,7 +28,7 @@
                         hc:RelativePanel.AlignHorizontalCenterWithPanel="True"
                         hc:RelativePanel.AlignVerticalCenterWithPanel="True"
                         FontSize="14"
-                        Text="{DynamicResource SettingsGuide}" />
+                        Text="{DynamicResource Guide.Settings}" />
                     <!--<Button
                         Margin="5,0"
                         Command="{s:Action DoneGuide}"
@@ -55,7 +55,7 @@
                             hc:IconElement.Width="18"
                             Command="{s:Action PrevGuide}"
                             CommandParameter="{Binding ElementName=GuideStepBar}"
-                            Content="{DynamicResource PrevGuide}"
+                            Content="{DynamicResource Guide.Prev}"
                             Style="{StaticResource ButtonDashedPrimary}" />
                         <hc:StepBar
                             Name="GuideStepBar"
@@ -63,13 +63,13 @@
                             d:StepIndex="7"
                             Dock="Right"
                             StepIndex="{Binding GuideStepIndex}">
-                            <hc:StepBarItem Content="{DynamicResource UiSettings}" />
-                            <hc:StepBarItem Content="{DynamicResource GameSettings}" />
-                            <hc:StepBarItem Content="{DynamicResource ConnectionSettings}" />
-                            <hc:StepBarItem Content="{DynamicResource TaskSettings}" />
-                            <hc:StepBarItem Content="{DynamicResource PerformanceSettings}" />
-                            <hc:StepBarItem Content="{DynamicResource UpdateSettings}" />
-                            <hc:StepBarItem Content="{DynamicResource UserGuide}" />
+                            <hc:StepBarItem Content="{DynamicResource Settings.Ui.Title}" />
+                            <hc:StepBarItem Content="{DynamicResource Settings.Game.Title}" />
+                            <hc:StepBarItem Content="{DynamicResource Settings.Connection.Title}" />
+                            <hc:StepBarItem Content="{DynamicResource TaskQueue.TaskSettings}" />
+                            <hc:StepBarItem Content="{DynamicResource Settings.Performance.Title}" />
+                            <hc:StepBarItem Content="{DynamicResource Settings.Update.Title}" />
+                            <hc:StepBarItem Content="{DynamicResource Guide.User}" />
                         </hc:StepBar>
                         <Button
                             MinWidth="100"
@@ -78,7 +78,7 @@
                             hc:IconElement.Width="18"
                             Command="{s:Action NextGuide}"
                             CommandParameter="{Binding ElementName=GuideStepBar}"
-                            Content="{DynamicResource NextGuide}"
+                            Content="{DynamicResource Guide.Next}"
                             IsEnabled="{c:Binding 'GuideNextGateTip == null'}"
                             Style="{StaticResource ButtonDashedPrimary}"
                             Visibility="{c:Binding 'GuideStepIndex less GuideMaxStep - 1'}" />
@@ -87,7 +87,7 @@
                             hc:IconElement.Geometry="{StaticResource SuccessGeometry}"
                             hc:IconElement.Width="18"
                             Command="{s:Action DoneGuide}"
-                            Content="{DynamicResource DoneGuide}"
+                            Content="{DynamicResource Guide.Done}"
                             IsEnabled="{Binding GuideConfirmEnabled}"
                             Style="{StaticResource ButtonDashedPrimary}"
                             Visibility="{c:Binding 'GuideStepIndex >= GuideMaxStep - 1'}" />
@@ -97,7 +97,7 @@
                             FontSize="12"
                             Foreground="{DynamicResource ThirdlyTextBrush}"
                             Visibility="{c:Binding '!GuideConfirmEnabled'}">
-                            <Run Text="{DynamicResource GuideConfirmCountdownPrefix}" /><Run Text="{Binding GuideConfirmCountdown}" /><Run Text="{DynamicResource GuideConfirmCountdownSuffix}" />
+                            <Run Text="{DynamicResource Guide.ConfirmCountdown.Prefix}" /><Run Text="{Binding GuideConfirmCountdown}" /><Run Text="{DynamicResource Guide.ConfirmCountdown.Suffix}" />
                         </controls:TextBlock>
                         <controls:TextBlock
                             Foreground="{DynamicResource ThirdlyTextBrush}"
@@ -125,7 +125,7 @@
                                     SelectedValue="{Binding Language}"
                                     SelectedValuePath="Value" />
                                 <ComboBox
-                                    hc:InfoElement.Title="{DynamicResource UiTheme}"
+                                    hc:InfoElement.Title="{DynamicResource Settings.Theme}"
                                     hc:TitleElement.HorizontalAlignment="Center"
                                     DisplayMemberPath="Display"
                                     ItemsSource="{Binding DarkModeList}"
@@ -143,7 +143,7 @@
                                     Width="200"
                                     HorizontalAlignment="Center"
                                     VerticalAlignment="Center"
-                                    hc:InfoElement.Title="{DynamicResource ClientType}"
+                                    hc:InfoElement.Title="{DynamicResource Settings.Game.ClientType}"
                                     hc:TitleElement.HorizontalAlignment="Center"
                                     DisplayMemberPath="Display"
                                     ItemsSource="{Binding ClientTypeList}"
@@ -155,7 +155,7 @@
                                     IsChecked="{Binding DeploymentWithPause}">
                                     <controls:TextBlock
                                         Block.TextAlignment="Center"
-                                        Text="{DynamicResource DeploymentWithPause}"
+                                        Text="{DynamicResource Settings.Game.DeploymentWithPause}"
                                         TextWrapping="Wrap" />
                                 </CheckBox>-->
                             </StackPanel>
@@ -173,7 +173,7 @@
                                     VerticalAlignment="Center"
                                     Block.TextAlignment="Left"
                                     Foreground="{DynamicResource InfoBrush}"
-                                    Text="{DynamicResource GuideStepClarification}"
+                                    Text="{DynamicResource Guide.Clarification}"
                                     TextWrapping="Wrap"
                                     Visibility="{c:Binding !IsPCConnectConfig}" />
 
@@ -209,12 +209,12 @@
                                     </Grid.RowDefinitions>
                                     <controls:TextBlock
                                         FontSize="14"
-                                        Text="{DynamicResource HoverActionButtons}"
+                                        Text="{DynamicResource Guide.HoverActionButtons}"
                                         TextWrapping="Wrap" />
                                     <controls:TextBlock
                                         Grid.Row="1"
                                         FontSize="14"
-                                        Text="{DynamicResource GearContextMenuTip}"
+                                        Text="{DynamicResource Guide.GearContextMenu.Tip}"
                                         TextAlignment="Right"
                                         TextWrapping="Wrap" />
                                 </Grid>
@@ -291,21 +291,21 @@
                                                                                            Target={x:Static helper:Instances.SettingsViewModel}}"
                                                                         CommandParameter="{Binding}"
                                                                         Style="{StaticResource TaskActionButtonStyle}"
-                                                                        ToolTip="{DynamicResource Copy}" />
+                                                                        ToolTip="{DynamicResource Common.Copy}" />
                                                                     <Button
                                                                         hc:IconElement.Geometry="{StaticResource RenameTaskGeometry}"
                                                                         Command="{s:Action RenameGuideDemoTask,
                                                                                            Target={x:Static helper:Instances.SettingsViewModel}}"
                                                                         CommandParameter="{Binding}"
                                                                         Style="{StaticResource TaskActionButtonStyle}"
-                                                                        ToolTip="{DynamicResource Rename}" />
+                                                                        ToolTip="{DynamicResource TaskQueue.Rename}" />
                                                                     <Button
                                                                         hc:IconElement.Geometry="{StaticResource DeleteTaskGeometry}"
                                                                         Command="{s:Action RemoveGuideDemoTask,
                                                                                            Target={x:Static helper:Instances.SettingsViewModel}}"
                                                                         CommandParameter="{Binding}"
                                                                         Style="{StaticResource TaskActionButtonStyle}"
-                                                                        ToolTip="{DynamicResource Delete}" />
+                                                                        ToolTip="{DynamicResource Common.Delete}" />
                                                                 </StackPanel>
                                                                 <hc:ButtonGroup>
                                                                     <RadioButton
@@ -344,35 +344,35 @@
                                                                         <RadioButton.ToolTip>
                                                                             <ToolTip>
                                                                                 <StackPanel>
-                                                                                    <TextBlock FontWeight="SemiBold" Text="{DynamicResource LeftClick}" />
-                                                                                    <TextBlock Text="{DynamicResource TaskSettings}" />
+                                                                                    <TextBlock FontWeight="SemiBold" Text="{DynamicResource TaskQueue.LeftClick}" />
+                                                                                    <TextBlock Text="{DynamicResource TaskQueue.TaskSettings}" />
 
-                                                                                    <TextBlock FontWeight="SemiBold" Text="{DynamicResource RightClick}" />
+                                                                                    <TextBlock FontWeight="SemiBold" Text="{DynamicResource TaskQueue.RightClick}" />
                                                                                     <TextBlock>
-                                                                                        <Run Text="{DynamicResource RunTaskOnce}" /><Run Text="/" /><Run Text="{DynamicResource RunTasksFromHere}" /><Run Text="/" /><Run Text="{DynamicResource Copy}" /><Run Text="/" /><Run Text="{DynamicResource Rename}" /><Run Text="/" /><Run Text="{DynamicResource Delete}" />
+                                                                                        <Run Text="{DynamicResource TaskQueue.RunOnce}" /><Run Text="/" /><Run Text="{DynamicResource TaskQueue.RunFromHere}" /><Run Text="/" /><Run Text="{DynamicResource Common.Copy}" /><Run Text="/" /><Run Text="{DynamicResource TaskQueue.Rename}" /><Run Text="/" /><Run Text="{DynamicResource Common.Delete}" />
                                                                                     </TextBlock>
                                                                                 </StackPanel>
                                                                             </ToolTip>
                                                                         </RadioButton.ToolTip>
                                                                         <RadioButton.ContextMenu>
                                                                             <ContextMenu Width="150">
-                                                                                <MenuItem Command="{s:Action StartGuideDemo, Target={x:Static helper:Instances.SettingsViewModel}}" Header="{DynamicResource RunTaskOnce}" />
-                                                                                <MenuItem Command="{s:Action StartGuideDemo, Target={x:Static helper:Instances.SettingsViewModel}}" Header="{DynamicResource RunTasksFromHere}" />
+                                                                                <MenuItem Command="{s:Action StartGuideDemo, Target={x:Static helper:Instances.SettingsViewModel}}" Header="{DynamicResource TaskQueue.RunOnce}" />
+                                                                                <MenuItem Command="{s:Action StartGuideDemo, Target={x:Static helper:Instances.SettingsViewModel}}" Header="{DynamicResource TaskQueue.RunFromHere}" />
                                                                                 <MenuItem
                                                                                     Command="{s:Action CopyGuideDemoTask,
                                                                                                        Target={x:Static helper:Instances.SettingsViewModel}}"
                                                                                     CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
-                                                                                    Header="{DynamicResource Copy}" />
+                                                                                    Header="{DynamicResource Common.Copy}" />
                                                                                 <MenuItem
                                                                                     Command="{s:Action RenameGuideDemoTask,
                                                                                                        Target={x:Static helper:Instances.SettingsViewModel}}"
                                                                                     CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
-                                                                                    Header="{DynamicResource Rename}" />
+                                                                                    Header="{DynamicResource TaskQueue.Rename}" />
                                                                                 <MenuItem
                                                                                     Command="{s:Action RemoveGuideDemoTask,
                                                                                                        Target={x:Static helper:Instances.SettingsViewModel}}"
                                                                                     CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
-                                                                                    Header="{DynamicResource Delete}" />
+                                                                                    Header="{DynamicResource Common.Delete}" />
                                                                             </ContextMenu>
                                                                         </RadioButton.ContextMenu>
                                                                     </RadioButton>
@@ -402,7 +402,7 @@
                                                     hc:IconElement.Geometry="{StaticResource TaskQueueAddTaskIcon}"
                                                     Foreground="{DynamicResource PrimaryTextBrush}"
                                                     Style="{StaticResource MaaButtonDefaultStyle}"
-                                                    ToolTip="{DynamicResource AddTaskQueueTask}">
+                                                    ToolTip="{DynamicResource TaskQueue.AddTask}">
                                                     <controls:MenuButton.PopupContent>
                                                         <Border
                                                             Width="190"
@@ -456,7 +456,7 @@
                                                 hc:BorderElement.CornerRadius="0"
                                                 Command="{s:Action SelectAllGuideDemoTasks,
                                                                    Target={x:Static helper:Instances.SettingsViewModel}}"
-                                                Content="{DynamicResource SelectAll}" />
+                                                Content="{DynamicResource TaskQueue.SelectAll}" />
                                             <Button
                                                 Grid.Column="2"
                                                 Height="30"
@@ -465,7 +465,7 @@
                                                 hc:BorderElement.CornerRadius="0,4,4,0"
                                                 Command="{s:Action ClearGuideDemoTasks,
                                                                    Target={x:Static helper:Instances.SettingsViewModel}}"
-                                                Content="{DynamicResource Clear}" />
+                                                Content="{DynamicResource Common.Clear}" />
                                         </Grid>
                                     </Grid>
                                 </Border>
@@ -473,7 +473,7 @@
                                     Grid.Row="2"
                                     Margin="8,0,0,0"
                                     HorizontalAlignment="Left"
-                                    FontSize="14"><Run Text="↑ " /><Run Text="{DynamicResource AddTaskQueueTask}" /></controls:TextBlock>
+                                    FontSize="14"><Run Text="↑ " /><Run Text="{DynamicResource TaskQueue.AddTask}" /></controls:TextBlock>
                                 <StackPanel
                                     Grid.Row="3"
                                     Margin="0,10,0,0"
@@ -485,12 +485,12 @@
                                         Margin="5"
                                         Command="{s:Action StartGuideDemo,
                                                            Target={x:Static helper:Instances.SettingsViewModel}}"
-                                        Content="{DynamicResource LinkStart}" />
+                                        Content="{DynamicResource TaskQueue.LinkStart}" />
                                     <controls:TextBlock
                                         Margin="0,0,5,0"
                                         VerticalAlignment="Center"
                                         FontSize="14"
-                                        Text="{DynamicResource LinkStartGuide}" />
+                                        Text="{DynamicResource Guide.LinkStart}" />
                                 </StackPanel>
 
                                 <!--  右：假设置列（选项随常规/高级切换）与按钮组，顶部与任务面板同行对齐  -->
@@ -503,26 +503,26 @@
                                     <StackPanel Orientation="Horizontal">
                                         <CheckBox IsChecked="True">
                                             <controls:TextBlock>
-                                                <Run Text="{DynamicResource GeneralSettings}" /><Run xml:space="preserve" Text=" 1" />
+                                                <Run Text="{DynamicResource TaskQueue.GeneralSettings}" /><Run xml:space="preserve" Text=" 1" />
                                             </controls:TextBlock>
                                         </CheckBox>
-                                        <controls:TooltipBlock VerticalAlignment="Center" TooltipText="{DynamicResource CheckBoxesNotSaved}" />
+                                        <controls:TooltipBlock VerticalAlignment="Center" TooltipText="{DynamicResource TaskQueue.CheckBoxesNotSaved}" />
                                         <controls:TextBlock Text="←" TextWrapping="Wrap" />
                                         <controls:TextBlock
                                             MaxWidth="80"
                                             Margin="0,-10"
                                             VerticalAlignment="Center"
-                                            Text="{DynamicResource ToolTipGuide}"
+                                            Text="{DynamicResource Guide.Tip}"
                                             TextWrapping="Wrap" />
                                     </StackPanel>
                                     <CheckBox Margin="0,10,0,0">
                                         <controls:TextBlock>
-                                            <Run Text="{DynamicResource GeneralSettings}" /><Run xml:space="preserve" Text=" 2" />
+                                            <Run Text="{DynamicResource TaskQueue.GeneralSettings}" /><Run xml:space="preserve" Text=" 2" />
                                         </controls:TextBlock>
                                     </CheckBox>
                                     <CheckBox Margin="0,10,0,0">
                                         <controls:TextBlock>
-                                            <Run Text="{DynamicResource GeneralSettings}" /><Run xml:space="preserve" Text=" 3" />
+                                            <Run Text="{DynamicResource TaskQueue.GeneralSettings}" /><Run xml:space="preserve" Text=" 3" />
                                         </controls:TextBlock>
                                     </CheckBox>
                                 </StackPanel>
@@ -535,17 +535,17 @@
                                     Visibility="{c:Binding GuideDemoAdvancedSettings}">
                                     <CheckBox IsChecked="True">
                                         <controls:TextBlock>
-                                            <Run Text="{DynamicResource AdvancedSettings}" /><Run xml:space="preserve" Text=" 1" />
+                                            <Run Text="{DynamicResource TaskQueue.AdvancedSettings}" /><Run xml:space="preserve" Text=" 1" />
                                         </controls:TextBlock>
                                     </CheckBox>
                                     <CheckBox>
                                         <controls:TextBlock>
-                                            <Run Text="{DynamicResource AdvancedSettings}" /><Run xml:space="preserve" Text=" 2" />
+                                            <Run Text="{DynamicResource TaskQueue.AdvancedSettings}" /><Run xml:space="preserve" Text=" 2" />
                                         </controls:TextBlock>
                                     </CheckBox>
                                     <CheckBox>
                                         <controls:TextBlock>
-                                            <Run Text="{DynamicResource AdvancedSettings}" /><Run xml:space="preserve" Text=" 3" />
+                                            <Run Text="{DynamicResource TaskQueue.AdvancedSettings}" /><Run xml:space="preserve" Text=" 3" />
                                         </controls:TextBlock>
                                     </CheckBox>
                                 </hc:UniformSpacingPanel>
@@ -561,12 +561,12 @@
                                             hc:BorderElement.CornerRadius="4,0,0,4"
                                             hc:VisualElement.HighlightBackground="{DynamicResource RegionBrushOpacity25}"
                                             Background="{DynamicResource RegionBrushOpacity25}"
-                                            Content="{DynamicResource GeneralSettings}"
+                                            Content="{DynamicResource TaskQueue.GeneralSettings}"
                                             IsChecked="{c:Binding !GuideDemoAdvancedSettings}" />
                                         <RadioButton
                                             hc:VisualElement.HighlightBackground="{DynamicResource RegionBrushOpacity25}"
                                             Background="{DynamicResource RegionBrushOpacity25}"
-                                            Content="{DynamicResource AdvancedSettings}"
+                                            Content="{DynamicResource TaskQueue.AdvancedSettings}"
                                             IsChecked="{c:Binding GuideDemoAdvancedSettings}" />
                                     </hc:ButtonGroup>
                                 </StackPanel>
@@ -581,7 +581,7 @@
                                 <controls:TextBlock
                                     MaxWidth="400"
                                     Foreground="{DynamicResource InfoBrush}"
-                                    Text="{DynamicResource UseGpuForInferenceTip}"
+                                    Text="{DynamicResource Settings.Performance.UseGpuForInference.Tip}"
                                     TextWrapping="Wrap" />
                                 <hc:ComboBox
                                     Grid.Row="0"
@@ -589,7 +589,7 @@
                                     Width="300"
                                     Margin="5"
                                     HorizontalAlignment="Stretch"
-                                    hc:InfoElement.Title="{DynamicResource UseGpuForInference}"
+                                    hc:InfoElement.Title="{DynamicResource Settings.Performance.UseGpuForInference}"
                                     hc:TitleElement.HorizontalAlignment="Center"
                                     Background="{DynamicResource RegionBrushOpacity25}"
                                     DisplayMemberPath="Display"
@@ -628,8 +628,8 @@
                                         Margin="8,0,0,5"
                                         HorizontalAlignment="Center"
                                         Orientation="Horizontal">
-                                        <controls:TextBlock Text="{DynamicResource UpdateCheck}" />
-                                        <controls:TooltipBlock TooltipText="{DynamicResource UpdateCheckTip}" />
+                                        <controls:TextBlock Text="{DynamicResource Settings.Update.Channel}" />
+                                        <controls:TooltipBlock TooltipText="{DynamicResource Settings.Update.Channel.Tip}" />
                                     </StackPanel>
                                     <hc:ComboBox
                                         Width="200"
@@ -644,8 +644,8 @@
                                         Margin="8,0,0,5"
                                         HorizontalAlignment="Center"
                                         Orientation="Horizontal">
-                                        <controls:TextBlock Text="{DynamicResource UpdateSource}" />
-                                        <controls:TooltipBlock TooltipText="{DynamicResource UpdateSourceTip}" />
+                                        <controls:TextBlock Text="{DynamicResource Settings.Update.Source}" />
+                                        <controls:TooltipBlock TooltipText="{DynamicResource Settings.Update.Source.Tip}" />
                                     </StackPanel>
                                     <hc:ComboBox
                                         Width="200"
@@ -660,7 +660,7 @@
                                         <controls:TextBlock Margin="8,0,0,5" HorizontalAlignment="Center">
                                             <TextBlock.Text>
                                                 <MultiBinding StringFormat="{}{0} CDK">
-                                                    <Binding Source="{StaticResource MirrorChyan}" />
+                                                    <Binding Source="{StaticResource Settings.Update.Source.MirrorChyan}" />
                                                 </MultiBinding>
                                             </TextBlock.Text>
                                         </controls:TextBlock>
@@ -679,20 +679,20 @@
                                                 hc:BorderElement.CornerRadius="0,4,4,0"
                                                 BorderThickness="0,1,1,1"
                                                 Command="{s:Action MirrorChyanCdkCopy}"
-                                                Content="{DynamicResource Copy}" />
+                                                Content="{DynamicResource Common.Copy}" />
                                         </Grid>
                                         <controls:TextBlock
                                             MaxWidth="300"
                                             Margin="0,5,0,0"
                                             Foreground="{DynamicResource ErrorLogBrush}"
-                                            Text="{DynamicResource MirrorChyanCdkFetchFailed}"
+                                            Text="{DynamicResource Settings.Update.MirrorChyan.CdkFetchFailed}"
                                             TextWrapping="Wrap"
                                             Visibility="{c:Binding MirrorChyanCdkFetchFailed}" />
                                         <controls:TextBlock
                                             MaxWidth="300"
                                             Margin="0,5,0,0"
                                             d:Foreground="{DynamicResource SuccessLogBrush}"
-                                            d:Text="{DynamicResource MirrorChyanCdkRemainingDays}"
+                                            d:Text="{DynamicResource Settings.Update.MirrorChyan.CdkRemainingDays}"
                                             uiBehaviors:ResourceReferenceHelper.ForegroundResourceKey="{Binding MirrorChyanCdkRemainingBrush}"
                                             Text="{Binding MirrorChyanCdkRemainingText}"
                                             TextWrapping="Wrap"
@@ -703,7 +703,7 @@
                                             Cursor="Hand"
                                             NavigateUri="{Binding Source={x:Static constants:MaaUrls.MirrorChyanWebsite}}"
                                             TextDecorations="None">
-                                            <TextBlock Style="{StaticResource HyperlinkTextBlockStyle}" Text="{DynamicResource MirrorChyan}" />
+                                            <TextBlock Style="{StaticResource HyperlinkTextBlockStyle}" Text="{DynamicResource Settings.Update.Source.MirrorChyan}" />
                                         </Hyperlink>
                                     </controls:TextBlock>
                                 </StackPanel>
@@ -725,13 +725,13 @@
                                         <controls:TextBlock
                                             FontSize="14"
                                             FontWeight="SemiBold"
-                                            Text="{DynamicResource GuideDocumentationTitle}"
+                                            Text="{DynamicResource Guide.Documentation.Title}"
                                             TextWrapping="Wrap" />
                                         <controls:TextBlock
                                             Margin="0,2.5"
                                             HorizontalAlignment="Left"
                                             FontSize="13"
-                                            Text="{DynamicResource GuideDocumentationPath}"
+                                            Text="{DynamicResource Guide.Documentation.Path}"
                                             TextWrapping="Wrap" />
                                     </StackPanel>
 
@@ -742,7 +742,7 @@
                                         <controls:TextBlock
                                             FontSize="14"
                                             FontWeight="SemiBold"
-                                            Text="{DynamicResource GuideIssueReportSubtitle}"
+                                            Text="{DynamicResource Guide.IssueReport.Subtitle}"
                                             TextWrapping="Wrap" />
 
                                         <!--  查看日志  -->
@@ -750,7 +750,7 @@
                                             Margin="0,2.5"
                                             HorizontalAlignment="Left"
                                             FontSize="13"
-                                            Text="{DynamicResource GuideViewLog}"
+                                            Text="{DynamicResource Guide.ViewLog}"
                                             TextWrapping="Wrap" />
 
                                         <!--  生成报告  -->
@@ -758,7 +758,7 @@
                                             Margin="0,2.5"
                                             HorizontalAlignment="Left"
                                             FontSize="13"
-                                            Text="{DynamicResource GuideGenerateReport}"
+                                            Text="{DynamicResource Guide.GenerateReport}"
                                             TextWrapping="Wrap" />
                                     </StackPanel>
 
@@ -769,13 +769,13 @@
                                         <controls:TextBlock
                                             FontSize="14"
                                             FontWeight="SemiBold"
-                                            Text="{DynamicResource GuideGitHubIssueTitle}"
+                                            Text="{DynamicResource Guide.GitHubIssue.Title}"
                                             TextWrapping="Wrap" />
                                         <controls:TextBlock
                                             Margin="0,2.5"
                                             HorizontalAlignment="Left"
                                             FontSize="13"
-                                            Text="{DynamicResource GuideGitHubIssueDescription}"
+                                            Text="{DynamicResource Guide.GitHubIssue.Description}"
                                             TextWrapping="Wrap" />
                                     </StackPanel>
 
@@ -786,13 +786,13 @@
                                         <controls:TextBlock
                                             FontSize="14"
                                             FontWeight="SemiBold"
-                                            Text="{DynamicResource GuideOpenSourceTitle}"
+                                            Text="{DynamicResource Guide.OpenSource.Title}"
                                             TextWrapping="Wrap" />
                                         <controls:TextBlock
                                             Margin="0,2.5"
                                             HorizontalAlignment="Left"
                                             FontSize="13"
-                                            Text="{DynamicResource GuideOpenSourceDescription}"
+                                            Text="{DynamicResource Guide.OpenSource.Description}"
                                             TextWrapping="Wrap" />
                                     </StackPanel>
 
@@ -801,7 +801,7 @@
                                     <StackPanel>
                                         <controls:TextBlock
                                             HorizontalAlignment="Center"
-                                            Text="{DynamicResource GuideUserAgreement}"
+                                            Text="{DynamicResource Guide.UserAgreement}"
                                             TextWrapping="Wrap" />
                                     </StackPanel>
                                 </hc:UniformSpacingPanel>

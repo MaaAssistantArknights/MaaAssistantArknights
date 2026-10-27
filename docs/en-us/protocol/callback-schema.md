@@ -218,7 +218,7 @@ Todo
 
 When a task chain is interrupted by an unhandled exception, `TaskChainError` additionally carries a `details` field:
 
-- `error` (string, required): The exception type, one of `OpenCVException` | `OutOfMemory` | `UnhandledException` | `UnknownException`.
+- `error` (string, required): The exception type, one of `OpenCVException` | `OutOfMemory` | `GpuDeviceRemoved` | `UnhandledException` | `UnknownException`. When `OutOfMemory` or `GpuDeviceRemoved` (GPU inference device removed, e.g. due to a graphics driver update or GPU reset) occurs, the remaining tasks are cleared, and the program must be restarted to continue.
 
 ### TaskChainExtraInfo
 
@@ -254,6 +254,8 @@ Todo
   ```
 
   Additionally, when the task execution count reaches its limit, a `SubTaskExtraInfo` message with `what` set to `ExceededLimit` is reported first; its `details` contains `task` (task name), `exec_times` (execution times), and `max_times` (maximum execution times).
+
+  If the list of tasks to be recognized contains undefined task names (e.g. task resources not matching the program version), a `SubTaskError` with `what` set to `UnknownTask` is reported back before recognition starts and the whole task chain is stopped; its `details` contains `tasks` (string array, the list of undefined task names).
 
 - `ReportToPenguinStats` / `ReportToYituliu`  
   Report battle drops to Penguin Statistics / Yituliu big data (a `SubTaskError` is reported back when the upload fails)

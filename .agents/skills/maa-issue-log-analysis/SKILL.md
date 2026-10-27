@@ -339,10 +339,10 @@ description: 分析 MaaAssistantArknights 上游仓库公开 Issue（`https://gi
 
 - 总结任务类型、设置项、按钮、错误提示、日志前缀时，优先使用 `src/MaaWpfGui/Res/Localizations/zh-cn.xaml` 中的中文文案。
 - 常见查找顺序：
-    - 默认任务类型名：先看 `src/MaaWpfGui/ViewModels/UI/TaskQueueViewModel.cs` 中 `LocalizationHelper.GetString(taskType.ToString())` 的 key，再到 `src/MaaWpfGui/Res/Localizations/zh-cn.xaml` 查 `StartUp`、`Fight`、`Infrast`、`Recruit`、`Mall`、`Award`、`Roguelike`、`Reclamation`、`Custom`。
-    - 任务开始 / 完成 / 出错等 GUI 日志前缀：优先查 `StartTask`、`CompleteTask`、`TaskError`、`ConnectFailed`、`TryToReconnect` 等 key。
+    - 默认任务类型名：先看 `src/MaaWpfGui/ViewModels/UI/TaskQueueViewModel.cs` 中 `TaskType.LocalizationKey()` 扩展映射的 key，再到 `src/MaaWpfGui/Res/Localizations/zh-cn.xaml` 查 `TaskQueue.Task.StartUp`、`TaskQueue.Task.Fight` 等任务类型 key。
+    - 任务开始 / 完成 / 出错等 GUI 日志前缀：优先查 `Asst.TaskQueue.StartTask`、`Asst.TaskQueue.CompleteTask`、`Asst.TaskQueue.TaskError`、`Connection.ConnectFailed`、`Asst.Connection.TryToReconnect` 等 key。
     - 设置项、按钮、界面提示：先在对应 `*.xaml` / `*.cs` 里找 `DynamicResource SomeKey` 或 `LocalizationHelper.GetString("SomeKey")`，再到 `src/MaaWpfGui/Res/Localizations/zh-cn.xaml` 查中文。
-    - issue 反馈相关入口：优先查 `Issue`、`GenerateSupportPayload`、`OpenDebugFolder` 等 key。
+    - issue 反馈相关入口：优先查 `Error.Issue`、`Error.GenerateSupportPayload`、`Error.OpenDebugFolder` 等 key。
 - 如果 `config/gui.new.json` 里任务有用户自定义 `Name`，输出时优先保留用户自定义名称；必要时再括号补默认任务类型中文，例如 `刷理智（理智作战 / Fight）`。
 - 输出时优先写中文，必要时在括号里补原始 key / `taskChain` / 枚举名，例如 `基建换班（Infrast）`。
 - 如果 `src/MaaWpfGui/Res/Localizations/zh-cn.xaml` 没有对应 key，再退回原始 key 或代码里的英文字符串，并明确说明“未在 `src/MaaWpfGui/Res/Localizations/zh-cn.xaml` 找到对应文案”。

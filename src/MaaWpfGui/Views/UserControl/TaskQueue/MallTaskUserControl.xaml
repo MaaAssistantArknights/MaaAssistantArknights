@@ -22,7 +22,7 @@
             <CheckBox
                 Margin="0,10,0,5"
                 Block.TextAlignment="Left"
-                Content="{DynamicResource Visiting}"
+                Content="{DynamicResource Mall.Visiting}"
                 IsChecked="{Binding CreditVisitFriendsEnabled}" />
             <StackPanel
                 HorizontalAlignment="Left"
@@ -36,7 +36,7 @@
                     Text="└" />
                 <CheckBox
                     Block.TextAlignment="Left"
-                    Content="{DynamicResource OnlyOnceADay}"
+                    Content="{DynamicResource Mall.OnlyOnceADay}"
                     IsChecked="{Binding CreditVisitOnceADay}"
                     Visibility="{c:Binding CreditVisitFriendsEnabled}" />
             </StackPanel>
@@ -50,10 +50,10 @@
                     IsChecked="{Binding CreditFightTaskEnabled}">
                     <TextBlock
                         Block.TextAlignment="Left"
-                        Text="{DynamicResource CreditFight}"
+                        Text="{DynamicResource Mall.CreditFight}"
                         TextWrapping="Wrap" />
                 </CheckBox>
-                <controls:TooltipBlock x:Name="CreditFightTipTooltipBlock" TooltipText="{DynamicResource CreditFightTip}" />
+                <controls:TooltipBlock x:Name="CreditFightTipTooltipBlock" TooltipText="{DynamicResource Mall.CreditFight.Tip}" />
             </StackPanel>
             <StackPanel
                 HorizontalAlignment="Left"
@@ -67,7 +67,7 @@
                     Text="├" />
                 <CheckBox
                     Block.TextAlignment="Left"
-                    Content="{DynamicResource OnlyOnceADay}"
+                    Content="{DynamicResource Mall.OnlyOnceADay}"
                     IsChecked="{Binding CreditFightOnceADay}"
                     Visibility="{c:Binding CreditFightTaskEnabled}" />
             </StackPanel>
@@ -80,7 +80,7 @@
                     Opacity="{c:Binding 'Run.Idle and Run.Inited ? 1 : 0.5',
                                         Source={x:Static helper:Instances.TaskQueueViewModel}}"
                     Text="└" />
-                <controls:TextBlock Opacity="{c:Binding 'Run.Idle and Run.Inited ? 1 : 0.5', Source={x:Static helper:Instances.TaskQueueViewModel}}" Text="{DynamicResource UseFormation}" />
+                <controls:TextBlock Opacity="{c:Binding 'Run.Idle and Run.Inited ? 1 : 0.5', Source={x:Static helper:Instances.TaskQueueViewModel}}" Text="{DynamicResource Copilot.UseFormation}" />
                 <ComboBox
                     Margin="6,0,0,0"
                     HorizontalAlignment="Left"
@@ -93,13 +93,13 @@
             <CheckBox
                 Margin="0,10"
                 Block.TextAlignment="Left"
-                Content="{DynamicResource SocialPtShop}"
+                Content="{DynamicResource Mall.SocialPtShop}"
                 IsChecked="{Binding CreditShopping}" />
 
             <TextBlock
                 Margin="0,0,0,5"
                 Foreground="{DynamicResource ThirdlyTextBrush}"
-                Text="{DynamicResource ReceptionOptionsRequireInfrast}"
+                Text="{DynamicResource Mall.ReceptionOptionsRequireInfrast}"
                 TextWrapping="Wrap" />
             <Border
                 BorderBrush="{DynamicResource BorderBrush}"
@@ -109,17 +109,17 @@
                     <controls:TextBlock
                         Margin="6,8"
                         HorizontalAlignment="Stretch"
-                        Text="{DynamicResource InfrastReceptionMessageBoardReceive}"
+                        Text="{DynamicResource Infrast.Reception.MessageBoardReceive}"
                         TextWrapping="Wrap" />
                     <controls:TextBlock
                         Margin="6,8"
                         HorizontalAlignment="Stretch"
-                        Text="{DynamicResource InfrastReceptionClueExchange}"
+                        Text="{DynamicResource Infrast.Reception.ClueExchange}"
                         TextWrapping="Wrap" />
                     <controls:TextBlock
                         Margin="6,8"
                         HorizontalAlignment="Stretch"
-                        Text="{DynamicResource InfrastReceptionSendClue}"
+                        Text="{DynamicResource Infrast.Reception.SendClue}"
                         TextWrapping="Wrap" />
 
                 </StackPanel>
@@ -129,14 +129,14 @@
         <StackPanel Visibility="{c:Binding EnableAdvancedSettings, Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}">
             <TextBox
                 Margin="0,10"
-                hc:InfoElement.Title="{DynamicResource HighPriority}"
+                hc:InfoElement.Title="{DynamicResource Mall.HighPriority}"
                 IsEnabled="{Binding CreditShopping}"
                 Style="{StaticResource TextBoxExtend}"
                 Text="{Binding CreditFirstList}"
-                ToolTip="{DynamicResource Drink}" />
+                ToolTip="{DynamicResource Mall.Drink}" />
             <TextBox
                 Margin="0,10"
-                hc:InfoElement.Title="{DynamicResource Blacklist}"
+                hc:InfoElement.Title="{DynamicResource Mall.Blacklist}"
                 IsEnabled="{Binding CreditShopping}"
                 Style="{StaticResource TextBoxExtend}"
                 Text="{Binding CreditBlackList}" />
@@ -146,7 +146,7 @@
                 IsEnabled="{Binding CreditShopping}">
                 <TextBlock
                     Block.TextAlignment="Left"
-                    Text="{DynamicResource ForceShoppingIfCreditFull}"
+                    Text="{DynamicResource Mall.ForceShoppingIfCreditFull}"
                     TextWrapping="Wrap" />
             </CheckBox>
             <StackPanel Margin="0,10" Orientation="Horizontal">
@@ -157,10 +157,10 @@
                     IsEnabled="{Binding CreditShopping}">
                     <TextBlock
                         Block.TextAlignment="Left"
-                        Text="{DynamicResource OnlyBuyDiscount}"
+                        Text="{DynamicResource Mall.OnlyBuyDiscount}"
                         TextWrapping="Wrap" />
                 </CheckBox>
-                <controls:TooltipBlock x:Name="OnlyBuyDiscountTipsTooltipBlock" TooltipText="{DynamicResource OnlyBuyDiscountTips}" />
+                <controls:TooltipBlock x:Name="OnlyBuyDiscountTipsTooltipBlock" TooltipText="{DynamicResource Mall.OnlyBuyDiscount.Tip}" />
             </StackPanel>
             <StackPanel Margin="0,10" Orientation="Horizontal">
                 <CheckBox
@@ -170,10 +170,10 @@
                     IsEnabled="{Binding CreditShopping}">
                     <TextBlock
                         Block.TextAlignment="Left"
-                        Text="{DynamicResource ReserveMaxCredit}"
+                        Text="{DynamicResource Mall.ReserveMaxCredit}"
                         TextWrapping="Wrap" />
                 </CheckBox>
-                <controls:TooltipBlock x:Name="ReserveMaxCreditTipsTooltipBlock" TooltipText="{DynamicResource ReserveMaxCreditTips}" />
+                <controls:TooltipBlock x:Name="ReserveMaxCreditTipsTooltipBlock" TooltipText="{DynamicResource Mall.ReserveMaxCredit.Tip}" />
             </StackPanel>
         </StackPanel>
     </StackPanel>

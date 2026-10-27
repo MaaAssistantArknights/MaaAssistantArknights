@@ -12,6 +12,7 @@
 // </copyright>
 #nullable enable
 using MaaWpfGui.Constants.Enums;
+using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
 using Stylet;
 
@@ -21,7 +22,7 @@ public class InfrastRoomItemViewModel(InfrastRoomType roomType, bool isEnabled) 
 {
     public InfrastRoomType RoomType { get; init; } = roomType;
 
-    public string Name => LocalizationHelper.GetString(RoomType.ToString());
+    public string Name => LocalizationHelper.GetString(RoomType.LocalizationKey());
 
     private bool _isEnabled = isEnabled;
 

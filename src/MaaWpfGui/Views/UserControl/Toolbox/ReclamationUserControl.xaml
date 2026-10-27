@@ -17,14 +17,14 @@
         <StackPanel>
             <ComboBox
                 Margin="0,5"
-                hc:InfoElement.Title="{DynamicResource ReclamationTheme}"
+                hc:InfoElement.Title="{DynamicResource Toolbox.MiniGame.Reclamation.Theme}"
                 DisplayMemberPath="Display"
                 ItemsSource="{Binding ReclamationThemeList}"
                 SelectedValue="{Binding ReclamationTheme}"
                 SelectedValuePath="Value" />
             <ComboBox
                 Margin="0,5"
-                hc:InfoElement.Title="{DynamicResource ReclamationMode}"
+                hc:InfoElement.Title="{DynamicResource Toolbox.MiniGame.Reclamation.Mode}"
                 DisplayMemberPath="Display"
                 ItemsSource="{Binding ModeList}"
                 SelectedValue="{Binding ReclamationMode}"
@@ -35,14 +35,14 @@
                 <TextBox
                     Margin="0,5"
                     VerticalContentAlignment="Center"
-                    hc:InfoElement.Placeholder="{DynamicResource ReclamationToolToCraftPlaceholder}"
-                    hc:InfoElement.Title="{DynamicResource ReclamationToolToCraftTip}"
+                    hc:InfoElement.Placeholder="{DynamicResource Toolbox.MiniGame.Reclamation.ToolToCraft.Placeholder}"
+                    hc:InfoElement.Title="{DynamicResource Toolbox.MiniGame.Reclamation.ToolToCraft.Tip}"
                     Text="{Binding ReclamationToolToCraft}"
                     Visibility="{c:Binding 'ReclamationMode == settings:ReclamationMode.ProsperityInSave',
                                            Source={x:Static vm:ReclamationUserControlModel.Instance}}" />
                 <ComboBox
                     Margin="0,5"
-                    hc:InfoElement.Title="{DynamicResource ReclamationIncrementMode}"
+                    hc:InfoElement.Title="{DynamicResource Toolbox.MiniGame.Reclamation.IncrementMode}"
                     DisplayMemberPath="Display"
                     ItemsSource="{Binding ReclamationIncrementModeList}"
                     SelectedValue="{Binding ReclamationIncrementMode}"
@@ -51,7 +51,7 @@
                                            Source={x:Static vm:ReclamationUserControlModel.Instance}}" />
                 <hc:NumericUpDown
                     Margin="0,5"
-                    hc:InfoElement.Title="{DynamicResource ReclamationMaxCraftCountPerRound}"
+                    hc:InfoElement.Title="{DynamicResource Toolbox.MiniGame.Reclamation.MaxCraftCountPerRound}"
                     Minimum="0"
                     Visibility="{c:Binding 'ReclamationMode == settings:ReclamationMode.ProsperityInSave',
                                            Source={x:Static vm:ReclamationUserControlModel.Instance}}"
@@ -63,7 +63,7 @@
                                            Source={x:Static vm:ReclamationUserControlModel.Instance}}">
                     <TextBlock
                         Block.TextAlignment="Left"
-                        Text="{DynamicResource ReclamationClearStore}"
+                        Text="{DynamicResource Toolbox.MiniGame.Reclamation.ClearStore}"
                         TextWrapping="Wrap" />
                 </CheckBox>
             </StackPanel>

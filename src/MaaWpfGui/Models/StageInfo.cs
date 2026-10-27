@@ -106,18 +106,20 @@ public class StageInfo : CombinedData
     /// Initializes a new instance of the <see cref="StageInfo"/> class for resource stages with weekly schedule.
     /// Used for stages like CE-6 (Tuesday/Thursday/Saturday/Sunday), PR-A-1 (Monday/Thursday/Friday/Sunday), etc.
     /// </summary>
-    /// <param name="stageName">Stage name，同时作为 Display 的本地化 key</param>
+    /// <param name="stageName">Stage name，作为 Value 发给内核的任务值；未显式指定 localizationKey 时也兼作 Display 的本地化 key</param>
     /// <param name="tipLocalizationKey">Tip 的本地化 key，为空则不显示提示</param>
     /// <param name="openDaysOfWeek">Days of week when this stage is available</param>
     /// <param name="activity">Associated activity (typically resource collection activity)</param>
     /// <param name="dropGroups">Grouped drop items (used for chip stages with multiple variants)</param>
     /// <param name="tipArgKeys">Tip 模板占位符的本地化 key，序号与 dropGroups 掉落序一致</param>
-    /// <param name="dropBrushKeys">DropGroups 各掉落数字与占位符着色的画刷资源 key，序号与 dropGroups 掉落序一致</param>
-    public StageInfo(string stageName, string tipLocalizationKey, IEnumerable<DayOfWeek> openDaysOfWeek, StageActivityInfo activity, List<List<string>>? dropGroups = null, List<string>? tipArgKeys = null, List<string>? dropBrushKeys = null)
+    /// <param name="dropBrushKeys">DropGroups 各掉落数字与占位符着色的画刷资源 key，序号与 dropGroups 组内掉落序一致</param>
+    /// <param name="localizationKey">Display 的本地化 key；为 null 时回退用 <paramref name="stageName"/> 作为本地化 key</param>
+    public StageInfo(string stageName, string tipLocalizationKey, IEnumerable<DayOfWeek> openDaysOfWeek, StageActivityInfo activity, List<List<string>>? dropGroups = null, List<string>? tipArgKeys = null, List<string>? dropBrushKeys = null, string? localizationKey = null)
     {
+        var displayKey = localizationKey ?? stageName;
         Value = stageName;
-        Display = LocalizationHelper.GetString(stageName);
-        DisplayKey = stageName;
+        Display = LocalizationHelper.GetString(displayKey);
+        DisplayKey = displayKey;
         OpenDaysOfWeek = openDaysOfWeek;
         Activity = activity;
         DropGroups = dropGroups;

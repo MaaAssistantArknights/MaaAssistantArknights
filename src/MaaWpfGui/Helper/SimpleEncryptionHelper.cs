@@ -51,7 +51,7 @@ public static class SimpleEncryptionHelper
         }
         catch (Exception e)
         {
-            ToastNotification.ShowDirect(caller + LocalizationHelper.GetString("EncryptionError"));
+            ToastNotification.ShowDirect(caller + LocalizationHelper.GetString("ExternalNotification.EncryptionError"));
             _logger.Error("Failed to encrypt text: " + e.Message);
             return plainText;
         }
@@ -85,7 +85,7 @@ public static class SimpleEncryptionHelper
         }
         catch (Exception e)
         {
-            ToastNotification.ShowDirect(caller + LocalizationHelper.GetString("EncryptionError"));
+            ToastNotification.ShowDirect(caller + LocalizationHelper.GetString("ExternalNotification.EncryptionError"));
             _logger.Error("Failed to decrypt text: " + e.Message);
             return encryptedText;
         }

@@ -46,9 +46,9 @@ public partial class ErrorDialogView : INotifyPropertyChanged
     private bool _congratulationsOnError = true;
 #endif
 
-    public string ErrorString { get; set; } = LocalizationHelper.GetString("Error");
+    public string ErrorString { get; set; } = LocalizationHelper.GetString("Common.Error");
 
-    public string ErrorCongratulationsString { get; set; } = LocalizationHelper.GetString("ErrorCongratulations");
+    public string ErrorCongratulationsString { get; set; } = LocalizationHelper.GetString("Error.Congratulations");
 
     /// <summary>
     /// Gets or sets a value indicating whether to enable congratulation mode for ErrorDialogView.
@@ -117,7 +117,7 @@ public partial class ErrorDialogView : INotifyPropertyChanged
         if (details.Contains("MaaCore.dll not found!") ||
             details.Contains("resource folder not found!"))
         {
-            return LocalizationHelper.GetString("ErrorSolutionMoveMaaExeOutOfFolder");
+            return LocalizationHelper.GetString("Error.Solution.MoveMaaExeOutOfFolder");
         }
 
         if (details.Contains("AsstGetVersion()") ||
@@ -126,42 +126,42 @@ public partial class ErrorDialogView : INotifyPropertyChanged
             details.Contains("HandyControl") ||
             (details.Contains("System.Net.Http") && details.Contains("Version")))
         {
-            return LocalizationHelper.GetString("ErrorSolutionCrash");
+            return LocalizationHelper.GetString("Error.Solution.Crash");
         }
 
         if (details.Contains("CheckAndUpdateNow()") && (details.Contains("MoveFile") || details.Contains("DeleteFile")))
         {
-            return LocalizationHelper.GetString("ErrorSolutionUpdatePackageExtractionFailed");
+            return LocalizationHelper.GetString("Error.Solution.UpdatePackageExtractionFailed");
         }
 
         if (details.Contains("Hyperlink_Click") && details.Contains("StartWithShellExecuteEx"))
         {
-            return LocalizationHelper.GetString("ErrorSolutionSelectDefaultBrowser");
+            return LocalizationHelper.GetString("Error.Solution.SelectDefaultBrowser");
         }
 
         if (details.Contains("System.IO.File.InternalMove"))
         {
-            return LocalizationHelper.GetString("ErrorSolutionFailedToMove");
+            return LocalizationHelper.GetString("Error.Solution.FailedToMove");
         }
 
         // DWM 桌面组合被禁用（0x80263001），通常是瞬时的显卡驱动问题
         if (details.Contains("Desktop composition is disabled") || details.Contains("0x80263001"))
         {
-            return LocalizationHelper.GetString("ErrorSolutionDesktopCompositionDisabled");
+            return LocalizationHelper.GetString("Error.Solution.DesktopCompositionDisabled");
         }
 
         // 拖拽正在执行时重复拖动导致的偶发崩溃，可忽略
         if (details.Contains("DragDrop.DoDragSourceMove"))
         {
-            return LocalizationHelper.GetString("ErrorSolutionDragDrop");
+            return LocalizationHelper.GetString("Error.Solution.DragDrop");
         }
 
         AchievementTrackerHelper.Instance.Unlock(AchievementIds.UnexpectedCrash);
 
-        return $"{LocalizationHelper.GetString("UnknownErrorOccurs")}\n" +
-               $"{LocalizationHelper.GetString("ErrorCrashMessageOpenLog")}\n" +
-               $"{LocalizationHelper.GetString("ErrorCrashMessageGenerateReport")}\n" +
-               $"{LocalizationHelper.GetString("ErrorCrashMessageHelpTip")}";
+        return $"{LocalizationHelper.GetString("Error.UnknownErrorOccurs")}\n" +
+               $"{LocalizationHelper.GetString("Error.CrashMessage.OpenLog")}\n" +
+               $"{LocalizationHelper.GetString("Error.CrashMessage.GenerateReport")}\n" +
+               $"{LocalizationHelper.GetString("Error.CrashMessage.Help.Tip")}";
     }
 
     protected override void OnClosed(EventArgs e)
@@ -185,11 +185,11 @@ public partial class ErrorDialogView : INotifyPropertyChanged
     {
         var data = new DataObject();
         var textToCopy =
-            $"{LocalizationHelper.GetString("ErrorProlog")}\n" +
+            $"{LocalizationHelper.GetString("Error.Prolog")}\n" +
             $"\t{ExceptionMessage}\n" +
-            $"{LocalizationHelper.GetString("ErrorSolution")}\n" +
+            $"{LocalizationHelper.GetString("Error.Solution")}\n" +
             $"\t{PossibleSolution}\n" +
-            $"{LocalizationHelper.GetString("ErrorDetails")}\n" +
+            $"{LocalizationHelper.GetString("Error.Details")}\n" +
             $"{ExceptionDetails}";
         data.SetText(textToCopy);
 

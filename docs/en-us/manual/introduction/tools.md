@@ -28,7 +28,7 @@ Currently supports the following export formats:
 
 Supports automatically entering the depot from the main page. If automatic navigation fails, please manually switch to the `Upgrade Materials` screen and **scroll all the way to the left** before starting the function.
 
-The recognized depot data is cached and used by the [Depot Maintain](./depot-maintain.md) task and the `Target Inventory` mode in [Combat](./combat.md). It can also be synced automatically via the [Update Doctor Data](./user-data-update.md) task.
+The recognized depot data is cached and used by the [Depot Maintain](./depot-maintain.md) task and the `Target Inventory` mode in [Combat](./combat.md). It can also be synced automatically via the [Update Doctor Data](./user-data-update.md) task. When recognition returns no items, the existing inventory data is kept.
 
 Currently supports the following export formats:
 

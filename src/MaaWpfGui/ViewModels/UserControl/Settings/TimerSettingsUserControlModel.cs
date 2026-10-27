@@ -125,7 +125,7 @@ public class TimerSettingsUserControlModel : PropertyChangedBase
                 }
 
                 Execute.OnUIThread(() =>
-                    MessageBoxHelper.Show(error, LocalizationHelper.GetString("Warning"), icon: MessageBoxImage.Warning));
+                    MessageBoxHelper.Show(error, LocalizationHelper.GetString("Common.Warning"), icon: MessageBoxImage.Warning));
             });
         }
     } = ConfigFactory.Root.Timers.ScheduledWakeUp;

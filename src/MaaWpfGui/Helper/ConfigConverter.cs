@@ -338,8 +338,8 @@ public class ConfigConverter
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.ReceiveSpecialAccess);
 
                 mallTask.Shopping = ConfigurationHelper.GetValue(ConfigurationKeys.CreditShopping, true);
-                mallTask.FirstList = ConfigurationHelper.GetValue(ConfigurationKeys.CreditFirstListNew, LocalizationHelper.GetString("HighPriorityDefault", local)).Replace("；", ";").Trim();
-                mallTask.BlackList = ConfigurationHelper.GetValue(ConfigurationKeys.CreditBlackListNew, LocalizationHelper.GetString("BlacklistDefault", local)).Replace("；", ";").Trim();
+                mallTask.FirstList = ConfigurationHelper.GetValue(ConfigurationKeys.CreditFirstListNew, LocalizationHelper.GetString("Mall.HighPriorityDefault", local)).Replace("；", ";").Trim();
+                mallTask.BlackList = ConfigurationHelper.GetValue(ConfigurationKeys.CreditBlackListNew, LocalizationHelper.GetString("Mall.BlacklistDefault", local)).Replace("；", ";").Trim();
                 mallTask.ShoppingIgnoreBlackListWhenFull = ConfigurationHelper.GetValue(ConfigurationKeys.CreditForceShoppingIfCreditFull, false);
                 mallTask.OnlyBuyDiscount = ConfigurationHelper.GetValue(ConfigurationKeys.CreditOnlyBuyDiscount, false);
                 mallTask.ReserveMaxCredit = ConfigurationHelper.GetValue(ConfigurationKeys.CreditReserveMaxCredit, false);
@@ -486,12 +486,12 @@ public class ConfigConverter
                             break;
                         case "Combat":
                             // fightTask.Name = LocalizationHelper.GetString(task.OldName, local);
-                            fightTask2.Name = LocalizationHelper.GetString("RemainingSanityStage", local);
+                            fightTask2.Name = LocalizationHelper.GetString("TaskQueue.Fight.RemainingSanityStage", local);
                             fightTask.IsEnable = task.IsEnable;
                             fightTask2.IsEnable = task.IsEnable && ConfigurationHelper.GetValue(ConfigurationKeys.UseRemainingSanityStage, true) && fightTask2.StagePlan.FirstOrDefault() != string.Empty;
                             if (fightTask.UseOptionalStage && fightTask.StagePlan.FirstOrDefault() == FightTaskUserControlModel.AnnihilationName)
                             {
-                                ConfigFactory.CurrentConfig.TaskQueue.Add(new FightTask() { Name = LocalizationHelper.GetString("AnnihilationMode"), StagePlan = [FightTaskUserControlModel.AnnihilationName] });
+                                ConfigFactory.CurrentConfig.TaskQueue.Add(new FightTask() { Name = LocalizationHelper.GetString("TaskQueue.Annihilation.Mode"), StagePlan = [FightTaskUserControlModel.AnnihilationName] });
                                 fightTask.StagePlan.RemoveAt(0);
                             }
                             ConfigFactory.CurrentConfig.TaskQueue.Add(fightTask);

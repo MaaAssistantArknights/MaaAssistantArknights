@@ -185,7 +185,7 @@ public static class DemoShotService
 
         ConfigFactory.CurrentConfig.Gui.WindowTitlePrefix = string.Empty;
         SettingsViewModel.GuiSettings.WindowTitleSelectShowList =
-            [new KeyValuePair<string, string>("4", LocalizationHelper.GetString("ClientType"))];
+            [new KeyValuePair<string, string>("4", LocalizationHelper.GetString("Settings.Game.ClientType"))];
 
         // 标题版本段覆盖：ResolveWindowTitleVersionAsync 已把缺省/latest 解析为具体版本（失败保持 null 走原行为）
         SettingsViewModel.DemoWindowTitleVersionOverride = data.WindowTitle?.Version;
@@ -532,7 +532,7 @@ public static class DemoShotService
     {
         var vm = Instances.CopilotViewModel;
 
-        // CopilotViewModel.ClearLog 为 private 且会追加 CopilotTip，这里直接清空公开集合后按演示数据重建
+        // CopilotViewModel.ClearLog 为 private 且会追加 Copilot.Usage.Tip，这里直接清空公开集合后按演示数据重建
         vm.LogItemViewModels.Clear();
 
         foreach (var line in copilot.HeaderLines)

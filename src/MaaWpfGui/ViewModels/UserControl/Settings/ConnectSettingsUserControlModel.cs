@@ -81,7 +81,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
         {
             if (!TouchModeList.Items.Any(item => item.Value == TouchMode.MumuExtras))
             {
-                TouchModeList.Add(TouchMode.MumuExtras, "MumuExtrasTouchMode");
+                TouchModeList.Add(TouchMode.MumuExtras, "Connection.TouchMode.MumuExtras");
             }
         }
     }
@@ -94,20 +94,20 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
     /// Gets the list of the configuration of connection.
     /// </summary>
     public LocalizedObservableList<ConnectConfig> ConnectConfigList { get; } = new(
-        (ConnectConfig.General, "General"),
-        (ConnectConfig.BlueStacks, "BlueStacks"),
-        (ConnectConfig.MuMuEmulator12, "MuMuEmulator12"),
-        (ConnectConfig.MuMuArm, "MuMuArm"),
-        (ConnectConfig.LDPlayer, "LDPlayer"),
-        (ConnectConfig.Androws, "Androws"),
-        (ConnectConfig.AVD, "AVD"),
-        (ConnectConfig.Nox, "Nox"),
-        (ConnectConfig.XYAZ, "XYAZ"),
-        (ConnectConfig.PC, "PC"),
-        (ConnectConfig.WSA, "WSA"),
-        (ConnectConfig.Compatible, "Compatible"),
-        (ConnectConfig.SecondResolution, "SecondResolution"),
-        (ConnectConfig.GeneralWithoutScreencapErr, "GeneralWithoutScreencapErr"));
+        (ConnectConfig.General, "Connection.Config.General"),
+        (ConnectConfig.BlueStacks, "Connection.Config.BlueStacks"),
+        (ConnectConfig.MuMuEmulator12, "Connection.Config.MuMu"),
+        (ConnectConfig.MuMuArm, "Connection.Config.MuMuArm"),
+        (ConnectConfig.LDPlayer, "Connection.Config.LDPlayer"),
+        (ConnectConfig.Androws, "Connection.Config.Androws"),
+        (ConnectConfig.AVD, "Connection.Config.AVD"),
+        (ConnectConfig.Nox, "Connection.Config.Nox"),
+        (ConnectConfig.XYAZ, "Connection.Config.XYAZ"),
+        (ConnectConfig.PC, "Connection.Config.PC"),
+        (ConnectConfig.WSA, "Connection.Config.WSA"),
+        (ConnectConfig.Compatible, "Connection.Config.Compatible"),
+        (ConnectConfig.SecondResolution, "Connection.Config.SecondResolution"),
+        (ConnectConfig.GeneralWithoutScreencapErr, "Connection.Config.GeneralWithoutScreencapErr"));
 
     public static string TouchModeVideoPath => Path.Combine(PathsHelper.BaseDir, "Res", "Video", "TouchMode.mp4");
 
@@ -138,8 +138,8 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
             if (value)
             {
                 MessageBoxHelper.Show(
-                    LocalizationHelper.GetString("AlwaysAutoDetectConnectionTip"),
-                    LocalizationHelper.GetString("Tip"),
+                    LocalizationHelper.GetString("Connection.AlwaysAutoDetectConnection.Tip"),
+                    LocalizationHelper.GetString("Common.Tip"),
                     MessageBoxButton.OK,
                     MessageBoxImage.Warning);
             }
@@ -218,12 +218,12 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
                 while (count-- > 0)
                 {
                     var result = MessageBoxHelper.Show(
-                        LocalizationHelper.GetString("AdbPathFileSelectionErrorPrompt"),
-                        LocalizationHelper.GetString("Tip"),
+                        LocalizationHelper.GetString("Connection.AdbPathFileSelectionErrorPrompt"),
+                        LocalizationHelper.GetString("Common.Tip"),
                         MessageBoxButton.OKCancel,
                         MessageBoxImage.Warning,
-                        ok: LocalizationHelper.GetString("AdbPathFileSelectionErrorImSure") + $"({count + 1})",
-                        cancel: LocalizationHelper.GetString("AdbPathFileSelectionErrorSelectAgain"));
+                        ok: LocalizationHelper.GetString("Connection.AdbPathFileSelectionErrorImSure") + $"({count + 1})",
+                        cancel: LocalizationHelper.GetString("Connection.AdbPathFileSelectionErrorSelectAgain"));
                     if (result == MessageBoxResult.Cancel)
                     {
                         return;
@@ -288,7 +288,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
 
     public string ScreencapTestCost { get; set; } = string.Empty;
 
-    private string _screencapCost = LocalizationHelper.GetStringFormat("ScreencapCost", "---", "---", "---", "---");
+    private string _screencapCost = LocalizationHelper.GetStringFormat("Asst.Connection.ScreencapCost", "---", "---", "---", "---");
 
     public string ScreencapCost
     {
@@ -305,8 +305,8 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
             if (string.IsNullOrEmpty(SettingsViewModel.StartSettings.EmulatorPath))
             {
                 MessageBoxHelper.Show(
-                    LocalizationHelper.GetString("RetryOnDisconnectedEmulatorPathEmptyError"),
-                    LocalizationHelper.GetString("Tip"),
+                    LocalizationHelper.GetString("Connection.RetryOnDisconnectedEmulatorPathEmptyError"),
+                    LocalizationHelper.GetString("Common.Tip"),
                     MessageBoxButton.OK,
                     MessageBoxImage.Warning);
                 value = false;
@@ -326,8 +326,8 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
             if (value && string.IsNullOrEmpty(SettingsViewModel.StartSettings.PcClientPath))
             {
                 MessageBoxHelper.Show(
-                    LocalizationHelper.GetString("RetryOnPcDisconnectedPathEmptyError"),
-                    LocalizationHelper.GetString("Tip"),
+                    LocalizationHelper.GetString("Connection.RetryOnPcDisconnectedPathEmptyError"),
+                    LocalizationHelper.GetString("Common.Tip"),
                     MessageBoxButton.OK,
                     MessageBoxImage.Warning);
                 value = false;
@@ -446,26 +446,26 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
         catch (Exception e)
         {
             _logger.Warning(e, "Exception caught");
-            error = LocalizationHelper.GetString("EmulatorException");
+            error = LocalizationHelper.GetString("Connection.EmulatorException");
             return false;
         }
 
         switch (emulators.Count)
         {
             case 0:
-                error = LocalizationHelper.GetString("EmulatorNotFound");
+                error = LocalizationHelper.GetString("Connection.EmulatorNotFound");
                 return false;
 
             case > 1:
                 {
                     var selectedEmulatorDisplayText = ShowItemSelectionDialog(
                         [.. emulators.Select(emulator => emulator.SelectionDisplayText)],
-                        LocalizationHelper.GetString("SelectEmulator"),
-                        LocalizationHelper.GetString("MultipleEmulatorsDetectedForConnection"));
+                        LocalizationHelper.GetString("Connection.SelectEmulator"),
+                        LocalizationHelper.GetString("Connection.MultipleEmulatorsDetectedForConnection"));
 
                     if (string.IsNullOrEmpty(selectedEmulatorDisplayText))
                     {
-                        error = LocalizationHelper.GetString("EmulatorSelectionCancelled");
+                        error = LocalizationHelper.GetString("Connection.EmulatorSelectionCancelled");
                         return false;
                     }
 
@@ -483,7 +483,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
         AdbPath = selectedEmulator?.AdbPath ?? AdbPath;
         if (string.IsNullOrEmpty(AdbPath))
         {
-            error = LocalizationHelper.GetString("AdbException");
+            error = LocalizationHelper.GetString("Connection.AdbException");
             return false;
         }
 
@@ -493,7 +493,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
         {
             if (string.IsNullOrEmpty(selectedEmulator.Address))
             {
-                error = LocalizationHelper.GetString("MuMuArmConnectionNotReady");
+                error = LocalizationHelper.GetString("Connection.MuMuArm.ConnectionNotReady");
                 return false;
             }
 
@@ -528,8 +528,8 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
                     {
                         var selectedAddress = ShowItemSelectionDialog(
                             filteredAddresses,
-                            LocalizationHelper.GetString("SelectConnectionAddress"),
-                            LocalizationHelper.GetString("MultipleAddressesDetected"));
+                            LocalizationHelper.GetString("Connection.SelectAddress"),
+                            LocalizationHelper.GetString("Connection.MultipleAddressesDetected"));
 
                         if (!string.IsNullOrEmpty(selectedAddress))
                         {
@@ -537,7 +537,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
                         }
                         else
                         {
-                            error = LocalizationHelper.GetString("EmulatorSelectionCancelled");
+                            error = LocalizationHelper.GetString("Connection.EmulatorSelectionCancelled");
                             return false;
                         }
                     }
@@ -586,7 +586,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
         var dialog = new OpenFileDialog();
         if (MaaWineBridge.Availability == WineBridgeAvailability.NotAvailable)
         {
-            dialog.Filter = LocalizationHelper.GetString("AdbProgram") + "|*.exe";
+            dialog.Filter = LocalizationHelper.GetString("Connection.AdbProgram") + "|*.exe";
         }
 
         if (dialog.ShowDialog() == true)
@@ -637,7 +637,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
         _runningState.SetIdle(false);
 
         var errMsg = string.Empty;
-        TestLinkInfo = LocalizationHelper.GetString("ConnectingToEmulator");
+        TestLinkInfo = LocalizationHelper.GetString("Connection.Connecting");
         Instances.AsstProxy.Connected = false;
         var caught = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
         if (!caught)
@@ -663,7 +663,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
 
         if (TestLinkImage is null)
         {
-            TestLinkInfo = LocalizationHelper.GetString("ImageIsNull");
+            TestLinkInfo = LocalizationHelper.GetString("Connection.ImageIsNull");
             return;
         }
 
@@ -673,8 +673,8 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
                 if (ExtraConfig is MuMu12Extra muMu12Extra && muMu12Extra.Enable && ScreencapMethod != "MumuExtras")
                 {
                     var mumuExtrasMsg = string.IsNullOrEmpty(muMu12Extra.EmulatorPath)
-                        ? LocalizationHelper.GetString("MuMuEmulatorPathEmptyError")
-                        : LocalizationHelper.GetString("MuMuExtrasNotEnabledMessage");
+                        ? LocalizationHelper.GetString("Connection.MuMu.EmulatorPathEmptyError")
+                        : LocalizationHelper.GetString("Connection.MuMu.ExtrasNotEnabledMessage");
                     TestLinkInfo = $"{mumuExtrasMsg}\n{ScreencapTestCost}";
                     return;
                 }
@@ -685,8 +685,8 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
                 if (ExtraConfig is LDPlayerExtra ldPlayerExtra && ldPlayerExtra.Enable && ScreencapMethod != "LDExtras")
                 {
                     var ldExtrasMsg = string.IsNullOrEmpty(ldPlayerExtra.EmulatorPath)
-                        ? LocalizationHelper.GetString("LdEmulatorPathEmptyError")
-                        : LocalizationHelper.GetString("LdExtrasNotEnabledMessage");
+                        ? LocalizationHelper.GetString("Connection.LdPlayer.EmulatorPathEmptyError")
+                        : LocalizationHelper.GetString("Connection.LdPlayer.ExtrasNotEnabledMessage");
                     TestLinkInfo = $"{ldExtrasMsg}\n{ScreencapTestCost}";
                     return;
                 }
@@ -804,10 +804,10 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
     /// MuMu 触控选项仅在 MuMu 截图增强启用时动态加入列表。
     /// </summary>
     public LocalizedObservableList<TouchMode> TouchModeList { get; } = new(
-        (TouchMode.MiniTouch, "MiniTouchMode"),
-        (TouchMode.MaaTouch, "MaaTouchMode"),
-        (TouchMode.Adb, "AdbTouchMode"),
-        (TouchMode.MaaFwAdb, "MaaFwAdbTouchMode"));
+        (TouchMode.MiniTouch, "Connection.TouchMode.MiniTouch"),
+        (TouchMode.MaaTouch, "Connection.TouchMode.MaaTouch"),
+        (TouchMode.Adb, "Connection.TouchMode.AdbInput"),
+        (TouchMode.MaaFwAdb, "Connection.TouchMode.MaaFwAdb"));
 
     public bool IsAdbTouchMode() => TouchMode == TouchMode.Adb;
 
@@ -838,7 +838,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
             var hasMumu = TouchModeList.Items.Any(item => item.Value == TouchMode.MumuExtras);
             if (mumuExtrasEnabled && !hasMumu)
             {
-                TouchModeList.Add(TouchMode.MumuExtras, "MumuExtrasTouchMode");
+                TouchModeList.Add(TouchMode.MumuExtras, "Connection.TouchMode.MumuExtras");
             }
             else if (!mumuExtrasEnabled && hasMumu)
             {
@@ -905,8 +905,8 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
 
                 if (!downloadResult)
                 {
-                    using var toast = new ToastNotification(LocalizationHelper.GetString("AdbDownloadFailedTitle"));
-                    toast.AppendContentText(LocalizationHelper.GetString("AdbDownloadFailedDesc")).Show();
+                    using var toast = new ToastNotification(LocalizationHelper.GetString("Connection.AdbDownloadFailed.Title"));
+                    toast.AppendContentText(LocalizationHelper.GetString("Connection.AdbDownloadFailed.Description")).Show();
                     return;
                 }
             }
@@ -924,7 +924,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
             catch (Exception ex)
             {
                 _logger.Error("An error occurred while deleting directory: {Type}: {ExMessage}", ex.GetType(), ex.Message);
-                ToastNotification.ShowDirect(LocalizationHelper.GetString("AdbDeletionFailedMessage"));
+                ToastNotification.ShowDirect(LocalizationHelper.GetString("Connection.AdbDeletionFailed.Message"));
                 return;
             }
 
@@ -935,7 +935,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
             catch (Exception e)
             {
                 _logger.Error(e, "UnzipFailedMessage");
-                ToastNotification.ShowDirect(LocalizationHelper.GetString("UnzipFailedMessage"));
+                ToastNotification.ShowDirect(LocalizationHelper.GetString("Connection.UnzipFailed.Message"));
                 return;
             }
 
@@ -944,11 +944,11 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
                 AdbPath = NewAdb;
                 AdbReplaced = true;
                 ConfigFactory.CurrentConfig.Gui.ConnectSettings.AdbReplaced = true;
-                ToastNotification.ShowDirect(LocalizationHelper.GetString("SuccessfullyReplacedAdb"));
+                ToastNotification.ShowDirect(LocalizationHelper.GetString("Connection.AdbReplaced"));
             }
             else
             {
-                ToastNotification.ShowDirect(LocalizationHelper.GetString("FailedToReplaceAdbAndUseLocal"));
+                ToastNotification.ShowDirect(LocalizationHelper.GetString("Connection.AdbReplaceFailed"));
             }
         }
         finally

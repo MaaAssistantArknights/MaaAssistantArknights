@@ -100,14 +100,14 @@ public partial class NotifyIcon
     /// </summary>
     private void RefreshMenuLocalization()
     {
-        startMenu.SetResourceReference(MenuItem.HeaderProperty, "Farming");
-        stopMenu.SetResourceReference(MenuItem.HeaderProperty, "Stop");
-        switchLangMenu.SetResourceReference(MenuItem.HeaderProperty, "SwitchLanguage");
-        forceShowMenu.SetResourceReference(MenuItem.HeaderProperty, "ForceShow");
-        hideTrayMenu.SetResourceReference(MenuItem.HeaderProperty, "HideTray");
-        toggleOverlayMenu.SetResourceReference(MenuItem.HeaderProperty, "ToggleOverlay");
-        restartMenu.SetResourceReference(MenuItem.HeaderProperty, "Restart");
-        exitMenu.SetResourceReference(MenuItem.HeaderProperty, "Exit");
+        startMenu.SetResourceReference(MenuItem.HeaderProperty, "TaskQueue.Farming");
+        stopMenu.SetResourceReference(MenuItem.HeaderProperty, "Common.Stop");
+        switchLangMenu.SetResourceReference(MenuItem.HeaderProperty, "Tray.SwitchLanguage");
+        forceShowMenu.SetResourceReference(MenuItem.HeaderProperty, "Tray.ForceShow");
+        hideTrayMenu.SetResourceReference(MenuItem.HeaderProperty, "Tray.Hide");
+        toggleOverlayMenu.SetResourceReference(MenuItem.HeaderProperty, "Logging.Overlay.Toggle");
+        restartMenu.SetResourceReference(MenuItem.HeaderProperty, "Tray.Restart");
+        exitMenu.SetResourceReference(MenuItem.HeaderProperty, "Tray.Exit");
     }
 
     // 不知道是干嘛的，先留着

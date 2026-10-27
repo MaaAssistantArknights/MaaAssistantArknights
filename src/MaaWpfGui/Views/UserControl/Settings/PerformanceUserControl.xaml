@@ -22,8 +22,8 @@
             Margin="8,10,0,5"
             HorizontalAlignment="Center"
             Orientation="Horizontal">
-            <controls:TextBlock Text="{DynamicResource UseGpuForInference}" />
-            <controls:TooltipBlock TooltipText="{DynamicResource UseGpuForInferenceTip}" />
+            <controls:TextBlock Text="{DynamicResource Settings.Performance.UseGpuForInference}" />
+            <controls:TooltipBlock TooltipText="{DynamicResource Settings.Performance.UseGpuForInference.Tip}" />
         </StackPanel>
         <hc:ComboBox
             Grid.Row="0"
@@ -56,9 +56,9 @@
             HorizontalAlignment="Center"
             Orientation="Horizontal">
             <CheckBox MaxWidth="250" IsChecked="{Binding IgnoreBadModulesAndUseSoftwareRendering}">
-                <controls:TextBlock Text="{DynamicResource BadModules.UseSoftwareRendering}" TextWrapping="Wrap" />
+                <controls:TextBlock Text="{DynamicResource Error.BadModules.UseSoftwareRendering}" TextWrapping="Wrap" />
             </CheckBox>
-            <controls:TooltipBlock TooltipText="{DynamicResource BadModules.UseSoftwareRenderingTip}" />
+            <controls:TooltipBlock TooltipText="{DynamicResource Error.BadModules.UseSoftwareRendering.Tip}" />
         </StackPanel>
     </StackPanel>
 </UserControl>

@@ -42,6 +42,7 @@ using MaaWpfGui.ViewModels.UserControl.Settings;
 using Serilog;
 using Stylet;
 using Stylet.Xaml;
+using static MaaWpfGui.Extensions.LocalizationKeyExtensions;
 using ComboBox = System.Windows.Controls.ComboBox;
 using Timer = System.Timers.Timer;
 
@@ -145,7 +146,7 @@ public class SettingsViewModel : Screen
     {
         PropertyDependsOnUtility.InitializePropertyDependencies(this);
 
-        DisplayName = LocalizationHelper.GetString("Settings");
+        DisplayName = LocalizationHelper.GetString("Settings.Title");
 
         Init();
 
@@ -159,7 +160,7 @@ public class SettingsViewModel : Screen
     /// </summary>
     public void RefreshLocalization()
     {
-        DisplayName = LocalizationHelper.GetString("Settings");
+        DisplayName = LocalizationHelper.GetString("Settings.Title");
         RefreshSettingsList();
         NotifyOfPropertyChange(nameof(GuideNextGateTip));
     }
@@ -233,7 +234,7 @@ public class SettingsViewModel : Screen
 
         foreach (var (i, key) in orderList.Select((key, index) => (index, key)))
         {
-            var item = new SettingItemViewModel(key.ToString(), LocalizationHelper.GetString(key.ToString()), i);
+            var item = new SettingItemViewModel(key.ToString(), LocalizationHelper.GetString(key.LocalizationKey()), i);
             tempOrderList.Add(item);
         }
 
@@ -248,7 +249,7 @@ public class SettingsViewModel : Screen
     {
         foreach (var item in Settings)
         {
-            item.Display = LocalizationHelper.GetString(item.Key);
+            item.Display = LocalizationHelper.GetString(Enum.Parse<SettingKey>(item.Key).LocalizationKey());
         }
     }
 
@@ -418,9 +419,9 @@ public class SettingsViewModel : Screen
         }
 
         ShowEasterEggDialog(
-            LocalizationHelper.GetString("Burping"),
-            LocalizationHelper.GetString("Hangover"),
-            LocalizationHelper.GetString("Ok"));
+            LocalizationHelper.GetString("EasterEgg.Burping"),
+            LocalizationHelper.GetString("EasterEgg.Hangover"),
+            LocalizationHelper.GetString("Common.Ok"));
     }
 
     /// <summary>
@@ -518,11 +519,11 @@ public class SettingsViewModel : Screen
             var result = Instances.MaaHotKeyManager.TryRegister(action, value);
             if (result == MaaHotKeyRegistrationResult.DuplicateHotKey)
             {
-                GrowlHelper.Warning(LocalizationHelper.GetString("HotKeyRegistrationFailedDuplicate"));
+                GrowlHelper.Warning(LocalizationHelper.GetString("Settings.HotKey.RegistrationFailed.Duplicate"));
             }
             else if (result == MaaHotKeyRegistrationResult.OccupiedByOtherApp)
             {
-                GrowlHelper.Warning(LocalizationHelper.GetString("HotKeyRegistrationFailedOccupied"));
+                GrowlHelper.Warning(LocalizationHelper.GetString("Settings.HotKey.RegistrationFailed.Occupied"));
             }
         }
         else
@@ -622,7 +623,7 @@ public class SettingsViewModel : Screen
         {
             GrowlHelper.Info(new GrowlInfo {
                 IsCustom = true,
-                Message = LocalizationHelper.GetStringFormat("ConfigExists", NewConfigurationName),
+                Message = LocalizationHelper.GetStringFormat("Settings.Configuration.Exists", NewConfigurationName),
                 IconKey = "HangoverGeometry",
                 IconBrushKey = "PallasBrush",
             });
@@ -633,7 +634,7 @@ public class SettingsViewModel : Screen
         {
             GrowlHelper.Info(new GrowlInfo {
                 IsCustom = true,
-                Message = LocalizationHelper.GetStringFormat("ConfigExists", NewConfigurationName),
+                Message = LocalizationHelper.GetStringFormat("Settings.Configuration.Exists", NewConfigurationName),
                 IconKey = "HangoverGeometry",
                 IconBrushKey = "PallasBrush",
             });
@@ -647,7 +648,7 @@ public class SettingsViewModel : Screen
 
         GrowlHelper.Info(new GrowlInfo {
             IsCustom = true,
-            Message = LocalizationHelper.GetStringFormat("AddConfigSuccess", NewConfigurationName),
+            Message = LocalizationHelper.GetStringFormat("Settings.Configuration.AddSuccess", NewConfigurationName),
             IconKey = "HangoverGeometry",
             IconBrushKey = "PallasBrush",
         });
@@ -658,8 +659,8 @@ public class SettingsViewModel : Screen
     public void DeleteConfiguration(CombinedData delete)
     {
         var result = MessageBoxHelper.Show(
-            LocalizationHelper.GetStringFormat("ConfirmDeleteConfigurationMessage", delete.Display),
-            LocalizationHelper.GetString("ConfirmDeleteTask"),
+            LocalizationHelper.GetStringFormat("Settings.Configuration.ConfirmDeleteMessage", delete.Display),
+            LocalizationHelper.GetString("TaskQueue.ConfirmDeleteTask"),
             MessageBoxButton.YesNo,
             MessageBoxImage.Warning);
 
@@ -730,7 +731,7 @@ public class SettingsViewModel : Screen
     [PropertyDependsOn(nameof(GuideStepIndex), nameof(GuideDemoTaskAdded))]
     public string? GuideNextGateTip => GuideStepIndex switch
     {
-        GuideTaskSettingsStepIndex when !GuideDemoTaskAdded => LocalizationHelper.GetString("GuideDemoTaskRequiredTip"),
+        GuideTaskSettingsStepIndex when !GuideDemoTaskAdded => LocalizationHelper.GetString("Guide.Demo.TaskRequired.Tip"),
         _ => null,
     };
 
@@ -809,10 +810,11 @@ public class SettingsViewModel : Screen
         GuideStepIndex = 0;
         TaskSettingVisibilities.Guide = true;
         var result = MessageBoxHelper.Show(
-            LocalizationHelper.GetString("RestartGuidePrompt"),
-            LocalizationHelper.GetString("Tip"),
+            LocalizationHelper.GetString("Guide.RestartPrompt"),
+            LocalizationHelper.GetString("Common.Tip"),
             MessageBoxButton.OKCancel,
-            MessageBoxImage.Question);
+            MessageBoxImage.Question,
+            ok: LocalizationHelper.GetString("Common.Confirm"));
         if (result == MessageBoxResult.OK)
         {
             Bootstrapper.ShutdownAndRestartWithoutArgs();
@@ -830,8 +832,8 @@ public class SettingsViewModel : Screen
     private void NotifyGuideDemoTaskLimit()
     {
         MessageBoxHelper.Show(
-            LocalizationHelper.GetString("GuideDemoTaskAddLimitTip"),
-            LocalizationHelper.GetString("Tip"),
+            LocalizationHelper.GetString("Guide.Demo.TaskAddLimit.Tip"),
+            LocalizationHelper.GetString("Common.Tip"),
             MessageBoxButton.OK,
             MessageBoxImage.Information);
     }
@@ -865,7 +867,7 @@ public class SettingsViewModel : Screen
         GuideDemoTasks.Clear();
         foreach (var key in new[] { "Fight", "Infrast", "Award" })
         {
-            GuideDemoTasks.Add(new GuideDemoTaskItem { LocalizationKey = key });
+            GuideDemoTasks.Add(new GuideDemoTaskItem { LocalizationKey = TaskChainLocalizationKey(key) });
         }
 
         GuideDemoTaskAdded = false;
@@ -893,9 +895,9 @@ public class SettingsViewModel : Screen
             return;
         }
 
-        // 任务类型资源 key 与类型名同构（XxxTask → Xxx）
+        // 任务链名与类型名同构（XxxTask → Xxx），资源 key 经 TaskChainLocalizationKey 显式映射
         var key = taskType.Name.EndsWith("Task", StringComparison.Ordinal) ? taskType.Name[..^"Task".Length] : taskType.Name;
-        GuideDemoTasks.Add(new GuideDemoTaskItem { LocalizationKey = key });
+        GuideDemoTasks.Add(new GuideDemoTaskItem { LocalizationKey = TaskChainLocalizationKey(key) });
         GuideDemoTaskAdded = true;
     }
 
@@ -935,8 +937,8 @@ public class SettingsViewModel : Screen
         }
 
         var dialog = new Views.Dialogs.TextDialogView(
-            LocalizationHelper.GetString("RenameTask"),
-            LocalizationHelper.GetString("RenameTaskPrompt"),
+            LocalizationHelper.GetString("TaskQueue.RenameTask"),
+            LocalizationHelper.GetString("TaskQueue.RenameTaskPrompt"),
             taskItem.Name) {
             Owner = Application.Current.MainWindow,
         };
@@ -968,8 +970,8 @@ public class SettingsViewModel : Screen
     public void StartGuideDemo()
     {
         MessageBoxHelper.Show(
-            LocalizationHelper.GetString("StartGuideDemo"),
-            LocalizationHelper.GetString("Tip"),
+            LocalizationHelper.GetString("Guide.Demo.Start"),
+            LocalizationHelper.GetString("Common.Tip"),
             MessageBoxButton.OK,
             MessageBoxImage.Information);
     }
@@ -1288,13 +1290,14 @@ public class SettingsViewModel : Screen
     /// <param name="isYostarEN">Whether to include the YostarEN resolution tip.</param>
     public static void AskRestartToApplySettings(bool isYostarEN = false)
     {
-        var resolutionTip = isYostarEN ? "\n" + LocalizationHelper.GetString("SwitchResolutionTip") : string.Empty;
+        var resolutionTip = isYostarEN ? "\n" + LocalizationHelper.GetString("Settings.Game.SwitchResolution.Tip") : string.Empty;
 
         var result = MessageBoxHelper.Show(
-            LocalizationHelper.GetString("PromptRestartForSettingsChange") + resolutionTip,
-            LocalizationHelper.GetString("Tip"),
+            LocalizationHelper.GetString("Settings.PromptRestartForSettingsChange") + resolutionTip,
+            LocalizationHelper.GetString("Common.Tip"),
             MessageBoxButton.OKCancel,
-            MessageBoxImage.Question);
+            MessageBoxImage.Question,
+            ok: LocalizationHelper.GetString("Common.Confirm"));
 
         if (result == MessageBoxResult.OK)
         {
@@ -1430,10 +1433,10 @@ public class SettingsViewModel : Screen
         string uiVersionDisplay = DemoWindowTitleVersionOverride is { Length: > 0 } demoUiVersion
             ? demoUiVersion
             : LocalizationHelper.FormatVersion(uiVersion, VersionUpdateSettingsUserControlModel.BuildDateTime);
-        string adminTag = Bootstrapper.IsAdministratorWithUac() ? $" ({LocalizationHelper.GetString("Administrator")})" : string.Empty;
+        string adminTag = Bootstrapper.IsAdministratorWithUac() ? $" ({LocalizationHelper.GetString("Settings.About.Administrator")})" : string.Empty;
 
         // 常驻预览标记：防止带参数预览后忘记本进程未加载 Core
-        string previewTag = Bootstrapper.IsCoreInitSkipped ? $" ({LocalizationHelper.GetString("UiPreviewMode")})" : string.Empty;
+        string previewTag = Bootstrapper.IsCoreInitSkipped ? $" ({LocalizationHelper.GetString("Settings.About.UiPreviewMode")})" : string.Empty;
         rvm.WindowTitle = $"{prefix}MAA{adminTag}{currentConfiguration} - {uiVersionDisplay}{resourceVersionDisplay}{connectConfigName}{connectAddress}{clientName}{previewTag}";
     }
 

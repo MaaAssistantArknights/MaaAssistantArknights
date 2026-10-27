@@ -58,14 +58,14 @@ public class AchievementSettingsUserControlModel : PropertyChangedBase
             AchievementTrackerHelper.Instance.Unlock(AchievementIds.TimeMachine);
             var growlInfo = new GrowlInfo {
                 IsCustom = true,
-                Message = $"{LocalizationHelper.GetString("AchievementBackupSuccess")} {Path.Combine(selectedPath, fileName)}.json",
+                Message = $"{LocalizationHelper.GetString("Achievement.BackupSuccess")} {Path.Combine(selectedPath, fileName)}.json",
                 StaysOpen = true,
             };
             GrowlHelper.Success(growlInfo);
         }
         else
         {
-            GrowlHelper.Error(LocalizationHelper.GetString("AchievementRestoreFailed"));
+            GrowlHelper.Error(LocalizationHelper.GetString("Achievement.RestoreFailed"));
         }
     }
 
@@ -101,11 +101,11 @@ public class AchievementSettingsUserControlModel : PropertyChangedBase
 
             AchievementTrackerHelper.Instance.Save();
             AchievementTrackerHelper.Instance.Unlock(AchievementIds.LoadLastSave);
-            GrowlHelper.Success(LocalizationHelper.GetString("AchievementRestoreSuccess"));
+            GrowlHelper.Success(LocalizationHelper.GetString("Achievement.RestoreSuccess"));
         }
         else
         {
-            GrowlHelper.Error(LocalizationHelper.GetString("AchievementRestoreFailed"));
+            GrowlHelper.Error(LocalizationHelper.GetString("Achievement.RestoreFailed"));
         }
     }
 
@@ -153,9 +153,9 @@ public class AchievementSettingsUserControlModel : PropertyChangedBase
         {
             EnableDebugMode();
             SettingsViewModel.ShowEasterEggDialog(
-                LocalizationHelper.GetString("Burping"),
-                LocalizationHelper.GetString("DrunkAndStaggering"),
-                LocalizationHelper.GetString("Ok"),
+                LocalizationHelper.GetString("EasterEgg.Burping"),
+                LocalizationHelper.GetString("EasterEgg.DrunkAndStaggering"),
+                LocalizationHelper.GetString("Common.Ok"),
                 () => Instances.SettingsViewModel.GetDrunk());
             return;
         }
@@ -172,9 +172,9 @@ public class AchievementSettingsUserControlModel : PropertyChangedBase
         {
             EnableDebugMode();
             SettingsViewModel.ShowEasterEggDialog(
-                LocalizationHelper.GetString("Burping"),
-                LocalizationHelper.GetString("DrunkAndStaggering"),
-                LocalizationHelper.GetString("Ok"),
+                LocalizationHelper.GetString("EasterEgg.Burping"),
+                LocalizationHelper.GetString("EasterEgg.DrunkAndStaggering"),
+                LocalizationHelper.GetString("Common.Ok"),
                 () => Instances.SettingsViewModel.GetDrunk());
         }
     }

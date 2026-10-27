@@ -266,10 +266,10 @@ public class BackgroundSettingsUserControlModel : PropertyChangedBase
     } = ConfigFactory.Root.Gui.Background.StretchMode;
 
     public LocalizedObservableList<Stretch> BackgroundImageStretchModeList { get; } = new(
-        (Stretch.None, "BackgroundImageStretchModeNone"),
-        (Stretch.Fill, "BackgroundImageStretchModeFill"),
-        (Stretch.Uniform, "BackgroundImageStretchModeUniform"),
-        (Stretch.UniformToFill, "BackgroundImageStretchModeUniformToFill"));
+        (Stretch.None, "Settings.Background.StretchMode.None"),
+        (Stretch.Fill, "Settings.Background.StretchMode.Fill"),
+        (Stretch.Uniform, "Settings.Background.StretchMode.Uniform"),
+        (Stretch.UniformToFill, "Settings.Background.StretchMode.UniformToFill"));
 
     private static BitmapImage? RefreshBackgroundImage(string imagePath)
     {
@@ -376,8 +376,8 @@ public class BackgroundSettingsUserControlModel : PropertyChangedBase
     /// 莫奈取色模式下拉列表。
     /// </summary>
     public LocalizedObservableList<MonetModeType> BackgroundMonetModeList { get; } = new(
-        (MonetModeType.Auto, "BackgroundMonetAuto"),
-        (MonetModeType.Custom, "BackgroundMonetCustom"));
+        (MonetModeType.Auto, "Settings.Background.MonetAuto"),
+        (MonetModeType.Custom, "Settings.Background.MonetCustom"));
 
     /// <summary>
     /// 用户自定义颜色（HEX 字符串）。

@@ -56,7 +56,7 @@ public static class CopilotHelper
                 throw new OperationCanceledException(token);
             }
 
-            Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("NetworkServiceError"), UiLogColor.Error, showTime: false);
+            Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("Copilot.NetworkServiceError"), UiLogColor.Error, showTime: false);
             Instances.CopilotViewModel.AddLog($"{e.Message}", UiLogColor.Error, showTime: false);
             _logger.Error(e, "Failed to request copilot from PRTS plus");
             return (PrtsStatus.NetworkError, null);
@@ -91,7 +91,7 @@ public static class CopilotHelper
                 throw new OperationCanceledException(token);
             }
 
-            Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("NetworkServiceError"), UiLogColor.Error, showTime: false);
+            Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("Copilot.NetworkServiceError"), UiLogColor.Error, showTime: false);
             Instances.CopilotViewModel.AddLog($"{e.Message}", UiLogColor.Error, showTime: false);
             _logger.Error(e, "Failed to request copilot set from PRTS plus");
             return (PrtsStatus.NetworkError, null);

@@ -49,7 +49,7 @@ public class LDPlayerExtra() : ExtraConfig
 
     private void AutoDetectEmulatorPath()
     {
-        MessageBoxHelper.Show(LocalizationHelper.GetRawString("LdExtrasEnabledTip"));
+        MessageBoxHelper.Show(LocalizationHelper.GetRawString("Connection.LdPlayer.ExtrasEnabled.Tip"));
 
         // 读取 LD 注册表地址 并填充GUI
         if (!string.IsNullOrEmpty(EmulatorPath))
@@ -102,8 +102,8 @@ public class LDPlayerExtra() : ExtraConfig
 
             var selectedPath = ConnectSettingsUserControlModel.ShowItemSelectionDialog(
                 detectedPaths,
-                LocalizationHelper.GetString("SelectEmulatorPath"),
-                LocalizationHelper.GetString("MultipleEmulatorsDetected"));
+                LocalizationHelper.GetString("Connection.SelectEmulatorPath"),
+                LocalizationHelper.GetString("Connection.MultipleEmulatorsDetected"));
             if (!string.IsNullOrEmpty(selectedPath))
             {
                 EmulatorPath = selectedPath;
@@ -124,8 +124,8 @@ public class LDPlayerExtra() : ExtraConfig
         get; set {
             if (Enable && !string.IsNullOrEmpty(value) && !Directory.Exists(value))
             {
-                MessageBoxHelper.Show(LocalizationHelper.GetString("LdPlayerEmulatorPathNotFound"));
-                MessageBoxHelper.Show(LocalizationHelper.GetRawString("LdExtrasEnabledTip"));
+                MessageBoxHelper.Show(LocalizationHelper.GetString("Connection.LdPlayer.EmulatorPathNotFound"));
+                MessageBoxHelper.Show(LocalizationHelper.GetRawString("Connection.LdPlayer.ExtrasEnabled.Tip"));
                 return;
             }
 
@@ -135,8 +135,8 @@ public class LDPlayerExtra() : ExtraConfig
                 var libPath = Path.Combine(value, "ldopengl64.dll");
                 if (!File.Exists(libPath))
                 {
-                    MessageBoxHelper.Show(LocalizationHelper.GetString("LdPlayerOpenglMissing"));
-                    MessageBoxHelper.Show(LocalizationHelper.GetRawString("LdExtrasEnabledTip"));
+                    MessageBoxHelper.Show(LocalizationHelper.GetString("Connection.LdPlayer.OpenglMissing"));
+                    MessageBoxHelper.Show(LocalizationHelper.GetRawString("Connection.LdPlayer.ExtrasEnabled.Tip"));
                     return;
                 }
             }

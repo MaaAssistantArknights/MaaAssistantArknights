@@ -74,7 +74,7 @@ public class CopilotModel : CopilotBase
         {
             count++;
             var localizedName = DataHelper.GetLocalizedCharacterName(oper.Name) ?? oper.Name;
-            var details = $"{PrintLevelInfo(oper)} {LocalizationHelper.GetString("CopilotSkill")} {oper.Skill}{PrintSkillLevel(oper)} {GetModuleInfo(oper.Requirements)}".TrimEnd();
+            var details = $"{PrintLevelInfo(oper)} {LocalizationHelper.GetString("Copilot.Skill")} {oper.Skill}{PrintSkillLevel(oper)} {GetModuleInfo(oper.Requirements)}".TrimEnd();
             output.Add(new CopilotOutput([new(localizedName, oper.Name), new(details)], UiLogColor.Message));
         }
 
@@ -96,7 +96,7 @@ public class CopilotModel : CopilotBase
             output.Add(new CopilotOutput(parts, UiLogColor.Message));
         }
 
-        output.Add((LocalizationHelper.GetStringFormat("TotalOperatorsCount", count), UiLogColor.Message));
+        output.Add((LocalizationHelper.GetStringFormat("Copilot.TotalOperatorsCount", count), UiLogColor.Message));
         return output;
     }
 
@@ -106,7 +106,7 @@ public class CopilotModel : CopilotBase
         {
             return string.Empty;
         }
-        return $" [{LocalizationHelper.GetStringFormat("CopilotFormationRequirement.Level", req.Elite, req.Level)}]";
+        return $" [{LocalizationHelper.GetStringFormat("Copilot.FormationRequirement.Level", req.Elite, req.Level)}]";
     }
 
     private static string PrintSkillLevel(Oper oper)
@@ -131,8 +131,8 @@ public class CopilotModel : CopilotBase
 
         // 模组编号 -1: 不切换模组 / 无要求, 0: 不使用模组, 1: 模组χ, 2: 模组γ, 3: 模组α, 4: 模组Δ, 5: 模组β
         return req.Module switch {
-            0 => $"{LocalizationHelper.GetString("CopilotWithoutModule")}",
-            1 or 2 or 3 or 4 or 5 => $"{LocalizationHelper.GetString("CopilotModule")} {moduleName[req.Module]}",
+            0 => $"{LocalizationHelper.GetString("Copilot.WithoutModule")}",
+            1 or 2 or 3 or 4 or 5 => $"{LocalizationHelper.GetString("Copilot.Module")} {moduleName[req.Module]}",
             _ => string.Empty,
         };
     }

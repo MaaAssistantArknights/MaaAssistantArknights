@@ -19,7 +19,7 @@ Depot Maintain is a task that **automatically farms materials to a target invent
 4. Right before each plan starts, MAA re-checks whether it needs to run: if the target inventory is already reached, or the current sanity estimated from the sanity reported by the most recent fight is below the stage's minimum entry cost and the plan has no potion/Originium budget, the plan is skipped entirely (no terminal, no navigation), with the reason logged. Data refreshed by depot recognition takes effect from this step. If a skipped plan turns out to be insufficient after recognition, it will be logged; re-running the task farms it based on the actual inventory. When expiring potions count as unavailable, see [Use expiring sanity potions within 48 hours](#use-expiring-sanity-potions-within-48-hours).
 
 ::: tip Depot Data Sync
-Depot data is cached and may differ from your actual stock after manual farming, crafting, or material use. Sync it with [Update Doctor Data](./user-data-update.md) or [Depot Recognition](./tools.md#depot-recognition).
+Depot data is cached and may differ from your actual stock after manual farming, crafting, or material use. Sync it with [Update Doctor Data](./user-data-update.md) or [Depot Recognition](./tools.md#depot-recognition). If there is no depot data at all, the task skips farming; sync the depot with one of the methods above before running it.
 :::
 
 ## Plan Configuration
@@ -100,3 +100,7 @@ When checked, each run only executes the first plan with insufficient stock that
 When checked, plans are queued each run in ascending inventory progress order, so the plan with the largest shortfall ratio gets sanity first; the display order of the list is unchanged, and drag ordering only takes effect while unchecked.
 
 Ordering uses the cached inventory from the last scan (same source as the pre-check). Each plan still recalculates its shortfall from the latest inventory when it starts: a plan queued ahead by stale data is simply skipped if it has actually reached its target, wasting no sanity. Materials never scanned count as 0, i.e. treated as the largest shortfall and farmed first; invalid plans (no material selected or target 0) go last. When combined with "[Only execute the first insufficient plan](#only-execute-the-first-insufficient-plan)", the "first" plan executed is the one with the largest shortfall ratio.
+
+### Count dual chips as chip packs
+
+When checked, dual chips of the matching class are converted at the synthesis ratio and counted towards the chip pack inventory, with each dual chip counting as 2 chip packs. The plan summary shows quantities in the "raw (+converted)" format, and completion checks and shortfall calculations use the converted count. This only changes the counting method; no synthesis is performed automatically.

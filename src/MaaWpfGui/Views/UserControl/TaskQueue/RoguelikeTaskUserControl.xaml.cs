@@ -50,7 +50,7 @@ public partial class RoguelikeTaskUserControl : System.Windows.Controls.UserCont
         if (RoguelikeSeedTextBox.GetBindingExpression(TextBox.TextProperty)?.ParentBinding?.ValidationRules
             .OfType<HandyControl.Tools.RegexRule>().FirstOrDefault() is { } rule)
         {
-            rule.ErrorContent = LocalizationHelper.GetString("RoguelikeSeedFormatError");
+            rule.ErrorContent = LocalizationHelper.GetString("Roguelike.SeedFormatError");
         }
     }
 
@@ -106,7 +106,7 @@ public class StartingCoreCharRule : ValidationRule
             // 输入无效时把下拉列表临时扩展为全干员列表，便于从任意干员中选取；
             // 经由可搜索扩展的 override 切换，不直接写 ItemsSource，以保持其维护的独立视图与过滤状态
             Owner?.SetSearchableItemsSourceOverride(DataHelper.CharacterNames);
-            return new ValidationResult(false, LocalizationHelper.GetString("RoguelikeStartingCoreCharNotFound"));
+            return new ValidationResult(false, LocalizationHelper.GetString("Roguelike.StartingCoreChar.NotFound"));
         }
 
         return ValidationResult.ValidResult;

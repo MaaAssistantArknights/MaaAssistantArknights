@@ -56,9 +56,9 @@ public class ReclamationUserControlModel : PropertyChangedBase
     /// Gets the list of reclamation themes.
     /// </summary>
     public LocalizedObservableList<Theme> ReclamationThemeList { get; } = new(
-        (Theme.Fire, "ReclamationThemeFire", "ClosedStage"),
-        (Theme.Tales, "ReclamationThemeTales", null),
-        (Theme.RelaunchAnchor, "ReclamationThemeRelaunchAnchor", null));
+        (Theme.Fire, "Toolbox.MiniGame.Reclamation.Theme.Fire", "Toolbox.MiniGame.Reclamation.ClosedStage"),
+        (Theme.Tales, "Toolbox.MiniGame.Reclamation.Theme.Tales", null),
+        (Theme.RelaunchAnchor, "Toolbox.MiniGame.Reclamation.Theme.RelaunchAnchor", null));
 
     /// <summary>
     /// Gets or sets 生息演算主题["Tales"].
@@ -82,16 +82,16 @@ public class ReclamationUserControlModel : PropertyChangedBase
         if (ReclamationTheme == Theme.Tales)
         {
             ModeList = [
-                new() { Display = LocalizationHelper.GetString("ReclamationModeProsperityNoSave"), Value = Mode.ProsperityNoSave },
-                new() { Display = LocalizationHelper.GetString("ReclamationModeProsperityInSave"), Value = Mode.ProsperityInSave },
+                new() { Display = LocalizationHelper.GetString("Toolbox.MiniGame.Reclamation.Mode.ProsperityNoSave"), Value = Mode.ProsperityNoSave },
+                new() { Display = LocalizationHelper.GetString("Toolbox.MiniGame.Reclamation.Mode.ProsperityInSave"), Value = Mode.ProsperityInSave },
             ];
         }
         else if (ReclamationTheme == Theme.RelaunchAnchor)
         {
             ModeList = [
-                new() { Display = LocalizationHelper.GetString("ReclamationModeRA1"), Value = Mode.RA1 },
-                new() { Display = LocalizationHelper.GetString("ReclamationModeRA4"), Value = Mode.RA4 },
-                new() { Display = LocalizationHelper.GetString("ReclamationModeRA15"), Value = Mode.RA15 },
+                new() { Display = LocalizationHelper.GetString("Toolbox.MiniGame.Reclamation.Mode.RA1"), Value = Mode.RA1 },
+                new() { Display = LocalizationHelper.GetString("Toolbox.MiniGame.Reclamation.Mode.RA4"), Value = Mode.RA4 },
+                new() { Display = LocalizationHelper.GetString("Toolbox.MiniGame.Reclamation.Mode.RA15"), Value = Mode.RA15 },
             ];
         }
 
@@ -131,8 +131,8 @@ public class ReclamationUserControlModel : PropertyChangedBase
     /// Gets the list of reclamation increment modes.
     /// </summary>
     public LocalizedObservableList<int> ReclamationIncrementModeList { get; } = new(
-        (0, "ReclamationIncrementModeClick"),
-        (1, "ReclamationIncrementModeHold"));
+        (0, "Toolbox.MiniGame.Reclamation.IncrementMode.Click"),
+        (1, "Toolbox.MiniGame.Reclamation.IncrementMode.Hold"));
 
     /// <summary>
     /// Gets or sets 点击类型：0 连点；1 长按
@@ -181,7 +181,7 @@ public class ReclamationUserControlModel : PropertyChangedBase
             switch (theme)
             {
                 case Theme.Fire:
-                    return LocalizationHelper.GetString("ReclamationTipFire");
+                    return LocalizationHelper.GetString("Toolbox.MiniGame.Reclamation.Fire.Tip");
                 case Theme.RelaunchAnchor:
                     {
                         var stageNum = mode switch
@@ -190,18 +190,18 @@ public class ReclamationUserControlModel : PropertyChangedBase
                             Mode.RA4 => 4,
                             _ => 1,
                         };
-                        var stageTipKey = $"ReclamationTipRelaunchAnchorRA{stageNum}";
+                        var stageTipKey = $"Toolbox.MiniGame.Reclamation.RelaunchAnchor.RA{stageNum}";
                         if (LocalizationHelper.TryGetString(stageTipKey, out var stageTip))
                         {
                             return stageTip;
                         }
 
-                        return LocalizationHelper.GetString("ReclamationTipRelaunchAnchorRA1");
+                        return LocalizationHelper.GetString("Toolbox.MiniGame.Reclamation.RelaunchAnchor.RA1");
                     }
 
                 case Theme.Tales:
                     return LocalizationHelper.GetString(
-                        ReclamationMode == Mode.ProsperityInSave ? "ReclamationTipTalesInSave" : "ReclamationTipTalesNoSave");
+                        ReclamationMode == Mode.ProsperityInSave ? "Toolbox.MiniGame.Reclamation.TalesInSave.Tip" : "Toolbox.MiniGame.Reclamation.TalesNoSave.Tip");
                 default:
                     return string.Empty;
             }
@@ -216,7 +216,7 @@ public class ReclamationUserControlModel : PropertyChangedBase
     {
         var toolToCraft = !string.IsNullOrEmpty(ReclamationToolToCraft)
             ? ReclamationToolToCraft
-            : LocalizationHelper.GetString("ReclamationToolToCraftPlaceholder", DataHelper.ClientLanguageMapper[SettingsViewModel.GameSettings.ClientType]);
+            : LocalizationHelper.GetString("Toolbox.MiniGame.Reclamation.ToolToCraft.Placeholder", DataHelper.ClientLanguageMapper[SettingsViewModel.GameSettings.ClientType]);
         var task = new AsstReclamationTask {
             Theme = ReclamationTheme,
             Mode = (int)ReclamationMode,

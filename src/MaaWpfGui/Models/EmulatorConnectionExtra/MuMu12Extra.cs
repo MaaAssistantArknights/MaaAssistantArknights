@@ -56,7 +56,7 @@ public class MuMu12Extra() : ExtraConfig
 
     private void AutoDetectEmulatorPath()
     {
-        MessageBoxHelper.Show(LocalizationHelper.GetRawString("MuMu12ExtrasEnabledTip"));
+        MessageBoxHelper.Show(LocalizationHelper.GetRawString("Connection.MuMu.ExtrasEnabled.Tip"));
 
         // 读取mumu注册表地址 并填充GUI
         if (!string.IsNullOrEmpty(EmulatorPath))
@@ -124,8 +124,8 @@ public class MuMu12Extra() : ExtraConfig
 
             var selectedPath = ConnectSettingsUserControlModel.ShowItemSelectionDialog(
                 detectedPaths,
-                LocalizationHelper.GetString("SelectEmulatorPath"),
-                LocalizationHelper.GetString("MultipleEmulatorsDetected"));
+                LocalizationHelper.GetString("Connection.SelectEmulatorPath"),
+                LocalizationHelper.GetString("Connection.MultipleEmulatorsDetected"));
             if (!string.IsNullOrEmpty(selectedPath))
             {
                 EmulatorPath = selectedPath;
@@ -146,8 +146,8 @@ public class MuMu12Extra() : ExtraConfig
         get; set {
             if (Enable && !string.IsNullOrEmpty(value) && !Directory.Exists(value))
             {
-                MessageBoxHelper.Show(LocalizationHelper.GetString("MuMuEmulatorPathNotFound"));
-                MessageBoxHelper.Show(LocalizationHelper.GetRawString("MuMu12ExtrasEnabledTip"));
+                MessageBoxHelper.Show(LocalizationHelper.GetString("Connection.MuMu.EmulatorPathNotFound"));
+                MessageBoxHelper.Show(LocalizationHelper.GetRawString("Connection.MuMu.ExtrasEnabled.Tip"));
                 return;
             }
 
@@ -164,8 +164,8 @@ public class MuMu12Extra() : ExtraConfig
 
                 if (!candidateRelativePaths.Any(relPath => File.Exists(Path.Combine(value, relPath))))
                 {
-                    MessageBoxHelper.Show(LocalizationHelper.GetString("MuMuExternalRendererMissing"));
-                    MessageBoxHelper.Show(LocalizationHelper.GetRawString("MuMu12ExtrasEnabledTip"));
+                    MessageBoxHelper.Show(LocalizationHelper.GetString("Connection.MuMu.ExternalRendererMissing"));
+                    MessageBoxHelper.Show(LocalizationHelper.GetRawString("Connection.MuMu.ExtrasEnabled.Tip"));
                     return;
                 }
             }
@@ -187,12 +187,13 @@ public class MuMu12Extra() : ExtraConfig
             if (value)
             {
                 var result = MessageBoxHelper.Show(
-                    LocalizationHelper.GetString("MuMuBridgeConnectionTip"),
+                    LocalizationHelper.GetString("Connection.MuMu.BridgeConnection.Tip"),
                     icon: MessageBoxImage.Warning,
-                    buttons: MessageBoxButton.YesNo,
-                    no: LocalizationHelper.GetString("Confirm"),
-                    yes: LocalizationHelper.GetString("Cancel"));
-                if (result != MessageBoxResult.No)
+                    buttons: MessageBoxButton.OKCancel,
+                    ok: LocalizationHelper.GetString("Common.Confirm"),
+                    cancel: LocalizationHelper.GetString("Common.Cancel"),
+                    defaultResult: MessageBoxResult.Cancel);
+                if (result != MessageBoxResult.OK)
                 {
                     return;
                 }

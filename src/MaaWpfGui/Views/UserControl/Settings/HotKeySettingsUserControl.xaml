@@ -23,13 +23,13 @@
             <controls:TextBlock
                 Margin="10"
                 Block.TextAlignment="Center"
-                Text="{DynamicResource HotKeyShowGui}" />
+                Text="{DynamicResource Settings.HotKey.ShowGui}" />
             <settings:HotKeyEditorUserControl
                 Margin="10,10,0,10"
                 HorizontalAlignment="Right"
                 HotKey="{Binding HotKeyShowGui}"
                 IsRegistrationFailed="{Binding HotKeyShowGuiRegistrationFailed}" />
-            <controls:TooltipBlock TooltipText="{DynamicResource HotKeyChangingTip}" />
+            <controls:TooltipBlock TooltipText="{DynamicResource Settings.HotKey.Changing.Tip}" />
         </StackPanel>
         <StackPanel
             HorizontalAlignment="Right"
@@ -38,13 +38,13 @@
             <controls:TextBlock
                 Margin="10"
                 Block.TextAlignment="Center"
-                Text="{DynamicResource HotKeyLinkStart}" />
+                Text="{DynamicResource Settings.HotKey.LinkStart}" />
             <settings:HotKeyEditorUserControl
                 Margin="10,10,0,10"
                 HorizontalAlignment="Right"
                 HotKey="{Binding HotKeyLinkStart}"
                 IsRegistrationFailed="{Binding HotKeyLinkStartRegistrationFailed}" />
-            <controls:TooltipBlock TooltipText="{DynamicResource HotKeyChangingTip}" />
+            <controls:TooltipBlock TooltipText="{DynamicResource Settings.HotKey.Changing.Tip}" />
         </StackPanel>
     </StackPanel>
 </UserControl>

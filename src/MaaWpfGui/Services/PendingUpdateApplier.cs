@@ -461,7 +461,7 @@ internal static partial class PendingUpdateApplier
     {
         if (string.IsNullOrWhiteSpace(failureReason))
         {
-            return LocalizationHelper.GetString("DelegatedUpdateFailureReasonUnknown");
+            return LocalizationHelper.GetString("VersionUpdate.DelegatedFailure.ReasonUnknown");
         }
 
         // 文件搬移类失败：多为文件占用（安全软件扫描新解压的文件、其他程序锁定）
@@ -469,7 +469,7 @@ internal static partial class PendingUpdateApplier
             failureReason.Contains("Failed to back up existing entry:", StringComparison.Ordinal) ||
             failureReason.Contains("Failed to move file into place:", StringComparison.Ordinal))
         {
-            return LocalizationHelper.GetString("DelegatedUpdateFailureReasonFileLocked");
+            return LocalizationHelper.GetString("VersionUpdate.DelegatedFailure.ReasonFileLocked");
         }
 
         // 计划文件/路径类失败：更新包或其解压产物异常
@@ -479,14 +479,14 @@ internal static partial class PendingUpdateApplier
             failureReason.Contains("Illegal path", StringComparison.Ordinal) ||
             failureReason.Contains("Non-full package", StringComparison.Ordinal))
         {
-            return LocalizationHelper.GetString("DelegatedUpdateFailureReasonPackageError");
+            return LocalizationHelper.GetString("VersionUpdate.DelegatedFailure.ReasonPackageError");
         }
 
         // 更新器对用户可干预的场景（多实例互斥等）写入的是中英双语文案，含非 ASCII 字符，直接展示；
         // 其余未匹配的纯英文技术串不直接进弹窗，引导用户看日志
         return failureReason.Any(c => c > 0x7f)
             ? failureReason
-            : LocalizationHelper.GetString("DelegatedUpdateFailureReasonUnknown");
+            : LocalizationHelper.GetString("VersionUpdate.DelegatedFailure.ReasonUnknown");
     }
 
     public static bool TryConsumeDelegatedUpdateSuccess()

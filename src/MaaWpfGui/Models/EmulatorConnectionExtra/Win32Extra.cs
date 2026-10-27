@@ -25,10 +25,10 @@ public class Win32Extra : ExtraConfig
     /// </summary>
     private static readonly LocalizedObservableList<AsstWin32ScreencapMethod> _screencapMethodList =
         new(
-            (AsstWin32ScreencapMethod.FramePool, "AttachWindowScreencapFramePool"),
-            (AsstWin32ScreencapMethod.PrintWindow, "AttachWindowScreencapPrintWindow"),
-            (AsstWin32ScreencapMethod.ScreenDC, "AttachWindowScreencapScreenDC"),
-            (AsstWin32ScreencapMethod.DesktopDupWindow, "AttachWindowScreencapDesktopDupWindow"));
+            (AsstWin32ScreencapMethod.FramePool, "Connection.AttachWindow.Screencap.FramePool"),
+            (AsstWin32ScreencapMethod.PrintWindow, "Connection.AttachWindow.Screencap.PrintWindow"),
+            (AsstWin32ScreencapMethod.ScreenDC, "Connection.AttachWindow.Screencap.ScreenDC"),
+            (AsstWin32ScreencapMethod.DesktopDupWindow, "Connection.AttachWindow.Screencap.DesktopDupWindow"));
 
     public LocalizedObservableList<AsstWin32ScreencapMethod> ScreencapMethodList => _screencapMethodList;
 
@@ -63,14 +63,14 @@ public class Win32Extra : ExtraConfig
     /// </remarks>
     private static readonly LocalizedObservableList<AsstWin32InputMethod> _mouseMethodList =
         new(
-            (AsstWin32InputMethod.Seize, "AttachWindowInputSeize", true),
-            (AsstWin32InputMethod.SendMessage, "AttachWindowInputSendMsgDisabled", false),
-            (AsstWin32InputMethod.PostMessage, "AttachWindowInputPostMsgDisabled", false),
-            (AsstWin32InputMethod.SendMessageWithCursorPos, "AttachWindowInputSendWithCursorDisabled", false),
-            (AsstWin32InputMethod.PostMessageWithCursorPos, "AttachWindowInputPostWithCursor", true),
-            (AsstWin32InputMethod.SendMessageWithWindowPos, "AttachWindowInputSendWithWindowPosDisabled", false),
-            (AsstWin32InputMethod.PostMessageWithWindowPos, "AttachWindowInputPostWithWindowPos", true),
-            (AsstWin32InputMethod.AnchoredTouch, "AttachWindowInputAnchoredTouch", true));
+            (AsstWin32InputMethod.Seize, "Connection.AttachWindow.InputSeize", true),
+            (AsstWin32InputMethod.SendMessage, "Connection.AttachWindow.Mouse.SendMsgDisabled", false),
+            (AsstWin32InputMethod.PostMessage, "Connection.AttachWindow.Mouse.PostMsgDisabled", false),
+            (AsstWin32InputMethod.SendMessageWithCursorPos, "Connection.AttachWindow.Mouse.SendMsgCursorPosDisabled", false),
+            (AsstWin32InputMethod.PostMessageWithCursorPos, "Connection.AttachWindow.Mouse.PostMsgCursorPos", true),
+            (AsstWin32InputMethod.SendMessageWithWindowPos, "Connection.AttachWindow.Mouse.SendMsgWindowPosDisabled", false),
+            (AsstWin32InputMethod.PostMessageWithWindowPos, "Connection.AttachWindow.Mouse.PostMsgWindowPos", true),
+            (AsstWin32InputMethod.AnchoredTouch, "Connection.AttachWindow.Mouse.AnchoredTouch", true));
 
     public LocalizedObservableList<AsstWin32InputMethod> MouseMethodList => _mouseMethodList;
 
@@ -123,9 +123,9 @@ public class Win32Extra : ExtraConfig
     /// </summary>
     private static readonly LocalizedObservableList<AsstWin32KeyboardInputMethod> _keyboardMethodList =
         new(
-            (AsstWin32KeyboardInputMethod.Seize, "AttachWindowInputSeize"),
-            (AsstWin32KeyboardInputMethod.SendMessage, "AttachWindowInputSendMsg"),
-            (AsstWin32KeyboardInputMethod.PostMessage, "AttachWindowInputPostMsg"));
+            (AsstWin32KeyboardInputMethod.Seize, "Connection.AttachWindow.InputSeize"),
+            (AsstWin32KeyboardInputMethod.SendMessage, "Connection.AttachWindow.Keyboard.SendMsg"),
+            (AsstWin32KeyboardInputMethod.PostMessage, "Connection.AttachWindow.Keyboard.PostMsg"));
 
     public LocalizedObservableList<AsstWin32KeyboardInputMethod> KeyboardMethodList => _keyboardMethodList;
 
