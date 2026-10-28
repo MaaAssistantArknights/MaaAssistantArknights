@@ -492,6 +492,7 @@
             hc:ScrollViewer.IsInertiaEnabled="True"
             Background="Transparent"
             BorderThickness="0"
+            ItemContainerStyle="{StaticResource NoHighlightListBoxItemStyle}"
             ItemsSource="{Binding Rows}"
             ScrollViewer.HorizontalScrollBarVisibility="Disabled"
             Style="{DynamicResource NoSelectedHighlightListBoxStyle}"
