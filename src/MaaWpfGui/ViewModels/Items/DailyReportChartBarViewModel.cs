@@ -22,7 +22,8 @@ namespace MaaWpfGui.ViewModels.Items;
 /// <param name="Ratio">柱高占图表最大值的比例，0 ~ 1。</param>
 /// <param name="ToolTip">悬停提示（时间段与数值）。</param>
 /// <param name="TickLabel">柱子正下方的横轴刻度文本，非刻度位置为空。</param>
-public record DailyReportChartBarViewModel(double Ratio, string ToolTip, string TickLabel)
+/// <param name="ValueText">柱顶数值（缩写），数值为 0 时为空。</param>
+public record DailyReportChartBarViewModel(double Ratio, string ToolTip, string TickLabel, string ValueText)
 {
     /// <summary>
     /// Gets 柱体所占的星号行高，与 <see cref="EmptyHeight"/> 共同按比例分配柱子所在列的高度。
