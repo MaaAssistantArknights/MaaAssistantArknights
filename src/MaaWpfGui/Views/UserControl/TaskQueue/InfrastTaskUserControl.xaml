@@ -258,6 +258,12 @@
             <CheckBox Margin="0,10" IsChecked="{Binding ReceptionSendClue}">
                 <controls:TextBlock Text="{DynamicResource Infrast.Reception.SendClue}" TextWrapping="Wrap" />
             </CheckBox>
+            <StackPanel Margin="0,10" Orientation="Horizontal">
+                <CheckBox MaxWidth="{c:Binding '220 - ActualWidth', ElementName=RecycleCollectEnabledTooltipBlock}" IsChecked="{Binding RecycleCollectEnabled}">
+                    <controls:TextBlock Text="{DynamicResource Infrast.Recycle.CollectEnabled}" TextWrapping="Wrap" />
+                </CheckBox>
+                <controls:TooltipBlock x:Name="RecycleCollectEnabledTooltipBlock" TooltipText="{DynamicResource Infrast.Recycle.CollectEnabledTip}" />
+            </StackPanel>
             <CheckBox Margin="0,10" IsChecked="{Binding ContinueTraining}">
                 <controls:TextBlock Text="{DynamicResource Infrast.ContinueTraining}" TextWrapping="Wrap" />
             </CheckBox>

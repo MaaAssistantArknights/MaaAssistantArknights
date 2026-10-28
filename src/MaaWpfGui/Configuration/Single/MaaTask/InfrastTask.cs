@@ -79,6 +79,11 @@ public class InfrastTask : BaseTask, IJsonOnDeserialized
     public bool SendClue { get; set; } = true;
 
     /// <summary>
+    /// Gets or sets a value indicating whether to collect recycling station products.
+    /// </summary>
+    public bool RecycleCollectEnabled { get; set; } = true;
+
+    /// <summary>
     /// Gets or sets a value indicating whether 继续专精
     /// </summary>
     public bool ContinueTraining { get; set; } = false;

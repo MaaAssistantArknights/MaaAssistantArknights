@@ -301,6 +301,12 @@ public class InfrastTaskUserControlModel : TaskSettingsViewModel, InfrastTaskUse
         set => SetTaskConfig<InfrastTask>(t => t.SendClue == value, t => t.SendClue = value);
     }
 
+    public bool RecycleCollectEnabled
+    {
+        get => GetTaskConfig<InfrastTask>().RecycleCollectEnabled;
+        set => SetTaskConfig<InfrastTask>(t => t.RecycleCollectEnabled == value, t => t.RecycleCollectEnabled = value);
+    }
+
     /// <summary>
     /// Gets or sets a value indicating whether to continue training after current training completed.
     /// </summary>
@@ -759,6 +765,7 @@ public class InfrastTaskUserControlModel : TaskSettingsViewModel, InfrastTaskUse
                 ReceptionMessageBoard = infrast.ReceptionMessageBoard,
                 ReceptionClueExchange = infrast.ReceptionClueExchange,
                 ReceptionSendClue = infrast.SendClue,
+                RecycleCollectEnabled = infrast.RecycleCollectEnabled,
                 FiammettaTargets = [infrast.FiammettaTarget1, infrast.FiammettaTarget2, infrast.FiammettaTarget3],
                 FiammettaRecoveryEnabled = infrast.FiammettaRecoveryEnabled,
                 UsePinusSylvestris = infrast.UsePinusSylvestris,

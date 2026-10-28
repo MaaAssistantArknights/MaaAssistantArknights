@@ -577,6 +577,12 @@ v6.8.0 で非推奨になりました。代わりに `medicine_expire_days` を�
 @optional
 手がかりを譲り渡すかどうか。  
 :::  
+::: field recycle_collect_enabled
+@type boolean
+@default true
+@optional
+回収所の生産物を受け取るかどうか。すべての基地モードで有効で、`facility` に `Recycle` が含まれるかどうかに依存しません。その他の報酬受取や回収所の勤務交代には影響しません。
+:::
 ::: field filename  
 @type string
 @required
@@ -615,6 +621,7 @@ v6.8.0 で非推奨になりました。代わりに `medicine_expire_days` を�
    "reception_message_board": true,
    "reception_clue_exchange": true,
    "reception_send_clue": true,
+   "recycle_collect_enabled": true,
    "filename": "schedules/base.json",
    "plan_index": 1
 }

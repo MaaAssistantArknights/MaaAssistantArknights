@@ -91,6 +91,11 @@ public class AsstInfrastTask : AsstBaseTask
     /// </summary>
     public bool ReceptionSendClue { get; set; }
 
+    /// <summary>
+    /// Gets or sets a value indicating whether to collect recycling station products.
+    /// </summary>
+    public bool RecycleCollectEnabled { get; set; } = true;
+
     public List<string> FiammettaTargets { get; set; } = ["清流", "可露希尔", "但书"];
 
     /// <summary>
@@ -134,6 +139,7 @@ public class AsstInfrastTask : AsstBaseTask
             ["reception_message_board"] = ReceptionMessageBoard,
             ["reception_clue_exchange"] = ReceptionClueExchange,
             ["reception_send_clue"] = ReceptionSendClue,
+            ["recycle_collect_enabled"] = RecycleCollectEnabled,
             ["fiammetta_targets"] = JArray.FromObject(fiammettaTargets),
             ["fiammetta_recovery_enabled"] = FiammettaRecoveryEnabled,
             ["use_pinus_sylvestris"] = UsePinusSylvestris,

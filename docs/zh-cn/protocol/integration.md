@@ -577,6 +577,12 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 @optional
 是否赠送线索。  
 :::  
+::: field recycle_collect_enabled
+@type boolean
+@default true
+@optional
+是否收取回收站产物。适用于所有基建模式，不影响其他奖励收取及回收站换班，也不依赖 `facility` 中是否包含 `Recycle`。
+:::
 ::: field filename  
 @type string
 @required
@@ -615,6 +621,7 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
    "reception_message_board": true,
    "reception_clue_exchange": true,
    "reception_send_clue": true,
+   "recycle_collect_enabled": true,
    "filename": "schedules/base.json",
    "plan_index": 1
 }

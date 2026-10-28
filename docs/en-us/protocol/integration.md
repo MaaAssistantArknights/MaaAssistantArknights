@@ -577,6 +577,12 @@ Whether to perform clue exchange.
 @optional
 Whether to send clues.  
 :::  
+::: field recycle_collect_enabled
+@type boolean
+@default true
+@optional
+Whether to collect recycling station products. Applies to all base modes, independently of whether `facility` includes `Recycle`. Other reward collection and recycling station shifts are unaffected.
+:::
 ::: field filename  
 @type string
 @required
@@ -615,6 +621,7 @@ Whether to continue unfinished skill training in the Training Room.
    "reception_message_board": true,
    "reception_clue_exchange": true,
    "reception_send_clue": true,
+   "recycle_collect_enabled": true,
    "filename": "schedules/base.json",
    "plan_index": 1
 }

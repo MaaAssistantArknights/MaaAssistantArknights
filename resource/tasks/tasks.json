@@ -2924,16 +2924,22 @@
         "action": "ClickSelf",
         "postDelay": 500,
         "postDelay_Doc": "点开通知面板时基建布局有缩放动画，动画期间点击无效，默认的延迟应该已经够了，多加一点保险",
-        "next": ["InfrastReward", "InfrastNotification@LoadingText", "InfrastExitReward"]
+        "next": ["InfrastReward", "InfrastRecycleReward", "InfrastNotification@LoadingText", "InfrastExitReward"]
     },
     "InfrastReward": {
         "algorithm": "OcrDetect",
-        "text": ["可收获", "订单交付", "员信赖", "材料产出"],
+        "text": ["可收获", "订单交付", "员信赖"],
         "action": "ClickSelf",
         "roi": [0, 600, 800, 118],
         "postDelay": 1000,
         "postDelay_Doc": "UI 更新之后给这 b 玩意也加了动画，会点到一键换班",
-        "next": ["InfrastReward", "InfrastReward@LoadingText", "InfrastExitReward"]
+        "next": ["#self", "InfrastRecycleReward", "InfrastReward@LoadingText", "InfrastExitReward"]
+    },
+    "InfrastRecycleReward": {
+        "baseTask": "InfrastReward",
+        "text": ["材料产出"],
+        "next": ["InfrastReward", "#self", "InfrastRecycleReward@LoadingText", "InfrastExitReward"],
+        "exceededNext": ["InfrastExitReward"]
     },
     "InfrastExitReward": {
         "Doc": "干员疲劳、线索收集 是不能一键收获的，所以要先退出一键收获的界面，这里点击的是控制中枢左侧那一片空白的区域",

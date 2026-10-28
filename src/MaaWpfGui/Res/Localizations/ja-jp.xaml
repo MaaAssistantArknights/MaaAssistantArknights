@@ -1352,6 +1352,8 @@ DEBUGディレクトリに保存される画像には数量制限があり、超
     <system:String x:Key="Infrast.Reception.ClueExchange.Tip" xml:space="preserve">手がかり交換を開始できない場合、シフト交代時に手がかりボード上のすべての手がかりを取り下げます。開始できる場合は一括配置を使用します。&#10;個人の手がかり所持上限は10枚（応接室に配置済みのものを含む）で、配置済みの手がかりは重複判定に含まれません。&#10;事前に多くを配置しすぎると、上限に達したのに一括送信も新しい手がかりの獲得もできなくなります。</system:String>
     <system:String x:Key="Infrast.Reception.MessageBoardReceive">受付室の掲示板からのクレジット収集</system:String>
     <system:String x:Key="Infrast.Reception.SendClue">手がかりを贈る</system:String>
+    <system:String x:Key="Infrast.Recycle.CollectEnabled">回収所の生産物を受け取る</system:String>
+    <system:String x:Key="Infrast.Recycle.CollectEnabledTip" xml:space="preserve">無効にすると回収所の生産物を受け取らずに残します。&#10;その他の基地の報酬受取と勤務交代は通常どおり実行します。</system:String>
     <system:String x:Key="Infrast.Room.AssistantChange">補佐交代替え</system:String>
     <system:String x:Key="Infrast.Room.Control">制御中枢</system:String>
     <system:String x:Key="Infrast.Room.Dorm">宿舎</system:String>

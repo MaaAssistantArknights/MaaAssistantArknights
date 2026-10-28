@@ -265,6 +265,9 @@ bool asst::InfrastTask::set_params(const json::value& params)
     bool reception_send_clue = params.get("reception_send_clue", true);
     m_reception_task_ptr->set_send_clue(reception_send_clue);
 
+    const bool recycle_collect_enabled = params.get("recycle_collect_enabled", true);
+    m_infrast_begin_task_ptr->set_times_limit("InfrastRecycleReward", recycle_collect_enabled ? INT_MAX : 0);
+
     bool replenish = params.get("replenish", false);
     m_replenish_task_ptr->set_enable(replenish);
 

@@ -1349,6 +1349,8 @@ To customize rotation schedules, please use ｢{key=Infrast.Mode.Custom}｣.</sy
     <system:String x:Key="Infrast.Reception.ClueExchange.Tip" xml:space="preserve">If Clue Exchange cannot be started, all clues on the clue board will be taken off during shift change; otherwise, one-click placement will be used.&#10;The personal clue limit is 10 (including clues already placed in the Reception Room), and placed clues do not count toward duplicate detection.&#10;Pre-placing too many clues may fill the limit while they can neither be one-click sent nor replaced with new ones — only friends picking them up can help.</system:String>
     <system:String x:Key="Infrast.Reception.MessageBoardReceive">Credit collection from message board in Reception Room</system:String>
     <system:String x:Key="Infrast.Reception.SendClue">Send Clues</system:String>
+    <system:String x:Key="Infrast.Recycle.CollectEnabled">Collect recycling station products</system:String>
+    <system:String x:Key="Infrast.Recycle.CollectEnabledTip" xml:space="preserve">Disable to leave recycling station products uncollected.&#10;Other base collection and operator shifts continue as usual.</system:String>
     <system:String x:Key="Infrast.Room.AssistantChange">Assistant change</system:String>
     <system:String x:Key="Infrast.Room.Control">Control Center</system:String>
     <system:String x:Key="Infrast.Room.Dorm">Dormitory</system:String>
