@@ -429,7 +429,7 @@ public class DailyReportDialogViewModel : PropertyChangedBase
         var rows = _dimension == DimensionKind.Day
             ? sessions.OrderBy(s => s.StartTime).Select(BuildRow)
             : sessions.GroupBy(s => s.Stage)
-                .OrderByDescending(g => g.Sum(s => s.Times * s.SanityCost))
+                .OrderByDescending(g => g.Sum(s => s.Sanity))
                 .ThenBy(g => g.Key, StringComparer.Ordinal)
                 .Select(g => BuildRow(g.Key, g.ToList()));
         foreach (var row in rows)
@@ -452,7 +452,7 @@ public class DailyReportDialogViewModel : PropertyChangedBase
         [
             new(LocalizationHelper.GetString("TaskQueue.DailyReport.Stat.Records"), sessions.Count.ToString()),
             new(LocalizationHelper.GetString("TaskQueue.DailyReport.Stat.Sessions"), sessions.Sum(s => s.Times).ToString()),
-            new(LocalizationHelper.GetString("TaskQueue.DailyReport.Stat.Sanity"), sessions.Sum(s => s.Times * s.SanityCost).ToString()),
+            new(LocalizationHelper.GetString("TaskQueue.DailyReport.Stat.Sanity"), sessions.Sum(s => s.Sanity).ToString()),
             new(LocalizationHelper.GetString("TaskQueue.DailyReport.Stat.Medicines"), sessions.Sum(s => s.MedicinesUsed + s.ExpiringMedicinesUsed).ToString()),
             new(LocalizationHelper.GetString("TaskQueue.DailyReport.Stat.DropKinds"), dropKinds.ToString()),
         ];
@@ -477,7 +477,7 @@ public class DailyReportDialogViewModel : PropertyChangedBase
         foreach (var (day, session) in _sessions)
         {
             var value = _selectedItemId is null
-                ? (long)session.Times * session.SanityCost
+                ? session.Sanity
                 : session.Drops.GetValueOrDefault(_selectedItemId);
             if (value == 0)
             {
@@ -569,7 +569,7 @@ public class DailyReportDialogViewModel : PropertyChangedBase
         return new DailyReportRowViewModel(
             session.Stage,
             timeText,
-            BuildMetaText(session.Times, session.Times * session.SanityCost, session.MedicinesUsed + session.ExpiringMedicinesUsed, session.StonesUsed),
+            BuildMetaText(session.Times, session.Sanity, session.MedicinesUsed + session.ExpiringMedicinesUsed, session.StonesUsed),
             session.Drops);
     }
 
@@ -585,7 +585,7 @@ public class DailyReportDialogViewModel : PropertyChangedBase
         return new DailyReportRowViewModel(
             stage,
             string.Empty,
-            BuildMetaText(times, sessions.Sum(s => s.Times * s.SanityCost), sessions.Sum(s => s.MedicinesUsed + s.ExpiringMedicinesUsed), sessions.Sum(s => s.StonesUsed)),
+            BuildMetaText(times, sessions.Sum(s => s.Sanity), sessions.Sum(s => s.MedicinesUsed + s.ExpiringMedicinesUsed), sessions.Sum(s => s.StonesUsed)),
             drops);
     }
 

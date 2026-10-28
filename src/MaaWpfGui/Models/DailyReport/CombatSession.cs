@@ -43,16 +43,16 @@ public class CombatSession
     public DateTimeOffset? EndTime { get; set; }
 
     /// <summary>
-    /// Gets or sets 本链总场次，含代理倍率折算后的实际作战数。
+    /// Gets or sets 本链总场次：每局结算按该局代理倍率累加，即实际作战数。
     /// </summary>
     [JsonProperty("times")]
     public int Times { get; set; }
 
     /// <summary>
-    /// Gets or sets 单局理智消耗，总消耗由展示层按 Times 聚合。
+    /// Gets or sets 本链理智总消耗：每局结算累加开始前读到的消耗（已含代理倍率）。
     /// </summary>
-    [JsonProperty("sanityCost")]
-    public int SanityCost { get; set; }
+    [JsonProperty("sanity")]
+    public int Sanity { get; set; }
 
     /// <summary>
     /// Gets or sets 常规理智药使用数。
