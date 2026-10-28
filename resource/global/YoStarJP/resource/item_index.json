@@ -3381,6 +3381,14 @@
         "sortId": -10000,
         "usage": "コーデ特集専用のシール。表紙編集に使うことができる。"
     },
+    "itempack_stickers_sand2": {
+        "classifyType": "NONE",
+        "description": "新たな航路へと向かう準備を整えよう。",
+        "icon": "itempack_stickers_sand2.png",
+        "name": "シールパック/新たな礎",
+        "sortId": -10000,
+        "usage": "コーデ特集専用のシール。表紙編集に使うことができる。"
+    },
     "main16_spitem_1": {
         "classifyType": "NORMAL",
         "description": "かつて、苦難はそれの出現によって生まれると言われていた。だが今では、悲劇はそれが消えることによって始まると言われている。",
