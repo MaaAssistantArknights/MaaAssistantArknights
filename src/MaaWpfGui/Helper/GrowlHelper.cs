@@ -30,7 +30,7 @@ public static class GrowlHelper
 {
     private static readonly ILogger _logger = Log.ForContext(typeof(GrowlHelper));
 
-    private static readonly List<Action> _pending = [];
+    private static readonly List<(InfoType Type, string? Message, Action Show)> _pending = [];
 
     private static bool _instantiatedSubscribed;
 
@@ -90,13 +90,21 @@ public static class GrowlHelper
             if (win == null)
             {
                 _logger.Information("Growl {Type} (deferred, main window hidden): {Message}", type, message);
-                _pending.Add(showGrowl);
+                _pending.Add((type, message, showGrowl));
                 EnsureHandlersAttached();
                 return;
             }
 
             _logger.Information("Growl {Type}: {Message}", type, message);
-            showGrowl();
+            try
+            {
+                showGrowl();
+            }
+            catch (Exception e)
+            {
+                _logger.Error(e, "Failed to show growl {Type}: {Message}", type, message);
+                throw;
+            }
         });
     }
 
@@ -139,20 +147,19 @@ public static class GrowlHelper
                 return;
             }
 
-            _logger.Information("Growl flushing {Count} deferred item(s)", _pending.Count);
-
             // 先取出并清空再逐个执行：单个闭包抛出时不中断其余项，已显示项也不会在下次恢复时重复补发
             var pending = _pending.ToArray();
             _pending.Clear();
-            foreach (var showGrowl in pending)
+            foreach (var (type, message, showGrowl) in pending)
             {
+                _logger.Information("Growl {Type} (flushed): {Message}", type, message);
                 try
                 {
                     showGrowl();
                 }
                 catch (Exception e)
                 {
-                    _logger.Error(e, "Failed to show deferred growl");
+                    _logger.Error(e, "Failed to show deferred growl {Type}: {Message}", type, message);
                 }
             }
         });
