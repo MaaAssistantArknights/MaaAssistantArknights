@@ -12,9 +12,12 @@
 // </copyright>
 
 using System;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Markup;
 using MaaWpfGui.Helper;
+using MaaWpfGui.ViewModels.Items;
 using MaaWpfGui.ViewModels.UI;
 
 namespace MaaWpfGui.Views.Dialogs;
@@ -89,5 +92,26 @@ public partial class DailyReportDialogView
         {
             PeriodCalendar.DisplayMode = pickMode;
         }
+    }
+
+    // 掉落格点击：在被点的格子下方弹出该物品在本行的掉率；Popup 不在可视树内，直接把物品设为其 DataContext
+    private void OnDropClick(object sender, MouseButtonEventArgs e)
+    {
+        if (e.OriginalSource is not FrameworkElement { DataContext: DailyReportDropItemViewModel drop } element)
+        {
+            return;
+        }
+
+        var cell = element;
+        while (cell.Parent is FrameworkElement parent && parent.DataContext == drop)
+        {
+            cell = parent;
+        }
+
+        DropRatePopup.IsOpen = false;
+        DropRatePopup.DataContext = drop;
+        DropRatePopup.PlacementTarget = cell;
+        DropRatePopup.IsOpen = true;
+        e.Handled = true;
     }
 }

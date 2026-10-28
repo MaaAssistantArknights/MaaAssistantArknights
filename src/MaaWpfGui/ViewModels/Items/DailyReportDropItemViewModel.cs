@@ -28,12 +28,21 @@ public class DailyReportDropItemViewModel
     /// </summary>
     /// <param name="itemId">物品 id。</param>
     /// <param name="count">数量。</param>
-    public DailyReportDropItemViewModel(string itemId, int count)
+    /// <param name="stage">所属记录行的关卡。</param>
+    /// <param name="times">所属记录行的场次。</param>
+    /// <param name="sanity">所属记录行的理智消耗。</param>
+    public DailyReportDropItemViewModel(string itemId, int count, string stage, int times, int sanity)
     {
         ItemId = itemId;
         Name = ItemListHelper.GetItemName(itemId) ?? itemId;
         Count = count.FormatNumber(false);
         Image = ItemListHelper.GetItemImage(itemId);
+        RateTitle = $"{Name} · {stage}";
+
+        // 场次或理智缺失（旧数据、采集异常）时无从计算，显示占位而非 0 或无穷
+        var culture = LocalizationHelper.CustomCultureInfo;
+        PerBattleText = times > 0 ? ((double)count / times).ToString("0.00", culture) : "-";
+        SanityPerItemText = count > 0 && sanity > 0 ? ((double)sanity / count).ToString("0.0", culture) : "-";
     }
 
     /// <summary>
@@ -50,6 +59,21 @@ public class DailyReportDropItemViewModel
     /// Gets 悬停提示（物品名，名称在格内可能被截断）。
     /// </summary>
     public string ToolTip => Name;
+
+    /// <summary>
+    /// Gets 掉率浮层标题（物品名 · 关卡）。
+    /// </summary>
+    public string RateTitle { get; }
+
+    /// <summary>
+    /// Gets 每场平均掉落数（掉落数 ÷ 场次）。
+    /// </summary>
+    public string PerBattleText { get; }
+
+    /// <summary>
+    /// Gets 单件平均理智消耗（理智消耗 ÷ 掉落数）。
+    /// </summary>
+    public string SanityPerItemText { get; }
 
     /// <summary>
     /// Gets 数量文本。
