@@ -8,7 +8,7 @@
     },
     "Mizuki@Roguelike@NextLevel": {
         "ocrReplace": [
-            ["陽の.*海岸", "陽の射す海岸"],
+            ["陽の.*海(岸|片|戸)", "陽の射す海岸"],
             ["離.*の孤[島鳥]", "離れの孤島"],
             ["迫.*来る波[濤清]", "迫り来る波濤"]
         ],
@@ -16,6 +16,40 @@
     },
     "Mizuki@Roguelike@SelectTheme": {
         "text": ["進化の系譜", "進化", "系譜"]
+    },
+    "Mizuki@Roguelike@Squad-EnterPoint": {
+        "postDelay": 1000,
+        "maxTimes": 4,
+        "next": ["Mizuki@Roguelike@SquadSelectionSettle"],
+        "exceededNext": ["Mizuki@Roguelike@SquadConfirm"],
+        "reduceOtherTimes": ["Mizuki@Roguelike@SquadConfirm*4"]
+    },
+    "Mizuki@Roguelike@SquadConfirm": {
+        "reduceOtherTimes": ["Mizuki@Roguelike@Squad-EnterPoint*4"],
+        "rectMove": [78, 42, 12, 12],
+        "maxTimes": 4,
+        "postDelay": 1000,
+        "next": [
+            "Mizuki@Roguelike@LastReward-EnterPoint",
+            "Mizuki@Roguelike@RolesDefault",
+            "Mizuki@Roguelike@RecruitMain",
+            "Mizuki@Roguelike@CloseCollection",
+            "Mizuki@Roguelike@MapObject",
+            "Mizuki@Roguelike@SquadConfirm"
+        ],
+        "exceededNext": [
+            "Mizuki@Roguelike@LastReward-EnterPoint",
+            "Mizuki@Roguelike@RolesDefault",
+            "Mizuki@Roguelike@RecruitMain",
+            "Mizuki@Roguelike@CloseCollection",
+            "Mizuki@Roguelike@MapObject"
+        ]
+    },
+    "Mizuki@Roguelike@SquadSelectionSettle": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "postDelay": 1200,
+        "next": ["Mizuki@Roguelike@SquadConfirm", "Mizuki@Roguelike@Squad-EnterPoint"]
     },
     "Mizuki@Roguelike@StageEncounterLeaveConfirm": {
         "roi": [1063, 0, 217, 700],
@@ -28,8 +62,9 @@
         "text": ["セーフハウスを利用する"]
     },
     "Mizuki@Roguelike@StrategyChange_mode0": {
+        "roi": [570, 0, 220, 80],
         "ocrReplace": [
-            ["陽の.*海岸", "_aggressive"],
+            ["陽の.*海(岸|片|戸)", "_aggressive"],
             ["離.*の孤[島鳥]", "_aggressive"],
             ["迫.*来る波[濤清]", "_pragmatic"],
             ["秘密の温床", "_pragmatic"],
@@ -39,8 +74,9 @@
         ]
     },
     "Mizuki@Roguelike@StrategyChange_mode1": {
+        "roi": [570, 0, 220, 80],
         "ocrReplace": [
-            ["陽の.*海岸", "_default"],
+            ["陽の.*海(岸|片|戸)", "_default"],
             ["離.*の孤[島鳥]", "_exit"],
             ["迫.*来る波[濤清]", "_exit"],
             ["秘密の温床", "_exit"],
@@ -50,8 +86,9 @@
         ]
     },
     "Mizuki@Roguelike@StrategyChange_mode4": {
+        "roi": [570, 0, 220, 80],
         "ocrReplace": [
-            ["陽の.*海岸", "_default"],
+            ["陽の.*海(岸|片|戸)", "_default"],
             ["離.*の孤[島鳥]", "_default"],
             ["迫.*来る波[濤清]", "_exit"],
             ["秘密の温床", "_exit"],
@@ -61,8 +98,9 @@
         ]
     },
     "Mizuki@Roguelike@StrategyChange_mode6": {
+        "roi": [570, 0, 220, 80],
         "ocrReplace": [
-            ["陽の.*海岸", "_aggressive"],
+            ["陽の.*海(岸|片|戸)", "_aggressive"],
             ["離.*の孤[島鳥]", "_aggressive"],
             ["迫.*来る波[濤清]", "_pragmatic"],
             ["秘密の温床", "_pragmatic"],
@@ -72,8 +110,9 @@
         ]
     },
     "Mizuki@Roguelike@StrategyChange_mode7": {
+        "roi": [570, 0, 220, 80],
         "ocrReplace": [
-            ["陽の.*海岸", "_aggressive"],
+            ["陽の.*海(岸|片|戸)", "_aggressive"],
             ["離.*の孤[島鳥]", "_aggressive"],
             ["迫.*来る波[濤清]", "_pragmatic"],
             ["秘密の温床", "_pragmatic"],
