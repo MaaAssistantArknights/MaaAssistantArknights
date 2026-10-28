@@ -1192,6 +1192,7 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
     {
         base.Configure();
         Instances.Instantiate(Container);
+        DailyReportCollector.Initialize(Instances.AsstProxy);
     }
 
     /// <inheritdoc/>

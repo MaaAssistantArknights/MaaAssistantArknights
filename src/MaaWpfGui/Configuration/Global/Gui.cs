@@ -17,6 +17,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using JetBrains.Annotations;
 using MaaWpfGui.Configuration.Factory;
+using MaaWpfGui.Constants;
 using MaaWpfGui.Constants.Enums;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Models;
@@ -99,6 +100,11 @@ public class Gui : NotifyPropertyChangedWithValue
     public Dictionary<MaaHotKeyAction, MaaHotKey?> HotKeys { get; set; } = [];
 
     public int GuideStep { get; set; } = 0;
+
+    /// <summary>
+    /// 作战日报数据保留档位（全局，data/DailyReport 日文件按此裁剪）。
+    /// </summary>
+    public DailyReportRetention DailyReportRetention { get; set; } = DailyReportRetention.Unlimited;
 
     public Background Background { get; set; } = new();
 

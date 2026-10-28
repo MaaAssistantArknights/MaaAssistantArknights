@@ -484,7 +484,7 @@
                             HorizontalAlignment="Center"
                             Text="{Binding PostActionSetting.ActionTitle}"
                             TextAlignment="Center" />
-                        <hc:Divider Margin="10,2,10,5" />
+                        <hc:Divider Margin="10,3" />
                         <controls:TextBlock
                             Width="160"
                             Margin="20,0,0,0"
@@ -585,9 +585,9 @@
 
             <Grid Grid.Column="1">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="*" MinHeight="360" />
+                    <RowDefinition Height="*" MinHeight="340" />
                     <RowDefinition Height="Auto" />
-                    <RowDefinition Height="*" MaxHeight="250" />
+                    <RowDefinition Height="*" MaxHeight="{c:Binding 'ActualHeight > 250 ? 250 + 35 : ActualHeight + 35', ElementName=TipTextBlock}" />
                 </Grid.RowDefinitions>
                 <!--
                     本视口高度撑满所在行（勿改 VerticalAlignment=Top）：面板内列表类控件的 MaxHeight 绑定此视口高度，
@@ -699,35 +699,58 @@
                 </hc:ButtonGroup>
 
                 <Grid
+                    x:Name="InfoGrid"
                     Grid.Row="2"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Bottom">
-                    <hc:ScrollViewer
-                        Width="200"
-                        Margin="0,10,10,10"
-                        PanningMode="Both">
-                        <controls:TextBlock
-                            d:Text="{DynamicResource TaskQueue.Stage.TodaysStage.Tip}"
-                            controls:TextBlock.BindableInlines="{Binding StagesOfTodayInlines}"
-                            TextWrapping="Wrap" />
-                    </hc:ScrollViewer>
-                    <Border Width="200" Margin="0,10,30,10">
-                        <controls:TooltipBlock
-                            HorizontalAlignment="Right"
-                            VerticalContentAlignment="Top"
-                            NormalOpacity="0.5">
-                            <controls:TooltipBlock.CustomToolTip>
-                                <StackPanel>
-                                    <controls:TextBlock Text="{DynamicResource TaskQueue.Fight.InventoryUpdate.Tip}" />
-                                    <StackPanel Orientation="Horizontal">
-                                        <controls:TextBlock Text="{DynamicResource TaskQueue.UserDataUpdate.LastSyncTime}" />
-                                        <controls:TextBlock Text=": " />
-                                        <controls:TextBlock Text="{Binding LastDepotSyncTimeText, Mode=OneWay, Source={x:Static helper:Instances.ToolboxViewModel}}" />
+                    HorizontalAlignment="Center">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <StackPanel>
+                        <!--<controls:TextBlock
+                            Width="200"
+                            Margin="0,5,10,0"
+                            Text="{Binding DailyReportSummary}"
+                            TextWrapping="Wrap" />-->
+                        <Button
+                            Width="220"
+                            Height="25"
+                            Margin="0,5,10,0"
+                            Padding="0"
+                            Command="{s:Action OpenDailyReport}"
+                            Content="{DynamicResource TaskQueue.DailyReport.OpenButton}" />
+                    </StackPanel>
+
+                    <Grid x:Name="TipGrid" Grid.Row="1">
+                        <hc:ScrollViewer
+                            Width="200"
+                            Margin="0,5,10,0"
+                            PanningMode="Both">
+                            <controls:TextBlock
+                                x:Name="TipTextBlock"
+                                VerticalAlignment="Top"
+                                controls:TextBlock.BindableInlines="{Binding StagesOfTodayInlines}"
+                                d:Text="{DynamicResource TaskQueue.Stage.TodaysStage.Tip}"
+                                TextWrapping="Wrap" />
+                        </hc:ScrollViewer>
+                        <Border Width="200" Margin="0,10,30,10">
+                            <controls:TooltipBlock
+                                HorizontalAlignment="Right"
+                                VerticalContentAlignment="Top"
+                                NormalOpacity="0.5">
+                                <controls:TooltipBlock.CustomToolTip>
+                                    <StackPanel>
+                                        <controls:TextBlock Text="{DynamicResource TaskQueue.Fight.InventoryUpdate.Tip}" />
+                                        <StackPanel Orientation="Horizontal">
+                                            <controls:TextBlock Text="{DynamicResource TaskQueue.UserDataUpdate.LastSyncTime}" />
+                                            <controls:TextBlock Text=": " />
+                                            <controls:TextBlock Text="{Binding LastDepotSyncTimeText, Mode=OneWay, Source={x:Static helper:Instances.ToolboxViewModel}}" />
+                                        </StackPanel>
                                     </StackPanel>
-                                </StackPanel>
-                            </controls:TooltipBlock.CustomToolTip>
-                        </controls:TooltipBlock>
-                    </Border>
+                                </controls:TooltipBlock.CustomToolTip>
+                            </controls:TooltipBlock>
+                        </Border>
+                    </Grid>
                 </Grid>
             </Grid>
 
