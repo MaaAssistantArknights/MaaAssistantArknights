@@ -16,6 +16,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Markup;
+using System.Windows.Threading;
 using MaaWpfGui.Helper;
 using MaaWpfGui.ViewModels.Items;
 using MaaWpfGui.ViewModels.UI;
@@ -35,6 +36,10 @@ public partial class DailyReportDialogView
         InitializeComponent();
         DataContext = DailyReportDialogViewModel.Instance;
         DailyReportDialogViewModel.Instance.RefreshAll();
+
+        // 掉率浮层兜底关闭：窗口内任意按下（点在掉落格上会随后重新打开）、窗口失去焦点时都收起
+        PreviewMouseDown += (_, _) => DropRatePopup.IsOpen = false;
+        Deactivated += (_, _) => DropRatePopup.IsOpen = false;
     }
 
     private static DailyReportDialogViewModel ViewModel => DailyReportDialogViewModel.Instance;
@@ -108,10 +113,16 @@ public partial class DailyReportDialogView
             cell = parent;
         }
 
-        DropRatePopup.IsOpen = false;
-        DropRatePopup.DataContext = drop;
-        DropRatePopup.PlacementTarget = cell;
-        DropRatePopup.IsOpen = true;
-        e.Handled = true;
+        // 延后到本次鼠标抬起处理完再打开：StaysOpen=False 的 Popup 靠持有鼠标捕获感知外部点击，
+        // 在抬起事件里同步打开时，外层 ListBox 随后的抬起处理会抢走捕获，浮层就再也收不到外部点击而无法关闭
+        Dispatcher.BeginInvoke(
+            () =>
+            {
+                DropRatePopup.IsOpen = false;
+                DropRatePopup.DataContext = drop;
+                DropRatePopup.PlacementTarget = cell;
+                DropRatePopup.IsOpen = true;
+            },
+            DispatcherPriority.Input);
     }
 }
