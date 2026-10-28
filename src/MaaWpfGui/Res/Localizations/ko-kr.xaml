@@ -1992,6 +1992,7 @@ MAA는 비설치형 응용 프로그램으로, 삭제 시 레지스트리 항목
     <system:String x:Key="TaskQueue.DailyReport.Stat.Sessions">횟수</system:String>
     <system:String x:Key="TaskQueue.DailyReport.Stat.Sanity">이성 소모</system:String>
     <system:String x:Key="TaskQueue.DailyReport.Stat.Medicines">이성 회복제</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Stat.Stones">순오리지늄</system:String>
     <system:String x:Key="TaskQueue.DailyReport.Stat.DropKinds">드롭 종류</system:String>
     <system:String x:Key="TaskQueue.DailyReport.Meta.SessionsFormat">{0}회</system:String>
     <system:String x:Key="TaskQueue.DailyReport.Meta.SanityFormat">이성 {0}</system:String>

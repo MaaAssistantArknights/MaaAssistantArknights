@@ -455,6 +455,7 @@ public class DailyReportDialogViewModel : PropertyChangedBase
             new(LocalizationHelper.GetString("TaskQueue.DailyReport.Stat.Sessions"), sessions.Sum(s => s.Times).ToString()),
             new(LocalizationHelper.GetString("TaskQueue.DailyReport.Stat.Sanity"), sessions.Sum(s => s.Sanity).ToString()),
             new(LocalizationHelper.GetString("TaskQueue.DailyReport.Stat.Medicines"), sessions.Sum(s => s.MedicinesUsed + s.ExpiringMedicinesUsed).ToString()),
+            new(LocalizationHelper.GetString("TaskQueue.DailyReport.Stat.Stones"), sessions.Sum(s => s.StonesUsed).ToString()),
             new(LocalizationHelper.GetString("TaskQueue.DailyReport.Stat.DropKinds"), dropKinds.ToString()),
         ];
         NotifyOfPropertyChange(nameof(Stats));

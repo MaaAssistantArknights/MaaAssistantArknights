@@ -1992,6 +1992,7 @@ DEBUG 目录下保存的图片有数量限制，超出后会自动清理旧图�
     <system:String x:Key="TaskQueue.DailyReport.Stat.Sessions">场次</system:String>
     <system:String x:Key="TaskQueue.DailyReport.Stat.Sanity">理智消耗</system:String>
     <system:String x:Key="TaskQueue.DailyReport.Stat.Medicines">药剂</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Stat.Stones">源石</system:String>
     <system:String x:Key="TaskQueue.DailyReport.Stat.DropKinds">掉落种类</system:String>
     <system:String x:Key="TaskQueue.DailyReport.Meta.SessionsFormat">{0} 场</system:String>
     <system:String x:Key="TaskQueue.DailyReport.Meta.SanityFormat">理智 {0}</system:String>

@@ -1991,6 +1991,7 @@ Enter ｢SSReopen-XX｣ once to clear all normal stages with Auto-Deploy in SS r
     <system:String x:Key="TaskQueue.DailyReport.Stat.Sessions">Battles</system:String>
     <system:String x:Key="TaskQueue.DailyReport.Stat.Sanity">Sanity used</system:String>
     <system:String x:Key="TaskQueue.DailyReport.Stat.Medicines">Sanity Potions</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Stat.Stones">Originite Prime</system:String>
     <system:String x:Key="TaskQueue.DailyReport.Stat.DropKinds">Drop kinds</system:String>
     <system:String x:Key="TaskQueue.DailyReport.Meta.SessionsFormat">{0} battles</system:String>
     <system:String x:Key="TaskQueue.DailyReport.Meta.SanityFormat">{0} sanity</system:String>

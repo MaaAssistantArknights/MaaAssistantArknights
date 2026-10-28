@@ -1992,6 +1992,7 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
     <system:String x:Key="TaskQueue.DailyReport.Stat.Sessions">場次</system:String>
     <system:String x:Key="TaskQueue.DailyReport.Stat.Sanity">理智消耗</system:String>
     <system:String x:Key="TaskQueue.DailyReport.Stat.Medicines">藥劑</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Stat.Stones">源石</system:String>
     <system:String x:Key="TaskQueue.DailyReport.Stat.DropKinds">掉落種類</system:String>
     <system:String x:Key="TaskQueue.DailyReport.Meta.SessionsFormat">{0} 場</system:String>
     <system:String x:Key="TaskQueue.DailyReport.Meta.SanityFormat">理智 {0}</system:String>

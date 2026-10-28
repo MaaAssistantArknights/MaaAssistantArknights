@@ -1993,6 +1993,7 @@ MAA は非インストール型のアプリケーションであり、レジス�
     <system:String x:Key="TaskQueue.DailyReport.Stat.Sessions">回数</system:String>
     <system:String x:Key="TaskQueue.DailyReport.Stat.Sanity">理性消費</system:String>
     <system:String x:Key="TaskQueue.DailyReport.Stat.Medicines">理性剤</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Stat.Stones">源石</system:String>
     <system:String x:Key="TaskQueue.DailyReport.Stat.DropKinds">ドロップ種類</system:String>
     <system:String x:Key="TaskQueue.DailyReport.Meta.SessionsFormat">{0} 回</system:String>
     <system:String x:Key="TaskQueue.DailyReport.Meta.SanityFormat">理性 {0}</system:String>
