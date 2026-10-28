@@ -284,7 +284,7 @@ public class AchievementTrackerHelper : PropertyChangedBase
             return;
         }
 
-        GrowlHelper.Show(nameof(Growl.Info), info.Message, () => {
+        GrowlHelper.Show(InfoType.Info, info.Message, () => {
             var previousItems = Growl.GrowlPanel?.Children.OfType<UIElement>().ToHashSet() ?? [];
             Growl.Info(info);
             AttachGrowlClickHandler(info, previousItems);
