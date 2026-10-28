@@ -138,7 +138,8 @@ public static class DailyReportCollector
 
                 break;
 
-            case AsstMsg.SubTaskStart when msg.SubTask == "StoneConfirm":
+            // 碎石确认以通用 ProcessTask 子任务上报，具体任务名在 details.task
+            case AsstMsg.SubTaskStart when msg.SubTask == "ProcessTask" && (msg.Details?["task"]?.ToString() == "StoneConfirm"):
                 session.StonesUsed++;
                 PersistIfNeeded(msg.TaskId, session);
                 break;
