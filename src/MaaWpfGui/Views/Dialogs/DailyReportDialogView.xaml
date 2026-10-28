@@ -545,13 +545,17 @@
                                 VerticalAlignment="Center"
                                 FontWeight="Bold"
                                 Text="{Binding Count}" />
-                            <TextBlock
+                            <!--  透明背景让整列都参与命中测试，悬停空白处也显示完整来源列表  -->
+                            <Border
                                 Grid.Column="3"
-                                VerticalAlignment="Center"
-                                Foreground="{DynamicResource SecondaryTextBrush}"
-                                Text="{Binding SourcesText}"
-                                TextTrimming="CharacterEllipsis"
-                                ToolTip="{Binding SourcesToolTip}" />
+                                Background="Transparent"
+                                ToolTip="{Binding SourcesToolTip}">
+                                <TextBlock
+                                    VerticalAlignment="Center"
+                                    Foreground="{DynamicResource SecondaryTextBrush}"
+                                    Text="{Binding SourcesText}"
+                                    TextTrimming="CharacterEllipsis" />
+                            </Border>
                         </Grid>
                     </Border>
                 </DataTemplate>
