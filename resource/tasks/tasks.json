@@ -6272,7 +6272,17 @@
     },
     "GreenTicket@Store@ReplenishItem": {
         "algorithm": "JustReturn",
-        "specialParams_Doc": "各商品的 [单价, 现行月度上限, 新版月度上限]，上限 0 为不限月度兑换次数。来源：https://prts.wiki/w/采购中心#tabber-阶段2。仅列出二层可补购蓝材料。"
+        "specialParams_Doc": "各商品的 [每次兑换价格, 现行月度兑换次数上限, 新版月度兑换次数上限, 每次获得件数（可选，默认1）]，上限 0 为不限月度兑换次数。来源：https://prts.wiki/w/采购中心#tabber-阶段2。仅列出二层可补购蓝材料。"
+    },
+    "GreenTicket@Store@ReplenishItem-3302": {
+        "baseTask": "GreenTicket@Store@ReplenishItem",
+        "specialParams": [20, 15, 15, 3],
+        "doc": "技巧概要·卷2，每次兑换3本。"
+    },
+    "GreenTicket@Store@ReplenishClickSkillSummary": {
+        "baseTask": "GreenTicket@Store@ClickItem",
+        "template": "items/3302.png",
+        "count": 15
     },
     "GreenTicket@Store@ReplenishItem-30013": {
         "baseTask": "GreenTicket@Store@ReplenishItem",

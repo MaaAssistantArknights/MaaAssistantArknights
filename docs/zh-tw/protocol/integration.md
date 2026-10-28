@@ -1449,22 +1449,41 @@ Tag 等級（大於等於 3）對應的期望招募時限（單位：分鐘）�
 
 WPF 幹員培養中可勾選 ｢自動用綠票兌換缺少的材料｣。預設關閉。優先合成，無法補齊時，按目前精英化、技能升級或專精步驟的缺口兌換綠票商店二層出售的材料，也支援合成配方中的下級材料。需要事先手動解鎖二層；不會自動購買一層商品來解鎖。
 
-`buy_materials_with_green_tickets`: boolean, optional, default `false`.
+:::: field-group
+::: field plans
+@type object[]
+@required
+培養計畫陣列。每項必填 `name`（幹員名）；`role`（職業）可省略，但多職業幹員必須指定。可選目標：`elite` 為 1–2，`skill_level` 為 2–7，`skill_mastery` 為三個技能的目標專精等級陣列（各 0–3，0 表示略過）。省略的目標不執行。
+:::
+::: field buy_materials_with_green_tickets
+@type boolean
+@default false
+@optional
+是否自動用綠票補齊目前培養步驟缺少的材料。
+:::
+::::
 
-兌換前核對商品名、數量、總價及餘額。庫存或餘額不足、辨識失敗或重複辨識到未減少的同一缺口時，停止目前步驟的補料。不會自動使用材料兌換券。
+兌換前核對商品名、數量、總價及餘額。有限庫存為零、餘額不足、辨識失敗或重複辨識到未減少的同一缺口時，停止目前步驟的補料。不會自動使用材料兌換券。
 
-幹員培養與基建繼續專精共用任務資源中 `GreenTicket@Store@ReplenishItem-*` 的單價及兩版月度限額，資料參考 [PRTS 階段二](https://prts.wiki/w/采购中心#tabber-阶段2)。有限庫存會在選擇數量前、付款前現場核對；缺口超過剩餘額度時只兌換剩餘部分，恢復原頁面後結束目前步驟的補料。庫存為零、餘額不足或無法辨識時不付款，不分批兌換。預設 `GreenTicket@Store@ReplenishShopProfile` 的 `specialParams` 為 `[0]`。確認目前伺服器已更新扭轉醇、輕錳礦、研磨石、RMA70-12 不限購後，在 `resource/tasks/tasks.json` 將該節點改為 `[1]` 並重新啟動；恢復 `[0]` 可切回。中國大陸服公告為 [2026 年 11 月 1 日 12:00 更新](https://ak.hypergryph.com/news/0787)，其他伺服器依實際更新情況切換。
+幹員培養與基建繼續專精共用任務資源中 `GreenTicket@Store@ReplenishItem-*` 的單價及兩版月度限額，資料參考 [PRTS 階段二](https://prts.wiki/w/采购中心#tabber-阶段2)。有限庫存會在選擇數量前、付款前現場核對；缺口超過剩餘額度時只兌換剩餘部分，恢復原頁面後結束目前步驟的補料。有限庫存為零或無法辨識、餘額不足時不付款，不分批兌換。預設 `GreenTicket@Store@ReplenishShopProfile` 的 `specialParams` 為 `[0]`。確認目前伺服器已更新扭轉醇、輕錳礦、研磨石、RMA70-12 不限購後，在 `resource/tasks/tasks.json` 將該節點改為 `[1]` 並重新啟動；恢復 `[0]` 可切回。中國大陸服公告為 [2026 年 11 月 1 日 12:00 更新](https://ak.hypergryph.com/news/0787)，其他伺服器依實際更新情況切換。
 
 兌換成功後透過 `SubTaskExtraInfo` 回報 `what: "GreenTicketPurchased"`，`details` 包含 `material`（材料名）、`material_id`、`count`（兌換數量）及 `cost`（實際消耗的綠票數）。
+
+技巧概要·卷2 每次兌換 3 本、消耗 20 綠票，月限 15 次；按缺少本數向上取整為兌換次數，回報數量為實際獲得本數。
+
+<details>
+<summary>Example</summary>
 
 ```json
 {
     "plans": [
-        { "role": "Caster", "name": "阿米娅", "elite": 2, "skill_level": 7 }
+        { "role": "Caster", "name": "逻各斯", "elite": 2, "skill_level": 7 }
     ],
     "buy_materials_with_green_tickets": false
 }
 ```
+
+</details>
 
 - `Reclamation`  
   生息演算

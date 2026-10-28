@@ -2834,10 +2834,14 @@ public class AsstProxy
                 break;
 
             case "GreenTicketPurchased":
+                var materialId = subTaskDetails?["material_id"]?.ToString() ?? string.Empty;
+                var materialName = ItemListHelper.GetItemName(materialId);
                 Instances.TaskQueueViewModel.AddLog(
                     LocalizationHelper.GetStringFormat(
                         "Asst.GreenTicketPurchased",
-                        subTaskDetails?["material"]?.ToString() ?? string.Empty,
+                        string.IsNullOrEmpty(materialName) || materialName == materialId
+                            ? subTaskDetails?["material"]?.ToString() ?? materialId
+                            : materialName,
                         subTaskDetails?["count"]?.Value<int>() ?? 0,
                         subTaskDetails?["cost"]?.Value<int>() ?? 0),
                     UiLogColor.Info);

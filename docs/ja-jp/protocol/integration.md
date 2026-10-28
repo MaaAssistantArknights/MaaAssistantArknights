@@ -1448,22 +1448,41 @@ Sarkaz テーマ、Investment モード、 ｢破棘成金分隊｣ または �
 
 WPF の育成設定で ｢不足素材を緑チケットで交換する｣ を有効にできます。初期設定は無効です。加工を優先し、不足を補えない場合は、現在の昇進・スキル強化・特化に必要な分だけ緑チケット商店の2階で交換します。加工レシピの下位素材にも対応します。2階は事前に手動で開放してください。開放のために1階の商品を自動購入することはありません。
 
-`buy_materials_with_green_tickets`: boolean, optional, default `false`.
+:::: field-group
+::: field plans
+@type object[]
+@required
+育成計画の配列です。各要素には `name`（オペレーター名）が必須です。`role`（職分）は省略可能ですが、複数職分を持つ場合は指定が必要です。任意の目標：`elite` は1–2、`skill_level` は2–7、`skill_mastery` は3スキルの目標特化ランクの配列（各0–3、0はスキップ）です。省略した目標は実行しません。
+:::
+::: field buy_materials_with_green_tickets
+@type boolean
+@default false
+@optional
+現在の育成手順で不足する素材を緑チケットで自動補充するかどうか。
+:::
+::::
 
-支払い前に商品名・数量・合計金額・残高を確認します。在庫や残高の不足、認識失敗、購入後も同じ不足数が減らない場合は、現在の手順の補充を停止します。素材交換券は自動使用しません。
+支払い前に商品名・数量・合計金額・残高を確認します。有限在庫ゼロ、残高不足、認識失敗、購入後も同じ不足数が減らない場合は、現在の手順の補充を停止します。素材交換券は自動使用しません。
 
-両機能は [PRTS 第2段階](https://prts.wiki/w/采购中心#tabber-阶段2)に基づく `GreenTicket@Store@ReplenishItem-*` の単価と2版の月間上限を共用します。数量変更前と支払い前に有限在庫を確認します。不足数が残り交換可能数を超える場合は残りの分だけ交換し、元の画面に復帰して現在の手順の補充を終了します。在庫ゼロ、残高不足、認識失敗時は支払いません。分割購入は行いません。`GreenTicket@Store@ReplenishShopProfile` の `specialParams` は既定で `[0]` です。利用サーバーで合成コール・マンガン・砥石・RMA70-12の月間上限解除を確認した後、`resource/tasks/tasks.json` の同ノードを `[1]` に変更して再起動してください。`[0]` で元に戻せます。[中国大陸版](https://ak.hypergryph.com/news/0787)は2026年11月1日12:00（UTC+08:00）に更新予定です。他サーバーは実際の更新に合わせて切り替えてください。
+両機能は [PRTS 第2段階](https://prts.wiki/w/采购中心#tabber-阶段2)に基づく `GreenTicket@Store@ReplenishItem-*` の単価と2版の月間上限を共用します。数量変更前と支払い前に有限在庫を確認します。不足数が残り交換可能数を超える場合は残りの分だけ交換し、元の画面に復帰して現在の手順の補充を終了します。有限在庫ゼロまたは在庫認識失敗、残高不足時は支払いません。分割購入は行いません。`GreenTicket@Store@ReplenishShopProfile` の `specialParams` は既定で `[0]` です。利用サーバーで合成コール・マンガン・砥石・RMA70-12の月間上限解除を確認した後、`resource/tasks/tasks.json` の同ノードを `[1]` に変更して再起動してください。`[0]` で元に戻せます。[中国大陸版](https://ak.hypergryph.com/news/0787)は2026年11月1日12:00（UTC+08:00）に更新予定です。他サーバーは実際の更新に合わせて切り替えてください。
 
 交換成功時は `SubTaskExtraInfo` の `what: "GreenTicketPurchased"` を通知します。`details` には `material`（素材名）、`material_id`、`count`（交換数）、`cost`（消費した緑チケット数）が含まれます。
+
+アーツ学Ⅱは1回につき3冊、緑チケット20枚で交換し、月15回までです。不足冊数から必要な交換回数を切り上げて求め、通知する数量は実際の獲得冊数です。
+
+<details>
+<summary>Example</summary>
 
 ```json
 {
     "plans": [
-        { "role": "Caster", "name": "阿米娅", "elite": 2, "skill_level": 7 }
+        { "role": "Caster", "name": "逻各斯", "elite": 2, "skill_level": 7 }
     ],
     "buy_materials_with_green_tickets": false
 }
 ```
+
+</details>
 
 - `Reclamation`  
   生息演算

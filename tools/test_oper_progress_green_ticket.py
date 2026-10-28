@@ -122,7 +122,11 @@ class ResourceTests(unittest.TestCase):
 class CoreTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.user_dir = tempfile.TemporaryDirectory(prefix="maa-green-ticket-core-")
+        # Core keeps its log open until process exit, including on Windows.
+        cls.user_dir = tempfile.TemporaryDirectory(
+            prefix="maa-green-ticket-core-", ignore_cleanup_errors=True
+        )
+        cls.addClassCleanup(cls.user_dir.cleanup)
         cls.core = ctypes.CDLL(os.environ["MAA_CORE_LIBRARY"])
         lib = cls.core
         lib.AsstSetUserDir.argtypes, lib.AsstSetUserDir.restype = (
