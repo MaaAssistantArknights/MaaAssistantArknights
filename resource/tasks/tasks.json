@@ -6220,44 +6220,44 @@
             "Stop"
         ]
     },
-    "OperProgress@GreenTicketStoreBegin": {
+    "GreenTicket@Store@ReplenishStoreBegin": {
         "baseTask": "Store@Begin",
         "next": [
             "Store@EnterStore",
             "Store@EnterTicketStore",
             "Store@QuickSwitch@ToMall@Entry",
             "Store@QuickSwitch@ToMall@Open",
-            "OperProgress@GreenTicketStoreReturn"
+            "GreenTicket@Store@ReplenishStoreReturn"
         ]
     },
-    "OperProgress@GreenTicketStoreReturn": {
+    "GreenTicket@Store@ReplenishStoreReturn": {
         "baseTask": "ReturnButton",
         "template": ["Return.png", "Return-White.png"],
         "maxTimes": 20,
-        "next": ["OperProgress@GreenTicketStoreBegin"]
+        "next": ["GreenTicket@Store@ReplenishStoreBegin"]
     },
-    "OperProgress@GreenTicketChooseTicketType": {
+    "GreenTicket@Store@ReplenishChooseTicketType": {
         "baseTask": "GreenTicket@Store@ChooseTicketType",
         "postDelay": 800,
-        "next": ["OperProgress@GreenTicketSecondFloor"]
+        "next": ["GreenTicket@Store@ReplenishSecondFloor"]
     },
-    "OperProgress@GreenTicketSecondFloor": {
+    "GreenTicket@Store@ReplenishSecondFloor": {
         "baseTask": "GreenTicket@Store@ClickSecondFloor",
         "next": [],
         "doc": "只进入已解锁的二层，不执行一层购买或解锁操作。"
     },
-    "OperProgress@GreenTicketPurchasePage": {
+    "GreenTicket@Store@ReplenishPurchasePage": {
         "baseTask": "GreenTicket@Store@Purchase",
         "action": "DoNothing",
         "next": []
     },
-    "OperProgress@GreenTicketPurchaseName": {
+    "GreenTicket@Store@ReplenishPurchaseName": {
         "algorithm": "OcrDetect",
         "text": [],
         "fullMatch": true,
         "roi": [500, 150, 660, 180]
     },
-    "OperProgress@GreenTicketPurchaseQuantity": {
+    "GreenTicket@Store@ReplenishPurchaseQuantity": {
         "baseTask": "NumberOcrReplace",
         "text": [],
         "isAscii": true,
@@ -6265,7 +6265,7 @@
         "binThreshold": [0, 110],
         "roi": [884, 410, 76, 40]
     },
-    "OperProgress@GreenTicketPurchaseTotalPrice": {
+    "GreenTicket@Store@ReplenishPurchaseTotalPrice": {
         "baseTask": "NumberOcrReplace",
         "text": [],
         "isAscii": true,
@@ -6273,7 +6273,7 @@
         "binThreshold": [105, 255],
         "roi": [928, 498, 88, 40]
     },
-    "OperProgress@GreenTicketPurchaseBalance": {
+    "GreenTicket@Store@ReplenishPurchaseBalance": {
         "baseTask": "NumberOcrReplace",
         "text": [],
         "isAscii": true,
@@ -6281,12 +6281,12 @@
         "binThreshold": [180, 255],
         "roi": [1064, 14, 96, 50]
     },
-    "OperProgress@GreenTicketPurchase": {
+    "GreenTicket@Store@ReplenishPurchase": {
         "baseTask": "GreenTicket@Store@Purchase",
         "maxTimes": 1,
-        "next": ["OperProgress@GreenTicketPurchasedConfirm"]
+        "next": ["GreenTicket@Store@ReplenishPurchasedConfirm"]
     },
-    "OperProgress@GreenTicketPurchasedConfirm": {
+    "GreenTicket@Store@ReplenishPurchasedConfirm": {
         "baseTask": "GreenTicket@Store@PurchasedConfirm",
         "template": "CreditShop-Bought.png",
         "maxTimes": 1,

@@ -56,6 +56,8 @@ public class AsstInfrastTask : AsstBaseTask
     /// </summary>
     public bool ContinueTraining { get; set; }
 
+    public bool BuyMaterialsWithGreenTickets { get; set; }
+
     /// <summary>
     /// Gets or sets 宿舍进驻心情阈值
     /// </summary>
@@ -127,6 +129,7 @@ public class AsstInfrastTask : AsstBaseTask
             ["facility"] = JArray.FromObject(Facilitys),
             ["drones"] = UsesOfDrones,
             ["continue_training"] = ContinueTraining,
+            ["buy_materials_with_green_tickets"] = BuyMaterialsWithGreenTickets,
             ["threshold"] = DormThreshold,
             ["dorm_notstationed_enabled"] = DormFilterNotStationedEnabled,
             ["dorm_trust_enabled"] = DormTrustEnabled,

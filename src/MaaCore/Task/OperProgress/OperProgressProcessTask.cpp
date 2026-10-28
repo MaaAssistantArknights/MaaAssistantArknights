@@ -16,6 +16,7 @@
 #include "Status.h"
 #include "Task/Infrast/InfrastScore.h"
 #include "Task/MiniGame/MaterialSynthesisTaskPlugin.h"
+#include "Task/Miscellaneous/GreenTicketShoppingTask.h"
 #include "Task/OperProgress/OperProgressFormation.h"
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
@@ -132,7 +133,7 @@ bool asst::OperProgressProcessTask::_run()
     bool training_room_busy = false;
     for (size_t index = 0; index < m_plan.size() && !need_exit(); ++index) {
         const auto& target = m_plan[index];
-        m_operator_recovery_failed = false;
+        m_material_recovery_failed = false;
 
         if (training_room_busy && !target.elite && !target.skill_level && target.skill_mastery) {
             continue; // 训练室已占用且无其他目标, 跳过仅专精计划
@@ -151,19 +152,22 @@ bool asst::OperProgressProcessTask::_run()
             callback(AsstMsg::SubTaskExtraInfo, info);
             continue;
         }
+        const auto recover = [&] {
+            return find_and_open_operator(target.role, target.name);
+        };
         if (target.elite) {
-            auto elite_ret = execute_with_material_purchase(target, [&] {
+            auto elite_ret = execute_with_material_purchase(recover, [&] {
                 return execute_elite(target.role, target.name, *target.elite);
             });
             report_elite_result(target.role, target.name, elite_ret, *target.elite);
-            if (need_exit() || m_operator_recovery_failed) {
+            if (need_exit() || m_material_recovery_failed) {
                 continue;
             }
         }
         if (target.skill_level) {
-            auto main_ret = execute_with_material_purchase(target, [&] { return execute_skill(*target.skill_level); });
+            auto main_ret = execute_with_material_purchase(recover, [&] { return execute_skill(*target.skill_level); });
             report_skill_result(target.role, target.name, main_ret, *target.skill_level);
-            if (need_exit() || m_operator_recovery_failed) {
+            if (need_exit() || m_material_recovery_failed) {
                 continue;
             }
         }
@@ -174,7 +178,7 @@ bool asst::OperProgressProcessTask::_run()
                     continue;
                 }
                 int training_level = 0;
-                auto skill_ret = execute_with_material_purchase(target, [&] {
+                auto skill_ret = execute_with_material_purchase(recover, [&] {
                     return execute_mastery(target.role, target.name, i + 1, arr[i], training_level);
                 });
                 std::array<int, 3> skill_levels { 0, 0, 0 };
@@ -183,7 +187,7 @@ bool asst::OperProgressProcessTask::_run()
                     skill_levels[i] = training_level;
                 }
                 report_skill_result(target.role, target.name, skill_ret, skill_levels);
-                if (need_exit() || m_operator_recovery_failed) {
+                if (need_exit() || m_material_recovery_failed) {
                     break;
                 }
                 if (skill_ret == ResultDetail::TrainingRoomBusy || skill_ret == ResultDetail::PrerequisiteTraining ||
@@ -199,7 +203,7 @@ bool asst::OperProgressProcessTask::_run()
 }
 
 asst::OperProgressProcessTask::ResultDetail asst::OperProgressProcessTask::execute_with_material_purchase(
-    const OperProgressTask::ProgressPlan& target,
+    const std::function<ResultDetail()>& recover,
     const std::function<ResultDetail()>& execute)
 {
     std::unordered_map<std::string, int> previous_shortfalls;
@@ -223,15 +227,18 @@ asst::OperProgressProcessTask::ResultDetail asst::OperProgressProcessTask::execu
             LogWarn << __FUNCTION__ << "material shortfall did not decrease after purchase" << context << count;
             return ResultDetail::ResourceInsufficient;
         }
-        const bool purchased = buy_material_with_green_tickets(item_id, count);
+        GreenTicketShoppingTask shopping(m_callback, m_inst, m_task_chain);
+        shopping.set_task_id(m_task_id);
+        shopping.set_material(item_id, count);
+        const bool purchased = shopping.run();
         if (need_exit()) {
             return ResultDetail::Interrupt;
         }
-        // 无论购买成败都恢复档案页，避免同一干员的后续动作从商店开始。
-        const auto located = find_and_open_operator(target.role, target.name);
+        // 无论购买成败都恢复培养页面，避免后续动作从商店开始。
+        const auto located = recover();
         if (located != ResultDetail::Completed) {
-            m_operator_recovery_failed = true;
-            LogWarn << __FUNCTION__ << "failed to restore operator after green ticket purchase" << target.name;
+            m_material_recovery_failed = true;
+            LogWarn << __FUNCTION__ << "failed to restore development page after green ticket purchase";
             return located;
         }
         if (!purchased) {
@@ -649,6 +656,20 @@ asst::OperProgressProcessTask::ResultDetail asst::OperProgressProcessTask::execu
     }
     m_step_context = "Mastery:" + std::to_string(skill) + ":" + std::to_string(current_level + 1);
 
+    const auto prepared = start_mastery_training();
+    if (prepared != ResultDetail::Completed) {
+        return prepared;
+    }
+    current_level = current_level + 1; // 开始专精后当前等级 +1
+    // 选好技能之后再选陪练，这样能确保逻各斯类技能触发
+    if (!run_task("OperProgress@MasterySelectTrainer") || !select_training_trainer(role, current_level)) {
+        LogWarn << __FUNCTION__ << "| trainer selection failed, training already started";
+    }
+    return current_level == target_level ? ResultDetail::Completed : ResultDetail::PrerequisiteTraining;
+}
+
+asst::OperProgressProcessTask::ResultDetail asst::OperProgressProcessTask::start_mastery_training()
+{
     // 选定受训干员与技能后确认面板展示材料行；逐槽检测（同 execute_elite 槽位分派）：
     // 技能书/材料1/材料2 依次跳加工站走自动合成,全部修复后复核仍缺料则不启动专精。
     if (run_task("OperProgress@MasterySkillSummaryRequired", 2)) {
@@ -677,12 +698,41 @@ asst::OperProgressProcessTask::ResultDetail asst::OperProgressProcessTask::execu
     if (!run_task("InfrastTrainingConfirm") || !run_task("InfrastTrainingMasteryPage", 10)) {
         return ResultDetail::RecognitionFailed;
     }
-    current_level = current_level + 1; // 开始专精后当前等级 +1
-    // 选好技能之后再选陪练，这样能确保逻各斯类技能触发
-    if (!run_task("OperProgress@MasterySelectTrainer") || !select_training_trainer(role, current_level)) {
-        LogWarn << __FUNCTION__ << "| trainer selection failed, training already started";
+    return ResultDetail::Completed;
+}
+
+std::optional<bool> asst::OperProgressProcessTask::continue_training_with_material_purchase(
+    int skill,
+    const std::function<bool()>& return_to_training)
+{
+    m_buy_with_green_tickets = true;
+    m_material_recovery_failed = false;
+    bool restored = false;
+    const auto recover = [&] {
+        restored = return_to_training();
+        return restored ? ResultDetail::Completed : ResultDetail::RecognitionFailed;
+    };
+    const auto result = execute_with_material_purchase(recover, [&] {
+        restored = false;
+        if (!run_task("InfrastTrainingMasteryPage") || run_task("InfrastTrainingMasterybusy", 2) ||
+            !run_task("OperProgress@MasterySelectSkill" + std::to_string(skill))) {
+            return ResultDetail::RecognitionFailed;
+        }
+        m_step_context = "Mastery:" + std::to_string(skill);
+        return start_mastery_training();
+    });
+    if (m_material_recovery_failed || need_exit()) {
+        return std::nullopt;
     }
-    return current_level == target_level ? ResultDetail::Completed : ResultDetail::PrerequisiteTraining;
+    if (result == ResultDetail::Completed) {
+        return true;
+    }
+    // 合成失败也可能停留在加工站，回到训练室后调用方才可按原排班继续处理。
+    if (!restored && !return_to_training()) {
+        return std::nullopt;
+    }
+    // 确认后识别超时也可能已经开训；现场复核，避免随后尝试更换已锁定的受训干员。
+    return run_task("InfrastTrainingMasterybusy", 2);
 }
 
 void asst::OperProgressProcessTask::report_skill_result(
@@ -1393,87 +1443,6 @@ bool asst::OperProgressProcessTask::buy_catalyst(int count)
     }
     // 购买后返回制造站重新进入芯片产品页或生产详情页
     return run_task("OperProgress@ReturnToMfgPage");
-}
-
-bool asst::OperProgressProcessTask::buy_material_with_green_tickets(const std::string& item_id, int count)
-{
-    constexpr int MaxPurchaseCount = 99;
-    constexpr int MaxSwipes = 8;
-    if (need_exit() || count <= 0 || count > MaxPurchaseCount || ItemData.get_item_rarity(item_id) != 2 ||
-        !run_task("OperProgress@GreenTicketStoreBegin") || !run_task("OperProgress@GreenTicketChooseTicketType")) {
-        return false;
-    }
-
-    bool found = false;
-    for (int swipe = 0; swipe <= MaxSwipes && !need_exit(); ++swipe) {
-        FeatureMatcher matcher(ctrler()->get_image());
-        matcher.set_task_info("GreenTicket@Store@ClickItem");
-        matcher.set_templ(item_id);
-        const auto matches = matcher.analyze();
-        const auto& roi = Task.get("GreenTicket@Store@ClickItem")->roi;
-        const auto complete_match = [&](const FeatureMatchRect& match) {
-            const auto& rect = match.rect;
-            return rect.x >= roi.x && rect.y >= roi.y && rect.x + rect.width <= roi.x + roi.width &&
-                   rect.y + rect.height <= roi.y + roi.height;
-        };
-        if (matches && std::ranges::any_of(*matches, complete_match)) {
-            const auto& match = *std::ranges::find_if(*matches, complete_match);
-            if (!ctrler()->click(match.rect) || !run_task("OperProgress@GreenTicketPurchasePage", 3)) {
-                return false;
-            }
-            found = true;
-            break;
-        }
-        if (swipe < MaxSwipes && !run_task("RedTicket@Store@Swipe")) {
-            return false;
-        }
-    }
-    if (!found || need_exit()) {
-        LogWarn << __FUNCTION__ << "material unavailable in the green ticket store" << item_id;
-        return false;
-    }
-
-    const auto recognize_name = [&](const cv::Mat& image) {
-        OCRer analyzer(image);
-        analyzer.set_task_info("OperProgress@GreenTicketPurchaseName");
-        analyzer.set_required({ ItemData.get_item_name(item_id) });
-        const auto names = analyzer.analyze();
-        return names && names->size() == 1 && names->front().score >= 0.9;
-    };
-    const auto initial_image = ctrler()->get_image();
-    if (!recognize_name(initial_image) ||
-        MaterialSynthesisImageAnalyzer::read_number(initial_image, "OperProgress@GreenTicketPurchaseQuantity") != 1) {
-        return false;
-    }
-    // 仅逐个增加至本次缺口，付款前复核实际数量，库存或余额导致数量被钳制时不付款。
-    for (int selected = 1; selected < count; ++selected) {
-        if (need_exit() || !run_task("Store@Increase")) {
-            return false;
-        }
-    }
-    const auto image = ctrler()->get_image();
-    const auto selected =
-        MaterialSynthesisImageAnalyzer::read_number(image, "OperProgress@GreenTicketPurchaseQuantity");
-    const auto price = MaterialSynthesisImageAnalyzer::read_number(image, "OperProgress@GreenTicketPurchaseTotalPrice");
-    const auto balance = MaterialSynthesisImageAnalyzer::read_number(image, "OperProgress@GreenTicketPurchaseBalance");
-    if (need_exit() || !recognize_name(image) || !selected || *selected != count || !price || *price <= 0 || !balance ||
-        *balance < *price) {
-        LogWarn << __FUNCTION__ << "purchase identity, quantity, price or balance could not be confirmed" << item_id;
-        return false;
-    }
-    // 保留默认识别重试以等待收据；付款节点只执行一次，任务链不会回到付款节点。
-    if (!run_task("OperProgress@GreenTicketPurchase")) {
-        return false;
-    }
-    auto info = basic_info_with_what("OperProgressGreenTicketPurchased");
-    info["details"] = json::object {
-        { "material", ItemData.get_item_name(item_id) },
-        { "material_id", item_id },
-        { "count", count },
-        { "cost", *price },
-    };
-    callback(AsstMsg::SubTaskExtraInfo, info);
-    return true;
 }
 
 bool asst::OperProgressProcessTask::run_task(const std::string& task_name, int retry_times)

@@ -597,6 +597,12 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 @optional
 训练室是否继续未完成的专精训练。  
 :::  
+::: field buy_materials_with_green_tickets
+@type boolean
+@default false
+@optional
+仅在 `continue_training` 为 `true` 时生效，控制基建训练完成后继续专精时是否自动用绿票补料，与干员培养的同名参数独立。先尝试加工站合成，再按当前缺口兑换已解锁绿票商店二层的蓝材料，包括递归合成所需的蓝材料；不会购买一层商品来解锁二层。补料后返回原训练室继续同一干员的同一技能，不额外更换协助者。余额、库存或识别不足时停止补料，恢复训练室后沿用原有排班逻辑；无法恢复时停止本次训练室处理。WPF 中对应基建设置的 ｢继续专精时自动用绿票补料｣，默认关闭。兑换成功上报 `GreenTicketPurchased`，字段与干员培养相同。
+:::
 ::::
 
 <details>
@@ -1446,7 +1452,7 @@ WPF 干员培养中可勾选 ｢自动用绿票兑换缺少的材料｣。默认
 
 兑换前核对商品名、数量、总价和余额。库存或余额不足、识别失败或重复识别到未减少的同一缺口时，停止当前步骤的补料。单次兑换最多 99 件，每个培养动作最多兑换 16 次；不自动使用材料兑换券。
 
-兑换成功后通过 `SubTaskExtraInfo` 上报 `what: "OperProgressGreenTicketPurchased"`，`details` 包含 `material`（材料名）、`material_id`、`count`（兑换数量）和 `cost`（实际消耗的绿票数）。
+兑换成功后通过 `SubTaskExtraInfo` 上报 `what: "GreenTicketPurchased"`，`details` 包含 `material`（材料名）、`material_id`、`count`（兑换数量）和 `cost`（实际消耗的绿票数）。
 
 ```json
 {

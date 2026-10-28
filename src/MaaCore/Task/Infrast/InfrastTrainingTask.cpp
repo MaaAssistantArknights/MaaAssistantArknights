@@ -6,6 +6,7 @@
 #include "Config/TaskData.h"
 #include "Controller/Controller.h"
 #include "Task/OperProgress/OperProgressFormation.h"
+#include "Task/OperProgress/OperProgressProcessTask.h"
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
 #include "Vision/BestMatcher.h"
@@ -20,6 +21,7 @@ static constexpr int MaxOperatorPages = 100;
 bool asst::InfrastTrainingTask::_run()
 {
     m_all_available_opers.clear();
+    m_training_recovery_failed = false;
 
     set_product("SkillLevel");
 
@@ -52,6 +54,9 @@ bool asst::InfrastTrainingTask::_run()
         }
 
         continue_train(skill_index_from_rect(choose_skill_analyzer.get_result().front().rect));
+        if (m_training_recovery_failed || need_exit()) {
+            return false;
+        }
     }
 
     return true;
@@ -201,6 +206,26 @@ asst::InfrastTrainingTask& asst::InfrastTrainingTask::set_continue_training(bool
 
 bool asst::InfrastTrainingTask::continue_train(int index)
 {
+    if (m_buy_with_green_tickets) {
+        OperProgressProcessTask development(m_callback, m_inst, m_task_chain);
+        development.set_task_id(m_task_id);
+        const auto result = development.continue_training_with_material_purchase(index, [&] {
+            if (need_exit() || !ProcessTask(*this, { "InfrastBegin" }).run()) {
+                return false;
+            }
+            swipe_to_the_left_of_main_ui();
+            if (!enter_facility(m_cur_facility_index)) {
+                swipe_to_right_of_main_ui();
+                if (!enter_facility(m_cur_facility_index)) {
+                    return false;
+                }
+            }
+            click_bottom_left_tab();
+            return wait_for_mastery_page();
+        });
+        m_training_recovery_failed = !result.has_value();
+        return result.value_or(false);
+    }
     static const std::vector<std::string> continue_train_task = { "InfrastTrainingContinue1",
                                                                   "InfrastTrainingContinue2",
                                                                   "InfrastTrainingContinue3" };
@@ -280,6 +305,9 @@ bool asst::InfrastTrainingTask::custom_shift()
         choose_skill_analyzer.set_templ(m_skill_img);
         const bool continued = choose_skill_analyzer.analyze() &&
                                continue_train(skill_index_from_rect(choose_skill_analyzer.get_result().front().rect));
+        if (m_training_recovery_failed || need_exit()) {
+            return false;
+        }
         if (continued) {
             // 继续专精开训后训练位同样锁定；非换班意图不换协助者
             if (!shift_opers) {

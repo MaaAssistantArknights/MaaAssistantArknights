@@ -598,6 +598,12 @@ Tag 等級（大於等於 3）對應的期望招募時限（單位：分鐘）�
 @optional
 訓練室是否繼續未完成的專精訓練。  
 :::  
+::: field buy_materials_with_green_tickets
+@type boolean
+@default false
+@optional
+僅在 `continue_training` 為 `true` 時生效，控制基建訓練完成後繼續專精時是否自動用綠票補料，與幹員培養的同名參數獨立。先嘗試加工站合成，再按目前缺口兌換已解鎖綠票商店二層的藍材料，包括遞迴合成所需的藍材料；不會購買一層商品來解鎖二層。補料後返回原訓練室繼續同一幹員的同一技能，不額外更換協助者。餘額、庫存或辨識不足時停止補料，恢復訓練室後沿用原有排班邏輯；無法恢復時停止本次訓練室處理。WPF 中對應基建設定的 ｢繼續專精時自動用綠票補料｣，預設關閉。兌換成功回報 `GreenTicketPurchased`，欄位與幹員培養相同。
+:::
 ::::
 
 <details>
@@ -1447,7 +1453,7 @@ WPF 幹員培養中可勾選 ｢自動用綠票兌換缺少的材料｣。預設
 
 兌換前核對商品名、數量、總價及餘額。庫存或餘額不足、辨識失敗或重複辨識到未減少的同一缺口時，停止目前步驟的補料。單次最多兌換 99 件，每個培養動作最多兌換 16 次；不會自動使用材料兌換券。
 
-兌換成功後透過 `SubTaskExtraInfo` 回報 `what: "OperProgressGreenTicketPurchased"`，`details` 包含 `material`（材料名）、`material_id`、`count`（兌換數量）及 `cost`（實際消耗的綠票數）。
+兌換成功後透過 `SubTaskExtraInfo` 回報 `what: "GreenTicketPurchased"`，`details` 包含 `material`（材料名）、`material_id`、`count`（兌換數量）及 `cost`（實際消耗的綠票數）。
 
 ```json
 {

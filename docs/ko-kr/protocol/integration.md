@@ -600,6 +600,12 @@ Yituliu 전송 ID, 기본값 비어 있음. `report_to_yituliu`가 true일 때�
 @optional
 훈련실에서 완료되지 않은 특화 훈련을 계속할지 여부  
 :::  
+::: field buy_materials_with_green_tickets
+@type boolean
+@default false
+@optional
+`continue_training`이 `true`일 때만 적용됩니다. 기반시설에서 훈련 완료 후 연속 마스터리를 진행할 때 녹색 티켓 보충을 허용하며, 오퍼레이터 육성의 동명 매개변수와 독립적입니다. 먼저 가공소 합성을 시도한 뒤 재귀 합성에 필요한 파란색 원료를 포함한 현재 부족분을 개방된 상점 2층에서 교환합니다. 2층 개방을 위해 1층 상품을 구매하지 않습니다. 원래 훈련실로 돌아와 협력자를 추가로 교체하지 않고 같은 오퍼레이터의 같은 스킬을 훈련합니다. 잔액·재고 부족 또는 인식 실패 시 보충을 멈추고 훈련실 복귀 후 기존 교대 처리를 따릅니다. 복귀 실패 시 이번 훈련실 처리를 중단합니다. WPF 기반시설 설정의 "연속 훈련 시 녹색 티켓으로 부족한 재료 보충"에 해당하며 기본값은 꺼짐입니다. 교환 성공 시 육성과 동일한 필드의 `GreenTicketPurchased`를 알립니다.
+:::
 ::::
 
 <details>
@@ -1448,7 +1454,7 @@ WPF 육성 설정에서 "부족한 재료를 녹색 티켓으로 교환"을 활�
 
 결제 전에 상품명, 수량, 총가격과 잔액을 확인합니다. 재고나 잔액 부족, 인식 실패 또는 구매 후에도 동일한 부족 수량이 줄지 않으면 현재 단계의 보충을 중단합니다. 한 번에 최대 99개, 육성 동작당 최대 16회 구매하며 재료 교환권은 자동 사용하지 않습니다.
 
-교환에 성공하면 `SubTaskExtraInfo`의 `what: "OperProgressGreenTicketPurchased"`를 알립니다. `details`에는 `material`(재료명), `material_id`, `count`(교환 수량), `cost`(소비한 녹색 티켓 수)가 포함됩니다.
+교환에 성공하면 `SubTaskExtraInfo`의 `what: "GreenTicketPurchased"`를 알립니다. `details`에는 `material`(재료명), `material_id`, `count`(교환 수량), `cost`(소비한 녹색 티켓 수)가 포함됩니다.
 
 ```json
 {

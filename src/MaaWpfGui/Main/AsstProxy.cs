@@ -2833,6 +2833,16 @@ public class AsstProxy
                     LocalizationHelper.GetString("Asst.Infrast.RoomsNotConfigured"));
                 break;
 
+            case "GreenTicketPurchased":
+                Instances.TaskQueueViewModel.AddLog(
+                    LocalizationHelper.GetStringFormat(
+                        "Asst.GreenTicketPurchased",
+                        subTaskDetails?["material"]?.ToString() ?? string.Empty,
+                        subTaskDetails?["count"]?.Value<int>() ?? 0,
+                        subTaskDetails?["cost"]?.Value<int>() ?? 0),
+                    UiLogColor.Info);
+                break;
+
             case "InfrastTrainingIdle":
                 Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("Asst.Infrast.TrainingIdle"), updateCardImage: true);
                 break;

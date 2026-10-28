@@ -338,16 +338,6 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
         }
         switch (msg.What)
         {
-            case "OperProgressGreenTicketPurchased":
-                Instances.TaskQueueViewModel.AddLog(
-                    LocalizationHelper.GetStringFormat(
-                        "TaskQueue.OperProgress.GreenTicketPurchasedLog",
-                        msg.Details?["material"]?.ToString() ?? string.Empty,
-                        msg.Details?["count"]?.Value<int>() ?? 0,
-                        msg.Details?["cost"]?.Value<int>() ?? 0),
-                    UiLogColor.Info);
-                break;
-
             case "OperProgressSummary":
                 var summary = msg.Details?.ToObject<ProgressSummary>();
                 Instances.TaskQueueViewModel.AddLog(

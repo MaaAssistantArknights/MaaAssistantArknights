@@ -597,6 +597,12 @@ Plan index number in the configuration. Editing in run-time is not supported.
 @optional
 Whether to continue unfinished skill training in the Training Room.  
 :::  
+::: field buy_materials_with_green_tickets
+@type boolean
+@default false
+@optional
+Only applies when `continue_training` is `true`. Enables green-ticket replenishment when infrastructure continues a completed mastery training; independent of the operator development parameter of the same name. Try workshop synthesis first, then exchange the current blue-material shortfall on the already unlocked second floor, including blue ingredients for recursive synthesis. Never buy first-floor goods to unlock the second floor. Return to the original training room and continue the same operator and skill without additionally changing the assistant. Stop replenishment if funds, stock, or recognition are insufficient; resume existing shift logic after restoring the training room, or stop handling that room if recovery fails. The WPF infrastructure setting is "Use green tickets to replenish materials when continuing training", disabled by default. Successful exchanges emit `GreenTicketPurchased` with the same fields as operator development.
+:::
 ::::
 
 <details>
@@ -1447,7 +1453,7 @@ The WPF operator development settings include "Exchange missing materials with g
 
 The product name, quantity, total price, and balance are checked before payment. Replenishment for the current step stops if stock or funds are insufficient, recognition fails, or the same shortfall does not decrease after a purchase. Each purchase is limited to 99 items and each development action to 16 purchases. Material exchange vouchers are not used automatically.
 
-A successful purchase emits `SubTaskExtraInfo` with `what: "OperProgressGreenTicketPurchased"`. Its `details` contains `material` (name), `material_id`, `count` (quantity purchased), and `cost` (green tickets spent).
+A successful purchase emits `SubTaskExtraInfo` with `what: "GreenTicketPurchased"`. Its `details` contains `material` (name), `material_id`, `count` (quantity purchased), and `cost` (green tickets spent).
 
 ```json
 {
