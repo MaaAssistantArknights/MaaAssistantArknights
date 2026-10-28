@@ -1553,7 +1553,7 @@ public class TaskQueueViewModel : Screen
         }
 
         var times = data.Sessions.Sum(s => s.Times);
-        var sanity = data.Sessions.Sum(s => s.Times * s.SanityCost);
+        var sanity = data.Sessions.Sum(s => s.Sanity);
         DailyReportSummary = LocalizationHelper.GetStringFormat(
             "TaskQueue.DailyReport.SummaryFormat", data.Sessions.Count, times, sanity);
     }

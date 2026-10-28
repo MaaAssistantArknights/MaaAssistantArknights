@@ -36,6 +36,9 @@ public static class DailyReportCollector
 {
     private static readonly Dictionary<int, CombatSession> _pendingSessions = [];
     private static readonly HashSet<int> _persistedTaskIds = [];
+
+    // 每局开始前 FightTimes 读到的代理倍率与理智消耗（已含倍率），供该局结算时累加
+    private static readonly Dictionary<int, (int Series, int SanityCost)> _pendingRounds = [];
     private static DateOnly _currentDay;
     private static DailyReportDayData _currentData = new();
 
@@ -126,11 +129,10 @@ public static class DailyReportCollector
                         }
 
                     case "FightTimes":
-                        // 单局理智消耗；FightTimes 本身不构成执行数据，未落盘的 session 只更新内存
-                        session.SanityCost = msg.Details?.Value<int?>("sanity_cost") ?? session.SanityCost;
-                        if (_persistedTaskIds.Contains(msg.TaskId))
+                        // 只暂存本局倍率与消耗，等该局 StageDrops 结算再计入；达到次数上限时不再开局，不会有对应结算
+                        if (msg.Details?.Value<int?>("sanity_cost") is { } sanityCost)
                         {
-                            SaveCurrent();
+                            _pendingRounds[msg.TaskId] = (msg.Details.Value<int?>("series") ?? 1, sanityCost);
                         }
 
                         break;
@@ -154,7 +156,16 @@ public static class DailyReportCollector
         }
 
         session.Stage = details["stage"]?["stageCode"]?.ToString() ?? session.Stage;
-        session.Times = details.Value<int?>("cur_times") ?? session.Times;
+
+        // cur_times 是结算画面识别的本局代理倍率（识别不到时缺省），不是累计场次；缺省时退回开局读到的倍率
+        var hasRound = _pendingRounds.Remove(taskId, out var round);
+        var series = details.Value<int?>("cur_times") ?? (hasRound ? round.Series : 1);
+        session.Times += series;
+        if (hasRound)
+        {
+            // 开局消耗按开局倍率计；结算倍率与之不同时（如次数上限截断）按单局消耗折算
+            session.Sanity += round.Series == series ? round.SanityCost : round.SanityCost / Math.Max(round.Series, 1) * series;
+        }
 
         // stats 的 quantity 是本链任务内累计值，最后一次回调即终值快照
         if (details["stats"] is JArray stats)
@@ -201,6 +212,7 @@ public static class DailyReportCollector
 
     private static void FinalizeSession(int taskId, DateTimeOffset endTime)
     {
+        _pendingRounds.Remove(taskId);
         if (!_pendingSessions.Remove(taskId, out var session))
         {
             return;
