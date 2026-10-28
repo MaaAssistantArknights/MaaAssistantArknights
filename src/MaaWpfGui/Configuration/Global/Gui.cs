@@ -18,6 +18,7 @@ using System.ComponentModel;
 using System.Text.Json.Serialization;
 using JetBrains.Annotations;
 using MaaWpfGui.Configuration.Factory;
+using MaaWpfGui.Constants;
 using MaaWpfGui.Constants.Enums;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Models;
@@ -113,6 +114,11 @@ public class Gui : NotifyPropertyChangedWithValue, IJsonOnDeserialized
     /// 设置指引教程版本号，用户已完成到的教程版本；完成教程时由 DoneGuide 写入 <see cref="CurrentGuideTutorialVersion"/>。
     /// </summary>
     public int GuideTutorialVersion { get; set; } = 1;
+
+    /// <summary>
+    /// 作战日报数据保留档位（全局，data/DailyReport 日文件按此裁剪）。
+    /// </summary>
+    public DailyReportRetention DailyReportRetention { get; set; } = DailyReportRetention.Unlimited;
 
     public Background Background { get; set; } = new();
 
