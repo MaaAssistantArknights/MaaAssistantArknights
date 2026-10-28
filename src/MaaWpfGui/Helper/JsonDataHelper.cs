@@ -23,7 +23,7 @@ namespace MaaWpfGui.Helper;
 public static class JsonDataHelper
 {
     private static readonly object _lock = new();
-    private static readonly ILogger _logger = Log.ForContext("SourceContext", "JsonDataHelper");
+    private static readonly ILogger _logger = Log.ForContext(typeof(JsonDataHelper));
 
     /// <summary>
     /// 从 data/{key}.json 读取对象，如果不存在则返回 defaultValue

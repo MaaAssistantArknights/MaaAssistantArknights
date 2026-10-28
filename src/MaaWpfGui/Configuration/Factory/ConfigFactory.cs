@@ -45,7 +45,7 @@ public static class ConfigFactory
     // TODO: write backup method. WIP: https://github.com/Cryolitia/MaaAssistantArknights/tree/config
     private static readonly string _configBakFile = Path.Combine(ConfigDir, "gui.new.json.bak");
 
-    private static readonly ILogger _logger = Log.ForContext("SourceContext", "ConfigFactory");
+    private static readonly ILogger _logger = Log.ForContext(typeof(ConfigFactory));
 
     private static readonly Lock _lock = new();
     private static Task? _saveTask;
