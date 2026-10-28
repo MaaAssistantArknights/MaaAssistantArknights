@@ -420,8 +420,6 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
                 message.AppendLine();
                 message.AppendLine(LocalizationHelper.GetString("Error.CrashMessage.Help.Tip"));
 
-                _logger.Warning(message.ToString());
-
                 MessageBoxHelper.Show(
                     message.ToString(),
                     LocalizationHelper.GetString("Error.CrashDialog.Title"),

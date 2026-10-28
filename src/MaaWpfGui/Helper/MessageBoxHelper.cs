@@ -16,12 +16,15 @@
 #nullable enable
 
 using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Text;
 using System.Windows;
 using System.Windows.Forms;
 using HandyControl.Data;
 using MaaWpfGui.Constants;
+using Serilog;
 
 namespace MaaWpfGui.Helper;
 
@@ -30,6 +33,8 @@ namespace MaaWpfGui.Helper;
 /// </summary>
 public static class MessageBoxHelper
 {
+    private static readonly ILogger _logger = Log.ForContext(typeof(MessageBoxHelper));
+
     /// <summary>
     /// OK text
     /// </summary>
@@ -97,7 +102,13 @@ public static class MessageBoxHelper
         iconBrushKey = string.IsNullOrEmpty(iconBrushKey) ? brushKey : iconBrushKey;
     }
 
-    public static MessageBoxResult Show(MessageBoxInfo info) => HandyControl.Controls.MessageBox.Show(info);
+    public static MessageBoxResult Show(MessageBoxInfo info)
+        => ShowWithLog(
+            info.Caption,
+            info.Message,
+            GetVisibleButtons(info.Button, info.ConfirmContent, info.CancelContent, info.YesContent, info.NoContent),
+            () => HandyControl.Controls.MessageBox.Show(info),
+            out _);
 
     public static MessageBoxResult Show(
         string messageBoxText,
@@ -134,10 +145,17 @@ public static class MessageBoxHelper
         yes = string.IsNullOrEmpty(yes) ? LocalizationHelper.GetString("Common.Yes") : yes;
         no = string.IsNullOrEmpty(no) ? LocalizationHelper.GetString("Common.No") : no;
 
+        var visibleButtons = GetVisibleButtons(buttons, ok, cancel, yes, no);
+
         if (useNativeMethod)
         {
             // TaskDialog 不支持指定默认按钮，defaultResult 仅对 HandyControl 弹窗生效
-            return ShowNative(ownerWindow, messageBoxText, string.Empty, caption, buttons, icon, false, ok, cancel, yes, no);
+            return ShowWithLog(
+                caption,
+                messageBoxText,
+                visibleButtons,
+                () => ShowNative(ownerWindow, messageBoxText, string.Empty, caption, buttons, icon, false, ok, cancel, yes, no),
+                out _);
         }
         else
         {
@@ -156,11 +174,8 @@ public static class MessageBoxHelper
                 DefaultResult = defaultResult ?? MessageBoxResult.None,
             };
 
-            DateTime startTime = DateTime.Now;
+            var result = ShowWithLog(caption, messageBoxText, visibleButtons, () => HandyControl.Controls.MessageBox.Show(info), out var duration);
 
-            var result = HandyControl.Controls.MessageBox.Show(info);
-
-            var duration = DateTime.Now - startTime;
             if (duration.TotalSeconds <= 1)
             {
                 AchievementTrackerHelper.Instance.Unlock(AchievementIds.QuickCloser);
@@ -168,6 +183,71 @@ public static class MessageBoxHelper
 
             return result;
         }
+    }
+
+    /// <summary>
+    /// 按 <paramref name="buttons"/> 列出弹窗上可见的按钮及其显示文案，顺序与 HandyControl 弹窗 Ctrl+C 复制文本一致。
+    /// </summary>
+    /// <param name="buttons">按钮组合。</param>
+    /// <param name="ok">确定按钮文案，为空时以枚举名代替。</param>
+    /// <param name="cancel">取消按钮文案，为空时以枚举名代替。</param>
+    /// <param name="yes">是按钮文案，为空时以枚举名代替。</param>
+    /// <param name="no">否按钮文案，为空时以枚举名代替。</param>
+    /// <returns>可见按钮对应的结果值与文案。</returns>
+    private static (MessageBoxResult Result, string Text)[] GetVisibleButtons(MessageBoxButton buttons, string? ok, string? cancel, string? yes, string? no)
+    {
+        static (MessageBoxResult, string) Entry(MessageBoxResult result, string? text)
+            => (result, string.IsNullOrEmpty(text) ? result.ToString() : text);
+
+        return buttons switch
+        {
+            MessageBoxButton.OK => [Entry(MessageBoxResult.OK, ok)],
+            MessageBoxButton.OKCancel => [Entry(MessageBoxResult.OK, ok), Entry(MessageBoxResult.Cancel, cancel)],
+            MessageBoxButton.YesNo => [Entry(MessageBoxResult.Yes, yes), Entry(MessageBoxResult.No, no)],
+            MessageBoxButton.YesNoCancel => [Entry(MessageBoxResult.Yes, yes), Entry(MessageBoxResult.No, no), Entry(MessageBoxResult.Cancel, cancel)],
+            _ => [],
+        };
+    }
+
+    /// <summary>
+    /// 弹出前以 HandyControl 弹窗 Ctrl+C 复制文本的格式记录弹窗内容，关闭后记录用户选择与停留时长。
+    /// </summary>
+    /// <param name="caption">标题。</param>
+    /// <param name="text">正文。</param>
+    /// <param name="visibleButtons">可见按钮及其文案。</param>
+    /// <param name="show">实际弹出弹窗并返回结果的委托。</param>
+    /// <param name="duration">弹窗停留时长。</param>
+    /// <returns><paramref name="show"/> 的返回值。</returns>
+    private static MessageBoxResult ShowWithLog(
+        string? caption,
+        string? text,
+        (MessageBoxResult Result, string Text)[] visibleButtons,
+        Func<MessageBoxResult> show,
+        out TimeSpan duration)
+    {
+        var line = new string('-', 27);
+        var content = new StringBuilder()
+            .AppendLine()
+            .AppendLine(line)
+            .AppendLine(caption)
+            .AppendLine(line)
+            .AppendLine(text)
+            .AppendLine(line)
+            .AppendLine(string.Concat(visibleButtons.Select(b => b.Text + "   ")))
+            .Append(line)
+            .ToString();
+        _logger.Information("MessageBox shown:{Content}", content);
+
+        var stopwatch = Stopwatch.StartNew();
+        var result = show();
+        duration = stopwatch.Elapsed;
+
+        // Esc 或标题栏关闭可能返回不对应任何可见按钮的结果，此时只记枚举值
+        var buttonText = visibleButtons.FirstOrDefault(b => b.Result == result).Text;
+        var selected = buttonText is null ? $"({result})" : $"{buttonText} ({result})";
+        _logger.Information("MessageBox closed: {Selected}, {Duration:0.0}s", selected, duration.TotalSeconds);
+
+        return result;
     }
 
     private unsafe readonly ref struct DisposablePin<T>

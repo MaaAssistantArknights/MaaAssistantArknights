@@ -16,6 +16,7 @@ using System;
 using System.Collections.Generic;
 using HandyControl.Controls;
 using HandyControl.Data;
+using Serilog;
 using Stylet;
 
 namespace MaaWpfGui.Helper;
@@ -23,9 +24,12 @@ namespace MaaWpfGui.Helper;
 /// <summary>
 /// Growl 统一入口：主窗口可见时立即显示；不可见（未创建或最小化到托盘）时暂存，
 /// 待窗口显示或从托盘恢复后补发，避免此期间的 Growl 因无容器或不可见而静默丢失。
+/// 每次调用记录类型与内容，暂存与补发另有记录。
 /// </summary>
 public static class GrowlHelper
 {
+    private static readonly ILogger _logger = Log.ForContext(typeof(GrowlHelper));
+
     private static readonly List<Action> _pending = [];
 
     private static bool _instantiatedSubscribed;
@@ -35,59 +39,63 @@ public static class GrowlHelper
     /// </summary>
     /// <param name="message">通知内容。</param>
     public static void Info(string message)
-        => Show(() => Growl.Info(message));
+        => Show(nameof(Info), message, () => Growl.Info(message));
 
     /// <summary>
     /// 显示信息级 Growl 通知。
     /// </summary>
     /// <param name="info">通知内容与样式。</param>
     public static void Info(GrowlInfo info)
-        => Show(() => Growl.Info(info));
+        => Show(nameof(Info), info.Message, () => Growl.Info(info));
 
     /// <summary>
     /// 显示警告级 Growl 通知。
     /// </summary>
     /// <param name="message">通知内容。</param>
     public static void Warning(string message)
-        => Show(() => Growl.Warning(message));
+        => Show(nameof(Warning), message, () => Growl.Warning(message));
 
     /// <summary>
     /// 显示错误级 Growl 通知。
     /// </summary>
     /// <param name="message">通知内容。</param>
     public static void Error(string message)
-        => Show(() => Growl.Error(message));
+        => Show(nameof(Error), message, () => Growl.Error(message));
 
     /// <summary>
     /// 显示成功级 Growl 通知。
     /// </summary>
     /// <param name="message">通知内容。</param>
     public static void Success(string message)
-        => Show(() => Growl.Success(message));
+        => Show(nameof(Success), message, () => Growl.Success(message));
 
     /// <summary>
     /// 显示成功级 Growl 通知。
     /// </summary>
     /// <param name="info">通知内容与样式。</param>
     public static void Success(GrowlInfo info)
-        => Show(() => Growl.Success(info));
+        => Show(nameof(Success), info.Message, () => Growl.Success(info));
 
     /// <summary>
     /// Growl 显示的完全自定义底层入口：主窗口可见时立即执行，不可见时暂存，
     /// 待窗口显示或从托盘恢复后在 UI 线程上补发。需要围绕显示做自定义前后处理时使用。
     /// </summary>
+    /// <param name="level">通知类型（Info、Warning 等），仅用于日志。</param>
+    /// <param name="message">通知内容，仅用于日志。</param>
     /// <param name="showGrowl">执行 Growl 显示的闭包，将在 UI 线程上调用。</param>
-    public static void Show(Action showGrowl)
+    public static void Show(string level, string? message, Action showGrowl)
     {
         Execute.OnUIThread(() => {
             var win = Instances.MainWindowManager?.GetWindowIfVisible();
             if (win == null)
             {
+                _logger.Information("Growl {Level} (deferred, main window hidden): {Message}", level, message);
                 _pending.Add(showGrowl);
                 EnsureHandlersAttached();
                 return;
             }
 
+            _logger.Information("Growl {Level}: {Message}", level, message);
             showGrowl();
         });
     }
@@ -126,11 +134,12 @@ public static class GrowlHelper
         Execute.OnUIThread(() => {
             // Instantiated 时窗口可能仍不可见（启动即最小化到托盘），此时保留队列等 restored
             var win = Instances.MainWindowManager?.GetWindowIfVisible();
-            if (win == null)
+            if (win == null || _pending.Count == 0)
             {
                 return;
             }
 
+            _logger.Information("Growl flushed {Count} deferred item(s)", _pending.Count);
             foreach (var showGrowl in _pending)
             {
                 showGrowl();
