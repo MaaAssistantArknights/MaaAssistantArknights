@@ -2924,7 +2924,7 @@
         "action": "ClickSelf",
         "postDelay": 500,
         "postDelay_Doc": "点开通知面板时基建布局有缩放动画，动画期间点击无效，默认的延迟应该已经够了，多加一点保险",
-        "next": ["InfrastReward", "InfrastRecycleReward", "InfrastNotification@LoadingText", "InfrastExitReward"]
+        "next": ["InfrastNotification@LoadingText", "InfrastReward", "InfrastRecycleReward", "InfrastExitReward"]
     },
     "InfrastReward": {
         "algorithm": "OcrDetect",
@@ -2933,12 +2933,11 @@
         "roi": [0, 600, 800, 118],
         "postDelay": 1000,
         "postDelay_Doc": "UI 更新之后给这 b 玩意也加了动画，会点到一键换班",
-        "next": ["#self", "InfrastRecycleReward", "InfrastReward@LoadingText", "InfrastExitReward"]
+        "next": ["InfrastNotification#next"]
     },
     "InfrastRecycleReward": {
         "baseTask": "InfrastReward",
         "text": ["材料产出"],
-        "next": ["InfrastReward", "#self", "InfrastRecycleReward@LoadingText", "InfrastExitReward"],
         "exceededNext": ["InfrastExitReward"]
     },
     "InfrastExitReward": {

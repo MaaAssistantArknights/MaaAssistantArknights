@@ -582,7 +582,7 @@ Tag 等級（大於等於 3）對應的期望招募時限（單位：分鐘）�
 @type boolean
 @default true
 @optional
-是否收取回收站產物。適用於所有基建模式，不影響其他獎勵收取及回收站換班，也不依賴 `facility` 中是否包含 `Recycle`。
+是否收取回收站產物。  
 :::
 ::: field filename  
 @type string

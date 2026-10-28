@@ -581,7 +581,7 @@ Whether to send clues.
 @type boolean
 @default true
 @optional
-Whether to collect recycling station products. Applies to all base modes, independently of whether `facility` includes `Recycle`. Other reward collection and recycling station shifts are unaffected.
+Whether to collect recycling station products.  
 :::
 ::: field filename  
 @type string

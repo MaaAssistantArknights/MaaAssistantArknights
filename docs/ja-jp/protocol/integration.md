@@ -581,7 +581,7 @@ v6.8.0 で非推奨になりました。代わりに `medicine_expire_days` を�
 @type boolean
 @default true
 @optional
-回収所の生産物を受け取るかどうか。すべての基地モードで有効で、`facility` に `Recycle` が含まれるかどうかに依存しません。その他の報酬受取や回収所の勤務交代には影響しません。
+回収所の生産物を受け取るかどうか。  
 :::
 ::: field filename  
 @type string

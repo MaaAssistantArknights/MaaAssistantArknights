@@ -581,7 +581,7 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 @type boolean
 @default true
 @optional
-是否收取回收站产物。适用于所有基建模式，不影响其他奖励收取及回收站换班，也不依赖 `facility` 中是否包含 `Recycle`。
+是否收取回收站产物。  
 :::
 ::: field filename  
 @type string

@@ -1351,7 +1351,6 @@ DEBUG 디렉토리에 저장된 이미지는 수량 제한이 있으며 초과 �
     <system:String x:Key="Infrast.Reception.MessageBoardReceive">응접실 게시판에서 크레딧 수집</system:String>
     <system:String x:Key="Infrast.Reception.SendClue">단서 전달</system:String>
     <system:String x:Key="Infrast.Recycle.CollectEnabled">재활용 시설 생산물 수령</system:String>
-    <system:String x:Key="Infrast.Recycle.CollectEnabledTip" xml:space="preserve">비활성화하면 재활용 시설 생산물을 수령하지 않고 남겨 둡니다.&#10;다른 기반시설 보상 수령과 오퍼레이터 교대는 정상적으로 진행됩니다.</system:String>
     <system:String x:Key="Infrast.Room.AssistantChange">보조 인원 교체</system:String>
     <system:String x:Key="Infrast.Room.Control">제어 센터</system:String>
     <system:String x:Key="Infrast.Room.Dorm">숙소</system:String>

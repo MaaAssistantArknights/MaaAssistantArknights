@@ -1350,7 +1350,6 @@ To customize rotation schedules, please use ｢{key=Infrast.Mode.Custom}｣.</sy
     <system:String x:Key="Infrast.Reception.MessageBoardReceive">Credit collection from message board in Reception Room</system:String>
     <system:String x:Key="Infrast.Reception.SendClue">Send Clues</system:String>
     <system:String x:Key="Infrast.Recycle.CollectEnabled">Collect recycling station products</system:String>
-    <system:String x:Key="Infrast.Recycle.CollectEnabledTip" xml:space="preserve">Disable to leave recycling station products uncollected.&#10;Other base collection and operator shifts continue as usual.</system:String>
     <system:String x:Key="Infrast.Room.AssistantChange">Assistant change</system:String>
     <system:String x:Key="Infrast.Room.Control">Control Center</system:String>
     <system:String x:Key="Infrast.Room.Dorm">Dormitory</system:String>

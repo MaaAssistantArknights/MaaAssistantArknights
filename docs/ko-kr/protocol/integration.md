@@ -584,7 +584,7 @@ Yituliu 전송 ID, 기본값 비어 있음. `report_to_yituliu`가 true일 때�
 @type boolean
 @default true
 @optional
-재활용 시설 생산물을 수령할지 여부. 모든 기반시설 모드에 적용되며 `facility`에 `Recycle`이 포함되어 있는지와 무관합니다. 다른 보상 수령과 재활용 시설 교대에는 영향을 주지 않습니다.
+재활용 시설 생산물을 수령할지 여부.  
 :::
 ::: field filename  
 @type string

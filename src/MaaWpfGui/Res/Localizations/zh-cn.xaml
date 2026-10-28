@@ -1351,7 +1351,6 @@ DEBUG 目录下保存的图片有数量限制，超出后会自动清理旧图�
     <system:String x:Key="Infrast.Reception.MessageBoardReceive">会客室信息板收取信用</system:String>
     <system:String x:Key="Infrast.Reception.SendClue">赠送线索</system:String>
     <system:String x:Key="Infrast.Recycle.CollectEnabled">收取回收站产物</system:String>
-    <system:String x:Key="Infrast.Recycle.CollectEnabledTip">关闭后保留回收站产物，其他基建收取与换班照常执行。</system:String>
     <system:String x:Key="Infrast.Room.AssistantChange">副手换人</system:String>
     <system:String x:Key="Infrast.Room.Control">控制中枢</system:String>
     <system:String x:Key="Infrast.Room.Dorm">宿舍</system:String>
