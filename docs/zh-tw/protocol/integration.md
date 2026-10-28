@@ -1451,7 +1451,9 @@ WPF 幹員培養中可勾選 ｢自動用綠票兌換缺少的材料｣。預設
 
 `buy_materials_with_green_tickets`: boolean, optional, default `false`.
 
-兌換前核對商品名、數量、總價及餘額。庫存或餘額不足、辨識失敗或重複辨識到未減少的同一缺口時，停止目前步驟的補料。單次最多兌換 99 件，每個培養動作最多兌換 16 次；不會自動使用材料兌換券。
+兌換前核對商品名、數量、總價及餘額。庫存或餘額不足、辨識失敗或重複辨識到未減少的同一缺口時，停止目前步驟的補料。不會自動使用材料兌換券。
+
+幹員培養與基建繼續專精共用任務資源中 `GreenTicket@Store@ReplenishItem-*` 的單價及兩版月度限額，資料參考 [PRTS 階段二](https://prts.wiki/w/采购中心#tabber-阶段2)。有限庫存會在選擇數量前、付款前現場核對；缺口超過剩餘額度時只兌換剩餘部分，恢復原頁面後結束目前步驟的補料。庫存為零、餘額不足或無法辨識時不付款，不分批兌換。預設 `GreenTicket@Store@ReplenishShopProfile` 的 `specialParams` 為 `[0]`。確認目前伺服器已更新扭轉醇、輕錳礦、研磨石、RMA70-12 不限購後，在 `resource/tasks/tasks.json` 將該節點改為 `[1]` 並重新啟動；恢復 `[0]` 可切回。中國大陸服公告為 [2026 年 11 月 1 日 12:00 更新](https://ak.hypergryph.com/news/0787)，其他伺服器依實際更新情況切換。
 
 兌換成功後透過 `SubTaskExtraInfo` 回報 `what: "GreenTicketPurchased"`，`details` 包含 `material`（材料名）、`material_id`、`count`（兌換數量）及 `cost`（實際消耗的綠票數）。
 

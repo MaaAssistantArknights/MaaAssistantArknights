@@ -1,6 +1,8 @@
 #include "GreenTicketShoppingTask.h"
 
 #include <algorithm>
+#include <charconv>
+#include <cstdint>
 #include <ranges>
 
 #include "Config/Miscellaneous/ItemConfig.h"
@@ -8,9 +10,11 @@
 #include "Controller/Controller.h"
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
+#include "Utils/StringMisc.hpp"
 #include "Vision/FeatureMatcher.h"
 #include "Vision/Miscellaneous/MaterialSynthesisImageAnalyzer.h"
 #include "Vision/OCRer.h"
+#include "Vision/RegionOCRer.h"
 
 asst::GreenTicketShoppingTask::GreenTicketShoppingTask(
     const AsstCallback& callback,
@@ -25,11 +29,31 @@ asst::GreenTicketShoppingTask::GreenTicketShoppingTask(
 bool asst::GreenTicketShoppingTask::_run()
 {
     const auto& item_id = m_item_id;
-    const int count = m_count;
-    constexpr int MaxPurchaseCount = 99;
+    int count = m_count;
+    m_purchased_count = 0;
     constexpr int MaxSwipes = 8;
-    if (need_exit() || count <= 0 || count > MaxPurchaseCount || ItemData.get_item_rarity(item_id) != 2 ||
-        !run_task("GreenTicket@Store@ReplenishStoreBegin") ||
+    const auto limits = Task.get("GreenTicket@Store@ReplenishItem-" + item_id);
+    const auto& profiles = Task.get("GreenTicket@Store@ReplenishShopProfile")->special_params;
+    if (!limits || limits->special_params.size() != 3 || profiles.size() != 1 || profiles.front() < 0 ||
+        profiles.front() > 1) {
+        LogWarn << __FUNCTION__ << "unknown green ticket material or shop profile" << item_id;
+        return false;
+    }
+    const int profile = profiles.front();
+    const int unit_price = limits->special_params[0];
+    const int monthly_limit = limits->special_params[profile + 1];
+    if (unit_price <= 0 || monthly_limit < 0 || count <= 0) {
+        LogWarn << __FUNCTION__ << "invalid green ticket shop request" << item_id << count << monthly_limit << profile;
+        return false;
+    }
+    if (monthly_limit != 0) {
+        count = std::min(count, monthly_limit);
+    }
+    const auto stock_sufficient = [&](std::optional<int> remaining) {
+        return remaining ? *remaining >= count && (monthly_limit == 0 || *remaining <= monthly_limit)
+                         : monthly_limit == 0;
+    };
+    if (need_exit() || ItemData.get_item_rarity(item_id) != 2 || !run_task("GreenTicket@Store@ReplenishStoreBegin") ||
         !run_task("GreenTicket@Store@ReplenishChooseTicketType")) {
         return false;
     }
@@ -71,12 +95,22 @@ bool asst::GreenTicketShoppingTask::_run()
         return names && names->size() == 1 && names->front().score >= 0.9;
     };
     const auto initial_image = ctrler()->get_image();
-    if (!recognize_name(initial_image) ||
+    const auto initial_stock = read_remaining_stock(initial_image);
+    if (initial_stock) {
+        count = std::min(count, *initial_stock);
+    }
+    const auto initial_balance =
+        MaterialSynthesisImageAnalyzer::read_number(initial_image, "GreenTicket@Store@ReplenishPurchaseBalance");
+    if (count <= 0 || !recognize_name(initial_image) ||
         MaterialSynthesisImageAnalyzer::read_number(initial_image, "GreenTicket@Store@ReplenishPurchaseQuantity") !=
-            1) {
+            1 ||
+        !stock_sufficient(initial_stock) || !initial_balance ||
+        static_cast<std::int64_t>(unit_price) * count > *initial_balance) {
+        LogWarn << __FUNCTION__ << "purchase identity, remaining stock or balance could not be confirmed" << item_id
+                << count << initial_stock.value_or(-1) << profile;
         return false;
     }
-    // 仅逐个增加至本次缺口，付款前复核实际数量，库存或余额导致数量被钳制时不付款。
+    // 只兑换缺口与现场剩余额度的较小值；付款前复核，数量被界面额外钳制时不付款。
     for (int selected = 1; selected < count; ++selected) {
         if (need_exit() || !run_task("Store@Increase")) {
             return false;
@@ -89,15 +123,20 @@ bool asst::GreenTicketShoppingTask::_run()
         MaterialSynthesisImageAnalyzer::read_number(image, "GreenTicket@Store@ReplenishPurchaseTotalPrice");
     const auto balance =
         MaterialSynthesisImageAnalyzer::read_number(image, "GreenTicket@Store@ReplenishPurchaseBalance");
-    if (need_exit() || !recognize_name(image) || !selected || *selected != count || !price || *price <= 0 || !balance ||
-        *balance < *price) {
-        LogWarn << __FUNCTION__ << "purchase identity, quantity, price or balance could not be confirmed" << item_id;
+    const auto remaining = read_remaining_stock(image);
+    if (need_exit() || !recognize_name(image) || !selected || !price || !balance || *selected != count ||
+        !stock_sufficient(remaining) || *price <= 0 || *balance < *price ||
+        static_cast<std::int64_t>(unit_price) * count != *price) {
+        LogWarn << __FUNCTION__ << "purchase identity, quantity, stock, price or balance could not be confirmed"
+                << item_id << count << selected.value_or(-1) << remaining.value_or(-1) << price.value_or(-1)
+                << balance.value_or(-1);
         return false;
     }
     // 保留默认识别重试以等待收据；付款节点只执行一次，任务链不会回到付款节点。
     if (!run_task("GreenTicket@Store@ReplenishPurchase")) {
         return false;
     }
+    m_purchased_count = count;
     auto info = basic_info_with_what("GreenTicketPurchased");
     info["details"] = json::object {
         { "material", ItemData.get_item_name(item_id) },
@@ -112,4 +151,36 @@ bool asst::GreenTicketShoppingTask::_run()
 bool asst::GreenTicketShoppingTask::run_task(const std::string& name, int retry_times)
 {
     return ProcessTask(*this, { name }).set_retry_times(retry_times).run();
+}
+
+std::optional<int> asst::GreenTicketShoppingTask::read_remaining_stock(const cv::Mat& image)
+{
+    const auto task = Task.get<OcrTaskInfo>("GreenTicket@Store@ReplenishPurchaseStock");
+    RegionOCRer analyzer(image);
+    analyzer.set_task_info(task);
+    analyzer.set_use_raw(true);
+    analyzer.set_required({});
+    analyzer.set_replace({});
+    const auto result = analyzer.analyze();
+    if (!result || result->score < 0.9) {
+        return std::nullopt;
+    }
+    auto text = result->text;
+    utils::string_trim(text);
+    for (const auto& prefix : task->text) {
+        if (prefix.empty() || !text.starts_with(prefix)) {
+            continue;
+        }
+        auto number = text.substr(prefix.size());
+        utils::string_trim(number);
+        if (number.empty() || number.front() < '0' || number.front() > '9') {
+            continue;
+        }
+        int remaining = 0;
+        const auto [end, error] = std::from_chars(number.data(), number.data() + number.size(), remaining);
+        if (error == std::errc {} && end == number.data() + number.size()) {
+            return remaining;
+        }
+    }
+    return std::nullopt;
 }

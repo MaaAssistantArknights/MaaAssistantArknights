@@ -6,13 +6,14 @@
 #include "Config/TaskData.h"
 #include "Config/TemplResource.h"
 #include "MaaUtils/NoWarningCV.hpp"
+#include "Task/Miscellaneous/GreenTicketShoppingTask.h"
 #include "Vision/Miscellaneous/MaterialSynthesisImageAnalyzer.h"
 #include <cassert>
 #include <iostream>
 
 int main(int argc, char** argv)
 {
-    assert(argc == 3);
+    assert(argc == 3 || argc == 4);
     assert(AsstSetUserDir(argv[2]));
     assert(AsstLoadResource(argv[1]));
     auto handle = AsstCreate();
@@ -20,6 +21,21 @@ int main(int argc, char** argv)
     assert(asst::ItemData.get_item_formula("30013").at("30012") == 5);
     assert(asst::Task.get("GreenTicket@Store@ReplenishSecondFloor")->next.empty());
     assert(asst::Task.get("GreenTicket@Store@ReplenishPurchasedConfirm")->next.empty());
+
+    const cv::Mat blank(720, 1280, CV_8UC3, cv::Scalar(32, 32, 32));
+    assert(!asst::GreenTicketShoppingTask::read_remaining_stock(blank));
+    if (argc == 4) {
+        const auto screenshot = cv::imread(argv[3]);
+        assert(!screenshot.empty());
+        cv::Mat image;
+        cv::resize(screenshot, image, cv::Size(1280, 720));
+        const auto stock = asst::GreenTicketShoppingTask::read_remaining_stock(image);
+        assert(stock == 15);
+        assert(
+            asst::MaterialSynthesisImageAnalyzer::read_number(image, "GreenTicket@Store@ReplenishPurchaseBalance") ==
+            14'365);
+        std::cout << "Live sugar purchase screenshot: remaining stock = " << *stock << '\n';
+    }
 
     const auto& templ = asst::TemplResource::get_instance().get_templ("30073");
     assert(!templ.empty());

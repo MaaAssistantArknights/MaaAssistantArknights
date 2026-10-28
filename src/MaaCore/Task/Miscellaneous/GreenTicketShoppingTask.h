@@ -15,6 +15,10 @@ public:
         m_count = count;
     }
 
+    static std::optional<int> read_remaining_stock(const cv::Mat& image);
+
+    bool is_shortfall_filled() const noexcept { return m_purchased_count == m_count; }
+
 protected:
     bool _run() override;
 
@@ -23,5 +27,6 @@ private:
 
     std::string m_item_id;
     int m_count = 0;
+    int m_purchased_count = 0;
 };
 }

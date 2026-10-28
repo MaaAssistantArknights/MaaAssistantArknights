@@ -207,8 +207,7 @@ asst::OperProgressProcessTask::ResultDetail asst::OperProgressProcessTask::execu
     const std::function<ResultDetail()>& execute)
 {
     std::unordered_map<std::string, int> previous_shortfalls;
-    constexpr int MaxPurchases = 16;
-    for (int purchases = 0; !need_exit(); ++purchases) {
+    while (!need_exit()) {
         m_material_shortfall.reset();
         m_material_shortfall_context.clear();
         const ResultDetail result = execute();
@@ -218,7 +217,7 @@ asst::OperProgressProcessTask::ResultDetail asst::OperProgressProcessTask::execu
             return result;
         }
         const auto [item_id, count] = *m_material_shortfall;
-        if (ItemData.get_item_rarity(item_id) != 2 || purchases >= MaxPurchases) {
+        if (ItemData.get_item_rarity(item_id) != 2) {
             return result;
         }
         const auto context = m_step_context + ":" + m_material_shortfall_context + ":" + item_id;
@@ -241,7 +240,7 @@ asst::OperProgressProcessTask::ResultDetail asst::OperProgressProcessTask::execu
             LogWarn << __FUNCTION__ << "failed to restore development page after green ticket purchase";
             return located;
         }
-        if (!purchased) {
+        if (!purchased || !shopping.is_shortfall_filled()) {
             return ResultDetail::ResourceInsufficient;
         }
         previous_shortfalls[context] = count;
