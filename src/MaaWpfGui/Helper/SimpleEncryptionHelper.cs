@@ -21,7 +21,7 @@ namespace MaaWpfGui.Helper;
 
 public static class SimpleEncryptionHelper
 {
-    private static readonly ILogger _logger = Log.ForContext("SourceContext", "SimpleEncryptionHelper");
+    private static readonly ILogger _logger = Log.ForContext(typeof(SimpleEncryptionHelper));
 
     /// <summary>
     /// 使用数据保护API对明文进行加密。

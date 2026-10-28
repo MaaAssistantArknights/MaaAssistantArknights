@@ -27,7 +27,7 @@ namespace MaaWpfGui.Extensions;
 /// </summary>
 public static class ComboBoxExtensions
 {
-    private static readonly ILogger _logger = Log.ForContext("SourceContext", "ComboBoxExtensions");
+    private static readonly ILogger _logger = Log.ForContext(typeof(ComboBoxExtensions));
     private const string InputTag = "TextInput";
     private const string SelectionTag = "Selection";
 

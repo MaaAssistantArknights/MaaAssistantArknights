@@ -25,7 +25,7 @@ namespace MaaWpfGui.Helper;
 public static class MarkdownDataHelper
 {
     private static readonly object _lock = new();
-    private static readonly ILogger _logger = Log.ForContext("SourceContext", "MarkdownDataHelper");
+    private static readonly ILogger _logger = Log.ForContext(typeof(MarkdownDataHelper));
 
     /// <summary>
     /// 从 data/{key}.md 读取文本内容，如果文件不存在则返回 defaultValue

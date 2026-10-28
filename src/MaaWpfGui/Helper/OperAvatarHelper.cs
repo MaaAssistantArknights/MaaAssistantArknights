@@ -33,7 +33,7 @@ namespace MaaWpfGui.Helper;
 /// </summary>
 public static class OperAvatarHelper
 {
-    private static readonly ILogger _logger = Log.ForContext("SourceContext", "OperAvatarHelper");
+    private static readonly ILogger _logger = Log.ForContext(typeof(OperAvatarHelper));
 
     /// <summary>
     /// 未拥有干员头像的色彩保留比例（0=全灰，1=原色）。
