@@ -1984,6 +1984,8 @@ DEBUG 目录下保存的图片有数量限制，超出后会自动清理旧图�
     <system:String x:Key="TaskQueue.DailyReport.NoData">暂无作战记录</system:String>
     <system:String x:Key="TaskQueue.DailyReport.OpenButton">作战日报</system:String>
     <system:String x:Key="TaskQueue.DailyReport.PickDate">选择日期</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Rate.PerBattle">每场掉落</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Rate.SanityPerItem">单件理智</system:String>
     <system:String x:Key="TaskQueue.DailyReport.Retention">保留时间</system:String>
     <system:String x:Key="TaskQueue.DailyReport.Retention.ConfirmPruneMessage" xml:space="preserve">切换后将删除 {0} 至 {1} 共 {2} 天的作战记录，此操作无法撤销。&#10;是否继续？</system:String>
     <system:String x:Key="TaskQueue.DailyReport.Retention.Day">近 1 日</system:String>

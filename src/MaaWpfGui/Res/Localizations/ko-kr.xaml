@@ -1984,6 +1984,8 @@ MAA는 비설치형 응용 프로그램으로, 삭제 시 레지스트리 항목
     <system:String x:Key="TaskQueue.DailyReport.NoData">작전 기록이 없습니다</system:String>
     <system:String x:Key="TaskQueue.DailyReport.OpenButton">작전 일보</system:String>
     <system:String x:Key="TaskQueue.DailyReport.PickDate">날짜 선택</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Rate.PerBattle">전투당 드롭</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Rate.SanityPerItem">개당 이성</system:String>
     <system:String x:Key="TaskQueue.DailyReport.Retention">보관 기간</system:String>
     <system:String x:Key="TaskQueue.DailyReport.Retention.ConfirmPruneMessage" xml:space="preserve">전환하면 {0}부터 {1}까지 {2}일간의 작전 기록이 삭제되며, 되돌릴 수 없습니다.&#10;계속하시겠습니까?</system:String>
     <system:String x:Key="TaskQueue.DailyReport.Retention.Day">최근 1일</system:String>

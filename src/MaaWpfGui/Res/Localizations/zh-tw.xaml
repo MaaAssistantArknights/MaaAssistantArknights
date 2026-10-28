@@ -1984,6 +1984,8 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
     <system:String x:Key="TaskQueue.DailyReport.NoData">暫無作戰記錄</system:String>
     <system:String x:Key="TaskQueue.DailyReport.OpenButton">作戰日報</system:String>
     <system:String x:Key="TaskQueue.DailyReport.PickDate">選擇日期</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Rate.PerBattle">每場掉落</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Rate.SanityPerItem">單件理智</system:String>
     <system:String x:Key="TaskQueue.DailyReport.Retention">保留時間</system:String>
     <system:String x:Key="TaskQueue.DailyReport.Retention.ConfirmPruneMessage" xml:space="preserve">切換後將刪除 {0} 至 {1} 共 {2} 天的作戰紀錄，此操作無法復原。&#10;是否繼續？</system:String>
     <system:String x:Key="TaskQueue.DailyReport.Retention.Day">近 1 日</system:String>

@@ -1983,6 +1983,8 @@ Enter ｢SSReopen-XX｣ once to clear all normal stages with Auto-Deploy in SS r
     <system:String x:Key="TaskQueue.DailyReport.NoData">No combat records</system:String>
     <system:String x:Key="TaskQueue.DailyReport.OpenButton">Daily Report</system:String>
     <system:String x:Key="TaskQueue.DailyReport.PickDate">Pick a date</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Rate.PerBattle">Per battle</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Rate.SanityPerItem">Sanity per item</system:String>
     <system:String x:Key="TaskQueue.DailyReport.Retention">Retention</system:String>
     <system:String x:Key="TaskQueue.DailyReport.Retention.ConfirmPruneMessage" xml:space="preserve">Switching will delete combat records for {2} day(s) from {0} to {1}. This cannot be undone.&#10;Continue?</system:String>
     <system:String x:Key="TaskQueue.DailyReport.Retention.Day">Last day</system:String>

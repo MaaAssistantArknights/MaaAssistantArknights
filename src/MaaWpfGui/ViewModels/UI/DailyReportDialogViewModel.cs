@@ -570,12 +570,15 @@ public class DailyReportDialogViewModel : PropertyChangedBase
             session.Stage,
             timeText,
             BuildMetaText(session.Times, session.Sanity, session.MedicinesUsed + session.ExpiringMedicinesUsed, session.StonesUsed),
-            session.Drops);
+            session.Drops,
+            session.Times,
+            session.Sanity);
     }
 
     private static DailyReportRowViewModel BuildRow(string stage, List<CombatSession> sessions)
     {
         var times = sessions.Sum(s => s.Times);
+        var sanity = sessions.Sum(s => s.Sanity);
         var drops = new Dictionary<string, int>();
         foreach (var drop in sessions.SelectMany(s => s.Drops))
         {
@@ -585,8 +588,10 @@ public class DailyReportDialogViewModel : PropertyChangedBase
         return new DailyReportRowViewModel(
             stage,
             string.Empty,
-            BuildMetaText(times, sessions.Sum(s => s.Sanity), sessions.Sum(s => s.MedicinesUsed + s.ExpiringMedicinesUsed), sessions.Sum(s => s.StonesUsed)),
-            drops);
+            BuildMetaText(times, sanity, sessions.Sum(s => s.MedicinesUsed + s.ExpiringMedicinesUsed), sessions.Sum(s => s.StonesUsed)),
+            drops,
+            times,
+            sanity);
     }
 
     private static string BuildMetaText(int times, int sanity, int medicines, int stones)

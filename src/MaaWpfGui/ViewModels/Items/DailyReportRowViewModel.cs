@@ -30,13 +30,15 @@ public class DailyReportRowViewModel
     /// <param name="timeText">时间文本（日维度为起止钟点，聚合维度为空）。</param>
     /// <param name="metaText">场次与资源消耗文本。</param>
     /// <param name="drops">掉落合计。</param>
-    public DailyReportRowViewModel(string stage, string timeText, string metaText, Dictionary<string, int> drops)
+    /// <param name="times">本行场次，用于计算每场掉落。</param>
+    /// <param name="sanity">本行理智消耗，用于计算单件理智。</param>
+    public DailyReportRowViewModel(string stage, string timeText, string metaText, Dictionary<string, int> drops, int times, int sanity)
     {
         Stage = stage;
         TimeText = timeText;
         MetaText = metaText;
         Drops = drops.OrderByDescending(d => d.Value)
-            .Select(d => new DailyReportDropItemViewModel(d.Key, d.Value))
+            .Select(d => new DailyReportDropItemViewModel(d.Key, d.Value, stage, times, sanity))
             .ToList();
     }
 

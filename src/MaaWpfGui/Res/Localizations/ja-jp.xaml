@@ -1985,6 +1985,8 @@ MAA は非インストール型のアプリケーションであり、レジス�
     <system:String x:Key="TaskQueue.DailyReport.NoData">戦闘記録はありません</system:String>
     <system:String x:Key="TaskQueue.DailyReport.OpenButton">戦闘日報</system:String>
     <system:String x:Key="TaskQueue.DailyReport.PickDate">日付を選択</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Rate.PerBattle">1 戦あたり</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Rate.SanityPerItem">1 個あたり理性</system:String>
     <system:String x:Key="TaskQueue.DailyReport.Retention">保持期間</system:String>
     <system:String x:Key="TaskQueue.DailyReport.Retention.ConfirmPruneMessage" xml:space="preserve">切り替えると {0} から {1} までの {2} 日分の作戦記録が削除されます。この操作は元に戻せません。&#10;続行しますか？</system:String>
     <system:String x:Key="TaskQueue.DailyReport.Retention.Day">過去 1 日</system:String>

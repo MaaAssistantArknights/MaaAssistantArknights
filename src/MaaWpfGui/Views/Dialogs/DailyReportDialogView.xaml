@@ -520,9 +520,11 @@
                             Text="{Binding MetaText}"
                             TextWrapping="Wrap" />
                         <ItemsControl
+                            Cursor="Hand"
                             ItemTemplate="{StaticResource DropCellTemplate}"
                             ItemsPanel="{StaticResource DropGridPanel}"
-                            ItemsSource="{Binding Drops}" />
+                            ItemsSource="{Binding Drops}"
+                            PreviewMouseLeftButtonUp="OnDropClick" />
                     </StackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>
@@ -577,5 +579,62 @@
                 </Style>
             </controls:TextBlock.Style>
         </controls:TextBlock>
+
+        <!--  掉率浮层：所有掉落格共用一个，点击时由代码设置目标与内容  -->
+        <Popup
+            x:Name="DropRatePopup"
+            AllowsTransparency="True"
+            Placement="Bottom"
+            PopupAnimation="Fade"
+            StaysOpen="False">
+            <Border
+                Margin="8"
+                Padding="12,8"
+                Background="{DynamicResource RegionBrush}"
+                BorderBrush="{DynamicResource BorderBrush}"
+                BorderThickness="1"
+                CornerRadius="6"
+                Effect="{DynamicResource EffectShadow2}">
+                <StackPanel>
+                    <TextBlock
+                        Margin="0,0,0,6"
+                        FontWeight="Bold"
+                        Foreground="{DynamicResource PrimaryTextBrush}"
+                        Text="{Binding RateTitle}" />
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" MinWidth="48" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <TextBlock
+                            Margin="0,0,16,2"
+                            Foreground="{DynamicResource SecondaryTextBrush}"
+                            Text="{DynamicResource TaskQueue.DailyReport.Rate.PerBattle}" />
+                        <TextBlock
+                            Grid.Column="1"
+                            HorizontalAlignment="Right"
+                            FontWeight="Bold"
+                            Foreground="{DynamicResource PrimaryTextBrush}"
+                            Text="{Binding PerBattleText}" />
+                        <TextBlock
+                            Grid.Row="1"
+                            Margin="0,0,16,0"
+                            Foreground="{DynamicResource SecondaryTextBrush}"
+                            Text="{DynamicResource TaskQueue.DailyReport.Rate.SanityPerItem}" />
+                        <TextBlock
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            HorizontalAlignment="Right"
+                            FontWeight="Bold"
+                            Foreground="{DynamicResource PrimaryTextBrush}"
+                            Text="{Binding SanityPerItemText}" />
+                    </Grid>
+                </StackPanel>
+            </Border>
+        </Popup>
     </Grid>
 </hc:Window>
