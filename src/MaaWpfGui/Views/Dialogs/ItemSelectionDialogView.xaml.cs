@@ -15,6 +15,7 @@
 
 using System.Collections.Generic;
 using System.Windows;
+using MaaWpfGui.Helper;
 using MaaWpfGui.ViewModels.Dialogs;
 
 namespace MaaWpfGui.Views.Dialogs;
@@ -50,9 +51,9 @@ public partial class ItemSelectionDialogView
         }
         else
         {
-            MessageBox.Show(
-                Helper.LocalizationHelper.GetString("Connection.PleaseSelectItem"),
-                Helper.LocalizationHelper.GetString("Common.Tip"),
+            MessageBoxHelper.Show(
+                LocalizationHelper.GetString("Connection.PleaseSelectItem"),
+                LocalizationHelper.GetString("Common.Tip"),
                 MessageBoxButton.OK,
                 MessageBoxImage.Warning);
         }
