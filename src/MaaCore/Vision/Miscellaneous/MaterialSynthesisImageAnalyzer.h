@@ -28,7 +28,7 @@ public:
         std::optional<Rect> item_roi = std::nullopt,
         std::optional<Rect> quantity_roi = std::nullopt);
 
-    static std::optional<int> read_number(const cv::Mat& image, const std::string& task_name);
+    static std::optional<int> read_number(const cv::Mat& image, const std::string& task_name, bool exact = true);
 
     const MatchRect& get_result() const noexcept { return m_result; }
 

@@ -2,7 +2,6 @@
 
 #include <algorithm>
 #include <cctype>
-#include <charconv>
 #include <string_view>
 #include <utility>
 
@@ -12,7 +11,8 @@
 #include "Config/TaskData.h"
 #include "Config/TemplResource.h"
 #include "Utils/Logger.hpp"
-#include "Vision/Matcher.h"
+#include "Utils/StringMisc.hpp"
+#include "Vision/BestMatcher.h"
 #include "Vision/OCRer.h"
 #include "Vision/RegionOCRer.h"
 
@@ -35,8 +35,7 @@ std::optional<int> parse_quantity_number(std::string_view text)
         return std::nullopt;
     }
     int value = 0;
-    const auto [end, error] = std::from_chars(text.data(), text.data() + text.size(), value);
-    if (error != std::errc {} || end != text.data() + text.size()) {
+    if (!utils::chars_to_number<int, true>(text, value)) {
         return std::nullopt;
     }
     return value;
@@ -59,7 +58,8 @@ std::optional<std::pair<int, int>> parse_material_quantity(std::string_view text
 std::optional<std::string> read_quantity_text(
     const cv::Mat& image,
     const std::shared_ptr<OcrTaskInfo>& task,
-    std::optional<Rect> roi = std::nullopt)
+    std::optional<Rect> roi = std::nullopt,
+    bool exact = true)
 {
     RegionOCRer analyzer(image);
     analyzer.set_task_info(task);
@@ -67,12 +67,14 @@ std::optional<std::string> read_quantity_text(
         analyzer.set_roi(*roi);
     }
     analyzer.set_use_raw(true);
-    analyzer.set_replace({});
+    if (exact) {
+        analyzer.set_replace({});
+    }
     const auto result = analyzer.analyze();
     if (!result) {
         return std::nullopt;
     }
-    if (result->score < 0.9) {
+    if (exact && result->score < 0.9) {
         // 宽槽的留白可能拉低整行识别分数，仅接受独立文本检测得到的相同完整数字。
         OCRer confirmation(image, roi.value_or(task->roi));
         const auto confirmed = confirmation.analyze();
@@ -108,7 +110,7 @@ bool asst::MaterialSynthesisImageAnalyzer::analyze(
         return false;
     }
 
-    Matcher matcher(m_image);
+    BestMatcher matcher(m_image);
     matcher.set_task_info(task_ptr);
     if (roi) {
         matcher.set_roi(*roi);
@@ -124,23 +126,16 @@ bool asst::MaterialSynthesisImageAnalyzer::analyze(
         cv::Mat scaled_template;
         cv::resize(item_template, scaled_template, cv::Size(), template_scale, template_scale, cv::INTER_LINEAR);
 
-        matcher.set_templ(std::move(scaled_template));
-        const auto result = matcher.analyze();
-        if (result && result->score > m_result.score) {
-            m_second_best_score = m_result.score;
-            m_result = *result;
-            m_result.templ_name = item_id;
-        }
-        else if (result && result->score > m_second_best_score) {
-            m_second_best_score = result->score;
-        }
+        matcher.append_templ(item_id, scaled_template);
     }
 
-    if (m_result.templ_name.empty() || task_ptr->templ_thresholds.empty() ||
-        m_result.score < task_ptr->templ_thresholds.front()) {
+    const auto result = matcher.analyze();
+    if (!result || task_ptr->templ_thresholds.empty() || result->score < task_ptr->templ_thresholds.front()) {
         LogWarn << __FUNCTION__ << "material template match failed" << task_name;
         return false;
     }
+    m_result = MatchRect { result->rect, result->score, result->templ_info.name };
+    m_second_best_score = result->second_best_score;
 
     LogInfo << __FUNCTION__ << "material template matched" << m_result.templ_name
             << ItemData.get_item_name(m_result.templ_name) << m_result.score;
@@ -185,12 +180,23 @@ std::optional<asst::MissingMaterial> asst::MaterialSynthesisImageAnalyzer::obser
     return MissingMaterial { material_analyzer.get_result().templ_name, quantity->first, quantity->second };
 }
 
-std::optional<int> asst::MaterialSynthesisImageAnalyzer::read_number(const cv::Mat& image, const std::string& task_name)
+std::optional<int>
+    asst::MaterialSynthesisImageAnalyzer::read_number(const cv::Mat& image, const std::string& task_name, bool exact)
 {
     const auto task = Task.get<OcrTaskInfo>(task_name);
     if (!task) {
         return std::nullopt;
     }
-    const auto text = material_synthesis::read_quantity_text(image, task);
-    return text ? material_synthesis::parse_quantity_number(*text) : std::nullopt;
+    const auto text = material_synthesis::read_quantity_text(image, task, std::nullopt, exact);
+    if (!text) {
+        return std::nullopt;
+    }
+    if (exact) {
+        return material_synthesis::parse_quantity_number(*text);
+    }
+    const auto start = text->find_first_of("0123456789");
+    int value = 0;
+    return start != std::string::npos && utils::chars_to_number(std::string_view(*text).substr(start), value)
+               ? std::optional(value)
+               : std::nullopt;
 }

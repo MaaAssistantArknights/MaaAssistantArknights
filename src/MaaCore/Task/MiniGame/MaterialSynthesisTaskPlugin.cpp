@@ -1,8 +1,6 @@
 #include "MaterialSynthesisTaskPlugin.h"
 
 #include <algorithm>
-#include <cctype>
-#include <charconv>
 #include <limits>
 #include <unordered_set>
 
@@ -13,7 +11,6 @@
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
 #include "Vision/Miscellaneous/MaterialSynthesisImageAnalyzer.h"
-#include "Vision/RegionOCRer.h"
 
 namespace
 {
@@ -125,7 +122,10 @@ asst::MaterialSynthesisTaskPlugin::Result asst::MaterialSynthesisTaskPlugin::syn
         }
 
         const auto current_material_id = recognize_material();
-        const auto count = read_number("MiniGame@MaterialSynthesis@RequiredCount", m_collect_material_shortfall);
+        const auto count = MaterialSynthesisImageAnalyzer::read_number(
+            ctrler()->get_image(),
+            "MiniGame@MaterialSynthesis@RequiredCount",
+            m_collect_material_shortfall);
         if (!current_material_id || *current_material_id != material_id || !count || *count <= 0) {
             result = Result::Unsupported;
             break;
@@ -403,39 +403,6 @@ bool asst::MaterialSynthesisTaskPlugin::return_to_workshop()
         }
     }
     return detect_task("MiniGame@MaterialSynthesis@Workshop");
-}
-
-std::optional<int> asst::MaterialSynthesisTaskPlugin::read_number(const std::string& task_name, bool exact)
-{
-    if (exact) {
-        return MaterialSynthesisImageAnalyzer::read_number(ctrler()->get_image(), task_name);
-    }
-    RegionOCRer analyzer(ctrler()->get_image());
-    analyzer.set_task_info(task_name);
-    analyzer.set_use_raw(true);
-    if (!analyzer.analyze()) {
-        return std::nullopt;
-    }
-
-    std::string digits;
-    for (const unsigned char character : analyzer.get_result().text) {
-        if (std::isdigit(character)) {
-            digits.push_back(static_cast<char>(character));
-        }
-        else if (!digits.empty()) {
-            break;
-        }
-    }
-    if (digits.empty()) {
-        return std::nullopt;
-    }
-
-    int value = 0;
-    const auto [ptr, error] = std::from_chars(digits.data(), digits.data() + digits.size(), value);
-    if (error != std::errc {} || ptr != digits.data() + digits.size()) {
-        return std::nullopt;
-    }
-    return value;
 }
 
 std::optional<std::string> asst::MaterialSynthesisTaskPlugin::recognize_material()
