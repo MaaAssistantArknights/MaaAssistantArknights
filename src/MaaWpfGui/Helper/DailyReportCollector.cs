@@ -27,7 +27,7 @@ namespace MaaWpfGui.Helper;
 /// <summary>
 /// 作战日报采集器：把 Fight 链的执行期回调（掉落、用药、碎石、次数）聚合为
 /// <see cref="CombatSession"/>，回调即写当日文件。
-/// 一条 Fight 链（独立理智作战或库存保持的单条计划）对应一条 session；
+/// 一条 Fight 链（独立理智作战或库存保持的单条计划）通常对应一条 session，别传复刻一条链打多关时按关卡拆成多条；
 /// 零场次的链不产生记录，session 在首个执行数据到达时才落盘。
 /// 回调均由 AsstProxy 投递至 UI 线程，内部状态无需加锁。
 /// </summary>
@@ -157,7 +157,14 @@ public static class DailyReportCollector
             return;
         }
 
-        session.Stage = details["stage"]?["stageCode"]?.ToString() ?? session.Stage;
+        // 别传复刻一条链依次打多个关卡，关卡变化时结束当前 session 另起一条，各关的场次、理智与掉落分开记录
+        var stageCode = details["stage"]?["stageCode"]?.ToString();
+        if (!string.IsNullOrEmpty(stageCode) && !string.IsNullOrEmpty(session.Stage) && stageCode != session.Stage)
+        {
+            session = StartNextStageSession(taskId);
+        }
+
+        session.Stage = stageCode ?? session.Stage;
 
         // cur_times 是结算画面识别的本局代理倍率（识别不到时缺省），不是累计场次；缺省时退回开局读到的倍率
         var hasRound = _pendingRounds.Remove(taskId, out var round);
@@ -169,7 +176,7 @@ public static class DailyReportCollector
             session.Sanity += round.Series == series ? round.SanityCost : round.SanityCost / Math.Max(round.Series, 1) * series;
         }
 
-        // stats 的 quantity 是本链任务内累计值，最后一次回调即终值快照
+        // stats 的 quantity 是本关卡内的累计值（别传复刻每关从零计），最后一次回调即终值快照
         if (details["stats"] is JArray stats)
         {
             var drops = new Dictionary<string, int>();
@@ -197,6 +204,25 @@ public static class DailyReportCollector
         }
 
         PersistIfNeeded(taskId, session);
+    }
+
+    /// <summary>
+    /// 结束任务当前的 session 并以同一任务 id 新开一条，起始时刻接上一条的结束时刻。
+    /// 新关卡开局时暂存的倍率与理智属于新 session，不随旧 session 结束而丢弃。
+    /// </summary>
+    private static CombatSession StartNextStageSession(int taskId)
+    {
+        var now = DateTimeOffset.UtcNow;
+        var hasRound = _pendingRounds.Remove(taskId, out var round);
+        FinalizeSession(taskId, now);
+        if (hasRound)
+        {
+            _pendingRounds[taskId] = round;
+        }
+
+        var next = new CombatSession { StartTime = now };
+        _pendingSessions[taskId] = next;
+        return next;
     }
 
     private static bool IsEmpty(CombatSession session) =>
