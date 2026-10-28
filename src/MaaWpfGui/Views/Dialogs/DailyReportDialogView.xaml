@@ -182,7 +182,13 @@
                                 </Style>
                             </Calendar.CalendarButtonStyle>
                             <Calendar.CalendarDayButtonStyle>
+                                <!--
+                                    日期格横向填满所在列（HandyControl 默认固定宽 32，列宽约 34 时左右各留 1px，多日色带会断成一格一段）；
+                                    圆形元素（单日选中、悬停、今日圆环、记录角标、数字）放在居中的 32 宽区域内保持正圆
+                                -->
                                 <Style BasedOn="{StaticResource CalendarDayButtonStyle}" TargetType="CalendarDayButton">
+                                    <Setter Property="Width" Value="NaN" />
+                                    <Setter Property="HorizontalAlignment" Value="Stretch" />
                                     <Setter Property="Margin" Value="0,1" />
                                     <Setter Property="Template">
                                         <Setter.Value>
@@ -199,44 +205,51 @@
                                                             </MultiBinding>
                                                         </Border.CornerRadius>
                                                     </Border>
-                                                    <Border
-                                                        x:Name="HoverBackground"
-                                                        Background="{DynamicResource PrimaryBrush}"
-                                                        CornerRadius="16"
-                                                        Opacity="0.25"
-                                                        Visibility="Collapsed" />
-                                                    <Ellipse
-                                                        x:Name="TodayRing"
-                                                        Margin="2"
-                                                        Stroke="{DynamicResource PrimaryBrush}"
-                                                        StrokeThickness="1.5">
-                                                        <Ellipse.Visibility>
-                                                            <MultiBinding Converter="{x:Static converters:DailyReportCalendarDayConverter.Instance}" ConverterParameter="Today">
-                                                                <Binding Path="DataContext" RelativeSource="{RelativeSource TemplatedParent}" />
-                                                                <Binding Path="Tag" RelativeSource="{RelativeSource AncestorType=Calendar}" />
-                                                            </MultiBinding>
-                                                        </Ellipse.Visibility>
-                                                    </Ellipse>
-                                                    <ContentPresenter
-                                                        x:Name="NormalText"
-                                                        HorizontalAlignment="Center"
-                                                        VerticalAlignment="Center"
-                                                        TextElement.Foreground="{DynamicResource PrimaryTextBrush}" />
-                                                    <Ellipse
-                                                        x:Name="RecordMark"
-                                                        Width="4"
-                                                        Height="4"
-                                                        Margin="0,4,5,0"
-                                                        HorizontalAlignment="Right"
-                                                        VerticalAlignment="Top"
-                                                        Fill="{DynamicResource PrimaryBrush}">
-                                                        <Ellipse.Visibility>
-                                                            <MultiBinding Converter="{x:Static converters:DailyReportCalendarDayConverter.Instance}" ConverterParameter="Record">
-                                                                <Binding Path="DataContext" RelativeSource="{RelativeSource TemplatedParent}" />
-                                                                <Binding Path="Tag" RelativeSource="{RelativeSource AncestorType=Calendar}" />
-                                                            </MultiBinding>
-                                                        </Ellipse.Visibility>
-                                                    </Ellipse>
+                                                    <Grid Width="32" HorizontalAlignment="Center">
+                                                        <Border
+                                                            x:Name="SingleBackground"
+                                                            Background="{DynamicResource PrimaryBrush}"
+                                                            CornerRadius="16"
+                                                            Visibility="Collapsed" />
+                                                        <Border
+                                                            x:Name="HoverBackground"
+                                                            Background="{DynamicResource PrimaryBrush}"
+                                                            CornerRadius="16"
+                                                            Opacity="0.25"
+                                                            Visibility="Collapsed" />
+                                                        <Ellipse
+                                                            x:Name="TodayRing"
+                                                            Margin="2"
+                                                            Stroke="{DynamicResource PrimaryBrush}"
+                                                            StrokeThickness="1.5">
+                                                            <Ellipse.Visibility>
+                                                                <MultiBinding Converter="{x:Static converters:DailyReportCalendarDayConverter.Instance}" ConverterParameter="Today">
+                                                                    <Binding Path="DataContext" RelativeSource="{RelativeSource TemplatedParent}" />
+                                                                    <Binding Path="Tag" RelativeSource="{RelativeSource AncestorType=Calendar}" />
+                                                                </MultiBinding>
+                                                            </Ellipse.Visibility>
+                                                        </Ellipse>
+                                                        <ContentPresenter
+                                                            x:Name="NormalText"
+                                                            HorizontalAlignment="Center"
+                                                            VerticalAlignment="Center"
+                                                            TextElement.Foreground="{DynamicResource PrimaryTextBrush}" />
+                                                        <Ellipse
+                                                            x:Name="RecordMark"
+                                                            Width="4"
+                                                            Height="4"
+                                                            Margin="0,1,1,0"
+                                                            HorizontalAlignment="Right"
+                                                            VerticalAlignment="Top"
+                                                            Fill="{DynamicResource PrimaryBrush}">
+                                                            <Ellipse.Visibility>
+                                                                <MultiBinding Converter="{x:Static converters:DailyReportCalendarDayConverter.Instance}" ConverterParameter="Record">
+                                                                    <Binding Path="DataContext" RelativeSource="{RelativeSource TemplatedParent}" />
+                                                                    <Binding Path="Tag" RelativeSource="{RelativeSource AncestorType=Calendar}" />
+                                                                </MultiBinding>
+                                                            </Ellipse.Visibility>
+                                                        </Ellipse>
+                                                    </Grid>
                                                 </Grid>
                                                 <ControlTemplate.Triggers>
                                                     <Trigger Property="IsInactive" Value="True">
@@ -249,9 +262,22 @@
                                                     <Trigger Property="IsMouseOver" Value="True">
                                                         <Setter TargetName="HoverBackground" Property="Visibility" Value="Visible" />
                                                     </Trigger>
-                                                    <DataTrigger Value="True">
+                                                    <DataTrigger Value="Single">
                                                         <DataTrigger.Binding>
-                                                            <MultiBinding Converter="{x:Static converters:DailyReportCalendarDayConverter.Instance}" ConverterParameter="InRange">
+                                                            <MultiBinding Converter="{x:Static converters:DailyReportCalendarDayConverter.Instance}" ConverterParameter="Range">
+                                                                <Binding Path="DataContext" RelativeSource="{RelativeSource Self}" />
+                                                                <Binding Path="Tag" RelativeSource="{RelativeSource AncestorType=Calendar}" />
+                                                            </MultiBinding>
+                                                        </DataTrigger.Binding>
+                                                        <Setter TargetName="SingleBackground" Property="Visibility" Value="Visible" />
+                                                        <Setter TargetName="HoverBackground" Property="Visibility" Value="Collapsed" />
+                                                        <Setter TargetName="NormalText" Property="TextElement.Foreground" Value="{DynamicResource TextIconBrush}" />
+                                                        <Setter TargetName="RecordMark" Property="Fill" Value="{DynamicResource TextIconBrush}" />
+                                                        <Setter TargetName="TodayRing" Property="Stroke" Value="{DynamicResource TextIconBrush}" />
+                                                    </DataTrigger>
+                                                    <DataTrigger Value="Band">
+                                                        <DataTrigger.Binding>
+                                                            <MultiBinding Converter="{x:Static converters:DailyReportCalendarDayConverter.Instance}" ConverterParameter="Range">
                                                                 <Binding Path="DataContext" RelativeSource="{RelativeSource Self}" />
                                                                 <Binding Path="Tag" RelativeSource="{RelativeSource AncestorType=Calendar}" />
                                                             </MultiBinding>

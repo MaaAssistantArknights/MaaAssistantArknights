@@ -25,8 +25,9 @@ namespace MaaWpfGui.Converters;
 /// <summary>
 /// 作战日报日历日期格转换器：values[0] 为日期格日期，values[1] 为 <see cref="DailyReportCalendarState"/>，
 /// ConverterParameter 指定输出项：
-/// <c>Record</c> 有记录角标的 Visibility；<c>Today</c> 今日圆环的 Visibility；<c>InRange</c> 是否在查看时段内（bool）；
-/// <c>RangeCorner</c> 时段色带的 CornerRadius（首尾日圆角，中间日直角，连成一条）。
+/// <c>Record</c> 有记录角标的 Visibility；<c>Today</c> 今日圆环的 Visibility；
+/// <c>Range</c> 选中形态：时段仅一天为 <c>Single</c>（画圆），多日为 <c>Band</c>（画色带），不在时段内为 <c>None</c>；
+/// <c>RangeCorner</c> 色带的 CornerRadius（首尾日外侧圆角，中间日直角，连成一条）。
 /// </summary>
 public class DailyReportCalendarDayConverter : IMultiValueConverter
 {
@@ -45,7 +46,7 @@ public class DailyReportCalendarDayConverter : IMultiValueConverter
         {
             return kind switch
             {
-                "InRange" => false,
+                "Range" => "None",
                 "RangeCorner" => new CornerRadius(Radius),
                 _ => Visibility.Collapsed,
             };
@@ -55,7 +56,12 @@ public class DailyReportCalendarDayConverter : IMultiValueConverter
         {
             "Record" => state.RecordedDays.Contains(date.Date) ? Visibility.Visible : Visibility.Collapsed,
             "Today" => date.Date == state.Today ? Visibility.Visible : Visibility.Collapsed,
-            "InRange" => state.GetRangePosition(date) != RangePosition.None,
+            "Range" => state.GetRangePosition(date) switch
+            {
+                RangePosition.None => "None",
+                RangePosition.Single => "Single",
+                _ => "Band",
+            },
             "RangeCorner" => state.GetRangePosition(date) switch
             {
                 RangePosition.Start => new CornerRadius(Radius, 0, 0, Radius),
