@@ -102,7 +102,7 @@
     },
     "MiniGame@MaterialSynthesis@Obtain": {
         "baseTask": "CreditShop-Bought",
-        "template": "CreditShop-Bought.png",
+        "template": "ItemObtainedIcon.png",
         "maxTimes": 20,
         "next": ["MiniGame@MaterialSynthesis@Workshop"],
         "preDelay": 1200,

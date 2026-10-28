@@ -90,7 +90,7 @@
     },
     "SS@Store@PurchasedConfirm": {
         "baseTask": "CreditShop-Bought",
-        "template": "CreditShop-Bought.png",
+        "template": "ItemObtainedIcon.png",
         "next": ["SS@Store@PurchasedConfirm", "SS@Store@ClickItem", "SS@Store@Swipe"]
     },
     "SS@Store@Swipe": {
