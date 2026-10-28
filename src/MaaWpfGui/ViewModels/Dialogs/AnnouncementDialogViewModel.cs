@@ -252,9 +252,18 @@ public class AnnouncementDialogViewModel : Screen
                 AnnouncementInfo,
                 body);
             */
-            _logger.Information("{Body}", body);
             AnnouncementInfo = body;
             DoNotRemindThisAnnouncementAgain = false;
+
+            var newSections = AnnouncementSections.Where(section => section.IsNew).Select(section => section.Content).ToList();
+            if (newSections.Count == 0)
+            {
+                _logger.Information("Announcement updated without (NEW!!!) section");
+            }
+            else
+            {
+                _logger.Information("New announcement:\n{Content}", string.Join("\n\n", newSections));
+            }
         }
 
         ETagCache.Set(response, url);
