@@ -42,6 +42,9 @@ public static class DailyReportCollector
     private static DateOnly _currentDay;
     private static DailyReportDayData _currentData = new();
 
+    // 当日文件无法读取且未能备份时置 false，暂停写入以免覆盖原文件；下次切换游戏日时重新判断
+    private static bool _currentWritable = true;
+
     /// <summary>
     /// 订阅 AsstProxy 回调；在 AsstProxy 实例就绪后调用一次。
     /// </summary>
@@ -258,7 +261,7 @@ public static class DailyReportCollector
         }
 
         _currentDay = today;
-        _currentData = DailyReportStore.Load(today) ?? new DailyReportDayData();
+        _currentData = DailyReportStore.Load(today, out _currentWritable) ?? new DailyReportDayData();
     }
 
     private static void SaveCurrent()
@@ -268,7 +271,11 @@ public static class DailyReportCollector
             EnsureCurrentDay();
         }
 
-        DailyReportStore.Save(_currentDay, _currentData);
+        if (_currentWritable)
+        {
+            DailyReportStore.Save(_currentDay, _currentData);
+        }
+
         Instances.TaskQueueViewModel.UpdateDailyReportSummary();
     }
 }

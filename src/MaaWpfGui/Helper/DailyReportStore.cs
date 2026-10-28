@@ -44,11 +44,21 @@ public static class DailyReportStore
 
     /// <summary>
     /// 加载单日数据；崩溃遗留的无结束时刻记录在加载时补齐。
+    /// 无法读取或解析的文件改名为 .bak 留存，避免随后的保存用空数据覆盖原内容。
     /// </summary>
     /// <param name="day">游戏日。</param>
     /// <returns>当日数据；文件不存在或损坏时为 null。</returns>
-    public static DailyReportDayData? Load(DateOnly day)
+    public static DailyReportDayData? Load(DateOnly day) => Load(day, out _);
+
+    /// <summary>
+    /// 加载单日数据，并告知能否安全写入当日文件。
+    /// </summary>
+    /// <param name="day">游戏日。</param>
+    /// <param name="writable">文件不存在、正常加载或已备份为 .bak 时为 true；备份失败时为 false，此时写入会覆盖无法读取的原文件。</param>
+    /// <returns>当日数据；文件不存在或损坏时为 null。</returns>
+    public static DailyReportDayData? Load(DateOnly day, out bool writable)
     {
+        writable = true;
         var filePath = GetFilePath(day);
         if (!File.Exists(filePath))
         {
@@ -60,6 +70,7 @@ public static class DailyReportStore
             var data = JsonConvert.DeserializeObject<DailyReportDayData>(File.ReadAllText(filePath));
             if (data?.Sessions is null)
             {
+                writable = BackupCorrupted(filePath, day);
                 return null;
             }
 
@@ -74,13 +85,31 @@ public static class DailyReportStore
         }
         catch (Exception ex)
         {
+            // 解析失败或读取失败都把原文件留存为 .bak：调用方随后会以空数据新建当日文件，原内容不会被覆盖
             _logger.Error(ex, "Failed to load daily report for {Day}", day);
+            writable = BackupCorrupted(filePath, day);
             return null;
+        }
+    }
+
+    private static bool BackupCorrupted(string filePath, DateOnly day)
+    {
+        try
+        {
+            File.Move(filePath, filePath + ".bak", true);
+            _logger.Warning("Corrupted daily report for {Day} moved to {Path}", day, filePath + ".bak");
+            return true;
+        }
+        catch (Exception ex)
+        {
+            _logger.Error(ex, "Failed to back up corrupted daily report for {Day}", day);
+            return false;
         }
     }
 
     /// <summary>
     /// 保存单日数据（全量覆盖写当日文件，历史文件不受影响）。
+    /// 先写临时文件再替换，写入中途崩溃或断电时原文件保持完整。
     /// </summary>
     /// <param name="day">游戏日。</param>
     /// <param name="data">当日数据。</param>
@@ -97,7 +126,10 @@ public static class DailyReportStore
             try
             {
                 Directory.CreateDirectory(DirectoryPath);
-                File.WriteAllText(GetFilePath(day), JsonConvert.SerializeObject(data, Formatting.Indented));
+                var filePath = GetFilePath(day);
+                var tempPath = filePath + ".tmp";
+                File.WriteAllText(tempPath, JsonConvert.SerializeObject(data, Formatting.Indented));
+                File.Move(tempPath, filePath, true);
             }
             catch (Exception ex)
             {
