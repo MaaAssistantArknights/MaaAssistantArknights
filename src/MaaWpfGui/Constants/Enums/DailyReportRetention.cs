@@ -11,7 +11,7 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
-namespace MaaWpfGui.Constants;
+namespace MaaWpfGui.Constants.Enums;
 
 /// <summary>
 /// 作战日报数据保留档位，按游戏日文件裁剪。

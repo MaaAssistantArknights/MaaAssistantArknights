@@ -1990,12 +1990,12 @@ Enter ｢SSReopen-XX｣ once to clear all normal stages with Auto-Deploy in SS r
     <system:String x:Key="TaskQueue.DailyReport.Stat.Records">Records</system:String>
     <system:String x:Key="TaskQueue.DailyReport.Stat.Sessions">Battles</system:String>
     <system:String x:Key="TaskQueue.DailyReport.Stat.Sanity">Sanity used</system:String>
-    <system:String x:Key="TaskQueue.DailyReport.Stat.Medicines">Potions</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Stat.Medicines">Sanity Potions</system:String>
     <system:String x:Key="TaskQueue.DailyReport.Stat.DropKinds">Drop kinds</system:String>
     <system:String x:Key="TaskQueue.DailyReport.Meta.SessionsFormat">{0} battles</system:String>
     <system:String x:Key="TaskQueue.DailyReport.Meta.SanityFormat">{0} sanity</system:String>
-    <system:String x:Key="TaskQueue.DailyReport.Meta.MedicinesFormat">{0} potions</system:String>
-    <system:String x:Key="TaskQueue.DailyReport.Meta.StonesFormat">{0} originium</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Meta.MedicinesFormat">{0} Sanity Potion(s)</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Meta.StonesFormat">{0} Originite Prime</system:String>
     <system:String x:Key="TaskQueue.DailyReport.NoData">No combat records</system:String>
     <system:String x:Key="TaskQueue.DailyReport.View.Stage">By stage</system:String>
     <system:String x:Key="TaskQueue.DailyReport.View.Material">By item</system:String>
