@@ -1976,7 +1976,6 @@ Enter ｢SSReopen-XX｣ once to clear all normal stages with Auto-Deploy in SS r
     <system:String x:Key="TaskQueue.DailyReport.Dimension.Month">Month</system:String>
     <system:String x:Key="TaskQueue.DailyReport.Dimension.Week">Week</system:String>
     <system:String x:Key="TaskQueue.DailyReport.Dimension.Year">Year</system:String>
-    <system:String x:Key="TaskQueue.DailyReport.Material.MoreSourcesFormat">and more ({0} stages)</system:String>
     <system:String x:Key="TaskQueue.DailyReport.Meta.MedicinesFormat">{0} Sanity Potion(s)</system:String>
     <system:String x:Key="TaskQueue.DailyReport.Meta.SanityFormat">{0} sanity</system:String>
     <system:String x:Key="TaskQueue.DailyReport.Meta.SessionsFormat">{0} battles</system:String>

@@ -47,6 +47,11 @@ public class DailyReportDropItemViewModel
     public string Name { get; }
 
     /// <summary>
+    /// Gets 悬停提示（物品名，名称在格内可能被截断）。
+    /// </summary>
+    public string ToolTip => Name;
+
+    /// <summary>
     /// Gets 数量文本。
     /// </summary>
     public string Count { get; }

@@ -1977,7 +1977,6 @@ MAA는 비설치형 응용 프로그램으로, 삭제 시 레지스트리 항목
     <system:String x:Key="TaskQueue.DailyReport.Dimension.Month">월</system:String>
     <system:String x:Key="TaskQueue.DailyReport.Dimension.Week">주</system:String>
     <system:String x:Key="TaskQueue.DailyReport.Dimension.Year">년</system:String>
-    <system:String x:Key="TaskQueue.DailyReport.Material.MoreSourcesFormat">등 {0}개 스테이지</system:String>
     <system:String x:Key="TaskQueue.DailyReport.Meta.MedicinesFormat">이성 회복제 {0}</system:String>
     <system:String x:Key="TaskQueue.DailyReport.Meta.SanityFormat">이성 {0}</system:String>
     <system:String x:Key="TaskQueue.DailyReport.Meta.SessionsFormat">{0}회</system:String>

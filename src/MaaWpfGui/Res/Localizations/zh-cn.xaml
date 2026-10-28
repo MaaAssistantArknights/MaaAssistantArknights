@@ -1977,7 +1977,6 @@ DEBUG 目录下保存的图片有数量限制，超出后会自动清理旧图�
     <system:String x:Key="TaskQueue.DailyReport.Dimension.Month">月</system:String>
     <system:String x:Key="TaskQueue.DailyReport.Dimension.Week">周</system:String>
     <system:String x:Key="TaskQueue.DailyReport.Dimension.Year">年</system:String>
-    <system:String x:Key="TaskQueue.DailyReport.Material.MoreSourcesFormat">等 {0} 关</system:String>
     <system:String x:Key="TaskQueue.DailyReport.Meta.MedicinesFormat">药剂 {0}</system:String>
     <system:String x:Key="TaskQueue.DailyReport.Meta.SanityFormat">理智 {0}</system:String>
     <system:String x:Key="TaskQueue.DailyReport.Meta.SessionsFormat">{0} 场</system:String>
