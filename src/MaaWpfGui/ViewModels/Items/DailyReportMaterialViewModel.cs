@@ -12,6 +12,7 @@
 // </copyright>
 
 #nullable enable
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Media;
@@ -22,12 +23,10 @@ using Stylet;
 namespace MaaWpfGui.ViewModels.Items;
 
 /// <summary>
-/// 按材料视图的单行：某种物品在当前时段的总获取量及各来源关卡。
+/// 按材料视图的单个物品格：某种物品在当前时段的总获取量，来源关卡放在悬停提示。
 /// </summary>
 public class DailyReportMaterialViewModel : PropertyChangedBase
 {
-    private const int MaxInlineSources = 5;
-
     /// <summary>
     /// Initializes a new instance of the <see cref="DailyReportMaterialViewModel"/> class.
     /// </summary>
@@ -42,14 +41,11 @@ public class DailyReportMaterialViewModel : PropertyChangedBase
         Image = ItemListHelper.GetItemImage(itemId);
         Count = sources.Values.Sum().FormatNumber(false);
 
-        var ordered = sources.OrderByDescending(s => s.Value).ThenBy(s => s.Key).Select(s => $"{s.Key} ×{s.Value.FormatNumber(false)}").ToList();
-        SourcesText = string.Join(" · ", ordered.Take(MaxInlineSources));
-        if (ordered.Count > MaxInlineSources)
-        {
-            SourcesText += " " + LocalizationHelper.GetStringFormat("TaskQueue.DailyReport.Material.MoreSourcesFormat", ordered.Count);
-        }
-
-        SourcesToolTip = string.Join("\n", ordered);
+        var sourceLines = sources
+            .OrderByDescending(s => s.Value)
+            .ThenBy(s => s.Key, StringComparer.Ordinal)
+            .Select(s => $"{s.Key} ×{s.Value.FormatNumber(false)}");
+        ToolTip = string.Join("\n", sourceLines.Prepend(Name));
     }
 
     /// <summary>
@@ -73,14 +69,9 @@ public class DailyReportMaterialViewModel : PropertyChangedBase
     public string Count { get; }
 
     /// <summary>
-    /// Gets 来源关卡摘要（按获取量降序，超出部分折叠为关卡总数）。
+    /// Gets 悬停提示：首行物品名，其后每行一个来源关卡及获取量（按获取量降序）。
     /// </summary>
-    public string SourcesText { get; }
-
-    /// <summary>
-    /// Gets 全部来源关卡（一行一个），供悬停提示。
-    /// </summary>
-    public string SourcesToolTip { get; }
+    public string ToolTip { get; }
 
     /// <summary>
     /// Gets or sets a value indicating whether 该物品为柱状图当前展示的物品。

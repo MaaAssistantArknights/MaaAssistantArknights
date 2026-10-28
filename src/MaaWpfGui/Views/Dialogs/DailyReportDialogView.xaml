@@ -19,6 +19,46 @@
     s:View.ActionTarget="{Binding}"
     Background="{DynamicResource RegionBrush}"
     mc:Ignorable="d">
+    <hc:Window.Resources>
+        <!--  掉落格：图标、名称、数量自上而下，按关卡与按材料两种视图共用  -->
+        <DataTemplate x:Key="DropCellTemplate">
+            <StackPanel
+                Margin="2,0,2,8"
+                Background="Transparent"
+                ToolTip="{Binding ToolTip}">
+                <Image
+                    Width="40"
+                    Height="40"
+                    HorizontalAlignment="Center"
+                    Source="{Binding Image}" />
+                <!--
+                    名称最多两行：固定两行高度让同一行格子的数量对齐，完整名称在悬停提示；
+                    WrapWithOverflow 让宽于格子的单词整词截断加省略号，而不是从词中间折行
+                -->
+                <TextBlock
+                    Height="28"
+                    Margin="0,2,0,0"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Top"
+                    FontSize="11"
+                    Foreground="{DynamicResource SecondaryTextBrush}"
+                    LineHeight="14"
+                    LineStackingStrategy="BlockLineHeight"
+                    Text="{Binding Name}"
+                    TextAlignment="Center"
+                    TextTrimming="CharacterEllipsis"
+                    TextWrapping="WrapWithOverflow" />
+                <TextBlock
+                    HorizontalAlignment="Center"
+                    FontSize="12"
+                    FontWeight="Bold"
+                    Text="{Binding Count}" />
+            </StackPanel>
+        </DataTemplate>
+        <ItemsPanelTemplate x:Key="DropGridPanel">
+            <UniformGrid Columns="10" />
+        </ItemsPanelTemplate>
+    </hc:Window.Resources>
     <Grid Margin="12">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -479,114 +519,46 @@
                             Foreground="{DynamicResource SecondaryTextBrush}"
                             Text="{Binding MetaText}"
                             TextWrapping="Wrap" />
-                        <ItemsControl ItemsSource="{Binding Drops}">
-                            <ItemsControl.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <WrapPanel />
-                                </ItemsPanelTemplate>
-                            </ItemsControl.ItemsPanel>
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate>
-                                    <StackPanel
-                                        Width="68"
-                                        Margin="0,0,4,4"
-                                        ToolTip="{Binding Name}">
-                                        <Image
-                                            Width="40"
-                                            Height="40"
-                                            HorizontalAlignment="Center"
-                                            Source="{Binding Image}" />
-                                        <TextBlock
-                                            HorizontalAlignment="Center"
-                                            FontWeight="Bold"
-                                            Text="{Binding Count}" />
-                                        <TextBlock
-                                            HorizontalAlignment="Center"
-                                            FontSize="11"
-                                            Foreground="{DynamicResource SecondaryTextBrush}"
-                                            Text="{Binding Name}"
-                                            TextTrimming="CharacterEllipsis" />
-                                    </StackPanel>
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                        </ItemsControl>
+                        <ItemsControl
+                            ItemTemplate="{StaticResource DropCellTemplate}"
+                            ItemsPanel="{StaticResource DropGridPanel}"
+                            ItemsSource="{Binding Drops}" />
                     </StackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
 
-        <ListBox
+        <hc:ScrollViewer
             Grid.Row="4"
-            Padding="0"
-            HorizontalContentAlignment="Stretch"
-            d:ItemsSource="{d:SampleData ItemCount=3}"
-            hc:ScrollViewer.IsInertiaEnabled="True"
-            Background="Transparent"
-            BorderThickness="0"
-            ItemsSource="{Binding Materials}"
-            PreviewMouseLeftButtonUp="{s:Action OnMaterialClick}"
-            ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-            Style="{DynamicResource NoSelectedHighlightListBoxStyle}"
-            VirtualizingPanel.ScrollUnit="Pixel"
+            HorizontalScrollBarVisibility="Disabled"
+            IsInertiaEnabled="True"
+            VerticalScrollBarVisibility="Auto"
             Visibility="{Binding IsMaterialView, Converter={StaticResource Boolean2VisibilityConverter}}">
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <Border
-                        Margin="-10,0,0,0"
-                        Padding="10,4,10,4"
-                        Background="Transparent"
-                        BorderThickness="3,0,0,0"
-                        Cursor="Hand">
-                        <Border.Style>
-                            <Style TargetType="Border">
-                                <Setter Property="BorderBrush" Value="Transparent" />
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding IsSelected}" Value="True">
-                                        <Setter Property="BorderBrush" Value="{DynamicResource PrimaryBrush}" />
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </Border.Style>
-                        <Grid MinHeight="40">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="32" />
-                                <ColumnDefinition Width="140" />
-                                <ColumnDefinition Width="90" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-                            <Image
-                                Width="32"
-                                Height="32"
-                                VerticalAlignment="Center"
-                                Source="{Binding Image}" />
-                            <TextBlock
-                                Grid.Column="1"
-                                Margin="8,0"
-                                VerticalAlignment="Center"
-                                Text="{Binding Name}"
-                                TextTrimming="CharacterEllipsis"
-                                ToolTip="{Binding Name}" />
-                            <TextBlock
-                                Grid.Column="2"
-                                VerticalAlignment="Center"
-                                FontWeight="Bold"
-                                Text="{Binding Count}" />
-                            <!--  透明背景让整列都参与命中测试，悬停空白处也显示完整来源列表  -->
-                            <Border
-                                Grid.Column="3"
-                                Background="Transparent"
-                                ToolTip="{Binding SourcesToolTip}">
-                                <TextBlock
-                                    VerticalAlignment="Center"
-                                    Foreground="{DynamicResource SecondaryTextBrush}"
-                                    Text="{Binding SourcesText}"
-                                    TextTrimming="CharacterEllipsis" />
-                            </Border>
-                        </Grid>
-                    </Border>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
+            <ItemsControl
+                Margin="0,0,10,0"
+                ItemsPanel="{StaticResource DropGridPanel}"
+                ItemsSource="{Binding Materials}"
+                PreviewMouseLeftButtonUp="{s:Action OnMaterialClick}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <!--  选中项（柱状图当前展示的物品）用高亮底标示  -->
+                        <Border CornerRadius="4" Cursor="Hand">
+                            <Border.Style>
+                                <Style TargetType="Border">
+                                    <Setter Property="Background" Value="Transparent" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsSelected}" Value="True">
+                                            <Setter Property="Background" Value="{DynamicResource MouseOverRegionBrushOpacity75}" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Border.Style>
+                            <ContentPresenter Margin="0,4,0,0" ContentTemplate="{StaticResource DropCellTemplate}" />
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </hc:ScrollViewer>
 
         <controls:TextBlock
             Grid.Row="4"
