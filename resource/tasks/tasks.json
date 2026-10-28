@@ -1808,7 +1808,7 @@
     },
     "MiningActivitiesEarnRewards": {
         "baseTask": "CreditShop-Bought",
-        "template": "CreditShop-Bought.png",
+        "template": "ItemObtainedIcon.png",
         "next": ["#self", "MiningActivitiesReturn"]
     },
     "MiningActivitiesReturn": {
@@ -1880,7 +1880,7 @@
     },
     "OrundumActivitiesEarnRewards": {
         "baseTask": "CreditShop-Bought",
-        "template": "CreditShop-Bought.png",
+        "template": "ItemObtainedIcon.png",
         "next": ["#self", "OrundumActivitiesReturn"]
     },
     "OrundumActivitiesReturn": {
@@ -2020,7 +2020,7 @@
     },
     "SpecialAccessActivitiesEarnRewards": {
         "baseTask": "CreditShop-Bought",
-        "template": "CreditShop-Bought.png",
+        "template": "ItemObtainedIcon.png",
         "next": ["#self", "SpecialAccessActivitiesReturn"]
     },
     "SpecialAccessActivitiesReturn": {
@@ -2385,6 +2385,7 @@
         "next": ["CreditShop-Bought", "CreditShop-BuyIt@LoadingText", "CreditShop-NoMoney"]
     },
     "CreditShop-Bought": {
+        "template": "ItemObtainedIcon.png",
         "doc": [
             "在信用商店购买物品后，识别屏幕中 <获得物资> 文字上方的 Icon，并点击屏幕下方按钮靠下位置",
             "考虑到淡入淡出动画，本任务不宜使用 ClickSelf，若识别上方 Icon 则可能点到其他商店页面，若识别下方按钮则容易点到其他商品"
@@ -6098,7 +6099,7 @@
     },
     "GreenTicket@Store@PurchasedConfirm": {
         "baseTask": "CreditShop-Bought",
-        "template": "CreditShop-Bought.png",
+        "template": "ItemObtainedIcon.png",
         "next": [
             "GreenTicket@Store@PurchasedConfirm",
             "GreenTicket@Store@SecondFloor-Check",
@@ -6161,7 +6162,7 @@
     },
     "GreenTicket@Store@SecondFloorPurchasedConfirm": {
         "baseTask": "GreenTicket@Store@PurchasedConfirm",
-        "template": "CreditShop-Bought.png",
+        "template": "ItemObtainedIcon.png",
         "next": [
             "GreenTicket@Store@SecondFloorPurchasedConfirm",
             "GreenTicket@Store@ClickSecondFloorItemList#next",
@@ -6212,7 +6213,7 @@
     },
     "YellowTicket@Store@PurchasedConfirm": {
         "baseTask": "CreditShop-Bought",
-        "template": "CreditShop-Bought.png",
+        "template": "ItemObtainedIcon.png",
         "next": [
             "YellowTicket@Store@PurchasedConfirm",
             "YellowTicket@Store@ClickItem_Headhunting_Permit",
@@ -6263,7 +6264,7 @@
     },
     "RedTicket@Store@PurchasedConfirm": {
         "baseTask": "CreditShop-Bought",
-        "template": "CreditShop-Bought.png",
+        "template": "ItemObtainedIcon.png",
         "maxTimes": 10,
         "next": ["RedTicket@Store@ChooseTicketTypeSelected", "RedTicket@Store@PurchasedConfirm"]
     },
