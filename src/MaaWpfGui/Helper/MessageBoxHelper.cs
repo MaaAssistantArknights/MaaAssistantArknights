@@ -231,8 +231,8 @@ public static class MessageBoxHelper
 
         var duration = stopwatch.Elapsed;
 
-        // HandyControl 弹窗按 Esc 或点标题栏关闭时返回按钮组合的初始结果（带取消按钮时为 Cancel，仅确定按钮时为 Yes），
-        // 带取消按钮时与点击取消无法区分；结果不对应任何可见按钮时只记枚举值
+        // HandyControl 弹窗带取消按钮时，Esc 与标题栏关闭都返回 Cancel，与点击取消无法区分；
+        // 仅有确定按钮时，Esc 等同点击确定（OK），标题栏关闭返回初始值 Yes，因不对应可见按钮只记枚举值
         var buttonText = visibleButtons.FirstOrDefault(b => b.Result == result).Text;
         var selected = buttonText is null ? $"({result})" : $"{buttonText} ({result})";
         _logger.Information(
