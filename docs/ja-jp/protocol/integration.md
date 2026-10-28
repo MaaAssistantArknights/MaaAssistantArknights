@@ -1457,7 +1457,7 @@ Sarkaz テーマ、Investment モード、 ｢破棘成金分隊｣ または �
 @type array<object>
 @required
 `name` にはクライアントの言語にかかわらず、簡体字中国語のオペレーター名を指定します。
-育成計画の配列です。各要素には `name`（オペレーター名）が必須です。`role`（職分）は省略可能ですが、複数職分を持つ場合は指定が必要です。任意の目標：`elite` は1–2、`skill_level` は2–7、`skill_mastery` は3スキルの目標特化ランクの配列（各0–3、0はスキップ）です。省略した目標は実行しません。
+育成計画の配列です。各要素には `name`（オペレーター名）が必須です。`role`（職分）は省略可能ですが、複数職分を持つ場合は指定が必要です。指定値は `Pioneer`, `Warrior`, `Tank`, `Sniper`, `Caster`, `Medic`, `Support`, `Special` です。任意の目標：`elite` は1–2、`skill_level` は2–7、`skill_mastery` は3スキルの目標特化ランクの配列（各0–3、0はスキップ）です。省略した目標は実行しません。
 :::
 ::: field buy_materials_with_green_tickets
 @type boolean

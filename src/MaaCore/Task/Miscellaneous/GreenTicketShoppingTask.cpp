@@ -53,6 +53,7 @@ bool asst::GreenTicketShoppingTask::_run()
     if (monthly_limit != 0) {
         count = std::min(count, monthly_limit);
     }
+    // 不限购由商品配置明确指定；有限库存识别失败仍拒绝购买。
     const auto stock_sufficient = [&](std::optional<int> remaining) {
         return remaining ? *remaining >= count && (monthly_limit == 0 || *remaining <= monthly_limit)
                          : monthly_limit == 0;
@@ -67,16 +68,16 @@ bool asst::GreenTicketShoppingTask::_run()
         FeatureMatcher matcher(ctrler()->get_image());
         matcher.set_task_info(click_task);
         matcher.set_templ(item_id);
-        const auto matches = matcher.analyze();
+        const auto matches = matcher.analyze().value_or(FeatureMatcher::ResultsVec {});
         const auto& roi = click_task->roi;
         const auto complete_match = [&](const FeatureMatchRect& match) {
             const auto& rect = match.rect;
             return rect.x >= roi.x && rect.y >= roi.y && rect.x + rect.width <= roi.x + roi.width &&
                    rect.y + rect.height <= roi.y + roi.height;
         };
-        if (matches && std::ranges::any_of(*matches, complete_match)) {
-            const auto& match = *std::ranges::find_if(*matches, complete_match);
-            if (!ctrler()->click(match.rect) || !run_task("GreenTicket@Store@ReplenishPurchasePage", 3)) {
+        const auto match = std::ranges::find_if(matches, complete_match);
+        if (match != matches.end()) {
+            if (!ctrler()->click(match->rect) || !run_task("GreenTicket@Store@ReplenishPurchasePage", 3)) {
                 return false;
             }
             found = true;

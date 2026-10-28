@@ -80,6 +80,8 @@ std::optional<std::string> read_quantity_text(
         const auto confirmed = confirmation.analyze();
         if (!confirmed || confirmed->size() != 1 || confirmed->front().score < 0.9 ||
             confirmed->front().text != result->text) {
+            LogWarn << __FUNCTION__ << "quantity OCR confirmation failed" << task->name << *result
+                    << confirmed.value_or(OCRer::ResultsVec {});
             return std::nullopt;
         }
     }

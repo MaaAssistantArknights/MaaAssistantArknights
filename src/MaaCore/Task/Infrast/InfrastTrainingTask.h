@@ -1,4 +1,6 @@
 #pragma once
+#include <atomic>
+
 #include "InfrastProductionTask.h"
 
 // #include "Config/Miscellaneous/BattleDataConfig.h"
@@ -51,7 +53,7 @@ private:
     // asst::battle::Role m_operator_role;
 
     bool m_continue_training = false;
-    bool m_buy_with_green_tickets = false;
+    std::atomic<bool> m_buy_with_green_tickets = false;
     bool m_training_recovery_failed = false;
 };
 }
