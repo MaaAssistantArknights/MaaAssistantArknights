@@ -142,10 +142,19 @@ public static class DailyReportStore
     /// </summary>
     /// <param name="from">起始游戏日（含）。</param>
     /// <param name="to">结束游戏日（含）。</param>
-    /// <returns>范围内的日数据列表，缺日跳过。</returns>
-    public static List<DailyReportDayData> LoadRange(DateOnly from, DateOnly to)
+    /// <returns>范围内按游戏日升序的日数据列表，缺日跳过。</returns>
+    public static List<(DateOnly Day, DailyReportDayData Data)> LoadRange(DateOnly from, DateOnly to)
     {
-        return ListDays().Where(d => d >= from && d <= to).Select(Load).OfType<DailyReportDayData>().ToList();
+        var result = new List<(DateOnly Day, DailyReportDayData Data)>();
+        foreach (var day in ListDays().Where(d => d >= from && d <= to))
+        {
+            if (Load(day) is { } data)
+            {
+                result.Add((day, data));
+            }
+        }
+
+        return result;
     }
 
     /// <summary>

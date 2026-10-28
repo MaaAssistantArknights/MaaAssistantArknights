@@ -18,6 +18,8 @@ using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Constants;
@@ -145,6 +147,7 @@ public class DailyReportDialogViewModel : PropertyChangedBase
         NotifyOfPropertyChange(nameof(IsWeekDimension));
         NotifyOfPropertyChange(nameof(IsMonthDimension));
         NotifyOfPropertyChange(nameof(IsYearDimension));
+        NotifyOfPropertyChange(nameof(CalendarPickMode));
         RefreshAll();
     }
 
@@ -251,15 +254,79 @@ public class DailyReportDialogViewModel : PropertyChangedBase
         RefreshAll();
     }
 
+    /// <summary>
+    /// 回到包含今日的时段（Command 绑定入口）。
+    /// </summary>
+    public void GoToday()
+    {
+        IsCalendarOpen = false;
+        _anchor = Today;
+        RefreshAll();
+    }
+
     private DateOnly ShiftAnchor(int direction)
     {
-        return _dimension switch
+        var shifted = _dimension switch
         {
             DimensionKind.Week => _anchor.AddDays(7 * direction),
             DimensionKind.Month => new DateOnly(_anchor.Year, _anchor.Month, 1).AddMonths(direction),
             DimensionKind.Year => new DateOnly(_anchor.Year + direction, 1, 1),
             _ => _anchor.AddDays(direction),
         };
+        return shifted > Today ? Today : shifted;
+    }
+
+    private static DateOnly Today => DateOnly.FromDateTime(DateTime.UtcNow.ToYjDate());
+
+    /// <summary>
+    /// Gets or sets a value indicating whether 日期选择弹窗是否打开。
+    /// </summary>
+    public bool IsCalendarOpen { get; set => SetAndNotify(ref field, value); }
+
+    /// <summary>
+    /// Gets 日历的选取粒度：日/周维度选日，月维度选月，年维度选年。
+    /// </summary>
+    public CalendarMode CalendarPickMode => _dimension switch
+    {
+        DimensionKind.Month => CalendarMode.Year,
+        DimensionKind.Year => CalendarMode.Decade,
+        _ => CalendarMode.Month,
+    };
+
+    /// <summary>
+    /// Gets 日历可选的最晚日期（游戏日的今日）。
+    /// </summary>
+    public static DateTime CalendarMaxDate => Today.ToDateTime(TimeOnly.MinValue);
+
+    /// <summary>
+    /// Gets 日历当前选中的日期（当前锚点）。
+    /// </summary>
+    public DateTime CalendarDate => _anchor.ToDateTime(TimeOnly.MinValue);
+
+    /// <summary>
+    /// 生成日历日期格的渲染快照：当前查看时段、游戏日的今日与有记录日期。
+    /// </summary>
+    /// <returns>日历状态。</returns>
+    public DailyReportCalendarState BuildCalendarState()
+    {
+        var (from, to) = GetRange();
+        return new(
+            from.ToDateTime(TimeOnly.MinValue),
+            to.ToDateTime(TimeOnly.MinValue),
+            CalendarMaxDate,
+            DailyReportStore.ListDays().Select(d => d.ToDateTime(TimeOnly.MinValue)).ToHashSet());
+    }
+
+    /// <summary>
+    /// 日历选取完成后跳转到所选日期所在时段，并关闭弹窗。
+    /// </summary>
+    /// <param name="date">所选日期；月/年维度只取到对应月份或年份。</param>
+    public void JumpTo(DateTime date)
+    {
+        var picked = DateOnly.FromDateTime(date);
+        _anchor = picked > Today ? Today : picked;
+        IsCalendarOpen = false;
+        RefreshAll();
     }
 
     /// <summary>
@@ -267,34 +334,120 @@ public class DailyReportDialogViewModel : PropertyChangedBase
     /// </summary>
     public void RefreshLocalization()
     {
+        RetentionOptions.RefreshLocalization();
         RefreshAll();
     }
 
     /// <summary>
-    /// 按当前维度与锚点重算时段范围、聚合记录与汇总。
+    /// Gets or sets a value indicating whether 列表按材料汇总（否则按关卡）；仅在本次运行期间保持。
+    /// </summary>
+    public bool IsMaterialView
+    {
+        get;
+        set
+        {
+            if (SetAndNotify(ref field, value))
+            {
+                NotifyOfPropertyChange(nameof(IsStageView));
+            }
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether 列表按关卡展示（RadioButton 绑定）。
+    /// </summary>
+    public bool IsStageView
+    {
+        get => !IsMaterialView;
+        set => IsMaterialView = !value;
+    }
+
+    /// <summary>
+    /// Gets 按材料视图的物品行（按游戏物品顺序）。
+    /// </summary>
+    public IReadOnlyList<DailyReportMaterialViewModel> Materials { get; private set; } = [];
+
+    private string? _selectedItemId;
+
+    /// <summary>
+    /// 物品列表点击：切换柱状图展示的物品，点击已选中的物品取消选中、回到理智消耗（事件绑定入口）。
+    /// </summary>
+    /// <param name="sender">物品列表。</param>
+    /// <param name="e">鼠标事件。</param>
+    public void OnMaterialClick(object sender, MouseButtonEventArgs e)
+    {
+        if ((e.OriginalSource as FrameworkElement)?.DataContext is not DailyReportMaterialViewModel material)
+        {
+            return;
+        }
+
+        _selectedItemId = _selectedItemId == material.ItemId ? null : material.ItemId;
+        foreach (var row in Materials)
+        {
+            row.IsSelected = row.ItemId == _selectedItemId;
+        }
+
+        RefreshChart();
+    }
+
+    /// <summary>
+    /// Gets 柱状图标题（当前展示的指标）。
+    /// </summary>
+    public string ChartTitle { get; private set; } = string.Empty;
+
+    /// <summary>
+    /// Gets 柱状图最大值文本。
+    /// </summary>
+    public string ChartMaxText { get; private set; } = string.Empty;
+
+    /// <summary>
+    /// Gets 柱状图各柱。
+    /// </summary>
+    public IReadOnlyList<DailyReportChartBarViewModel> ChartBars { get; private set; } = [];
+
+    private List<(DateOnly Day, CombatSession Session)> _sessions = [];
+
+    /// <summary>
+    /// 按当前维度与锚点重算时段范围、聚合记录、物品汇总、柱状图与统计。
     /// </summary>
     public void RefreshAll()
     {
         var (from, to) = GetRange();
         PeriodLabel = BuildPeriodLabel(from, to);
         NotifyOfPropertyChange(nameof(PeriodLabel));
+        NotifyOfPropertyChange(nameof(CalendarDate));
 
-        var today = DateOnly.FromDateTime(DateTime.UtcNow.ToYjDate());
-        CanGoNext = from <= today;
+        CanGoNext = to < Today;
         NotifyOfPropertyChange(nameof(CanGoNext));
 
-        var sessions = DailyReportStore.LoadRange(from, to).SelectMany(d => d.Sessions).ToList();
-        Rows.Clear();
+        _sessions = DailyReportStore.LoadRange(from, to)
+            .SelectMany(d => d.Data.Sessions.Select(s => (d.Day, Session: s)))
+            .ToList();
+        var sessions = _sessions.Select(s => s.Session).ToList();
 
+        Rows.Clear();
         var rows = _dimension == DimensionKind.Day
-            ? sessions.Select(BuildRow)
-            : sessions.GroupBy(s => s.Stage).Select(g => BuildRow(g.Key, g.ToList()));
+            ? sessions.OrderBy(s => s.StartTime).Select(BuildRow)
+            : sessions.GroupBy(s => s.Stage)
+                .OrderByDescending(g => g.Sum(s => s.Times * s.SanityCost))
+                .ThenBy(g => g.Key, StringComparer.Ordinal)
+                .Select(g => BuildRow(g.Key, g.ToList()));
         foreach (var row in rows)
         {
             Rows.Add(row);
         }
 
-        var dropKinds = sessions.SelectMany(s => s.Drops.Keys).Distinct().Count();
+        Materials = sessions
+            .SelectMany(s => s.Drops.Select(d => (ItemId: d.Key, s.Stage, Count: d.Value)))
+            .GroupBy(d => d.ItemId)
+            .Select(g => (ItemId: g.Key, Sources: g.GroupBy(d => d.Stage).ToDictionary(s => s.Key, s => s.Sum(d => d.Count))))
+            .OrderBy(m => ItemListHelper.ArkItems.TryGetValue(m.ItemId, out var item) ? item.SortId : int.MaxValue)
+            .ThenBy(m => m.ItemId, StringComparer.Ordinal)
+            .Select(m => new DailyReportMaterialViewModel(m.ItemId, m.Sources, m.ItemId == _selectedItemId))
+            .ToList();
+        NotifyOfPropertyChange(nameof(Materials));
+
+        var dropKinds = Materials.Count;
         Stats =
         [
             new(LocalizationHelper.GetString("TaskQueue.DailyReport.Stat.Records"), sessions.Count.ToString()),
@@ -304,6 +457,72 @@ public class DailyReportDialogViewModel : PropertyChangedBase
             new(LocalizationHelper.GetString("TaskQueue.DailyReport.Stat.DropKinds"), dropKinds.ToString()),
         ];
         NotifyOfPropertyChange(nameof(Stats));
+
+        RefreshChart();
+    }
+
+    private void RefreshChart()
+    {
+        var (from, to) = GetRange();
+        var culture = LocalizationHelper.CustomCultureInfo;
+
+        // 日维度按小时分桶（游戏日从 4:00 起），周/月维度按天，年维度按月
+        var bucketCount = _dimension switch
+        {
+            DimensionKind.Day => 24,
+            DimensionKind.Year => 12,
+            _ => to.DayNumber - from.DayNumber + 1,
+        };
+        var values = new long[bucketCount];
+        foreach (var (day, session) in _sessions)
+        {
+            var value = _selectedItemId is null
+                ? (long)session.Times * session.SanityCost
+                : session.Drops.GetValueOrDefault(_selectedItemId);
+            if (value == 0)
+            {
+                continue;
+            }
+
+            var index = _dimension switch
+            {
+                DimensionKind.Day => session.StartTime.ToYjDateTime().Hour,
+                DimensionKind.Year => day.Month - 1,
+                _ => day.DayNumber - from.DayNumber,
+            };
+            if (index >= 0 && index < bucketCount)
+            {
+                values[index] += value;
+            }
+        }
+
+        string BucketLabel(int i) => _dimension switch
+        {
+            DimensionKind.Day => $"{(i + 4) % 24:00}:00",
+            DimensionKind.Year => new DateOnly(from.Year, i + 1, 1).ToString("MMM", culture),
+            _ => from.AddDays(i).ToString("MM-dd ddd", culture),
+        };
+
+        // 刻度标签只标在对应柱子正下方：日维度每 6 小时，周维度每天（星期），月维度逢 1/5/10/… 号，年维度每月
+        string TickLabel(int i) => _dimension switch
+        {
+            DimensionKind.Day => i % 6 == 0 ? $"{(i + 4) % 24}" : string.Empty,
+            DimensionKind.Week => from.AddDays(i).ToString("ddd", culture),
+            DimensionKind.Month => (i + 1) is 1 or 5 or 10 or 15 or 20 or 25 or 30 ? $"{i + 1}" : string.Empty,
+            _ => $"{i + 1}",
+        };
+
+        var max = values.Max();
+        ChartBars = values
+            .Select((v, i) => new DailyReportChartBarViewModel(max == 0 ? 0 : (double)v / max, $"{BucketLabel(i)}  {v:N0}", TickLabel(i)))
+            .ToList();
+        ChartMaxText = max.ToString("N0", culture);
+        ChartTitle = _selectedItemId is null
+            ? LocalizationHelper.GetString("TaskQueue.DailyReport.Stat.Sanity")
+            : ItemListHelper.GetItemName(_selectedItemId) ?? _selectedItemId;
+        NotifyOfPropertyChange(nameof(ChartBars));
+        NotifyOfPropertyChange(nameof(ChartMaxText));
+        NotifyOfPropertyChange(nameof(ChartTitle));
     }
 
     private (DateOnly From, DateOnly To) GetRange()
@@ -333,7 +552,7 @@ public class DailyReportDialogViewModel : PropertyChangedBase
 
     private string BuildPeriodLabel(DateOnly from, DateOnly to)
     {
-        var culture = CultureInfo.CurrentUICulture;
+        var culture = LocalizationHelper.CustomCultureInfo;
         return _dimension switch
         {
             DimensionKind.Week => from.ToString("MM-dd", culture) + " ~ " + to.ToString("MM-dd", culture),
@@ -345,8 +564,8 @@ public class DailyReportDialogViewModel : PropertyChangedBase
 
     private static DailyReportRowViewModel BuildRow(CombatSession session)
     {
-        var timeText = session.StartTime.ToLocalTime().ToString("HH:mm", CultureInfo.CurrentUICulture)
-            + " – " + (session.EndTime?.ToLocalTime().ToString("HH:mm", CultureInfo.CurrentUICulture) ?? "?");
+        var timeText = session.StartTime.ToLocalTime().ToString("HH:mm", LocalizationHelper.CustomCultureInfo)
+            + " – " + (session.EndTime?.ToLocalTime().ToString("HH:mm", LocalizationHelper.CustomCultureInfo) ?? "?");
         return new DailyReportRowViewModel(
             session.Stage,
             timeText,
