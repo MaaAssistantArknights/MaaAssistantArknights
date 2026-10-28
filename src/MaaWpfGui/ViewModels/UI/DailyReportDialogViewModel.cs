@@ -309,7 +309,13 @@ public class DailyReportDialogViewModel : PropertyChangedBase
     /// <returns>日历状态。</returns>
     public DailyReportCalendarState BuildCalendarState()
     {
+        // 今日之后的日期格不可选，色带终点截到今日，才能在今日收圆角而不是在可见范围内断成直角
         var (from, to) = GetRange();
+        if (to > Today)
+        {
+            to = Today;
+        }
+
         return new(
             from.ToDateTime(TimeOnly.MinValue),
             to.ToDateTime(TimeOnly.MinValue),
