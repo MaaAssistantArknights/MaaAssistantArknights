@@ -33,19 +33,24 @@ bool asst::GreenTicketShoppingTask::_run()
     m_purchased_count = 0;
     constexpr int MaxSwipes = 8;
     const auto limits = Task.get("GreenTicket@Store@ReplenishItem-" + item_id);
-    const auto& profiles = Task.get("GreenTicket@Store@ReplenishShopProfile")->special_params;
-    if (!limits || limits->special_params.size() != 3 || profiles.size() != 1 || profiles.front() < 0 ||
-        profiles.front() > 1) {
+    const auto click_task = Task.get<FeatureMatchTaskInfo>(
+        item_id == "3302" ? "GreenTicket@Store@ReplenishClickSkillSummary" : "GreenTicket@Store@ClickItem");
+    const auto shop_profile = Task.get("GreenTicket@Store@ReplenishShopProfile");
+    if (!limits || !click_task || (limits->special_params.size() != 3 && limits->special_params.size() != 4) ||
+        !shop_profile || shop_profile->special_params.size() != 1 || shop_profile->special_params.front() < 0 ||
+        shop_profile->special_params.front() > 1) {
         LogWarn << __FUNCTION__ << "unknown green ticket material or shop profile" << item_id;
         return false;
     }
-    const int profile = profiles.front();
+    const int profile = shop_profile->special_params.front();
     const int unit_price = limits->special_params[0];
     const int monthly_limit = limits->special_params[profile + 1];
-    if (unit_price <= 0 || monthly_limit < 0 || count <= 0) {
+    const int bundle_size = limits->special_params.size() == 4 ? limits->special_params[3] : 1;
+    if (unit_price <= 0 || monthly_limit < 0 || bundle_size <= 0 || count <= 0) {
         LogWarn << __FUNCTION__ << "invalid green ticket shop request" << item_id << count << monthly_limit << profile;
         return false;
     }
+    count = count / bundle_size + (count % bundle_size != 0);
     if (monthly_limit != 0) {
         count = std::min(count, monthly_limit);
     }
@@ -61,10 +66,10 @@ bool asst::GreenTicketShoppingTask::_run()
     bool found = false;
     for (int swipe = 0; swipe <= MaxSwipes && !need_exit(); ++swipe) {
         FeatureMatcher matcher(ctrler()->get_image());
-        matcher.set_task_info("GreenTicket@Store@ClickItem");
+        matcher.set_task_info(click_task);
         matcher.set_templ(item_id);
         const auto matches = matcher.analyze();
-        const auto& roi = Task.get("GreenTicket@Store@ClickItem")->roi;
+        const auto& roi = click_task->roi;
         const auto complete_match = [&](const FeatureMatchRect& match) {
             const auto& rect = match.rect;
             return rect.x >= roi.x && rect.y >= roi.y && rect.x + rect.width <= roi.x + roi.width &&
@@ -133,15 +138,15 @@ bool asst::GreenTicketShoppingTask::_run()
         return false;
     }
     // 保留默认识别重试以等待收据；付款节点只执行一次，任务链不会回到付款节点。
-    if (!run_task("GreenTicket@Store@ReplenishPurchase")) {
+    if (!run_task("GreenTicket@Store@ReplenishPurchase") || need_exit()) {
         return false;
     }
-    m_purchased_count = count;
+    m_purchased_count = static_cast<std::int64_t>(count) * bundle_size;
     auto info = basic_info_with_what("GreenTicketPurchased");
     info["details"] = json::object {
         { "material", ItemData.get_item_name(item_id) },
         { "material_id", item_id },
-        { "count", count },
+        { "count", m_purchased_count },
         { "cost", *price },
     };
     callback(AsstMsg::SubTaskExtraInfo, info);
@@ -156,6 +161,10 @@ bool asst::GreenTicketShoppingTask::run_task(const std::string& name, int retry_
 std::optional<int> asst::GreenTicketShoppingTask::read_remaining_stock(const cv::Mat& image)
 {
     const auto task = Task.get<OcrTaskInfo>("GreenTicket@Store@ReplenishPurchaseStock");
+    if (!task) {
+        LogWarn << __FUNCTION__ << "missing green ticket stock observation configuration";
+        return std::nullopt;
+    }
     RegionOCRer analyzer(image);
     analyzer.set_task_info(task);
     analyzer.set_use_raw(true);

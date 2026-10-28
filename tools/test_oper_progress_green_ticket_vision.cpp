@@ -1,6 +1,10 @@
 // Link against a Debug MaaCore build and its OpenCV dependency.
 // Arguments: repository root, writable log directory.
 
+#ifdef NDEBUG
+#error This manual regression requires a Debug build with assertions enabled.
+#endif
+
 #include "AsstCaller.h"
 #include "Config/Miscellaneous/ItemConfig.h"
 #include "Config/TaskData.h"
@@ -13,7 +17,7 @@
 
 int main(int argc, char** argv)
 {
-    assert(argc == 3 || argc == 4);
+    assert(argc == 3);
     assert(AsstSetUserDir(argv[2]));
     assert(AsstLoadResource(argv[1]));
     auto handle = AsstCreate();
@@ -24,19 +28,6 @@ int main(int argc, char** argv)
 
     const cv::Mat blank(720, 1280, CV_8UC3, cv::Scalar(32, 32, 32));
     assert(!asst::GreenTicketShoppingTask::read_remaining_stock(blank));
-    if (argc == 4) {
-        const auto screenshot = cv::imread(argv[3]);
-        assert(!screenshot.empty());
-        cv::Mat image;
-        cv::resize(screenshot, image, cv::Size(1280, 720));
-        const auto stock = asst::GreenTicketShoppingTask::read_remaining_stock(image);
-        assert(stock == 15);
-        assert(
-            asst::MaterialSynthesisImageAnalyzer::read_number(image, "GreenTicket@Store@ReplenishPurchaseBalance") ==
-            14'365);
-        std::cout << "Live sugar purchase screenshot: remaining stock = " << *stock << '\n';
-    }
-
     const auto& templ = asst::TemplResource::get_instance().get_templ("30073");
     assert(!templ.empty());
     const asst::Rect item_roi { 414, 505, 188, 184 };
