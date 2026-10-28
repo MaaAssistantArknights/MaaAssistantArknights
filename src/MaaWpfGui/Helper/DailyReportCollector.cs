@@ -197,8 +197,17 @@ public static class DailyReportCollector
         PersistIfNeeded(taskId, session);
     }
 
+    private static bool IsEmpty(CombatSession session) =>
+        session.Times == 0 && session.Drops.Count == 0 && session.MedicinesUsed == 0 && session.ExpiringMedicinesUsed == 0 && session.StonesUsed == 0;
+
     private static void PersistIfNeeded(int taskId, CombatSession session)
     {
+        // 零场次且无掉落、用药、碎石的链没有统计价值，有数据前不落盘
+        if (IsEmpty(session))
+        {
+            return;
+        }
+
         if (!_persistedTaskIds.Add(taskId))
         {
             SaveCurrent();
@@ -219,10 +228,14 @@ public static class DailyReportCollector
         }
 
         var persisted = _persistedTaskIds.Remove(taskId);
-
-        // 零场次且无用药碎石的链没有统计价值，不落盘
-        if (session.Times == 0 && session.Drops.Count == 0 && session.MedicinesUsed == 0 && session.ExpiringMedicinesUsed == 0 && session.StonesUsed == 0)
+        if (IsEmpty(session))
         {
+            // 落盘判断已拦下空记录，这里兜底清理任何已写入的空 session，避免文件残留无结束时刻的空行
+            if (persisted && _currentData.Sessions.Remove(session))
+            {
+                SaveCurrent();
+            }
+
             return;
         }
 
