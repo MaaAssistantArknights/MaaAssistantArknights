@@ -1999,6 +1999,11 @@ MAA は非インストール型のアプリケーションであり、レジス�
     <system:String x:Key="TaskQueue.DailyReport.Meta.MedicinesFormat">理性剤 {0}</system:String>
     <system:String x:Key="TaskQueue.DailyReport.Meta.StonesFormat">源石 {0}</system:String>
     <system:String x:Key="TaskQueue.DailyReport.NoData">戦闘記録はありません</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.View.Stage">ステージ別</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.View.Material">素材別</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.PickDate">日付を選択</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Today">今日</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Material.MoreSourcesFormat">など計 {0} ステージ</system:String>
     <system:String x:Key="TaskQueue.DepotMaintain.AddPlan">追加</system:String>
     <system:String x:Key="TaskQueue.DepotMaintain.ClearPlans">クリア</system:String>
     <system:String x:Key="TaskQueue.DepotMaintain.ClearPlansConfirm">すべてのプランを削除しますか？</system:String>

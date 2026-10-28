@@ -1997,6 +1997,11 @@ Enter ｢SSReopen-XX｣ once to clear all normal stages with Auto-Deploy in SS r
     <system:String x:Key="TaskQueue.DailyReport.Meta.MedicinesFormat">{0} potions</system:String>
     <system:String x:Key="TaskQueue.DailyReport.Meta.StonesFormat">{0} originium</system:String>
     <system:String x:Key="TaskQueue.DailyReport.NoData">No combat records</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.View.Stage">By stage</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.View.Material">By item</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.PickDate">Pick a date</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Today">Today</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Material.MoreSourcesFormat">and more ({0} stages)</system:String>
     <system:String x:Key="TaskQueue.DepotMaintain.AddPlan">Add</system:String>
     <system:String x:Key="TaskQueue.DepotMaintain.ClearPlans">Clear</system:String>
     <system:String x:Key="TaskQueue.DepotMaintain.ClearPlansConfirm">Are you sure you want to clear all plans?</system:String>

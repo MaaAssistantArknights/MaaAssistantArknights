@@ -1998,6 +1998,11 @@ DEBUG 目录下保存的图片有数量限制，超出后会自动清理旧图�
     <system:String x:Key="TaskQueue.DailyReport.Meta.MedicinesFormat">药剂 {0}</system:String>
     <system:String x:Key="TaskQueue.DailyReport.Meta.StonesFormat">源石 {0}</system:String>
     <system:String x:Key="TaskQueue.DailyReport.NoData">暂无作战记录</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.View.Stage">按关卡</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.View.Material">按材料</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.PickDate">选择日期</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Today">今天</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Material.MoreSourcesFormat">等 {0} 关</system:String>
     <system:String x:Key="TaskQueue.DepotMaintain.AddPlan">添加</system:String>
     <system:String x:Key="TaskQueue.DepotMaintain.ClearPlans">清空</system:String>
     <system:String x:Key="TaskQueue.DepotMaintain.ClearPlansConfirm">确认要清空所有计划吗？</system:String>

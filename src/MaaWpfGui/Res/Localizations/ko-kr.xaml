@@ -1998,6 +1998,11 @@ MAA는 비설치형 응용 프로그램으로, 삭제 시 레지스트리 항목
     <system:String x:Key="TaskQueue.DailyReport.Meta.MedicinesFormat">이성 회복제 {0}</system:String>
     <system:String x:Key="TaskQueue.DailyReport.Meta.StonesFormat">순오리지늄 {0}</system:String>
     <system:String x:Key="TaskQueue.DailyReport.NoData">작전 기록이 없습니다</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.View.Stage">스테이지별</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.View.Material">재료별</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.PickDate">날짜 선택</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Today">오늘</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Material.MoreSourcesFormat">등 {0}개 스테이지</system:String>
     <system:String x:Key="TaskQueue.DepotMaintain.AddPlan">추가</system:String>
     <system:String x:Key="TaskQueue.DepotMaintain.ClearPlans">전체 삭제</system:String>
     <system:String x:Key="TaskQueue.DepotMaintain.ClearPlansConfirm">모든 계획을 삭제하시겠습니까?</system:String>

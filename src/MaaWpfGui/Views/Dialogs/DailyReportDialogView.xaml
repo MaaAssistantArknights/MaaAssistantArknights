@@ -3,6 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controls="clr-namespace:MaaWpfGui.Styles.Controls"
+    xmlns:converters="clr-namespace:MaaWpfGui.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:hc="https://handyorg.github.io/handycontrol"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -20,6 +21,7 @@
     mc:Ignorable="d">
     <Grid Margin="12">
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
@@ -44,6 +46,16 @@
                     MinWidth="44"
                     Content="{DynamicResource TaskQueue.DailyReport.Dimension.Year}"
                     IsChecked="{Binding IsYearDimension}" />
+            </hc:ButtonGroup>
+            <hc:ButtonGroup Margin="12,0,0,0" DockPanel.Dock="Left">
+                <RadioButton
+                    MinWidth="60"
+                    Content="{DynamicResource TaskQueue.DailyReport.View.Stage}"
+                    IsChecked="{Binding IsStageView}" />
+                <RadioButton
+                    MinWidth="60"
+                    Content="{DynamicResource TaskQueue.DailyReport.View.Material}"
+                    IsChecked="{Binding IsMaterialView}" />
             </hc:ButtonGroup>
             <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
                 <controls:TextBlock
@@ -78,15 +90,193 @@
                 Command="{s:Action GoPrevious}"
                 Foreground="{DynamicResource PrimaryTextBrush}"
                 Style="{StaticResource ButtonIcon}" />
-            <controls:TextBlock
+            <ToggleButton
+                x:Name="PeriodToggle"
                 Grid.Column="2"
-                MinWidth="140"
+                MinWidth="160"
                 Margin="8,0"
-                VerticalAlignment="Center"
-                FontSize="16"
-                FontWeight="Bold"
-                Text="{Binding PeriodLabel}"
-                TextAlignment="Center" />
+                Padding="10,4"
+                HorizontalContentAlignment="Center"
+                Background="Transparent"
+                BorderThickness="0"
+                IsChecked="{Binding IsCalendarOpen}"
+                Style="{StaticResource ToggleButtonDefault}"
+                ToolTip="{DynamicResource TaskQueue.DailyReport.PickDate}">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock
+                        VerticalAlignment="Center"
+                        FontSize="16"
+                        FontWeight="Bold"
+                        Text="{Binding PeriodLabel}" />
+                    <Path
+                        Width="9"
+                        Height="9"
+                        Margin="6,2,0,0"
+                        VerticalAlignment="Center"
+                        Data="{StaticResource DownGeometry}"
+                        Fill="{DynamicResource SecondaryTextBrush}"
+                        Stretch="Uniform" />
+                </StackPanel>
+            </ToggleButton>
+            <Popup
+                AllowsTransparency="True"
+                IsOpen="{Binding IsCalendarOpen}"
+                Opened="OnCalendarPopupOpened"
+                Placement="Bottom"
+                PlacementTarget="{Binding ElementName=PeriodToggle}"
+                PopupAnimation="Fade"
+                StaysOpen="False">
+                <Border
+                    Margin="8"
+                    s:View.ActionTarget="{Binding}"
+                    Background="{DynamicResource RegionBrush}"
+                    BorderBrush="{DynamicResource BorderBrush}"
+                    BorderThickness="1"
+                    CornerRadius="6"
+                    Effect="{DynamicResource EffectShadow2}">
+                    <StackPanel Margin="4">
+                        <!--
+                            日期格模板替换 HandyControl 默认样式：选中态由 VM 快照的查看时段决定（周维度整行连成一条色带），
+                            今日按游戏日判断（系统日期在 0:00 ~ 4:00 与游戏日不同，故关闭自带今日高亮），有记录日期在右上角标点
+                        -->
+                        <Calendar
+                            x:Name="PeriodCalendar"
+                            DisplayModeChanged="OnCalendarDisplayModeChanged"
+                            FirstDayOfWeek="Monday"
+                            IsTodayHighlighted="False"
+                            SelectedDatesChanged="OnCalendarSelectedDatesChanged">
+                            <Calendar.CalendarButtonStyle>
+                                <Style BasedOn="{StaticResource CalendarButtonStyle}" TargetType="CalendarButton">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="CalendarButton">
+                                                <Grid Background="Transparent">
+                                                    <Border
+                                                        x:Name="SelectedBackground"
+                                                        Background="{DynamicResource PrimaryBrush}"
+                                                        CornerRadius="16"
+                                                        Visibility="Collapsed" />
+                                                    <ContentPresenter
+                                                        x:Name="NormalText"
+                                                        HorizontalAlignment="Center"
+                                                        VerticalAlignment="Center"
+                                                        TextElement.Foreground="{DynamicResource PrimaryTextBrush}" />
+                                                </Grid>
+                                                <ControlTemplate.Triggers>
+                                                    <Trigger Property="IsInactive" Value="True">
+                                                        <Setter TargetName="NormalText" Property="TextElement.Foreground" Value="{DynamicResource ThirdlyTextBrush}" />
+                                                    </Trigger>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter TargetName="SelectedBackground" Property="Visibility" Value="Visible" />
+                                                        <Setter TargetName="SelectedBackground" Property="Opacity" Value="0.25" />
+                                                    </Trigger>
+                                                    <Trigger Property="HasSelectedDays" Value="True">
+                                                        <Setter TargetName="SelectedBackground" Property="Visibility" Value="Visible" />
+                                                        <Setter TargetName="SelectedBackground" Property="Opacity" Value="1" />
+                                                        <Setter TargetName="NormalText" Property="TextElement.Foreground" Value="{DynamicResource TextIconBrush}" />
+                                                    </Trigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </Calendar.CalendarButtonStyle>
+                            <Calendar.CalendarDayButtonStyle>
+                                <Style BasedOn="{StaticResource CalendarDayButtonStyle}" TargetType="CalendarDayButton">
+                                    <Setter Property="Margin" Value="0,1" />
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="CalendarDayButton">
+                                                <Grid Background="Transparent">
+                                                    <Border
+                                                        x:Name="RangeBackground"
+                                                        Background="{DynamicResource PrimaryBrush}"
+                                                        Visibility="Collapsed">
+                                                        <Border.CornerRadius>
+                                                            <MultiBinding Converter="{x:Static converters:DailyReportCalendarDayConverter.Instance}" ConverterParameter="RangeCorner">
+                                                                <Binding Path="DataContext" RelativeSource="{RelativeSource TemplatedParent}" />
+                                                                <Binding Path="Tag" RelativeSource="{RelativeSource AncestorType=Calendar}" />
+                                                            </MultiBinding>
+                                                        </Border.CornerRadius>
+                                                    </Border>
+                                                    <Border
+                                                        x:Name="HoverBackground"
+                                                        Background="{DynamicResource PrimaryBrush}"
+                                                        CornerRadius="16"
+                                                        Opacity="0.25"
+                                                        Visibility="Collapsed" />
+                                                    <Ellipse
+                                                        x:Name="TodayRing"
+                                                        Margin="2"
+                                                        Stroke="{DynamicResource PrimaryBrush}"
+                                                        StrokeThickness="1.5">
+                                                        <Ellipse.Visibility>
+                                                            <MultiBinding Converter="{x:Static converters:DailyReportCalendarDayConverter.Instance}" ConverterParameter="Today">
+                                                                <Binding Path="DataContext" RelativeSource="{RelativeSource TemplatedParent}" />
+                                                                <Binding Path="Tag" RelativeSource="{RelativeSource AncestorType=Calendar}" />
+                                                            </MultiBinding>
+                                                        </Ellipse.Visibility>
+                                                    </Ellipse>
+                                                    <ContentPresenter
+                                                        x:Name="NormalText"
+                                                        HorizontalAlignment="Center"
+                                                        VerticalAlignment="Center"
+                                                        TextElement.Foreground="{DynamicResource PrimaryTextBrush}" />
+                                                    <Ellipse
+                                                        x:Name="RecordMark"
+                                                        Width="4"
+                                                        Height="4"
+                                                        Margin="0,4,5,0"
+                                                        HorizontalAlignment="Right"
+                                                        VerticalAlignment="Top"
+                                                        Fill="{DynamicResource PrimaryBrush}">
+                                                        <Ellipse.Visibility>
+                                                            <MultiBinding Converter="{x:Static converters:DailyReportCalendarDayConverter.Instance}" ConverterParameter="Record">
+                                                                <Binding Path="DataContext" RelativeSource="{RelativeSource TemplatedParent}" />
+                                                                <Binding Path="Tag" RelativeSource="{RelativeSource AncestorType=Calendar}" />
+                                                            </MultiBinding>
+                                                        </Ellipse.Visibility>
+                                                    </Ellipse>
+                                                </Grid>
+                                                <ControlTemplate.Triggers>
+                                                    <Trigger Property="IsInactive" Value="True">
+                                                        <Setter TargetName="NormalText" Property="TextElement.Foreground" Value="{DynamicResource ThirdlyTextBrush}" />
+                                                    </Trigger>
+                                                    <Trigger Property="IsEnabled" Value="False">
+                                                        <Setter TargetName="NormalText" Property="Opacity" Value="0.35" />
+                                                        <Setter TargetName="RecordMark" Property="Opacity" Value="0.35" />
+                                                    </Trigger>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter TargetName="HoverBackground" Property="Visibility" Value="Visible" />
+                                                    </Trigger>
+                                                    <DataTrigger Value="True">
+                                                        <DataTrigger.Binding>
+                                                            <MultiBinding Converter="{x:Static converters:DailyReportCalendarDayConverter.Instance}" ConverterParameter="InRange">
+                                                                <Binding Path="DataContext" RelativeSource="{RelativeSource Self}" />
+                                                                <Binding Path="Tag" RelativeSource="{RelativeSource AncestorType=Calendar}" />
+                                                            </MultiBinding>
+                                                        </DataTrigger.Binding>
+                                                        <Setter TargetName="RangeBackground" Property="Visibility" Value="Visible" />
+                                                        <Setter TargetName="HoverBackground" Property="Visibility" Value="Collapsed" />
+                                                        <Setter TargetName="NormalText" Property="TextElement.Foreground" Value="{DynamicResource TextIconBrush}" />
+                                                        <Setter TargetName="RecordMark" Property="Fill" Value="{DynamicResource TextIconBrush}" />
+                                                        <Setter TargetName="TodayRing" Property="Stroke" Value="{DynamicResource TextIconBrush}" />
+                                                    </DataTrigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </Calendar.CalendarDayButtonStyle>
+                        </Calendar>
+                        <Button
+                            Margin="0,4,0,0"
+                            HorizontalAlignment="Stretch"
+                            Command="{s:Action GoToday}"
+                            Content="{DynamicResource TaskQueue.DailyReport.Today}" />
+                    </StackPanel>
+                </Border>
+            </Popup>
             <Button
                 Grid.Column="3"
                 Width="32"
@@ -138,8 +328,86 @@
             </ItemsControl.ItemTemplate>
         </ItemsControl>
 
-        <ListBox
+        <Border
             Grid.Row="3"
+            Margin="0,0,0,10"
+            Padding="10,8"
+            BorderBrush="{DynamicResource BorderBrush}"
+            BorderThickness="1"
+            CornerRadius="6"
+            Visibility="{Binding IsMaterialView, Converter={StaticResource Boolean2VisibilityConverter}}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="110" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <DockPanel>
+                    <controls:TextBlock
+                        DockPanel.Dock="Right"
+                        FontSize="11"
+                        Foreground="{DynamicResource SecondaryTextBrush}"
+                        Text="{Binding ChartMaxText, StringFormat=max {0}}" />
+                    <controls:TextBlock FontWeight="Bold" Text="{Binding ChartTitle}" />
+                </DockPanel>
+                <ItemsControl
+                    Grid.Row="1"
+                    Margin="0,6,0,0"
+                    ItemsSource="{Binding ChartBars}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid Rows="1" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Grid
+                                Margin="1,0"
+                                Background="Transparent"
+                                ToolTip="{Binding ToolTip}"
+                                ToolTipService.InitialShowDelay="0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="{Binding EmptyHeight}" />
+                                    <RowDefinition Height="{Binding FilledHeight}" />
+                                </Grid.RowDefinitions>
+                                <Border
+                                    Grid.Row="1"
+                                    MinHeight="1"
+                                    Background="{DynamicResource PrimaryBrush}"
+                                    CornerRadius="2,2,0,0" />
+                            </Grid>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+                <ItemsControl
+                    Grid.Row="2"
+                    Margin="0,4,0,0"
+                    ItemsSource="{Binding ChartBars}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid Rows="1" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <!--  刻度文字可能宽于柱子：负外边距让文字以柱子中线为中心向两侧溢出，而不被单列宽度截断  -->
+                            <Grid Height="14" ClipToBounds="False">
+                                <TextBlock
+                                    Margin="-20,0"
+                                    HorizontalAlignment="Center"
+                                    FontSize="11"
+                                    Foreground="{DynamicResource SecondaryTextBrush}"
+                                    Text="{Binding TickLabel}"
+                                    TextAlignment="Center" />
+                            </Grid>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </Grid>
+        </Border>
+
+        <ListBox
+            Grid.Row="4"
             Padding="0"
             HorizontalContentAlignment="Stretch"
             d:ItemsSource="{d:SampleData ItemCount=3}"
@@ -149,7 +417,8 @@
             ItemsSource="{Binding Rows}"
             ScrollViewer.HorizontalScrollBarVisibility="Disabled"
             Style="{DynamicResource NoSelectedHighlightListBoxStyle}"
-            VirtualizingPanel.ScrollUnit="Pixel">
+            VirtualizingPanel.ScrollUnit="Pixel"
+            Visibility="{Binding IsStageView, Converter={StaticResource Boolean2VisibilityConverter}}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Margin="0,8,10,4">
@@ -208,8 +477,77 @@
             </ListBox.ItemTemplate>
         </ListBox>
 
+        <ListBox
+            Grid.Row="4"
+            Padding="0"
+            HorizontalContentAlignment="Stretch"
+            d:ItemsSource="{d:SampleData ItemCount=3}"
+            hc:ScrollViewer.IsInertiaEnabled="True"
+            Background="Transparent"
+            BorderThickness="0"
+            ItemsSource="{Binding Materials}"
+            PreviewMouseLeftButtonUp="{s:Action OnMaterialClick}"
+            ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+            Style="{DynamicResource NoSelectedHighlightListBoxStyle}"
+            VirtualizingPanel.ScrollUnit="Pixel"
+            Visibility="{Binding IsMaterialView, Converter={StaticResource Boolean2VisibilityConverter}}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Border
+                        Margin="-10,0,0,0"
+                        Padding="10,4,10,4"
+                        Background="Transparent"
+                        BorderThickness="3,0,0,0"
+                        Cursor="Hand">
+                        <Border.Style>
+                            <Style TargetType="Border">
+                                <Setter Property="BorderBrush" Value="Transparent" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsSelected}" Value="True">
+                                        <Setter Property="BorderBrush" Value="{DynamicResource PrimaryBrush}" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Border.Style>
+                        <Grid MinHeight="40">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="32" />
+                                <ColumnDefinition Width="140" />
+                                <ColumnDefinition Width="90" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Image
+                                Width="32"
+                                Height="32"
+                                VerticalAlignment="Center"
+                                Source="{Binding Image}" />
+                            <TextBlock
+                                Grid.Column="1"
+                                Margin="8,0"
+                                VerticalAlignment="Center"
+                                Text="{Binding Name}"
+                                TextTrimming="CharacterEllipsis"
+                                ToolTip="{Binding Name}" />
+                            <TextBlock
+                                Grid.Column="2"
+                                VerticalAlignment="Center"
+                                FontWeight="Bold"
+                                Text="{Binding Count}" />
+                            <TextBlock
+                                Grid.Column="3"
+                                VerticalAlignment="Center"
+                                Foreground="{DynamicResource SecondaryTextBrush}"
+                                Text="{Binding SourcesText}"
+                                TextTrimming="CharacterEllipsis"
+                                ToolTip="{Binding SourcesToolTip}" />
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
         <controls:TextBlock
-            Grid.Row="3"
+            Grid.Row="4"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
             Foreground="{DynamicResource SecondaryTextBrush}"
