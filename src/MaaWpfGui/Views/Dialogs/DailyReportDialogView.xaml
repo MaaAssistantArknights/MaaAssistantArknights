@@ -12,8 +12,8 @@
     Title="{DynamicResource TaskQueue.DailyReport.Title}"
     Width="760"
     Height="560"
-    MinWidth="460"
-    MinHeight="360"
+    MinWidth="760"
+    MinHeight="560"
     d:Background="White"
     d:DataContext="{d:DesignInstance {x:Type ui_vms:DailyReportDialogViewModel}}"
     s:View.ActionTarget="{Binding}"
@@ -339,17 +339,10 @@
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
-                    <RowDefinition Height="110" />
+                    <RowDefinition Height="124" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
-                <DockPanel>
-                    <controls:TextBlock
-                        DockPanel.Dock="Right"
-                        FontSize="11"
-                        Foreground="{DynamicResource SecondaryTextBrush}"
-                        Text="{Binding ChartMaxText, StringFormat=max {0}}" />
-                    <controls:TextBlock FontWeight="Bold" Text="{Binding ChartTitle}" />
-                </DockPanel>
+                <controls:TextBlock FontWeight="Bold" Text="{Binding ChartTitle}" />
                 <ItemsControl
                     Grid.Row="1"
                     Margin="0,6,0,0"
@@ -366,12 +359,31 @@
                                 Background="Transparent"
                                 ToolTip="{Binding ToolTip}"
                                 ToolTipService.InitialShowDelay="0">
+                                <!--  首行固定留给柱顶数字，最高的柱子也不会把数字顶出图表  -->
                                 <Grid.RowDefinitions>
+                                    <RowDefinition Height="14" />
                                     <RowDefinition Height="{Binding EmptyHeight}" />
+                                    <RowDefinition Height="Auto" />
                                     <RowDefinition Height="{Binding FilledHeight}" />
                                 </Grid.RowDefinitions>
+                                <TextBlock
+                                    x:Name="BarValue"
+                                    Grid.Row="2"
+                                    Margin="0,0,0,1"
+                                    HorizontalAlignment="Center"
+                                    FontSize="10"
+                                    FontWeight="Bold"
+                                    Foreground="{DynamicResource PrimaryBrush}"
+                                    Text="{Binding ValueText}">
+                                    <TextBlock.Visibility>
+                                        <MultiBinding Converter="{x:Static converters:FitsWidthToVisibilityConverter.Instance}">
+                                            <Binding Path="ActualWidth" RelativeSource="{RelativeSource Self}" />
+                                            <Binding Path="ActualWidth" RelativeSource="{RelativeSource AncestorType=Grid}" />
+                                        </MultiBinding>
+                                    </TextBlock.Visibility>
+                                </TextBlock>
                                 <Border
-                                    Grid.Row="1"
+                                    Grid.Row="3"
                                     MinHeight="1"
                                     Background="{DynamicResource PrimaryBrush}"
                                     CornerRadius="2,2,0,0" />

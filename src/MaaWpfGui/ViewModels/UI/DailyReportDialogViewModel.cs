@@ -396,11 +396,6 @@ public class DailyReportDialogViewModel : PropertyChangedBase
     public string ChartTitle { get; private set; } = string.Empty;
 
     /// <summary>
-    /// Gets 柱状图最大值文本。
-    /// </summary>
-    public string ChartMaxText { get; private set; } = string.Empty;
-
-    /// <summary>
     /// Gets 柱状图各柱。
     /// </summary>
     public IReadOnlyList<DailyReportChartBarViewModel> ChartBars { get; private set; } = [];
@@ -514,14 +509,12 @@ public class DailyReportDialogViewModel : PropertyChangedBase
 
         var max = values.Max();
         ChartBars = values
-            .Select((v, i) => new DailyReportChartBarViewModel(max == 0 ? 0 : (double)v / max, $"{BucketLabel(i)}  {v:N0}", TickLabel(i)))
+            .Select((v, i) => new DailyReportChartBarViewModel(max == 0 ? 0 : (double)v / max, $"{BucketLabel(i)}  {v:N0}", TickLabel(i), v == 0 ? string.Empty : v.FormatNumber()))
             .ToList();
-        ChartMaxText = max.ToString("N0", culture);
         ChartTitle = _selectedItemId is null
             ? LocalizationHelper.GetString("TaskQueue.DailyReport.Stat.Sanity")
             : ItemListHelper.GetItemName(_selectedItemId) ?? _selectedItemId;
         NotifyOfPropertyChange(nameof(ChartBars));
-        NotifyOfPropertyChange(nameof(ChartMaxText));
         NotifyOfPropertyChange(nameof(ChartTitle));
     }
 
