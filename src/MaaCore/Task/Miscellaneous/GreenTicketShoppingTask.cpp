@@ -77,7 +77,8 @@ bool asst::GreenTicketShoppingTask::_run()
         };
         const auto match = std::ranges::find_if(matches, complete_match);
         if (match != matches.end()) {
-            if (!ctrler()->click(match->rect) || !run_task("GreenTicket@Store@ReplenishPurchasePage", 3)) {
+            if (need_exit() || !ctrler()->click(match->rect) ||
+                !run_task("GreenTicket@Store@ReplenishPurchasePage", 3)) {
                 return false;
             }
             found = true;
