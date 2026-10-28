@@ -6398,18 +6398,12 @@
         "doc": "完整的剩余库存标签与数字；数字必须完整识别，不将 OCR 混淆字符替换为数字。"
     },
     "GreenTicket@Store@ReplenishPurchaseTotalPrice": {
-        "baseTask": "NumberOcrReplace",
-        "text": [],
-        "isAscii": true,
-        "withoutDet": true,
+        "baseTask": "GreenTicket@Store@ReplenishPurchaseQuantity",
         "binThreshold": [105, 255],
         "roi": [928, 498, 88, 40]
     },
     "GreenTicket@Store@ReplenishPurchaseBalance": {
-        "baseTask": "NumberOcrReplace",
-        "text": [],
-        "isAscii": true,
-        "withoutDet": true,
+        "baseTask": "GreenTicket@Store@ReplenishPurchaseQuantity",
         "binThreshold": [180, 255],
         "roi": [625, 14, 90, 50]
     },

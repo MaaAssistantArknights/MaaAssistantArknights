@@ -54,7 +54,6 @@ private:
     bool run_task(const std::string& task_name, int retry_times = 3);
     bool detect_task(const std::string& task_name);
     bool return_to_workshop();
-    std::optional<int> read_number(const std::string& task_name, bool exact = false);
     std::optional<std::string> recognize_material();
     void report_status(std::string what, json::value details = json::object());
     void report_result(Result result);

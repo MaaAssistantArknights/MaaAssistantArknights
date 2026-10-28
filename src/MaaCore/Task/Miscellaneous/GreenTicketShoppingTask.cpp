@@ -1,7 +1,6 @@
 #include "GreenTicketShoppingTask.h"
 
 #include <algorithm>
-#include <charconv>
 #include <cstdint>
 #include <ranges>
 
@@ -186,8 +185,7 @@ std::optional<int> asst::GreenTicketShoppingTask::read_remaining_stock(const cv:
             continue;
         }
         int remaining = 0;
-        const auto [end, error] = std::from_chars(number.data(), number.data() + number.size(), remaining);
-        if (error == std::errc {} && end == number.data() + number.size()) {
+        if (utils::chars_to_number<int, true>(number, remaining)) {
             return remaining;
         }
     }
