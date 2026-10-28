@@ -30,7 +30,7 @@ public static class GrowlHelper
 {
     private static readonly ILogger _logger = Log.ForContext(typeof(GrowlHelper));
 
-    private static readonly List<(InfoType Type, string? Message, Action Show)> _pending = [];
+    private static readonly List<(string Type, string? Message, Action Show)> _pending = [];
 
     private static bool _instantiatedSubscribed;
 
@@ -85,24 +85,26 @@ public static class GrowlHelper
     /// <param name="showGrowl">执行 Growl 显示的闭包，将在 UI 线程上调用。</param>
     public static void Show(InfoType type, string? message, Action showGrowl)
     {
+        // gui.log 模板为 {Message:lj}，非字符串值按 JSON 渲染会给枚举加引号，故先转字符串
+        var typeName = type.ToString();
         Execute.OnUIThread(() => {
             var win = Instances.MainWindowManager?.GetWindowIfVisible();
             if (win == null)
             {
-                _logger.Information("Growl {Type} (deferred, main window hidden): {Message}", type, message);
-                _pending.Add((type, message, showGrowl));
+                _logger.Information("Growl {Type} (deferred, main window hidden): {Message}", typeName, message);
+                _pending.Add((typeName, message, showGrowl));
                 EnsureHandlersAttached();
                 return;
             }
 
-            _logger.Information("Growl {Type}: {Message}", type, message);
+            _logger.Information("Growl {Type}: {Message}", typeName, message);
             try
             {
                 showGrowl();
             }
             catch (Exception e)
             {
-                _logger.Error(e, "Failed to show growl {Type}: {Message}", type, message);
+                _logger.Error(e, "Failed to show growl {Type}: {Message}", typeName, message);
                 throw;
             }
         });
