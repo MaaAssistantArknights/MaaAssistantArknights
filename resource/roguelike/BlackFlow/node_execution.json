@@ -13,10 +13,29 @@
         {
             "id": "combat",
             "page_intent": "default",
-            "node_types": ["battle_normal", "battle_elite", "battle_savage", "hide_battle", "battle_boss"],
+            "node_types": ["battle_normal", "battle_elite", "battle_savage", "hide_battle"],
             "rank": 0,
             "alias": "BlackFlow@Roguelike@NodeDispatchAction",
             "task": "BlackFlow@Roguelike@Page-Combat",
+            "completion_task": "BlackFlow@Roguelike@LegacyCompletion-NodePage"
+        },
+        {
+            "id": "boss",
+            "page_intent": "default",
+            "node_types": ["battle_boss"],
+            "rank": 1,
+            "alias": "BlackFlow@Roguelike@NodeDispatchAction",
+            "task": "BlackFlow@Roguelike@Page-Combat",
+            "completion_task": "BlackFlow@Roguelike@LegacyCompletion-NodePage"
+        },
+        {
+            "id": "floor5_boss",
+            "page_intent": "default",
+            "floor_window": [5, 5],
+            "node_types": ["battle_boss"],
+            "rank": 0,
+            "alias": "BlackFlow@Roguelike@NodeDispatchAction",
+            "task": "BlackFlow@Roguelike@Page-Floor5Boss",
             "completion_task": "BlackFlow@Roguelike@LegacyCompletion-NodePage"
         },
         {
