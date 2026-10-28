@@ -19,16 +19,6 @@ bool asst::StageQueueMissionCompletedTaskPlugin::verify(AsstMsg msg, const json:
     return details.get("details", "task", "") == "StageQueue@EndOfAction";
 }
 
-void asst::StageQueueMissionCompletedTaskPlugin::set_drop_stats(std::unordered_map<std::string, int> drop_stats)
-{
-    m_drop_stats = std::move(drop_stats);
-}
-
-std::unordered_map<std::string, int> asst::StageQueueMissionCompletedTaskPlugin::get_drop_stats()
-{
-    return m_drop_stats;
-}
-
 bool asst::StageQueueMissionCompletedTaskPlugin::_run()
 {
     LogTraceFunction;
