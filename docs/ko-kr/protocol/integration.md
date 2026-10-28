@@ -1459,7 +1459,7 @@ Sarkaz 테마, Investment 모드, "연금술 분대" 또는 "지원 분대"일 �
 @type array<object>
 @required
 클라이언트 언어와 관계없이 `name`에는 중국어 간체 오퍼레이터 이름을 사용합니다.
-육성 계획 배열입니다. 각 항목은 `name`(오퍼레이터 이름)이 필수입니다. `role`(클래스)은 생략할 수 있지만 여러 클래스를 가진 오퍼레이터는 지정해야 합니다. 선택 목표: `elite`는 1–2, `skill_level`은 2–7, `skill_mastery`는 세 스킬의 목표 특화 레벨 배열이며 각 값은 0–3(0은 건너뛰기)입니다. 생략한 목표는 실행하지 않습니다.
+육성 계획 배열입니다. 각 항목은 `name`(오퍼레이터 이름)이 필수입니다. `role`(클래스)은 생략할 수 있지만 여러 클래스를 가진 오퍼레이터는 지정해야 하며, 값은 `Pioneer`, `Warrior`, `Tank`, `Sniper`, `Caster`, `Medic`, `Support`, `Special` 중 하나입니다. 선택 목표: `elite`는 1–2, `skill_level`은 2–7, `skill_mastery`는 세 스킬의 목표 특화 레벨 배열이며 각 값은 0–3(0은 건너뛰기)입니다. 생략한 목표는 실행하지 않습니다.
 :::
 ::: field buy_materials_with_green_tickets
 @type boolean

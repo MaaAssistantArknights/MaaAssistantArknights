@@ -1458,7 +1458,7 @@ Tag 等級（大於等於 3）對應的期望招募時限（單位：分鐘）�
 @type array<object>
 @required
 `name` 使用簡體中文幹員名，與用戶端語言無關。
-培養計畫陣列。每項必填 `name`（幹員名）；`role`（職業）可省略，但多職業幹員必須指定。可選目標：`elite` 為 1–2，`skill_level` 為 2–7，`skill_mastery` 為三個技能的目標專精等級陣列（各 0–3，0 表示略過）。省略的目標不執行。
+培養計畫陣列。每項必填 `name`（幹員名）；`role`（職業）可省略，但多職業幹員必須指定，取值為 `Pioneer`, `Warrior`, `Tank`, `Sniper`, `Caster`, `Medic`, `Support`, `Special`。可選目標：`elite` 為 1–2，`skill_level` 為 2–7，`skill_mastery` 為三個技能的目標專精等級陣列（各 0–3，0 表示略過）。省略的目標不執行。
 :::
 ::: field buy_materials_with_green_tickets
 @type boolean

@@ -1457,13 +1457,13 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 @type array<object>
 @required
 `name` 使用简体中文干员名，与客户端语言无关。
-培养计划数组。每项必填 `name`（干员名）；`role`（职业）可省略，但多职业干员必须指定。可选目标：`elite` 为 1–2，`skill_level` 为 2–7，`skill_mastery` 为三个技能的目标专精等级数组（各 0–3，0 表示跳过）。省略的目标不执行。
+培养计划数组。每项必填 `name`（干员名）；`role`（职业）可省略，但多职业干员必须指定，取值为 `Pioneer`, `Warrior`, `Tank`, `Sniper`, `Caster`, `Medic`, `Support`, `Special`。可选目标：`elite` 为 1–2，`skill_level` 为 2–7，`skill_mastery` 为三个技能的目标专精等级数组（各 0–3，0 表示跳过）。省略的目标不执行。
 :::
 ::: field buy_materials_with_green_tickets
 @type boolean
 @default false
 @optional
-是否在合成仍缺料时，用绿票从已解锁的商店二层补购蓝材料。缺口超过剩余额度时只兑换剩余部分；余额不足或无法确认购买信息时不兑换。
+是否在合成后仍缺料时，用绿票从已解锁的商店二层补购蓝材料。缺口超过剩余额度时只兑换剩余部分；余额不足或无法确认购买信息时不兑换。
 :::
 ::::
 

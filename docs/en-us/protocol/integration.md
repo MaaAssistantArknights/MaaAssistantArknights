@@ -1458,7 +1458,7 @@ Whether to enable this task.
 @type array<object>
 @required
 Use the Simplified Chinese operator name for `name`, regardless of client language.
-Development plans. Each object requires `name` (operator name). `role` (class) is optional unless the operator has multiple classes. Optional targets: `elite` is 1–2; `skill_level` is 2–7; `skill_mastery` is an array of three target mastery levels, each 0–3 (0 skips that skill). Omitted targets are skipped.
+Development plans. Each object requires `name` (operator name). `role` (class) is optional unless the operator has multiple classes; use `Pioneer`, `Warrior`, `Tank`, `Sniper`, `Caster`, `Medic`, `Support`, `Special`. Optional targets: `elite` is 1–2; `skill_level` is 2–7; `skill_mastery` is an array of three target mastery levels, each 0–3 (0 skips that skill). Omitted targets are skipped.
 :::
 ::: field buy_materials_with_green_tickets
 @type boolean
