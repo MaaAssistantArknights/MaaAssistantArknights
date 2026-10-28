@@ -29,11 +29,10 @@ bool asst::ItemConfig::parse(const json::value& json)
             material_sortid.emplace(id, item_json.at("sortId").as_integer());
             if (const auto formula = item_json.find<std::unordered_map<std::string, int>>("formula")) {
                 m_item_formulas.emplace(id, *formula);
-            }
-            // All dual-chip formulas in the current official data consume chip catalysts.
-            if (const auto formula_opt = item_json.find("formula");
-                formula_opt && !formula_opt->contains(ChipCatalystItemId.data())) {
-                non_chip_formula_item_ids.emplace(id);
+                // All dual-chip formulas in the current official data consume chip catalysts.
+                if (!formula->contains(ChipCatalystItemId.data())) {
+                    non_chip_formula_item_ids.emplace(id);
+                }
             }
         }
     }

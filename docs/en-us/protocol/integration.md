@@ -601,7 +601,7 @@ Whether to continue unfinished skill training in the Training Room.
 @type boolean
 @default false
 @optional
-Only applies when `continue_training` is `true`. Enables green-ticket replenishment when infrastructure continues a completed mastery training; independent of the operator development parameter of the same name. Try workshop synthesis first, then exchange the current blue-material shortfall on the already unlocked second floor, including blue ingredients for recursive synthesis. Never buy first-floor goods to unlock the second floor. Return to the original training room and continue the same operator and skill without additionally changing the assistant. Stop replenishment if funds, stock, or recognition are insufficient; resume existing shift logic after restoring the training room, or stop handling that room if recovery fails. The WPF infrastructure setting is "Use green tickets to replenish materials when continuing training", disabled by default. Successful exchanges emit `GreenTicketPurchased` with the same fields as operator development.
+Whether to replenish materials with green tickets when continuing mastery. Only effective when `continue_training` is `true`. Independent of the same parameter in `OperProgress`; replenishment rules and the success callback are the same.
 :::
 ::::
 
@@ -1447,43 +1447,28 @@ Whether to enable this task.
 - `OperProgress`
   Operator development
 
-The WPF operator development settings include "Exchange missing materials with green tickets", disabled by default. Synthesis takes priority; if it cannot fill the gap, exchange the materials needed for the current promotion, skill upgrade, or mastery step on the second floor of the green ticket store. Ingredients needed by synthesis recipes are supported. Unlock the second floor manually first; this feature does not buy first-floor goods to unlock it.
-
 :::: field-group
+::: field enable
+@type boolean
+@default true
+@optional
+Whether to enable this task.
+:::
 ::: field plans
-@type object[]
+@type array<object>
 @required
+Use the Simplified Chinese operator name for `name`, regardless of client language.
 Development plans. Each object requires `name` (operator name). `role` (class) is optional unless the operator has multiple classes. Optional targets: `elite` is 1–2; `skill_level` is 2–7; `skill_mastery` is an array of three target mastery levels, each 0–3 (0 skips that skill). Omitted targets are skipped.
 :::
 ::: field buy_materials_with_green_tickets
 @type boolean
 @default false
 @optional
-Whether to replenish missing materials for the current development step with green tickets.
+Whether to buy missing blue materials from the already-unlocked second floor with green tickets when synthesis cannot supply them. If the shortfall exceeds the remaining quota, buy only the available amount. Do not purchase if funds are insufficient or purchase information cannot be confirmed.
 :::
 ::::
 
-The product name, quantity, total price, and balance are checked before payment. Replenishment for the current step stops if limited stock is zero, funds are insufficient, recognition fails, or the same shortfall does not decrease after a purchase. Material exchange vouchers are not used automatically.
-
-Both features share the prices and two monthly quotas in the `GreenTicket@Store@ReplenishItem-*` task resources, based on [PRTS stage two](https://prts.wiki/w/采购中心#tabber-阶段2). Limited stock is checked before quantity selection and payment. If the shortfall exceeds the remaining quota, exchange only the available amount, restore the original page, and end replenishment for the current step. Zero or unreadable limited stock and insufficient funds prevent payment. Requests are not split into batches. `GreenTicket@Store@ReplenishShopProfile.specialParams` defaults to `[0]`. After the selected server deploys unlimited monthly exchanges for Loxic Kohl, Manganese Ore, Grindstone, and RMA70-12, set that node to `[1]` in `resource/tasks/tasks.json` and restart. Set `[0]` to switch back. The [CN update](https://ak.hypergryph.com/news/0787) is scheduled for November 1, 2026, at 12:00 UTC+08:00; switch other servers according to their actual deployment.
-
-A successful purchase emits `SubTaskExtraInfo` with `what: "GreenTicketPurchased"`. Its `details` contains `material` (name), `material_id`, `count` (quantity purchased), and `cost` (green tickets spent).
-
-Skill Summary - 2 is exchanged in bundles of 3 for 20 green tickets, up to 15 exchanges per month. Round the missing book count up to whole bundles; the reported quantity is the number of books received.
-
-<details>
-<summary>Example</summary>
-
-```json
-{
-    "plans": [
-        { "role": "Caster", "name": "逻各斯", "elite": 2, "skill_level": 7 }
-    ],
-    "buy_materials_with_green_tickets": false
-}
-```
-
-</details>
+A successful purchase emits `SubTaskExtraInfo` with `what: "GreenTicketPurchased"`. Its `details` contains `material` (name), `material_id`, `count` (number of material items received), and `cost` (green tickets spent).
 
 - `Reclamation`  
   Reclamation Algorithm

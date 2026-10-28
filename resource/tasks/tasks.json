@@ -6225,8 +6225,7 @@
         "next": [
             "Store@EnterStore",
             "Store@EnterTicketStore",
-            "Store@QuickSwitch@ToMall@Entry",
-            "Store@QuickSwitch@ToMall@Open",
+            "Store@QuickSwitchEnterStore#next",
             "GreenTicket@Store@ReplenishStoreReturn"
         ]
     },
@@ -6243,8 +6242,13 @@
     },
     "GreenTicket@Store@ReplenishSecondFloor": {
         "baseTask": "GreenTicket@Store@ClickSecondFloor",
-        "next": [],
+        "next": ["GreenTicket@Store@ReplenishSecondFloorCheck"],
         "doc": "只进入已解锁的二层，不执行一层购买或解锁操作。"
+    },
+    "GreenTicket@Store@ReplenishSecondFloorCheck": {
+        "baseTask": "GreenTicket@Store@SecondFloor-Check",
+        "template": "GreenTicket@Store@SecondFloor-Check.png",
+        "next": []
     },
     "GreenTicket@Store@ReplenishPurchasePage": {
         "baseTask": "GreenTicket@Store@Purchase",

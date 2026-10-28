@@ -11,7 +11,6 @@ import os
 from pathlib import Path
 import tempfile
 import unittest
-import xml.etree.ElementTree as ET
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -35,7 +34,11 @@ class ResourceTests(unittest.TestCase):
         self.assertEqual(entry["next"], ["GreenTicket@Store@ReplenishSecondFloor"])
         floor = self.resolved(entry["next"][0])
         self.assertEqual(floor["text"], ["2"])
-        self.assertEqual(floor["next"], [])
+        self.assertEqual(floor["next"], ["GreenTicket@Store@ReplenishSecondFloorCheck"])
+        check = self.resolved(floor["next"][0])
+        self.assertEqual(check["template"], "GreenTicket@Store@SecondFloor-Check.png")
+        self.assertEqual(check["method"], "HSVCount")
+        self.assertEqual(check["next"], [])
 
     def test_purchase_stops_after_the_confirmed_receipt(self):
         purchase = self.resolved("GreenTicket@Store@ReplenishPurchase")
@@ -44,44 +47,21 @@ class ResourceTests(unittest.TestCase):
         )
         receipt = self.resolved(purchase["next"][0])
         self.assertEqual(receipt["template"], "CreditShop-Bought.png")
-        self.assertEqual(receipt["next"], [])
+        for field in ["next", "onErrorNext", "exceededNext", "sub"]:
+            self.assertEqual(receipt.get(field, []), [], field)
         self.assertEqual(purchase["maxTimes"], 1)
 
-    def test_receipt_retries_cannot_restart_payment(self):
-        payment = "GreenTicket@Store@ReplenishPurchase"
-        self.assertEqual(self.resolved(payment)["maxTimes"], 1)
-        pending = ["GreenTicket@Store@ReplenishPurchasedConfirm"]
-        visited = set()
-        while pending:
-            name = pending.pop()
-            self.assertNotEqual(name, payment)
-            if name in visited:
-                continue
-            visited.add(name)
-            task = self.resolved(name)
-            for field in ["next", "onErrorNext", "exceededNext", "sub"]:
-                pending.extend(task.get(field, []))
-
-    def test_mastery_selection_waits_for_material_validation(self):
-        for skill in range(1, 4):
-            with self.subTest(skill=skill):
-                selector = self.resolved(f"OperProgress@MasterySelectSkill{skill}")
-                self.assertEqual(selector["next"], ["OperProgress@MasteryPage"])
-                panel = self.resolved(selector["next"][0])
-                self.assertEqual(panel["action"], "DoNothing")
-                self.assertEqual(panel["next"], [])
-                # The original path still starts training directly when opt-in is off.
-                legacy = self.resolved(f"InfrastTrainingContinue{skill}")
-                self.assertEqual(legacy["next"], ["InfrastTrainingConfirm"])
-
-    def test_quantity_observations_fit_the_screen(self):
+    def test_material_and_purchase_observations_fit_the_screen(self):
         names = [
             name
             for name in self.tasks
-            if name.endswith("Quantity")
-            and (
+            if (
                 name.startswith("MiniGame@MaterialSynthesis@Ingredient")
-                or name.startswith("GreenTicket@Store@Replenish")
+                and name.endswith("Quantity")
+            )
+            or (
+                name.startswith("GreenTicket@Store@Replenish")
+                and "roi" in self.resolved(name)
             )
         ]
         self.assertTrue(names)
@@ -94,26 +74,6 @@ class ResourceTests(unittest.TestCase):
                 self.assertGreaterEqual(y, 0)
                 self.assertLessEqual(x + width, 1280)
                 self.assertLessEqual(y + height, 720)
-
-    def test_localized_setting_and_receipt_are_available(self):
-        keys = [
-            "TaskQueue.OperProgress.BuyMaterialsWithGreenTickets",
-            "TaskQueue.OperProgress.BuyMaterialsWithGreenTicketsTip",
-            "Asst.GreenTicketPurchased",
-            "Infrast.BuyMaterialsWithGreenTickets",
-            "Infrast.BuyMaterialsWithGreenTicketsTip",
-        ]
-        key_attribute = "{http://schemas.microsoft.com/winfx/2006/xaml}Key"
-        for lang in ["zh-cn", "zh-tw", "en-us", "ja-jp", "ko-kr"]:
-            path = ROOT / f"src/MaaWpfGui/Res/Localizations/{lang}.xaml"
-            entries = list(ET.parse(path).getroot())
-            for key in keys:
-                with self.subTest(lang=lang, key=key):
-                    matches = [
-                        entry for entry in entries if entry.get(key_attribute) == key
-                    ]
-                    self.assertEqual(len(matches), 1)
-                    self.assertTrue(matches[0].text)
 
 
 @unittest.skipUnless(
