@@ -30,25 +30,27 @@ class ResourceTests(unittest.TestCase):
         return {**base, **task}
 
     def test_second_floor_does_not_start_the_normal_shopping_list(self):
-        entry = self.resolved("OperProgress@GreenTicketChooseTicketType")
+        entry = self.resolved("GreenTicket@Store@ReplenishChooseTicketType")
         self.assertEqual(entry["text"], ["资质凭证区"])
-        self.assertEqual(entry["next"], ["OperProgress@GreenTicketSecondFloor"])
+        self.assertEqual(entry["next"], ["GreenTicket@Store@ReplenishSecondFloor"])
         floor = self.resolved(entry["next"][0])
         self.assertEqual(floor["text"], ["2"])
         self.assertEqual(floor["next"], [])
 
     def test_purchase_stops_after_the_confirmed_receipt(self):
-        purchase = self.resolved("OperProgress@GreenTicketPurchase")
-        self.assertEqual(purchase["next"], ["OperProgress@GreenTicketPurchasedConfirm"])
+        purchase = self.resolved("GreenTicket@Store@ReplenishPurchase")
+        self.assertEqual(
+            purchase["next"], ["GreenTicket@Store@ReplenishPurchasedConfirm"]
+        )
         receipt = self.resolved(purchase["next"][0])
         self.assertEqual(receipt["template"], "CreditShop-Bought.png")
         self.assertEqual(receipt["next"], [])
         self.assertEqual(purchase["maxTimes"], 1)
 
     def test_receipt_retries_cannot_restart_payment(self):
-        payment = "OperProgress@GreenTicketPurchase"
+        payment = "GreenTicket@Store@ReplenishPurchase"
         self.assertEqual(self.resolved(payment)["maxTimes"], 1)
-        pending = ["OperProgress@GreenTicketPurchasedConfirm"]
+        pending = ["GreenTicket@Store@ReplenishPurchasedConfirm"]
         visited = set()
         while pending:
             name = pending.pop()
@@ -60,6 +62,18 @@ class ResourceTests(unittest.TestCase):
             for field in ["next", "onErrorNext", "exceededNext", "sub"]:
                 pending.extend(task.get(field, []))
 
+    def test_mastery_selection_waits_for_material_validation(self):
+        for skill in range(1, 4):
+            with self.subTest(skill=skill):
+                selector = self.resolved(f"OperProgress@MasterySelectSkill{skill}")
+                self.assertEqual(selector["next"], ["OperProgress@MasteryPage"])
+                panel = self.resolved(selector["next"][0])
+                self.assertEqual(panel["action"], "DoNothing")
+                self.assertEqual(panel["next"], [])
+                # The original path still starts training directly when opt-in is off.
+                legacy = self.resolved(f"InfrastTrainingContinue{skill}")
+                self.assertEqual(legacy["next"], ["InfrastTrainingConfirm"])
+
     def test_quantity_observations_fit_the_screen(self):
         names = [
             name
@@ -67,7 +81,7 @@ class ResourceTests(unittest.TestCase):
             if name.endswith("Quantity")
             and (
                 name.startswith("MiniGame@MaterialSynthesis@Ingredient")
-                or name.startswith("OperProgress@GreenTicket")
+                or name.startswith("GreenTicket@Store@Replenish")
             )
         ]
         self.assertTrue(names)
@@ -85,7 +99,9 @@ class ResourceTests(unittest.TestCase):
         keys = [
             "TaskQueue.OperProgress.BuyMaterialsWithGreenTickets",
             "TaskQueue.OperProgress.BuyMaterialsWithGreenTicketsTip",
-            "TaskQueue.OperProgress.GreenTicketPurchasedLog",
+            "Asst.GreenTicketPurchased",
+            "Infrast.BuyMaterialsWithGreenTickets",
+            "Infrast.BuyMaterialsWithGreenTicketsTip",
         ]
         key_attribute = "{http://schemas.microsoft.com/winfx/2006/xaml}Key"
         for lang in ["zh-cn", "zh-tw", "en-us", "ja-jp", "ko-kr"]:
@@ -144,6 +160,37 @@ class CoreTests(unittest.TestCase):
             b"OperProgress",
             json.dumps(params, ensure_ascii=False).encode(),
         )
+
+    def append_infrast(self, **extra):
+        return self.core.AsstAppendTask(
+            self.handle,
+            b"Infrast",
+            json.dumps({"facility": ["Training"], **extra}).encode(),
+        )
+
+    def test_infrastructure_default_and_each_switch_combination(self):
+        self.assertGreater(self.append_infrast(), 0)
+        for enabled in [True, False]:
+            for continued in [True, False]:
+                with self.subTest(enabled=enabled, continued=continued):
+                    self.assertGreater(
+                        self.append_infrast(
+                            continue_training=continued,
+                            buy_materials_with_green_tickets=enabled,
+                        ),
+                        0,
+                    )
+
+    def test_infrastructure_rejects_invalid_purchase_option(self):
+        for value in [None, 0, 1, "true", "false", [], {}]:
+            with self.subTest(value=value):
+                self.assertEqual(
+                    self.append_infrast(
+                        continue_training=True,
+                        buy_materials_with_green_tickets=value,
+                    ),
+                    0,
+                )
 
     def test_existing_plan_without_the_new_option(self):
         self.assertGreater(self.append(), 0)

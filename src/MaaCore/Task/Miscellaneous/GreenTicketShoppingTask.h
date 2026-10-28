@@ -1,0 +1,27 @@
+#pragma once
+
+#include "Task/AbstractTask.h"
+
+namespace asst
+{
+class GreenTicketShoppingTask final : public AbstractTask
+{
+public:
+    GreenTicketShoppingTask(const AsstCallback& callback, Assistant* inst, std::string_view task_chain);
+
+    void set_material(std::string item_id, int count)
+    {
+        m_item_id = std::move(item_id);
+        m_count = count;
+    }
+
+protected:
+    bool _run() override;
+
+private:
+    bool run_task(const std::string& name, int retry_times = RetryTimesDefault);
+
+    std::string m_item_id;
+    int m_count = 0;
+};
+}

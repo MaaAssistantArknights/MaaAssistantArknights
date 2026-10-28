@@ -18,8 +18,8 @@ int main(int argc, char** argv)
     auto handle = AsstCreate();
     assert(handle);
     assert(asst::ItemData.get_item_formula("30013").at("30012") == 5);
-    assert(asst::Task.get("OperProgress@GreenTicketSecondFloor")->next.empty());
-    assert(asst::Task.get("OperProgress@GreenTicketPurchasedConfirm")->next.empty());
+    assert(asst::Task.get("GreenTicket@Store@ReplenishSecondFloor")->next.empty());
+    assert(asst::Task.get("GreenTicket@Store@ReplenishPurchasedConfirm")->next.empty());
 
     const auto& templ = asst::TemplResource::get_instance().get_templ("30073");
     assert(!templ.empty());
@@ -63,7 +63,7 @@ int main(int argc, char** argv)
             1,
             cv::LINE_AA);
         const auto selected =
-            asst::MaterialSynthesisImageAnalyzer::read_number(dialog, "OperProgress@GreenTicketPurchaseQuantity");
+            asst::MaterialSynthesisImageAnalyzer::read_number(dialog, "GreenTicket@Store@ReplenishPurchaseQuantity");
         assert(selected == value);
     }
     AsstDestroy(handle);

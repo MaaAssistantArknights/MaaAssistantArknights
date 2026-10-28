@@ -310,6 +310,12 @@ public class InfrastTaskUserControlModel : TaskSettingsViewModel, InfrastTaskUse
         set => SetTaskConfig<InfrastTask>(t => t.ContinueTraining == value, t => t.ContinueTraining = value);
     }
 
+    public bool BuyMaterialsWithGreenTickets
+    {
+        get => GetTaskConfig<InfrastTask>().BuyMaterialsWithGreenTickets;
+        set => SetTaskConfig<InfrastTask>(t => t.BuyMaterialsWithGreenTickets == value, t => t.BuyMaterialsWithGreenTickets = value);
+    }
+
     public string FiammettaTarget1
     {
         get => GetTaskConfig<InfrastTask>().FiammettaTarget1;
@@ -752,6 +758,7 @@ public class InfrastTaskUserControlModel : TaskSettingsViewModel, InfrastTaskUse
                 Facilitys = [.. rooms.Where(i => i.IsEnabled).Select(i => i.Room.ToString())],
                 UsesOfDrones = infrast.UsesOfDrones,
                 ContinueTraining = infrast.ContinueTraining,
+                BuyMaterialsWithGreenTickets = infrast.BuyMaterialsWithGreenTickets,
                 DormThreshold = infrast.DormThreshold / 100.0,
                 DormFilterNotStationedEnabled = infrast.DormFilterNotStationed,
                 DormTrustEnabled = infrast.DormTrustEnabled,
