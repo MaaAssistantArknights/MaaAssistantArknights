@@ -1451,7 +1451,9 @@ The WPF operator development settings include "Exchange missing materials with g
 
 `buy_materials_with_green_tickets`: boolean, optional, default `false`.
 
-The product name, quantity, total price, and balance are checked before payment. Replenishment for the current step stops if stock or funds are insufficient, recognition fails, or the same shortfall does not decrease after a purchase. Each purchase is limited to 99 items and each development action to 16 purchases. Material exchange vouchers are not used automatically.
+The product name, quantity, total price, and balance are checked before payment. Replenishment for the current step stops if stock or funds are insufficient, recognition fails, or the same shortfall does not decrease after a purchase. Material exchange vouchers are not used automatically.
+
+Both features share the prices and two monthly quotas in the `GreenTicket@Store@ReplenishItem-*` task resources, based on [PRTS stage two](https://prts.wiki/w/采购中心#tabber-阶段2). Limited stock is checked before quantity selection and payment. If the shortfall exceeds the remaining quota, exchange only the available amount, restore the original page, and end replenishment for the current step. Zero or unreadable stock and insufficient funds prevent payment. Requests are not split into batches. `GreenTicket@Store@ReplenishShopProfile.specialParams` defaults to `[0]`. After the selected server deploys unlimited monthly exchanges for Loxic Kohl, Manganese Ore, Grindstone, and RMA70-12, set that node to `[1]` in `resource/tasks/tasks.json` and restart. Set `[0]` to switch back. The [CN update](https://ak.hypergryph.com/news/0787) is scheduled for November 1, 2026, at 12:00 UTC+08:00; switch other servers according to their actual deployment.
 
 A successful purchase emits `SubTaskExtraInfo` with `what: "GreenTicketPurchased"`. Its `details` contains `material` (name), `material_id`, `count` (quantity purchased), and `cost` (green tickets spent).
 

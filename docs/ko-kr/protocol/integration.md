@@ -1452,7 +1452,9 @@ WPF 육성 설정에서 "부족한 재료를 녹색 티켓으로 교환"을 활�
 
 `buy_materials_with_green_tickets`: boolean, optional, default `false`.
 
-결제 전에 상품명, 수량, 총가격과 잔액을 확인합니다. 재고나 잔액 부족, 인식 실패 또는 구매 후에도 동일한 부족 수량이 줄지 않으면 현재 단계의 보충을 중단합니다. 한 번에 최대 99개, 육성 동작당 최대 16회 구매하며 재료 교환권은 자동 사용하지 않습니다.
+결제 전에 상품명, 수량, 총가격과 잔액을 확인합니다. 재고나 잔액 부족, 인식 실패 또는 구매 후에도 동일한 부족 수량이 줄지 않으면 현재 단계의 보충을 중단합니다. 재료 교환권은 자동 사용하지 않습니다.
+
+두 기능은 [PRTS 2단계 표](https://prts.wiki/w/采购中心#tabber-阶段2)에 따른 `GreenTicket@Store@ReplenishItem-*`의 단가와 두 버전의 월간 한도를 공유합니다. 수량 변경 전과 결제 전에 실제 한정 재고를 확인합니다. 부족 수량이 남은 교환 한도를 초과하면 가능한 수량만 교환하고 원래 화면으로 복귀한 뒤 현재 단계의 보충을 종료합니다. 재고가 없거나 인식하지 못한 경우 및 잔액 부족 시 결제하지 않으며, 나누어 구매하지 않습니다. `GreenTicket@Store@ReplenishShopProfile`의 `specialParams` 기본값은 `[0]`입니다. 이용 서버에서 로식 콜, 망간 광석, 연마석, RMA70-12의 월간 한도가 해제된 후 `resource/tasks/tasks.json`의 해당 노드를 `[1]`로 바꾸고 재시작하세요. `[0]`으로 되돌릴 수 있습니다. [중국 서버](https://ak.hypergryph.com/news/0787)는 2026년 11월 1일 12:00(UTC+08:00)에 업데이트 예정이며 다른 서버는 실제 업데이트에 맞춰 전환하세요.
 
 교환에 성공하면 `SubTaskExtraInfo`의 `what: "GreenTicketPurchased"`를 알립니다. `details`에는 `material`(재료명), `material_id`, `count`(교환 수량), `cost`(소비한 녹색 티켓 수)가 포함됩니다.
 
