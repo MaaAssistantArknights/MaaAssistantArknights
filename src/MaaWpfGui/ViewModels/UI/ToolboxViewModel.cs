@@ -652,10 +652,10 @@ public class ToolboxViewModel : Screen
             ["data"] = JObject.FromObject(DepotResult.Where(item => item.Count >= 0).ToDictionary(item => item.Id, item => item.Count)),
         };
 
-        // 保存同步时间为 UTC（如果有）
+        // 保存同步时间为 UTC（如果有）；统一 Z 后缀形态，读取侧按时刻解析，兼容历史 +offset 形态
         if (LastDepotSyncTime.HasValue)
         {
-            details["syncTime"] = LastDepotSyncTime.Value.ToLocalTime().ToString("o"); // ISO 8601 格式
+            details["syncTime"] = LastDepotSyncTime.Value.UtcDateTime.ToString("o"); // ISO 8601 格式
         }
 
         JsonDataHelper.Set(JsonDataKey.DepotData, details);
