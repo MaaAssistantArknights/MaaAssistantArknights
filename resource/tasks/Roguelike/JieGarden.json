@@ -1391,6 +1391,9 @@
         "binThreshold": [200, 255],
         "useRaw": false
     },
+    "JieGarden@Roguelike@StrategyChange_mode20002": {
+        "baseTask": "JieGarden@Roguelike@StrategyChange_mode20001"
+    },
     "JieGarden@Roguelike@StrategyChange_mode4": {
         "text": ["_default", "_exit", "_leaveBoskyPassage"],
         "ocrReplace": [

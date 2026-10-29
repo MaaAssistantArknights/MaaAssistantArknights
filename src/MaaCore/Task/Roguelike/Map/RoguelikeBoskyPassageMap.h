@@ -34,6 +34,9 @@ public:
 
     void set_visited(size_t index);
 
+    // 撤销「已访问」：点击后没能进入节点时用来重试
+    void set_unvisited(size_t index);
+
     void set_node_type(size_t index, RoguelikeNodeType type);
 
     void set_curr_pos(size_t index) { m_curr_pos = index; }

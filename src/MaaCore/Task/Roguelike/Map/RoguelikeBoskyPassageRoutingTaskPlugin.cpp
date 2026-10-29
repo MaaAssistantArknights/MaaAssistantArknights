@@ -50,6 +50,10 @@ bool asst::RoguelikeBoskyPassageRoutingTaskPlugin::load_params([[maybe_unused]] 
 void asst::RoguelikeBoskyPassageRoutingTaskPlugin::reset_in_run_variables()
 {
     RoguelikeBoskyPassageMap::get_instance().reset();
+    m_map_initialized = false;
+    m_reset_map_pending = false;
+    m_last_clicked.reset();
+    m_click_fail_count.clear();
 }
 
 bool asst::RoguelikeBoskyPassageRoutingTaskPlugin::verify(const AsstMsg msg, const json::value& details) const
@@ -121,12 +125,25 @@ void asst::RoguelikeBoskyPassageRoutingTaskPlugin::bosky_update_map()
 
     Log.info(__FUNCTION__, "| updating bosky map");
 
-    if (m_reset_map_pending) {
-        // 新树洞 = 新布局。不清的话旧布局的节点会残留，而候选节点按 index 取（行优先，越靠上越优先），
-        // 残留格子在当前画面里往往也压着一个节点，于是会挑中「目标节点上方那一格」。
+    if (!m_map_initialized || m_reset_map_pending) {
+        // 一张树洞地图 = 一份节点状态。插件随任务重建，所以重开任务时这里也会清一次，
+        // 不会沿用上一轮残留的「已访问/开放」状态（否则会跳过真正的目标节点去点别的格子）。
         RoguelikeBoskyPassageMap::get_instance().reset();
+        m_click_fail_count.clear();
+        m_last_clicked.reset();
+        m_map_initialized = true;
         m_reset_map_pending = false;
-        Log.info(__FUNCTION__, "| entering a new bosky passage, map cleared");
+        Log.info(__FUNCTION__, "| fresh bosky map, node state cleared");
+    }
+
+    // 上一次点击到现在过了多久；点击后地图很快又出现 = 那次点击没进节点
+    std::optional<size_t> previous_click = m_last_clicked;
+    long long previous_click_ms = 0;
+    if (previous_click.has_value()) {
+        m_last_clicked.reset();
+        previous_click_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+                               std::chrono::steady_clock::now() - m_last_click_time)
+                               .count();
     }
 
     // 有时候从不期而遇出来可能会多点一下，点到剩余烛火，导致接下来的一次点击只会把窗口关掉，无法进入节点。而且还遮挡了部分节点
@@ -212,6 +229,30 @@ void asst::RoguelikeBoskyPassageRoutingTaskPlugin::bosky_update_map()
         /*description=*/"bosky map draw",
         /*suffix=*/"draw");
 #endif
+
+    if (previous_click.has_value()) {
+        const size_t idx = previous_click.value();
+        auto& fails = m_click_fail_count[idx];
+        const bool still_open = RoguelikeBoskyPassageMap::get_instance().get_node_open(idx);
+        if (previous_click_ms < 4000 && still_open && fails < 3) {
+            // 点完立刻回到选点 = 这一下没把节点打开（没点中 / 被弹窗吃掉），撤销 visited 重试，
+            // 否则它会当成已完成，退而求其次去点优先级更低、还压在它上面一格的节点。
+            ++fails;
+            RoguelikeBoskyPassageMap::get_instance().set_unvisited(idx);
+            Log.warn(
+                __FUNCTION__,
+                "| click on node",
+                idx,
+                "did not open it after",
+                previous_click_ms,
+                "ms, retry",
+                fails,
+                "/3");
+        }
+        else {
+            m_click_fail_count.erase(idx);
+        }
+    }
 
     Log.info(__FUNCTION__, "| map updated with", RoguelikeBoskyPassageMap::get_instance().size(), "nodes");
 }
@@ -300,6 +341,8 @@ void asst::RoguelikeBoskyPassageRoutingTaskPlugin::bosky_decide_and_click(
     ctrler()->click(click_point);
     RoguelikeBoskyPassageMap::get_instance().set_visited(chosen);
     RoguelikeBoskyPassageMap::get_instance().set_curr_pos(chosen);
+    m_last_clicked = chosen;
+    m_last_click_time = std::chrono::steady_clock::now();
 
     // 发送节点类型到 WPF
     std::string node_type_name = type2name(node_type);

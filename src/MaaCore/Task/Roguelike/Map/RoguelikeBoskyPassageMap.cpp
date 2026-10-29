@@ -70,6 +70,15 @@ void RoguelikeBoskyPassageMap::set_visited(size_t index)
     n->visited = true;
 }
 
+void RoguelikeBoskyPassageMap::set_unvisited(size_t index)
+{
+    Node* n = get_valid_node(index);
+    if (!n || !n->exists) {
+        return;
+    }
+    n->visited = false;
+}
+
 void RoguelikeBoskyPassageMap::set_node_type(size_t index, RoguelikeNodeType type)
 {
     Node* n = get_valid_node(index);
