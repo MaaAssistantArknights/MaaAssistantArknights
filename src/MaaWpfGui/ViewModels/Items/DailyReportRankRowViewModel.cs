@@ -25,33 +25,124 @@ namespace MaaWpfGui.ViewModels.Items;
 public class DailyReportRankRowViewModel
 {
     /// <summary>
-    /// 掉落数低于此值时样本不足，排名淡化显示并排到末尾。
+    /// 掉落数低于此值时单件理智（理智 ÷ 掉落数）分母过小、比值偏斜，无论误差多小都淡化显示。
     /// </summary>
     public const int MinReliableCount = 10;
+
+    /// <summary>
+    /// 95% 置信区间相对半宽超过此值时淡化显示。
+    /// </summary>
+    public const double MaxReliableError = 0.3;
+
+    /// <summary>
+    /// 记录数不少于此值时按记录间的实际波动估算误差，否则退回泊松近似。
+    /// </summary>
+    public const int MinRecordsForVariance = 5;
+
+    // 双侧 95% 的 t 分布临界值，下标为自由度（1 ~ 30）；自由度更大时取正态分布的 1.96
+    private static readonly double[] _tCritical =
+    [
+        double.NaN, 12.706, 4.303, 3.182, 2.776, 2.571, 2.447, 2.365, 2.306, 2.262, 2.228,
+        2.201, 2.179, 2.160, 2.145, 2.131, 2.120, 2.110, 2.101, 2.093, 2.086,
+        2.080, 2.074, 2.069, 2.064, 2.060, 2.056, 2.052, 2.048, 2.045, 2.042,
+    ];
 
     /// <summary>
     /// Initializes a new instance of the <see cref="DailyReportRankRowViewModel"/> class.
     /// </summary>
     /// <param name="stage">关卡。</param>
-    /// <param name="count">该物品在该关卡的掉落数。</param>
-    /// <param name="times">该关卡的场次。</param>
+    /// <param name="stats">该物品在该关卡的逐条记录累计量。</param>
     /// <param name="sanity">该关卡的理智消耗。</param>
-    public DailyReportRankRowViewModel(string stage, int count, int times, int sanity)
+    public DailyReportRankRowViewModel(string stage, DropStats stats, int sanity)
     {
         Stage = stage;
-        Count = count;
-        SanityPerItem = (double)sanity / count;
-
-        // 掉落数近似泊松分布，单件理智的相对误差约 1/√n，取 95% 置信度
-        RelativeError = 1.96 / Math.Sqrt(count);
+        Count = (int)stats.Count;
+        SanityPerItem = sanity / stats.Count;
+        RelativeError = EstimateRelativeError(stats);
         ValueText = DailyReportFormat.Rate(SanityPerItem);
         ErrorText = "±" + RelativeError.ToString("P0", LocalizationHelper.CustomCultureInfo);
         ToolTip = LocalizationHelper.GetStringFormat(
             "TaskQueue.DailyReport.Rank.Tip",
             DailyReportFormat.Rate(SanityPerItem * Math.Max(0, 1 - RelativeError)),
             DailyReportFormat.Rate(SanityPerItem * (1 + RelativeError)),
-            count.ToString("N0", LocalizationHelper.CustomCultureInfo),
-            times.ToString("N0", LocalizationHelper.CustomCultureInfo));
+            Count.ToString("N0", LocalizationHelper.CustomCultureInfo),
+            ((int)stats.Times).ToString("N0", LocalizationHelper.CustomCultureInfo));
+    }
+
+    /// <summary>
+    /// 某种物品在某关卡的逐条记录累计量：记录数、场次 t、掉落数 c 及 Σt²、Σc²、Σc·t，
+    /// 足以算出掉率 r = Σc / Σt 与记录间偏差平方和 Σ(c − r·t)²。
+    /// </summary>
+    public struct DropStats
+    {
+        /// <summary>
+        /// 记录数。
+        /// </summary>
+        public int Records;
+
+        /// <summary>
+        /// Σt。
+        /// </summary>
+        public double Times;
+
+        /// <summary>
+        /// Σc。
+        /// </summary>
+        public double Count;
+
+        /// <summary>
+        /// Σt²。
+        /// </summary>
+        public double TimesSquared;
+
+        /// <summary>
+        /// Σc²。
+        /// </summary>
+        public double CountSquared;
+
+        /// <summary>
+        /// Σc·t。
+        /// </summary>
+        public double CountTimes;
+
+        /// <summary>
+        /// 累加一条记录。
+        /// </summary>
+        /// <param name="times">该记录的场次。</param>
+        /// <param name="count">该记录中该物品的掉落数（未掉落为 0，同样计入）。</param>
+        public void Add(int times, int count)
+        {
+            Records++;
+            Times += times;
+            Count += count;
+            TimesSquared += (double)times * times;
+            CountSquared += (double)count * count;
+            CountTimes += (double)count * times;
+        }
+    }
+
+    /// <summary>
+    /// 估算单件理智 95% 置信区间的相对半宽（与掉率的相对误差相同）。
+    /// 记录足够时把每条记录当作一个样本，按记录间的实际偏差估算掉率方差：
+    /// 不假设记录内各场独立，连战的保底平滑、每场多掉、固定掉落等都体现在实际偏差里，系数按 t 分布取。
+    /// 记录不足时退回泊松近似，样本数取掉落数与场次的较小者，避免每场大量掉落（如龙门币）被当作大量独立样本而显示虚假的精确。
+    /// </summary>
+    private static double EstimateRelativeError(DropStats s)
+    {
+        if (s.Records >= MinRecordsForVariance && s.Times > 0)
+        {
+            var rate = s.Count / s.Times;
+
+            // Σ(c − r·t)² 展开为 Σc² − 2r·Σc·t + r²·Σt²；按 k/(k−1) 修正自由度
+            var deviation = Math.Max(0, s.CountSquared - (2 * rate * s.CountTimes) + (rate * rate * s.TimesSquared));
+            var k = s.Records;
+            var rateStdError = Math.Sqrt(deviation * k / (k - 1)) / s.Times;
+            var df = k - 1;
+            var t = df < _tCritical.Length ? _tCritical[df] : 1.96;
+            return t * rateStdError / rate;
+        }
+
+        return 1.96 / Math.Sqrt(Math.Max(1, Math.Min(s.Count, s.Times)));
     }
 
     /// <summary>
@@ -75,9 +166,9 @@ public class DailyReportRankRowViewModel
     public double RelativeError { get; }
 
     /// <summary>
-    /// Gets a value indicating whether 掉落数足够（不少于 <see cref="MinReliableCount"/>）。
+    /// Gets a value indicating whether 样本足够：掉落数不少于 <see cref="MinReliableCount"/> 且误差不超过 <see cref="MaxReliableError"/>。
     /// </summary>
-    public bool IsReliable => Count >= MinReliableCount;
+    public bool IsReliable => Count >= MinReliableCount && RelativeError <= MaxReliableError;
 
     /// <summary>
     /// Gets 单件理智文本。

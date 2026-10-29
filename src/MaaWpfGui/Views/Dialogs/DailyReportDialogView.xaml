@@ -775,7 +775,7 @@
                         </ItemsControl>
                     </Grid>
 
-                    <!--  关卡排名：选中物品时可切换；样本不足（掉落少于 10）的淡化并排到末尾，来源关卡高亮  -->
+                    <!--  关卡排名：选中物品时可切换；样本不足（掉落过少或误差过大，见 DailyReportRankRowViewModel.IsReliable）的淡化并排到末尾，来源关卡高亮  -->
                     <hc:ScrollViewer
                         IsInertiaEnabled="True"
                         VerticalScrollBarVisibility="Auto"
