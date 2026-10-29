@@ -815,6 +815,7 @@
         </Border>
 
         <ListBox
+            x:Name="StageList"
             Grid.Row="3"
             Padding="0"
             HorizontalContentAlignment="Stretch"
@@ -933,13 +934,16 @@
             </StackPanel>
         </Border>
 
-        <!--  掉率浮层：所有掉落格共用一个，点击时由代码设置目标与内容  -->
+        <!--
+            掉率浮层：所有掉落格共用一个，点击时由代码设置目标与内容。
+            StaysOpen 恒 true，开合交给 PopupDismissController：失活自动关闭会在浮层内按下时先行收起浮层，摘要行的点击永远到不了
+        -->
         <Popup
             x:Name="DropRatePopup"
             AllowsTransparency="True"
             Placement="Bottom"
             PopupAnimation="Fade"
-            StaysOpen="False">
+            StaysOpen="True">
             <Border
                 Margin="8"
                 Padding="12,8"
