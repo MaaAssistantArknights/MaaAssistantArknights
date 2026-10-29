@@ -38,7 +38,7 @@
 - 滚动容器用 `hc:ScrollViewer` 并设 `IsInertiaEnabled="True"`：平滑滚动由该惯性开关控制，缺了滚轮就是跳格滚动；原生 `ScrollViewer` 无平滑行为，勿在新代码使用（设置页、各弹窗、日志区等既有滚动区均为 hc 版带惯性开关）。
 - 本地化 key 按 `Domain[.Topic].Name[.Tip|.Title]` 点分命名，新 key 的域与子主题须与同功能既有 key 一致：先搜同界面已有 key 的前缀照用（如定时执行相关一律 `TaskQueue.Schedule.*`），不得另起近义前缀；提示文案用 `.Tip` 尾段（`TaskQueue.Schedule.ForceScheduledStart` 与 `TaskQueue.Schedule.ForceScheduledStart.Tip`），句内复用其他 key 写 `{key=Xxx}` 内联。
 - `TooltipBlock` 长文案按句界显式换行，一句一行即可；无句界的长句不必强行拆，由 TooltipText 默认 MaxWidth 500 的软换行兜底。资源串内写 `&#10;` 或字面换行均可，且必须声明 `xml:space="preserve"`，否则换行符被 XAML 归一化；各语言在自己句界处换行，行数不要求一致。
-- 固定选项的下拉框用 `LocalizedObservableList<T>`（`src/MaaWpfGui/Utilities/ValueType/LocalizedObservableList.cs`），构造给 (值, 本地化 key)，勿手动 GetString 固化 Display（热切换语言后该项停留旧语言）；ViewModel 订阅 `LocalizationHelper.LanguageChanged` 并在回调里 `RefreshLocalization()`；增删用自带 Add/Remove/Insert/Clear，勿直接操作 Items。
+- 固定选项的下拉框用 `LocalizedObservableList<T>`，条目写 (值, 本地化 key)，需要括号后缀、悬浮提示或初始不可选时在二元组后链式调用 `WithSecondaryKey` / `WithTip` / `WithEnabled`，勿手动 GetString 固化 Display（热切换语言后该项停留旧语言）；ViewModel 订阅 `LocalizationHelper.LanguageChanged` 并在回调里 `RefreshLocalization()`，`WithSecondaryKey` 带显示条件时，条件依赖的状态变化后同样须调用 `RefreshLocalization()`（条件只在刷新时求值），外服未适配的选项统一用 `Common.NotAdapted` 后缀；增删用自带 Add/Remove/Insert/Clear，勿直接操作 Items。
 - 设置页新增区块复用 Expander + Border + UserControl 既有结构（样板见 `SettingsView.xaml`），否则破坏搜索过滤与折叠持久化。
 - 增删改 `Res/Localizations/*.xaml` 的 key 后，运行 `python tools/SortLocalizationKeys.py` 把各语言文件按 key 字节序重排：脚本只决定条目的排列位置，不检查也不修正前缀分类，key 本身仍须按本节的 key 命名规范取对；CI 用 `--check` 校验排序，未重排的改动会使 CI 失败。
 

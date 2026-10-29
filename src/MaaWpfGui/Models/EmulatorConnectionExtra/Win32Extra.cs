@@ -63,14 +63,14 @@ public class Win32Extra : ExtraConfig
     /// </remarks>
     private static readonly LocalizedObservableList<AsstWin32InputMethod> _mouseMethodList =
         new(
-            (AsstWin32InputMethod.Seize, "Connection.AttachWindow.InputSeize", true),
-            (AsstWin32InputMethod.SendMessage, "Connection.AttachWindow.Mouse.SendMsgDisabled", false),
-            (AsstWin32InputMethod.PostMessage, "Connection.AttachWindow.Mouse.PostMsgDisabled", false),
-            (AsstWin32InputMethod.SendMessageWithCursorPos, "Connection.AttachWindow.Mouse.SendMsgCursorPosDisabled", false),
-            (AsstWin32InputMethod.PostMessageWithCursorPos, "Connection.AttachWindow.Mouse.PostMsgCursorPos", true),
-            (AsstWin32InputMethod.SendMessageWithWindowPos, "Connection.AttachWindow.Mouse.SendMsgWindowPosDisabled", false),
-            (AsstWin32InputMethod.PostMessageWithWindowPos, "Connection.AttachWindow.Mouse.PostMsgWindowPos", true),
-            (AsstWin32InputMethod.AnchoredTouch, "Connection.AttachWindow.Mouse.AnchoredTouch", true));
+            (AsstWin32InputMethod.Seize, "Connection.AttachWindow.InputSeize"),
+            (AsstWin32InputMethod.SendMessage, "Connection.AttachWindow.Mouse.SendMsgDisabled").WithEnabled(false),
+            (AsstWin32InputMethod.PostMessage, "Connection.AttachWindow.Mouse.PostMsgDisabled").WithEnabled(false),
+            (AsstWin32InputMethod.SendMessageWithCursorPos, "Connection.AttachWindow.Mouse.SendMsgCursorPosDisabled").WithEnabled(false),
+            (AsstWin32InputMethod.PostMessageWithCursorPos, "Connection.AttachWindow.Mouse.PostMsgCursorPos"),
+            (AsstWin32InputMethod.SendMessageWithWindowPos, "Connection.AttachWindow.Mouse.SendMsgWindowPosDisabled").WithEnabled(false),
+            (AsstWin32InputMethod.PostMessageWithWindowPos, "Connection.AttachWindow.Mouse.PostMsgWindowPos"),
+            (AsstWin32InputMethod.AnchoredTouch, "Connection.AttachWindow.Mouse.AnchoredTouch"));
 
     public LocalizedObservableList<AsstWin32InputMethod> MouseMethodList => _mouseMethodList;
 
