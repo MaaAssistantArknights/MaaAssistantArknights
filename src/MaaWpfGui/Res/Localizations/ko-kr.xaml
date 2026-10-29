@@ -443,6 +443,7 @@
     <system:String x:Key="Asst.Infrast.ProductChanged">생산품이 변경됨</system:String>
     <system:String x:Key="Asst.Infrast.ProductIncorrect">생산품이 구성과 맞지 않습니다.</system:String>
     <system:String x:Key="Asst.Infrast.ProductUnknown">인식할 수 없는 생산품</system:String>
+    <system:String x:Key="Asst.Infrast.RecycleProduct">재활용 시설 산출물</system:String>
     <system:String x:Key="Asst.Infrast.RoomGroupsMatch" xml:space="preserve">그룹에 일치: </system:String>
     <system:String x:Key="Asst.Infrast.RoomGroupsMatchFailed" xml:space="preserve">{key=Game.Operator} 그룹, 그룹 목록을 일치시키지 못했습니다: </system:String>
     <system:String x:Key="Asst.Infrast.RoomGroupsMatchRecogFailed">그룹 {key=Game.Operator} 인식에 실패하여 방이 변경되지 않았습니다</system:String>
