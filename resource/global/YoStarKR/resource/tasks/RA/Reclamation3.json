@@ -98,7 +98,8 @@
         "roi": [935, 128, 225, 42]
     },
     "RelaunchAnchor@RA@RA4-ExamineEWExistence2": {
-        "text": ["오퍼레이터", "편성"]
+        "text": ["오퍼레이터", "편성"],
+        "roi": [824, 483, 114, 54]
     },
     "RelaunchAnchor@RA@RA4-AddHelp": {
         "text": ["지원", "유닛"]
