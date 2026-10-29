@@ -1,0 +1,255 @@
+{
+    "RelaunchAnchor@RA@Common-Confirm": {
+        "text": ["확인"]
+    },
+    "RelaunchAnchor@RA@Common-OpenConstruction": {
+        "text": ["시작하기"]
+    },
+    "RelaunchAnchor@RA@Common-StartConstruction": {
+        "text": ["건설시작"]
+    },
+    "RelaunchAnchor@RA@RA1-Prepare": {
+        "isAscii": true
+    },
+    "RelaunchAnchor@RA@RA1-ChooseStrategy": {
+        "text": ["정밀농경"]
+    },
+    "RelaunchAnchor@RA@RA1-ConfirmSelection": {
+        "text": ["선택확인"]
+    },
+    "RelaunchAnchor@RA@RA1-SkipPlot": {
+        "text": ["SKIP"]
+    },
+    "RelaunchAnchor@RA@RA1-SkipPlotConfirm": {
+        "text": ["스토리", "스킵"],
+        "roi": [495, 335, 280, 52],
+        "specificRect": [798, 362, 1, 1]
+    },
+    "RelaunchAnchor@RA@RA1-DeployGatheringBasePrompt": {
+        "text": ["채집기지", "배치하여", "주십시오"],
+        "roi": [500, 54, 290, 38]
+    },
+    "RelaunchAnchor@RA@RA1-DoubleSpeed": {
+        "templThreshold": 0.65
+    },
+    "RelaunchAnchor@RA@RA1-Cost": {
+        "isAscii": true
+    },
+    "RelaunchAnchor@RA@RA1-DeployOperatorDirection": {
+        "roi": [50, 110, 120, 35],
+        "text": ["로즈몬티스"]
+    },
+    "RelaunchAnchor@RA@RA1-DeliverWood5": {
+        "text": ["목재"]
+    },
+    "RelaunchAnchor@RA@RA1-DeliverWood": {
+        "text": ["목재납품8+"],
+        "ocrReplace": [["(8|9|\\d{2,3}).*5", "목재납품8+"]],
+        "roi": [168, 235, 57, 35]
+    },
+    "RelaunchAnchor@RA@RA1-Infrastructure": {
+        "text": ["기초시설"]
+    },
+    "RelaunchAnchor@RA@RA1-CommunicationStation": {
+        "text": ["통신기지"]
+    },
+    "RelaunchAnchor@RA@RA1-StartBuildingStation": {
+        "text": ["제작하기"]
+    },
+    "RelaunchAnchor@RA@RA1-BlankContinue": {
+        "text": ["탭하여", "계속하기"]
+    },
+    "RelaunchAnchor@RA@RA1-ExitConstruction": {
+        "text": ["제작"]
+    },
+    "RelaunchAnchor@RA@RA1-CraftOwnCommStation1": {
+        "ocrReplace": [["[타-팋][사-싷][가-깋][자-짛]", "통신기지"]],
+        "text": ["통신기지", "제작및보유"],
+        "roi": [525, 280, 230, 35]
+    },
+    "RelaunchAnchor@RA@RA1-CraftOwnCommStation": {
+        "ocrReplace": [["[타-팋][사-싷][가-깋][자-짛]", "통신기지"]],
+        "text": ["통신기지", "제작및보유"]
+    },
+    "RelaunchAnchor@RA@RA1-DeliverStone10": {
+        "text": ["석재"]
+    },
+    "RelaunchAnchor@RA@RA1-DeliverStone": {
+        "text": ["석재납품"]
+    },
+    "RelaunchAnchor@RA@RA1-SettleNow": {
+        "text": ["정산하기"]
+    },
+    "RelaunchAnchor@RA@RA1-ContinueAfterSettlement": {
+        "text": ["탭하여", "계속하기"],
+        "roi": [560, 664, 195, 44]
+    },
+    "RelaunchAnchor@RA@RA1-FinishConstruction": {
+        "text": ["완료하기"]
+    },
+    "RelaunchAnchor@RA@RA4-Prepare": {
+        "isAscii": true
+    },
+    "RelaunchAnchor@RA@RA4-ChooseStrategy": {
+        "text": ["경영", "기획"]
+    },
+    "RelaunchAnchor@RA@RA4-Choose": {
+        "text": ["오퍼레이터", "모집"],
+        "roi": [935, 128, 225, 42]
+    },
+    "RelaunchAnchor@RA@RA4-ExamineEWExistence2": {
+        "text": ["오퍼레이터", "편성"],
+        "roi": [824, 483, 114, 54]
+    },
+    "RelaunchAnchor@RA@RA4-AddHelp": {
+        "text": ["지원", "유닛"]
+    },
+    "RelaunchAnchor@RA@RA4-EW-Common": {
+        "text": ["위셔델"]
+    },
+    "RelaunchAnchor@RA@RA4-EW-ConfirmHelp": {
+        "text": ["지원유닛", "모집"]
+    },
+    "RelaunchAnchor@RA@RA4-ExamineEWExistence": {
+        "text": ["위셔델"]
+    },
+    "RelaunchAnchor@RA@RA4-ConfirmTeam": {
+        "text": ["모집확인"]
+    },
+    "RelaunchAnchor@RA@RA4-ConfirmTeam2": {
+        "text": ["확인"]
+    },
+    "RelaunchAnchor@RA@RA4-WaitName": {
+        "text": ["RA", "-4", "상조"]
+    },
+    "RelaunchAnchor@RA@RA4-DoubleSpeed": {
+        "templThreshold": 0.65
+    },
+    "RelaunchAnchor@RA@RA4-UseRedGold": {
+        "text": ["순금", "원석"],
+        "roi": [1055, 240, 110, 32]
+    },
+    "RelaunchAnchor@RA@RA4-Cost": {
+        "isAscii": true
+    },
+    "RelaunchAnchor@RA@RA4-Mission": {
+        "text": ["새로운", "구역"],
+        "roi": [545, 281, 190, 32]
+    },
+    "RelaunchAnchor@RA@RA4-ClickMission": {
+        "text": ["새로운", "구역"],
+        "roi": [85, 232, 190, 30]
+    },
+    "RelaunchAnchor@RA@RA4-Mission2": {
+        "text": ["청정", "수역"],
+        "roi": [545, 281, 190, 32]
+    },
+    "RelaunchAnchor@RA@RA4-ClickMission2": {
+        "text": ["청정", "수역", "발견"],
+        "roi": [85, 232, 240, 30]
+    },
+    "RelaunchAnchor@RA@RA4-Mission3": {
+        "text": ["리더적"],
+        "roi": [415, 281, 195, 32]
+    },
+    "RelaunchAnchor@RA@RA4-ClickMission3": {
+        "text": ["리더적", "누적", "처치"],
+        "roi": [80, 238, 205, 32]
+    },
+    "RelaunchAnchor@RA@RA4-ExitSettleNow": {
+        "text": ["확인"]
+    },
+    "RelaunchAnchor@RA@RA15-Prepare": {
+        "isAscii": true
+    },
+    "RelaunchAnchor@RA@RA15-ChooseStrategy": {
+        "text": ["경영", "기획"]
+    },
+    "RelaunchAnchor@RA@RA15-ConfirmSelection": {
+        "text": ["확인", "선택"]
+    },
+    "RelaunchAnchor@RA@RA15-Choose": {
+        "text": ["오퍼레이터", "모집"],
+        "roi": [935, 128, 225, 42]
+    },
+    "RelaunchAnchor@RA@RA15-ChooseExamine": {
+        "text": ["빠른", "편성"]
+    },
+    "RelaunchAnchor@RA@RA15-ExamineCXExistence": {
+        "text": ["프라마닉스", "프레리타"],
+        "roi": [843, 449, 220, 33]
+    },
+    "RelaunchAnchor@RA@RA15-ClearChosen": {
+        "text": ["빠른", "편성"]
+    },
+    "RelaunchAnchor@RA@RA15-ClearChosen-2": {
+        "text": ["비우기"]
+    },
+    "RelaunchAnchor@RA@RA15-ClearChosen-3": {
+        "text": ["비우기"]
+    },
+    "RelaunchAnchor@RA@RA15-ConfirmChoose": {
+        "text": ["확인"]
+    },
+    "RelaunchAnchor@RA@RA15-AddHelp": {
+        "text": ["지원", "유닛"]
+    },
+    "RelaunchAnchor@RA@RA15-CX-Common": {
+        "text": ["프라마닉스", "프레리타"]
+    },
+    "RelaunchAnchor@RA@RA15-CX1": {
+        "roi": [123, 577, 130, 30]
+    },
+    "RelaunchAnchor@RA@RA15-CX2": {
+        "roi": [262, 577, 130, 30]
+    },
+    "RelaunchAnchor@RA@RA15-CX3": {
+        "roi": [401, 577, 130, 30]
+    },
+    "RelaunchAnchor@RA@RA15-CX4": {
+        "roi": [540, 577, 130, 30]
+    },
+    "RelaunchAnchor@RA@RA15-CX5": {
+        "roi": [679, 577, 130, 30]
+    },
+    "RelaunchAnchor@RA@RA15-CX6": {
+        "roi": [818, 577, 130, 30]
+    },
+    "RelaunchAnchor@RA@RA15-CX7": {
+        "roi": [957, 577, 130, 30]
+    },
+    "RelaunchAnchor@RA@RA15-CX8": {
+        "roi": [1096, 577, 130, 30]
+    },
+    "RelaunchAnchor@RA@RA15-CX-ConfirmHelp": {
+        "text": ["지원유닛", "모집"],
+        "roi": [740, 580, 200, 40]
+    },
+    "RelaunchAnchor@RA@RA15-ConfirmTeam": {
+        "text": ["모집확인"]
+    },
+    "RelaunchAnchor@RA@RA15-ConfirmTeam2": {
+        "text": ["확인"]
+    },
+    "RelaunchAnchor@RA@RA15-AlignMapCheck": {
+        "text": ["채집기지", "배치하여", "주십시오"],
+        "roi": [500, 54, 290, 38]
+    },
+    "RelaunchAnchor@RA@RA15-DoubleSpeed": {
+        "templThreshold": 0.65
+    },
+    "RelaunchAnchor@RA@RA15-Cost24": {
+        "isAscii": true
+    },
+    "RelaunchAnchor@RA@RA15-Kill60": {
+        "text": ["처치"],
+        "roi": [545, 281, 190, 32]
+    },
+    "RelaunchAnchor@RA@RA15-Deliver": {
+        "text": ["처치"],
+        "roi": [80, 238, 150, 32]
+    },
+    "RelaunchAnchor@RA@RA15-End2": {
+        "text": ["확인"]
+    }
+}
