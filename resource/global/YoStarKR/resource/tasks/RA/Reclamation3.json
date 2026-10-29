@@ -15,24 +15,31 @@
         "text": ["선택확인"]
     },
     "RelaunchAnchor@RA@RA1-SkipPlot": {
-        "text": ["스킵"]
+        "text": ["SKIP"]
     },
     "RelaunchAnchor@RA@RA1-SkipPlotConfirm": {
-        "text": ["스토리스킵"],
-        "ocrReplace": [["스토리.스킵", "스토리스킵"]]
+        "text": ["스토리", "스킵"],
+        "roi": [495, 335, 280, 52],
+        "specificRect": [798, 362, 1, 1]
     },
     "RelaunchAnchor@RA@RA1-DeployGatheringBasePrompt": {
-        "text": ["배치하여주십시오", "채집기지"]
+        "text": ["채집기지", "배치하여", "주십시오"],
+        "roi": [500, 54, 290, 38]
+    },
+    "RelaunchAnchor@RA@RA1-DoubleSpeed": {
+        "templThreshold": 0.65
     },
     "RelaunchAnchor@RA@RA1-DeployOperatorDirection": {
-        "text": ["로즈몬티스"]
+        "text": ["로즈몬티스"],
+        "roi": [50, 110, 120, 35]
     },
     "RelaunchAnchor@RA@RA1-DeliverWood5": {
         "text": ["목재"]
     },
     "RelaunchAnchor@RA@RA1-DeliverWood": {
         "text": ["목재납품8+"],
-        "ocrReplace": [["(8|9|\\d{2,3}).*5", "목재납품8+"]]
+        "ocrReplace": [["(8|9|\\d{2,3}).*5", "목재납품8+"]],
+        "roi": [168, 235, 57, 35]
     },
     "RelaunchAnchor@RA@RA1-Infrastructure": {
         "text": ["기초시설"]
@@ -44,13 +51,14 @@
         "text": ["제작하기"]
     },
     "RelaunchAnchor@RA@RA1-BlankContinue": {
-        "text": ["탭하여계속하기"]
+        "text": ["탭하여", "계속하기"]
     },
     "RelaunchAnchor@RA@RA1-ExitConstruction": {
         "text": ["제작"]
     },
     "RelaunchAnchor@RA@RA1-CraftOwnCommStation1": {
-        "text": ["제작및보유", "통신기지"]
+        "text": ["제작및보유", "통신기지"],
+        "roi": [525, 280, 230, 35]
     },
     "RelaunchAnchor@RA@RA1-CraftOwnCommStation": {
         "text": ["제작및보유", "통신기지"]
@@ -65,7 +73,8 @@
         "text": ["정산하기"]
     },
     "RelaunchAnchor@RA@RA1-ContinueAfterSettlement": {
-        "text": ["탭하여계속하기"]
+        "text": ["탭하여", "계속하기"],
+        "roi": [560, 664, 195, 44]
     },
     "RelaunchAnchor@RA@RA1-FinishConstruction": {
         "text": ["완료하기"]
