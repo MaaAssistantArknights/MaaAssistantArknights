@@ -1825,6 +1825,8 @@
     },
     "JieGarden@Roguelike@CoppersRecast-PopupClose": {
         "Doc": "收藏品弹窗的最后一件：这一屏底部没有 NEXT，同一个槽位换成了 ✕。官方 CloseCollectionClose 用灰色圆对勾判定同一位置，这里沿用它的 roi。连点最多 6 次（某件 NEXT 没命中时靠它推进），6 次后还停着就回主路由，不再盲点。",
+        "algorithm": "MatchTemplate",
+        "template": "JieGarden@Roguelike@CloseCollectionClose.png",
         "method": "RGBCount",
         "colorScales": [
             [
