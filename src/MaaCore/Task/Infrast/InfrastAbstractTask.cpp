@@ -276,7 +276,7 @@ bool asst::InfrastAbstractTask::on_run_fails()
     return return_task.run();
 }
 
-bool asst::InfrastAbstractTask::enter_facility(int index)
+bool asst::InfrastAbstractTask::enter_facility(int index, bool save_on_failure)
 {
     LogTraceFunction;
 
@@ -290,13 +290,17 @@ bool asst::InfrastAbstractTask::enter_facility(int index)
     analyzer.set_to_be_analyzed({ facility_name() });
     if (!analyzer.analyze()) {
         LogInfo << "result is empty";
-        analyzer.save_img(utils::path("debug") / utils::path("infrast") / utils::path("enter_facility"));
+        if (save_on_failure) {
+            analyzer.save_img(utils::path("debug") / utils::path("infrast") / utils::path("enter_facility"));
+        }
         return false;
     }
     Rect rect = analyzer.get_rect(facility_name(), index);
     if (rect.empty()) {
         LogInfo << "facility index is out of range";
-        analyzer.save_img(utils::path("debug") / utils::path("infrast") / utils::path("enter_facility"));
+        if (save_on_failure) {
+            analyzer.save_img(utils::path("debug") / utils::path("infrast") / utils::path("enter_facility"));
+        }
         return false;
     }
     ctrler()->click(rect);
@@ -306,6 +310,12 @@ bool asst::InfrastAbstractTask::enter_facility(int index)
     sleep(Task.get("InfrastEnterFacility")->post_delay);
 
     return true;
+}
+
+bool asst::InfrastAbstractTask::is_index_within_recognized_count(int index) const
+{
+    const auto count = status()->get_number("NumOf" + facility_name());
+    return !count || index < *count;
 }
 
 bool asst::InfrastAbstractTask::enter_oper_list_page()
