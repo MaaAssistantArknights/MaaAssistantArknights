@@ -26,8 +26,6 @@ public:
 protected:
     bool _run() override;
 
-    bool start_game_with_retries(size_t pipe_data_size_limit, bool newer_android) const;
-
     std::string m_client_type = "";
 };
 }
