@@ -408,7 +408,8 @@ public class RoguelikeTaskUserControlModel : TaskSettingsViewModel, RoguelikeTas
         (Theme.Sami, "Roguelike.Theme.Sami"),
         (Theme.Sarkaz, "Roguelike.Theme.Sarkaz"),
         (Theme.JieGarden, "Roguelike.Theme.JieGarden"),
-        (Theme.BlackFlow, "Roguelike.Theme.BlackFlow"));
+        (Theme.BlackFlow, "Roguelike.Theme.BlackFlow")
+            .WithSecondaryKey("Common.NotAdapted", () => SettingsViewModel.GameSettings.ClientType is not (ClientType.Official or ClientType.Bilibili)));
 
     /// <summary>
     /// Gets or sets the Roguelike theme.
@@ -957,11 +958,15 @@ public class RoguelikeTaskUserControlModel : TaskSettingsViewModel, RoguelikeTas
     /// 刷开局动物下拉框的选项。羽蛇最多一只，另一格已选羽蛇时本格的羽蛇不可选。
     /// </summary>
     private static LocalizedObservableList<RoguelikeBlackFlowStartAnimal> CreateBlackFlowStartAnimalOptions() => new(
-        (RoguelikeBlackFlowStartAnimal.None, "Roguelike.BlackFlow.StartAnimalNone", null, null),
-        (RoguelikeBlackFlowStartAnimal.Cat, "Roguelike.BlackFlow.CultivationTargetCat", null, "Roguelike.BlackFlow.CultivationTargetCat.Tip"),
-        (RoguelikeBlackFlowStartAnimal.Dog, "Roguelike.BlackFlow.CultivationTargetDog", null, "Roguelike.BlackFlow.CultivationTargetDog.Tip"),
-        (RoguelikeBlackFlowStartAnimal.Cerberus, "Roguelike.BlackFlow.CultivationTargetCerberus", null, "Roguelike.BlackFlow.CultivationTargetCerberus.Tip"),
-        (RoguelikeBlackFlowStartAnimal.FeatheredSerpent, "Roguelike.BlackFlow.CultivationTargetFeatheredSerpent", null, "Roguelike.BlackFlow.CultivationTargetFeatheredSerpent.Tip"));
+        (RoguelikeBlackFlowStartAnimal.None, "Roguelike.BlackFlow.StartAnimalNone"),
+        (RoguelikeBlackFlowStartAnimal.Cat, "Roguelike.BlackFlow.CultivationTargetCat")
+            .WithTip("Roguelike.BlackFlow.CultivationTargetCat.Tip"),
+        (RoguelikeBlackFlowStartAnimal.Dog, "Roguelike.BlackFlow.CultivationTargetDog")
+            .WithTip("Roguelike.BlackFlow.CultivationTargetDog.Tip"),
+        (RoguelikeBlackFlowStartAnimal.Cerberus, "Roguelike.BlackFlow.CultivationTargetCerberus")
+            .WithTip("Roguelike.BlackFlow.CultivationTargetCerberus.Tip"),
+        (RoguelikeBlackFlowStartAnimal.FeatheredSerpent, "Roguelike.BlackFlow.CultivationTargetFeatheredSerpent")
+            .WithTip("Roguelike.BlackFlow.CultivationTargetFeatheredSerpent.Tip"));
 
     public LocalizedObservableList<RoguelikeBlackFlowStartAnimal> RoguelikeBlackFlowStartAnimal1List { get; } = CreateBlackFlowStartAnimalOptions();
 
@@ -1006,20 +1011,20 @@ public class RoguelikeTaskUserControlModel : TaskSettingsViewModel, RoguelikeTas
     /// 刷开局奖励下拉框的选项。框内标签只显示名字，效果放在下拉项的悬浮提示里。
     /// </summary>
     public LocalizedObservableList<RoguelikeBlackFlowStartReward> RoguelikeBlackFlowStartRewardList { get; } = new(
-        (RoguelikeBlackFlowStartReward.UnnumberedItem, "Roguelike.BlackFlow.RewardUnnumberedItem", null, "Roguelike.BlackFlow.RewardUnnumberedItem.Tip"),
-        (RoguelikeBlackFlowStartReward.SurveyAdvance, "Roguelike.BlackFlow.RewardSurveyAdvance", null, "Roguelike.BlackFlow.RewardSurveyAdvance.Tip"),
-        (RoguelikeBlackFlowStartReward.SpaceLease, "Roguelike.BlackFlow.RewardSpaceLease", null, "Roguelike.BlackFlow.RewardSpaceLease.Tip"),
-        (RoguelikeBlackFlowStartReward.RegressionCompensation, "Roguelike.BlackFlow.RewardRegressionCompensation", null, "Roguelike.BlackFlow.RewardRegressionCompensation.Tip"),
-        (RoguelikeBlackFlowStartReward.ForestRide, "Roguelike.BlackFlow.RewardForestRide", null, "Roguelike.BlackFlow.RewardForestRide.Tip"),
-        (RoguelikeBlackFlowStartReward.NestParasitism, "Roguelike.BlackFlow.RewardNestParasitism", null, "Roguelike.BlackFlow.RewardNestParasitism.Tip"));
+        (RoguelikeBlackFlowStartReward.UnnumberedItem, "Roguelike.BlackFlow.RewardUnnumberedItem").WithTip("Roguelike.BlackFlow.RewardUnnumberedItem.Tip"),
+        (RoguelikeBlackFlowStartReward.SurveyAdvance, "Roguelike.BlackFlow.RewardSurveyAdvance").WithTip("Roguelike.BlackFlow.RewardSurveyAdvance.Tip"),
+        (RoguelikeBlackFlowStartReward.SpaceLease, "Roguelike.BlackFlow.RewardSpaceLease").WithTip("Roguelike.BlackFlow.RewardSpaceLease.Tip"),
+        (RoguelikeBlackFlowStartReward.RegressionCompensation, "Roguelike.BlackFlow.RewardRegressionCompensation").WithTip("Roguelike.BlackFlow.RewardRegressionCompensation.Tip"),
+        (RoguelikeBlackFlowStartReward.ForestRide, "Roguelike.BlackFlow.RewardForestRide").WithTip("Roguelike.BlackFlow.RewardForestRide.Tip"),
+        (RoguelikeBlackFlowStartReward.NestParasitism, "Roguelike.BlackFlow.RewardNestParasitism").WithTip("Roguelike.BlackFlow.RewardNestParasitism.Tip"));
 
     public LocalizedObservableList<RoguelikeBlackFlowStartReward> RoguelikeBlackFlowSerpentRewardList { get; } = new(
-        (RoguelikeBlackFlowStartReward.Pegasus, "Roguelike.BlackFlow.RewardPegasus", null, "Roguelike.BlackFlow.RewardPegasus.Tip"),
-        (RoguelikeBlackFlowStartReward.Hippogriff, "Roguelike.BlackFlow.RewardHippogriff", null, "Roguelike.BlackFlow.RewardHippogriff.Tip"),
-        (RoguelikeBlackFlowStartReward.Dragon, "Roguelike.BlackFlow.RewardDragon", null, "Roguelike.BlackFlow.RewardDragon.Tip"),
-        (RoguelikeBlackFlowStartReward.Hydra, "Roguelike.BlackFlow.RewardHydra", null, "Roguelike.BlackFlow.RewardHydra.Tip"),
-        (RoguelikeBlackFlowStartReward.BaiZe, "Roguelike.BlackFlow.RewardBaiZe", null, "Roguelike.BlackFlow.RewardBaiZe.Tip"),
-        (RoguelikeBlackFlowStartReward.GoldenCrow, "Roguelike.BlackFlow.RewardGoldenCrow", null, "Roguelike.BlackFlow.RewardGoldenCrow.Tip"));
+        (RoguelikeBlackFlowStartReward.Pegasus, "Roguelike.BlackFlow.RewardPegasus").WithTip("Roguelike.BlackFlow.RewardPegasus.Tip"),
+        (RoguelikeBlackFlowStartReward.Hippogriff, "Roguelike.BlackFlow.RewardHippogriff").WithTip("Roguelike.BlackFlow.RewardHippogriff.Tip"),
+        (RoguelikeBlackFlowStartReward.Dragon, "Roguelike.BlackFlow.RewardDragon").WithTip("Roguelike.BlackFlow.RewardDragon.Tip"),
+        (RoguelikeBlackFlowStartReward.Hydra, "Roguelike.BlackFlow.RewardHydra").WithTip("Roguelike.BlackFlow.RewardHydra.Tip"),
+        (RoguelikeBlackFlowStartReward.BaiZe, "Roguelike.BlackFlow.RewardBaiZe").WithTip("Roguelike.BlackFlow.RewardBaiZe.Tip"),
+        (RoguelikeBlackFlowStartReward.GoldenCrow, "Roguelike.BlackFlow.RewardGoldenCrow").WithTip("Roguelike.BlackFlow.RewardGoldenCrow.Tip"));
 
     private object[] SelectBlackFlowRewards(LocalizedObservableList<RoguelikeBlackFlowStartReward> options)
     {

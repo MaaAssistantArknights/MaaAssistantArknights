@@ -59,7 +59,7 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
     public ExternalNotificationDeliverySettingsModel DeliverySettings { get; }
 
     public LocalizedObservableList<ExternalNotificationChannel> ExternalNotificationProviderList { get; } = new(
-        ExternalNotificationChannel.All.Select(channel => (channel, channel.LocalizationKey)).ToArray());
+        ExternalNotificationChannel.All.Select(channel => new LocalizedEntry<ExternalNotificationChannel>(channel, channel.LocalizationKey)).ToArray());
 
     public ObservableCollection<BaseConfig> ExternalNotificationConfigs { get; }
 

@@ -747,6 +747,7 @@ MAA を新しい独立したフォルダーに解凍するか、MAA に属さな
     <system:String x:Key="Common.LabelSequence.Tip">タブの順番はドラッグ可能です</system:String>
     <system:String x:Key="Common.ManualRestart">後で</system:String>
     <system:String x:Key="Common.No">いいえ</system:String>
+    <system:String x:Key="Common.NotAdapted">未対応</system:String>
     <system:String x:Key="Common.NotSelected">選ばない</system:String>
     <system:String x:Key="Common.Ok">はい</system:String>
     <system:String x:Key="Common.Select">選択</system:String>

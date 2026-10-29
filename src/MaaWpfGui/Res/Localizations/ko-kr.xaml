@@ -747,6 +747,7 @@ MAA를 독립된 새 폴더에 압축 해제하거나, MAA에 속하지 않는 D
     <system:String x:Key="Common.LabelSequence.Tip">드래그하여 작업 순서를 변경할 수 있습니다</system:String>
     <system:String x:Key="Common.ManualRestart">나중에</system:String>
     <system:String x:Key="Common.No">아니요</system:String>
+    <system:String x:Key="Common.NotAdapted">미지원</system:String>
     <system:String x:Key="Common.NotSelected">미선택</system:String>
     <system:String x:Key="Common.Ok">확인</system:String>
     <system:String x:Key="Common.Select">선택</system:String>

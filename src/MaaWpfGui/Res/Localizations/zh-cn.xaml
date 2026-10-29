@@ -748,6 +748,7 @@
     <system:String x:Key="Common.LabelSequence.Tip">标签顺序可拖动</system:String>
     <system:String x:Key="Common.ManualRestart">稍后</system:String>
     <system:String x:Key="Common.No">否</system:String>
+    <system:String x:Key="Common.NotAdapted">未适配</system:String>
     <system:String x:Key="Common.NotSelected">不选择</system:String>
     <system:String x:Key="Common.Ok">好的</system:String>
     <system:String x:Key="Common.Select">选择</system:String>

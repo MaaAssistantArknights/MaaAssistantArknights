@@ -747,6 +747,7 @@
     <system:String x:Key="Common.LabelSequence.Tip">標籤順序可拖曳</system:String>
     <system:String x:Key="Common.ManualRestart">稍後</system:String>
     <system:String x:Key="Common.No">否</system:String>
+    <system:String x:Key="Common.NotAdapted">未適配</system:String>
     <system:String x:Key="Common.NotSelected">不選擇</system:String>
     <system:String x:Key="Common.Ok">好的</system:String>
     <system:String x:Key="Common.Select">選擇</system:String>
