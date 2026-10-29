@@ -698,7 +698,7 @@
                             Grid.Row="1"
                             Cursor="Hand"
                             ItemsSource="{Binding HeatCells}"
-                            PreviewMouseLeftButtonUp="{s:Action OnHeatCellClick}">
+                            PreviewMouseLeftButtonDown="{s:Action OnHeatCellClick}">
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
                                     <UniformGrid
@@ -873,7 +873,7 @@
                 VerticalAlignment="Top"
                 ItemsPanel="{StaticResource DropGridPanel}"
                 ItemsSource="{Binding Materials}"
-                MouseDown="{s:Action OnMaterialClick}">
+                PreviewMouseLeftButtonDown="{s:Action OnMaterialClick}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <!--  选中项（柱状图当前展示的物品）用高亮底标示  -->
