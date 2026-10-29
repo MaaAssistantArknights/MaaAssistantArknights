@@ -2001,7 +2001,7 @@ MAA は非インストール型のアプリケーションであり、レジス�
     <system:String x:Key="TaskQueue.DailyReport.Rank.ScopeFormat">この期間に周回したステージのみ · {0} 以降の全記録で算出</system:String>
     <system:String x:Key="TaskQueue.DailyReport.Rank.SummaryFormat">ステージ順位 {0}/{1} · 誤差 {2}</system:String>
     <system:String x:Key="TaskQueue.DailyReport.Rank.SummaryLowSampleFormat">ステージ順位 {0}/{1} · 誤差 {2} · サンプル少</system:String>
-    <system:String x:Key="TaskQueue.DailyReport.Rank.Tip" xml:space="preserve">95% 信頼区間 {0} ~ {1} 理性/個&#10;ドロップ {2} · {3} 戦</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Rank.Tip" xml:space="preserve">95% 信頼区間 {0} ~ {1} 理性/個&#10;{3} 戦で {2} 個ドロップ</system:String>
     <system:String x:Key="TaskQueue.DailyReport.Rate.PerBattle">1 戦あたり</system:String>
     <system:String x:Key="TaskQueue.DailyReport.Rate.SanityPerItem">1 個あたり理性</system:String>
     <system:String x:Key="TaskQueue.DailyReport.Retention">保持期間</system:String>

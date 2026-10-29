@@ -508,36 +508,43 @@ public class DailyReportDialogViewModel : PropertyChangedBase
         return rows;
     }
 
-    // 全部历史记录按关卡累计的场次、理智与各物品掉落；窗口打开与裁剪记录后重读
-    private Dictionary<string, (int Times, int Sanity, Dictionary<string, int> Drops)> _history = [];
+    // 全部历史记录按关卡分组的逐条记录（场次与掉落），排名时按物品现算累计量；窗口打开与裁剪记录后重读。
+    // 保留逐条记录而非只存合计：误差按记录间的实际波动估算，未掉落该物品的记录也是样本
+    private Dictionary<string, (int Sanity, List<CombatSession> Sessions)> _history = [];
 
     // 最早一条记录所在的游戏日，没有记录时为 null
     private DateOnly? _historyStart;
 
     /// <summary>
-    /// 读取全部历史记录并按关卡累计，供单件理智排名使用。
+    /// 读取全部历史记录并按关卡分组，供单件理智排名使用。
     /// </summary>
     public void LoadHistory()
     {
         var days = DailyReportStore.LoadRange(DateOnly.MinValue, DateOnly.MaxValue);
         _historyStart = days.Count > 0 ? days.Min(d => d.Day) : null;
-        _history = [];
-        foreach (var session in days.SelectMany(d => d.Data.Sessions))
-        {
-            var (times, sanity, drops) = _history.GetValueOrDefault(session.Stage, (0, 0, []));
-            foreach (var (item, count) in session.Drops)
-            {
-                drops[item] = drops.GetValueOrDefault(item) + count;
-            }
-
-            _history[session.Stage] = (times + session.Times, sanity + session.Sanity, drops);
-        }
+        _history = days
+            .SelectMany(d => d.Data.Sessions)
+            .Where(s => s.Times > 0)
+            .GroupBy(s => s.Stage)
+            .ToDictionary(g => g.Key, g => (g.Sum(s => s.Sanity), g.ToList()));
     }
 
-    private IEnumerable<DailyReportRankRowViewModel> HistoryRows(string itemId) => _history
-        .Select(h => (Stage: h.Key, Count: h.Value.Drops.GetValueOrDefault(itemId), h.Value.Times, h.Value.Sanity))
-        .Where(x => x.Count > 0 && x.Sanity > 0)
-        .Select(x => new DailyReportRankRowViewModel(x.Stage, x.Count, x.Times, x.Sanity));
+    private IEnumerable<DailyReportRankRowViewModel> HistoryRows(string itemId)
+    {
+        foreach (var (stage, (sanity, sessions)) in _history)
+        {
+            var stats = default(DailyReportRankRowViewModel.DropStats);
+            foreach (var session in sessions)
+            {
+                stats.Add(session.Times, session.Drops.GetValueOrDefault(itemId));
+            }
+
+            if (stats.Count > 0 && sanity > 0)
+            {
+                yield return new DailyReportRankRowViewModel(stage, stats, sanity);
+            }
+        }
+    }
 
     /// <summary>
     /// Gets 排名卡片标题旁的口径说明：列出的关卡范围与数据来源。

@@ -1999,7 +1999,7 @@ Enter ｢SSReopen-XX｣ once to clear all normal stages with Auto-Deploy in SS r
     <system:String x:Key="TaskQueue.DailyReport.Rank.ScopeFormat">Stages farmed in this period · data from all records since {0}</system:String>
     <system:String x:Key="TaskQueue.DailyReport.Rank.SummaryFormat">Rank {0}/{1} · {2}</system:String>
     <system:String x:Key="TaskQueue.DailyReport.Rank.SummaryLowSampleFormat">Rank {0}/{1} · {2} · small sample</system:String>
-    <system:String x:Key="TaskQueue.DailyReport.Rank.Tip" xml:space="preserve">95% confidence: {0} ~ {1} sanity/item&#10;{2} drops · {3} battles</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Rank.Tip" xml:space="preserve">95% confidence: {0} ~ {1} sanity/item&#10;{2} drops in {3} battles</system:String>
     <system:String x:Key="TaskQueue.DailyReport.Rate.PerBattle">Per battle</system:String>
     <system:String x:Key="TaskQueue.DailyReport.Rate.SanityPerItem">Sanity per item</system:String>
     <system:String x:Key="TaskQueue.DailyReport.Retention">Retention</system:String>

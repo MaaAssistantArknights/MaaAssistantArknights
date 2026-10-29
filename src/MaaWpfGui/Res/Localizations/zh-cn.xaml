@@ -2000,7 +2000,7 @@ DEBUG 目录下保存的图片有数量限制，超出后会自动清理旧图�
     <system:String x:Key="TaskQueue.DailyReport.Rank.ScopeFormat">仅列本时段刷过的关卡 · 数据取自 {0} 起的全部记录</system:String>
     <system:String x:Key="TaskQueue.DailyReport.Rank.SummaryFormat">关卡排名 {0}/{1} · 误差 {2}</system:String>
     <system:String x:Key="TaskQueue.DailyReport.Rank.SummaryLowSampleFormat">关卡排名 {0}/{1} · 误差 {2} · 样本少</system:String>
-    <system:String x:Key="TaskQueue.DailyReport.Rank.Tip" xml:space="preserve">95% 置信区间 {0} ~ {1} 理智/个&#10;掉落 {2} · {3} 场</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Rank.Tip" xml:space="preserve">95% 置信区间 {0} ~ {1} 理智/个&#10;{3} 场共掉落 {2} 个</system:String>
     <system:String x:Key="TaskQueue.DailyReport.Rate.PerBattle">每场掉落</system:String>
     <system:String x:Key="TaskQueue.DailyReport.Rate.SanityPerItem">单件理智</system:String>
     <system:String x:Key="TaskQueue.DailyReport.Retention">保留时间</system:String>
