@@ -19,11 +19,13 @@ namespace MaaWpfGui.ViewModels.Items;
 /// <summary>
 /// 柱状图单根柱子。
 /// </summary>
+/// <param name="Index">柱子在图表中的序号，从 0 开始，用于刻度稀疏时按间隔取舍。</param>
 /// <param name="Ratio">柱高占图表最大值的比例，0 ~ 1。</param>
 /// <param name="ToolTip">悬停提示（时间段与数值；叠加药剂与源石时一并列出）。</param>
-/// <param name="TickLabel">柱子正下方的横轴刻度文本，非刻度位置为空。</param>
+/// <param name="TickLabel">柱子正下方的横轴刻度文本，每根柱子都有；放不下时由视图按间隔稀疏。</param>
+/// <param name="IsMajorTick">是否为主刻度（如跨年处的年份），稀疏时始终保留。</param>
 /// <param name="ValueText">柱顶数值（缩写）；数值为 0 或叠加折线时为空，避免与折线互相遮挡。</param>
-public record DailyReportChartBarViewModel(double Ratio, string ToolTip, string TickLabel, string ValueText)
+public record DailyReportChartBarViewModel(int Index, double Ratio, string ToolTip, string TickLabel, bool IsMajorTick, string ValueText)
 {
     /// <summary>
     /// Gets 柱体所占的星号行高，与 <see cref="EmptyHeight"/> 共同按比例分配柱子所在列的高度。
