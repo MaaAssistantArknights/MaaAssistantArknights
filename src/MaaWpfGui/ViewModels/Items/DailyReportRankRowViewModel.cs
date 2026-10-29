@@ -60,7 +60,9 @@ public class DailyReportRankRowViewModel
         SanityPerItem = sanity / stats.Count;
         RelativeError = EstimateRelativeError(stats);
         ValueText = DailyReportFormat.Rate(SanityPerItem);
-        ErrorText = "±" + RelativeError.ToString("P0", LocalizationHelper.CustomCultureInfo);
+        ErrorText = RelativeError < 0.0001
+            ? "<" + 0.0001.ToString("P2", LocalizationHelper.CustomCultureInfo)
+            : "±" + RelativeError.ToString("P2", LocalizationHelper.CustomCultureInfo);
         ToolTip = LocalizationHelper.GetStringFormat(
             "TaskQueue.DailyReport.Rank.Tip",
             DailyReportFormat.Rate(SanityPerItem * Math.Max(0, 1 - RelativeError)),

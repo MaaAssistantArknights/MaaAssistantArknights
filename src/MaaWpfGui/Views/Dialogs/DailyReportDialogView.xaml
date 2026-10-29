@@ -807,7 +807,7 @@
                                                     <ColumnDefinition Width="64" />
                                                     <ColumnDefinition Width="*" />
                                                     <ColumnDefinition Width="Auto" MinWidth="56" />
-                                                    <ColumnDefinition Width="Auto" MinWidth="48" />
+                                                    <ColumnDefinition Width="Auto" MinWidth="60" />
                                                 </Grid.ColumnDefinitions>
                                                 <TextBlock
                                                     VerticalAlignment="Center"
