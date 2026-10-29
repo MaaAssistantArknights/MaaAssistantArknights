@@ -4,6 +4,7 @@
 #include "Config/TaskData.h"
 #include "Config/TemplResource.h"
 #include "MaaUtils/NoWarningCV.hpp"
+#include "Utils/Logger.hpp"
 #include "Vision/Matcher.h"
 #include "Vision/RegionOCRer.h"
 
