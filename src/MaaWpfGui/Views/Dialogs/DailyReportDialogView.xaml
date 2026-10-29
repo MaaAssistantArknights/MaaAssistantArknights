@@ -52,8 +52,12 @@
                     Text="{Binding Count}" />
             </StackPanel>
         </DataTemplate>
+        <!--
+            固定格宽，默认窗口宽度下两种视图都排满 10 列（按关卡视图的列表项两侧另有边距，可用宽度约 716），加宽时按整格换行；
+            不把剩余宽度平分给各格：拖动窗口时格宽会在增大与回落之间反复跳动
+        -->
         <ItemsPanelTemplate x:Key="DropGridPanel">
-            <UniformGrid Columns="10" />
+            <WrapPanel ItemWidth="70" />
         </ItemsPanelTemplate>
     </hc:Window.Resources>
     <Grid Margin="12">
