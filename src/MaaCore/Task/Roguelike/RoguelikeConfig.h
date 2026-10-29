@@ -38,7 +38,8 @@ enum class RoguelikeMode
     FastPass = 10'001, // 10001 - 快速通过第一层
 
     // ------------------ 界园主题专用模式 ------------------
-    FindPlaytime = 20'001, // 20001 - 刷常乐节点，第一层进洞，找不到需要的节点就重开
+    FindPlaytime = 20'001,  // 20001 - 刷常乐节点，第一层进洞，找不到需要的节点就重开
+    CoppersRecast = 20'002, // 20002 - 常乐节点反复投钱（电表倒转），按 5 衡 1 厉的轮次配置投币与奖励
 
     // ------------------ 黑流树海主题专用模式 ------------------
     BlackFlowBabyAnimal = 30'001, // 30001 - 刷襁褓动物
@@ -115,7 +116,8 @@ public:
                mode == RoguelikeMode::Squad || mode == RoguelikeMode::Exploration ||
                (mode == RoguelikeMode::CLP_PDS && theme == RoguelikeTheme::Sami) ||
                (mode == RoguelikeMode::FastPass && theme == RoguelikeTheme::Sarkaz) ||
-               (mode == RoguelikeMode::FindPlaytime && theme == RoguelikeTheme::JieGarden);
+               (mode == RoguelikeMode::FindPlaytime && theme == RoguelikeTheme::JieGarden) ||
+               (mode == RoguelikeMode::CoppersRecast && theme == RoguelikeTheme::JieGarden);
     }
 
     bool verify_and_load_params(const json::value& params);
@@ -180,6 +182,13 @@ public:
 
     int get_find_playTime_target() const { return m_find_playTime_target; }
 
+    // ------------------ 投币重铸模式 ------------------
+    // 刷钱次数：投衡如常收源石锭，每 6 次里投一次厉如锋换烛火
+    int get_coppers_recast_count() const { return m_coppers_recast_count; }
+
+    // 换藏品次数：投厉如锋拿收藏品，每 6 次里投一次厉如锋换烛火
+    int get_coppers_recast_relic_count() const { return m_coppers_recast_relic_count; }
+
 private:
     std::string m_theme;                       // 主题
     RoguelikeMode m_mode = RoguelikeMode::Exp; // 模式
@@ -208,6 +217,10 @@ private:
 
     // ------------------ 刷常乐节点模式 ------------------
     int m_find_playTime_target = 0; // 目标常乐节点子类型 (1=令, 2=黍, 3=年)
+
+    // ------------------ 投币重铸模式 ------------------
+    int m_coppers_recast_count = 1;       // 刷钱次数，投衡如常收源石锭
+    int m_coppers_recast_relic_count = 0; // 换藏品次数，投厉如锋拿收藏品
 
 private:
     // =========================== 萨米主题专用参数 ===========================
