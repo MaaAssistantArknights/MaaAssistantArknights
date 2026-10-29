@@ -443,6 +443,7 @@
     <system:String x:Key="Asst.Infrast.ProductChanged">製産物が切り替わった</system:String>
     <system:String x:Key="Asst.Infrast.ProductIncorrect">製産物が構成と一致しません。</system:String>
     <system:String x:Key="Asst.Infrast.ProductUnknown">認識不能な製産物</system:String>
+    <system:String x:Key="Asst.Infrast.RecycleProduct">回収所の産物</system:String>
     <system:String x:Key="Asst.Infrast.RoomGroupsMatch" xml:space="preserve">グループに合わせる: </system:String>
     <system:String x:Key="Asst.Infrast.RoomGroupsMatchFailed" xml:space="preserve">{key=Game.Operator} グループ、グループ リストの一致に失敗しました: </system:String>
     <system:String x:Key="Asst.Infrast.RoomGroupsMatchRecogFailed">グループ{key=Game.Operator}の認識に失敗したため、部屋は変更されませんでした</system:String>
