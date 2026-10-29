@@ -2,6 +2,7 @@
     x:Class="MaaWpfGui.Views.Dialogs.DailyReportDialogView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:c="clr-namespace:CalcBinding;assembly=CalcBinding"
     xmlns:controls="clr-namespace:MaaWpfGui.Styles.Controls"
     xmlns:converters="clr-namespace:MaaWpfGui.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -421,10 +422,26 @@
                         VerticalAlignment="Center"
                         DockPanel.Dock="Right"
                         Orientation="Horizontal">
-                        <hc:ButtonGroup Margin="8,0,0,0" Visibility="{Binding CanRank, Converter={StaticResource Boolean2VisibilityConverter}}">
-                            <RadioButton Content="{DynamicResource TaskQueue.DailyReport.Chart.Trend}" IsChecked="{Binding IsTrendMode}" />
-                            <RadioButton Content="{DynamicResource TaskQueue.DailyReport.Chart.Rank}" IsChecked="{Binding IsRankMode}" />
-                        </hc:ButtonGroup>
+                        <!--
+                            显隐放外层 Border：给 ButtonGroup 自身设 Style 会替换 HandyControl 的默认样式，按钮失去分段外观；
+                            用 Hidden 而非 Collapsed 保留占位，否则在可排名与不可排名物品间切换时图表卡片高度会跳变
+                        -->
+                        <Border Margin="8,0,0,0">
+                            <Border.Style>
+                                <Style TargetType="Border">
+                                    <Setter Property="Visibility" Value="Hidden" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding CanRank}" Value="True">
+                                            <Setter Property="Visibility" Value="Visible" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Border.Style>
+                            <hc:ButtonGroup>
+                                <RadioButton Content="{DynamicResource TaskQueue.DailyReport.Chart.Trend}" IsChecked="{Binding IsTrendMode}" />
+                                <RadioButton Content="{DynamicResource TaskQueue.DailyReport.Chart.Rank}" IsChecked="{Binding IsRankMode}" />
+                            </hc:ButtonGroup>
+                        </Border>
                         <!--  显隐条件放在外层：给 ButtonGroup 自身设 Style 会替换 HandyControl 的默认样式，按钮失去分段外观  -->
                         <Border Margin="8,0,0,0">
                             <Border.Style>
@@ -459,7 +476,7 @@
                         <StackPanel
                             Margin="12,0,0,0"
                             Orientation="Horizontal"
-                            Visibility="{Binding ShowMedicineLegend, Converter={StaticResource Boolean2VisibilityConverter}}">
+                            Visibility="{c:Binding ShowMedicineLegend}">
                             <Rectangle
                                 Width="12"
                                 Height="2"
@@ -474,7 +491,7 @@
                         <StackPanel
                             Margin="10,0,0,0"
                             Orientation="Horizontal"
-                            Visibility="{Binding ShowStoneLegend, Converter={StaticResource Boolean2VisibilityConverter}}">
+                            Visibility="{c:Binding ShowStoneLegend}">
                             <Rectangle
                                 Width="12"
                                 Height="2"
@@ -493,7 +510,7 @@
                     Grid.Row="1"
                     Height="128"
                     Margin="0,6,0,0"
-                    Visibility="{Binding IsChartCollapsed, Converter={StaticResource Boolean2VisibilityReConverter}}">
+                    Visibility="{c:Binding !IsChartCollapsed}">
                     <!--  趋势：柱状图（年视图选热力图、或排名模式时隐藏）  -->
                     <Grid>
                         <Grid.Style>
@@ -600,20 +617,20 @@
                                 Stroke="{DynamicResource SuccessBrush}"
                                 StrokeLineJoin="Round"
                                 StrokeThickness="2"
-                                Visibility="{Binding MedicineLine.IsVisible, Converter={StaticResource Boolean2VisibilityConverter}, FallbackValue=Collapsed}" />
+                                Visibility="{c:Binding MedicineLine.IsVisible}" />
                             <Path
                                 Data="{Binding StoneLine.Geometry}"
                                 Stretch="Fill"
                                 Stroke="{DynamicResource WarningBrush}"
                                 StrokeLineJoin="Round"
                                 StrokeThickness="2"
-                                Visibility="{Binding StoneLine.IsVisible, Converter={StaticResource Boolean2VisibilityConverter}, FallbackValue=Collapsed}" />
+                                Visibility="{c:Binding StoneLine.IsVisible}" />
                         </Grid>
                         <!--  右轴：只标上限与 0，两条线共用  -->
                         <Grid
                             Grid.Column="1"
                             Margin="6,14,0,0"
-                            Visibility="{Binding HasOverlay, Converter={StaticResource Boolean2VisibilityConverter}}">
+                            Visibility="{c:Binding HasOverlay}">
                             <controls:TextBlock
                                 VerticalAlignment="Top"
                                 FontSize="10"
@@ -724,7 +741,7 @@
                     <hc:ScrollViewer
                         IsInertiaEnabled="True"
                         VerticalScrollBarVisibility="Auto"
-                        Visibility="{Binding IsRankMode, Converter={StaticResource Boolean2VisibilityConverter}}">
+                        Visibility="{c:Binding IsRankMode}">
                         <ItemsControl Margin="0,0,8,0" ItemsSource="{Binding RankRows}">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
@@ -812,7 +829,7 @@
             ScrollViewer.HorizontalScrollBarVisibility="Disabled"
             Style="{DynamicResource NoSelectedHighlightListBoxStyle}"
             VirtualizingPanel.ScrollUnit="Pixel"
-            Visibility="{Binding IsStageView, Converter={StaticResource Boolean2VisibilityConverter}}">
+            Visibility="{c:Binding IsStageView}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Margin="0,8,10,4">
@@ -850,7 +867,7 @@
             HorizontalScrollBarVisibility="Disabled"
             IsInertiaEnabled="True"
             VerticalScrollBarVisibility="Auto"
-            Visibility="{Binding IsMaterialView, Converter={StaticResource Boolean2VisibilityConverter}}">
+            Visibility="{c:Binding IsMaterialView}">
             <ItemsControl
                 Margin="0,0,10,0"
                 VerticalAlignment="Top"
