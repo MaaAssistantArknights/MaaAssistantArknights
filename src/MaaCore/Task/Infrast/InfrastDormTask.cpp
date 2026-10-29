@@ -159,9 +159,9 @@ bool asst::InfrastDormTask::_run()
             continue;
         }
 
-        if (!enter_facility(m_cur_facility_index)) {
+        if (!enter_facility(m_cur_facility_index, false)) {
             swipe_to_the_left_of_main_ui();
-            if (!enter_facility(m_cur_facility_index)) {
+            if (!enter_facility(m_cur_facility_index, is_index_within_recognized_count(m_cur_facility_index))) {
                 break;
             }
         }

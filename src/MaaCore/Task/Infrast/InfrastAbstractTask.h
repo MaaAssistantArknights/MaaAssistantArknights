@@ -54,7 +54,16 @@ protected:
     void stage_operator_selection(const std::string& operator_id);
     void discard_pending_selection();
 
-    bool enter_facility(int index = 0);
+    /// @brief 进入当前画面中第 index 个同名设施入口，只识别画面内已有的入口，不主动滑动
+    /// @param index 同名设施中的序号（从 0 开始，按画面中从上到下、同行从左到右排序）
+    /// @param save_on_failure 失败时是否保存截图到 debug/infrast/enter_facility。
+    ///     debug 目录有文件数上限，可预期的失败（设施可能不在当前画面、序号可能超出实际建造数量）
+    ///     应传 false，避免无意义截图挤掉有排查价值的截图
+    /// @return 是否已点击进入
+    bool enter_facility(int index = 0, bool save_on_failure = true);
+    // 序号是否在 InfrastInfoTask 识别到的本设施数量以内，识别结果缺失时视为在范围内。
+    // 循环型设施的上限按建满取值，超出识别数量的序号仍需尝试一次以兜住少识别，但这类失败是可预期的
+    bool is_index_within_recognized_count(int index) const;
     // 从刚点进设施的界面，到干员列表页
     bool enter_oper_list_page();
 
