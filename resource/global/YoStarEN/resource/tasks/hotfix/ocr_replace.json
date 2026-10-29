@@ -6,7 +6,7 @@
             ["^SilverAsh$", "银灰"],
             ["^Blaze$", "煌"],
             ["Surtr", "史尔特尔"],
-            ["^Ch'en$", "陈"],
+            ["^Ch'e[nr]$", "陈"],
             ["^Thorns$", "棘刺"],
             ["^Specter$", "幽灵鲨"],
             ["Nearl? the Rad?iant Kn?ight", "耀骑士临光"],
