@@ -20,9 +20,9 @@ namespace MaaWpfGui.ViewModels.Items;
 /// 柱状图单根柱子。
 /// </summary>
 /// <param name="Ratio">柱高占图表最大值的比例，0 ~ 1。</param>
-/// <param name="ToolTip">悬停提示（时间段与数值）。</param>
+/// <param name="ToolTip">悬停提示（时间段与数值；叠加药剂与源石时一并列出）。</param>
 /// <param name="TickLabel">柱子正下方的横轴刻度文本，非刻度位置为空。</param>
-/// <param name="ValueText">柱顶数值（缩写），数值为 0 时为空。</param>
+/// <param name="ValueText">柱顶数值（缩写）；数值为 0 或叠加折线时为空，避免与折线互相遮挡。</param>
 public record DailyReportChartBarViewModel(double Ratio, string ToolTip, string TickLabel, string ValueText)
 {
     /// <summary>

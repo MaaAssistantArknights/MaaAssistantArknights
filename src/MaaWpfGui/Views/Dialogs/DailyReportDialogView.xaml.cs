@@ -16,6 +16,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Markup;
+using System.Windows.Media;
 using System.Windows.Threading;
 using MaaWpfGui.Helper;
 using MaaWpfGui.ViewModels.Items;
@@ -99,18 +100,40 @@ public partial class DailyReportDialogView
         }
     }
 
+    // 鼠标按下时所在的掉落格；抬起时仍在同一格才算点击，拖动、滚动后松开不弹浮层
+    private FrameworkElement _pressedDropCell;
+
+    // 处理挂在外层列表上：鼠标按下时列表捕获鼠标，抬起事件的源变成列表本身，掉落格自己的处理收不到；
+    // 因此按坐标重新命中测试，再上行找到所在的掉落格
+    private static FrameworkElement FindDropCell(UIElement list, Point position)
+    {
+        for (DependencyObject node = list.InputHitTest(position) as DependencyObject; node is not null;)
+        {
+            if (node is ContentPresenter { Content: DailyReportDropItemViewModel } presenter)
+            {
+                return presenter;
+            }
+
+            // 文本里的 Run 等内容元素不在可视树上，先沿逻辑树回到所属的可视元素
+            node = node is Visual or System.Windows.Media.Media3D.Visual3D ? VisualTreeHelper.GetParent(node) : LogicalTreeHelper.GetParent(node);
+        }
+
+        return null;
+    }
+
+    private void OnDropPress(object sender, MouseButtonEventArgs e)
+    {
+        _pressedDropCell = sender is UIElement list ? FindDropCell(list, e.GetPosition(list)) : null;
+    }
+
     // 掉落格点击：在被点的格子下方弹出该物品在本行的掉率；Popup 不在可视树内，直接把物品设为其 DataContext
     private void OnDropClick(object sender, MouseButtonEventArgs e)
     {
-        if (e.OriginalSource is not FrameworkElement { DataContext: DailyReportDropItemViewModel drop } element)
+        var pressed = _pressedDropCell;
+        _pressedDropCell = null;
+        if (sender is not UIElement list || FindDropCell(list, e.GetPosition(list)) is not { DataContext: DailyReportDropItemViewModel drop } cell || cell != pressed)
         {
             return;
-        }
-
-        var cell = element;
-        while (cell.Parent is FrameworkElement parent && parent.DataContext == drop)
-        {
-            cell = parent;
         }
 
         // 延后到本次鼠标抬起处理完再打开：StaysOpen=False 的 Popup 靠持有鼠标捕获感知外部点击，
@@ -119,10 +142,24 @@ public partial class DailyReportDialogView
             () =>
             {
                 DropRatePopup.IsOpen = false;
+                drop.RankText = ViewModel.BuildRankSummary(drop);
+                DropRatePopup.DataContext = null;
                 DropRatePopup.DataContext = drop;
                 DropRatePopup.PlacementTarget = cell;
                 DropRatePopup.IsOpen = true;
             },
             DispatcherPriority.Input);
+    }
+
+    // 浮层排名摘要点击：跳到按材料视图的关卡排名，高亮当前关卡
+    private void OnRankSummaryClick(object sender, MouseButtonEventArgs e)
+    {
+        if (DropRatePopup.DataContext is not DailyReportDropItemViewModel drop)
+        {
+            return;
+        }
+
+        DropRatePopup.IsOpen = false;
+        ViewModel.ShowRanking(drop);
     }
 }

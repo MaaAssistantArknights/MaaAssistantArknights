@@ -34,21 +34,32 @@ public class DailyReportDropItemViewModel
     public DailyReportDropItemViewModel(string itemId, int count, string stage, int times, int sanity)
     {
         ItemId = itemId;
+        Stage = stage;
         Name = ItemListHelper.GetItemName(itemId) ?? itemId;
         Count = count.FormatNumber(false);
         Image = ItemListHelper.GetItemImage(itemId);
         RateTitle = $"{Name} · {stage}";
 
         // 场次或理智缺失（旧数据、采集异常）时无从计算，显示占位而非 0 或无穷
-        var culture = LocalizationHelper.CustomCultureInfo;
-        PerBattleText = times > 0 ? ((double)count / times).ToString("0.00", culture) : "-";
-        SanityPerItemText = count > 0 && sanity > 0 ? ((double)sanity / count).ToString("0.0", culture) : "-";
+        PerBattleText = times > 0 ? DailyReportFormat.Rate((double)count / times) : "-";
+        SanityPerItemText = count > 0 && sanity > 0 ? DailyReportFormat.Rate((double)sanity / count) : "-";
     }
 
     /// <summary>
     /// Gets 物品 id。
     /// </summary>
     public string ItemId { get; }
+
+    /// <summary>
+    /// Gets 所属记录行的关卡。
+    /// </summary>
+    public string Stage { get; }
+
+    /// <summary>
+    /// Gets or sets 浮层里的排名摘要（名次、参与排名的关卡数与误差），打开浮层时按当前时段全部记录计算；
+    /// 日视图里浮层上方的两项数值只算这一条记录，二者口径不同。无从排名时为空。
+    /// </summary>
+    public string RankText { get; set; } = string.Empty;
 
     /// <summary>
     /// Gets 物品名称。
