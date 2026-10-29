@@ -433,26 +433,6 @@
                         VerticalAlignment="Center"
                         DockPanel.Dock="Right"
                         Orientation="Horizontal">
-                        <!--
-                            显隐放外层 Border：给 ButtonGroup 自身设 Style 会替换 HandyControl 的默认样式，按钮失去分段外观；
-                            用 Hidden 而非 Collapsed 保留占位，否则在可排名与不可排名物品间切换时图表卡片高度会跳变
-                        -->
-                        <Border Margin="8,0,0,0">
-                            <Border.Style>
-                                <Style TargetType="Border">
-                                    <Setter Property="Visibility" Value="Hidden" />
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding CanRank}" Value="True">
-                                            <Setter Property="Visibility" Value="Visible" />
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </Border.Style>
-                            <hc:ButtonGroup>
-                                <RadioButton Content="{DynamicResource TaskQueue.DailyReport.Chart.Trend}" IsChecked="{Binding IsTrendMode}" />
-                                <RadioButton Content="{DynamicResource TaskQueue.DailyReport.Chart.Rank}" IsChecked="{Binding IsRankMode}" />
-                            </hc:ButtonGroup>
-                        </Border>
                         <!--  显隐条件放在外层：给 ButtonGroup 自身设 Style 会替换 HandyControl 的默认样式，按钮失去分段外观  -->
                         <Border Margin="8,0,0,0">
                             <Border.Style>
@@ -478,6 +458,33 @@
                                     Padding="8,0"
                                     Content="{DynamicResource TaskQueue.DailyReport.Chart.Bars}"
                                     IsChecked="{Binding IsBarMode}" />
+                            </hc:ButtonGroup>
+                        </Border>
+                        <!--
+                            显隐放外层 Border：给 ButtonGroup 自身设 Style 会替换 HandyControl 的默认样式，按钮失去分段外观。
+                            放在最后，年视图出现热力图切换时本组保持在最右侧不被推开；
+                            不可排名时用透明隐藏并保留占位，否则在可排名与不可排名物品间切换时图表卡片高度会跳变。
+                            不用 Hidden：ButtonGroup 按可见按钮数分配首末项圆角样式，且只在渲染时分配，
+                            首次渲染时按钮不可见会让末项拿到无圆角样式，之后变为可见也不会重新分配
+                        -->
+                        <Border Margin="8,0,0,0">
+                            <Border.Style>
+                                <Style TargetType="Border">
+                                    <Setter Property="Opacity" Value="0" />
+                                    <Setter Property="IsHitTestVisible" Value="False" />
+                                    <Setter Property="IsEnabled" Value="False" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding CanRank}" Value="True">
+                                            <Setter Property="Opacity" Value="1" />
+                                            <Setter Property="IsHitTestVisible" Value="True" />
+                                            <Setter Property="IsEnabled" Value="True" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Border.Style>
+                            <hc:ButtonGroup>
+                                <RadioButton Content="{DynamicResource TaskQueue.DailyReport.Chart.Trend}" IsChecked="{Binding IsTrendMode}" />
+                                <RadioButton Content="{DynamicResource TaskQueue.DailyReport.Chart.Rank}" IsChecked="{Binding IsRankMode}" />
                             </hc:ButtonGroup>
                         </Border>
                     </StackPanel>
