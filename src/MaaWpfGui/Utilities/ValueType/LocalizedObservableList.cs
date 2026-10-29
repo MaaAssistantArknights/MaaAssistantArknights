@@ -103,8 +103,10 @@ public class LocalizedObservableList<TValue> : IEnumerable<GenericCombinedData<T
     /// <param name="entry">条目，可直接写 (值, 本地化key) 二元组</param>
     public void Add(LocalizedEntry<TValue> entry)
     {
+        // 先创建 item：ShowSecondary 回调抛异常时两表都未改动，避免错位
+        var item = CreateItem(entry);
         _entries.Add(entry);
-        Items.Add(CreateItem(entry));
+        Items.Add(item);
     }
 
     /// <summary>
@@ -148,8 +150,9 @@ public class LocalizedObservableList<TValue> : IEnumerable<GenericCombinedData<T
     /// <param name="entry">条目，可直接写 (值, 本地化key) 二元组</param>
     public void Insert(int index, LocalizedEntry<TValue> entry)
     {
+        var item = CreateItem(entry);
         _entries.Insert(index, entry);
-        Items.Insert(index, CreateItem(entry));
+        Items.Insert(index, item);
     }
 
     /// <summary>
