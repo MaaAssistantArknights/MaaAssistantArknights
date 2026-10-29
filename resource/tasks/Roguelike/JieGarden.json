@@ -1552,7 +1552,7 @@
     },
     "JieGarden@RoguelikeSettlementConfirm": {},
     "JieGarden@Roguelike@CoppersRecast-OnMap": {
-        "Doc": "地图守卫：右上角『剩余烛火』还在 = 已经回到残识地图，本轮投币结束。插件用它判断「这个常乐节点还能不能再投」，只有还停在节点面板里才继续投。模板阈值宁松不紧：误判成在地图上只是提前收手，误判成不在才可能去点空屏幕。",
+        "Doc": "地图守卫：右上角 ｢剩余烛火｣ 还在 = 已经回到残识地图，本轮投币结束。模板阈值宁松不紧：误判成在地图上只是提前收手，误判成不在才可能去点空屏幕。",
         "algorithm": "MatchTemplate",
         "template": "JieGarden@Roguelike@CoppersRecast-Candle.png",
         "roi": [1130, 125, 150, 70],
@@ -1562,65 +1562,20 @@
         "onErrorNext": []
     },
     "JieGarden@Roguelike@CoppersRecast-Start": {
-        "Doc": "投币重铸模式的节点入口。路由插件把「进常乐节点」换成 -CoppersRecast 后进入这里，RoguelikeCoppersRecastTaskPlugin 在这个任务上接管，按 5 衡 1 厉的轮次投币，投完（或节点用尽）再回地图继续找下一个常乐。插件返回后不能直接回树洞路由，先过 -ExitGuard 确认真的回到地图上了。",
+        "Doc": "｢投币重铸｣ 触发锚点。RoguelikeStageEncounterTaskPlugin 在树洞常乐节点识别到事件 ｢掷地有声｣ 后运行本任务，RoguelikeCoppersRecastTaskPlugin 在它的 SubTaskStart 上接管，按 5 衡 1 厉的轮次逐轮投币；每一轮由插件单独起一条 -Round 任务链，认不出界面就放弃本局。种因得果 / 三缺一不是投钱事件，不走这里。",
         "algorithm": "JustReturn",
         "action": "DoNothing",
-        "next": [
-            "JieGarden@Roguelike@CoppersRecast-ExitGuard"
-        ],
-        "onErrorNext": [
-            "JieGarden@Roguelike@CoppersRecast-ExitGuard"
-        ]
-    },
-    "JieGarden@Roguelike@CoppersRecast-ExitGuard": {
-        "Doc": "出口守卫：投完最后一枚钱后先确认「剩余烛火」回到视野里，说明已经退出常乐节点、站在残识地图上，这时才交回树洞路由。没命中说明人还留在节点面板里（钱用尽但面板不自动关），走 -ExitClick 把面板点掉。",
-        "algorithm": "MatchTemplate",
-        "template": "JieGarden@Roguelike@CoppersRecast-Candle.png",
-        "roi": [1130, 125, 150, 70],
-        "templThreshold": 0.8,
-        "action": "DoNothing",
-        "next": [
-            "JieGarden@Roguelike@Routing_BoskyPassage"
-        ],
-        "onErrorNext": [
-            "JieGarden@Roguelike@CoppersRecast-ExitClick"
-        ]
-    },
-    "JieGarden@Roguelike@CoppersRecast-ExitClick": {
-        "Doc": "点掉常乐节点面板的关闭按钮（和 CloseEvent 同一个位置），点完不论成败都交回树洞路由：宁可让路由重新判断，也不在这里连点。",
-        "action": "ClickRect",
-        "specificRect": [153, 79, 63, 29],
-        "postDelay": 1500,
-        "maxTimes": 3,
-        "next": [
-            "JieGarden@Roguelike@Routing_BoskyPassage"
-        ],
-        "exceededNext": [
-            "JieGarden@Roguelike@Routing_BoskyPassage"
-        ],
-        "onErrorNext": [
-            "JieGarden@Roguelike@Routing_BoskyPassage"
-        ]
-    },
-    "JieGarden@RoguelikeRoutingAction-StagePlaytimeEnter-CoppersRecast": {
-        "Doc": "投币重铸模式下的常乐节点进入动作：不走去不期而遇，而是进投币流程",
-        "algorithm": "JustReturn",
-        "next": [
-            "JieGarden@Roguelike@CoppersRecast-Start"
-        ]
+        "next": [],
+        "onErrorNext": []
     },
     "JieGarden@Roguelike@CoppersRecast-Round": {
         "Doc": "一整轮投币：选项 → 确认 → 投衡如常/厉如锋 → 结果对勾 → 领奖 →收藏品逐件弹窗 → 回面板。投哪种钱、领什么奖由插件按轮次重设基准任务。",
         "algorithm": "JustReturn",
-        "next": [
-            "JieGarden@Roguelike@CoppersRecast-Step"
-        ],
-        "onErrorNext": [
-            "JieGarden@Roguelike@CoppersRecast-Step"
-        ]
+        "next": ["JieGarden@Roguelike@CoppersRecast-Step"],
+        "onErrorNext": ["JieGarden@Roguelike@CoppersRecast-Step"]
     },
     "JieGarden@Roguelike@CoppersRecast-Step": {
-        "Doc": "主路由器。顺序即优先级：确认弹窗 → 进门选项（欣然应允/来就来）→ 炸火后离开 →结果页对勾 → 领奖 → 收藏品弹窗的 NEXT → 最后一件的圆对勾 → 本轮投钱 →地图守卫 → 最后才是『点空白推进对话』。地图守卫必须排在点空白前面，否则在地图上会去点屏幕中心。",
+        "Doc": "主路由器，顺序即优先级：确认弹窗 → 进门选项（欣然应允/来就来）→ 炸火后离开 → 结果页对勾 → 领奖 → 收藏品弹窗 NEXT → 最后一件的圆对勾 → 本轮投钱 → 地图守卫 → 对话推进。地图守卫必须排在对话推进前面，否则在地图上会去点屏幕。没有点空白的兜底：认不出任何界面就空等，等不动了整轮失败、放弃本局。",
         "algorithm": "JustReturn",
         "next": [
             "JieGarden@Roguelike@CoppersRecast-Confirm",
@@ -1633,72 +1588,42 @@
             "JieGarden@Roguelike@CoppersRecast-TickOCR",
             "JieGarden@Roguelike@CoppersRecast-TickRecast",
             "JieGarden@Roguelike@CoppersRecast-Reward",
-            "JieGarden@Roguelike@CoppersRecast-RewardOCR",
             "JieGarden@Roguelike@CoppersRecast-PopupContinue",
             "JieGarden@Roguelike@CoppersRecast-PopupClose",
             "JieGarden@Roguelike@CoppersRecast-Pick",
             "JieGarden@Roguelike@CoppersRecast-OnMap",
-            "JieGarden@Roguelike@CoppersRecast-StageTap"
+            "JieGarden@Roguelike@CoppersRecast-DialogueSkip"
         ],
-        "onErrorNext": [
-            "JieGarden@Roguelike@CoppersRecast-Wait"
-        ]
+        "onErrorNext": ["JieGarden@Roguelike@CoppersRecast-Wait"]
     },
     "JieGarden@Roguelike@CoppersRecast-Accept": {
-        "Doc": "进常乐节点后的选项：『欣然应允』(消耗 50 源石锭)；炸火重来时文案变成『来就来』。只认按钮上的字，不点下面的灰条说明。",
+        "Doc": "进常乐节点后的选项：｢欣然应允｣(消耗 50 源石锭)；炸火重来时文案变成 ｢来就来｣。只认按钮上的字，不点下面的灰条说明。",
         "algorithm": "OcrDetect",
-        "text": [
-            "欣然应允",
-            "来就来"
-        ],
-        "ocrReplace": [
-            [
-                "[\\s\\u3000]+",
-                ""
-            ]
-        ],
+        "text": ["欣然应允", "来就来"],
+        "ocrReplace": [["[\\s\\u3000]+", ""]],
         "roi": [730, 110, 470, 300],
         "action": "ClickSelf",
         "postDelay": 2200,
         "maxTimes": 2,
-        "next": [
-            "JieGarden@Roguelike@CoppersRecast-AfterPick"
-        ],
-        "exceededNext": [
-            "JieGarden@Roguelike@CoppersRecast-Step"
-        ],
-        "onErrorNext": [
-            "JieGarden@Roguelike@CoppersRecast-Step"
-        ]
+        "next": ["JieGarden@Roguelike@CoppersRecast-AfterPick"],
+        "exceededNext": ["JieGarden@Roguelike@CoppersRecast-Step"],
+        "onErrorNext": ["JieGarden@Roguelike@CoppersRecast-Step"]
     },
     "JieGarden@Roguelike@CoppersRecast-Leave": {
-        "Doc": "炸火后进入的『愿赌服输』场景，唯一选项是绿条『离开……』(下面是灰字『倒霉啊』)。点它之后同样会弹『确定这样做』，所以走 AfterPick。",
+        "Doc": "炸火后进入的 ｢愿赌服输｣ 场景，唯一选项是绿条 ｢离开……｣(下面是灰字 ｢倒霉啊｣)。点它之后同样会弹 ｢确定这样做｣，所以走 AfterPick。",
         "algorithm": "OcrDetect",
-        "text": [
-            "离开"
-        ],
-        "ocrReplace": [
-            [
-                "[\\s\\u3000]+",
-                ""
-            ]
-        ],
+        "text": ["离开"],
+        "ocrReplace": [["[\\s\\u3000]+", ""]],
         "roi": [730, 140, 470, 320],
         "action": "ClickSelf",
         "postDelay": 2200,
         "maxTimes": 2,
-        "next": [
-            "JieGarden@Roguelike@CoppersRecast-AfterPick"
-        ],
-        "exceededNext": [
-            "JieGarden@Roguelike@CoppersRecast-Step"
-        ],
-        "onErrorNext": [
-            "JieGarden@Roguelike@CoppersRecast-Step"
-        ]
+        "next": ["JieGarden@Roguelike@CoppersRecast-AfterPick"],
+        "exceededNext": ["JieGarden@Roguelike@CoppersRecast-Step"],
+        "onErrorNext": ["JieGarden@Roguelike@CoppersRecast-Step"]
     },
     "JieGarden@Roguelike@CoppersRecast-Confirm": {
-        "Doc": "『确定这样做』的花形图标按钮。模板与 roi 与官方 CoppersRecastConfirm-NoRetain 一致，点完按钮还在(#self)就再点，直到消失。",
+        "Doc": "｢确定这样做｣ 的花形图标按钮。模板与 roi 与官方 CoppersRecastConfirm-NoRetain 一致，点完按钮还在(#self)就再点，直到消失。",
         "algorithm": "MatchTemplate",
         "template": "JieGarden@Roguelike@CoppersRecastConfirm-NoRetain.png",
         "roi": [794, 559, 381, 147],
@@ -1706,16 +1631,9 @@
         "action": "ClickSelf",
         "postDelay": 2200,
         "maxTimes": 30,
-        "next": [
-            "#self",
-            "JieGarden@Roguelike@CoppersRecast-AfterPick"
-        ],
-        "exceededNext": [
-            "JieGarden@Roguelike@CoppersRecast-Step"
-        ],
-        "onErrorNext": [
-            "JieGarden@Roguelike@CoppersRecast-Step"
-        ]
+        "next": ["#self", "JieGarden@Roguelike@CoppersRecast-AfterPick"],
+        "exceededNext": ["JieGarden@Roguelike@CoppersRecast-Step"],
+        "onErrorNext": ["JieGarden@Roguelike@CoppersRecast-Step"]
     },
     "JieGarden@Roguelike@CoppersRecast-ConfirmWide": {
         "Doc": "同上，放宽到右下半屏的兜底，只在前一条没命中时用。",
@@ -1726,44 +1644,22 @@
         "action": "ClickSelf",
         "postDelay": 2200,
         "maxTimes": 30,
-        "next": [
-            "#self",
-            "JieGarden@Roguelike@CoppersRecast-AfterPick"
-        ],
-        "exceededNext": [
-            "JieGarden@Roguelike@CoppersRecast-Step"
-        ],
-        "onErrorNext": [
-            "JieGarden@Roguelike@CoppersRecast-Step"
-        ]
+        "next": ["#self", "JieGarden@Roguelike@CoppersRecast-AfterPick"],
+        "exceededNext": ["JieGarden@Roguelike@CoppersRecast-Step"],
+        "onErrorNext": ["JieGarden@Roguelike@CoppersRecast-Step"]
     },
     "JieGarden@Roguelike@CoppersRecast-ConfirmText": {
-        "Doc": "文字版确认兜底：确认条和『收下』一样是面板药丸条，所以 roi 盖住整个右半屏。",
+        "Doc": "文字版确认兜底：确认条和 ｢收下｣ 一样是面板药丸条，所以 roi 盖住整个右半屏。",
         "algorithm": "OcrDetect",
-        "text": [
-            "确定这样做",
-            "确定"
-        ],
-        "ocrReplace": [
-            [
-                "[\\s\\u3000]+",
-                ""
-            ]
-        ],
+        "text": ["确定这样做", "确定"],
+        "ocrReplace": [["[\\s\\u3000]+", ""]],
         "roi": [580, 140, 700, 580],
         "action": "ClickSelf",
         "postDelay": 2200,
         "maxTimes": 30,
-        "next": [
-            "#self",
-            "JieGarden@Roguelike@CoppersRecast-AfterPick"
-        ],
-        "exceededNext": [
-            "JieGarden@Roguelike@CoppersRecast-Step"
-        ],
-        "onErrorNext": [
-            "JieGarden@Roguelike@CoppersRecast-Step"
-        ]
+        "next": ["#self", "JieGarden@Roguelike@CoppersRecast-AfterPick"],
+        "exceededNext": ["JieGarden@Roguelike@CoppersRecast-Step"],
+        "onErrorNext": ["JieGarden@Roguelike@CoppersRecast-Step"]
     },
     "JieGarden@Roguelike@CoppersRecast-AfterPick": {
         "Doc": "刚点完选项/确认后的专用等待器：只允许确认弹窗，绝不回主路由重复点同一个选项（那等于取消选中）。",
@@ -1774,9 +1670,7 @@
             "JieGarden@Roguelike@CoppersRecast-ConfirmText",
             "JieGarden@Roguelike@CoppersRecast-WaitPick"
         ],
-        "onErrorNext": [
-            "JieGarden@Roguelike@CoppersRecast-WaitPick"
-        ]
+        "onErrorNext": ["JieGarden@Roguelike@CoppersRecast-WaitPick"]
     },
     "JieGarden@Roguelike@CoppersRecast-WaitPick": {
         "Doc": "等确认按钮出现。最多 10 次（约 10 秒），还认不出就回主路由，不盲点。",
@@ -1784,30 +1678,17 @@
         "action": "DoNothing",
         "postDelay": 1000,
         "maxTimes": 10,
-        "next": [
-            "JieGarden@Roguelike@CoppersRecast-AfterPick"
-        ],
-        "exceededNext": [
-            "JieGarden@Roguelike@CoppersRecast-Step"
-        ]
+        "next": ["JieGarden@Roguelike@CoppersRecast-AfterPick"],
+        "exceededNext": ["JieGarden@Roguelike@CoppersRecast-Step"]
     },
     "JieGarden@Roguelike@CoppersRecast-FailDetect": {
-        "Doc": "炸火判定：结果页底部横条『什么都没有发生』。只认不点，转 FailTick 点掉对勾。",
+        "Doc": "炸火判定：结果页底部横条 ｢什么都没有发生｣。只认不点，转 FailTick 点掉对勾。",
         "algorithm": "OcrDetect",
-        "text": [
-            "什么都没有发生"
-        ],
-        "ocrReplace": [
-            [
-                "[\\s\\u3000]+",
-                ""
-            ]
-        ],
+        "text": ["什么都没有发生"],
+        "ocrReplace": [["[\\s\\u3000]+", ""]],
         "roi": [400, 530, 460, 100],
         "action": "DoNothing",
-        "next": [
-            "JieGarden@Roguelike@CoppersRecast-FailTick"
-        ]
+        "next": ["JieGarden@Roguelike@CoppersRecast-FailTick"]
     },
     "JieGarden@Roguelike@CoppersRecast-FailTick": {
         "Doc": "炸火页的对勾，点掉后进 FailStep（下一轮会重新投）。",
@@ -1818,19 +1699,12 @@
         "action": "ClickSelf",
         "postDelay": 900,
         "maxTimes": 10,
-        "next": [
-            "#self",
-            "JieGarden@Roguelike@CoppersRecast-FailStep"
-        ],
-        "exceededNext": [
-            "JieGarden@Roguelike@CoppersRecast-FailStep"
-        ],
-        "onErrorNext": [
-            "JieGarden@Roguelike@CoppersRecast-FailStep"
-        ]
+        "next": ["#self", "JieGarden@Roguelike@CoppersRecast-FailStep"],
+        "exceededNext": ["JieGarden@Roguelike@CoppersRecast-FailStep"],
+        "onErrorNext": ["JieGarden@Roguelike@CoppersRecast-FailStep"]
     },
     "JieGarden@Roguelike@CoppersRecast-FailStep": {
-        "Doc": "炸火后的路由器 = Step 去掉炸火判定，避免在同一屏反复认『什么都没有发生』。",
+        "Doc": "炸火后的路由器 = Step 去掉炸火判定，避免在同一屏反复认 ｢什么都没有发生｣。同样以 DialogueSkip 收尾结束本轮。",
         "algorithm": "JustReturn",
         "next": [
             "JieGarden@Roguelike@CoppersRecast-Confirm",
@@ -1841,16 +1715,12 @@
             "JieGarden@Roguelike@CoppersRecast-Tick",
             "JieGarden@Roguelike@CoppersRecast-TickOCR",
             "JieGarden@Roguelike@CoppersRecast-Reward",
-            "JieGarden@Roguelike@CoppersRecast-RewardOCR",
             "JieGarden@Roguelike@CoppersRecast-PopupContinue",
             "JieGarden@Roguelike@CoppersRecast-PopupClose",
-            "JieGarden@Roguelike@CoppersRecast-Pick",
             "JieGarden@Roguelike@CoppersRecast-OnMap",
-            "JieGarden@Roguelike@CoppersRecast-StageTap"
+            "JieGarden@Roguelike@CoppersRecast-DialogueSkip"
         ],
-        "onErrorNext": [
-            "JieGarden@Roguelike@CoppersRecast-Wait"
-        ]
+        "onErrorNext": ["JieGarden@Roguelike@CoppersRecast-Wait"]
     },
     "JieGarden@Roguelike@CoppersRecast-Tick": {
         "Doc": "投钱结果页的对勾。roi 与官方 StageEncounterDrawCopperResult 一致，next 带 #self 连点到勾消失。",
@@ -1861,143 +1731,68 @@
         "action": "ClickSelf",
         "postDelay": 600,
         "maxTimes": 25,
-        "next": [
-            "#self",
-            "JieGarden@Roguelike@CoppersRecast-Step"
-        ],
-        "exceededNext": [
-            "JieGarden@Roguelike@CoppersRecast-TickOCR"
-        ],
-        "onErrorNext": [
-            "JieGarden@Roguelike@CoppersRecast-Step"
-        ]
+        "next": ["#self", "JieGarden@Roguelike@CoppersRecast-Step"],
+        "exceededNext": ["JieGarden@Roguelike@CoppersRecast-TickOCR"],
+        "onErrorNext": ["JieGarden@Roguelike@CoppersRecast-Step"]
     },
     "JieGarden@Roguelike@CoppersRecast-TickOCR": {
         "Doc": "点勾兜底 A：模板没命中时用 OCR 认结果页文字，再定点点勾心 (639,646)。",
         "algorithm": "OcrDetect",
-        "text": [
-            "天随人愿",
-            "获得了",
-            "源石锭"
-        ],
-        "ocrReplace": [
-            [
-                "[\\s\\u3000]+",
-                ""
-            ]
-        ],
+        "text": ["天随人愿", "获得了", "源石锭"],
+        "ocrReplace": [["[\\s\\u3000]+", ""]],
         "roi": [280, 470, 720, 190],
         "action": "ClickRect",
         "specificRect": [639, 646, 1, 1],
         "postDelay": 900,
         "maxTimes": 15,
-        "next": [
-            "#self",
-            "JieGarden@Roguelike@CoppersRecast-Step"
-        ],
-        "exceededNext": [
-            "JieGarden@Roguelike@CoppersRecast-Step"
-        ],
-        "onErrorNext": [
-            "JieGarden@Roguelike@CoppersRecast-Step"
-        ]
+        "next": ["#self", "JieGarden@Roguelike@CoppersRecast-Step"],
+        "exceededNext": ["JieGarden@Roguelike@CoppersRecast-Step"],
+        "onErrorNext": ["JieGarden@Roguelike@CoppersRecast-Step"]
     },
     "JieGarden@Roguelike@CoppersRecast-TickRecast": {
-        "Doc": "『重新投钱』结果页的对勾（在右下角）。roi 与官方 CoppersRecastResult 一致。",
+        "Doc": "｢重新投钱｣ 结果页的对勾（在右下角）。roi 与官方 CoppersRecastResult 一致。",
         "algorithm": "MatchTemplate",
         "template": "JieGarden@Roguelike@StageEncounterDrawCopperResult.png",
         "roi": [1033, 462, 153, 155],
         "templThreshold": 0.8,
         "action": "ClickSelf",
         "postDelay": 600,
-        "next": [
-            "#self",
-            "JieGarden@Roguelike@CoppersRecast-Step"
-        ],
-        "onErrorNext": [
-            "JieGarden@Roguelike@CoppersRecast-Step"
-        ]
+        "next": ["#self", "JieGarden@Roguelike@CoppersRecast-Step"],
+        "onErrorNext": ["JieGarden@Roguelike@CoppersRecast-Step"]
     },
     "JieGarden@Roguelike@CoppersRecast-Reward": {
-        "Doc": "领奖（默认收下）。插件按轮次把基准任务换成 RewardCandle / RewardRelic。",
+        "Doc": "领奖。插件按轮次把基准任务换成 RewardCoin / RewardCandle / RewardRelic 三选一，三者文字互斥（同一屏幕只认配置的那一个），漏认就往下走、最终整轮失败，绝不点别的奖励。",
         "baseTask": "JieGarden@Roguelike@CoppersRecast-RewardCoin"
     },
     "JieGarden@Roguelike@CoppersRecast-RewardCoin": {
-        "Doc": "投衡如常的奖励：绿色药丸条『收下』，源石锭直接入账（实测文字中心约 (910,246)）。",
+        "Doc": "投衡如常的奖励：绿色药丸条 ｢收下｣，源石锭直接入账（实测文字中心约 (910,246)）。",
         "algorithm": "OcrDetect",
-        "text": [
-            "收下"
-        ],
-        "ocrReplace": [
-            [
-                "[\\s\\u3000]+",
-                ""
-            ]
-        ],
+        "text": ["收下"],
+        "ocrReplace": [["[\\s\\u3000]+", ""]],
         "roi": [740, 160, 520, 220],
         "action": "ClickSelf",
         "postDelay": 1800,
-        "next": [
-            "JieGarden@Roguelike@CoppersRecast-AfterReward"
-        ],
-        "onErrorNext": [
-            "JieGarden@Roguelike@CoppersRecast-AfterReward"
-        ]
+        "next": ["JieGarden@Roguelike@CoppersRecast-AfterReward"]
     },
     "JieGarden@Roguelike@CoppersRecast-RewardCandle": {
-        "Doc": "投厉如锋的奖励之一：右侧三张竖排卡片里点『要酒一壶』（换 6 烛火）。卡片顺序会变，所以用文字模板在整块卡片区里找，匹配到哪儿就点哪儿。",
-        "algorithm": "MatchTemplate",
-        "template": "JieGarden@Roguelike@CoppersRecast-RewardCandle.png",
+        "Doc": "投厉如锋换烛火：点右侧卡片 ｢要酒一壶｣（换 6 烛火）。卡片顺序会变，按文字定位，匹配到哪儿点哪儿。",
+        "algorithm": "OcrDetect",
+        "text": ["要酒一壶", "酒一壶"],
+        "ocrReplace": [["[\\s\\u3000]+", ""]],
         "roi": [840, 110, 400, 400],
-        "templThreshold": 0.78,
         "action": "ClickSelf",
         "postDelay": 1800,
-        "next": [
-            "JieGarden@Roguelike@CoppersRecast-AfterReward"
-        ],
-        "onErrorNext": [
-            "JieGarden@Roguelike@CoppersRecast-RewardOCR"
-        ]
+        "next": ["JieGarden@Roguelike@CoppersRecast-AfterReward"]
     },
     "JieGarden@Roguelike@CoppersRecast-RewardRelic": {
-        "Doc": "投厉如锋的奖励之一：点『要兵器一对』（换 6 件随机收藏品）。",
-        "algorithm": "MatchTemplate",
-        "template": "JieGarden@Roguelike@CoppersRecast-RewardRelic.png",
-        "roi": [840, 110, 400, 400],
-        "templThreshold": 0.78,
-        "action": "ClickSelf",
-        "postDelay": 1800,
-        "next": [
-            "JieGarden@Roguelike@CoppersRecast-AfterReward"
-        ],
-        "onErrorNext": [
-            "JieGarden@Roguelike@CoppersRecast-RewardOCR"
-        ]
-    },
-    "JieGarden@Roguelike@CoppersRecast-RewardOCR": {
-        "Doc": "奖励卡的文字兜底：模板没命中时按卡面标题认。",
+        "Doc": "投厉如锋换藏品：点右侧卡片 ｢要兵器一对｣（换 6 件随机收藏品）。",
         "algorithm": "OcrDetect",
-        "text": [
-            "要酒一壶",
-            "酒一壶",
-            "要兵器一对",
-            "兵器一对"
-        ],
-        "ocrReplace": [
-            [
-                "[\\s\\u3000]+",
-                ""
-            ]
-        ],
+        "text": ["要兵器一对", "兵器一对"],
+        "ocrReplace": [["[\\s\\u3000]+", ""]],
         "roi": [840, 110, 400, 400],
         "action": "ClickSelf",
         "postDelay": 1800,
-        "next": [
-            "JieGarden@Roguelike@CoppersRecast-AfterReward"
-        ],
-        "onErrorNext": [
-            "JieGarden@Roguelike@CoppersRecast-Step"
-        ]
+        "next": ["JieGarden@Roguelike@CoppersRecast-AfterReward"]
     },
     "JieGarden@Roguelike@CoppersRecast-AfterReward": {
         "Doc": "点完奖励后：先处理可能出现的确认弹窗，再处理收藏品逐件弹窗，最后才点屏幕推进对话。",
@@ -2017,23 +1812,16 @@
         ]
     },
     "JieGarden@Roguelike@CoppersRecast-PopupContinue": {
-        "Doc": "收藏品逐件弹窗（非最后一件）：底部中间『▶ NEXT』，每件一屏。件数不固定（有的藏品效果是「立刻再获得三件」），所以不能固定点 N 次，只能『看到 NEXT 就点它』，点到 NEXT 消失为止。参数与官方 CloseCollectionContinue 一致。",
+        "Doc": "收藏品逐件弹窗（非最后一件）：底部中间 ｢▶ NEXT｣，每件一屏。件数不固定（有的藏品效果是 ｢立刻再获得三件｣），所以不能固定点 N 次，只能 ｢看到 NEXT 就点它｣，点到 NEXT 消失为止。参数与官方 CloseCollectionContinue 一致。",
         "template": "JieGarden@Roguelike@CloseCollectionContinue.png",
         "roi": [563, 486, 174, 125],
         "templThreshold": 0.95,
         "action": "ClickSelf",
         "postDelay": 900,
         "maxTimes": 20,
-        "next": [
-            "#self",
-            "JieGarden@Roguelike@CoppersRecast-PopupClose"
-        ],
-        "exceededNext": [
-            "JieGarden@Roguelike@CoppersRecast-PopupClose"
-        ],
-        "onErrorNext": [
-            "JieGarden@Roguelike@CoppersRecast-PopupClose"
-        ]
+        "next": ["#self", "JieGarden@Roguelike@CoppersRecast-PopupClose"],
+        "exceededNext": ["JieGarden@Roguelike@CoppersRecast-PopupClose"],
+        "onErrorNext": ["JieGarden@Roguelike@CoppersRecast-PopupClose"]
     },
     "JieGarden@Roguelike@CoppersRecast-PopupClose": {
         "Doc": "收藏品弹窗的最后一件：这一屏底部没有 NEXT，同一个槽位换成了 ✕。官方 CloseCollectionClose 用灰色圆对勾判定同一位置，这里沿用它的 roi。连点最多 6 次（某件 NEXT 没命中时靠它推进），6 次后还停着就回主路由，不再盲点。",
@@ -2048,100 +1836,49 @@
         "action": "ClickSelf",
         "postDelay": 1200,
         "maxTimes": 6,
-        "next": [
-            "#self",
-            "JieGarden@Roguelike@CoppersRecast-Step"
-        ],
-        "exceededNext": [
-            "JieGarden@Roguelike@CoppersRecast-Step"
-        ],
-        "onErrorNext": [
-            "JieGarden@Roguelike@CoppersRecast-Step"
-        ]
+        "next": ["#self", "JieGarden@Roguelike@CoppersRecast-Step"],
+        "exceededNext": ["JieGarden@Roguelike@CoppersRecast-Step"],
+        "onErrorNext": ["JieGarden@Roguelike@CoppersRecast-Step"]
     },
     "JieGarden@Roguelike@CoppersRecast-DialogueSkip": {
-        "Doc": "领奖后的剧情对话：等一会点一下屏幕中间，通常 1~2 下就回到面板。最多 20 次。",
+        "Doc": "领奖后的剧情对话：等一会点一下屏幕中间，通常 1~2 下就回到面板；无论点没点到对话都结束本轮。最多 20 次。",
         "algorithm": "JustReturn",
         "action": "ClickRect",
         "specificRect": [640, 360, 1, 1],
         "postDelay": 1600,
         "maxTimes": 20,
-        "next": [
-            "JieGarden@Roguelike@CoppersRecast-Step"
-        ],
-        "exceededNext": [
-            "JieGarden@Roguelike@CoppersRecast-Step"
-        ]
+        "next": ["JieGarden@Roguelike@CoppersRecast-RoundEnd"],
+        "exceededNext": ["JieGarden@Roguelike@CoppersRecast-RoundEnd"]
     },
     "JieGarden@Roguelike@CoppersRecast-Pick": {
         "Doc": "本轮投哪种钱（默认衡如常）。插件按 5 衡 1 厉的轮次把基准任务换成 PickLi。",
         "baseTask": "JieGarden@Roguelike@CoppersRecast-PickHeng"
     },
     "JieGarden@Roguelike@CoppersRecast-PickHeng": {
-        "Doc": "投『衡如常』：点完只能去 AfterPick 等确认，不能回 Step（会取消选中）。",
+        "Doc": "投 ｢衡如常｣：点完只能去 AfterPick 等确认，不能回 Step（会取消选中）。",
         "algorithm": "OcrDetect",
-        "text": [
-            "如常"
-        ],
-        "ocrReplace": [
-            [
-                "[\\s\\u3000]+",
-                ""
-            ]
-        ],
+        "text": ["如常"],
+        "ocrReplace": [["[\\s\\u3000]+", ""]],
         "roi": [780, 70, 480, 620],
         "action": "ClickSelf",
         "postDelay": 2200,
         "maxTimes": 2,
-        "next": [
-            "JieGarden@Roguelike@CoppersRecast-AfterPick"
-        ],
-        "exceededNext": [
-            "JieGarden@Roguelike@CoppersRecast-Step"
-        ],
-        "onErrorNext": [
-            "JieGarden@Roguelike@CoppersRecast-Step"
-        ]
+        "next": ["JieGarden@Roguelike@CoppersRecast-AfterPick"],
+        "exceededNext": ["JieGarden@Roguelike@CoppersRecast-Step"],
+        "onErrorNext": ["JieGarden@Roguelike@CoppersRecast-Step"]
     },
     "JieGarden@Roguelike@CoppersRecast-PickLi": {
-        "Doc": "投『厉如锋』：消耗烛火，换收藏品或烛火。点完同样只能去 AfterPick。",
+        "Doc": "投 ｢厉如锋｣：消耗烛火，换收藏品或烛火。点完同样只能去 AfterPick。",
         "algorithm": "OcrDetect",
-        "text": [
-            "如锋"
-        ],
-        "ocrReplace": [
-            [
-                "[\\s\\u3000]+",
-                ""
-            ]
-        ],
+        "text": ["如锋"],
+        "ocrReplace": [["[\\s\\u3000]+", ""]],
         "roi": [780, 70, 480, 620],
         "action": "ClickSelf",
         "postDelay": 2200,
         "maxTimes": 2,
-        "next": [
-            "JieGarden@Roguelike@CoppersRecast-AfterPick"
-        ],
-        "exceededNext": [
-            "JieGarden@Roguelike@CoppersRecast-Step"
-        ],
-        "onErrorNext": [
-            "JieGarden@Roguelike@CoppersRecast-Step"
-        ]
-    },
-    "JieGarden@Roguelike@CoppersRecast-StageTap": {
-        "Doc": "兜底『点空白推进』：进节点后的开场白、投钱动画、转场都认不出可点元素，这时点屏幕中间。因为排在 OnMap 之后，在地图上不会走到这里。最多 30 次（约 45 秒）。",
-        "algorithm": "JustReturn",
-        "action": "ClickRect",
-        "specificRect": [640, 360, 1, 1],
-        "postDelay": 1500,
-        "maxTimes": 30,
-        "next": [
-            "JieGarden@Roguelike@CoppersRecast-Step"
-        ],
-        "exceededNext": [
-            "JieGarden@Roguelike@CoppersRecast-OnMap"
-        ]
+        "next": ["JieGarden@Roguelike@CoppersRecast-AfterPick"],
+        "exceededNext": ["JieGarden@Roguelike@CoppersRecast-Step"],
+        "onErrorNext": ["JieGarden@Roguelike@CoppersRecast-Step"]
     },
     "JieGarden@Roguelike@CoppersRecast-Wait": {
         "Doc": "兜底空等：只等不点。连续 60 次（约 90 秒）认不出任何界面就回主路由。",
@@ -2149,11 +1886,14 @@
         "action": "DoNothing",
         "postDelay": 1500,
         "maxTimes": 60,
-        "next": [
-            "JieGarden@Roguelike@CoppersRecast-Step"
-        ],
-        "exceededNext": [
-            "JieGarden@Roguelike@CoppersRecast-OnMap"
-        ]
+        "next": ["JieGarden@Roguelike@CoppersRecast-Step"],
+        "exceededNext": ["JieGarden@Roguelike@CoppersRecast-OnMap"]
+    },
+    "JieGarden@Roguelike@CoppersRecast-RoundEnd": {
+        "Doc": "本轮结束：一条 -Round 任务链恰好完成一次投币，走到这里就收链，把控制权还给插件去编排下一轮（换衡/厉与奖励配置）。",
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "next": [],
+        "onErrorNext": []
     }
 }

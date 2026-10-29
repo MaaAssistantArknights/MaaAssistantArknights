@@ -863,7 +863,7 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 <br>
 `20001` - 刷常乐节点，第一层进洞，找不到需要的节点就重开；仅适用于 JieGarden 主题，需配合 `find_playTime_target`。
 <br>
-`20002` - 常乐节点反复投钱（俗称电表倒转），复用 20001 的常乐优先寻路，在常乐节点里按 5 衡 1 厉的轮次反复投币，投完 `coppers_recast_count` 与 `coppers_recast_relic_count` 次后放弃本局并结束任务；仅适用于 JieGarden 主题，需配合 `find_playTime_target`。
+`20002` - 常乐节点反复投钱（俗称电表倒转），复用 20001 的常乐优先寻路；进常乐节点后由不期而遇识别到事件 ｢掷地有声｣ 才接管，按 5 衡 1 厉的轮次反复投币，投完 `coppers_recast_count` 与 `coppers_recast_relic_count` 次后放弃本局并结束任务；仅适用于 JieGarden 主题。
 <br>
 `30001` - 刷襁褓动物；仅适用于 BlackFlow 主题。
 <br>

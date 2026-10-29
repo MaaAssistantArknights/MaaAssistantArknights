@@ -863,7 +863,7 @@ Mode.
 <br>
 `20001` - Playtime node farming; enter the hollow on the first layer and restart if the required node cannot be found; only available in the JieGarden theme, requires `find_playTime_target`.
 <br>
-`20002` - Repeated copper recasting on playtime nodes (also called meter rewind); reuses the playtime-first routing of 20001 and bets on Heng/Li coppers in a 5:1 cycle, then gives up the run and stops the task after `coppers_recast_count` + `coppers_recast_relic_count` castings; only available in the JieGarden theme, requires `find_playTime_target`.
+`20002` - Repeated copper recasting on playtime nodes (also called meter rewind); reuses the playtime-first routing of 20001, takes over after the Stage Encounter recognizes the event 掷地有声 (Resounding) upon entering a playtime node, and bets on Heng/Li coppers in a 5:1 cycle; gives up the run and stops the task after `coppers_recast_count` + `coppers_recast_relic_count` castings; only available in the JieGarden theme.
 <br>
 `30001` - Swaddled baby animal farming; only available in the BlackFlow theme.
 <br>

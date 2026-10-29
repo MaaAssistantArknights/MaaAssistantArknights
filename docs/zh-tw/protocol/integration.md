@@ -864,6 +864,8 @@ Tag 等級（大於等於 3）對應的期望招募時限（單位：分鐘）�
 <br>
 `20001` - 刷常樂節點，第一層進洞，找不到需要的節點就重開；僅適用於 JieGarden 主題，需配合 `find_playTime_target`。
 <br>
+`20002` - 常樂節點反覆投錢（俗稱電表倒轉），復用 20001 的常樂優先尋路；進常樂節點後由不期而遇識別到事件 ｢擲地有聲｣ 才接管，按 5 衡 1 厲的輪次反覆投幣，投完 `coppers_recast_count` 與 `coppers_recast_relic_count` 次後放棄本局並結束任務；僅適用於 JieGarden 主題。
+<br>
 `30001` - 刷襁褓動物；僅適用於 BlackFlow 主題。
 <br>
 `30003` - 刷開局，先打準備局，再開目標局。準備局取得 `blackflow_start_animals` 要求的襁褓動物並進入第三層後放棄；目標局在選擇支援頁命中 `blackflow_start_rewards` 中任意一項時不做選擇，退出到主題頁並保留該局，任務結束。準備局使用 `collectible_mode_squad`，`difficulty` 不為 `-1` 時在 0 難度下進行；目標局使用 `squad` 與 `difficulty`，到選擇支援頁即結束；`roles` 與開局幹員用於準備局，提供 `collectible_mode_roles`、`collectible_mode_core_char_list` 時準備局改用這兩項。開啟 `blackflow_start_utopia` 時目標局選取獎勵後進入第一層，見該欄位。僅適用於 BlackFlow 主題，需配合 `blackflow_start_animals` 與 `blackflow_start_rewards`。
@@ -1131,6 +1133,18 @@ Tag 等級（大於等於 3）對應的期望招募時限（單位：分鐘）�
 @type number
 @optional
 刷常樂節點模式的目標常樂節點。`1` - 令（擲地有聲）；`2` - 黍（種因得果）；`3` - 年（三缺一）。僅在主題為 JieGarden 且模式為 20001 時使用，該模式下必填；不填或其他值會導致任務參數設定失敗。  
+:::  
+::: field coppers_recast_count  
+@type number
+@default 1
+@optional
+投幣重鑄模式（模式 20002）的刷錢次數，即投衡如常換源石錠的投幣次數，取值 1~999。每 6 次裡的第 6 次改投厲如鋒換燭火，燭火才能長期持平。僅在主題為 JieGarden 且模式為 20002 時使用。  
+:::  
+::: field coppers_recast_relic_count  
+@type number
+@default 0
+@optional
+投幣重鑄模式（模式 20002）的換藏品次數，即投厲如鋒換 6 件收藏品的投幣次數，取值 0~999。刷錢次數跑完後接著跑這一段，同樣每 6 次裡的第 6 次改拿燭火。僅在主題為 JieGarden 且模式為 20002 時使用。  
 :::  
 ::::
 

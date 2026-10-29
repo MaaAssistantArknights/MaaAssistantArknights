@@ -186,6 +186,18 @@ std::optional<std::string> asst::RoguelikeStageEncounterTaskPlugin::handle_singl
             bosky_map.set_node_subtype(bosky_map.get_curr_pos(), RoguelikeBoskySubNodeType::Nian);
         }
 
+        // 投币重铸：掷地有声就是投钱事件本体，识别到即交给投币插件循环投币；
+        // 其余神明的常乐（种因得果/三缺一）不是投钱事件，按普通事件继续处理
+        if (m_config->get_mode() == RoguelikeMode::CoppersRecast && event.name == "掷地有声") {
+            LogInfo << __FUNCTION__ << "| coppers recast target found, hand over to recast plugin";
+            if (!ProcessTask(*this, { "JieGarden@Roguelike@CoppersRecast-Start" }).set_retry_times(0).run()) {
+                LogWarn << __FUNCTION__ << "| coppers recast failed, abandon this run";
+                m_control_ptr->exit_then_stop(true);
+                m_task_ptr->set_enable(false);
+            }
+            return std::nullopt;
+        }
+
         if (bosky_map.get_target_subtype() != RoguelikeBoskySubNodeType::Unknown) {
             if (bosky_map.get_node_subtype(bosky_map.get_curr_pos()) == bosky_map.get_target_subtype()) {
                 Log.info(__FUNCTION__, "| Found target playtime node, completing task and exiting");

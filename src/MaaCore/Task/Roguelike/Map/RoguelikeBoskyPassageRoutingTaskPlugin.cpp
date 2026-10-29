@@ -18,9 +18,8 @@ bool asst::RoguelikeBoskyPassageRoutingTaskPlugin::load_params([[maybe_unused]] 
         m_bosky_config = bosky_config->special_params;
 
         // ———————— 选择导航策略 ————————
-        // 刷常乐与投币重铸都要在树洞里反复找常乐节点，共用同一套「常乐优先」寻路
         const auto mode = m_config->get_mode();
-        if (mode == RoguelikeMode::FindPlaytime || mode == RoguelikeMode::CoppersRecast) {
+        if (mode == RoguelikeMode::FindPlaytime) {
             m_bosky_routing_strategy = RoutingStrategy::FindPlaytime_JieGarden;
             int target = m_config->get_find_playTime_target();
             RoguelikeBoskyPassageMap::get_instance().set_target_subtype(static_cast<RoguelikeBoskySubNodeType>(target));
@@ -30,6 +29,14 @@ bool asst::RoguelikeBoskyPassageRoutingTaskPlugin::load_params([[maybe_unused]] 
                 target,
                 "| mode:",
                 static_cast<int>(mode));
+            return true;
+        }
+        if (mode == RoguelikeMode::CoppersRecast) {
+            // 投币重铸同样按常乐优先在树洞里找节点；但常乐的子类型（掷地有声/种因得果/三缺一）
+            // 要进节点后由不期而遇识别，路由阶段分不出来，所以不设目标子类型，
+            // 目标判定在 RoguelikeStageEncounterTaskPlugin 里做
+            m_bosky_routing_strategy = RoutingStrategy::FindPlaytime_JieGarden;
+            LogInfo << __FUNCTION__ << "| coppers recast mode enabled, playtime-first routing";
             return true;
         }
 
@@ -254,14 +261,8 @@ void asst::RoguelikeBoskyPassageRoutingTaskPlugin::bosky_decide_and_click(
     std::string node_name = type2name(node_type);
 
     const std::string node_task_name = theme + "@RoguelikeRoutingAction-Stage" + node_name + "Enter";
-    // 投币重铸模式下进常乐节点要接管成投币，而不是走普通不期而遇
-    if (m_config->get_mode() == RoguelikeMode::CoppersRecast && node_type == RoguelikeNodeType::Playtime) {
-        Task.set_task_base("RoguelikeRoutingAction", node_task_name + "-CoppersRecast");
-    }
-    else {
-        // 设置 next
-        Task.set_task_base("RoguelikeRoutingAction", node_task_name);
-    }
+    // 设置 next
+    Task.set_task_base("RoguelikeRoutingAction", node_task_name);
 }
 
 std::vector<asst::RoguelikeNodeType>

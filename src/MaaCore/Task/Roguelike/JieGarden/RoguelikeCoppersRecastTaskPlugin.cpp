@@ -7,7 +7,7 @@
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
 
-// 投币入口：BoskyPassage 路由把常乐节点的进入动作换成该任务后触发本插件
+// 投币入口：不期而遇插件在树洞常乐节点识别到事件 ｢掷地有声｣ 后运行该任务，触发本插件
 constexpr std::string_view StartTask = "JieGarden@Roguelike@CoppersRecast-Start";
 // 地图守卫：命中即说明已经回到残识地图
 constexpr std::string_view OnMapTask = "JieGarden@Roguelike@CoppersRecast-OnMap";
@@ -64,8 +64,10 @@ bool asst::RoguelikeCoppersRecastTaskPlugin::_run()
     const int total = m_recast_count + m_relic_count;
     if (m_finished >= total) {
         LogInfo << __FUNCTION__ << "| all rounds finished:" << m_finished << "/" << total << "| exit then stop";
-        // 投完就放弃本局并结束任务：本模式的产出在局内已经拿到，没有继续打下去的意义
+        // 投完就放弃本局并结束任务：本模式的产出在局内已经拿到，没有继续打下去的意义。
+        // exit_then_stop 只跑放弃流程，不会停掉调用方的任务链，必须手动禁用主任务
         m_control_ptr->exit_then_stop(true);
+        m_task_ptr->set_enable(false);
         return true;
     }
 
@@ -99,6 +101,7 @@ bool asst::RoguelikeCoppersRecastTaskPlugin::_run()
             // 认不出界面就不再往下走：本模式的每一步都是花真钱换收益，宁可放弃本局重开也不盲点
             LogWarn << __FUNCTION__ << "| round" << m_finished + 1 << "failed, abandon this run";
             m_control_ptr->exit_then_stop(true);
+            m_task_ptr->set_enable(false);
             return true;
         }
 
@@ -107,6 +110,7 @@ bool asst::RoguelikeCoppersRecastTaskPlugin::_run()
 
     LogInfo << __FUNCTION__ << "| all rounds finished:" << m_finished << "/" << total << "| exit then stop";
     m_control_ptr->exit_then_stop(true);
+    m_task_ptr->set_enable(false);
     return true;
 }
 
@@ -120,7 +124,7 @@ bool asst::RoguelikeCoppersRecastTaskPlugin::is_on_map(const bool confirm_entry)
     }
 
     // 刚点进节点时界面还在过场，可能一眼看到的是地图。隔一会儿复查一次，
-    // 两次都看到才认定「没进节点」，免得把这个节点空转成死循环。
+    // 两次都看到才认定 ｢没进节点｣，免得把这个节点空转成死循环。
     sleep(1000);
     return ProcessTask(*this, { std::string(OnMapTask) }).set_retry_times(0).run();
 }
