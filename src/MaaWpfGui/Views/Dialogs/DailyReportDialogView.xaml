@@ -821,12 +821,19 @@
                                                     VerticalAlignment="Center">
                                                     <Grid.ColumnDefinitions>
                                                         <ColumnDefinition Width="{Binding BarWidth}" />
+                                                        <ColumnDefinition Width="{Binding BandWidth}" />
                                                         <ColumnDefinition Width="{Binding RestWidth}" />
                                                     </Grid.ColumnDefinitions>
                                                     <Border
-                                                        Grid.ColumnSpan="2"
+                                                        Grid.ColumnSpan="3"
                                                         Background="{DynamicResource RegionBrushOpacity25}"
                                                         CornerRadius="2" />
+                                                    <!--  半透明段为 95% 置信区间：实心画到区间对应的较短一端，半透明延伸到较长一端  -->
+                                                    <Border
+                                                        Grid.ColumnSpan="2"
+                                                        Background="{DynamicResource PrimaryBrush}"
+                                                        CornerRadius="2"
+                                                        Opacity="0.35" />
                                                     <Border Background="{DynamicResource PrimaryBrush}" CornerRadius="2" />
                                                 </Grid>
                                                 <TextBlock

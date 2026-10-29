@@ -193,17 +193,46 @@ public class DailyReportRankRowViewModel
     public bool IsHighlighted { get; set; }
 
     /// <summary>
-    /// Gets or sets 横条长度比例（0 ~ 1）：最划算关卡的单件理智与本关之比，排名生成后、显示前设置一次。
+    /// Gets 横条比例：基准单件理智与本关之比，越划算越长。
     /// </summary>
-    public double BarRatio { get; set; }
+    public double BarRatio => _baseline / SanityPerItem;
 
     /// <summary>
-    /// Gets 横条所占的星号列宽。
+    /// Gets 置信区间上界对应的横条比例相对 <see cref="BarRatio"/> 的倍数（单件理智取区间下限）；误差不小于 100% 时区间下限为 0，倍数为正无穷。
     /// </summary>
-    public GridLength BarWidth => new(Math.Clamp(BarRatio, 0.01, 1), GridUnitType.Star);
+    public double UpperBoundFactor => RelativeError < 1 ? 1 / (1 - RelativeError) : double.PositiveInfinity;
+
+    private double _baseline = 1;
+    private double _scale = 1;
+
+    /// <summary>
+    /// 设置横条坐标，排名生成后、显示前调用一次。
+    /// </summary>
+    /// <param name="baseline">计算横条比例的基准单件理智。</param>
+    /// <param name="scale">横条满长对应的比例，超出的部分截断在满长处。</param>
+    public void SetBarScale(double baseline, double scale)
+    {
+        _baseline = baseline;
+        _scale = scale;
+    }
+
+    // 实心部分画到置信区间的比例下界（单件理智取区间上限），误差带从下界画到上界
+    private double BarLower => Math.Clamp(BarRatio / (1 + RelativeError) / _scale, 0.01, 1);
+
+    private double BarUpper => Math.Clamp(BarRatio * UpperBoundFactor / _scale, BarLower, 1);
+
+    /// <summary>
+    /// Gets 横条实心部分所占的星号列宽。
+    /// </summary>
+    public GridLength BarWidth => new(BarLower, GridUnitType.Star);
+
+    /// <summary>
+    /// Gets 半透明误差带所占的星号列宽。
+    /// </summary>
+    public GridLength BandWidth => new(BarUpper - BarLower, GridUnitType.Star);
 
     /// <summary>
     /// Gets 横条右侧空白所占的星号列宽。
     /// </summary>
-    public GridLength RestWidth => new(1 - Math.Clamp(BarRatio, 0.01, 1), GridUnitType.Star);
+    public GridLength RestWidth => new(1 - BarUpper, GridUnitType.Star);
 }
