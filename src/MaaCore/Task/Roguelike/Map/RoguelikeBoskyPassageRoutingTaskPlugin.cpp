@@ -70,6 +70,12 @@ bool asst::RoguelikeBoskyPassageRoutingTaskPlugin::verify(const AsstMsg msg, con
         return true;
     }
 
+    // 主地图上点击树洞节点 = 即将进入一个新的树洞。地图每次进入都会重新随机，
+    // 而单例里的旧节点不会自己消失（reset 只在 Roguelike@StartExplore 触发）。
+    if (task_name == m_config->get_theme() + "@Roguelike@StageBoskyPassage") {
+        m_reset_map_pending = true;
+    }
+
     return false;
 }
 
@@ -114,6 +120,14 @@ void asst::RoguelikeBoskyPassageRoutingTaskPlugin::bosky_update_map()
     LogTraceFunction;
 
     Log.info(__FUNCTION__, "| updating bosky map");
+
+    if (m_reset_map_pending) {
+        // 新树洞 = 新布局。不清的话旧布局的节点会残留，而候选节点按 index 取（行优先，越靠上越优先），
+        // 残留格子在当前画面里往往也压着一个节点，于是会挑中「目标节点上方那一格」。
+        RoguelikeBoskyPassageMap::get_instance().reset();
+        m_reset_map_pending = false;
+        Log.info(__FUNCTION__, "| entering a new bosky passage, map cleared");
+    }
 
     // 有时候从不期而遇出来可能会多点一下，点到剩余烛火，导致接下来的一次点击只会把窗口关掉，无法进入节点。而且还遮挡了部分节点
     // 能检测到意识回归的话就点一下边缘，把退出树洞的弹窗关掉
@@ -219,7 +233,17 @@ void asst::RoguelikeBoskyPassageRoutingTaskPlugin::bosky_decide_and_click(
             continue;
         }
 
-        // 只点本次截图里真的认到的节点：没认到说明它已经不在当前画面里，按网格反算一定偏
+        {
+            std::string cells;
+            for (const size_t idx : nodes_of_type) {
+                cells += "(" + std::to_string(RoguelikeBoskyPassageMap::get_instance().get_node_x(idx)) + "," +
+                         std::to_string(RoguelikeBoskyPassageMap::get_instance().get_node_y(idx)) + ")";
+            }
+            Log.info(__FUNCTION__, "| candidates of type", type2name(node_type), ":", cells);
+        }
+
+        // 只点本次截图里真的认到的节点：认不到说明它不在当前画面里（旧布局残留或已滚出视野），
+        // 按格子反算的坐标未必还有节点
         std::vector<size_t> seen_nodes;
         seen_nodes.reserve(nodes_of_type.size());
         for (const size_t idx : nodes_of_type) {
@@ -252,7 +276,8 @@ void asst::RoguelikeBoskyPassageRoutingTaskPlugin::bosky_decide_and_click(
 
     Log.info(__FUNCTION__, "| chosen node:", chosen, "(", gx, ",", gy, ") type:", type2name(node_type));
 
-    // 点击节点中心：用本次截图里识别到的真实位置，避免地图滚动后按网格反算点到相邻节点
+    // 点击节点中心：直接用本次截图里识别到的图标位置（树洞地图固定，二者等价；
+    // 用实测位置可以避免节点登记与格子不一致时点偏）
     auto [px, py] = RoguelikeBoskyPassageMap::get_instance().get_node_click_point(chosen, m_bosky_config);
 
     if (px == -1 || py == -1) {

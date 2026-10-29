@@ -114,8 +114,7 @@ public:
     [[nodiscard]] std::pair<int, int> pixel_to_grid_coords(int px, int py, const BoskyPassageMapConfig& config) const;
 
     // 点击点：优先用最近一次识别到的真实像素位置，其次才回退到网格换算。
-    // 树洞地图会随着进度滚动，固定 origin 反算出的坐标可能整行偏移（点到相邻节点），
-    // 所以只要当前截图里认到了这个节点，就直接点它的图标中心。
+    // 树洞地图本身是固定的，正常情况两者一致；用实测位置可避免节点登记与格子不一致时点偏。
     [[nodiscard]] std::pair<int, int>
         get_node_click_point(size_t index, const BoskyPassageMapConfig& config) const;
 

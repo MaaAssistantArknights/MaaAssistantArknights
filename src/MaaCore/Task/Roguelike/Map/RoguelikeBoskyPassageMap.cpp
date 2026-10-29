@@ -217,7 +217,7 @@ std::pair<int, int>
 
     const Node& n = m_nodes[index];
     if (n.seen && n.pixel_x >= 0 && n.pixel_y >= 0) {
-        // 直接用本次截图里识别到的图标位置，和当前画面对得上，不受地图滚动影响
+        // 直接用本次截图里识别到的图标位置
         return { n.pixel_x + config.node_width / 2, n.pixel_y + config.node_height / 2 };
     }
 
