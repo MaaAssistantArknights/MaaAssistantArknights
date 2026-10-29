@@ -19,6 +19,7 @@ using System.Windows.Markup;
 using System.Windows.Media;
 using System.Windows.Threading;
 using MaaWpfGui.Helper;
+using MaaWpfGui.Styles.Properties;
 using MaaWpfGui.ViewModels.Items;
 using MaaWpfGui.ViewModels.UI;
 
@@ -38,10 +39,17 @@ public partial class DailyReportDialogView
         DataContext = DailyReportDialogViewModel.Instance;
         DailyReportDialogViewModel.Instance.RefreshAll();
 
-        // 掉率浮层兜底关闭：窗口内任意按下（点在掉落格上会随后重新打开）、窗口失去焦点时都收起
-        PreviewMouseDown += (_, _) => DropRatePopup.IsOpen = false;
-        Deactivated += (_, _) => DropRatePopup.IsOpen = false;
+        // 浮层开合与 ComboBox 一致：点外部或窗口失活关闭，关闭浮层的那一击不作用于其他元素；
+        // 锚点取按关卡列表，用于窗口失活订阅与卸载时解绑；连击判定只认当前打开的掉落格，
+        // 判定窗口内双击该格保持打开，点列表其他位置照常关闭
+        _dropRateDismiss = new PopupDismissController(
+            DropRatePopup,
+            StageList,
+            repeatClickTarget: () => DropRatePopup.PlacementTarget as FrameworkElement);
     }
+
+    // 持有引用使控制器存活不依赖 Popup 事件订阅的隐式引用
+    private readonly PopupDismissController _dropRateDismiss;
 
     private static DailyReportDialogViewModel ViewModel => DailyReportDialogViewModel.Instance;
 
@@ -136,12 +144,11 @@ public partial class DailyReportDialogView
             return;
         }
 
-        // 延后到本次鼠标抬起处理完再打开：StaysOpen=False 的 Popup 靠持有鼠标捕获感知外部点击，
-        // 在抬起事件里同步打开时，外层 ListBox 随后的抬起处理会抢走捕获，浮层就再也收不到外部点击而无法关闭
+        // 延后到本次鼠标抬起处理完再打开：外层 ListBox 在按下时捕获了鼠标、抬起时才释放，
+        // 同步打开时控制器挂到浮层上的捕获会被随后的释放冲掉，浮层就收不到外部点击而无法关闭
         Dispatcher.BeginInvoke(
             () =>
             {
-                DropRatePopup.IsOpen = false;
                 drop.RankText = ViewModel.BuildRankSummary(drop);
                 DropRatePopup.DataContext = null;
                 DropRatePopup.DataContext = drop;
