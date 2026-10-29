@@ -18,11 +18,18 @@ bool asst::RoguelikeBoskyPassageRoutingTaskPlugin::load_params([[maybe_unused]] 
         m_bosky_config = bosky_config->special_params;
 
         // ———————— 选择导航策略 ————————
-        if (m_config->get_mode() == RoguelikeMode::FindPlaytime) {
+        // 刷常乐与投币重铸都要在树洞里反复找常乐节点，共用同一套「常乐优先」寻路
+        const auto mode = m_config->get_mode();
+        if (mode == RoguelikeMode::FindPlaytime || mode == RoguelikeMode::CoppersRecast) {
             m_bosky_routing_strategy = RoutingStrategy::FindPlaytime_JieGarden;
             int target = m_config->get_find_playTime_target();
             RoguelikeBoskyPassageMap::get_instance().set_target_subtype(static_cast<RoguelikeBoskySubNodeType>(target));
-            Log.info(__FUNCTION__, "| FindPlaytime mode enabled with target:", target);
+            Log.info(
+                __FUNCTION__,
+                "| FindPlaytime-like mode enabled with target:",
+                target,
+                "| mode:",
+                static_cast<int>(mode));
             return true;
         }
 
@@ -247,8 +254,14 @@ void asst::RoguelikeBoskyPassageRoutingTaskPlugin::bosky_decide_and_click(
     std::string node_name = type2name(node_type);
 
     const std::string node_task_name = theme + "@RoguelikeRoutingAction-Stage" + node_name + "Enter";
-    // 设置 next
-    Task.set_task_base("RoguelikeRoutingAction", node_task_name);
+    // 投币重铸模式下进常乐节点要接管成投币，而不是走普通不期而遇
+    if (m_config->get_mode() == RoguelikeMode::CoppersRecast && node_type == RoguelikeNodeType::Playtime) {
+        Task.set_task_base("RoguelikeRoutingAction", node_task_name + "-CoppersRecast");
+    }
+    else {
+        // 设置 next
+        Task.set_task_base("RoguelikeRoutingAction", node_task_name);
+    }
 }
 
 std::vector<asst::RoguelikeNodeType>
