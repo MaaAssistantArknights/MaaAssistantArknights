@@ -35,6 +35,9 @@ private:
     RoutingStrategy m_bosky_routing_strategy = RoutingStrategy::None;
     RoguelikeBoskyPassageMap::BoskyPassageMapConfig m_bosky_config;
 
+    // 主地图上点过树洞节点 → 下一次进图时先清空地图（每次进入树洞，布局都会重新随机）
+    mutable bool m_reset_map_pending = false;
+
     // 界园树洞地图使用单例模式，通过 RoguelikeBoskyPassageMap::get_instance() 访问
 };
 }
