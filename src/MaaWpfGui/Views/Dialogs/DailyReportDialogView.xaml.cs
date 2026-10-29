@@ -37,6 +37,7 @@ public partial class DailyReportDialogView
     {
         InitializeComponent();
         DataContext = DailyReportDialogViewModel.Instance;
+        DailyReportDialogViewModel.Instance.LoadHistory();
         DailyReportDialogViewModel.Instance.RefreshAll();
 
         // 浮层开合与 ComboBox 一致：点外部或窗口失活关闭，关闭浮层的那一击不作用于其他元素；

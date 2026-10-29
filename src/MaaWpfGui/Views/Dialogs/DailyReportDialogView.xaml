@@ -472,6 +472,14 @@
                     </StackPanel>
                     <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
                         <controls:TextBlock FontWeight="Bold" Text="{Binding ChartTitle}" />
+                        <controls:TextBlock
+                            Margin="12,0,0,0"
+                            VerticalAlignment="Center"
+                            FontSize="11"
+                            Foreground="{DynamicResource SecondaryTextBrush}"
+                            Text="{Binding RankScopeText}"
+                            TextTrimming="CharacterEllipsis"
+                            Visibility="{c:Binding IsRankMode}" />
                         <!--  叠加折线的图例：只在叠加时显示，各自全为 0 时隐藏  -->
                         <StackPanel
                             Margin="12,0,0,0"
@@ -754,73 +762,84 @@
                         IsInertiaEnabled="True"
                         VerticalScrollBarVisibility="Auto"
                         Visibility="{c:Binding IsRankMode}">
-                        <ItemsControl Margin="0,0,8,0" ItemsSource="{Binding RankRows}">
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate>
-                                    <!--  背景放在样式里：本地值优先级高于样式触发器，写在标签上会让高亮触发器失效  -->
-                                    <Border
-                                        Padding="4,2"
-                                        CornerRadius="4"
-                                        ToolTip="{Binding ToolTip}">
-                                        <Border.Style>
-                                            <Style TargetType="Border">
-                                                <Setter Property="Background" Value="Transparent" />
-                                                <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding IsReliable}" Value="False">
-                                                        <Setter Property="Opacity" Value="0.45" />
-                                                    </DataTrigger>
-                                                    <DataTrigger Binding="{Binding IsHighlighted}" Value="True">
-                                                        <Setter Property="Background" Value="{DynamicResource MouseOverRegionBrushOpacity75}" />
-                                                    </DataTrigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </Border.Style>
-                                        <Grid>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="64" />
-                                                <ColumnDefinition Width="*" />
-                                                <ColumnDefinition Width="Auto" MinWidth="56" />
-                                                <ColumnDefinition Width="Auto" MinWidth="48" />
-                                            </Grid.ColumnDefinitions>
-                                            <TextBlock
-                                                VerticalAlignment="Center"
-                                                FontWeight="Bold"
-                                                Text="{Binding Stage}"
-                                                TextTrimming="CharacterEllipsis" />
-                                            <Grid
-                                                Grid.Column="1"
-                                                Height="8"
-                                                Margin="4,0,8,0"
-                                                VerticalAlignment="Center">
+                        <StackPanel Margin="0,0,8,0">
+                            <ItemsControl ItemsSource="{Binding RankRows}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <!--  背景放在样式里：本地值优先级高于样式触发器，写在标签上会让高亮触发器失效  -->
+                                        <Border
+                                            Padding="4,2"
+                                            CornerRadius="4"
+                                            ToolTip="{Binding ToolTip}">
+                                            <Border.Style>
+                                                <Style TargetType="Border">
+                                                    <Setter Property="Background" Value="Transparent" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding IsReliable}" Value="False">
+                                                            <Setter Property="Opacity" Value="0.45" />
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding IsHighlighted}" Value="True">
+                                                            <Setter Property="Background" Value="{DynamicResource MouseOverRegionBrushOpacity75}" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Border.Style>
+                                            <Grid>
                                                 <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="{Binding BarWidth}" />
-                                                    <ColumnDefinition Width="{Binding RestWidth}" />
+                                                    <ColumnDefinition Width="64" />
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="Auto" MinWidth="56" />
+                                                    <ColumnDefinition Width="Auto" MinWidth="48" />
                                                 </Grid.ColumnDefinitions>
-                                                <Border
-                                                    Grid.ColumnSpan="2"
-                                                    Background="{DynamicResource RegionBrushOpacity25}"
-                                                    CornerRadius="2" />
-                                                <Border Background="{DynamicResource PrimaryBrush}" CornerRadius="2" />
+                                                <TextBlock
+                                                    VerticalAlignment="Center"
+                                                    FontWeight="Bold"
+                                                    Text="{Binding Stage}"
+                                                    TextTrimming="CharacterEllipsis" />
+                                                <Grid
+                                                    Grid.Column="1"
+                                                    Height="8"
+                                                    Margin="4,0,8,0"
+                                                    VerticalAlignment="Center">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="{Binding BarWidth}" />
+                                                        <ColumnDefinition Width="{Binding RestWidth}" />
+                                                    </Grid.ColumnDefinitions>
+                                                    <Border
+                                                        Grid.ColumnSpan="2"
+                                                        Background="{DynamicResource RegionBrushOpacity25}"
+                                                        CornerRadius="2" />
+                                                    <Border Background="{DynamicResource PrimaryBrush}" CornerRadius="2" />
+                                                </Grid>
+                                                <TextBlock
+                                                    Grid.Column="2"
+                                                    HorizontalAlignment="Right"
+                                                    VerticalAlignment="Center"
+                                                    FontWeight="Bold"
+                                                    Text="{Binding ValueText}" />
+                                                <TextBlock
+                                                    Grid.Column="3"
+                                                    Margin="6,0,0,0"
+                                                    HorizontalAlignment="Right"
+                                                    VerticalAlignment="Center"
+                                                    FontSize="11"
+                                                    Foreground="{DynamicResource SecondaryTextBrush}"
+                                                    Text="{Binding ErrorText}" />
                                             </Grid>
-                                            <TextBlock
-                                                Grid.Column="2"
-                                                HorizontalAlignment="Right"
-                                                VerticalAlignment="Center"
-                                                FontWeight="Bold"
-                                                Text="{Binding ValueText}" />
-                                            <TextBlock
-                                                Grid.Column="3"
-                                                Margin="6,0,0,0"
-                                                HorizontalAlignment="Right"
-                                                VerticalAlignment="Center"
-                                                FontSize="11"
-                                                Foreground="{DynamicResource SecondaryTextBrush}"
-                                                Text="{Binding ErrorText}" />
-                                        </Grid>
-                                    </Border>
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                        </ItemsControl>
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                            <!--  历史最优关卡本时段没刷过、未列入排名时的提示  -->
+                            <controls:TextBlock
+                                Margin="4,4,0,0"
+                                HorizontalAlignment="Left"
+                                FontSize="11"
+                                Foreground="{DynamicResource SecondaryTextBrush}"
+                                Text="{Binding RankHistoryBestText}"
+                                TextWrapping="Wrap"
+                                Visibility="{c:Binding HasRankHistoryBest}" />
+                        </StackPanel>
                     </hc:ScrollViewer>
                 </Grid>
             </Grid>
