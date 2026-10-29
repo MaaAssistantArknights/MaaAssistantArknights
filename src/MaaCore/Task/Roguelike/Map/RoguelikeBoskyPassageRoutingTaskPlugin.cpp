@@ -127,6 +127,10 @@ void asst::RoguelikeBoskyPassageRoutingTaskPlugin::bosky_update_map()
 
     MultiMatcher node_analyzer(image);
     node_analyzer.set_task_info("JieGarden@RoguelikeRoutingNodeAnalyze_BoskyPassage");
+
+    // 每次识别前清标记，识别完只有当前画面里出现的节点才是 seen
+    RoguelikeBoskyPassageMap::get_instance().clear_seen_flags();
+
     if (!node_analyzer.analyze()) {
         Log.error(__FUNCTION__, "| no nodes are recognised");
         return;
@@ -211,12 +215,29 @@ void asst::RoguelikeBoskyPassageRoutingTaskPlugin::bosky_decide_and_click(
     // 按优先级顺序查找可用的节点
     for (const auto& node_type : priority_order) {
         auto nodes_of_type = RoguelikeBoskyPassageMap::get_instance().get_open_unvisited_nodes(node_type);
-        if (!nodes_of_type.empty()) {
-            chosen = nodes_of_type.front();
-            found = true;
-            Log.debug(__FUNCTION__, "| found node of type (", type2name(node_type), ") with index (", chosen, ")");
-            break;
+        if (nodes_of_type.empty()) {
+            continue;
         }
+
+        // 只点本次截图里真的认到的节点：没认到说明它已经不在当前画面里，按网格反算一定偏
+        std::vector<size_t> seen_nodes;
+        seen_nodes.reserve(nodes_of_type.size());
+        for (const size_t idx : nodes_of_type) {
+            if (RoguelikeBoskyPassageMap::get_instance().get_node_seen(idx)) {
+                seen_nodes.emplace_back(idx);
+            }
+        }
+        if (!seen_nodes.empty()) {
+            nodes_of_type = std::move(seen_nodes);
+        }
+        else {
+            Log.warn(__FUNCTION__, "| no node of type (", type2name(node_type), ") is visible in current screen");
+        }
+
+        chosen = nodes_of_type.front();
+        found = true;
+        Log.debug(__FUNCTION__, "| found node of type (", type2name(node_type), ") with index (", chosen, ")");
+        break;
     }
 
     if (!found) {
@@ -231,20 +252,25 @@ void asst::RoguelikeBoskyPassageRoutingTaskPlugin::bosky_decide_and_click(
 
     Log.info(__FUNCTION__, "| chosen node:", chosen, "(", gx, ",", gy, ") type:", type2name(node_type));
 
-    // 点击节点中心
-    auto [px, py] = RoguelikeBoskyPassageMap::get_instance().get_node_pixel(
-        chosen,
-        m_bosky_config.origin_x,
-        m_bosky_config.origin_y,
-        m_bosky_config.column_offset,
-        m_bosky_config.row_offset);
+    // 点击节点中心：用本次截图里识别到的真实位置，避免地图滚动后按网格反算点到相邻节点
+    auto [px, py] = RoguelikeBoskyPassageMap::get_instance().get_node_click_point(chosen, m_bosky_config);
 
     if (px == -1 || py == -1) {
         Log.error(__FUNCTION__, "| Invalid pixel coordinates for node", chosen, ": (", px, ",", py, ")");
         return;
     }
 
-    Point click_point(px + m_bosky_config.node_width / 2, py + m_bosky_config.node_height / 2);
+    Point click_point(px, py);
+    Log.info(
+        __FUNCTION__,
+        "| click at (",
+        px,
+        ",",
+        py,
+        ") node index:",
+        chosen,
+        "| seen in current screen:",
+        RoguelikeBoskyPassageMap::get_instance().get_node_seen(chosen));
     sleep(200);
     ctrler()->click(click_point);
     RoguelikeBoskyPassageMap::get_instance().set_visited(chosen);
