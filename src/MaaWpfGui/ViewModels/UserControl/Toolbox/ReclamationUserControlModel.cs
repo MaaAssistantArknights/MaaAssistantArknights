@@ -184,8 +184,7 @@ public class ReclamationUserControlModel : PropertyChangedBase
                     return LocalizationHelper.GetString("Toolbox.MiniGame.Reclamation.Fire.Tip");
                 case Theme.RelaunchAnchor:
                     {
-                        var stageNum = mode switch
-                        {
+                        var stageNum = mode switch {
                             Mode.RA15 => 15,
                             Mode.RA4 => 4,
                             _ => 1,
