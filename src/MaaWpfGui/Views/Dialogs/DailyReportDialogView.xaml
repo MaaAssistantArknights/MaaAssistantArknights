@@ -913,16 +913,14 @@
             </controls:TextBlock.Style>
         </controls:TextBlock>
 
-        <StackPanel
+        <Border
             Grid.Row="3"
-            Margin="0,8,0,0"
+            Padding="5,0"
             HorizontalAlignment="Right"
             VerticalAlignment="Bottom"
-            Orientation="Horizontal">
-            <Border
-                Padding="5,0"
-                Background="{DynamicResource RegionBrushOpacity50}"
-                CornerRadius="4">
+            Background="{DynamicResource RegionBrushOpacity50}"
+            CornerRadius="4">
+            <StackPanel Orientation="Horizontal">
                 <ComboBox
                     MinWidth="104"
                     hc:TitleElement.Title="{DynamicResource TaskQueue.DailyReport.Retention}"
@@ -931,10 +929,9 @@
                     ItemsSource="{Binding RetentionOptions}"
                     SelectedValue="{Binding SelectedRetention}"
                     SelectedValuePath="Value" />
-            </Border>
-
-            <controls:TooltipBlock Margin="4,0,0,0" TooltipText="{DynamicResource TaskQueue.DailyReport.Retention.Tip}" />
-        </StackPanel>
+                <controls:TooltipBlock TooltipText="{DynamicResource TaskQueue.DailyReport.Retention.Tip}" />
+            </StackPanel>
+        </Border>
 
         <!--  掉率浮层：所有掉落格共用一个，点击时由代码设置目标与内容  -->
         <Popup
