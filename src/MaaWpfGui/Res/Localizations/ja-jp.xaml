@@ -1981,6 +1981,7 @@ MAA は非インストール型のアプリケーションであり、レジス�
     <system:String x:Key="TaskQueue.DailyReport.Chart.OverlayTipFormat">理性剤 {0} · 源石 {1}</system:String>
     <system:String x:Key="TaskQueue.DailyReport.Chart.Rank">ステージ比較</system:String>
     <system:String x:Key="TaskQueue.DailyReport.Chart.Trend">推移</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Dimension.All">全期間</system:String>
     <system:String x:Key="TaskQueue.DailyReport.Dimension.Day">日</system:String>
     <system:String x:Key="TaskQueue.DailyReport.Dimension.Month">月</system:String>
     <system:String x:Key="TaskQueue.DailyReport.Dimension.Week">週</system:String>

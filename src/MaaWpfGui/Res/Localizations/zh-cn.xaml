@@ -1980,6 +1980,7 @@ DEBUG 目录下保存的图片有数量限制，超出后会自动清理旧图�
     <system:String x:Key="TaskQueue.DailyReport.Chart.OverlayTipFormat">药剂 {0} · 源石 {1}</system:String>
     <system:String x:Key="TaskQueue.DailyReport.Chart.Rank">关卡排名</system:String>
     <system:String x:Key="TaskQueue.DailyReport.Chart.Trend">趋势</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Dimension.All">全部</system:String>
     <system:String x:Key="TaskQueue.DailyReport.Dimension.Day">日</system:String>
     <system:String x:Key="TaskQueue.DailyReport.Dimension.Month">月</system:String>
     <system:String x:Key="TaskQueue.DailyReport.Dimension.Week">周</system:String>

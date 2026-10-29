@@ -1979,6 +1979,7 @@ Enter ｢SSReopen-XX｣ once to clear all normal stages with Auto-Deploy in SS r
     <system:String x:Key="TaskQueue.DailyReport.Chart.OverlayTipFormat">Sanity Potions {0} · Originite Prime {1}</system:String>
     <system:String x:Key="TaskQueue.DailyReport.Chart.Rank">Compare</system:String>
     <system:String x:Key="TaskQueue.DailyReport.Chart.Trend">Trend</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Dimension.All">All</system:String>
     <system:String x:Key="TaskQueue.DailyReport.Dimension.Day">Day</system:String>
     <system:String x:Key="TaskQueue.DailyReport.Dimension.Month">Month</system:String>
     <system:String x:Key="TaskQueue.DailyReport.Dimension.Week">Week</system:String>
