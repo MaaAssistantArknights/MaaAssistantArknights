@@ -583,6 +583,7 @@
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
                         <ItemsControl
+                            x:Name="TickRow"
                             Grid.Row="1"
                             Margin="0,4,0,0"
                             ItemsSource="{Binding ChartBars}">
@@ -593,7 +594,10 @@
                             </ItemsControl.ItemsPanel>
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
-                                    <!--  刻度文字可能宽于柱子：负外边距让文字以柱子中线为中心向两侧溢出，而不被单列宽度截断  -->
+                                    <!--
+                                        刻度文字可能宽于柱子：负外边距让文字以柱子中线为中心向两侧溢出，而不被单列宽度截断；
+                                        每根柱子都有刻度，放不下时按间隔稀疏
+                                    -->
                                     <Grid Height="14" ClipToBounds="False">
                                         <TextBlock
                                             Margin="-20,0"
@@ -601,7 +605,15 @@
                                             FontSize="11"
                                             Foreground="{DynamicResource SecondaryTextBrush}"
                                             Text="{Binding TickLabel}"
-                                            TextAlignment="Center" />
+                                            TextAlignment="Center">
+                                            <TextBlock.Visibility>
+                                                <MultiBinding Converter="{x:Static converters:ChartTickVisibilityConverter.Instance}">
+                                                    <Binding />
+                                                    <Binding ElementName="TickRow" Path="ItemsSource" />
+                                                    <Binding ElementName="TickRow" Path="ActualWidth" />
+                                                </MultiBinding>
+                                            </TextBlock.Visibility>
+                                        </TextBlock>
                                     </Grid>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>

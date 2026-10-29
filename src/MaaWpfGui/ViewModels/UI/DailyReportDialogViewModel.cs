@@ -793,12 +793,11 @@ public class DailyReportDialogViewModel : PropertyChangedBase
             _ => from.AddDays(i).ToString("MM-dd ddd", culture),
         };
 
-        // 刻度标签只标在对应柱子正下方：日维度每 6 小时，周维度每天（星期），月维度逢 1/5/10/… 号，年维度每月
+        // 每根柱子都给出刻度，放不下时由视图按间隔稀疏：日维度为小时，周维度为星期，月维度为日期，年维度为月份
         string TickLabel(int i) => _dimension switch
         {
-            DimensionKind.Day => i % 6 == 0 ? $"{(i + 4) % 24}" : string.Empty,
+            DimensionKind.Day => $"{(i + 4) % 24}",
             DimensionKind.Week => from.AddDays(i).ToString("ddd", culture),
-            DimensionKind.Month => (i + 1) is 1 or 5 or 10 or 15 or 20 or 25 or 30 ? $"{i + 1}" : string.Empty,
             _ => $"{i + 1}",
         };
 
@@ -835,9 +834,11 @@ public class DailyReportDialogViewModel : PropertyChangedBase
         var max = values.Max();
         ChartBars = values
             .Select((v, i) => new DailyReportChartBarViewModel(
+                i,
                 max == 0 ? 0 : (double)v / max,
                 BarToolTip(i),
                 TickLabel(i),
+                false,
                 v == 0 || showOverlay ? string.Empty : v.FormatNumber()))
             .ToList();
         ChartTitle = _selectedItemId is null
