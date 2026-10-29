@@ -120,6 +120,11 @@ public class Gui : NotifyPropertyChangedWithValue, IJsonOnDeserialized
     /// </summary>
     public DailyReportRetention DailyReportRetention { get; set; } = DailyReportRetention.Unlimited;
 
+    /// <summary>
+    /// Gets or sets a value indicating whether 作战日报的图表卡片处于折叠状态。
+    /// </summary>
+    public bool DailyReportChartCollapsed { get; set; } = false;
+
     public Background Background { get; set; } = new();
 
     public Performance Performance { get; set; } = new();

@@ -148,6 +148,7 @@ public class DailyReportDialogViewModel : PropertyChangedBase
         NotifyOfPropertyChange(nameof(IsMonthDimension));
         NotifyOfPropertyChange(nameof(IsYearDimension));
         NotifyOfPropertyChange(nameof(CalendarPickMode));
+        NotifyOfPropertyChange(nameof(IsYearView));
         RefreshAll();
     }
 
@@ -355,6 +356,12 @@ public class DailyReportDialogViewModel : PropertyChangedBase
             if (SetAndNotify(ref field, value))
             {
                 NotifyOfPropertyChange(nameof(IsStageView));
+
+                // 选中物品只在按材料视图有入口可以取消，回到按关卡视图时图表回到理智消耗
+                if (!value && _selectedItemId is not null)
+                {
+                    SelectItem(null, null);
+                }
             }
         }
     }
@@ -387,14 +394,281 @@ public class DailyReportDialogViewModel : PropertyChangedBase
             return;
         }
 
-        _selectedItemId = _selectedItemId == material.ItemId ? null : material.ItemId;
+        SelectItem(_selectedItemId == material.ItemId ? null : material.ItemId, null);
+    }
+
+    /// <summary>
+    /// 切换图表展示的物品并同步物品格的选中态。
+    /// </summary>
+    /// <param name="itemId">物品 id；为 null 时回到理智消耗。</param>
+    /// <param name="highlightStage">排名中高亮的关卡（从按关卡浮层跳转时的来源关卡），不高亮时为 null。</param>
+    private void SelectItem(string? itemId, string? highlightStage)
+    {
+        _selectedItemId = itemId;
+        _highlightStage = highlightStage;
         foreach (var row in Materials)
         {
             row.IsSelected = row.ItemId == _selectedItemId;
         }
 
+        if (!CanRank)
+        {
+            IsRankMode = false;
+        }
+
+        NotifyOfPropertyChange(nameof(HasSelectedItem));
+        NotifyOfPropertyChange(nameof(CanRank));
         RefreshChart();
     }
+
+    private string? _highlightStage;
+
+    /// <summary>
+    /// Gets a value indicating whether 图表当前展示某种物品（否则为理智消耗）。
+    /// </summary>
+    public bool HasSelectedItem => _selectedItemId is not null;
+
+    /// <summary>
+    /// Gets a value indicating whether 当前选中的物品可以做关卡排名（仅养成材料），决定 ｢趋势 / 关卡排名｣ 切换是否出现。
+    /// </summary>
+    public bool CanRank => _selectedItemId is not null && IsRankable(_selectedItemId);
+
+    /// <summary>
+    /// 从按关卡视图的掉率浮层跳转：切到按材料视图、选中该物品并显示关卡排名，高亮来源关卡。
+    /// </summary>
+    /// <param name="drop">浮层对应的掉落物。</param>
+    public void ShowRanking(DailyReportDropItemViewModel drop)
+    {
+        IsMaterialView = true;
+        _chartExpandedOnce = true;
+        NotifyOfPropertyChange(nameof(IsChartCollapsed));
+        SelectItem(drop.ItemId, drop.Stage);
+        IsRankMode = true;
+    }
+
+    // 从浮层跳转时临时展开图表（本次打开内有效），不覆盖用户持久化的折叠选择
+    private bool _chartExpandedOnce;
+
+    /// <summary>
+    /// 计算某种物品在当前时段各关卡的单件理智排名（可靠样本在前、按单件理智升序，样本不足的排到末尾）。
+    /// </summary>
+    /// <param name="itemId">物品 id。</param>
+    /// <returns>排名行；没有任何关卡掉落该物品时为空。</returns>
+    public List<DailyReportRankRowViewModel> BuildRanking(string itemId)
+    {
+        // 只对养成材料排名；龙门币、家具零件等通用产出几乎每关都掉，按理智比较没有意义
+        if (!IsRankable(itemId))
+        {
+            return [];
+        }
+
+        var rows = _sessions
+            .Select(s => s.Session)
+            .GroupBy(s => s.Stage)
+            .Select(g => (Stage: g.Key, Count: g.Sum(s => s.Drops.GetValueOrDefault(itemId)), Times: g.Sum(s => s.Times), Sanity: g.Sum(s => s.Sanity)))
+            .Where(x => x.Count > 0 && x.Sanity > 0)
+            .Select(x => new DailyReportRankRowViewModel(x.Stage, x.Count, x.Times, x.Sanity))
+            .OrderByDescending(r => r.IsReliable)
+            .ThenBy(r => r.SanityPerItem)
+            .ToList();
+
+        // 横条长度为最划算关卡的单件理智与本关之比：最划算的满格，越费理智越短。
+        // 只取可靠样本里的最小值做基准，避免样本不足的偶然低值让其他横条整体变短
+        var reliable = rows.Where(r => r.IsReliable).ToList();
+        var best = (reliable.Count > 0 ? reliable : rows).Select(r => r.SanityPerItem).DefaultIfEmpty(1).Min();
+        foreach (var row in rows)
+        {
+            row.BarRatio = Math.Min(1, best / row.SanityPerItem);
+        }
+
+        return rows;
+    }
+
+    /// <summary>
+    /// 物品是否参与单件理智排名：仅 item_index 中归类为 MATERIAL 的养成材料。
+    /// </summary>
+    private static bool IsRankable(string itemId) =>
+        ItemListHelper.ArkItems.TryGetValue(itemId, out var item) && item.ClassifyType == "MATERIAL";
+
+    /// <summary>
+    /// 生成掉率浮层里的排名摘要：该物品在本关卡的名次、参与排名的关卡数与误差。
+    /// </summary>
+    /// <param name="drop">浮层对应的掉落物。</param>
+    /// <returns>摘要文本；只有一个关卡掉落或本关卡无从计算时为空。</returns>
+    public string BuildRankSummary(DailyReportDropItemViewModel drop)
+    {
+        var rows = BuildRanking(drop.ItemId);
+        var index = rows.FindIndex(r => r.Stage == drop.Stage);
+        if (rows.Count < 2 || index < 0)
+        {
+            return string.Empty;
+        }
+
+        var row = rows[index];
+        var key = row.IsReliable ? "TaskQueue.DailyReport.Rank.SummaryFormat" : "TaskQueue.DailyReport.Rank.SummaryLowSampleFormat";
+        return LocalizationHelper.GetStringFormat(key, index + 1, rows.Count, row.ErrorText);
+    }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether 图表卡片显示关卡排名（否则显示趋势）；仅在选中物品时可切换。
+    /// </summary>
+    public bool IsRankMode
+    {
+        get;
+        set
+        {
+            if (SetAndNotify(ref field, value))
+            {
+                NotifyOfPropertyChange(nameof(IsTrendMode));
+            }
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether 图表卡片显示趋势（RadioButton 绑定）。
+    /// </summary>
+    public bool IsTrendMode
+    {
+        get => !IsRankMode;
+        set => IsRankMode = !value;
+    }
+
+    /// <summary>
+    /// Gets 当前选中物品的单件理智排名。
+    /// </summary>
+    public IReadOnlyList<DailyReportRankRowViewModel> RankRows { get; private set; } = [];
+
+    /// <summary>
+    /// Gets or sets a value indicating whether 图表卡片已折叠；折叠状态写入全局配置，下次打开保持。
+    /// </summary>
+    public bool IsChartCollapsed
+    {
+        get => ConfigFactory.Root.Gui.DailyReportChartCollapsed && !_chartExpandedOnce;
+        set
+        {
+            _chartExpandedOnce = false;
+            if (ConfigFactory.Root.Gui.DailyReportChartCollapsed == value)
+            {
+                NotifyOfPropertyChange();
+                return;
+            }
+
+            ConfigFactory.Root.Gui.DailyReportChartCollapsed = value;
+            NotifyOfPropertyChange();
+        }
+    }
+
+    /// <summary>
+    /// 折叠或展开图表卡片（Command 绑定入口）。
+    /// </summary>
+    public void ToggleChartCollapsed()
+    {
+        IsChartCollapsed = !IsChartCollapsed;
+    }
+
+    /// <summary>
+    /// Gets a value indicating whether 当前为年维度（仅年视图提供热力图）。
+    /// </summary>
+    public bool IsYearView => _dimension == DimensionKind.Year;
+
+    /// <summary>
+    /// Gets or sets a value indicating whether 年视图显示热力图（否则显示柱状图）；默认热力图，仅在本次运行期间保持。
+    /// </summary>
+    public bool IsHeatmapMode
+    {
+        get => _isHeatmapMode;
+        set
+        {
+            if (SetAndNotify(ref _isHeatmapMode, value))
+            {
+                NotifyOfPropertyChange(nameof(IsBarMode));
+                NotifyOfPropertyChange(nameof(ShowMedicineLegend));
+                NotifyOfPropertyChange(nameof(ShowStoneLegend));
+            }
+        }
+    }
+
+    private bool _isHeatmapMode = true;
+
+    /// <summary>
+    /// Gets or sets a value indicating whether 年视图显示柱状图（RadioButton 绑定）。
+    /// </summary>
+    public bool IsBarMode
+    {
+        get => !IsHeatmapMode;
+        set => IsHeatmapMode = !value;
+    }
+
+    /// <summary>
+    /// Gets 年度热力图的日期格，按行优先排列供 7 行的 UniformGrid 填充：第 r 行依次是各周的星期 r+1，形成每列一周、周一在上的布局。
+    /// </summary>
+    public IReadOnlyList<DailyReportHeatCellViewModel> HeatCells { get; private set; } = [];
+
+    /// <summary>
+    /// Gets 热力图列数（周数）。
+    /// </summary>
+    public int HeatColumns { get; private set; } = 53;
+
+    /// <summary>
+    /// Gets 热力图上方的月份标签及其所在列。
+    /// </summary>
+    public IReadOnlyList<HeatMonthLabel> HeatMonthLabels { get; private set; } = [];
+
+    /// <summary>
+    /// 热力图月份标签（属性形式，WPF 绑定不能读取 ValueTuple 字段）。
+    /// </summary>
+    /// <param name="Column">该月 1 日所在的列。</param>
+    /// <param name="Label">月份文本。</param>
+    public record HeatMonthLabel(int Column, string Label);
+
+    /// <summary>
+    /// 热力图格子点击：跳到当天的日视图（事件绑定入口）。
+    /// </summary>
+    /// <param name="sender">热力图。</param>
+    /// <param name="e">鼠标事件。</param>
+    public void OnHeatCellClick(object sender, MouseButtonEventArgs e)
+    {
+        if ((e.OriginalSource as FrameworkElement)?.DataContext is not DailyReportHeatCellViewModel { Date: { } date })
+        {
+            return;
+        }
+
+        _anchor = date > Today ? Today : date;
+        SetDimension(DimensionKind.Day);
+    }
+
+    /// <summary>
+    /// Gets 药剂折线；不画时 <see cref="DailyReportOverlayLine.IsVisible"/> 为 false。
+    /// </summary>
+    public DailyReportOverlayLine? MedicineLine { get; private set; }
+
+    /// <summary>
+    /// Gets 源石折线。
+    /// </summary>
+    public DailyReportOverlayLine? StoneLine { get; private set; }
+
+    /// <summary>
+    /// Gets a value indicating whether 柱状图叠加了折线（显示理智消耗且药剂或源石不全为 0）。
+    /// </summary>
+    public bool HasOverlay => MedicineLine?.IsVisible == true || StoneLine?.IsVisible == true;
+
+    // 年视图显示热力图时不画折线，图例一并隐藏
+    private bool IsShowingBars => !(IsYearView && IsHeatmapMode);
+
+    /// <summary>
+    /// Gets a value indicating whether 显示药剂折线图例。
+    /// </summary>
+    public bool ShowMedicineLegend => IsShowingBars && MedicineLine?.IsVisible == true;
+
+    /// <summary>
+    /// Gets a value indicating whether 显示源石折线图例。
+    /// </summary>
+    public bool ShowStoneLegend => IsShowingBars && StoneLine?.IsVisible == true;
+
+    /// <summary>
+    /// Gets 折线右轴上限文本。
+    /// </summary>
+    public string OverlayAxisMaxText { get; private set; } = string.Empty;
 
     /// <summary>
     /// Gets 柱状图标题（当前展示的指标）。
@@ -449,14 +723,14 @@ public class DailyReportDialogViewModel : PropertyChangedBase
         NotifyOfPropertyChange(nameof(Materials));
 
         var dropKinds = Materials.Count;
+        var culture = LocalizationHelper.CustomCultureInfo;
         Stats =
         [
-            new(LocalizationHelper.GetString("TaskQueue.DailyReport.Stat.Records"), sessions.Count.ToString()),
-            new(LocalizationHelper.GetString("TaskQueue.DailyReport.Stat.Sessions"), sessions.Sum(s => s.Times).ToString()),
-            new(LocalizationHelper.GetString("TaskQueue.DailyReport.Stat.Sanity"), sessions.Sum(s => s.Sanity).ToString()),
-            new(LocalizationHelper.GetString("TaskQueue.DailyReport.Stat.Medicines"), sessions.Sum(s => s.MedicinesUsed + s.ExpiringMedicinesUsed).ToString()),
-            new(LocalizationHelper.GetString("TaskQueue.DailyReport.Stat.Stones"), sessions.Sum(s => s.StonesUsed).ToString()),
-            new(LocalizationHelper.GetString("TaskQueue.DailyReport.Stat.DropKinds"), dropKinds.ToString()),
+            new(LocalizationHelper.GetString("TaskQueue.DailyReport.Stat.Sessions"), sessions.Sum(s => s.Times).ToString("N0", culture)),
+            new(LocalizationHelper.GetString("TaskQueue.DailyReport.Stat.Sanity"), sessions.Sum(s => s.Sanity).ToString("N0", culture)),
+            new(LocalizationHelper.GetString("TaskQueue.DailyReport.Stat.Medicines"), sessions.Sum(s => s.MedicinesUsed + s.ExpiringMedicinesUsed).ToString("N0", culture)),
+            new(LocalizationHelper.GetString("TaskQueue.DailyReport.Stat.Stones"), sessions.Sum(s => s.StonesUsed).ToString("N0", culture)),
+            new(LocalizationHelper.GetString("TaskQueue.DailyReport.Stat.DropKinds"), dropKinds.ToString("N0", culture)),
         ];
         NotifyOfPropertyChange(nameof(Stats));
 
@@ -476,8 +750,22 @@ public class DailyReportDialogViewModel : PropertyChangedBase
             _ => to.DayNumber - from.DayNumber + 1,
         };
         var values = new long[bucketCount];
+        var medicines = new long[bucketCount];
+        var stones = new long[bucketCount];
         foreach (var (day, session) in _sessions)
         {
+            var bucket = _dimension switch
+            {
+                DimensionKind.Day => session.StartTime.ToYjDateTime().Hour,
+                DimensionKind.Year => day.Month - 1,
+                _ => day.DayNumber - from.DayNumber,
+            };
+            if (bucket >= 0 && bucket < bucketCount)
+            {
+                medicines[bucket] += session.MedicinesUsed + session.ExpiringMedicinesUsed;
+                stones[bucket] += session.StonesUsed;
+            }
+
             var value = _selectedItemId is null
                 ? session.Sanity
                 : session.Drops.GetValueOrDefault(_selectedItemId);
@@ -514,15 +802,156 @@ public class DailyReportDialogViewModel : PropertyChangedBase
             _ => $"{i + 1}",
         };
 
+        // 药剂与源石只在显示理智消耗时叠加，两条线共用右轴；全为 0 的那条不画
+        var overlayMax = Math.Max(medicines.Max(), stones.Max());
+        var showOverlay = _selectedItemId is null && overlayMax > 0;
+        var axisMax = NiceAxisMax(overlayMax);
+
+        // 时段尚未过完时（本周、本月、本年），今日之后的桶没有数据而非为 0，折线只画到今日
+        var elapsed = _dimension switch
+        {
+            DimensionKind.Day => bucketCount,
+            DimensionKind.Year => to < Today ? bucketCount : from.Year == Today.Year ? Today.Month : 0,
+            _ => Math.Clamp(Today.DayNumber - from.DayNumber + 1, 0, bucketCount),
+        };
+        MedicineLine = showOverlay ? new DailyReportOverlayLine(medicines, axisMax, elapsed) : null;
+        StoneLine = showOverlay ? new DailyReportOverlayLine(stones, axisMax, elapsed) : null;
+        OverlayAxisMaxText = showOverlay ? axisMax.ToString("N0", culture) : string.Empty;
+
+        string BarToolTip(int i)
+        {
+            var text = $"{BucketLabel(i)}  {values[i].ToString("N0", culture)}";
+            if (showOverlay)
+            {
+                text += "\n" + LocalizationHelper.GetStringFormat(
+                    "TaskQueue.DailyReport.Chart.OverlayTipFormat",
+                    medicines[i].ToString("N0", culture),
+                    stones[i].ToString("N0", culture));
+            }
+
+            return text;
+        }
+
         var max = values.Max();
         ChartBars = values
-            .Select((v, i) => new DailyReportChartBarViewModel(max == 0 ? 0 : (double)v / max, $"{BucketLabel(i)}  {v:N0}", TickLabel(i), v == 0 ? string.Empty : v.FormatNumber()))
+            .Select((v, i) => new DailyReportChartBarViewModel(
+                max == 0 ? 0 : (double)v / max,
+                BarToolTip(i),
+                TickLabel(i),
+                v == 0 || showOverlay ? string.Empty : v.FormatNumber()))
             .ToList();
         ChartTitle = _selectedItemId is null
             ? LocalizationHelper.GetString("TaskQueue.DailyReport.Stat.Sanity")
             : ItemListHelper.GetItemName(_selectedItemId) ?? _selectedItemId;
         NotifyOfPropertyChange(nameof(ChartBars));
         NotifyOfPropertyChange(nameof(ChartTitle));
+        NotifyOfPropertyChange(nameof(MedicineLine));
+        NotifyOfPropertyChange(nameof(StoneLine));
+        NotifyOfPropertyChange(nameof(HasOverlay));
+        NotifyOfPropertyChange(nameof(ShowMedicineLegend));
+        NotifyOfPropertyChange(nameof(ShowStoneLegend));
+        NotifyOfPropertyChange(nameof(OverlayAxisMaxText));
+
+        RankRows = _selectedItemId is null ? [] : BuildRanking(_selectedItemId);
+        foreach (var row in RankRows)
+        {
+            row.IsHighlighted = row.Stage == _highlightStage;
+        }
+
+        NotifyOfPropertyChange(nameof(RankRows));
+
+        if (_dimension == DimensionKind.Year)
+        {
+            RefreshHeatmap(from, to);
+        }
+    }
+
+    /// <summary>
+    /// 折线右轴上限取不小于最大值的 1/2/5×10ⁿ 整数，刻度好读；最大值本身落在整数时即为上限，点贴顶而不是悬在半空。
+    /// </summary>
+    private static long NiceAxisMax(long max)
+    {
+        if (max <= 1)
+        {
+            return 1;
+        }
+
+        long magnitude = 1;
+        while (magnitude * 10 < max)
+        {
+            magnitude *= 10;
+        }
+
+        foreach (var step in new long[] { 1, 2, 5, 10 })
+        {
+            if (step * magnitude >= max)
+            {
+                return step * magnitude;
+            }
+        }
+
+        return 10 * magnitude;
+    }
+
+    private void RefreshHeatmap(DateOnly from, DateOnly to)
+    {
+        var culture = LocalizationHelper.CustomCultureInfo;
+        var daily = new Dictionary<DateOnly, long>();
+        foreach (var (day, session) in _sessions)
+        {
+            var value = _selectedItemId is null ? session.Sanity : session.Drops.GetValueOrDefault(_selectedItemId);
+            daily[day] = daily.GetValueOrDefault(day) + value;
+        }
+
+        // 按当年非零值的四分位分 4 档，单日极端值不会把其他格子的颜色都压淡
+        var sorted = daily.Values.Where(v => v > 0).Order().ToList();
+        long Quantile(double q) => sorted.Count == 0 ? 0 : sorted[(int)((sorted.Count - 1) * q)];
+        var cuts = new[] { Quantile(0.25), Quantile(0.5), Quantile(0.75) };
+        int Level(long v) => v <= 0 ? 0 : v <= cuts[0] ? 1 : v <= cuts[1] ? 2 : v <= cuts[2] ? 3 : 4;
+
+        // 先按时间顺序排成每列一周、周一在上，年初不足一周的部分用占位格补齐
+        var lead = ((int)from.DayOfWeek + 6) % 7;
+        var cells = new List<DailyReportHeatCellViewModel>();
+        for (var i = 0; i < lead; i++)
+        {
+            cells.Add(new DailyReportHeatCellViewModel(null, 0, null));
+        }
+
+        var months = new List<HeatMonthLabel>();
+        for (var day = from; day <= to; day = day.AddDays(1))
+        {
+            var value = daily.GetValueOrDefault(day);
+            var tip = day.ToString("yyyy-MM-dd ddd", culture) + "  " + (value > 0 ? value.ToString("N0", culture) : LocalizationHelper.GetString("TaskQueue.DailyReport.Chart.NoBattle"));
+            if (day.Day == 1)
+            {
+                months.Add(new(cells.Count / 7, day.ToString("MMM", culture)));
+            }
+
+            cells.Add(new DailyReportHeatCellViewModel(day > Today ? null : day, day > Today ? 0 : Level(value), day > Today ? null : tip));
+        }
+
+        // cells 按时间顺序（列优先）生成，UniformGrid 按行填充，转置后每列才是一周
+        var columns = (cells.Count + 6) / 7;
+        while (cells.Count < columns * 7)
+        {
+            cells.Add(new DailyReportHeatCellViewModel(null, 0, null));
+        }
+
+        var transposed = new List<DailyReportHeatCellViewModel>(cells.Count);
+        for (var row = 0; row < 7; row++)
+        {
+            for (var column = 0; column < columns; column++)
+            {
+                transposed.Add(cells[(column * 7) + row]);
+            }
+        }
+
+        HeatColumns = columns;
+        HeatCells = transposed;
+        HeatMonthLabels = months;
+        NotifyOfPropertyChange(nameof(HeatColumns));
+        NotifyOfPropertyChange(nameof(HeatCells));
+        NotifyOfPropertyChange(nameof(HeatMonthLabels));
     }
 
     private (DateOnly From, DateOnly To) GetRange()
@@ -569,7 +998,7 @@ public class DailyReportDialogViewModel : PropertyChangedBase
         return new DailyReportRowViewModel(
             session.Stage,
             timeText,
-            BuildMetaText(session.Times, session.Sanity, session.MedicinesUsed + session.ExpiringMedicinesUsed, session.StonesUsed),
+            BuildMetaText(session.Times, session.Sanity, session.MedicinesUsed + session.ExpiringMedicinesUsed, session.StonesUsed, AveragePerBattle([session])),
             session.Drops,
             session.Times,
             session.Sanity);
@@ -588,27 +1017,53 @@ public class DailyReportDialogViewModel : PropertyChangedBase
         return new DailyReportRowViewModel(
             stage,
             string.Empty,
-            BuildMetaText(times, sanity, sessions.Sum(s => s.MedicinesUsed + s.ExpiringMedicinesUsed), sessions.Sum(s => s.StonesUsed)),
+            BuildMetaText(times, sanity, sessions.Sum(s => s.MedicinesUsed + s.ExpiringMedicinesUsed), sessions.Sum(s => s.StonesUsed), AveragePerBattle(sessions)),
             drops,
             times,
             sanity);
     }
 
-    private static string BuildMetaText(int times, int sanity, int medicines, int stones)
+    private static TimeSpan Duration(CombatSession session) =>
+        session.EndTime is { } end && end > session.StartTime ? end - session.StartTime : TimeSpan.Zero;
+
+    /// <summary>
+    /// 每场平均耗时；只统计有起止时刻的记录，缺结束时刻的记录场次不计入分母，避免拉低平均值。
+    /// </summary>
+    private static TimeSpan AveragePerBattle(IEnumerable<CombatSession> sessions)
+    {
+        var timed = sessions.Where(s => s.Times > 0 && Duration(s) > TimeSpan.Zero).ToList();
+        var times = timed.Sum(s => s.Times);
+        return times > 0 ? TimeSpan.FromSeconds(Math.Round(timed.Sum(s => Duration(s).TotalSeconds) / times)) : TimeSpan.Zero;
+    }
+
+    /// <summary>
+    /// 按数量选单数或复数文案 key（各语言在 key 后加 <c>.One</c> 区分单数，不区分单复数的语言两者同文）。
+    /// </summary>
+    private static string Plural(string key, int count) =>
+        LocalizationHelper.GetStringFormat(count == 1 ? key + ".One" : key, count.ToString("N0", LocalizationHelper.CustomCultureInfo));
+
+    private static string BuildMetaText(int times, int sanity, int medicines, int stones, TimeSpan perBattle)
     {
         var parts = new List<string>
         {
-            LocalizationHelper.GetStringFormat("TaskQueue.DailyReport.Meta.SessionsFormat", times),
-            LocalizationHelper.GetStringFormat("TaskQueue.DailyReport.Meta.SanityFormat", sanity),
+            Plural("TaskQueue.DailyReport.Meta.SessionsFormat", times),
+            LocalizationHelper.GetStringFormat("TaskQueue.DailyReport.Meta.SanityFormat", sanity.ToString("N0", LocalizationHelper.CustomCultureInfo)),
         };
         if (medicines > 0)
         {
-            parts.Add(LocalizationHelper.GetStringFormat("TaskQueue.DailyReport.Meta.MedicinesFormat", medicines));
+            parts.Add(Plural("TaskQueue.DailyReport.Meta.MedicinesFormat", medicines));
         }
 
         if (stones > 0)
         {
-            parts.Add(LocalizationHelper.GetStringFormat("TaskQueue.DailyReport.Meta.StonesFormat", stones));
+            parts.Add(LocalizationHelper.GetStringFormat("TaskQueue.DailyReport.Meta.StonesFormat", stones.ToString("N0", LocalizationHelper.CustomCultureInfo)));
+        }
+
+        // 平均耗时含用药、碎石与界面跳转的等待，用于关卡间相对比较，不等于单局实际战斗时长
+        if (perBattle > TimeSpan.Zero)
+        {
+            var text = $"{(int)perBattle.TotalMinutes}:{perBattle.Seconds:00}";
+            parts.Add(LocalizationHelper.GetStringFormat("TaskQueue.DailyReport.Meta.DurationFormat", text));
         }
 
         return string.Join(" · ", parts);
