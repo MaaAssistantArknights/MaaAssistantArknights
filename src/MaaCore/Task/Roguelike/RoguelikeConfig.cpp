@@ -202,31 +202,18 @@ bool asst::RoguelikeConfig::verify_and_load_params(const json::value& params)
     }
 
     if (m_mode == RoguelikeMode::CoppersRecast) {
-        // 常乐节点同样按「找哪种常乐」寻路，缺省找令
-        m_find_playTime_target = params.get("find_playTime_target", 1);
-        if (m_find_playTime_target < 1 || m_find_playTime_target > 3) {
-            Log.error(__FUNCTION__, "| Invalid find_playTime_target", m_find_playTime_target);
-            return false;
-        }
-
         m_coppers_recast_count = params.get("coppers_recast_count", 1);
         m_coppers_recast_relic_count = params.get("coppers_recast_relic_count", 0);
         if (m_coppers_recast_count < 1 || m_coppers_recast_count > 999) {
-            Log.error(__FUNCTION__, "| Invalid coppers_recast_count", m_coppers_recast_count);
+            LogError << __FUNCTION__ << "| Invalid coppers_recast_count:" << m_coppers_recast_count;
             return false;
         }
         if (m_coppers_recast_relic_count < 0 || m_coppers_recast_relic_count > 999) {
-            Log.error(__FUNCTION__, "| Invalid coppers_recast_relic_count", m_coppers_recast_relic_count);
+            LogError << __FUNCTION__ << "| Invalid coppers_recast_relic_count:" << m_coppers_recast_relic_count;
             return false;
         }
-        Log.info(
-            __FUNCTION__,
-            "| CoppersRecast count:",
-            m_coppers_recast_count,
-            "| relic:",
-            m_coppers_recast_relic_count,
-            "| target:",
-            m_find_playTime_target);
+        LogInfo << __FUNCTION__ << "| CoppersRecast count:" << m_coppers_recast_count << "| relic:"
+                << m_coppers_recast_relic_count;
     }
 
     return true;
