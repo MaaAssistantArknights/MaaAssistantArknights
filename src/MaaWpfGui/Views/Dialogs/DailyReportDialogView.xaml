@@ -704,79 +704,111 @@
                             </Style>
                         </Grid.Style>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="16" />
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
-                        <ItemsControl Margin="0,0,0,2" ItemsSource="{Binding HeatMonthLabels}">
-                            <ItemsControl.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <Canvas Height="14" />
-                                </ItemsPanelTemplate>
-                            </ItemsControl.ItemsPanel>
-                            <ItemsControl.ItemContainerStyle>
-                                <Style TargetType="ContentPresenter">
-                                    <Setter Property="Canvas.Left">
-                                        <Setter.Value>
-                                            <MultiBinding Converter="{x:Static converters:HeatColumnOffsetConverter.Instance}">
-                                                <Binding Path="Column" />
-                                                <Binding Path="DataContext.HeatColumns" RelativeSource="{RelativeSource AncestorType=ItemsControl}" />
-                                                <Binding ElementName="HeatGrid" Path="ActualWidth" />
-                                            </MultiBinding>
-                                        </Setter.Value>
-                                    </Setter>
-                                </Style>
-                            </ItemsControl.ItemContainerStyle>
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate>
-                                    <TextBlock
-                                        FontSize="10"
-                                        Foreground="{DynamicResource SecondaryTextBrush}"
-                                        Text="{Binding Label}" />
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                        </ItemsControl>
-                        <ItemsControl
-                            x:Name="HeatGrid"
-                            Grid.Row="1"
-                            Cursor="Hand"
-                            ItemsSource="{Binding HeatCells}"
-                            PreviewMouseLeftButtonDown="{s:Action OnHeatCellClick}">
-                            <ItemsControl.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <UniformGrid
-                                        Columns="{Binding DataContext.HeatColumns, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
-                                        FlowDirection="LeftToRight"
-                                        Rows="7" />
-                                </ItemsPanelTemplate>
-                            </ItemsControl.ItemsPanel>
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate>
-                                    <!--  背景与不透明度放在样式里：本地值优先级高于样式触发器，写在标签上会让无数据格的底色触发器失效  -->
-                                    <Border
-                                        Width="11"
-                                        Height="11"
-                                        CornerRadius="2"
-                                        ToolTip="{Binding ToolTip}"
-                                        ToolTipService.InitialShowDelay="0">
-                                        <Border.Style>
-                                            <Style TargetType="Border">
-                                                <Setter Property="Background" Value="{DynamicResource PrimaryBrush}" />
-                                                <Setter Property="Opacity" Value="{Binding Opacity}" />
-                                                <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding Level}" Value="0">
-                                                        <Setter Property="Background" Value="{DynamicResource RegionBrushOpacity25}" />
-                                                        <Setter Property="Opacity" Value="1" />
-                                                    </DataTrigger>
-                                                    <DataTrigger Binding="{Binding IsPlaceholder}" Value="True">
-                                                        <Setter Property="Visibility" Value="Hidden" />
-                                                    </DataTrigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </Border.Style>
-                                    </Border>
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                        </ItemsControl>
+                        <!--  只用来量出格子区的可用尺寸：网格自身的尺寸由它推算，不能拿网格自己量  -->
+                        <Border x:Name="HeatArea" Grid.Row="1" />
+                        <!--
+                            格距取宽高两个方向能容纳的较小值，格子保持正方形且横竖间距一致；
+                            窗口加宽后高度先受限，网格不再拉满宽度而是居中，避免格子在横向被拉散
+                        -->
+                        <Grid
+                            Grid.RowSpan="2"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Top">
+                            <Grid.Width>
+                                <MultiBinding Converter="{x:Static converters:HeatGridSizeConverter.Instance}" ConverterParameter="Width">
+                                    <Binding ElementName="HeatArea" Path="ActualWidth" />
+                                    <Binding ElementName="HeatArea" Path="ActualHeight" />
+                                    <Binding Path="HeatColumns" />
+                                </MultiBinding>
+                            </Grid.Width>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="16" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <ItemsControl Margin="0,0,0,2" ItemsSource="{Binding HeatMonthLabels}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <Canvas Height="14" />
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemContainerStyle>
+                                    <Style TargetType="ContentPresenter">
+                                        <Setter Property="Canvas.Left">
+                                            <Setter.Value>
+                                                <MultiBinding Converter="{x:Static converters:HeatColumnOffsetConverter.Instance}">
+                                                    <Binding Path="Column" />
+                                                    <Binding Path="DataContext.HeatColumns" RelativeSource="{RelativeSource AncestorType=ItemsControl}" />
+                                                    <Binding ElementName="HeatGrid" Path="ActualWidth" />
+                                                </MultiBinding>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </ItemsControl.ItemContainerStyle>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock
+                                            FontSize="10"
+                                            Foreground="{DynamicResource SecondaryTextBrush}"
+                                            Text="{Binding Label}" />
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                            <ItemsControl
+                                x:Name="HeatGrid"
+                                Grid.Row="1"
+                                Cursor="Hand"
+                                ItemsSource="{Binding HeatCells}"
+                                PreviewMouseLeftButtonDown="{s:Action OnHeatCellClick}">
+                                <!--  Tag 存格子边长（格距减去格间空隙），供各格绑定  -->
+                                <ItemsControl.Tag>
+                                    <MultiBinding Converter="{x:Static converters:HeatGridSizeConverter.Instance}" ConverterParameter="Cell">
+                                        <Binding ElementName="HeatArea" Path="ActualWidth" />
+                                        <Binding ElementName="HeatArea" Path="ActualHeight" />
+                                        <Binding Path="HeatColumns" />
+                                    </MultiBinding>
+                                </ItemsControl.Tag>
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <UniformGrid
+                                            Columns="{Binding DataContext.HeatColumns, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                            FlowDirection="LeftToRight"
+                                            Rows="7" />
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <!--  背景与不透明度放在样式里：本地值优先级高于样式触发器，写在标签上会让无数据格的底色触发器失效  -->
+                                        <!--  外边距合计等于格间空隙，每格占满一个格距；行高随格子而定，竖向空隙也靠它撑出  -->
+                                        <Border
+                                            Width="{Binding Tag, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                            Height="{Binding Tag, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                            Margin="1,1,2,2"
+                                            CornerRadius="2"
+                                            ToolTip="{Binding ToolTip}"
+                                            ToolTipService.InitialShowDelay="0">
+                                            <Border.Style>
+                                                <Style TargetType="Border">
+                                                    <Setter Property="Background" Value="{DynamicResource PrimaryBrush}" />
+                                                    <Setter Property="Opacity" Value="{Binding Opacity}" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Level}" Value="0">
+                                                            <Setter Property="Background" Value="{DynamicResource RegionBrushOpacity25}" />
+                                                            <Setter Property="Opacity" Value="1" />
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding IsPlaceholder}" Value="True">
+                                                            <Setter Property="Visibility" Value="Hidden" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Border.Style>
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </Grid>
                     </Grid>
 
                     <!--  关卡排名：选中物品时可切换；样本不足（掉落过少或误差过大，见 DailyReportRankRowViewModel.IsReliable）的淡化并排到末尾，来源关卡高亮  -->
