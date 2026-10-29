@@ -8,6 +8,9 @@
     "RelaunchAnchor@RA@Common-StartConstruction": {
         "text": ["건설시작"]
     },
+    "RelaunchAnchor@RA@RA1-Prepare": {
+        "isAscii": true
+    },
     "RelaunchAnchor@RA@RA1-ChooseStrategy": {
         "text": ["정밀농경"]
     },
@@ -79,11 +82,15 @@
     "RelaunchAnchor@RA@RA1-FinishConstruction": {
         "text": ["완료하기"]
     },
+    "RelaunchAnchor@RA@RA4-Prepare": {
+        "isAscii": true
+    },
     "RelaunchAnchor@RA@RA4-ChooseStrategy": {
         "text": ["경영", "기획"]
     },
     "RelaunchAnchor@RA@RA4-Choose": {
-        "text": ["오퍼레이터", "모집"]
+        "text": ["오퍼레이터", "모집"],
+        "roi": [935, 128, 225, 42]
     },
     "RelaunchAnchor@RA@RA4-ExamineEWExistence2": {
         "text": ["오퍼레이터", "편성"]
@@ -110,28 +117,41 @@
         "text": ["RA", "-4", "상조"]
     },
     "RelaunchAnchor@RA@RA4-UseRedGold": {
-        "text": ["순금", "원석"]
+        "text": ["순금", "원석"],
+        "roi": [1055, 240, 110, 32]
+    },
+    "RelaunchAnchor@RA@RA4-DoubleSpeed": {
+        "templThreshold": 0.65
     },
     "RelaunchAnchor@RA@RA4-Mission": {
-        "text": ["새로운", "구역"]
+        "text": ["새로운", "구역"],
+        "roi": [545, 281, 190, 32]
     },
     "RelaunchAnchor@RA@RA4-ClickMission": {
-        "text": ["새로운", "구역"]
+        "text": ["새로운", "구역"],
+        "roi": [85, 232, 190, 30]
     },
     "RelaunchAnchor@RA@RA4-Mission2": {
-        "text": ["청정", "수역"]
+        "text": ["청정", "수역"],
+        "roi": [545, 281, 190, 32]
     },
     "RelaunchAnchor@RA@RA4-ClickMission2": {
-        "text": ["청정", "수역", "발견"]
+        "text": ["청정", "수역", "발견"],
+        "roi": [85, 232, 240, 30]
     },
     "RelaunchAnchor@RA@RA4-Mission3": {
-        "text": ["리더적"]
+        "text": ["리더적"],
+        "roi": [415, 281, 195, 32]
     },
     "RelaunchAnchor@RA@RA4-ClickMission3": {
-        "text": ["리더적", "누적", "처치"]
+        "text": ["리더적", "누적", "처치"],
+        "roi": [80, 238, 205, 32]
     },
     "RelaunchAnchor@RA@RA4-ExitSettleNow": {
         "text": ["확인"]
+    },
+    "RelaunchAnchor@RA@RA15-Prepare": {
+        "isAscii": true
     },
     "RelaunchAnchor@RA@RA15-ChooseStrategy": {
         "text": ["경영", "기획"]
@@ -177,6 +197,9 @@
     },
     "RelaunchAnchor@RA@RA15-AlignMapCheck": {
         "text": ["배치하여주십시오", "채집", "기지"]
+    },
+    "RelaunchAnchor@RA@RA15-DoubleSpeed": {
+        "templThreshold": 0.65
     },
     "RelaunchAnchor@RA@RA15-Kill60": {
         "text": ["처치"]
