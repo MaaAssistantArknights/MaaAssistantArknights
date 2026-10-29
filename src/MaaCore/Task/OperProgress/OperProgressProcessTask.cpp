@@ -22,6 +22,7 @@
 #include "Vision/BestMatcher.h"
 #include "Vision/Hasher.h"
 #include "Vision/Infrast/InfrastOperImageAnalyzer.h"
+#include "Vision/Matcher.h"
 #include "Vision/MultiMatcher.h"
 #include "Vision/Oper/OperBoxImageAnalyzer.h"
 #include "Vision/Oper/OperFilesImageAnalyzer.h"
@@ -488,9 +489,26 @@ asst::OperProgressProcessTask::ResultDetail asst::OperProgressProcessTask::execu
     int target_level,
     int& current_level)
 {
-    // 档案页技能等级 OCR、精英阶段与专精图标识别共用一张截图
-    const cv::Mat& image = ctrler()->get_image();
+    if (need_exit()) {
+        return ResultDetail::Interrupt;
+    }
 
+    // 上一个技能可能因缺料或已专三停在训练室、材料弹窗或加工站，先恢复目标干员档案页。
+    cv::Mat image = ctrler()->get_image();
+    Matcher files_analyzer(image);
+    files_analyzer.set_task_info("OperProgress@OperFiles");
+    if (!files_analyzer.analyze()) {
+        const auto located = find_and_open_operator(role, name);
+        if (need_exit()) {
+            return ResultDetail::Interrupt;
+        }
+        if (located != ResultDetail::Completed) {
+            return located;
+        }
+        image = ctrler()->get_image();
+    }
+
+    // 档案页技能等级 OCR、精英阶段与专精图标识别共用一张截图
     // 专精要求精英阶段 2；档案页现场识别,不沿用干员列表页的结果；识别失败按 0 处理,宁可放弃不误操作。
     const auto& elite_opt = OperFilesImageAnalyzer(image).elite_level();
     if (!elite_opt) {
