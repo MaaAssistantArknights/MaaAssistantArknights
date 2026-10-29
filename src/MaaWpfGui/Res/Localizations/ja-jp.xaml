@@ -1995,7 +1995,9 @@ MAA は非インストール型のアプリケーションであり、レジス�
     <system:String x:Key="TaskQueue.DailyReport.NoData">戦闘記録はありません</system:String>
     <system:String x:Key="TaskQueue.DailyReport.OpenButton">戦闘日報</system:String>
     <system:String x:Key="TaskQueue.DailyReport.PickDate">日付を選択</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Rank.HistoryBestFormat">全期間の最良 {0}：{1} 理性/個（誤差 {2}）、この期間は未周回</system:String>
     <system:String x:Key="TaskQueue.DailyReport.Rank.Open.Tip">各ステージの 1 個あたり理性を比較</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Rank.ScopeFormat">この期間に周回したステージのみ · {0} 以降の全記録で算出</system:String>
     <system:String x:Key="TaskQueue.DailyReport.Rank.SummaryFormat">ステージ順位 {0}/{1} · 誤差 {2}</system:String>
     <system:String x:Key="TaskQueue.DailyReport.Rank.SummaryLowSampleFormat">ステージ順位 {0}/{1} · 誤差 {2} · サンプル少</system:String>
     <system:String x:Key="TaskQueue.DailyReport.Rank.Tip" xml:space="preserve">95% 信頼区間 {0} ~ {1} 理性/個&#10;ドロップ {2} · {3} 戦</system:String>

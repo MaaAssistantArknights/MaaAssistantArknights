@@ -1994,7 +1994,9 @@ MAA는 비설치형 응용 프로그램으로, 삭제 시 레지스트리 항목
     <system:String x:Key="TaskQueue.DailyReport.NoData">작전 기록이 없습니다</system:String>
     <system:String x:Key="TaskQueue.DailyReport.OpenButton">작전 일보</system:String>
     <system:String x:Key="TaskQueue.DailyReport.PickDate">날짜 선택</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Rank.HistoryBestFormat">전체 기간 최적 {0}: {1} 이성/개 (오차 {2}), 이 기간에는 미진행</system:String>
     <system:String x:Key="TaskQueue.DailyReport.Rank.Open.Tip">스테이지별 개당 이성 비교</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Rank.ScopeFormat">이 기간에 진행한 스테이지만 표시 · {0}부터의 전체 기록 기준</system:String>
     <system:String x:Key="TaskQueue.DailyReport.Rank.SummaryFormat">스테이지 순위 {0}/{1} · 오차 {2}</system:String>
     <system:String x:Key="TaskQueue.DailyReport.Rank.SummaryLowSampleFormat">스테이지 순위 {0}/{1} · 오차 {2} · 표본 적음</system:String>
     <system:String x:Key="TaskQueue.DailyReport.Rank.Tip" xml:space="preserve">95% 신뢰 구간 {0} ~ {1} 이성/개&#10;드롭 {2} · {3}회</system:String>

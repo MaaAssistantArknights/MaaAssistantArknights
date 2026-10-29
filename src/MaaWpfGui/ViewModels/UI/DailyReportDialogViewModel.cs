@@ -227,6 +227,7 @@ public class DailyReportDialogViewModel : PropertyChangedBase
         }
 
         ApplyRetention(value);
+        LoadHistory();
         RefreshAll();
     }
 
@@ -450,10 +451,11 @@ public class DailyReportDialogViewModel : PropertyChangedBase
     private bool _chartExpandedOnce;
 
     /// <summary>
-    /// 计算某种物品在当前时段各关卡的单件理智排名（可靠样本在前、按单件理智升序，样本不足的排到末尾）。
+    /// 计算某种物品的单件理智排名：数据取全部历史记录（时段内样本太少，排名误差大到没有参考意义），
+    /// 只列出当前时段刷过的关卡；可靠样本在前、按单件理智升序，样本不足的排到末尾。
     /// </summary>
     /// <param name="itemId">物品 id。</param>
-    /// <returns>排名行；没有任何关卡掉落该物品时为空。</returns>
+    /// <returns>排名行；没有任何列出的关卡在历史上掉落过该物品时为空。</returns>
     public List<DailyReportRankRowViewModel> BuildRanking(string itemId)
     {
         // 只对养成材料排名；龙门币、家具零件等通用产出几乎每关都掉，按理智比较没有意义
@@ -462,12 +464,9 @@ public class DailyReportDialogViewModel : PropertyChangedBase
             return [];
         }
 
-        var rows = _sessions
-            .Select(s => s.Session)
-            .GroupBy(s => s.Stage)
-            .Select(g => (Stage: g.Key, Count: g.Sum(s => s.Drops.GetValueOrDefault(itemId)), Times: g.Sum(s => s.Times), Sanity: g.Sum(s => s.Sanity)))
-            .Where(x => x.Count > 0 && x.Sanity > 0)
-            .Select(x => new DailyReportRankRowViewModel(x.Stage, x.Count, x.Times, x.Sanity))
+        var stages = _sessions.Select(s => s.Session.Stage).ToHashSet();
+        var rows = HistoryRows(itemId)
+            .Where(r => stages.Contains(r.Stage))
             .OrderByDescending(r => r.IsReliable)
             .ThenBy(r => r.SanityPerItem)
             .ToList();
@@ -482,6 +481,65 @@ public class DailyReportDialogViewModel : PropertyChangedBase
         }
 
         return rows;
+    }
+
+    // 全部历史记录按关卡累计的场次、理智与各物品掉落；窗口打开与裁剪记录后重读
+    private Dictionary<string, (int Times, int Sanity, Dictionary<string, int> Drops)> _history = [];
+
+    // 最早一条记录所在的游戏日，没有记录时为 null
+    private DateOnly? _historyStart;
+
+    /// <summary>
+    /// 读取全部历史记录并按关卡累计，供单件理智排名使用。
+    /// </summary>
+    public void LoadHistory()
+    {
+        var days = DailyReportStore.LoadRange(DateOnly.MinValue, DateOnly.MaxValue);
+        _historyStart = days.Count > 0 ? days.Min(d => d.Day) : null;
+        _history = [];
+        foreach (var session in days.SelectMany(d => d.Data.Sessions))
+        {
+            var (times, sanity, drops) = _history.GetValueOrDefault(session.Stage, (0, 0, []));
+            foreach (var (item, count) in session.Drops)
+            {
+                drops[item] = drops.GetValueOrDefault(item) + count;
+            }
+
+            _history[session.Stage] = (times + session.Times, sanity + session.Sanity, drops);
+        }
+    }
+
+    private IEnumerable<DailyReportRankRowViewModel> HistoryRows(string itemId) => _history
+        .Select(h => (Stage: h.Key, Count: h.Value.Drops.GetValueOrDefault(itemId), h.Value.Times, h.Value.Sanity))
+        .Where(x => x.Count > 0 && x.Sanity > 0)
+        .Select(x => new DailyReportRankRowViewModel(x.Stage, x.Count, x.Times, x.Sanity));
+
+    /// <summary>
+    /// Gets 排名卡片标题旁的口径说明：列出的关卡范围与数据来源。
+    /// </summary>
+    public string RankScopeText => _historyStart is { } start
+        ? LocalizationHelper.GetStringFormat("TaskQueue.DailyReport.Rank.ScopeFormat", start.ToString("yyyy-MM-dd", LocalizationHelper.CustomCultureInfo))
+        : string.Empty;
+
+    /// <summary>
+    /// Gets 历史最优关卡提示：历史上单件理智最低的可靠关卡不在列表里（当前时段没刷过）时给出，否则为空。
+    /// </summary>
+    public string RankHistoryBestText { get; private set; } = string.Empty;
+
+    /// <summary>
+    /// Gets a value indicating whether 显示历史最优关卡提示。
+    /// </summary>
+    public bool HasRankHistoryBest => RankHistoryBestText.Length > 0;
+
+    private string BuildHistoryBestText(string itemId, IReadOnlyList<DailyReportRankRowViewModel> rows)
+    {
+        var best = HistoryRows(itemId).Where(r => r.IsReliable).MinBy(r => r.SanityPerItem);
+        if (best is null || rows.Any(r => r.Stage == best.Stage))
+        {
+            return string.Empty;
+        }
+
+        return LocalizationHelper.GetStringFormat("TaskQueue.DailyReport.Rank.HistoryBestFormat", best.Stage, best.ValueText, best.ErrorText);
     }
 
     /// <summary>
@@ -859,7 +917,11 @@ public class DailyReportDialogViewModel : PropertyChangedBase
             row.IsHighlighted = row.Stage == _highlightStage;
         }
 
+        RankHistoryBestText = _selectedItemId is null ? string.Empty : BuildHistoryBestText(_selectedItemId, RankRows);
         NotifyOfPropertyChange(nameof(RankRows));
+        NotifyOfPropertyChange(nameof(RankHistoryBestText));
+        NotifyOfPropertyChange(nameof(HasRankHistoryBest));
+        NotifyOfPropertyChange(nameof(RankScopeText));
 
         if (_dimension == DimensionKind.Year)
         {
