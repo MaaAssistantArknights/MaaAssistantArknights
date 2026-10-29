@@ -32,6 +32,9 @@
     "RelaunchAnchor@RA@RA1-DoubleSpeed": {
         "templThreshold": 0.65
     },
+    "RelaunchAnchor@RA@RA1-Cost": {
+        "isAscii": true
+    },
     "RelaunchAnchor@RA@RA1-DeployOperatorDirection": {
         "text": ["로즈몬티스"],
         "roi": [50, 110, 120, 35]
@@ -123,6 +126,9 @@
     "RelaunchAnchor@RA@RA4-DoubleSpeed": {
         "templThreshold": 0.65
     },
+    "RelaunchAnchor@RA@RA4-Cost": {
+        "isAscii": true
+    },
     "RelaunchAnchor@RA@RA4-Mission": {
         "text": ["새로운", "구역"],
         "roi": [545, 281, 190, 32]
@@ -160,13 +166,15 @@
         "text": ["확인", "선택"]
     },
     "RelaunchAnchor@RA@RA15-Choose": {
-        "text": ["오퍼레이터", "모집"]
+        "text": ["오퍼레이터", "모집"],
+        "roi": [935, 128, 225, 42]
     },
     "RelaunchAnchor@RA@RA15-ChooseExamine": {
         "text": ["빠른", "편성"]
     },
     "RelaunchAnchor@RA@RA15-ExamineCXExistence": {
-        "text": ["프라마닉스", "프레리타"]
+        "text": ["프라마닉스", "프레리타"],
+        "roi": [843, 449, 220, 33]
     },
     "RelaunchAnchor@RA@RA15-ClearChosen": {
         "text": ["빠른", "편성"]
@@ -184,10 +192,35 @@
         "text": ["지원", "유닛"]
     },
     "RelaunchAnchor@RA@RA15-CX-Common": {
-        "text": ["프라마닉스더프레리타"]
+        "text": ["프라마닉스", "프레리타"]
+    },
+    "RelaunchAnchor@RA@RA15-CX1": {
+        "roi": [123, 577, 130, 30]
+    },
+    "RelaunchAnchor@RA@RA15-CX2": {
+        "roi": [262, 577, 130, 30]
+    },
+    "RelaunchAnchor@RA@RA15-CX3": {
+        "roi": [401, 577, 130, 30]
+    },
+    "RelaunchAnchor@RA@RA15-CX4": {
+        "roi": [540, 577, 130, 30]
+    },
+    "RelaunchAnchor@RA@RA15-CX5": {
+        "roi": [679, 577, 130, 30]
+    },
+    "RelaunchAnchor@RA@RA15-CX6": {
+        "roi": [818, 577, 130, 30]
+    },
+    "RelaunchAnchor@RA@RA15-CX7": {
+        "roi": [957, 577, 130, 30]
+    },
+    "RelaunchAnchor@RA@RA15-CX8": {
+        "roi": [1096, 577, 130, 30]
     },
     "RelaunchAnchor@RA@RA15-CX-ConfirmHelp": {
-        "text": ["지원유닛모집"]
+        "text": ["지원유닛", "모집"],
+        "roi": [740, 580, 200, 40]
     },
     "RelaunchAnchor@RA@RA15-ConfirmTeam": {
         "text": ["모집확인"]
@@ -196,16 +229,22 @@
         "text": ["확인"]
     },
     "RelaunchAnchor@RA@RA15-AlignMapCheck": {
-        "text": ["배치하여주십시오", "채집", "기지"]
+        "text": ["배치하여주십시오", "채집", "기지"],
+        "roi": [500, 54, 290, 38]
     },
     "RelaunchAnchor@RA@RA15-DoubleSpeed": {
         "templThreshold": 0.65
     },
+    "RelaunchAnchor@RA@RA15-Cost24": {
+        "isAscii": true
+    },
     "RelaunchAnchor@RA@RA15-Kill60": {
-        "text": ["처치"]
+        "text": ["처치"],
+        "roi": [545, 281, 190, 32]
     },
     "RelaunchAnchor@RA@RA15-Deliver": {
-        "text": ["처치"]
+        "text": ["처치"],
+        "roi": [80, 238, 150, 32]
     },
     "RelaunchAnchor@RA@RA15-End2": {
         "text": ["확인"]
