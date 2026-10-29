@@ -496,13 +496,15 @@ public class DailyReportDialogViewModel : PropertyChangedBase
             .ThenBy(r => r.SanityPerItem)
             .ToList();
 
-        // 横条长度为最划算关卡的单件理智与本关之比：最划算的满格，越费理智越短。
-        // 只取可靠样本里的最小值做基准，避免样本不足的偶然低值让其他横条整体变短
+        // 横条比例为最划算关卡的单件理智与本关之比，越费理智越短；满长取各行误差带上界的最大值，让误差带完整显示。
+        // 基准与满长只看可靠样本：样本不足的偶然低值或超宽误差带会让其他横条整体变短，这些行超出满长的部分截断
         var reliable = rows.Where(r => r.IsReliable).ToList();
-        var best = (reliable.Count > 0 ? reliable : rows).Select(r => r.SanityPerItem).DefaultIfEmpty(1).Min();
+        var basis = reliable.Count > 0 ? reliable : rows;
+        var best = basis.Select(r => r.SanityPerItem).DefaultIfEmpty(1).Min();
+        var scale = basis.Select(r => best / r.SanityPerItem * r.UpperBoundFactor).Where(double.IsFinite).DefaultIfEmpty(1).Max();
         foreach (var row in rows)
         {
-            row.BarRatio = Math.Min(1, best / row.SanityPerItem);
+            row.SetBarScale(best, Math.Max(1, scale));
         }
 
         return rows;
