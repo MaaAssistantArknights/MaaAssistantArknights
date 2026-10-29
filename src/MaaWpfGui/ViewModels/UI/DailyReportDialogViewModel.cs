@@ -71,6 +71,9 @@ public class DailyReportDialogViewModel : PropertyChangedBase
 
         /// <summary>自然年。</summary>
         Year,
+
+        /// <summary>全部记录（最早一条记录所在游戏日至今日）。</summary>
+        All,
     }
 
     private DimensionKind _dimension = DimensionKind.Day;
@@ -135,6 +138,26 @@ public class DailyReportDialogViewModel : PropertyChangedBase
         }
     }
 
+    /// <summary>
+    /// Gets or sets a value indicating whether 当前维度为全部记录。
+    /// </summary>
+    public bool IsAllDimension
+    {
+        get => _dimension == DimensionKind.All;
+        set
+        {
+            if (value)
+            {
+                SetDimension(DimensionKind.All);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Gets a value indicating whether 当前维度可以翻页与选取日期（全部记录维度没有可翻的时段）。
+    /// </summary>
+    public bool IsPageable => _dimension != DimensionKind.All;
+
     private void SetDimension(DimensionKind kind)
     {
         if (_dimension == kind)
@@ -147,6 +170,8 @@ public class DailyReportDialogViewModel : PropertyChangedBase
         NotifyOfPropertyChange(nameof(IsWeekDimension));
         NotifyOfPropertyChange(nameof(IsMonthDimension));
         NotifyOfPropertyChange(nameof(IsYearDimension));
+        NotifyOfPropertyChange(nameof(IsAllDimension));
+        NotifyOfPropertyChange(nameof(IsPageable));
         NotifyOfPropertyChange(nameof(CalendarPickMode));
         NotifyOfPropertyChange(nameof(IsYearView));
         RefreshAll();
@@ -800,54 +825,47 @@ public class DailyReportDialogViewModel : PropertyChangedBase
         var (from, to) = GetRange();
         var culture = LocalizationHelper.CustomCultureInfo;
 
-        // 日维度按小时分桶（游戏日从 4:00 起），周/月维度按天，年维度按月
+        // 日维度按小时分桶（游戏日从 4:00 起），周/月维度按天，年维度按月，全部记录维度按跨度自适应（见 BuildAllBuckets）
+        var allBuckets = _dimension == DimensionKind.All ? BuildAllBuckets(from, to) : null;
         var bucketCount = _dimension switch
         {
             DimensionKind.Day => 24,
             DimensionKind.Year => 12,
+            DimensionKind.All => allBuckets!.Count,
             _ => to.DayNumber - from.DayNumber + 1,
         };
+
+        int BucketOf(DateOnly day, CombatSession session) => _dimension switch
+        {
+            DimensionKind.Day => session.StartTime.ToYjDateTime().Hour,
+            DimensionKind.Year => day.Month - 1,
+            DimensionKind.All => allBuckets!.FindLastIndex(b => b.From <= day),
+            _ => day.DayNumber - from.DayNumber,
+        };
+
         var values = new long[bucketCount];
         var medicines = new long[bucketCount];
         var stones = new long[bucketCount];
         foreach (var (day, session) in _sessions)
         {
-            var bucket = _dimension switch
-            {
-                DimensionKind.Day => session.StartTime.ToYjDateTime().Hour,
-                DimensionKind.Year => day.Month - 1,
-                _ => day.DayNumber - from.DayNumber,
-            };
-            if (bucket >= 0 && bucket < bucketCount)
-            {
-                medicines[bucket] += session.MedicinesUsed + session.ExpiringMedicinesUsed;
-                stones[bucket] += session.StonesUsed;
-            }
-
-            var value = _selectedItemId is null
-                ? session.Sanity
-                : session.Drops.GetValueOrDefault(_selectedItemId);
-            if (value == 0)
+            var bucket = BucketOf(day, session);
+            if (bucket < 0 || bucket >= bucketCount)
             {
                 continue;
             }
 
-            var index = _dimension switch
-            {
-                DimensionKind.Day => session.StartTime.ToYjDateTime().Hour,
-                DimensionKind.Year => day.Month - 1,
-                _ => day.DayNumber - from.DayNumber,
-            };
-            if (index >= 0 && index < bucketCount)
-            {
-                values[index] += value;
-            }
+            medicines[bucket] += session.MedicinesUsed + session.ExpiringMedicinesUsed;
+            stones[bucket] += session.StonesUsed;
+            values[bucket] += _selectedItemId is null
+                ? session.Sanity
+                : session.Drops.GetValueOrDefault(_selectedItemId);
         }
 
         string BucketLabel(int i) => _dimension switch
         {
             DimensionKind.Day => $"{(i + 4) % 24:00}:00",
             DimensionKind.Year => new DateOnly(from.Year, i + 1, 1).ToString("MMM", culture),
+            DimensionKind.All => allBuckets![i].ToolTip,
             _ => from.AddDays(i).ToString("MM-dd ddd", culture),
         };
 
@@ -856,6 +874,7 @@ public class DailyReportDialogViewModel : PropertyChangedBase
         {
             DimensionKind.Day => $"{(i + 4) % 24}",
             DimensionKind.Week => from.AddDays(i).ToString("ddd", culture),
+            DimensionKind.All => allBuckets![i].Tick,
             _ => $"{i + 1}",
         };
 
@@ -869,6 +888,7 @@ public class DailyReportDialogViewModel : PropertyChangedBase
         {
             DimensionKind.Day => bucketCount,
             DimensionKind.Year => to < Today ? bucketCount : from.Year == Today.Year ? Today.Month : 0,
+            DimensionKind.All => bucketCount,
             _ => Math.Clamp(Today.DayNumber - from.DayNumber + 1, 0, bucketCount),
         };
         MedicineLine = showOverlay ? new DailyReportOverlayLine(medicines, axisMax, elapsed) : null;
@@ -896,7 +916,7 @@ public class DailyReportDialogViewModel : PropertyChangedBase
                 max == 0 ? 0 : (double)v / max,
                 BarToolTip(i),
                 TickLabel(i),
-                false,
+                allBuckets?[i].IsMajor ?? false,
                 v == 0 || showOverlay ? string.Empty : v.FormatNumber()))
             .ToList();
         ChartTitle = _selectedItemId is null
@@ -927,6 +947,58 @@ public class DailyReportDialogViewModel : PropertyChangedBase
         {
             RefreshHeatmap(from, to);
         }
+    }
+
+    // 全部记录维度的柱子上限：跨度不超过 30 个月按月分，不超过 30 个季度按季分，再长就把整个跨度均分为 30 段
+    private const int MaxAllBuckets = 30;
+
+    private record AllBucket(DateOnly From, string Tick, bool IsMajor, string ToolTip);
+
+    /// <summary>
+    /// 生成全部记录维度的分桶。刻度标月份或季度，每年第一个月或第一个季度改标年份并作为主刻度；
+    /// 均分时只在跨年的段标年份。
+    /// </summary>
+    private static List<AllBucket> BuildAllBuckets(DateOnly from, DateOnly to)
+    {
+        var culture = LocalizationHelper.CustomCultureInfo;
+        var buckets = new List<AllBucket>();
+        var months = ((to.Year - from.Year) * 12) + to.Month - from.Month + 1;
+        if (months <= MaxAllBuckets)
+        {
+            for (var m = new DateOnly(from.Year, from.Month, 1); m <= to; m = m.AddMonths(1))
+            {
+                var isMajor = m.Month == 1;
+                buckets.Add(new(m, isMajor ? $"{m.Year}" : $"{m.Month}", isMajor, m.ToString("yyyy-MM", culture)));
+            }
+
+            return buckets;
+        }
+
+        var firstQuarter = new DateOnly(from.Year, ((from.Month - 1) / 3 * 3) + 1, 1);
+        var quarters = ((((to.Year - firstQuarter.Year) * 12) + to.Month - firstQuarter.Month) / 3) + 1;
+        if (quarters <= MaxAllBuckets)
+        {
+            for (var q = firstQuarter; q <= to; q = q.AddMonths(3))
+            {
+                var quarter = ((q.Month - 1) / 3) + 1;
+                var isMajor = quarter == 1;
+                buckets.Add(new(q, isMajor ? $"{q.Year}" : $"Q{quarter}", isMajor, $"{q.Year} Q{quarter}"));
+            }
+
+            return buckets;
+        }
+
+        var days = to.DayNumber - from.DayNumber + 1;
+        for (var i = 0; i < MaxAllBuckets; i++)
+        {
+            var start = from.AddDays(days * i / MaxAllBuckets);
+            var end = from.AddDays((days * (i + 1) / MaxAllBuckets) - 1);
+            var crossesYear = i > 0 && start.Year != buckets[^1].From.Year;
+            var tip = start.ToString("yyyy-MM-dd", culture) + " ~ " + end.ToString("yyyy-MM-dd", culture);
+            buckets.Add(new(start, crossesYear ? $"{start.Year}" : string.Empty, crossesYear, tip));
+        }
+
+        return buckets;
     }
 
     /// <summary>
@@ -1037,6 +1109,9 @@ public class DailyReportDialogViewModel : PropertyChangedBase
             case DimensionKind.Year:
                 return (new DateOnly(_anchor.Year, 1, 1), new DateOnly(_anchor.Year, 12, 31));
 
+            case DimensionKind.All:
+                return (_historyStart ?? Today, Today);
+
             default:
                 return (_anchor, _anchor);
         }
@@ -1050,6 +1125,9 @@ public class DailyReportDialogViewModel : PropertyChangedBase
             DimensionKind.Week => from.ToString("MM-dd", culture) + " ~ " + to.ToString("MM-dd", culture),
             DimensionKind.Month => _anchor.ToString("yyyy-MM", culture),
             DimensionKind.Year => _anchor.ToString("yyyy", culture),
+            DimensionKind.All => _historyStart is null
+                ? LocalizationHelper.GetString("TaskQueue.DailyReport.NoData")
+                : from.ToString("yyyy-MM-dd", culture) + " ~ " + to.ToString("yyyy-MM-dd", culture),
             _ => _anchor.ToString("yyyy-MM-dd ddd", culture),
         };
     }

@@ -89,6 +89,10 @@
                         MinWidth="44"
                         Content="{DynamicResource TaskQueue.DailyReport.Dimension.Year}"
                         IsChecked="{Binding IsYearDimension}" />
+                    <RadioButton
+                        MinWidth="44"
+                        Content="{DynamicResource TaskQueue.DailyReport.Dimension.All}"
+                        IsChecked="{Binding IsAllDimension}" />
                 </hc:ButtonGroup>
                 <hc:ButtonGroup Margin="12,0,0,0">
                     <RadioButton
@@ -113,7 +117,10 @@
                     hc:IconElement.Width="11"
                     Command="{s:Action GoPrevious}"
                     Foreground="{DynamicResource PrimaryTextBrush}"
-                    Style="{StaticResource ButtonIcon}" />
+                    Style="{StaticResource ButtonIcon}"
+                    Visibility="{c:Binding IsPageable,
+                                           FalseToVisibility=Hidden}" />
+                <!--  全部记录维度没有可翻的时段：箭头 Hidden 保留占位使标签不移位，标签只显示起止日期、不能打开日历  -->
                 <ToggleButton
                     x:Name="PeriodToggle"
                     MinWidth="132"
@@ -123,6 +130,7 @@
                     Background="Transparent"
                     BorderThickness="0"
                     IsChecked="{Binding IsCalendarOpen}"
+                    IsHitTestVisible="{Binding IsPageable}"
                     Style="{StaticResource ToggleButtonDefault}"
                     ToolTip="{DynamicResource TaskQueue.DailyReport.PickDate}">
                     <StackPanel Orientation="Horizontal">
@@ -138,7 +146,8 @@
                             VerticalAlignment="Center"
                             Data="{StaticResource DownGeometry}"
                             Fill="{DynamicResource SecondaryTextBrush}"
-                            Stretch="Uniform" />
+                            Stretch="Uniform"
+                            Visibility="{c:Binding IsPageable}" />
                     </StackPanel>
                 </ToggleButton>
                 <Popup
@@ -335,7 +344,9 @@
                     Command="{s:Action GoNext}"
                     Foreground="{DynamicResource PrimaryTextBrush}"
                     IsEnabled="{Binding CanGoNext}"
-                    Style="{StaticResource ButtonIcon}" />
+                    Style="{StaticResource ButtonIcon}"
+                    Visibility="{c:Binding IsPageable,
+                                           FalseToVisibility=Hidden}" />
             </StackPanel>
         </Grid>
 
