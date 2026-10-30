@@ -2067,7 +2067,7 @@
         "action": "ClickSelf",
         "roi": [5, 21, 203, 258],
         "postDelay": 1500,
-        "next": ["SignInEventInPopup"],
+        "next": ["SpecialAccessActivitiesReturn", "SignInEventInPopup"],
         "onErrorNext": ["Stop"]
     },
     "SignInEventInPopup": {
