@@ -1,0 +1,1123 @@
+﻿<hc:Window
+    x:Class="MaaWpfGui.Views.Dialogs.DailyReportDialogView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:c="clr-namespace:CalcBinding;assembly=CalcBinding"
+    xmlns:controls="clr-namespace:MaaWpfGui.Styles.Controls"
+    xmlns:converters="clr-namespace:MaaWpfGui.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:hc="https://handyorg.github.io/handycontrol"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:s="https://github.com/canton7/Stylet"
+    xmlns:ui_vms="clr-namespace:MaaWpfGui.ViewModels.UI"
+    Title="{DynamicResource TaskQueue.DailyReport.Title}"
+    Width="760"
+    Height="560"
+    MinWidth="760"
+    MinHeight="560"
+    d:Background="White"
+    d:DataContext="{d:DesignInstance {x:Type ui_vms:DailyReportDialogViewModel}}"
+    s:View.ActionTarget="{Binding}"
+    Background="{DynamicResource RegionBrush}"
+    mc:Ignorable="d">
+    <hc:Window.Resources>
+        <!--  掉落格：图标、名称、数量自上而下，按关卡与按材料两种视图共用  -->
+        <DataTemplate x:Key="DropCellTemplate">
+            <StackPanel
+                Margin="2,0,2,2"
+                Background="Transparent"
+                ToolTip="{Binding ToolTip}">
+                <Image
+                    Width="40"
+                    Height="40"
+                    HorizontalAlignment="Center"
+                    Source="{Binding Image}" />
+                <!--
+                    名称最多两行：固定两行高度让同一行格子的数量对齐，完整名称在悬停提示；
+                    WrapWithOverflow 让宽于格子的单词整词截断加省略号，而不是从词中间折行
+                -->
+                <TextBlock
+                    Margin="0,2,0,0"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Top"
+                    FontSize="11"
+                    Foreground="{DynamicResource SecondaryTextBrush}"
+                    Text="{Binding Name}"
+                    TextAlignment="Center"
+                    TextWrapping="Wrap" />
+                <TextBlock
+                    HorizontalAlignment="Center"
+                    FontSize="12"
+                    FontWeight="Bold"
+                    Text="{Binding Count}" />
+            </StackPanel>
+        </DataTemplate>
+        <!--
+            固定格宽，默认窗口宽度下两种视图都排满 10 列（按关卡视图的列表项两侧另有边距，可用宽度约 716），加宽时按整格换行；
+            不把剩余宽度平分给各格：拖动窗口时格宽会在增大与回落之间反复跳动
+        -->
+        <ItemsPanelTemplate x:Key="DropGridPanel">
+            <WrapPanel ItemWidth="70" />
+        </ItemsPanelTemplate>
+    </hc:Window.Resources>
+    <Grid Margin="12">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!--  查看筛选（维度、视图、日期）集中在首行；数据保留属于存储设置，放在底部状态行  -->
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
+                <hc:ButtonGroup>
+                    <RadioButton
+                        MinWidth="44"
+                        Content="{DynamicResource TaskQueue.DailyReport.Dimension.Day}"
+                        IsChecked="{Binding IsDayDimension}" />
+                    <RadioButton
+                        MinWidth="44"
+                        Content="{DynamicResource TaskQueue.DailyReport.Dimension.Week}"
+                        IsChecked="{Binding IsWeekDimension}" />
+                    <RadioButton
+                        MinWidth="44"
+                        Content="{DynamicResource TaskQueue.DailyReport.Dimension.Month}"
+                        IsChecked="{Binding IsMonthDimension}" />
+                    <RadioButton
+                        MinWidth="44"
+                        Content="{DynamicResource TaskQueue.DailyReport.Dimension.Year}"
+                        IsChecked="{Binding IsYearDimension}" />
+                    <RadioButton
+                        MinWidth="44"
+                        Content="{DynamicResource TaskQueue.DailyReport.Dimension.All}"
+                        IsChecked="{Binding IsAllDimension}" />
+                </hc:ButtonGroup>
+                <hc:ButtonGroup Margin="12,0,0,0">
+                    <RadioButton
+                        MinWidth="60"
+                        Content="{DynamicResource TaskQueue.DailyReport.View.Stage}"
+                        IsChecked="{Binding IsStageView}" />
+                    <RadioButton
+                        MinWidth="60"
+                        Content="{DynamicResource TaskQueue.DailyReport.View.Material}"
+                        IsChecked="{Binding IsMaterialView}" />
+                </hc:ButtonGroup>
+            </StackPanel>
+            <StackPanel
+                Grid.Column="2"
+                VerticalAlignment="Center"
+                Orientation="Horizontal">
+                <Button
+                    Width="28"
+                    Height="28"
+                    hc:IconElement.Geometry="{StaticResource LeftGeometry}"
+                    hc:IconElement.Height="11"
+                    hc:IconElement.Width="11"
+                    Command="{s:Action GoPrevious}"
+                    Foreground="{DynamicResource PrimaryTextBrush}"
+                    Style="{StaticResource ButtonIcon}"
+                    Visibility="{c:Binding IsPageable,
+                                           FalseToVisibility=Hidden}" />
+                <!--  全部记录维度没有可翻的时段：箭头 Hidden 保留占位使标签不移位，标签只显示起止日期、不能打开日历  -->
+                <ToggleButton
+                    x:Name="PeriodToggle"
+                    MinWidth="132"
+                    Margin="4,0"
+                    Padding="8,2"
+                    HorizontalContentAlignment="Center"
+                    Background="Transparent"
+                    BorderThickness="0"
+                    IsChecked="{Binding IsCalendarOpen}"
+                    IsHitTestVisible="{Binding IsPageable}"
+                    Style="{StaticResource ToggleButtonDefault}"
+                    ToolTip="{DynamicResource TaskQueue.DailyReport.PickDate}">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock
+                            VerticalAlignment="Center"
+                            FontSize="14"
+                            FontWeight="Bold"
+                            Text="{Binding PeriodLabel}" />
+                        <Path
+                            Width="8"
+                            Height="8"
+                            Margin="6,2,0,0"
+                            VerticalAlignment="Center"
+                            Data="{StaticResource DownGeometry}"
+                            Fill="{DynamicResource SecondaryTextBrush}"
+                            Stretch="Uniform"
+                            Visibility="{c:Binding IsPageable}" />
+                    </StackPanel>
+                </ToggleButton>
+                <Popup
+                    AllowsTransparency="True"
+                    IsOpen="{Binding IsCalendarOpen}"
+                    Opened="OnCalendarPopupOpened"
+                    Placement="Bottom"
+                    PlacementTarget="{Binding ElementName=PeriodToggle}"
+                    PopupAnimation="Fade"
+                    StaysOpen="False">
+                    <Border
+                        Margin="8"
+                        s:View.ActionTarget="{Binding}"
+                        Background="{DynamicResource RegionBrush}"
+                        BorderBrush="{DynamicResource BorderBrush}"
+                        BorderThickness="1"
+                        CornerRadius="4"
+                        Effect="{DynamicResource EffectShadow2}">
+                        <StackPanel Margin="4">
+                            <!--
+                                日期格模板替换 HandyControl 默认样式：选中态由 VM 快照的查看时段决定（周维度整行连成一条色带），
+                                今日按游戏日判断（系统日期在 0:00 ~ 4:00 与游戏日不同，故关闭自带今日高亮），有记录日期在右上角标点
+                            -->
+                            <Calendar
+                                x:Name="PeriodCalendar"
+                                DisplayModeChanged="OnCalendarDisplayModeChanged"
+                                FirstDayOfWeek="Monday"
+                                IsTodayHighlighted="False"
+                                SelectedDatesChanged="OnCalendarSelectedDatesChanged">
+                                <Calendar.CalendarButtonStyle>
+                                    <Style BasedOn="{StaticResource CalendarButtonStyle}" TargetType="CalendarButton">
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="CalendarButton">
+                                                    <Grid Background="Transparent">
+                                                        <Border
+                                                            x:Name="SelectedBackground"
+                                                            Background="{DynamicResource PrimaryBrush}"
+                                                            CornerRadius="16"
+                                                            Visibility="Collapsed" />
+                                                        <ContentPresenter
+                                                            x:Name="NormalText"
+                                                            HorizontalAlignment="Center"
+                                                            VerticalAlignment="Center"
+                                                            TextElement.Foreground="{DynamicResource PrimaryTextBrush}" />
+                                                    </Grid>
+                                                    <ControlTemplate.Triggers>
+                                                        <Trigger Property="IsInactive" Value="True">
+                                                            <Setter TargetName="NormalText" Property="TextElement.Foreground" Value="{DynamicResource ThirdlyTextBrush}" />
+                                                        </Trigger>
+                                                        <Trigger Property="IsMouseOver" Value="True">
+                                                            <Setter TargetName="SelectedBackground" Property="Visibility" Value="Visible" />
+                                                            <Setter TargetName="SelectedBackground" Property="Opacity" Value="0.25" />
+                                                        </Trigger>
+                                                        <Trigger Property="HasSelectedDays" Value="True">
+                                                            <Setter TargetName="SelectedBackground" Property="Visibility" Value="Visible" />
+                                                            <Setter TargetName="SelectedBackground" Property="Opacity" Value="1" />
+                                                            <Setter TargetName="NormalText" Property="TextElement.Foreground" Value="{DynamicResource TextIconBrush}" />
+                                                        </Trigger>
+                                                    </ControlTemplate.Triggers>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </Calendar.CalendarButtonStyle>
+                                <Calendar.CalendarDayButtonStyle>
+                                    <!--
+                                        日期格横向填满所在列（HandyControl 默认固定宽 32，列宽约 34 时左右各留 1px，多日色带会断成一格一段）；
+                                        圆形元素（单日选中、悬停、今日圆环、记录角标、数字）放在居中的 32 宽区域内保持正圆
+                                    -->
+                                    <Style BasedOn="{StaticResource CalendarDayButtonStyle}" TargetType="CalendarDayButton">
+                                        <Setter Property="Width" Value="NaN" />
+                                        <Setter Property="HorizontalAlignment" Value="Stretch" />
+                                        <Setter Property="Margin" Value="0,1" />
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="CalendarDayButton">
+                                                    <Grid Background="Transparent">
+                                                        <Border
+                                                            x:Name="RangeBackground"
+                                                            Background="{DynamicResource PrimaryBrush}"
+                                                            Visibility="Collapsed">
+                                                            <Border.CornerRadius>
+                                                                <MultiBinding Converter="{x:Static converters:DailyReportCalendarDayConverter.Instance}" ConverterParameter="RangeCorner">
+                                                                    <Binding Path="DataContext" RelativeSource="{RelativeSource TemplatedParent}" />
+                                                                    <Binding Path="Tag" RelativeSource="{RelativeSource AncestorType=Calendar}" />
+                                                                </MultiBinding>
+                                                            </Border.CornerRadius>
+                                                        </Border>
+                                                        <Grid Width="32" HorizontalAlignment="Center">
+                                                            <Border
+                                                                x:Name="SingleBackground"
+                                                                Background="{DynamicResource PrimaryBrush}"
+                                                                CornerRadius="16"
+                                                                Visibility="Collapsed" />
+                                                            <Border
+                                                                x:Name="HoverBackground"
+                                                                Background="{DynamicResource PrimaryBrush}"
+                                                                CornerRadius="16"
+                                                                Opacity="0.25"
+                                                                Visibility="Collapsed" />
+                                                            <Ellipse
+                                                                x:Name="TodayRing"
+                                                                Margin="2"
+                                                                Stroke="{DynamicResource PrimaryBrush}"
+                                                                StrokeThickness="1.5">
+                                                                <Ellipse.Visibility>
+                                                                    <MultiBinding Converter="{x:Static converters:DailyReportCalendarDayConverter.Instance}" ConverterParameter="Today">
+                                                                        <Binding Path="DataContext" RelativeSource="{RelativeSource TemplatedParent}" />
+                                                                        <Binding Path="Tag" RelativeSource="{RelativeSource AncestorType=Calendar}" />
+                                                                    </MultiBinding>
+                                                                </Ellipse.Visibility>
+                                                            </Ellipse>
+                                                            <ContentPresenter
+                                                                x:Name="NormalText"
+                                                                HorizontalAlignment="Center"
+                                                                VerticalAlignment="Center"
+                                                                TextElement.Foreground="{DynamicResource PrimaryTextBrush}" />
+                                                            <Ellipse
+                                                                x:Name="RecordMark"
+                                                                Width="4"
+                                                                Height="4"
+                                                                Margin="0,1,1,0"
+                                                                HorizontalAlignment="Right"
+                                                                VerticalAlignment="Top"
+                                                                Fill="{DynamicResource PrimaryBrush}">
+                                                                <Ellipse.Visibility>
+                                                                    <MultiBinding Converter="{x:Static converters:DailyReportCalendarDayConverter.Instance}" ConverterParameter="Record">
+                                                                        <Binding Path="DataContext" RelativeSource="{RelativeSource TemplatedParent}" />
+                                                                        <Binding Path="Tag" RelativeSource="{RelativeSource AncestorType=Calendar}" />
+                                                                    </MultiBinding>
+                                                                </Ellipse.Visibility>
+                                                            </Ellipse>
+                                                        </Grid>
+                                                    </Grid>
+                                                    <ControlTemplate.Triggers>
+                                                        <Trigger Property="IsInactive" Value="True">
+                                                            <Setter TargetName="NormalText" Property="TextElement.Foreground" Value="{DynamicResource ThirdlyTextBrush}" />
+                                                        </Trigger>
+                                                        <Trigger Property="IsEnabled" Value="False">
+                                                            <Setter TargetName="NormalText" Property="Opacity" Value="0.35" />
+                                                            <Setter TargetName="RecordMark" Property="Opacity" Value="0.35" />
+                                                        </Trigger>
+                                                        <Trigger Property="IsMouseOver" Value="True">
+                                                            <Setter TargetName="HoverBackground" Property="Visibility" Value="Visible" />
+                                                        </Trigger>
+                                                        <DataTrigger Value="Single">
+                                                            <DataTrigger.Binding>
+                                                                <MultiBinding Converter="{x:Static converters:DailyReportCalendarDayConverter.Instance}" ConverterParameter="Range">
+                                                                    <Binding Path="DataContext" RelativeSource="{RelativeSource Self}" />
+                                                                    <Binding Path="Tag" RelativeSource="{RelativeSource AncestorType=Calendar}" />
+                                                                </MultiBinding>
+                                                            </DataTrigger.Binding>
+                                                            <Setter TargetName="SingleBackground" Property="Visibility" Value="Visible" />
+                                                            <Setter TargetName="HoverBackground" Property="Visibility" Value="Collapsed" />
+                                                            <Setter TargetName="NormalText" Property="TextElement.Foreground" Value="{DynamicResource TextIconBrush}" />
+                                                            <Setter TargetName="RecordMark" Property="Fill" Value="{DynamicResource TextIconBrush}" />
+                                                            <Setter TargetName="TodayRing" Property="Stroke" Value="{DynamicResource TextIconBrush}" />
+                                                        </DataTrigger>
+                                                        <DataTrigger Value="Band">
+                                                            <DataTrigger.Binding>
+                                                                <MultiBinding Converter="{x:Static converters:DailyReportCalendarDayConverter.Instance}" ConverterParameter="Range">
+                                                                    <Binding Path="DataContext" RelativeSource="{RelativeSource Self}" />
+                                                                    <Binding Path="Tag" RelativeSource="{RelativeSource AncestorType=Calendar}" />
+                                                                </MultiBinding>
+                                                            </DataTrigger.Binding>
+                                                            <Setter TargetName="RangeBackground" Property="Visibility" Value="Visible" />
+                                                            <Setter TargetName="HoverBackground" Property="Visibility" Value="Collapsed" />
+                                                            <Setter TargetName="NormalText" Property="TextElement.Foreground" Value="{DynamicResource TextIconBrush}" />
+                                                            <Setter TargetName="RecordMark" Property="Fill" Value="{DynamicResource TextIconBrush}" />
+                                                            <Setter TargetName="TodayRing" Property="Stroke" Value="{DynamicResource TextIconBrush}" />
+                                                        </DataTrigger>
+                                                    </ControlTemplate.Triggers>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </Calendar.CalendarDayButtonStyle>
+                            </Calendar>
+                            <Button
+                                Margin="0,4,0,0"
+                                HorizontalAlignment="Stretch"
+                                Command="{s:Action GoToday}"
+                                Content="{DynamicResource TaskQueue.DailyReport.Today}" />
+                        </StackPanel>
+                    </Border>
+                </Popup>
+                <Button
+                    Width="28"
+                    Height="28"
+                    hc:IconElement.Geometry="{StaticResource RightGeometry}"
+                    hc:IconElement.Height="11"
+                    hc:IconElement.Width="11"
+                    Command="{s:Action GoNext}"
+                    Foreground="{DynamicResource PrimaryTextBrush}"
+                    IsEnabled="{Binding CanGoNext}"
+                    Style="{StaticResource ButtonIcon}"
+                    Visibility="{c:Binding IsPageable,
+                                           FalseToVisibility=Hidden}" />
+            </StackPanel>
+        </Grid>
+
+        <!--  统计栏：每项一行内 ｢标签 数值｣，等分宽度，替代占空间的大卡片  -->
+        <Border
+            Grid.Row="1"
+            Margin="0,10,0,8"
+            Padding="12,6"
+            Background="{DynamicResource RegionBrushOpacity25}"
+            BorderBrush="{DynamicResource BorderBrush}"
+            BorderThickness="1"
+            CornerRadius="4">
+            <ItemsControl d:ItemsSource="{d:SampleData ItemCount=5}" ItemsSource="{Binding Stats}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <UniformGrid Rows="1" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel
+                            HorizontalAlignment="Center"
+                            Orientation="Horizontal"
+                            ToolTip="{Binding Label}">
+                            <controls:TextBlock
+                                VerticalAlignment="Center"
+                                FontSize="12"
+                                Foreground="{DynamicResource SecondaryTextBrush}"
+                                Text="{Binding Label}"
+                                TextTrimming="CharacterEllipsis" />
+                            <controls:TextBlock
+                                Margin="6,0,0,0"
+                                VerticalAlignment="Center"
+                                FontSize="14"
+                                FontWeight="Bold"
+                                Text="{Binding Value}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </Border>
+
+        <!--
+            图表卡片两种视图共用：标题行可折叠（状态写入配置）；年视图在热力图与柱状图间切换，
+            选中物品时在趋势与关卡排名间切换。固定高度，内容切换不改变列表区可用空间
+        -->
+        <Border
+            Grid.Row="2"
+            Margin="0,0,0,8"
+            Padding="10,6"
+            BorderBrush="{DynamicResource BorderBrush}"
+            BorderThickness="1"
+            CornerRadius="4">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <DockPanel>
+                    <!--  ButtonIcon 只绘制 IconElement.Geometry、忽略 Content，折叠态切换图标而非旋转内容  -->
+                    <Button
+                        Width="22"
+                        Height="22"
+                        Margin="-4,0,2,0"
+                        Padding="0"
+                        hc:IconElement.Height="9"
+                        hc:IconElement.Width="9"
+                        Command="{s:Action ToggleChartCollapsed}"
+                        DockPanel.Dock="Left"
+                        Foreground="{DynamicResource SecondaryTextBrush}"
+                        ToolTip="{DynamicResource TaskQueue.DailyReport.Chart.Collapse.Tip}">
+                        <Button.Style>
+                            <Style BasedOn="{StaticResource ButtonIcon}" TargetType="Button">
+                                <Setter Property="hc:IconElement.Geometry" Value="{StaticResource DownGeometry}" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsChartCollapsed}" Value="True">
+                                        <Setter Property="hc:IconElement.Geometry" Value="{StaticResource RightGeometry}" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+                    <StackPanel
+                        VerticalAlignment="Center"
+                        DockPanel.Dock="Right"
+                        Orientation="Horizontal">
+                        <!--  显隐条件放在外层：给 ButtonGroup 自身设 Style 会替换 HandyControl 的默认样式，按钮失去分段外观  -->
+                        <Border Margin="8,0,0,0">
+                            <Border.Style>
+                                <Style TargetType="Border">
+                                    <Setter Property="Visibility" Value="Collapsed" />
+                                    <Style.Triggers>
+                                        <MultiDataTrigger>
+                                            <MultiDataTrigger.Conditions>
+                                                <Condition Binding="{Binding IsYearView}" Value="True" />
+                                                <Condition Binding="{Binding IsRankMode}" Value="False" />
+                                            </MultiDataTrigger.Conditions>
+                                            <Setter Property="Visibility" Value="Visible" />
+                                        </MultiDataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Border.Style>
+                            <hc:ButtonGroup>
+                                <RadioButton
+                                    Padding="8,0"
+                                    Content="{DynamicResource TaskQueue.DailyReport.Chart.Heatmap}"
+                                    IsChecked="{Binding IsHeatmapMode}" />
+                                <RadioButton
+                                    Padding="8,0"
+                                    Content="{DynamicResource TaskQueue.DailyReport.Chart.Bars}"
+                                    IsChecked="{Binding IsBarMode}" />
+                            </hc:ButtonGroup>
+                        </Border>
+                        <!--
+                            显隐放外层 Border：给 ButtonGroup 自身设 Style 会替换 HandyControl 的默认样式，按钮失去分段外观。
+                            放在最后，年视图出现热力图切换时本组保持在最右侧不被推开；
+                            不可排名时用透明隐藏并保留占位，否则在可排名与不可排名物品间切换时图表卡片高度会跳变。
+                            不用 Hidden：ButtonGroup 按可见按钮数分配首末项圆角样式，且只在渲染时分配，
+                            首次渲染时按钮不可见会让末项拿到无圆角样式，之后变为可见也不会重新分配
+                        -->
+                        <Border Margin="8,0,0,0">
+                            <Border.Style>
+                                <Style TargetType="Border">
+                                    <Setter Property="Opacity" Value="0" />
+                                    <Setter Property="IsHitTestVisible" Value="False" />
+                                    <Setter Property="IsEnabled" Value="False" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding CanRank}" Value="True">
+                                            <Setter Property="Opacity" Value="1" />
+                                            <Setter Property="IsHitTestVisible" Value="True" />
+                                            <Setter Property="IsEnabled" Value="True" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Border.Style>
+                            <hc:ButtonGroup>
+                                <RadioButton Content="{DynamicResource TaskQueue.DailyReport.Chart.Trend}" IsChecked="{Binding IsTrendMode}" />
+                                <RadioButton Content="{DynamicResource TaskQueue.DailyReport.Chart.Rank}" IsChecked="{Binding IsRankMode}" />
+                            </hc:ButtonGroup>
+                        </Border>
+                    </StackPanel>
+                    <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
+                        <controls:TextBlock FontWeight="Bold" Text="{Binding ChartTitle}" />
+                        <controls:TextBlock
+                            Margin="12,0,0,0"
+                            VerticalAlignment="Center"
+                            FontSize="11"
+                            Foreground="{DynamicResource SecondaryTextBrush}"
+                            Text="{Binding RankScopeText}"
+                            TextTrimming="CharacterEllipsis"
+                            Visibility="{c:Binding IsRankMode}" />
+                        <!--  叠加折线的图例：只在叠加时显示，各自全为 0 时隐藏  -->
+                        <StackPanel
+                            Margin="12,0,0,0"
+                            Orientation="Horizontal"
+                            Visibility="{c:Binding ShowMedicineLegend}">
+                            <Rectangle
+                                Width="12"
+                                Height="2"
+                                VerticalAlignment="Center"
+                                Fill="{DynamicResource SuccessBrush}" />
+                            <controls:TextBlock
+                                Margin="4,0,0,0"
+                                FontSize="11"
+                                Foreground="{DynamicResource SecondaryTextBrush}"
+                                Text="{DynamicResource TaskQueue.DailyReport.Stat.Medicines}" />
+                        </StackPanel>
+                        <StackPanel
+                            Margin="10,0,0,0"
+                            Orientation="Horizontal"
+                            Visibility="{c:Binding ShowStoneLegend}">
+                            <Rectangle
+                                Width="12"
+                                Height="2"
+                                VerticalAlignment="Center"
+                                Fill="{DynamicResource WarningBrush}" />
+                            <controls:TextBlock
+                                Margin="4,0,0,0"
+                                FontSize="11"
+                                Foreground="{DynamicResource SecondaryTextBrush}"
+                                Text="{DynamicResource TaskQueue.DailyReport.Stat.Stones}" />
+                        </StackPanel>
+                    </StackPanel>
+                </DockPanel>
+
+                <Grid
+                    Grid.Row="1"
+                    Height="128"
+                    Margin="0,6,0,0"
+                    Visibility="{c:Binding !IsChartCollapsed}">
+                    <!--  趋势：柱状图（年视图选热力图、或排名模式时隐藏）  -->
+                    <Grid>
+                        <Grid.Style>
+                            <Style TargetType="Grid">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsRankMode}" Value="True">
+                                        <Setter Property="Visibility" Value="Collapsed" />
+                                    </DataTrigger>
+                                    <MultiDataTrigger>
+                                        <MultiDataTrigger.Conditions>
+                                            <Condition Binding="{Binding IsYearView}" Value="True" />
+                                            <Condition Binding="{Binding IsHeatmapMode}" Value="True" />
+                                        </MultiDataTrigger.Conditions>
+                                        <Setter Property="Visibility" Value="Collapsed" />
+                                    </MultiDataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Grid.Style>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <ItemsControl Grid.Row="0" ItemsSource="{Binding ChartBars}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <UniformGrid Rows="1" />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid
+                                        Margin="1,0"
+                                        Background="Transparent"
+                                        ToolTip="{Binding ToolTip}"
+                                        ToolTipService.InitialShowDelay="0">
+                                        <!--  首行固定留给柱顶数字，最高的柱子也不会把数字顶出图表  -->
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="14" />
+                                            <RowDefinition Height="{Binding EmptyHeight}" />
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="{Binding FilledHeight}" />
+                                        </Grid.RowDefinitions>
+                                        <TextBlock
+                                            x:Name="BarValue"
+                                            Grid.Row="2"
+                                            Margin="0,0,0,1"
+                                            HorizontalAlignment="Center"
+                                            FontSize="10"
+                                            FontWeight="Bold"
+                                            Foreground="{DynamicResource PrimaryBrush}"
+                                            Text="{Binding ValueText}">
+                                            <TextBlock.Visibility>
+                                                <MultiBinding Converter="{x:Static converters:FitsWidthToVisibilityConverter.Instance}">
+                                                    <Binding Path="ActualWidth" RelativeSource="{RelativeSource Self}" />
+                                                    <Binding Path="ActualWidth" RelativeSource="{RelativeSource AncestorType=Grid}" />
+                                                </MultiBinding>
+                                            </TextBlock.Visibility>
+                                        </TextBlock>
+                                        <Border
+                                            Grid.Row="3"
+                                            MinHeight="1"
+                                            Background="{DynamicResource PrimaryBrush}"
+                                            CornerRadius="2,2,0,0" />
+                                    </Grid>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                        <ItemsControl
+                            x:Name="TickRow"
+                            Grid.Row="1"
+                            Margin="0,4,0,0"
+                            ItemsSource="{Binding ChartBars}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <UniformGrid Rows="1" />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <!--
+                                        刻度文字可能宽于柱子：负外边距让文字以柱子中线为中心向两侧溢出，而不被单列宽度截断；
+                                        每根柱子都有刻度，放不下时按间隔稀疏
+                                    -->
+                                    <Grid Height="14" ClipToBounds="False">
+                                        <TextBlock
+                                            Margin="-20,0"
+                                            HorizontalAlignment="Center"
+                                            FontSize="11"
+                                            Foreground="{DynamicResource SecondaryTextBrush}"
+                                            Text="{Binding TickLabel}"
+                                            TextAlignment="Center">
+                                            <TextBlock.Visibility>
+                                                <MultiBinding Converter="{x:Static converters:ChartTickVisibilityConverter.Instance}">
+                                                    <Binding />
+                                                    <Binding ElementName="TickRow" Path="ItemsSource" />
+                                                    <Binding ElementName="TickRow" Path="ActualWidth" />
+                                                </MultiBinding>
+                                            </TextBlock.Visibility>
+                                        </TextBlock>
+                                    </Grid>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                        <!--
+                            折线叠加：几何坐标归一化到 0 ~ 1 后按区域拉伸，上方让出柱顶数字所占的一行；
+                            折线按右轴刻度绘制，与柱子的左侧量纲无关，点不与柱顶对齐
+                        -->
+                        <Grid Margin="0,14,0,0" IsHitTestVisible="False">
+                            <Path
+                                Data="{Binding MedicineLine.Geometry}"
+                                Stretch="Fill"
+                                Stroke="{DynamicResource SuccessBrush}"
+                                StrokeLineJoin="Round"
+                                StrokeThickness="2"
+                                Visibility="{c:Binding MedicineLine.IsVisible}" />
+                            <Path
+                                Data="{Binding StoneLine.Geometry}"
+                                Stretch="Fill"
+                                Stroke="{DynamicResource WarningBrush}"
+                                StrokeLineJoin="Round"
+                                StrokeThickness="2"
+                                Visibility="{c:Binding StoneLine.IsVisible}" />
+                        </Grid>
+                        <!--  右轴：只标上限与 0，两条线共用  -->
+                        <Grid
+                            Grid.Column="1"
+                            Margin="6,14,0,0"
+                            Visibility="{c:Binding HasOverlay}">
+                            <controls:TextBlock
+                                VerticalAlignment="Top"
+                                FontSize="10"
+                                Foreground="{DynamicResource SecondaryTextBrush}"
+                                Text="{Binding OverlayAxisMaxText}" />
+                            <controls:TextBlock
+                                VerticalAlignment="Bottom"
+                                FontSize="10"
+                                Foreground="{DynamicResource SecondaryTextBrush}"
+                                Text="0" />
+                        </Grid>
+                    </Grid>
+
+                    <!--  年视图热力图：每列一周、周一在上，格子悬停显示当天数值，点击跳到当天日视图  -->
+                    <Grid>
+                        <Grid.Style>
+                            <Style TargetType="Grid">
+                                <Setter Property="Visibility" Value="Collapsed" />
+                                <Style.Triggers>
+                                    <MultiDataTrigger>
+                                        <MultiDataTrigger.Conditions>
+                                            <Condition Binding="{Binding IsYearView}" Value="True" />
+                                            <Condition Binding="{Binding IsHeatmapMode}" Value="True" />
+                                            <Condition Binding="{Binding IsRankMode}" Value="False" />
+                                        </MultiDataTrigger.Conditions>
+                                        <Setter Property="Visibility" Value="Visible" />
+                                    </MultiDataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Grid.Style>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="16" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <!--  只用来量出格子区的可用尺寸：网格自身的尺寸由它推算，不能拿网格自己量  -->
+                        <Border x:Name="HeatArea" Grid.Row="1" />
+                        <!--
+                            格距取宽高两个方向能容纳的较小值，格子保持正方形且横竖间距一致；
+                            窗口加宽后高度先受限，网格不再拉满宽度而是居中，避免格子在横向被拉散
+                        -->
+                        <Grid
+                            Grid.RowSpan="2"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Top">
+                            <Grid.Width>
+                                <MultiBinding Converter="{x:Static converters:HeatGridSizeConverter.Instance}" ConverterParameter="Width">
+                                    <Binding ElementName="HeatArea" Path="ActualWidth" />
+                                    <Binding ElementName="HeatArea" Path="ActualHeight" />
+                                    <Binding Path="HeatColumns" />
+                                </MultiBinding>
+                            </Grid.Width>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="16" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <ItemsControl Margin="0,0,0,2" ItemsSource="{Binding HeatMonthLabels}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <Canvas Height="14" />
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemContainerStyle>
+                                    <Style TargetType="ContentPresenter">
+                                        <Setter Property="Canvas.Left">
+                                            <Setter.Value>
+                                                <MultiBinding Converter="{x:Static converters:HeatColumnOffsetConverter.Instance}">
+                                                    <Binding Path="Column" />
+                                                    <Binding Path="DataContext.HeatColumns" RelativeSource="{RelativeSource AncestorType=ItemsControl}" />
+                                                    <Binding ElementName="HeatGrid" Path="ActualWidth" />
+                                                </MultiBinding>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </ItemsControl.ItemContainerStyle>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock
+                                            FontSize="10"
+                                            Foreground="{DynamicResource SecondaryTextBrush}"
+                                            Text="{Binding Label}" />
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                            <ItemsControl
+                                x:Name="HeatGrid"
+                                Grid.Row="1"
+                                Cursor="Hand"
+                                ItemsSource="{Binding HeatCells}"
+                                PreviewMouseLeftButtonDown="{s:Action OnHeatCellClick}">
+                                <!--  Tag 存格子边长（格距减去格间空隙），供各格绑定  -->
+                                <ItemsControl.Tag>
+                                    <MultiBinding Converter="{x:Static converters:HeatGridSizeConverter.Instance}" ConverterParameter="Cell">
+                                        <Binding ElementName="HeatArea" Path="ActualWidth" />
+                                        <Binding ElementName="HeatArea" Path="ActualHeight" />
+                                        <Binding Path="HeatColumns" />
+                                    </MultiBinding>
+                                </ItemsControl.Tag>
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <UniformGrid
+                                            Columns="{Binding DataContext.HeatColumns, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                            FlowDirection="LeftToRight"
+                                            Rows="7" />
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <!--  背景与不透明度放在样式里：本地值优先级高于样式触发器，写在标签上会让无数据格的底色触发器失效  -->
+                                        <!--  外边距合计等于格间空隙，每格占满一个格距；行高随格子而定，竖向空隙也靠它撑出  -->
+                                        <Border
+                                            Width="{Binding Tag, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                            Height="{Binding Tag, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                            Margin="1,1,2,2"
+                                            CornerRadius="2"
+                                            ToolTip="{Binding ToolTip}"
+                                            ToolTipService.InitialShowDelay="0">
+                                            <Border.Style>
+                                                <Style TargetType="Border">
+                                                    <Setter Property="Background" Value="{DynamicResource PrimaryBrush}" />
+                                                    <Setter Property="Opacity" Value="{Binding Opacity}" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Level}" Value="0">
+                                                            <Setter Property="Background" Value="{DynamicResource RegionBrushOpacity25}" />
+                                                            <Setter Property="Opacity" Value="1" />
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding IsPlaceholder}" Value="True">
+                                                            <Setter Property="Visibility" Value="Hidden" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Border.Style>
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </Grid>
+                    </Grid>
+
+                    <!--  关卡排名：选中物品时可切换；样本不足（掉落过少或误差过大，见 DailyReportRankRowViewModel.IsReliable）的淡化并排到末尾，来源关卡高亮  -->
+                    <hc:ScrollViewer
+                        IsInertiaEnabled="True"
+                        VerticalScrollBarVisibility="Auto"
+                        Visibility="{c:Binding IsRankMode}">
+                        <StackPanel Margin="0,0,8,0">
+                            <ItemsControl ItemsSource="{Binding RankRows}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <!--  背景放在样式里：本地值优先级高于样式触发器，写在标签上会让高亮触发器失效  -->
+                                        <Border
+                                            Padding="4,2"
+                                            CornerRadius="4"
+                                            ToolTip="{Binding ToolTip}">
+                                            <Border.Style>
+                                                <Style TargetType="Border">
+                                                    <Setter Property="Background" Value="Transparent" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding IsReliable}" Value="False">
+                                                            <Setter Property="Opacity" Value="0.45" />
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding IsHighlighted}" Value="True">
+                                                            <Setter Property="Background" Value="{DynamicResource MouseOverRegionBrushOpacity75}" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Border.Style>
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="64" />
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="Auto" MinWidth="56" />
+                                                    <ColumnDefinition Width="Auto" MinWidth="60" />
+                                                </Grid.ColumnDefinitions>
+                                                <TextBlock
+                                                    VerticalAlignment="Center"
+                                                    FontWeight="Bold"
+                                                    Text="{Binding Stage}"
+                                                    TextTrimming="CharacterEllipsis" />
+                                                <Grid
+                                                    Grid.Column="1"
+                                                    Height="8"
+                                                    Margin="4,0,8,0"
+                                                    VerticalAlignment="Center">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="{Binding BarWidth}" />
+                                                        <ColumnDefinition Width="{Binding BandWidth}" />
+                                                        <ColumnDefinition Width="{Binding RestWidth}" />
+                                                    </Grid.ColumnDefinitions>
+                                                    <Border
+                                                        Grid.ColumnSpan="3"
+                                                        Background="{DynamicResource RegionBrushOpacity25}"
+                                                        CornerRadius="2" />
+                                                    <!--  半透明段为 95% 置信区间：实心画到区间对应的较短一端，半透明延伸到较长一端  -->
+                                                    <Border
+                                                        Grid.ColumnSpan="2"
+                                                        Background="{DynamicResource PrimaryBrush}"
+                                                        CornerRadius="2"
+                                                        Opacity="0.35" />
+                                                    <Border Background="{DynamicResource PrimaryBrush}" CornerRadius="2" />
+                                                </Grid>
+                                                <TextBlock
+                                                    Grid.Column="2"
+                                                    HorizontalAlignment="Right"
+                                                    VerticalAlignment="Center"
+                                                    FontWeight="Bold"
+                                                    Text="{Binding ValueText}" />
+                                                <TextBlock
+                                                    Grid.Column="3"
+                                                    Margin="6,0,0,0"
+                                                    HorizontalAlignment="Right"
+                                                    VerticalAlignment="Center"
+                                                    FontSize="11"
+                                                    Foreground="{DynamicResource SecondaryTextBrush}"
+                                                    Text="{Binding ErrorText}" />
+                                            </Grid>
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                            <!--  历史最优关卡本时段没刷过、未列入排名时的提示  -->
+                            <controls:TextBlock
+                                Margin="4,4,0,0"
+                                HorizontalAlignment="Left"
+                                FontSize="11"
+                                Foreground="{DynamicResource SecondaryTextBrush}"
+                                Text="{Binding RankHistoryBestText}"
+                                TextWrapping="Wrap"
+                                Visibility="{c:Binding HasRankHistoryBest}" />
+                        </StackPanel>
+                    </hc:ScrollViewer>
+                </Grid>
+            </Grid>
+        </Border>
+
+        <ListBox
+            x:Name="StageList"
+            Grid.Row="3"
+            Padding="0"
+            HorizontalContentAlignment="Stretch"
+            d:ItemsSource="{d:SampleData ItemCount=3}"
+            hc:ScrollViewer.IsInertiaEnabled="True"
+            Background="Transparent"
+            BorderThickness="0"
+            ItemContainerStyle="{StaticResource NoHighlightListBoxItemStyle}"
+            ItemsSource="{Binding Rows}"
+            PreviewMouseLeftButtonDown="OnDropPress"
+            PreviewMouseLeftButtonUp="OnDropClick"
+            ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+            Style="{DynamicResource NoSelectedHighlightListBoxStyle}"
+            VirtualizingPanel.ScrollUnit="Pixel"
+            Visibility="{c:Binding IsStageView}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Margin="0,8,10,4">
+                        <DockPanel>
+                            <TextBlock
+                                Margin="8,0,0,0"
+                                VerticalAlignment="Center"
+                                DockPanel.Dock="Right"
+                                Foreground="{DynamicResource SecondaryTextBrush}"
+                                Text="{Binding TimeText}" />
+                            <TextBlock
+                                VerticalAlignment="Center"
+                                FontSize="15"
+                                FontWeight="Bold"
+                                Text="{Binding Stage}"
+                                TextTrimming="CharacterEllipsis" />
+                        </DockPanel>
+                        <TextBlock
+                            Margin="0,2,0,6"
+                            Foreground="{DynamicResource SecondaryTextBrush}"
+                            Text="{Binding MetaText}"
+                            TextWrapping="Wrap" />
+                        <ItemsControl
+                            Cursor="Hand"
+                            ItemTemplate="{StaticResource DropCellTemplate}"
+                            ItemsPanel="{StaticResource DropGridPanel}"
+                            ItemsSource="{Binding Drops}" />
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+        <hc:ScrollViewer
+            Grid.Row="3"
+            HorizontalScrollBarVisibility="Disabled"
+            IsInertiaEnabled="True"
+            VerticalScrollBarVisibility="Auto"
+            Visibility="{c:Binding IsMaterialView}">
+            <ItemsControl
+                Margin="0,0,10,0"
+                VerticalAlignment="Top"
+                ItemsPanel="{StaticResource DropGridPanel}"
+                ItemsSource="{Binding Materials}"
+                PreviewMouseLeftButtonDown="{s:Action OnMaterialClick}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <!--  选中项（柱状图当前展示的物品）用高亮底标示  -->
+                        <Border CornerRadius="4" Cursor="Hand">
+                            <Border.Style>
+                                <Style TargetType="Border">
+                                    <Setter Property="Background" Value="Transparent" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsSelected}" Value="True">
+                                            <Setter Property="Background" Value="{DynamicResource MouseOverRegionBrushOpacity75}" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Border.Style>
+                            <ContentPresenter Margin="0,4,0,0" ContentTemplate="{StaticResource DropCellTemplate}" />
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </hc:ScrollViewer>
+
+        <controls:TextBlock
+            Grid.Row="3"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Foreground="{DynamicResource SecondaryTextBrush}"
+            Text="{DynamicResource TaskQueue.DailyReport.NoData}">
+            <controls:TextBlock.Style>
+                <Style TargetType="controls:TextBlock">
+                    <Setter Property="Visibility" Value="Collapsed" />
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Rows.Count}" Value="0">
+                            <Setter Property="Visibility" Value="Visible" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </controls:TextBlock.Style>
+        </controls:TextBlock>
+
+        <Border
+            Grid.Row="3"
+            Padding="5,0"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Bottom"
+            Background="{DynamicResource RegionBrushOpacity50}"
+            CornerRadius="4">
+            <StackPanel Orientation="Horizontal">
+                <ComboBox
+                    MinWidth="104"
+                    hc:TitleElement.Title="{DynamicResource TaskQueue.DailyReport.Retention}"
+                    hc:TitleElement.TitlePlacement="Left"
+                    DisplayMemberPath="Display"
+                    ItemsSource="{Binding RetentionOptions}"
+                    SelectedValue="{Binding SelectedRetention}"
+                    SelectedValuePath="Value" />
+                <controls:TooltipBlock TooltipText="{DynamicResource TaskQueue.DailyReport.Retention.Tip}" />
+            </StackPanel>
+        </Border>
+
+        <!--
+            掉率浮层：所有掉落格共用一个，点击时由代码设置目标与内容。
+            StaysOpen 恒 true，开合交给 PopupDismissController：失活自动关闭会在浮层内按下时先行收起浮层，摘要行的点击永远到不了
+        -->
+        <Popup
+            x:Name="DropRatePopup"
+            AllowsTransparency="True"
+            Placement="Bottom"
+            PopupAnimation="Fade"
+            StaysOpen="True">
+            <Border
+                Margin="8"
+                Padding="12,8"
+                Background="{DynamicResource RegionBrush}"
+                BorderBrush="{DynamicResource BorderBrush}"
+                BorderThickness="1"
+                CornerRadius="4"
+                Effect="{DynamicResource EffectShadow2}">
+                <StackPanel>
+                    <TextBlock
+                        Margin="0,0,0,6"
+                        FontWeight="Bold"
+                        Foreground="{DynamicResource PrimaryTextBrush}"
+                        Text="{Binding RateTitle}" />
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" MinWidth="48" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <TextBlock
+                            Margin="0,0,16,2"
+                            Foreground="{DynamicResource SecondaryTextBrush}"
+                            Text="{DynamicResource TaskQueue.DailyReport.Rate.PerBattle}" />
+                        <TextBlock
+                            Grid.Column="1"
+                            HorizontalAlignment="Right"
+                            FontWeight="Bold"
+                            Foreground="{DynamicResource PrimaryTextBrush}"
+                            Text="{Binding PerBattleText}" />
+                        <TextBlock
+                            Grid.Row="1"
+                            Margin="0,0,16,0"
+                            Foreground="{DynamicResource SecondaryTextBrush}"
+                            Text="{DynamicResource TaskQueue.DailyReport.Rate.SanityPerItem}" />
+                        <TextBlock
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            HorizontalAlignment="Right"
+                            FontWeight="Bold"
+                            Foreground="{DynamicResource PrimaryTextBrush}"
+                            Text="{Binding SanityPerItemText}" />
+                    </Grid>
+                    <!--  排名摘要：只有一个关卡掉落时为空不显示；点击跳到按材料视图的完整关卡排名  -->
+                    <Border
+                        Margin="-4,6,-4,-2"
+                        Padding="4,2"
+                        CornerRadius="4"
+                        Cursor="Hand"
+                        MouseLeftButtonUp="OnRankSummaryClick"
+                        ToolTip="{DynamicResource TaskQueue.DailyReport.Rank.Open.Tip}">
+                        <Border.Style>
+                            <Style TargetType="Border">
+                                <Setter Property="Background" Value="Transparent" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding RankText}" Value="">
+                                        <Setter Property="Visibility" Value="Collapsed" />
+                                    </DataTrigger>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="{DynamicResource MouseOverRegionBrushOpacity75}" />
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Border.Style>
+                        <DockPanel>
+                            <Path
+                                Width="7"
+                                Height="7"
+                                Margin="8,0,0,0"
+                                VerticalAlignment="Center"
+                                Data="{StaticResource RightGeometry}"
+                                DockPanel.Dock="Right"
+                                Fill="{DynamicResource PrimaryBrush}"
+                                Stretch="Uniform" />
+                            <TextBlock Foreground="{DynamicResource PrimaryBrush}" Text="{Binding RankText}" />
+                        </DockPanel>
+                    </Border>
+                </StackPanel>
+            </Border>
+        </Popup>
+    </Grid>
+</hc:Window>

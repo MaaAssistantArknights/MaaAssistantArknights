@@ -1974,6 +1974,54 @@ Are you sure you want to disable the update progress window?</system:String>
     <system:String x:Key="TaskQueue.CustomStageCode.Tip" xml:space="preserve">Support most main stage names + stage names from the original list (e.g. 4-10, AP-5, H10-1-Hard, etc.)
 At the end of the stage, enter ｢Normal/Hard｣ to switch difficulty: Chapters 10-14 use Standard/Adverse, Chapters 15+ use Normal/Raid
 Enter ｢SSReopen-XX｣ once to clear all normal stages with Auto-Deploy in SS rerun events</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Chart.Bars">Bars</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Chart.Collapse.Tip">Collapse or expand the chart</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Chart.Heatmap">Heatmap</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Chart.NoBattle">No battles</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Chart.OverlayTipFormat">Sanity Potions {0} · Originite Prime {1}</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Chart.Rank">Compare</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Chart.Trend">Trend</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Dimension.All">All</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Dimension.Day">Day</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Dimension.Month">Month</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Dimension.Week">Week</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Dimension.Year">Year</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Meta.DurationFormat">avg {0}/battle</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Meta.MedicinesFormat">{0} Sanity Potions</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Meta.MedicinesFormat.One">{0} Sanity Potion</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Meta.SanityFormat">{0} sanity</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Meta.SessionsFormat">{0} battles</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Meta.SessionsFormat.One">{0} battle</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Meta.StonesFormat">{0} Originite Prime</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.NoData">No combat records</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.OpenButton">Daily Report</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.PickDate">Pick a date</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Rank.HistoryBestFormat">Best overall: {0}, {1} sanity/item ({2}), not farmed in this period</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Rank.Open.Tip">Compare sanity per item across stages</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Rank.ScopeFormat">Stages farmed in this period · data from all records since {0}</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Rank.SummaryFormat">Rank {0}/{1} · {2}</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Rank.SummaryLowSampleFormat">Rank {0}/{1} · {2} · small sample</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Rank.Tip" xml:space="preserve">95% confidence: {0} ~ {1} sanity/item&#10;{2} drops in {3} battles</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Rate.PerBattle">Per battle</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Rate.SanityPerItem">Sanity per item</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Retention">Retention</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Retention.ConfirmPruneMessage" xml:space="preserve">Switching will delete combat records for {2} day(s) from {0} to {1}. This cannot be undone.&#10;Continue?</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Retention.Day">Last day</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Retention.Month">Last month</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Retention.Tip">Daily report files are kept per game day; expired files are removed automatically</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Retention.Unlimited">Unlimited</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Retention.Week">Last week</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Retention.Year">Last year</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Stat.DropKinds">Drop kinds</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Stat.Medicines">Sanity Potions</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Stat.Sanity">Sanity used</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Stat.Sessions">Battles</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Stat.Stones">Originite Prime</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.SummaryFormat">Today: {0} tasks · {1} battles · {2} sanity</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Title">Combat Daily Report</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Today">Today</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.View.Material">By item</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.View.Stage">By stage</system:String>
     <system:String x:Key="TaskQueue.DepotMaintain.AddPlan">Add</system:String>
     <system:String x:Key="TaskQueue.DepotMaintain.ClearPlans">Clear</system:String>
     <system:String x:Key="TaskQueue.DepotMaintain.ClearPlansConfirm">Are you sure you want to clear all plans?</system:String>

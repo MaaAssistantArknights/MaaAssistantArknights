@@ -1976,6 +1976,54 @@ MAA は非インストール型のアプリケーションであり、レジス�
     <system:String x:Key="TaskQueue.CustomStageCode">ステージ名を入力する</system:String>
     <system:String x:Key="TaskQueue.CustomStageCode.Tip" xml:space="preserve">(テスト機能)ステージ名と番号（例: 4-10、AP-5、H10-1-Hardなど）
 の両方がサポートされています。ステージの最後に ｢Normal/Hard｣ を入力すると難易度を切り替えできます（10〜14章は標準/厄難、15章以降は通常/険地）</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Chart.Bars">棒グラフ</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Chart.Collapse.Tip">グラフを折りたたむ/展開する</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Chart.Heatmap">ヒートマップ</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Chart.NoBattle">作戦なし</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Chart.OverlayTipFormat">理性剤 {0} · 源石 {1}</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Chart.Rank">ステージ比較</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Chart.Trend">推移</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Dimension.All">全期間</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Dimension.Day">日</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Dimension.Month">月</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Dimension.Week">週</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Dimension.Year">年</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Meta.DurationFormat">平均 {0}/回</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Meta.MedicinesFormat">理性剤 {0}</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Meta.MedicinesFormat.One">理性剤 {0}</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Meta.SanityFormat">理性 {0}</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Meta.SessionsFormat">{0} 回</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Meta.SessionsFormat.One">{0} 回</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Meta.StonesFormat">源石 {0}</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.NoData">戦闘記録はありません</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.OpenButton">戦闘日報</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.PickDate">日付を選択</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Rank.HistoryBestFormat">全期間の最良 {0}：{1} 理性/個（誤差 {2}）、この期間は未周回</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Rank.Open.Tip">各ステージの 1 個あたり理性を比較</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Rank.ScopeFormat">この期間に周回したステージのみ · {0} 以降の全記録で算出</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Rank.SummaryFormat">ステージ順位 {0}/{1} · 誤差 {2}</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Rank.SummaryLowSampleFormat">ステージ順位 {0}/{1} · 誤差 {2} · サンプル少</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Rank.Tip" xml:space="preserve">95% 信頼区間 {0} ~ {1} 理性/個&#10;{3} 戦で {2} 個ドロップ</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Rate.PerBattle">1 戦あたり</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Rate.SanityPerItem">1 個あたり理性</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Retention">保持期間</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Retention.ConfirmPruneMessage" xml:space="preserve">切り替えると {0} から {1} までの {2} 日分の作戦記録が削除されます。この操作は元に戻せません。&#10;続行しますか？</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Retention.Day">過去 1 日</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Retention.Month">過去 1 ヶ月</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Retention.Tip">日報データはゲーム日単位で保持され、期限を過ぎると自動削除されます</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Retention.Unlimited">無制限</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Retention.Week">過去 1 週間</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Retention.Year">過去 1 年</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Stat.DropKinds">ドロップ種類</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Stat.Medicines">理性剤</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Stat.Sanity">理性消費</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Stat.Sessions">回数</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Stat.Stones">源石</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.SummaryFormat">本日の戦闘 {0} タスク · {1} 回 · 理性 {2}</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Title">戦闘日報</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Today">今日</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.View.Material">素材別</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.View.Stage">ステージ別</system:String>
     <system:String x:Key="TaskQueue.DepotMaintain.AddPlan">追加</system:String>
     <system:String x:Key="TaskQueue.DepotMaintain.ClearPlans">クリア</system:String>
     <system:String x:Key="TaskQueue.DepotMaintain.ClearPlansConfirm">すべてのプランを削除しますか？</system:String>

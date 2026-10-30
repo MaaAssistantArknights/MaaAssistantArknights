@@ -1425,6 +1425,8 @@ public class AsstProxy
         {
             case AsstMsg.TaskChainStopped:
                 {
+                    // 手动停止、掉线、强制定时启动统一走到这里，把未定稿的作战日报 session 定稿
+                    DailyReportCollector.OnQueueStopped();
                     Instances.TaskQueueViewModel.SetStopped();
                 }
 

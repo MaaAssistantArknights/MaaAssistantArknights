@@ -1975,6 +1975,54 @@ DEBUG 目录下保存的图片有数量限制，超出后会自动清理旧图�
     <system:String x:Key="TaskQueue.CustomStageCode.Tip" xml:space="preserve">支持大部分主线关卡名与原列表的关卡名（如 4-10、AP-5、H10-1-Hard）
 可在关卡结尾输入 ｢Normal/Hard｣ 切换难度：10-14 章对应标准/磨难，15 章及以后对应常规/险地
 可输入 ｢SSReopen-XX｣ 一次性代理 SS 复刻的普通关</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Chart.Bars">柱状图</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Chart.Collapse.Tip">折叠或展开图表</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Chart.Heatmap">热力图</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Chart.NoBattle">未作战</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Chart.OverlayTipFormat">药剂 {0} · 源石 {1}</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Chart.Rank">关卡排名</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Chart.Trend">趋势</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Dimension.All">全部</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Dimension.Day">日</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Dimension.Month">月</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Dimension.Week">周</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Dimension.Year">年</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Meta.DurationFormat">平均 {0}/场</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Meta.MedicinesFormat">药剂 {0}</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Meta.MedicinesFormat.One">药剂 {0}</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Meta.SanityFormat">理智 {0}</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Meta.SessionsFormat">{0} 场</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Meta.SessionsFormat.One">{0} 场</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Meta.StonesFormat">源石 {0}</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.NoData">暂无作战记录</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.OpenButton">作战日报</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.PickDate">选择日期</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Rank.HistoryBestFormat">历史最优 {0}：{1} 理智/个（误差 {2}），本时段未刷</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Rank.Open.Tip">查看该材料在各关卡的单件理智排名</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Rank.ScopeFormat">仅列本时段刷过的关卡 · 数据取自 {0} 起的全部记录</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Rank.SummaryFormat">关卡排名 {0}/{1} · 误差 {2}</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Rank.SummaryLowSampleFormat">关卡排名 {0}/{1} · 误差 {2} · 样本少</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Rank.Tip" xml:space="preserve">95% 置信区间 {0} ~ {1} 理智/个&#10;{3} 场共掉落 {2} 个</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Rate.PerBattle">每场掉落</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Rate.SanityPerItem">单件理智</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Retention">保留时间</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Retention.ConfirmPruneMessage" xml:space="preserve">切换后将删除 {0} 至 {1} 共 {2} 天的作战记录，此操作无法撤销。&#10;是否继续？</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Retention.Day">近 1 日</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Retention.Month">近 1 月</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Retention.Tip">日报数据按游戏日保留，超期自动删除</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Retention.Unlimited">不限制</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Retention.Week">近 1 周</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Retention.Year">近 1 年</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Stat.DropKinds">掉落种类</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Stat.Medicines">药剂</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Stat.Sanity">理智消耗</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Stat.Sessions">场次</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Stat.Stones">源石</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.SummaryFormat">今日作战 {0} 个任务 · {1} 场 · 理智 {2}</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Title">作战日报</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Today">今天</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.View.Material">按材料</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.View.Stage">按关卡</system:String>
     <system:String x:Key="TaskQueue.DepotMaintain.AddPlan">添加</system:String>
     <system:String x:Key="TaskQueue.DepotMaintain.ClearPlans">清空</system:String>
     <system:String x:Key="TaskQueue.DepotMaintain.ClearPlansConfirm">确认要清空所有计划吗？</system:String>

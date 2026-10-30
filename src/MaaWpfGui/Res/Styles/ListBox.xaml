@@ -57,4 +57,16 @@
             </Trigger>
         </Style.Triggers>
     </Style>
+
+    <!--  无选中、无悬停高亮：列表项仅作展示、整行不可交互时使用  -->
+    <Style
+        x:Key="NoHighlightListBoxItemStyle"
+        BasedOn="{StaticResource NoSelectedHighlightListBoxItemStyle}"
+        TargetType="{x:Type ListBoxItem}">
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="{DynamicResource RegionBrushOpacity25}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
 </ResourceDictionary>

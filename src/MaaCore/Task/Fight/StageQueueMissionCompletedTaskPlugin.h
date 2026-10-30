@@ -19,8 +19,6 @@ public:
     using AbstractTaskPlugin::AbstractTaskPlugin;
     virtual ~StageQueueMissionCompletedTaskPlugin() override = default;
     virtual bool verify(AsstMsg msg, const json::value& details) const override;
-    void set_drop_stats(std::unordered_map<std::string, int> m_drop_stats);
-    std::unordered_map<std::string, int> get_drop_stats();
 
     bool set_enable_penguin(bool enable);
     bool set_penguin_id(std::string id);

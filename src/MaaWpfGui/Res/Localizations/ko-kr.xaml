@@ -1975,6 +1975,54 @@ MAA는 비설치형 응용 프로그램으로, 삭제 시 레지스트리 항목
     <system:String x:Key="TaskQueue.CustomStageCode.Tip" xml:space="preserve">대부분의 기본 스테이지 이름과 원래 스테이지 이름 목록 지원 (예: 4-10, AP-5, H10-1-Hard)
 스테이지 이름 끝에 ｢Normal/Hard｣ 를 입력해 난이도를 전환할 수 있습니다 (10-14장은 표준/재앙, 15장 이후는 일반/험지)
 ｢SSReopen-XX｣ 일회성 프록시 SS 포크의 일반 수준을 입력할 수 있습니다</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Chart.Bars">막대</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Chart.Collapse.Tip">차트 접기/펼치기</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Chart.Heatmap">히트맵</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Chart.NoBattle">작전 없음</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Chart.OverlayTipFormat">이성 회복제 {0} · 순오리지늄 {1}</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Chart.Rank">스테이지 순위</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Chart.Trend">추이</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Dimension.All">전체</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Dimension.Day">일</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Dimension.Month">월</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Dimension.Week">주</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Dimension.Year">년</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Meta.DurationFormat">평균 {0}/전투</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Meta.MedicinesFormat">이성 회복제 {0}</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Meta.MedicinesFormat.One">이성 회복제 {0}</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Meta.SanityFormat">이성 {0}</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Meta.SessionsFormat">{0}회</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Meta.SessionsFormat.One">{0}회</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Meta.StonesFormat">순오리지늄 {0}</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.NoData">작전 기록이 없습니다</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.OpenButton">작전 일보</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.PickDate">날짜 선택</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Rank.HistoryBestFormat">전체 기간 최적 {0}: {1} 이성/개 (오차 {2}), 이 기간에는 미진행</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Rank.Open.Tip">스테이지별 개당 이성 비교</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Rank.ScopeFormat">이 기간에 진행한 스테이지만 표시 · {0}부터의 전체 기록 기준</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Rank.SummaryFormat">스테이지 순위 {0}/{1} · 오차 {2}</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Rank.SummaryLowSampleFormat">스테이지 순위 {0}/{1} · 오차 {2} · 표본 적음</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Rank.Tip" xml:space="preserve">95% 신뢰 구간 {0} ~ {1} 이성/개&#10;{3}회 동안 {2}개 드롭</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Rate.PerBattle">전투당 드롭</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Rate.SanityPerItem">개당 이성</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Retention">보관 기간</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Retention.ConfirmPruneMessage" xml:space="preserve">전환하면 {0}부터 {1}까지 {2}일간의 작전 기록이 삭제되며, 되돌릴 수 없습니다.&#10;계속하시겠습니까?</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Retention.Day">최근 1일</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Retention.Month">최근 1개월</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Retention.Tip">일보 데이터는 게임 일 단위로 보관되며, 기한이 지나면 자동으로 삭제됩니다</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Retention.Unlimited">제한 없음</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Retention.Week">최근 1주</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Retention.Year">최근 1년</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Stat.DropKinds">드롭 종류</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Stat.Medicines">이성 회복제</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Stat.Sanity">이성 소모</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Stat.Sessions">횟수</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Stat.Stones">순오리지늄</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.SummaryFormat">오늘 작전 {0}개 · {1}회 · 이성 {2}</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Title">작전 일보</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Today">오늘</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.View.Material">재료별</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.View.Stage">스테이지별</system:String>
     <system:String x:Key="TaskQueue.DepotMaintain.AddPlan">추가</system:String>
     <system:String x:Key="TaskQueue.DepotMaintain.ClearPlans">전체 삭제</system:String>
     <system:String x:Key="TaskQueue.DepotMaintain.ClearPlansConfirm">모든 계획을 삭제하시겠습니까?</system:String>

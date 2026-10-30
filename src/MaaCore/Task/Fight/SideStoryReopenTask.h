@@ -38,7 +38,6 @@ private:
     int m_cur_medicine;               // 已使用的理智药数量，不计算临期药品。在每次任务开始前，通过clear()清空
     int m_cur_stone;                  // 已碎石数量。在每次任务开始前，通过clear()清空
     bool m_sanity_not_enough = false; // 理智不够，需要吃药 / 碎石
-    std::unordered_map<std::string, int> m_drop_stats;
     bool m_enable_penguin = false;    // 企鹅物流上报用
     std::string m_penguin_id;
     std::string m_server = "CN";
