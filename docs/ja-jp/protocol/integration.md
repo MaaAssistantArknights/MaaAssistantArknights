@@ -203,14 +203,14 @@ v6.8.0 で非推奨になりました。代わりに `medicine_expire_days` を�
 <br>
 `1～10` は指定した連戦回数です。
 <br>
-::: info サーバー差異
+::: info サーバー差異  
 入力検証はリソースに `FightSeries-OldMethodFlag` が存在するかどうかで決まります：
 <br>
 
 - 新リスト（中国版 2026/8/1 以降の主リソース、当該 flag なし）：`-1～10` を受け付け
 - 旧リスト（海外リソースに当該 flag あり）：`-1～6` のみ受け付け、それより大きい値は拒否
 
-海外サーバーは約半年後に追従予定で、その際に上限はリソースに合わせて 10 になります。Windows GUI の連戦回数ドロップダウンは現在固定で 10 まで表示されます。海外で手動で 7～10 を選ぶと、タスク投入時に Core に拒否されます。
+海外サーバーは約半年後に追従予定で、その際に上限はリソースに合わせて 10 になります。Windows GUI の連戦回数ドロップダウンは現在固定で 10 まで表示されます。海外で手動で 7～10 を選ぶと、タスク投入時に Core に拒否されます。  
 :::  
 ::: field drops  
 @type object
@@ -321,12 +321,12 @@ v6.8.0 で非推奨になりました。代わりに `medicine_expire_days` を�
 @required
 確認するタグレベル。計算のみの場合は、空配列に設定できます。  
 :::  
-::: field level3_recruitment_permit_reserve
+::: field level3_recruitment_permit_reserve  
 @type number
 @default 0
 @optional
-星3の自動確認時に残しておく求人票の枚数です。現在の求人票数がこの値以下の場合は星3募集をスキップします。星4以上の募集には影響しません。`0` に設定すると無効になります。有効時に枚数の認識に失敗した場合も、求人票を誤って消費しないよう現在の星3募集をスキップします。
-:::
+星3の自動確認時に残しておく求人票の枚数です。現在の求人票数がこの値以下の場合は星3募集をスキップします。星4以上の募集には影響しません。`0` に設定すると無効になります。有効時に枚数の認識に失敗した場合も、求人票を誤って消費しないよう現在の星3募集をスキップします。  
+:::  
 ::: field first_tags  
 @type array<string>
 @optional
@@ -376,7 +376,7 @@ v6.8.0 で非推奨になりました。代わりに `medicine_expire_days` を�
 非推奨です。旧パラメータ互換のためにのみ残されています。  
 <br>
 `preserve_tags` が指定されておらず、この値が `true` の場合は `支援机械` を認識したときのみスキップします。`元素` は旧来の 1★ タグとしては扱われません。  
-:::
+:::  
 ::: field preserve_tags  
 @type array<string>
 @optional
@@ -865,7 +865,7 @@ OF-1 実行時に使用する編成スロットのインデックス。
 <br>
 `30001` - 襁褓動物の入手。BlackFlow テーマ専用。
 <br>
-`30003` - 初期報酬稼ぎ。まず準備用の探索を行い、その後に目標の探索を開始します。準備用の探索は `blackflow_start_animals` で指定した襁褓動物を入手して第 3 層に入った後に放棄します。目標の探索では支援選択画面に `blackflow_start_rewards` のいずれかが出れば選択せずにテーマ画面へ退出し、その探索を保持したままタスクを終了します。準備用の探索は `collectible_mode_squad` を使用し、`difficulty` が `-1` でない場合は難易度 0 で行います。目標の探索は `squad` と `difficulty` を使用し、支援選択画面で終了します。`roles` と最初のオペレーターは準備用の探索に使用され、`collectible_mode_roles` と `collectible_mode_core_char_list` を指定した場合は準備用の探索でそちらを使用します。`blackflow_start_utopia` が有効な場合、目標の探索は報酬を選んで第 1 層に入ります。該当項目を参照してください。BlackFlow テーマ専用で、`blackflow_start_animals` と `blackflow_start_rewards` との併用が必要です。（機械翻訳）
+`30003` - 初期報酬稼ぎ。まず準備用の探索を行い、その後に目標の探索を開始します。準備用の探索は `blackflow_start_animals` で指定した襁褓動物を入手して第 3 層に入った後に放棄します。目標の探索では支援選択画面に `blackflow_start_rewards` のいずれかが出れば選択せずにテーマ画面へ退出し、その探索を保持したままタスクを終了します。準備用の探索は `collectible_mode_squad` を使用し、`difficulty` が `-1` でない場合は難易度 0 で行います。目標の探索は `squad` と `difficulty` を使用し、支援選択画面で終了します。`roles` と最初のオペレーターは準備用の探索に使用され、`collectible_mode_roles` と `collectible_mode_core_char_list` を指定した場合は準備用の探索でそちらを使用します。`blackflow_start_utopia` が有効な場合、目標の探索は報酬を選んで第 1 層に入ります。該当項目を参照してください。BlackFlow テーマ専用で、`blackflow_start_animals` と `blackflow_start_rewards` との併用が必要です。（機械翻訳）  
 :::  
 ::: field squad  
 @type string
@@ -1003,7 +1003,7 @@ OF-1 実行時に使用する編成スロットのインデックス。
 <br>
 `ideas`: 2 つの構想報酬。Sarkaz テーマのみに有効。
 <br>
-`ticket`: 遊覧券報酬。JieGarden テーマのみに有効。
+`ticket`: 遊覧券報酬。JieGarden テーマのみに有効。  
 :::  
 ::: field use_foldartal  
 @type boolean
@@ -1477,7 +1477,7 @@ Sarkaz テーマ、Investment モード、 ｢破棘成金分隊｣ または �
 <br>
 `32` (`RA15`) - RA-15、シヴィライト・エテルナで60撃破ミッションを達成。
 <br>
-`48` (`RA4`) - RA-4、 ｢計画経営｣ で得た赤金を使ってエリアを解放し、ヴィシャデルでボス討伐を完了する。
+`48` (`RA4`) - RA-4、 ｢計画経営｣ で得た赤金を使ってエリアを解放し、ヴィシャデルでボス討伐を完了する。  
 :::  
 ::: field tools_to_craft  
 @type array<string>

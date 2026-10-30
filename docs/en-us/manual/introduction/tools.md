@@ -43,10 +43,10 @@ More useful features may be added in the future. (Teaser)
 
 ## Gacha
 
-::: center
-**It really uses your account to pull operators&emsp;&emsp;It really uses your account to pull operators&emsp;&emsp;It really uses your account to pull operators**&emsp;&emsp;
-**It really uses your account to pull operators&emsp;&emsp;It really uses your account to pull operators&emsp;&emsp;It really uses your account to pull operators**&emsp;&emsp;
-**It really uses your account to pull operators&emsp;&emsp;It really uses your account to pull operators&emsp;&emsp;It really uses your account to pull operators**&emsp;&emsp;
+::: center  
+**It really uses your account to pull operators&emsp;&emsp;It really uses your account to pull operators&emsp;&emsp;It really uses your account to pull operators**&emsp;&emsp;  
+**It really uses your account to pull operators&emsp;&emsp;It really uses your account to pull operators&emsp;&emsp;It really uses your account to pull operators**&emsp;&emsp;  
+**It really uses your account to pull operators&emsp;&emsp;It really uses your account to pull operators&emsp;&emsp;It really uses your account to pull operators**&emsp;&emsp;  
 :::
 
 Couldn't join the MAA Gacha Party livestreams? No problem! Now you can have your own personal gacha assistant! Screenshots will be taken during the pulling process and displayed in the center of the interface!

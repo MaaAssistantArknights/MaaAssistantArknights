@@ -131,8 +131,8 @@ cargo install --git https://github.com/MaaAssistantArknights/maa-cli.git --bin m
 
 :::
 
-::: warning
-The Minimum Supported Rust Version (MSRV) for maa-cli is currently 1.88. Please note that the MSRV may change at any time, and we recommend always using the latest Rust toolchain for the best experience.
+::: warning  
+The Minimum Supported Rust Version (MSRV) for maa-cli is currently 1.88. Please note that the MSRV may change at any time, and we recommend always using the latest Rust toolchain for the best experience.  
 :::
 
 ### Build Options
@@ -191,6 +191,6 @@ maa-cli on Nix has a hard dependency on MaaCore, so Nix users do not need to, an
 
 :::
 
-::: warning
-`maa install` downloads the officially pre-compiled MaaCore. MaaCore installed via package managers may use different compile options and dependency versions, which might lead to slight differences in performance and functionality.
+::: warning  
+`maa install` downloads the officially pre-compiled MaaCore. MaaCore installed via package managers may use different compile options and dependency versions, which might lead to slight differences in performance and functionality.  
 :::

@@ -203,14 +203,14 @@ B服：`张三`，可输入 `张三`、`张`、`三`
 <br>
 `1~10` 为指定代理倍率。
 <br>
-::: info 服务器差异
+::: info 服务器差异  
 输入校验取决于资源是否存在 `FightSeries-OldMethodFlag`：
 <br>
 
 - 新列表（国服 2026/8/1 后主资源，无该 flag）：接受 `-1~10`
 - 旧列表（外服资源带该 flag）：仅接受 `-1~6`，更大值会被拒绝
 
-外服预计约半年后跟进，届时上限随资源变为 10。Windows GUI 的代理倍率下拉目前固定提供到 10；外服若手动选择 7~10，任务下发时会被 Core 拒绝。
+外服预计约半年后跟进，届时上限随资源变为 10。Windows GUI 的代理倍率下拉目前固定提供到 10；外服若手动选择 7~10，任务下发时会被 Core 拒绝。  
 :::  
 ::: field drops  
 @type object
@@ -321,12 +321,12 @@ B服：`张三`，可输入 `张三`、`张`、`三`
 @required
 会去点击确认的 Tag 等级。若仅公招计算，可设置为空数组。  
 :::  
-::: field level3_recruitment_permit_reserve
+::: field level3_recruitment_permit_reserve  
 @type number
 @default 0
 @optional
-自动确认 3 星时保留的招聘许可数量。当前许可数量小于等于该值时跳过 3 星招募，4 星及以上不受影响；设为 `0` 时禁用。若启用后数量识别失败，也会跳过当前 3 星招募以避免误消耗。
-:::
+自动确认 3 星时保留的招聘许可数量。当前许可数量小于等于该值时跳过 3 星招募，4 星及以上不受影响；设为 `0` 时禁用。若启用后数量识别失败，也会跳过当前 3 星招募以避免误消耗。  
+:::  
 ::: field first_tags  
 @type array<string>
 @optional
@@ -376,7 +376,7 @@ B服：`张三`，可输入 `张三`、`张`、`三`
 已废弃，仅用于兼容旧参数。  
 <br>
 当未提供 `preserve_tags` 且该值为 `true` 时，会在识别到 `支援机械` 时跳过；`元素` 不再视为旧版 1 星词条。  
-:::
+:::  
 ::: field preserve_tags  
 @type array<string>
 @optional
@@ -865,7 +865,7 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 <br>
 `30001` - 刷襁褓动物；仅适用于 BlackFlow 主题。
 <br>
-`30003` - 刷开局，先打准备局，再开目标局。准备局取得 `blackflow_start_animals` 要求的襁褓动物并进入第三层后放弃；目标局在选择支援页命中 `blackflow_start_rewards` 中任意一项时不做选择，退出到主题页并保留该局，任务结束。准备局使用 `collectible_mode_squad`，`difficulty` 不为 `-1` 时在 0 难度下进行；目标局使用 `squad` 与 `difficulty`，到选择支援页即结束；`roles` 与开局干员用于准备局，提供 `collectible_mode_roles`、`collectible_mode_core_char_list` 时准备局改用这两项。开启 `blackflow_start_utopia` 时目标局选取奖励后进入第一层，见该字段。仅适用于 BlackFlow 主题，需配合 `blackflow_start_animals` 与 `blackflow_start_rewards`。
+`30003` - 刷开局，先打准备局，再开目标局。准备局取得 `blackflow_start_animals` 要求的襁褓动物并进入第三层后放弃；目标局在选择支援页命中 `blackflow_start_rewards` 中任意一项时不做选择，退出到主题页并保留该局，任务结束。准备局使用 `collectible_mode_squad`，`difficulty` 不为 `-1` 时在 0 难度下进行；目标局使用 `squad` 与 `difficulty`，到选择支援页即结束；`roles` 与开局干员用于准备局，提供 `collectible_mode_roles`、`collectible_mode_core_char_list` 时准备局改用这两项。开启 `blackflow_start_utopia` 时目标局选取奖励后进入第一层，见该字段。仅适用于 BlackFlow 主题，需配合 `blackflow_start_animals` 与 `blackflow_start_rewards`。  
 :::  
 ::: field squad  
 @type string
@@ -1003,7 +1003,7 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 <br>
 `ideas`: 2 构想奖励，仅在 Sarkaz 主题时有效。
 <br>
-`ticket`: 票券奖励，仅在 JieGarden 主题时有效。
+`ticket`: 票券奖励，仅在 JieGarden 主题时有效。  
 :::  
 ::: field use_foldartal  
 @type boolean
@@ -1477,7 +1477,7 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 <br>
 `32` (`RA15`) - RA-15，用圣聆初雪完成 60 杀任务。
 <br>
-`48` (`RA4`) - RA-4，使用筹划经营策略给予的赤金解锁区域，使用维什戴尔完成击杀 boss 任务。
+`48` (`RA4`) - RA-4，使用筹划经营策略给予的赤金解锁区域，使用维什戴尔完成击杀 boss 任务。  
 :::  
 ::: field tools_to_craft  
 @type array<string>

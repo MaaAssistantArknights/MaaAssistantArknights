@@ -55,7 +55,7 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
 @type boolean
 @default true
 @optional
-본 작업 활성화 여부
+본 작업 활성화 여부  
 :::  
 ::: field client_type  
 @type string
@@ -204,14 +204,14 @@ v6.8.0부터 폐기됨. 대신 `medicine_expire_days`를 사용하세요.
 <br>
 `1~10`: 지정된 연속 전투 횟수
 <br>
-::: info 서버 차이
+::: info 서버 차이  
 입력 검증은 리소스에 `FightSeries-OldMethodFlag`가 있는지에 따라 달라집니다:
 <br>
 
 - 새 목록(중국 서버 2026/8/1 이후 주 리소스, 해당 flag 없음): `-1~10` 허용
 - 이전 목록(해외 리소스에 해당 flag 있음): `-1~6`만 허용, 더 큰 값은 거부
 
-해외 서버는 약 반년 후 따를 예정이며, 그때 상한은 리소스에 맞춰 10이 됩니다. Windows GUI의 연속 전투 드롭다운은 현재 고정으로 10까지 제공합니다. 해외에서 수동으로 7~10을 선택하면 작업 전달 시 Core에서 거부됩니다.
+해외 서버는 약 반년 후 따를 예정이며, 그때 상한은 리소스에 맞춰 10이 됩니다. Windows GUI의 연속 전투 드롭다운은 현재 고정으로 10까지 제공합니다. 해외에서 수동으로 7~10을 선택하면 작업 전달 시 Core에서 거부됩니다.  
 :::  
 ::: field drops  
 @type object
@@ -324,18 +324,18 @@ Yituliu 전송 ID, 기본값 비어 있음. `report_to_yituliu`가 true일 때�
 @required
 확인 클릭할 태그 등급. 공모 계산만 할 경우 빈 배열로 설정 가능  
 :::  
-::: field level3_recruitment_permit_reserve
+::: field level3_recruitment_permit_reserve  
 @type number
 @default 0
 @optional
-★3 자동 모집 시 보유할 모집 허가증 수입니다. 현재 허가증 수가 이 값 이하이면 ★3 모집을 건너뛰며, ★4 이상 모집에는 영향을 주지 않습니다. `0`으로 설정하면 비활성화됩니다. 활성화된 상태에서 수량 인식에 실패한 경우에도 허가증이 잘못 소모되는 것을 방지하기 위해 현재 ★3 모집을 건너뜁니다.
-:::
+★3 자동 모집 시 보유할 모집 허가증 수입니다. 현재 허가증 수가 이 값 이하이면 ★3 모집을 건너뛰며, ★4 이상 모집에는 영향을 주지 않습니다. `0`으로 설정하면 비활성화됩니다. 활성화된 상태에서 수량 인식에 실패한 경우에도 허가증이 잘못 소모되는 것을 방지하기 위해 현재 ★3 모집을 건너뜁니다.  
+:::  
 ::: field first_tags  
 @type array<string>
 @optional
 우선 태그, 태그 등급이 3일 때만 유효. 기본값 비어 있음
 <br>
-태그 등급이 3일 때, 여기에 있는 태그(존재하는 경우)를 가능한 많이 선택하며, 강제 선택이므로 "3성 태그 선택 안 함" 설정을 무시함
+태그 등급이 3일 때, 여기에 있는 태그(존재하는 경우)를 가능한 많이 선택하며, 강제 선택이므로 "3성 태그 선택 안 함" 설정을 무시함  
 :::  
 ::: field extra_tags_mode  
 @type number
@@ -379,7 +379,7 @@ Yituliu 전송 ID, 기본값 비어 있음. `report_to_yituliu`가 true일 때�
 폐기 예정이며 구형 파라미터 호환용으로만 유지됩니다.  
 <br>
 `preserve_tags`가 없고 이 값이 `true`이면 `支援机械` 인식 시에만 건너뜁니다. `元素`는 더 이상 구형 1★ 태그로 취급하지 않습니다.  
-:::
+:::  
 ::: field preserve_tags  
 @type array<string>
 @optional
@@ -868,7 +868,7 @@ OF-1 플레이 시 사용할 편성 슬롯 번호
 <br>
 `30001` - 포대기 동물 파밍, BlackFlow 테마 전용
 <br>
-`30003` - 시작 보상 파밍. 먼저 준비 탐험을 진행한 뒤 목표 탐험을 시작합니다. 준비 탐험은 `blackflow_start_animals`에서 지정한 포대기 동물을 얻고 3층에 진입한 후 포기합니다. 목표 탐험의 지원 선택 화면에 `blackflow_start_rewards`의 항목이 하나라도 나오면 선택하지 않고 테마 화면으로 나가 해당 탐험을 유지한 채 작업을 종료합니다. 준비 탐험은 `collectible_mode_squad`를 사용하며 `difficulty`가 `-1`이 아니면 난이도 0으로 진행합니다. 목표 탐험은 `squad`와 `difficulty`를 사용하며 지원 선택 화면에서 종료합니다. `roles`와 시작 오퍼레이터는 준비 탐험에 사용되며, `collectible_mode_roles`와 `collectible_mode_core_char_list`를 지정하면 준비 탐험은 그것을 사용합니다. `blackflow_start_utopia`가 켜져 있으면 목표 탐험은 보상을 고른 뒤 1층에 들어갑니다. 해당 항목을 참고하세요. BlackFlow 테마 전용이며 `blackflow_start_animals`, `blackflow_start_rewards`와 함께 사용해야 합니다. (기계 번역)
+`30003` - 시작 보상 파밍. 먼저 준비 탐험을 진행한 뒤 목표 탐험을 시작합니다. 준비 탐험은 `blackflow_start_animals`에서 지정한 포대기 동물을 얻고 3층에 진입한 후 포기합니다. 목표 탐험의 지원 선택 화면에 `blackflow_start_rewards`의 항목이 하나라도 나오면 선택하지 않고 테마 화면으로 나가 해당 탐험을 유지한 채 작업을 종료합니다. 준비 탐험은 `collectible_mode_squad`를 사용하며 `difficulty`가 `-1`이 아니면 난이도 0으로 진행합니다. 목표 탐험은 `squad`와 `difficulty`를 사용하며 지원 선택 화면에서 종료합니다. `roles`와 시작 오퍼레이터는 준비 탐험에 사용되며, `collectible_mode_roles`와 `collectible_mode_core_char_list`를 지정하면 준비 탐험은 그것을 사용합니다. `blackflow_start_utopia`가 켜져 있으면 목표 탐험은 보상을 고른 뒤 1층에 들어갑니다. 해당 항목을 참고하세요. BlackFlow 테마 전용이며 `blackflow_start_animals`, `blackflow_start_rewards`와 함께 사용해야 합니다. (기계 번역)  
 :::  
 ::: field squad  
 @type string
@@ -1006,7 +1006,7 @@ OF-1 플레이 시 사용할 편성 슬롯 번호
 <br>
 `ideas`: 구상 2개 보상, Sarkaz 테마 전용
 <br>
-`ticket`: 티켓 보상, JieGarden 테마 전용
+`ticket`: 티켓 보상, JieGarden 테마 전용  
 :::  
 ::: field use_foldartal  
 @type boolean
@@ -1479,7 +1479,7 @@ Sarkaz 테마, Investment 모드, "연금술 분대" 또는 "지원 분대"일 �
 <br>
 `32` (`RA15`) - RA-15, 시빌라이트 에테르나로 60킬 미션 달성。
 <br>
-`48` (`RA4`) - RA-4, "경영 계획"으로 얻은 적금을 사용하여 지역을 해금하고, 비샤델로 보스 처치 임무를 완료합니다。
+`48` (`RA4`) - RA-4, "경영 계획"으로 얻은 적금을 사용하여 지역을 해금하고, 비샤델로 보스 처치 임무를 완료합니다。  
 :::  
 ::: field tools_to_craft  
 @type array<string>
@@ -1501,7 +1501,7 @@ Sarkaz 테마, Investment 모드, "연금술 분대" 또는 "지원 분대"일 �
 <br>
 `0` - 연타
 <br>
-`1` - 꾹 누르기
+`1` - 꾹 누르기  
 :::  
 ::: field num_craft_batches  
 @type number

@@ -7,8 +7,8 @@ icon: bxs:bot
 
 The action of Issue Bot is [issue-checker](https://github.com/MaaAssistantArknights/issue-checker), with configuration file [issue-checker.yml](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev-v2/.github/issue-checker.yml).
 
-::: warning
-Your pull request will be marked as `ambiguous` when you are not committing with Conventional Commits specification.
+::: warning  
+Your pull request will be marked as `ambiguous` when you are not committing with Conventional Commits specification.  
 :::
 
 ## Features
@@ -54,8 +54,8 @@ It is better to trigger Issue Bot with keywords instead of commands listed below
 - `Duplicate of #{ISSUE_NUMBER}` will add `duplicate` label to the issue.
 - **You can add some `skip` operations if your comment may confuse Issue Bot.**
 
-::: info Note
-<sup>1</sup> The `COMMIT_HASH` here can be 8 to 40 characters; it does not have to be the full 40
+::: info Note  
+<sup>1</sup> The `COMMIT_HASH` here can be 8 to 40 characters; it does not have to be the full 40  
 :::
 
 #### Push

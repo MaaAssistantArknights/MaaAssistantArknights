@@ -7,12 +7,12 @@ icon: mdi:remote-desktop
 
 To implement remote control of MAA, you need to provide a service that must be an HTTP(S) service and offer the following two anonymously accessible endpoints. These endpoints must be HTTP(S) web endpoints.
 
-::: warning
-If the endpoint uses HTTP protocol, MAA will issue a security warning with each connection. **Deploying plaintext transmission services on public internet is highly discouraged and dangerous, for testing purposes only.**
+::: warning  
+If the endpoint uses HTTP protocol, MAA will issue a security warning with each connection. **Deploying plaintext transmission services on public internet is highly discouraged and dangerous, for testing purposes only.**  
 :::
 
-::: tip
-Please note that JSON files do not support comments. The comments in this document are for demonstration purposes only. Do not copy them directly.
+::: tip  
+Please note that JSON files do not support comments. The comments in this document are for demonstration purposes only. Do not copy them directly.  
 :::
 
 ## Task Retrieval Endpoint

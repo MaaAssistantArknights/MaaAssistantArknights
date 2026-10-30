@@ -7,8 +7,8 @@ icon: material-symbols:view-quilt-rounded
 
 `resource/custom_infrast/*.json` 파일의 사용법 및 각 필드 설명
 
-::: tip
-JSON 파일은 주석을 지원하지 않으므로, 텍스트 내의 주석은 예시용입니다. 직접 복사하여 사용하지 마세요.
+::: tip  
+JSON 파일은 주석을 지원하지 않으므로, 텍스트 내의 주석은 예시용입니다. 직접 복사하여 사용하지 마세요.  
 :::
 
 [시각화 스케줄 생성 도구](https://ark.yituliu.cn/tools/scheduleV2)

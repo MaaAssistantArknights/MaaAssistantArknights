@@ -191,7 +191,7 @@ Maximum number of Originite Prime used.
 @optional
 Number of battles.  
 :::  
-::: field series
+::: field series  
 @type number
 @default 1
 @optional
@@ -203,14 +203,14 @@ Number of consecutive battles, -1~10.
 <br>
 `1~10` to specify number of consecutive battles.
 <br>
-::: info Server Difference
+::: info Server Difference  
 Input validation depends on whether the resource contains `FightSeries-OldMethodFlag`:
 <br>
 
 - New list (CN main resources after 2026/8/1, without this flag): accepts `-1~10`
 - Old list (overseas resources with this flag): accepts only `-1~6`; larger values are rejected
 
-Overseas servers are expected to follow in about six months, after which the limit becomes 10 with the resource update. The Windows GUI series dropdown currently always offers up to 10; on overseas clients, manually selecting 7~10 will be rejected by Core when the task is submitted.
+Overseas servers are expected to follow in about six months, after which the limit becomes 10 with the resource update. The Windows GUI series dropdown currently always offers up to 10; on overseas clients, manually selecting 7~10 will be rejected by Core when the task is submitted.  
 :::  
 ::: field drops  
 @type object
@@ -321,12 +321,12 @@ Tag ★ rarity to click.
 @required
 Tag ★ rarity for confirmation. Can be set to empty array for calculation only.  
 :::  
-::: field level3_recruitment_permit_reserve
+::: field level3_recruitment_permit_reserve  
 @type number
 @default 0
 @optional
-Number of recruitment permits to reserve when automatically confirming 3★ recruitment. MAA skips 3★ recruitment when the current permit count is less than or equal to this value; 4★ and higher recruitment is unaffected. Set to `0` to disable. When enabled, a count recognition failure also skips the current 3★ recruitment to prevent accidental consumption.
-:::
+Number of recruitment permits to reserve when automatically confirming 3★ recruitment. MAA skips 3★ recruitment when the current permit count is less than or equal to this value; 4★ and higher recruitment is unaffected. Set to `0` to disable. When enabled, a count recognition failure also skips the current 3★ recruitment to prevent accidental consumption.  
+:::  
 ::: field first_tags  
 @type array<string>
 @optional
@@ -376,7 +376,7 @@ Number of expedites, only effective when `expedite` is true. No longer effective
 Deprecated and kept only for backward compatibility.  
 <br>
 When `preserve_tags` is absent and this value is `true`, MAA skips on `支援机械` only; `元素` is no longer treated as the legacy 1★ tag.  
-:::
+:::  
 ::: field preserve_tags  
 @type array<string>
 @optional
@@ -865,7 +865,7 @@ Mode.
 <br>
 `30001` - Swaddled baby animal farming; only available in the BlackFlow theme.
 <br>
-`30003` - Starting reward farming: play a preparation run first, then start the target run. The preparation run is abandoned after obtaining the swaddled animals required by `blackflow_start_animals` and entering floor 3; when the target run's support selection page contains any reward in `blackflow_start_rewards`, no choice is made, the task exits to the theme page keeping the run, and the task ends. The preparation run uses `collectible_mode_squad` and is played at difficulty 0 when `difficulty` is not `-1`; the target run uses `squad` and `difficulty` and ends at the support selection page. `roles` and the starting operators apply to the preparation run; when `collectible_mode_roles` and `collectible_mode_core_char_list` are provided, the preparation run uses them instead. With `blackflow_start_utopia` on, the target run picks a reward and enters floor 1; see that field. Only available in the BlackFlow theme; requires `blackflow_start_animals` and `blackflow_start_rewards`. (machine-translated)
+`30003` - Starting reward farming: play a preparation run first, then start the target run. The preparation run is abandoned after obtaining the swaddled animals required by `blackflow_start_animals` and entering floor 3; when the target run's support selection page contains any reward in `blackflow_start_rewards`, no choice is made, the task exits to the theme page keeping the run, and the task ends. The preparation run uses `collectible_mode_squad` and is played at difficulty 0 when `difficulty` is not `-1`; the target run uses `squad` and `difficulty` and ends at the support selection page. `roles` and the starting operators apply to the preparation run; when `collectible_mode_roles` and `collectible_mode_core_char_list` are provided, the preparation run uses them instead. With `blackflow_start_utopia` on, the target run picks a reward and enters floor 1; see that field. Only available in the BlackFlow theme; requires `blackflow_start_animals` and `blackflow_start_rewards`. (machine-translated)  
 :::  
 ::: field squad  
 @type string
@@ -1003,7 +1003,7 @@ Desired starting rewards, all false by default. Only valid in mode 4.
 <br>
 `ideas`: 2 Ideas reward, only available in Sarkaz theme.
 <br>
-`ticket`: Coupon reward, only available in JieGarden theme.
+`ticket`: Coupon reward, only available in JieGarden theme.  
 :::  
 ::: field use_foldartal  
 @type boolean
@@ -1126,11 +1126,11 @@ Keeps rerolling the target run of mode 30003 until floor 1 is 实托邦 (a floor
 @optional
 Order in which the target run of mode 30003 picks rewards when rerolling for a floor 1 实托邦. Required when `blackflow_start_utopia` is true; must not be empty and entries must not repeat. Options: `unnumbered_item` 未编号物; `survey_advance` 调查预付款; `space_lease` 空间租赁; `regression_compensation` 退行补偿; `forest_ride` 林间代步; `nest_parasitism` 巢寄生; `pegasus` 襁褓天马; `hippogriff` 襁褓骏鹰; `dragon` 襁褓巨龙; `hydra` 襁褓九头蛇; `bai_ze` 襁褓白泽; `golden_crow` 襁褓金乌. Without the 实托邦 check, the target run stays on the support selection page after a hit and keeps the run without picking, so this field is not read. With it, the target run has to enter floor 1 and must pick a card on the support selection page: after `blackflow_start_rewards` is hit, it picks the highest-ranked reward present on the page, and picks one more when Swaddled Cerberus allows two picks. Here the last six feathered serpent rewards are ranked as well, whether or not `blackflow_start_animals` includes the feathered serpent: the preparation run may bring one along even when it is not required, and the blue rewards then still appear in the target run. This differs from `blackflow_start_rewards`, where the last six are hit conditions and only take effect when the feathered serpent is required. When none of the listed rewards is on the page, a normal reward is picked by the strategy's default order. (machine-translated)  
 :::  
-::: field find_playTime_target
+::: field find_playTime_target  
 @type number
 @optional
 Target playtime node of the playtime node farming mode. `1` - Ling (掷地有声, Resounding); `2` - Shu (种因得果, Sow the Cause, Reap the Fruit); `3` - Nian (三缺一, Three Out of Four). Only used when the theme is JieGarden and the mode is 20001, required in that mode; other or missing values cause the task parameters to fail to be set.  
-:::
+:::  
 ::::
 
 <details>
@@ -1281,7 +1281,7 @@ Support operator usage mode. Integer between 0–3. Only effective when formatio
 <br>
 `2` - Use support operator if one is missing; otherwise, use the specified support operator
 <br>
-`3` - Use support operator if one is missing; otherwise, use a random support operator
+`3` - Use support operator if one is missing; otherwise, use a random support operator  
 :::  
 ::: field support_unit_name  
 @type string
@@ -1370,12 +1370,12 @@ Whether to enable this task.
 @required
 File path of a single operation JSON, supports absolute/relative paths. Runtime editing not supported. Mutually exclusive with list (required, choose one).  
 :::  
-::: field list
+::: field list  
 @type array`<object>` | array`<string>`
 @required
 List of jobs. Runtime editing not supported. Mutually exclusive with filename (required, choose one).
 <br>
-Array elements support two forms: an object containing `id` (job identifier, passed as-is to the `CopilotListLoadTaskFileSuccess` callback) and `filename` (path to the job JSON file, both absolute and relative paths supported); or a job path string used directly.
+Array elements support two forms: an object containing `id` (job identifier, passed as-is to the `CopilotListLoadTaskFileSuccess` callback) and `filename` (path to the job JSON file, both absolute and relative paths supported); or a job path string used directly.  
 :::  
 ::::
 
@@ -1458,7 +1458,7 @@ Theme.
 <br>
 `Tales` - _Tales Within the Sand_
 <br>
-`RelaunchAnchor` - _Relaunch Anchor_
+`RelaunchAnchor` - _Relaunch Anchor_  
 :::  
 ::: field mode  
 @type number
@@ -1478,13 +1478,13 @@ Mode. Supported modes vary by theme:
 <br>
 `32` (`RA15`) - RA-15, complete the 60-kill mission with Civilight Eterna.
 <br>
-`48` (`RA4`) - RA-4, Use the Gold from Strategy Planning Management to unlock areas, and use Wis'adel to complete the boss elimination mission.
+`48` (`RA4`) - RA-4, Use the Gold from Strategy Planning Management to unlock areas, and use Wis'adel to complete the boss elimination mission.  
 :::  
-::: field tools_to_craft
+::: field tools_to_craft  
 @type array<string>
 @default []
 @optional
-Automatically crafted items. Suggested to fill in the substring; leave empty to craft nothing. Only effective in the Tales theme with a save (mode = 1).
+Automatically crafted items. Suggested to fill in the substring; leave empty to craft nothing. Only effective in the Tales theme with a save (mode = 1).  
 :::  
 ::: field clear_store  
 @type boolean
@@ -1500,7 +1500,7 @@ Click type. Only effective for Tales theme.
 <br>
 `0` - Rapid Click
 <br>
-`1` - Long Press
+`1` - Long Press  
 :::  
 ::: field num_craft_batches  
 @type number
@@ -1598,7 +1598,7 @@ Whether to enable this task.
 @required
 Currently only supports `"copilot"`.  
 :::  
-::: field subtype
+::: field subtype  
 @type string
 @required
 Subtask type.
@@ -1607,7 +1607,7 @@ Subtask type.
 <br>
 `start` - Start mission, without details.
 <br>
-`action` - Single battle action, details is single action in Copilot, e.g.: `"details": { "name": "史尔特尔", "location": [ 4, 5 ], "direction": "左" }`, see [Combat Operation Protocol](./copilot-schema.md) for details.
+`action` - Single battle action, details is single action in Copilot, e.g.: `"details": { "name": "史尔特尔", "location": [ 4, 5 ], "direction": "左" }`, see [Combat Operation Protocol](./copilot-schema.md) for details.  
 :::  
 ::: field details  
 @type object
@@ -1734,22 +1734,22 @@ value
 ##### List of Key and value
 
 :::: field-group  
-::: field Invalid
+::: field Invalid  
 @type number
 @default 0
 @optional
-Invalid placeholder. Enum value: 0.
-:::
-::: field CpuOCR
+Invalid placeholder. Enum value: 0.  
+:::  
+::: field CpuOCR  
 @type boolean
 @optional
-Use the CPU for OCR. The value is not parsed. Switching after resources are loaded is not supported. Enum value: 1.
-:::
-::: field GpuOCR
+Use the CPU for OCR. The value is not parsed. Switching after resources are loaded is not supported. Enum value: 1.  
+:::  
+::: field GpuOCR  
 @type string
 @optional
-Use the GPU for OCR. The value is the GPU device index (integer); on Windows, `luid:<hexadecimal LUID>` is also accepted. Switching after resources are loaded is not supported. Enum value: 2.
-:::
+Use the GPU for OCR. The value is the GPU device index (integer); on Windows, `luid:<hexadecimal LUID>` is also accepted. Switching after resources are loaded is not supported. Enum value: 2.  
+:::  
 ::::
 
 ### `AsstSetInstanceOption`

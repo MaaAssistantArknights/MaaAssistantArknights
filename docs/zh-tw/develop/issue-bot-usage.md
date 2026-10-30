@@ -7,8 +7,8 @@ icon: bxs:bot
 
 Issue Bot 使用的 Action 為 [issue-checker](https://github.com/MaaAssistantArknights/issue-checker)，配置檔案為 [issue-checker.yml](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev-v2/.github/issue-checker.yml)。
 
-::: warning
-拉取請求（PR）被加上 `ambiguous` 標籤是因為沒有按照 Commitizen 規範提交。
+::: warning  
+拉取請求（PR）被加上 `ambiguous` 標籤是因為沒有按照 Commitizen 規範提交。  
 :::
 
 ## 功能
@@ -54,8 +54,8 @@ Issue Bot 會對拉取請求標題的格式進行簡單審查。除非標題以�
 - `Duplicate of #{ISSUE_NUMBER}`：可以為目前議題增加 `duplicate` 標籤。
 - **當您知道自己的議題評論會導致 Issue Bot 誤解時，請盡量新增一些 skip 操作。**
 
-::: info 注意
-<sup>1</sup> 這裡的 COMMIT_HASH 取 8~40 位元字元即可，不必是完整的 40 位元。
+::: info 注意  
+<sup>1</sup> 這裡的 COMMIT_HASH 取 8~40 位元字元即可，不必是完整的 40 位元。  
 :::
 
 #### 推送 (Push)

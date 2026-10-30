@@ -43,10 +43,10 @@ icon: octicon:tools-16
 
 ## 牛牛抽卡
 
-::: center
-**真的是用你的帳號抽你的卡&emsp;&emsp;真的是用你的帳號抽你的卡&emsp;&emsp;真的是用你的帳號抽你的卡**&emsp;&emsp;
-**真的是用你的帳號抽你的卡&emsp;&emsp;真的是用你的帳號抽你的卡&emsp;&emsp;真的是用你的帳號抽你的卡**&emsp;&emsp;
-**真的是用你的帳號抽你的卡&emsp;&emsp;真的是用你的帳號抽你的卡&emsp;&emsp;真的是用你的帳號抽你的卡**&emsp;&emsp;
+::: center  
+**真的是用你的帳號抽你的卡&emsp;&emsp;真的是用你的帳號抽你的卡&emsp;&emsp;真的是用你的帳號抽你的卡**&emsp;&emsp;  
+**真的是用你的帳號抽你的卡&emsp;&emsp;真的是用你的帳號抽你的卡&emsp;&emsp;真的是用你的帳號抽你的卡**&emsp;&emsp;  
+**真的是用你的帳號抽你的卡&emsp;&emsp;真的是用你的帳號抽你的卡&emsp;&emsp;真的是用你的帳號抽你的卡**&emsp;&emsp;  
 :::
 
 [牛牛航空](https://www.bilibili.com/opus/926129394412421126) 沒報到名？沒關係！現在每個人都有自己的牛牛航空！在抽卡的過程中還會截圖並顯示在介面中央！

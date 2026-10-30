@@ -7,9 +7,9 @@ icon: mingcute:git-pull-request-fill
 
 A GitHub Pull Request guide that even beginners can understand (\*´▽ ｀)ノノ
 
-::: warning
+::: warning  
 This tutorial simplifies many concepts to make them accessible to more people. It includes some ~~inelegant but simple~~ operations and not entirely accurate explanations. Please go easy on us, experts.  
-If you have some git experience and programming background, ~~then why are you reading this~~, you can check out the more advanced tutorial [GitHub Pull Request Process Overview](./development.md)
+If you have some git experience and programming background, ~~then why are you reading this~~, you can check out the more advanced tutorial [GitHub Pull Request Process Overview](./development.md)  
 :::
 
 ## Basic Concepts and Terminology
@@ -129,8 +129,8 @@ Conflicts are somewhat troublesome to resolve. This section only explains the co
 **After version release**, your GitHub avatar will automatically be added to the contributors list. Thank you very much for your selfless contributions!  
 ~~Why are they all anime characters? Oh wait, I am too, never mind then~~
 
-::: tip Contributors
+::: tip Contributors  
 Thanks to all friends who participated in development/testing. Everyone's help makes MAA better and better! (\*´▽ ｀)ノノ
 
-[![Contributors](https://contributors-img.web.app/image?repo=MaaAssistantArknights/MaaAssistantArknights&max=105&columns=15)](https://github.com/MaaAssistantArknights/MaaAssistantArknights/graphs/contributors)
+[![Contributors](https://contributors-img.web.app/image?repo=MaaAssistantArknights/MaaAssistantArknights&max=105&columns=15)](https://github.com/MaaAssistantArknights/MaaAssistantArknights/graphs/contributors)  
 :::

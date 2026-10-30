@@ -5,8 +5,8 @@ icon: hugeicons:brain-02
 
 # 作戦
 
-::: info UI 専用機能
-本ページの一部機能は UI 層で実装されています（目標在庫、週次スケジュール、複数タスクの並び替えなど）。詳細は[始めに](../newbie.md)を参照してください。
+::: info UI 専用機能  
+本ページの一部機能は UI 層で実装されています（目標在庫、週次スケジュール、複数タスクの並び替えなど）。詳細は[始めに](../newbie.md)を参照してください。  
 :::
 
 ## 一般設定
@@ -62,8 +62,8 @@ icon: hugeicons:brain-02
   - 当期 SS イベントの後半 3 ステージ。自動で [API](https://api.maa.plus/MaaAssistantArknights/api/gui/StageActivityV2.json) から更新を取得後、画面下部に表示されます。
   - 復刻 SS イベント。`SSReopen-<ステージ接頭辞>` を入力すると、XX-1 ～ XX-9 を一括周回します（例：`SSReopen-IC`）。
 
-::: details サンプル画面
-![サンプル画面](/images/ja-jp/combat-start-interface-example.png)
+::: details サンプル画面  
+![サンプル画面](/images/ja-jp/combat-start-interface-example.png)  
 :::
 
 ### 殲滅作戦

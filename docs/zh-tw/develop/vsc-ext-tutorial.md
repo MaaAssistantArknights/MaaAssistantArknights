@@ -16,9 +16,9 @@ icon: iconoir:code-brackets
 
 推薦直接在 VS Code 的擴充功能清單中搜尋 `Maa` 進行安裝。
 
-::: tip
+::: tip  
 首次使用時，擴充功能會自動下載預設版本的資源。  
-搜尋命令 `Maa: 選擇下載源`，可切換下載來源（npm / cnpm）。
+搜尋命令 `Maa: 選擇下載源`，可切換下載來源（npm / cnpm）。  
 :::
 
 ## 功能介紹
@@ -102,10 +102,10 @@ icon: iconoir:code-brackets
 - 使用 `複製` 按鈕，可將 ROI 以陣列形式複製到剪貼簿。
 - 按下 `工具` 按鈕將開啟辨識工具面板，可直接對當前圖片進行辨識測試。
 
-::: warning
+::: warning  
 若 OCR 的辨識結果為空，請檢查 [OCR 模型](https://github.com/MaaXYZ/MaaFramework/blob/main/docs/zh_cn/1.1-%E5%BF%AB%E9%80%9F%E5%BC%80%E5%A7%8B.md#%E6%96%87%E5%AD%97%E8%AF%86%E5%88%AB%E6%A8%A1%E5%9E%8B%E6%96%87%E4%BB%B6) 是否配置正確。
 
-針對 MAA，擴充功能將自動維護所使用的模型，您只需要選擇正確的資源即可。
+針對 MAA，擴充功能將自動維護所使用的模型，您只需要選擇正確的資源即可。  
 :::
 
 ### 日誌查看功能

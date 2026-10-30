@@ -21,8 +21,8 @@ icon: ic:baseline-article
   - 現在のSSイベントの最後の3つのステージ。 [API](https://api.maa.plus/MaaAssistantArknights/api/gui/StageActivityV2.json) で更新が自動的にダウンロードされた後、メイン画面に対応するメッセージが表示されます。
     - 再刻印SSアクティビティは `SSReopen-XX` と入力するとXX-1～XX-9ステージを一度にクリアできます。 `SSReopen-IC` など。
 
-::: details 画面例
-![画面例](/images/ja-jp/combat-start-interface-example.png)
+::: details 画面例  
+![画面例](/images/ja-jp/combat-start-interface-example.png)  
 :::
 
 - スタート画面の `理性剤使用数 + 割る源石の数`、`周回数指定`、`素材を限定` の3つのオプションはショートスイッチですので、**3つのオプションのいずれかを達成した場合**、それはタスクの完了と見なされます。
@@ -103,8 +103,8 @@ icon: ic:baseline-article
   - 対象外の条件がある場合（例：MAAでミヅキをプレイする予定だが、未達のファントムのセーブがある）、その場合は手動で終了させてください。
   - MAAがスタックしたり、難易度選択画面を何度も出たり入ったりする場合は、手動で難易度を選択してからこの機能を有効にしてください。
 
-::: details 固定方法 ｢PIN UP｣
-![固定方法](/images/ja-jp/introduction-i.s.-pin-up.png)
+::: details 固定方法 ｢PIN UP｣  
+![固定方法](/images/ja-jp/introduction-i.s.-pin-up.png)  
 :::
 
 - 設定は分隊、最初の職業選択（最初に一つのオペレーターを指定する）等を設定できます。
@@ -220,8 +220,8 @@ Windows MAAには `設定` タブの他に `タスク設定` もあります。 
 3. 追加された `Command Line` 列から、 `...\Bluestacks_nxt\HD-Player.exe"` の後にある内容を見つけます。
 4. `起動設定` - `追加コマンド` に、 `--instance Nougat32` のような見つかった内容を入力します。
 
-::: tip
-操作が完了したら、カクつきを防止するために、`ステップ2`で開いた `Command Line` 列を再び非表示にすることをお勧めします。
+::: tip  
+操作が完了したら、カクつきを防止するために、`ステップ2`で開いた `Command Line` 列を再び非表示にすることをお勧めします。  
 :::
 
 ::: details 示例
@@ -235,7 +235,7 @@ Windows MAAには `設定` タブの他に `タスク設定` もあります。 
 追加コマンド：--instance Nougat32_1 --cmd launchApp --package "com.hypergryph.arknights.bilibili"
 ```
 
-`--cmd launchApp --package` 部分は、起動後に特定のパッケージ名を持つアプリケーションを自動実行するためのもので、自由に変更できます。
+`--cmd launchApp --package` 部分は、起動後に特定のパッケージ名を持つアプリケーションを自動実行するためのもので、自由に変更できます。  
 :::
 
 #### エミュレータやアプリのショートカットを使用することによるマルチインスタンス操作を実行する方法
@@ -243,8 +243,8 @@ Windows MAAには `設定` タブの他に `タスク設定` もあります。 
 1. マルチインスタンスマネージャーを開き、対応するエミュレータのショートカットを追加します。
 2. エミュレータのショートカットのパスを `起動設定` - `エミュレータパス` に入力します。
 
-::: tip
-一部のエミュレータは、アプリのショートカットを作成できます。アプリのショートカットでエミュレータを直接起動してArknightsを開くことができます。
+::: tip  
+一部のエミュレータは、アプリのショートカットを作成できます。アプリのショートカットでエミュレータを直接起動してArknightsを開くことができます。  
 :::
 
 ::: details 示例

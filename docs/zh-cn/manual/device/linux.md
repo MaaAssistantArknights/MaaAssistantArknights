@@ -29,8 +29,8 @@ MAA WPF GUI 当前可以通过 Wine 运行。MAA 已采用自包含部署方式�
    wine vc_redist.x64.exe
    ```
 
-   ::: tip
-   `DependencySetup_依赖库安装.bat` 基于 winget，通常无法在 Wine 中正常工作，因此需要手动安装运行库。
+   ::: tip  
+   `DependencySetup_依赖库安装.bat` 基于 winget，通常无法在 Wine 中正常工作，因此需要手动安装运行库。  
    :::
 
 2. 下载 MAA
@@ -39,10 +39,10 @@ MAA WPF GUI 当前可以通过 Wine 运行。MAA 已采用自包含部署方式�
 
 ::::
 
-::: info 注意
+::: info 注意  
 需要在连接设置中将 ADB 路径设置为 [Windows 版 `adb.exe`](https://dl.google.com/android/repository/platform-tools-latest-windows.zip)。
 
-如果您需要通过 ADB 连接 USB 设备，请先在 Wine 外运行 `adb start-server`，即通过 Wine 连接原生 ADB server。
+如果您需要通过 ADB 连接 USB 设备，请先在 Wine 外运行 `adb start-server`，即通过 Wine 连接原生 ADB server。  
 :::
 
 #### 使用 Linux 原生 MaaCore（实验性功能）
@@ -51,8 +51,8 @@ MAA WPF GUI 当前可以通过 Wine 运行。MAA 已采用自包含部署方式�
 
 此时通过 Wine 运行 `MAA.exe`，将会加载 Linux 原生动态库。
 
-::: info 注意
-使用 Linux 原生 MaaCore 时，需要在连接设置中将 ADB 路径设置为 Linux 原生 ADB。
+::: info 注意  
+使用 Linux 原生 MaaCore 时，需要在连接设置中将 ADB 路径设置为 Linux 原生 ADB。  
 :::
 
 #### Linux 桌面整合（实验性功能）
@@ -81,8 +81,8 @@ MAA WPF GUI 当前可以通过 Wine 运行。MAA 已采用自包含部署方式�
    - AUR：[maa-assistant-arknights](https://aur.archlinux.org/packages/maa-assistant-arknights)，按照安装后“Alternative usage”的提示编辑文件
    - Nixpkgs: [maa-assistant-arknights](https://github.com/NixOS/nixpkgs/blob/nixos-unstable/pkgs/by-name/ma/maa-assistant-arknights/package.nix)
 
-   ::: tip
-   预编译动态库基于 [MaaLinuxToolchain](https://github.com/MaaXYZ/MaaLinuxToolchain) 工具链交叉编译，仅需要依赖 glibc 2.31（Ubuntu 20.04）。如果您仍遇到 ABI 不兼容的问题（例如非 glibc 发行版），可以使用容器运行，或参考 [Linux 编译教程](../../develop/linux-tutorial.md) 重新编译。
+   ::: tip  
+   预编译动态库基于 [MaaLinuxToolchain](https://github.com/MaaXYZ/MaaLinuxToolchain) 工具链交叉编译，仅需要依赖 glibc 2.31（Ubuntu 20.04）。如果您仍遇到 ABI 不兼容的问题（例如非 glibc 发行版），可以使用容器运行，或参考 [Linux 编译教程](../../develop/linux-tutorial.md) 重新编译。  
    :::
 
 2. ADB 配置
@@ -139,8 +139,8 @@ MAA WPF GUI 当前可以通过 Wine 运行。MAA 已采用自包含部署方式�
 
 ## 容器化安卓的支持
 
-::: tip
-以下方案通常对内核模块有一定要求, 请根据具体方案和发行版安装合适的内核模块
+::: tip  
+以下方案通常对内核模块有一定要求, 请根据具体方案和发行版安装合适的内核模块  
 :::
 
 ### ✅ [Waydroid](https://waydro.id/)

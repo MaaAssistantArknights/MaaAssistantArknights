@@ -29,8 +29,8 @@ MAA WPF GUI는 현재 Wine을 통해 실행할 수 있습니다. MAA는 .NET 런
    wine vc_redist.x64.exe
    ```
 
-   ::: tip
-   `DependencySetup_依赖库安装.bat`는 winget에 의존하므로 Wine에서 정상적으로 작동하지 않습니다. 따라서 런타임 라이브러리를 수동으로 설치해야 합니다.
+   ::: tip  
+   `DependencySetup_依赖库安装.bat`는 winget에 의존하므로 Wine에서 정상적으로 작동하지 않습니다. 따라서 런타임 라이브러리를 수동으로 설치해야 합니다.  
    :::
 
 2. MAA 다운로드
@@ -39,10 +39,10 @@ MAA WPF GUI는 현재 Wine을 통해 실행할 수 있습니다. MAA는 .NET 런
 
 ::::
 
-::: info 주의
+::: info 주의  
 연결 설정에서 ADB 경로를 [Windows용 `adb.exe`](https://dl.google.com/android/repository/platform-tools-latest-windows.zip)로 설정해야 합니다.
 
-ADB를 통해 USB 장치에 연결해야 하는 경우, 먼저 Wine 외부에서 `adb start-server`를 실행하여 네이티브 ADB 서버에 Wine을 통해 연결하세요.
+ADB를 통해 USB 장치에 연결해야 하는 경우, 먼저 Wine 외부에서 `adb start-server`를 실행하여 네이티브 ADB 서버에 Wine을 통해 연결하세요.  
 :::
 
 #### Linux 네이티브 MaaCore 사용 (실험적 기능)
@@ -51,8 +51,8 @@ ADB를 통해 USB 장치에 연결해야 하는 경우, 먼저 Wine 외부에서
 
 이때 Wine을 통해 `MAA.exe`를 실행하면 Linux 네이티브 동적 라이브러리가 로드됩니다.
 
-::: info 주의
-Linux 네이티브 MaaCore를 사용할 때는 연결 설정에서 ADB 경로를 Linux 네이티브 ADB로 설정해야 합니다.
+::: info 주의  
+Linux 네이티브 MaaCore를 사용할 때는 연결 설정에서 ADB 경로를 Linux 네이티브 ADB로 설정해야 합니다.  
 :::
 
 #### Linux 데스크톱 통합 (실험적 기능)
@@ -81,8 +81,8 @@ MAA Wine Bridge에서 생성된 `MaaDesktopIntegration.so`를 `MAA.exe`와 같�
    - AUR: [maa-assistant-arknights](https://aur.archlinux.org/packages/maa-assistant-arknights), 설치 후 안내되는 "Alternative usage" 설명에 따라 파일을 편집합니다.
    - Nixpkgs: [maa-assistant-arknights](https://github.com/NixOS/nixpkgs/blob/nixos-unstable/pkgs/by-name/ma/maa-assistant-arknights/package.nix)
 
-   ::: tip
-   사전 컴파일된 동적 라이브러리는 [MaaLinuxToolchain](https://github.com/MaaXYZ/MaaLinuxToolchain) 툴체인을 기반으로 크로스 컴파일되었으며, glibc 2.31(Ubuntu 20.04)만 필요합니다. 여전히 ABI 호환성 문제(예: glibc를 사용하지 않는 배포판)가 발생하는 경우 컨테이너에서 실행하거나 [Linux 컴파일 가이드](../../develop/linux-tutorial.md)를 참고하여 다시 컴파일할 수 있습니다.
+   ::: tip  
+   사전 컴파일된 동적 라이브러리는 [MaaLinuxToolchain](https://github.com/MaaXYZ/MaaLinuxToolchain) 툴체인을 기반으로 크로스 컴파일되었으며, glibc 2.31(Ubuntu 20.04)만 필요합니다. 여전히 ABI 호환성 문제(예: glibc를 사용하지 않는 배포판)가 발생하는 경우 컨테이너에서 실행하거나 [Linux 컴파일 가이드](../../develop/linux-tutorial.md)를 참고하여 다시 컴파일할 수 있습니다.  
    :::
 
 2. ADB 구성
@@ -139,8 +139,8 @@ MAA Wine Bridge에서 생성된 `MaaDesktopIntegration.so`를 `MAA.exe`와 같�
 
 ## 안드로이드 컨테이너 지원
 
-::: tip
-다음 솔루션은 일반적으로 커널 모듈을 필요로 합니다. 해당 솔루션 및 배포판에 맞는 내부 모듈을 설치하세요.
+::: tip  
+다음 솔루션은 일반적으로 커널 모듈을 필요로 합니다. 해당 솔루션 및 배포판에 맞는 내부 모듈을 설치하세요.  
 :::
 
 ### ✅ [Waydroid](https://waydro.id/)

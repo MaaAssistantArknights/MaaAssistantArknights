@@ -22,10 +22,10 @@ If detection fails, try launching MAA with UAC administrator privileges and dete
 
 ## ADB Path
 
-:::info Technical details
-Auto detection uses the emulator's ADB. Manual configuration is only required if auto detection fails.
-`Force Replace ADB` will download Google's ADB and use it automatically.
-If ADB is available in the environment variables, just fill in `adb`.
+:::info Technical details  
+Auto detection uses the emulator's ADB. Manual configuration is only required if auto detection fails.  
+`Force Replace ADB` will download Google's ADB and use it automatically.  
+If ADB is available in the environment variables, just fill in `adb`.  
 :::
 
 ### Use emulator's ADB
@@ -34,8 +34,8 @@ Go to your emulator's installation directory. On Windows, you can right-click th
 
 Look for an exe file with `adb` in its name in the top-level or subdirectories. You can use search to find it.
 
-:::details Examples
-`adb.exe` `HD-adb.exe` `adb_server.exe` `nox_adb.exe`
+:::details Examples  
+`adb.exe` `HD-adb.exe` `adb_server.exe` `nox_adb.exe`  
 :::
 
 ### Use Google's ADB
@@ -46,8 +46,8 @@ We recommend extracting it directly to the MAA folder so you can enter `.\platfo
 
 ## Connection Address
 
-::: tip
-Emulators running on your local machine should use addresses like `127.0.0.1:<port number>` or `emulator-<four digits>`.
+::: tip  
+Emulators running on your local machine should use addresses like `127.0.0.1:<port number>` or `emulator-<four digits>`.  
 :::
 
 ### Emulator documentation and reference addresses
@@ -103,13 +103,13 @@ This should work in most cases. If connection still fails, you may have multiple
 
 #### Specifying `ConfigKeyword`
 
-::: info Note
-If you're using multi-instance or have multiple emulator cores installed, you'll need additional settings to specify which emulator number to use
+::: info Note  
+If you're using multi-instance or have multiple emulator cores installed, you'll need additional settings to specify which emulator number to use  
 :::
 
 In `gui.new.json`, find your current configuration name (viewable in Settings-Switch Configuration, default is `Default`) and locate the `Gui.ConnectSettings.Extras.BluestacksExtra.ConfigKeyword` field containing `"bst.instance.<emulator number>.status.adb_port"`. Find the emulator number in the `BlueStacks_nxt\Engine` folder in the emulator path.
 
-::: details Examples
+::: details Examples  
 Nougat64 core:
 
 ```json
@@ -126,8 +126,8 @@ Pie64_2 core: (the number after the core name indicates a multi-instance core)
 
 #### Specifying `ConfigPath`
 
-::: info Note
-MAA now attempts to read the `bluestacks.conf` storage location from the registry. When this fails, you need to manually specify the configuration file path
+::: info Note  
+MAA now attempts to read the `bluestacks.conf` storage location from the registry. When this fails, you need to manually specify the configuration file path  
 :::
 
 1. Find the `bluestacks.conf` file in the BlueStacks data directory
@@ -140,7 +140,7 @@ MAA now attempts to read the `bluestacks.conf` storage location from the registr
 
 3. **First close** MAA, **then** open `gui.new.json`, find your current configuration name (viewable in Settings-Switch Configuration, default is `Default`), locate the `Gui.ConnectSettings.Extras.BluestacksExtra.ConfigPath` field, and enter the full path to `bluestacks.conf`. (Note: use escaped backslashes `\\`)
 
-::: details Example
+::: details Example  
 For `C:\ProgramData\BlueStacks_nxt\bluestacks.conf`:
 
 ```json
@@ -175,8 +175,8 @@ For specific differences, see the [source code](https://github.com/MaaAssistantA
 
 ### MuMu Screenshot Enhanced Mode
 
-::: tip
-The screenshot and touch enhancements described here apply to MuMu for Windows x64.
+::: tip  
+The screenshot and touch enhancements described here apply to MuMu for Windows x64.  
 :::
 
 **Version Requirement**: Official/Arknights-specific MuMu V4.1.26 or above, or Global MuMu V5.21.3 or above. <!-- Official V3.8.13 supports initial enhanced screenshots -->
@@ -225,8 +225,8 @@ We recommend enabling it, but specific pros and cons need feedback. ~~Help us te
 
 ## Running multiple MAA and emulator instances
 
-::: info How to do it
-To operate multiple emulators simultaneously, copy the MAA folder multiple times and use **different MAA instances**, **the same adb.exe**, and **different connection addresses** to connect.
+::: info How to do it  
+To operate multiple emulators simultaneously, copy the MAA folder multiple times and use **different MAA instances**, **the same adb.exe**, and **different connection addresses** to connect.  
 :::
 
 ### Auto-starting multiple emulator instances
@@ -240,8 +240,8 @@ Using [BlueStacks International](./device/windows.md) as an example, here are tw
 3. In the new `Command line` column, find the content after `...\Bluestacks_nxt\HD-Player.exe"`.
 4. Add the content you found (similar to `--instance Nougat32`) to `Startup Settings` - `Additional Commands`.
 
-::: note
-After finishing, we recommend hiding the `Command line` column opened in `Step 2` to prevent slowdowns
+::: note  
+After finishing, we recommend hiding the `Command line` column opened in `Step 2` to prevent slowdowns  
 :::
 
 ::: details Example
@@ -255,7 +255,7 @@ Emulator Path: C:\Program Files\BlueStacks_nxt\HD-Player.exe
 Additional Commands: --instance Nougat32_1 --cmd launchApp --package "com.hypergryph.arknights.bilibili"
 ```
 
-The `--cmd launchApp --package` part auto-launches the specified package after startup; modify as needed.
+The `--cmd launchApp --package` part auto-launches the specified package after startup; modify as needed.  
 :::
 
 #### Start via emulator shortcuts

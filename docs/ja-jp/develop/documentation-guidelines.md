@@ -5,8 +5,8 @@ icon: jam:write-f
 
 # ドキュメントのガイドライン
 
-::: tip
-このドキュメントの目的は、ドキュメント作成者がテーマが提供する機能をより良く活用し、読みやすさを向上させることを指導することです。
+::: tip  
+このドキュメントの目的は、ドキュメント作成者がテーマが提供する機能をより良く活用し、読みやすさを向上させることを指導することです。  
 :::
 
 私たちのドキュメントは [vuepress](https://github.com/vuejs/vuepress) に基づいて構築されており、[vuepress-theme-plume](https://github.com/pengzhanbo/vuepress-theme-plume) テーマが使用されています。詳細な説明については[公式ドキュメント](https://theme-plume.vuejs.press/)をご覧いただけます。ここでは一部の一般的な機能について紹介します。
@@ -52,32 +52,32 @@ icon: jam:write-f
 
 ### コンテナの例
 
-::: tip
-これはヒントのコンテナです
+::: tip  
+これはヒントのコンテナです  
 :::
 
-::: note
-これはノートのコンテナです
+::: note  
+これはノートのコンテナです  
 :::
 
-::: info
-これは情報のコンテナです
+::: info  
+これは情報のコンテナです  
 :::
 
-::: warning
-これは注意のコンテナです
+::: warning  
+これは注意のコンテナです  
 :::
 
-::: danger
-これは警告のコンテナです
+::: danger  
+これは警告のコンテナです  
 :::
 
-::: details
-これは詳細のコンテナです
+::: details  
+これは詳細のコンテナです  
 :::
 
-::: window
-これは特殊なコンテナです
+::: window  
+これは特殊なコンテナです  
 :::
 
 ## マーカー
@@ -117,7 +117,7 @@ MaaAssistantArknights は ==たくさんの豚== によって開発されまし�
 
 以下の設定が使用できます：
 
-::: window
+::: window  
 入力：
 
 ```markdown
@@ -180,8 +180,8 @@ MaaAssistantArknights は ==たくさんの豚== によって開発されまし�
 
 3. ステップ 3
 
-   ::: tip
-   ヒントコンテナ
+   ::: tip  
+   ヒントコンテナ  
    :::
 
 4. 終わり
@@ -240,35 +240,35 @@ Markdown 本文で `<ImageGrid>` コンポーネントを使用してこのメ�
 
 効果は以下の通りです：
 
-:::: field-group
-::: field theme
+:::: field-group  
+::: field theme  
 @type ThemeConfig
 @default { base: '/' }
 @required
-テーマ設定
+テーマ設定  
 :::
 
-::: field enabled
+::: field enabled  
 @type boolean
 @default true
 @optional
-有効かどうか
+有効かどうか  
 :::
 
-::: field callback
+::: field callback  
 @type (...args: any[]) => void
 @default () => {}
 @optional
 <Badge type="tip" text="v1.0.0 追加"  />
-コールバック関数
+コールバック関数  
 :::
 
-::: field other
+::: field other  
 @type string
 @deprecated
 <Badge type="danger" text="v0.9.0 廃止"  />
-廃止されたプロパティ
-:::
+廃止されたプロパティ  
+:::  
 ::::
 
 ## アイコン
@@ -305,7 +305,7 @@ Markdown 内で `<HopeIcon />` コンポーネントを使用してアイコン�
 - `color` CSSスタイルのカラー値を受け入れます。例: `#fff`、`red` など（このオプションはSVGアイコンにのみ有効です）
 - `size` CSSスタイルのサイズを受け入れます。例: `1rem`、`2em`、`100px` など
 
-::: details 例
+::: details 例  
 <HopeIcon icon="ic:round-home" color="#1f1e33"/>
 
 ```markdown

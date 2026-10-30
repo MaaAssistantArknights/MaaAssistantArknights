@@ -5,8 +5,8 @@ icon: jam:write-f
 
 # Document Writing Guide
 
-::: tip
-The purpose of this document is to guide document writers to better utilize the functionalities provided by the theme, thus achieving a more readable effect.
+::: tip  
+The purpose of this document is to guide document writers to better utilize the functionalities provided by the theme, thus achieving a more readable effect.  
 :::
 
 Our documentation is built on [vuepress](https://github.com/vuejs/vuepress) and utilizes the [vuepress-theme-plume](https://github.com/pengzhanbo/vuepress-theme-plume) theme. You can also refer to the [official documentation](https://theme-plume.vuejs.press/) for more detailed explanations. Here, we only introduce some common functionalities.
@@ -52,32 +52,32 @@ Accepted container types and their default titles are as follows:
 
 ### Container Examples
 
-::: tip
-This is a tip container
+::: tip  
+This is a tip container  
 :::
 
-::: note
-This is a note container
+::: note  
+This is a note container  
 :::
 
-::: info
-This is an info container
+::: info  
+This is an info container  
 :::
 
-::: warning
-This is a warning container
+::: warning  
+This is a warning container  
 :::
 
-::: danger
-This is a danger container
+::: danger  
+This is a danger container  
 :::
 
-::: details
-This is a details container
+::: details  
+This is a details container  
 :::
 
-::: window
-This is a very special container
+::: window  
+This is a very special container  
 :::
 
 ## Markers
@@ -117,7 +117,7 @@ You can use the `!!content!!{config (optional)}` syntax, and the default effect 
 
 The following configurations are available:
 
-::: window
+::: window  
 Input:
 
 ```markdown
@@ -180,8 +180,8 @@ Output:
 
 3. Step 3
 
-   ::: tip
-   Tip container
+   ::: tip  
+   Tip container  
    :::
 
 4. End
@@ -240,35 +240,35 @@ This syntax is more complex. Please refer to the [official documentation](https:
 
 The effects are as follows:
 
-:::: field-group
-::: field theme
+:::: field-group  
+::: field theme  
 @type ThemeConfig
 @default { base: '/' }
 @required
-Theme configuration
+Theme configuration  
 :::
 
-::: field enabled
+::: field enabled  
 @type boolean
 @default true
 @optional
-Whether to enable
+Whether to enable  
 :::
 
-::: field callback
+::: field callback  
 @type (...args: any[]) => void
 @default () => {}
 @optional
 <Badge type="tip" text="Added in v1.0.0"  />
-Callback function
+Callback function  
 :::
 
-::: field other
+::: field other  
 @type string
 @deprecated
 <Badge type="danger" text="Deprecated in v0.9.0"  />
-Deprecated property
-:::
+Deprecated property  
+:::  
 ::::
 
 ## Icons
@@ -305,7 +305,7 @@ You can use the `<HopeIcon />` component to add icons in markdown. This componen
 - `color`: Accepts CSS-style color values, such as `#fff`, `red`, etc. (This option only works for SVG icons).
 - `size`: Accepts CSS-style sizes, such as `1rem`, `2em`, `100px`, etc.
 
-::: details Example
+::: details Example  
 <HopeIcon icon="ic:round-home" color="#1f1e33"/>
 
 ```markdown

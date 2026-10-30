@@ -5,18 +5,18 @@ icon: teenyicons:linux-alt-solid
 
 # Linux 編譯教學
 
-::: warning
-**本教學需要讀者具備一定的 Linux 環境配置能力與程式設計基礎！**若您僅希望執行 MAA 而非自行編譯，請參閱[使用者手冊 - Linux 模擬器與容器](../manual/device/linux.md)。
+::: warning  
+**本教學需要讀者具備一定的 Linux 環境配置能力與程式設計基礎！**若您僅希望執行 MAA 而非自行編譯，請參閱[使用者手冊 - Linux 模擬器與容器](../manual/device/linux.md)。  
 :::
 
-::: info 注意
+::: info 注意  
 MAA 的建置方法仍在討論中，本教學內容可能過時，請以 [GitHub workflow file](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev-v2/.github/workflows/ci.yml#L264#:~:text=ubuntu%3A) 中的腳本為準。  
-您也可以參考 [AUR PKGBUILD](https://aur.archlinux.org/cgit/aur.git/tree/PKGBUILD?h=maa-assistant-arknights) 或 [nixpkgs](https://github.com/NixOS/nixpkgs/blob/nixos-unstable/pkgs/by-name/ma/maa-assistant-arknights/package.nix)。
+您也可以參考 [AUR PKGBUILD](https://aur.archlinux.org/cgit/aur.git/tree/PKGBUILD?h=maa-assistant-arknights) 或 [nixpkgs](https://github.com/NixOS/nixpkgs/blob/nixos-unstable/pkgs/by-name/ma/maa-assistant-arknights/package.nix)。  
 :::
 
-::: info
+::: info  
 Mac 使用者可以使用 `tools/build_macos_universal.zsh` 腳本進行編譯。  
-建議參考 MaaAssistantArknights/MaaMacGui 專案的 [README.md](https://github.com/MaaAssistantArknights/MaaMacGui/blob/master/README.md)。
+建議參考 MaaAssistantArknights/MaaMacGui 專案的 [README.md](https://github.com/MaaAssistantArknights/MaaMacGui/blob/master/README.md)。  
 :::
 
 ## 編譯 MaaCore
@@ -24,7 +24,7 @@ Mac 使用者可以使用 `tools/build_macos_universal.zsh` 腳本進行編譯�
 :::: steps
 
 1. 下載編譯所需的依賴項目
-   ::: code-tabs
+   ::: code-tabs  
    @tab:active Ubuntu/Debian
 
    ```bash :no-line-numbers
@@ -48,8 +48,8 @@ Mac 使用者可以使用 `tools/build_macos_universal.zsh` 腳本進行編譯�
      python tools/maadeps-download.py
      ```
 
-     ::: info
-     預編譯第三方函式庫基於 [MaaLinuxToolchain](https://github.com/MaaXYZ/MaaLinuxToolchain) 工具鏈交叉編譯，僅需依賴 glibc 2.31（Ubuntu 20.04）。如果您仍遇到 ABI 不相容的問題，可以使用容器，或嘗試自行建置第三方函式庫。
+     ::: info  
+     預編譯第三方函式庫基於 [MaaLinuxToolchain](https://github.com/MaaXYZ/MaaLinuxToolchain) 工具鏈交叉編譯，僅需依賴 glibc 2.31（Ubuntu 20.04）。如果您仍遇到 ABI 不相容的問題，可以使用容器，或嘗試自行建置第三方函式庫。  
      :::
 
    - 自行建置第三方函式庫（耗時較長）
@@ -73,14 +73,14 @@ Mac 使用者可以使用 `tools/build_macos_universal.zsh` 腳本進行編譯�
 
    前 2 行指令生成 `build/bin/Debug/libMaaCore.so`（及 `libMaaUtils.so`），第 3 行指令將編譯成品安裝（即複製）到目標位置。
 
-   ::: info CMake 選項說明
+   ::: info CMake 選項說明  
    `-DINSTALL_RESOURCE=ON` 的作用是將 `resource` 目錄複製到安裝目錄。MaaCore 需要配合 `resource` 目錄執行。
 
-   `-DINSTALL_PYTHON=ON` 的作用是將 Python 整合（`src/Python`）複製到安裝目錄。若不使用或計劃從儲存庫原始碼中使用 Python 整合，則可省略此選項。
+   `-DINSTALL_PYTHON=ON` 的作用是將 Python 整合（`src/Python`）複製到安裝目錄。若不使用或計劃從儲存庫原始碼中使用 Python 整合，則可省略此選項。  
    :::
 
-   ::: tip
-   推薦透過指定動態函式庫檔案路徑或 `LD_LIBRARY_PATH` 來執行 MAA，請勿使用 root 權限將 MAA 安裝入 `/usr`。
+   ::: tip  
+   推薦透過指定動態函式庫檔案路徑或 `LD_LIBRARY_PATH` 來執行 MAA，請勿使用 root 權限將 MAA 安裝入 `/usr`。  
    :::
 
 4. 編譯 MaaFramework 相關元件
@@ -95,8 +95,8 @@ Mac 使用者可以使用 `tools/build_macos_universal.zsh` 腳本進行編譯�
 
 ## 編譯 MaaWpfGui
 
-::: info 注意
-MaaWpfGui 適用於 Windows，編譯成品在 Linux 上需要透過 Wine 執行，詳見 [使用 Wine](../manual/device/linux.md#使用-wine)。
+::: info 注意  
+MaaWpfGui 適用於 Windows，編譯成品在 Linux 上需要透過 Wine 執行，詳見 [使用 Wine](../manual/device/linux.md#使用-wine)。  
 :::
 
 :::: steps
@@ -109,7 +109,7 @@ MaaWpfGui 適用於 Windows，編譯成品在 Linux 上需要透過 Wine 執行�
 
 2. 安裝 .NET SDK
 
-   ::: code-tabs
+   ::: code-tabs  
    @tab:active Ubuntu
 
    ```bash

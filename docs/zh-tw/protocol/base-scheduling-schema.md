@@ -7,8 +7,8 @@ icon: material-symbols:view-quilt-rounded
 
 `resource/custom_infrast/*.json` 的使用方法及各欄位說明
 
-::: tip
-請注意，json 檔案不支援註解。文件中的註解僅供說明參考，請勿直接複製使用。
+::: tip  
+請注意，json 檔案不支援註解。文件中的註解僅供說明參考，請勿直接複製使用。  
 :::
 
 [視覺化排班表產生工具](https://ark.yituliu.cn/tools/scheduleV2)

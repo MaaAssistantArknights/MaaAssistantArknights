@@ -204,14 +204,14 @@ B 服：`張三`，可輸入 `張三`、`張`、`三`
 <br>
 `1` ~ `10`：指定固定的代理倍率。
 <br>
-::: info 伺服器差異
+::: info 伺服器差異  
 輸入驗證取決於資源是否存在 `FightSeries-OldMethodFlag`：
 <br>
 
 - 新列表（國服 2026/8/1 後主資源，無該 flag）：接受 `-1~10`
 - 舊列表（外服資源帶該 flag）：僅接受 `-1~6`，更大值會被拒絕
 
-外服預計約半年後跟進，屆時上限隨資源變為 10。Windows GUI 的代理倍率下拉目前固定提供到 10；外服若手動選擇 7~10，任務下發時會被 Core 拒絕。
+外服預計約半年後跟進，屆時上限隨資源變為 10。Windows GUI 的代理倍率下拉目前固定提供到 10；外服若手動選擇 7~10，任務下發時會被 Core 拒絕。  
 :::  
 ::: field drops  
 @type object
@@ -322,12 +322,12 @@ B 服：`張三`，可輸入 `張三`、`張`、`三`
 @required
 會被自動點選確認的 Tag 等級。若只想計算結果而不實際招募，請設定為空陣列。  
 :::  
-::: field level3_recruitment_permit_reserve
+::: field level3_recruitment_permit_reserve  
 @type number
 @default 0
 @optional
-自動確認 3 星時保留的招聘許可數量。目前許可數量小於等於此值時會跳過 3 星招募，4 星以上不受影響；設為 `0` 時停用。啟用後若數量辨識失敗，也會跳過目前的 3 星招募，以避免誤用保留的許可。
-:::
+自動確認 3 星時保留的招聘許可數量。目前許可數量小於等於此值時會跳過 3 星招募，4 星以上不受影響；設為 `0` 時停用。啟用後若數量辨識失敗，也會跳過目前的 3 星招募，以避免誤用保留的許可。  
+:::  
 ::: field first_tags  
 @type array<string>
 @optional
@@ -377,7 +377,7 @@ B 服：`張三`，可輸入 `張三`、`張`、`三`
 已棄用，僅用於相容舊參數。  
 <br>
 當未提供 `preserve_tags` 且其值為 `true` 時，會在辨識到 `支援机械` 時跳過；`元素` 不再視為舊版 1 星 Tag。  
-:::
+:::  
 ::: field preserve_tags  
 @type array<string>
 @optional
@@ -866,7 +866,7 @@ Tag 等級（大於等於 3）對應的期望招募時限（單位：分鐘）�
 <br>
 `30001` - 刷襁褓動物；僅適用於 BlackFlow 主題。
 <br>
-`30003` - 刷開局，先打準備局，再開目標局。準備局取得 `blackflow_start_animals` 要求的襁褓動物並進入第三層後放棄；目標局在選擇支援頁命中 `blackflow_start_rewards` 中任意一項時不做選擇，退出到主題頁並保留該局，任務結束。準備局使用 `collectible_mode_squad`，`difficulty` 不為 `-1` 時在 0 難度下進行；目標局使用 `squad` 與 `difficulty`，到選擇支援頁即結束；`roles` 與開局幹員用於準備局，提供 `collectible_mode_roles`、`collectible_mode_core_char_list` 時準備局改用這兩項。開啟 `blackflow_start_utopia` 時目標局選取獎勵後進入第一層，見該欄位。僅適用於 BlackFlow 主題，需配合 `blackflow_start_animals` 與 `blackflow_start_rewards`。
+`30003` - 刷開局，先打準備局，再開目標局。準備局取得 `blackflow_start_animals` 要求的襁褓動物並進入第三層後放棄；目標局在選擇支援頁命中 `blackflow_start_rewards` 中任意一項時不做選擇，退出到主題頁並保留該局，任務結束。準備局使用 `collectible_mode_squad`，`difficulty` 不為 `-1` 時在 0 難度下進行；目標局使用 `squad` 與 `difficulty`，到選擇支援頁即結束；`roles` 與開局幹員用於準備局，提供 `collectible_mode_roles`、`collectible_mode_core_char_list` 時準備局改用這兩項。開啟 `blackflow_start_utopia` 時目標局選取獎勵後進入第一層，見該欄位。僅適用於 BlackFlow 主題，需配合 `blackflow_start_animals` 與 `blackflow_start_rewards`。  
 :::  
 ::: field squad  
 @type string
@@ -1478,7 +1478,7 @@ Tag 等級（大於等於 3）對應的期望招募時限（單位：分鐘）�
 <br>
 `32` (`RA15`) - RA-15，用聖聆初雪完成 60 殺任務。
 <br>
-`48` (`RA4`) - RA-4，使用籌劃經營策略給予的赤金解鎖區域，使用維什戴爾完成擊殺 boss 任務。
+`48` (`RA4`) - RA-4，使用籌劃經營策略給予的赤金解鎖區域，使用維什戴爾完成擊殺 boss 任務。  
 :::  
 ::: field tools_to_craft  
 @type array<string>
@@ -1608,7 +1608,7 @@ Tag 等級（大於等於 3）對應的期望招募時限（單位：分鐘）�
 `start`：開始作戰，無需設定 `details`。
 <br>
 `action`：單步作戰操作，`details` 須為作戰協議中的單一動作（action），例如：`"details": { "name": "史尔特尔", "location": [ 4, 5 ], "direction": "左" }`，詳情請參閱 [戰鬥流程協定](./copilot-schema.md)。  
-:::
+:::  
 ::: field details  
 @type object
 @optional

@@ -5,18 +5,18 @@ icon: teenyicons:linux-alt-solid
 
 # Linux コンパイル チュートリアル
 
-::: warning
-**このチュートリアルでは、読者にLinux環境の構成能力とプログラミングの基礎が必要です！**MAAを自分でコンパイルするのではなく実行するだけの場合は、[ユーザーマニュアル - Linux エミュレータとコンテナ](../manual/device/linux.md)をお読みください。
+::: warning  
+**このチュートリアルでは、読者にLinux環境の構成能力とプログラミングの基礎が必要です！**MAAを自分でコンパイルするのではなく実行するだけの場合は、[ユーザーマニュアル - Linux エミュレータとコンテナ](../manual/device/linux.md)をお読みください。  
 :::
 
-::: info 注意
+::: info 注意  
 MAAの構築方法はまだ議論されていますが、このチュートリアルの内容は古くなる可能性があります。[GitHub workflow file](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev-v2/.github/workflows/ci.yml#L264#:~:text=ubuntu%3A) のスクリプトに準拠してください。  
-また、[AUR PKGBUILD](https://aur.archlinux.org/cgit/aur.git/tree/PKGBUILD?h=maa-assistant-arknights) や [nixpkgs](https://github.com/NixOS/nixpkgs/blob/nixos-unstable/pkgs/by-name/ma/maa-assistant-arknights/package.nix) も参照可能です。
+また、[AUR PKGBUILD](https://aur.archlinux.org/cgit/aur.git/tree/PKGBUILD?h=maa-assistant-arknights) や [nixpkgs](https://github.com/NixOS/nixpkgs/blob/nixos-unstable/pkgs/by-name/ma/maa-assistant-arknights/package.nix) も参照可能です。  
 :::
 
-::: info
+::: info  
 Mac は `tools/build_macos_universal.zsh` スクリプトを使用してコンパイルできます。  
-MaaAssistantArknights/MaaMacGui プロジェクトの [README.md](https://github.com/MaaAssistantArknights/MaaMacGui/blob/master/README.md) を参照することをお勧めします。
+MaaAssistantArknights/MaaMacGui プロジェクトの [README.md](https://github.com/MaaAssistantArknights/MaaMacGui/blob/master/README.md) を参照することをお勧めします。  
 :::
 
 ## MaaCore のコンパイル
@@ -24,7 +24,7 @@ MaaAssistantArknights/MaaMacGui プロジェクトの [README.md](https://github
 :::: steps
 
 1. コンパイルに必要な依存関係をダウンロードする
-   ::: code-tabs
+   ::: code-tabs  
    @tab:active Ubuntu/Debian
 
    ```bash :no-line-numbers
@@ -48,8 +48,8 @@ MaaAssistantArknights/MaaMacGui プロジェクトの [README.md](https://github
      python tools/maadeps-download.py
      ```
 
-     ::: info
-     事前構築されたサードパーティ製ライブラリは [MaaLinuxToolchain](https://github.com/MaaXYZ/MaaLinuxToolchain) ツールチェーンによってクロスコンパイルされており、glibc 2.31 (Ubuntu 20.04) のみに依存します。依然として ABI の非互換性問題が発生する場合は、コンテナを使用するか、最初から自分でビルドしてみてください。
+     ::: info  
+     事前構築されたサードパーティ製ライブラリは [MaaLinuxToolchain](https://github.com/MaaXYZ/MaaLinuxToolchain) ツールチェーンによってクロスコンパイルされており、glibc 2.31 (Ubuntu 20.04) のみに依存します。依然として ABI の非互換性問題が発生する場合は、コンテナを使用するか、最初から自分でビルドしてみてください。  
      :::
 
    - サードパーティ製ライブラリを自分でビルドする（時間がかかります）
@@ -73,14 +73,14 @@ MaaAssistantArknights/MaaMacGui プロジェクトの [README.md](https://github
 
    最初の2行で `build/bin/Debug/libMaaCore.so`（および `libMaaUtils.so`）が生成され、3行目でビルド成果物がインストール（つまり、コピー）されます。
 
-   ::: info CMake オプションの説明
+   ::: info CMake オプションの説明  
    `-DINSTALL_RESOURCE=ON` は `resource` ディレクトリをインストール先にコピーします。MaaCore の実行には、`resource` ディレクトリが必要です。
 
-   `-DINSTALL_PYTHON=ON` は Python インテグレーション（`src/Python`）をインストール先にコピーします。使用しない場合やリポジトリから直接利用する場合は省略可能です。
+   `-DINSTALL_PYTHON=ON` は Python インテグレーション（`src/Python`）をインストール先にコピーします。使用しない場合やリポジトリから直接利用する場合は省略可能です。  
    :::
 
-   ::: tip
-   動的ライブラリのパスまたは `LD_LIBRARY_PATH` を指定して MAA を実行することをお勧めします。root 権限で MAA を `/usr` にインストールしないでください。
+   ::: tip  
+   動的ライブラリのパスまたは `LD_LIBRARY_PATH` を指定して MAA を実行することをお勧めします。root 権限で MAA を `/usr` にインストールしないでください。  
    :::
 
 4. MaaFramework 関連コンポーネントのコンパイル
@@ -95,8 +95,8 @@ MaaAssistantArknights/MaaMacGui プロジェクトの [README.md](https://github
 
 ## MaaWpfGui のコンパイル
 
-::: info 注意
-MaaWpfGui は Windows 向けに作られており、Linux 上でビルド成果物を実行するには Wine を介する必要があります。詳細は [Wine を使用する](../manual/device/linux.md#wine-を使用する) を参照してください。
+::: info 注意  
+MaaWpfGui は Windows 向けに作られており、Linux 上でビルド成果物を実行するには Wine を介する必要があります。詳細は [Wine を使用する](../manual/device/linux.md#wine-を使用する) を参照してください。  
 :::
 
 :::: steps
@@ -109,7 +109,7 @@ MaaWpfGui は Windows 向けに作られており、Linux 上でビルド成果�
 
 2. .NET SDK のインストール
 
-   ::: code-tabs
+   ::: code-tabs  
    @tab:active Ubuntu
 
    ```bash

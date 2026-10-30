@@ -131,8 +131,8 @@ cargo install --git https://github.com/MaaAssistantArknights/maa-cli.git --bin m
 
 :::
 
-::: warning
-maa-cli 目前的最低支援 Rust 版本 (MSRV) 為 1.88。請注意，MSRV 可能隨時發生變化，我們建議始終使用最新的 Rust 工具鏈以獲得最佳體驗。
+::: warning  
+maa-cli 目前的最低支援 Rust 版本 (MSRV) 為 1.88。請注意，MSRV 可能隨時發生變化，我們建議始終使用最新的 Rust 工具鏈以獲得最佳體驗。  
 :::
 
 ### 編譯選項
@@ -191,6 +191,6 @@ Nix 上的 maa-cli 強制依賴 MaaCore，因此 Nix 使用者無需、也不應
 
 :::
 
-::: warning
-`maa install` 下載的是 MAA 官方預編譯的 MaaCore，而套件管理員安裝的 MaaCore 可能使用與官方預編譯版本不同的編譯選項和依賴版本，這也許會導致效能和功能上的些微差異。
+::: warning  
+`maa install` 下載的是 MAA 官方預編譯的 MaaCore，而套件管理員安裝的 MaaCore 可能使用與官方預編譯版本不同的編譯選項和依賴版本，這也許會導致效能和功能上的些微差異。  
 :::
