@@ -22,7 +22,7 @@ If detection fails, try launching MAA with UAC administrator privileges and dete
 
 ## ADB Path
 
-:::info Technical details  
+::: info Technical details  
 Auto detection uses the emulator's ADB. Manual configuration is only required if auto detection fails.  
 `Force Replace ADB` will download Google's ADB and use it automatically.  
 If ADB is available in the environment variables, just fill in `adb`.  
@@ -34,7 +34,7 @@ Go to your emulator's installation directory. On Windows, you can right-click th
 
 Look for an exe file with `adb` in its name in the top-level or subdirectories. You can use search to find it.
 
-:::details Examples  
+::: details Examples  
 `adb.exe` `HD-adb.exe` `adb_server.exe` `nox_adb.exe`  
 :::
 

@@ -242,30 +242,30 @@ The effects are as follows:
 
 :::: field-group  
 ::: field theme  
-@type ThemeConfig
-@default { base: '/' }
-@required
+@type ThemeConfig  
+@default { base: '/' }  
+@required  
 Theme configuration  
 :::
 
 ::: field enabled  
-@type boolean
-@default true
-@optional
+@type boolean  
+@default true  
+@optional  
 Whether to enable  
 :::
 
 ::: field callback  
-@type (...args: any[]) => void
-@default () => {}
-@optional
+@type (...args: any[]) => void  
+@default () => {}  
+@optional  
 <Badge type="tip" text="Added in v1.0.0"  />
 Callback function  
 :::
 
 ::: field other  
-@type string
-@deprecated
+@type string  
+@deprecated  
 <Badge type="danger" text="Deprecated in v0.9.0"  />
 Deprecated property  
 :::  

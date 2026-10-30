@@ -240,30 +240,30 @@ MaaAssistantArknights는 ==많은 돼지들== 에 의해 개발되었습니다
 
 :::: field-group  
 ::: field theme  
-@type ThemeConfig
-@default { base: '/' }
-@required
+@type ThemeConfig  
+@default { base: '/' }  
+@required  
 테마 설정  
 :::
 
 ::: field enabled  
-@type boolean
-@default true
-@optional
+@type boolean  
+@default true  
+@optional  
 활성화 여부  
 :::
 
 ::: field callback  
-@type (...args: any[]) => void
-@default () => {}
-@optional
+@type (...args: any[]) => void  
+@default () => {}  
+@optional  
 <Badge type="tip" text="v1.0.0 추가"  />
 콜백 함수  
 :::
 
 ::: field other  
-@type string
-@deprecated
+@type string  
+@deprecated  
 <Badge type="danger" text="v0.9.0 폐기"  />
 폐기된 속성  
 :::  

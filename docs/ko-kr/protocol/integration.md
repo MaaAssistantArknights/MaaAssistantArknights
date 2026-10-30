@@ -29,18 +29,18 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
 
 :::: field-group  
 ::: field handle  
-@type AsstHandle
-@required
+@type AsstHandle  
+@required  
 인스턴스 핸들  
 :::  
 ::: field type  
-@type const char*
-@required
+@type const char*  
+@required  
 작업 유형  
 :::  
 ::: field params  
-@type const char*
-@required
+@type const char*  
+@required  
 작업 파라미터, json string  
 :::  
 ::::
@@ -52,34 +52,34 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
 
 :::: field-group  
 ::: field enable  
-@type boolean
-@default true
-@optional
+@type boolean  
+@default true  
+@optional  
 본 작업 활성화 여부  
 :::  
 ::: field client_type  
-@type string
-@required
-클라이언트 버전  
+@type string  
+@required  
+클라이언트 버전
 <br>
 옵션: `Official` | `Bilibili` | `txwy` | `YoStarEN` | `YoStarJP` | `YoStarKR`  
 :::  
 ::: field start_game_enabled  
-@type boolean
-@default false
-@optional
+@type boolean  
+@default false  
+@optional  
 클라이언트 자동 실행 여부  
 :::  
 ::: field account_name  
-@type string
-@optional
-계정 전환, 기본값은 전환하지 않음  
+@type string  
+@optional  
+계정 전환, 기본값은 전환하지 않음
 <br>
-로그인된 계정으로만 전환 가능하며, 로그인 이름으로 검색하므로 입력 내용이 로그인된 모든 계정 중 유일해야 함  
+로그인된 계정으로만 전환 가능하며, 로그인 이름으로 검색하므로 입력 내용이 로그인된 모든 계정 중 유일해야 함
 <br>
-공식 서버: `123****4567`인 경우 `123****4567`, `4567`, `123`, `3****4567` 입력 가능  
+공식 서버: `123****4567`인 경우 `123****4567`, `4567`, `123`, `3****4567` 입력 가능
 <br>
-Bilibili 서버: `张三`인 경우 `张三`, `张`, `三` 입력 가능  
+Bilibili 서버: `张三`인 경우 `张三`, `张`, `三` 입력 가능
 <br>
 번체 중국어 서버: 계정은 Email 형식이며(예: `ab****01@gmail.com`), 별표가 없는 평문 부분(예: `01@gmail`) 입력을 권장합니다  
 :::  
@@ -104,15 +104,15 @@ Bilibili 서버: `张三`인 경우 `张三`, `张`, `三` 입력 가능
 
 :::: field-group  
 ::: field enable  
-@type boolean
-@default true
-@optional
+@type boolean  
+@default true  
+@optional  
 본 작업 활성화 여부  
 :::  
 ::: field client_type  
-@type string
-@required
-클라이언트 버전, 비워두면 실행하지 않음  
+@type string  
+@required  
+클라이언트 버전, 비워두면 실행하지 않음
 <br>
 옵션: `Official` | `Bilibili` | `txwy` | `YoStarEN` | `YoStarJP` | `YoStarKR`  
 :::  
@@ -135,14 +135,14 @@ Bilibili 서버: `张三`인 경우 `张三`, `张`, `三` 입력 가능
 
 :::: field-group  
 ::: field enable  
-@type boolean
-@default true
-@optional
+@type boolean  
+@default true  
+@optional  
 본 작업 활성화 여부  
 :::  
 ::: field stage  
-@type string
-@optional
+@type string  
+@optional  
 스테이지명, 기본값은 비어 있음(현재/지난 스테이지 인식). 실행 중 설정 불가  
 현재 내비게이션을 지원하는 스테이지는 다음과 같음:
 
@@ -161,40 +161,40 @@ Bilibili 서버: `张三`인 경우 `张三`, `张`, `三` 입력 가능
 
 :::  
 ::: field medicine  
-@type number
-@default 0
-@optional
+@type number  
+@default 0  
+@optional  
 이성 회복제 최대 사용 개수  
 :::  
 ::: field medicine_expire_days  
-@type number
-@default 0
-@optional
+@type number  
+@default 0  
+@optional  
 지정된 일수 이내에 만료되는 이성 회복제를 사용합니다. `0`은 만료 임박 이성 회복제를 사용하지 않음을 의미합니다.  
 :::  
 ::: field expiring_medicine  
-@type number
-@default 0
-@optional
-@deprecated
+@type number  
+@default 0  
+@optional  
+@deprecated  
 v6.8.0부터 폐기됨. 대신 `medicine_expire_days`를 사용하세요.  
 :::  
 ::: field stone  
-@type number
-@default 0
-@optional
+@type number  
+@default 0  
+@optional  
 오리지늄 최대 사용 개수  
 :::  
 ::: field times  
-@type number
-@default 2147483647
-@optional
+@type number  
+@default 2147483647  
+@optional  
 전투 횟수  
 :::  
 ::: field series  
-@type number
-@default 1
-@optional
+@type number  
+@default 1  
+@optional  
 연속 전투 횟수, -1~10
 <br>
 
@@ -214,55 +214,55 @@ v6.8.0부터 폐기됨. 대신 `medicine_expire_days`를 사용하세요.
 해외 서버는 약 반년 후 따를 예정이며, 그때 상한은 리소스에 맞춰 10이 됩니다. Windows GUI의 연속 전투 드롭다운은 현재 고정으로 10까지 제공합니다. 해외에서 수동으로 7~10을 선택하면 작업 전달 시 Core에서 거부됩니다.  
 :::  
 ::: field drops  
-@type object
-@optional
+@type object  
+@optional  
 지정 드랍 수량, 기본값은 지정 안 함. key는 item_id, value는 수량. key는 `resource/item_index.json` 파일 참조
 <br>
-예: `{ "30011": 10, "30062": 5 }`  
+예: `{ "30011": 10, "30062": 5 }`
 <br>
 위 조건들은 OR 관계이므로, 어느 하나라도 도달하면 작업 중지  
 :::  
 ::: field report_to_penguin  
-@type boolean
-@default false
-@optional
+@type boolean  
+@default false  
+@optional  
 펭귄 물류(Penguin Stats) 데이터 전송 여부  
 :::  
 ::: field penguin_id  
-@type string
-@optional
+@type string  
+@optional  
 펭귄 물류 전송 ID, 기본값 비어 있음. `report_to_penguin`이 true일 때만 유효  
 :::  
 ::: field report_to_yituliu  
-@type boolean
-@default false
-@optional
+@type boolean  
+@default false  
+@optional  
 Yituliu 데이터 전송 여부  
 :::  
 ::: field yituliu_id  
-@type string
-@optional
+@type string  
+@optional  
 Yituliu 전송 ID, 기본값 비어 있음. `report_to_yituliu`가 true일 때만 유효  
 :::  
 ::: field server  
-@type string
-@default CN
-@optional
+@type string  
+@default CN  
+@optional  
 서버, 드랍 인식 및 업로드에 영향
 <br>
 옵션: `CN` | `US` | `JP` | `KR`  
 :::  
 ::: field client_type  
-@type string
-@optional
+@type string  
+@optional  
 클라이언트 버전, 기본값 비어 있음. 게임 크래시 시 재시작 후 재접속하여 계속 파밍하는 용도. 비워두면 해당 기능 비활성화
 <br>
 옵션: `Official` | `Bilibili` | `txwy` | `YoStarEN` | `YoStarJP` | `YoStarKR`  
 :::  
 ::: field DrGrandet  
-@type boolean
-@default false
-@optional
+@type boolean  
+@default false  
+@optional  
 이성 절약 모드, 오리지늄 사용 가능성이 있을 때만 유효
 <br>
 오리지늄 사용 확인 창에서 대기하다가, 현재 1이성이 회복되면 즉시 오리지늄을 사용  
@@ -303,44 +303,44 @@ Yituliu 전송 ID, 기본값 비어 있음. `report_to_yituliu`가 true일 때�
 
 :::: field-group  
 ::: field enable  
-@type boolean
-@default true
-@optional
+@type boolean  
+@default true  
+@optional  
 본 작업 활성화 여부  
 :::  
 ::: field refresh  
-@type boolean
-@default false
-@optional
+@type boolean  
+@default false  
+@optional  
 3성 태그 새로고침 여부  
 :::  
 ::: field select  
-@type array<number>
-@required
+@type array<number>  
+@required  
 클릭할 태그 등급  
 :::  
 ::: field confirm  
-@type array<number>
-@required
+@type array<number>  
+@required  
 확인 클릭할 태그 등급. 공모 계산만 할 경우 빈 배열로 설정 가능  
 :::  
 ::: field level3_recruitment_permit_reserve  
-@type number
-@default 0
-@optional
+@type number  
+@default 0  
+@optional  
 ★3 자동 모집 시 보유할 모집 허가증 수입니다. 현재 허가증 수가 이 값 이하이면 ★3 모집을 건너뛰며, ★4 이상 모집에는 영향을 주지 않습니다. `0`으로 설정하면 비활성화됩니다. 활성화된 상태에서 수량 인식에 실패한 경우에도 허가증이 잘못 소모되는 것을 방지하기 위해 현재 ★3 모집을 건너뜁니다.  
 :::  
 ::: field first_tags  
-@type array<string>
-@optional
+@type array<string>  
+@optional  
 우선 태그, 태그 등급이 3일 때만 유효. 기본값 비어 있음
 <br>
 태그 등급이 3일 때, 여기에 있는 태그(존재하는 경우)를 가능한 많이 선택하며, 강제 선택이므로 "3성 태그 선택 안 함" 설정을 무시함  
 :::  
 ::: field extra_tags_mode  
-@type number
-@default 0
-@optional
+@type number  
+@default 0  
+@optional  
 추가 태그 선택 모드
 <br>
 `0` - 기본 동작
@@ -350,76 +350,76 @@ Yituliu 전송 ID, 기본값 비어 있음. `report_to_yituliu`가 true일 때�
 `2` - 충돌 가능성 무시하고 가능한 많은 고성급 태그 조합 동시 선택  
 :::  
 ::: field times  
-@type number
-@default 0
-@optional
+@type number  
+@default 0  
+@optional  
 모집 횟수. 공모 계산만 할 경우 0으로 설정 가능  
 :::  
 ::: field set_time  
-@type boolean
-@default true
-@optional
+@type boolean  
+@default true  
+@optional  
 모집 시간 설정 여부. `times`가 0일 때만 유효  
 :::  
 ::: field expedite  
-@type boolean
-@default false
-@optional
+@type boolean  
+@default false  
+@optional  
 즉시 완료 허가증 사용 여부  
 :::  
 ::: field expedite_times  
-@type number
-@optional
+@type number  
+@optional  
 즉시 완료 사용 횟수, `expedite`가 true일 때만 유효. 현재 버전에서는 적용되지 않으며, 가속은 횟수 제한 없이 `times` 상한까지 계속됨  
 :::  
 ::: field skip_robot  
-@type boolean
-@default true
-@optional
-폐기 예정이며 구형 파라미터 호환용으로만 유지됩니다.  
+@type boolean  
+@default true  
+@optional  
+폐기 예정이며 구형 파라미터 호환용으로만 유지됩니다.
 <br>
 `preserve_tags`가 없고 이 값이 `true`이면 `支援机械` 인식 시에만 건너뜁니다. `元素`는 더 이상 구형 1★ 태그로 취급하지 않습니다.  
 :::  
 ::: field preserve_tags  
-@type array<string>
-@optional
-현재 공개모집 슬롯을 유지한 채 이번 모집을 건너뛸 Tag 이름 목록입니다. 기본값은 빈 배열입니다.  
+@type array<string>  
+@optional  
+현재 공개모집 슬롯을 유지한 채 이번 모집을 건너뛸 Tag 이름 목록입니다. 기본값은 빈 배열입니다.
 <br>
 지정한 Tag 중 하나라도 인식되면 MAA는 해당 슬롯을 유지하고 이번 모집을 건너뜁니다.  
 :::  
 ::: field recruitment_time  
-@type object
-@optional
+@type object  
+@optional  
 태그 등급(3 이상)과 대응하는 희망 모집 시간(분 단위), 기본값은 모두 540(즉 09:00:00)
 <br>
 예: `{ "3": 540, "4": 540 }`  
 :::  
 ::: field report_to_penguin  
-@type boolean
-@default false
-@optional
+@type boolean  
+@default false  
+@optional  
 펭귄 물류 데이터 전송 여부  
 :::  
 ::: field penguin_id  
-@type string
-@optional
+@type string  
+@optional  
 펭귄 물류 전송 ID, 기본값 비어 있음. `report_to_penguin`이 true일 때만 유효  
 :::  
 ::: field report_to_yituliu  
-@type boolean
-@default false
-@optional
+@type boolean  
+@default false  
+@optional  
 Yituliu 데이터 전송 여부  
 :::  
 ::: field yituliu_id  
-@type string
-@optional
+@type string  
+@optional  
 Yituliu 전송 ID, 기본값 비어 있음. `report_to_yituliu`가 true일 때만 유효  
 :::  
 ::: field server  
-@type string
-@default CN
-@optional
+@type string  
+@default CN  
+@optional  
 서버, 업로드에 영향
 <br>
 옵션: `CN` | `US` | `JP` | `KR`  
@@ -462,15 +462,15 @@ Yituliu 전송 ID, 기본값 비어 있음. `report_to_yituliu`가 true일 때�
 
 :::: field-group  
 ::: field enable  
-@type boolean
-@default true
-@optional
+@type boolean  
+@default true  
+@optional  
 본 작업 활성화 여부  
 :::  
 ::: field mode  
-@type number
-@default 0
-@optional
+@type number  
+@default 0  
+@optional  
 교대 작업 모드
 <br>
 `0` - `Default`: 기본 교대 모드. 시설 내 및 시설 간을 포함한 효율적인 오퍼레이터 조합을 자동으로 계산합니다
@@ -480,8 +480,8 @@ Yituliu 전송 ID, 기본값 비어 있음. `report_to_yituliu`가 true일 때�
 `20000` - `Rotation`: 원터치 로테이션 모드. 제어 센터, 발전소, 숙소, 사무실, 재활용 시설은 건너뛰고, 나머지 시설은 교대하지 않지만 기본 조작(드론 사용, 응접실 로직 등)은 유지  
 :::  
 ::: field facility  
-@type array<string>
-@required
+@type array<string>  
+@required  
 교대할 시설. 실행 중 설정 불가
 <br>
 `mode = 0`일 때 이 배열은 활성화 집합으로 취급되며, 순서와 중복 항목은 스케줄링에 영향을 주지 않습니다(교대 순서는 알고리즘이 자동으로 결정). `mode = 10000` / `20000`일 때는 배열 순서대로 처리됩니다.
@@ -489,17 +489,17 @@ Yituliu 전송 ID, 기본값 비어 있음. `report_to_yituliu`가 true일 때�
 시설명: `Mfg` | `Trade` | `Power` | `Control` | `Reception` | `Office` | `Recycle` | `Dorm` | `Processing` | `Training` | `AssistantChange`  
 :::  
 ::: field drones  
-@type string
-@default \_NotUse
-@optional
+@type string  
+@default \_NotUse  
+@optional  
 드론 용도. `mode = 10000`일 때 이 필드는 무효
 <br>
 옵션: `_NotUse` | `Money` | `SyntheticJade` | `CombatRecord` | `PureGold` | `OriginStone` | `Chip`  
 :::  
 ::: field threshold  
-@type number
-@default 0.3
-@optional
+@type number  
+@default 0.3  
+@optional  
 컨디션 임계값, 범위 [0, 1.0]
 <br>
 `mode = 10000`일 때 이 필드는 "autofill"에 대해서만 유효
@@ -507,97 +507,97 @@ Yituliu 전송 ID, 기본값 비어 있음. `report_to_yituliu`가 true일 때�
 `mode = 20000`일 때 이 필드는 무효  
 :::  
 ::: field replenish  
-@type boolean
-@default false
-@optional
+@type boolean  
+@default false  
+@optional  
 무역소 "오리지늄 조각" 자동 보충 여부  
 :::  
 ::: field dorm_notstationed_enabled  
-@type boolean
-@default false
-@optional
+@type boolean  
+@default false  
+@optional  
 작업 오퍼레이터 숙소 "미배치" 옵션 활성화 여부  
 :::  
 ::: field dorm_trust_enabled  
-@type boolean
-@default false
-@optional
+@type boolean  
+@default false  
+@optional  
 숙소 남은 자리에 신뢰도 미만 오퍼레이터 배치 여부  
 :::  
 ::: field fiammetta_targets  
-@type array<string>
-@default ["清流", "可露希尔", "但书"]
-@optional
+@type array<string>  
+@default ["清流", "可露希尔", "但书"]  
+@optional  
 피아메타 회복 대상 목록. 교대 시작 시 목록에서 현재 컨디션이 가장 낮은 대상 오퍼레이터가 피아메타와 함께 숙소에 배치되어 컨디션을 교환합니다. `mode = 0`이면서 `fiammetta_recovery_enabled`가 true일 때만 유효합니다.
 <br>
 옵션: `清流` | `可露希尔` | `但书` | `巫恋` | `龙舌兰` | `歌蕾蒂娅` | `琴柳` | `承曦格雷伊` | `温蒂` | `槐琥` | `至简` | `旅骨` (옵션 외 또는 중복 항목은 무시됨)  
 :::  
 ::: field fiammetta_recovery_enabled  
-@type boolean
-@default false
-@optional
+@type boolean  
+@default false  
+@optional  
 교대 시작 시 피아메타로 회복 대상의 컨디션을 회복할지 여부입니다. 비활성화 시 교대가 숙소 준비 단계를 건너뜁니다. `mode = 0`일 때만 유효합니다.  
 :::  
 ::: field use_pinus_sylvestris  
-@type boolean
-@default false
-@optional
+@type boolean  
+@default false  
+@optional  
 ｢피누스 실베스트리스｣ 시설 간 연계 활성화 여부. `mode = 0`일 때만 유효합니다.  
 :::  
 ::: field use_perception_information  
-@type boolean
-@default false
-@optional
+@type boolean  
+@default false  
+@optional  
 ｢감지 정보｣ 시설 간 연계 활성화 여부. ｢속세의 번뇌｣보다 우선순위가 높습니다. `mode = 0`일 때만 유효합니다.  
 :::  
 ::: field use_worldly_plight  
-@type boolean
-@default false
-@optional
+@type boolean  
+@default false  
+@optional  
 ｢속세의 번뇌｣ 시설 간 연계 활성화 여부. `mode = 0`일 때만 유효합니다.  
 :::  
 ::: field use_abyssal_hunter  
-@type boolean
-@default false
-@optional
+@type boolean  
+@default false  
+@optional  
 ｢어비설 헌터｣ 시설 간 연계 활성화 여부. `mode = 0`일 때만 유효하며, ｢피누스 실베스트리스｣와 동시에 활성화하면 두 연계는 동시에 교대에 참여하지 않습니다.  
 :::  
 ::: field reception_message_board  
-@type boolean
-@default true
-@optional
+@type boolean  
+@default true  
+@optional  
 응접실 게시판 크레딧 수령 여부  
 :::  
 ::: field reception_clue_exchange  
-@type boolean
-@default true
-@optional
+@type boolean  
+@default true  
+@optional  
 단서 교환 수행 여부  
 :::  
 ::: field reception_send_clue  
-@type boolean
-@default true
-@optional
+@type boolean  
+@default true  
+@optional  
 단서 보내기 여부  
 :::  
 ::: field filename  
-@type string
-@required
+@type string  
+@required  
 사용자 정의 설정 경로. 실행 중 설정 불가
 <br>
 <Badge type="warning" text="mode = 10000일 때만 유효" />  
 :::  
 ::: field plan_index  
-@type number
-@required
+@type number  
+@required  
 설정 내 사용할 플랜 번호. 실행 중 설정 불가
 <br>
 <Badge type="warning" text="mode = 10000일 때만 유효" />  
 :::  
 ::: field continue_training  
-@type boolean
-@default false
-@optional
+@type boolean  
+@default false  
+@optional  
 훈련실에서 완료되지 않은 특화 훈련을 계속할지 여부  
 :::  
 ::::
@@ -631,63 +631,63 @@ Yituliu 전송 ID, 기본값 비어 있음. `report_to_yituliu`가 true일 때�
 
 :::: field-group  
 ::: field enable  
-@type boolean
-@default true
-@optional
+@type boolean  
+@default true  
+@optional  
 본 작업 활성화 여부  
 :::  
 ::: field visit_friends  
-@type boolean
-@default true
-@optional
+@type boolean  
+@default true  
+@optional  
 친구 기반시설을 방문하여 크레딧 획득 여부  
 :::  
 ::: field shopping  
-@type boolean
-@default true
-@optional
+@type boolean  
+@default true  
+@optional  
 크레딧 상점 구매 수행 여부  
 :::  
 ::: field buy_first  
-@type array<string>
-@default []
-@optional
+@type array<string>  
+@default []  
+@optional  
 우선 구매 목록. 상품명, 예: `"채용 허가증"`, `"용문폐"` 등  
 :::  
 ::: field blacklist  
-@type array<string>
-@default []
-@optional
+@type array<string>  
+@default []  
+@optional  
 구매 블랙리스트. 상품명, 예: `"즉시 완료 허가증"`, `"가구 부품"` 등  
 :::  
 ::: field force_shopping_if_credit_full  
-@type boolean
-@default false
-@optional
+@type boolean  
+@default false  
+@optional  
 크레딧 넘침 시 블랙리스트 무시 여부  
 :::  
 ::: field only_buy_discount  
-@type boolean
-@default false
-@optional
+@type boolean  
+@default false  
+@optional  
 할인 상품만 구매 여부, 2차 구매(목록 순서 외)에만 적용  
 :::  
 ::: field reserve_max_credit  
-@type boolean
-@default false
-@optional
+@type boolean  
+@default false  
+@optional  
 크레딧이 300 미만일 때 구매 중지 여부, 2차 구매에만 적용  
 :::  
 ::: field credit_fight  
-@type boolean
-@default false
-@optional
+@type boolean  
+@default false  
+@optional  
 다음 날 더 많은 크레딧을 얻기 위해 지원을 빌려 OF-1 스테이지를 1회 클리어할지 여부  
 :::  
 ::: field formation_index  
-@type number
-@default 0
-@optional
+@type number  
+@default 0  
+@optional  
 OF-1 플레이 시 사용할 편성 슬롯 번호
 <br>
 0~~4의 정수, 0은 현재 편성, 1~~4는 제1~4 편성  
@@ -719,45 +719,45 @@ OF-1 플레이 시 사용할 편성 슬롯 번호
 
 :::: field-group  
 ::: field enable  
-@type boolean
-@default true
-@optional
+@type boolean  
+@default true  
+@optional  
 본 작업 활성화 여부  
 :::  
 ::: field award  
-@type boolean
-@default true
-@optional
+@type boolean  
+@default true  
+@optional  
 일일/주간 임무 보상 수령  
 :::  
 ::: field mail  
-@type boolean
-@default false
-@optional
+@type boolean  
+@default false  
+@optional  
 모든 우편 보상 수령  
 :::  
 ::: field recruit  
-@type boolean
-@default false
-@optional
+@type boolean  
+@default false  
+@optional  
 한정 헤드헌팅 매일 무료 단차 수령  
 :::  
 ::: field orundum  
-@type boolean
-@default false
-@optional
+@type boolean  
+@default false  
+@optional  
 합성옥 추첨(LUCKY WALL 등) 보상 수령  
 :::  
 ::: field mining  
-@type boolean
-@default false
-@optional
+@type boolean  
+@default false  
+@optional  
 한정 채굴 허가(합성옥 채굴) 보상 수령  
 :::  
 ::: field specialaccess  
-@type boolean
-@default false
-@optional
+@type boolean  
+@default false  
+@optional  
 5주년 등 이벤트 월정액 보상 수령  
 :::  
 ::: field name="signinevent" type="boolean" optional default="false"  
@@ -788,14 +788,14 @@ OF-1 플레이 시 사용할 편성 슬롯 번호
 
 :::: field-group  
 ::: field enable  
-@type boolean
-@default true
-@optional
+@type boolean  
+@default true  
+@optional  
 본 작업 활성화 여부  
 :::  
 ::: field themes  
-@type string[]
-@required
+@type string[]  
+@required  
 후보 테마 이름 목록으로, 게임 내 테마 목록에 표시되는 이름과 일치해야 합니다. 여러 개를 입력하면 실행할 때마다 무작위로 하나가 선택되며, 빈 배열이면 작업을 건너뜁니다.  
 :::  
 ::::
@@ -817,15 +817,15 @@ OF-1 플레이 시 사용할 편성 슬롯 번호
 
 :::: field-group  
 ::: field enable  
-@type boolean
-@default true
-@optional
+@type boolean  
+@default true  
+@optional  
 본 작업 활성화 여부  
 :::  
 ::: field theme  
-@type string
-@default Phantom
-@optional
+@type string  
+@default Phantom  
+@optional  
 테마
 <br>
 `Phantom` - 팬텀 & 크림슨 솔리테어
@@ -841,9 +841,9 @@ OF-1 플레이 시 사용할 편성 슬롯 번호
 `BlackFlow` - 블랙 플로우  
 :::  
 ::: field mode  
-@type number
-@default 0
-@optional
+@type number  
+@default 0  
+@optional  
 모드
 <br>
 `0` - 점수/보상 포인트 파밍, 가능한 안정적으로 많은 층수 도달
@@ -862,123 +862,123 @@ OF-1 플레이 시 사용할 편성 슬롯 번호
 <br>
 `7` - 심층 조사 보상 파밍, 모드 적응 외엔 모드 0과 동일
 <br>
-`10001` - 1층 빠른 클리어. Sarkaz 테마 전용  
+`10001` - 1층 빠른 클리어. Sarkaz 테마 전용
 <br>
-`20001` - 상락(常樂) 노드 파밍. 1층 진입 후 필요한 노드가 없으면 재시작. JieGarden 테마 전용이며 `find_playTime_target` 필요  
+`20001` - 상락(常樂) 노드 파밍. 1층 진입 후 필요한 노드가 없으면 재시작. JieGarden 테마 전용이며 `find_playTime_target` 필요
 <br>
 `30001` - 포대기 동물 파밍, BlackFlow 테마 전용
 <br>
 `30003` - 시작 보상 파밍. 먼저 준비 탐험을 진행한 뒤 목표 탐험을 시작합니다. 준비 탐험은 `blackflow_start_animals`에서 지정한 포대기 동물을 얻고 3층에 진입한 후 포기합니다. 목표 탐험의 지원 선택 화면에 `blackflow_start_rewards`의 항목이 하나라도 나오면 선택하지 않고 테마 화면으로 나가 해당 탐험을 유지한 채 작업을 종료합니다. 준비 탐험은 `collectible_mode_squad`를 사용하며 `difficulty`가 `-1`이 아니면 난이도 0으로 진행합니다. 목표 탐험은 `squad`와 `difficulty`를 사용하며 지원 선택 화면에서 종료합니다. `roles`와 시작 오퍼레이터는 준비 탐험에 사용되며, `collectible_mode_roles`와 `collectible_mode_core_char_list`를 지정하면 준비 탐험은 그것을 사용합니다. `blackflow_start_utopia`가 켜져 있으면 목표 탐험은 보상을 고른 뒤 1층에 들어갑니다. 해당 항목을 참고하세요. BlackFlow 테마 전용이며 `blackflow_start_animals`, `blackflow_start_rewards`와 함께 사용해야 합니다. (기계 번역)  
 :::  
 ::: field squad  
-@type string
-@default 指挥分队
-@optional
+@type string  
+@default 指挥分队  
+@optional  
 시작 분대명  
 :::  
 ::: field roles  
-@type string
-@default 取长补短
-@optional
+@type string  
+@default 取长补短  
+@optional  
 시작 모집 조합  
 :::  
 ::: field core_char  
-@type string
-@optional
+@type string  
+@optional  
 시작 오퍼레이터명. 단일 오퍼레이터 **중문명**만 지원(서버 무관); 비워두거나 `""`이면 육성도에 따라 자동 선택. `core_char_list`의 1순위와 동등하며, 구버전 호출자 호환을 위해서만 유지됨  
 :::  
 ::: field core_char_list  
-@type array<object>
-@optional
+@type array<object>  
+@optional  
 시작 오퍼레이터 목록. 각 항목은 `{ "name": 오퍼레이터명, "use_support": 지원 유닛 사용 여부 }`이며, 오퍼레이터명은 마찬가지로 **중문명**만 지원(서버 무관). 배열 순서대로 시작 시 1·2·3번째 모집에 대응하며, 세 순위의 오퍼레이터는 서로 다른 직업이어야 함. 모집은 앞쪽 몇 페이지만 탐색하므로 희망 소모가 낮은 오퍼레이터는 목록 뒤쪽에 있어 찾지 못할 수 있음. 특정 순위에서 오퍼레이터를 모집하지 못한 경우(보유·지원 유닛 모두 등장하지 않은 경우) 해당 회차는 기본 우선순위로 모집되므로, 희망 소모가 높은 오퍼레이터를 앞쪽에 배치하는 것을 권장함. `core_char`와 함께 전달되면 이 필드가 우선됨  
 :::  
 ::: field use_support  
-@type boolean
-@default false
-@optional
+@type boolean  
+@default false  
+@optional  
 시작 오퍼레이터를 지원 유닛으로 빌릴지 여부. `core_char_list` 1순위의 지원 유닛 사용 플래그와 동등하며, 구버전 호출자 호환을 위해서만 유지됨  
 :::  
 ::: field use_nonfriend_support  
-@type boolean
-@default false
-@optional
+@type boolean  
+@default false  
+@optional  
 친구가 아닌 지원 유닛 사용 가능 여부. 지원 유닛을 사용하는 모든 시작 순위에 적용되는 전역 스위치  
 :::  
 ::: field starts_count  
-@type number
-@default 2147483647
-@optional
+@type number  
+@default 2147483647  
+@optional  
 탐색 시작 횟수. 도달 시 자동 정지  
 :::  
 ::: field difficulty  
-@type number
-@default -1
-@optional
+@type number  
+@default -1  
+@optional  
 지정 난이도 등급, `-1`는 미지정. 미해금 시 현재 해금된 최고 난이도 선택  
 :::  
 ::: field stop_at_final_boss  
-@type boolean
-@default false
-@optional
+@type boolean  
+@default false  
+@optional  
 5층 보스 노드 앞에서 정지할지 여부. **Phantom 제외** 테마에만 적용  
 :::  
 ::: field stop_at_max_level  
-@type boolean
-@default false
-@optional
+@type boolean  
+@default false  
+@optional  
 통합 전략 만렙 도달 시 정지할지 여부  
 :::  
 ::: field investment_enabled  
-@type boolean
-@default true
-@optional
+@type boolean  
+@default true  
+@optional  
 오리지늄각뿔 투자 여부  
 :::  
 ::: field investments_count  
-@type number
-@default 2147483647
-@optional
+@type number  
+@default 2147483647  
+@optional  
 투자 횟수. 도달 시 자동 정지  
 :::  
 ::: field stop_when_investment_full  
-@type boolean
-@default false
-@optional
+@type boolean  
+@default false  
+@optional  
 투자 한도 도달 시 자동 정지 여부  
 :::  
 ::: field investment_with_more_score  
-@type boolean
-@default false
-@optional
+@type boolean  
+@default false  
+@optional  
 투자 후 쇼핑 시도 여부. 모드 1에만 적용  
 :::  
 ::: field start_with_elite_two  
-@type boolean
-@default false
-@optional
+@type boolean  
+@default false  
+@optional  
 스타트 리세마라 시 2차 정예화도 함께 노릴지 여부. 모드 4에만 적용  
 :::  
 ::: field only_start_with_elite_two  
-@type boolean
-@default false
-@optional
+@type boolean  
+@default false  
+@optional  
 다른 스타트 조건 무시하고 2차 정예화만 노릴지 여부. 모드 4이고 `start_with_elite_two`가 true일 때만 유효  
 :::  
 ::: field refresh_trader_with_dice  
-@type boolean
-@default false
-@optional
+@type boolean  
+@default false  
+@optional  
 주사위로 상점을 새로고침하여 특수 상품 구매 시도 여부. Mizuki 테마 전용, 길잡이 비늘 파밍용  
 :::  
 ::: field first_floor_foldartal  
-@type string
-@optional
+@type string  
+@optional  
 1층 원견 단계에서 얻길 희망하는 암호문. Sami 테마 전용, 모드 무관; 성공 시 정지  
 :::  
 ::: field start_foldartal_list  
-@type array<string>
-@default []
-@optional
+@type array<string>  
+@default []  
+@optional  
 스타트 리세마라 시 시작 보상으로 얻길 희망하는 암호문 목록. Sami 테마 모드 4일 때만 유효
 <br>
 목록의 모든 암호문을 보유해야 성공으로 간주
@@ -986,8 +986,8 @@ OF-1 플레이 시 사용할 편성 슬롯 번호
 주의: "생존지상 분대"와 함께 사용해야 함. 다른 분대는 시작 보상으로 암호문을 얻지 못함  
 :::  
 ::: field collectible_mode_start_list  
-@type object
-@optional
+@type object  
+@optional  
 스타트 리세마라 시 희망 보상, 기본값은 모두 false. 모드 4일 때만 유효
 <br>
 `hot_water`: 전기주전자 보상, 파밍 매커니즘 트리거용 (공통)
@@ -1009,65 +1009,65 @@ OF-1 플레이 시 사용할 편성 슬롯 번호
 `ticket`: 티켓 보상, JieGarden 테마 전용  
 :::  
 ::: field use_foldartal  
-@type boolean
-@optional
+@type boolean  
+@optional  
 암호문 사용 여부. 모드 5 기본값 `false`, 기타 모드 기본값 `true`. Sami 테마 전용  
 :::  
 ::: field check_collapsal_paradigms  
-@type boolean
-@optional
+@type boolean  
+@optional  
 획득한 붕괴 패러다임 감지 여부. 모드 5 기본값 `true`, 기타 모드 기본값 `false`  
 :::  
 ::: field double_check_collapsal_paradigms  
-@type boolean
-@default true
-@optional
+@type boolean  
+@default true  
+@optional  
 붕괴 패러다임 누락 방지 검사 수행 여부. Sami 테마이고 `check_collapsal_paradigms`가 true일 때 유효. 모드 5 기본값 `true`, 기타 모드 기본값 `false`  
 :::  
 ::: field expected_collapsal_paradigms  
-@type array<string>
-@default ['目空一些', '睁眼瞎', '图像损坏', '一抹黑']
-@optional
+@type array<string>  
+@default ['目空一些', '睁眼瞎', '图像损坏', '一抹黑']  
+@optional  
 희망하는 붕괴 패러다임. Sami 테마이고 모드 5일 때 유효  
 :::  
 ::: field monthly_squad_auto_iterate  
-@type boolean
-@optional
+@type boolean  
+@optional  
 월간 소대 자동 전환 활성화 여부  
 :::  
 ::: field monthly_squad_check_comms  
-@type boolean
-@optional
+@type boolean  
+@optional  
 월간 소대 통신 완료 여부도 전환 기준으로 삼을지 여부  
 :::  
 ::: field deep_exploration_auto_iterate  
-@type boolean
-@optional
+@type boolean  
+@optional  
 심층 조사 자동 전환 활성화 여부  
 :::  
 ::: field collectible_mode_shopping  
-@type boolean
-@default false
-@optional
+@type boolean  
+@default false  
+@optional  
 파밍 중 쇼핑 활성화 여부  
 :::  
 ::: field collectible_mode_squad  
-@type string
-@optional
-파밍 중 사용할 분대, 기본적으로 squad와 동기화, squad가 비었고 이 값도 없으면 지휘 분대  
+@type string  
+@optional  
+파밍 중 사용할 분대, 기본적으로 squad와 동기화, squad가 비었고 이 값도 없으면 지휘 분대
 <br>
 BlackFlow 모드 30003에서는 준비 탐험에 사용하는 분대입니다. (기계 번역)  
 :::  
 ::: field start_with_seed  
-@type string
-@optional
+@type string  
+@optional  
 시드 파밍에 사용할 고정 시드, 비워 두면 비활성화
 <br>
 Sarkaz 테마, Investment 모드, "연금술 분대" 또는 "지원 분대"일 때만 유효  
 :::  
 ::: field blackflow_strategy  
-@type string
-@optional
+@type string  
+@optional  
 블랙 플로우 테마의 전략. 비워 두면 `mode`와 `investment_enabled` 값으로부터 추론됩니다.
 <br>
 `baby_animal` - 1층에서 일반 상점을 확인한 뒤, 2·3층을 탐색하여 秘境行商(신비한 상인)에서 씨앗을 육성합니다. `blackflow_cultivation_target`와 함께 사용해야 합니다
@@ -1076,7 +1076,7 @@ Sarkaz 테마, Investment 모드, "연금술 분대" 또는 "지원 분대"일 �
 <br>
 `burn_with_investment` - 1층에서 투자를 완료한 후 최대한 빨리 3층에 도달하여 도착 즉시 재시작합니다
 <br>
-`burn` - 최대한 빨리 3층에 도달하여 도착 즉시 재시작합니다  
+`burn` - 최대한 빨리 3층에 도달하여 도착 즉시 재시작합니다
 <br>
 `ending1` - 레벨 파밍에서 첫 번째 엔딩을 목표로 진행합니다
 <br>
@@ -1089,49 +1089,49 @@ Sarkaz 테마, Investment 모드, "연금술 분대" 또는 "지원 분대"일 �
 모드 30003에서는 이 항목을 읽지 않습니다. 동물 요구가 있으면 준비 탐험은 `baby_animal` 경로로 육성하고, 없으면 최대한 빨리 3층에 도달하며 `investment_enabled`가 true이면 먼저 1층에서 투자합니다. 준비 탐험의 시작 오퍼레이터가 메커니스트이고 `collectible_mode_squad`가 特勤分队(특근 분대) 또는 堡垒战术分队(방어 전술 분대), 준비 탐험의 직업 그룹이 稳扎稳打(차근차근) 또는 坚不可摧(파괴 불가)이면 재능을 모두 해금한 메커니스트 시작으로 간주하며 구조적 원리를 지참합니다. 준비 탐험은 메커니스트를 모집한 뒤 나머지 시작 모집을 포기하고 필요할 때 구조적 원리로 이동하며, 동물 요구가 없으면 2층에서 이를 사용해 출구로 바로 비행합니다. (기계 번역)  
 :::  
 ::: field blackflow_cultivation_target  
-@type string
-@default swaddled_cat
-@optional
+@type string  
+@default swaddled_cat  
+@optional  
 포대기 동물 파밍 모드의 목표. 선택 가능한 값: `swaddled_cat`(포대기의 고양이) | `swaddled_feathered_serpent`(포대기의 깃털 뱀) | `swaddled_dog`(포대기의 개) | `swaddled_cerberus`(포대기의 케르베로스). `blackflow_strategy`가 `baby_animal`일 때만 사용됩니다.  
 :::  
 ::: field blackflow_start_animals  
-@type array<string>
-@optional
+@type array<string>  
+@optional  
 모드 30003 준비 탐험에서 육성할 포대기 동물. 0~~2개 항목, 중복 가능, 깃털 뱀은 최대 1개. 선택 가능한 값: `swaddled_cat` | `swaddled_dog` | `swaddled_cerberus` | `swaddled_feathered_serpent`. 각 항목은 수량까지 동시에 충족해야 하며, 예를 들어 `swaddled_cat` 2개는 고양이가 최소 2마리 필요하고 다른 동물이 더 있어도 상관없습니다. 육성이 끝났는데도 다 모이지 않으면 해당 탐험을 포기하고 준비 탐험을 다시 진행합니다. 빈 배열이면 준비 탐험은 3층에 진입하기만 하면 됩니다. 모드 30003에서는 필수. (기계 번역)  
 :::  
 ::: field blackflow_start_rewards  
-@type number
-@optional
-모드 30003 목표 탐험에서 원하는 시작 보상. 비트마스크이며 범위는 0~~4095. 모드 30003에서는 필수. (기계 번역)  
+@type number  
+@optional  
+모드 30003 목표 탐험에서 원하는 시작 보상. 비트마스크이며 범위는 0~~4095. 모드 30003에서는 필수. (기계 번역)
 <br>
-`1` 未编号物; `2` 调查预付款; `4` 空间租赁; `8` 退行补偿; `16` 林间代步; `32` 巢寄生; `64` 襁褓天马; `128` 襁褓骏鹰; `256` 襁褓巨龙; `512` 襁褓九头蛇; `1024` 襁褓白泽; `2048` 襁褓金乌 (한국어명 미정). 뒤의 6개는 깃털 뱀이 가져오는 파란색 보상으로, `blackflow_start_animals`에 깃털 뱀이 포함될 때만 적용되며 그렇지 않으면 무시됩니다.  
+`1` 未编号物; `2` 调查预付款; `4` 空间租赁; `8` 退行补偿; `16` 林间代步; `32` 巢寄生; `64` 襁褓天马; `128` 襁褓骏鹰; `256` 襁褓巨龙; `512` 襁褓九头蛇; `1024` 襁褓白泽; `2048` 襁褓金乌 (한국어명 미정). 뒤의 6개는 깃털 뱀이 가져오는 파란색 보상으로, `blackflow_start_animals`에 깃털 뱀이 포함될 때만 적용되며 그렇지 않으면 무시됩니다.
 <br>
 목표 탐험은 지원 선택 화면의 보상을 모두 인식한 뒤 판단합니다. 하나라도 일치하면 완료합니다. 보상은 인식했지만 원하는 것이 없으면 해당 탐험을 포기하고 준비 탐험을 다시 진행합니다. 하나도 인식하지 못했거나 깃털 뱀 보상을 요구했는데 파란색 보상을 읽지 못하면 지원 선택 화면에 머문 채 작업을 중지하고 스크린샷을 `debug/roguelike`에 저장합니다. 0이고 `blackflow_start_utopia`가 꺼져 있으면 지원 선택 화면에 들어가는 즉시 완료합니다. 진행 상황은 `SubTaskExtraInfo`의 `BlackFlowStartRun` 콜백으로 전달됩니다. [콜백 스키마](./callback-schema.md)를 참고하세요.  
 :::  
 ::: field collectible_mode_roles  
-@type string
-@optional
+@type string  
+@optional  
 모드 30003 준비 탐험의 직업 그룹. 지정하지 않으면 준비 탐험은 `roles`를 사용합니다. (기계 번역)  
 :::  
 ::: field collectible_mode_core_char_list  
-@type array<object>
-@optional
+@type array<object>  
+@optional  
 모드 30003 준비 탐험의 시작 오퍼레이터 순위. 형식은 `core_char_list`와 같으며, 지정하지 않으면 준비 탐험은 `core_char_list`를 사용합니다. (기계 번역)  
 :::  
 ::: field blackflow_start_utopia  
-@type boolean
-@default false
-@optional
+@type boolean  
+@default false  
+@optional  
 모드 30003 목표 탐험에서 1층 实托邦(1층 종류)을 노립니다. true이면 목표 탐험의 지원 선택 화면에 `blackflow_start_rewards`의 항목이 나온 뒤(0이면 조건 없음) `blackflow_start_reward_priority` 순서로 보상을 고르고, 포대기의 케르베로스로 두 번 고를 수 있으면 한 장 더 고릅니다. 그 뒤 `roles`와 시작 오퍼레이터로 시작해 1층에 들어가며, 1층이 实托邦이면 테마 화면으로 나가 해당 탐험을 유지한 채 작업을 종료하고, 아니면 해당 탐험을 포기하고 준비 탐험을 다시 진행합니다. 实托邦은 1층 층 이름의 위치로 판단하며 난이도 6 이상에서만 나타납니다. `difficulty`는 호출하는 쪽에서 고릅니다. (기계 번역)  
 :::  
 ::: field blackflow_start_reward_priority  
-@type array<string>
-@optional
+@type array<string>  
+@optional  
 모드 30003에서 1층 实托邦을 노릴 때 목표 탐험에서 보상을 고르는 순서. `blackflow_start_utopia`가 true이면 필수이며 비어 있거나 중복될 수 없습니다. 선택 가능한 값: `unnumbered_item` 未编号物; `survey_advance` 调查预付款; `space_lease` 空间租赁; `regression_compensation` 退行补偿; `forest_ride` 林间代步; `nest_parasitism` 巢寄生; `pegasus` 襁褓天马; `hippogriff` 襁褓骏鹰; `dragon` 襁褓巨龙; `hydra` 襁褓九头蛇; `bai_ze` 襁褓白泽; `golden_crow` 襁褓金乌 (한국어명 미정). 实托邦을 노리지 않으면 목표 탐험은 조건을 만족하면 지원 선택 화면에서 탐험을 유지한 채 끝나고 보상을 고르지 않으므로 이 항목을 읽지 않습니다. 노리면 목표 탐험은 1층에 들어가야 하므로 지원 선택 화면에서 카드를 골라야 합니다. `blackflow_start_rewards`를 만족한 뒤 화면에 있는 보상 중 이 순서에서 가장 앞선 것을 고르고, 포대기의 케르베로스로 두 번 고를 수 있으면 한 장 더 고릅니다. 이때 뒤의 6개 깃털 뱀 보상도 `blackflow_start_animals`에 깃털 뱀이 포함되는지와 관계없이 순서에 들어갑니다. 준비 탐험에서 깃털 뱀을 지정하지 않아도 데려갈 수 있고, 그러면 목표 탐험에도 파란 보상이 나오기 때문입니다. 이는 `blackflow_start_rewards`와 다르며, 그쪽의 뒤 6개는 조건이고 깃털 뱀을 지정했을 때만 적용됩니다. 나열한 보상이 화면에 하나도 없으면 전략의 기본 순서로 일반 보상을 하나 고릅니다. (기계 번역)  
 :::  
 ::: field find_playTime_target  
-@type number
-@optional
+@type number  
+@optional  
 상락(常樂) 노드 파밍 모드의 목표 노드입니다. 선택 가능한 값: `1`(Ling/令) | `2`(Shu/黍) | `3`(Nian/年). JieGarden 테마이자 mode = 20001일 때만 사용되며, 해당 모드에서는 필수입니다. 미입력 시 또는 범위 밖의 값은 작업 매개변수 설정에 실패합니다.  
 :::  
 ::::
@@ -1197,17 +1197,17 @@ Sarkaz 테마, Investment 모드, "연금술 분대" 또는 "지원 분대"일 �
 
 :::: field-group  
 ::: field enable  
-@type boolean
-@default true
-@optional
+@type boolean  
+@default true  
+@optional  
 본 작업 활성화 여부  
 :::  
 ::: field filename  
-@type string
+@type string  
 단일 작전 JSON 파일 경로, copilot_list와 택일(필수); 상대/절대 경로 모두 가능  
 :::  
 ::: field copilot_list  
-@type array`<object>`
+@type array`<object>`  
 작전 목록, filename과 택일(필수); filename과 copilot_list 동시 존재 시 copilot_list 무시; 이 파라미터 유효 시 set_params는 1회만 실행 가능
 <br>
 각 객체 포함:
@@ -1220,35 +1220,35 @@ Sarkaz 테마, Investment 모드, "연금술 분대" 또는 "지원 분대"일 �
 
 :::  
 ::: field loop_times  
-@type number
-@default 1
-@optional
+@type number  
+@default 1  
+@optional  
 반복 횟수. 단일 작전 모드(filename 지정)에서만 유효; 이 파라미터 유효 시 set_params는 1회만 실행 가능  
 :::  
 ::: field use_sanity_potion  
-@type boolean
-@default false
-@optional
+@type boolean  
+@default false  
+@optional  
 이성 부족 시 이성 회복제 사용 허용 여부  
 :::  
 ::: field formation  
-@type boolean
-@default false
-@optional
+@type boolean  
+@default false  
+@optional  
 자동 편성 수행 여부  
 :::  
 ::: field formation_index  
-@type number
-@default 0
-@optional
+@type number  
+@default 0  
+@optional  
 자동 편성 시 사용할 편성 슬롯 번호. `formation`이 true일 때 유효
 <br>
 0–4 정수, 0은 현재 편성 선택, 1-4는 제1, 2, 3, 4 편성  
 :::  
 ::: field user_additional  
-@type array`<object>`
-@default []
-@optional
+@type array`<object>`  
+@default []  
+@optional  
 사용자 정의 추가 오퍼레이터 목록. `formation`이 true일 때 유효
 <br>
 각 객체 포함:
@@ -1260,34 +1260,34 @@ Sarkaz 테마, Investment 모드, "연금술 분대" 또는 "지원 분대"일 �
 
 :::  
 ::: field add_trust  
-@type boolean
-@default false
-@optional
+@type boolean  
+@default false  
+@optional  
 자동 편성 시 남은 자리를 신뢰도 낮은 순으로 채울지 여부. `formation`이 true일 때 유효  
 :::  
 ::: field ignore_requirements  
-@type boolean
-@default false
-@optional
+@type boolean  
+@default false  
+@optional  
 자동 편성 시 오퍼레이터 육성 요구조건 무시 여부. `formation`이 true일 때 유효  
 :::  
 ::: field support_unit_usage  
-@type number
-@default 0
-@optional
+@type number  
+@default 0  
+@optional  
 지원 유닛 사용 모드. 0–3 정수. `formation`이 true일 때 유효
 <br>
 `0` - 지원 유닛 사용 안 함
 <br>
 `1` - 결원이 딱 1명일 때만 지원 유닛으로 보충, 결원 없으면 안 씀
 <br>
-`2` - 결원이 딱 1명일 때 지원 유닛 보충 시도, 결원 없으면 지정된 지원 유닛 사용  
+`2` - 결원이 딱 1명일 때 지원 유닛 보충 시도, 결원 없으면 지정된 지원 유닛 사용
 <br>
 `3` - 결원이 딱 1명일 때 지원 유닛 보충 시도, 결원 없으면 랜덤 지원 유닛 사용  
 :::  
 ::: field support_unit_name  
-@type string
-@optional
+@type string  
+@optional  
 지정 지원 유닛명. `support_unit_usage`가 2일 때 유효  
 :::  
 ::::
@@ -1325,19 +1325,19 @@ Sarkaz 테마, Investment 모드, "연금술 분대" 또는 "지원 분대"일 �
 
 :::: field-group  
 ::: field enable  
-@type boolean
-@default true
-@optional
+@type boolean  
+@default true  
+@optional  
 본 작업 활성화 여부  
 :::  
 ::: field filename  
-@type string
-@required
+@type string  
+@required  
 작전 JSON 파일 경로, 절대/상대 경로 모두 가능. 실행 중 설정 불가  
 :::  
 ::: field loop_times  
-@type number
-@optional
+@type number  
+@optional  
 반복 실행 횟수  
 :::  
 ::::  
@@ -1361,19 +1361,19 @@ Sarkaz 테마, Investment 모드, "연금술 분대" 또는 "지원 분대"일 �
 
 :::: field-group  
 ::: field enable  
-@type boolean
-@default true
-@optional
+@type boolean  
+@default true  
+@optional  
 본 작업 활성화 여부.  
 :::  
 ::: field filename  
-@type string
-@required
+@type string  
+@required  
 단일 작전 JSON 파일 경로, 절대/상대 경로 모두 가능. 실행 중 설정 불가. 필수, list와 택일.  
 :::  
 ::: field list  
-@type array`<object>` | array`<string>`
-@required
+@type array`<object>` | array`<string>`  
+@required  
 작전 목록, 실행 중 설정 불가. 필수, filename과 택일.
 <br>
 배열 요소는 두 가지 형식을 지원합니다: 객체 형식은 `id`(작전 식별자, `CopilotListLoadTaskFileSuccess` 콜백에 그대로 전달됨)와 `filename`(작전 JSON 파일 경로, 절대/상대 경로 모두 가능)을 포함하며, 작전 경로 문자열을 직접 사용할 수도 있습니다.  
@@ -1398,9 +1398,9 @@ Sarkaz 테마, Investment 모드, "연금술 분대" 또는 "지원 분대"일 �
 
 :::: field-group  
 ::: field enable  
-@type boolean
-@default true
-@optional
+@type boolean  
+@default true  
+@optional  
 본 작업 활성화 여부  
 :::  
 ::::
@@ -1421,9 +1421,9 @@ Sarkaz 테마, Investment 모드, "연금술 분대" 또는 "지원 분대"일 �
 
 :::: field-group  
 ::: field enable  
-@type boolean
-@default true
-@optional
+@type boolean  
+@default true  
+@optional  
 본 작업 활성화 여부  
 :::  
 ::::
@@ -1444,15 +1444,15 @@ Sarkaz 테마, Investment 모드, "연금술 분대" 또는 "지원 분대"일 �
 
 :::: field-group  
 ::: field enable  
-@type boolean
-@default true
-@optional
+@type boolean  
+@default true  
+@optional  
 본 작업 활성화 여부  
 :::  
 ::: field theme  
-@type string
-@default Tales
-@optional
+@type string  
+@default Tales  
+@optional  
 테마
 <br>
 `Fire` - _모래 속의 불_（종료）
@@ -1462,9 +1462,9 @@ Sarkaz 테마, Investment 모드, "연금술 분대" 또는 "지원 분대"일 �
 `RelaunchAnchor` - _리런치 앵커_  
 :::  
 ::: field mode  
-@type number
-@default 0
-@optional
+@type number  
+@default 0  
+@optional  
 모드. 테마마다 지원하는 모드가 다릅니다:
 <br>
 **Tales（사막 이야기）：**
@@ -1482,21 +1482,21 @@ Sarkaz 테마, Investment 모드, "연금술 분대" 또는 "지원 분대"일 �
 `48` (`RA4`) - RA-4, "경영 계획"으로 얻은 적금을 사용하여 지역을 해금하고, 비샤델로 보스 처치 임무를 완료합니다。  
 :::  
 ::: field tools_to_craft  
-@type array<string>
-@default []
-@optional
+@type array<string>  
+@default []  
+@optional  
 자동 제작 아이템, 부분 문자열 입력 권장, 비워 두면 제작하지 않음. Tales 테마의 세이브 있는 모드(mode = 1)에서만 유효  
 :::  
 ::: field clear_store  
-@type boolean
-@default false
-@optional
+@type boolean  
+@default false  
+@optional  
 작업 완료 후 상점 상품 구매(비우기) 여부. Tales 테마의 세이브 없는 모드(mode = 0)에서만 유효  
 :::  
 ::: field increment_mode  
-@type number
-@default 0
-@optional
+@type number  
+@default 0  
+@optional  
 클릭 유형. Tales 테마에서만 유효
 <br>
 `0` - 연타
@@ -1504,9 +1504,9 @@ Sarkaz 테마, Investment 모드, "연금술 분대" 또는 "지원 분대"일 �
 `1` - 꾹 누르기  
 :::  
 ::: field num_craft_batches  
-@type number
-@default 16
-@optional
+@type number  
+@default 16  
+@optional  
 1회 최대 제작 배치 수. Tales 테마에서만 유효  
 :::  
 ::::
@@ -1532,20 +1532,20 @@ Sarkaz 테마, Investment 모드, "연금술 분대" 또는 "지원 분대"일 �
 
 :::: field-group  
 ::: field enable  
-@type boolean
-@default true
-@optional
+@type boolean  
+@default true  
+@optional  
 본 작업 활성화 여부  
 :::  
 ::: field task_names  
-@type array<string>
-@required
+@type array<string>  
+@required  
 배열 중 첫 번째로 매칭된 작업(및 후속 next 등)을 실행. 여러 작업을 실행하려면 Custom task를 여러 번 append  
 시크릿 프론트(`MiniGame@SecretFront`) 연결 형식 지원: `MiniGame@SecretFront@Begin@Ending[A-E](@이벤트명)?`, 이벤트명은 생략 가능(支援作战平台 / 游侠 / 诡影迷踪), 예: `MiniGame@SecretFront@Begin@EndingA@支援作战平台`。  
 :::  
 ::: field params  
-@type object
-@optional
+@type object  
+@optional  
 작업 추가 파라미터. 현재는 픽셀 아트 작업(`MiniGame@PixelPaint@Begin`), 잠재능력 자동 강화 작업(`MiniGame@AutoRaisePotential@Begin`), 이벤트 상점 교환 작업(`SS@Store@Begin`)에서 사용:
 
 - `params.pixel_paint.groups`: 색상별 칸 좌표 목록. `color`는 팔레트 슬롯 번호(0~~39, 게임 오른쪽 팔레트 순서와 동일), `points`는 `[x, y]` 칸 좌표 배열(0~~23, 왼쪽 위 원점).
@@ -1588,20 +1588,20 @@ Sarkaz 테마, Investment 모드, "연금술 분대" 또는 "지원 분대"일 �
 
 :::: field-group  
 ::: field enable  
-@type boolean
-@default true
-@optional
+@type boolean  
+@default true  
+@optional  
 본 작업 활성화 여부  
 :::  
 ::: field type  
-@type string
-@default copilot
-@required
+@type string  
+@default copilot  
+@required  
 현재 `"copilot"`만 지원  
 :::  
 ::: field subtype  
-@type string
-@required
+@type string  
+@required  
 서브 작업 유형
 <br>
 `stage` - 스테이지명 설정, `"details": { "stage_name": "xxxx" }` 필요
@@ -1611,8 +1611,8 @@ Sarkaz 테마, Investment 모드, "연금술 분대" 또는 "지원 분대"일 �
 `action` - 단일 작전 조작, `details`는 작전 프로토콜 중 단일 action이어야 함. 예: `"details": { "name": "수르트", "location": [ 4, 5 ], "direction": "左" }`. 상세 내용은 [자동지휘 프로토콜](./copilot-schema.md) 참고  
 :::  
 ::: field details  
-@type object
-@optional
+@type object  
+@optional  
 서브 작업 상세 파라미터  
 :::  
 ::::
@@ -1638,14 +1638,14 @@ Sarkaz 테마, Investment 모드, "연금술 분대" 또는 "지원 분대"일 �
 
 :::: field-group  
 ::: field enable  
-@type boolean
-@default true
-@optional
+@type boolean  
+@default true  
+@optional  
 본 작업 활성화 여부  
 :::  
 ::: field filename  
-@type string
-@required
+@type string  
+@required  
 영상 파일 경로, 절대/상대 경로 모두 가능. 실행 중 설정 불가  
 :::  
 ::::
@@ -1683,18 +1683,18 @@ AsstBool ASSTAPI AsstSetTaskParams(AsstHandle handle, AsstTaskId id, const char*
 
 :::: field-group  
 ::: field handle  
-@type AsstHandle
-@required
+@type AsstHandle  
+@required  
 인스턴스 핸들  
 :::  
 ::: field id  
-@type AsstTaskId
-@required
+@type AsstTaskId  
+@required  
 작업 ID, `AsstAppendTask` 인터페이스 반환 값  
 :::  
 ::: field params  
-@type const char\*
-@required
+@type const char\*  
+@required  
 작업 파라미터, json string, `AsstAppendTask` 인터페이스와 동일  
 "실행 중 설정 불가"로 표시되지 않은 필드는 실시간 수정 가능; 표시된 경우 현재 작업이 실행 중이면 해당 필드 무시  
 :::  
@@ -1721,13 +1721,13 @@ AsstBool ASSTAPI AsstSetStaticOption(AsstStaticOptionKey key, const char* value)
 
 :::: field-group  
 ::: field key  
-@type AsstStaticOptionKey
-@required
+@type AsstStaticOptionKey  
+@required  
 Key  
 :::  
 ::: field value  
-@type const char\*
-@required
+@type const char\*  
+@required  
 Value  
 :::  
 ::::
@@ -1736,19 +1736,19 @@ Value
 
 :::: field-group  
 ::: field Invalid  
-@type number
-@default 0
-@optional
+@type number  
+@default 0  
+@optional  
 무효 점유. 열거값: 0  
 :::  
 ::: field CpuOCR  
-@type boolean
-@optional
+@type boolean  
+@optional  
 CPU로 OCR 수행. 값은 파싱에 사용되지 않음. 리소스 로드 후 전환 불가. 열거값: 1  
 :::  
 ::: field GpuOCR  
-@type string
-@optional
+@type string  
+@optional  
 GPU로 OCR 수행. 값은 GPU 장치 번호(정수), Windows에서는 `luid:<16진수 LUID>`도 가능. 리소스 로드 후 전환 불가. 열거값: 2  
 :::  
 ::::
@@ -1774,18 +1774,18 @@ AsstBool ASSTAPI AsstSetInstanceOption(AsstHandle handle, AsstInstanceOptionKey 
 
 :::: field-group  
 ::: field handle  
-@type AsstHandle
-@required
+@type AsstHandle  
+@required  
 인스턴스 핸들  
 :::  
 ::: field key  
-@type AsstInstanceOptionKey
-@required
+@type AsstInstanceOptionKey  
+@required  
 Key  
 :::  
 ::: field value  
-@type const char\*
-@required
+@type const char\*  
+@required  
 Value  
 :::  
 ::::
@@ -1794,40 +1794,40 @@ Value
 
 :::: field-group  
 ::: field Invalid  
-@type number
-@default 0
-@optional
+@type number  
+@default 0  
+@optional  
 무효 점유. 열거값: 0  
 :::  
 ::: field MinitouchEnabled  
-@type boolean
-@optional
+@type boolean  
+@optional  
 폐기됨. 원 Minitouch 활성화 여부; "1" 켜기, "0" 끄기. 장치가 지원하지 않을 수 있음. 열거값: 1 (폐기됨)  
 :::  
 ::: field TouchMode  
-@type string
-@default minitouch
-@optional
+@type string  
+@default minitouch  
+@optional  
 터치 모드 설정. 옵션: minitouch | maatouch | adb | MacPlayTools | MaaFwAdb | MumuExtras. 기본값 minitouch. 열거값: 2  
 :::  
 ::: field DeploymentWithPause  
-@type boolean
-@optional
+@type boolean  
+@optional  
 오퍼레이터 배치 시 일시정지 여부, 자동지휘/통합 전략/보안파견에 모두 영향. 옵션: "1" 켜기, "0" 끄기. 열거값: 3  
 :::  
 ::: field AdbLiteEnabled  
-@type boolean
-@optional
+@type boolean  
+@optional  
 AdbLite 사용 여부. 옵션: "0" 끄기, "1" 켜기. 열거값: 4  
 :::  
 ::: field KillAdbOnExit  
-@type boolean
-@optional
+@type boolean  
+@optional  
 종료 시 ADB 프로세스 종료 여부. 옵션: "0" 끄기, "1" 켜기. 열거값: 5  
 :::  
 ::: field ClientType  
-@type string
-@optional
+@type string  
+@optional  
 클라이언트 종류(게임 채널). 대부분의 연결 설정에서는 필요하지 않습니다. `AsstConnect` / `AsstAsyncConnect` 에 전달하는 `config` 가 연결 단계에서 실행되는 명령에 `[PackageName]` 을 사용할 때만, 연결 전에 `AsstSetInstanceOption(..., ClientType, ...)` 를 호출해 설정해야 합니다. 현재 내장 설정 중에서는 `Androws` 와 `WSA` 의 `displayId` 조회만 이 값에 의존합니다. 이 옵션은 StartUp / CloseDown 등의 작업 파라미터 `client_type` 를 대체하지 않습니다. 열거값: 6  
 :::  
 ::::

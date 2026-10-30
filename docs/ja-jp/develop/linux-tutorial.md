@@ -23,7 +23,7 @@ MaaAssistantArknights/MaaMacGui プロジェクトの [README.md](https://github
 
 :::: steps
 
-1. コンパイルに必要な依存関係をダウンロードする
+1. コンパイルに必要な依存関係をダウンロードする  
    ::: code-tabs  
    @tab:active Ubuntu/Debian
 
@@ -142,4 +142,4 @@ MaaWpfGui は Windows 向けに作られており、Linux 上でビルド成果�
    wine build/bin/Debug/MAA.exe
    ```
 
-   ::::
+::::

@@ -23,7 +23,7 @@ Mac 可以使用 `tools/build_macos_universal.zsh` 脚本进行编译
 
 :::: steps
 
-1. 下载编译所需的依赖
+1. 下载编译所需的依赖  
    ::: code-tabs  
    @tab:active Ubuntu/Debian
 
@@ -91,7 +91,7 @@ Mac 可以使用 `tools/build_macos_universal.zsh` 脚本进行编译
 
    参考 [各编程语言 API](../readme.md#api)、[使用 Python](../manual/device/linux.md#使用-python) 等文档说明调用 MAA 动态库。
 
-   ::::
+::::
 
 ## 编译 MaaWpfGui
 
@@ -142,4 +142,4 @@ MaaWpfGui 适用于 Windows，编译产物在 Linux 上需要通过 Wine 运行�
    wine build/bin/Debug/MAA.exe
    ```
 
-   ::::
+::::

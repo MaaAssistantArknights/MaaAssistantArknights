@@ -23,7 +23,7 @@ Mac 使用者可以使用 `tools/build_macos_universal.zsh` 腳本進行編譯�
 
 :::: steps
 
-1. 下載編譯所需的依賴項目
+1. 下載編譯所需的依賴項目  
    ::: code-tabs  
    @tab:active Ubuntu/Debian
 
@@ -142,4 +142,4 @@ MaaWpfGui 適用於 Windows，編譯成品在 Linux 上需要透過 Wine 執行�
    wine build/bin/Debug/MAA.exe
    ```
 
-   ::::
+::::

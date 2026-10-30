@@ -240,30 +240,30 @@ MaaAssistantArknights 是由 ==很多豬== 開發的
 
 :::: field-group  
 ::: field theme  
-@type ThemeConfig
-@default { base: '/' }
-@required
+@type ThemeConfig  
+@default { base: '/' }  
+@required  
 主題配置  
 :::
 
 ::: field enabled  
-@type boolean
-@default true
-@optional
+@type boolean  
+@default true  
+@optional  
 是否啟用  
 :::
 
 ::: field callback  
-@type (...args: any[]) => void
-@default () => {}
-@optional
+@type (...args: any[]) => void  
+@default () => {}  
+@optional  
 <Badge type="tip" text="v1.0.0 新增"  />
 回呼函式  
 :::
 
 ::: field other  
-@type string
-@deprecated
+@type string  
+@deprecated  
 <Badge type="danger" text="v0.9.0 棄用"  />
 已棄用屬性  
 :::  

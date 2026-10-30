@@ -23,7 +23,7 @@ MaaAssistantArknights/MaaMacGui 프로젝트의 [README.md](https://github.com/M
 
 :::: steps
 
-1. 컴파일에 필요한 종속성 다운로드
+1. 컴파일에 필요한 종속성 다운로드  
    ::: code-tabs  
    @tab:active Ubuntu/Debian
 
@@ -142,4 +142,4 @@ MaaWpfGui는 Windows용 프로그램으로, 빌드 결과물을 Linux에서 실�
    wine build/bin/Debug/MAA.exe
    ```
 
-   ::::
+::::

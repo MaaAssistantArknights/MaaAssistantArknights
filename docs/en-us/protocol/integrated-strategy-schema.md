@@ -467,7 +467,7 @@ There is no need to set up too many customised plans when there is a problem. It
 
    :::
 
-2. Deployment of operators at a point in time
+2. Deployment of operators at a point in time  
    ::: tip  
    Suitable for certain single-cutting operators or usage scenarios that require cannon fodder  
    :::
@@ -491,7 +491,7 @@ There is no need to set up too many customised plans when there is a problem. It
        ]
    ```
 
-3. Retrieval of the operators at some point
+3. Retrieval of the operators at some point  
    ::: tip  
    Sometimes the fodder is too strong to hold the field or you need to deploy to move the lineup. What should I do? Retreat!
 

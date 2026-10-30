@@ -67,18 +67,18 @@ typedef void(ASST_CALL* AsstApiCallback)(AsstMsgId msg, const char* details_json
 
 :::: field-group  
 ::: field what  
-@type string
-@required
+@type string  
+@required  
 错误类型。  
 :::  
 ::: field why  
-@type string
-@required
+@type string  
+@required  
 错误原因。  
 :::  
 ::: field details  
-@type object
-@required
+@type object  
+@required  
 错误详情。  
 :::  
 ::::
@@ -87,22 +87,22 @@ typedef void(ASST_CALL* AsstApiCallback)(AsstMsgId msg, const char* details_json
 
 :::: field-group  
 ::: field what  
-@type string
-@required
+@type string  
+@required  
 信息类型。  
 :::  
 ::: field why  
-@type string
-@required
+@type string  
+@required  
 信息原因。  
 :::  
 ::: field uuid  
-@type string
+@type string  
 设备唯一码（连接失败时为空）。  
 :::  
 ::: field details  
-@type object
-@required
+@type object  
+@required  
 连接详情。其结构如下：
 
 - `adb` (string, required): `AsstConnect` 接口 `adb_path` 参数。
@@ -166,23 +166,23 @@ typedef void(ASST_CALL* AsstApiCallback)(AsstMsgId msg, const char* details_json
 
 :::: field-group  
 ::: field uuid  
-@type string
-@required
+@type string  
+@required  
 设备唯一码。  
 :::  
 ::: field what  
-@type string
-@required
+@type string  
+@required  
 回调类型，例如 `Connect` | `AttachWindow` | `Click` | `Screencap` 等。  
 :::  
 ::: field async_call_id  
-@type number
-@required
+@type number  
+@required  
 异步请求 id，即调用 `AsstAsyncXXX` 时的返回值。  
 :::  
 ::: field details  
-@type object
-@required
+@type object  
+@required  
 异步调用详情。其结构如下：
 
 - `ret` (boolean, required): 实际调用的返回值。
@@ -196,23 +196,23 @@ typedef void(ASST_CALL* AsstApiCallback)(AsstMsgId msg, const char* details_json
 
 :::: field-group  
 ::: field taskchain  
-@type string
-@required
+@type string  
+@required  
 最后的任务链。  
 :::  
 ::: field taskid  
-@type number
-@required
+@type number  
+@required  
 最后一条任务链对应的任务 TaskId。  
 :::  
 ::: field uuid  
-@type string
-@required
+@type string  
+@required  
 设备唯一码。  
 :::  
 ::: field finished_tasks  
-@type array<number>
-@required
+@type array<number>  
+@required  
 已经运行过的任务 id 列表。  
 :::  
 ::::
@@ -262,18 +262,18 @@ typedef void(ASST_CALL* AsstApiCallback)(AsstMsgId msg, const char* details_json
 
 :::: field-group  
 ::: field taskchain  
-@type string
-@required
+@type string  
+@required  
 当前的任务链。  
 :::  
 ::: field taskid  
-@type number
-@required
+@type number  
+@required  
 当前任务 TaskId。  
 :::  
 ::: field uuid  
-@type string
-@required
+@type string  
+@required  
 设备唯一码。  
 :::  
 ::::
@@ -294,33 +294,33 @@ typedef void(ASST_CALL* AsstApiCallback)(AsstMsgId msg, const char* details_json
 
 :::: field-group  
 ::: field subtask  
-@type string
-@required
+@type string  
+@required  
 子任务名。  
 :::  
 ::: field class  
-@type string
-@required
+@type string  
+@required  
 子任务符号名。  
 :::  
 ::: field taskchain  
-@type string
-@required
+@type string  
+@required  
 当前任务链。  
 :::  
 ::: field taskid  
-@type number
-@required
+@type number  
+@required  
 当前任务 TaskId。  
 :::  
 ::: field details  
-@type object
-@required
+@type object  
+@required  
 详情。  
 :::  
 ::: field uuid  
-@type string
-@required
+@type string  
+@required  
 设备唯一码。  
 :::  
 ::::
@@ -332,33 +332,33 @@ typedef void(ASST_CALL* AsstApiCallback)(AsstMsgId msg, const char* details_json
 
   :::: field-group  
   ::: field task  
-  @type string
-  @required
+  @type string  
+  @required  
   任务名。  
   :::  
   ::: field action  
-  @type string
-  @required
+  @type string  
+  @required  
   动作名，例如 `ClickSelf` | `DoNothing` | `Swipe`。  
   :::  
   ::: field exec_times  
-  @type number
-  @required
+  @type number  
+  @required  
   已执行次数。  
   :::  
   ::: field max_times  
-  @type number
-  @required
+  @type number  
+  @required  
   最大执行次数。  
   :::  
   ::: field algorithm  
-  @type string
-  @required
+  @type string  
+  @required  
   识别算法名，例如 `MatchTemplate` | `OcrDetect` | `FeatureMatch` | `JustReturn`。  
   :::  
   ::: field result  
-  @type object
-  @required
+  @type object  
+  @required  
   本次识别结果，各算法结构不同；无识别结果时为空对象。  
   :::  
   ::::
@@ -419,28 +419,28 @@ typedef void(ASST_CALL* AsstApiCallback)(AsstMsgId msg, const char* details_json
 
 :::: field-group  
 ::: field taskchain  
-@type string
-@required
+@type string  
+@required  
 当前任务链。  
 :::  
 ::: field class  
-@type string
-@required
+@type string  
+@required  
 子任务类型。  
 :::  
 ::: field what  
-@type string
-@required
+@type string  
+@required  
 信息类型。  
 :::  
 ::: field details  
-@type object
-@required
+@type object  
+@required  
 信息详情。  
 :::  
 ::: field uuid  
-@type string
-@required
+@type string  
+@required  
 设备唯一码。  
 :::  
 ::::
@@ -470,8 +470,8 @@ typedef void(ASST_CALL* AsstApiCallback)(AsstMsgId msg, const char* details_json
 
   :::: field-group  
   ::: field tags  
-  @type array<string>
-  @required
+  @type array<string>  
+  @required  
   识别到的 Tag 列表。  
   :::  
   ::::
@@ -481,8 +481,8 @@ typedef void(ASST_CALL* AsstApiCallback)(AsstMsgId msg, const char* details_json
 
   :::: field-group  
   ::: field tag  
-  @type string
-  @required
+  @type string  
+  @required  
   特殊 Tag 名称，例如 `高级资深干员`。  
   :::  
   ::::
@@ -492,8 +492,8 @@ typedef void(ASST_CALL* AsstApiCallback)(AsstMsgId msg, const char* details_json
 
   :::: field-group  
   ::: field tag  
-  @type string
-  @required
+  @type string  
+  @required  
   触发保留的 Tag 名称，例如 `支援机械`。  
   :::  
   ::::
@@ -515,13 +515,13 @@ typedef void(ASST_CALL* AsstApiCallback)(AsstMsgId msg, const char* details_json
 
   :::: field-group  
   ::: field count  
-  @type number
-  @required
+  @type number  
+  @required  
   当前槽位已刷新次数。  
   :::  
   ::: field refresh_limit  
-  @type number
-  @required
+  @type number  
+  @required  
   当前槽位刷新次数上限。  
   :::  
   ::::
@@ -531,8 +531,8 @@ typedef void(ASST_CALL* AsstApiCallback)(AsstMsgId msg, const char* details_json
 
   :::: field-group  
   ::: field continue  
-  @type boolean
-  @required
+  @type boolean  
+  @required  
   是否继续刷新。  
   :::  
   ::::
@@ -542,8 +542,8 @@ typedef void(ASST_CALL* AsstApiCallback)(AsstMsgId msg, const char* details_json
 
   :::: field-group  
   ::: field current  
-  @type number
-  @required
+  @type number  
+  @required  
   当前招聘许可数量。  
   :::  
   ::::
@@ -556,8 +556,8 @@ typedef void(ASST_CALL* AsstApiCallback)(AsstMsgId msg, const char* details_json
 
   :::: field-group  
   ::: field tags  
-  @type array<string>
-  @required
+  @type array<string>  
+  @required  
   选择的 Tag 列表。  
   :::  
   ::::
@@ -570,13 +570,13 @@ typedef void(ASST_CALL* AsstApiCallback)(AsstMsgId msg, const char* details_json
 
   :::: field-group  
   ::: field facility  
-  @type string
-  @required
+  @type string  
+  @required  
   设施名。  
   :::  
   ::: field index  
-  @type number
-  @required
+  @type number  
+  @required  
   设施序号。  
   :::  
   ::::
@@ -586,13 +586,13 @@ typedef void(ASST_CALL* AsstApiCallback)(AsstMsgId msg, const char* details_json
 
   :::: field-group  
   ::: field facility  
-  @type string
-  @required
+  @type string  
+  @required  
   设施名。  
   :::  
   ::: field index  
-  @type number
-  @required
+  @type number  
+  @required  
   设施序号。  
   :::  
   ::::
@@ -602,18 +602,18 @@ typedef void(ASST_CALL* AsstApiCallback)(AsstMsgId msg, const char* details_json
 
   :::: field-group  
   ::: field product  
-  @type string
-  @required
+  @type string  
+  @required  
   产物名。  
   :::  
   ::: field facility  
-  @type string
-  @required
+  @type string  
+  @required  
   设施名。  
   :::  
   ::: field index  
-  @type number
-  @required
+  @type number  
+  @required  
   设施序号。  
   :::  
   ::::
@@ -623,8 +623,8 @@ typedef void(ASST_CALL* AsstApiCallback)(AsstMsgId msg, const char* details_json
 
   :::: field-group  
   ::: field reason  
-  @type string
-  @required
+  @type string  
+  @required  
   保持原样的原因，取值如下：
   - `facility_empty`: 自定义排班的 rooms 数组为空。
   - `room_no_intent`: 房间配置存在但没有选人意图。
@@ -643,8 +643,8 @@ typedef void(ASST_CALL* AsstApiCallback)(AsstMsgId msg, const char* details_json
 
   :::: field-group  
   ::: field candidates  
-  @type array<string>
-  @required
+  @type array<string>  
+  @required  
   训练位的候选干员名单。  
   :::  
   ::::
@@ -654,18 +654,18 @@ typedef void(ASST_CALL* AsstApiCallback)(AsstMsgId msg, const char* details_json
 
   :::: field-group  
   ::: field candidates  
-  @type array<string>
-  @required
+  @type array<string>  
+  @required  
   协助者的候选干员名单。  
   :::  
   ::: field working_excluded  
-  @type array<string>
-  @optional
+  @type array<string>  
+  @optional  
   候选中因正在其他设施工作而被排除的干员名单，仅非空时携带。  
   :::  
   ::: field low_mood_excluded  
-  @type array<string>
-  @optional
+  @type array<string>  
+  @optional  
   候选中因心情低于阈值而被排除的干员名单，仅非空时携带。  
   :::  
   ::::
@@ -675,8 +675,8 @@ typedef void(ASST_CALL* AsstApiCallback)(AsstMsgId msg, const char* details_json
 
   :::: field-group  
   ::: field reason  
-  @type string
-  @required
+  @type string  
+  @required  
   匹配失败原因，取值如下：
   - `group_not_defined`: 引用的编组名均未在 groups 中定义。
   - `all_unavailable`: 所有编组的干员均不可用。
@@ -684,8 +684,8 @@ typedef void(ASST_CALL* AsstApiCallback)(AsstMsgId msg, const char* details_json
 
   :::  
   ::: field groups  
-  @type array<string>
-  @optional
+  @type array<string>  
+  @optional  
   未定义或不可用的编组名列表，仅在 `group_not_defined`、`all_unavailable` 时携带。  
   :::  
   ::::
@@ -695,13 +695,13 @@ typedef void(ASST_CALL* AsstApiCallback)(AsstMsgId msg, const char* details_json
 
   :::: field-group  
   ::: field nav_name  
-  @type string
-  @required
+  @type string  
+  @required  
   关卡名。  
   :::  
   ::: field filename  
-  @type string
-  @required
+  @type string  
+  @required  
   作业文件名。  
   :::  
   ::::
@@ -711,13 +711,13 @@ typedef void(ASST_CALL* AsstApiCallback)(AsstMsgId msg, const char* details_json
 
   :::: field-group  
   ::: field name  
-  @type string
-  @required
+  @type string  
+  @required  
   关卡名。  
   :::  
   ::: field size  
-  @type number
-  @required
+  @type number  
+  @required  
   地图格点数量。  
   :::  
   ::::
@@ -756,8 +756,8 @@ typedef void(ASST_CALL* AsstApiCallback)(AsstMsgId msg, const char* details_json
 
   :::: field-group  
   ::: field level  
-  @type string
-  @required
+  @type string  
+  @required  
   不支持的关卡名。  
   :::  
   ::::
@@ -780,13 +780,13 @@ typedef void(ASST_CALL* AsstApiCallback)(AsstMsgId msg, const char* details_json
 
   :::: field-group  
   ::: field reason  
-  @type string
-  @required
+  @type string  
+  @required  
   中止交易的原因。  
   :::  
   ::: field item  
-  @type string
-  @required
+  @type string  
+  @required  
   触发中止的交易物品名。  
   :::  
   ::::
@@ -797,23 +797,23 @@ typedef void(ASST_CALL* AsstApiCallback)(AsstMsgId msg, const char* details_json
 
 :::: field-group  
 ::: field url  
-@type string
-@required
+@type string  
+@required  
 请求的完整 URL，例如 `https://penguin-stats.io/PenguinStats/api/v2/report`。  
 :::  
 ::: field headers  
-@type object
-@required
+@type object  
+@required  
 请求头键值对（不包含 `Content-Type`，UI 层自行添加）。  
 :::  
 ::: field body  
-@type string
-@required
+@type string  
+@required  
 请求体内容（通常是 JSON 格式的字符串）。  
 :::  
 ::: field subtask  
-@type string
-@required
+@type string  
+@required  
 子任务名称，标识具体上报任务，如 `ReportToPenguinStats`、`ReportToYituliu`。  
 :::  
 ::::

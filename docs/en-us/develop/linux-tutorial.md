@@ -22,7 +22,7 @@ Mac can use the `tools/build_macos_universal.zsh` script for compilation. It's r
 
 :::: steps
 
-1. Download compilation dependencies
+1. Download compilation dependencies  
    ::: code-tabs  
    @tab:active Ubuntu/Debian
 
@@ -141,4 +141,4 @@ MaaWpfGui is built for Windows. Wine is required to run MaaWpfGui on Linux. See 
    wine build/bin/Debug/MAA.exe
    ```
 
-   ::::
+::::

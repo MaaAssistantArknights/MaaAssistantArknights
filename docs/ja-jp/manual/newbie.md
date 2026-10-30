@@ -13,7 +13,7 @@ icon: ri:guide-fill
 
 ## 準備
 
-::::steps
+:::: steps
 
 1. システムバージョンの確認
 

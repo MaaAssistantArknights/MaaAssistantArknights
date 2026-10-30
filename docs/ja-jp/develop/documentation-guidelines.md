@@ -242,30 +242,30 @@ Markdown 本文で `<ImageGrid>` コンポーネントを使用してこのメ�
 
 :::: field-group  
 ::: field theme  
-@type ThemeConfig
-@default { base: '/' }
-@required
+@type ThemeConfig  
+@default { base: '/' }  
+@required  
 テーマ設定  
 :::
 
 ::: field enabled  
-@type boolean
-@default true
-@optional
+@type boolean  
+@default true  
+@optional  
 有効かどうか  
 :::
 
 ::: field callback  
-@type (...args: any[]) => void
-@default () => {}
-@optional
+@type (...args: any[]) => void  
+@default () => {}  
+@optional  
 <Badge type="tip" text="v1.0.0 追加"  />
 コールバック関数  
 :::
 
 ::: field other  
-@type string
-@deprecated
+@type string  
+@deprecated  
 <Badge type="danger" text="v0.9.0 廃止"  />
 廃止されたプロパティ  
 :::  

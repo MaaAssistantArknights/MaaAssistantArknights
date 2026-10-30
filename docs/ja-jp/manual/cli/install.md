@@ -151,14 +151,14 @@ maa-cli はコマンドラインインターフェースのみを提供してお
 
 ::: tabs#maacore
 
-@tab:active プリコンパイル
+@tab:active プリコンパイル  
 プリコンパイル済みバイナリを使用する場合、または自己コンパイルしたユーザーの場合、maa-cli がインストールと更新を支援します：
 
 ```bash :no-line-numbers
 maa install
 ```
 
-@tab Windows
+@tab Windows  
 Windows プラットフォームのユーザーは、`maa install` コマンドを実行する前に、管理者権限でコマンドプロンプトまたは PowerShell で以下のコマンドを実行し、必須コンポーネントである VC++ ランタイムをインストールしてください：
 
 ```bat :no-line-numbers
@@ -167,7 +167,7 @@ winget install "Microsoft.VCRedist.2015+.x64" --override "/repair /passive /nore
 
 その後、`maa install` を実行してください。
 
-@tab Arch
+@tab Arch  
 maa-cli を使用してプリコンパイル済みの MaaCore をインストールできます：
 
 ```bash :no-line-numbers
@@ -186,7 +186,7 @@ paru -S maa-assistant-arknights
 yay -S maa-assistant-arknights
 ```
 
-@tab Nix
+@tab Nix  
 Nix の maa-cli は MaaCore に強く依存しています。そのため、Nix ユーザーは MaaCore を手動でインストールする必要はなく、またすべきではありません。
 
 :::

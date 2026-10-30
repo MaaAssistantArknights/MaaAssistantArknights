@@ -15,7 +15,7 @@ Some features (such as Depot Maintain, scheduled execution, and drag-and-drop pa
 
 ## Prerequisites
 
-::::steps
+:::: steps
 
 1. Confirm system version
 
