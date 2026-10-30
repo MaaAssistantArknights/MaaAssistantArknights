@@ -18,11 +18,25 @@ bool asst::RoguelikeBoskyPassageRoutingTaskPlugin::load_params([[maybe_unused]] 
         m_bosky_config = bosky_config->special_params;
 
         // ———————— 选择导航策略 ————————
-        if (m_config->get_mode() == RoguelikeMode::FindPlaytime) {
+        const auto mode = m_config->get_mode();
+        if (mode == RoguelikeMode::FindPlaytime) {
             m_bosky_routing_strategy = RoutingStrategy::FindPlaytime_JieGarden;
             int target = m_config->get_find_playTime_target();
             RoguelikeBoskyPassageMap::get_instance().set_target_subtype(static_cast<RoguelikeBoskySubNodeType>(target));
-            Log.info(__FUNCTION__, "| FindPlaytime mode enabled with target:", target);
+            Log.info(
+                __FUNCTION__,
+                "| FindPlaytime-like mode enabled with target:",
+                target,
+                "| mode:",
+                static_cast<int>(mode));
+            return true;
+        }
+        if (mode == RoguelikeMode::CoppersRecast) {
+            // 投币重铸同样按常乐优先在树洞里找节点；但常乐的子类型（掷地有声/种因得果/三缺一）
+            // 要进节点后由不期而遇识别，路由阶段分不出来，所以不设目标子类型，
+            // 目标判定在 RoguelikeStageEncounterTaskPlugin 里做
+            m_bosky_routing_strategy = RoutingStrategy::FindPlaytime_JieGarden;
+            LogInfo << __FUNCTION__ << "| coppers recast mode enabled, playtime-first routing";
             return true;
         }
 
@@ -36,6 +50,10 @@ bool asst::RoguelikeBoskyPassageRoutingTaskPlugin::load_params([[maybe_unused]] 
 void asst::RoguelikeBoskyPassageRoutingTaskPlugin::reset_in_run_variables()
 {
     RoguelikeBoskyPassageMap::get_instance().reset();
+    m_map_initialized = false;
+    m_reset_map_pending = false;
+    m_last_clicked.reset();
+    m_click_fail_count.clear();
 }
 
 bool asst::RoguelikeBoskyPassageRoutingTaskPlugin::verify(const AsstMsg msg, const json::value& details) const
@@ -54,6 +72,12 @@ bool asst::RoguelikeBoskyPassageRoutingTaskPlugin::verify(const AsstMsg msg, con
 
     if (task_name == m_config->get_theme() + "@Roguelike@Routing_BoskyPassage") {
         return true;
+    }
+
+    // 主地图上点击树洞节点 = 即将进入一个新的树洞。地图每次进入都会重新随机，
+    // 而单例里的旧节点不会自己消失（reset 只在 Roguelike@StartExplore 触发）。
+    if (task_name == m_config->get_theme() + "@Roguelike@StageBoskyPassage") {
+        m_reset_map_pending = true;
     }
 
     return false;
@@ -101,6 +125,27 @@ void asst::RoguelikeBoskyPassageRoutingTaskPlugin::bosky_update_map()
 
     Log.info(__FUNCTION__, "| updating bosky map");
 
+    if (!m_map_initialized || m_reset_map_pending) {
+        // 一张树洞地图 = 一份节点状态。插件随任务重建，所以重开任务时这里也会清一次，
+        // 不会沿用上一轮残留的「已访问/开放」状态（否则会跳过真正的目标节点去点别的格子）。
+        RoguelikeBoskyPassageMap::get_instance().reset();
+        m_click_fail_count.clear();
+        m_last_clicked.reset();
+        m_map_initialized = true;
+        m_reset_map_pending = false;
+        Log.info(__FUNCTION__, "| fresh bosky map, node state cleared");
+    }
+
+    // 上一次点击到现在过了多久；点击后地图很快又出现 = 那次点击没进节点
+    std::optional<size_t> previous_click = m_last_clicked;
+    long long previous_click_ms = 0;
+    if (previous_click.has_value()) {
+        m_last_clicked.reset();
+        previous_click_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+                               std::chrono::steady_clock::now() - m_last_click_time)
+                               .count();
+    }
+
     // 有时候从不期而遇出来可能会多点一下，点到剩余烛火，导致接下来的一次点击只会把窗口关掉，无法进入节点。而且还遮挡了部分节点
     // 能检测到意识回归的话就点一下边缘，把退出树洞的弹窗关掉
     ProcessTask(*this, { "JieGarden@Roguelike@LeaveBoskyPassageCheck" }).set_retry_times(0).run();
@@ -113,6 +158,10 @@ void asst::RoguelikeBoskyPassageRoutingTaskPlugin::bosky_update_map()
 
     MultiMatcher node_analyzer(image);
     node_analyzer.set_task_info("JieGarden@RoguelikeRoutingNodeAnalyze_BoskyPassage");
+
+    // 每次识别前清标记，识别完只有当前画面里出现的节点才是 seen
+    RoguelikeBoskyPassageMap::get_instance().clear_seen_flags();
+
     if (!node_analyzer.analyze()) {
         Log.error(__FUNCTION__, "| no nodes are recognised");
         return;
@@ -181,6 +230,30 @@ void asst::RoguelikeBoskyPassageRoutingTaskPlugin::bosky_update_map()
         /*suffix=*/"draw");
 #endif
 
+    if (previous_click.has_value()) {
+        const size_t idx = previous_click.value();
+        auto& fails = m_click_fail_count[idx];
+        const bool still_open = RoguelikeBoskyPassageMap::get_instance().get_node_open(idx);
+        if (previous_click_ms < 4000 && still_open && fails < 3) {
+            // 点完立刻回到选点 = 这一下没把节点打开（没点中 / 被弹窗吃掉），撤销 visited 重试，
+            // 否则它会当成已完成，退而求其次去点优先级更低、还压在它上面一格的节点。
+            ++fails;
+            RoguelikeBoskyPassageMap::get_instance().set_unvisited(idx);
+            Log.warn(
+                __FUNCTION__,
+                "| click on node",
+                idx,
+                "did not open it after",
+                previous_click_ms,
+                "ms, retry",
+                fails,
+                "/3");
+        }
+        else {
+            m_click_fail_count.erase(idx);
+        }
+    }
+
     Log.info(__FUNCTION__, "| map updated with", RoguelikeBoskyPassageMap::get_instance().size(), "nodes");
 }
 
@@ -197,12 +270,39 @@ void asst::RoguelikeBoskyPassageRoutingTaskPlugin::bosky_decide_and_click(
     // 按优先级顺序查找可用的节点
     for (const auto& node_type : priority_order) {
         auto nodes_of_type = RoguelikeBoskyPassageMap::get_instance().get_open_unvisited_nodes(node_type);
-        if (!nodes_of_type.empty()) {
-            chosen = nodes_of_type.front();
-            found = true;
-            Log.debug(__FUNCTION__, "| found node of type (", type2name(node_type), ") with index (", chosen, ")");
-            break;
+        if (nodes_of_type.empty()) {
+            continue;
         }
+
+        {
+            std::string cells;
+            for (const size_t idx : nodes_of_type) {
+                cells += "(" + std::to_string(RoguelikeBoskyPassageMap::get_instance().get_node_x(idx)) + "," +
+                         std::to_string(RoguelikeBoskyPassageMap::get_instance().get_node_y(idx)) + ")";
+            }
+            Log.info(__FUNCTION__, "| candidates of type", type2name(node_type), ":", cells);
+        }
+
+        // 只点本次截图里真的认到的节点：认不到说明它不在当前画面里（旧布局残留或已滚出视野），
+        // 按格子反算的坐标未必还有节点
+        std::vector<size_t> seen_nodes;
+        seen_nodes.reserve(nodes_of_type.size());
+        for (const size_t idx : nodes_of_type) {
+            if (RoguelikeBoskyPassageMap::get_instance().get_node_seen(idx)) {
+                seen_nodes.emplace_back(idx);
+            }
+        }
+        if (!seen_nodes.empty()) {
+            nodes_of_type = std::move(seen_nodes);
+        }
+        else {
+            Log.warn(__FUNCTION__, "| no node of type (", type2name(node_type), ") is visible in current screen");
+        }
+
+        chosen = nodes_of_type.front();
+        found = true;
+        Log.debug(__FUNCTION__, "| found node of type (", type2name(node_type), ") with index (", chosen, ")");
+        break;
     }
 
     if (!found) {
@@ -217,24 +317,32 @@ void asst::RoguelikeBoskyPassageRoutingTaskPlugin::bosky_decide_and_click(
 
     Log.info(__FUNCTION__, "| chosen node:", chosen, "(", gx, ",", gy, ") type:", type2name(node_type));
 
-    // 点击节点中心
-    auto [px, py] = RoguelikeBoskyPassageMap::get_instance().get_node_pixel(
-        chosen,
-        m_bosky_config.origin_x,
-        m_bosky_config.origin_y,
-        m_bosky_config.column_offset,
-        m_bosky_config.row_offset);
+    // 点击节点中心：直接用本次截图里识别到的图标位置（树洞地图固定，二者等价；
+    // 用实测位置可以避免节点登记与格子不一致时点偏）
+    auto [px, py] = RoguelikeBoskyPassageMap::get_instance().get_node_click_point(chosen, m_bosky_config);
 
     if (px == -1 || py == -1) {
         Log.error(__FUNCTION__, "| Invalid pixel coordinates for node", chosen, ": (", px, ",", py, ")");
         return;
     }
 
-    Point click_point(px + m_bosky_config.node_width / 2, py + m_bosky_config.node_height / 2);
+    Point click_point(px, py);
+    Log.info(
+        __FUNCTION__,
+        "| click at (",
+        px,
+        ",",
+        py,
+        ") node index:",
+        chosen,
+        "| seen in current screen:",
+        RoguelikeBoskyPassageMap::get_instance().get_node_seen(chosen));
     sleep(200);
     ctrler()->click(click_point);
     RoguelikeBoskyPassageMap::get_instance().set_visited(chosen);
     RoguelikeBoskyPassageMap::get_instance().set_curr_pos(chosen);
+    m_last_clicked = chosen;
+    m_last_click_time = std::chrono::steady_clock::now();
 
     // 发送节点类型到 WPF
     std::string node_type_name = type2name(node_type);

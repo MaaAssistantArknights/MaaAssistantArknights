@@ -166,8 +166,9 @@ bool asst::RoguelikeConfig::verify_and_load_params(const json::value& params)
                 // 启用特殊策略，联动 RoguelikeRoutingTaskPlugin
                 Task.set_task_base(strategy_task, "JieGarden@Roguelike@StrategyChange_mode4-FastPass");
             }
-            if (m_mode == RoguelikeMode::FindPlaytime) {
-                // 启用刷常乐节点策略，联动 RoguelikeRoutingTaskPlugin
+            if (m_mode == RoguelikeMode::FindPlaytime || m_mode == RoguelikeMode::CoppersRecast) {
+                // 刷常乐与投币重铸共用同一套层数策略：第一层正常打，找不到思维边界就重开；
+                // 进洞后由 RoguelikeBoskyPassageRoutingTaskPlugin 接管，反复找常乐节点
                 Task.set_task_base(strategy_task, "JieGarden@Roguelike@StrategyChange_mode20001");
             }
         }
@@ -198,6 +199,21 @@ bool asst::RoguelikeConfig::verify_and_load_params(const json::value& params)
             Log.error(__FUNCTION__, "| Invalid find_playTime_target", m_find_playTime_target);
             return false;
         }
+    }
+
+    if (m_mode == RoguelikeMode::CoppersRecast) {
+        m_coppers_recast_count = params.get("coppers_recast_count", 1);
+        m_coppers_recast_relic_count = params.get("coppers_recast_relic_count", 0);
+        if (m_coppers_recast_count < 1 || m_coppers_recast_count > 999) {
+            LogError << __FUNCTION__ << "| Invalid coppers_recast_count:" << m_coppers_recast_count;
+            return false;
+        }
+        if (m_coppers_recast_relic_count < 0 || m_coppers_recast_relic_count > 999) {
+            LogError << __FUNCTION__ << "| Invalid coppers_recast_relic_count:" << m_coppers_recast_relic_count;
+            return false;
+        }
+        LogInfo << __FUNCTION__ << "| CoppersRecast count:" << m_coppers_recast_count << "| relic:"
+                << m_coppers_recast_relic_count;
     }
 
     return true;

@@ -43,6 +43,7 @@
 #include "Task/Roguelike/Map/RoguelikeRoutingTaskPlugin.h"
 
 // ------------------ 界园主题专用配置及插件 ------------------
+#include "Task/Roguelike/JieGarden/RoguelikeCoppersRecastTaskPlugin.h"
 #include "Task/Roguelike/JieGarden/RoguelikeCoppersTaskPlugin.h"
 
 // ------------------ 黑流树海主题专用配置及插件 ------------------
@@ -124,6 +125,7 @@ asst::RoguelikeTask::RoguelikeTask(const AsstCallback& callback, Assistant* inst
 
     // ------------------ 界园主题专用插件 ------------------
     m_roguelike_task_ptr->register_plugin<RoguelikeCoppersTaskPlugin>(m_config_ptr, m_control_ptr);
+    m_roguelike_task_ptr->register_plugin<RoguelikeCoppersRecastTaskPlugin>(m_config_ptr, m_control_ptr);
 
     // ------------------ 黑流树海主题专用插件 ------------------
     m_blackflow_map_source_ptr = std::make_shared<blackflow::BlackFlowMapObservationSource>();
@@ -234,6 +236,12 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
     const auto& mode = m_config_ptr->get_mode();
 
     m_roguelike_task_ptr->set_tasks({ theme + "@Roguelike@Begin" });
+
+    if (mode == RoguelikeMode::CoppersRecast) {
+        // 游客倒转要在玩家已经推进过的那一局里刷钱，不能像常规开局那样点「放弃探索」重开：
+        // 换一条不点放弃的入口链，优先续玩已有进度，只有完全没有进行中的探索时才开新局
+        m_roguelike_task_ptr->set_tasks({ theme + "@Roguelike@Begin-CoppersRecast" });
+    }
 
     if (mode == RoguelikeMode::Investment) {
         // 刷源石锭模式是否进入第二层

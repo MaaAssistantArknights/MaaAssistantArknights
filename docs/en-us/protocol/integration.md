@@ -863,6 +863,8 @@ Mode.
 <br>
 `20001` - Playtime node farming; enter the hollow on the first layer and restart if the required node cannot be found; only available in the JieGarden theme, requires `find_playTime_target`.
 <br>
+`20002` - Repeated copper recasting on playtime nodes (also called meter rewind); reuses the playtime-first routing of 20001, takes over after the Stage Encounter recognizes the event 掷地有声 (Resounding) upon entering a playtime node, and bets on Heng/Li coppers in a 5:1 cycle; gives up the run and stops the task after `coppers_recast_count` + `coppers_recast_relic_count` castings; only available in the JieGarden theme.
+<br>
 `30001` - Swaddled baby animal farming; only available in the BlackFlow theme.
 <br>
 `30003` - Starting reward farming: play a preparation run first, then start the target run. The preparation run is abandoned after obtaining the swaddled animals required by `blackflow_start_animals` and entering floor 3; when the target run's support selection page contains any reward in `blackflow_start_rewards`, no choice is made, the task exits to the theme page keeping the run, and the task ends. The preparation run uses `collectible_mode_squad` and is played at difficulty 0 when `difficulty` is not `-1`; the target run uses `squad` and `difficulty` and ends at the support selection page. `roles` and the starting operators apply to the preparation run; when `collectible_mode_roles` and `collectible_mode_core_char_list` are provided, the preparation run uses them instead. With `blackflow_start_utopia` on, the target run picks a reward and enters floor 1; see that field. Only available in the BlackFlow theme; requires `blackflow_start_animals` and `blackflow_start_rewards`. (machine-translated)
@@ -1131,6 +1133,18 @@ Order in which the target run of mode 30003 picks rewards when rerolling for a f
 @optional
 Target playtime node of the playtime node farming mode. `1` - Ling (掷地有声, Resounding); `2` - Shu (种因得果, Sow the Cause, Reap the Fruit); `3` - Nian (三缺一, Three Out of Four). Only used when the theme is JieGarden and the mode is 20001, required in that mode; other or missing values cause the task parameters to fail to be set.  
 :::
+::: field coppers_recast_count  
+@type number
+@default 1
+@optional
+Number of coin-farming castings of the copper recasting mode (mode 20002), i.e. betting Heng coppers for Originium Ingots; range 1~999. Every 6th casting bets a Li copper for candles instead, which keeps the candle reserve stable over long runs. Only used when the theme is JieGarden and the mode is 20002.  
+:::  
+::: field coppers_recast_relic_count  
+@type number
+@default 0
+@optional
+Number of relic-farming castings of the copper recasting mode (mode 20002), i.e. betting Li coppers for 6 collectibles; range 0~999. Runs right after the coin-farming castings, and every 6th casting takes candles instead. Only used when the theme is JieGarden and the mode is 20002.  
+:::  
 ::::
 
 <details>

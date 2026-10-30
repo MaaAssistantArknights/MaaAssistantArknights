@@ -866,6 +866,8 @@ OF-1 플레이 시 사용할 편성 슬롯 번호
 <br>
 `20001` - 상락(常樂) 노드 파밍. 1층 진입 후 필요한 노드가 없으면 재시작. JieGarden 테마 전용이며 `find_playTime_target` 필요  
 <br>
+`20002` - 상락(常樂) 노드 반복 투동(전표 역회전). 20001의 상락 우선 라우팅을 사용하며, 상락 노드 진입 후 스테이지 조우에서 ｢掷地有声｣ 이벤트를 인식하면 투동 루프로 전환되고, 5衡1厲 주기로 반복 투동합니다. `coppers_recast_count` 및 `coppers_recast_relic_count` 횟수를 소진하면 해당 판을 포기하고 작업을 종료합니다. JieGarden 테마 전용
+<br>
 `30001` - 포대기 동물 파밍, BlackFlow 테마 전용
 <br>
 `30003` - 시작 보상 파밍. 먼저 준비 탐험을 진행한 뒤 목표 탐험을 시작합니다. 준비 탐험은 `blackflow_start_animals`에서 지정한 포대기 동물을 얻고 3층에 진입한 후 포기합니다. 목표 탐험의 지원 선택 화면에 `blackflow_start_rewards`의 항목이 하나라도 나오면 선택하지 않고 테마 화면으로 나가 해당 탐험을 유지한 채 작업을 종료합니다. 준비 탐험은 `collectible_mode_squad`를 사용하며 `difficulty`가 `-1`이 아니면 난이도 0으로 진행합니다. 목표 탐험은 `squad`와 `difficulty`를 사용하며 지원 선택 화면에서 종료합니다. `roles`와 시작 오퍼레이터는 준비 탐험에 사용되며, `collectible_mode_roles`와 `collectible_mode_core_char_list`를 지정하면 준비 탐험은 그것을 사용합니다. `blackflow_start_utopia`가 켜져 있으면 목표 탐험은 보상을 고른 뒤 1층에 들어갑니다. 해당 항목을 참고하세요. BlackFlow 테마 전용이며 `blackflow_start_animals`, `blackflow_start_rewards`와 함께 사용해야 합니다. (기계 번역)
@@ -1133,6 +1135,18 @@ Sarkaz 테마, Investment 모드, "연금술 분대" 또는 "지원 분대"일 �
 @type number
 @optional
 상락(常樂) 노드 파밍 모드의 목표 노드입니다. 선택 가능한 값: `1`(Ling/令) | `2`(Shu/黍) | `3`(Nian/年). JieGarden 테마이자 mode = 20001일 때만 사용되며, 해당 모드에서는 필수입니다. 미입력 시 또는 범위 밖의 값은 작업 매개변수 설정에 실패합니다.  
+:::  
+::: field coppers_recast_count  
+@type number
+@default 1
+@optional
+투동 재주조 모드(mode = 20002)의 파밍 횟수입니다. 衡如常에 투입하여 원석 주괴로 교환하는 횟수이며, 범위는 1~999입니다. 6회마다 6번째는 厲如鋒 대신 촛불로 교환하여 장기 운용 시에도 촛불이 유지됩니다. JieGarden 테마이자 mode = 20002일 때만 사용됩니다.  
+:::  
+::: field coppers_recast_relic_count  
+@type number
+@default 0
+@optional
+투동 재주조 모드(mode = 20002)의 수장품 교환 횟수입니다. 厲如鋒로 수장품 6개와 교환하는 횟수이며, 범위는 0~999입니다. 파밍 횟수를 소진한 후 실행되며, 마찬가지로 6회마다 6번째는 촛불로 교환합니다. JieGarden 테마이자 mode = 20002일 때만 사용됩니다.  
 :::  
 ::::
 

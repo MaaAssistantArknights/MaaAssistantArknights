@@ -70,6 +70,15 @@ void RoguelikeBoskyPassageMap::set_visited(size_t index)
     n->visited = true;
 }
 
+void RoguelikeBoskyPassageMap::set_unvisited(size_t index)
+{
+    Node* n = get_valid_node(index);
+    if (!n || !n->exists) {
+        return;
+    }
+    n->visited = false;
+}
+
 void RoguelikeBoskyPassageMap::set_node_type(size_t index, RoguelikeNodeType type)
 {
     Node* n = get_valid_node(index);
@@ -191,6 +200,44 @@ std::pair<int, int> RoguelikeBoskyPassageMap::get_node_pixel(
     return { origin_x + x * column_offset, origin_y + y * row_offset };
 }
 
+bool RoguelikeBoskyPassageMap::get_node_seen(size_t index) const
+{
+    if (index >= m_nodes.size()) {
+        return false;
+    }
+    const Node& n = m_nodes[index];
+    return n.exists && n.seen;
+}
+
+void RoguelikeBoskyPassageMap::clear_seen_flags()
+{
+    for (auto& n : m_nodes) {
+        n.seen = false;
+    }
+}
+
+std::pair<int, int>
+    RoguelikeBoskyPassageMap::get_node_click_point(size_t index, const BoskyPassageMapConfig& config) const
+{
+    if (index >= m_nodes.size() || !m_nodes[index].exists) {
+        Log.warn(__FUNCTION__, "| Invalid node index: (", index, ")");
+        return { -1, -1 };
+    }
+
+    const Node& n = m_nodes[index];
+    if (n.seen && n.pixel_x >= 0 && n.pixel_y >= 0) {
+        // 直接用本次截图里识别到的图标位置
+        return { n.pixel_x + config.node_width / 2, n.pixel_y + config.node_height / 2 };
+    }
+
+    // 没在本次截图里认到（理论上不该发生），退回网格换算
+    auto [px, py] = get_node_pixel(index, config.origin_x, config.origin_y, config.column_offset, config.row_offset);
+    if (px < 0 || py < 0) {
+        return { -1, -1 };
+    }
+    return { px + config.node_width / 2, py + config.node_height / 2 };
+}
+
 std::optional<size_t> RoguelikeBoskyPassageMap::coord_to_index(int x, int y) const
 {
     if (!in_bounds(x, y)) {
@@ -260,10 +307,21 @@ std::optional<size_t> RoguelikeBoskyPassageMap::ensure_node_from_pixel(
         if (Node* n = get_valid_node(idx.value())) {
             n->is_open = is_open;
             n->type = type;
+            n->seen = true;
+            n->pixel_x = px;
+            n->pixel_y = py;
         }
         return idx;
     }
     // 节点不存在，创建新节点
-    return create_and_insert_node(gx, gy, type, is_open);
+    if (auto idx = create_and_insert_node(gx, gy, type, is_open); idx.has_value()) {
+        if (Node* n = get_valid_node(idx.value())) {
+            n->seen = true;
+            n->pixel_x = px;
+            n->pixel_y = py;
+        }
+        return idx;
+    }
+    return std::nullopt;
 }
 } // namespace asst

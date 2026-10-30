@@ -1,5 +1,9 @@
 #pragma once
 
+#include <chrono>
+#include <optional>
+#include <unordered_map>
+
 #include "RoguelikeBoskyPassageMap.h"
 #include "Task/Roguelike/AbstractRoguelikeTaskPlugin.h"
 
@@ -34,6 +38,15 @@ private:
     // ———————— constants and variables ———————————————————————————————————————————————
     RoutingStrategy m_bosky_routing_strategy = RoutingStrategy::None;
     RoguelikeBoskyPassageMap::BoskyPassageMapConfig m_bosky_config;
+
+    // 主地图上点过树洞节点 → 下一次进图时先清空地图（每次进入树洞，布局都会重新随机）
+    mutable bool m_reset_map_pending = false;
+    // 本插件实例是否已经建过地图（插件随任务重建，重开任务时不会沿用上一轮残留的节点状态）
+    bool m_map_initialized = false;
+    // 上一次点击的节点与时间：地图很快又出现说明这次没进节点，需要撤销 visited 重试
+    std::optional<size_t> m_last_clicked;
+    std::chrono::steady_clock::time_point m_last_click_time {};
+    std::unordered_map<size_t, int> m_click_fail_count;
 
     // 界园树洞地图使用单例模式，通过 RoguelikeBoskyPassageMap::get_instance() 访问
 };
