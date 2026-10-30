@@ -35,7 +35,7 @@ public class PostActionSetting : PropertyChangedBase
         None = 0,
 
         /// <summary>
-        /// 退出明日方舟
+        /// 退出明日方舟（仅模拟器连接时显示与执行）
         /// </summary>
         ExitArknights = 1 << 0,
 
@@ -45,7 +45,7 @@ public class PostActionSetting : PropertyChangedBase
         BackToAndroidHome = 1 << 1,
 
         /// <summary>
-        /// 退出模拟器
+        /// 退出模拟器（仅模拟器连接时显示与执行）
         /// </summary>
         ExitEmulator = 1 << 2,
 
@@ -83,6 +83,11 @@ public class PostActionSetting : PropertyChangedBase
         /// 锁屏
         /// </summary>
         LockScreen = 1 << 9,
+
+        /// <summary>
+        /// 退出 PC 客户端（仅 PC 端连接时显示与执行）
+        /// </summary>
+        ExitPCClient = 1 << 10,
     }
 
     private PostActions _postActions;
@@ -109,9 +114,12 @@ public class PostActionSetting : PropertyChangedBase
 
     private bool _exitArknights;
 
+    /// <summary>
+    /// Gets or sets a value indicating whether 完成后退出明日方舟。仅模拟器下生效，PC 端由 ｢退出 PC 客户端｣ 代替，勾选予以保留。
+    /// </summary>
     public bool ExitArknights
     {
-        get => _exitArknights;
+        get => _exitArknights && !IsPCConnectConfig;
         set {
             if (!SetAndNotify(ref _exitArknights, value))
             {
@@ -152,22 +160,20 @@ public class PostActionSetting : PropertyChangedBase
         }
     }
 
+    /// <summary>
+    /// Gets a value indicating whether 当前为 PC 端（窗口绑定）连接：只显示 ｢退出 PC 客户端｣，隐藏 ｢退出明日方舟｣ 与 ｢退出模拟器｣。
+    /// </summary>
+    public bool IsPCConnectConfig => ConnectSettingsUserControlModel.Instance.IsPCConnectConfig;
+
     private bool _exitEmulator;
 
     /// <summary>
-    /// Gets a value indicating whether PC 端（窗口绑定）无模拟器进程，完成后不可选择 ｢退出模拟器｣。
+    /// Gets or sets a value indicating whether 完成后退出模拟器。仅模拟器下生效，PC 端下勾选予以保留，切回模拟器后恢复。
     /// </summary>
-    public bool ExitEmulatorOptionEnabled => !ConnectSettingsUserControlModel.Instance.IsPCConnectConfig;
-
     public bool ExitEmulator
     {
-        get => _exitEmulator;
+        get => _exitEmulator && !IsPCConnectConfig;
         set {
-            if (value && ConnectSettingsUserControlModel.Instance.IsPCConnectConfig)
-            {
-                return;
-            }
-
             if (!SetAndNotify(ref _exitEmulator, value))
             {
                 return;
@@ -182,6 +188,24 @@ public class PostActionSetting : PropertyChangedBase
             }
 
             UpdatePostAction(PostActions.ExitEmulator, value);
+        }
+    }
+
+    private bool _exitPCClient;
+
+    /// <summary>
+    /// Gets or sets a value indicating whether 完成后退出 PC 客户端。仅 PC 端下生效，模拟器下勾选予以保留，切回 PC 端后恢复。
+    /// </summary>
+    public bool ExitPCClient
+    {
+        get => _exitPCClient && IsPCConnectConfig;
+        set {
+            if (!SetAndNotify(ref _exitPCClient, value))
+            {
+                return;
+            }
+
+            UpdatePostAction(PostActions.ExitPCClient, value);
         }
     }
 
@@ -215,8 +239,6 @@ public class PostActionSetting : PropertyChangedBase
             {
                 return;
             }
-
-            NotifyOfPropertyChange(nameof(ExitEmulatorOptionEnabled));
 
             if (value)
             {
@@ -401,6 +423,7 @@ public class PostActionSetting : PropertyChangedBase
         ExitArknights = false;
         BackToAndroidHome = false;
         ExitEmulator = false;
+        ExitPCClient = false;
         ExitSelf = false;
         IfNoOtherMaa = false;
         LockScreen = false;
@@ -428,6 +451,11 @@ public class PostActionSetting : PropertyChangedBase
         if (ExitEmulator)
         {
             actions.Add(LocalizationHelper.GetString("TaskQueue.PostAction.ExitEmulator"));
+        }
+
+        if (ExitPCClient)
+        {
+            actions.Add(LocalizationHelper.GetString("TaskQueue.PostAction.ExitPCClient"));
         }
 
         if (ExitSelf)
@@ -494,6 +522,7 @@ public class PostActionSetting : PropertyChangedBase
         ExitArknights = savedActions.HasFlag(PostActions.ExitArknights);
         BackToAndroidHome = savedActions.HasFlag(PostActions.BackToAndroidHome);
         ExitEmulator = savedActions.HasFlag(PostActions.ExitEmulator);
+        ExitPCClient = savedActions.HasFlag(PostActions.ExitPCClient);
         ExitSelf = savedActions.HasFlag(PostActions.ExitSelf);
         LockScreen = savedActions.HasFlag(PostActions.LockScreen);
         Hibernate = savedActions.HasFlag(PostActions.Hibernate);
@@ -509,6 +538,7 @@ public class PostActionSetting : PropertyChangedBase
 
     /// <summary>
     /// PC 端（窗口绑定）不支持 ADB 侧后处理动作：移除已保存的相关标志，且不触发额外联动。
+    /// ｢退出明日方舟｣ ｢退出模拟器｣ 在 PC 端由 getter 过滤为不生效，勾选予以保留，切回模拟器后恢复。
     /// </summary>
     private void ClearUnsupportedPostActionsForAttachWindow()
     {
@@ -537,14 +567,6 @@ public class PostActionSetting : PropertyChangedBase
         }
         */
 
-        if (_exitEmulator)
-        {
-            _exitEmulator = false;
-            _postActions &= ~PostActions.ExitEmulator;
-            NotifyOfPropertyChange(nameof(ExitEmulator));
-            changed = true;
-        }
-
         if (!changed)
         {
             return;
@@ -560,14 +582,12 @@ public class PostActionSetting : PropertyChangedBase
         ConnectSettingsUserControlModel.Instance.PropertyChanged += (_, e) => {
             if (e.PropertyName is nameof(ConnectSettingsUserControlModel.ConnectConfig) or nameof(ConnectSettingsUserControlModel.IsPCConnectConfig))
             {
-                if (ConnectSettingsUserControlModel.Instance.IsPCConnectConfig && ExitEmulator)
-                {
-                    ExitEmulator = false;
-                    ExitArknights = true;
-                }
-
                 NotifyOfPropertyChange(nameof(AndroidControlPostActionsEnabled));
-                NotifyOfPropertyChange(nameof(ExitEmulatorOptionEnabled));
+                NotifyOfPropertyChange(nameof(IsPCConnectConfig));
+                NotifyOfPropertyChange(nameof(ExitArknights));
+                NotifyOfPropertyChange(nameof(ExitEmulator));
+                NotifyOfPropertyChange(nameof(ExitPCClient));
+                RefreshDescription();
                 ClearUnsupportedPostActionsForAttachWindow();
             }
         };

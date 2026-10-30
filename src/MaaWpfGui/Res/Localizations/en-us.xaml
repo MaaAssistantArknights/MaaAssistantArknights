@@ -2111,6 +2111,7 @@ Do not adjust the proxy multiplier setting in the game</system:String>
     <system:String x:Key="TaskQueue.PostAction.ExitArknights">Exit Arknights</system:String>
     <system:String x:Key="TaskQueue.PostAction.ExitEmulator">Exit Emulator</system:String>
     <system:String x:Key="TaskQueue.PostAction.ExitEmulatorFailed">Emulator shutdown failed</system:String>
+    <system:String x:Key="TaskQueue.PostAction.ExitPCClient">Exit PC Client</system:String>
     <system:String x:Key="TaskQueue.PostAction.ExitSelf">Exit MAA</system:String>
     <system:String x:Key="TaskQueue.PostAction.Hibernate">Hibernate</system:String>
     <system:String x:Key="TaskQueue.PostAction.Hibernate.Prompt">Task(s) completed, about to hibernate</system:String>

@@ -2112,6 +2112,7 @@ MAA는 비설치형 응용 프로그램으로, 삭제 시 레지스트리 항목
     <system:String x:Key="TaskQueue.PostAction.ExitArknights">명일방주를 종료</system:String>
     <system:String x:Key="TaskQueue.PostAction.ExitEmulator">에뮬레이터를 종료</system:String>
     <system:String x:Key="TaskQueue.PostAction.ExitEmulatorFailed">에뮬레이터 종료 실패</system:String>
+    <system:String x:Key="TaskQueue.PostAction.ExitPCClient">PC 클라이언트를 종료</system:String>
     <system:String x:Key="TaskQueue.PostAction.ExitSelf">MAA를 종료</system:String>
     <system:String x:Key="TaskQueue.PostAction.Hibernate">최대 절전 모드</system:String>
     <system:String x:Key="TaskQueue.PostAction.Hibernate.Prompt">작업이 완료되었으며, 곧 최대 절전 모드로 전환됩니다</system:String>

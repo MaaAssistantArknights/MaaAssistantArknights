@@ -48,15 +48,23 @@
                 Margin="0,8"
                 IsChecked="{Binding ExitArknights}"
                 IsEnabled="{c:Binding !ExitEmulator}"
-                MouseRightButtonUp="{s:Action PostActionsAndOnce}">
+                MouseRightButtonUp="{s:Action PostActionsAndOnce}"
+                Visibility="{c:Binding !IsPCConnectConfig}">
                 <controls:TextBlock Text="{DynamicResource TaskQueue.PostAction.ExitArknights}" TextWrapping="Wrap" />
             </CheckBox>
             <CheckBox
                 Margin="0,8"
                 IsChecked="{Binding ExitEmulator}"
-                IsEnabled="{c:Binding ExitEmulatorOptionEnabled}"
-                MouseRightButtonUp="{s:Action PostActionsAndOnce}">
+                MouseRightButtonUp="{s:Action PostActionsAndOnce}"
+                Visibility="{c:Binding !IsPCConnectConfig}">
                 <controls:TextBlock Text="{DynamicResource TaskQueue.PostAction.ExitEmulator}" TextWrapping="Wrap" />
+            </CheckBox>
+            <CheckBox
+                Margin="0,8"
+                IsChecked="{Binding ExitPCClient}"
+                MouseRightButtonUp="{s:Action PostActionsAndOnce}"
+                Visibility="{c:Binding IsPCConnectConfig}">
+                <controls:TextBlock Text="{DynamicResource TaskQueue.PostAction.ExitPCClient}" TextWrapping="Wrap" />
             </CheckBox>
             <CheckBox
                 Margin="0,8"

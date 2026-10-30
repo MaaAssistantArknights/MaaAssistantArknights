@@ -2112,6 +2112,7 @@ DEBUG 目录下保存的图片有数量限制，超出后会自动清理旧图�
     <system:String x:Key="TaskQueue.PostAction.ExitArknights">退出 明日方舟</system:String>
     <system:String x:Key="TaskQueue.PostAction.ExitEmulator">退出 模拟器</system:String>
     <system:String x:Key="TaskQueue.PostAction.ExitEmulatorFailed">模拟器关闭失败</system:String>
+    <system:String x:Key="TaskQueue.PostAction.ExitPCClient">退出 PC 客户端</system:String>
     <system:String x:Key="TaskQueue.PostAction.ExitSelf">退出 MAA</system:String>
     <system:String x:Key="TaskQueue.PostAction.Hibernate">休眠</system:String>
     <system:String x:Key="TaskQueue.PostAction.Hibernate.Prompt">已刷完，即将休眠</system:String>

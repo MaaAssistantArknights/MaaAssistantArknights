@@ -2112,6 +2112,7 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
     <system:String x:Key="TaskQueue.PostAction.ExitArknights">關閉 明日方舟</system:String>
     <system:String x:Key="TaskQueue.PostAction.ExitEmulator">關閉 模擬器</system:String>
     <system:String x:Key="TaskQueue.PostAction.ExitEmulatorFailed">模擬器關閉失敗</system:String>
+    <system:String x:Key="TaskQueue.PostAction.ExitPCClient">關閉 PC 客戶端</system:String>
     <system:String x:Key="TaskQueue.PostAction.ExitSelf">關閉 MAA</system:String>
     <system:String x:Key="TaskQueue.PostAction.Hibernate">休眠</system:String>
     <system:String x:Key="TaskQueue.PostAction.Hibernate.Prompt">已執行完畢，即將休眠</system:String>

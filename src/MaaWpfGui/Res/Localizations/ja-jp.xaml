@@ -2113,6 +2113,7 @@ MAA は非インストール型のアプリケーションであり、レジス�
     <system:String x:Key="TaskQueue.PostAction.ExitArknights">アークナイツを終了する</system:String>
     <system:String x:Key="TaskQueue.PostAction.ExitEmulator">エミュレータを終了する</system:String>
     <system:String x:Key="TaskQueue.PostAction.ExitEmulatorFailed">エミュレータの終了に失敗しました</system:String>
+    <system:String x:Key="TaskQueue.PostAction.ExitPCClient">PC クライアントを終了する</system:String>
     <system:String x:Key="TaskQueue.PostAction.ExitSelf">MAAを終了する</system:String>
     <system:String x:Key="TaskQueue.PostAction.Hibernate">休止状態にする</system:String>
     <system:String x:Key="TaskQueue.PostAction.Hibernate.Prompt">完了しました。休止状態にしようとしています</system:String>
