@@ -707,8 +707,8 @@
                         Margin="0,10,10,10"
                         PanningMode="Both">
                         <controls:TextBlock
-                            d:Text="{DynamicResource TaskQueue.Stage.TodaysStage.Tip}"
                             controls:TextBlock.BindableInlines="{Binding StagesOfTodayInlines}"
+                            d:Text="{DynamicResource TaskQueue.Stage.TodaysStage.Tip}"
                             TextWrapping="Wrap" />
                     </hc:ScrollViewer>
                     <Border Width="200" Margin="0,10,30,10">
@@ -874,6 +874,7 @@
                             PanningMode="Both">
                             <Grid>
                                 <!--  Plain text log style  -->
+                                <!--  条目 TextWrapping 变高，VirtualizingStackPanel 按 Pixel 滚动只能估算偏移，反向滚动严重卡顿；无虚拟化、无条数上限实测几十万条无瓶颈，不加虚拟化与条数上限  -->
                                 <ItemsControl
                                     HorizontalAlignment="Stretch"
                                     VerticalAlignment="Stretch"

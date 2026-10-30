@@ -68,6 +68,8 @@ public static class LocalizationHelper
         }
     }
 
+    // 与 Gui.Localization 的默认值互相依赖。不走 GUI 启动流程的入口（如控制台驱动）须先访问本类的静态成员（如 DefaultLanguage），
+    // 再访问 ConfigFactory，否则 Lazy 重入会抛 ValueFactory attempted to access
     private static string _culture = ConfigFactory.Root.Gui.Localization;
 
     private static string _customCulture = ConfigFactory.Root.Gui.CustomCulture;
