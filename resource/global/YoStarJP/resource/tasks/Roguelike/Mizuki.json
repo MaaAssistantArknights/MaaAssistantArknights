@@ -1,4 +1,17 @@
 {
+    "Mizuki@Roguelike@Squad-EnterPoint": {
+        "postDelay": 1000,
+        "maxTimes": 4,
+        "next": ["Mizuki@Roguelike@SquadSelectionSettle"],
+        "exceededNext": ["Mizuki@Roguelike@SquadConfirm"],
+        "reduceOtherTimes": ["Mizuki@Roguelike@SquadConfirm*4"]
+    },
+    "Mizuki@Roguelike@SquadSelectionSettle": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "postDelay": 1200,
+        "next": ["Mizuki@Roguelike@SquadConfirm", "Mizuki@Roguelike@Squad-EnterPoint"]
+    },
     "Mizuki@Roguelike@CheckLevel": {
         "text": ["進化系図", "進化", "系図"]
     },
@@ -17,18 +30,18 @@
     "Mizuki@Roguelike@SelectTheme": {
         "text": ["進化の系譜", "進化", "系譜"]
     },
-    "Mizuki@Roguelike@Squad-EnterPoint": {
-        "postDelay": 1000,
-        "maxTimes": 4,
-        "next": ["Mizuki@Roguelike@SquadSelectionSettle"],
-        "exceededNext": ["Mizuki@Roguelike@SquadConfirm"],
-        "reduceOtherTimes": ["Mizuki@Roguelike@SquadConfirm*4"]
-    },
     "Mizuki@Roguelike@SquadConfirm": {
         "reduceOtherTimes": ["Mizuki@Roguelike@Squad-EnterPoint*4"],
         "rectMove": [78, 42, 12, 12],
         "maxTimes": 4,
         "postDelay": 1000,
+        "exceededNext": [
+            "Mizuki@Roguelike@LastReward-EnterPoint",
+            "Mizuki@Roguelike@RolesDefault",
+            "Mizuki@Roguelike@RecruitMain",
+            "Mizuki@Roguelike@CloseCollection",
+            "Mizuki@Roguelike@MapObject"
+        ],
         "next": [
             "Mizuki@Roguelike@LastReward-EnterPoint",
             "Mizuki@Roguelike@RolesDefault",
@@ -36,20 +49,7 @@
             "Mizuki@Roguelike@CloseCollection",
             "Mizuki@Roguelike@MapObject",
             "Mizuki@Roguelike@SquadConfirm"
-        ],
-        "exceededNext": [
-            "Mizuki@Roguelike@LastReward-EnterPoint",
-            "Mizuki@Roguelike@RolesDefault",
-            "Mizuki@Roguelike@RecruitMain",
-            "Mizuki@Roguelike@CloseCollection",
-            "Mizuki@Roguelike@MapObject"
         ]
-    },
-    "Mizuki@Roguelike@SquadSelectionSettle": {
-        "algorithm": "JustReturn",
-        "action": "DoNothing",
-        "postDelay": 1200,
-        "next": ["Mizuki@Roguelike@SquadConfirm", "Mizuki@Roguelike@Squad-EnterPoint"]
     },
     "Mizuki@Roguelike@StageEncounterLeaveConfirm": {
         "roi": [1063, 0, 217, 700],
