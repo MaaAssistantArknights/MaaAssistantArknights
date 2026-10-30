@@ -1,0 +1,201 @@
+{
+    "RelaunchAnchor@RA@Common-Confirm": {
+        "text": ["Confirm"],
+        "roi": [1064, 579, 93, 40]
+    },
+    "RelaunchAnchor@RA@Common-OpenConstruction": {
+        "text": ["Start"]
+    },
+    "RelaunchAnchor@RA@Common-StartConstruction": {
+        "text": ["Start"]
+    },
+    "RelaunchAnchor@RA@RA1-ChooseStrategy": {
+        "text": ["and Cul", "ture and"],
+        "roi": [90, 380, 250, 35]
+    },
+    "RelaunchAnchor@RA@RA1-ConfirmSelection": {
+        "text": ["Conf", "onfi"]
+    },
+    "RelaunchAnchor@RA@RA1-SkipPlot": {
+        "text": ["SKIP"]
+    },
+    "RelaunchAnchor@RA@RA1-SkipPlotConfirm": {
+        "text": ["you sure", "want to", "the story"],
+        "roi": [480, 335, 340, 55]
+    },
+    "RelaunchAnchor@RA@RA1-DeployGatheringBasePrompt": {
+        "text": ["ploy the", "Gather"],
+        "roi": [400, 54, 480, 38]
+    },
+    "RelaunchAnchor@RA@RA1-DeployOperatorDirection": {
+        "roi": [50, 115, 90, 25],
+        "text": ["Rosmontis"]
+    },
+    "RelaunchAnchor@RA@RA1-DeliverWood5": {
+        "text": ["Deliver 5 Wood"]
+    },
+    "RelaunchAnchor@RA@RA1-DeliverWood": {
+        "text": ["Deliver Wood+"],
+        "ocrReplace": [["(8|9|\\d{2,3}).*5", "Deliver Wood+"]],
+        "roi": [80, 235, 150, 35]
+    },
+    "RelaunchAnchor@RA@RA1-Infrastructure": {
+        "text": ["Basic Facility"]
+    },
+    "RelaunchAnchor@RA@RA1-CommunicationStation": {
+        "text": ["Communicatio"]
+    },
+    "RelaunchAnchor@RA@RA1-StartBuildingStation": {
+        "text": ["Craft"]
+    },
+    "RelaunchAnchor@RA@RA1-BlankContinue": {
+        "text": ["anywhere to conti"]
+    },
+    "RelaunchAnchor@RA@RA1-ExitConstruction": {
+        "text": ["Build"]
+    },
+    "RelaunchAnchor@RA@RA1-CraftOwnCommStation1": {
+        "text": ["Build and own", "Communications"],
+        "roi": [525, 280, 230, 60]
+    },
+    "RelaunchAnchor@RA@RA1-CraftOwnCommStation": {
+        "text": ["Build and own", "Communications"],
+        "roi": [79, 225, 177, 55]
+    },
+    "RelaunchAnchor@RA@RA1-DeliverStone10": {
+        "text": ["Deliver 10 Stone"]
+    },
+    "RelaunchAnchor@RA@RA1-DeliverStone": {
+        "text": ["Deliver Stone"],
+        "roi": [80, 235, 97, 35]
+    },
+    "RelaunchAnchor@RA@RA1-SettleNow": {
+        "text": ["Conclude"]
+    },
+    "RelaunchAnchor@RA@RA1-ContinueAfterSettlement": {
+        "text": ["p to contin"]
+    },
+    "RelaunchAnchor@RA@RA1-WaitFinishConstruction": {
+        "algorithm": "JustReturn",
+        "next": ["RelaunchAnchor@RA@RA1-FinishConstruction", "RelaunchAnchor@RA@RA1-ContinueAfterSettlement", "#self"]
+    },
+    "RelaunchAnchor@RA@RA1-FinishConstruction": {
+        "text": ["uild Complet"]
+    },
+    "RelaunchAnchor@RA@RA4-ChooseStrategy": {
+        "text": ["ess Manage"]
+    },
+    "RelaunchAnchor@RA@RA4-Choose": {
+        "text": ["Operator R"]
+    },
+    "RelaunchAnchor@RA@RA4-ExamineEWExistence2": {
+        "text": ["Add Operat"]
+    },
+    "RelaunchAnchor@RA@RA4-AddHelp": {
+        "text": ["ct Support"]
+    },
+    "RelaunchAnchor@RA@RA4-EW-Common": {
+        "text": ["Wis", "adel"]
+    },
+    "RelaunchAnchor@RA@RA4-EW-ConfirmHelp": {
+        "text": ["Recruit Sup"]
+    },
+    "RelaunchAnchor@RA@RA4-ExamineEWExistence": {
+        "text": ["Wis", "adel"]
+    },
+    "RelaunchAnchor@RA@RA4-ConfirmTeam": {
+        "text": ["Confirm"]
+    },
+    "RelaunchAnchor@RA@RA4-ConfirmTeam2": {
+        "text": ["Confi"]
+    },
+    "RelaunchAnchor@RA@RA4-WaitName": {
+        "text": ["RA", "-4", "Helping Hand"]
+    },
+    "RelaunchAnchor@RA@RA4-UseRedGold": {
+        "text": ["10 Crude G"]
+    },
+    "RelaunchAnchor@RA@RA4-Mission": {
+        "text": ["new region"],
+        "roi": [630, 283, 85, 28]
+    },
+    "RelaunchAnchor@RA@RA4-ClickMission": {
+        "text": ["new regions"],
+        "roi": [135, 243, 82, 23]
+    },
+    "RelaunchAnchor@RA@RA4-Mission2": {
+        "text": ["Clear Water"],
+        "roi": [590, 310, 95, 26]
+    },
+    "RelaunchAnchor@RA@RA4-ClickMission2": {
+        "text": ["Clear Water"],
+        "roi": [145, 250, 85, 25]
+    },
+    "RelaunchAnchor@RA@RA4-Mission3": {
+        "text": ["leader"]
+    },
+    "RelaunchAnchor@RA@RA4-ClickMission3": {
+        "text": ["Defeat leader enemies"]
+    },
+    "RelaunchAnchor@RA@RA4-ExitSettleNow": {
+        "text": ["Conclude"]
+    },
+    "RelaunchAnchor@RA@RA15-ChooseStrategy": {
+        "text": ["ess Manage"]
+    },
+    "RelaunchAnchor@RA@RA15-ConfirmSelection": {
+        "text": ["onfi"]
+    },
+    "RelaunchAnchor@RA@RA15-Choose": {
+        "text": ["Operator R"]
+    },
+    "RelaunchAnchor@RA@RA15-ChooseExamine": {
+        "text": ["Quick Select"],
+        "roi": [1093, 22, 85, 28]
+    },
+    "RelaunchAnchor@RA@RA15-ExamineCXExistence": {
+        "text": ["Pramanix t"]
+    },
+    "RelaunchAnchor@RA@RA15-ClearChosen": {
+        "text": ["Quick Selec"]
+    },
+    "RelaunchAnchor@RA@RA15-ClearChosen-2": {
+        "text": ["Clear"]
+    },
+    "RelaunchAnchor@RA@RA15-ClearChosen-3": {
+        "text": ["Clear"]
+    },
+    "RelaunchAnchor@RA@RA15-ConfirmChoose": {
+        "text": ["Confirm"],
+        "roi": [1030, 662, 85, 31]
+    },
+    "RelaunchAnchor@RA@RA15-AddHelp": {
+        "text": ["ct Support"],
+        "roi": [886, 21, 82, 28]
+    },
+    "RelaunchAnchor@RA@RA15-CX-Common": {
+        "text": ["manix the Prer"]
+    },
+    "RelaunchAnchor@RA@RA15-CX-ConfirmHelp": {
+        "text": ["Recruit Su"]
+    },
+    "RelaunchAnchor@RA@RA15-ConfirmTeam": {
+        "text": ["Confirm"]
+    },
+    "RelaunchAnchor@RA@RA15-ConfirmTeam2": {
+        "text": ["Confi"]
+    },
+    "RelaunchAnchor@RA@RA15-AlignMapCheck": {
+        "text": ["ploy the", "Gather"],
+        "roi": [400, 54, 480, 38]
+    },
+    "RelaunchAnchor@RA@RA15-Kill60": {
+        "text": ["Defeat"]
+    },
+    "RelaunchAnchor@RA@RA15-Deliver": {
+        "text": ["Defeat ene"]
+    },
+    "RelaunchAnchor@RA@RA15-End2": {
+        "text": ["Term"]
+    }
+}

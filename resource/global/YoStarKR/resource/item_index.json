@@ -3373,6 +3373,14 @@
         "sortId": -10000,
         "usage": "스타일 특집 전용 소장 스티커. 탬플릿 편집에 사용할 수 있다."
     },
+    "itempack_stickers_sand2": {
+        "classifyType": "NONE",
+        "description": "새로운 항로를 향해 나아갈 채비를 마쳐라.",
+        "icon": "itempack_stickers_sand2.png",
+        "name": "스티커 팩/리런치 앵커",
+        "sortId": -10000,
+        "usage": "스타일 특집 전용 소장 스티커. 탬플릿 편집에 사용할 수 있다."
+    },
     "main16_spitem_1": {
         "classifyType": "NORMAL",
         "description": "과거에 이것 때문에 고난이 시작되었다고 했지만, 지금은 이것 때문에 비극이 시작되었다고 한다.",

@@ -11,7 +11,10 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
+using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Media;
@@ -21,7 +24,7 @@ using MaaWpfGui.Styles.Properties;
 
 namespace MaaWpfGui.Styles.Controls;
 
-public class TextBlock : System.Windows.Controls.TextBlock
+public class TextBlock : System.Windows.Controls.TextBlock, IWeakEventListener
 {
     static TextBlock()
     {
@@ -111,6 +114,20 @@ public class TextBlock : System.Windows.Controls.TextBlock
             return;
         }
 
+        // 换出的通知集合断开监听，避免旧集合的后续变更继续写入 Inlines；
+        // 弱事件订阅避免集合的引用延长元素的生命周期
+        if (e.OldValue is INotifyCollectionChanged oldCollection)
+        {
+            CollectionChangedEventManager.RemoveListener(oldCollection, tb);
+        }
+
+        if (e.NewValue is INotifyCollectionChanged newCollection)
+        {
+            CollectionChangedEventManager.AddListener(newCollection, tb);
+        }
+
+        // 值变化时整表快照兜底，非通知集合（如 IReadOnlyList）仅有这一步；
+        // 通知集合的后续增删改由 ReceiveWeakEvent 增量同步
         tb.Inlines.Clear();
         if (e.NewValue is not IEnumerable<Inline> inlines)
         {
@@ -120,6 +137,84 @@ public class TextBlock : System.Windows.Controls.TextBlock
         foreach (var inline in inlines)
         {
             tb.Inlines.Add(inline);
+        }
+    }
+
+    bool IWeakEventListener.ReceiveWeakEvent(Type managerType, object sender, EventArgs e)
+    {
+        if (managerType != typeof(CollectionChangedEventManager)
+            || e is not NotifyCollectionChangedEventArgs args)
+        {
+            return false;
+        }
+
+        // 值已切换后旧集合迟到的变更事件直接丢弃
+        if (ReferenceEquals(GetBindableInlines(this), sender))
+        {
+            SyncInlines(args);
+        }
+
+        return true;
+    }
+
+    private void SyncInlines(NotifyCollectionChangedEventArgs e)
+    {
+        switch (e.Action)
+        {
+            case NotifyCollectionChangedAction.Add:
+                InsertInlines(e.NewItems, e.NewStartingIndex);
+                break;
+
+            case NotifyCollectionChangedAction.Remove:
+                RemoveInlines(e.OldItems);
+                break;
+
+            case NotifyCollectionChangedAction.Replace:
+            case NotifyCollectionChangedAction.Move:
+                RemoveInlines(e.OldItems);
+                InsertInlines(e.NewItems, e.NewStartingIndex);
+                break;
+
+            case NotifyCollectionChangedAction.Reset:
+                Inlines.Clear();
+                if (GetBindableInlines(this) is IEnumerable<Inline> inlines)
+                {
+                    foreach (var inline in inlines)
+                    {
+                        Inlines.Add(inline);
+                    }
+                }
+
+                break;
+        }
+    }
+
+    private void InsertInlines(IList items, int startingIndex)
+    {
+        if (items is null)
+        {
+            return;
+        }
+
+        // InlineCollection 没有按索引插入的公开方法，走 IList 显式实现；
+        // 未携带有效索引或索引越界时退化为尾部追加
+        var index = startingIndex < 0 || startingIndex > Inlines.Count ? Inlines.Count : startingIndex;
+        foreach (Inline inline in items)
+        {
+            ((IList)Inlines).Insert(index++, inline);
+        }
+    }
+
+    private void RemoveInlines(IList items)
+    {
+        if (items is null)
+        {
+            return;
+        }
+
+        foreach (Inline inline in items)
+        {
+            Inlines.Remove(inline);
         }
     }
 }

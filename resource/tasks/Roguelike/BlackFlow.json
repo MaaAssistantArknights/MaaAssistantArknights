@@ -1404,6 +1404,11 @@
     "BlackFlow@Roguelike@Page-FinalEncounter": {
         "baseTask": "BlackFlow@Roguelike@StageEncounterJudgeClick"
     },
+    "BlackFlow@Roguelike@Page-Floor5Boss": {
+        "Doc": "第五层险路恶敌。分派时任务以 NodeDispatchAction 的名字运行，经由 StageDreadfulFoe-5 才能让按名字设的次数上限生效。",
+        "algorithm": "JustReturn",
+        "next": ["BlackFlow@Roguelike@StageDreadfulFoe-5"]
+    },
     "BlackFlow@Roguelike@Page-Investment": {
         "algorithm": "JustReturn",
         "next": ["BlackFlow@Roguelike@StageTraderInvestSystem"]
@@ -1835,6 +1840,12 @@
     },
     "BlackFlow@Roguelike@SquadDefault": {
         "template": "BlackFlow@Roguelike@SquadDefault.png"
+    },
+    "BlackFlow@Roguelike@StageDreadfulFoe-5": {
+        "Doc": "与旧主题同名：勾选“在第五层 BOSS 前暂停”时 RoguelikeTask 将其次数上限设为 0，在第五层首领编队前停止任务。",
+        "algorithm": "JustReturn",
+        "next": ["BlackFlow@Roguelike@QuickFormation"],
+        "exceededNext": ["RoguelikeControlTaskPlugin-Stop"]
     },
     "BlackFlow@Roguelike@StageEncounterContinue": {
         "algorithm": "JustReturn",

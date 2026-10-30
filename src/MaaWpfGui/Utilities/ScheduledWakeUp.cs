@@ -54,7 +54,7 @@ public static class ScheduledWakeUp
 
     private const int DebounceMilliseconds = 500;
 
-    private static readonly ILogger _logger = Log.ForContext("SourceContext", "ScheduledWakeUp");
+    private static readonly ILogger _logger = Log.ForContext(typeof(ScheduledWakeUp));
     private static readonly string _fileValue = Environment.ProcessPath ?? string.Empty;
     private static readonly string _taskName = $"MaaWakeup_{InstanceIdentifier.GetHash(_fileValue)}";
 

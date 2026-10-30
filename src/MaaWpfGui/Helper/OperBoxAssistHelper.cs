@@ -28,7 +28,7 @@ namespace MaaWpfGui.Helper;
 /// </summary>
 public static class OperBoxAssistHelper
 {
-    private static readonly ILogger _logger = Log.ForContext("SourceContext", "OperBoxAssistHelper");
+    private static readonly ILogger _logger = Log.ForContext(typeof(OperBoxAssistHelper));
 
     private static readonly string _operBoxDataJsonPath =
         Path.Combine(PathsHelper.DataDir, $"{JsonDataKey.OperBoxData}.json");

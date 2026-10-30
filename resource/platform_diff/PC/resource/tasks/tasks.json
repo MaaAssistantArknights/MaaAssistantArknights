@@ -1,5 +1,12 @@
 {
     "Roguelike@StageTraderInvestSystem": {
+        "template": ["Roguelike@StageTraderInvestSystem.png", "Roguelike@StageTraderInvestSystemPC.png"],
         "templThreshold": 0.7
+    },
+    "BlackFlow@Roguelike@StageTraderInvestSystem": {
+        "template": ["Roguelike@StageTraderInvestSystem.png", "Roguelike@StageTraderInvestSystemPC.png"]
+    },
+    "BlackFlow@Roguelike@SeedPriority@Roguelike@StageTraderInvestSystem": {
+        "template": ["Roguelike@StageTraderInvestSystem.png", "Roguelike@StageTraderInvestSystemPC.png"]
     }
 }

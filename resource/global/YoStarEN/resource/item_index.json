@@ -3373,6 +3373,14 @@
         "sortId": -10000,
         "usage": "Special Looseleaf Stickers for Fashion Collections usable as decorations."
     },
+    "itempack_stickers_sand2": {
+        "classifyType": "NONE",
+        "description": "Get ready to follow a new course.",
+        "icon": "itempack_stickers_sand2.png",
+        "name": "Sticker Pack/Relaunch Anchor",
+        "sortId": -10000,
+        "usage": "Special Looseleaf Stickers for Fashion Collections usable as decorations."
+    },
     "main16_spitem_1": {
         "classifyType": "NORMAL",
         "description": "Once, they said it was the origin of suffering. Now, they say its disappearance was the beginning of tragedy.",

@@ -21,10 +21,10 @@ using MaaWpfGui.Constants;
 using MaaWpfGui.Constants.Enums;
 using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
-using MaaWpfGui.States;
 using MaaWpfGui.Utilities.ValueType;
 using MaaWpfGui.ViewModels.UI;
 using MaaWpfGui.ViewModels.UserControl.TaskQueue;
+using MaaWpfGui.ViewModels.UserControl.Toolbox;
 using Serilog;
 using Stylet;
 
@@ -85,6 +85,10 @@ public class GameSettingsUserControlModel : PropertyChangedBase
             FightTaskUserControlModel.Instance.UpdateStageList();
             DepotMaintainTaskUserControlModel.Instance.UpdateStageList();
             Instances.TaskQueueViewModel.UpdateDatePrompt();
+
+            // 主题列表的 ｢未适配｣ 后缀按客户端类型求值
+            RoguelikeTaskUserControlModel.Instance.RoguelikeThemeList.RefreshLocalization();
+            ReclamationUserControlModel.Instance.ReclamationThemeList.RefreshLocalization();
 
             if (!NeedRestartAfterClientTypeChange(oldValue, value))
             {

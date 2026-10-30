@@ -30,7 +30,7 @@ namespace MaaWpfGui.Services.Web;
 /// </summary>
 public static class YituliuApiService
 {
-    private static readonly ILogger _logger = Log.ForContext("SourceContext", "YituliuApiService");
+    private static readonly ILogger _logger = Log.ForContext(typeof(YituliuApiService));
 
     private const int CodeSuccess = 200;
     private const int CodeInsufficientPermissions = 20010;

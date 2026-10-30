@@ -32,7 +32,7 @@ public static class ItemListHelper
 {
     public static Dictionary<string, ArkItem> ArkItems { get; private set; }
 
-    private static readonly ILogger _logger = Log.ForContext("SourceContext", "ItemListHelper");
+    private static readonly ILogger _logger = Log.ForContext(typeof(ItemListHelper));
 
     static ItemListHelper()
     {

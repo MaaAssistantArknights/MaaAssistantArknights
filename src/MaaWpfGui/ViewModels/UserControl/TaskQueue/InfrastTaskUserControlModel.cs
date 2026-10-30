@@ -79,7 +79,7 @@ public class InfrastTaskUserControlModel : TaskSettingsViewModel, InfrastTaskUse
         InfrastRoomType.AssistantChange,
     ];
 
-    private static readonly (string Value, string LocalizationKey)[] _fiammettaTargetEntries =
+    private static readonly LocalizedEntry<string>[] _fiammettaTargetEntries =
     [
         ("清流", "Infrast.Fiammetta.Target.Purestream"),
         ("可露希尔", "Infrast.Fiammetta.Target.Closure"),

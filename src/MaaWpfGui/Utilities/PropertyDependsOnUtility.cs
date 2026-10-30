@@ -31,7 +31,7 @@ namespace MaaWpfGui.Utilities;
 /// </summary>
 public static class PropertyDependsOnUtility
 {
-    private static readonly ILogger _logger = Log.ForContext("SourceContext", "PropertyDependsOnUtility");
+    private static readonly ILogger _logger = Log.ForContext(typeof(PropertyDependsOnUtility));
 
     // 存储每个实例的属性依赖关系：使用 ConditionalWeakTable 避免内存泄漏
     private static readonly ConditionalWeakTable<object, Dictionary<string, List<string>>> _instanceDependencies = [];

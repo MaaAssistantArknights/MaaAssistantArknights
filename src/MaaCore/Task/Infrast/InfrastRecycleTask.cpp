@@ -19,7 +19,7 @@ bool asst::InfrastRecycleTask::_run()
     set_product("Placeholder");
 
     swipe_to_the_left_of_main_ui();
-    if (!enter_facility()) {
+    if (!enter_facility(0, false)) {
         swipe_to_right_of_main_ui();
         if (!enter_facility()) {
             return false;

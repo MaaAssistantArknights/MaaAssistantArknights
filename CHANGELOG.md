@@ -1,14 +1,12 @@
-## v6.21.0-beta.2
+## v6.21.0-beta.3
 
 ### Highlights
 
-#### 本地化资源全量重写
-
 本版本按功能域全量重写了界面语言资源，个别界面可能出现文案显示异常；如遇到问题，请通过 ｢设置 - 问题反馈｣ 提交反馈。
 
-#### 生息演算迁移到 ｢小工具-牛杂｣
+#### 生息演算迁移到 ｢小工具-牛杂｣，外服支持 ｢重启锚点｣
 
-生息演算从任务队列迁移到 ｢小工具-牛杂｣ 独立运行，任务队列中已有的条目与设置升级后自动迁入。
+生息演算从任务队列迁移到 ｢小工具-牛杂｣ 独立运行，任务队列中已有的条目与设置升级后自动迁入。YostarEN/JP/KR 新增支持 ｢重启锚点｣ 主题。
 
 #### 黑流树海刷开局支持凹第一层实托邦
 
@@ -21,13 +19,11 @@
 <details>
 <summary><b>English</b></summary>
 
-#### Localization Resources Fully Rewritten
-
 The UI localization resources have been extensively rewritten by feature domain in this version; a few texts may display incorrectly. If you run into any, please report via Settings - Issue Report.
 
-#### Reclamation Algorithm Moved to Toolbox "Useful Tasks"
+#### Reclamation Algorithm Moved to Toolbox "Useful Tasks", "RELAUNCH ANCHOR" on Overseas Servers
 
-Reclamation Algorithm now runs standalone in the Toolbox "Useful Tasks" section; existing entries in the task queue are migrated automatically with their settings preserved.
+Reclamation Algorithm now runs standalone in the Toolbox "Useful Tasks" section; existing entries in the task queue are migrated automatically with their settings preserved. YostarEN/JP/KR now support the "RELAUNCH ANCHOR" theme.
 
 #### BlackFlow Start Run: Reroll Until Floor 1 is 实托邦
 
@@ -44,6 +40,42 @@ Auto formation now matches operators on the current page first, reducing paging;
 以下是详细内容：
 
 <details open>
+<summary><b>v6.21.0-beta.3 (2026-10-30)</b></summary>
+
+### 新增 | New
+
+* 基建收获时识别回收站产出的物品与数量并显示在日志中，鼠标悬停日志可查看物品图标 ([#18924](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18924)) @ABA2396
+* 黑流树海支持 ｢在第五层 BOSS 前暂停｣ ([#18913](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18913)) @ZiyinLin
+* Android 组件附带 NCNN 格式的 OCR 模型，下游可直接使用 ncnn 后端识别 ([#18738](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18738)) @wangl-cc
+* YostarEN/JP/KR support Reclamation Algorithm 3 ([#18929](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18929), [#18910](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18910), [#18911](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18911)) @dragonheart107 @Manicsteiner @HX3N
+
+### 改进 | Improved
+
+* 肉鸽与生息演算的主题下拉框中，当前客户端未适配的主题显示 ｢未适配｣ 后缀 ([#18928](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18928)) @ABA2396 @Constrat
+* gui.log 记录 MessageBox 与 Growl 通知的弹出内容及用户选择，便于排查问题 ([#18915](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18915)) @ABA2396
+* 收到新公告时 gui.log 只记录带 (NEW!!!) 标记的区块，不再写入整篇公告 ([#18916](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18916)) @ABA2396
+* 基建进入设施时可预期的失败（设施不在当前画面、序号超出实际建造数量）不再保存截图，避免挤掉有排查价值的截图 ([#18923](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18923)) @ABA2396
+
+### 修复 | Fix
+
+* 修复水月肉鸽进入商店时投资先于刷新命中，导致刷新商店（指路鳞）不生效的问题 ([#18883](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18883)) @ZiyinLin
+* 修复 ｢领取限时签到活动奖励｣ 通过图标进入时打开专享活动弹窗后未关闭的问题 @HX3N
+* 修复今日关卡小提示刷新后内容未更新的问题 @ABA2396
+* 修复 PC 端黑流树海商店投资入口识别分数不足导致无法投资的问题 ([#18710](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18710)) @ylv01 @ZiyinLin
+* YostarEN fix various infrastructure OCR at 720p and Ch'en OCR @Constrat
+* YostarJP fix ocrReplace for Kal'tsit (ケルシー・エスペランタ) @Saratoga-Official
+
+### 其他 | Other
+
+* 将信用商店购买成功图标提取为通用物资获取图标模板 ([#18900](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18900)) @youzibigg
+* 静态类日志器统一使用 `Log.ForContext(typeof(T))` ([#18917](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18917)) @ABA2396
+* 本地化下拉列表条目改为链式配置 ([#18928](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18928)) @ABA2396
+* 库存数据的同步时间统一以 UTC 保存 @ABA2396
+* 修订仓库开发约定，补充本地化 key 前缀命名规范、排序脚本用法与本地化下拉列表约定 @ABA2396
+
+</details>
+
+<details>
 <summary><b>v6.21.0-beta.2 (2026-10-27)</b></summary>
 
 ### 修复 | Fix

@@ -444,6 +444,7 @@
     <system:String x:Key="Asst.Infrast.ProductChanged">产物已切换</system:String>
     <system:String x:Key="Asst.Infrast.ProductIncorrect">产物与配置不相符。</system:String>
     <system:String x:Key="Asst.Infrast.ProductUnknown">无法识别的产物</system:String>
+    <system:String x:Key="Asst.Infrast.RecycleProduct">回收站产出</system:String>
     <system:String x:Key="Asst.Infrast.RoomGroupsMatch" xml:space="preserve">匹配编组: </system:String>
     <system:String x:Key="Asst.Infrast.RoomGroupsMatchFailed" xml:space="preserve">匹配{key=Game.Operator}编组失败，编组列表: </system:String>
     <system:String x:Key="Asst.Infrast.RoomGroupsMatchRecogFailed">编组{key=Game.Operator}识别失败，房间保持原样</system:String>
@@ -747,6 +748,7 @@
     <system:String x:Key="Common.LabelSequence.Tip">标签顺序可拖动</system:String>
     <system:String x:Key="Common.ManualRestart">稍后</system:String>
     <system:String x:Key="Common.No">否</system:String>
+    <system:String x:Key="Common.NotAdapted">未适配</system:String>
     <system:String x:Key="Common.NotSelected">不选择</system:String>
     <system:String x:Key="Common.Ok">好的</system:String>
     <system:String x:Key="Common.Select">选择</system:String>

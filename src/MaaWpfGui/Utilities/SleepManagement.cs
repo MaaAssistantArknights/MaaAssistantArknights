@@ -60,7 +60,7 @@ public static class SleepManagement
         public string SimpleReasonString;
     }
 
-    private static readonly ILogger _logger = Log.ForContext("SourceContext", "SleepManagement");
+    private static readonly ILogger _logger = Log.ForContext(typeof(SleepManagement));
     private static bool _isBlockingSleep = false;
     private static readonly Lock _keepAwakeLock = new();
     private static int _keepAwakeGeneration;

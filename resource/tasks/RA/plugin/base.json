@@ -118,7 +118,7 @@
     },
     "RA@Store@PurchasedConfirm": {
         "baseTask": "CreditShop-Bought",
-        "template": "CreditShop-Bought.png",
+        "template": "ItemObtainedIcon.png",
         "next": ["RA@Store@PurchasedConfirm", "RA@Store@ClickItem", "RA@Store@Swipe"]
     },
     "RA@Store@Swipe": {

@@ -1808,7 +1808,7 @@
     },
     "MiningActivitiesEarnRewards": {
         "baseTask": "CreditShop-Bought",
-        "template": "CreditShop-Bought.png",
+        "template": "ItemObtainedIcon.png",
         "next": ["#self", "MiningActivitiesReturn"]
     },
     "MiningActivitiesReturn": {
@@ -1880,7 +1880,7 @@
     },
     "OrundumActivitiesEarnRewards": {
         "baseTask": "CreditShop-Bought",
-        "template": "CreditShop-Bought.png",
+        "template": "ItemObtainedIcon.png",
         "next": ["#self", "OrundumActivitiesReturn"]
     },
     "OrundumActivitiesReturn": {
@@ -2020,7 +2020,7 @@
     },
     "SpecialAccessActivitiesEarnRewards": {
         "baseTask": "CreditShop-Bought",
-        "template": "CreditShop-Bought.png",
+        "template": "ItemObtainedIcon.png",
         "next": ["#self", "SpecialAccessActivitiesReturn"]
     },
     "SpecialAccessActivitiesReturn": {
@@ -2067,7 +2067,7 @@
         "action": "ClickSelf",
         "roi": [5, 21, 203, 258],
         "postDelay": 1500,
-        "next": ["SignInEventInPopup"],
+        "next": ["SpecialAccessActivitiesReturn", "SignInEventInPopup"],
         "onErrorNext": ["Stop"]
     },
     "SignInEventInPopup": {
@@ -2385,6 +2385,7 @@
         "next": ["CreditShop-Bought", "CreditShop-BuyIt@LoadingText", "CreditShop-NoMoney"]
     },
     "CreditShop-Bought": {
+        "template": "ItemObtainedIcon.png",
         "doc": [
             "在信用商店购买物品后，识别屏幕中 <获得物资> 文字上方的 Icon，并点击屏幕下方按钮靠下位置",
             "考虑到淡入淡出动画，本任务不宜使用 ClickSelf，若识别上方 Icon 则可能点到其他商店页面，若识别下方按钮则容易点到其他商品"
@@ -2933,7 +2934,23 @@
         "roi": [0, 600, 800, 118],
         "postDelay": 1000,
         "postDelay_Doc": "UI 更新之后给这 b 玩意也加了动画，会点到一键换班",
+        "next": ["InfrastRewardRecycleProduct", "InfrastReward", "InfrastReward@LoadingText", "InfrastExitReward"]
+    },
+    "InfrastRewardRecycleProduct": {
+        "baseTask": "CreditShop-Bought",
+        "template": "ItemObtainedIcon.png",
+        "specificRect": [640, 645, 1, 1],
+        "specificRect_Doc": "基建获得物资弹窗的确认按钮位置与信用商店弹窗不同，覆写为基建弹窗的确认按钮",
+        "doc": "基建收获点击 ｢材料产出｣ 后弹出的获得物资弹窗，挂载的插件识别回收站产物并回调，随后点击下方确认按钮关闭",
         "next": ["InfrastReward", "InfrastReward@LoadingText", "InfrastExitReward"]
+    },
+    "InfrastRecycleProductItem": {
+        "template": "empty.png",
+        "roi": [0, 105, 1280, 455],
+        "roi_Doc": "霍夫圆检测物品图标的区域，覆盖弹窗两行图标（720p 圆心 y 约 240/421，圆环半径约 60），不含上方获得物资图标",
+        "templThreshold": 0.7,
+        "maskRange": [1, 255],
+        "doc": "回收站产物弹窗的物品模板匹配参数载体，模板由插件从 template/items 缩放到弹窗图标尺寸后逐个传入，maskRange 排除模板中被置黑的圆底与圆环"
     },
     "InfrastExitReward": {
         "Doc": "干员疲劳、线索收集 是不能一键收获的，所以要先退出一键收获的界面，这里点击的是控制中枢左侧那一片空白的区域",
@@ -6098,7 +6115,7 @@
     },
     "GreenTicket@Store@PurchasedConfirm": {
         "baseTask": "CreditShop-Bought",
-        "template": "CreditShop-Bought.png",
+        "template": "ItemObtainedIcon.png",
         "next": [
             "GreenTicket@Store@PurchasedConfirm",
             "GreenTicket@Store@SecondFloor-Check",
@@ -6161,7 +6178,7 @@
     },
     "GreenTicket@Store@SecondFloorPurchasedConfirm": {
         "baseTask": "GreenTicket@Store@PurchasedConfirm",
-        "template": "CreditShop-Bought.png",
+        "template": "ItemObtainedIcon.png",
         "next": [
             "GreenTicket@Store@SecondFloorPurchasedConfirm",
             "GreenTicket@Store@ClickSecondFloorItemList#next",
@@ -6212,7 +6229,7 @@
     },
     "YellowTicket@Store@PurchasedConfirm": {
         "baseTask": "CreditShop-Bought",
-        "template": "CreditShop-Bought.png",
+        "template": "ItemObtainedIcon.png",
         "next": [
             "YellowTicket@Store@PurchasedConfirm",
             "YellowTicket@Store@ClickItem_Headhunting_Permit",
@@ -6263,7 +6280,7 @@
     },
     "RedTicket@Store@PurchasedConfirm": {
         "baseTask": "CreditShop-Bought",
-        "template": "CreditShop-Bought.png",
+        "template": "ItemObtainedIcon.png",
         "maxTimes": 10,
         "next": ["RedTicket@Store@ChooseTicketTypeSelected", "RedTicket@Store@PurchasedConfirm"]
     },

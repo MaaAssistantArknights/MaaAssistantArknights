@@ -28,7 +28,7 @@ namespace MaaWpfGui.Helper;
 
 public static class CopilotHelper
 {
-    private static readonly ILogger _logger = Log.ForContext("SourceContext", "CopilotHelper");
+    private static readonly ILogger _logger = Log.ForContext(typeof(CopilotHelper));
 
     public static async Task<(PrtsStatus Status, PrtsCopilotModel? Copilot)> RequestCopilotAsync(int copilotId, CancellationToken token = default)
     {

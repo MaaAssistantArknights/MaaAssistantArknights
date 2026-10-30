@@ -2388,6 +2388,29 @@ public class AsstProxy
                     break;
                 }
 
+            case "InfrastRecycleProduct":
+                {
+                    var drops = new List<(string ItemId, string ItemName, int Total, int Add)>();
+                    foreach (var item in subTaskDetails?["drops"] ?? new JArray())
+                    {
+                        drops.Add((item["itemId"]?.ToString() ?? string.Empty,
+                                   item["itemName"]?.ToString() ?? string.Empty,
+                                   (int)(item["quantity"] ?? 0),
+                                   0));
+                    }
+
+                    var allDrops = string.Join("\n", drops.Select(x => $"{x.ItemName} : {x.Total.FormatNumber(false)}"));
+                    var recycleOutput = LocalizationHelper.GetString("Asst.Infrast.RecycleProduct");
+                    if (allDrops.Length > 0)
+                    {
+                        recycleOutput += "\n" + allDrops;
+                    }
+
+                    Instances.TaskQueueViewModel.AddLog(recycleOutput, toolTip: drops.CreateMaterialDropTooltip());
+
+                    break;
+                }
+
             case "EnterFacility":
                 Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("Asst.Infrast.ThisFacility") +
                                                     LocalizationHelper.GetString(FacilityLocalizationKey($"{subTaskDetails?["facility"]}")) + " " +

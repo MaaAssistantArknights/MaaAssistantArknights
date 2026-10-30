@@ -117,7 +117,6 @@ ClueVacancyNo6.png
 ClueVacancyNo7.png
 ClusCanBeSent.png
 CreditPoint.png
-CreditShop-Bought.png
 DepotEnterSiege.png
 DialogueLog.png
 DroneAssistMfg.png
@@ -186,6 +185,7 @@ InfrastTrainingLevel2.png
 InfrastTrainingLevel3.png
 InfrastTrainingLocked.png
 IS-Open.png
+ItemObtainedIcon.png
 LE-Open.png
 Loading2.png
 LoadingIcon.png

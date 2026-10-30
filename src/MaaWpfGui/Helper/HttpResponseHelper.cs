@@ -23,7 +23,7 @@ namespace MaaWpfGui.Helper;
 
 public static class HttpResponseHelper
 {
-    private static readonly ILogger _logger = Log.ForContext("SourceContext", "HttpResponseHelper");
+    private static readonly ILogger _logger = Log.ForContext(typeof(HttpResponseHelper));
 
     public static async Task<bool> SaveResponseToFileAsync(HttpResponseMessage? response, string saveTo, bool saveAndDeleteTmp = true)
     {

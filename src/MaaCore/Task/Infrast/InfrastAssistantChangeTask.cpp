@@ -7,7 +7,7 @@ bool asst::InfrastAssistantChangeTask::_run()
     constexpr int ProcessRetryTimes = 20;
 
     swipe_to_the_left_of_main_ui();
-    if (!enter_facility()) {
+    if (!enter_facility(0, false)) {
         swipe_to_right_of_main_ui();
         if (!enter_facility()) {
             return false;

@@ -36,7 +36,7 @@ namespace MaaWpfGui.Models;
 
 public static class ResourceUpdater
 {
-    private static readonly ILogger _logger = Log.ForContext("SourceContext", "ResourceUpdater");
+    private static readonly ILogger _logger = Log.ForContext(typeof(ResourceUpdater));
 
     public static async Task<bool> UpdateFromGithubAsync()
     {

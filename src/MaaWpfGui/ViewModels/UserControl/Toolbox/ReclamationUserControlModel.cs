@@ -16,6 +16,7 @@ using System.Collections.Generic;
 using System.Linq;
 using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Configuration.Single.Settings;
+using MaaWpfGui.Constants.Enums;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Models;
 using MaaWpfGui.Models.AsstTasks;
@@ -56,9 +57,11 @@ public class ReclamationUserControlModel : PropertyChangedBase
     /// Gets the list of reclamation themes.
     /// </summary>
     public LocalizedObservableList<Theme> ReclamationThemeList { get; } = new(
-        (Theme.Fire, "Toolbox.MiniGame.Reclamation.Theme.Fire", "Toolbox.MiniGame.Reclamation.ClosedStage"),
-        (Theme.Tales, "Toolbox.MiniGame.Reclamation.Theme.Tales", null),
-        (Theme.RelaunchAnchor, "Toolbox.MiniGame.Reclamation.Theme.RelaunchAnchor", null));
+        (Theme.Fire, "Toolbox.MiniGame.Reclamation.Theme.Fire")
+            .WithSecondaryKey("Toolbox.MiniGame.Reclamation.ClosedStage"),
+        (Theme.Tales, "Toolbox.MiniGame.Reclamation.Theme.Tales"),
+        (Theme.RelaunchAnchor, "Toolbox.MiniGame.Reclamation.Theme.RelaunchAnchor")
+            .WithSecondaryKey("Common.NotAdapted", () => SettingsViewModel.GameSettings.ClientType is not (ClientType.Official or ClientType.Bilibili or ClientType.KR or ClientType.EN)));
 
     /// <summary>
     /// Gets or sets 生息演算主题["Tales"].
@@ -184,8 +187,7 @@ public class ReclamationUserControlModel : PropertyChangedBase
                     return LocalizationHelper.GetString("Toolbox.MiniGame.Reclamation.Fire.Tip");
                 case Theme.RelaunchAnchor:
                     {
-                        var stageNum = mode switch
-                        {
+                        var stageNum = mode switch {
                             Mode.RA15 => 15,
                             Mode.RA4 => 4,
                             _ => 1,

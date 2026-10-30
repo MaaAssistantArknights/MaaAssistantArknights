@@ -26,7 +26,7 @@ namespace MaaWpfGui.Utilities;
 /// </summary>
 public static class AutoStart
 {
-    private static readonly ILogger _logger = Log.ForContext("SourceContext", "AutoStart");
+    private static readonly ILogger _logger = Log.ForContext(typeof(AutoStart));
 
     private static readonly string _fileValue = Environment.ProcessPath;
     private static readonly string _uniqueIdentifier = InstanceIdentifier.GetHash(_fileValue);

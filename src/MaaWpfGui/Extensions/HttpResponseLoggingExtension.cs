@@ -20,7 +20,7 @@ namespace MaaWpfGui.Extensions;
 
 public static class HttpResponseLoggingExtension
 {
-    private static readonly ILogger _logger = Serilog.Log.ForContext("SourceContext", "HttpResponseLoggingExtension");
+    private static readonly ILogger _logger = Serilog.Log.ForContext(typeof(HttpResponseLoggingExtension));
 
     public static void Log(this HttpResponseMessage response, UriPartial uriPartial = UriPartial.Query, double? elapsedMs = null)
     {

@@ -1444,8 +1444,8 @@
         "next": [
             "Roguelike@StageVerticalConfirmTrader",
             "Roguelike@StageTraderEnter",
-            "Roguelike@StageTraderInvestSystem",
             "Roguelike@StageTraderRefreshWithDice",
+            "Roguelike@StageTraderInvestSystem",
             "Roguelike@TraderRandomShopping",
             "Roguelike@StageTraderLeave",
             "Roguelike@StageTraderLeaveConfirm"
@@ -1629,8 +1629,8 @@
         "baseTask": "Roguelike@StageVerticalConfirm",
         "next": [
             "Roguelike@StageTraderEnter",
-            "Roguelike@StageTraderInvestSystem",
             "Roguelike@StageTraderRefreshWithDice",
+            "Roguelike@StageTraderInvestSystem",
             "Roguelike@TraderRandomShopping",
             "Roguelike@StageTraderLeave"
         ]
