@@ -71,9 +71,9 @@ bool asst::RoguelikeCoppersRecastTaskPlugin::_run()
     const int total = m_recast_count + m_relic_count;
     if (m_finished >= total) {
         LogInfo << __FUNCTION__ << "| all rounds finished:" << m_finished << "/" << total << "| exit then stop";
-        // 投完就放弃本局并结束任务：本模式的产出在局内已经拿到，没有继续打下去的意义。
-        // exit_then_stop 只跑放弃流程，不会停掉调用方的任务链，必须手动禁用主任务
-        m_control_ptr->exit_then_stop(true);
+        // 投完只退出、不放弃：这一局的进度要留给下一次继续刷（入口链会接着打这一局）。
+        // exit_then_stop 只跑退出流程，不会停掉调用方的任务链，必须手动禁用主任务
+        m_control_ptr->exit_then_stop(false);
         m_task_ptr->set_enable(false);
         return true;
     }
@@ -103,9 +103,10 @@ bool asst::RoguelikeCoppersRecastTaskPlugin::_run()
                 << "| type:" << (type == RecastType::Li ? "Li" : "Heng") << "| reward:" << static_cast<int>(reward);
 
         if (!run_once(type, reward)) {
-            // 认不出界面就不再往下走：本模式的每一步都是花真钱换收益，宁可放弃本局重开也不盲点
-            LogWarn << __FUNCTION__ << "| round" << m_finished + 1 << "failed, abandon this run";
-            m_control_ptr->exit_then_stop(true);
+            // 认不出界面就不再往下走：本模式的每一步都是花真钱换收益，宁可停下任务也不盲点。
+            // 不放弃本局——进度留着，玩家自己看一眼再决定怎么处理
+            LogWarn << __FUNCTION__ << "| round" << m_finished + 1 << "failed, stop and keep the run";
+            m_control_ptr->exit_then_stop(false);
             m_task_ptr->set_enable(false);
             return true;
         }
@@ -114,7 +115,7 @@ bool asst::RoguelikeCoppersRecastTaskPlugin::_run()
     }
 
     LogInfo << __FUNCTION__ << "| all rounds finished:" << m_finished << "/" << total << "| exit then stop";
-    m_control_ptr->exit_then_stop(true);
+    m_control_ptr->exit_then_stop(false);
     m_task_ptr->set_enable(false);
     return true;
 }

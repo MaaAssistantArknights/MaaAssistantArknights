@@ -1639,7 +1639,7 @@
         "next": []
     },
     "JieGarden@Roguelike@CoppersRecast-Start": {
-        "Doc": "｢投币重铸｣ 触发锚点。RoguelikeStageEncounterTaskPlugin 在树洞常乐节点识别到事件 ｢掷地有声｣ 后运行本任务，RoguelikeCoppersRecastTaskPlugin 在它的 SubTaskStart 上接管，按 5 衡 1 厉的轮次逐轮投币；每一轮由插件单独起一条 -Round 任务链，认不出界面就放弃本局。种因得果 / 三缺一不是投钱事件，不走这里。",
+        "Doc": "｢投币重铸｣ 触发锚点。RoguelikeStageEncounterTaskPlugin 在树洞常乐节点识别到事件 ｢掷地有声｣ 后运行本任务，RoguelikeCoppersRecastTaskPlugin 在它的 SubTaskStart 上接管，按 5 衡 1 厉的轮次逐轮投币；每一轮由插件单独起一条 -Round 任务链，投完只退出不放弃本局。种因得果 / 三缺一不是投钱事件，不走这里。",
         "algorithm": "JustReturn",
         "action": "DoNothing",
         "next": [],
@@ -1652,7 +1652,7 @@
         "onErrorNext": ["JieGarden@Roguelike@CoppersRecast-Step"]
     },
     "JieGarden@Roguelike@CoppersRecast-Step": {
-        "Doc": "主路由器，顺序即优先级：确认弹窗 → 进门选项（欣然应允/来就来）→ 炸火后离开 → 结果页对勾 → 领奖 → 收藏品弹窗 → 本轮投钱 → 对话推进。领到奖励后由 AfterReward 收本轮；没有奖励时靠对话推进找奖励，8 次点完也收本轮。下一轮要不要开，由插件用 Panel 探针判断。认不出任何界面就空等，等不动了整轮失败、放弃本局。",
+        "Doc": "主路由器，顺序即优先级：确认弹窗 → 进门选项（欣然应允/来就来）→ 炸火后离开 → 结果页对勾 → 领奖 → 收藏品弹窗 → 本轮投钱 → 对话推进。领到奖励后由 AfterReward 收本轮；没有奖励时靠对话推进找奖励，8 次点完也收本轮。下一轮要不要开，由插件用 Panel 探针判断。认不出任何界面就空等，等不动了整轮失败并停下任务（不放弃本局）。",
         "algorithm": "JustReturn",
         "next": [
             "JieGarden@Roguelike@CoppersRecast-Confirm",
