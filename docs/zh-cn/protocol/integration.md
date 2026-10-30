@@ -1826,6 +1826,8 @@ AsstBool ASSTAPI AsstSetInstanceOption(AsstHandle handle, AsstInstanceOptionKey 
 ::: field ClientType  
 @type string
 @optional
-客户端类型（游戏渠道）。大多数连接配置不需要设置。仅当传给 `AsstConnect` / `AsstAsyncConnect` 的 `config` 在连接阶段命令里使用 `[PackageName]` 时，才需要在连接前调用 `AsstSetInstanceOption(..., ClientType, ...)`。当前内置配置仅 `Androws` 和 `WSA` 的 `displayId` 查询依赖该值。该选项不替代 StartUp / CloseDown 等任务参数里的 `client_type`。枚举值：6。  
+客户端类型（游戏渠道）。大多数连接配置不需要设置。仅当传给 `AsstConnect` / `AsstAsyncConnect` 的 `config` 在连接阶段命令里使用 `[PackageName]` 时，才需要在连接前调用 `AsstSetInstanceOption(..., ClientType, ...)`。当前内置配置仅 `Androws` / `AndrowsMac` 和 `WSA` 的 `displayId` 查询依赖该值。该选项不替代 StartUp / CloseDown 等任务参数里的 `client_type`。枚举值：6。
+
+`AndrowsMac` 是面向 POSIX 主机（如 macOS）的应用宝连接配置，使用 ADB 触控。请先启动游戏，再设置 `TouchMode=adb`、`AdbLiteEnabled=0` 和 `ClientType` 后连接。它在每次连接时重新查询游戏 display；游戏重启后需要重新连接。
 :::  
 ::::

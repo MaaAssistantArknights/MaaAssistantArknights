@@ -1826,6 +1826,8 @@ AdbLite を使用するかどうか。可能な値："0" または "1"。列挙�
 ::: field ClientType  
 @type string
 @optional
-クライアント種別（ゲームチャネル）。ほとんどの接続設定では不要です。`AsstConnect` / `AsstAsyncConnect` に渡す `config` が、接続時に実行するコマンド内で `[PackageName]` を使用する場合にのみ、接続前に `AsstSetInstanceOption(..., ClientType, ...)` を設定してください。現在の組み込み設定では、`Androws` と `WSA` の `displayId` 取得のみがこの値に依存します。このオプションは StartUp / CloseDown などのタスクパラメータ `client_type` を置き換えるものではありません。列挙値：6。  
+クライアント種別（ゲームチャネル）。ほとんどの接続設定では不要です。`AsstConnect` / `AsstAsyncConnect` に渡す `config` が、接続時に実行するコマンド内で `[PackageName]` を使用する場合にのみ、接続前に `AsstSetInstanceOption(..., ClientType, ...)` を設定してください。現在の組み込み設定では、`Androws` / `AndrowsMac` と `WSA` の `displayId` 取得のみがこの値に依存します。このオプションは StartUp / CloseDown などのタスクパラメータ `client_type` を置き換えるものではありません。列挙値：6。
+
+`AndrowsMac` は macOS などの POSIX ホスト向けの Tencent App Store 接続設定で、ADB タッチを使用します。先にゲームを起動し、`TouchMode=adb`、`AdbLiteEnabled=0`、`ClientType` を設定してから接続してください。接続するたびにゲームの display を取得するため、ゲームを再起動した後は再接続が必要です。
 :::  
 ::::

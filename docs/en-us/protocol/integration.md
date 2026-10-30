@@ -1827,6 +1827,8 @@ Release Adb on exit. Options: "0" | "1". Enum value: 5.
 ::: field ClientType  
 @type string
 @optional
-Client channel. Most connection configs do not need this option. Set it before `AsstConnect` / `AsstAsyncConnect` only when the selected `config` uses `[PackageName]` in commands executed during connect. In the built-in configs, only `Androws` and `WSA` currently require it for `displayId` lookup. This does not replace the `client_type` task parameter used by StartUp / CloseDown tasks. Enum value: 6.  
+Client channel. Most connection configs do not need this option. Set it before `AsstConnect` / `AsstAsyncConnect` only when the selected `config` uses `[PackageName]` in commands executed during connect. In the built-in configs, only `Androws` / `AndrowsMac` and `WSA` currently require it for `displayId` lookup. This does not replace the `client_type` task parameter used by StartUp / CloseDown tasks. Enum value: 6.
+
+`AndrowsMac` is the Tencent App Store connection profile for POSIX hosts such as macOS, using ADB touch. Start the game first, then set `TouchMode=adb`, `AdbLiteEnabled=0`, and `ClientType` before connecting. The game display is discovered on each connection; reconnect after restarting the game.
 :::  
 ::::
