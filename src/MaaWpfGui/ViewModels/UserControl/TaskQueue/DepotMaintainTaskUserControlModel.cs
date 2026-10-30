@@ -562,8 +562,8 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
     }
 
     /// <summary>
-    /// 计算合成材料按配方折算的库存增量：dropId 存在合成产物（如芯片组 → 对应职业双芯片）时，
-    /// 仓库中产物数量 × 配方消耗数之和，当前数据每个双芯片折算为 2 个芯片组。无产物或产物无库存时为 0。
+    /// 计算芯片组按双芯片配方折算的库存增量，即仓库中以 dropId 为材料的双芯片数量 × 配方消耗数之和，
+    /// 当前数据每个双芯片折算为 2 个芯片组。非芯片组或双芯片无库存时为 0。
     /// </summary>
     /// <param name="dropId">计划目标物品 id。</param>
     /// <param name="depotList">识别缓存的库存数量表。</param>
@@ -573,6 +573,11 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
         var conversion = 0;
         foreach (var (productId, materialCount) in ItemListHelper.GetFormulaProducts(dropId))
         {
+            if (!IsDualChip(productId))
+            {
+                continue;
+            }
+
             if (depotList.TryGetValue(productId, out var count))
             {
                 conversion += count * materialCount;
@@ -580,6 +585,17 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
         }
 
         return conversion;
+    }
+
+    /// <summary>
+    /// 判断物品是否为双芯片，依据是配方含芯片助剂（32001）。
+    /// </summary>
+    /// <param name="itemId">物品 id。</param>
+    /// <returns>是双芯片时为 true。</returns>
+    private static bool IsDualChip(string itemId)
+    {
+        return ItemListHelper.ArkItems.TryGetValue(itemId, out var item)
+            && item.Formula?.ContainsKey("32001") == true;
     }
 
     /// <summary>
