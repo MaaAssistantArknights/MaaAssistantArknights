@@ -25,9 +25,9 @@
         "roi": [490, 54, 320, 38]
     },
     "RelaunchAnchor@RA@RA1-DeployOperatorDirection": {
+        "ocrReplace": [[".*スモンテ.*ス", "迷迭香"]],
         "roi": [46, 105, 168, 38],
-        "text": ["迷迭香"],
-        "ocrReplace": [[".*スモンテ.*ス", "迷迭香"]]
+        "text": ["迷迭香"]
     },
     "RelaunchAnchor@RA@RA1-DeliverWood5": {
         "text": ["木材"]
@@ -59,11 +59,11 @@
         "text": ["通信基地局", "個制作"]
     },
     "RelaunchAnchor@RA@RA1-CraftOwnCommStation": {
-        "text": ["通信基地局", "を制作"],
         "ocrReplace": [
             ["通信.*[地局]", "通信基地局"],
             ["を.*作", "を制作"]
-        ]
+        ],
+        "text": ["通信基地局", "を制作"]
     },
     "RelaunchAnchor@RA@RA1-DeliverStone10": {
         "text": ["石材"],
@@ -74,9 +74,9 @@
         "roi": [80, 235, 100, 35]
     },
     "RelaunchAnchor@RA@RA1-SettleNow": {
+        "ocrReplace": [["リ.*ルトへ", "リザルトへ"]],
         "text": ["リザルトへ"],
-        "roi": [918, 459, 165, 50],
-        "ocrReplace": [["リ.*ルトへ", "リザルトへ"]]
+        "roi": [918, 459, 165, 50]
     },
     "RelaunchAnchor@RA@RA1-ContinueAfterSettlement": {
         "text": ["タップして", "進む"],
@@ -98,8 +98,8 @@
         "text": ["サポート"]
     },
     "RelaunchAnchor@RA@RA4-EW-Common": {
-        "text": ["维什戴尔"],
-        "ocrReplace": [["(ウ)?(ィ|イ)シ(ャ|セ)デル", "维什戴尔"]]
+        "ocrReplace": [["(ウ)?(ィ|イ)シ(ャ|セ)デル", "维什戴尔"]],
+        "text": ["维什戴尔"]
     },
     "RelaunchAnchor@RA@RA4-EW1": {
         "roi": [123, 577, 130, 30]
@@ -129,8 +129,8 @@
         "text": ["確定"]
     },
     "RelaunchAnchor@RA@RA4-ExamineEWExistence": {
-        "text": ["维什戴尔"],
         "ocrReplace": [["(ウ)?(ィ|イ)シ(ャ|セ)デル", "维什戴尔"]],
+        "text": ["维什戴尔"],
         "roi": [843, 449, 137, 29]
     },
     "RelaunchAnchor@RA@RA4-ConfirmTeam": {
@@ -184,8 +184,8 @@
         "text": ["簡易", "編成"]
     },
     "RelaunchAnchor@RA@RA15-ExamineCXExistence": {
-        "text": ["圣聆初雪"],
         "ocrReplace": [["聖.*プラマ[ニー]ク.*", "圣聆初雪"]],
+        "text": ["圣聆初雪"],
         "roi": [843, 449, 182, 29]
     },
     "RelaunchAnchor@RA@RA15-ClearChosen": {
@@ -206,8 +206,8 @@
         "text": ["サポート"]
     },
     "RelaunchAnchor@RA@RA15-CX-Common": {
-        "text": ["圣聆初雪"],
-        "ocrReplace": [["聖.*プラマ[ニー]ク.*", "圣聆初雪"]]
+        "ocrReplace": [["聖.*プラマ[ニー]ク.*", "圣聆初雪"]],
+        "text": ["圣聆初雪"]
     },
     "RelaunchAnchor@RA@RA15-CX1": {
         "roi": [123, 577, 130, 30]
