@@ -1,0 +1,268 @@
+{
+    "RelaunchAnchor@RA@Common-Confirm": {
+        "text": ["確定"]
+    },
+    "RelaunchAnchor@RA@Common-OpenConstruction": {
+        "text": ["建設開始"]
+    },
+    "RelaunchAnchor@RA@Common-StartConstruction": {
+        "text": ["建設開始"]
+    },
+    "RelaunchAnchor@RA@RA1-ChooseStrategy": {
+        "text": ["精密農法"]
+    },
+    "RelaunchAnchor@RA@RA1-ConfirmSelection": {
+        "text": ["確定する"]
+    },
+    "RelaunchAnchor@RA@RA1-SkipPlot": {
+        "text": ["SKIP"]
+    },
+    "RelaunchAnchor@RA@RA1-SkipPlotConfirm": {
+        "text": ["スキップ", "しますか"]
+    },
+    "RelaunchAnchor@RA@RA1-DeployGatheringBasePrompt": {
+        "text": ["ロドス", "採取", "ステーション", "配置"],
+        "roi": [490, 54, 320, 38]
+    },
+    "RelaunchAnchor@RA@RA1-DeployOperatorDirection": {
+        "roi": [46, 105, 168, 38],
+        "text": ["迷迭香"],
+        "ocrReplace": [[".*スモンテ.*ス", "迷迭香"]]
+    },
+    "RelaunchAnchor@RA@RA1-DeliverWood5": {
+        "text": ["木材"]
+    },
+    "RelaunchAnchor@RA@RA1-DeliverWood": {
+        "text": ["交付木材8+"],
+        "ocrReplace": [["(8|9|\\d{2,3}).*5", "交付木材8+"]],
+        "roi": [180, 235, 75, 35]
+    },
+    "RelaunchAnchor@RA@RA1-Infrastructure": {
+        "text": ["インフラ設備"],
+        "roi": [95, 170, 120, 30]
+    },
+    "RelaunchAnchor@RA@RA1-CommunicationStation": {
+        "text": ["通信基地局"],
+        "roi": [370, 159, 136, 34]
+    },
+    "RelaunchAnchor@RA@RA1-StartBuildingStation": {
+        "text": ["建造する"]
+    },
+    "RelaunchAnchor@RA@RA1-BlankContinue": {
+        "text": ["空白箇所", "をタップして", "続ける"],
+        "roi": [484, 447, 309, 39]
+    },
+    "RelaunchAnchor@RA@RA1-ExitConstruction": {
+        "text": ["建造"]
+    },
+    "RelaunchAnchor@RA@RA1-CraftOwnCommStation1": {
+        "text": ["通信基地局", "個制作"]
+    },
+    "RelaunchAnchor@RA@RA1-CraftOwnCommStation": {
+        "text": ["通信基地局", "を制作"],
+        "ocrReplace": [
+            ["通信.*[地局]", "通信基地局"],
+            ["を.*作", "を制作"]
+        ]
+    },
+    "RelaunchAnchor@RA@RA1-DeliverStone10": {
+        "text": ["石材"],
+        "roi": [434, 281, 155, 34]
+    },
+    "RelaunchAnchor@RA@RA1-DeliverStone": {
+        "text": ["石材を納品"],
+        "roi": [80, 235, 100, 35]
+    },
+    "RelaunchAnchor@RA@RA1-SettleNow": {
+        "text": ["リザルトへ"],
+        "roi": [918, 459, 165, 50],
+        "ocrReplace": [["リ.*ルトへ", "リザルトへ"]]
+    },
+    "RelaunchAnchor@RA@RA1-ContinueAfterSettlement": {
+        "text": ["タップして", "進む"],
+        "roi": [558, 664, 200, 44]
+    },
+    "RelaunchAnchor@RA@RA1-FinishConstruction": {
+        "text": ["建設完了"]
+    },
+    "RelaunchAnchor@RA@RA4-ChooseStrategy": {
+        "text": ["経営", "営采", "采配"]
+    },
+    "RelaunchAnchor@RA@RA4-Choose": {
+        "text": ["人員", "員招", "招集"]
+    },
+    "RelaunchAnchor@RA@RA4-ExamineEWExistence2": {
+        "text": ["隊員", "員編", "編成"]
+    },
+    "RelaunchAnchor@RA@RA4-AddHelp": {
+        "text": ["サポート"]
+    },
+    "RelaunchAnchor@RA@RA4-EW-Common": {
+        "text": ["维什戴尔"],
+        "ocrReplace": [["(ウ)?(ィ|イ)シ(ャ|セ)デル", "维什戴尔"]]
+    },
+    "RelaunchAnchor@RA@RA4-EW1": {
+        "roi": [123, 577, 130, 30]
+    },
+    "RelaunchAnchor@RA@RA4-EW2": {
+        "roi": [262, 577, 130, 30]
+    },
+    "RelaunchAnchor@RA@RA4-EW3": {
+        "roi": [401, 577, 130, 30]
+    },
+    "RelaunchAnchor@RA@RA4-EW4": {
+        "roi": [540, 577, 130, 30]
+    },
+    "RelaunchAnchor@RA@RA4-EW5": {
+        "roi": [678, 577, 130, 30]
+    },
+    "RelaunchAnchor@RA@RA4-EW6": {
+        "roi": [818, 577, 130, 30]
+    },
+    "RelaunchAnchor@RA@RA4-EW7": {
+        "roi": [958, 577, 130, 30]
+    },
+    "RelaunchAnchor@RA@RA4-EW8": {
+        "roi": [1095, 577, 130, 30]
+    },
+    "RelaunchAnchor@RA@RA4-EW-ConfirmHelp": {
+        "text": ["確定"]
+    },
+    "RelaunchAnchor@RA@RA4-ExamineEWExistence": {
+        "text": ["维什戴尔"],
+        "ocrReplace": [["(ウ)?(ィ|イ)シ(ャ|セ)デル", "维什戴尔"]],
+        "roi": [843, 449, 137, 29]
+    },
+    "RelaunchAnchor@RA@RA4-ConfirmTeam": {
+        "text": ["招集する"]
+    },
+    "RelaunchAnchor@RA@RA4-ConfirmTeam2": {
+        "text": ["確定"]
+    },
+    "RelaunchAnchor@RA@RA4-WaitName": {
+        "text": ["RA", "-4", "援助"]
+    },
+    "RelaunchAnchor@RA@RA4-UseRedGold": {
+        "text": ["粗悪な", "地金", "納品する"],
+        "roi": [925, 240, 320, 32]
+    },
+    "RelaunchAnchor@RA@RA4-Mission": {
+        "text": ["累計で", "新しい", "エリアを"],
+        "roi": [528, 283, 220, 28]
+    },
+    "RelaunchAnchor@RA@RA4-ClickMission": {
+        "text": ["新しい", "エリア", "解放"],
+        "roi": [82, 228, 170, 28]
+    },
+    "RelaunchAnchor@RA@RA4-Mission2": {
+        "text": ["水場"]
+    },
+    "RelaunchAnchor@RA@RA4-ClickMission2": {
+        "text": ["マップ", "探索", "水場"],
+        "roi": [82, 228, 170, 28]
+    },
+    "RelaunchAnchor@RA@RA4-Mission3": {
+        "text": ["敵", "ボス"],
+        "roi": [458, 284, 100, 25]
+    },
+    "RelaunchAnchor@RA@RA4-ClickMission3": {
+        "text": ["敵", "ボス", "撃破"]
+    },
+    "RelaunchAnchor@RA@RA4-ExitSettleNow": {
+        "text": ["中止", "する"]
+    },
+    "RelaunchAnchor@RA@RA15-ChooseStrategy": {
+        "text": ["経営", "営采", "采配"]
+    },
+    "RelaunchAnchor@RA@RA15-ConfirmSelection": {
+        "text": ["確定する"]
+    },
+    "RelaunchAnchor@RA@RA15-Choose": {
+        "text": ["人員", "員招", "招集"]
+    },
+    "RelaunchAnchor@RA@RA15-ChooseExamine": {
+        "text": ["簡易", "編成"]
+    },
+    "RelaunchAnchor@RA@RA15-ExamineCXExistence": {
+        "text": ["圣聆初雪"],
+        "ocrReplace": [["聖.*プラマ[ニー]ク.*", "圣聆初雪"]],
+        "roi": [843, 449, 182, 29]
+    },
+    "RelaunchAnchor@RA@RA15-ClearChosen": {
+        "text": ["簡易", "編成"]
+    },
+    "RelaunchAnchor@RA@RA15-ClearChosen-2": {
+        "text": ["クリア"],
+        "roi": [460, 660, 80, 30]
+    },
+    "RelaunchAnchor@RA@RA15-ClearChosen-3": {
+        "text": ["クリア"],
+        "roi": [460, 660, 80, 30]
+    },
+    "RelaunchAnchor@RA@RA15-ConfirmChoose": {
+        "text": ["確認"]
+    },
+    "RelaunchAnchor@RA@RA15-AddHelp": {
+        "text": ["サポート"]
+    },
+    "RelaunchAnchor@RA@RA15-CX-Common": {
+        "text": ["圣聆初雪"],
+        "ocrReplace": [["聖.*プラマ[ニー]ク.*", "圣聆初雪"]]
+    },
+    "RelaunchAnchor@RA@RA15-CX1": {
+        "roi": [123, 577, 130, 30]
+    },
+    "RelaunchAnchor@RA@RA15-CX2": {
+        "roi": [262, 577, 130, 30]
+    },
+    "RelaunchAnchor@RA@RA15-CX3": {
+        "roi": [401, 577, 130, 30]
+    },
+    "RelaunchAnchor@RA@RA15-CX4": {
+        "roi": [540, 577, 130, 30]
+    },
+    "RelaunchAnchor@RA@RA15-CX5": {
+        "roi": [678, 577, 130, 30]
+    },
+    "RelaunchAnchor@RA@RA15-CX6": {
+        "roi": [818, 577, 130, 30]
+    },
+    "RelaunchAnchor@RA@RA15-CX7": {
+        "roi": [958, 577, 130, 30]
+    },
+    "RelaunchAnchor@RA@RA15-CX8": {
+        "roi": [1095, 577, 130, 30]
+    },
+    "RelaunchAnchor@RA@RA15-CX-ConfirmHelp": {
+        "text": ["確定"]
+    },
+    "RelaunchAnchor@RA@RA15-ConfirmTeam": {
+        "text": ["招集する"]
+    },
+    "RelaunchAnchor@RA@RA15-ConfirmTeam2": {
+        "text": ["確定"]
+    },
+    "RelaunchAnchor@RA@RA15-AlignMapCheck": {
+        "text": ["ロドス", "採取", "ステーション", "配置"],
+        "roi": [490, 54, 320, 38]
+    },
+    "RelaunchAnchor@RA@RA15-Cost24": {
+        "isAscii": true,
+        "text": ["24+"],
+        "ocrReplace": [
+            ["\\^", ""],
+            ["^(24|25|26|27|28|29|[3-9]\\d+)", "24+"]
+        ]
+    },
+    "RelaunchAnchor@RA@RA15-Kill60": {
+        "text": ["敵", "撃破"],
+        "roi": [568, 284, 142, 28]
+    },
+    "RelaunchAnchor@RA@RA15-Deliver": {
+        "text": ["敵", "撃破"]
+    },
+    "RelaunchAnchor@RA@RA15-End2": {
+        "text": ["中止", "する"],
+        "roi": [918, 459, 165, 50]
+    }
+}
