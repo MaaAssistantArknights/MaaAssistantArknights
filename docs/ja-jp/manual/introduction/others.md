@@ -14,6 +14,8 @@ icon: icon-park-solid:other
 DirectML を使用して GPU による認識推論を加速<sup>[PR](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/9236)</sup>。わずかな GPU 使用量で大幅な CPU 使用量を削減できるため、有効にすることを推奨します。
 テストの結果、一部のグラフィックカードは機能が不足しているか性能が低いため、この機能を使用すると認識の問題が発生することがあります。MAA には一部の GPU ブラックリストが内蔵されています<sup>[PR1](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/9990)[PR2](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/12134)</sup>。リスト外のグラフィックカードでこの機能を有効にした後に認識の問題が発生した場合は、Issue を報告してください。
 
+`設定` - `パフォーマンス設定` で推論バックエンドを選択できます。`自動` と `DirectML` は上記の DirectML 方式（Windows のみ）を使用し、`WebGPU` は実験的なオプションで Windows / macOS / Linux で利用できます。WebGPU を有効にして認識の問題が発生した場合は、`自動` または `DirectML` に戻してください。
+
 ## 一回のみ
 
 メイン画面と設定での設定変更は通常自動保存されますが、以下の項目は MAA 再起動後にリセットされます。

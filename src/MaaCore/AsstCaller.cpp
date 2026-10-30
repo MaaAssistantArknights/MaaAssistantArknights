@@ -64,7 +64,20 @@ AsstBool AsstLoadResource(const char* path)
     if (asst::UserDir.empty()) {
         asst::UserDir.set(os_path);
     }
-    return asst::ResourceLoader::get_instance().load(res_path) ? AsstTrue : AsstFalse;
+
+    // 资源加载链路上的异常不应该穿过 API 边界：否则 C# 侧只看到“没有返回值”，
+    // 整次加载会静默中断（只加载了一部分资源）
+    try {
+        return asst::ResourceLoader::get_instance().load(res_path) ? AsstTrue : AsstFalse;
+    }
+    catch (const std::exception& e) {
+        Log.error(__FUNCTION__, "| exception:", e.what());
+    }
+    catch (...) {
+        Log.error(__FUNCTION__, "| unknown exception");
+    }
+
+    return AsstFalse;
 }
 
 AsstBool AsstSetStaticOption(AsstStaticOptionKey key, const char* value)

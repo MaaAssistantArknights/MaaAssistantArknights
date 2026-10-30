@@ -15,6 +15,8 @@ Uses DirectML to call the GPU for recognition inference acceleration<sup>[PR](ht
 
 Testing has shown that some graphics cards may experience recognition issues when using this feature due to missing functionality or lower performance. MAA has built-in a blacklist for certain GPUs<sup>[PR1](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/9990)[PR2](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/12134)</sup>. If you encounter recognition issues with GPUs not on the blacklist after enabling this feature, please submit an Issue.
 
+In `Settings` - `Performance`, the inference backend can be switched: `Auto` and `DirectML` use the DirectML implementation above (Windows only), while `WebGPU` is an experimental option available on Windows / macOS / Linux. If recognition issues appear after enabling WebGPU, switch back to `Auto` or `DirectML`.
+
 ## One-Time Only
 
 Configuration changes in the main interface and settings are usually saved automatically, but the following will reset after MAA restarts:

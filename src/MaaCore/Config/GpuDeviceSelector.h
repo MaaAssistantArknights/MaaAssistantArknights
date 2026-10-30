@@ -8,14 +8,35 @@
 
 namespace asst
 {
+enum class InferenceBackend
+{
+    Auto = 0,
+    DirectML = 1,
+    WebGPU = 2,
+};
+
 class GpuDeviceSelector
 {
 public:
     static constexpr std::string_view LuidPrefix = "luid:";
+    static constexpr std::string_view WebGpuPrefix = "webgpu:";
+    static constexpr std::string_view DirectMlPrefix = "directml:";
 
     static std::optional<GpuDeviceSelector> parse(std::string_view value)
     {
         GpuDeviceSelector result;
+
+        if (value.starts_with(WebGpuPrefix)) {
+            result.m_backend = InferenceBackend::WebGPU;
+            value.remove_prefix(WebGpuPrefix.size());
+        }
+        else if (value.starts_with(DirectMlPrefix)) {
+            result.m_backend = InferenceBackend::DirectML;
+            value.remove_prefix(DirectMlPrefix.size());
+        }
+        else {
+            result.m_backend = InferenceBackend::Auto;
+        }
 
         if (value.starts_with(LuidPrefix)) {
 #ifndef _WIN32
@@ -54,6 +75,8 @@ public:
 
     [[nodiscard]] int device_id() const noexcept { return m_device_id; }
 
+    [[nodiscard]] InferenceBackend backend() const noexcept { return m_backend; }
+
     [[nodiscard]] std::optional<int> resolve_device_id() const;
 
     bool operator==(const GpuDeviceSelector&) const = default;
@@ -61,5 +84,6 @@ public:
 private:
     int m_device_id = 0;
     std::optional<uint64_t> m_adapter_luid;
+    InferenceBackend m_backend = InferenceBackend::Auto;
 };
 } // namespace asst

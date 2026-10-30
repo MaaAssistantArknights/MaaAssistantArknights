@@ -3,13 +3,17 @@
 #include "OcrPack.h"
 
 #include <algorithm>
+#include <array>
+#include <exception>
 #include <filesystem>
 #include <thread>
+#include <unordered_map>
 
+#include "Config/WebGpuDevice.h"
 #include "MaaUtils/NoWarningCV.hpp"
 MAA_SUPPRESS_CV_WARNINGS_BEGIN
 #include "fastdeploy/vision/ocr/ppocr/dbdetector.h"
-#include "fastdeploy/vision/ocr/ppocr/ppocr_v3.h"
+#include "fastdeploy/vision/ocr/ppocr/ppocr_v6.h"
 #include "fastdeploy/vision/ocr/ppocr/recognizer.h"
 MAA_SUPPRESS_CV_WARNINGS_END
 
@@ -26,11 +30,14 @@ struct OcrPack::Impl
 {
     std::unique_ptr<fastdeploy::vision::ocr::DBDetector> det;
     std::unique_ptr<fastdeploy::vision::ocr::Recognizer> rec;
-    std::unique_ptr<fastdeploy::pipeline::PPOCRv3> ocr;
+    std::unique_ptr<fastdeploy::pipeline::PPOCRv6> ocr;
 
     std::filesystem::path det_model_path;
     std::filesystem::path rec_model_path;
     std::filesystem::path rec_label_path;
+
+    // WebGPU 的 Dawn instance/device 句柄，生命周期需覆盖会话创建（见 WebGpuDevice.h）
+    std::unordered_map<std::string, std::string> webgpu_options;
 };
 
 OcrPack::OcrPack() :
@@ -62,6 +69,13 @@ bool OcrPack::load(const std::filesystem::path& path)
         m_impl->det_model_path = det_model_file;
         m_impl->det = nullptr;
     }
+    else if (m_impl->det_model_path.empty()) {
+        const auto fallback_det_file = path.parent_path() / "PaddleOCR" / "det" / "inference.onnx"_p;
+        if (std::filesystem::exists(fallback_det_file)) {
+            m_impl->det_model_path = fallback_det_file;
+            m_impl->det = nullptr;
+        }
+    }
 
     const auto rec_dir = path / "rec"_p;
     const auto rec_model_file = rec_dir / "inference.onnx"_p;
@@ -77,10 +91,24 @@ bool OcrPack::load(const std::filesystem::path& path)
     }
 
     if (m_impl->det && m_impl->rec) {
-        m_impl->ocr = std::make_unique<fastdeploy::pipeline::PPOCRv3>(m_impl->det.get(), m_impl->rec.get());
+        m_impl->ocr = std::make_unique<fastdeploy::pipeline::PPOCRv6>(m_impl->det.get(), m_impl->rec.get());
     }
 
-    return !m_impl->det_model_path.empty() && !m_impl->rec_model_path.empty() && !m_impl->rec_label_path.empty();
+    const bool paths_ready =
+        !m_impl->det_model_path.empty() && !m_impl->rec_model_path.empty() && !m_impl->rec_label_path.empty();
+    if (!paths_ready) {
+        return false;
+    }
+
+    // WebGPU 的 shader 编译发生在 session 的第一次推理上。这里在资源加载阶段就把
+    // session 建好并预热（check_and_load 内部会预热），避免这笔开销落在第一次识别上。
+    // 初始化失败时 check_and_load 会退回 CPU，不把整次资源加载标成失败。
+    // 其它后端保持原来的懒加载行为。
+    if (m_gpu_selector && m_gpu_selector->backend() == InferenceBackend::WebGPU) {
+        return check_and_load();
+    }
+
+    return true;
 }
 
 OcrPack::ResultsVec OcrPack::recognize(const cv::Mat& image, bool without_det, const std::optional<Rect>& base_roi)
@@ -166,13 +194,57 @@ OcrPack::ResultsVec OcrPack::recognize(const cv::Mat& image, bool without_det, c
     return raw_results;
 }
 
+bool OcrPack::pipeline_ready() const
+{
+    return m_impl->det && m_impl->det->Initialized() && m_impl->rec && m_impl->rec->Initialized() && m_impl->ocr &&
+           m_impl->ocr->Initialized();
+}
+
+void OcrPack::release_models()
+{
+    // GPU 会话在进程退出时销毁会和 ORT 双重释放，和析构函数一样先泄漏。
+    // 运行期退回 CPU 时也走这里，避免 reset() 立刻把刚建失败的 GPU 对象析构掉。
+    if (m_gpu_active) {
+        (void)m_impl->det.release();
+        (void)m_impl->rec.release();
+        (void)m_impl->ocr.release();
+        return;
+    }
+
+    m_impl->det.reset();
+    m_impl->rec.reset();
+    m_impl->ocr.reset();
+}
+
 bool OcrPack::check_and_load()
 {
-    if (m_impl->det && m_impl->rec) {
+    if (pipeline_ready()) {
         return true;
     }
 
     LogTraceFunction;
+
+    if (create_pipeline(false)) {
+        return true;
+    }
+
+    // 只在 GPU 会话已经配上、但建模型失败时再试一次 CPU。
+    // 设备解析失败时 create_pipeline 自己就会落到 CPU，这里不再重试。
+    if (!m_gpu_active) {
+        return false;
+    }
+
+    Log.error(__FUNCTION__, "| GPU OCR init failed, falling back to CPU");
+    m_gpu_active = false;
+    return create_pipeline(true);
+}
+
+bool OcrPack::create_pipeline(bool force_cpu)
+{
+    // 先按当前 m_gpu_active 释放上一轮残留。GPU 对象在这里被泄漏，
+    // 随后标志清掉，本轮从 CPU 状态开始配。
+    release_models();
+    m_gpu_active = false;
 
     int logical = std::max(1u, std::thread::hardware_concurrency());
     int cpu_threads;
@@ -194,67 +266,156 @@ bool OcrPack::check_and_load()
     det_option.UseOrtBackend();
     rec_option.UseOrtBackend();
 
-#ifdef _WIN32
+    const auto backend = m_gpu_selector ? m_gpu_selector->backend() : InferenceBackend::Auto;
     const auto device_id = m_gpu_selector ? m_gpu_selector->resolve_device_id() : std::nullopt;
-    if (device_id) {
-        m_gpu_active = true;
-        det_option.UseDirectML(*device_id);
-        rec_option.UseDirectML(*device_id);
-    }
-    else {
-        m_gpu_active = false;
-        if (m_gpu_selector) {
-            Log.error("Failed to resolve configured GPU; falling back to FastDeploy CPU mode");
+
+    if (!force_cpu) {
+        if (backend == InferenceBackend::WebGPU) {
+            if (!device_id) {
+                Log.error(__FUNCTION__, "| failed to resolve the configured WebGPU device, falling back to CPU");
+            }
+            else if (auto webgpu_options = make_webgpu_provider_options(*m_gpu_selector); webgpu_options) {
+                m_gpu_active = true;
+                // FastDeploy 建 OrtSessionOptions 时只给 deviceId 不满足 WebGPU EP 的要求（见 WebGpuDevice.h），
+                // 这里接管会话配置，把 Dawn 的 instance/device 一并交给 WebGPU EP。
+                // UseWebGPU 的参数只是适配器序号；真正的 ORT context id 在 webgpu_options 里。
+                m_impl->webgpu_options = std::move(*webgpu_options);
+                det_option.ort_option.configure_session_callback = &configure_webgpu_session;
+                det_option.ort_option.configure_session_callback_data = &m_impl->webgpu_options;
+                rec_option.ort_option.configure_session_callback = &configure_webgpu_session;
+                rec_option.ort_option.configure_session_callback_data = &m_impl->webgpu_options;
+                det_option.UseWebGPU(*device_id);
+                rec_option.UseWebGPU(*device_id);
+                Log.info(__FUNCTION__, "| FastDeploy WebGPU mode with device", *device_id);
+            }
+            else {
+                Log.error(__FUNCTION__, "| failed to create the WebGPU device, falling back to CPU");
+            }
         }
+#ifdef _WIN32
+        else if (device_id) {
+            m_gpu_active = true;
+            det_option.UseDirectML(*device_id);
+            rec_option.UseDirectML(*device_id);
+            Log.info(__FUNCTION__, "| FastDeploy DirectML mode with device", *device_id);
+        }
+#endif
+        else if (backend == InferenceBackend::DirectML) {
+#ifdef _WIN32
+            Log.error(__FUNCTION__, "| failed to resolve the configured DirectML device, falling back to CPU");
+#else
+            Log.error(__FUNCTION__, "| DirectML backend is only available on Windows, falling back to CPU");
+#endif
+        }
+        else if (m_gpu_selector && !device_id) {
+            Log.error(__FUNCTION__, "| failed to resolve the configured GPU, falling back to CPU");
+        }
+    }
+
+    if (!m_gpu_active) {
+        // macOS 上 CoreML 的 det/rec 结果不对（疑似丢精度），继续禁用：
+        // https://github.com/microsoft/onnxruntime/blob/main/include/onnxruntime/core/providers/coreml/coreml_provider_factory.h
+        // COREML_FLAG_ONLY_ENABLE_DEVICE_WITH_ANE
+        // det_option.UseCoreML(0x004);
+        // rec_option.UseCoreML(0x004);
+        det_option.UseCpu();
+        rec_option.UseCpu();
         // CPU 模式下限制线程数，避免过高的 CPU 占用
         det_option.SetCpuThreadNum(cpu_threads);
         rec_option.SetCpuThreadNum(cpu_threads);
-        Log.info("FastDeploy CPU mode with", cpu_threads, "threads");
-    }
-#elif defined(__APPLE__)
-    // rec 结果不对，先禁用
-    // maafw那边用户反馈，det 貌似也不怎么对，疑似 coreml 丢精度了，拉倒
-    // https://github.com/microsoft/onnxruntime/blob/main/include/onnxruntime/core/providers/coreml/coreml_provider_factory.h
-    // COREML_FLAG_ONLY_ENABLE_DEVICE_WITH_ANE
-    // det_option.UseCoreML(0x004);
-    // rec_option.UseCoreML(0x004);
-    det_option.UseCpu();
-    rec_option.UseCpu();
-    det_option.SetCpuThreadNum(cpu_threads);
-    rec_option.SetCpuThreadNum(cpu_threads);
-    Log.info("FastDeploy macOS mode with", cpu_threads, "CPU threads");
-#else
-    det_option.UseCpu();
-    rec_option.UseCpu();
-    det_option.SetCpuThreadNum(cpu_threads);
-    rec_option.SetCpuThreadNum(cpu_threads);
-    Log.info("FastDeploy CPU mode with", cpu_threads, "threads");
-#endif
-
-    m_impl->det = std::make_unique<fastdeploy::vision::ocr::DBDetector>(
-        platform::path_to_utf8_string(m_impl->det_model_path),
-        std::string(),
-        det_option,
-        fastdeploy::ModelFormat::ONNX);
-
-    m_impl->rec = std::make_unique<fastdeploy::vision::ocr::Recognizer>(
-        platform::path_to_utf8_string(m_impl->rec_model_path),
-        std::string(),
-        platform::path_to_utf8_string(m_impl->rec_label_path),
-        rec_option,
-        fastdeploy::ModelFormat::ONNX);
-
-    if (m_impl->det && m_impl->rec) {
-        m_impl->ocr = std::make_unique<fastdeploy::pipeline::PPOCRv3>(m_impl->det.get(), m_impl->rec.get());
+        Log.info(__FUNCTION__, "| FastDeploy CPU mode with", cpu_threads, "threads");
     }
 
-    bool det_inited = m_impl->det && m_impl->det->Initialized();
-    bool rec_inited = m_impl->rec && m_impl->rec->Initialized();
-    bool ocr_inited = m_impl->ocr && m_impl->ocr->Initialized();
+    try {
+        m_impl->det = std::make_unique<fastdeploy::vision::ocr::DBDetector>(
+            platform::path_to_utf8_string(m_impl->det_model_path),
+            std::string(),
+            det_option,
+            fastdeploy::ModelFormat::ONNX);
 
+        // 针对 PP-OCRv6 检测模型调优后处理参数
+        if (m_impl->det && m_impl->det->Initialized()) {
+            m_impl->det->GetPostprocessor().SetDetDBThresh(0.2);
+            m_impl->det->GetPostprocessor().SetDetDBBoxThresh(0.45);
+            m_impl->det->GetPostprocessor().SetDetDBUnclipRatio(1.4);
+            m_impl->det->GetPostprocessor().SetDetDBMaxCandidates(3000);
+        }
+
+        m_impl->rec = std::make_unique<fastdeploy::vision::ocr::Recognizer>(
+            platform::path_to_utf8_string(m_impl->rec_model_path),
+            std::string(),
+            platform::path_to_utf8_string(m_impl->rec_label_path),
+            rec_option,
+            fastdeploy::ModelFormat::ONNX);
+
+        if (m_impl->det && m_impl->rec) {
+            m_impl->ocr = std::make_unique<fastdeploy::pipeline::PPOCRv6>(m_impl->det.get(), m_impl->rec.get());
+        }
+    }
+    catch (const std::exception& e) {
+        Log.error(__FUNCTION__, "| failed to create OCR pipeline:", e.what());
+        release_models();
+        return false;
+    }
+    catch (...) {
+        Log.error(__FUNCTION__, "| failed to create OCR pipeline: unknown exception");
+        release_models();
+        return false;
+    }
+
+    const bool det_inited = m_impl->det && m_impl->det->Initialized();
+    const bool rec_inited = m_impl->rec && m_impl->rec->Initialized();
+    const bool ocr_inited = m_impl->ocr && m_impl->ocr->Initialized();
     Log.info("det", det_inited, "rec", rec_inited, "ocr", ocr_inited);
 
-    return det_inited && rec_inited && ocr_inited;
+    if (!pipeline_ready()) {
+        Log.error(__FUNCTION__, "| OCR pipeline is not initialized");
+        release_models();
+        return false;
+    }
+
+    if (m_gpu_active && backend == InferenceBackend::WebGPU && !warmup()) {
+        Log.error(__FUNCTION__, "| WebGPU warmup failed, falling back to CPU");
+        release_models();
+        return false;
+    }
+
+    return true;
+}
+
+bool OcrPack::warmup()
+{
+    LogTraceFunction;
+
+    // WebGPU compiles its shaders on the first inference of a session (a few
+    // hundred ms per model). One dummy inference per model moves that cost into
+    // the loading phase instead of the first recognition.
+    try {
+        const cv::Mat det_dummy = cv::Mat::zeros(960, 960, CV_8UC3);
+        std::vector<std::array<int, 8>> boxes;
+        if (!m_impl->det->Predict(det_dummy, &boxes)) {
+            Log.warn(__FUNCTION__, "| det warmup failed");
+            return false;
+        }
+
+        const cv::Mat rec_dummy = cv::Mat::zeros(48, 320, CV_8UC3);
+        std::string text;
+        float score = 0.0F;
+        if (!m_impl->rec->Predict(rec_dummy, &text, &score)) {
+            Log.warn(__FUNCTION__, "| rec warmup failed");
+            return false;
+        }
+    }
+    catch (const std::exception& e) {
+        Log.warn(__FUNCTION__, "| warmup failed:", e.what());
+        return false;
+    }
+    catch (...) {
+        Log.warn(__FUNCTION__, "| warmup failed: unknown exception");
+        return false;
+    }
+
+    return true;
 }
 
 } // namespace asst

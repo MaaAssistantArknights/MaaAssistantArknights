@@ -1,1 +1,8 @@
-en_PP-OCRv3_rec_infer
+PP-OCRv6_small_rec; ASCII specialization; formal-v2 fine-tuned
+Source: https://github.com/PaddlePaddle/PaddleOCR/tree/b03f46425e8ff4442b268ce449e3eef758146cd4
+Source checkpoint SHA-256: 25c9bd54b0e5900916e8bb6ada938abeffb1eac1baedac0ca54a45b1c9310825
+ONNX SHA-256: 27547490f5232685c0e67d485168ff482a502b9d8f1b6fde4d6c0185e1f21106
+Dictionary SHA-256: 23d40abd395f6f95309602e038d7a5c7e8c5ff2fb06b48b21783cce1b983abf0
+Export: Paddle 3.4.0; Paddle2ONNX 2.1.0; opset 17; PIR attribute repair.
+Training and model-selection evidence: https://github.com/MaaAssistantArknights/MaaAI/pull/15
+Development result: 238/239 raw and 79/79 task-rule cases; not independent accuracy.

@@ -1,2 +1,5 @@
- 
-ppocr INFO: best metric, acc: 0.9874715822409134, is_float16: False, norm_edit_dis: 0.9969659154565832, fps: 5292.563171688365, best_epoch: 150
+korean_PP-OCRv5_mobile_rec_infer
+ONNX SHA-256: d17f0f8e5948ef14a51431243bd9ce2b20e4b0c708602cd2ae93c8f0746a5c9a
+Dictionary SHA-256: a88071c68c01707489baa79ebe0405b7beb5cca229f4fc94cc3ef992328802d7
+Dictionary source: https://github.com/PaddlePaddle/PaddleOCR/blob/b03f46425e8ff4442b268ce449e3eef758146cd4/ppocr/utils/dict/ppocrv5_korean_dict.txt
+Dictionary labels preserve literal apostrophes and ideographic spaces; no YAML escape conversion.

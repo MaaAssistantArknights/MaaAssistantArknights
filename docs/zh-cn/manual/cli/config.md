@@ -370,7 +370,7 @@ user_resource = true # 是否加载用户自定义的资源
 ```toml
 [static_options]
 cpu_ocr = false # 是否使用 CPU OCR，默认使用 CPU OCR
-gpu_ocr = 1 # 使用 GPU OCR 时使用的 GPU ID，如果这个值被留空，那么将会使用 CPU OCR
+gpu_ocr = 1 # 使用 GPU OCR 时使用的 GPU ID，可加 `webgpu:` 前缀指定实验性 WebGPU 后端（Windows / macOS / Linux），加 `directml:` 前缀强制 DirectML（仅 Windows）；如果这个值被留空，那么将会使用 CPU OCR
 ```
 
 ### 实例选项
