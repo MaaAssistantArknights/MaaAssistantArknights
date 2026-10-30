@@ -99,7 +99,7 @@
     },
     "RelaunchAnchor@RA@RA4-EW-Common": {
         "text": ["维什戴尔"],
-        "ocrReplace": [["(ウ)?(ィ|イ)シャデル", "维什戴尔"]]
+        "ocrReplace": [["(ウ)?(ィ|イ)シ(ャ|セ)デル", "维什戴尔"]]
     },
     "RelaunchAnchor@RA@RA4-EW1": {
         "roi": [123, 577, 130, 30]
@@ -130,7 +130,7 @@
     },
     "RelaunchAnchor@RA@RA4-ExamineEWExistence": {
         "text": ["维什戴尔"],
-        "ocrReplace": [["(ウ)?(ィ|イ)シャデル", "维什戴尔"]],
+        "ocrReplace": [["(ウ)?(ィ|イ)シ(ャ|セ)デル", "维什戴尔"]],
         "roi": [843, 449, 137, 29]
     },
     "RelaunchAnchor@RA@RA4-ConfirmTeam": {
@@ -170,5 +170,99 @@
     },
     "RelaunchAnchor@RA@RA4-ExitSettleNow": {
         "text": ["中止", "する"]
+    },
+    "RelaunchAnchor@RA@RA15-ChooseStrategy": {
+        "text": ["経営", "営采", "采配"]
+    },
+    "RelaunchAnchor@RA@RA15-ConfirmSelection": {
+        "text": ["確定する"]
+    },
+    "RelaunchAnchor@RA@RA15-Choose": {
+        "text": ["人員", "員招", "招集"]
+    },
+    "RelaunchAnchor@RA@RA15-ChooseExamine": {
+        "text": ["簡易", "編成"]
+    },
+    "RelaunchAnchor@RA@RA15-ExamineCXExistence": {
+        "text": ["圣聆初雪"],
+        "ocrReplace": [["聖.*プラマ[ニー]ク.*", "圣聆初雪"]],
+        "roi": [843, 449, 182, 29]
+    },
+    "RelaunchAnchor@RA@RA15-ClearChosen": {
+        "text": ["簡易", "編成"]
+    },
+    "RelaunchAnchor@RA@RA15-ClearChosen-2": {
+        "text": ["クリア"],
+        "roi": [460, 660, 80, 30]
+    },
+    "RelaunchAnchor@RA@RA15-ClearChosen-3": {
+        "text": ["クリア"],
+        "roi": [460, 660, 80, 30]
+    },
+    "RelaunchAnchor@RA@RA15-ConfirmChoose": {
+        "text": ["確認"]
+    },
+    "RelaunchAnchor@RA@RA15-AddHelp": {
+        "text": ["サポート"]
+    },
+    "RelaunchAnchor@RA@RA15-CX-Common": {
+        "text": ["圣聆初雪"],
+        "ocrReplace": [["聖.*プラマ[ニー]ク.*", "圣聆初雪"]]
+    },
+    "RelaunchAnchor@RA@RA15-CX1": {
+        "roi": [123, 577, 130, 30]
+    },
+    "RelaunchAnchor@RA@RA15-CX2": {
+        "roi": [262, 577, 130, 30]
+    },
+    "RelaunchAnchor@RA@RA15-CX3": {
+        "roi": [401, 577, 130, 30]
+    },
+    "RelaunchAnchor@RA@RA15-CX4": {
+        "roi": [540, 577, 130, 30]
+    },
+    "RelaunchAnchor@RA@RA15-CX5": {
+        "roi": [678, 577, 130, 30]
+    },
+    "RelaunchAnchor@RA@RA15-CX6": {
+        "roi": [818, 577, 130, 30]
+    },
+    "RelaunchAnchor@RA@RA15-CX7": {
+        "roi": [958, 577, 130, 30]
+    },
+    "RelaunchAnchor@RA@RA15-CX8": {
+        "roi": [1095, 577, 130, 30]
+    },
+    "RelaunchAnchor@RA@RA15-CX-ConfirmHelp": {
+        "text": ["確定"]
+    },
+    "RelaunchAnchor@RA@RA15-ConfirmTeam": {
+        "text": ["招集する"]
+    },
+    "RelaunchAnchor@RA@RA15-ConfirmTeam2": {
+        "text": ["確定"]
+    },
+    "RelaunchAnchor@RA@RA15-AlignMapCheck": {
+        "text": ["ロドス", "採取", "ステーション", "配置"],
+        "roi": [490, 54, 320, 38]
+    },
+    "RelaunchAnchor@RA@RA15-Cost24": {
+        "isAscii": true,
+        "text": ["24+"],
+        "ocrReplace": [
+            ["\\^", ""],
+            ["^(24|25|26|27|28|29|[3-9]\\d+)", "24+"]
+        ]
+    },
+    "RelaunchAnchor@RA@RA15-Kill60": {
+        "text": ["敵", "撃破"],
+        "roi": [568, 284, 142, 28]
+    },
+    "RelaunchAnchor@RA@RA15-Deliver": {
+        "text": ["敵", "撃破"]
+    },
+    "RelaunchAnchor@RA@RA15-End2": {
+        "text": ["中止", "する"],
+        "roi": [918, 459, 165, 50]
     }
 }
