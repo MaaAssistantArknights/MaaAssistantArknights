@@ -1,4 +1,6 @@
 #pragma once
+#include <string_view>
+
 #include "Task/Roguelike/AbstractRoguelikeTaskPlugin.h"
 
 namespace asst
@@ -43,9 +45,12 @@ private:
     // 跑完一整轮：投币 → 结果对勾 → 领奖 → 收藏品弹窗 → 回面板
     bool run_once(RecastType type, RecastReward reward);
 
-    // 是否已经回到残识地图（右上角剩余烛火还在）
-    // confirm_entry 为 true 时会再等一会儿复查一次，用于刚点进节点、界面还在过场的时候
-    bool is_on_map(bool confirm_entry);
+    // 等到「还能再投一次」的界面出现（钱卡面板或进节点选项）。
+    // 中间如果只是剧情对话就点一下推进；既没有面板也没有事件横幅就认为已经离开这个节点。
+    bool wait_for_panel();
+
+    // 跑一个只认不点的探针任务
+    bool probe(std::string_view task);
 
     int m_recast_count = 0; // 刷钱次数
     int m_relic_count = 0;  // 换藏品次数
