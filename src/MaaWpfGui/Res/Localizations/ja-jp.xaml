@@ -600,6 +600,7 @@
     <system:String x:Key="Asst.Roguelike.BlackFlow.ScrapTradeAbortedSellBackSearchFailed">秘境行商で買い戻し分の「{0}」が見つからないため、取引を中止して退店します</system:String>
     <system:String x:Key="Asst.Roguelike.BlackFlow.ScrapTradeAbortedUnknown">秘境行商の取引で異常が発生したため、取引を中止して退店します</system:String>
     <system:String x:Key="Asst.Roguelike.BlackFlow.StartRunCompleted">開始条件を満たしたため、この探索を保持したまま退出しました</system:String>
+    <system:String x:Key="Asst.Roguelike.BlackFlow.StartRunOdds">1回あたり約 {0}%、平均約 {1} 回（今回 {2} 回）</system:String>
     <system:String x:Key="Asst.Roguelike.BlackFlow.StartRunPrepared">探索の準備が完了しました</system:String>
     <system:String x:Key="Asst.Roguelike.BlackFlow.StartRunPreparedReason">第3層に到達しました。次の探索では指定の難易度と分隊を使用します</system:String>
     <system:String x:Key="Asst.Roguelike.BlackFlow.StartRunPreparing">準備用の探索を進行中</system:String>

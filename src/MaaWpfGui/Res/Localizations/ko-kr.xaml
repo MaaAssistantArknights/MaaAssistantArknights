@@ -600,6 +600,7 @@
     <system:String x:Key="Asst.Roguelike.BlackFlow.ScrapTradeAbortedSellBackSearchFailed">신비한 상인(秘境行商)에서 되팔 「{0}」을(를) 찾지 못해 거래를 중단하고 나갑니다</system:String>
     <system:String x:Key="Asst.Roguelike.BlackFlow.ScrapTradeAbortedUnknown">신비한 상인(秘境行商) 거래에 이상이 발생해 거래를 중단하고 나갑니다</system:String>
     <system:String x:Key="Asst.Roguelike.BlackFlow.StartRunCompleted">시작 조건을 충족하여 이번 탐험을 유지한 채 나왔습니다</system:String>
+    <system:String x:Key="Asst.Roguelike.BlackFlow.StartRunOdds">1회당 약 {0}%, 평균 약 {1}회 (이번 {2}회)</system:String>
     <system:String x:Key="Asst.Roguelike.BlackFlow.StartRunPrepared">탐험 준비 완료</system:String>
     <system:String x:Key="Asst.Roguelike.BlackFlow.StartRunPreparedReason">3층에 도달했습니다. 다음 탐험은 지정한 난이도와 분대로 시작합니다</system:String>
     <system:String x:Key="Asst.Roguelike.BlackFlow.StartRunPreparing">준비 탐험 진행 중</system:String>
