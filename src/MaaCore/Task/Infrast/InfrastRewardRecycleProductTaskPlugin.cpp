@@ -113,13 +113,18 @@ std::vector<cv::Point> asst::InfrastRewardRecycleProductTaskPlugin::detect_icon_
     for (const auto& c : circles) {
         centers.emplace_back(cvRound(c[0]) + roi.x, cvRound(c[1]) + roi.y);
     }
-    // 按弹窗布局先行后列排序，与展示顺序一致；同行圆心纵坐标误差在几像素内
-    std::ranges::sort(centers, [](const cv::Point& l, const cv::Point& r) {
-        if (std::abs(l.y - r.y) > IconRingRadius) {
-            return l.y < r.y;
-        }
-        return l.x < r.x;
-    });
+    // 按弹窗布局先行后列排序，与展示顺序一致。先按纵坐标排序，与行首纵坐标差不超过圆环半径的归为同一行，再在行内按横坐标排序；
+    // 带容差的单次比较在出现误检圆心时不满足严格弱序，所以分两步排。同行圆心纵坐标误差在几像素内，行距大于图标直径，
+    // 以行首为基准分组不会把相邻两行并为一行
+    std::ranges::sort(centers, {}, &cv::Point::y);
+    for (auto row_begin = centers.begin(); row_begin != centers.end();) {
+        const int row_y = row_begin->y;
+        const auto row_end = std::ranges::find_if(row_begin, centers.end(), [row_y](const cv::Point& p) {
+            return p.y - row_y > IconRingRadius;
+        });
+        std::ranges::sort(row_begin, row_end, {}, &cv::Point::x);
+        row_begin = row_end;
+    }
     return centers;
 }
 
