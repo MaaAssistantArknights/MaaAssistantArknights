@@ -2405,7 +2405,7 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
 
 注意：  ｢初期追加携帯アイテム｣ に関連するテクノロジーをアンロックしている場合、基地内で初期追加携帯アイテムの原因となる施設（食品供給所、ドリンク供給所、畜舎など）を解体してください
 
-タスクの流れ： 聖聆プラマニクス て 60 キルミッションを自動実行</system:String>
+タスクの流れ： 聖聆プラマニクス で 敵を60体撃破 任務を自動実行</system:String>
     <system:String x:Key="Toolbox.MiniGame.Reclamation.RelaunchAnchor.RA4" xml:space="preserve">報酬目安：1回あたり約417トークン＋統括ポイント、所要時間約1分40秒
 
 オペレーター要件：ヴィシャデル（サポート借用可）
