@@ -131,8 +131,8 @@ cargo install --git https://github.com/MaaAssistantArknights/maa-cli.git --bin m
 
 :::
 
-::: warning
-현재 maa-cli의 최소 지원 Rust 버전(MSRV)은 1.88입니다. MSRV는 언제든지 변경될 수 있으므로, 최상의 경험을 위해 항상 최신 Rust 툴체인을 사용하는 것을 권장합니다.
+::: warning  
+현재 maa-cli의 최소 지원 Rust 버전(MSRV)은 1.88입니다. MSRV는 언제든지 변경될 수 있으므로, 최상의 경험을 위해 항상 최신 Rust 툴체인을 사용하는 것을 권장합니다.  
 :::
 
 ### 빌드 옵션
@@ -151,14 +151,14 @@ maa-cli는 명령줄 인터페이스만 제공하며, 작업을 실행하려면 
 
 ::: tabs#maacore
 
-@tab:active 사전 컴파일
+@tab:active 사전 컴파일  
 사전 컴파일된 바이너리를 사용하거나 직접 빌드한 사용자의 경우, maa-cli를 통해 설치 및 업데이트를 할 수 있습니다:
 
 ```bash :no-line-numbers
 maa install
 ```
 
-@tab Windows
+@tab Windows  
 Windows 플랫폼 사용자의 경우, `maa install` 명령을 실행하기 전에 관리자 권한으로 명령 프롬프트나 PowerShell에서 다음 명령을 실행하여 필수 구성 요소인 VC++ 런타임을 설치하십시오:
 
 ```bat :no-line-numbers
@@ -167,7 +167,7 @@ winget install "Microsoft.VCRedist.2015+.x64" --override "/repair /passive /nore
 
 그런 다음 `maa install`을 실행합니다.
 
-@tab Arch
+@tab Arch  
 maa-cli를 사용하여 사전 컴파일된 MaaCore를 설치할 수 있습니다:
 
 ```bash :no-line-numbers
@@ -186,11 +186,11 @@ paru -S maa-assistant-arknights
 yay -S maa-assistant-arknights
 ```
 
-@tab Nix
+@tab Nix  
 Nix의 maa-cli는 MaaCore에 대한 강제 종속성이 있으므로, Nix 사용자는 수동으로 MaaCore를 설치할 필요가 없으며, 해서도 안 됩니다.
 
 :::
 
-::: warning
-`maa install`은 MAA 공식 사전 컴파일된 MaaCore를 다운로드합니다. 반면, 패키지 관리자로 설치된 MaaCore는 공식 버전과 다른 컴파일 옵션 및 종속성 버전을 사용할 수 있으며, 이로 인해 성능 및 기능에 약간의 차이가 발생할 수 있습니다.
+::: warning  
+`maa install`은 MAA 공식 사전 컴파일된 MaaCore를 다운로드합니다. 반면, 패키지 관리자로 설치된 MaaCore는 공식 버전과 다른 컴파일 옵션 및 종속성 버전을 사용할 수 있으며, 이로 인해 성능 및 기능에 약간의 차이가 발생할 수 있습니다.  
 :::

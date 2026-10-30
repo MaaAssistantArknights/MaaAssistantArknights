@@ -7,15 +7,15 @@ icon: ri:guide-fill
 
 Quick start guide!
 
-::: info About This Documentation
+::: info About This Documentation  
 This manual primarily covers **Windows MAA (WPF desktop client)**. The MAA Team mainly maintains the Windows WPF UI. maa-cli and the macOS version are maintained by fewer developers and may lag behind or differ in features.
 
-Some features (such as Depot Maintain, scheduled execution, and drag-and-drop package updates) are implemented by the UI layer and are not included in the core (MaaCore). When using maa-cli, the macOS version, or third-party UIs that call MaaCore directly, these features may be unavailable and must be implemented separately. Pages that cover UI-only features are marked at the top.
+Some features (such as Depot Maintain, scheduled execution, and drag-and-drop package updates) are implemented by the UI layer and are not included in the core (MaaCore). When using maa-cli, the macOS version, or third-party UIs that call MaaCore directly, these features may be unavailable and must be implemented separately. Pages that cover UI-only features are marked at the top.  
 :::
 
 ## Prerequisites
 
-::::steps
+:::: steps
 
 1. Confirm system version
 
@@ -55,10 +55,10 @@ Read the documentation!
 
 ## Other Notes
 
-::: center
-**When encountering problems, read the documentation, read the documentation, read the documentation!** &emsp;&emsp; **When encountering problems, read the documentation, read the documentation, read the documentation!** &emsp;&emsp; **When encountering problems, read the documentation, read the documentation, read the documentation!**
-**When encountering problems, read the documentation, read the documentation, read the documentation!** &emsp;&emsp; **When encountering problems, read the documentation, read the documentation, read the documentation!** &emsp;&emsp; **When encountering problems, read the documentation, read the documentation, read the documentation!**
-**When encountering problems, read the documentation, read the documentation, read the documentation!** &emsp;&emsp; **When encountering problems, read the documentation, read the documentation, read the documentation!** &emsp;&emsp; **When encountering problems, read the documentation, read the documentation, read the documentation!**
+::: center  
+**When encountering problems, read the documentation, read the documentation, read the documentation!** &emsp;&emsp; **When encountering problems, read the documentation, read the documentation, read the documentation!** &emsp;&emsp; **When encountering problems, read the documentation, read the documentation, read the documentation!**  
+**When encountering problems, read the documentation, read the documentation, read the documentation!** &emsp;&emsp; **When encountering problems, read the documentation, read the documentation, read the documentation!** &emsp;&emsp; **When encountering problems, read the documentation, read the documentation, read the documentation!**  
+**When encountering problems, read the documentation, read the documentation, read the documentation!** &emsp;&emsp; **When encountering problems, read the documentation, read the documentation, read the documentation!** &emsp;&emsp; **When encountering problems, read the documentation, read the documentation, read the documentation!**  
 :::
 
 1. Use `Settings` - `Issue Report` - `Generate Support Payload` to generate a log package convenient for sharing. Logs are extremely important. When seeking help from others, always bring the log package with you.

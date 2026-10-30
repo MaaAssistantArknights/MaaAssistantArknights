@@ -51,8 +51,8 @@ icon: basil:apple-solid
 
 ## Intel 晶片
 
-::: tip
-由於 Mac 版開發人手較少，更新速度相對較慢，更推薦使用 Mac 內建的 Boot Camp 安裝 Windows，並使用 Windows 版 MAA。
+::: tip  
+由於 Mac 版開發人手較少，更新速度相對較慢，更推薦使用 Mac 內建的 Boot Camp 安裝 Windows，並使用 Windows 版 MAA。  
 :::
 
 ### ✅ [BlueStacks 藍疊模擬器](https://www.bluestacks.cn/)

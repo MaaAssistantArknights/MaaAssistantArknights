@@ -9,8 +9,8 @@ icon: material-symbols:view-quilt-rounded
 
 `resource/custom_infrast/*.json` 各フィールドの設定方法と説明
 
-::: tip
-JSON ファイルはコメントをサポートしていません。テキスト内のコメントはプレゼンテーション用にのみ使用されます。直接コピーして使用しないでください。
+::: tip  
+JSON ファイルはコメントをサポートしていません。テキスト内のコメントはプレゼンテーション用にのみ使用されます。直接コピーして使用しないでください。  
 :::
 
 [ビジュアルスケジュール表生成ツール](https://ark.yituliu.cn/tools/scheduleV2)

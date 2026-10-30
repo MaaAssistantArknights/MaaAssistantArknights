@@ -7,9 +7,9 @@ icon: mingcute:git-pull-request-fill
 
 牛牛也能看懂的 GitHub Pull Request 使用指南 (\*´▽ ｀)ノノ
 
-::: warning
+::: warning  
 本教學中對許多概念進行了簡化，為了讓更多朋友能實際上手，甚至有一些不那麼 ｢優雅｣ ~~但簡單~~的操作，以及一些不完全精確的解釋，還請各位大神手下留情。  
-若您具備一定的 Git 使用經驗及程式設計基礎，~~那你還看這個 🔨~~，可以參考進階版的教學：[GitHub Pull Request 流程簡述](./development.md)。
+若您具備一定的 Git 使用經驗及程式設計基礎，~~那你還看這個 🔨~~，可以參考進階版的教學：[GitHub Pull Request 流程簡述](./development.md)。  
 :::
 
 ## 基本概念及名詞解釋
@@ -205,8 +205,8 @@ icon: mingcute:git-pull-request-fill
 
 在**版本發布後**，您的 GitHub 頭像將會自動出現在貢獻者名單中。非常感謝您的無私奉獻！
 ~~怎麼全是二次元啊，哦我也是，那沒事了~~
-::: tip 貢獻/參與者
+::: tip 貢獻/參與者  
 感謝所有參與開發與測試的朋友，是大家的幫助讓 MAA 變得更好！ (\*´▽ ｀)ノノ
 
-[![Contributors](https://contributors-img.web.app/image?repo=MaaAssistantArknights/MaaAssistantArknights&max=105&columns=15)](https://github.com/MaaAssistantArknights/MaaAssistantArknights/graphs/contributors)
+[![Contributors](https://contributors-img.web.app/image?repo=MaaAssistantArknights/MaaAssistantArknights&max=105&columns=15)](https://github.com/MaaAssistantArknights/MaaAssistantArknights/graphs/contributors)  
 :::

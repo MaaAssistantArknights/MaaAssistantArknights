@@ -7,7 +7,7 @@ icon: ph:sword-bold
 
 Welcome to use and share operation files on [prts.plus](https://prts.plus).
 
-::: warning
+::: warning  
 All features involving Copilot require the following prerequisites, including but not limited to Copilot and Auto I. S.
 
 - At least 60 frames of **stable** framerate

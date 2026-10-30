@@ -9,8 +9,8 @@ icon: mingcute:android-fill
 
 [MaaMeow](https://github.com/Aliothmoon/MAA-Meow) is the Android version of MAA. It runs MAA directly on your Android device without a computer or emulator, and supports running in the background.
 
-::: warning
-MaaMeow is still under development and may be unstable. Please report any issues to [MaaMeow's Issues](https://github.com/Aliothmoon/MAA-Meow/issues).
+::: warning  
+MaaMeow is still under development and may be unstable. Please report any issues to [MaaMeow's Issues](https://github.com/Aliothmoon/MAA-Meow/issues).  
 :::
 
 ### Requirements
@@ -46,8 +46,8 @@ MaaMeow is still under development and may be unstable. Please report any issues
 
 ## Connecting via Desktop MAA
 
-::: warning
-This method involves ADB command-line usage, has lower stability, and still requires computer connection. **Not recommended** for beginners.
+::: warning  
+This method involves ADB command-line usage, has lower stability, and still requires computer connection. **Not recommended** for beginners.  
 :::
 
 ::: info Note
@@ -61,8 +61,8 @@ This method involves ADB command-line usage, has lower stability, and still requ
 
 :::
 
-::: tip
-Typical `16:9` resolutions include `3840x2160` (4K), `2560x1440` (2K), `1920x1080` (1080P), and `1280x720` (720P).
+::: tip  
+Typical `16:9` resolutions include `3840x2160` (4K), `2560x1440` (2K), `1920x1080` (1080P), and `1280x720` (720P).  
 :::
 
 ### Download and Run ADB Debug Tool to Connect Device
@@ -102,8 +102,8 @@ Typical `16:9` resolutions include `3840x2160` (4K), `2560x1440` (2K), `1920x108
 
 ### Change Resolution
 
-::: tip
-Mobile screen resolution is specified as `short edge × long edge`, not `long edge × short edge` as with computer monitors. Determine the appropriate values for your specific device.
+::: tip  
+Mobile screen resolution is specified as `short edge × long edge`, not `long edge × short edge` as with computer monitors. Determine the appropriate values for your specific device.  
 :::
 
 - If you only have one device in your device list, run these commands to change/restore resolution:
@@ -136,8 +136,8 @@ Mobile screen resolution is specified as `short edge × long edge`, not `long ed
 
 - Some apps with irregular designs may still have layout issues after resolution restoration. Usually, restarting the app or device resolves this.
 
-::: danger Warning
-Strongly recommended to restore the default resolution **before** restarting your device. Otherwise, depending on your device, unpredictable consequences may occur, ~~including layout chaos, touch misalignment, app crashes, inability to unlock, etc~~.
+::: danger Warning  
+Strongly recommended to restore the default resolution **before** restarting your device. Otherwise, depending on your device, unpredictable consequences may occur, ~~including layout chaos, touch misalignment, app crashes, inability to unlock, etc~~.  
 :::
 
 ::: danger Warning
@@ -192,8 +192,8 @@ It is strongly recommended to revert these changes **before the next device rebo
 
 #### Wired Connection
 
-::: tip
-Wired connections don't need IP addresses or ports - just the device serial number from `adb devices`.
+::: tip  
+Wired connections don't need IP addresses or ports - just the device serial number from `adb devices`.  
 :::
 
 1. Enter the target device serial number from above into MAA's `Settings` - `Connection Settings` - `Connection Address`.
@@ -226,8 +226,8 @@ Wired connections don't need IP addresses or ports - just the device serial numb
 
 ##### Using `adb pair` for Wireless Debugging
 
-::: tip
-`adb pair` wireless pairing (available in Android 11 and later via Developer Options) allows connection without a physical USB connection, unlike `adb tcpip`.
+::: tip  
+`adb pair` wireless pairing (available in Android 11 and later via Developer Options) allows connection without a physical USB connection, unlike `adb tcpip`.  
 :::
 
 ::: steps

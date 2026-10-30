@@ -22,10 +22,10 @@ MAA 可以透過目前**正在執行中的單一模擬器**，自動偵測並填
 
 ## ADB 路徑
 
-:::info 技術細節
+::: info 技術細節  
 自動偵測預設會使用模擬器內建的 ADB，當自動偵測出現問題時才需要手動設定。  
-點選 `強制替換 ADB` 會自動下載 Google 提供的 ADB 並自動填入路徑。
-若系統環境變數中已有可用的 ADB，可直接填寫 `adb`。
+點選 `強制替換 ADB` 會自動下載 Google 提供的 ADB 並自動填入路徑。  
+若系統環境變數中已有可用的 ADB，可直接填寫 `adb`。  
 :::
 
 ### 使用模擬器提供的 ADB
@@ -34,8 +34,8 @@ MAA 可以透過目前**正在執行中的單一模擬器**，自動偵測並填
 
 在該層或下層目錄中，應該能找到一個檔名包含 `adb` 的 exe 檔案（可使用搜尋功能），將其選取即可。
 
-:::details 範例檔名
-`adb.exe` `HD-adb.exe` `adb_server.exe` `nox_adb.exe`
+::: details 範例檔名  
+`adb.exe` `HD-adb.exe` `adb_server.exe` `nox_adb.exe`  
 :::
 
 ### 使用 Google 提供的 ADB
@@ -46,8 +46,8 @@ MAA 可以透過目前**正在執行中的單一模擬器**，自動偵測並填
 
 ## 連線位址
 
-::: tip
-執行於本機電腦的模擬器，連線位址通常為 `127.0.0.1:<連接埠>` 或 `emulator-<四位數字>`。
+::: tip  
+執行於本機電腦的模擬器，連線位址通常為 `127.0.0.1:<連接埠>` 或 `emulator-<四位數字>`。  
 :::
 
 ### 模擬器連接埠相關文件
@@ -105,13 +105,13 @@ MAA 可以透過目前**正在執行中的單一模擬器**，自動偵測並填
 
 1. 指定 `ConfigKeyword`
 
-   ::: info 注意
-   若啟用了多開功能或安裝了多個模擬器核心，則需要指定使用的模擬器編號。
+   ::: info 注意  
+   若啟用了多開功能或安裝了多個模擬器核心，則需要指定使用的模擬器編號。  
    :::
 
    在 `gui.new.json` 中找到目前設定名稱（可在 `設定-切換配置` 中查看，預設為 `Default`）下的 `Gui.ConnectSettings.Extras.BluestacksExtra.ConfigKeyword` 欄位，內容格式為 `"bst.instance.<模擬器編號>.status.adb_port"`。編號可於模擬器路徑的 `BlueStacks_nxt\Engine` 中確認。
 
-   ::: details 範例
+   ::: details 範例  
    Nougat64 核心：
 
    ```json
@@ -128,8 +128,8 @@ MAA 可以透過目前**正在執行中的單一模擬器**，自動偵測並填
 
 2. 指定 `ConfigPath`
 
-   ::: info 注意
-   MAA 現在會嘗試從登錄檔（Registry）讀取 `bluestacks.conf` 的位置，若偵測失敗才需要手動指定路徑。
+   ::: info 注意  
+   MAA 現在會嘗試從登錄檔（Registry）讀取 `bluestacks.conf` 的位置，若偵測失敗才需要手動指定路徑。  
    :::
    1. 在 BlueStacks 藍疊模擬器的數據目錄下找到 `bluestacks.conf` 檔案：
       - 國際版預設路徑： `C:\ProgramData\BlueStacks_nxt\bluestacks.conf`
@@ -140,7 +140,7 @@ MAA 可以透過目前**正在執行中的單一模擬器**，自動偵測並填
    2. 初次使用請先執行一次 MAA 以產生設定檔。
    3. **先關閉** MAA，**再**開啟 `gui.new.json`。找到目前設定名稱（可在 `設定-切換配置` 中查看，預設為 `Default`）下的 `Gui.ConnectSettings.Extras.BluestacksExtra.ConfigPath` 並填入 `bluestacks.conf` 的完整路徑（斜線請使用轉義符 `\\`）。
 
-   ::: details 範例
+   ::: details 範例  
    以 `C:\ProgramData\BlueStacks_nxt\bluestacks.conf` 為例：
 
    ```json
@@ -177,8 +177,8 @@ MAA 可以透過目前**正在執行中的單一模擬器**，自動偵測並填
 
 ### MuMu 截圖增強模式
 
-::: tip
-此處介紹的截圖和觸控增強功能適用於 Windows x64 版 MuMu。
+::: tip  
+此處介紹的截圖和觸控增強功能適用於 Windows x64 版 MuMu。  
 :::
 
 **版本要求**：官版/方舟專版 MuMu V4.1.26 及以上，或國際版 MuMu V5.21.3 及以上。<!-- 官版 V3.8.13 支援初版截圖增強 -->
@@ -227,8 +227,8 @@ AVD 截圖增強模式在 MaaFramework 中實現，必須選擇 MaaFwAdb 觸控�
 
 ## MAA 與模擬器多開
 
-::: info 實作方式
-若需多開模擬器同時執行，可將 MAA 資料夾複製多份，透過 **不同的 MAA 程式**、**同一個 adb.exe**、**不同的連線位址** 來進行連線。
+::: info 實作方式  
+若需多開模擬器同時執行，可將 MAA 資料夾複製多份，透過 **不同的 MAA 程式**、**同一個 adb.exe**、**不同的連線位址** 來進行連線。  
 :::
 
 ### 自動啟動多開模擬器
@@ -242,8 +242,8 @@ AVD 截圖增強模式在 MaaFramework 中實現，必須選擇 MaaFwAdb 觸控�
 3. 在多出來的 `命令列` 欄位中，找到 `...\Bluestacks_nxt\HD-Player.exe"` 之後的內容。
 4. 將找到的內容（例如：`--instance Nougat32`）填寫到 MAA 的 `啟動設定 - 附加指令` 中。
 
-::: note
-操作結束後，建議重新隱藏 `步驟 2` 中開啟的 `命令列` 欄位以避免系統卡頓。
+::: note  
+操作結束後，建議重新隱藏 `步驟 2` 中開啟的 `命令列` 欄位以避免系統卡頓。  
 :::
 
 ::: details 範例
@@ -257,7 +257,7 @@ AVD 截圖增強模式在 MaaFramework 中實現，必須選擇 MaaFwAdb 觸控�
 附加指令: --instance Nougat32_1 --cmd launchApp --package "com.hypergryph.arknights.bilibili"
 ```
 
-其中 `--cmd launchApp --package` 部分是啟動後自動執行指定包名的應用程式，可根據需求自行更改。
+其中 `--cmd launchApp --package` 部分是啟動後自動執行指定包名的應用程式，可根據需求自行更改。  
 :::
 
 #### 透過模擬器的捷徑啟動

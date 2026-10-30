@@ -9,9 +9,9 @@ icon: mingcute:git-pull-request-fill
 
 この文書は機械翻訳です。もし可能であれば、中国語の文書を読んでください。もし誤りや修正の提案があれば、大変ありがたく思います。
 
-::: warning
-このガイドでは、多くの概念を簡略化し、より多くの人々が実際に使用できるように、不格好であるが簡単な操作が含まれています。また、正しくない説明もありますので、大変恐れ入りますが、専門家の方々にはお許しください。
-Gitの使用経験とプログラミングの基礎がある場合、[GitHub Pull Request プロセス概要](./development.md)など、より上級のチュートリアルを見ることができます。
+::: warning  
+このガイドでは、多くの概念を簡略化し、より多くの人々が実際に使用できるように、不格好であるが簡単な操作が含まれています。また、正しくない説明もありますので、大変恐れ入りますが、専門家の方々にはお許しください。  
+Gitの使用経験とプログラミングの基礎がある場合、[GitHub Pull Request プロセス概要](./development.md)など、より上級のチュートリアルを見ることができます。  
 :::
 
 ## 基本概念および用語の説明
@@ -188,17 +188,17 @@ Conflictを解決するのは少し面倒ですが、ここでは概念につい
 
 13. メンバーの承認を得たら、すべて完了です！ バージョンがリリースされた後、あなたのGitHubプロフィールアイコンは自動的に貢献者リストに追加されます。皆様のご奉仕に深く感謝申し上げます！  
     ~~なんで全部二次元キャラなんだろう、あ、私も二次元好きだったわ。ま、いいか~~
-    ::: tip 貢献/参加者
+    ::: tip 貢献/参加者  
     開発/テストに参加してくれたすべての友人たちに感謝します。皆さんの助けでMAAはますます良くなります！ (\*´▽ ｀)ノノ
 
-    [![Contributors](https://contributors-img.web.app/image?repo=MaaAssistantArknights/MaaAssistantArknights&max=105&columns=15)](https://github.com/MaaAssistantArknights/MaaAssistantArknights/graphs/contributors)
+    [![Contributors](https://contributors-img.web.app/image?repo=MaaAssistantArknights/MaaAssistantArknights&max=105&columns=15)](https://github.com/MaaAssistantArknights/MaaAssistantArknights/graphs/contributors)  
     :::
 
 14. 次回別のPRを提出する場合は、まずdevブランチに切り替えて、以下の図のように直接操作してください。
 
-    ::: warning
+    ::: warning  
     この操作は、あなたの個人リポジトリをメインリポジトリとまったく同じ状態に強制的に同期するものであり、最も簡単で効果的な競合解消方法です。ただし、あなたの個人リポジトリにすでに追加されているものは削除されます！  
-    :::
+    :::  
     競合が生じないことを確認できる場合は、右側の緑色の ｢Update Branch｣ ボタンを使用してください。
 
     私が言ったことが何を意味するのか分からない/関係ない場合は、左側のボタンをクリックしてください。

@@ -5,8 +5,8 @@ icon: game-icons:prisoner
 
 # Stationary Security Service Schema
 
-::: tip
-Please note that JSON files do not support comments. The comments in this document are for demonstration purposes only. Do not copy them directly into your JSON files.
+::: tip  
+Please note that JSON files do not support comments. The comments in this document are for demonstration purposes only. Do not copy them directly into your JSON files.  
 :::
 
 ```json

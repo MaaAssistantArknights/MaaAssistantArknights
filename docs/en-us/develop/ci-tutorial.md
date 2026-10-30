@@ -9,8 +9,8 @@ MAA leverages GitHub Actions to complete a large amount of automation work, incl
 
 Before reading this document, it's best to have a basic understanding of MAA's project structure and components.
 
-::: tip
-You can quickly navigate to the section you want to see by searching for CI file names within this page
+::: tip  
+You can quickly navigate to the section you want to see by searching for CI file names within this page  
 :::
 
 Workflow files are all stored under `.github/workflows`, and each file can be categorized into the following functional parts:
@@ -56,8 +56,8 @@ Version release is the necessary operation to publish updates to users, consisti
   - `release-preparation.yml` Generate changelog and prepare release for stable/beta versions
   - `pr-auto-tag.yml` Generate tags for stable/beta versions
 
-::: tip
-The "ota" in the above file names stands for Over-the-Air, which is what we commonly call "incremental update packages". Therefore, MAA's release process actually includes building OTA packages for past versions.
+::: tip  
+The "ota" in the above file names stands for Over-the-Air, which is what we commonly call "incremental update packages". Therefore, MAA's release process actually includes building OTA packages for past versions.  
 :::
 
 #### Nightly Builds

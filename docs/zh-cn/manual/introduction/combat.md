@@ -5,8 +5,8 @@ icon: hugeicons:brain-02
 
 # 理智作战
 
-::: info UI 专属功能
-本页部分功能由 UI 层实现（如目标库存、周计划、多任务排序等），详见[新手上路](../newbie.md)中的说明。
+::: info UI 专属功能  
+本页部分功能由 UI 层实现（如目标库存、周计划、多任务排序等），详见[新手上路](../newbie.md)中的说明。  
 :::
 
 ## 常规设置
@@ -62,8 +62,8 @@ icon: hugeicons:brain-02
   - 当期 SS 活动 后三关。在自动访问 [API](https://api.maa.plus/MaaAssistantArknights/api/gui/StageActivityV2.json) 下载更新后会在界面下方显示。
   - 复刻的 SS 活动。输入 `SSReopen-<关卡前缀>` ，可一次性刷完 XX-1 ~ XX-9 关，如 `SSReopen-IC`。
 
-::: details 示例画面
-![示例画面](/images/zh-cn/combat-start-interface-example.png)
+::: details 示例画面  
+![示例画面](/images/zh-cn/combat-start-interface-example.png)  
 :::
 
 ### 剿灭模式

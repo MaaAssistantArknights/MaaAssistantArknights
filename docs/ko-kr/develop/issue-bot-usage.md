@@ -7,8 +7,8 @@ icon: bxs:bot
 
 Issue Bot의 동작은 [issue-checker](https://github.com/MaaAssistantArknights/issue-checker)로 이루어지며, 설정 파일은 [issue-checker.yml](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev-v2/.github/issue-checker.yml) 입니다.
 
-::: warning
-Commitizen 규격으로 커밋하지 않는 경우, 풀 리퀘스트(Pull Request)가 `ambiguous(애매모호한)`로 표시됨에 주의해주세요.
+::: warning  
+Commitizen 규격으로 커밋하지 않는 경우, 풀 리퀘스트(Pull Request)가 `ambiguous(애매모호한)`로 표시됨에 주의해주세요.  
 :::
 
 ## 기능
@@ -54,8 +54,8 @@ Issue Bot은 풀 리퀘스트의 제목을 확인합니다. 아래 키워드로 
 - `Duplicate of #{ISSUE_NUMBER}`는 이슈에 `duplicate(중복)` 라벨을 추가합니다.
 - **코멘트가 Issue Bot을 혼동시킬 수 있는 경우 `skip` 작업을 추가할 수 있습니다.**
 
-::: info 참고
-<sup>1</sup> 여기서 `COMMIT_HASH`는 8~40자 길이의 해시값이면 충분하며, 전체 40자일 필요는 없습니다.
+::: info 참고  
+<sup>1</sup> 여기서 `COMMIT_HASH`는 8~40자 길이의 해시값이면 충분하며, 전체 40자일 필요는 없습니다.  
 :::
 
 #### Push

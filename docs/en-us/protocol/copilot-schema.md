@@ -7,8 +7,8 @@ icon: ph:sword-bold
 
 Usage of `resource/copilot/*.json` files and field descriptions
 
-::: tip
-Please note that JSON files do not support comments. The comments in this document are for demonstration purposes only. Do not copy them directly into your JSON files.
+::: tip  
+Please note that JSON files do not support comments. The comments in this document are for demonstration purposes only. Do not copy them directly into your JSON files.  
 :::
 
 ## Complete Field Reference

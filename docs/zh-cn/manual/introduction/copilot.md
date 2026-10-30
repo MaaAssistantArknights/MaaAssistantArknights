@@ -7,7 +7,7 @@ icon: ph:sword-bold
 
 欢迎使用作业分享站 [prts.plus](https://prts.plus) 使用及分享作业文件。
 
-::: warning
+::: warning  
 所有涉及到自动战斗的功能都需要以下前提，这包括但不限于自动战斗和自动肉鸽。
 
 - 至少 60 帧的**稳定**游戏帧数

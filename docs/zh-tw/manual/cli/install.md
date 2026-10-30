@@ -131,8 +131,8 @@ cargo install --git https://github.com/MaaAssistantArknights/maa-cli.git --bin m
 
 :::
 
-::: warning
-maa-cli 目前的最低支援 Rust 版本 (MSRV) 為 1.88。請注意，MSRV 可能隨時發生變化，我們建議始終使用最新的 Rust 工具鏈以獲得最佳體驗。
+::: warning  
+maa-cli 目前的最低支援 Rust 版本 (MSRV) 為 1.88。請注意，MSRV 可能隨時發生變化，我們建議始終使用最新的 Rust 工具鏈以獲得最佳體驗。  
 :::
 
 ### 編譯選項
@@ -151,14 +151,14 @@ maa-cli 只提供了一個命令列介面，它需要 MaaCore 和資源來執行
 
 ::: tabs#maacore
 
-@tab:active 預編譯
+@tab:active 預編譯  
 對於使用預編譯執行檔或者自行編譯的使用者，maa-cli 可以協助您安裝和更新：
 
 ```bash :no-line-numbers
 maa install
 ```
 
-@tab Windows
+@tab Windows  
 對於 Windows 使用者，在執行 `maa install` 指令前，請以管理員身份在命令提示字元或 PowerShell 中執行以下指令，以安裝必要組件 VC++ 執行環境 (Redistributable)：
 
 ```bat :no-line-numbers
@@ -167,7 +167,7 @@ winget install "Microsoft.VCRedist.2015+.x64" --override "/repair /passive /nore
 
 然後再執行 `maa install`。
 
-@tab Arch
+@tab Arch  
 您可以使用 maa-cli 安裝預編譯的 MaaCore：
 
 ```bash :no-line-numbers
@@ -186,11 +186,11 @@ paru -S maa-assistant-arknights
 yay -S maa-assistant-arknights
 ```
 
-@tab Nix
+@tab Nix  
 Nix 上的 maa-cli 強制依賴 MaaCore，因此 Nix 使用者無需、也不應該手動安裝 MaaCore。
 
 :::
 
-::: warning
-`maa install` 下載的是 MAA 官方預編譯的 MaaCore，而套件管理員安裝的 MaaCore 可能使用與官方預編譯版本不同的編譯選項和依賴版本，這也許會導致效能和功能上的些微差異。
+::: warning  
+`maa install` 下載的是 MAA 官方預編譯的 MaaCore，而套件管理員安裝的 MaaCore 可能使用與官方預編譯版本不同的編譯選項和依賴版本，這也許會導致效能和功能上的些微差異。  
 :::

@@ -7,8 +7,8 @@ icon: bxs:bot
 
 Issue Bot 使用的 action 为 [issue-checker](https://github.com/MaaAssistantArknights/issue-checker)，配置文件为 [issue-checker.yml](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev-v2/.github/issue-checker.yml)。
 
-::: warning
-拉取请求被增加 `ambiguous` 标签是因为没有按照 commitizen 规范提交
+::: warning  
+拉取请求被增加 `ambiguous` 标签是因为没有按照 commitizen 规范提交  
 :::
 
 ## 功能
@@ -55,8 +55,8 @@ Issue Bot 会对拉取请求标题的格式进行简单审查。它会增加 `am
 - `Duplicate of #{ISSUE_NUMBER}` 可以为当前议题增加 `duplicate` 标签。
 - **当你知道自己的议题评论会导致 Issue Bot 误解时，尽量添加一些 skip 操作。**
 
-::: info 注意
-<sup>1</sup> 这里的 COMMIT_HASH 取 8~40 位即可，不必是完整的 40 位
+::: info 注意  
+<sup>1</sup> 这里的 COMMIT_HASH 取 8~40 位即可，不必是完整的 40 位  
 :::
 
 #### 推送（Push）

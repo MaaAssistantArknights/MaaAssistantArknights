@@ -131,8 +131,8 @@ cargo install --git https://github.com/MaaAssistantArknights/maa-cli.git --bin m
 
 :::
 
-::: warning
-The Minimum Supported Rust Version (MSRV) for maa-cli is currently 1.88. Please note that the MSRV may change at any time, and we recommend always using the latest Rust toolchain for the best experience.
+::: warning  
+The Minimum Supported Rust Version (MSRV) for maa-cli is currently 1.88. Please note that the MSRV may change at any time, and we recommend always using the latest Rust toolchain for the best experience.  
 :::
 
 ### Build Options
@@ -151,14 +151,14 @@ Your steps will differ depending on the installation method and platform:
 
 ::: tabs#maacore
 
-@tab:active Pre-compiled
+@tab:active Pre-compiled  
 For users of pre-compiled binaries or those who built from source, maa-cli can help you install and update:
 
 ```bash :no-line-numbers
 maa install
 ```
 
-@tab Windows
+@tab Windows  
 For Windows users, before running `maa install`, please run the following command as an administrator in Command Prompt or PowerShell to install the necessary VC++ runtime:
 
 ```bat :no-line-numbers
@@ -167,7 +167,7 @@ winget install "Microsoft.VCRedist.2015+.x64" --override "/repair /passive /nore
 
 Then run `maa install`.
 
-@tab Arch
+@tab Arch  
 You can use maa-cli to install the pre-compiled MaaCore:
 
 ```bash :no-line-numbers
@@ -186,11 +186,11 @@ or
 yay -S maa-assistant-arknights
 ```
 
-@tab Nix
+@tab Nix  
 maa-cli on Nix has a hard dependency on MaaCore, so Nix users do not need to, and should not, install MaaCore manually.
 
 :::
 
-::: warning
-`maa install` downloads the officially pre-compiled MaaCore. MaaCore installed via package managers may use different compile options and dependency versions, which might lead to slight differences in performance and functionality.
+::: warning  
+`maa install` downloads the officially pre-compiled MaaCore. MaaCore installed via package managers may use different compile options and dependency versions, which might lead to slight differences in performance and functionality.  
 :::

@@ -9,8 +9,8 @@ Issue Botのアクションは[issue-checker](https://github.com/MaaAssistantArk
 
 [issue-checker]: https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev-v2/.github/issue-checker.yml
 
-::: warning
-Commitizenの仕様でコミットしていない場合、マージリクエストは`ambiguous`とマークされることに注意してください。
+::: warning  
+Commitizenの仕様でコミットしていない場合、マージリクエストは`ambiguous`とマークされることに注意してください。  
 :::
 
 ## 特徴
@@ -57,8 +57,8 @@ Issue Botは Pull Request のタイトルをチェックします。タイトル
 - `Duplicate of #{ISSUE_NUMBER}` と入力するとissueに `duplicate` ラベルを追加します。
 - **あなたのコメントが Issue Bot を混乱させる可能性がある場合、下記の `skip` コマンドを追加できます。**
 
-::: info 注意
-ここの `COMMIT_HASH` は 8～40 文字を指定でき、40 文字の完全なハッシュである必要はありません。
+::: info 注意  
+ここの `COMMIT_HASH` は 8～40 文字を指定でき、40 文字の完全なハッシュである必要はありません。  
 :::
 
 #### Push

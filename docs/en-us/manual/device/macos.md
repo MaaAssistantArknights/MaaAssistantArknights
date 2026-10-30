@@ -51,8 +51,8 @@ You need to enable `Android Debugging (ADB)` in the emulator's `Settings` - `Adv
 
 ## Intel Chips
 
-::: tip
-Due to limited development resources for the Mac version, updates are relatively slower. We recommend using Boot Camp to install Windows and using the Windows version of MAA instead.
+::: tip  
+Due to limited development resources for the Mac version, updates are relatively slower. We recommend using Boot Camp to install Windows and using the Windows version of MAA instead.  
 :::
 
 ### ✅ [BlueStacks](https://www.bluestacks.com/)

@@ -7,7 +7,7 @@ icon: ph:sword-bold
 
 歡迎造訪作業分享站 [zoot.plus](https://zoot.plus/) 使用及分享作業檔案。
 
-::: warning
+::: warning  
 所有涉及到自動戰鬥的功能都需要符合以下前提，這包括但不限於自動戰鬥和自動肉鴿。
 
 - 至少 60 FPS 的**穩定**遊戲偵數

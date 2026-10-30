@@ -29,8 +29,8 @@ MAA WPF GUI 當前可以透過 Wine 執行。MAA 已採用自包含部署方式�
    wine vc_redist.x64.exe
    ```
 
-   ::: tip
-   `DependencySetup_依赖库安装.bat` 基於 winget，通常無法在 Wine 中正常工作，因此需要手動安裝執行庫。
+   ::: tip  
+   `DependencySetup_依赖库安装.bat` 基於 winget，通常無法在 Wine 中正常工作，因此需要手動安裝執行庫。  
    :::
 
 2. 下載 MAA
@@ -39,10 +39,10 @@ MAA WPF GUI 當前可以透過 Wine 執行。MAA 已採用自包含部署方式�
 
 ::::
 
-::: info 注意
+::: info 注意  
 需要在連線設定中將 ADB 路徑設定為 [Windows 版 `adb.exe`](https://dl.google.com/android/repository/platform-tools-latest-windows.zip)。
 
-如果您需要透過 ADB 連線 USB 設備，請先在 Wine 外執行 `adb start-server`，即透過 Wine 連線原生 ADB server。
+如果您需要透過 ADB 連線 USB 設備，請先在 Wine 外執行 `adb start-server`，即透過 Wine 連線原生 ADB server。  
 :::
 
 #### 使用 Linux 原生 MaaCore（實驗性功能）
@@ -51,8 +51,8 @@ MAA WPF GUI 當前可以透過 Wine 執行。MAA 已採用自包含部署方式�
 
 此時透過 Wine 執行 `MAA.exe`，將會載入 Linux 原生動態函式庫。
 
-::: info 注意
-使用 Linux 原生 MaaCore 時，需要在連線設定中將 ADB 路徑設定為 Linux 原生 ADB。
+::: info 注意  
+使用 Linux 原生 MaaCore 時，需要在連線設定中將 ADB 路徑設定為 Linux 原生 ADB。  
 :::
 
 #### Linux 桌面整合（實驗性功能）
@@ -81,8 +81,8 @@ MAA WPF GUI 當前可以透過 Wine 執行。MAA 已採用自包含部署方式�
    - AUR：[maa-assistant-arknights](https://aur.archlinux.org/packages/maa-assistant-arknights)，按照安裝後 ｢Alternative usage｣ 的提示編輯檔案
    - Nixpkgs: [maa-assistant-arknights](https://github.com/NixOS/nixpkgs/blob/nixos-unstable/pkgs/by-name/ma/maa-assistant-arknights/package.nix)
 
-   ::: tip
-   預編譯動態函式庫基於 [MaaLinuxToolchain](https://github.com/MaaXYZ/MaaLinuxToolchain) 工具鏈交叉編譯，僅需依賴 glibc 2.31（Ubuntu 20.04）。如果您仍遇到 ABI 不相容的問題（例如非 glibc 發行版），可以使用容器執行，或參閱 [Linux 編譯教學](../../develop/linux-tutorial.md) 重新編譯。
+   ::: tip  
+   預編譯動態函式庫基於 [MaaLinuxToolchain](https://github.com/MaaXYZ/MaaLinuxToolchain) 工具鏈交叉編譯，僅需依賴 glibc 2.31（Ubuntu 20.04）。如果您仍遇到 ABI 不相容的問題（例如非 glibc 發行版），可以使用容器執行，或參閱 [Linux 編譯教學](../../develop/linux-tutorial.md) 重新編譯。  
    :::
 
 2. ADB 配置
@@ -139,8 +139,8 @@ MAA WPF GUI 當前可以透過 Wine 執行。MAA 已採用自包含部署方式�
 
 ## 容器化 Android 的支援
 
-::: tip
-以下方案通常對核心模組 (kernel module) 有一定要求，請根據具體方案和發行版本安裝合適的核心模組。
+::: tip  
+以下方案通常對核心模組 (kernel module) 有一定要求，請根據具體方案和發行版本安裝合適的核心模組。  
 :::
 
 ### ✅ [Waydroid](https://waydro.id/)

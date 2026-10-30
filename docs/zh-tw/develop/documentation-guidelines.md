@@ -5,8 +5,8 @@ icon: jam:write-f
 
 # 文件編寫指南
 
-::: tip
-本文件的目的在於指導文件編寫者更好地使用主題提供的功能，以此達到更易讀的效果。
+::: tip  
+本文件的目的在於指導文件編寫者更好地使用主題提供的功能，以此達到更易讀的效果。  
 :::
 
 我們的文件基於 [VuePress](https://github.com/vuejs/vuepress) 建置，使用了 [vuepress-theme-plume](https://github.com/pengzhanbo/vuepress-theme-plume) 主題。您也可以查看 [官方文件](https://theme-plume.vuejs.press/) 來獲取更詳細的說明。本文僅介紹部分常用功能，或經我們自訂後的特殊功能。
@@ -50,32 +50,32 @@ icon: jam:write-f
 
 ### 容器範例
 
-::: tip
-這是提示容器
+::: tip  
+這是提示容器  
 :::
 
-::: note
-這是註釋容器
+::: note  
+這是註釋容器  
 :::
 
-::: info
-這是資訊容器
+::: info  
+這是資訊容器  
 :::
 
-::: warning
-這是注意容器
+::: warning  
+這是注意容器  
 :::
 
-::: danger
-這是警告容器
+::: danger  
+這是警告容器  
 :::
 
-::: details
-這是詳情容器
+::: details  
+這是詳情容器  
 :::
 
-::: window
-這是一個很特殊的容器
+::: window  
+這是一個很特殊的容器  
 :::
 
 ## 麥克筆標記
@@ -115,7 +115,7 @@ MaaAssistantArknights 是由 ==很多豬== 開發的
 
 有以下配置可以使用：
 
-::: window
+::: window  
 輸入：
 
 ```markdown
@@ -178,8 +178,8 @@ MaaAssistantArknights 是由 ==很多豬== 開發的
 
 3. 步驟 3
 
-   ::: tip
-   提示容器
+   ::: tip  
+   提示容器  
    :::
 
 4. 結束
@@ -238,35 +238,35 @@ MaaAssistantArknights 是由 ==很多豬== 開發的
 
 效果展示如下：
 
-:::: field-group
-::: field theme
-@type ThemeConfig
-@default { base: '/' }
-@required
-主題配置
+:::: field-group  
+::: field theme  
+@type ThemeConfig  
+@default { base: '/' }  
+@required  
+主題配置  
 :::
 
-::: field enabled
-@type boolean
-@default true
-@optional
-是否啟用
+::: field enabled  
+@type boolean  
+@default true  
+@optional  
+是否啟用  
 :::
 
-::: field callback
-@type (...args: any[]) => void
-@default () => {}
-@optional
+::: field callback  
+@type (...args: any[]) => void  
+@default () => {}  
+@optional  
 <Badge type="tip" text="v1.0.0 新增"  />
-回呼函式
+回呼函式  
 :::
 
-::: field other
-@type string
-@deprecated
+::: field other  
+@type string  
+@deprecated  
 <Badge type="danger" text="v0.9.0 棄用"  />
-已棄用屬性
-:::
+已棄用屬性  
+:::  
 ::::
 
 ## 圖示

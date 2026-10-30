@@ -81,8 +81,8 @@ Please refer to the [User Manual](./manual/).
 Most features now support Global (EN), Japanese, Korean, and Traditional Chinese servers. However, due to the smaller number of overseas users and limited project personnel, many features haven't been thoroughly tested, so please try them yourself.  
 If you encounter bugs or have specific feature requests, please let us know in [Issues](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues) and [Discussions](https://github.com/MaaAssistantArknights/MaaAssistantArknights/discussions), or join us to help improve MAA! Please refer to the [Overseas Clients Adaptation](#overseas-clients-adaptation) section.
 
-::: tip
-For Global (EN) server, due to interface layout issues, the only supported resolution is `1920x1080`
+::: tip  
+For Global (EN) server, due to interface layout issues, the only supported resolution is `1920x1080`  
 :::
 
 ### CLI Support
