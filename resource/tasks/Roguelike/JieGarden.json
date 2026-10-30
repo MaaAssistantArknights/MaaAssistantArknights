@@ -37,8 +37,21 @@
         ]
     },
     "JieGarden@Roguelike@CoppersRecast-Resume": {
-        "Doc": "续玩守卫：右上角出现「放弃探索」的红叉说明这一局已经在进行中。红叉只用来判定，真正点的是右侧的大按钮（继续探索），点完直接进图接着打，不重开。",
-        "baseTask": "JieGarden@Roguelike@Abandon",
+        "Doc": "续玩守卫：右上角出现「放弃探索」的红叉说明这一局已经在进行中。红叉只用来判定，真正点的是右侧的大按钮（继续探索），点完直接进图接着打，不重开。判定参数与 JieGarden@Roguelike@Abandon 完全一致，但这里必须写成独立任务：派生任务会按自己的任务名去找模板图（JieGarden@Roguelike@CoppersRecast-Resume.png），该图不存在会让 TaskData 整体加载失败。",
+        "template": [
+            "JieGarden@Roguelike@Abandon.png",
+            "JieGarden@Roguelike@Abandon2.png"
+        ],
+        "roi": [1118, 306, 43, 43],
+        "maskRange": [1, 255],
+        "method": "HSVCount",
+        "pureColor": true,
+        "colorScales": [
+            [
+                [0, 200, 200],
+                [10, 235, 255]
+            ]
+        ],
         "action": "ClickRect",
         "specificRect": [1137, 638, 1, 1],
         "postDelay": 2000,
