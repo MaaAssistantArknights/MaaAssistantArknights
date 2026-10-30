@@ -14,7 +14,7 @@
 
 namespace asst
 {
-class MumuExtras : public LibraryHolder<MumuExtras>
+class MumuExtras : public LibraryHolder
 {
 public:
     MumuExtras() = default;
@@ -84,7 +84,7 @@ private:
     static constexpr int kInvalidDisplayId = -1;
     std::atomic<int> display_id_cache_ = kInvalidDisplayId;
 
-    // 本对象是否持有一份 LibraryHolder 引用，reload 时用来先还再取，避免引用计数泄漏
+    // 本对象是否持有一份 LibraryHolder 引用，reload 时用来先还再取
     bool library_loaded_ = false;
 
     bool inited_ = false;

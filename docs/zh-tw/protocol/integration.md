@@ -1807,7 +1807,7 @@ AsstBool ASSTAPI AsstSetInstanceOption(AsstHandle handle, AsstInstanceOptionKey 
 @type string
 @default minitouch
 @optional
-觸控模式設定。可選值：minitouch | maatouch | adb | MacPlayTools | MaaFwAdb | MumuExtras。預設為 minitouch。列舉值：2。  
+觸控模式設定。可選值：minitouch | maatouch | adb | MacPlayTools | MaaFwAdb | MumuExtras | MaaFw。選擇 MumuExtras 或 MaaFw 時，必須相應呼叫 `AsstSetConnectionExtras`。預設為 minitouch。列舉值：2。  
 :::  
 ::: field DeploymentWithPause  
 @type boolean
@@ -1830,3 +1830,145 @@ AsstBool ASSTAPI AsstSetInstanceOption(AsstHandle handle, AsstInstanceOptionKey 
 客戶端類型（遊戲渠道）。大多數連線設定不需要設定。僅當傳給 `AsstConnect` / `AsstAsyncConnect` 的 `config` 在連線階段命令中使用 `[PackageName]` 時，才需要在連線前呼叫 `AsstSetInstanceOption(..., ClientType, ...)`。目前內建設定中僅 `Androws` 與 `WSA` 的 `displayId` 查詢依賴該值。此選項不取代 StartUp / CloseDown 等任務參數中的 `client_type`。列舉值：6。  
 :::  
 ::::
+
+### `AsstSetConnectionExtras`
+
+#### 介面原型
+
+```cpp
+void ASSTAPI AsstSetConnectionExtras(const char* name, const char* extras);
+```
+
+#### 介面說明
+
+設定額外連線參數（行程級）
+
+#### 回傳值
+
+- `void`
+
+#### 參數說明
+
+:::: field-group
+::: field name
+@type const char*
+@required
+鍵
+:::
+::: field extras
+@type const char*
+@required
+JSON 值
+:::
+::::
+
+##### 鍵值一覽
+
+- `MuMuEmulator12`  
+  MuMu 模擬器截圖增強與觸控增強參數
+
+請參考 [MuMu12Extra.cs](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev-v2/src/MaaWpfGui/Models/EmulatorConnectionExtra/MuMu12Extra.cs)
+
+- `LDPlayer`  
+  雷電模擬器截圖增強參數
+
+請參考 [LDPlayerExtra.cs](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev-v2/src/MaaWpfGui/Models/EmulatorConnectionExtra/LDPlayerExtra.cs)
+
+- `MaaFw`  
+  MaaFw 觸控模式參數
+
+  :::: field-group
+  ::: field control_unit
+  @type string
+  @required
+  控制單元動態函式庫名稱。可選值：`MaaAdbControlUnit` | `MaaAndroidNativeControlUnit` | `MaaLinuxControlUnit`。
+  :::
+  ::: field target_is_pc
+  @type boolean
+  @default false
+  @optional
+  啟用 PC 端最佳化（截圖前先移動滑鼠到不影響辨識的位置）。
+  :::
+  ::::
+
+  - 僅在 `control_unit = MaaAdbControlUnit` 時生效：
+
+    :::: field-group
+    ::: field screencap_methods
+    @type number
+    @default 18446744073709551559 (All & ~RawByNetcat & ~MinicapDirect & ~MinicapStream)
+    @optional
+    所有可使用的截圖方式，參見 [控制方式說明](https://maafw.com/en/docs/2.4-ControlMethods#adb-screencap)
+    :::
+    ::: field input_methods
+    @type number
+    @default 1 (AdbShell)
+    @optional
+    所有可使用的輸入方式，參見 [控制方式說明](https://maafw.com/en/docs/2.4-ControlMethods#adb-input)
+    :::
+    ::: field config
+    @type object
+    @default {}
+    @optional
+    額外配置<br>
+    如果 `AsstConnect` 的 `config` 參數為 `AVD`，則預設值變為 `{"extras": {"avd": {"enable": true}}}`
+    :::
+    ::::
+
+  - 僅在 `control_unit = MaaAndroidNativeControlUnit` 時生效：
+
+    :::: field-group
+    ::: field ...
+    @type object
+    @required
+    Android Native 控制器配置 JSON，參見 [MaaAndroidNativeControllerCreate](https://maafw.com/en/docs/2.2-IntegratedInterfaceOverview#maaandroidnativecontrollercreate)
+    :::
+    ::::
+
+  - 僅在 `control_unit = MaaLinuxControlUnit` 時生效：
+
+    :::: field-group
+    ::: field ...
+    @type object
+    @required
+    Linux 控制器配置 JSON，參見 [MaaLinuxControllerCreate](https://maafw.com/en/docs/2.2-IntegratedInterfaceOverview#maalinuxcontrollercreate)
+    :::
+    ::::
+
+::: info MaaFw 觸控模式與 `AsstConnect`
+只有 `MaaAdbControlUnit` 使用 `AsstConnect` 的 `adb_path` 和 `address` 參數。其他控制單元無視傳遞給 `AsstConnect` 的參數。
+:::
+
+<details>
+<summary>Example</summary>
+
+- `MaaAdbControlUnit`
+
+```cpp
+AsstSetInstanceOption(handle, AsstInstanceOptionKey::TouchMode, "MaaFw");
+AsstSetConnectionExtras("MaaFw",
+    R"({
+        "control_unit": "MaaAdbControlUnit",
+        "screencap_methods": 71,
+        "input_methods": 1,
+        "config": {"extras": {"avd": {"enable": true}}}
+    })");
+AsstConnect(handle, "C:\\Users\\example\\Android\\Sdk\\platform-tools\\adb.exe", "emulator-5554", "General");
+```
+
+- `MaaLinuxControlUnit`
+
+```cpp
+AsstSetInstanceOption(handle, AsstInstanceOptionKey::TouchMode, "MaaFw");
+AsstSetConnectionExtras("MaaFw",
+    R"({
+        "control_unit": "MaaLinuxControlUnit",
+        "target_is_pc": true,
+        "screencap_method": 1,
+        "input_method": 1,
+        "wlr_socket_path": "/run/user/1000/wayland-1"
+    })");
+AsstConnect(handle, "N/A", "N/A", "N/A");
+```
+
+</details>

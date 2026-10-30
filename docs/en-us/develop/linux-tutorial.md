@@ -84,7 +84,7 @@ Mac can use the `tools/build_macos_universal.zsh` script for compilation. It's r
 
 4. Compile MaaFramework components
 
-   To debug MaaFwAdbController (MaaFwAdb touch mode) features, you need to [compile the Debug version of MaaFramework yourself](https://maafw.com/docs/4.1-BuildGuide) and place `libMaaAdbControlUnit.so` in the installation directory.
+   To debug MaaFwController (MaaFw touch mode) features, you need to [compile the Debug version of MaaFramework yourself](https://maafw.com/docs/4.1-BuildGuide) and put `libMaaAdbControlUnit.so` / `libMaaLinuxControlUnit.so` in the installation directory.
 
 5. Run
 

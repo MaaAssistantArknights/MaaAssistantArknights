@@ -1807,7 +1807,7 @@ Deprecated. Originally for enabling Minitouch; "1" - on, "0" - off. Note that th
 @type string
 @default minitouch
 @optional
-Touch mode setting. Options: minitouch | maatouch | adb | MacPlayTools | MaaFwAdb | MumuExtras. Default minitouch. Enum value: 2.  
+Touch mode setting. Options: minitouch | maatouch | adb | MacPlayTools | MaaFwAdb | MumuExtras | MaaFw. For MumuExtras and MaaFw, `AsstSetConnectionExtras` must be called accordingly. Default minitouch. Enum value: 2.  
 :::  
 ::: field DeploymentWithPause  
 @type boolean
@@ -1830,3 +1830,145 @@ Release Adb on exit. Options: "0" | "1". Enum value: 5.
 Client channel. Most connection configs do not need this option. Set it before `AsstConnect` / `AsstAsyncConnect` only when the selected `config` uses `[PackageName]` in commands executed during connect. In the built-in configs, only `Androws` and `WSA` currently require it for `displayId` lookup. This does not replace the `client_type` task parameter used by StartUp / CloseDown tasks. Enum value: 6.  
 :::  
 ::::
+
+### `AsstSetConnectionExtras`
+
+#### Prototype
+
+```cpp
+void ASSTAPI AsstSetConnectionExtras(const char* name, const char* extras);
+```
+
+#### Description
+
+Set additional connection parameters (process-level)
+
+#### Return Value
+
+- `void`
+
+#### Parameter Description
+
+:::: field-group
+::: field name
+@type const char*
+@required
+key
+:::
+::: field extras
+@type const char*
+@required
+JSON value
+:::
+::::
+
+##### List of Key and value
+
+- `MuMuEmulator12`  
+  MuMu screenshot and touch enhancement parameters
+
+Please refer to [MuMu12Extra.cs](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev-v2/src/MaaWpfGui/Models/EmulatorConnectionExtra/MuMu12Extra.cs)
+
+- `LDPlayer`  
+  LD screenshot enhancement parameters
+
+Please refer to [LDPlayerExtra.cs](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev-v2/src/MaaWpfGui/Models/EmulatorConnectionExtra/LDPlayerExtra.cs)
+
+- `MaaFw`  
+  MaaFw touch mode parameters
+
+  :::: field-group
+  ::: field control_unit
+  @type string
+  @required
+  Control unit dynamic library name. Options: `MaaAdbControlUnit` | `MaaAndroidNativeControlUnit` | `MaaLinuxControlUnit`.
+  :::
+  ::: field target_is_pc
+  @type boolean
+  @default false
+  @optional
+  Optimize for PC client (by moving mouse pointer to somewhere not interfering with recognition before taking a screenshot).
+  :::
+  ::::
+
+  - Effective only when `control_unit = MaaAdbControlUnit`:
+
+    :::: field-group
+    ::: field screencap_methods
+    @type number
+    @default 18446744073709551559 (All & ~RawByNetcat & ~MinicapDirect & ~MinicapStream)
+    @optional
+    All available screencap methods, see [Control Methods Specification](https://maafw.com/en/docs/2.4-ControlMethods#adb-screencap)
+    :::
+    ::: field input_methods
+    @type number
+    @default 1 (AdbShell)
+    @optional
+    All available input methods, see [Control Methods Specification](https://maafw.com/en/docs/2.4-ControlMethods#adb-input)
+    :::
+    ::: field config
+    @type object
+    @default {}
+    @optional
+    Extra configuration<br>
+    If the `config` parameter of `AsstConnect` is `AVD`, the default value becomes `{"extras": {"avd": {"enable": true}}}`
+    :::
+    ::::
+
+  - Effective only when `control_unit = MaaAndroidNativeControlUnit`:
+
+    :::: field-group
+    ::: field ...
+    @type object
+    @required
+    Android native controller config JSON, see [MaaAndroidNativeControllerCreate](https://maafw.com/en/docs/2.2-IntegratedInterfaceOverview#maaandroidnativecontrollercreate)
+    :::
+    ::::
+
+  - Effective only when `control_unit = MaaLinuxControlUnit`:
+
+    :::: field-group
+    ::: field ...
+    @type object
+    @required
+    Linux controller config JSON, see [MaaLinuxControllerCreate](https://maafw.com/en/docs/2.2-IntegratedInterfaceOverview#maalinuxcontrollercreate)
+    :::
+    ::::
+
+::: info MaaFw Touch Mode and `AsstConnect`
+Only `MaaAdbControlUnit` makes use of the `adb_path` and `address` parameters in `AsstConnect`. Other control units ignore parameters passed to `AsstConnect`.
+:::
+
+<details>
+<summary>Example</summary>
+
+- `MaaAdbControlUnit`
+
+```cpp
+AsstSetInstanceOption(handle, AsstInstanceOptionKey::TouchMode, "MaaFw");
+AsstSetConnectionExtras("MaaFw",
+    R"({
+        "control_unit": "MaaAdbControlUnit",
+        "screencap_methods": 71,
+        "input_methods": 1,
+        "config": {"extras": {"avd": {"enable": true}}}
+    })");
+AsstConnect(handle, "C:\\Users\\example\\Android\\Sdk\\platform-tools\\adb.exe", "emulator-5554", "General");
+```
+
+- `MaaLinuxControlUnit`
+
+```cpp
+AsstSetInstanceOption(handle, AsstInstanceOptionKey::TouchMode, "MaaFw");
+AsstSetConnectionExtras("MaaFw",
+    R"({
+        "control_unit": "MaaLinuxControlUnit",
+        "target_is_pc": true,
+        "screencap_method": 1,
+        "input_method": 1,
+        "wlr_socket_path": "/run/user/1000/wayland-1"
+    })");
+AsstConnect(handle, "N/A", "N/A", "N/A");
+```
+
+</details>

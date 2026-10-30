@@ -1808,7 +1808,7 @@ Value
 @type string
 @default minitouch
 @optional
-터치 모드 설정. 옵션: minitouch | maatouch | adb | MacPlayTools | MaaFwAdb | MumuExtras. 기본값 minitouch. 열거값: 2  
+터치 모드 설정. 옵션: minitouch | maatouch | adb | MacPlayTools | MaaFwAdb | MumuExtras | MaaFw. MumuExtras 또는 MaaFw를 선택할 경우 그에 맞게 `AsstSetConnectionExtras`를 호출해야 합니다. 기본값 minitouch. 열거값: 2  
 :::  
 ::: field DeploymentWithPause  
 @type boolean
@@ -1831,3 +1831,145 @@ AdbLite 사용 여부. 옵션: "0" 끄기, "1" 켜기. 열거값: 4
 클라이언트 종류(게임 채널). 대부분의 연결 설정에서는 필요하지 않습니다. `AsstConnect` / `AsstAsyncConnect` 에 전달하는 `config` 가 연결 단계에서 실행되는 명령에 `[PackageName]` 을 사용할 때만, 연결 전에 `AsstSetInstanceOption(..., ClientType, ...)` 를 호출해 설정해야 합니다. 현재 내장 설정 중에서는 `Androws` 와 `WSA` 의 `displayId` 조회만 이 값에 의존합니다. 이 옵션은 StartUp / CloseDown 등의 작업 파라미터 `client_type` 를 대체하지 않습니다. 열거값: 6  
 :::  
 ::::
+
+### `AsstSetConnectionExtras`
+
+#### 인터페이스 원형
+
+```cpp
+void ASSTAPI AsstSetConnectionExtras(const char* name, const char* extras);
+```
+
+#### 인터페이스 설명
+
+추가 연결 파라미터 설정 (프로세스 레벨)
+
+#### 반환 값
+
+- `void`
+
+#### 파라미터 설명
+
+:::: field-group
+::: field name
+@type const char*
+@required
+Key
+:::
+::: field extras
+@type const char*
+@required
+JSON 값
+:::
+::::
+
+##### 키-값 목록
+
+- `MuMuEmulator12`  
+  MuMu 스크린샷 향상 및 터치 향상 파라미터
+
+[MuMu12Extra.cs](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev-v2/src/MaaWpfGui/Models/EmulatorConnectionExtra/MuMu12Extra.cs) 참고
+
+- `LDPlayer`  
+  LD 스크린샷 향상 파라미터
+
+[LDPlayerExtra.cs](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev-v2/src/MaaWpfGui/Models/EmulatorConnectionExtra/LDPlayerExtra.cs) 참고
+
+- `MaaFw`  
+  MaaFw 터치 모드 파라미터
+
+  :::: field-group
+  ::: field control_unit
+  @type string
+  @required
+  제어 유닛 동적 라이브러리명. 옵션: `MaaAdbControlUnit` | `MaaAndroidNativeControlUnit` | `MaaLinuxControlUnit`
+  :::
+  ::: field target_is_pc
+  @type boolean
+  @default false
+  @optional
+  PC 최적화 활성화 (스크린샷 전 마우스를 인식에 영향이 없는 위치로 이동)
+  :::
+  ::::
+
+  - `control_unit = MaaAdbControlUnit`일 때만 유효:
+
+    :::: field-group
+    ::: field screencap_methods
+    @type number
+    @default 18446744073709551559 (All & ~RawByNetcat & ~MinicapDirect & ~MinicapStream)
+    @optional
+    사용 가능한 모든 스크린샷 방식, [제어 방식 설명](https://maafw.com/en/docs/2.4-ControlMethods#adb-screencap) 참고
+    :::
+    ::: field input_methods
+    @type number
+    @default 1 (AdbShell)
+    @optional
+    사용 가능한 모든 입력 방식, [제어 방식 설명](https://maafw.com/en/docs/2.4-ControlMethods#adb-input) 참고
+    :::
+    ::: field config
+    @type object
+    @default {}
+    @optional
+    추가 설정<br>
+    `AsstConnect`의 `config` 파라미터가 `AVD`인 경우 기본값이 `{"extras": {"avd": {"enable": true}}}`로 변경됨
+    :::
+    ::::
+
+  - `control_unit = MaaAndroidNativeControlUnit`일 때만 유효:
+
+    :::: field-group
+    ::: field ...
+    @type object
+    @required
+    Android Native 컨트롤러 설정 JSON, [MaaAndroidNativeControllerCreate](https://maafw.com/en/docs/2.2-IntegratedInterfaceOverview#maaandroidnativecontrollercreate) 참고
+    :::
+    ::::
+
+  - `control_unit = MaaLinuxControlUnit`일 때만 유효:
+
+    :::: field-group
+    ::: field ...
+    @type object
+    @required
+    Linux 컨트롤러 설정 JSON, [MaaLinuxControllerCreate](https://maafw.com/en/docs/2.2-IntegratedInterfaceOverview#maalinuxcontrollercreate) 참고
+    :::
+    ::::
+
+::: info MaaFw 터치 모드와 `AsstConnect`
+`MaaAdbControlUnit`만 `AsstConnect`의 `adb_path` 및 `address` 파라미터를 사용합니다. 다른 제어 유닛은 `AsstConnect`에 전달된 파라미터를 무시합니다.
+:::
+
+<details>
+<summary>Example</summary>
+
+- `MaaAdbControlUnit`
+
+```cpp
+AsstSetInstanceOption(handle, AsstInstanceOptionKey::TouchMode, "MaaFw");
+AsstSetConnectionExtras("MaaFw",
+    R"({
+        "control_unit": "MaaAdbControlUnit",
+        "screencap_methods": 71,
+        "input_methods": 1,
+        "config": {"extras": {"avd": {"enable": true}}}
+    })");
+AsstConnect(handle, "C:\\Users\\example\\Android\\Sdk\\platform-tools\\adb.exe", "emulator-5554", "General");
+```
+
+- `MaaLinuxControlUnit`
+
+```cpp
+AsstSetInstanceOption(handle, AsstInstanceOptionKey::TouchMode, "MaaFw");
+AsstSetConnectionExtras("MaaFw",
+    R"({
+        "control_unit": "MaaLinuxControlUnit",
+        "target_is_pc": true,
+        "screencap_method": 1,
+        "input_method": 1,
+        "wlr_socket_path": "/run/user/1000/wayland-1"
+    })");
+AsstConnect(handle, "N/A", "N/A", "N/A");
+```
+
+</details>

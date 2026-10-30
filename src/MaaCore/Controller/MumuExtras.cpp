@@ -52,8 +52,8 @@ bool MumuExtras::reload()
 {
     invalidate_display_id();
 
-    // LibraryHolder::load_library 对已加载的库只是 ++ref_count_，
-    // 不先释放的话每次 reload 都会多留一份引用，dll 永远不会被卸载
+    // LibraryHolder::load_library 不会重复加载已加载的库，
+    // 不先释放的话 load_library 只会立即返回
     if (library_loaded_) {
         disconnect_mumu();
         unload_library();
