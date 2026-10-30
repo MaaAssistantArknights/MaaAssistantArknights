@@ -374,11 +374,10 @@ Yituliu 전송 ID, 기본값 비어 있음. `report_to_yituliu`가 true일 때�
 :::  
 ::: field skip_robot  
 @type boolean
-@default true
+@default false
 @optional
-폐기 예정이며 구형 파라미터 호환용으로만 유지됩니다.  
-<br>
-`preserve_tags`가 없고 이 값이 `true`이면 `支援机械` 인식 시에만 건너뜁니다. `元素`는 더 이상 구형 1★ 태그로 취급하지 않습니다.  
+@deprecated
+폐기됨. 대신 `preserve_tags = ["支援机械"]`를 사용하세요.
 :::
 ::: field preserve_tags  
 @type array<string>
@@ -490,7 +489,7 @@ Yituliu 전송 ID, 기본값 비어 있음. `report_to_yituliu`가 true일 때�
 :::  
 ::: field drones  
 @type string
-@default \_NotUse
+@default _NotUse
 @optional
 드론 용도. `mode = 10000`일 때 이 필드는 무효
 <br>
@@ -760,7 +759,10 @@ OF-1 플레이 시 사용할 편성 슬롯 번호
 @optional
 5주년 등 이벤트 월정액 보상 수령  
 :::  
-::: field name="signinevent" type="boolean" optional default="false"  
+::: field signinevent
+@type boolean
+@optional
+@default false
 기간 한정 출석 이벤트 보상 수령 (가로형 레이아웃만 지원)  
 :::  
 ::::
@@ -1207,7 +1209,7 @@ Sarkaz 테마, Investment 모드, "연금술 분대" 또는 "지원 분대"일 �
 단일 작전 JSON 파일 경로, copilot_list와 택일(필수); 상대/절대 경로 모두 가능  
 :::  
 ::: field copilot_list  
-@type array`<object>`
+@type array<object>
 작전 목록, filename과 택일(필수); filename과 copilot_list 동시 존재 시 copilot_list 무시; 이 파라미터 유효 시 set_params는 1회만 실행 가능
 <br>
 각 객체 포함:
@@ -1246,7 +1248,7 @@ Sarkaz 테마, Investment 모드, "연금술 분대" 또는 "지원 분대"일 �
 0–4 정수, 0은 현재 편성 선택, 1-4는 제1, 2, 3, 4 편성  
 :::  
 ::: field user_additional  
-@type array`<object>`
+@type array<object>
 @default []
 @optional
 사용자 정의 추가 오퍼레이터 목록. `formation`이 true일 때 유효
@@ -1337,6 +1339,7 @@ Sarkaz 테마, Investment 모드, "연금술 분대" 또는 "지원 분대"일 �
 :::  
 ::: field loop_times  
 @type number
+@default 1
 @optional
 반복 실행 횟수  
 :::  
@@ -1372,7 +1375,7 @@ Sarkaz 테마, Investment 모드, "연금술 분대" 또는 "지원 분대"일 �
 단일 작전 JSON 파일 경로, 절대/상대 경로 모두 가능. 실행 중 설정 불가. 필수, list와 택일.  
 :::  
 ::: field list  
-@type array`<object>` | array`<string>`
+@type array<object> | array<string>
 @required
 작전 목록, 실행 중 설정 불가. 필수, filename과 택일.
 <br>
@@ -1548,7 +1551,7 @@ Sarkaz 테마, Investment 모드, "연금술 분대" 또는 "지원 분대"일 �
 @optional
 작업 추가 파라미터. 현재는 픽셀 아트 작업(`MiniGame@PixelPaint@Begin`), 잠재능력 자동 강화 작업(`MiniGame@AutoRaisePotential@Begin`), 이벤트 상점 교환 작업(`SS@Store@Begin`)에서 사용:
 
-- `params.pixel_paint.groups`: 색상별 칸 좌표 목록. `color`는 팔레트 슬롯 번호(0~~39, 게임 오른쪽 팔레트 순서와 동일), `points`는 `[x, y]` 칸 좌표 배열(0~~23, 왼쪽 위 원점).
+- `params.pixel_paint.groups`: 색상별 칸 좌표 목록. `color`는 팔레트 슬롯 번호(0–39, 게임 오른쪽 팔레트 순서와 동일), `points`는 `[x, y]` 칸 좌표 배열(0–23, 왼쪽 위 원점).
 - `params.pixel_paint.swipe`(bool, 선택, 기본 true): 같은 색 연속 칸을 한 번의 드래그로 그려 속도를 높임. 일부 터치 방식에서는 이상 동작이 있을 수 있음.
 - `params.pixel_paint.grid_delay`(int, 선택, 기본 0): 칸당 추가 대기 시간(ms). 클릭 후 대기와 드래그 시간에 모두 가산됩니다. 각 터치 방식에 기본 간격이 있어 보통 조정 불필요. 구 키 `grid_click_delay` 도 호환됩니다.
 - `params.auto_raise_potential.use_normal_token`(bool, 선택, 기본 false): 증표가 부족할 때 확인 팝업은 기본적으로 ×를 눌러 포기함. true로 설정하면 √를 눌러 일반 증표를 소비하여 계속 진행함.
@@ -1595,7 +1598,6 @@ Sarkaz 테마, Investment 모드, "연금술 분대" 또는 "지원 분대"일 �
 :::  
 ::: field type  
 @type string
-@default copilot
 @required
 현재 `"copilot"`만 지원  
 :::  
@@ -1693,7 +1695,7 @@ AsstBool ASSTAPI AsstSetTaskParams(AsstHandle handle, AsstTaskId id, const char*
 작업 ID, `AsstAppendTask` 인터페이스 반환 값  
 :::  
 ::: field params  
-@type const char\*
+@type const char*
 @required
 작업 파라미터, json string, `AsstAppendTask` 인터페이스와 동일  
 "실행 중 설정 불가"로 표시되지 않은 필드는 실시간 수정 가능; 표시된 경우 현재 작업이 실행 중이면 해당 필드 무시  
@@ -1726,7 +1728,7 @@ AsstBool ASSTAPI AsstSetStaticOption(AsstStaticOptionKey key, const char* value)
 Key  
 :::  
 ::: field value  
-@type const char\*
+@type const char*
 @required
 Value  
 :::  
@@ -1742,7 +1744,7 @@ Value
 무효 점유. 열거값: 0  
 :::  
 ::: field CpuOCR  
-@type boolean
+@type string
 @optional
 CPU로 OCR 수행. 값은 파싱에 사용되지 않음. 리소스 로드 후 전환 불가. 열거값: 1  
 :::  
@@ -1784,7 +1786,7 @@ AsstBool ASSTAPI AsstSetInstanceOption(AsstHandle handle, AsstInstanceOptionKey 
 Key  
 :::  
 ::: field value  
-@type const char\*
+@type const char*
 @required
 Value  
 :::  
@@ -1802,7 +1804,8 @@ Value
 ::: field MinitouchEnabled  
 @type boolean
 @optional
-폐기됨. 원 Minitouch 활성화 여부; "1" 켜기, "0" 끄기. 장치가 지원하지 않을 수 있음. 열거값: 1 (폐기됨)  
+@deprecated
+폐기됨. 대신 `TouchMode`를 사용하세요. 열거값: 1  
 :::  
 ::: field TouchMode  
 @type string

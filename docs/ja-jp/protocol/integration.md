@@ -371,11 +371,10 @@ v6.8.0 で非推奨になりました。代わりに `medicine_expire_days` を�
 :::  
 ::: field skip_robot  
 @type boolean
-@default true
+@default false
 @optional
-非推奨です。旧パラメータ互換のためにのみ残されています。  
-<br>
-`preserve_tags` が指定されておらず、この値が `true` の場合は `支援机械` を認識したときのみスキップします。`元素` は旧来の 1★ タグとしては扱われません。  
+@deprecated
+廃止済み。代わりに `preserve_tags = ["支援机械"]` を使用してください。
 :::
 ::: field preserve_tags  
 @type array<string>
@@ -487,7 +486,7 @@ v6.8.0 で非推奨になりました。代わりに `medicine_expire_days` を�
 :::  
 ::: field drones  
 @type string
-@default \_NotUse
+@default _NotUse
 @optional
 ドローン使用目的。`mode = 10000` の場合、このフィールドは無効です。
 <br>
@@ -757,7 +756,10 @@ OF-1 実行時に使用する編成スロットのインデックス。
 @optional
 5 周年から送信された月パス報酬を受け取るかどうか。  
 :::  
-::: field name="signinevent" type="boolean" optional default="false"  
+::: field signinevent
+@type boolean
+@optional
+@default false
 期間限定スタンプイベント報酬を受け取るかどうか（横型レイアウトのみ対応）。  
 :::  
 ::::
@@ -1204,7 +1206,7 @@ Sarkaz テーマ、Investment モード、 ｢破棘成金分隊｣ または �
 単一作業 JSON ファイルのパス。copilot_list と二択（必須）。相対/絶対パスの両方対応。  
 :::  
 ::: field copilot_list  
-@type array`<object>`
+@type array<object>
 作業リスト。filename と二択（必須）。filename と copilot_list が同時に存在する場合、copilot_list を無視。このパラメータが有効な場合、set_params は 1 回のみ実行可能。
 <br>
 各オブジェクトには以下を含みます：
@@ -1244,7 +1246,7 @@ Sarkaz テーマ、Investment モード、 ｢破棘成金分隊｣ または �
 0～4 の整数。0 は現在の編成を意味し、1～4 は第 1～第 4 編成を表します。  
 :::  
 ::: field user_additional  
-@type array`<object>`
+@type array<object>
 @default []
 @optional
 カスタム追加オペレーター リスト。formation が true の場合のみ有効。
@@ -1335,6 +1337,7 @@ Sarkaz テーマ、Investment モード、 ｢破棘成金分隊｣ または �
 :::  
 ::: field loop_times  
 @type number
+@default 1
 @optional
 ループ実行回数。  
 :::  
@@ -1370,7 +1373,7 @@ Sarkaz テーマ、Investment モード、 ｢破棘成金分隊｣ または �
 単一作業 JSON ファイルのパス。絶対/相対パスの両方対応。実行期設定非対応。必須。list と二択。  
 :::  
 ::: field list  
-@type array`<object>` | array`<string>`
+@type array<object> | array<string>
 @required
 作業リスト。実行期設定非対応。必須。filename と二択。
 <br>
@@ -1546,7 +1549,7 @@ Sarkaz テーマ、Investment モード、 ｢破棘成金分隊｣ または �
 @optional
 タスクの追加パラメータ。現在はピクセル画タスク（`MiniGame@PixelPaint@Begin`）、潜在能力自動強化タスク（`MiniGame@AutoRaisePotential@Begin`）、イベントショップ交換タスク（`SS@Store@Begin`）で使用：
 
-- `params.pixel_paint.groups`：色ごとのマス座標リスト。`color` はパレットのスロット番号（0~~39、ゲーム右側パレットの順序と一致）、`points` は `[x, y]` のマス座標配列（0~~23、左上原点）。
+- `params.pixel_paint.groups`：色ごとのマス座標リスト。`color` はパレットのスロット番号（0～39、ゲーム右側パレットの順序と一致）、`points` は `[x, y]` のマス座標配列（0～23、左上原点）。
 - `params.pixel_paint.swipe`（bool、任意、デフォルト true）：同じ色の連続マスを1回のドラッグで描画し高速化。一部のタッチ方式では正常に動作しない可能性があります。
 - `params.pixel_paint.grid_delay`（int、任意、デフォルト 0）：マスごとの追加待機時間（ms）。クリック後の待機とドラッグ時間の両方に加算されます。各タッチ方式に基礎間隔があるため、通常は調整不要。旧キー `grid_click_delay` も受け付けます。
 - `params.auto_raise_potential.use_normal_token`（bool、任意、デフォルト false）：トークンが不足している場合の確認ダイアログは、既定では × を押して中断する。true にすると √ を押して通常のトークンを消費して続行する。
@@ -1593,7 +1596,6 @@ Sarkaz テーマ、Investment モード、 ｢破棘成金分隊｣ または �
 :::  
 ::: field type  
 @type string
-@default copilot
 @required
 現在は `"copilot"` のみ対応。  
 :::  
@@ -1691,7 +1693,7 @@ AsstBool ASSTAPI AsstSetTaskParams(AsstHandle handle, AsstTaskId id, const char*
 タスク ID、`AsstAppendTask` インターフェイスの返回値  
 :::  
 ::: field params  
-@type const char\*
+@type const char*
 @required
 タスク パラメータ、JSON 文字列、`AsstAppendTask` インターフェイスと同じ。  
 ｢実行期設定非対応｣ と注記されていないフィールドはすべてリアルタイム修正に対応。そうでなければ、タスク実行中は対応するフィールドを無視します  
@@ -1724,7 +1726,7 @@ AsstBool ASSTAPI AsstSetStaticOption(AsstStaticOptionKey key, const char* value)
 キー  
 :::  
 ::: field value  
-@type const char\*
+@type const char*
 @required
 値  
 :::  
@@ -1740,7 +1742,7 @@ AsstBool ASSTAPI AsstSetStaticOption(AsstStaticOptionKey key, const char* value)
 無効なプレースホルダ。列挙値：0。  
 :::  
 ::: field CpuOCR  
-@type boolean
+@type string
 @optional
 CPU で OCR を行います。値はパースに参加しません。リソースロード後の切り替えは非対応。列挙値：1。  
 :::  
@@ -1782,7 +1784,7 @@ AsstBool ASSTAPI AsstSetInstanceOption(AsstHandle handle, AsstInstanceOptionKey 
 キー  
 :::  
 ::: field value  
-@type const char\*
+@type const char*
 @required
 値  
 :::  
@@ -1800,7 +1802,8 @@ AsstBool ASSTAPI AsstSetInstanceOption(AsstHandle handle, AsstInstanceOptionKey 
 ::: field MinitouchEnabled  
 @type boolean
 @optional
-廃止済み。元は Minitouch を有効にするかどうか。"1" オン、"0" オフ。デバイスがサポートされていない可能性がります。列挙値：1（廃止済み）。  
+@deprecated
+廃止済み。代わりに `TouchMode` を使用してください。列挙値：1。  
 :::  
 ::: field TouchMode  
 @type string

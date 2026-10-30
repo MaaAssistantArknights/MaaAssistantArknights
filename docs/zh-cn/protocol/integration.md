@@ -371,11 +371,10 @@ B服：`张三`，可输入 `张三`、`张`、`三`
 :::  
 ::: field skip_robot  
 @type boolean
-@default true
+@default false
 @optional
-已废弃，仅用于兼容旧参数。  
-<br>
-当未提供 `preserve_tags` 且该值为 `true` 时，会在识别到 `支援机械` 时跳过；`元素` 不再视为旧版 1 星词条。  
+@deprecated
+已弃用，请使用 `preserve_tags = ["支援机械"]` 代替。
 :::
 ::: field preserve_tags  
 @type array<string>
@@ -487,7 +486,7 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 :::  
 ::: field drones  
 @type string
-@default \_NotUse
+@default _NotUse
 @optional
 无人机用途。`mode = 10000` 时该字段无效。
 <br>
@@ -757,7 +756,10 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 @optional
 领取五周年赠送的月卡奖励。  
 :::  
-::: field name="signinevent" type="boolean" optional default="false"  
+::: field signinevent
+@type boolean
+@optional
+@default false
 领取限时签到活动奖励（仅支持常见横向版型）。  
 :::  
 ::::
@@ -1204,7 +1206,7 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 单一作业 JSON 文件的路径，与 copilot_list 二选一（必填）；相对路径与绝对路径均可。  
 :::  
 ::: field copilot_list  
-@type array`<object>`
+@type array<object>
 作业列表，与 filename 二选一（必填）；当 filename 与 copilot_list 同时存在时，忽视 copilot_list；此参数生效时仅可执行 set_params 一次。
 <br>
 每个对象包含：
@@ -1244,7 +1246,7 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 为 0–4 的整数，其中 0 表示选择当前编队，1-4 分别表示第一、二、三、四编队。  
 :::  
 ::: field user_additional  
-@type array`<object>`
+@type array<object>
 @default []
 @optional
 自定义追加干员列表。仅在 formation 为 true 时有效。
@@ -1335,6 +1337,7 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 :::  
 ::: field loop_times  
 @type number
+@default 1
 @optional
 循环执行次数。  
 :::  
@@ -1370,7 +1373,7 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 单个作业 JSON 的文件路径，绝对、相对路径均可。不支持运行期设置。必选，与 list 二选一。  
 :::  
 ::: field list  
-@type array`<object>` | array`<string>`
+@type array<object> | array<string>
 @required
 作业列表，不支持运行期设置。必选，与 filename 二选一。
 <br>
@@ -1546,7 +1549,7 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 @optional
 任务附加参数。目前像素画任务（`MiniGame@PixelPaint@Begin`）、自动提升潜能任务（`MiniGame@AutoRaisePotential@Begin`）与活动商店兑换任务（`SS@Store@Begin`）使用：
 
-- `params.pixel_paint.groups`：按色分组点列。`color` 为色板序号（0~~39，与游戏右侧色板顺序一致），`points` 为 `[x, y]` 格子坐标数组（0~~23，左上为原点）。
+- `params.pixel_paint.groups`：按色分组点列。`color` 为色板序号（0~39，与游戏右侧色板顺序一致），`points` 为 `[x, y]` 格子坐标数组（0~23，左上为原点）。
 - `params.pixel_paint.swipe`（bool，可选，默认 true）：同色同行连续格用拖动一次画完，更快但部分触控模式可能异常。
 - `params.pixel_paint.grid_delay`（int，可选，默认 0）：每格额外等待（ms）。点击后 sleep，拖动时长按格累加。各触控方式自带基础间隔，一般无需调整。兼容旧键 `grid_click_delay`。
 - `params.auto_raise_potential.use_normal_token`（bool，可选，默认 false）：中坚信物不足时确认弹窗默认点 × 放弃提升；设为 true 时改点 √，消耗普通信物继续提升。
@@ -1593,7 +1596,6 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 :::  
 ::: field type  
 @type string
-@default copilot
 @required
 目前仅支持 `"copilot"`。  
 :::  
@@ -1691,7 +1693,7 @@ AsstBool ASSTAPI AsstSetTaskParams(AsstHandle handle, AsstTaskId id, const char*
 任务 ID, `AsstAppendTask` 接口的返回值  
 :::  
 ::: field params  
-@type const char\*
+@type const char*
 @required
 任务参数，json string，与 `AsstAppendTask` 接口相同。  
 未标注“不支持运行中设置”的字段都支持实时修改；否则若当前任务正在运行，会忽略对应的字段  
@@ -1724,7 +1726,7 @@ AsstBool ASSTAPI AsstSetStaticOption(AsstStaticOptionKey key, const char* value)
 键  
 :::  
 ::: field value  
-@type const char\*
+@type const char*
 @required
 值  
 :::  
@@ -1740,7 +1742,7 @@ AsstBool ASSTAPI AsstSetStaticOption(AsstStaticOptionKey key, const char* value)
 无效占位。枚举值：0。  
 :::  
 ::: field CpuOCR  
-@type boolean
+@type string
 @optional
 使用 CPU 进行 OCR。值不参与解析。资源加载后不支持切换。枚举值：1。  
 :::  
@@ -1782,7 +1784,7 @@ AsstBool ASSTAPI AsstSetInstanceOption(AsstHandle handle, AsstInstanceOptionKey 
 键  
 :::  
 ::: field value  
-@type const char\*
+@type const char*
 @required
 值  
 :::  
@@ -1800,7 +1802,8 @@ AsstBool ASSTAPI AsstSetInstanceOption(AsstHandle handle, AsstInstanceOptionKey 
 ::: field MinitouchEnabled  
 @type boolean
 @optional
-已弃用。原为是否启用 Minitouch；"1" 开，"0" 关。注意设备可能不支持。枚举值：1（已弃用）。  
+@deprecated
+已弃用，请使用 `TouchMode` 代替。枚举值：1。  
 :::  
 ::: field TouchMode  
 @type string
