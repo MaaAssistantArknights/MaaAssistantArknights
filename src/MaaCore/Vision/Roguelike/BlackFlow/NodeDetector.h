@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Vision/Roguelike/BlackFlow/BlackFlowFloor.h"
 #include "Vision/Roguelike/BlackFlow/GridReconstructor.h"
 #include "Vision/Roguelike/BlackFlow/PerceptionNode.h"
 #include "Vision/Roguelike/BlackFlow/RecognitionBridge.h"
@@ -101,10 +102,12 @@ class NodeDetector
 {
 public:
     NodeDetector(const RecognitionBridge& bridge, NodeDetectorConfig config);
-    NodeDetectionResult detect(const cv::Mat& image, int rows, int columns) const;
+    NodeDetectionResult
+        detect(const cv::Mat& image, int rows, int columns, GridLayout layout = GridLayout::Standard) const;
     cv::Mat draw_overlay(const cv::Mat& image, const NodeDetectionResult& result) const;
 
-    static std::optional<GridGeometry> fixed_grid(int rows, int columns);
+    static std::optional<GridGeometry>
+        fixed_grid(int rows, int columns, GridLayout layout = GridLayout::Standard);
 
 private:
     struct CellEvaluation
