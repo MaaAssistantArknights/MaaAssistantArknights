@@ -28,8 +28,8 @@
         "roi": [400, 54, 480, 38]
     },
     "RelaunchAnchor@RA@RA1-DeployOperatorDirection": {
-        "text": ["Rosmontis"],
-        "roi": [50, 115, 90, 25]
+        "roi": [50, 115, 90, 25],
+        "text": ["Rosmontis"]
     },
     "RelaunchAnchor@RA@RA1-DeliverWood5": {
         "text": ["Deliver 5 Wood"]
@@ -37,7 +37,7 @@
     "RelaunchAnchor@RA@RA1-DeliverWood": {
         "text": ["Deliver Wood+"],
         "ocrReplace": [["(8|9|\\d{2,3}).*5", "Deliver Wood+"]],
-        "roi": [80,235,150,35]
+        "roi": [80, 235, 150, 35]
     },
     "RelaunchAnchor@RA@RA1-Infrastructure": {
         "text": ["Basic Facility"]
