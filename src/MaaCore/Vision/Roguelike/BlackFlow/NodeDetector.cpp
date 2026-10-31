@@ -159,7 +159,7 @@ double NodeDetector::brightness_delta(const cv::Mat& gray, cv::Point2f center, N
     return mean_annulus(gray, center, 6.0, 10.0) - mean_annulus(gray, center, 14.0, 21.0);
 }
 
-std::optional<GridGeometry> NodeDetector::fixed_grid(int rows, int columns)
+std::optional<GridGeometry> NodeDetector::fixed_grid(int rows, int columns, GridLayout layout)
 {
     if (rows == 3 && columns == 5) {
         return make_grid(rows, columns, 438.0, 242.0, 101.0, 101.0);
@@ -171,6 +171,9 @@ std::optional<GridGeometry> NodeDetector::fixed_grid(int rows, int columns)
         return make_grid(rows, columns, 337.5, 144.0, 100.75, 101.0);
     }
     if (rows == 5 && columns == 8) {
+        if (layout == GridLayout::Upper) {
+            return make_grid(rows, columns, 286.4, 108.0, 100.7, 101.0);
+        }
         return make_grid(rows, columns, 286.75, 145.0, 100.75, 99.5);
     }
     if (rows == 5 && columns == 9) {
@@ -326,7 +329,7 @@ NodeDetector::CellEvaluation NodeDetector::evaluate_cell(
     return result;
 }
 
-NodeDetectionResult NodeDetector::detect(const cv::Mat& image, int rows, int columns) const
+NodeDetectionResult NodeDetector::detect(const cv::Mat& image, int rows, int columns, GridLayout layout) const
 {
     NodeDetectionResult output;
     output.refinement_mode = GridRefinementMode::FixedGrid;
@@ -334,7 +337,7 @@ NodeDetectionResult NodeDetector::detect(const cv::Mat& image, int rows, int col
         throw std::invalid_argument("Node detection input is empty");
     }
 
-    const auto baseline = fixed_grid(rows, columns);
+    const auto baseline = fixed_grid(rows, columns, layout);
     if (!baseline) {
         throw std::invalid_argument("No fixed grid is defined for the requested floor dimensions");
     }

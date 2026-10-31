@@ -256,12 +256,20 @@ MapRecognitionResult BlackFlowMapAnalyzer::recognize(const cv::Mat& image, int f
         recognition_started = true;
         bool recognized = false;
         int matching_grids = 0;
-        for (const auto& grid : floor_profiles(floor)) {
+        const auto grids = floor_profiles(floor);
+        const bool multiple_grids = grids.size() > 1;
+        for (const auto& grid : grids) {
+            const bool fallback_layout = grid.layout != GridLayout::Standard;
+            // 偏上网格只在标准网格没有唯一匹配模板时尝试。
+            if (fallback_layout && matching_grids > 0) {
+                break;
+            }
             MapRecognitionResult candidate;
             candidate.floor = floor;
             candidate.rows = grid.rows;
             candidate.columns = grid.columns;
-            candidate.node_detection = m_node_detector->detect(result.normalized_bgr, grid.rows, grid.columns);
+            candidate.node_detection =
+                m_node_detector->detect(result.normalized_bgr, grid.rows, grid.columns, grid.layout);
             candidate.edge_detection = m_edge_detector.detect(
                 std::vector<cv::Mat> { result.normalized_bgr },
                 candidate.node_detection.nodes,
@@ -290,7 +298,14 @@ MapRecognitionResult BlackFlowMapAnalyzer::recognize(const cv::Mat& image, int f
                         << candidate.error;
                 continue;
             }
-            const auto* matched = floor == 5 ? match_recognized_map(candidate) : nullptr;
+            const auto* matched = multiple_grids ? match_recognized_map(candidate) : nullptr;
+            // 偏上网格在标准版型上也可能连通，只有唯一匹配模板时才采用。
+            if (fallback_layout && matched == nullptr) {
+                result.error = "map recognition with the upper grid did not match a unique template";
+                LogInfo << __FUNCTION__ << "Map grid" << grid.rows << grid.columns << "recognition failed"
+                        << result.error;
+                continue;
+            }
             if (matched != nullptr) {
                 ++matching_grids;
             }
@@ -303,7 +318,7 @@ MapRecognitionResult BlackFlowMapAnalyzer::recognize(const cv::Mat& image, int f
             }
         }
         // 无匹配或多份网格均匹配时保留识别地图，但不使用本次匹配补全终点。
-        result.allow_exit_supplement = floor != 5 || matching_grids == 1;
+        result.allow_exit_supplement = !multiple_grids || matching_grids == 1;
         if (recognized) {
             result.error.clear();
             result.ok = true;
