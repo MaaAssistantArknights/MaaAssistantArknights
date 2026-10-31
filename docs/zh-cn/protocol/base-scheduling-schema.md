@@ -7,8 +7,8 @@ icon: material-symbols:view-quilt-rounded
 
 `resource/custom_infrast/*.json` 的使用方法及各字段说明
 
-::: tip
-请注意 JSON 文件是不支持注释的，文本中的注释仅用于演示，请勿直接复制使用
+::: tip  
+请注意 JSON 文件是不支持注释的，文本中的注释仅用于演示，请勿直接复制使用  
 :::
 
 [可视化排班表生成工具](https://ark.yituliu.cn/tools/scheduleV2)

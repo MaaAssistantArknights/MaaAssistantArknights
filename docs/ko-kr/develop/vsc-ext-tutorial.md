@@ -16,9 +16,9 @@ icon: iconoir:code-brackets
 
 VS Code 확장 프로그램 목록에서 `Maa`를 검색하여 직접 설치하는 것을 권장합니다.
 
-::: tip
-처음 사용할 때 확장 프로그램은 사전 설정된 버전의 리소스를 자동으로 다운로드합니다.
-명령 팔레트에서 `Maa: 선택된 다운로드 소스(Maa: select fetch registry)`를 검색하여 다운로드 소스(npm / cnpm)를 전환할 수 있습니다.
+::: tip  
+처음 사용할 때 확장 프로그램은 사전 설정된 버전의 리소스를 자동으로 다운로드합니다.  
+명령 팔레트에서 `Maa: 선택된 다운로드 소스(Maa: select fetch registry)`를 검색하여 다운로드 소스(npm / cnpm)를 전환할 수 있습니다.  
 :::
 
 ## 기능

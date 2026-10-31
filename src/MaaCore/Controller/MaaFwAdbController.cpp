@@ -321,6 +321,7 @@ bool MaaFwAdbController::press_esc()
 
 ControlFeat::Feat MaaFwAdbController::support_features() const noexcept
 {
+    // swipe 只把起止点与时长交给 MaaAdbControlUnit，extra_swipe、slope、with_pause 不会生效
     return ControlFeat::PRECISE_SWIPE;
 }
 

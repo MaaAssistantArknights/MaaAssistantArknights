@@ -5,12 +5,12 @@ icon: iconoir:developer
 
 # 개발 가이드
 
-::: tip
-본 페이지는 주로 PR 과정 및 MAA의 파일 포맷 요구사항을 설명합니다. MAA의 실행 로직 변경에 대한 구체적인 내용은 [프로토콜 문서](../protocol/)를 참고하세요.
+::: tip  
+본 페이지는 주로 PR 과정 및 MAA의 파일 포맷 요구사항을 설명합니다. MAA의 실행 로직 변경에 대한 구체적인 내용은 [프로토콜 문서](../protocol/)를 참고하세요.  
 :::
 
-::: tip
-[DeepWiki에 문의하여](https://deepwiki.com/MaaAssistantArknights/MaaAssistantArknights) MAA 프로젝트의 전체적인 아키텍처를 개략적으로 이해할 수 있습니다.
+::: tip  
+[DeepWiki에 문의하여](https://deepwiki.com/MaaAssistantArknights/MaaAssistantArknights) MAA 프로젝트의 전체적인 아키텍처를 개략적으로 이해할 수 있습니다.  
 :::
 
 ## 프로그래밍을 잘 모르지만, json 파일과 docs 문서를 수정하고싶어요. 어떻게 해야하나요?
@@ -45,11 +45,11 @@ icon: iconoir:developer
    git clone --recurse-submodules <저장소 git 링크> -b dev-v2 --single-branch
    ```
 
-   ::: tip
-   `--single-branch`는 `dev-v2` 브랜치 기록만 가져옵니다. 나중에 다른 브랜치로 전환하려면 먼저 `git remote set-branches origin '*'`를 실행한 뒤 다시 fetch해서 다른 브랜치 정보를 받아오거나, `--single-branch` 없이 저장소를 다시 클론해야 합니다.
+   ::: tip  
+   `--single-branch`는 `dev-v2` 브랜치 기록만 가져옵니다. 나중에 다른 브랜치로 전환하려면 먼저 `git remote set-branches origin '*'`를 실행한 뒤 다시 fetch해서 다른 브랜치 정보를 받아오거나, `--single-branch` 없이 저장소를 다시 클론해야 합니다.  
    :::
 
-   ::: warning
+   ::: warning  
    Visual Studio 등 --recurse-submodules 미지원 Git GUI 사용 시, 클론 후 다음 실행:
 
    ```bash
@@ -82,10 +82,10 @@ icon: iconoir:developer
    - `MaaWpfGui` 우클릭 → 시작 프로젝트로 설정
    - F5 키를 눌러 실행
 
-   ::: tip
+   ::: tip  
    Win32Controller(Windows 창 제어) / MaaFwAdbController(MaaFramework 터치 수행 방식) 관련 기능을 실행하려면 `python tools/maafw-control-unit-download.py`를 실행하면 해당 플랫폼의 `MaaWin32ControlUnit.dll` / `MaaAdbControlUnit.dll`을 빌드 출력 디렉터리(기본값: `build/bin` 아래 최신 디렉터리, `--output-dir`로 지정 가능)에 자동으로 배치합니다.
 
-   관련 기능을 디버깅하려면 [MaaFramework의 Debug 버전을 직접 컴파일](https://maafw.com/docs/4.1-BuildGuide)하여 해당 DLL 파일을 사용해야 합니다. 그렇지 않으면 중단점 디버깅 시 원인을 알 수 없는 크래시가 발생합니다.
+   관련 기능을 디버깅하려면 [MaaFramework의 Debug 버전을 직접 컴파일](https://maafw.com/docs/4.1-BuildGuide)하여 해당 DLL 파일을 사용해야 합니다. 그렇지 않으면 중단점 디버깅 시 원인을 알 수 없는 크래시가 발생합니다.  
    :::
 
 9. 이제 자유롭게 ~~개조~~ 개발 시작!
@@ -133,14 +133,14 @@ icon: iconoir:developer
 
     4. 단계 8, 9, 10, 11 반복 수행
 
-::: tip
-Visual Studio 실행 시 Git 작업은 "Git 변경" 탭에서 명령어 없이 처리 가능
+::: tip  
+Visual Studio 실행 시 Git 작업은 "Git 변경" 탭에서 명령어 없이 처리 가능  
 :::
 
 ## VSCode로 개발하기 (선택 사항)
 
-::: warning
-**Visual Studio를 사용한 개발을 권장합니다.** MAA 프로젝트는 주로 Visual Studio를 기반으로 구축되며, 위의 완전한 환경 설정 과정이 모든 개발 요구를 충족하여 최상의 즉시 사용 가능한 경험을 제공합니다. VS Code 워크플로는 VS Code + CMake + clangd에 이미 익숙한 개발자를 위한 대안으로만 제공되며, 설정 난이도가 상대적으로 높습니다.
+::: warning  
+**Visual Studio를 사용한 개발을 권장합니다.** MAA 프로젝트는 주로 Visual Studio를 기반으로 구축되며, 위의 완전한 환경 설정 과정이 모든 개발 요구를 충족하여 최상의 즉시 사용 가능한 경험을 제공합니다. VS Code 워크플로는 VS Code + CMake + clangd에 이미 익숙한 개발자를 위한 대안으로만 제공되며, 설정 난이도가 상대적으로 높습니다.  
 :::
 
 VSCode를 선호한다면 CMake, clangd 등의 확장을 사용해 코드 완성, 탐색, 디버깅을 할 수 있습니다. 위 1–6단계(클론, 의존성, CMake 설정)를 완료한 후 다음 단계로 설정하세요.
@@ -155,8 +155,8 @@ VS Code Marketplace에서 설치:
 | [clangd](https://marketplace.visualstudio.com/items?itemName=llvm-vs-code-extensions.vscode-clangd) | C++ IntelliSense, 코드 탐색, 진단 (LSP 기반)              |
 | [C/C++](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools)                     | C++ 프로그램 디버깅 (CMake Tools 또는 launch.json과 연동) |
 
-::: tip
-clangd 사용 시 C/C++ 확장의 IntelliSense를 비활성화(`C_Cpp.intelliSenseEngine`을 `disabled`로 설정)하는 것을 권장합니다. 충돌을 피하기 위함입니다.
+::: tip  
+clangd 사용 시 C/C++ 확장의 IntelliSense를 비활성화(`C_Cpp.intelliSenseEngine`을 `disabled`로 설정)하는 것을 권장합니다. 충돌을 피하기 위함입니다.  
 :::
 
 ### 설정 단계

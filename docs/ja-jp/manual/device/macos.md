@@ -5,8 +5,8 @@ icon: basil:apple-solid
 
 # Mac でのエミューレータ
 
-::: tip
-問題が発生した場合は、まず [よくある質問](../faq.md) を参照してください
+::: tip  
+問題が発生した場合は、まず [よくある質問](../faq.md) を参照してください  
 :::
 
 ## Apple Silicon チップ
@@ -55,8 +55,8 @@ Android 10 以降、SELinux が `Enforcing` モードの場合、Minitouch は�
 
 ## Intel チップ
 
-::: tip
-Mac 版の開発は人手不足のため、更新速度が比較的遅いです。Mac に搭載されているマルチシステム機能を使って Windows をインストールし、Windows 版の MAA を使用することをお勧めします。
+::: tip  
+Mac 版の開発は人手不足のため、更新速度が比較的遅いです。Mac に搭載されているマルチシステム機能を使って Windows をインストールし、Windows 版の MAA を使用することをお勧めします。  
 :::
 
 ### ✅ [Bluestacks-CN](https://www.bluestacks.cn/)

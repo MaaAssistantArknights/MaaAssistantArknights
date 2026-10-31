@@ -87,8 +87,8 @@ MAA 啟動時彈出悲報，或出現閃退、介面算繪異常，通常是 Nah
 1. 在彈窗給出的路徑下找到對應的 DLL 檔案（若看不到副檔名或該檔案，需先在檔案總管頂端 **檢視 → 顯示** 中勾選 **｢副檔名｣** 和 **｢隱藏的項目｣**）
 2. 右鍵該檔案 → **重新命名**，將副檔名 `.dll` 改為 `.dll1` 等無效副檔名
 
-::: warning
-該方法可能導致相關程式出錯，請謹慎使用。想了解問題原因可查看[相關動態](https://t.bilibili.com/1133690423484612615)和 [blog](https://blog.walterlv.com/post/wpf-renders-wrong-because-of-nahimicosd.html)。
+::: warning  
+該方法可能導致相關程式出錯，請謹慎使用。想了解問題原因可查看[相關動態](https://t.bilibili.com/1133690423484612615)和 [blog](https://blog.walterlv.com/post/wpf-renders-wrong-because-of-nahimicosd.html)。  
 :::
 
 **方法三：處理相關軟體**

@@ -7,9 +7,9 @@ icon: mingcute:git-pull-request-fill
 
 소소한 GitHub Pull Request 사용 가이드 (\*´▽｀)ノノ
 
-::: warning
-이 가이드는 많은 개념을 단순화하여 더 많은 사람들이 실제로 사용할 수 있도록 설계되었습니다. 때로는 꽤 불안불안한 ~~하지만 간단한~~ 조치들과 약간 부정확한 설명이 있을 수 있으므로 전문가 분들의 이해를 부탁드립니다.
-만약 Git 사용 경험이 있고 프로그래밍 기초 지식을 가지고 계시다면 ~~그럼 당신은 왜 보고 있나요🔨~~, 약간 더 발전된 가이드인 [GitHub Pull Request 진행과정](./development.md)을 확인해주세요.
+::: warning  
+이 가이드는 많은 개념을 단순화하여 더 많은 사람들이 실제로 사용할 수 있도록 설계되었습니다. 때로는 꽤 불안불안한 ~~하지만 간단한~~ 조치들과 약간 부정확한 설명이 있을 수 있으므로 전문가 분들의 이해를 부탁드립니다.  
+만약 Git 사용 경험이 있고 프로그래밍 기초 지식을 가지고 계시다면 ~~그럼 당신은 왜 보고 있나요🔨~~, 약간 더 발전된 가이드인 [GitHub Pull Request 진행과정](./development.md)을 확인해주세요.  
 :::
 
 ## 기본 개념 및 용어 설명
@@ -208,8 +208,8 @@ PR로도 알려져 있으며, "풀 리퀘스트"라는 용어는 너무 길고 �
 **신규 버전이 출시**되면 당신의 GitHub 프로필 사진이 자동으로 기여자 목록에 추가됩니다. 모든 분들의 자비로운 공헌에 감사드립니다!  
 ~~왜 다들 오타쿠야, 아 나도 그렇지, 그럼 괜찮아~~
 
-::: tip 기여자
+::: tip 기여자  
 개발/테스트에 참여한 모든 분들에게 감사드립니다. 여러분의 도움으로 MAA가 점점 더 좋아지고 있습니다! (\*´▽ ｀)ノノ
 
-[![Contributors](https://contributors-img.web.app/image?repo=MaaAssistantArknights/MaaAssistantArknights&max=105&columns=15)](https://github.com/MaaAssistantArknights/MaaAssistantArknights/graphs/contributors)
+[![Contributors](https://contributors-img.web.app/image?repo=MaaAssistantArknights/MaaAssistantArknights&max=105&columns=15)](https://github.com/MaaAssistantArknights/MaaAssistantArknights/graphs/contributors)  
 :::

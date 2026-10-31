@@ -86,8 +86,8 @@ MAA 启动时弹出悲报，或出现闪退、界面渲染异常，通常是 Nah
 1. 在弹窗给出的路径下找到对应的 DLL 文件（若看不到文件扩展名或该文件，需先在资源管理器顶部 **查看 → 显示** 中勾选 **｢文件扩展名｣** 和 **｢隐藏的项目｣**）
 2. 右键该文件 → **重命名**，将扩展名 `.dll` 改为 `.dll1` 等无效扩展名
 
-::: warning
-该方法可能导致相关程序出错，请谨慎使用。想了解问题原因可查看[相关动态](https://t.bilibili.com/1133690423484612615)和 [blog](https://blog.walterlv.com/post/wpf-renders-wrong-because-of-nahimicosd.html)。
+::: warning  
+该方法可能导致相关程序出错，请谨慎使用。想了解问题原因可查看[相关动态](https://t.bilibili.com/1133690423484612615)和 [blog](https://blog.walterlv.com/post/wpf-renders-wrong-because-of-nahimicosd.html)。  
 :::
 
 **方法三：处理相关软件**

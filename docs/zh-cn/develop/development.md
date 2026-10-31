@@ -5,12 +5,12 @@ icon: iconoir:developer
 
 # 开发指南
 
-::: tip
-本页面主要描述了 PR 流程以及 MAA 的文件格式化要求，如果你想要具体了解如何对 MAA 的运行逻辑做出更改，请参看 [协议文档](../protocol/)
+::: tip  
+本页面主要描述了 PR 流程以及 MAA 的文件格式化要求，如果你想要具体了解如何对 MAA 的运行逻辑做出更改，请参看 [协议文档](../protocol/)  
 :::
 
-::: tip
-你可以 [向 DeepWiki 询问](https://deepwiki.com/MaaAssistantArknights/MaaAssistantArknights)，以初步了解 MAA 项目的总体架构。
+::: tip  
+你可以 [向 DeepWiki 询问](https://deepwiki.com/MaaAssistantArknights/MaaAssistantArknights)，以初步了解 MAA 项目的总体架构。  
 :::
 
 ## 我不懂编程，只是想改一点点 JSON 文件/文档等，要怎么操作？
@@ -45,12 +45,12 @@ icon: iconoir:developer
    git clone --recurse-submodules <你的仓库的 git 链接> -b dev-v2 --single-branch
    ```
 
-   ::: tip
-   `--single-branch` 只会拉取 `dev-v2` 的提交记录。如果之后想切换到其他分支，需要先执行 `git remote set-branches origin '*'` 并重新拉取，来补齐其他分支的信息；或者重新克隆一个不带 `--single-branch` 的仓库。
+   ::: tip  
+   `--single-branch` 只会拉取 `dev-v2` 的提交记录。如果之后想切换到其他分支，需要先执行 `git remote set-branches origin '*'` 并重新拉取，来补齐其他分支的信息；或者重新克隆一个不带 `--single-branch` 的仓库。  
    :::
 
-   ::: warning
-   如果正在使用 Visual Studio 等不附带 `--recurse-submodules` 参数的 Git GUI，则需在克隆后再执行 `git submodule update --init` 以拉取子模块。
+   ::: warning  
+   如果正在使用 Visual Studio 等不附带 `--recurse-submodules` 参数的 Git GUI，则需在克隆后再执行 `git submodule update --init` 以拉取子模块。  
    :::
 
 4. 下载预构建的第三方库
@@ -77,10 +77,10 @@ icon: iconoir:developer
    - 右键 `MaaWpfGui` - 设为启动项目
    - 按 F5 运行
 
-   ::: tip
+   ::: tip  
    若需运行 Win32Controller（Windows 窗口控制）/ MaaFwAdbController（MaaFramework 触控模式）相关功能，运行 `python tools/maafw-control-unit-download.py` 即可自动下载对应平台的 `MaaWin32ControlUnit.dll` / `MaaAdbControlUnit.dll` 到构建输出目录（默认取 `build/bin` 下最新生成的目录，也可用 `--output-dir` 指定）。
 
-   若需调试相关功能，则需要[自行编译 MaaFramework](https://maafw.com/docs/4.1-BuildGuide) 的 Debug 版本，使用对应的 DLL 文件，否则在断点调试时会神秘闪退。
+   若需调试相关功能，则需要[自行编译 MaaFramework](https://maafw.com/docs/4.1-BuildGuide) 的 Debug 版本，使用对应的 DLL 文件，否则在断点调试时会神秘闪退。  
    :::
 
 9. 到这里，你就可以愉快地 ~~瞎 JB 改~~ 发电了
@@ -128,14 +128,14 @@ icon: iconoir:developer
 
     4. 重复上述 8, 9, 10, 11 中的操作
 
-::: tip
-在打开 VS 之后，和 Git 有关的操作可以不用命令行工具，直接使用 VS 自带的“Git 更改”即可
+::: tip  
+在打开 VS 之后，和 Git 有关的操作可以不用命令行工具，直接使用 VS 自带的“Git 更改”即可  
 :::
 
 ## 使用 VS Code 进行开发（可选）
 
-::: warning
-**推荐优先使用 Visual Studio 进行开发。** MAA 项目主要基于 Visual Studio 构建，上述完整环境配置流程已涵盖所有开发需求，开箱即用体验最佳。VSCode 方案仅作为备选，适合已经熟悉 VS Code + CMake + clangd 工作流的开发者，配置门槛相对较高。
+::: warning  
+**推荐优先使用 Visual Studio 进行开发。** MAA 项目主要基于 Visual Studio 构建，上述完整环境配置流程已涵盖所有开发需求，开箱即用体验最佳。VSCode 方案仅作为备选，适合已经熟悉 VS Code + CMake + clangd 工作流的开发者，配置门槛相对较高。  
 :::
 
 如果你偏好使用 VSCode，可以配合 CMake、clangd 等扩展获得代码补全、跳转和调试能力。在完成前述 1–6 步（克隆、依赖、CMake 配置）后，可按以下步骤配置：
@@ -150,8 +150,8 @@ icon: iconoir:developer
 | [clangd](https://marketplace.visualstudio.com/items?itemName=llvm-vs-code-extensions.vscode-clangd) | C++ 智能提示、代码跳转、诊断（基于 LSP）            |
 | [C/C++](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools)                     | 调试 C++ 程序（与 CMake Tools 或 launch.json 配合） |
 
-::: tip
-使用 clangd 时，建议禁用 C/C++ 扩展的 IntelliSense（`C_Cpp.intelliSenseEngine` 设为 `disabled`），避免与 clangd 冲突。
+::: tip  
+使用 clangd 时，建议禁用 C/C++ 扩展的 IntelliSense（`C_Cpp.intelliSenseEngine` 设为 `disabled`），避免与 clangd 冲突。  
 :::
 
 ### 配置步骤

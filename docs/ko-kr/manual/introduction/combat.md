@@ -5,8 +5,8 @@ icon: hugeicons:brain-02
 
 # 이성 사용
 
-::: info UI 전용 기능
-이 페이지의 일부 기능은 UI 계층에서 구현됩니다(목표 재고, 주간 일정, 다중 작업 정렬 등). 자세한 내용은 [초보자 가이드](../newbie.md)를 참고하세요.
+::: info UI 전용 기능  
+이 페이지의 일부 기능은 UI 계층에서 구현됩니다(목표 재고, 주간 일정, 다중 작업 정렬 등). 자세한 내용은 [초보자 가이드](../newbie.md)를 참고하세요.  
 :::
 
 ## 일반 설정
@@ -62,8 +62,8 @@ icon: hugeicons:brain-02
   - 현재 개방된 사이드 스토리 이벤트의 세 개의 스테이지입니다. [API](https://api.maa.plus/MaaAssistantArknights/api/gui/StageActivityV2.json)에서 업데이트를 자동으로 다운로드 한 후 화면 하단에 표시됩니다.
   - 재개방된 사이드 스토리 이벤트. `SSReopen-<스테이지 접두사>`를 입력하면 XX-1~XX-9 스테이지를 한 번에 완료할 수 있습니다. 예: `SSReopen-IC`.
 
-::: details 예시 화면
-![Image](/images/ko-kr/combat-start-interface-example.png)
+::: details 예시 화면  
+![Image](/images/ko-kr/combat-start-interface-example.png)  
 :::
 
 ### 섬멸 모드

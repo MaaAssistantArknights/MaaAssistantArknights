@@ -5,8 +5,8 @@ icon: jam:write-f
 
 # 문서 작성 가이드
 
-::: tip
-이 문서의 목적은 문서 작성자가 테마가 제공하는 기능을 더 잘 활용하여 더 읽기 쉬운 효과를 얻는 데 도움을 주는 것입니다.
+::: tip  
+이 문서의 목적은 문서 작성자가 테마가 제공하는 기능을 더 잘 활용하여 더 읽기 쉬운 효과를 얻는 데 도움을 주는 것입니다.  
 :::
 
 우리의 문서는 [vuepress](https://github.com/vuejs/vuepress)로 구축되었으며, [vuepress-theme-plume](https://github.com/pengzhanbo/vuepress-theme-plume) 테마를 사용하고 있습니다. 더 자세한 설명은 [공식 문서](https://theme-plume.vuejs.press/)를 참조할 수 있으며, 여기서는 일부 일반적인 기능이나 커스텀된 기능에 대해서만 소개하겠습니다.
@@ -50,32 +50,32 @@ icon: jam:write-f
 
 ### 컨테이너 예시
 
-::: tip
-이것은 팁 컨테이너입니다
+::: tip  
+이것은 팁 컨테이너입니다  
 :::
 
-::: note
-이것은 주석 컨테이너입니다
+::: note  
+이것은 주석 컨테이너입니다  
 :::
 
-::: info
-이것은 정보 컨테이너입니다
+::: info  
+이것은 정보 컨테이너입니다  
 :::
 
-::: warning
-이것은 주의 컨테이너입니다
+::: warning  
+이것은 주의 컨테이너입니다  
 :::
 
-::: danger
-이것은 위험 컨테이너입니다
+::: danger  
+이것은 위험 컨테이너입니다  
 :::
 
-::: details
-이것은 세부 사항 컨테이너입니다
+::: details  
+이것은 세부 사항 컨테이너입니다  
 :::
 
-::: window
-이것은 매우 특별한 컨테이너입니다
+::: window  
+이것은 매우 특별한 컨테이너입니다  
 :::
 
 ## 형광펜 표시
@@ -115,7 +115,7 @@ MaaAssistantArknights는 ==많은 돼지들== 에 의해 개발되었습니다
 
 다음과 같은 설정을 사용할 수 있습니다:
 
-::: window
+::: window  
 입력:
 
 ```markdown
@@ -178,8 +178,8 @@ MaaAssistantArknights는 ==많은 돼지들== 에 의해 개발되었습니다
 
 3. 단계 3
 
-   ::: tip
-   팁 컨테이너
+   ::: tip  
+   팁 컨테이너  
    :::
 
 4. 종료
@@ -238,35 +238,35 @@ MaaAssistantArknights는 ==많은 돼지들== 에 의해 개발되었습니다
 
 효과는 다음과 같습니다.
 
-:::: field-group
-::: field theme
-@type ThemeConfig
-@default { base: '/' }
-@required
-테마 설정
+:::: field-group  
+::: field theme  
+@type ThemeConfig  
+@default { base: '/' }  
+@required  
+테마 설정  
 :::
 
-::: field enabled
-@type boolean
-@default true
-@optional
-활성화 여부
+::: field enabled  
+@type boolean  
+@default true  
+@optional  
+활성화 여부  
 :::
 
-::: field callback
-@type (...args: any[]) => void
-@default () => {}
-@optional
+::: field callback  
+@type (...args: any[]) => void  
+@default () => {}  
+@optional  
 <Badge type="tip" text="v1.0.0 추가"  />
-콜백 함수
+콜백 함수  
 :::
 
-::: field other
-@type string
-@deprecated
+::: field other  
+@type string  
+@deprecated  
 <Badge type="danger" text="v0.9.0 폐기"  />
-폐기된 속성
-:::
+폐기된 속성  
+:::  
 ::::
 
 ## 아이콘

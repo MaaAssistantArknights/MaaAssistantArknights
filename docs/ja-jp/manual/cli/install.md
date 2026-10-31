@@ -131,8 +131,8 @@ cargo install --git https://github.com/MaaAssistantArknights/maa-cli.git --bin m
 
 :::
 
-::: warning
-maa-cli の現在の最小サポート Rust バージョン（MSRV）は 1.88 です。MSRVは予告なく変更される可能性があるため、最適な体験を得るには常に最新のRustツールチェーンを使用することをお勧めします。
+::: warning  
+maa-cli の現在の最小サポート Rust バージョン（MSRV）は 1.88 です。MSRVは予告なく変更される可能性があるため、最適な体験を得るには常に最新のRustツールチェーンを使用することをお勧めします。  
 :::
 
 ### コンパイルオプション
@@ -151,14 +151,14 @@ maa-cli はコマンドラインインターフェースのみを提供してお
 
 ::: tabs#maacore
 
-@tab:active プリコンパイル
+@tab:active プリコンパイル  
 プリコンパイル済みバイナリを使用する場合、または自己コンパイルしたユーザーの場合、maa-cli がインストールと更新を支援します：
 
 ```bash :no-line-numbers
 maa install
 ```
 
-@tab Windows
+@tab Windows  
 Windows プラットフォームのユーザーは、`maa install` コマンドを実行する前に、管理者権限でコマンドプロンプトまたは PowerShell で以下のコマンドを実行し、必須コンポーネントである VC++ ランタイムをインストールしてください：
 
 ```bat :no-line-numbers
@@ -167,7 +167,7 @@ winget install "Microsoft.VCRedist.2015+.x64" --override "/repair /passive /nore
 
 その後、`maa install` を実行してください。
 
-@tab Arch
+@tab Arch  
 maa-cli を使用してプリコンパイル済みの MaaCore をインストールできます：
 
 ```bash :no-line-numbers
@@ -186,11 +186,11 @@ paru -S maa-assistant-arknights
 yay -S maa-assistant-arknights
 ```
 
-@tab Nix
+@tab Nix  
 Nix の maa-cli は MaaCore に強く依存しています。そのため、Nix ユーザーは MaaCore を手動でインストールする必要はなく、またすべきではありません。
 
 :::
 
-::: warning
-`maa install` は MAA 公式がプリコンパイルした MaaCore をダウンロードします。一方、パッケージマネージャーでインストールされる MaaCore は、公式のプリコンパイルバージョンとは異なるコンパイルオプションや依存関係のバージョンを使用する可能性があり、これによりパフォーマンスや機能にわずかな違いが生じる可能性があります。
+::: warning  
+`maa install` は MAA 公式がプリコンパイルした MaaCore をダウンロードします。一方、パッケージマネージャーでインストールされる MaaCore は、公式のプリコンパイルバージョンとは異なるコンパイルオプションや依存関係のバージョンを使用する可能性があり、これによりパフォーマンスや機能にわずかな違いが生じる可能性があります。  
 :::

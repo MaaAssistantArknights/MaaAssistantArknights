@@ -5,8 +5,8 @@ icon: hugeicons:brain-02
 
 # Sanity Farming
 
-::: info UI-Only Feature
-Some features on this page are implemented by the UI layer (such as Target Inventory, Weekly Schedule, and multi-task ordering). See [Getting Started](../newbie.md) for details.
+::: info UI-Only Feature  
+Some features on this page are implemented by the UI layer (such as Target Inventory, Weekly Schedule, and multi-task ordering). See [Getting Started](../newbie.md) for details.  
 :::
 
 ## General Settings
@@ -62,8 +62,8 @@ Some features on this page are implemented by the UI layer (such as Target Inven
   - The last three stages of the current Side Story event. These will be shown at the bottom of the interface after automatically downloading updates from the [API](https://api.maa.plus/MaaAssistantArknights/api/gui/StageActivityV2.json).
   - Rerun Side Story events: Enter `SSReopen-<stage prefix>` to farm all stages XX-1 through XX-9 in sequence, like `SSReopen-IC`.
 
-::: details Example Screen
-![Example Screen](/images/zh-cn/combat-start-interface-example.png)
+::: details Example Screen  
+![Example Screen](/images/zh-cn/combat-start-interface-example.png)  
 :::
 
 ### Annihilation Mode

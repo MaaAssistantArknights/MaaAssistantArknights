@@ -5,8 +5,8 @@ icon: hugeicons:brain-02
 
 # 刷作戰
 
-::: info UI 專屬功能
-本頁部分功能由 UI 層實作（如目標庫存、週計畫、多任務排序等），詳見[新手上路](../newbie.md)中的說明。
+::: info UI 專屬功能  
+本頁部分功能由 UI 層實作（如目標庫存、週計畫、多任務排序等），詳見[新手上路](../newbie.md)中的說明。  
 :::
 
 ## 一般設定
@@ -64,8 +64,8 @@ icon: hugeicons:brain-02
   - 當期 SS 活動後三關。在自動存取 [API](https://api.maa.plus/MaaAssistantArknights/api/gui/StageActivityV2.json) 下載更新後會在介面下方顯示。
   - 復刻的 SS 活動。輸入 `SSReopen-<關卡前綴>` ，可一次性刷完 XX-1 ~ XX-9 關，如 `SSReopen-IC`。
 
-::: details 範例畫面
-![範例畫面](/images/zh-tw/combat-start-interface-example.png)
+::: details 範例畫面  
+![範例畫面](/images/zh-tw/combat-start-interface-example.png)  
 :::
 
 ### 剿滅模式

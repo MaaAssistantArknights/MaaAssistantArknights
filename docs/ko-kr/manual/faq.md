@@ -86,8 +86,8 @@ MAA 시작 시 호환성 경고가 표시되거나, 충돌·UI 렌더링 문제�
 1. 경고에 표시된 경로에서 해당 DLL 파일을 찾습니다 (파일 확장명이나 파일 자체가 보이지 않으면, 탐색기 상단의 **보기 → 표시** 에서 **"파일 확장명"** 과 **"숨겨진 항목"** 을 활성화하세요)
 2. 파일을 우클릭 → **이름 바꾸기** 하여 확장명 `.dll` 을 `.dll1` 등 무효한 확장명으로 변경합니다
 
-::: warning
-이 방법은 관련 소프트웨어에 문제를 일으킬 수 있습니다. 신중하게 사용하세요. 원인에 대한 자세한 내용은 [관련 게시물](https://t.bilibili.com/1133690423484612615)과 [blog](https://blog.walterlv.com/post/wpf-renders-wrong-because-of-nahimicosd.html)을 참조하세요.
+::: warning  
+이 방법은 관련 소프트웨어에 문제를 일으킬 수 있습니다. 신중하게 사용하세요. 원인에 대한 자세한 내용은 [관련 게시물](https://t.bilibili.com/1133690423484612615)과 [blog](https://blog.walterlv.com/post/wpf-renders-wrong-because-of-nahimicosd.html)을 참조하세요.  
 :::
 
 **방법 3: 관련 소프트웨어 처리**
@@ -96,8 +96,8 @@ MAA 시작 시 호환성 경고가 표시되거나, 충돌·UI 렌더링 문제�
 
 ## 연결 오류
 
-::: tip
-사용 중인 에뮬레이터가 지원하는지, 확인하려면 다음 문서를 참조하세요. [Windows 지원 목록](./device/windows.md)
+::: tip  
+사용 중인 에뮬레이터가 지원하는지, 확인하려면 다음 문서를 참조하세요. [Windows 지원 목록](./device/windows.md)  
 :::
 
 ### ADB 및 연결 주소 확인

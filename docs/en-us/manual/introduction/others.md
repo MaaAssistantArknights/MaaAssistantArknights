@@ -5,8 +5,8 @@ icon: icon-park-solid:other
 
 # Others
 
-::: info UI-Only Feature
-Most features on this page are implemented by the UI layer. See [Getting Started](../newbie.md) for details.
+::: info UI-Only Feature  
+Most features on this page are implemented by the UI layer. See [Getting Started](../newbie.md) for details.  
 :::
 
 ## GPU-Accelerated Inference
@@ -66,8 +66,8 @@ MAA updates come in two types of content:
 - **Software version**: Updates to the main program's UI and features.
 - **Resource version**: Material data updates, including new stage maps, drop item icons, recruitment operator tags, etc. Software releases typically include the latest resources at the time of release.
 
-::: tip Navigation Hot Update
-There is also a "navigation hot update" that triggers automatically to update the main interface prompts and event stage entries. A notification appears in the top-right corner upon success.
+::: tip Navigation Hot Update  
+There is also a "navigation hot update" that triggers automatically to update the main interface prompts and event stage entries. A notification appears in the top-right corner upon success.  
 :::
 
 ### Update Channel
@@ -78,8 +78,8 @@ You can switch update channels in `Settings` - `Update Settings`:
 - **Beta**: May have minor bugs, faster support for new features and themes.
 - **Nightly**: Contains unstable features, for testing only. Do not discuss nightly issues elsewhere.
 
-::: tip
-If the interface prompts that your version is too low and the minimum required version is beta, but you are already on the latest version, this means the feature is currently only available in the beta channel. Wait for the stable release or switch to beta to get it.
+::: tip  
+If the interface prompts that your version is too low and the minimum required version is beta, but you are already on the latest version, this means the feature is currently only available in the beta channel. Wait for the stable release or switch to beta to get it.  
 :::
 
 ### Auto Update
@@ -123,12 +123,12 @@ If automatic downloads fail or your network is poor, you can manually download t
 - **Full package updates require manual confirmation**: Full packages clean old files in the installation directory (preserving `config`, `data`, `debug`, `cache`, `achievement`, etc.). Ensure MAA is installed in a standalone folder.
 - **Update restrictions while the installation is incomplete**: When resources are corrupted or a previous update failed and has not recovered, MAA rejects OTA packages (both automatic updates and drag-and-drop) and only accepts full packages; dragging in a full package of the same version is also allowed for recovery.
 
-::: danger Full Package Update Risk
-If you place MAA directly in a disk root, Desktop, Downloads, or mix it with other programs/personal files at the same directory level, full package updates may delete sibling files. Always install MAA in a standalone folder and manually back up before updating.
+::: danger Full Package Update Risk  
+If you place MAA directly in a disk root, Desktop, Downloads, or mix it with other programs/personal files at the same directory level, full package updates may delete sibling files. Always install MAA in a standalone folder and manually back up before updating.  
 :::
 
-::: details Traditional method (without drag-and-drop)
-If your MAA version is too old to support drag-and-drop (before v6.8.0-beta.2), extract the full package into a **new** folder, then copy the `config`, `data`, and `debug` folders from the old directory to preserve your settings and logs (the `cache` and `achievement` folders are optional to keep). ⚠️ Do not overwrite the old folder directly — incorrect operations may cause resource corruption.
+::: details Traditional method (without drag-and-drop)  
+If your MAA version is too old to support drag-and-drop (before v6.8.0-beta.2), extract the full package into a **new** folder, then copy the `config`, `data`, and `debug` folders from the old directory to preserve your settings and logs (the `cache` and `achievement` folders are optional to keep). ⚠️ Do not overwrite the old folder directly — incorrect operations may cause resource corruption.  
 :::
 
 #### Resource Update Packages

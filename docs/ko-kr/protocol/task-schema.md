@@ -7,12 +7,12 @@ icon: material-symbols:task
 
 `resource/tasks`의 사용법 및 각 필드 설명
 
-::: tip
-[Visual Studio Code](https://code.visualstudio.com/)를 사용하고 [Maa Pipeline Support](https://marketplace.visualstudio.com/items?itemName=nekosu.maa-support) 확장을 설치하여 효율적으로 편집하는 것을 권장합니다. 자세한 내용은 확장 홈페이지와 [문서](../develop/vsc-ext-tutorial.md)를 참조하세요.
+::: tip  
+[Visual Studio Code](https://code.visualstudio.com/)를 사용하고 [Maa Pipeline Support](https://marketplace.visualstudio.com/items?itemName=nekosu.maa-support) 확장을 설치하여 효율적으로 편집하는 것을 권장합니다. 자세한 내용은 확장 홈페이지와 [문서](../develop/vsc-ext-tutorial.md)를 참조하세요.  
 :::
 
-::: warning
-JSON 파일은 주석을 지원하지 않으므로, 텍스트 내의 주석은 예시용입니다. 직접 복사하여 사용하지 마세요.
+::: warning  
+JSON 파일은 주석을 지원하지 않으므로, 텍스트 내의 주석은 예시용입니다. 직접 복사하여 사용하지 마세요.  
 :::
 
 ## 전체 필드 목록

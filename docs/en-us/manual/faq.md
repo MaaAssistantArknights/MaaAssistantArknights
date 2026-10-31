@@ -86,8 +86,8 @@ This setting blocks third-party software from injecting DLLs into MAA at the sys
 1. Locate the corresponding DLL file at the path shown in the warning (if you cannot see file extensions or the file itself, first enable **"File name extensions"** and **"Hidden items"** under **View → Show** at the top of File Explorer)
 2. Right-click the file → **Rename**, and change the `.dll` extension to an invalid one such as `.dll1`
 
-::: warning
-This method may cause the related software to malfunction. Use it with caution. For more on the root cause, see the [related post](https://t.bilibili.com/1133690423484612615) and [blog](https://blog.walterlv.com/post/wpf-renders-wrong-because-of-nahimicosd.html).
+::: warning  
+This method may cause the related software to malfunction. Use it with caution. For more on the root cause, see the [related post](https://t.bilibili.com/1133690423484612615) and [blog](https://blog.walterlv.com/post/wpf-renders-wrong-because-of-nahimicosd.html).  
 :::
 
 **Method 3: Handle the related software**
