@@ -1,9 +1,13 @@
 #include "BattleProcessTask.h"
 
+#include <algorithm>
 #include <chrono>
 #include <future>
+#include <optional>
 #include <ranges>
 #include <thread>
+#include <unordered_map>
+#include <unordered_set>
 #include <utility>
 
 #include "MaaUtils/NoWarningCV.hpp"
@@ -16,7 +20,7 @@
 #include "Controller/Controller.h"
 #include "MaaUtils/ImageIo.h"
 #include "Task/ProcessTask.h"
-#include "Utils/Algorithm.hpp"
+#include "Utils/BipartiteMatch.hpp"
 #include "Utils/Logger.hpp"
 #include "Vision/Battle/BattlefieldMatcher.h"
 #include "Vision/Matcher.h"
@@ -93,60 +97,129 @@ void asst::BattleProcessTask::set_formation_task_ptr(
     m_formation_ptr = value;
 }
 
-bool asst::BattleProcessTask::to_group()
+std::unordered_map<asst::battle::OperNameTag, asst::battle::OperNameTag> asst::BattleProcessTask::allocate_opers(
+    const battle::copilot::OperUsageGroups& combat_groups,
+    const std::unordered_set<battle::OperNameTag>& char_set)
 {
-    std::unordered_map<battle::OperNameTag, std::vector<battle::OperNameTag>> groups;
-    // 从编队任务中获取<干员-组名>映射
-    if (m_formation_ptr != nullptr) {
-        for (const auto& [oper, group] : *m_formation_ptr) {
-            groups.emplace(
-                battle::OperNameTag { battle::Role::Unknown, group },
-                std::vector<battle::OperNameTag> { oper });
+    // 同场干员姓名唯一，职业以部署识别结果为准。
+    std::unordered_map<std::string, battle::Role> available_opers;
+    for (const auto& oper : char_set) {
+        if (oper.role != battle::Role::Drone) {
+            available_opers.emplace(oper.name, oper.role);
         }
-    }
-    // 补充剩余的干员
-    for (const auto& [group_name, _, __, oper_list] : get_combat_data().groups) {
-        if (groups.contains(battle::OperNameTag { battle::Role::Unknown, group_name })) {
-            continue;
-        }
-        std::vector<battle::OperNameTag> oper_name_list;
-        std::ranges::transform(oper_list, std::back_inserter(oper_name_list), [](const auto& oper) {
-            return battle::OperNameTag { oper.role, oper.name };
-        });
-        groups.emplace(battle::OperNameTag { battle::Role::Unknown, group_name }, std::move(oper_name_list));
     }
 
+    // 按原始候选首次出现的顺序取出实际识别到的干员。
+    std::vector<battle::OperNameTag> oper_tags;
+    std::unordered_map<std::string, size_t> oper_indices;
+    auto flattened_opers = combat_groups |
+                           std::views::transform([](const auto& group) -> const auto& { return group.opers; }) |
+                           std::views::join;
+    for (const auto& oper : flattened_opers) {
+        const auto it = available_opers.find(oper.name);
+        if (it == available_opers.end() || (oper.role != battle::Role::Unknown && oper.role != it->second)) {
+            continue;
+        }
+        oper_indices.emplace(oper.name, oper_tags.size());
+        oper_tags.emplace_back(battle::OperNameTag { it->second, oper.name });
+        available_opers.erase(it);
+    }
+
+    std::unordered_map<std::string, battle::OperNameTag> assigned_opers;
+    if (m_formation_ptr != nullptr) {
+        for (const auto& [oper, group] : *m_formation_ptr) {
+            assigned_opers.emplace(group, oper);
+        }
+    }
+
+    std::vector<std::vector<size_t>> adjacency(combat_groups.size());
+    std::vector<size_t> last_group(oper_tags.size(), combat_groups.size());
+    for (size_t i = 0; i < combat_groups.size(); ++i) {
+        const auto& group = combat_groups[i];
+        auto& edges = adjacency[i];
+        const auto add_edges = [&](const auto& candidate) {
+            const auto it = oper_indices.find(candidate.name);
+            if (it == oper_indices.end()) {
+                return;
+            }
+            const size_t index = it->second;
+            if ((candidate.role == battle::Role::Unknown || candidate.role == oper_tags[index].role) &&
+                last_group[index] != i) {
+                edges.emplace_back(index);
+                last_group[index] = i;
+            }
+        };
+        // 添加低信赖干员后，可能会影响原先分配结果；编队时记录的职业可能是 Unknown，在这里顺手重新匹配
+        const auto assigned = assigned_opers.find(group.name);
+        if (assigned != assigned_opers.end()) {
+            add_edges(assigned->second);
+        }
+        else {
+            for (const auto& candidate : group.opers) {
+                add_edges(candidate);
+            }
+        }
+    }
+
+    auto allocation_result =
+        algorithm::bipartite::bipartite_max_match(adjacency, combat_groups.size(), oper_tags.size());
+    std::unordered_map<battle::OperNameTag, battle::OperNameTag> allocation;
+    for (const auto& [group_index, oper_index] : allocation_result.matched) {
+        allocation.emplace(
+            battle::OperNameTag { battle::Role::Unknown, combat_groups[group_index].name },
+            oper_tags[oper_index]);
+    }
+
+    if (!allocation_result.all_matched()) {
+        LogInfo << __FUNCTION__ << "No complete operator allocation found; falling back for unmatched groups:"
+                << allocation_result.unmatched_left.size();
+
+        std::unordered_set<std::string> occupied_names;
+        for (const auto& [_, oper] : allocation) {
+            occupied_names.emplace(oper.name);
+        }
+
+        for (const auto& [group, oper] : assigned_opers) {
+            if (!occupied_names.contains(oper.name)) {
+                LogInfo << __FUNCTION__ << "Previously assigned operator was not matched:" << oper.name
+                        << "group:" << group;
+            }
+        }
+
+        for (size_t group_index : allocation_result.unmatched_left) {
+            const auto& group = combat_groups[group_index];
+            const battle::OperNameTag group_tag { battle::Role::Unknown, group.name };
+            const auto assigned = assigned_opers.find(group.name);
+            if (assigned != assigned_opers.end()) {
+                allocation.emplace(group_tag, assigned->second);
+                occupied_names.emplace(assigned->second.name);
+                continue;
+            }
+            if (group.opers.empty()) {
+                continue;
+            }
+
+            auto candidate = std::ranges::find_if(group.opers, [&](const auto& oper) {
+                return !occupied_names.contains(oper.name);
+            });
+            if (candidate == group.opers.end()) {
+                candidate = group.opers.begin();
+            }
+            allocation.emplace(group_tag, battle::OperNameTag { candidate->role, candidate->name });
+            occupied_names.emplace(candidate->name);
+        }
+    }
+
+    return allocation;
+}
+
+bool asst::BattleProcessTask::to_group()
+{
     std::unordered_set<battle::OperNameTag> char_set; // 干员集合
     for (const auto& oper : m_cur_deployment_opers) {
         char_set.emplace(battle::OperNameTag { oper.role, oper.name });
     }
-
-    auto allocation_result = algorithm::get_char_allocation_for_each_group(groups, char_set);
-    if (allocation_result.has_value()) {
-        m_oper_in_group = std::move(allocation_result.allocation);
-    }
-    else {
-        switch (allocation_result.status) {
-        case algorithm::CharAllocationStatus::NoSolution:
-            Log.info("get_char_allocation_for_each_group has no feasible solution");
-            break;
-        case algorithm::CharAllocationStatus::Overflow:
-            Log.error("get_char_allocation_for_each_group overflowed while building the DLX model");
-            break;
-        case algorithm::CharAllocationStatus::InternalError:
-            Log.error("get_char_allocation_for_each_group failed due to an internal error");
-            break;
-        case algorithm::CharAllocationStatus::Success:
-            break;
-        }
-
-        for (const auto& [gp, names] : groups) {
-            if (names.empty()) {
-                continue;
-            }
-            m_oper_in_group.emplace(gp, names.front());
-        }
-    }
+    m_oper_in_group = allocate_opers(get_combat_data().groups, char_set);
 
     std::unordered_map<battle::OperNameTag, battle::OperNameTag> ungrouped;
     const auto& grouped_view = m_oper_in_group | std::views::values;
