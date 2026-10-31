@@ -1336,6 +1336,10 @@ Cache files (such as maps, operator avatars, etc.) need to be regenerated after 
     <system:String x:Key="Infrast.Mode.Custom">Custom Base Mode</system:String>
     <system:String x:Key="Infrast.Mode.Normal">Normal Mode</system:String>
     <system:String x:Key="Infrast.Mode.Rotation">One-click Rotation Mode</system:String>
+    <system:String x:Key="Infrast.RotationDormTrustEnabled">Fill dormitories for trust after queue rotation</system:String>
+    <system:String x:Key="Infrast.RotationDormTrustEnabled.Tip" xml:space="preserve">After queue rotation, rearrange dormitories: prioritize operators who need rest, then fill remaining slots for trust.
+Only unassigned operators are selected; dormitory management does not move working operators or base assistants.
+Can be disabled at any time. Changes take effect on the next run.</system:String>
     <system:String x:Key="Infrast.Mode.Rotation.Requirement">Please manually set up {key=Game.Operator} queues in game before using One-click Rotation Mode</system:String>
     <system:String x:Key="Infrast.Mode.Rotation.Tip" xml:space="preserve">The shift rotation logic of ｢{key=Infrast.Mode.Rotation}｣ is identical to the ｢{key=Infrast.Mode.Rotation}｣ in the base facility:
 If any operator in the current shift has 0 mood, the entire team will be replaced with the next shift.
