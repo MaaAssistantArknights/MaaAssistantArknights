@@ -438,7 +438,7 @@ jobs:
           cmake --install build --prefix install
 
       - name: Setup Python for OCR conversion
-        uses: actions/setup-python@v6
+        uses: actions/setup-python@v7
         with:
           python-version: "3.12"
 
