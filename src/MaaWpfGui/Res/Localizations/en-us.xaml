@@ -439,6 +439,8 @@
     <system:String x:Key="Asst.Infrast.ClueExchangeUnlocked">Clue Exchange Unlocked</system:String>
     <system:String x:Key="Asst.Infrast.DormDoubleConfirmed">Some {key=Game.Operator}s are already assigned to another facility; the transfer has been confirmed automatically</system:String>
     <system:String x:Key="Asst.Infrast.FacilityKeptUnchanged">has no rooms configured in the schedule file; the entire facility is kept unchanged</system:String>
+    <system:String x:Key="Asst.Infrast.FacilityNoOperators">None</system:String>
+    <system:String x:Key="Asst.Infrast.FacilityOperators">Stationed operators: {0}</system:String>
     <system:String x:Key="Asst.Infrast.ProductChangeFail">Failed to switch product</system:String>
     <system:String x:Key="Asst.Infrast.ProductChanged">Product has changed</system:String>
     <system:String x:Key="Asst.Infrast.ProductIncorrect">Product does NOT match the configuration.</system:String>

@@ -439,6 +439,8 @@
     <system:String x:Key="Asst.Infrast.ClueExchangeUnlocked">단서 공유 개방</system:String>
     <system:String x:Key="Asst.Infrast.DormDoubleConfirmed">다른 시설에서 근무 중인 {key=Game.Operator}가 있어 이차 확인을 자동으로 진행했습니다</system:String>
     <system:String x:Key="Asst.Infrast.FacilityKeptUnchanged">은(는) 스케줄에서 방이 미구성되어 시설 전체를 그대로 유지합니다</system:String>
+    <system:String x:Key="Asst.Infrast.FacilityNoOperators">없음</system:String>
+    <system:String x:Key="Asst.Infrast.FacilityOperators">배치 오퍼레이터: {0}</system:String>
     <system:String x:Key="Asst.Infrast.ProductChangeFail">생산품 전환 실패</system:String>
     <system:String x:Key="Asst.Infrast.ProductChanged">생산품이 변경됨</system:String>
     <system:String x:Key="Asst.Infrast.ProductIncorrect">생산품이 구성과 맞지 않습니다.</system:String>

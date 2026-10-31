@@ -439,6 +439,8 @@
     <system:String x:Key="Asst.Infrast.ClueExchangeUnlocked">已開啟線索交流</system:String>
     <system:String x:Key="Asst.Infrast.DormDoubleConfirmed">偵測到{key=Game.Operator}已進駐其他設施，已自動確認將其調動</system:String>
     <system:String x:Key="Asst.Infrast.FacilityKeptUnchanged">排程表該設施未配置房間，整個設施保持原樣，未換班</system:String>
+    <system:String x:Key="Asst.Infrast.FacilityNoOperators">無</system:String>
+    <system:String x:Key="Asst.Infrast.FacilityOperators">進駐幹員: {0}</system:String>
     <system:String x:Key="Asst.Infrast.ProductChangeFail">產物切換失敗</system:String>
     <system:String x:Key="Asst.Infrast.ProductChanged">產物已切換</system:String>
     <system:String x:Key="Asst.Infrast.ProductIncorrect">產物與排班不符。</system:String>

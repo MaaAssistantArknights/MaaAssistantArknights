@@ -440,6 +440,8 @@
     <system:String x:Key="Asst.Infrast.ClueExchangeUnlocked">已开启线索交流</system:String>
     <system:String x:Key="Asst.Infrast.DormDoubleConfirmed">检测到{key=Game.Operator}已进驻其他设施，已自动确认将其调动</system:String>
     <system:String x:Key="Asst.Infrast.FacilityKeptUnchanged">排班表该设施未配置房间，整个设施保持原样，未换班</system:String>
+    <system:String x:Key="Asst.Infrast.FacilityNoOperators">无</system:String>
+    <system:String x:Key="Asst.Infrast.FacilityOperators">进驻干员: {0}</system:String>
     <system:String x:Key="Asst.Infrast.ProductChangeFail">产物切换失败</system:String>
     <system:String x:Key="Asst.Infrast.ProductChanged">产物已切换</system:String>
     <system:String x:Key="Asst.Infrast.ProductIncorrect">产物与配置不相符。</system:String>

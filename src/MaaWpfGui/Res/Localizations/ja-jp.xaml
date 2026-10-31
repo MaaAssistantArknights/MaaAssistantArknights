@@ -439,6 +439,8 @@
     <system:String x:Key="Asst.Infrast.ClueExchangeUnlocked">手がかり交換を開始しました</system:String>
     <system:String x:Key="Asst.Infrast.DormDoubleConfirmed">他の施設に配属中の{key=Game.Operator}がいたため、二次確認を自動で行いました</system:String>
     <system:String x:Key="Asst.Infrast.FacilityKeptUnchanged">はスケジュール表で部屋が未設定のため、施設全体をそのまま維持します</system:String>
+    <system:String x:Key="Asst.Infrast.FacilityNoOperators">なし</system:String>
+    <system:String x:Key="Asst.Infrast.FacilityOperators">配属オペレーター: {0}</system:String>
     <system:String x:Key="Asst.Infrast.ProductChangeFail">製産物の切り替えに失敗しました</system:String>
     <system:String x:Key="Asst.Infrast.ProductChanged">製産物が切り替わった</system:String>
     <system:String x:Key="Asst.Infrast.ProductIncorrect">製産物が構成と一致しません。</system:String>
