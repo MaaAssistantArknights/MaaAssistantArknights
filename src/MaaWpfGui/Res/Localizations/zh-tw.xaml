@@ -600,6 +600,7 @@
     <system:String x:Key="Asst.Roguelike.BlackFlow.ScrapTradeAbortedSellBackSearchFailed">秘境行商未能找到要賣回的「{0}」，停止交易並離店</system:String>
     <system:String x:Key="Asst.Roguelike.BlackFlow.ScrapTradeAbortedUnknown">秘境行商交易出現異常，停止交易並離店</system:String>
     <system:String x:Key="Asst.Roguelike.BlackFlow.StartRunCompleted">開局目標已滿足，已退出並保留這一局</system:String>
+    <system:String x:Key="Asst.Roguelike.BlackFlow.StartRunOdds">單局命中率約 {0}%，預計需 {1} 局（本次已刷 {2} 局）</system:String>
     <system:String x:Key="Asst.Roguelike.BlackFlow.StartRunPrepared">開局準備已完成</system:String>
     <system:String x:Key="Asst.Roguelike.BlackFlow.StartRunPreparedReason">已到達第三層，將按目標難度和分隊開啟下一局</system:String>
     <system:String x:Key="Asst.Roguelike.BlackFlow.StartRunPreparing">正在進行準備局</system:String>

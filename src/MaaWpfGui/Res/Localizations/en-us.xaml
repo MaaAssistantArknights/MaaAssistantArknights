@@ -600,6 +600,7 @@
     <system:String x:Key="Asst.Roguelike.BlackFlow.ScrapTradeAbortedSellBackSearchFailed">Could not find "{0}" to sell back at 秘境行商 (scrap trader); stopping the trade and leaving</system:String>
     <system:String x:Key="Asst.Roguelike.BlackFlow.ScrapTradeAbortedUnknown">The trade at 秘境行商 (scrap trader) ran into an error; stopping the trade and leaving</system:String>
     <system:String x:Key="Asst.Roguelike.BlackFlow.StartRunCompleted">Starting conditions met; exited and kept this run</system:String>
+    <system:String x:Key="Asst.Roguelike.BlackFlow.StartRunOdds">About {0}% per run, expect about {1} runs ({2} runs this session)</system:String>
     <system:String x:Key="Asst.Roguelike.BlackFlow.StartRunPrepared">Preparation complete</system:String>
     <system:String x:Key="Asst.Roguelike.BlackFlow.StartRunPreparedReason">Floor 3 reached; the next run will use the target difficulty and squad</system:String>
     <system:String x:Key="Asst.Roguelike.BlackFlow.StartRunPreparing">Preparation run in progress</system:String>
