@@ -48,6 +48,15 @@ public:
 
     const auto& get_ordered_non_chip_formula_item_id() const noexcept { return m_ordered_non_chip_formula_item_id; }
 
+    const std::unordered_map<std::string, int>& get_item_formula(const std::string& id) const noexcept
+    {
+        if (const auto iter = m_item_formulas.find(id); iter != m_item_formulas.end()) {
+            return iter->second;
+        }
+        static const std::unordered_map<std::string, int> empty;
+        return empty;
+    }
+
 protected:
     virtual bool parse(const json::value& json) override;
     void clear();
@@ -58,6 +67,7 @@ protected:
     std::unordered_set<std::string> m_all_item_id;
     std::vector<std::string> m_ordered_material_item_id;
     std::vector<std::string> m_ordered_non_chip_formula_item_id;
+    std::unordered_map<std::string, std::unordered_map<std::string, int>> m_item_formulas;
 };
 
 inline static auto& ItemData = ItemConfig::get_instance();

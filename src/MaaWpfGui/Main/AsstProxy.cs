@@ -2856,6 +2856,20 @@ public class AsstProxy
                     LocalizationHelper.GetString("Asst.Infrast.RoomsNotConfigured"));
                 break;
 
+            case "GreenTicketPurchased":
+                var materialId = subTaskDetails?["material_id"]?.ToString() ?? string.Empty;
+                var materialName = ItemListHelper.GetItemName(materialId);
+                Instances.TaskQueueViewModel.AddLog(
+                    LocalizationHelper.GetStringFormat(
+                        "Asst.GreenTicketPurchased",
+                        string.IsNullOrEmpty(materialName) || materialName == materialId
+                            ? subTaskDetails?["material"]?.ToString() ?? materialId
+                            : materialName,
+                        subTaskDetails?["count"]?.Value<int>() ?? 0,
+                        subTaskDetails?["cost"]?.Value<int>() ?? 0),
+                    UiLogColor.Info);
+                break;
+
             case "InfrastTrainingIdle":
                 Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("Asst.Infrast.TrainingIdle"), updateCardImage: true);
                 break;

@@ -1,8 +1,7 @@
 #include "MaterialSynthesisTaskPlugin.h"
 
 #include <algorithm>
-#include <cctype>
-#include <charconv>
+#include <limits>
 #include <unordered_set>
 
 #include "Config/Miscellaneous/ItemConfig.h"
@@ -12,7 +11,6 @@
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
 #include "Vision/Miscellaneous/MaterialSynthesisImageAnalyzer.h"
-#include "Vision/RegionOCRer.h"
 
 namespace
 {
@@ -35,6 +33,8 @@ bool asst::MaterialSynthesisTaskPlugin::verify(AsstMsg msg, const json::value& d
 bool asst::MaterialSynthesisTaskPlugin::_run()
 {
     LogTraceFunction;
+    m_material_shortfall.reset();
+    m_material_shortfall_context.clear();
     if (need_exit()) {
         return false;
     }
@@ -105,10 +105,12 @@ asst::MaterialSynthesisTaskPlugin::Result asst::MaterialSynthesisTaskPlugin::syn
     // 根配方由用户手动打开；递归进入的材料必然有父配方，只在完成时识别并点击返回。
     const bool has_parent = depth > 0;
     Result result = Result::Completed;
+    cv::Mat count_image;
     while (!need_exit()) {
         if (detect_task("MiniGame@MaterialSynthesis@Satisfied")) {
             break;
         }
+        count_image.release();
         if (operation_budget <= 0) {
             result = Result::InsufficientResources;
             break;
@@ -120,7 +122,9 @@ asst::MaterialSynthesisTaskPlugin::Result asst::MaterialSynthesisTaskPlugin::syn
         }
 
         const auto current_material_id = recognize_material();
-        const auto count = read_number("MiniGame@MaterialSynthesis@RequiredCount");
+        count_image = ctrler()->get_image();
+        const auto count =
+            MaterialSynthesisImageAnalyzer::read_number(count_image, "MiniGame@MaterialSynthesis@RequiredCount", false);
         if (!current_material_id || *current_material_id != material_id || !count || *count <= 0) {
             result = Result::Unsupported;
             break;
@@ -174,6 +178,30 @@ asst::MaterialSynthesisTaskPlugin::Result asst::MaterialSynthesisTaskPlugin::syn
                         { "ingredient", ingredient },
                     });
                 result = Result::InsufficientResources;
+                if (m_collect_material_shortfall) {
+                    const auto& formula = ItemData.get_item_formula(material_id);
+                    std::vector<std::string> ingredient_ids;
+                    for (const auto& [id, quantity] : formula) {
+                        ingredient_ids.emplace_back(id);
+                    }
+                    const auto image = ctrler()->get_image();
+                    const auto missing =
+                        MaterialSynthesisImageAnalyzer::observe_missing_material(image, prefix, ingredient_ids);
+                    const auto needed =
+                        MaterialSynthesisImageAnalyzer::read_number(image, "MiniGame@MaterialSynthesis@RequiredCount");
+                    if (missing && needed && *needed > 0) {
+                        const auto per_craft = formula.find(missing->item_id);
+                        if (per_craft != formula.end() && per_craft->second > 0 &&
+                            missing->required == per_craft->second &&
+                            *needed <= std::numeric_limits<int>::max() / per_craft->second) {
+                            const int shortfall = *needed * per_craft->second - missing->owned;
+                            if (shortfall > 0) {
+                                m_material_shortfall = { missing->item_id, shortfall };
+                                m_material_shortfall_context = material_id + ":" + std::to_string(ingredient);
+                            }
+                        }
+                    }
+                }
                 break;
             }
         }
@@ -303,6 +331,17 @@ asst::MaterialSynthesisTaskPlugin::Result asst::MaterialSynthesisTaskPlugin::syn
         return Result::Cancelled;
     }
     if (result != Result::Completed) {
+        // 可合成的蓝材料缺少低级原料时，优先上报蓝材料本身的缺口，供培养任务去绿票商店兑换。
+        if (result == Result::InsufficientResources && m_collect_material_shortfall && !count_image.empty() &&
+            ItemData.get_item_rarity(material_id) == 2) {
+            // 合成沿用原有数量解析；兑换缺口必须从同一帧重新严格确认。
+            const auto missing_count =
+                MaterialSynthesisImageAnalyzer::read_number(count_image, "MiniGame@MaterialSynthesis@RequiredCount");
+            if (missing_count && *missing_count > 0) {
+                m_material_shortfall = { material_id, *missing_count };
+                m_material_shortfall_context = material_id;
+            }
+        }
         return result;
     }
     if (has_parent) {
@@ -346,9 +385,7 @@ asst::MaterialSynthesisTaskPlugin::Result asst::MaterialSynthesisTaskPlugin::sel
 
 bool asst::MaterialSynthesisTaskPlugin::run_task(const std::string& task_name, int retry_times)
 {
-    ProcessTask task(*this, { task_name });
-    task.set_retry_times(retry_times);
-    return task.run();
+    return ProcessTask(*this, { task_name }).set_retry_times(retry_times).run();
 }
 
 bool asst::MaterialSynthesisTaskPlugin::detect_task(const std::string& task_name)
@@ -367,36 +404,6 @@ bool asst::MaterialSynthesisTaskPlugin::return_to_workshop()
         }
     }
     return detect_task("MiniGame@MaterialSynthesis@Workshop");
-}
-
-std::optional<int> asst::MaterialSynthesisTaskPlugin::read_number(const std::string& task_name)
-{
-    RegionOCRer analyzer(ctrler()->get_image());
-    analyzer.set_task_info(task_name);
-    analyzer.set_use_raw(true);
-    if (!analyzer.analyze()) {
-        return std::nullopt;
-    }
-
-    std::string digits;
-    for (const unsigned char character : analyzer.get_result().text) {
-        if (std::isdigit(character)) {
-            digits.push_back(static_cast<char>(character));
-        }
-        else if (!digits.empty()) {
-            break;
-        }
-    }
-    if (digits.empty()) {
-        return std::nullopt;
-    }
-
-    int value = 0;
-    const auto [ptr, error] = std::from_chars(digits.data(), digits.data() + digits.size(), value);
-    if (error != std::errc {} || ptr != digits.data() + digits.size()) {
-        return std::nullopt;
-    }
-    return value;
 }
 
 std::optional<std::string> asst::MaterialSynthesisTaskPlugin::recognize_material()

@@ -597,6 +597,12 @@ v6.8.0 で非推奨になりました。代わりに `medicine_expire_days` を�
 @optional  
 訓練室で未完了の専門化トレーニングを続行するかどうか。  
 :::  
+::: field buy_materials_with_green_tickets
+@type boolean
+@default false
+@optional
+特化を続行する際に緑チケットで素材を補充するかどうか。`continue_training` が `true` の場合のみ有効です。`OperProgress` の同名パラメータとは独立しており、補充ルールと成功時のコールバックは共通です。
+:::
 ::::
 
 <details>
@@ -1436,6 +1442,32 @@ Sarkaz テーマ、Investment モード、 ｢破棘成金分隊｣ または �
 ```
 
 </details>
+
+- `OperProgress`
+  オペレーター育成
+
+:::: field-group
+::: field enable
+@type boolean
+@default true
+@optional
+このタスクを有効にするかどうか。
+:::
+::: field plans
+@type array<object>
+@required
+`name` にはクライアントの言語にかかわらず、簡体字中国語のオペレーター名を指定します。
+育成計画の配列です。各要素には `name`（オペレーター名）が必須です。`role`（職分）は省略可能ですが、複数職分を持つ場合は指定が必要です。指定値は `Pioneer`, `Warrior`, `Tank`, `Sniper`, `Caster`, `Medic`, `Support`, `Special` です。任意の目標：`elite` は1–2、`skill_level` は2–7、`skill_mastery` は3スキルの目標特化ランクの配列（各0–3、0はスキップ）です。省略した目標は実行しません。
+:::
+::: field buy_materials_with_green_tickets
+@type boolean
+@default false
+@optional
+加工後も不足する青素材を、開放済みの商店2階から緑チケットで補充するかどうか。不足数が残り交換可能数を超える場合は残りの分だけ交換します。残高不足、または購入情報を確認できない場合は交換しません。
+:::
+::::
+
+交換成功時は `SubTaskExtraInfo` の `what: "GreenTicketPurchased"` を通知します。`details` には `material`（素材名）、`material_id`、`count`（実際に獲得した素材の数量）、`cost`（消費した緑チケット数）が含まれます。
 
 - `Reclamation`  
   生息演算

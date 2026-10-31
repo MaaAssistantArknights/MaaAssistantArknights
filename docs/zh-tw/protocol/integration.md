@@ -598,6 +598,12 @@ Tag 等級（大於等於 3）對應的期望招募時限（單位：分鐘）�
 @optional  
 訓練室是否繼續未完成的專精訓練。  
 :::  
+::: field buy_materials_with_green_tickets
+@type boolean
+@default false
+@optional
+是否在繼續專精時自動用綠票補料，僅在 `continue_training` 為 `true` 時生效。與 `OperProgress` 的同名參數獨立，補料規則及成功回呼與其相同。
+:::
 ::::
 
 <details>
@@ -1437,6 +1443,32 @@ Tag 等級（大於等於 3）對應的期望招募時限（單位：分鐘）�
 ```
 
 </details>
+
+- `OperProgress`
+  幹員培養
+
+:::: field-group
+::: field enable
+@type boolean
+@default true
+@optional
+是否啟用本任務。
+:::
+::: field plans
+@type array<object>
+@required
+`name` 使用簡體中文幹員名，與用戶端語言無關。
+培養計畫陣列。每項必填 `name`（幹員名）；`role`（職業）可省略，但多職業幹員必須指定，取值為 `Pioneer`, `Warrior`, `Tank`, `Sniper`, `Caster`, `Medic`, `Support`, `Special`。可選目標：`elite` 為 1–2，`skill_level` 為 2–7，`skill_mastery` 為三個技能的目標專精等級陣列（各 0–3，0 表示略過）。省略的目標不執行。
+:::
+::: field buy_materials_with_green_tickets
+@type boolean
+@default false
+@optional
+是否在合成後仍缺料時，用綠票從已解鎖的商店二層補購藍色材料。缺口超過剩餘額度時只兌換剩餘部分；餘額不足或無法確認購買資訊時不兌換。
+:::
+::::
+
+兌換成功後透過 `SubTaskExtraInfo` 回報 `what: "GreenTicketPurchased"`，`details` 包含 `material`（材料名）、`material_id`、`count`（實際獲得的材料數量）及 `cost`（實際消耗的綠票數）。
 
 - `Reclamation`  
   生息演算

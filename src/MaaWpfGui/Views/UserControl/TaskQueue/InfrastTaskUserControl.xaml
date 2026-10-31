@@ -258,9 +258,24 @@
             <CheckBox Margin="0,10" IsChecked="{Binding ReceptionSendClue}">
                 <controls:TextBlock Text="{DynamicResource Infrast.Reception.SendClue}" TextWrapping="Wrap" />
             </CheckBox>
-            <CheckBox Margin="0,10" IsChecked="{Binding ContinueTraining}">
+            <CheckBox Margin="0,10,0,5" IsChecked="{Binding ContinueTraining}">
                 <controls:TextBlock Text="{DynamicResource Infrast.ContinueTraining}" TextWrapping="Wrap" />
             </CheckBox>
+            <StackPanel
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Orientation="Horizontal"
+                Visibility="{c:Binding ContinueTraining}">
+                <controls:TextBlock
+                    Margin="2.5,0,7.5,0"
+                    Opacity="{c:Binding 'Run.Idle and Run.Inited ? 1 : 0.5',
+                                        Source={x:Static helper:Instances.TaskQueueViewModel}}"
+                    Text="└" />
+                <CheckBox MaxWidth="{c:Binding '200 - ActualWidth', ElementName=BuyMaterialsWithGreenTicketsTooltipBlock}" IsChecked="{Binding BuyMaterialsWithGreenTickets}">
+                    <controls:TextBlock Text="{DynamicResource Infrast.BuyMaterialsWithGreenTickets}" TextWrapping="Wrap" />
+                </CheckBox>
+                <controls:TooltipBlock x:Name="BuyMaterialsWithGreenTicketsTooltipBlock" TooltipText="{DynamicResource Infrast.BuyMaterialsWithGreenTicketsTip}" />
+            </StackPanel>
             <StackPanel HorizontalAlignment="Left" Visibility="{c:Binding 'InfrastMode == taskQueue_vms:InfrastMode.Normal', Source={x:Static taskQueue_vms:InfrastTaskUserControlModel.Instance}}">
                 <StackPanel.Resources>
                     <DataTemplate x:Key="FiammettaTargetTemplate">

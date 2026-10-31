@@ -430,6 +430,7 @@
     <system:String x:Key="Asst.Fight.TheEx">No bonus stage, stopped</system:String>
     <system:String x:Key="Asst.Fight.TimesUnused">Completed {0} battles, will execute {1} multiplier proxy next time, will complete {2} battles after entering, exceeds {3} limit, will not enter battle</system:String>
     <system:String x:Key="Asst.Fight.UnableToAgent">Unable to use PRTS</system:String>
+    <system:String x:Key="Asst.GreenTicketPurchased">Exchanged {2} green tickets for {0} × {1}</system:String>
     <system:String x:Key="Asst.Infrast.AssistantLowMood">Assistant candidates' morale is below the threshold and has been skipped; the assistant has been left unchanged: {0}</system:String>
     <system:String x:Key="Asst.Infrast.AssistantNotFound">No assistant candidate matched; the assistant has been left unchanged: {0}</system:String>
     <system:String x:Key="Asst.Infrast.AssistantWorkingExcluded">Assistant candidates are working in other facilities and have been skipped; the assistant has been left unchanged: {0}</system:String>
@@ -1286,6 +1287,8 @@ Cache files (such as maps, operator avatars, etc.) need to be regenerated after 
     <system:String x:Key="Guide.User">User Guide</system:String>
     <system:String x:Key="Guide.UserAgreement">By using MAA, you agree to comply with the "User Agreement". The complete agreement can be found in the link at the bottom of the official website.</system:String>
     <system:String x:Key="Guide.ViewLog">You can go to "{key=Settings.Title} - {key=Settings.IssueReport.Title} - {key=Error.OpenDebugFolder}" to view logs and understand the specific cause of the error.</system:String>
+    <system:String x:Key="Infrast.BuyMaterialsWithGreenTickets">Use green tickets to replenish materials when continuing training</system:String>
+    <system:String x:Key="Infrast.BuyMaterialsWithGreenTicketsTip" xml:space="preserve">Only applies when continuing training is enabled; independent of the operator development setting.&#10;Try synthesis first, then exchange missing blue materials, including recipe ingredients, on the already unlocked second floor.&#10;Stop if funds, stock, or recognition are insufficient.</system:String>
     <system:String x:Key="Infrast.ContinueTraining">After training is complete, try to continue mastering the current Skill</system:String>
     <system:String x:Key="Infrast.Custom.File">Base Configuration</system:String>
     <system:String x:Key="Infrast.Custom.FileHasPlanNoPeriod">Some rotations in the {key=Infrast.Mode.Custom} configuration have time periods set, which may lead to unexpected behavior. To set shift change time periods, ensure all rotations have time periods configured; otherwise, leave them all blank.</system:String>
@@ -2088,6 +2091,8 @@ Do not adjust the proxy multiplier setting in the game</system:String>
     <system:String x:Key="TaskQueue.MainViewButtonFeature">Variable function button</system:String>
     <system:String x:Key="TaskQueue.MultiTasksShare.Tip">The following options are for multiple tasks.</system:String>
     <system:String x:Key="TaskQueue.NotSwitch">Don't Switch</system:String>
+    <system:String x:Key="TaskQueue.OperProgress.BuyMaterialsWithGreenTickets">Exchange missing materials with green tickets</system:String>
+    <system:String x:Key="TaskQueue.OperProgress.BuyMaterialsWithGreenTicketsTip" xml:space="preserve">When synthesis cannot fill the gap, exchange only the materials needed for the current step on the second floor.&#10;Unlock the second floor manually first; stop if funds, stock, or recognition are insufficient.</system:String>
     <system:String x:Key="TaskQueue.OperProgress.Detail">{key=TaskQueue.Task.OperProgress} {0}:{1} {2}</system:String>
     <system:String x:Key="TaskQueue.OperProgress.Elite">Elite</system:String>
     <system:String x:Key="TaskQueue.OperProgress.EliteTarget">Elite {0}</system:String>

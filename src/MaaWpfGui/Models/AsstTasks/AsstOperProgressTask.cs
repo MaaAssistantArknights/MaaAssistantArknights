@@ -16,7 +16,6 @@ using System.Collections.Generic;
 using System.Linq;
 using MaaWpfGui.Configuration.Single.MaaTask;
 using MaaWpfGui.Services;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace MaaWpfGui.Models.AsstTasks;
@@ -25,8 +24,9 @@ public class AsstOperProgressTask : AsstBaseTask
 {
     public override AsstTaskType TaskType => AsstTaskType.OperProgress;
 
-    [JsonProperty("plans")]
     public List<OperProgressTask.Plan> Plans { get; set; } = [];
+
+    public bool BuyMaterialsWithGreenTickets { get; set; }
 
     public override (AsstTaskType TaskType, JObject Params) Serialize()
     {
@@ -53,6 +53,7 @@ public class AsstOperProgressTask : AsstBaseTask
         }
         var jObject = new JObject {
             ["plans"] = list,
+            ["buy_materials_with_green_tickets"] = BuyMaterialsWithGreenTickets,
         };
         return (TaskType, jObject);
     }

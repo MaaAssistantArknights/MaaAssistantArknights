@@ -1,4 +1,6 @@
 #pragma once
+#include <atomic>
+
 #include "InfrastProductionTask.h"
 
 // #include "Config/Miscellaneous/BattleDataConfig.h"
@@ -13,6 +15,8 @@ public:
     virtual ~InfrastTrainingTask() override = default;
 
     InfrastTrainingTask& set_continue_training(bool continue_training) noexcept;
+
+    void set_buy_with_green_tickets(bool enabled) noexcept { m_buy_with_green_tickets = enabled; }
 
 protected:
     virtual bool _run() override;
@@ -49,5 +53,7 @@ private:
     // asst::battle::Role m_operator_role;
 
     bool m_continue_training = false;
+    std::atomic<bool> m_buy_with_green_tickets = false;
+    bool m_training_recovery_failed = false;
 };
 }

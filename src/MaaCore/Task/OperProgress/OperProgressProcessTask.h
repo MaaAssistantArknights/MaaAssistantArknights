@@ -1,6 +1,7 @@
 #pragma once
 #include "Task/AbstractTask.h"
 
+#include <functional>
 #include <optional>
 #include <variant>
 
@@ -25,6 +26,12 @@ public:
     virtual ~OperProgressProcessTask() override = default;
 
     void set_plan(std::vector<OperProgressTask::ProgressPlan> plan) { m_plan = std::move(plan); }
+
+    void set_buy_with_green_tickets(bool enabled) { m_buy_with_green_tickets = enabled; }
+
+    // 从基建专精页继续当前技能，不更换受训干员或协助者；nullopt 表示无法恢复训练室或任务中止。
+    std::optional<bool>
+        continue_training_with_material_purchase(int skill, const std::function<bool()>& return_to_training);
 
 protected:
     virtual bool _run() override;
@@ -54,12 +61,16 @@ private:
     };
 
     ResultDetail execute_elite(battle::Role role, const std::string& name, int target);
+    ResultDetail execute_with_material_purchase(
+        const std::function<ResultDetail()>& recover,
+        const std::function<ResultDetail()>& execute);
     void report_elite_result(battle::Role role, std::string_view name, ResultDetail result, int elite);
     ResultDetail execute_skill(int level);
     void report_skill_result(battle::Role role, std::string_view name, ResultDetail result, int level);
     // 返回 Completed 时 training_level 为本次训练完成后达到的专精等级；专精需要训练时长，启动不代表达到计划目标。
     ResultDetail
         execute_mastery(battle::Role role, std::string_view name, int skill, int target_level, int& current_level);
+    ResultDetail start_mastery_training();
     void report_skill_result(battle::Role role, std::string_view name, ResultDetail result, std::array<int, 3> level);
     ResultDetail find_and_open_operator(battle::Role role, std::string_view name);
     bool select_role(battle::Role role);
@@ -89,6 +100,12 @@ private:
     std::vector<OperProgressTask::ProgressPlan> m_plan_finish;
     // 首条目标已定位:任务开始时可能停在主页走完整入口链,之后换干员保证不去主页。
     bool m_entry_completed = false;
+    bool m_buy_with_green_tickets = false;
+    // 商店补料后无法恢复培养页面时，停止当前干员或训练室的后续动作。
+    bool m_material_recovery_failed = false;
+    std::optional<std::pair<std::string, int>> m_material_shortfall;
+    std::string m_material_shortfall_context;
+    std::string m_step_context;
     int m_success = 0;
     int m_failed = 0;
     int m_skipped = 0;

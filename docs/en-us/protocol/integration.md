@@ -597,6 +597,12 @@ Plan index number in the configuration. Editing in run-time is not supported.
 @optional  
 Whether to continue unfinished skill training in the Training Room.  
 :::  
+::: field buy_materials_with_green_tickets
+@type boolean
+@default false
+@optional
+Whether to replenish materials with green tickets when continuing mastery. Only effective when `continue_training` is `true`. Independent of the same parameter in `OperProgress`; replenishment rules and the success callback are the same.
+:::
 ::::
 
 <details>
@@ -1437,6 +1443,32 @@ Whether to enable this task.
 ```
 
 </details>
+
+- `OperProgress`
+  Operator development
+
+:::: field-group
+::: field enable
+@type boolean
+@default true
+@optional
+Whether to enable this task.
+:::
+::: field plans
+@type array<object>
+@required
+Use the Simplified Chinese operator name for `name`, regardless of client language.
+Development plans. Each object requires `name` (operator name). `role` (class) is optional unless the operator has multiple classes; use `Pioneer`, `Warrior`, `Tank`, `Sniper`, `Caster`, `Medic`, `Support`, `Special`. Optional targets: `elite` is 1–2; `skill_level` is 2–7; `skill_mastery` is an array of three target mastery levels, each 0–3 (0 skips that skill). Omitted targets are skipped.
+:::
+::: field buy_materials_with_green_tickets
+@type boolean
+@default false
+@optional
+Whether to buy missing blue materials from the already-unlocked second floor with green tickets when synthesis cannot supply them. If the shortfall exceeds the remaining quota, buy only the available amount. Do not purchase if funds are insufficient or purchase information cannot be confirmed.
+:::
+::::
+
+A successful purchase emits `SubTaskExtraInfo` with `what: "GreenTicketPurchased"`. Its `details` contains `material` (name), `material_id`, `count` (number of material items received), and `cost` (green tickets spent).
 
 - `Reclamation`  
   Reclamation Algorithm

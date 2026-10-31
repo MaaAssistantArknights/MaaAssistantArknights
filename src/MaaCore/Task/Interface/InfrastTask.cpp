@@ -84,6 +84,12 @@ bool asst::InfrastTask::set_params(const json::value& params)
 {
     LogTraceFunction;
 
+    const auto& buy_with_green_tickets = params.find_value("buy_materials_with_green_tickets");
+    if (buy_with_green_tickets && !buy_with_green_tickets->is<bool>()) {
+        LogError << __FUNCTION__ << "buy_materials_with_green_tickets must be a boolean";
+        return false;
+    }
+
     auto mode = static_cast<Mode>(params.get("mode", 0));
     // 仅常规模式支持菲亚梅塔配对；关闭时不把前置宿舍步骤纳入子任务序列。
     const bool fiammetta_recovery_enabled = mode == Mode::Default && params.get("fiammetta_recovery_enabled", false);
@@ -280,7 +286,9 @@ bool asst::InfrastTask::set_params(const json::value& params)
         int index = params.get("plan_index", 0);
 
         try {
-            return parse_and_set_custom_config(utils::path(filename), index);
+            if (!parse_and_set_custom_config(utils::path(filename), index)) {
+                return false;
+            }
         }
         catch (const json::exception& e) {
             Log.error("Json parse failed", utils::path(filename), e.what());
@@ -292,6 +300,7 @@ bool asst::InfrastTask::set_params(const json::value& params)
         }
     }
 
+    m_training_task_ptr->set_buy_with_green_tickets(params.get("buy_materials_with_green_tickets", false));
     return true;
 }
 

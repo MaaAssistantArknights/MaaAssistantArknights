@@ -27,10 +27,12 @@ bool asst::ItemConfig::parse(const json::value& json)
         }
         if (item_json.at("classifyType").as_string() == "MATERIAL") {
             material_sortid.emplace(id, item_json.at("sortId").as_integer());
-            // All dual-chip formulas in the current official data consume chip catalysts.
-            if (const auto formula_opt = item_json.find("formula");
-                formula_opt && !formula_opt->contains(ChipCatalystItemId.data())) {
-                non_chip_formula_item_ids.emplace(id);
+            if (const auto formula = item_json.find<std::unordered_map<std::string, int>>("formula")) {
+                m_item_formulas.emplace(id, *formula);
+                // All dual-chip formulas in the current official data consume chip catalysts.
+                if (!formula->contains(ChipCatalystItemId.data())) {
+                    non_chip_formula_item_ids.emplace(id);
+                }
             }
         }
     }
@@ -58,4 +60,5 @@ void asst::ItemConfig::clear()
     m_all_item_id.clear();
     m_ordered_material_item_id.clear();
     m_ordered_non_chip_formula_item_id.clear();
+    m_item_formulas.clear();
 }

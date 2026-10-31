@@ -23,6 +23,7 @@ public:
         Rect rect;
         double score = 0.0;
         TemplInfo templ_info;
+        double second_best_score = 0.0;
     };
 
     using ResultOpt = std::optional<Result>;

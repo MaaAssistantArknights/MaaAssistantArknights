@@ -430,6 +430,7 @@
     <system:String x:Key="Asst.Fight.TheEx">無獎勵關卡，已停止</system:String>
     <system:String x:Key="Asst.Fight.TimesUnused">已完成 {0} 次戰鬥，下次將執行 {1} 倍率代理，進入後將完成 {2} 次戰鬥，超過 {3} 次限制，不進入戰鬥</system:String>
     <system:String x:Key="Asst.Fight.UnableToAgent">無法使用代理指揮</system:String>
+    <system:String x:Key="Asst.GreenTicketPurchased">使用 {2} 綠票兌換 {0} × {1}</system:String>
     <system:String x:Key="Asst.Infrast.AssistantLowMood">協助者候選心情低於閾值，已跳過，協助者保持原樣：{0}</system:String>
     <system:String x:Key="Asst.Infrast.AssistantNotFound">協助者候選均未命中，協助者保持原樣：{0}</system:String>
     <system:String x:Key="Asst.Infrast.AssistantWorkingExcluded">協助者候選正在其他設施工作中，已跳過，協助者保持原樣：{0}</system:String>
@@ -1287,6 +1288,8 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
     <system:String x:Key="Guide.User">使用指引</system:String>
     <system:String x:Key="Guide.UserAgreement">使用 MAA 即表示您同意遵守 ｢使用者協議｣，完整協議內容可在官網底部的連結中查看。</system:String>
     <system:String x:Key="Guide.ViewLog">您可以前往 ｢{key=Settings.Title} - {key=Settings.IssueReport.Title} - {key=Error.OpenDebugFolder}｣ 查看日誌，了解錯誤發生的具體原因。</system:String>
+    <system:String x:Key="Infrast.BuyMaterialsWithGreenTickets">繼續專精時自動用綠票補料</system:String>
+    <system:String x:Key="Infrast.BuyMaterialsWithGreenTicketsTip" xml:space="preserve">僅在開啟繼續專精時生效，與幹員培養的開關獨立。&#10;先嘗試合成，再按缺口兌換已解鎖綠票商店二層的藍材料，包括遞迴合成原料。&#10;餘額、庫存或辨識不足時停止補料。</system:String>
     <system:String x:Key="Infrast.ContinueTraining">訓練完成後繼續嘗試專精目前技能</system:String>
     <system:String x:Key="Infrast.Custom.File">自訂基建排班檔案</system:String>
     <system:String x:Key="Infrast.Custom.FileHasPlanNoPeriod">自訂基建排班僅有部分計畫設定了時段，可能會產生預期外的行為。若需設定換班時段請確保所有計畫均有設定時段，否則請全部留白。</system:String>
@@ -2089,6 +2092,8 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
     <system:String x:Key="TaskQueue.MainViewButtonFeature">主介面可選擇按鈕功能</system:String>
     <system:String x:Key="TaskQueue.MultiTasksShare.Tip">以下選項為多任務共用</system:String>
     <system:String x:Key="TaskQueue.NotSwitch">不切換</system:String>
+    <system:String x:Key="TaskQueue.OperProgress.BuyMaterialsWithGreenTickets">自動用綠票兌換缺少的材料</system:String>
+    <system:String x:Key="TaskQueue.OperProgress.BuyMaterialsWithGreenTicketsTip" xml:space="preserve">合成無法補齊時，按目前步驟的缺口兌換二層出售的材料。&#10;需要先自行解鎖二層；餘額、庫存或辨識不足時停止補料。</system:String>
     <system:String x:Key="TaskQueue.OperProgress.Detail">{key=TaskQueue.Task.OperProgress} {0}:{1} {2}</system:String>
     <system:String x:Key="TaskQueue.OperProgress.Elite">精英化</system:String>
     <system:String x:Key="TaskQueue.OperProgress.EliteTarget">精英化 {0}</system:String>

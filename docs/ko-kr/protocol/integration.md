@@ -600,6 +600,12 @@ Yituliu 전송 ID, 기본값 비어 있음. `report_to_yituliu`가 true일 때�
 @optional  
 훈련실에서 완료되지 않은 특화 훈련을 계속할지 여부  
 :::  
+::: field buy_materials_with_green_tickets
+@type boolean
+@default false
+@optional
+특화를 계속할 때 녹색 티켓으로 재료를 보충할지 여부입니다. `continue_training`이 `true`일 때만 적용됩니다. `OperProgress`의 같은 이름의 매개변수와 독립적이며 보충 규칙과 성공 콜백은 동일합니다.
+:::
 ::::
 
 <details>
@@ -1438,6 +1444,32 @@ Sarkaz 테마, Investment 모드, "연금술 분대" 또는 "지원 분대"일 �
 ```
 
 </details>
+
+- `OperProgress`
+  오퍼레이터 육성
+
+:::: field-group
+::: field enable
+@type boolean
+@default true
+@optional
+이 작업의 활성화 여부입니다.
+:::
+::: field plans
+@type array<object>
+@required
+클라이언트 언어와 관계없이 `name`에는 중국어 간체 오퍼레이터 이름을 사용합니다.
+육성 계획 배열입니다. 각 항목은 `name`(오퍼레이터 이름)이 필수입니다. `role`(클래스)은 생략할 수 있지만 여러 클래스를 가진 오퍼레이터는 지정해야 하며, 값은 `Pioneer`, `Warrior`, `Tank`, `Sniper`, `Caster`, `Medic`, `Support`, `Special` 중 하나입니다. 선택 목표: `elite`는 1–2, `skill_level`은 2–7, `skill_mastery`는 세 스킬의 목표 특화 레벨 배열이며 각 값은 0–3(0은 건너뛰기)입니다. 생략한 목표는 실행하지 않습니다.
+:::
+::: field buy_materials_with_green_tickets
+@type boolean
+@default false
+@optional
+가공 후에도 부족한 파란색 재료를 이미 개방된 상점 2층에서 녹색 티켓으로 보충할지 여부입니다. 부족 수량이 남은 교환 한도를 초과하면 가능한 수량만 교환합니다. 잔액이 부족하거나 구매 정보를 확인할 수 없으면 교환하지 않습니다.
+:::
+::::
+
+교환에 성공하면 `SubTaskExtraInfo`의 `what: "GreenTicketPurchased"`를 알립니다. `details`에는 `material`(재료명), `material_id`, `count`(실제 획득한 재료 수량), `cost`(소비한 녹색 티켓 수)가 포함됩니다.
 
 - `Reclamation`  
   생존 연산

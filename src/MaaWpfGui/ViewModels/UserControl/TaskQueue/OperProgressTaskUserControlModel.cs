@@ -103,6 +103,12 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
 
     public OperItem? OperSelect { get; set => SetAndNotify(ref field, value); }
 
+    public bool BuyMaterialsWithGreenTickets
+    {
+        get => GetTaskConfig<OperProgressTask>().BuyMaterialsWithGreenTickets;
+        set => SetTaskConfig<OperProgressTask>(t => t.BuyMaterialsWithGreenTickets == value, t => t.BuyMaterialsWithGreenTickets = value);
+    }
+
     public override void RefreshUI(BaseTask? baseTask)
     {
         if (baseTask is not OperProgressTask task)
@@ -312,7 +318,10 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
                 return (null, []);
             }
 
-            var task = new AsstOperProgressTask { Plans = operProgress.Plans };
+            var task = new AsstOperProgressTask {
+                Plans = operProgress.Plans,
+                BuyMaterialsWithGreenTickets = operProgress.BuyMaterialsWithGreenTickets,
+            };
             return taskId switch {
                 int id when id > 0 => (Instances.AsstProxy.AsstSetTaskParamsEncoded(id, task), [id]),
                 null => FromSingle(Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.OperProgress, task)),
