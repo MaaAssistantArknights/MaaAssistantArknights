@@ -88,6 +88,34 @@ bool asst::BattleDataConfig::parse(const json::value& json)
     return true;
 }
 
+std::vector<std::string> asst::BattleDataConfig::get_related_tokens(battle::Role role, const std::string& name) const
+{
+    const auto& configured_tokens = get_tokens(role, name);
+    if (!configured_tokens.empty()) {
+        return configured_tokens;
+    }
+
+    const auto oper_id = get_first_id(role, name);
+    if (!oper_id.has_value()) {
+        return {};
+    }
+    const size_t separator = oper_id->rfind('_');
+    if (separator == std::string::npos) {
+        return {};
+    }
+    const std::string oper_code = "_" + oper_id->substr(separator + 1) + "_";
+
+    std::vector<std::string> result;
+    for (const auto& [id, props] : m_chars) {
+        if (id.starts_with("token_") && id.find(oper_code) != std::string::npos &&
+            props->role == battle::Role::Drone &&
+            std::ranges::find(result, props->name) == result.cend()) {
+            result.emplace_back(props->name);
+        }
+    }
+    return result;
+}
+
 asst::battle::SubRole asst::BattleDataConfig::get_subrole_type(const std::string& subrole_name)
 {
     if (const auto iter = SubRoleNameToSubRole.find(subrole_name); iter != SubRoleNameToSubRole.end()) {

@@ -1,0 +1,44 @@
+{
+    "1": {
+        "type": "DeployOperatorSummon",
+        "operator": "麦哲伦",
+        "count": 25
+    },
+    "2": {
+        "type": "DeployOperator",
+        "operator": "提丰",
+        "count": 10
+    },
+    "3": {
+        "type": "UseOperatorSkill",
+        "operator": "寒檀",
+        "skill": 2,
+        "count": 10
+    },
+    "4": {
+        "type": "UseOperatorSkill",
+        "operator": "凛视",
+        "skill": 2,
+        "count": 10
+    },
+    "5": {
+        "type": "DeployOperator",
+        "operator": "史尔特尔",
+        "count": 10
+    },
+    "6": {
+        "type": "DeployOperatorSummon",
+        "operator": "缪尔赛思",
+        "count": 10
+    },
+    "7": {
+        "type": "DeployOperatorSummon",
+        "operator": "凯尔希",
+        "count": 20
+    },
+    "8": {
+        "type": "DeployOperator",
+        "operator": "安洁莉娜",
+        "count": 10
+    }
+}
