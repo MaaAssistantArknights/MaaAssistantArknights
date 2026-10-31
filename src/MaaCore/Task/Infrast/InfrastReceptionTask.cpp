@@ -381,6 +381,9 @@ bool asst::InfrastReceptionTask::shift()
             continue;
         }
 
+        if (!ensure_notstationed_filter_off()) {
+            return false;
+        }
         if (!opers_detect_with_swipe()) {
             return false;
         }

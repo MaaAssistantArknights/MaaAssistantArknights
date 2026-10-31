@@ -104,6 +104,7 @@ bool asst::InfrastTask::set_params(const json::value& params)
     for (const auto& task : selection_tasks) {
         task->set_default_mode(mode == Mode::Default);
     }
+    m_reception_task_ptr->set_default_mode(mode != Mode::Rotation);
 
     if (!m_running) {
         auto facility_opt = params.find<json::array>("facility");
