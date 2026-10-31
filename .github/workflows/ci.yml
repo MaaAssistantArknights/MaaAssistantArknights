@@ -8,6 +8,10 @@ on:
       - "dev-v2"
     paths:
       - ".github/workflows/ci.yml"
+      - ".github/actions/sign-windows/**"
+      - ".github/scripts/windows-signing.ps1"
+      - ".github/scripts/audit-windows-signatures.ps1"
+      - ".signpath/**"
       - "3rdparty/include/**"
       - "cmake/**"
       - "CMakeLists.txt"
@@ -19,6 +23,10 @@ on:
   pull_request:
     paths:
       - ".github/workflows/ci.yml"
+      - ".github/actions/sign-windows/**"
+      - ".github/scripts/windows-signing.ps1"
+      - ".github/scripts/audit-windows-signatures.ps1"
+      - ".signpath/**"
       - "3rdparty/include/**"
       - "cmake/**"
       - "CMakeLists.txt"
@@ -28,9 +36,14 @@ on:
       - "tools/**"
       - "!**/*.md"
   workflow_dispatch:
+    inputs:
+      windows_signing_test:
+        description: "Run an unpublished Windows-only build with the SignPath test certificate"
+        type: boolean
+        default: false
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.event.pull_request.head.repo.full_name || github.repository }}-${{ github.head_ref || github.ref_name }}${{ github.ref == 'refs/heads/dev-v2' && format('-{0}', github.sha) || '' }}
+  group: ${{ github.workflow }}-${{ github.event.pull_request.head.repo.full_name || github.repository }}-${{ github.head_ref || github.ref_name }}${{ github.ref == 'refs/heads/dev-v2' && format('-{0}', github.sha) || '' }}-${{ github.event_name }}${{ github.event_name == 'workflow_dispatch' && inputs.windows_signing_test && '-signing-test' || '' }}
   cancel-in-progress: true
 
 jobs:
@@ -43,7 +56,7 @@ jobs:
     steps:
       - name: Show concurrency group
         env:
-          CONCURRENCY_GROUP: ${{ github.workflow }}-${{ github.event.pull_request.head.repo.full_name || github.repository }}-${{ github.head_ref || github.ref_name }}${{ github.ref == 'refs/heads/dev-v2' && format('-{0}', github.sha) || '' }}
+          CONCURRENCY_GROUP: ${{ github.workflow }}-${{ github.event.pull_request.head.repo.full_name || github.repository }}-${{ github.head_ref || github.ref_name }}${{ github.ref == 'refs/heads/dev-v2' && format('-{0}', github.sha) || '' }}-${{ github.event_name }}${{ github.event_name == 'workflow_dispatch' && inputs.windows_signing_test && '-signing-test' || '' }}
         run: |
           echo "Concurrency Group: $CONCURRENCY_GROUP"
 
@@ -97,6 +110,8 @@ jobs:
           echo "**Full Changelog**: [$last_tag -> $this_tag](https://github.com/MaaAssistantArknights/MaaAssistantArknights/compare/${last_tag}...${this_tag})" >> CHANGELOG.md
           echo >> CHANGELOG.md
           echo "[已有 Mirror酱 CDK？前往 Mirror酱 高速下载](https://mirrorchyan.com/zh/projects?rid=MAA&source=maagh-release)" >> CHANGELOG.md
+          echo >> CHANGELOG.md
+          echo "[Code signing policy](https://docs.maa.plus/en-us/develop/code-signing.html)" >> CHANGELOG.md
 
       - name: Upload changelog to GitHub
         uses: actions/upload-artifact@v7
@@ -107,6 +122,9 @@ jobs:
 
   windows:
     name: Build for Windows
+    permissions:
+      actions: read
+      contents: read
     needs: meta
     strategy:
       matrix:
@@ -141,8 +159,10 @@ jobs:
           python3 tools/maadeps-download.py ${{ matrix.arch }}-windows
 
       - name: Configure, build and install
+        env:
+          MAA_BUILD_VERSION: ${{ needs.meta.outputs.tag }}
         run: |
-          cmake -B build --preset ${{ matrix.arch == 'arm64' && 'windows-publish-arm64' || 'windows-publish-x64' }} -DMAA_HASH_VERSION='${{ needs.meta.outputs.tag }}'
+          cmake -B build --preset ${{ matrix.arch == 'arm64' && 'windows-publish-arm64' || 'windows-publish-x64' }} "-DMAA_HASH_VERSION=$env:MAA_BUILD_VERSION"
           cmake --build --preset ${{ matrix.arch == 'arm64' && 'windows-publish-arm64' || 'windows-publish-x64' }} --parallel $env:NUMBER_OF_PROCESSORS
           cmake --build build --target MAA.Updater --config RelWithDebInfo --parallel $env:NUMBER_OF_PROCESSORS
           cmake --install build --config RelWithDebInfo
@@ -161,15 +181,11 @@ jobs:
           cp MaaFramework-temp/bin/*Win32ControlUnit* install/
           cp MaaFramework-temp/bin/*AdbControlUnit* install/
 
-      - name: Upload MaaCore runtime for downstream jobs
-        uses: actions/upload-artifact@v7
-        with:
-          name: MAARuntime-win-${{ matrix.arch }}
-          path: |
-            install/
-            !install/*.h
-            !install/*.pdb
-            !install/msvc-debug/
+      - name: Stage native runtime before publishing the GUI
+        run: |
+          $runtimeDirectory = "$env:RUNNER_TEMP/maacore-runtime-${{ matrix.arch }}"
+          New-Item -ItemType Directory -Path $runtimeDirectory | Out-Null
+          Copy-Item install/* -Destination $runtimeDirectory -Recurse
 
       - name: Generate global.json
         shell: bash
@@ -196,10 +212,12 @@ jobs:
         run: dotnet restore src/MaaWpfGui/MaaWpfGui.csproj
 
       - name: Taggify version for csproj
+        env:
+          MAA_BUILD_VERSION: ${{ needs.meta.outputs.tag }}
         run: |
           $csprojPath = "src/MaaWpfGui/MaaWpfGui.csproj"
           $csprojPath = Resolve-Path -Path $csprojPath
-          $tag = '${{ needs.meta.outputs.tag }}' -replace '.*?/', ''
+          $tag = $env:MAA_BUILD_VERSION
           if ($tag -match '\d+(\.\d+){1,3}') {
               $match = $Matches[0]
           } else {
@@ -249,6 +267,53 @@ jobs:
 
           cp tools/DependencySetup_依赖库安装.bat install
 
+      - name: Check Windows binary metadata
+        env:
+          SIGNING_VERSION: ${{ needs.meta.outputs.tag }}
+        run: pwsh .github/scripts/windows-signing.ps1 -Operation CheckMetadata -InstallDirectory install -Version $env:SIGNING_VERSION
+
+      - name: Sign Windows binaries
+        timeout-minutes: ${{ github.event_name == 'workflow_dispatch' && inputs.windows_signing_test && 15 || 250 }}
+        if: github.repository == 'MaaAssistantArknights/MaaAssistantArknights' && (startsWith(github.ref, 'refs/tags/v') || (github.event_name == 'workflow_dispatch' && inputs.windows_signing_test))
+        uses: ./.github/actions/sign-windows
+        with:
+          api-token: ${{ secrets.SIGNPATH_API_TOKEN }}
+          version: ${{ needs.meta.outputs.tag }}
+          arch: ${{ matrix.arch }}
+          signing-policy: ${{ github.event_name == 'workflow_dispatch' && inputs.windows_signing_test && 'test-signing' || 'release-signing' }}
+          release-certificate-sha256: ${{ vars.SIGNPATH_RELEASE_CERTIFICATE_SHA256 }}
+
+      - name: Refresh signed binaries in the native runtime
+        run: |
+          $runtimeDirectory = "$env:RUNNER_TEMP/maacore-runtime-${{ matrix.arch }}"
+          [xml]$configuration = Get-Content .signpath/windows.xml -Raw
+          foreach ($entry in $configuration.SelectNodes("//*[local-name()='include']")) {
+            $name = $entry.GetAttribute('path')
+            if (Test-Path -LiteralPath (Join-Path $runtimeDirectory $name)) {
+              Copy-Item -LiteralPath (Join-Path install $name) -Destination (Join-Path $runtimeDirectory $name) -Force
+            }
+          }
+
+      - name: Upload MaaCore runtime for downstream jobs
+        uses: actions/upload-artifact@v7
+        with:
+          name: MAARuntime-win-${{ matrix.arch }}
+          path: |
+            ${{ runner.temp }}/maacore-runtime-${{ matrix.arch }}/
+            !${{ runner.temp }}/maacore-runtime-${{ matrix.arch }}/*.h
+            !${{ runner.temp }}/maacore-runtime-${{ matrix.arch }}/*.pdb
+            !${{ runner.temp }}/maacore-runtime-${{ matrix.arch }}/msvc-debug/
+
+      - name: Audit Windows signatures
+        run: pwsh .github/scripts/audit-windows-signatures.ps1 -InstallDirectory install -OutputPath "$env:RUNNER_TEMP/windows-signatures-${{ matrix.arch }}.json"
+
+      - name: Upload signature audit
+        uses: actions/upload-artifact@v7
+        with:
+          name: MAA-signpath-audit-${{ matrix.arch }}
+          path: ${{ runner.temp }}/windows-signatures-${{ matrix.arch }}.json
+          retention-days: 7
+
       - name: Generate file list
         run: pwsh tools/GenerateFileList.ps1 -InstallDir install
 
@@ -265,6 +330,7 @@ jobs:
           compression-level: 0
 
   ubuntu:
+    if: github.event_name != 'workflow_dispatch' || !inputs.windows_signing_test
     name: Build for Ubuntu
     needs: meta
     runs-on: ubuntu-latest
@@ -310,7 +376,7 @@ jobs:
         with:
           repository: MaaXYZ/MaaFramework
           latest: true
-          fileName: '*linux-${{ matrix.arch }}*.zip'
+          fileName: "*linux-${{ matrix.arch }}*.zip"
           extract: true
           out-file-path: MaaFramework-temp
 
@@ -390,6 +456,7 @@ jobs:
           compression-level: 0
 
   android:
+    if: github.event_name != 'workflow_dispatch' || !inputs.windows_signing_test
     name: Build for Android
     needs: meta
     runs-on: macos-26
@@ -488,6 +555,7 @@ jobs:
           compression-level: 0
 
   macOS-Core:
+    if: github.event_name != 'workflow_dispatch' || !inputs.windows_signing_test
     name: Build Core for macOS
     needs: meta
     runs-on: macos-26
@@ -556,6 +624,7 @@ jobs:
           path: install/
 
   macOS-GUI:
+    if: github.event_name != 'workflow_dispatch' || !inputs.windows_signing_test
     name: Build GUI for macOS
     needs: [meta, macOS-Core]
     runs-on: macos-26
@@ -633,7 +702,6 @@ jobs:
           name: MAA-macos-runtime-universal
           path: runtime/MAA-${{ needs.meta.outputs.tag }}-macos-runtime-universal.zip
           compression-level: 0
-
 
       - name: Build XCFramework
         run: |
@@ -718,6 +786,7 @@ jobs:
           path: ${{ startsWith(github.ref, 'refs/tags/v') && 'release/MAA*' || 'src/MaaMacGui/MAA.xcarchive/**' }}
 
   avalonia:
+    if: github.event_name != 'workflow_dispatch' || !inputs.windows_signing_test
     name: Build MAAUnified (Avalonia) ${{ matrix.name }}
     needs: [meta, windows, ubuntu, macOS-Core]
     runs-on: ${{ matrix.os }}
@@ -852,7 +921,7 @@ jobs:
 
   release:
     name: Publish Release
-    if: startsWith(github.ref, 'refs/tags/v')
+    if: startsWith(github.ref, 'refs/tags/v') && !(github.event_name == 'workflow_dispatch' && inputs.windows_signing_test)
     needs: [meta, windows, ubuntu, android, macOS-Core, macOS-GUI]
     runs-on: ubuntu-latest
     steps:
@@ -867,6 +936,7 @@ jobs:
           rm -rf assets/MAACore-macos-*
           rm -rf assets/MAARuntime-*
           rm -rf assets/MAAUnified-*
+          rm -rf assets/MAA-signpath-*
           cd assets
           # find . -type f | xargs mv -fvt .
           find . -type f | while read f; do mv -fvt . $f; done

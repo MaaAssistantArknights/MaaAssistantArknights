@@ -2,22 +2,7 @@
 # 安装不完整或处于临时目录（如用户把 MAA.exe 单独拖出文件夹、压缩包内直接双击）时弹提示，
 # 否则经 hostfxr_main_startupinfo 转发启动 MAA.dll
 
-if(NOT DEFINED MAA_HASH_VERSION)
-    set(MAA_HASH_VERSION "0.0.1")
-endif()
-
-if(MAA_HASH_VERSION MATCHES "([0-9]+)\\.([0-9]+)\\.([0-9]+)")
-    set(maa_apphost_fileversion "${CMAKE_MATCH_1},${CMAKE_MATCH_2},${CMAKE_MATCH_3},0")
-    set(maa_apphost_version_string "${CMAKE_MATCH_1}.${CMAKE_MATCH_2}.${CMAKE_MATCH_3}")
-else()
-    set(maa_apphost_fileversion "0,0,1,0")
-    set(maa_apphost_version_string "0.0.1")
-endif()
-
-configure_file(Version.h.in Version.h @ONLY)
-
 add_executable(MaaAppHostStub WIN32 MaaAppHostStub.cpp MaaAppHostStub.rc)
-target_include_directories(MaaAppHostStub PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
 
 if(MSVC)
     # 显式 /utf-8，不依赖源文件 BOM（与 src/MaaUpdater 对齐）

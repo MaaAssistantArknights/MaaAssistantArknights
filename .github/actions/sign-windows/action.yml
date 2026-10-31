@@ -1,0 +1,80 @@
+name: Sign Windows binaries
+description: Sign and verify the MAA PE file allowlist with SignPath
+inputs:
+  api-token:
+    description: SignPath CI user token
+    required: true
+  version:
+    description: Exact product version of all signed files
+    required: true
+  arch:
+    description: Windows architecture used in the artifact name
+    required: true
+  signing-policy:
+    description: SignPath signing policy; test-signing is for unpublished smoke tests only
+    default: release-signing
+  release-certificate-sha256:
+    description: SHA-256 fingerprint of the issued release certificate; required for release-signing
+    default: ""
+  install-directory:
+    description: Directory to receive the verified signed files
+    default: install
+runs:
+  using: composite
+  steps:
+    - name: Prepare signing artifact
+      shell: pwsh
+      env:
+        SIGNPATH_API_TOKEN: ${{ inputs.api-token }}
+        SIGNING_VERSION: ${{ inputs.version }}
+        INSTALL_DIRECTORY: ${{ inputs.install-directory }}
+        SIGNING_ARCH: ${{ inputs.arch }}
+        SIGNING_POLICY: ${{ inputs.signing-policy }}
+        RELEASE_CERTIFICATE_SHA256: ${{ inputs.release-certificate-sha256 }}
+      run: |
+        if ([string]::IsNullOrWhiteSpace($env:SIGNPATH_API_TOKEN)) {
+          throw 'SIGNPATH_API_TOKEN is required for Windows release signing.'
+        }
+        if ($env:SIGNING_POLICY -eq 'release-signing' -and $env:RELEASE_CERTIFICATE_SHA256 -notmatch '^[0-9a-fA-F]{64}$') {
+          throw 'Configure SIGNPATH_RELEASE_CERTIFICATE_SHA256 with the issued release certificate fingerprint before release signing.'
+        }
+        $sourceRevision = git rev-parse HEAD
+        if ($LASTEXITCODE -ne 0 -or $sourceRevision -cne $env:GITHUB_SHA) {
+          throw 'The checked-out source must match the GitHub workflow revision for verified signing.'
+        }
+        & "$env:GITHUB_ACTION_PATH/../../scripts/windows-signing.ps1" -Operation Prepare -InstallDirectory $env:INSTALL_DIRECTORY -ArtifactDirectory "$env:RUNNER_TEMP/signpath-unsigned-$env:SIGNING_ARCH" -Version $env:SIGNING_VERSION
+
+    - name: Upload unsigned binaries
+      id: unsigned
+      uses: actions/upload-artifact@v7
+      with:
+        name: MAA-signpath-unsigned-${{ inputs.arch }}
+        path: ${{ runner.temp }}/signpath-unsigned-${{ inputs.arch }}/
+        if-no-files-found: error
+        retention-days: 7
+
+    - name: Submit signing request
+      uses: signpath/github-action-submit-signing-request@f6d04783b4569d051e0c80105fe66e82819d0092 # v3
+      with:
+        api-token: ${{ inputs.api-token }}
+        organization-id: e8f3b033-4ef2-4524-be16-1fbc85ef2087
+        project-slug: MaaAssistantArknights
+        signing-policy-slug: ${{ inputs.signing-policy }}
+        artifact-configuration-slug: windows-binaries
+        github-artifact-id: ${{ steps.unsigned.outputs.artifact-id }}
+        wait-for-completion: true
+        wait-for-completion-timeout-in-seconds: ${{ inputs.signing-policy == 'test-signing' && 600 || 14400 }}
+        output-artifact-directory: ${{ runner.temp }}/signpath-signed-${{ inputs.arch }}
+        parameters: |
+          version: ${{ toJSON(inputs.version) }}
+
+    - name: Verify and install signed binaries
+      shell: pwsh
+      env:
+        SIGNING_VERSION: ${{ inputs.version }}
+        INSTALL_DIRECTORY: ${{ inputs.install-directory }}
+        SIGNING_ARCH: ${{ inputs.arch }}
+        SIGNING_POLICY: ${{ inputs.signing-policy }}
+        RELEASE_CERTIFICATE_SHA256: ${{ inputs.release-certificate-sha256 }}
+      run: |
+        & "$env:GITHUB_ACTION_PATH/../../scripts/windows-signing.ps1" -Operation Verify -InstallDirectory $env:INSTALL_DIRECTORY -ArtifactDirectory "$env:RUNNER_TEMP/signpath-signed-$env:SIGNING_ARCH" -Version $env:SIGNING_VERSION -SigningPolicy $env:SIGNING_POLICY -ReleaseCertificateSha256 $env:RELEASE_CERTIFICATE_SHA256

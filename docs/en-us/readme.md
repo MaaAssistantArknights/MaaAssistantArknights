@@ -171,6 +171,7 @@ Thanks to all friends who have participated in development and testing - your he
 
 ## Disclaimer
 
+- [Code signing policy](./develop/code-signing.md): Windows release signing scope, maintainer responsibilities, and privacy information.
 - This software is open source under the [GNU Affero General Public License v3.0 only](https://spdx.org/licenses/AGPL-3.0-only.html) license, with additional [Terms of Service](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev-v2/terms-of-service.md).
 - The software's logo is NOT licensed under AGPL 3.0. The artists [耗毛](https://weibo.com/u/3251357314), vie, and all the software developers reserve all rights. The logo must not be used without authorization, even with AGPL 3.0 license claims, and must not be used for any commercial purposes without authorization.
 - This software is open source and free, intended only for learning and communication purposes. If you encounter merchants using this software for paid services, they may be charging for equipment and time costs; any problems and consequences arising from this are not related to this software.
