@@ -1147,6 +1147,7 @@ DEBUG 디렉토리에 저장된 이미지는 수량 제한이 있으며 초과 �
     <system:String x:Key="ExternalNotification.Bark.SendKey">Bark 전송 키</system:String>
     <system:String x:Key="ExternalNotification.Bark.Server">Bark 서버</system:String>
     <system:String x:Key="ExternalNotification.Blacklist">블랙리스트 (줄마다 정규식 하나)</system:String>
+    <system:String x:Key="ExternalNotification.ChannelAdvanced">고급 전송 조건 및 로그 기록</system:String>
     <system:String x:Key="ExternalNotification.Channels">알림 채널</system:String>
     <system:String x:Key="ExternalNotification.ContentMatches">로그에 특정 내용이 있을 때</system:String>
     <system:String x:Key="ExternalNotification.CustomWebhook">사용자 지정 Webhook</system:String>
@@ -1209,6 +1210,8 @@ DEBUG 디렉토리에 저장된 이미지는 수량 제한이 있으며 초과 �
     <system:String x:Key="ExternalNotification.Telegram.BotToken">봇 토큰</system:String>
     <system:String x:Key="ExternalNotification.Telegram.ChatId">채팅 ID</system:String>
     <system:String x:Key="ExternalNotification.Telegram.TopicId">토픽 ID (선택사항)</system:String>
+    <system:String x:Key="ExternalNotification.TestAll">활성화된 모든 채널 테스트</system:String>
+    <system:String x:Key="ExternalNotification.TestChannel">이 채널 테스트</system:String>
     <system:String x:Key="ExternalNotification.Title">외부 알림</system:String>
     <system:String x:Key="ExternalNotification.WhenComplete">작업 완료 시</system:String>
     <system:String x:Key="ExternalNotification.WhenError">작업 오류 발생 시</system:String>

@@ -155,3 +155,15 @@ If the dragged file is not one of the above update packages (e.g., software pack
 - All click operations target random positions within buttons, following a normal distribution (higher probability at the center, decreasing with distance from center).
 - The core algorithms are developed in C++ with multi-level caching to minimize CPU and memory usage.
 - The software supports automatic updates ✿✿ ヽ(°▽°)ノ ✿. We recommend non-critical users try the beta version, which typically updates faster and has fewer bugs. (What MIUI? (╯‵□′)╯︵┻━┻)
+
+## External notifications
+
+Enable external notifications on the notification settings page, add a channel, and enter its connection details. Each channel independently selects task completion, errors, stalled logs, and reminders before scheduled runs. Multiple configurations of the same service are supported.
+
+For example, email can receive completion and error messages with previous logs, while a mobile push channel receives only errors without log history.
+
+- The master switch controls all external notifications; each channel also has its own switch.
+- Advanced options include triggers by new log count or matching content, plus history limits by entry count, time window, and filtering rules. Log counters are independent.
+- “Test this channel” targets one channel; “Test all enabled channels” targets all enabled channels. Tests respect the master switch and leave log counters unchanged.
+- Reordering or editing connection details preserves accumulated log counts. Changing sending conditions or disabling a channel clears its counter. Turning off the master switch clears all counters.
+- Settings save automatically and survive restarts. Existing shared rules are copied to each channel during migration, preserving the master switch.
