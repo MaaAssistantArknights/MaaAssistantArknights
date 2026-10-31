@@ -2162,20 +2162,13 @@
         "next": ["CloseTaskAward"]
     },
     "CloseTaskAward": {
-        "algorithm": "JustReturn",
-        "action": "ClickRect",
-        "specificRect": [600, 630, 60, 60],
-        "next": ["CloseTaskAwardDouble"],
+        "baseTask": "CreditShop-Bought",
+        "template": "ItemObtainedIcon.png",
+        "doc": "认物资页顶部「获得物资」图标确认在物资页后点击关闭。掉落物行数多时会向下延伸遮挡屏幕中部，故点左下角空白处，避免点到物品",
+        "specificRect": [24, 612, 80, 80],
+        "next": ["WeeklyTask", "AwardFinished", "CloseTaskAward"],
+        "maxTimes": 20,
         "postDelay": 1000
-    },
-    "CloseTaskAwardDouble": {
-        "Doc": "有时候奖励出的太慢了，所以这里多点一次",
-        "algorithm": "JustReturn",
-        "action": "ClickRect",
-        "specificRect": [600, 630, 60, 60],
-        "next": ["WeeklyTask", "AwardFinished", "CloseTaskAwardDouble"],
-        "maxTimes": 10,
-        "postDelay": 500
     },
     "AwardFinished": {
         "action": "Stop",
@@ -2233,11 +2226,8 @@
     },
     "CloseTaskMail": {
         "baseTask": "CloseTaskAward",
-        "next": ["CloseTaskMailDouble"]
-    },
-    "CloseTaskMailDouble": {
-        "baseTask": "CloseTaskAwardDouble",
-        "next": ["ReceiveMail", "Home@QuickSwitch@ToHome#next", "Home@ReturnButtons#next", "CloseTaskMailDouble"]
+        "template": "ItemObtainedIcon.png",
+        "next": ["ReceiveMail", "Home@QuickSwitch@ToHome#next", "Home@ReturnButtons#next", "CloseTaskMail"]
     },
     "VisitBegin": {
         "algorithm": "JustReturn",
