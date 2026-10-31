@@ -53,9 +53,11 @@
             ]
         ],
         "action": "ClickRect",
-        "specificRect": [1137, 638, 1, 1],
-        "postDelay": 2000,
+        "specificRect": [1137, 622, 1, 1],
+        "postDelay": 2500,
+        "maxTimes": 3,
         "next": [
+            "JieGarden@Roguelike@CoppersRecast-Resume",
             "JieGarden@Roguelike@Stages#next",
             "JieGarden@Roguelike@NextLevel",
             "JieGarden@Roguelike@GetDrops#next",
@@ -64,11 +66,10 @@
         ]
     },
     "JieGarden@Roguelike@Begin-CoppersRecast": {
-        "Doc": "游客倒转的入口链。这一模式要在玩家已经推进过的一局里刷钱，所以相对常规 Begin 去掉了 Abandon / ExitThenAbandon：看到「放弃探索」也不点，改为点继续探索本局；只有完全没有进行中的探索时才走 StartExplore 开新局。",
+        "Doc": "游客倒转的入口链。这一模式要在玩家已经推进过的一局里刷钱，所以相对常规 Begin 去掉了 Abandon / ExitThenAbandon：看到「放弃探索」也不点，改为点继续探索本局。这里也不放 ChooseDifficulty —— 那个任务的 roi 和「放弃探索」的红叉重叠，红叉一旦没识别到就会去点难度按钮、进而点「开始探索」开新局把旧局顶掉；开局只留 StartExplore，它的模板是「开始探索」四个字，玩家有进行中的对局时按钮文案是「继续探索」，模板天然匹配不上，等于自带一道守卫。",
         "algorithm": "JustReturn",
         "next": [
             "JieGarden@Roguelike@CoppersRecast-Resume",
-            "JieGarden@Roguelike@ChooseDifficulty",
             "JieGarden@Roguelike@StartExplore",
             "JieGarden@Roguelike@Stages#next",
             "JieGarden@Roguelike@GetDrops#next",
@@ -1451,7 +1452,8 @@
         "useRaw": false
     },
     "JieGarden@Roguelike@StrategyChange_mode20002": {
-        "baseTask": "JieGarden@Roguelike@StrategyChange_mode20001"
+        "Doc": "游客倒转的层数策略：任何一层都按 _default 正常推进，绝不出现 _restart。刷常乐（mode20001）那套把非第一层都映射成 _restart，也就是「发现自己在第 2 层以后就重开」——放在游客倒转里正好会把玩家辛苦推进的那一局直接放弃掉。这里必须与 mode20001 分开，沿用 mode0 的全 _default 映射。",
+        "baseTask": "JieGarden@Roguelike@StrategyChange_mode0"
     },
     "JieGarden@Roguelike@StrategyChange_mode4": {
         "text": ["_default", "_exit", "_leaveBoskyPassage"],

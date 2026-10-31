@@ -241,6 +241,17 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
         // 游客倒转要在玩家已经推进过的那一局里刷钱，不能像常规开局那样点「放弃探索」重开：
         // 换一条不点放弃的入口链，优先续玩已有进度，只有完全没有进行中的探索时才开新局
         m_roguelike_task_ptr->set_tasks({ theme + "@Roguelike@Begin-CoppersRecast" });
+
+        // 兜底：把这个主题下「放弃探索」的两步都封死。
+        // 「放弃探索」的红叉图标在地图、结算、选干员等好几个界面都长一样，
+        // 资源链里任何一处误判都会把玩家推进了很多层的那一局直接毁掉；
+        // 相比任务卡住等人看一眼，这个代价完全不能接受。
+        // 键名不带主题前缀：calc_time_limit 会按 `A@B@C` → `B@C` → `C` 逐级回退，
+        // 不带前缀的名字才能同时盖住 base 任务和各主题的派生任务。
+        m_roguelike_task_ptr->set_times_limit("Roguelike@Abandon", 0);
+        m_roguelike_task_ptr->set_times_limit("Roguelike@AbandonConfirm", 0);
+        // 注意不要动 ExitThenAbandon：它只是退回肉鸽主页（进度保留），
+        // 是任务正常收尾（投完币退出）要走的路。
     }
 
     if (mode == RoguelikeMode::Investment) {

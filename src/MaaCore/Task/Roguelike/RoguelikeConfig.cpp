@@ -166,10 +166,15 @@ bool asst::RoguelikeConfig::verify_and_load_params(const json::value& params)
                 // 启用特殊策略，联动 RoguelikeRoutingTaskPlugin
                 Task.set_task_base(strategy_task, "JieGarden@Roguelike@StrategyChange_mode4-FastPass");
             }
-            if (m_mode == RoguelikeMode::FindPlaytime || m_mode == RoguelikeMode::CoppersRecast) {
-                // 刷常乐与投币重铸共用同一套层数策略：第一层正常打，找不到思维边界就重开；
+            if (m_mode == RoguelikeMode::FindPlaytime) {
+                // 刷常乐：第一层正常打，找不到思维边界就重开；
                 // 进洞后由 RoguelikeBoskyPassageRoutingTaskPlugin 接管，反复找常乐节点
                 Task.set_task_base(strategy_task, "JieGarden@Roguelike@StrategyChange_mode20001");
+            }
+            if (m_mode == RoguelikeMode::CoppersRecast) {
+                // 游客倒转是在玩家已经推进过的那一局里刷钱，任何一层都要接着打；
+                // 这里绝不能沿用刷常乐的 mode20001（它把非第一层映射成 _restart，等于放弃本局）
+                Task.set_task_base(strategy_task, "JieGarden@Roguelike@StrategyChange_mode20002");
             }
         }
     }
