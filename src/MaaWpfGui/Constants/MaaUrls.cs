@@ -54,6 +54,9 @@ public static class MaaUrls
     public const string MaaApi = "https://api.maa.plus/MaaAssistantArknights/api/";
     public const string MaaApi2 = "https://api2.maa.plus/MaaAssistantArknights/api/";
 
+    // MaaRelease 仓库内的同一份 api 文件（api.maa.plus 的同步来源）
+    public const string MaaReleaseRawApi = "https://raw.githubusercontent.com/MaaAssistantArknights/MaaRelease/main/MaaAssistantArknights/api/";
+
     public const string QqGroups = "https://api.maa.plus/MaaAssistantArknights/api/qqgroup/index.html";
 
     public const string QqChannel = "https://pd.qq.com/s/4j1ju9z47";

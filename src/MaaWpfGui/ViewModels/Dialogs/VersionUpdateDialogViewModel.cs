@@ -438,12 +438,8 @@ public class VersionUpdateDialogViewModel : Screen
     /// </summary>
     public static bool IsArm => OsArchitecture.StartsWith("arm");
 
-    /*
-    private const string RequestUrl = "repos/MaaAssistantArknights/MaaRelease/releases";
-    private const string StableRequestUrl = "repos/MaaAssistantArknights/MaaAssistantArknights/releases/latest";
-    private const string MaaReleaseRequestUrlByTag = "repos/MaaAssistantArknights/MaaRelease/releases/tags/";
-    private const string InfoRequestUrl = "repos/MaaAssistantArknights/MaaAssistantArknights/releases/tags/";
-    */
+    private const string GithubApiBase = "https://api.github.com/";
+    private const string GithubRateLimitApi = GithubApiBase + "rate_limit";
 
     private const string MaaUpdateApi = "version/summary.json";
     private const int UpdatePackageDownloadMaxAttempts = 3;
@@ -532,6 +528,11 @@ public class VersionUpdateDialogViewModel : Screen
         /// Maa API
         /// </summary>
         MaaApi,
+
+        /// <summary>
+        /// GitHub API
+        /// </summary>
+        GitHub,
 
         /// <summary>
         /// MirrorChyan
@@ -679,7 +680,8 @@ public class VersionUpdateDialogViewModel : Screen
             }
 
             return source switch {
-                AppUpdateSource.MaaApi => await HandleUpdateFromMaaApi(),
+                // GitHub 直查路径与 MaaApi 检测共用下载流程：候选均为 GitHub Release 直链，仅检测来源不同
+                AppUpdateSource.MaaApi or AppUpdateSource.GitHub => await HandleUpdateFromMaaApi(),
                 AppUpdateSource.MirrorChyan => await HandleUpdateFromMirrorChyan(),
                 _ => CheckUpdateRetT.UnknownError,
             };
@@ -820,16 +822,17 @@ public class VersionUpdateDialogViewModel : Screen
         string? rawUrl = _assetsObject["browser_download_url"]?.ToString();
         var urls = new List<string>();
 
-        if (SettingsViewModel.VersionUpdateSettings.UpdateSource == UpdateSource.GitHub && !SettingsViewModel.VersionUpdateSettings.ForceGithubGlobalSource)
-        {
-            var mirrors = _assetsObject["mirrors"]?.ToObject<List<string>>();
-
-            if (mirrors != null)
-            {
-                urls.AddRange(mirrors);
-            }
-        }
-
+        // mirrors 国内 CDN 镜像暂不可用（MaaApi 各渠道资产的 mirrors 字段目前恒为空），海外源固定仅走 GitHub 直链
+        // 待镜像真正可用后，恢复以下解析并把镜像加入候选即可
+        // if (SettingsViewModel.VersionUpdateSettings.UpdateSource == UpdateSource.GitHub)
+        // {
+        //     var mirrors = _assetsObject["mirrors"]?.ToObject<List<string>>();
+        //
+        //     if (mirrors != null)
+        //     {
+        //         urls.AddRange(mirrors);
+        //     }
+        // }
         // 负载均衡
         // var rand = new Random();
         // urls = urls.OrderBy(_ => rand.Next()).ToList();
@@ -838,52 +841,66 @@ public class VersionUpdateDialogViewModel : Screen
             urls.Add(rawUrl);
         }
 
-        _logger.Information("Start test legacy download urls");
-
-        // run latency test parallel
-        var tasks = urls.ConvertAll(url => Instances.HttpService.HeadAsync(new Uri(url)));
-        var latencies = await Task.WhenAll(tasks);
-
-        var proxy = ConfigFactory.Root.Update.Proxy;
-        var hasProxy = !string.IsNullOrEmpty(proxy);
-
-        // select the fastest mirror
-        _logger.Information("Selecting the fastest mirror:");
-        var selected = 0;
-        for (int i = 0; i < latencies.Length; i++)
+        bool downloaded = false;
+        var githubToken = SettingsViewModel.VersionUpdateSettings.GitHubToken.Trim();
+        if (!string.IsNullOrEmpty(githubToken) && rawUrl != null &&
+            await ResolveGithubAssetApiUrlAsync(rawUrl, githubToken) is { } assetApiUrl)
         {
-            var isInChina = urls[i].Contains("s3.maa-org.net") || urls[i].Contains("maa-ota.annangela.cn");
-
-            if (latencies[i] < 0)
-            {
-                _logger.Warning("\turl: {CDNUrl} not available", urls[i]);
-                continue;
-            }
-
-            _logger.Information("\turl: {CDNUrl}, legacy: {1:0.00}ms", urls[i], latencies[i]);
-
-            if (hasProxy && isInChina)
-            {
-                // 如果设置了代理，国内镜像的延迟加上一个固定值
-                latencies[i] += 6480;
-            }
-
-            if (latencies[selected] < 0 || (latencies[i] >= 0 && latencies[i] < latencies[selected]))
-            {
-                selected = i;
-            }
+            // 带 Token 时优先经 Release Assets API 认证下载（302 至 CDN 签名直链），避开匿名下载限流；失败回落匿名直链
+            _logger.Information("Try authenticated download via GitHub assets api");
+            downloaded = await DownloadGithubAssets(assetApiUrl, _assetsObject, BuildGithubHeaders(githubToken, octetStream: true));
         }
 
-        if (latencies[selected] < 0)
+        if (!downloaded)
         {
-            _logger.Error("All mirrors are not available");
-            OutputDownloadProgress(downloading: false, output: LocalizationHelper.GetString("VersionUpdate.NewVersionDownloadFailed.Title"));
-            return CheckUpdateRetT.NetworkError;
+            _logger.Information("Start test legacy download urls");
+
+            // run latency test parallel
+            var tasks = urls.ConvertAll(url => Instances.HttpService.HeadAsync(new Uri(url)));
+            var latencies = await Task.WhenAll(tasks);
+
+            var proxy = ConfigFactory.Root.Update.Proxy;
+            var hasProxy = !string.IsNullOrEmpty(proxy);
+
+            // select the fastest mirror
+            _logger.Information("Selecting the fastest mirror:");
+            var selected = 0;
+            for (int i = 0; i < latencies.Length; i++)
+            {
+                var isInChina = urls[i].Contains("s3.maa-org.net") || urls[i].Contains("maa-ota.annangela.cn");
+
+                if (latencies[i] < 0)
+                {
+                    _logger.Warning("\turl: {CDNUrl} not available", urls[i]);
+                    continue;
+                }
+
+                _logger.Information("\turl: {CDNUrl}, legacy: {1:0.00}ms", urls[i], latencies[i]);
+
+                if (hasProxy && isInChina)
+                {
+                    // 如果设置了代理，国内镜像的延迟加上一个固定值
+                    latencies[i] += 6480;
+                }
+
+                if (latencies[selected] < 0 || (latencies[i] >= 0 && latencies[i] < latencies[selected]))
+                {
+                    selected = i;
+                }
+            }
+
+            if (latencies[selected] < 0)
+            {
+                _logger.Error("All mirrors are not available");
+                OutputDownloadProgress(downloading: false, output: LocalizationHelper.GetString("VersionUpdate.NewVersionDownloadFailed.Title"));
+                return CheckUpdateRetT.NetworkError;
+            }
+
+            _logger.Information("Selected mirror: {CDNUrl}", urls[selected]);
+
+            downloaded = await DownloadGithubAssets(urls[selected], _assetsObject);
         }
 
-        _logger.Information("Selected mirror: {CDNUrl}", urls[selected]);
-
-        var downloaded = await DownloadGithubAssets(urls[selected], _assetsObject);
         if (downloaded)
         {
             OutputDownloadProgress(downloading: false, output: LocalizationHelper.GetString("VersionUpdate.NewVersionDownloadCompleted.Title"));
@@ -1328,12 +1345,13 @@ public class VersionUpdateDialogViewModel : Screen
                     return null;
                 }
 
+                // mirrors 国内 CDN 镜像暂不可用，修复流程同样仅走 GitHub 直链；待镜像恢复后取消注释即可
                 var urls = new List<string>();
-                if (fullPackage["mirrors"]?.ToObject<List<string>>() is { } mirrors)
-                {
-                    urls.AddRange(mirrors);
-                }
 
+                // if (fullPackage["mirrors"]?.ToObject<List<string>>() is { } mirrors)
+                // {
+                //     urls.AddRange(mirrors);
+                // }
                 urls.Add(rawUrl);
                 return new MaaApiRepairPackage(packageName, fullPackage, urls);
             }
@@ -1425,6 +1443,34 @@ public class VersionUpdateDialogViewModel : Screen
             return (CheckUpdateRetT.NoNeedToUpdateDebugVersion, null);
         }
 
+        if (SettingsViewModel.VersionUpdateSettings.UpdateSource == UpdateSource.GitHub)
+        {
+            var githubToken = SettingsViewModel.VersionUpdateSettings.GitHubToken.Trim();
+            if (!string.IsNullOrEmpty(githubToken))
+            {
+                try
+                {
+                    // MaaRelease 仓库的 MaaAssistantArknights/api 目录是 api.maa.plus 的同步来源，带 Token 时以账号身份直接从 GitHub 读取同一份文件
+                    if (await CheckGithubRateLimitAsync(githubToken))
+                    {
+                        var ret = await CheckUpdateByMaaApi($"Bearer {githubToken}");
+                        if (ret is CheckUpdateRetT.OK or CheckUpdateRetT.AlreadyLatest)
+                        {
+                            return (ret, AppUpdateSource.GitHub);
+                        }
+
+                        _logger.Warning("GitHub update check failed ({Ret}), falling back to MaaTeam update check", ret);
+                        Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("VersionUpdate.GithubCheck.Failed"), UiLogColor.Warning);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _logger.Error(ex, "Failed to check update by GitHub, rollback to maaApi");
+                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("VersionUpdate.GithubCheck.Failed"), UiLogColor.Warning);
+                }
+            }
+        }
+
         if (SettingsViewModel.VersionUpdateSettings.UpdateSource == UpdateSource.MirrorChyan)
         {
             try
@@ -1453,9 +1499,9 @@ public class VersionUpdateDialogViewModel : Screen
         }
     }
 
-    private async Task<CheckUpdateRetT> CheckUpdateByMaaApi()
+    private async Task<CheckUpdateRetT> CheckUpdateByMaaApi(string? authorization = null)
     {
-        var (_, json) = await Instances.MaaApiService.RequestMaaApiWithCache(MaaUpdateApi);
+        var (_, json) = await Instances.MaaApiService.RequestMaaApiWithCache(MaaUpdateApi, authorization: authorization);
 
         if (json is null)
         {
@@ -1474,14 +1520,12 @@ public class VersionUpdateDialogViewModel : Screen
             return CheckUpdateRetT.AlreadyLatest;
         }
 
-        return await GetVersionDetailsByMaaApi(versionType);
+        return await GetVersionDetailsByMaaApi(versionType, authorization);
     }
 
-    private async Task<CheckUpdateRetT> GetVersionDetailsByMaaApi(string versionType)
+    private async Task<CheckUpdateRetT> GetVersionDetailsByMaaApi(string versionType, string? authorization = null)
     {
-        _requiresFullPackageConfirmation = false;
-
-        var (_, json) = await Instances.MaaApiService.RequestMaaApiWithCache($"version/{versionType}.json", false);
+        var (_, json) = await Instances.MaaApiService.RequestMaaApiWithCache($"version/{versionType}.json", false, authorization);
         if (json is null)
         {
             return CheckUpdateRetT.NetworkError;
@@ -1500,18 +1544,120 @@ public class VersionUpdateDialogViewModel : Screen
 
         _latestVersion = latestVersion;
         _latestJson = json["details"] as JObject;
-        if (_latestJson == null)
+        if (_latestJson?["assets"] is not JArray assets)
         {
             return CheckUpdateRetT.FailedToGetInfo;
         }
 
+        SelectUpdateAsset(assets);
+
+        return CheckUpdateRetT.OK;
+    }
+
+    private static Dictionary<string, string> BuildGithubHeaders(string token, bool octetStream = false)
+    {
+        return new Dictionary<string, string>
+        {
+            ["Authorization"] = $"Bearer {token}",
+            ["Accept"] = octetStream ? "application/octet-stream" : "application/vnd.github+json",
+        };
+    }
+
+    /// <summary>
+    /// 将 browser_download_url 解析为同名资产的 Release Assets API 地址（api json 的资产不带 id / url 字段，需按 tag 查询按名匹配）。
+    /// </summary>
+    /// <param name="browserDownloadUrl">资产的 browser_download_url。</param>
+    /// <param name="token">GitHub Token。</param>
+    /// <returns>资产 API 地址；解析失败返回 null。</returns>
+    private async Task<string?> ResolveGithubAssetApiUrlAsync(string browserDownloadUrl, string token)
+    {
+        try
+        {
+            // https://github.com/{owner}/{repo}/releases/download/{tag}/{file}
+            var segments = new Uri(browserDownloadUrl).AbsolutePath.Split('/', StringSplitOptions.RemoveEmptyEntries);
+            if (segments.Length < 6 || segments[2] != "releases" || segments[3] != "download")
+            {
+                return null;
+            }
+
+            string releaseApi = $"{GithubApiBase}repos/{segments[0]}/{segments[1]}/releases/tags/{segments[4]}";
+            var body = await Instances.HttpService.GetStringAsync(new Uri(releaseApi), extraHeader: BuildGithubHeaders(token));
+            if (body is null || JsonConvert.DeserializeObject(body) is not JObject release || release["assets"] is not JArray assets)
+            {
+                return null;
+            }
+
+            string? assetName = _assetsObject?["name"]?.ToString();
+            foreach (var asset in assets)
+            {
+                if (asset["name"]?.ToString() == assetName)
+                {
+                    return asset["url"]?.ToString();
+                }
+            }
+
+            _logger.Warning("Asset {AssetName} not found in release {ReleaseApi}", assetName, releaseApi);
+        }
+        catch (Exception ex)
+        {
+            _logger.Warning(ex, "Failed to resolve GitHub asset api url for {Url}", browserDownloadUrl);
+        }
+
+        return null;
+    }
+
+    private async Task<bool> CheckGithubRateLimitAsync(string token)
+    {
+        try
+        {
+            var response = await Instances.HttpService.GetAsync(new Uri(GithubRateLimitApi), extraHeader: BuildGithubHeaders(token));
+            if (response.StatusCode is HttpStatusCode.Unauthorized or HttpStatusCode.Forbidden)
+            {
+                _logger.Warning("GitHub Token rejected by GitHub API ({StatusCode}), please check the token, falling back to MaaTeam update check", (int)response.StatusCode);
+                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("VersionUpdate.GithubCheck.TokenRejected"), UiLogColor.Warning);
+                return false;
+            }
+
+            if (response.StatusCode != HttpStatusCode.OK)
+            {
+                _logger.Warning("GitHub API rate limit check returned {StatusCode}, falling back to MaaTeam update check", (int)response.StatusCode);
+                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("VersionUpdate.GithubCheck.Failed"), UiLogColor.Warning);
+                return false;
+            }
+
+            var body = await HttpResponseHelper.GetStringAsync(response);
+            var remaining = (JsonConvert.DeserializeObject(body ?? "{}") as JObject)?["resources"]?["core"]?["remaining"]?.ToObject<int?>();
+            if (remaining is > 0)
+            {
+                return true;
+            }
+
+            _logger.Warning("GitHub API rate limit exhausted (remaining: {Remaining}), falling back to MaaTeam update check", remaining);
+            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("VersionUpdate.GithubCheck.RateLimitExhausted"), UiLogColor.Warning);
+        }
+        catch (Exception ex)
+        {
+            _logger.Warning(ex, "GitHub API rate limit check failed, falling back to MaaTeam update check");
+            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("VersionUpdate.GithubCheck.Failed"), UiLogColor.Warning);
+        }
+
+        return false;
+    }
+
+    /// <summary>
+    /// 按当前版本、最新版本与架构从 Release 资产中挑选更新包：优先 OTA 增量包，未命中且允许自动下载时回退完整包并标记需确认。
+    /// </summary>
+    /// <param name="assets">候选资产列表（MaaApi 详情或 GitHub Release 资产）。</param>
+    private void SelectUpdateAsset(JArray assets)
+    {
+        _requiresFullPackageConfirmation = false;
         _assetsObject = null;
 
         JObject? fullPackage = null;
 
         var curVersionLower = _curVersion.ToLower();
         var latestVersionLower = _latestVersion.ToLower();
-        foreach (var curAssets in ((JArray?)_latestJson["assets"])!)
+        foreach (var curAssets in assets)
         {
             string? name = curAssets["name"]?.ToString().ToLower();
             if (name == null)
@@ -1550,8 +1696,6 @@ public class VersionUpdateDialogViewModel : Screen
             toast.Show(30);
             Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("VersionUpdate.NewVersionNoOtaPackage"), UiLogColor.Warning);
         }
-
-        return CheckUpdateRetT.OK;
     }
 
     private async Task<CheckUpdateRetT> CheckUpdateByMirrorChyan()
@@ -1772,8 +1916,9 @@ public class VersionUpdateDialogViewModel : Screen
     /// </summary>
     /// <param name="url">下载链接</param>
     /// <param name="assetsObject">Github Assets 对象</param>
+    /// <param name="extraHeader">附加请求头</param>
     /// <returns>操作成功返回 true，反之则返回 false</returns>
-    private static async Task<bool> DownloadGithubAssets(string url, JObject assetsObject)
+    private static async Task<bool> DownloadGithubAssets(string url, JObject assetsObject, Dictionary<string, string>? extraHeader = null)
     {
         try
         {
@@ -1782,7 +1927,8 @@ public class VersionUpdateDialogViewModel : Screen
                     () => Instances.HttpService.DownloadFileAsync(
                         uri,
                         assetsObject["name"]!.ToString(),
-                        assetsObject["content_type"]?.ToString()),
+                        assetsObject["content_type"]?.ToString(),
+                        extraHeader),
                     uri)
                 .ConfigureAwait(false);
         }

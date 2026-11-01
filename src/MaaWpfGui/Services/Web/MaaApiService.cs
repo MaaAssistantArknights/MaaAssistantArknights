@@ -26,28 +26,31 @@ public class MaaApiService : IMaaApiService
 {
     private static readonly string _cacheDir = PathsHelper.CacheDir;
 
-    public async Task<(bool Cached, JObject? Response)> RequestMaaApiWithCache(string api, bool allowFallbackToCache = true)
+    public async Task<(bool Cached, JObject? Response)> RequestMaaApiWithCache(string api, bool allowFallbackToCache = true, string? authorization = null)
     {
-        return await RequestWithFallback(api, MaaUrls.MaaApi, MaaUrls.MaaApi2, allowFallbackToCache);
+        // 带 Token 时改从 MaaRelease 仓库读取同一份 api 文件（api.maa.plus 的同步来源），不回落 api2
+        return authorization is null
+            ? await RequestWithFallback(api, MaaUrls.MaaApi, MaaUrls.MaaApi2, allowFallbackToCache)
+            : await RequestWithFallback(api, MaaUrls.MaaReleaseRawApi, null, allowFallbackToCache, authorization);
     }
 
-    private async Task<(bool Cached, JObject? Response)> RequestWithFallback(string api, string primaryBaseUrl, string? fallbackBaseUrl = null, bool allowFallbackToCache = true)
+    private async Task<(bool Cached, JObject? Response)> RequestWithFallback(string api, string primaryBaseUrl, string? fallbackBaseUrl = null, bool allowFallbackToCache = true, string? authorization = null)
     {
         // 没有备用地址才会直接使用缓存
-        var result = await TryRequest(api, primaryBaseUrl, string.IsNullOrEmpty(fallbackBaseUrl) && allowFallbackToCache);
+        var result = await TryRequest(api, primaryBaseUrl, string.IsNullOrEmpty(fallbackBaseUrl) && allowFallbackToCache, authorization);
         if (result.Response != null || string.IsNullOrEmpty(fallbackBaseUrl))
         {
             return result;
         }
 
-        return await TryRequest(api, fallbackBaseUrl, allowFallbackToCache);
+        return await TryRequest(api, fallbackBaseUrl, allowFallbackToCache, authorization);
     }
 
-    private async Task<(bool Cached, JObject? Response)> TryRequest(string api, string baseUrl, bool allowFallbackToCache = true)
+    private async Task<(bool Cached, JObject? Response)> TryRequest(string api, string baseUrl, bool allowFallbackToCache = true, string? authorization = null)
     {
         var url = baseUrl + api;
         var cachePath = Path.Combine(_cacheDir, api);
-        var response = await ETagCache.FetchResponseWithEtag(url, !File.Exists(cachePath));
+        var response = await ETagCache.FetchResponseWithEtag(url, !File.Exists(cachePath), authorization);
         if (response?.StatusCode == System.Net.HttpStatusCode.NotModified)
         {
             var cache = LoadApiCache(api);

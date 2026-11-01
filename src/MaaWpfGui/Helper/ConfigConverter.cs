@@ -993,7 +993,6 @@ public class ConfigConverter
             ConfigFactory.Root.Update.AllowNightlyUpdates = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.AllowNightlyUpdates, false);
             ConfigFactory.Root.Update.HasAcknowledgedNightlyWarning = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.HasAcknowledgedNightlyWarning, false);
             ConfigFactory.Root.Update.UpdateSource = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.UpdateSource, UpdateSource.GitHub);
-            ConfigFactory.Root.Update.ForceGithubGlobalSource = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.ForceGithubGlobalSource, false);
             ConfigFactory.Root.Update.MirrorChyanCdk = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.MirrorChyanCdk, string.Empty);
             ConfigFactory.Root.Update.MirrorChyanCdkExpiredTime = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.MirrorChyanCdkExpiredTime, 0L);
             ConfigFactory.Root.Update.CheckOnStartup = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.StartupUpdateCheck, true);
@@ -1008,7 +1007,6 @@ public class ConfigConverter
             ConfigurationHelper.DeleteGlobalValue(ConfigurationKeys.AllowNightlyUpdates, out var _);
             ConfigurationHelper.DeleteGlobalValue(ConfigurationKeys.HasAcknowledgedNightlyWarning, out var _);
             ConfigurationHelper.DeleteGlobalValue(ConfigurationKeys.UpdateSource, out var _);
-            ConfigurationHelper.DeleteGlobalValue(ConfigurationKeys.ForceGithubGlobalSource, out var _);
             ConfigurationHelper.DeleteGlobalValue(ConfigurationKeys.MirrorChyanCdk, out var _);
             ConfigurationHelper.DeleteGlobalValue(ConfigurationKeys.MirrorChyanCdkExpiredTime, out var _);
             ConfigurationHelper.DeleteGlobalValue(ConfigurationKeys.StartupUpdateCheck, out var _);

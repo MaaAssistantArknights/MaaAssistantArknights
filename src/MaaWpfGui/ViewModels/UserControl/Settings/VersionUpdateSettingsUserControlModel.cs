@@ -265,13 +265,17 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
         }
     } = ConfigFactory.Root.Update.UpdateSource;
 
-    public bool ForceGithubGlobalSource
+    public string GitHubToken
     {
         get; set {
-            SetAndNotify(ref field, value);
-            ConfigFactory.Root.Update.ForceGithubGlobalSource = value;
+            if (!SetAndNotify(ref field, value))
+            {
+                return;
+            }
+
+            ConfigFactory.Root.Update.GitHubToken = SimpleEncryptionHelper.Encrypt(value);
         }
-    } = ConfigFactory.Root.Update.ForceGithubGlobalSource;
+    } = SimpleEncryptionHelper.Decrypt(ConfigFactory.Root.Update.GitHubToken);
 
     public string MirrorChyanCdk
     {
@@ -375,6 +379,12 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
     {
         Clipboard.Clear();
         Clipboard.SetDataObject(MirrorChyanCdk);
+    }
+
+    public void GitHubTokenCopy()
+    {
+        Clipboard.Clear();
+        Clipboard.SetDataObject(GitHubToken);
     }
 
     /// <summary>

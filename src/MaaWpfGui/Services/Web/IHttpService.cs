@@ -101,6 +101,7 @@ public interface IHttpService
     /// <param name="uri">The URI of the file</param>
     /// <param name="fileName">On disk filename</param>
     /// <param name="contentType">File content type</param>
+    /// <param name="extraHeader">Extra request headers, overriding same-name defaults</param>
     /// <returns>true if succeeded, false if failed</returns>
-    Task<bool> DownloadFileAsync(Uri uri, string fileName, string? contentType = null);
+    Task<bool> DownloadFileAsync(Uri uri, string fileName, string? contentType = null, Dictionary<string, string>? extraHeader = null);
 }

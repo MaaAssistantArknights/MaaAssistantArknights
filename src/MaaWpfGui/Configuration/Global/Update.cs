@@ -38,7 +38,7 @@ public partial class Update : NotifyPropertyChangedWithValue
 
     public UpdateSource UpdateSource { get; set; } = UpdateSource.GitHub;
 
-    public bool ForceGithubGlobalSource { get; set; }
+    public string GitHubToken { get; set; } = string.Empty;
 
     public string MirrorChyanCdk { get; set; } = string.Empty;
 

@@ -87,17 +87,6 @@
                     </CheckBox>
                     <controls:TooltipBlock TooltipText="{DynamicResource Settings.Update.ShowUpdaterProgress.Tip}" />
                 </StackPanel>
-                <StackPanel
-                    Margin="8"
-                    Orientation="Horizontal"
-                    Visibility="{c:Binding 'UpdateSource == enums:UpdateSource.GitHub'}">
-                    <CheckBox
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Center"
-                        Content="{DynamicResource Settings.Update.ForceGithub}"
-                        IsChecked="{Binding ForceGithubGlobalSource}" />
-                    <controls:TooltipBlock TooltipText="{DynamicResource Settings.Update.ForceGithub.Tip}" />
-                </StackPanel>
                 <StackPanel Margin="8">
                     <StackPanel Margin="0,0,0,5" Orientation="Horizontal">
                         <controls:TextBlock
@@ -133,6 +122,32 @@
                             ItemsSource="{Binding UpdateSourceList}"
                             SelectedValue="{Binding UpdateSource}"
                             SelectedValuePath="Value" />
+                    </StackPanel>
+                    <StackPanel
+                        Margin="8"
+                        HorizontalAlignment="Left"
+                        Visibility="{c:Binding 'UpdateSource == enums:UpdateSource.GitHub'}">
+                        <controls:TextBlock
+                            Margin="8,0,0,5"
+                            HorizontalAlignment="Left"
+                            Text="{DynamicResource Settings.Update.GitHubToken}" />
+                        <Grid Width="150">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <hc:PasswordBox
+                                hc:BorderElement.CornerRadius="4,0,0,4"
+                                IsSafeEnabled="False"
+                                ShowEyeButton="True"
+                                UnsafePassword="{Binding GitHubToken}" />
+                            <Button
+                                Grid.Column="1"
+                                hc:BorderElement.CornerRadius="0,4,4,0"
+                                BorderThickness="0,1,1,1"
+                                Command="{s:Action GitHubTokenCopy}"
+                                Content="{DynamicResource Common.Copy}" />
+                        </Grid>
                     </StackPanel>
                     <StackPanel
                         Margin="8"

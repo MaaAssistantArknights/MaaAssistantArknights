@@ -1893,8 +1893,7 @@ If system notifications are turned off, an in-app notification will be used inst
     • {key=Settings.Update.Channel.Stable}: Contains fewer bugs, but new features and themes are supported later. New features may take several weeks to become available</system:String>
     <system:String x:Key="Settings.Update.CheckNow">Software update</system:String>
     <system:String x:Key="Settings.Update.CoreVersion">Core Version</system:String>
-    <system:String x:Key="Settings.Update.ForceGithub">Force using GitHub</system:String>
-    <system:String x:Key="Settings.Update.ForceGithub.Tip">When updates are detected, force download update packages from GitHub</system:String>
+    <system:String x:Key="Settings.Update.GitHubToken">GitHub Token (Optional)</system:String>
     <system:String x:Key="Settings.Update.LocalResourcePackageTooOld">Resource package version ({0}) is not newer than the current version ({1}). Import skipped.</system:String>
     <system:String x:Key="Settings.Update.MaaVersion">Software Version</system:String>
     <system:String x:Key="Settings.Update.MirrorChyan.CdkFetchFailed">Failed to retrieve CDK information. Showing the result from the last successful query.</system:String>
@@ -1924,7 +1923,7 @@ Are you sure you want to disable the update progress window?</system:String>
     <system:String x:Key="Settings.Update.Source.MirrorChyan">MirrorChyan</system:String>
     <system:String x:Key="Settings.Update.Source.Tip" xml:space="preserve">
 🌏 Using {key=Settings.Update.Source.Global}:
-    • {key=Settings.Update.CheckNow}: Update checks are provided by the MAA Team, with update packages pulled from GitHub. A direct domestic mirror is also available (limited bandwidth during peak hours)
+    • {key=Settings.Update.CheckNow}: With a GitHub Token, both checks and downloads are performed via the GitHub API under your account, avoiding shared rate limits; without one, checks go through the MAA Team public API and packages are downloaded via public direct links
     • {key=Settings.Update.ResourceUpdate}: Free update checks provided by {key=Settings.Update.Source.MirrorChyan}. You can manually click "{key=Settings.Update.ResourceUpdate}" in Settings to download from GitHub
 
 🔑 Using {key=Settings.Update.Source.MirrorChyan}:
@@ -2477,6 +2476,9 @@ Only level rewards can be farmed; to get the Engraved Medal, all ｢Key Objectiv
     <system:String x:Key="VersionUpdate.GameResource.Updating">Game resources are being updated.</system:String>
     <system:String x:Key="VersionUpdate.GameResource.UpdatingMirrorChyan">Updating resource {0} from ｢{key=Settings.Update.Source.MirrorChyan}｣...</system:String>
     <system:String x:Key="VersionUpdate.GetReleaseNoteFailed">Failed to get release note.</system:String>
+    <system:String x:Key="VersionUpdate.GithubCheck.Failed">GitHub update check is unavailable. Falling back to MAA Team update checks</system:String>
+    <system:String x:Key="VersionUpdate.GithubCheck.RateLimitExhausted">GitHub API rate limit is exhausted. Falling back to MAA Team update checks</system:String>
+    <system:String x:Key="VersionUpdate.GithubCheck.TokenRejected">GitHub Token is invalid or rejected. Please check the token settings. Falling back to MAA Team update checks</system:String>
     <system:String x:Key="VersionUpdate.IntegrityCheck.Description">{0} installation file(s) are missing ({1}), and some features may not work. The files may have been blocked or removed by security software, or deleted manually. If security software caused this, please check its quarantine area, restore the files, and {key=VersionUpdate.SecurityWhitelist.Tip}\n\nYou can also reinstall manually as described below:\n\n{key=VersionUpdate.FullPackageUpgrade.Tip}</system:String>
     <system:String x:Key="VersionUpdate.IntegrityCheck.Title">Missing installation files</system:String>
     <system:String x:Key="VersionUpdate.IntegrityRepair.Canceled">Automatic repair canceled. You will be reminded again on the next startup.</system:String>

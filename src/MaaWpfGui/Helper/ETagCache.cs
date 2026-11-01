@@ -120,13 +120,18 @@ public class ETagCache
         Save();
     }
 
-    public static async Task<HttpResponseMessage?> FetchResponseWithEtag(string url, bool force = false)
+    public static async Task<HttpResponseMessage?> FetchResponseWithEtag(string url, bool force = false, string? authorization = null)
     {
         var headers = new Dictionary<string, string>
         {
             { "Accept", "application/octet-stream" },
             { "Connection", "close" },
         };
+
+        if (!string.IsNullOrEmpty(authorization))
+        {
+            headers["Authorization"] = authorization;
+        }
 
         if (!force)
         {

@@ -247,7 +247,7 @@ public class HttpService : IHttpService
         return name.Length > 0 && name.All(c => c is > ' ' and < '\u007f' && !"()<>@,;:\\\"/[]?={}".Contains(c));
     }
 
-    public async Task<bool> DownloadFileAsync(Uri uri, string fileName, string? contentType = "application/octet-stream")
+    public async Task<bool> DownloadFileAsync(Uri uri, string fileName, string? contentType = "application/octet-stream", Dictionary<string, string>? extraHeader = null)
     {
         string fileDir = PathsHelper.BaseDir;
         string fileNameWithTemp = fileName + ".temp";
@@ -255,10 +255,19 @@ public class HttpService : IHttpService
         string fullFilePathWithTemp = Path.Combine(fileDir, fileNameWithTemp);
         _logger.Information("Start to download file from {Uri} and save to {TempPath}", uri, fullFilePathWithTemp);
 
+        var headers = new Dictionary<string, string> { { "Accept", contentType ?? "application/octet-stream" } };
+        if (extraHeader != null)
+        {
+            foreach (var (key, value) in extraHeader)
+            {
+                headers[key] = value;
+            }
+        }
+
         HttpResponseMessage response;
         try
         {
-            response = await GetAsync(uri, extraHeader: new Dictionary<string, string> { { "Accept", contentType ?? "application/octet-stream" } }, httpCompletionOption: HttpCompletionOption.ResponseHeadersRead);
+            response = await GetAsync(uri, extraHeader: headers, httpCompletionOption: HttpCompletionOption.ResponseHeadersRead);
             if (response.StatusCode != HttpStatusCode.OK)
             {
                 return false;

@@ -1894,8 +1894,7 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
 • {key=Settings.Update.Channel.Stable}: Bug 更少，新功能新主題支援更慢。新功能可能需要數週後才會支援。</system:String>
     <system:String x:Key="Settings.Update.CheckNow">軟體更新</system:String>
     <system:String x:Key="Settings.Update.CoreVersion">Core 版本</system:String>
-    <system:String x:Key="Settings.Update.ForceGithub">強制使用 GitHub</system:String>
-    <system:String x:Key="Settings.Update.ForceGithub.Tip">偵測到更新後，強制從 GitHub 下載更新壓縮檔</system:String>
+    <system:String x:Key="Settings.Update.GitHubToken">GitHub Token（可選）</system:String>
     <system:String x:Key="Settings.Update.LocalResourcePackageTooOld">資源檔案版本（{0}）小於等於目前版本（{1}），已跳過匯入。</system:String>
     <system:String x:Key="Settings.Update.MaaVersion">軟體版本</system:String>
     <system:String x:Key="Settings.Update.MirrorChyan.CdkFetchFailed">取得 CDK 資訊失敗，已顯示上次成功查詢的結果。</system:String>
@@ -1925,7 +1924,7 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
     <system:String x:Key="Settings.Update.Source.MirrorChyan">MirrorChyan</system:String>
     <system:String x:Key="Settings.Update.Source.Tip" xml:space="preserve">
 🌏 使用 {key=Settings.Update.Source.Global}：
-    • {key=Settings.Update.CheckNow}：由 MAA Team 提供更新偵測，從 GitHub 下載更新壓縮檔，中國國內同步提供直連鏡像站（頻寬有限，高峰時段可能受限）
+    • {key=Settings.Update.CheckNow}：填寫 GitHub Token 後，偵測與下載均以帳號身分經 GitHub API 進行，避開公共介面限流；未填寫則由 MAA Team 公共 API 偵測，更新壓縮檔走公開連結下載
     • {key=Settings.Update.ResourceUpdate}：由 {key=Settings.Update.Source.MirrorChyan} 提供免費的更新偵測，可手動在設定中點擊 ｢{key=Settings.Update.ResourceUpdate}｣ 從 GitHub 下載
 
 🔑 使用 {key=Settings.Update.Source.MirrorChyan}：
@@ -2477,6 +2476,9 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="VersionUpdate.GameResource.Updating">遊戲資源正在更新。</system:String>
     <system:String x:Key="VersionUpdate.GameResource.UpdatingMirrorChyan">正在使用 ｢{key=Settings.Update.Source.MirrorChyan}｣ 更新資源 {0}……</system:String>
     <system:String x:Key="VersionUpdate.GetReleaseNoteFailed">取得更新資訊失敗。</system:String>
+    <system:String x:Key="VersionUpdate.GithubCheck.Failed">GitHub 更新偵測不可用，已回退 MAA Team 更新偵測來源</system:String>
+    <system:String x:Key="VersionUpdate.GithubCheck.RateLimitExhausted">GitHub API 配額已耗盡，已回退 MAA Team 更新偵測來源</system:String>
+    <system:String x:Key="VersionUpdate.GithubCheck.TokenRejected">GitHub Token 無效或已被拒絕，請檢查 Token 設定，已回退 MAA Team 更新偵測來源</system:String>
     <system:String x:Key="VersionUpdate.IntegrityCheck.Description">偵測到 {0} 個安裝檔案缺失（{1}），部分功能可能無法使用。檔案可能被某些安全軟體攔截或刪除，也可能被手動刪除。若為安全軟體所致，請前往對應軟體的隔離區尋找並還原檔案，並{key=VersionUpdate.SecurityWhitelist.Tip}\n\n也可按下方說明手動重灌：\n\n{key=VersionUpdate.FullPackageUpgrade.Tip}</system:String>
     <system:String x:Key="VersionUpdate.IntegrityCheck.Title">安裝檔案缺失</system:String>
     <system:String x:Key="VersionUpdate.IntegrityRepair.Canceled">已取消自動修復，下次啟動時仍會提醒</system:String>

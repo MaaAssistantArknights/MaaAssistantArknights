@@ -18,7 +18,7 @@ namespace MaaWpfGui.Services.Web;
 
 public interface IMaaApiService
 {
-    Task<(bool Cached, JObject? Response)> RequestMaaApiWithCache(string api, bool allowFallbackToCache = true);
+    Task<(bool Cached, JObject? Response)> RequestMaaApiWithCache(string api, bool allowFallbackToCache = true, string? authorization = null);
 
     JObject? LoadApiCache(string api);
 }
