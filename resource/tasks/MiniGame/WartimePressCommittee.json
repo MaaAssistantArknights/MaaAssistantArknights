@@ -47,9 +47,8 @@
     },
     "MiniGame@WartimePressCommittee@Max": {
         "doc": "当日已完成，右箭头跳下一天",
-        "algorithm": "OcrDetect",
-        "text": ["MAX"],
-        "roi": [913, 629, 44, 39],
+        "template": "MiniGame@WartimePressCommittee@Max.png",
+        "roi": [896, 616, 81, 72],
         "next": ["MiniGame@WartimePressCommittee@NextPage"]
     },
     "MiniGame@WartimePressCommittee@StartLayout": {
@@ -63,7 +62,7 @@
         "text": [""],
         "roi": [1017, 43, 263, 587],
         "action": "ClickSelf",
-        "postDelay": 2000
+        "postDelay": 500
     },
     "MiniGame@WartimePressCommittee@Selected": {
         "algorithm": "OcrDetect",
@@ -90,9 +89,8 @@
     },
     "MiniGame@WartimePressCommittee@MaxButton": {
         "doc": "版面已组满，结束组版",
-        "algorithm": "OcrDetect",
-        "text": ["MAX"],
-        "roi": [882, 607, 88, 86]
+        "template": "MiniGame@WartimePressCommittee@MaxButton.png",
+        "roi": [886, 614, 80, 72]
     },
     "MiniGame@WartimePressCommittee@EndLayout": {
         "algorithm": "OcrDetect",
@@ -101,7 +99,8 @@
         "action": "ClickSelf"
     },
     "MiniGame@WartimePressCommittee@Day1-Max": {
-        "baseTask": "MiniGame@WartimePressCommittee@Max"
+        "baseTask": "MiniGame@WartimePressCommittee@Max",
+        "template": "MiniGame@WartimePressCommittee@Max.png"
     },
     "MiniGame@WartimePressCommittee@Day1-StartLayout": {
         "baseTask": "MiniGame@WartimePressCommittee@StartLayout",
@@ -176,6 +175,7 @@
     },
     "MiniGame@WartimePressCommittee@Day1-MaxButton": {
         "baseTask": "MiniGame@WartimePressCommittee@MaxButton",
+        "template": "MiniGame@WartimePressCommittee@MaxButton.png",
         "next": ["MiniGame@WartimePressCommittee@Day1-EndLayout"]
     },
     "MiniGame@WartimePressCommittee@Day1-EndLayout": {
@@ -183,7 +183,8 @@
         "next": ["MiniGame@WartimePressCommittee@ClickToContinue", "#self"]
     },
     "MiniGame@WartimePressCommittee@Day2-Max": {
-        "baseTask": "MiniGame@WartimePressCommittee@Max"
+        "baseTask": "MiniGame@WartimePressCommittee@Max",
+        "template": "MiniGame@WartimePressCommittee@Max.png"
     },
     "MiniGame@WartimePressCommittee@Day2-StartLayout": {
         "baseTask": "MiniGame@WartimePressCommittee@StartLayout",
@@ -258,6 +259,7 @@
     },
     "MiniGame@WartimePressCommittee@Day2-MaxButton": {
         "baseTask": "MiniGame@WartimePressCommittee@MaxButton",
+        "template": "MiniGame@WartimePressCommittee@MaxButton.png",
         "next": ["MiniGame@WartimePressCommittee@Day2-EndLayout"]
     },
     "MiniGame@WartimePressCommittee@Day2-EndLayout": {
@@ -265,7 +267,8 @@
         "next": ["MiniGame@WartimePressCommittee@ClickToContinue", "#self"]
     },
     "MiniGame@WartimePressCommittee@Day3-Max": {
-        "baseTask": "MiniGame@WartimePressCommittee@Max"
+        "baseTask": "MiniGame@WartimePressCommittee@Max",
+        "template": "MiniGame@WartimePressCommittee@Max.png"
     },
     "MiniGame@WartimePressCommittee@Day3-StartLayout": {
         "baseTask": "MiniGame@WartimePressCommittee@StartLayout",
@@ -340,6 +343,7 @@
     },
     "MiniGame@WartimePressCommittee@Day3-MaxButton": {
         "baseTask": "MiniGame@WartimePressCommittee@MaxButton",
+        "template": "MiniGame@WartimePressCommittee@MaxButton.png",
         "next": ["MiniGame@WartimePressCommittee@Day3-EndLayout"]
     },
     "MiniGame@WartimePressCommittee@Day3-EndLayout": {
@@ -347,7 +351,8 @@
         "next": ["MiniGame@WartimePressCommittee@ClickToContinue", "#self"]
     },
     "MiniGame@WartimePressCommittee@Day4-Max": {
-        "baseTask": "MiniGame@WartimePressCommittee@Max"
+        "baseTask": "MiniGame@WartimePressCommittee@Max",
+        "template": "MiniGame@WartimePressCommittee@Max.png"
     },
     "MiniGame@WartimePressCommittee@Day4-StartLayout": {
         "baseTask": "MiniGame@WartimePressCommittee@StartLayout",
@@ -422,6 +427,7 @@
     },
     "MiniGame@WartimePressCommittee@Day4-MaxButton": {
         "baseTask": "MiniGame@WartimePressCommittee@MaxButton",
+        "template": "MiniGame@WartimePressCommittee@MaxButton.png",
         "next": ["MiniGame@WartimePressCommittee@Day4-EndLayout"]
     },
     "MiniGame@WartimePressCommittee@Day4-EndLayout": {
@@ -429,7 +435,8 @@
         "next": ["MiniGame@WartimePressCommittee@ClickToContinue", "#self"]
     },
     "MiniGame@WartimePressCommittee@Day5-Max": {
-        "baseTask": "MiniGame@WartimePressCommittee@Max"
+        "baseTask": "MiniGame@WartimePressCommittee@Max",
+        "template": "MiniGame@WartimePressCommittee@Max.png"
     },
     "MiniGame@WartimePressCommittee@Day5-StartLayout": {
         "baseTask": "MiniGame@WartimePressCommittee@StartLayout",
@@ -504,6 +511,7 @@
     },
     "MiniGame@WartimePressCommittee@Day5-MaxButton": {
         "baseTask": "MiniGame@WartimePressCommittee@MaxButton",
+        "template": "MiniGame@WartimePressCommittee@MaxButton.png",
         "next": ["MiniGame@WartimePressCommittee@Day5-EndLayout"]
     },
     "MiniGame@WartimePressCommittee@Day5-EndLayout": {
