@@ -627,7 +627,7 @@ void BlackFlowSession::queue_map_summary(std::optional<NodeId> corrected_node)
     const int rows = summary.rows;
     const int columns = summary.columns;
     json::array exits;
-    for (const auto& position : m_map_version.final_exits) {
+    for (const auto& position : m_map_version.exits) {
         exits.emplace_back(json::array { position.row, position.column });
     }
     const auto confirmed_edges = std::ranges::count(map.edges(), EdgeKnowledge::Confirmed, &Edge::knowledge);
@@ -664,7 +664,7 @@ void BlackFlowSession::queue_map_summary(std::optional<NodeId> corrected_node)
     LogInfo << __FUNCTION__ << "Map" << "version" << map.revision << "source" << source << "observation"
             << summary.observation_id << "floor" << summary.floor << "grid" << rows << columns << "current"
             << summary.current_node << "nodes" << map.nodes().size() << "confirmed edges" << confirmed_edges
-            << "inferred edges" << inferred_edges << "supplemented exits" << m_map_version.final_exits.size();
+            << "inferred edges" << inferred_edges << "supplemented exits" << m_map_version.exits.size();
     m_telemetry_events.emplace_back(BlackFlowTelemetryEvent { "BlackFlowMapSummary", details });
 
     std::vector<json::value> nodes;
@@ -948,18 +948,17 @@ bool BlackFlowSession::merge_perception(
     }
 
     if (m_map_version.map.floor() != normalized->map.floor) {
-        m_map_version.final_exits.clear();
+        m_map_version.exits.clear();
         const auto* matched = observation.allow_exit_supplement
                                   ? match_map_template(normalized->map, BlackFlowMapTemplates.templates())
                                   : nullptr;
         // 匹配只在首次接收本层地图时进行；模板不可用也不影响地图更新和规划。
         if (matched) {
             const auto& definition = *matched;
-            if (definition.terminal_type == NodeType::Final) {
-                m_map_version.final_exits = definition.terminals;
-            }
-            LogInfo << __FUNCTION__ << "Map template selected" << to_string(definition.id) << "exit count"
-                    << m_map_version.final_exits.size();
+            m_map_version.exits = definition.terminals;
+            m_map_version.exit_type = definition.terminal_type;
+            LogInfo << __FUNCTION__ << "Map template selected" << to_string(definition.id) << "exit type"
+                    << to_string(definition.terminal_type) << "exit count" << m_map_version.exits.size();
         }
     }
     const NodeId previous_current_node = m_observed_current_node;
@@ -979,7 +978,7 @@ bool BlackFlowSession::merge_perception(
     else {
         m_facts.begin_page();
     }
-    supplement_map_exits(normalized->map, m_map_version.final_exits);
+    supplement_map_exits(normalized->map, m_map_version.exits, m_map_version.exit_type);
     if (!m_map_version.map.merge(normalized->map, error)) {
         return false;
     }

@@ -40,7 +40,7 @@ const MapTemplate* match_map_template(const MapObservationBatch& observation, st
     return selected;
 }
 
-void supplement_map_exits(MapObservationBatch& observation, std::span<const GridPosition> exits)
+void supplement_map_exits(MapObservationBatch& observation, std::span<const GridPosition> exits, NodeType exit_type)
 {
     for (const auto& position : exits) {
         auto node = std::ranges::find(observation.nodes, position, &ObservedNode::position);
@@ -49,9 +49,10 @@ void supplement_map_exits(MapObservationBatch& observation, std::span<const Grid
             continue;
         }
         // 识别本来就认出是险路尽头的不算模板补全；其余的在游戏里还没揭开，紧急逃生座椅去不了。
-        node->identity_from_template = !(node->type.has_value() && *node->type == NodeType::Final);
-        node->type = NodeType::Final;
-        node->name = "险路尽头";
+        // 险路恶敌一定是揭开的，模板只补上识别漏掉的身份。
+        node->identity_from_template = exit_type == NodeType::Final && node->type != NodeType::Final;
+        node->type = exit_type;
+        node->name = exit_type == NodeType::BattleBoss ? "险路恶敌" : "险路尽头";
         node->identity_state = NodeIdentityState::Classified;
         node->identity_revealed = true;
     }

@@ -308,8 +308,9 @@ private:
     {
         NormalizedMap map;
         ViewportObservation coordinates;
-        // 本层沿用首次匹配得到的险路尽头位置；首领层为空。
-        std::vector<GridPosition> final_exits;
+        // 本层沿用首次匹配得到的出口位置与类型（第三、五层是险路恶敌，其余层是险路尽头）。
+        std::vector<GridPosition> exits;
+        NodeType exit_type = NodeType::Final;
         PerceptionSummary observation;
     };
 
