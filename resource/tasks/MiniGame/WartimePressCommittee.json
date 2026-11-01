@@ -42,6 +42,7 @@
     "MiniGame@WartimePressCommittee@EnterDay": {
         "doc": "进入组版后当日报名识别的模板任务",
         "algorithm": "OcrDetect",
+        "text": [""],
         "roi": [297, 171, 389, 93]
     },
     "MiniGame@WartimePressCommittee@Max": {
@@ -59,9 +60,15 @@
     },
     "MiniGame@WartimePressCommittee@Article": {
         "algorithm": "OcrDetect",
+        "text": [""],
         "roi": [1017, 43, 263, 587],
         "action": "ClickSelf",
-        "postDelay": 500
+        "postDelay": 2000
+    },
+    "MiniGame@WartimePressCommittee@Selected": {
+        "algorithm": "OcrDetect",
+        "text": ["已选中"],
+        "roi": [885, 59, 90, 557]
     },
     "MiniGame@WartimePressCommittee@Confirm1": {
         "algorithm": "OcrDetect",
@@ -114,48 +121,57 @@
         "baseTask": "MiniGame@WartimePressCommittee@Article",
         "text": ["伊戈尔大帝"],
         "next": [
-            "#self",
-            "MiniGame@WartimePressCommittee@Day1-Article1Confirm"
+            "MiniGame@WartimePressCommittee@Day1-Article1Selected"
         ]
+    },
+    "MiniGame@WartimePressCommittee@Day1-Article1Selected": {
+        "baseTask": "MiniGame@WartimePressCommittee@Selected",
+        "next": ["MiniGame@WartimePressCommittee@Day1-Article1Confirm"]
     },
     "MiniGame@WartimePressCommittee@Day1-Article1Confirm": {
         "baseTask": "MiniGame@WartimePressCommittee@Confirm1",
         "next": [
-            "#self",
             "MiniGame@WartimePressCommittee@Day1-Max",
-            "MiniGame@WartimePressCommittee@EnterDay1"
+            "MiniGame@WartimePressCommittee@EnterDay1",
+            "#self"
         ]
     },
     "MiniGame@WartimePressCommittee@Day1-Article2": {
         "baseTask": "MiniGame@WartimePressCommittee@Article",
         "text": ["征兵招募"],
         "next": [
-            "#self",
-            "MiniGame@WartimePressCommittee@Day1-Article2Confirm"
+            "MiniGame@WartimePressCommittee@Day1-Article2Selected"
         ]
+    },
+    "MiniGame@WartimePressCommittee@Day1-Article2Selected": {
+        "baseTask": "MiniGame@WartimePressCommittee@Selected",
+        "next": ["MiniGame@WartimePressCommittee@Day1-Article2Confirm"]
     },
     "MiniGame@WartimePressCommittee@Day1-Article2Confirm": {
         "baseTask": "MiniGame@WartimePressCommittee@Confirm2",
         "next": [
-            "#self",
             "MiniGame@WartimePressCommittee@Day1-Max",
-            "MiniGame@WartimePressCommittee@EnterDay1"
+            "MiniGame@WartimePressCommittee@EnterDay1",
+            "#self"
         ]
     },
     "MiniGame@WartimePressCommittee@Day1-Article3": {
         "baseTask": "MiniGame@WartimePressCommittee@Article",
         "text": ["帕萨什商场"],
         "next": [
-            "#self",
-            "MiniGame@WartimePressCommittee@Day1-Article3Confirm"
+            "MiniGame@WartimePressCommittee@Day1-Article3Selected"
         ]
+    },
+    "MiniGame@WartimePressCommittee@Day1-Article3Selected": {
+        "baseTask": "MiniGame@WartimePressCommittee@Selected",
+        "next": ["MiniGame@WartimePressCommittee@Day1-Article3Confirm"]
     },
     "MiniGame@WartimePressCommittee@Day1-Article3Confirm": {
         "baseTask": "MiniGame@WartimePressCommittee@Confirm3",
         "next": [
-            "#self",
             "MiniGame@WartimePressCommittee@Day1-Max",
-            "MiniGame@WartimePressCommittee@EnterDay1"
+            "MiniGame@WartimePressCommittee@EnterDay1",
+            "#self"
         ]
     },
     "MiniGame@WartimePressCommittee@Day1-MaxButton": {
@@ -164,7 +180,7 @@
     },
     "MiniGame@WartimePressCommittee@Day1-EndLayout": {
         "baseTask": "MiniGame@WartimePressCommittee@EndLayout",
-        "next": ["#self", "MiniGame@WartimePressCommittee@ClickToContinue"]
+        "next": ["MiniGame@WartimePressCommittee@ClickToContinue", "#self"]
     },
     "MiniGame@WartimePressCommittee@Day2-Max": {
         "baseTask": "MiniGame@WartimePressCommittee@Max"
@@ -187,48 +203,57 @@
         "baseTask": "MiniGame@WartimePressCommittee@Article",
         "text": [""],
         "next": [
-            "#self",
-            "MiniGame@WartimePressCommittee@Day2-Article1Confirm"
+            "MiniGame@WartimePressCommittee@Day2-Article1Selected"
         ]
+    },
+    "MiniGame@WartimePressCommittee@Day2-Article1Selected": {
+        "baseTask": "MiniGame@WartimePressCommittee@Selected",
+        "next": ["MiniGame@WartimePressCommittee@Day2-Article1Confirm"]
     },
     "MiniGame@WartimePressCommittee@Day2-Article1Confirm": {
         "baseTask": "MiniGame@WartimePressCommittee@Confirm1",
         "next": [
-            "#self",
             "MiniGame@WartimePressCommittee@Day2-Max",
-            "MiniGame@WartimePressCommittee@EnterDay2"
+            "MiniGame@WartimePressCommittee@EnterDay2",
+            "#self"
         ]
     },
     "MiniGame@WartimePressCommittee@Day2-Article2": {
         "baseTask": "MiniGame@WartimePressCommittee@Article",
         "text": [""],
         "next": [
-            "#self",
-            "MiniGame@WartimePressCommittee@Day2-Article2Confirm"
+            "MiniGame@WartimePressCommittee@Day2-Article2Selected"
         ]
+    },
+    "MiniGame@WartimePressCommittee@Day2-Article2Selected": {
+        "baseTask": "MiniGame@WartimePressCommittee@Selected",
+        "next": ["MiniGame@WartimePressCommittee@Day2-Article2Confirm"]
     },
     "MiniGame@WartimePressCommittee@Day2-Article2Confirm": {
         "baseTask": "MiniGame@WartimePressCommittee@Confirm2",
         "next": [
-            "#self",
             "MiniGame@WartimePressCommittee@Day2-Max",
-            "MiniGame@WartimePressCommittee@EnterDay2"
+            "MiniGame@WartimePressCommittee@EnterDay2",
+            "#self"
         ]
     },
     "MiniGame@WartimePressCommittee@Day2-Article3": {
         "baseTask": "MiniGame@WartimePressCommittee@Article",
         "text": [""],
         "next": [
-            "#self",
-            "MiniGame@WartimePressCommittee@Day2-Article3Confirm"
+            "MiniGame@WartimePressCommittee@Day2-Article3Selected"
         ]
+    },
+    "MiniGame@WartimePressCommittee@Day2-Article3Selected": {
+        "baseTask": "MiniGame@WartimePressCommittee@Selected",
+        "next": ["MiniGame@WartimePressCommittee@Day2-Article3Confirm"]
     },
     "MiniGame@WartimePressCommittee@Day2-Article3Confirm": {
         "baseTask": "MiniGame@WartimePressCommittee@Confirm3",
         "next": [
-            "#self",
             "MiniGame@WartimePressCommittee@Day2-Max",
-            "MiniGame@WartimePressCommittee@EnterDay2"
+            "MiniGame@WartimePressCommittee@EnterDay2",
+            "#self"
         ]
     },
     "MiniGame@WartimePressCommittee@Day2-MaxButton": {
@@ -237,7 +262,7 @@
     },
     "MiniGame@WartimePressCommittee@Day2-EndLayout": {
         "baseTask": "MiniGame@WartimePressCommittee@EndLayout",
-        "next": ["#self", "MiniGame@WartimePressCommittee@ClickToContinue"]
+        "next": ["MiniGame@WartimePressCommittee@ClickToContinue", "#self"]
     },
     "MiniGame@WartimePressCommittee@Day3-Max": {
         "baseTask": "MiniGame@WartimePressCommittee@Max"
@@ -260,48 +285,57 @@
         "baseTask": "MiniGame@WartimePressCommittee@Article",
         "text": [""],
         "next": [
-            "#self",
-            "MiniGame@WartimePressCommittee@Day3-Article1Confirm"
+            "MiniGame@WartimePressCommittee@Day3-Article1Selected"
         ]
+    },
+    "MiniGame@WartimePressCommittee@Day3-Article1Selected": {
+        "baseTask": "MiniGame@WartimePressCommittee@Selected",
+        "next": ["MiniGame@WartimePressCommittee@Day3-Article1Confirm"]
     },
     "MiniGame@WartimePressCommittee@Day3-Article1Confirm": {
         "baseTask": "MiniGame@WartimePressCommittee@Confirm1",
         "next": [
-            "#self",
             "MiniGame@WartimePressCommittee@Day3-Max",
-            "MiniGame@WartimePressCommittee@EnterDay3"
+            "MiniGame@WartimePressCommittee@EnterDay3",
+            "#self"
         ]
     },
     "MiniGame@WartimePressCommittee@Day3-Article2": {
         "baseTask": "MiniGame@WartimePressCommittee@Article",
         "text": [""],
         "next": [
-            "#self",
-            "MiniGame@WartimePressCommittee@Day3-Article2Confirm"
+            "MiniGame@WartimePressCommittee@Day3-Article2Selected"
         ]
+    },
+    "MiniGame@WartimePressCommittee@Day3-Article2Selected": {
+        "baseTask": "MiniGame@WartimePressCommittee@Selected",
+        "next": ["MiniGame@WartimePressCommittee@Day3-Article2Confirm"]
     },
     "MiniGame@WartimePressCommittee@Day3-Article2Confirm": {
         "baseTask": "MiniGame@WartimePressCommittee@Confirm2",
         "next": [
-            "#self",
             "MiniGame@WartimePressCommittee@Day3-Max",
-            "MiniGame@WartimePressCommittee@EnterDay3"
+            "MiniGame@WartimePressCommittee@EnterDay3",
+            "#self"
         ]
     },
     "MiniGame@WartimePressCommittee@Day3-Article3": {
         "baseTask": "MiniGame@WartimePressCommittee@Article",
         "text": [""],
         "next": [
-            "#self",
-            "MiniGame@WartimePressCommittee@Day3-Article3Confirm"
+            "MiniGame@WartimePressCommittee@Day3-Article3Selected"
         ]
+    },
+    "MiniGame@WartimePressCommittee@Day3-Article3Selected": {
+        "baseTask": "MiniGame@WartimePressCommittee@Selected",
+        "next": ["MiniGame@WartimePressCommittee@Day3-Article3Confirm"]
     },
     "MiniGame@WartimePressCommittee@Day3-Article3Confirm": {
         "baseTask": "MiniGame@WartimePressCommittee@Confirm3",
         "next": [
-            "#self",
             "MiniGame@WartimePressCommittee@Day3-Max",
-            "MiniGame@WartimePressCommittee@EnterDay3"
+            "MiniGame@WartimePressCommittee@EnterDay3",
+            "#self"
         ]
     },
     "MiniGame@WartimePressCommittee@Day3-MaxButton": {
@@ -310,7 +344,7 @@
     },
     "MiniGame@WartimePressCommittee@Day3-EndLayout": {
         "baseTask": "MiniGame@WartimePressCommittee@EndLayout",
-        "next": ["#self", "MiniGame@WartimePressCommittee@ClickToContinue"]
+        "next": ["MiniGame@WartimePressCommittee@ClickToContinue", "#self"]
     },
     "MiniGame@WartimePressCommittee@Day4-Max": {
         "baseTask": "MiniGame@WartimePressCommittee@Max"
@@ -333,48 +367,57 @@
         "baseTask": "MiniGame@WartimePressCommittee@Article",
         "text": [""],
         "next": [
-            "#self",
-            "MiniGame@WartimePressCommittee@Day4-Article1Confirm"
+            "MiniGame@WartimePressCommittee@Day4-Article1Selected"
         ]
+    },
+    "MiniGame@WartimePressCommittee@Day4-Article1Selected": {
+        "baseTask": "MiniGame@WartimePressCommittee@Selected",
+        "next": ["MiniGame@WartimePressCommittee@Day4-Article1Confirm"]
     },
     "MiniGame@WartimePressCommittee@Day4-Article1Confirm": {
         "baseTask": "MiniGame@WartimePressCommittee@Confirm1",
         "next": [
-            "#self",
             "MiniGame@WartimePressCommittee@Day4-Max",
-            "MiniGame@WartimePressCommittee@EnterDay4"
+            "MiniGame@WartimePressCommittee@EnterDay4",
+            "#self"
         ]
     },
     "MiniGame@WartimePressCommittee@Day4-Article2": {
         "baseTask": "MiniGame@WartimePressCommittee@Article",
         "text": [""],
         "next": [
-            "#self",
-            "MiniGame@WartimePressCommittee@Day4-Article2Confirm"
+            "MiniGame@WartimePressCommittee@Day4-Article2Selected"
         ]
+    },
+    "MiniGame@WartimePressCommittee@Day4-Article2Selected": {
+        "baseTask": "MiniGame@WartimePressCommittee@Selected",
+        "next": ["MiniGame@WartimePressCommittee@Day4-Article2Confirm"]
     },
     "MiniGame@WartimePressCommittee@Day4-Article2Confirm": {
         "baseTask": "MiniGame@WartimePressCommittee@Confirm2",
         "next": [
-            "#self",
             "MiniGame@WartimePressCommittee@Day4-Max",
-            "MiniGame@WartimePressCommittee@EnterDay4"
+            "MiniGame@WartimePressCommittee@EnterDay4",
+            "#self"
         ]
     },
     "MiniGame@WartimePressCommittee@Day4-Article3": {
         "baseTask": "MiniGame@WartimePressCommittee@Article",
         "text": [""],
         "next": [
-            "#self",
-            "MiniGame@WartimePressCommittee@Day4-Article3Confirm"
+            "MiniGame@WartimePressCommittee@Day4-Article3Selected"
         ]
+    },
+    "MiniGame@WartimePressCommittee@Day4-Article3Selected": {
+        "baseTask": "MiniGame@WartimePressCommittee@Selected",
+        "next": ["MiniGame@WartimePressCommittee@Day4-Article3Confirm"]
     },
     "MiniGame@WartimePressCommittee@Day4-Article3Confirm": {
         "baseTask": "MiniGame@WartimePressCommittee@Confirm3",
         "next": [
-            "#self",
             "MiniGame@WartimePressCommittee@Day4-Max",
-            "MiniGame@WartimePressCommittee@EnterDay4"
+            "MiniGame@WartimePressCommittee@EnterDay4",
+            "#self"
         ]
     },
     "MiniGame@WartimePressCommittee@Day4-MaxButton": {
@@ -383,7 +426,7 @@
     },
     "MiniGame@WartimePressCommittee@Day4-EndLayout": {
         "baseTask": "MiniGame@WartimePressCommittee@EndLayout",
-        "next": ["#self", "MiniGame@WartimePressCommittee@ClickToContinue"]
+        "next": ["MiniGame@WartimePressCommittee@ClickToContinue", "#self"]
     },
     "MiniGame@WartimePressCommittee@Day5-Max": {
         "baseTask": "MiniGame@WartimePressCommittee@Max"
@@ -406,48 +449,57 @@
         "baseTask": "MiniGame@WartimePressCommittee@Article",
         "text": [""],
         "next": [
-            "#self",
-            "MiniGame@WartimePressCommittee@Day5-Article1Confirm"
+            "MiniGame@WartimePressCommittee@Day5-Article1Selected"
         ]
+    },
+    "MiniGame@WartimePressCommittee@Day5-Article1Selected": {
+        "baseTask": "MiniGame@WartimePressCommittee@Selected",
+        "next": ["MiniGame@WartimePressCommittee@Day5-Article1Confirm"]
     },
     "MiniGame@WartimePressCommittee@Day5-Article1Confirm": {
         "baseTask": "MiniGame@WartimePressCommittee@Confirm1",
         "next": [
-            "#self",
             "MiniGame@WartimePressCommittee@Day5-Max",
-            "MiniGame@WartimePressCommittee@EnterDay5"
+            "MiniGame@WartimePressCommittee@EnterDay5",
+            "#self"
         ]
     },
     "MiniGame@WartimePressCommittee@Day5-Article2": {
         "baseTask": "MiniGame@WartimePressCommittee@Article",
         "text": [""],
         "next": [
-            "#self",
-            "MiniGame@WartimePressCommittee@Day5-Article2Confirm"
+            "MiniGame@WartimePressCommittee@Day5-Article2Selected"
         ]
+    },
+    "MiniGame@WartimePressCommittee@Day5-Article2Selected": {
+        "baseTask": "MiniGame@WartimePressCommittee@Selected",
+        "next": ["MiniGame@WartimePressCommittee@Day5-Article2Confirm"]
     },
     "MiniGame@WartimePressCommittee@Day5-Article2Confirm": {
         "baseTask": "MiniGame@WartimePressCommittee@Confirm2",
         "next": [
-            "#self",
             "MiniGame@WartimePressCommittee@Day5-Max",
-            "MiniGame@WartimePressCommittee@EnterDay5"
+            "MiniGame@WartimePressCommittee@EnterDay5",
+            "#self"
         ]
     },
     "MiniGame@WartimePressCommittee@Day5-Article3": {
         "baseTask": "MiniGame@WartimePressCommittee@Article",
         "text": [""],
         "next": [
-            "#self",
-            "MiniGame@WartimePressCommittee@Day5-Article3Confirm"
+            "MiniGame@WartimePressCommittee@Day5-Article3Selected"
         ]
+    },
+    "MiniGame@WartimePressCommittee@Day5-Article3Selected": {
+        "baseTask": "MiniGame@WartimePressCommittee@Selected",
+        "next": ["MiniGame@WartimePressCommittee@Day5-Article3Confirm"]
     },
     "MiniGame@WartimePressCommittee@Day5-Article3Confirm": {
         "baseTask": "MiniGame@WartimePressCommittee@Confirm3",
         "next": [
-            "#self",
             "MiniGame@WartimePressCommittee@Day5-Max",
-            "MiniGame@WartimePressCommittee@EnterDay5"
+            "MiniGame@WartimePressCommittee@EnterDay5",
+            "#self"
         ]
     },
     "MiniGame@WartimePressCommittee@Day5-MaxButton": {
@@ -456,14 +508,14 @@
     },
     "MiniGame@WartimePressCommittee@Day5-EndLayout": {
         "baseTask": "MiniGame@WartimePressCommittee@EndLayout",
-        "next": ["#self", "MiniGame@WartimePressCommittee@ClickToContinue"]
+        "next": ["MiniGame@WartimePressCommittee@ClickToContinue", "#self"]
     },
     "MiniGame@WartimePressCommittee@ClickToContinue": {
         "algorithm": "OcrDetect",
         "text": ["点击任意处继续"],
         "roi": [514, 628, 249, 92],
         "action": "ClickSelf",
-        "next": ["#self", "MiniGame@WartimePressCommittee@ReceiveReward"]
+        "next": ["MiniGame@WartimePressCommittee@ReceiveReward", "#self"]
     },
     "MiniGame@WartimePressCommittee@ReceiveReward": {
         "baseTask": "CreditShop-Bought",
