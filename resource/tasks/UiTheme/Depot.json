@@ -6,105 +6,15 @@
             "roi": [1153, 606, 77, 79],
             "mask": []
         },
-        "next": [
-            "DepotDefault",
-            "DepotDark",
-            "DepotSami",
-            "DepotMistCity",
-            "DepotSiege",
-            "DepotSarkaz",
-            "DepotDelicious",
-            "DepotGaming",
-            "DepotDahuangCity",
-            "DepotDreamland",
-            "DepotJieGarden",
-            "DepotAveMujica",
-            "DepotTogether",
-            "DepotLoneTrail",
-            "DepotReconstruct",
-            "DepotHunting",
-            "DepotBlackFlow",
-            "DepotAct"
-        ],
+        "next": ["DepotDefault"],
         "onErrorNext": ["Depot-Entry@SwitchTheme@ToggleSettingsMenu"]
     },
     "DepotDefault": {
         "action": "ClickSelf",
         "maskRange": [1, 255],
         "roi": [1109, 560, 171, 160],
-        "template": "Default/DepotEnter.png",
+        "template": ["Default/DepotEnter.png", "Default/DepotEnter-90.png"],
         "postDelay": 500,
         "next": ["#self", "Stop"]
-    },
-    "DepotDark": {
-        "baseTask": "DepotDefault",
-        "template": "Dark/DepotEnter.png"
-    },
-    "DepotSami": {
-        "baseTask": "DepotDefault",
-        "template": "Sami/DepotEnter.png"
-    },
-    "DepotMistCity": {
-        "baseTask": "DepotDefault",
-        "template": "MistCity/DepotEnter.png"
-    },
-    "DepotSiege": {
-        "baseTask": "DepotDefault",
-        "template": "Siege/DepotEnter.png"
-    },
-    "DepotSarkaz": {
-        "baseTask": "DepotDefault",
-        "template": "Sarkaz/DepotEnter.png"
-    },
-    "DepotDelicious": {
-        "baseTask": "DepotDefault",
-        "template": "Delicious/DepotEnter.png"
-    },
-    "DepotGaming": {
-        "baseTask": "DepotDefault",
-        "template": "Gaming/DepotEnter.png"
-    },
-    "DepotDahuangCity": {
-        "baseTask": "DepotDefault",
-        "template": "DahuangCity/DepotEnter.png"
-    },
-    "DepotDreamland": {
-        "baseTask": "DepotDefault",
-        "template": ["Dreamland/Day/DepotEnter.png", "Dreamland/Night/DepotEnter.png"]
-    },
-    "DepotJieGarden": {
-        "baseTask": "DepotDefault",
-        "template": "JieGarden/DepotEnter.png"
-    },
-    "DepotAveMujica": {
-        "baseTask": "DepotDefault",
-        "template": "AveMujica/DepotEnter.png"
-    },
-    "DepotTogether": {
-        "baseTask": "DepotDefault",
-        "template": "Together/DepotEnter.png"
-    },
-    "DepotLoneTrail": {
-        "baseTask": "DepotDefault",
-        "template": ["LoneTrail/Day/DepotEnter.png", "LoneTrail/Night/DepotEnter.png"]
-    },
-    "DepotReconstruct": {
-        "baseTask": "DepotDefault",
-        "template": "Reconstruct/DepotEnter.png"
-    },
-    "DepotHunting": {
-        "baseTask": "DepotDefault",
-        "template": "Hunting/DepotEnter.png"
-    },
-    "DepotBlackFlow": {
-        "baseTask": "DepotDefault",
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "text": ["仓库"],
-        "roi": [1125, 588, 155, 132]
-    },
-    "DepotAct": {
-        "baseTask": "DepotDefault",
-        "template": "Act/DepotEnter.png"
     }
 }

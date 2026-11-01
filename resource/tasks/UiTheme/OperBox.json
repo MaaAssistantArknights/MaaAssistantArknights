@@ -6,103 +6,15 @@
             "roi": [945, 301, 85, 78],
             "mask": []
         },
-        "next": [
-            "OperBoxDefault",
-            "OperBoxDark",
-            "OperBoxSami",
-            "OperBoxMistCity",
-            "OperBoxSiege",
-            "OperBoxSarkaz",
-            "OperBoxDelicious",
-            "OperBoxGaming",
-            "OperBoxDahuangCity",
-            "OperBoxDreamland",
-            "OperBoxJieGarden",
-            "OperBoxAveMujica",
-            "OperBoxTogether",
-            "OperBoxLoneTrail",
-            "OperBoxReconstruct",
-            "OperBoxHunting",
-            "OperBoxBlackFlow",
-            "OperBoxAct"
-        ],
+        "next": ["OperBoxDefault"],
         "onErrorNext": ["OperBox-Entry@SwitchTheme@ToggleSettingsMenu"]
     },
     "OperBoxDefault": {
         "action": "ClickSelf",
         "maskRange": [1, 255],
         "roi": [935, 300, 265, 110],
-        "template": "Default/OperBoxEnter.png",
+        "template": ["Default/OperBoxEnter.png", "Default/OperBoxEnter-90.png"],
         "postDelay": 500,
         "next": ["#self", "Stop"]
-    },
-    "OperBoxDark": {
-        "baseTask": "OperBoxDefault",
-        "template": "Dark/OperBoxEnter.png"
-    },
-    "OperBoxSami": {
-        "baseTask": "OperBoxDefault",
-        "template": "Sami/OperBoxEnter.png"
-    },
-    "OperBoxMistCity": {
-        "baseTask": "OperBoxDefault",
-        "template": "MistCity/OperBoxEnter.png"
-    },
-    "OperBoxSiege": {
-        "baseTask": "OperBoxDefault",
-        "template": "Siege/OperBoxEnter.png"
-    },
-    "OperBoxSarkaz": {
-        "baseTask": "OperBoxDefault",
-        "template": "Sarkaz/OperBoxEnter.png"
-    },
-    "OperBoxDelicious": {
-        "baseTask": "OperBoxDefault",
-        "template": "Delicious/OperBoxEnter.png"
-    },
-    "OperBoxGaming": {
-        "baseTask": "OperBoxDefault",
-        "template": "Gaming/OperBoxEnter.png"
-    },
-    "OperBoxDahuangCity": {
-        "baseTask": "OperBoxDefault",
-        "template": "DahuangCity/OperBoxEnter.png"
-    },
-    "OperBoxDreamland": {
-        "baseTask": "OperBoxDefault",
-        "template": ["Dreamland/Day/OperBoxEnter.png", "Dreamland/Night/OperBoxEnter.png"]
-    },
-    "OperBoxJieGarden": {
-        "baseTask": "OperBoxDefault",
-        "template": "JieGarden/OperBoxEnter.png"
-    },
-    "OperBoxAveMujica": {
-        "baseTask": "OperBoxDefault",
-        "template": "AveMujica/OperBoxEnter.png"
-    },
-    "OperBoxTogether": {
-        "baseTask": "OperBoxDefault",
-        "template": "Together/OperBoxEnter.png"
-    },
-    "OperBoxLoneTrail": {
-        "baseTask": "OperBoxDefault",
-        "template": ["LoneTrail/Day/OperBoxEnter.png", "LoneTrail/Night/OperBoxEnter.png"]
-    },
-    "OperBoxReconstruct": {
-        "baseTask": "OperBoxDefault",
-        "template": "Reconstruct/OperBoxEnter.png"
-    },
-    "OperBoxHunting": {
-        "baseTask": "OperBoxDefault",
-        "template": "Hunting/OperBoxEnter.png",
-        "roi": [1045, 295, 165, 150]
-    },
-    "OperBoxBlackFlow": {
-        "baseTask": "OperBoxDefault",
-        "template": "BlackFlow/OperBoxEnter.png"
-    },
-    "OperBoxAct": {
-        "baseTask": "OperBoxDefault",
-        "template": "Act/OperBoxEnter.png"
     }
 }

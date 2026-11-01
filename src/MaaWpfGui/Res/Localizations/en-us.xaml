@@ -817,7 +817,7 @@ If you do need to use it, please ensure:
 1. MAA is launched with administrator privileges
 2. It is recommended to add a Link start/stop hotkey in Settings → Hotkey Settings, in case the Stop button cannot be clicked
 3. For some screencap methods, the game window cannot be minimized
-4. The Android and PC clients now share a unified UI; please use the default scaling (Arknights Settings → Game → UI Scaling should be set to 90%)
+4. Arknights Settings → Game → UI Scaling is set to 100%
 5. Lower the mouse pointer scale in Arknights settings to reduce obstruction of recognition areas
 6. Game resolution must be 16:9; recommended settings: 1280x720 or 1920x1080</system:String>
     <system:String x:Key="Connection.AttachWindow.WarningRecommendation" xml:space="preserve">7. We recommend using PostMsg-WindowPos as the mouse input method; it can greatly reduce recognition errors and freezing issues on the PC client</system:String>

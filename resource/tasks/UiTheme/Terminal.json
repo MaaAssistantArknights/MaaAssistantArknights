@@ -7,26 +7,7 @@
             "roi": [903, 120, 97, 58],
             "mask": []
         },
-        "next": [
-            "TerminalDefault",
-            "TerminalDark",
-            "TerminalSami",
-            "TerminalMistCity",
-            "TerminalSiege",
-            "TerminalSarkaz",
-            "TerminalDelicious",
-            "TerminalGaming",
-            "TerminalDahuangCity",
-            "TerminalDreamland",
-            "TerminalJieGarden",
-            "TerminalAveMujica",
-            "TerminalTogether",
-            "TerminalLoneTrail",
-            "TerminalReconstruct",
-            "TerminalHunting",
-            "TerminalBlackFlow",
-            "TerminalAct"
-        ],
+        "next": ["TerminalDefault"],
         "onErrorNext": ["Terminal-Entry@SwitchTheme@ToggleSettingsMenu"]
     },
     "TerminalDefault": {
@@ -34,76 +15,7 @@
         "maskRange": [1, 255],
         "roi": [844, 58, 268, 272],
         "postDelay": 3000,
-        "template": "Default/Terminal.png",
+        "template": ["Default/Terminal.png", "Default/Terminal-90.png"],
         "next": ["#self", "Stop"]
-    },
-    "TerminalDark": {
-        "baseTask": "TerminalDefault",
-        "template": "Dark/Terminal.png"
-    },
-    "TerminalSami": {
-        "baseTask": "TerminalDefault",
-        "template": "Sami/Terminal.png"
-    },
-    "TerminalMistCity": {
-        "baseTask": "TerminalDefault",
-        "template": "MistCity/Terminal.png"
-    },
-    "TerminalSiege": {
-        "baseTask": "TerminalDefault",
-        "template": "Siege/Terminal.png"
-    },
-    "TerminalSarkaz": {
-        "baseTask": "TerminalDefault",
-        "template": "Sarkaz/Terminal.png"
-    },
-    "TerminalDelicious": {
-        "baseTask": "TerminalDefault",
-        "template": "Delicious/Terminal.png"
-    },
-    "TerminalGaming": {
-        "baseTask": "TerminalDefault",
-        "template": "Gaming/Terminal.png"
-    },
-    "TerminalDahuangCity": {
-        "baseTask": "TerminalDefault",
-        "template": "DahuangCity/Terminal.png"
-    },
-    "TerminalDreamland": {
-        "baseTask": "TerminalDefault",
-        "template": ["Dreamland/Day/Terminal.png", "Dreamland/Night/Terminal.png"]
-    },
-    "TerminalJieGarden": {
-        "baseTask": "TerminalDefault",
-        "template": "JieGarden/Terminal.png"
-    },
-    "TerminalAveMujica": {
-        "baseTask": "TerminalDefault",
-        "template": "AveMujica/Terminal.png"
-    },
-    "TerminalTogether": {
-        "baseTask": "TerminalDefault",
-        "template": "Together/Terminal.png"
-    },
-    "TerminalLoneTrail": {
-        "baseTask": "TerminalDefault",
-        "template": ["LoneTrail/Day/Terminal.png", "LoneTrail/Night/Terminal.png"]
-    },
-    "TerminalReconstruct": {
-        "baseTask": "TerminalDefault",
-        "template": "Reconstruct/Terminal.png"
-    },
-    "TerminalHunting": {
-        "baseTask": "TerminalDefault",
-        "template": "Hunting/Terminal.png",
-        "roi": [861, 74, 248, 127]
-    },
-    "TerminalBlackFlow": {
-        "baseTask": "TerminalDefault",
-        "template": "BlackFlow/Terminal.png"
-    },
-    "TerminalAct": {
-        "baseTask": "TerminalDefault",
-        "template": "Act/Terminal.png"
     }
 }

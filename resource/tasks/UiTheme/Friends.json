@@ -6,26 +6,7 @@
             "roi": [300, 550, 128, 41],
             "mask": []
         },
-        "next": [
-            "FriendsDefault",
-            "FriendsDark",
-            "FriendsSami",
-            "FriendsMistCity",
-            "FriendsSiege",
-            "FriendsSarkaz",
-            "FriendsDelicious",
-            "FriendsGaming",
-            "FriendsDahuangCity",
-            "FriendsDreamland",
-            "FriendsJieGarden",
-            "FriendsAveMujica",
-            "FriendsTogether",
-            "FriendsLoneTrail",
-            "FriendsReconstruct",
-            "FriendsHunting",
-            "FriendsBlackFlow",
-            "FriendsAct"
-        ],
+        "next": ["FriendsDefault"],
         "onErrorNext": ["Friends-Entry@SwitchTheme@ToggleSettingsMenu"]
     },
     "FriendsDefault": {
@@ -33,76 +14,8 @@
         "maskRange": [1, 255],
         "roi": [250, 500, 200, 200],
         "templThreshold": 0.7,
-        "template": "Default/Friends.png",
+        "template": ["Default/Friends.png", "Default/Friends-90.png"],
         "postDelay": 1000,
         "next": ["#self", "Stop"]
-    },
-    "FriendsDark": {
-        "baseTask": "FriendsDefault",
-        "template": "Dark/Friends.png"
-    },
-    "FriendsSami": {
-        "baseTask": "FriendsDefault",
-        "template": "Sami/Friends.png"
-    },
-    "FriendsMistCity": {
-        "baseTask": "FriendsDefault",
-        "template": "MistCity/Friends.png"
-    },
-    "FriendsSiege": {
-        "baseTask": "FriendsDefault",
-        "template": "Siege/Friends.png"
-    },
-    "FriendsSarkaz": {
-        "baseTask": "FriendsDefault",
-        "template": "Sarkaz/Friends.png"
-    },
-    "FriendsDelicious": {
-        "baseTask": "FriendsDefault",
-        "template": "Delicious/Friends.png"
-    },
-    "FriendsGaming": {
-        "baseTask": "FriendsDefault",
-        "template": "Gaming/Friends.png"
-    },
-    "FriendsDahuangCity": {
-        "baseTask": "FriendsDefault",
-        "template": "DahuangCity/Friends.png"
-    },
-    "FriendsDreamland": {
-        "baseTask": "FriendsDefault",
-        "template": ["Dreamland/Day/Friends.png", "Dreamland/Night/Friends.png"]
-    },
-    "FriendsJieGarden": {
-        "baseTask": "FriendsDefault",
-        "template": "JieGarden/Friends.png"
-    },
-    "FriendsAveMujica": {
-        "baseTask": "FriendsDefault",
-        "template": "AveMujica/Friends.png"
-    },
-    "FriendsTogether": {
-        "baseTask": "FriendsDefault",
-        "template": "Together/Friends.png"
-    },
-    "FriendsLoneTrail": {
-        "baseTask": "FriendsDefault",
-        "template": ["LoneTrail/Day/Friends.png", "LoneTrail/Night/Friends.png"]
-    },
-    "FriendsReconstruct": {
-        "baseTask": "FriendsDefault",
-        "template": "Reconstruct/Friends.png"
-    },
-    "FriendsHunting": {
-        "baseTask": "FriendsDefault",
-        "template": "Hunting/Friends.png"
-    },
-    "FriendsBlackFlow": {
-        "baseTask": "FriendsDefault",
-        "template": "BlackFlow/Friends.png"
-    },
-    "FriendsAct": {
-        "baseTask": "FriendsDefault",
-        "template": "Act/Friends.png"
     }
 }

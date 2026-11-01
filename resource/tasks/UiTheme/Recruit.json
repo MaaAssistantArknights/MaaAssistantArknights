@@ -6,102 +6,15 @@
             "roi": [935, 480, 145, 61],
             "mask": [125, 0, 25, 20]
         },
-        "next": [
-            "RecruitDefault",
-            "RecruitDark",
-            "RecruitSami",
-            "RecruitMistCity",
-            "RecruitSiege",
-            "RecruitSarkaz",
-            "RecruitDelicious",
-            "RecruitGaming",
-            "RecruitDahuangCity",
-            "RecruitDreamland",
-            "RecruitJieGarden",
-            "RecruitAveMujica",
-            "RecruitTogether",
-            "RecruitLoneTrail",
-            "RecruitReconstruct",
-            "RecruitHunting",
-            "RecruitBlackFlow",
-            "RecruitAct"
-        ],
+        "next": ["RecruitDefault"],
         "onErrorNext": ["Recruit-Entry@SwitchTheme@ToggleSettingsMenu"]
     },
     "RecruitDefault": {
         "action": "ClickSelf",
         "maskRange": [1, 255],
         "roi": [925, 425, 200, 150],
-        "template": "Default/Recruit.png",
+        "template": ["Default/Recruit.png", "Default/Recruit-90.png"],
         "postDelay": 500,
         "next": ["#self", "Stop"]
-    },
-    "RecruitDark": {
-        "baseTask": "RecruitDefault",
-        "template": "Dark/Recruit.png"
-    },
-    "RecruitSami": {
-        "baseTask": "RecruitDefault",
-        "template": "Sami/Recruit.png"
-    },
-    "RecruitMistCity": {
-        "baseTask": "RecruitDefault",
-        "template": "MistCity/Recruit.png"
-    },
-    "RecruitSiege": {
-        "baseTask": "RecruitDefault",
-        "template": "Siege/Recruit.png"
-    },
-    "RecruitSarkaz": {
-        "baseTask": "RecruitDefault",
-        "template": "Sarkaz/Recruit.png"
-    },
-    "RecruitDelicious": {
-        "baseTask": "RecruitDefault",
-        "template": "Delicious/Recruit.png"
-    },
-    "RecruitGaming": {
-        "baseTask": "RecruitDefault",
-        "template": "Gaming/Recruit.png"
-    },
-    "RecruitDahuangCity": {
-        "baseTask": "RecruitDefault",
-        "template": "DahuangCity/Recruit.png"
-    },
-    "RecruitDreamland": {
-        "baseTask": "RecruitDefault",
-        "template": ["Dreamland/Day/Recruit.png", "Dreamland/Night/Recruit.png"]
-    },
-    "RecruitJieGarden": {
-        "baseTask": "RecruitDefault",
-        "template": "JieGarden/Recruit.png"
-    },
-    "RecruitAveMujica": {
-        "baseTask": "RecruitDefault",
-        "template": "AveMujica/Recruit.png"
-    },
-    "RecruitTogether": {
-        "baseTask": "RecruitDefault",
-        "template": "Together/Recruit.png"
-    },
-    "RecruitLoneTrail": {
-        "baseTask": "RecruitDefault",
-        "template": ["LoneTrail/Day/Recruit.png", "LoneTrail/Night/Recruit.png"]
-    },
-    "RecruitReconstruct": {
-        "baseTask": "RecruitDefault",
-        "template": "Reconstruct/Recruit.png"
-    },
-    "RecruitHunting": {
-        "baseTask": "RecruitDefault",
-        "template": "Hunting/Recruit.png"
-    },
-    "RecruitBlackFlow": {
-        "baseTask": "RecruitDefault",
-        "template": "BlackFlow/Recruit.png"
-    },
-    "RecruitAct": {
-        "baseTask": "RecruitDefault",
-        "template": "Act/Recruit.png"
     }
 }

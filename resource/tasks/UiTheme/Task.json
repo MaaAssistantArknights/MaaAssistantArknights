@@ -6,105 +6,15 @@
             "roi": [720, 553, 75, 70],
             "mask": []
         },
-        "next": [
-            "TaskDefault",
-            "TaskDark",
-            "TaskSami",
-            "TaskMistCity",
-            "TaskSiege",
-            "TaskSarkaz",
-            "TaskDelicious",
-            "TaskGaming",
-            "TaskDahuangCity",
-            "TaskDreamland",
-            "TaskJieGarden",
-            "TaskAveMujica",
-            "TaskTogether",
-            "TaskLoneTrail",
-            "TaskReconstruct",
-            "TaskHunting",
-            "TaskBlackFlow",
-            "TaskAct"
-        ],
+        "next": ["TaskDefault"],
         "onErrorNext": ["Task-Entry@SwitchTheme@ToggleSettingsMenu"]
     },
     "TaskDefault": {
         "action": "ClickSelf",
         "maskRange": [1, 255],
         "roi": [700, 530, 230, 190],
-        "template": "Default/Task.png",
+        "template": ["Default/Task.png", "Default/Task-90.png"],
         "postDelay": 1000,
         "next": ["#self", "Stop"]
-    },
-    "TaskDark": {
-        "baseTask": "TaskDefault",
-        "template": "Dark/Task.png"
-    },
-    "TaskSami": {
-        "baseTask": "TaskDefault",
-        "template": "Sami/Task.png"
-    },
-    "TaskMistCity": {
-        "baseTask": "TaskDefault",
-        "template": "MistCity/Task.png"
-    },
-    "TaskSiege": {
-        "baseTask": "TaskDefault",
-        "template": "Siege/Task.png"
-    },
-    "TaskSarkaz": {
-        "baseTask": "TaskDefault",
-        "template": "Sarkaz/Task.png"
-    },
-    "TaskDelicious": {
-        "baseTask": "TaskDefault",
-        "template": "Delicious/Task.png"
-    },
-    "TaskGaming": {
-        "baseTask": "TaskDefault",
-        "template": "Gaming/Task.png"
-    },
-    "TaskDahuangCity": {
-        "baseTask": "TaskDefault",
-        "template": "DahuangCity/Task.png"
-    },
-    "TaskDreamland": {
-        "baseTask": "TaskDefault",
-        "template": ["Dreamland/Day/Task.png", "Dreamland/Night/Task.png"]
-    },
-    "TaskJieGarden": {
-        "baseTask": "TaskDefault",
-        "template": "JieGarden/Task.png"
-    },
-    "TaskAveMujica": {
-        "baseTask": "TaskDefault",
-        "templThreshold": 0.9,
-        "template": "AveMujica/Task.png"
-    },
-    "TaskTogether": {
-        "baseTask": "TaskDefault",
-        "templThreshold": 0.9,
-        "template": "Together/Task.png"
-    },
-    "TaskLoneTrail": {
-        "baseTask": "TaskDefault",
-        "template": ["LoneTrail/Day/Task.png", "LoneTrail/Night/Task.png"]
-    },
-    "TaskReconstruct": {
-        "baseTask": "TaskDefault",
-        "template": "Reconstruct/Task.png"
-    },
-    "TaskHunting": {
-        "baseTask": "TaskDefault",
-        "template": "Hunting/Task.png",
-        "roi": [685, 548, 151, 131]
-    },
-    "TaskBlackFlow": {
-        "baseTask": "TaskDefault",
-        "template": "BlackFlow/Task.png"
-    },
-    "TaskAct": {
-        "baseTask": "TaskDefault",
-        "template": "Act/Task.png"
     }
 }

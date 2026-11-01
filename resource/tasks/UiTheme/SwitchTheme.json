@@ -1,6 +1,7 @@
 {
     "SwitchTheme@ToggleSettingsMenu": {
         "action": "ClickSelf",
+        "template": ["SwitchTheme@ToggleSettingsMenu.png", "SwitchTheme@ToggleSettingsMenu-90.png"],
         "roi": [227, 327, 159, 152],
         "postDelay": 1000,
         "next": ["SwitchTheme@ChangeTheme", "SwitchTheme@ToggleSettingsMenu"]
