@@ -14,6 +14,11 @@
         "sub": ["TL-9@TL-OpenOpt"],
         "next": ["TL-9@SideStoryStage", "TL-9@SwipeToStage"]
     },
+    "TL-4": {
+        "algorithm": "JustReturn",
+        "sub": ["TL-4@TL-OpenOpt"],
+        "next": ["TL-4@SideStoryStage", "TL-4@SwipeToStage"]
+    },
     "TL-7@SideStoryStage": {
         "text": ["TL-7"]
     },
@@ -22,6 +27,9 @@
     },
     "TL-9@SideStoryStage": {
         "text": ["TL-9"]
+    },
+    "TL-4@SideStoryStage": {
+        "text": ["TL-4"]
     },
     "TL-OpenOpt": {
         "algorithm": "JustReturn",
