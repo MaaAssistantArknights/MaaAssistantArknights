@@ -837,6 +837,11 @@
         "template": "BlackFlow@Roguelike@LastReward.png"
     },
     "BlackFlow@Roguelike@LastReward-EnterPoint": {
+        "Doc": "整个肉鸽共用一个 ProcessTask，执行次数会跨局累积；每次进入开局奖励页选卡时，把 LastRewardConfirm 与 LastRewardConfirmObserve 的执行次数清零。",
+        "reduceOtherTimes": [
+            "BlackFlow@Roguelike@LastRewardConfirm*4",
+            "BlackFlow@Roguelike@LastRewardConfirmObserve*2"
+        ],
         "roi": [82, 145, 1116, 310],
         "template": [
             "BlackFlow@Roguelike@LastReward.png",
@@ -873,15 +878,47 @@
         "template": "BlackFlow@Roguelike@LastReward6.png"
     },
     "BlackFlow@Roguelike@LastRewardConfirm": {
-        "Doc": "base 的 next 里裸引用了 CloseCollection，黑流那个是 #next 型的，必须换成 A@(B) 形式。带襁褓三头犬时支援可选两次，确认后仍停在支援页，回到入口再选一张。",
+        "Doc": [
+            "开局奖励确认。点击后每隔一个 taskDelay（500ms）识别一次确认按钮；任一次没识别到就离开，连续四次（约 2 秒）都还在才再次点击。",
+            "确认按钮要先选中奖励才出现。带襁褓三头犬时，确认后仍停在开局奖励页但确认按钮消失，经 LastRewardConfirmLeave 回到 LastReward-EnterPoint 再选一张；点击没生效时确认按钮还在，不会被当成第二次选择。",
+            "maxTimes 只计点击；每次点击都把 LastRewardConfirmObserve 的执行次数清零。点击四次仍未生效时进入 RecoveryFailed 并停在当前画面。"
+        ],
         "template": "BlackFlow@Roguelike@LastRewardConfirm.png",
         "roi": [0, 474, 1280, 205],
+        "maxTimes": 4,
+        "next": [
+            "BlackFlow@Roguelike@LastRewardConfirmLeave@(BlackFlow@Roguelike@CloseCollection)",
+            "BlackFlow@Roguelike@LastRewardConfirmObserve",
+            "BlackFlow@Roguelike@LastRewardConfirmLeave#next"
+        ],
+        "exceededNext": ["BlackFlow@Roguelike@RecoveryFailed"],
+        "reduceOtherTimes": ["BlackFlow@Roguelike@LastRewardConfirmObserve*2"]
+    },
+    "BlackFlow@Roguelike@LastRewardConfirmLeave": {
+        "Doc": "确认之后的后续任务列表，LastRewardConfirm、LastRewardConfirmObserve 与弹窗处理都用 #next 引用它。黑流的 CloseCollection 的 next 是 #next，只能写成 某任务@(CloseCollection) 的形式。",
+        "algorithm": "JustReturn",
         "next": [
             "BlackFlow@Roguelike@RolesDefault",
-            "BlackFlow@Roguelike@LastRewardConfirm@(BlackFlow@Roguelike@CloseCollection)",
+            "BlackFlow@Roguelike@LastRewardConfirmLeave@(BlackFlow@Roguelike@CloseCollection)",
             "BlackFlow@Roguelike@LastReward-EnterPoint",
             "BlackFlow@Roguelike@RecruitMain",
             "BlackFlow@Roguelike@Stages#next"
+        ]
+    },
+    "BlackFlow@Roguelike@LastRewardConfirmObserve": {
+        "Doc": "maxTimes 为 2，第三次识别到时进入 exceededNext，再隔一个 taskDelay 由 LastRewardConfirm 识别并点击；默认配置下两次点击间隔约 2 秒。",
+        "template": "BlackFlow@Roguelike@LastRewardConfirm.png",
+        "roi": [0, 474, 1280, 205],
+        "maxTimes": 2,
+        "next": [
+            "BlackFlow@Roguelike@LastRewardConfirmLeave@(BlackFlow@Roguelike@CloseCollection)",
+            "#self",
+            "BlackFlow@Roguelike@LastRewardConfirmLeave#next"
+        ],
+        "exceededNext": [
+            "BlackFlow@Roguelike@LastRewardConfirmLeave@(BlackFlow@Roguelike@CloseCollection)",
+            "BlackFlow@Roguelike@LastRewardConfirm",
+            "BlackFlow@Roguelike@LastRewardConfirmLeave#next"
         ]
     },
     "BlackFlow@Roguelike@LegacyCompletion-BabyShop": {
@@ -1795,7 +1832,7 @@
             "开局分队确认，之后可能出现藏品弹窗、干员选择或招募界面。",
             "点击后每隔一个 taskDelay=500ms 观察确认栏是否依旧存在；任一观察点未识别到即离开分队页，确认栏持续存在四次=2000ms 才允许再次点击。",
             "确认栏要先点选卡片才出现，支援页、职业页刚进入时没有，所以观察沿用同一模板不会把后续页面当成分队页。",
-            "Confirm 的 maxTimes 只统计真实点击；每次点击将 Observe 的两次执行计数恢复为零。四次点击仍未离开分队页时进入 RecoveryFailed，按黑流状态机死路停在当前画面。"
+            "Confirm 的 maxTimes 只统计真实点击；每次点击将 Observe 的两次执行计数恢复为零。四次点击仍未离开分队页时进入 RecoveryFailed 并停在当前画面。"
         ],
         "template": "BlackFlow@Roguelike@LastRewardConfirm.png",
         "postDelay": 0,
