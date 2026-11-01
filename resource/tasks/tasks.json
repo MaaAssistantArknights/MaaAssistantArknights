@@ -1968,7 +1968,7 @@
         "next": ["AwardNeedExpand", "AwardNotNeedExpand", "AwardCheckSkip"]
     },
     "AwardNeedExpand": {
-        "doc": "匹配到有待领取标记的的图示，点击展开",
+        "doc": "匹配到有待领取标记的图示，点击展开",
         "action": "ClickSelf",
         "roi": [0, 192, 155, 115],
         "postDelay": 500
