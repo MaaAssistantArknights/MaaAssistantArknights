@@ -2452,6 +2452,8 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="Toolbox.MiniGame.SecretFront.Event3">詭影迷蹤</system:String>
     <system:String x:Key="Toolbox.MiniGame.SecretFront.Tip">在選擇小隊介面開始，如有存檔須手動刪除。&#10;第一次打請先看完教學後關閉。&#10;推薦勾選遊戲內 ｢繼承上一支隊伍發回的資料｣。</system:String>
     <system:String x:Key="Toolbox.MiniGame.Title">快捷功能</system:String>
+    <system:String x:Key="Toolbox.MiniGame.WartimePressCommittee">戰時新聞委員會</system:String>
+    <system:String x:Key="Toolbox.MiniGame.WartimePressCommittee.Tip" xml:space="preserve">請從活動報紙選擇介面（可見報紙名稱與 ｢開始組版｣ 按鈕）的狀態開始。</system:String>
     <system:String x:Key="Toolbox.Title">小工具</system:String>
     <system:String x:Key="Tray.Exit">結束</system:String>
     <system:String x:Key="Tray.ForceShow">強制顯示 MAA</system:String>

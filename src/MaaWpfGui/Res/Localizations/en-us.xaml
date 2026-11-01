@@ -2452,6 +2452,8 @@ Only level rewards can be farmed; to get the Engraved Medal, all ｢Key Objectiv
     <system:String x:Key="Toolbox.MiniGame.SecretFront.Event3">Sly Shadows</system:String>
     <system:String x:Key="Toolbox.MiniGame.SecretFront.Tip" xml:space="preserve">Start from the squad selection screen;&#10;If there is a saved game, please delete it manually.&#10;Close the tutorial after playing it for the first time.&#10;Recommended to enable in-game ｢Inherit previous squad's data｣.</system:String>
     <system:String x:Key="Toolbox.MiniGame.Title">Useful Tasks</system:String>
+    <system:String x:Key="Toolbox.MiniGame.WartimePressCommittee">Wartime Press Committee</system:String>
+    <system:String x:Key="Toolbox.MiniGame.WartimePressCommittee.Tip" xml:space="preserve">Please start from the event newspaper selection screen where the paper name is visible.</system:String>
     <system:String x:Key="Toolbox.Title">Toolbox</system:String>
     <system:String x:Key="Tray.Exit">Exit</system:String>
     <system:String x:Key="Tray.ForceShow">Force display of MAA</system:String>

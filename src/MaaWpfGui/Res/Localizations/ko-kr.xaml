@@ -2452,6 +2452,8 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="Toolbox.MiniGame.SecretFront.Event3">수상한 그림자</system:String>
     <system:String x:Key="Toolbox.MiniGame.SecretFront.Tip">소대 선택 화면에서 시작합니다. 기존 세이브 데이터가 있으면 수동으로 삭제해야 합니다.\n게임 내  ｢이전 소대의 데이터 전승받기｣  옵션을 체크하는 것을 권장합니다.</system:String>
     <system:String x:Key="Toolbox.MiniGame.Title">편의 기능</system:String>
+    <system:String x:Key="Toolbox.MiniGame.WartimePressCommittee">전시 신문 위원회</system:String>
+    <system:String x:Key="Toolbox.MiniGame.WartimePressCommittee.Tip" xml:space="preserve">이벤트 신문 선택 화면이 표시된 상태에서 시작하세요</system:String>
     <system:String x:Key="Toolbox.Title">툴박스</system:String>
     <system:String x:Key="Tray.Exit">종료</system:String>
     <system:String x:Key="Tray.ForceShow">MAA 강제 표시</system:String>

@@ -2453,6 +2453,8 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="Toolbox.MiniGame.SecretFront.Event3">揺蕩う影</system:String>
     <system:String x:Key="Toolbox.MiniGame.SecretFront.Tip">小隊選択画面で開始します。セーブデータがある場合は手動で削除する必要があります。ゲーム内の ｢前の小隊からのデータを引き継ぐ｣ にチェックすることを推奨します。</system:String>
     <system:String x:Key="Toolbox.MiniGame.Title">便利機能</system:String>
+    <system:String x:Key="Toolbox.MiniGame.WartimePressCommittee">戦時新聞委員会</system:String>
+    <system:String x:Key="Toolbox.MiniGame.WartimePressCommittee.Tip" xml:space="preserve">イベントの新聞選択画面が表示されている状態から開始してください。</system:String>
     <system:String x:Key="Toolbox.Title">ツールボックス</system:String>
     <system:String x:Key="Tray.Exit">終了</system:String>
     <system:String x:Key="Tray.ForceShow">MAAの強制表示</system:String>
