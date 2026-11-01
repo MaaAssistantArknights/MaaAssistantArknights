@@ -34,7 +34,7 @@
     },
     "RelaunchAnchor@RA@RA1-DeliverWood": {
         "text": ["交付木材8+"],
-        "ocrReplace": [["(8|9|\\d{2,3}).*5", "交付木材8+"]],
+        "ocrReplace": [["(8|9|[0-68-9]{2,3}).*5", "交付木材8+"]],
         "roi": [180, 235, 75, 35]
     },
     "RelaunchAnchor@RA@RA1-Infrastructure": {
