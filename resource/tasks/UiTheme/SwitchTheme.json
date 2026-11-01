@@ -1,18 +1,20 @@
 {
     "SwitchTheme@ToggleSettingsMenu": {
         "action": "ClickSelf",
-        "template": ["SwitchTheme@ToggleSettingsMenu.png", "SwitchTheme@ToggleSettingsMenu-90.png"],
+        "template": ["SwitchTheme@ToggleSettingsMenu.png", "SwitchTheme@ToggleSettingsMenu-v2.png"],
         "roi": [227, 327, 159, 152],
         "postDelay": 1000,
         "next": ["SwitchTheme@ChangeTheme", "SwitchTheme@ToggleSettingsMenu"]
     },
     "SwitchTheme@ChangeTheme": {
         "action": "ClickSelf",
+        "template": ["SwitchTheme@ChangeTheme.png", "SwitchTheme@ChangeTheme-v2.png"],
         "roi": [563, 566, 132, 132],
         "next": ["SwitchTheme@SelectLightTheme", "SwitchTheme@SwipeToLightTheme"]
     },
     "SwitchTheme@SelectLightTheme": {
         "action": "ClickSelf",
+        "template": ["SwitchTheme@SelectLightTheme.png", "SwitchTheme@SelectLightTheme-v2.png"],
         "roi": [0, 99, 430, 180],
         "maxTimes": 10,
         "exceededNext": ["SwitchTheme@CancelThemeChange"],
@@ -30,12 +32,14 @@
     },
     "SwitchTheme@ConfirmThemeChange": {
         "action": "ClickSelf",
+        "template": ["SwitchTheme@ConfirmThemeChange.png", "SwitchTheme@ConfirmThemeChange-v2.png"],
         "roi": [1070, 620, 200, 90],
         "postDelay": 500,
         "next": ["SwitchTheme@ReturnTheme"]
     },
     "SwitchTheme@CancelThemeChange": {
         "action": "ClickSelf",
+        "template": ["SwitchTheme@CancelThemeChange.png", "SwitchTheme@CancelThemeChange-v2.png"],
         "roi": [918, 645, 66, 38],
         "next": ["SwitchTheme@ReturnTheme"]
     },
