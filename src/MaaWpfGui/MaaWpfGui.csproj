@@ -61,6 +61,7 @@
     <FileVersion>0.0.1</FileVersion>
     <AssemblyVersion>0.0.1</AssemblyVersion>
     <InformationalVersion>0.0.1</InformationalVersion>
+    <IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
   </PropertyGroup>
 
   <ItemGroup>
