@@ -92,7 +92,8 @@
         "text": ["Add Operat"]
     },
     "RelaunchAnchor@RA@RA4-AddHelp": {
-        "text": ["ct Support"]
+        "text": ["ct Support"],
+        "roi": [886, 21, 82, 28]
     },
     "RelaunchAnchor@RA@RA4-EW-Common": {
         "text": ["Wis", "adel"]
@@ -197,5 +198,13 @@
     },
     "RelaunchAnchor@RA@RA15-End2": {
         "text": ["Term"]
+    },
+    "RelaunchAnchor@RA@RA1-DeployGatheringBaseSwipe": {
+        "preDelay": 500,
+        "specialParams": [600, 0, 37, 1]
+    },
+    "RelaunchAnchor@RA@RA1-DeployOperatorSwipe": {
+        "preDelay": 250,
+        "specialParams": [600, 0, 37, 1]
     }
 }
