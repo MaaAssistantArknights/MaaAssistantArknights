@@ -79,6 +79,7 @@
             "JieGarden@Roguelike@TodoEnter",
             "JieGarden@Roguelike@Continue",
             "JieGarden@Roguelike@StartExploreCD",
+            "(JieGarden@Roguelike@IntegratedStrategies)@QuickSwitch@ToTerminal#next",
             "JieGarden@Roguelike@ReturnButtons#next",
             "JieGarden@Roguelike@ReturnConfirm",
             "JieGarden@Roguelike@StartUpThemes#next",
