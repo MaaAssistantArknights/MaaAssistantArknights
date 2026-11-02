@@ -2099,14 +2099,20 @@ public class AsstProxy
                             break;
 
                         case "StageTrader":
+                        case "StageTraderHD":
+                        case "StageTraderCR":
                             Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("Asst.Roguelike.Trader"), UiLogColor.TraderIS);
                             break;
 
                         case "StageSafeHouse":
+                        case "StageSafeHouseHD":
+                        case "StageSafeHouseCR":
                             Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("Asst.Roguelike.SafeHouse"), UiLogColor.SafehouseIS);
                             break;
 
                         case "StageFilterTruth":
+                        case "StageFilterTruthHD":
+                        case "StageFilterTruthCR":
                             Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("Asst.Roguelike.FilterTruth"), UiLogColor.TruthIS);
                             break;
 
