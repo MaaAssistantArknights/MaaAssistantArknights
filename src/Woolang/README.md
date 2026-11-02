@@ -8,7 +8,7 @@
 
 MAA-Woolang使用了 `woffi` 和 `filesystem`，因此需要使用 baozi 安装这些依赖：
 
-```
+```text
 baozi 是 Woolang 的包管理器，可以这里获取到Chief（由BiDuang提供）：
     https://github.com/BiDuang/Chief_Reloaded
 

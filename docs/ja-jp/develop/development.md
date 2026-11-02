@@ -150,11 +150,11 @@ VSCodeを好む場合、CMake、clangdなどの拡張機能でコード補完、
 
 VS Code Marketplace からインストール：
 
-| 拡張機能                                                                                            | 用途                                                              |
+| 拡張機能 | 用途 |
 | --------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------- |
-| [CMake Tools](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cmake-tools)            | CMake の設定、ビルド、デバッグ統合                                |
-| [clangd](https://marketplace.visualstudio.com/items?itemName=llvm-vs-code-extensions.vscode-clangd) | C++ インテリセンス、コードナビゲーション、診断（LSPベース）       |
-| [C/C++](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools)                     | C++ プログラムのデバッグ（CMake Tools または launch.json と連携） |
+| [CMake Tools](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cmake-tools) | CMake の設定、ビルド、デバッグ統合 |
+| [clangd](https://marketplace.visualstudio.com/items?itemName=llvm-vs-code-extensions.vscode-clangd) | C++ インテリセンス、コードナビゲーション、診断（LSPベース） |
+| [C/C++](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools) | C++ プログラムのデバッグ（CMake Tools または launch.json と連携） |
 
 ::: tip  
 clangd を使用する場合、C/C++ 拡張機能の IntelliSense を無効化（`C_Cpp.intelliSenseEngine` を `disabled` に設定）することを推奨します。競合を避けるためです。  
@@ -200,13 +200,13 @@ MAAは、リポジトリ内のコードとリソースファイルが美しく�
 
 現在有効になっているフォーマットツールは次のとおりです：
 
-| ファイルタイプ | フォーマットツール                                              |
+| ファイルタイプ | フォーマットツール |
 | -------------- | --------------------------------------------------------------- |
-| C++            | [clang-format](https://clang.llvm.org/docs/ClangFormat.html)    |
-| JSON/YAML      | [Prettier](https://prettier.io/)                                |
-| Markdown       | [markdownlint](https://github.com/DavidAnson/markdownlint-cli2) |
-| Python         | [ruff-format](https://docs.astral.sh/ruff/formatter/)           |
-| PNG            | [oxipng](https://github.com/oxipng/oxipng)                      |
+| C++ | [clang-format](https://clang.llvm.org/docs/ClangFormat.html) |
+| JSON/YAML | [Prettier](https://prettier.io/) |
+| Markdown | [markdownlint](https://github.com/DavidAnson/markdownlint-cli2) |
+| Python | [ruff-format](https://docs.astral.sh/ruff/formatter/) |
+| PNG | [oxipng](https://github.com/oxipng/oxipng) |
 
 ### Pre-commit Hooksを使用してコードを自動フォーマット
 

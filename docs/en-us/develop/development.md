@@ -144,11 +144,11 @@ If you prefer VS Code, you can use CMake, clangd, and related extensions for cod
 
 Install from the VS Code marketplace:
 
-| Extension                                                                                           | Purpose                                                    |
+| Extension | Purpose |
 | --------------------------------------------------------------------------------------------------- | ---------------------------------------------------------- |
-| [CMake Tools](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cmake-tools)            | CMake configure, build, and debug integration              |
+| [CMake Tools](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cmake-tools) | CMake configure, build, and debug integration |
 | [clangd](https://marketplace.visualstudio.com/items?itemName=llvm-vs-code-extensions.vscode-clangd) | C++ IntelliSense, code navigation, diagnostics (LSP-based) |
-| [C/C++](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools)                     | Debug C++ programs (works with CMake Tools or launch.json) |
+| [C/C++](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools) | Debug C++ programs (works with CMake Tools or launch.json) |
 
 ::: tip  
 When using clangd, set `C_Cpp.intelliSenseEngine` to `disabled` to avoid conflicts with the C/C++ extension's IntelliSense.  
@@ -196,13 +196,13 @@ Please ensure that it has been formatted before submission, or [enable Pre-commi
 
 The currently enabled formatting tools are as follows:
 
-| File Type | Format Tool                                                     |
+| File Type | Format Tool |
 | --------- | --------------------------------------------------------------- |
-| C++       | [clang-format](https://clang.llvm.org/docs/ClangFormat.html)    |
-| JSON/YAML | [Prettier](https://prettier.io/)                                |
-| Markdown  | [markdownlint](https://github.com/DavidAnson/markdownlint-cli2) |
-| Python    | [ruff-format](https://docs.astral.sh/ruff/formatter/)           |
-| PNG       | [oxipng](https://github.com/oxipng/oxipng)                      |
+| C++ | [clang-format](https://clang.llvm.org/docs/ClangFormat.html) |
+| JSON/YAML | [Prettier](https://prettier.io/) |
+| Markdown | [markdownlint](https://github.com/DavidAnson/markdownlint-cli2) |
+| Python | [ruff-format](https://docs.astral.sh/ruff/formatter/) |
+| PNG | [oxipng](https://github.com/oxipng/oxipng) |
 
 ### Use Pre-commit Hooks to Automatically Format Code
 
