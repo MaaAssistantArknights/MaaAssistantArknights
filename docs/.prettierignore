@@ -1,1 +1,8 @@
 **/pnpm-lock.yaml
+
+# Markdown is formatted by markdownlint.
+**/*.md
+**/*.markdown
+**/*.mdown
+**/*.mkdn
+**/*.mkd

@@ -14,9 +14,14 @@
             }
         },
         {
-            "files": ["**/*.md"],
+            "files": ["**/*.{md,markdown,mdown,mkdn,mkd}"],
             "options": {
-                "tabWidth": 2
+                "printWidth": 120,
+                "tabWidth": 2,
+                "useTabs": false,
+                "proseWrap": "preserve",
+                "endOfLine": "auto",
+                "embeddedLanguageFormatting": "off"
             }
         }
     ]
