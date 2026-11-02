@@ -2183,7 +2183,11 @@ MAA は非インストール型のアプリケーションであり、レジス�
     <system:String x:Key="TaskQueue.OperProgress.Mastery1">特化 1</system:String>
     <system:String x:Key="TaskQueue.OperProgress.Mastery2">特化 2</system:String>
     <system:String x:Key="TaskQueue.OperProgress.Mastery3">特化 3</system:String>
+    <system:String x:Key="TaskQueue.OperProgress.MasteryStep">スキル {0} 特化</system:String>
     <system:String x:Key="TaskQueue.OperProgress.MasteryTarget">スキル {0} 特化 {1}</system:String>
+    <system:String x:Key="TaskQueue.OperProgress.MaterialDetail">{0}：所持数 {1}、必要数 {2}</system:String>
+    <system:String x:Key="TaskQueue.OperProgress.MaterialSummary" xml:space="preserve">今回不足した素材：&#10;{0}</system:String>
+    <system:String x:Key="TaskQueue.OperProgress.MaterialSummaryItem">{0}：あと {1}（必要数合計 {2}、最後に確認した所持数 {3}）</system:String>
     <system:String x:Key="TaskQueue.OperProgress.NotSet">---</system:String>
     <system:String x:Key="TaskQueue.OperProgress.OnlineEditor">アークナイツツールボックスでオンライン編集</system:String>
     <system:String x:Key="TaskQueue.OperProgress.ParseClipboard">クリップボードから読み取り</system:String>

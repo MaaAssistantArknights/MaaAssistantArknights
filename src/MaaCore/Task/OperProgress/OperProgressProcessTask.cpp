@@ -163,7 +163,7 @@ bool asst::OperProgressProcessTask::_run()
                     skill_ret == ResultDetail::PrerequisiteTraining || skill_ret == ResultDetail::TrainingRoomBusy) {
                     skill_levels[i] = training_level;
                 }
-                report_skill_result(target.role, target.name, skill_ret, skill_levels);
+                report_skill_result(target.role, target.name, skill_ret, skill_levels, i + 1);
                 if (skill_ret == ResultDetail::TrainingRoomBusy || skill_ret == ResultDetail::PrerequisiteTraining ||
                     skill_ret == ResultDetail::Completed) {
                     training_room_busy = true;
@@ -357,6 +357,9 @@ void asst::OperProgressProcessTask::report_elite_result(
     if (process_result == Result::Success) {
         info["details"] |= json::object { { "elite", elite } };
     }
+    else {
+        info["details"] |= json::object { { "step", "elite" } };
+    }
     callback(AsstMsg::SubTaskExtraInfo, std::move(info));
     if (process_result == Result::Success) {
         auto oper_it = std::ranges::find_if(m_plan_finish, [&role, &name](const auto& oper) {
@@ -463,6 +466,9 @@ void asst::OperProgressProcessTask::report_skill_result(
     };
     if (process_result == Result::Success) {
         info["details"] |= json::object { { "skill_level", level } };
+    }
+    else {
+        info["details"] |= json::object { { "step", "skill_level" } };
     }
     callback(AsstMsg::SubTaskExtraInfo, std::move(info));
     if (process_result == Result::Success) {
@@ -623,7 +629,8 @@ void asst::OperProgressProcessTask::report_skill_result(
     battle::Role role,
     std::string_view name,
     ResultDetail result,
-    std::array<int, 3> level)
+    std::array<int, 3> level,
+    int skill)
 {
     const auto process_result = [&]() {
         switch (result) {
@@ -649,6 +656,9 @@ void asst::OperProgressProcessTask::report_skill_result(
     };
     if (process_result == Result::Success) {
         info["details"] |= json::object { { "skill_mastery", level } };
+    }
+    else if (process_result == Result::Failed) {
+        info["details"] |= json::object { { "step", "skill_mastery" }, { "skill_index", skill } };
     }
     callback(AsstMsg::SubTaskExtraInfo, std::move(info));
     if (process_result == Result::Success) {
