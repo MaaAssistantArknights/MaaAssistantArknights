@@ -18,7 +18,9 @@ using System.Globalization;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Constants.Enums;
@@ -30,6 +32,7 @@ using MaaWpfGui.ViewModels.UserControl.Settings;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Serilog;
+using static MaaWpfGui.Models.UpdateCredentialModel;
 using static MaaWpfGui.ViewModels.Dialogs.VersionUpdateDialogViewModel;
 
 namespace MaaWpfGui.Models;
@@ -38,7 +41,63 @@ public static class ResourceUpdater
 {
     private static readonly ILogger _logger = Log.ForContext(typeof(ResourceUpdater));
 
-    public static async Task<bool> UpdateFromGithubAsync()
+    public static async Task<(CheckUpdateRetT Ret, string? UpdateUrl, string? ReleaseNote)> CheckFromGitHubAsync(string token, CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            var headers = GitHubUpdateHelper.CreateHeaders(token);
+            headers["Accept"] = "application/vnd.github.raw+json";
+            using var response = await Instances.HttpService.GetAsync(
+                new Uri("https://api.github.com/repos/MaaAssistantArknights/MaaResource/contents/resource/version.json?ref=main"), headers,
+                HttpCompletionOption.ResponseContentRead, token: cancellationToken);
+            cancellationToken.ThrowIfCancellationRequested();
+            if (response.StatusCode == HttpStatusCode.Unauthorized)
+            {
+                await SettingsViewModel.VersionUpdateSettings.InvalidateGitHubTokenAsync(token, cancellationToken);
+                cancellationToken.ThrowIfCancellationRequested();
+                return (CheckUpdateRetT.CredentialError, null, null);
+            }
+
+            if (!response.IsSuccessStatusCode)
+            {
+                return (CheckUpdateRetT.NetworkError, null, null);
+            }
+
+            var version = JObject.Parse(await response.Content.ReadAsStringAsync(cancellationToken));
+            if (!DateTimeOffset.TryParseExact(
+                    version["last_updated"]?.ToString(),
+                    "yyyy-MM-dd HH:mm:ss.fff",
+                    CultureInfo.InvariantCulture,
+                    DateTimeStyles.AssumeUniversal | DateTimeStyles.AdjustToUniversal,
+                    out var versionTime))
+            {
+                return (CheckUpdateRetT.FailedToGetInfo, null, null);
+            }
+
+            var currentVersion = VersionUpdateSettingsUserControlModel
+                .GetResourceVersionByClientType(SettingsViewModel.GameSettings.ClientType).DateTime;
+            if (currentVersion >= versionTime)
+            {
+                return (CheckUpdateRetT.AlreadyLatest, null, null);
+            }
+
+            var releaseNote = LocalizationHelper.FormatVersion(string.Empty, versionTime);
+            SettingsViewModel.VersionUpdateSettings.NewResourceFoundInfo = LocalizationHelper.GetStringFormat(
+                "Settings.Update.MirrorChyan.ResourceUpdate.Brief.Tip", releaseNote);
+            return (CheckUpdateRetT.OK, MaaUrls.GithubResourceUpdate, releaseNote);
+        }
+        catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
+        {
+            return (CheckUpdateRetT.NoNeedToUpdate, null, null);
+        }
+        catch (Exception ex)
+        {
+            _logger.Error(ex, "Failed to check resource update from GitHub");
+            return (CheckUpdateRetT.NetworkError, null, null);
+        }
+    }
+
+    public static async Task<bool> UpdateFromGithubAsync(CancellationToken cancellationToken = default)
     {
         ToastNotification.ShowDirect(LocalizationHelper.GetString("VersionUpdate.GameResource.Updating"));
 
@@ -46,13 +105,14 @@ public static class ResourceUpdater
         string githubZipFile = Path.Combine(PathsHelper.BaseDir, GithubZipFileName);
         string extractFolder = Path.Combine(PathsHelper.BaseDir, "MaaResourceGithub");
 
-        if (!await DownloadFullPackageAsync(MaaUrls.GithubResourceUpdate, githubZipFile, true).ConfigureAwait(false))
+        if (!await DownloadFullPackageAsync(MaaUrls.GithubResourceUpdate, githubZipFile, true, cancellationToken).ConfigureAwait(false))
         {
             Fail();
             return false;
         }
 
         OutputDownloadProgress(downloading: false, output: LocalizationHelper.GetString("VersionUpdate.GameResource.Preparing"));
+        cancellationToken.ThrowIfCancellationRequested();
 
         if (!ExtractAndMergeResourcePackage(githubZipFile, extractFolder))
         {
@@ -80,6 +140,7 @@ public static class ResourceUpdater
     /// <summary>
     /// 从 MirrorChyan 检查更新
     /// </summary>
+    /// <param name="request">本次凭据快照；未提供时从当前更新源获取。</param>
     /// <returns>返回一个 <see cref="CheckUpdateRetT"/> 枚举值，指示更新检查的结果。
     /// <list type="bullet">
     /// <item><description><see cref="CheckUpdateRetT.AlreadyLatest"/>：已是最新版本。</description></item>
@@ -88,7 +149,7 @@ public static class ResourceUpdater
     /// <item><description><see cref="CheckUpdateRetT.NetworkError"/>：网络错误。</description></item>
     /// <item><description><see cref="CheckUpdateRetT.UnknownError"/>：其他错误。</description></item>
     /// </list></returns>
-    public static async Task<(CheckUpdateRetT Ret, string? UpdateUrl, string? ReleaseNote)> CheckFromMirrorChyanAsync()
+    public static async Task<(CheckUpdateRetT Ret, string? UpdateUrl, string? ReleaseNote)> CheckFromMirrorChyanAsync(UpdateCredentialRequest? request = null)
     {
         // https://mirrorc.top/api/resources/MaaResource/latest?current_version=<当前版本日期，从 version.json 里拿时间戳>&cdk=<cdk>&sp_id=<唯一识别码>
         // 响应格式为 {"code":0,"msg":"success","data":{"version_name":"2025-01-22 14:28:32.839","version_number":9,"url":"<增量更新网址>"}}
@@ -97,108 +158,14 @@ public static class ResourceUpdater
             .GetResourceVersionByClientType(SettingsViewModel.GameSettings.ClientType)
             .DateTime;
         var currentVersion = currentVersionDateTime.ToString("yyyy-MM-dd+HH:mm:ss.fff");
-        var cdk = SettingsViewModel.VersionUpdateSettings.MirrorChyanCdk.Trim();
+        request ??= await SettingsViewModel.VersionUpdateSettings.MirrorChyanCredential.BeginCheckAsync();
+        var cdk = request?.Value ?? string.Empty;
         var spid = HardwareInfoUtility.GetMachineGuid().StableHash();
-
-        var url = $"{BaseUrl}?current_version={currentVersion}&cdk={cdk}&user_agent=MaaWpfGui&sp_id={spid}";
-
-        HttpResponseMessage? response = null;
-        try
+        var url = $"{BaseUrl}?current_version={currentVersion}&cdk={Uri.EscapeDataString(cdk)}&user_agent=MaaWpfGui&sp_id={spid}";
+        var (data, ret) = await MirrorChyanUpdateHelper.RequestAsync(url, request);
+        if (ret != CheckUpdateRetT.OK || data is null)
         {
-            response = await Instances.HttpService.GetAsync(new(url), uriPartial: UriPartial.Path);
-        }
-        catch (Exception e)
-        {
-            _logger.Error(e, "Failed to send GET request to {Uri}", new Uri(url).GetLeftPart(UriPartial.Path));
-            _logger.Information("current_version: {CurrentVersion}, cdk: {Mask}", currentVersion, cdk.Mask());
-        }
-
-        if (response is null)
-        {
-            _logger.Error("mirrorc failed");
-            ToastNotification.ShowDirect(LocalizationHelper.GetString("VersionUpdate.GameResource.Failed"));
-            SettingsViewModel.VersionUpdateSettings.MirrorChyanCdkFetchFailed = true;
-            return (CheckUpdateRetT.NetworkError, null, null);
-        }
-
-        var jsonStr = await response.Content.ReadAsStringAsync();
-        _logger.Information("{jsonStr}", jsonStr);
-        JObject? data = null;
-        try
-        {
-            data = (JObject?)JsonConvert.DeserializeObject(jsonStr);
-        }
-        catch (Exception ex)
-        {
-            _logger.Error(ex, "Failed to deserialize json.");
-        }
-
-        if (data is null)
-        {
-            ToastNotification.ShowDirect(LocalizationHelper.GetString("VersionUpdate.GameResource.Failed"));
-            SettingsViewModel.VersionUpdateSettings.MirrorChyanCdkFetchFailed = true;
-            return (CheckUpdateRetT.UnknownError, null, null);
-        }
-
-        var mirrorChyanCdkExpired = data["data"]?["cdk_expired_time"]?.ToObject<long?>();
-
-        if (mirrorChyanCdkExpired.HasValue)
-        {
-            SettingsViewModel.VersionUpdateSettings.MirrorChyanCdkExpiredTime = mirrorChyanCdkExpired.Value;
-            SettingsViewModel.VersionUpdateSettings.MirrorChyanCdkFetchFailed = false;
-        }
-        else
-        {
-            SettingsViewModel.VersionUpdateSettings.MirrorChyanCdkFetchFailed = true;
-        }
-
-        var errorCode = data["code"]?.ToObject<MirrorChyanErrorCode>() ?? MirrorChyanErrorCode.Undivided;
-        if (errorCode != MirrorChyanErrorCode.Success)
-        {
-            switch (errorCode)
-            {
-                case MirrorChyanErrorCode.KeyExpired:
-                    ToastNotification.ShowDirect(LocalizationHelper.GetString("VersionUpdate.MirrorChyan.CdkExpired"));
-
-                    SettingsViewModel.VersionUpdateSettings.MirrorChyanCdkFetchFailed = false;
-
-                    // 有人会第一次就填过期的 cdk 吗
-                    if (SettingsViewModel.VersionUpdateSettings.MirrorChyanCdkExpiredTime == 0)
-                    {
-                        SettingsViewModel.VersionUpdateSettings.MirrorChyanCdkExpiredTime = 1;
-                    }
-
-                    // 如果上次查出来的时间比现在的还新，说明换了 cdk，重置过期时间
-                    if (!SettingsViewModel.VersionUpdateSettings.IsMirrorChyanCdkExpired)
-                    {
-                        SettingsViewModel.VersionUpdateSettings.MirrorChyanCdkExpiredTime = mirrorChyanCdkExpired ?? 1;
-                    }
-
-                    break;
-                case MirrorChyanErrorCode.KeyInvalid:
-                    ToastNotification.ShowDirect(LocalizationHelper.GetString("VersionUpdate.MirrorChyan.CdkInvalid"));
-                    AchievementTrackerHelper.Instance.Unlock(AchievementIds.MirrorChyanCdkError);
-                    break;
-                case MirrorChyanErrorCode.ResourceQuotaExhausted:
-                    ToastNotification.ShowDirect(LocalizationHelper.GetString("VersionUpdate.MirrorChyan.CdkQuotaExhausted"));
-                    break;
-                case MirrorChyanErrorCode.KeyMismatched:
-                    ToastNotification.ShowDirect(LocalizationHelper.GetString("VersionUpdate.MirrorChyan.CdkMismatched"));
-                    break;
-                case MirrorChyanErrorCode.KeyBlocked:
-                    ToastNotification.ShowDirect(LocalizationHelper.GetString("VersionUpdate.MirrorChyan.CdkBlocked"));
-                    break;
-                case MirrorChyanErrorCode.InvalidParams:
-                case MirrorChyanErrorCode.ResourceNotFound:
-                case MirrorChyanErrorCode.InvalidOs:
-                case MirrorChyanErrorCode.InvalidArch:
-                case MirrorChyanErrorCode.InvalidChannel:
-                case MirrorChyanErrorCode.Undivided:
-                    ToastNotification.ShowDirect(data["msg"]?.ToString() ?? LocalizationHelper.GetString("VersionUpdate.GameResource.Failed"));
-                    break;
-            }
-
-            return (CheckUpdateRetT.UnknownError, null, null);
+            return (ret, null, null);
         }
 
         if (!DateTimeOffset.TryParseExact(
@@ -208,7 +175,6 @@ public static class ResourceUpdater
                 System.Globalization.DateTimeStyles.AssumeUniversal | System.Globalization.DateTimeStyles.AdjustToUniversal,
                 out var versionTime))
         {
-            ToastNotification.ShowDirect(LocalizationHelper.GetString("VersionUpdate.GameResource.Failed"));
             return (CheckUpdateRetT.UnknownError, null, null);
         }
 
@@ -236,11 +202,10 @@ public static class ResourceUpdater
             return (CheckUpdateRetT.OK, uri, releaseNote);
         }
 
-        ToastNotification.ShowDirect(LocalizationHelper.GetString("VersionUpdate.GameResource.Failed"));
         return (CheckUpdateRetT.UnknownError, null, null);
     }
 
-    public static async Task<bool> DownloadFromMirrorChyanAsync(string? url, string? releaseNote)
+    public static async Task<bool> DownloadFromMirrorChyanAsync(string? url, string? releaseNote, CancellationToken cancellationToken = default)
     {
         if (string.IsNullOrEmpty(url))
         {
@@ -254,12 +219,13 @@ public static class ResourceUpdater
         const string ExtractFolder = "MaaResourceMirrorchyan";
 
         OutputDownloadProgress(string.Empty, globalSource: false);
-        if (!await DownloadFullPackageAsync(url, MirrorchyanZipFile, false).ConfigureAwait(false))
+        if (!await DownloadFullPackageAsync(url, MirrorchyanZipFile, false, cancellationToken).ConfigureAwait(false))
         {
             Fail();
             return false;
         }
 
+        cancellationToken.ThrowIfCancellationRequested();
         OutputDownloadProgress(downloading: false, output: LocalizationHelper.GetString("VersionUpdate.GameResource.Preparing"));
 
         try
@@ -322,7 +288,7 @@ public static class ResourceUpdater
     /// <returns>返回一个 <see cref="CheckUpdateRetT"/> 枚举值，指示更新检查和下载的结果。
     /// <list type="bullet">
     /// <item><description><see cref="CheckUpdateRetT.AlreadyLatest"/>：已是最新版本。</description></item>
-    /// <item><description><see cref="CheckUpdateRetT.OK"/>：有新版本。（海外源不会自动下载）</description></item>
+    /// <item><description><see cref="CheckUpdateRetT.OK"/>：有新版本，但未自动下载。</description></item>
     /// <item><description><see cref="CheckUpdateRetT.NoMirrorChyanCdk"/>：有新版本，但未填写 cdk</description></item>
     /// <item><description><see cref="CheckUpdateRetT.OnlyGameResourceUpdated"/>：下载成功。</description></item>
     /// <item><description><see cref="CheckUpdateRetT.NetworkError"/>：网络错误。</description></item>
@@ -334,7 +300,31 @@ public static class ResourceUpdater
         {
             SettingsViewModel.VersionUpdateSettings.IsCheckingForUpdates = true;
 
-            var (ret, uri, releaseNote) = await CheckFromMirrorChyanAsync();
+            var settings = SettingsViewModel.VersionUpdateSettings;
+            var source = settings.UpdateSource;
+            var credential = settings.CurrentUpdateCredential;
+            int revision = credential.Revision;
+            var request = await settings.GetValidatedGitHubRequestAsync();
+            if (source != settings.UpdateSource || revision != credential.Revision)
+            {
+                return CheckUpdateRetT.NoNeedToUpdate;
+            }
+
+            if (source == UpdateSource.GitHub && credential.HasError)
+            {
+                return CheckUpdateRetT.CredentialError;
+            }
+
+            request ??= source == UpdateSource.MirrorChyan ? await credential.BeginCheckAsync() : null;
+            var cancellationToken = request?.CancellationToken ?? default;
+            var (ret, uri, releaseNote) = source == UpdateSource.GitHub && request is { } check
+                ? await CheckFromGitHubAsync(check.Value, cancellationToken)
+                : await CheckFromMirrorChyanAsync(request);
+            if (source != settings.UpdateSource || revision != credential.Revision)
+            {
+                return CheckUpdateRetT.NoNeedToUpdate;
+            }
+
             if (ret == CheckUpdateRetT.NoMirrorChyanCdk)
             {
                 ToastNotification.ShowDirect(LocalizationHelper.GetStringFormat("Settings.Update.MirrorChyan.ResourceUpdate.Tip", releaseNote));
@@ -342,16 +332,29 @@ public static class ResourceUpdater
 
             if (ret != CheckUpdateRetT.OK)
             {
+                if (!credential.HasError && ret is CheckUpdateRetT.NetworkError or CheckUpdateRetT.UnknownError or CheckUpdateRetT.FailedToGetInfo)
+                {
+                    ToastNotification.ShowDirect(LocalizationHelper.GetString("VersionUpdate.GameResource.Failed"));
+                }
+
                 return ret;
             }
 
-            if (SettingsViewModel.VersionUpdateSettings.UpdateSource == UpdateSource.MirrorChyan &&
-                await DownloadFromMirrorChyanAsync(uri, releaseNote))
+            if (!settings.AutoDownloadUpdatePackage)
             {
-                return CheckUpdateRetT.OnlyGameResourceUpdated;
+                ToastNotification.ShowDirect(settings.NewResourceFoundInfo);
+                return ret;
             }
 
-            return ret;
+            bool downloaded = source == UpdateSource.GitHub && request is not null
+                ? await UpdateFromGithubAsync(cancellationToken)
+                : source == UpdateSource.MirrorChyan && await DownloadFromMirrorChyanAsync(uri, releaseNote, cancellationToken);
+            return downloaded ? CheckUpdateRetT.OnlyGameResourceUpdated : CheckUpdateRetT.NetworkError;
+        }
+        catch (OperationCanceledException)
+        {
+            OutputDownloadProgress(string.Empty, downloading: false);
+            return CheckUpdateRetT.NoNeedToUpdate;
         }
         finally
         {
@@ -671,11 +674,15 @@ public static class ResourceUpdater
         }
     }
 
-    private static async Task<bool> DownloadFullPackageAsync(string url, string saveTo, bool globalSource)
+    private static async Task<bool> DownloadFullPackageAsync(string url, string saveTo, bool globalSource, CancellationToken cancellationToken = default)
     {
         try
         {
-            return await Instances.HttpService.DownloadFileAsync(new(url), saveTo, "application/zip");
+            return await Instances.HttpService.DownloadFileAsync(new(url), saveTo, "application/zip", token: cancellationToken);
+        }
+        catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
+        {
+            throw;
         }
         catch (Exception e)
         {

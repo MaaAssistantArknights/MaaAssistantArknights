@@ -1908,15 +1908,24 @@ DEBUG 目录下保存的图片有数量限制，超出后会自动清理旧图�
 • {key=Settings.Update.Channel.Stable}: Bug 更少, 新功能新主题支持更慢。新功能可能需要数周后才会支持</system:String>
     <system:String x:Key="Settings.Update.CheckNow">软件更新</system:String>
     <system:String x:Key="Settings.Update.CoreVersion">核心版本</system:String>
-    <system:String x:Key="Settings.Update.ForceGithub">强制使用 GitHub</system:String>
-    <system:String x:Key="Settings.Update.ForceGithub.Tip">检测到更新后，强制从 GitHub 下载更新包</system:String>
+    <system:String x:Key="Settings.Update.GitHub.Token">GitHub Token</system:String>
+    <system:String x:Key="Settings.Update.GitHub.Token.Checking">正在验证 Token……</system:String>
+    <system:String x:Key="Settings.Update.GitHub.Token.Expired">Token 已过期。</system:String>
+    <system:String x:Key="Settings.Update.GitHub.Token.Failed">Token 验证失败，请检查网络。</system:String>
+    <system:String x:Key="Settings.Update.GitHub.Token.Generate">生成 Token</system:String>
+    <system:String x:Key="Settings.Update.GitHub.Token.Invalid">Token 无效，请检查输入是否正确。</system:String>
+    <system:String x:Key="Settings.Update.GitHub.Token.NeverExpires">Token 永不过期。</system:String>
+    <system:String x:Key="Settings.Update.GitHub.Token.RemainingDays">Token 还剩 {0} 天到期。</system:String>
     <system:String x:Key="Settings.Update.LocalResourcePackageTooOld">资源包版本（{0}）小于等于当前版本（{1}），已跳过导入。</system:String>
     <system:String x:Key="Settings.Update.MaaVersion">软件版本</system:String>
-    <system:String x:Key="Settings.Update.MirrorChyan.CdkFetchFailed">获取 CDK 信息失败，已显示上次成功查询的结果。</system:String>
+    <system:String x:Key="Settings.Update.MirrorChyan.Cdk">{key=Settings.Update.Source.MirrorChyan} CDK</system:String>
     <system:String x:Key="Settings.Update.MirrorChyan.CdkRemainingDays">CDK 还剩 {0} 天到期。</system:String>
+    <system:String x:Key="Settings.Update.MirrorChyan.Checking">正在验证 CDK……</system:String>
+    <system:String x:Key="Settings.Update.MirrorChyan.ExpirationUnknown">未获取到 CDK 到期时间。</system:String>
     <system:String x:Key="Settings.Update.MirrorChyan.ResourceUpdate.Brief.Tip">检测到资源更新: {0}</system:String>
     <system:String x:Key="Settings.Update.MirrorChyan.ResourceUpdate.Tip">检测到资源更新: {0}。请前往 ｢{key=Settings.Title} - {key=Settings.Update.Title} - {key=Settings.Update.ResourceUpdate}｣ 手动更新，或配置 Mirror酱 CDK 以自动更新。</system:String>
     <system:String x:Key="Settings.Update.MirrorChyan.SelectedButNoCdk">请前往 ｢{key=Settings.Title} - {key=Settings.Update.Title}｣ 配置 Mirror酱 CDK 或切换海外源。</system:String>
+    <system:String x:Key="Settings.Update.MirrorChyan.ValidationFailed">CDK 验证失败，请检查网络。</system:String>
     <system:String x:Key="Settings.Update.NoNeedToUpdateDebugVersion">当前为调试版本，无需更新</system:String>
     <system:String x:Key="Settings.Update.ResourceDateTime">资源日期</system:String>
     <system:String x:Key="Settings.Update.ResourceRepository">资源仓库</system:String>
@@ -1939,8 +1948,8 @@ DEBUG 目录下保存的图片有数量限制，超出后会自动清理旧图�
     <system:String x:Key="Settings.Update.Source.MirrorChyan">Mirror酱</system:String>
     <system:String x:Key="Settings.Update.Source.Tip" xml:space="preserve">
 🌏 使用{key=Settings.Update.Source.Global}：
-    • {key=Settings.Update.CheckNow}：由 MAA Team 提供更新检测，从 GitHub 拉取更新包，国内同步提供直连镜像（带宽有限，高峰期可能受限）
-    • {key=Settings.Update.ResourceUpdate}：由 {key=Settings.Update.Source.MirrorChyan} 提供免费的更新检测，可手动在设置中点击 ｢{key=Settings.Update.ResourceUpdate}｣ 从 GitHub 下载
+    • 未启用 GitHub Token 时，{key=Settings.Update.CheckNow}由 MAA Team 提供更新检测，从 GitHub 下载更新包；{key=Settings.Update.ResourceUpdate}由 {key=Settings.Update.Source.MirrorChyan} 提供免费的更新检测，可手动在设置中点击 ｢{key=Settings.Update.ResourceUpdate}｣ 从 GitHub 下载
+    • 填写并验证 GitHub Token 后，软件和资源的更新检查与下载均由 GitHub 提供。
 
 🔑 使用 {key=Settings.Update.Source.MirrorChyan}：
     • 填写 CDK 后，支持软件与资源的自动更新
@@ -2519,6 +2528,7 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="VersionUpdate.NewVersionDownloadFailed.Description">请尝试手动下载后，将压缩包放到目录下_(:з」∠)_</system:String>
     <system:String x:Key="VersionUpdate.NewVersionDownloadFailed.Title">新版本下载失败</system:String>
     <system:String x:Key="VersionUpdate.NewVersionDownloadPreparing">正在准备下载更新包……</system:String>
+    <system:String x:Key="VersionUpdate.NewVersionDownloadRateLimited">下载受到速率限制，请在 {0} 秒后重试。</system:String>
     <system:String x:Key="VersionUpdate.NewVersionDownloadRetrying">更新包下载失败，将在 {0} 秒后重试（第 {1}/{2} 次下载失败）。</system:String>
     <system:String x:Key="VersionUpdate.NewVersionDownloading.GlobalSource">正在使用 ｢{key=Settings.Update.Source.Global}｣ 下载……</system:String>
     <system:String x:Key="VersionUpdate.NewVersionDownloading.MirrorChyan">正在使用 ｢{key=Settings.Update.Source.MirrorChyan}｣ 下载……</system:String>

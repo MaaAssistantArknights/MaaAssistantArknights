@@ -47,7 +47,7 @@ public class MaaApiService : IMaaApiService
     {
         var url = baseUrl + api;
         var cachePath = Path.Combine(_cacheDir, api);
-        var response = await ETagCache.FetchResponseWithEtag(url, !File.Exists(cachePath));
+        using var response = await ETagCache.FetchResponseWithEtag(url, !File.Exists(cachePath));
         if (response?.StatusCode == System.Net.HttpStatusCode.NotModified)
         {
             var cache = LoadApiCache(api);

@@ -1907,15 +1907,24 @@ If system notifications are turned off, an in-app notification will be used inst
     • {key=Settings.Update.Channel.Stable}: Contains fewer bugs, but new features and themes are supported later. New features may take several weeks to become available</system:String>
     <system:String x:Key="Settings.Update.CheckNow">Software update</system:String>
     <system:String x:Key="Settings.Update.CoreVersion">Core Version</system:String>
-    <system:String x:Key="Settings.Update.ForceGithub">Force using GitHub</system:String>
-    <system:String x:Key="Settings.Update.ForceGithub.Tip">When updates are detected, force download update packages from GitHub</system:String>
+    <system:String x:Key="Settings.Update.GitHub.Token">GitHub Token</system:String>
+    <system:String x:Key="Settings.Update.GitHub.Token.Checking">Validating token…</system:String>
+    <system:String x:Key="Settings.Update.GitHub.Token.Expired">Token has expired.</system:String>
+    <system:String x:Key="Settings.Update.GitHub.Token.Failed">Token validation failed. Check your network connection.</system:String>
+    <system:String x:Key="Settings.Update.GitHub.Token.Generate">Generate Token</system:String>
+    <system:String x:Key="Settings.Update.GitHub.Token.Invalid">The token is invalid. Please check if the input is correct.</system:String>
+    <system:String x:Key="Settings.Update.GitHub.Token.NeverExpires">Token never expires.</system:String>
+    <system:String x:Key="Settings.Update.GitHub.Token.RemainingDays">Token expires in {0} days.</system:String>
     <system:String x:Key="Settings.Update.LocalResourcePackageTooOld">Resource package version ({0}) is not newer than the current version ({1}). Import skipped.</system:String>
     <system:String x:Key="Settings.Update.MaaVersion">Software Version</system:String>
-    <system:String x:Key="Settings.Update.MirrorChyan.CdkFetchFailed">Failed to retrieve CDK information. Showing the result from the last successful query.</system:String>
+    <system:String x:Key="Settings.Update.MirrorChyan.Cdk">{key=Settings.Update.Source.MirrorChyan} CDK</system:String>
     <system:String x:Key="Settings.Update.MirrorChyan.CdkRemainingDays">CDK expires in {0} days.</system:String>
+    <system:String x:Key="Settings.Update.MirrorChyan.Checking">Validating CDK…</system:String>
+    <system:String x:Key="Settings.Update.MirrorChyan.ExpirationUnknown">CDK expiration date is unavailable.</system:String>
     <system:String x:Key="Settings.Update.MirrorChyan.ResourceUpdate.Brief.Tip">Resource update {0} detected</system:String>
     <system:String x:Key="Settings.Update.MirrorChyan.ResourceUpdate.Tip">Resource update {0} detected. Please go to ｢{key=Settings.Title} - {key=Settings.Update.Title} - {key=Settings.Update.ResourceUpdate}｣ to update manually, or fill in MirrorChyan CDK to update automatically.</system:String>
     <system:String x:Key="Settings.Update.MirrorChyan.SelectedButNoCdk">Please go to ｢{key=Settings.Title} - {key=Settings.Update.Title}｣ to configure MirrorChyan CDK or switch to Global Source.</system:String>
+    <system:String x:Key="Settings.Update.MirrorChyan.ValidationFailed">CDK validation failed. Check your network connection.</system:String>
     <system:String x:Key="Settings.Update.NoNeedToUpdateDebugVersion">Now using debug version, no need to update</system:String>
     <system:String x:Key="Settings.Update.ResourceDateTime">Resource Date</system:String>
     <system:String x:Key="Settings.Update.ResourceRepository">Resource Repository</system:String>
@@ -1938,8 +1947,8 @@ Are you sure you want to disable the update progress window?</system:String>
     <system:String x:Key="Settings.Update.Source.MirrorChyan">MirrorChyan</system:String>
     <system:String x:Key="Settings.Update.Source.Tip" xml:space="preserve">
 🌏 Using {key=Settings.Update.Source.Global}:
-    • {key=Settings.Update.CheckNow}: Update checks are provided by the MAA Team, with update packages pulled from GitHub. A direct domestic mirror is also available (limited bandwidth during peak hours)
-    • {key=Settings.Update.ResourceUpdate}: Free update checks provided by {key=Settings.Update.Source.MirrorChyan}. You can manually click "{key=Settings.Update.ResourceUpdate}" in Settings to download from GitHub
+    • Without a validated GitHub Token, {key=Settings.Update.CheckNow} checks are provided by the MAA Team, with update packages downloaded from GitHub; {key=Settings.Update.ResourceUpdate} checks are provided free by {key=Settings.Update.Source.MirrorChyan}, and you can click "{key=Settings.Update.ResourceUpdate}" in Settings to download from GitHub manually
+    • After entering and validating a GitHub Token, both software and resource update checks and downloads are provided by GitHub.
 
 🔑 Using {key=Settings.Update.Source.MirrorChyan}:
     • After entering a CDK, automatic updates for both software and resources are enabled
@@ -2519,6 +2528,7 @@ Only level rewards can be farmed; to get the Engraved Medal, all ｢Key Objectiv
     <system:String x:Key="VersionUpdate.NewVersionDownloadFailed.Description">Please download the zip file manually and place it in the directory</system:String>
     <system:String x:Key="VersionUpdate.NewVersionDownloadFailed.Title">Download of Update Package Failed</system:String>
     <system:String x:Key="VersionUpdate.NewVersionDownloadPreparing">Preparing to download update package……</system:String>
+    <system:String x:Key="VersionUpdate.NewVersionDownloadRateLimited">Downloads are rate limited. Please try again in {0} seconds.</system:String>
     <system:String x:Key="VersionUpdate.NewVersionDownloadRetrying">Update package download failed. Retrying in {0} seconds (download attempt {1}/{2} failed).</system:String>
     <system:String x:Key="VersionUpdate.NewVersionDownloading.GlobalSource">\nDownloading from ｢{key=Settings.Update.Source.Global}｣...</system:String>
     <system:String x:Key="VersionUpdate.NewVersionDownloading.MirrorChyan">\nDownloading from ｢{key=Settings.Update.Source.MirrorChyan}｣...</system:String>

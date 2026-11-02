@@ -1910,15 +1910,24 @@ MAA は非インストール型のアプリケーションであり、レジス�
 • {key=Settings.Update.Channel.Stable}: バグは少なくなりますが、新機能や新しいテーマのサポートは遅くなります。新機能のサポートには数週間かかる場合があります。</system:String>
     <system:String x:Key="Settings.Update.CheckNow">ソフト更新</system:String>
     <system:String x:Key="Settings.Update.CoreVersion">Core バージョン</system:String>
-    <system:String x:Key="Settings.Update.ForceGithub">GitHub を強制使用</system:String>
-    <system:String x:Key="Settings.Update.ForceGithub.Tip">更新を検出後、Githubから強制的に更新パッケージをダウンロード</system:String>
+    <system:String x:Key="Settings.Update.GitHub.Token">GitHub Token</system:String>
+    <system:String x:Key="Settings.Update.GitHub.Token.Checking">Token を検証中……</system:String>
+    <system:String x:Key="Settings.Update.GitHub.Token.Expired">Token の有効期限が切れています。</system:String>
+    <system:String x:Key="Settings.Update.GitHub.Token.Failed">Token の検証に失敗しました。ネットワーク接続を確認してください。</system:String>
+    <system:String x:Key="Settings.Update.GitHub.Token.Generate">Token を作成</system:String>
+    <system:String x:Key="Settings.Update.GitHub.Token.Invalid">Token が無効です。入力が正しいか確認してください。</system:String>
+    <system:String x:Key="Settings.Update.GitHub.Token.NeverExpires">Token は無期限です。</system:String>
+    <system:String x:Key="Settings.Update.GitHub.Token.RemainingDays">Token の有効期限まで残り {0} 日です。</system:String>
     <system:String x:Key="Settings.Update.LocalResourcePackageTooOld">リソースパッケージのバージョン（{0}）は現在のバージョン（{1}）と同じか古いため、インポートをスキップしました。</system:String>
     <system:String x:Key="Settings.Update.MaaVersion">Software バージョン</system:String>
-    <system:String x:Key="Settings.Update.MirrorChyan.CdkFetchFailed">CDK 情報の取得に失敗しました。前回正常に取得した結果を表示しています。</system:String>
+    <system:String x:Key="Settings.Update.MirrorChyan.Cdk">{key=Settings.Update.Source.MirrorChyan} CDK</system:String>
     <system:String x:Key="Settings.Update.MirrorChyan.CdkRemainingDays">CDK の有効期限は残り {0} 日です。</system:String>
+    <system:String x:Key="Settings.Update.MirrorChyan.Checking">CDK を検証中……</system:String>
+    <system:String x:Key="Settings.Update.MirrorChyan.ExpirationUnknown">CDK の有効期限を取得できませんでした。</system:String>
     <system:String x:Key="Settings.Update.MirrorChyan.ResourceUpdate.Brief.Tip">リソース更新 {0} が検出されました</system:String>
     <system:String x:Key="Settings.Update.MirrorChyan.ResourceUpdate.Tip">リソース更新 {0} が検出されました。｢{key=Settings.Title} - {key=Settings.Update.Title} - {key=Settings.Update.ResourceUpdate}｣ に移動して手動で更新するか、MirrorChyan CDK を入力して自動的に更新してください。</system:String>
     <system:String x:Key="Settings.Update.MirrorChyan.SelectedButNoCdk">｢{key=Settings.Title} - {key=Settings.Update.Title}｣ に移動して MirrorChyan CDK を設定するか、グローバル ソースに切り替えてください。</system:String>
+    <system:String x:Key="Settings.Update.MirrorChyan.ValidationFailed">CDK の検証に失敗しました。ネットワーク接続を確認してください。</system:String>
     <system:String x:Key="Settings.Update.NoNeedToUpdateDebugVersion">現在はデバッグバージョンであり、更新は必要ありません</system:String>
     <system:String x:Key="Settings.Update.ResourceDateTime">リソース日付</system:String>
     <system:String x:Key="Settings.Update.ResourceRepository">リソース倉庫</system:String>
@@ -1941,8 +1950,8 @@ MAA は非インストール型のアプリケーションであり、レジス�
     <system:String x:Key="Settings.Update.Source.MirrorChyan">MirrorChyan</system:String>
     <system:String x:Key="Settings.Update.Source.Tip" xml:space="preserve">
 🌏 {key=Settings.Update.Source.Global}を使用：
-    • {key=Settings.Update.CheckNow}：MAA Team による更新確認で、GitHub から更新パッケージを取得します。中国国内向けに直通ミラーも提供されています（ピーク時は帯域制限の可能性あり）
-    • {key=Settings.Update.ResourceUpdate}：{key=Settings.Update.Source.MirrorChyan} による無料の更新確認が可能。設定画面で ｢{key=Settings.Update.ResourceUpdate}｣ をクリックして GitHub から手動ダウンロード可能
+    • 検証済みの GitHub Token がない場合、{key=Settings.Update.CheckNow}は MAA Team が更新を確認し、GitHub から更新パッケージをダウンロードします。{key=Settings.Update.ResourceUpdate}は {key=Settings.Update.Source.MirrorChyan} が無料で更新を確認し、設定の ｢{key=Settings.Update.ResourceUpdate}｣ をクリックすると GitHub から手動でダウンロードできます
+    • GitHub Token を入力して検証に成功すると、ソフトウェアとリソースの更新確認とダウンロードは、どちらも GitHub が提供します。
 
 🔑 {key=Settings.Update.Source.MirrorChyan}を使用：
     • CDK を入力すると、ソフトウェアとリソースの自動更新が有効になります
@@ -2520,6 +2529,7 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="VersionUpdate.NewVersionDownloadFailed.Description">ZIPファイルを手動でダウンロードし、ディレクトリに配置してください</system:String>
     <system:String x:Key="VersionUpdate.NewVersionDownloadFailed.Title">アップデートパッケージのダウンロードに失敗しました</system:String>
     <system:String x:Key="VersionUpdate.NewVersionDownloadPreparing">アップデートパッケージのダウンロードを準備中です……</system:String>
+    <system:String x:Key="VersionUpdate.NewVersionDownloadRateLimited">ダウンロードがレート制限されています。{0} 秒後に再試行してください。</system:String>
     <system:String x:Key="VersionUpdate.NewVersionDownloadRetrying">アップデートパッケージのダウンロードに失敗しました。{0} 秒後に再試行します（{1}/{2} 回目のダウンロードに失敗）。</system:String>
     <system:String x:Key="VersionUpdate.NewVersionDownloading.GlobalSource">｢{key=Settings.Update.Source.Global}｣ からダウンロード中...</system:String>
     <system:String x:Key="VersionUpdate.NewVersionDownloading.MirrorChyan">｢{key=Settings.Update.Source.MirrorChyan}｣ からダウンロード中...</system:String>

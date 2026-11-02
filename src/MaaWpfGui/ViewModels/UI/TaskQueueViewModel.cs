@@ -892,7 +892,7 @@ public class TaskQueueViewModel : Screen
                 AchievementTrackerHelper.Instance.Unlock(AchievementIds.Time325);
             }
 
-            VersionUpdateSettingsUserControlModel.Instance.RefreshMirrorChyanCdkRemaining();
+            VersionUpdateSettingsUserControlModel.Instance.RefreshUpdateCredentials();
             HandleDatePromptUpdate();
             HandleCheckForUpdates();
 
@@ -1497,8 +1497,7 @@ public class TaskQueueViewModel : Screen
     // 这个函数被列为public可见，意味着他注入对象前被调用
     public void UpdateDatePrompt()
     {
-        Execute.OnUIThread(() =>
-        {
+        Execute.OnUIThread(() => {
             // 复用既有集合以 CollectionChanged 增量更新，避免整表重建导致绑定闪烁
             var inlines = StagesOfTodayInlines ?? new ObservableCollection<Inline>();
             inlines.Clear();

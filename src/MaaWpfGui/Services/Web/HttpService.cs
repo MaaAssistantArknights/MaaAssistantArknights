@@ -16,6 +16,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -25,7 +26,6 @@ using System.Text;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
-using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
@@ -40,50 +40,57 @@ public class HttpService : IHttpService
 {
     private readonly string _userAgent;
 
-    private static string Proxy
-    {
-        get
-        {
-            var proxy = ConfigFactory.Root.Update.Proxy;
-            if (string.IsNullOrEmpty(proxy))
-            {
-                return string.Empty;
-            }
-
-            return proxy.Contains("://") ? proxy : SettingsViewModel.VersionUpdateSettings.ProxyType + $"://{proxy}";
-        }
-    }
-
     private readonly ILogger _logger = Log.ForContext<HttpService>();
-
+    private readonly object _clientLock = new();
+    private readonly Dictionary<HttpClient, int> _activeRequests = new();
+    private readonly HashSet<HttpClient> _retiredClients = new();
     private HttpClient _client;
+
+    private static readonly TimeSpan _downloadIdleTimeout = TimeSpan.FromSeconds(30);
 
     public HttpService()
     {
         string uiVersion = Assembly.GetExecutingAssembly().GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion.Split('+')[0] ?? "0.0.1";
         _userAgent = $"MaaWpfGui/{uiVersion}";
+        _client = BuildHttpClient(TryGetProxy(out var proxy) ? proxy : null);
 
         VersionUpdateSettingsUserControlModel.Instance.PropertyChanged += (sender, args) => {
             if (args.PropertyName != nameof(VersionUpdateSettingsUserControlModel.Proxy) && args.PropertyName != nameof(VersionUpdateSettingsUserControlModel.ProxyType))
             {
                 return;
             }
-            if (GetProxy() == null)
+            if (!TryGetProxy(out var updatedProxy))
             {
-                _logger.Warning("Proxy is not a valid URI, and HttpClient is not null, keep using the original HttpClient");
+                _logger.Warning("Proxy is not a valid URI, keeping the current HttpClient");
                 return;
             }
-            _client = BuildHttpClient();
-        };
 
-        _client = BuildHttpClient();
+            var replacement = BuildHttpClient(updatedProxy);
+            HttpClient previous;
+            bool disposePrevious;
+            lock (_clientLock)
+            {
+                previous = _client;
+                _client = replacement;
+                disposePrevious = !_activeRequests.ContainsKey(previous);
+                if (!disposePrevious)
+                {
+                    _retiredClients.Add(previous);
+                }
+            }
+
+            if (disposePrevious)
+            {
+                previous.Dispose();
+            }
+        };
     }
 
     public async Task<double> HeadAsync(Uri uri, Dictionary<string, string>? extraHeader = null, UriPartial uriPartial = UriPartial.Query)
     {
         try
         {
-            var request = new HttpRequestMessage { RequestUri = uri, Method = HttpMethod.Head, Version = HttpVersion.Version20, };
+            using var request = new HttpRequestMessage { RequestUri = uri, Method = HttpMethod.Head, Version = HttpVersion.Version20, };
 
             if (extraHeader != null)
             {
@@ -100,7 +107,7 @@ public class HttpService : IHttpService
             request.Headers.ConnectionClose = true;
 
             var stopwatch = Stopwatch.StartNew();
-            var response = await _client.SendAsync(request).ConfigureAwait(false);
+            using var response = await SendAsync(request, HttpCompletionOption.ResponseContentRead).ConfigureAwait(false);
             stopwatch.Stop();
             response.Log(uriPartial, stopwatch.Elapsed.TotalMilliseconds);
 
@@ -117,13 +124,14 @@ public class HttpService : IHttpService
     {
         try
         {
-            var response = await GetAsync(uri, extraHeader, httpCompletionOption);
+            using var response = await GetAsync(uri, extraHeader, httpCompletionOption);
             if (response.StatusCode != HttpStatusCode.OK)
             {
                 return null;
             }
 
-            return await response.Content.ReadAsStringAsync();
+            using var timeout = new CancellationTokenSource(_downloadIdleTimeout);
+            return await response.Content.ReadAsStringAsync(timeout.Token);
         }
         catch (Exception e)
         {
@@ -153,7 +161,7 @@ public class HttpService : IHttpService
 
     public async Task<HttpResponseMessage> GetAsync(Uri uri, Dictionary<string, string>? extraHeader = null, HttpCompletionOption httpCompletionOption = HttpCompletionOption.ResponseHeadersRead, UriPartial uriPartial = UriPartial.Query, CancellationToken token = default)
     {
-        var request = new HttpRequestMessage { RequestUri = uri, Method = HttpMethod.Get, Version = HttpVersion.Version20, };
+        using var request = new HttpRequestMessage { RequestUri = uri, Method = HttpMethod.Get, Version = HttpVersion.Version20, };
         if (extraHeader != null)
         {
             foreach (var kvp in extraHeader)
@@ -167,7 +175,7 @@ public class HttpService : IHttpService
         }
 
         var stopwatch = Stopwatch.StartNew();
-        var response = await _client.SendAsync(request, httpCompletionOption, token);
+        var response = await SendAsync(request, httpCompletionOption, token);
         stopwatch.Stop();
         response.Log(uriPartial, stopwatch.Elapsed.TotalMilliseconds);
         return response;
@@ -177,7 +185,7 @@ public class HttpService : IHttpService
     {
         try
         {
-            var response = await PostAsync(uri, new StringContent(JsonSerializer.Serialize(content), Encoding.UTF8, "application/json"), extraHeader, uriPartial);
+            using var response = await PostAsync(uri, new StringContent(JsonSerializer.Serialize(content), Encoding.UTF8, "application/json"), extraHeader, uriPartial);
             return await response.Content.ReadAsStringAsync();
         }
         catch (Exception e)
@@ -191,7 +199,7 @@ public class HttpService : IHttpService
     {
         try
         {
-            var response = await PostAsync(uri, new FormUrlEncodedContent(content), extraHeader, uriPartial);
+            using var response = await PostAsync(uri, new FormUrlEncodedContent(content), extraHeader, uriPartial);
             return await response.Content.ReadAsStringAsync();
         }
         catch (Exception e)
@@ -203,7 +211,7 @@ public class HttpService : IHttpService
 
     public async Task<HttpResponseMessage> PostAsync(Uri uri, HttpContent content, Dictionary<string, string>? extraHeader = null, UriPartial uriPartial = UriPartial.Query)
     {
-        var message = new HttpRequestMessage(HttpMethod.Post, uri) { Version = HttpVersion.Version20, Content = content };
+        using var message = new HttpRequestMessage(HttpMethod.Post, uri) { Version = HttpVersion.Version20, Content = content };
         if (extraHeader is not null)
         {
             foreach (var header in extraHeader)
@@ -232,7 +240,7 @@ public class HttpService : IHttpService
 
         message.Headers.Accept.ParseAdd("application/json");
         var stopwatch = Stopwatch.StartNew();
-        var response = await _client.SendAsync(message);
+        var response = await SendAsync(message, HttpCompletionOption.ResponseContentRead);
         stopwatch.Stop();
         response.Log(uriPartial, stopwatch.Elapsed.TotalMilliseconds);
         return response;
@@ -247,7 +255,18 @@ public class HttpService : IHttpService
         return name.Length > 0 && name.All(c => c is > ' ' and < '\u007f' && !"()<>@,;:\\\"/[]?={}".Contains(c));
     }
 
-    public async Task<bool> DownloadFileAsync(Uri uri, string fileName, string? contentType = "application/octet-stream")
+    public async Task<bool> DownloadFileAsync(Uri uri, string fileName, string? contentType = "application/octet-stream", Dictionary<string, string>? extraHeader = null, Func<HttpStatusCode, Task>? onError = null, CancellationToken token = default)
+    {
+        var result = await DownloadFileWithResultAsync(uri, fileName, contentType, extraHeader, token).ConfigureAwait(false);
+        if (!result.Success && result.StatusCode is { } status && status != HttpStatusCode.OK && onError is not null)
+        {
+            await onError(status).ConfigureAwait(false);
+        }
+
+        return result.Success;
+    }
+
+    public async Task<HttpDownloadResult> DownloadFileWithResultAsync(Uri uri, string fileName, string? contentType = "application/octet-stream", Dictionary<string, string>? extraHeader = null, CancellationToken token = default)
     {
         string fileDir = PathsHelper.BaseDir;
         string fileNameWithTemp = fileName + ".temp";
@@ -255,26 +274,26 @@ public class HttpService : IHttpService
         string fullFilePathWithTemp = Path.Combine(fileDir, fileNameWithTemp);
         _logger.Information("Start to download file from {Uri} and save to {TempPath}", uri, fullFilePathWithTemp);
 
-        HttpResponseMessage response;
+        HttpStatusCode? statusCode = null;
         try
         {
-            response = await GetAsync(uri, extraHeader: new Dictionary<string, string> { { "Accept", contentType ?? "application/octet-stream" } }, httpCompletionOption: HttpCompletionOption.ResponseHeadersRead);
+            var headers = extraHeader == null
+                ? new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+                : new Dictionary<string, string>(extraHeader, StringComparer.OrdinalIgnoreCase);
+            headers["Accept"] = contentType ?? "application/octet-stream";
+            using var response = await GetAsync(uri, extraHeader: headers, httpCompletionOption: HttpCompletionOption.ResponseHeadersRead, token: token).ConfigureAwait(false);
+            token.ThrowIfCancellationRequested();
+            statusCode = response.StatusCode;
             if (response.StatusCode != HttpStatusCode.OK)
             {
-                return false;
+                return new(false, statusCode, GetRetryDelay(response));
             }
-        }
-        catch (Exception e)
-        {
-            _logger.Error(e, "Failed to send GET request to {Uri}", uri);
-            return false;
-        }
 
-        var success = true;
-        try
-        {
-            var stream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
-            await using (var tempFileStream = new FileStream(fullFilePathWithTemp, FileMode.Create, FileAccess.Write))
+            using var idleTimeout = CancellationTokenSource.CreateLinkedTokenSource(token);
+            idleTimeout.CancelAfter(_downloadIdleTimeout);
+            await using var stream = await response.Content.ReadAsStreamAsync(idleTimeout.Token).ConfigureAwait(false);
+            idleTimeout.CancelAfter(Timeout.InfiniteTimeSpan);
+            await using (var tempFileStream = new FileStream(fullFilePathWithTemp, FileMode.Create, FileAccess.Write, FileShare.None, 81920, useAsync: true))
             {
                 // 记录初始化
                 long value = 0;
@@ -286,10 +305,18 @@ public class HttpService : IHttpService
                 VersionUpdateDialogViewModel.OutputDownloadProgress();
 
                 byte[] buffer = new byte[81920];
-                int byteLen = await stream.ReadAsync(buffer, 0, buffer.Length);
-
-                while (byteLen > 0)
+                while (true)
                 {
+                    // Reset for each network read: large files may take much longer than
+                    // the idle timeout as long as the server continues sending data.
+                    idleTimeout.CancelAfter(_downloadIdleTimeout);
+                    int byteLen = await stream.ReadAsync(buffer, idleTimeout.Token).ConfigureAwait(false);
+                    idleTimeout.CancelAfter(Timeout.InfiniteTimeSpan);
+                    if (byteLen == 0)
+                    {
+                        break;
+                    }
+
                     valueInOneSecond += byteLen;
                     double ts = DateTime.Now.Subtract(beforeDt).TotalSeconds;
                     if (ts > 1)
@@ -303,48 +330,140 @@ public class HttpService : IHttpService
                     }
 
                     // 输入输出
-                    tempFileStream.Write(buffer, 0, byteLen);
-                    byteLen = await stream.ReadAsync(buffer, 0, buffer.Length);
+                    await tempFileStream.WriteAsync(buffer.AsMemory(0, byteLen), token).ConfigureAwait(false);
                 }
             }
 
+            token.ThrowIfCancellationRequested();
             File.Copy(fullFilePathWithTemp, fullFilePath, true);
+            return new(true, statusCode);
+        }
+        catch (OperationCanceledException) when (token.IsCancellationRequested)
+        {
+            throw;
+        }
+        catch (OperationCanceledException)
+        {
+            _logger.Warning("File download timed out for {Uri}", uri.GetLeftPart(UriPartial.Path));
+            return new(false, statusCode);
         }
         catch (Exception e)
         {
-            _logger.Error(e, "Failed to copy file stream {TempFile}", fullFilePathWithTemp);
-            success = false;
+            _logger.Error(e, "Failed to download file from {Uri}", uri.GetLeftPart(UriPartial.Path));
+            return new(false, statusCode);
         }
         finally
         {
             if (File.Exists(fullFilePathWithTemp))
             {
-                _logger.Information("Remove download temp file {TempFile}", fullFilePathWithTemp);
-                File.Delete(fullFilePathWithTemp);
+                try
+                {
+                    _logger.Information("Remove download temp file {TempFile}", fullFilePathWithTemp);
+                    File.Delete(fullFilePathWithTemp);
+                }
+                catch (Exception e)
+                {
+                    _logger.Warning(e, "Failed to remove download temp file {TempFile}", fullFilePathWithTemp);
+                }
+            }
+        }
+    }
+
+    private static TimeSpan? GetRetryDelay(HttpResponseMessage response)
+    {
+        var now = DateTimeOffset.UtcNow;
+        var delay = response.Headers.RetryAfter?.Delta ?? (response.Headers.RetryAfter?.Date - now);
+        if (response.Headers.TryGetValues("X-RateLimit-Remaining", out var remaining) && remaining.Contains("0") &&
+            response.Headers.TryGetValues("X-RateLimit-Reset", out var resetValues) &&
+            long.TryParse(resetValues.FirstOrDefault(), NumberStyles.Integer, CultureInfo.InvariantCulture, out var seconds) &&
+            seconds >= DateTimeOffset.MinValue.ToUnixTimeSeconds() && seconds <= DateTimeOffset.MaxValue.ToUnixTimeSeconds())
+        {
+            var resetDelay = DateTimeOffset.FromUnixTimeSeconds(seconds) - now;
+            if (!delay.HasValue || resetDelay > delay.Value)
+            {
+                delay = resetDelay;
             }
         }
 
-        return success;
+        return delay is { } value && value < TimeSpan.Zero ? TimeSpan.Zero : delay;
     }
 
-    private static WebProxy? GetProxy()
+    private static bool TryGetProxy(out WebProxy? proxy)
     {
-        var proxyIsUri = Uri.TryCreate(Proxy, UriKind.RelativeOrAbsolute, out var uri);
-        return (proxyIsUri && (!string.IsNullOrEmpty(Proxy))) is false ? null : new WebProxy(uri);
-    }
-
-    private HttpClient BuildHttpClient()
-    {
-        var handler = new HttpClientHandler
+        proxy = null;
+        string address = SettingsViewModel.VersionUpdateSettings.Proxy?.Trim() ?? string.Empty;
+        if (string.IsNullOrEmpty(address))
         {
+            return true;
+        }
+
+        if (!address.Contains("://"))
+        {
+            address = SettingsViewModel.VersionUpdateSettings.ProxyType + "://" + address;
+        }
+
+        if (!Uri.TryCreate(address, UriKind.Absolute, out var uri) || !uri.IsWellFormedOriginalString() ||
+            uri.Scheme is not ("http" or "https" or "socks4" or "socks4a" or "socks5") ||
+            string.IsNullOrEmpty(uri.Host) || uri.Port <= 0 || address.EndsWith(':') ||
+            uri.AbsolutePath is not ("" or "/") || !string.IsNullOrEmpty(uri.Query) || !string.IsNullOrEmpty(uri.Fragment))
+        {
+            return false;
+        }
+
+        proxy = new WebProxy(uri);
+        return true;
+    }
+
+    private async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationToken token = default)
+    {
+        HttpClient client;
+        lock (_clientLock)
+        {
+            client = _client;
+            _activeRequests.TryGetValue(client, out int active);
+            _activeRequests[client] = active + 1;
+        }
+
+        try
+        {
+            return await client.SendAsync(request, completionOption, token).ConfigureAwait(false);
+        }
+        finally
+        {
+            bool disposeClient = false;
+            lock (_clientLock)
+            {
+                int active = _activeRequests[client] - 1;
+                if (active == 0)
+                {
+                    _activeRequests.Remove(client);
+                    disposeClient = _retiredClients.Remove(client);
+                }
+                else
+                {
+                    _activeRequests[client] = active;
+                }
+            }
+
+            if (disposeClient)
+            {
+                // Disposing the connection pool closes idle connections. Response streams
+                // already returned to callers keep their active connections until closed.
+                client.Dispose();
+            }
+        }
+    }
+
+    private HttpClient BuildHttpClient(WebProxy? proxy)
+    {
+        var handler = new HttpClientHandler {
             AutomaticDecompression = DecompressionMethods.All,
             AllowAutoRedirect = true,
         };
 
-        var proxy = GetProxy();
         if (proxy != null)
         {
-            _logger.Information("Rebuild HttpClient with proxy {Proxy}", Proxy);
+            _logger.Information("Rebuild HttpClient with proxy {Proxy}", proxy.Address?.GetComponents(UriComponents.SchemeAndServer, UriFormat.SafeUnescaped));
             handler.Proxy = proxy;
             handler.UseProxy = true;
         }
