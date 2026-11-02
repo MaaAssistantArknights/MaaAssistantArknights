@@ -194,11 +194,11 @@ Please note that JSON files do not support comments. The comments in this docume
 
 The MAA base scheduling protocol only includes operator shift information. The schedule extension protocol builds on the MAA scheduling protocol by adding optional base layout `layout`, operator information `operators`, and source and version metadata `metadata`, allowing MAA, the [**Arknights Yituliu - Automatic Base Schedule Generator**](https://ark.yituliu.cn/tools/scheduleV3), the [**Arknights Yituliu - Base Schedule Income Calculator**](https://ark.yituliu.cn/tools/maa-schedule-calculator), **and other third-party applications to** share one file and exchange data in both directions. All extension fields are optional and can be adjusted according to the actual needs of third-party applications.
 
-| Top-level field | Purpose                                                                                                                                  |
+| Top-level field | Purpose |
 | --------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
-| `layout`        | Record the base layout, including facility types, levels, and positions                                                                  |
-| `operators`     | Record operator promotion stages and levels                                                                                              |
-| `metadata`      | Record data such as the protocol version, generating tool, and module versions, as well as additional data required by third-party tools |
+| `layout` | Record the base layout, including facility types, levels, and positions |
+| `operators` | Record operator promotion stages and levels |
+| `metadata` | Record data such as the protocol version, generating tool, and module versions, as well as additional data required by third-party tools |
 
 ### Extension Field Reference
 

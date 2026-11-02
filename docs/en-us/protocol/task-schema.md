@@ -209,14 +209,14 @@ Please note that JSON files do not support comments. The comments in this docume
 
 Task list type fields (`sub`, `next`, `onErrorNext`, `exceededNext`, `reduceOtherTimes`) support expression calculations.
 
-|    Symbol    |                                         Meaning                                          |                 Example                 |
+| Symbol | Meaning | Example |
 | :----------: | :--------------------------------------------------------------------------------------: | :-------------------------------------: |
-|     `@`      |                                      `@`-type Task                                       |            `Fight@ReturnTo`             |
-| `#` (unary)  |                                       Virtual task                                       |                 `#self`                 |
-| `#` (binary) |                                       Virtual task                                       |          `StartUpThemes#next`           |
-|     `*`      |                                       Repeat tasks                                       | `(ClickCornerAfterPRTS+ClickCorner)*10` |
-|     `+`      | Task list merge (in next-type attributes, only first occurrence of same-name tasks kept) |                  `A+B`                  |
-|     `^`      |             Task list difference (in first but not second, order preserved)              |   `(A+A+B+C)^(A+B+D)` (result is `C`)   |
+| `@` | `@`-type Task | `Fight@ReturnTo` |
+| `#` (unary) | Virtual task | `#self` |
+| `#` (binary) | Virtual task | `StartUpThemes#next` |
+| `*` | Repeat tasks | `(ClickCornerAfterPRTS+ClickCorner)*10` |
+| `+` | Task list merge (in next-type attributes, only first occurrence of same-name tasks kept) | `A+B` |
+| `^` | Task list difference (in first but not second, order preserved) | `(A+A+B+C)^(A+B+D)` (result is `C`) |
 
 Operators `@`, `#`, `*`, `+`, `^` have precedence: `#` (unary) > `@` = `#` (binary) > `*` > `+` = `^`.
 
@@ -256,12 +256,12 @@ Virtual tasks are tasks of the form `"#{sharp_type}"` or `"B#{sharp_type}"`, whe
 
 Virtual tasks can be divided into **command virtual tasks** (`#none` / `#self` / `#back`) and **field virtual tasks** (`#next`, etc.).
 
-| Virtual Task Type |                       Meaning                       |                                                                    Simple example                                                                     |
+| Virtual Task Type | Meaning | Simple example |
 | :---------------: | :-------------------------------------------------: | :---------------------------------------------------------------------------------------------------------------------------------------------------: |
-|       none        |                     Empty Task                      |  Skip directly<sup>1</sup><br>`"A": {"next": ["#none", "T1"]}` is interpreted as `"A": {"next": ["T1"]}`<br>`"A#none + T1"` is interpreted as `"T1"`  |
-|       self        |                  Current Task Name                  | `"A": {"next": "#self"}` in `"#self"` is interpreted as `"A"`<br>`"B": {"next": "A@B@C#self"}` in `"A@B@C#self"` is interpreted as `"B"`.<sup>2</sup> |
-|       back        |                # Preceding task name                |                        `"A@B#back"` is interpreted as `"A@B"`<br>`"#back"` will be skipped if it appears directly<sup>3</sup>                         |
-|  next, sub, etc.  | # The field corresponding to the previous task name |          Take `next` for example:<br>`"A#next"` is interpreted as `Task.get("A")->next`<br>`"#next"` will be skipped if it appears directly           |
+| none | Empty Task | Skip directly<sup>1</sup><br>`"A": {"next": ["#none", "T1"]}` is interpreted as `"A": {"next": ["T1"]}`<br>`"A#none + T1"` is interpreted as `"T1"` |
+| self | Current Task Name | `"A": {"next": "#self"}` in `"#self"` is interpreted as `"A"`<br>`"B": {"next": "A@B@C#self"}` in `"A@B@C#self"` is interpreted as `"B"`.<sup>2</sup> |
+| back | # Preceding task name | `"A@B#back"` is interpreted as `"A@B"`<br>`"#back"` will be skipped if it appears directly<sup>3</sup> |
+| next, sub, etc. | # The field corresponding to the previous task name | Take `next` for example:<br>`"A#next"` is interpreted as `Task.get("A")->next`<br>`"#next"` will be skipped if it appears directly |
 
 _Note<sup>1</sup>: `"#none"` generally used in conjunction with the template task to add prefixes, or used in the `baseTask` field to avoid unnecessary fields in multi-file inheritance._
 
