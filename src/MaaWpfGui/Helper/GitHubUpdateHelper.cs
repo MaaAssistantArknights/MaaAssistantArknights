@@ -59,6 +59,26 @@ public static class GitHubUpdateHelper
         uri.IsDefaultPort &&
         string.IsNullOrEmpty(uri.UserInfo);
 
+    public static string? GetBrowserDownloadUrl(JObject asset)
+    {
+        if (asset["name"]?.Type != JTokenType.String ||
+            !Uri.TryCreate(asset["browser_download_url"]?.ToString(), UriKind.Absolute, out var uri) ||
+            uri.Scheme != Uri.UriSchemeHttps || !uri.Host.Equals("github.com", StringComparison.OrdinalIgnoreCase) ||
+            !uri.IsDefaultPort || !string.IsNullOrEmpty(uri.UserInfo) ||
+            !string.IsNullOrEmpty(uri.Query) || !string.IsNullOrEmpty(uri.Fragment))
+        {
+            return null;
+        }
+
+        var segments = uri.AbsolutePath.Split('/', StringSplitOptions.RemoveEmptyEntries);
+        return segments.Length == 6 && IsUpdateRepository(segments[0], segments[1]) &&
+            segments[2] == "releases" && segments[3] == "download" &&
+            !string.IsNullOrEmpty(Uri.UnescapeDataString(segments[4])) &&
+            Uri.UnescapeDataString(segments[5]) == asset.Value<string>("name")
+            ? uri.AbsoluteUri
+            : null;
+    }
+
     public static async Task<GitHubTokenValidation> ValidateTokenAsync(string token, CancellationToken cancellationToken = default)
     {
         // Reject malformed header values before sending them or logging an HTTP exception.
@@ -152,14 +172,13 @@ public static class GitHubUpdateHelper
             return assetUri.AbsoluteUri;
         }
 
-        if (!Uri.TryCreate(asset["browser_download_url"]?.ToString(), UriKind.Absolute, out var browserUri) ||
-            browserUri.Scheme != Uri.UriSchemeHttps || !browserUri.Host.Equals("github.com", StringComparison.OrdinalIgnoreCase) ||
-            !browserUri.IsDefaultPort || !string.IsNullOrEmpty(browserUri.UserInfo) ||
-            !string.IsNullOrEmpty(browserUri.Query) || !string.IsNullOrEmpty(browserUri.Fragment))
+        var browserUrl = GetBrowserDownloadUrl(asset);
+        if (browserUrl is null)
         {
             return null;
         }
 
+        var browserUri = new Uri(browserUrl);
         var segments = browserUri.AbsolutePath.Split('/', StringSplitOptions.RemoveEmptyEntries);
         if (segments.Length != 6 || !IsUpdateRepository(segments[0], segments[1]) ||
             segments[2] != "releases" || segments[3] != "download")

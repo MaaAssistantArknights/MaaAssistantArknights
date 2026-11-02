@@ -41,9 +41,9 @@ public class HttpService : IHttpService
     private readonly string _userAgent;
 
     private readonly ILogger _logger = Log.ForContext<HttpService>();
-    private readonly object _clientLock = new();
-    private readonly Dictionary<HttpClient, int> _activeRequests = new();
-    private readonly HashSet<HttpClient> _retiredClients = new();
+    private readonly Lock _clientLock = new();
+    private readonly Dictionary<HttpClient, int> _activeRequests = [];
+    private readonly HashSet<HttpClient> _retiredClients = [];
     private HttpClient _client;
 
     private static readonly TimeSpan _downloadIdleTimeout = TimeSpan.FromSeconds(30);
@@ -185,7 +185,8 @@ public class HttpService : IHttpService
     {
         try
         {
-            using var response = await PostAsync(uri, new StringContent(JsonSerializer.Serialize(content), Encoding.UTF8, "application/json"), extraHeader, uriPartial);
+            using var requestContent = new StringContent(JsonSerializer.Serialize(content), Encoding.UTF8, "application/json");
+            using var response = await PostAsync(uri, requestContent, extraHeader, uriPartial);
             return await response.Content.ReadAsStringAsync();
         }
         catch (Exception e)
@@ -199,7 +200,8 @@ public class HttpService : IHttpService
     {
         try
         {
-            using var response = await PostAsync(uri, new FormUrlEncodedContent(content), extraHeader, uriPartial);
+            using var requestContent = new FormUrlEncodedContent(content);
+            using var response = await PostAsync(uri, requestContent, extraHeader, uriPartial);
             return await response.Content.ReadAsStringAsync();
         }
         catch (Exception e)
@@ -211,39 +213,49 @@ public class HttpService : IHttpService
 
     public async Task<HttpResponseMessage> PostAsync(Uri uri, HttpContent content, Dictionary<string, string>? extraHeader = null, UriPartial uriPartial = UriPartial.Query)
     {
-        using var message = new HttpRequestMessage(HttpMethod.Post, uri) { Version = HttpVersion.Version20, Content = content };
-        if (extraHeader is not null)
+        var message = new HttpRequestMessage(HttpMethod.Post, uri) { Version = HttpVersion.Version20, Content = content };
+        try
         {
-            foreach (var header in extraHeader)
+            if (extraHeader is not null)
             {
-                if (!IsValidHeaderName(header.Key))
+                foreach (var header in extraHeader)
                 {
-                    _logger.Warning("Skipped external header with invalid name: {Header}", header.Key);
-                    continue;
-                }
+                    if (!IsValidHeaderName(header.Key))
+                    {
+                        _logger.Warning("Skipped external header with invalid name: {Header}", header.Key);
+                        continue;
+                    }
 
-                // 内容头（如 Content-Type）不属于请求头集合，Add 会抛 Misused header 异常；
-                // TryAddWithoutValidation 对此类头部返回 false，转而写入 Content.Headers
-                if (message.Headers.TryAddWithoutValidation(header.Key, header.Value))
-                {
-                    continue;
-                }
+                    // 内容头（如 Content-Type）不属于请求头集合，Add 会抛 Misused header 异常；
+                    // TryAddWithoutValidation 对此类头部返回 false，转而写入 Content.Headers
+                    if (message.Headers.TryAddWithoutValidation(header.Key, header.Value))
+                    {
+                        continue;
+                    }
 
-                // 先移除内容头默认值（如 StringContent 自带的 Content-Type），避免重复发送
-                message.Content.Headers.Remove(header.Key);
-                if (!message.Content.Headers.TryAddWithoutValidation(header.Key, header.Value))
-                {
-                    _logger.Warning("Failed to add external header: {Header}", header.Key);
+                    // 先移除内容头默认值（如 StringContent 自带的 Content-Type），避免重复发送
+                    message.Content.Headers.Remove(header.Key);
+                    if (!message.Content.Headers.TryAddWithoutValidation(header.Key, header.Value))
+                    {
+                        _logger.Warning("Failed to add external header: {Header}", header.Key);
+                    }
                 }
             }
-        }
 
-        message.Headers.Accept.ParseAdd("application/json");
-        var stopwatch = Stopwatch.StartNew();
-        var response = await SendAsync(message, HttpCompletionOption.ResponseContentRead);
-        stopwatch.Stop();
-        response.Log(uriPartial, stopwatch.Elapsed.TotalMilliseconds);
-        return response;
+            message.Headers.Accept.ParseAdd("application/json");
+            var stopwatch = Stopwatch.StartNew();
+            var response = await SendAsync(message, HttpCompletionOption.ResponseContentRead);
+            stopwatch.Stop();
+            response.Log(uriPartial, stopwatch.Elapsed.TotalMilliseconds);
+            return response;
+        }
+        finally
+        {
+            // PostAsync does not own the content. Callers may reuse it for retries or
+            // another endpoint, so detach it before disposing the request message.
+            message.Content = null;
+            message.Dispose();
+        }
     }
 
     /// <summary>

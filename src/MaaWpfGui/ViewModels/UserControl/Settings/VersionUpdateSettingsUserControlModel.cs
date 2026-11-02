@@ -67,7 +67,12 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
                 "Settings.Update.GitHub.Token.RemainingDays", "Settings.Update.GitHub.Token.NeverExpires"),
             () => UpdateSource == UpdateSource.GitHub,
             value => value.Length == (value.StartsWith("github_pat_", StringComparison.Ordinal) ? 93 : 40),
-            value => ConfigFactory.Root.Update.GitHubToken = SimpleEncryptionHelper.Encrypt(value),
+            value => {
+                if (SimpleEncryptionHelper.TryEncrypt(value, out var encryptedValue))
+                {
+                    ConfigFactory.Root.Update.GitHubToken = encryptedValue;
+                }
+            },
             (expiresAt, _) => ConfigFactory.Root.Update.GitHubTokenExpiresAt = expiresAt,
             revision => QueueCredentialUpdate(UpdateSource.GitHub, revision));
 
@@ -81,7 +86,12 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
                 "Settings.Update.MirrorChyan.CdkRemainingDays", UnknownExpiration: "Settings.Update.MirrorChyan.ExpirationUnknown"),
             () => UpdateSource == UpdateSource.MirrorChyan,
             value => value.Length == 24,
-            value => ConfigFactory.Root.Update.MirrorChyanCdk = SimpleEncryptionHelper.Encrypt(value),
+            value => {
+                if (SimpleEncryptionHelper.TryEncrypt(value, out var encryptedValue))
+                {
+                    ConfigFactory.Root.Update.MirrorChyanCdk = encryptedValue;
+                }
+            },
             (expiresAt, status) => ConfigFactory.Root.Update.MirrorChyanCdkExpiredTime =
                 expiresAt?.ToUnixTimeSeconds() ?? (status == UpdateCredentialStatus.Expired ? 1 : 0),
             revision => QueueCredentialUpdate(UpdateSource.MirrorChyan, revision));
@@ -162,7 +172,7 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
 
     public string NewResourceFoundInfo
     {
-        get => field;
+        get;
         set {
             SetAndNotify(ref field, value);
             Instances.SettingsViewModel.UpdateWindowTitle();
@@ -171,7 +181,7 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
 
     public string NewVersionFoundInfo
     {
-        get => field;
+        get;
         set {
             SetAndNotify(ref field, value);
             Instances.SettingsViewModel.UpdateWindowTitle();
@@ -715,7 +725,7 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
 
     // UI 绑定的方法
     [UsedImplicitly]
-    public void ShowChangelog()
+    public static void ShowChangelog()
     {
         AchievementTrackerHelper.Instance.Unlock(AchievementIds.ChangelogReader);
         _ = Instances.VersionUpdateDialogViewModel.DownloadMissingContributorAvatarsAsync();

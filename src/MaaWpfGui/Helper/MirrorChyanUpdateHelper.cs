@@ -63,7 +63,7 @@ public static class MirrorChyanUpdateHelper
         };
     }
 
-    public static async Task<(JObject? Data, CheckUpdateRetT Ret)> RequestAsync(string url, UpdateCredentialRequest? request)
+    public static async Task<(JObject? Data, CheckUpdateRetT Ret)> RequestAsync(string url, UpdateCredentialRequest? request, bool preserveCredentialOnFailure = false)
     {
         JObject? data = null;
         try
@@ -86,10 +86,34 @@ public static class MirrorChyanUpdateHelper
             _logger.Warning("Failed to request MirrorChyan update: {ExceptionType}", ex.GetType().Name);
         }
 
+        if (data is null)
+        {
+            if (!preserveCredentialOnFailure && request is { } failedRequest)
+            {
+                var credential = SettingsViewModel.VersionUpdateSettings.MirrorChyanCredential;
+                if (credential.Status != UpdateCredentialStatus.Valid)
+                {
+                    await credential.ApplyAsync(failedRequest, new(UpdateCredentialStatus.Failed)).ConfigureAwait(false);
+                }
+            }
+
+            return (null, CheckUpdateRetT.NetworkError);
+        }
+
         var result = ParseCredentialResult(data);
         if (request is { } check)
         {
             var credential = SettingsViewModel.VersionUpdateSettings.MirrorChyanCredential;
+            if (!credential.IsCurrent(check))
+            {
+                return (null, CheckUpdateRetT.NoNeedToUpdate);
+            }
+
+            if (preserveCredentialOnFailure && result.Status == UpdateCredentialStatus.Failed && result.ErrorKey is null)
+            {
+                return (null, CheckUpdateRetT.NetworkError);
+            }
+
             if (!await credential.ApplyAsync(check, result).ConfigureAwait(false))
             {
                 return (null, CheckUpdateRetT.NoNeedToUpdate);

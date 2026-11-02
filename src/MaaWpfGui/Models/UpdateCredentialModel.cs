@@ -99,11 +99,8 @@ public sealed class UpdateCredentialModel : PropertyChangedBase
             }
 
             _saveValue(value);
-            if (string.IsNullOrEmpty(value))
-            {
-                ExpiresAt = null;
-                _saveExpiration(null, UpdateCredentialStatus.None);
-            }
+            ExpiresAt = null;
+            _saveExpiration(null, UpdateCredentialStatus.None);
 
             Reset();
             if (_isSelected() && _isComplete(value))

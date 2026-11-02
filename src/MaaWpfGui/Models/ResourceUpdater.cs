@@ -346,6 +346,13 @@ public static class ResourceUpdater
                 return ret;
             }
 
+            // Without a GitHub token, the GitHub source only uses MirrorChyan as a check fallback;
+            // its download request belongs to the selected source and must not be started anonymously.
+            if (source == UpdateSource.GitHub && request is null)
+            {
+                return ret;
+            }
+
             bool downloaded = source == UpdateSource.GitHub && request is not null
                 ? await UpdateFromGithubAsync(cancellationToken)
                 : source == UpdateSource.MirrorChyan && await DownloadFromMirrorChyanAsync(uri, releaseNote, cancellationToken);

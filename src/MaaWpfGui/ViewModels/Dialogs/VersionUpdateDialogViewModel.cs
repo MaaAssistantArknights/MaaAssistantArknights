@@ -51,7 +51,7 @@ namespace MaaWpfGui.ViewModels.Dialogs;
 /// <summary>
 /// The view model of version update.
 /// </summary>
-public class VersionUpdateDialogViewModel : Screen
+public partial class VersionUpdateDialogViewModel : Screen
 {
     private readonly RunningState _runningState;
 
@@ -78,7 +78,7 @@ public class VersionUpdateDialogViewModel : Screen
     {
         // MdXaml.Html 的 DetailsParser 用 bool.TryParse 解析 open 属性值，HTML 无值写法 <details open>
         // 解析出空串导致 TryParse 失败、Expander 恒为折叠；改写成带值形式使其自动展开
-        text = Regex.Replace(text, @"(?<=<details\s)open(?=[\s>])", "open=\"true\"");
+        text = MyRegex().Replace(text, "open=\"true\"");
         return AddContributorLink(text);
     }
 
@@ -666,7 +666,7 @@ public class VersionUpdateDialogViewModel : Screen
                 // 重启提示交由调用方按 OK 返回值统一弹出，此处不再重复询问；
                 // AlreadyRunning 映射为 NoNeedToUpdate 静默退出以避免双弹，重启询问由执行中的链路在成功收尾时弹出；
                 // 失败一律映射为 UpdatePackageDownloadFailed，外层 toast 按下载失败提示，不区分实际失败原因
-                var repairResult = await RunIntegrityRepairAsync(askRestartOnSuccess: false);
+                var repairResult = await RunIntegrityRepairAsync(askRestartOnSuccess: false, updateCheckAlreadyOwned: true);
                 return repairResult switch {
                     IntegrityRepairResult.Succeeded => CheckUpdateRetT.OK,
                     IntegrityRepairResult.AlreadyRunning => CheckUpdateRetT.NoNeedToUpdate,
@@ -830,10 +830,24 @@ public class VersionUpdateDialogViewModel : Screen
         string? url = await GetGitHubAssetDownloadUrlAsync(_assetsObject, token, cancellationToken);
         if (string.IsNullOrEmpty(url))
         {
-            return CheckUpdateRetT.FailedToGetInfo;
+            url = GitHubUpdateHelper.GetBrowserDownloadUrl(_assetsObject);
+            if (string.IsNullOrEmpty(url))
+            {
+                return CheckUpdateRetT.FailedToGetInfo;
+            }
+
+            token = null;
         }
 
         var downloaded = await DownloadGithubAssets(url, _assetsObject, token, cancellationToken);
+        if (!downloaded.Success && token is not null)
+        {
+            var fallbackUrl = GitHubUpdateHelper.GetBrowserDownloadUrl(_assetsObject);
+            if (fallbackUrl is not null)
+            {
+                downloaded = await DownloadGithubAssets(fallbackUrl, _assetsObject, null, cancellationToken);
+            }
+        }
         if (downloaded.Success)
         {
             UpdatePackageName = packageName;
@@ -883,7 +897,7 @@ public class VersionUpdateDialogViewModel : Screen
             var commitHash = semVersion.PrereleaseIdentifiers[^1].ToString();
             if (commitHash.StartsWith('g'))
             {
-                commitHash = commitHash.Remove(0, 1);
+                commitHash = commitHash[1..];
             }
 
             return commitHash;
@@ -1046,12 +1060,29 @@ public class VersionUpdateDialogViewModel : Screen
     /// </summary>
     /// <param name="askRestartOnSuccess">注册成功后是否执行重启收尾（自动安装更新包开启时等空闲后直接重启，否则弹窗询问）；调用方自行按返回值提示重启时传 <c>false</c>。</param>
     /// <returns>修复流程的结果，用于区分成功、已在执行、用户取消与失败。</returns>
-    public async Task<IntegrityRepairResult> RunIntegrityRepairAsync(bool askRestartOnSuccess = true)
+    public Task<IntegrityRepairResult> RunIntegrityRepairAsync(bool askRestartOnSuccess = true)
+    {
+        return RunIntegrityRepairAsync(askRestartOnSuccess, updateCheckAlreadyOwned: false);
+    }
+
+    private async Task<IntegrityRepairResult> RunIntegrityRepairAsync(bool askRestartOnSuccess, bool updateCheckAlreadyOwned)
     {
         if (_isIntegrityRepairRunning)
         {
             _logger.Information("Integrity repair already running, deferring to the running flow");
             return IntegrityRepairResult.AlreadyRunning;
+        }
+
+        var settings = SettingsViewModel.VersionUpdateSettings;
+        if (!updateCheckAlreadyOwned && settings.IsCheckingForUpdates)
+        {
+            _logger.Information("Integrity repair deferred while another update check is running");
+            return IntegrityRepairResult.AlreadyRunning;
+        }
+
+        if (!updateCheckAlreadyOwned)
+        {
+            settings.IsCheckingForUpdates = true;
         }
 
         _isIntegrityRepairRunning = true;
@@ -1067,11 +1098,15 @@ public class VersionUpdateDialogViewModel : Screen
         finally
         {
             _isIntegrityRepairRunning = false;
+            if (!updateCheckAlreadyOwned)
+            {
+                settings.IsCheckingForUpdates = false;
+            }
         }
     }
 
     /// <summary>
-    /// 执行完整性修复的主体流程，由 <see cref="RunIntegrityRepairAsync"/> 包装调用。
+    /// 执行完整性修复的主体流程，由 <see cref="RunIntegrityRepairAsync(bool)"/> 包装调用。
     /// </summary>
     /// <param name="askRestartOnSuccess">注册成功后是否执行重启收尾（自动安装更新包开启时等空闲后直接重启，否则弹窗询问）；调用方自行按返回值提示重启时传 <c>false</c>。</param>
     /// <returns>修复流程的结果，用于区分成功、用户取消与失败。</returns>
@@ -1202,7 +1237,7 @@ public class VersionUpdateDialogViewModel : Screen
     /// 输出完整性修复失败的状态（gui.log 与任务队列下载日志，不弹 Toast）。
     /// </summary>
     /// <param name="reason">失败原因（仅记录日志）。</param>
-    private void FailIntegrityRepair(string reason)
+    private static void FailIntegrityRepair(string reason)
     {
         _logger.Error(reason);
         OutputDownloadProgress(downloading: false, output: LocalizationHelper.GetString("VersionUpdate.IntegrityRepair.Failed"));
@@ -1231,7 +1266,7 @@ public class VersionUpdateDialogViewModel : Screen
     /// <param name="cdk">MirrorChyan CDK。</param>
     /// <param name="currentVersion">当前版本；传 null 时不携带，MirrorChyan 视为全新安装并直接返回完整包。</param>
     /// <returns>查询 URL。</returns>
-    private string BuildMirrorChyanUpdateUrl(string cdk, string? currentVersion)
+    private static string BuildMirrorChyanUpdateUrl(string cdk, string? currentVersion)
     {
         string arch = IsArm ? "arm64" : "x64";
         var spid = HardwareInfoUtility.GetMachineGuid().StableHash();
@@ -1290,7 +1325,7 @@ public class VersionUpdateDialogViewModel : Screen
     /// <param name="token">已验证的 GitHub Token；为空时使用 MAA API。</param>
     /// <param name="cancellationToken">取消本次 GitHub 请求。</param>
     /// <returns>解析结果；解析失败时返回 null。</returns>
-    private async Task<ReleaseRepairPackage?> ResolveReleaseRepairPackageAsync(string? token, CancellationToken cancellationToken = default)
+    private static async Task<ReleaseRepairPackage?> ResolveReleaseRepairPackageAsync(string? token, CancellationToken cancellationToken = default)
     {
         try
         {
@@ -1302,6 +1337,13 @@ public class VersionUpdateDialogViewModel : Screen
             {
                 release = await GitHubUpdateHelper.GetLatestReleaseAsync(token, versionType, cancellationToken).ConfigureAwait(false);
                 latestVersion = release?["tag_name"]?.ToString();
+                if (release is null)
+                {
+                    _logger.Warning("GitHub repair metadata unavailable, falling back to Maa API");
+                    var (_, json) = await Instances.MaaApiService.RequestMaaApiWithCache($"version/{versionType}.json", false).ConfigureAwait(false);
+                    release = json?["details"] as JObject;
+                    latestVersion = json?["version"]?.ToString();
+                }
             }
             else
             {
@@ -1310,8 +1352,7 @@ public class VersionUpdateDialogViewModel : Screen
                 latestVersion = json?["version"]?.ToString();
             }
 
-            var assets = release?["assets"] as JArray;
-            if (assets is null)
+            if (release?["assets"] is not JArray assets)
             {
                 return null;
             }
@@ -1334,6 +1375,7 @@ public class VersionUpdateDialogViewModel : Screen
                 }
 
                 string? rawUrl = await GetGitHubAssetDownloadUrlAsync(fullPackage, token, cancellationToken).ConfigureAwait(false);
+                rawUrl ??= GitHubUpdateHelper.GetBrowserDownloadUrl(fullPackage);
                 if (string.IsNullOrEmpty(rawUrl))
                 {
                     return null;
@@ -1451,17 +1493,19 @@ public class VersionUpdateDialogViewModel : Screen
         if (_githubUpdateToken is not null)
         {
             var release = await GitHubUpdateHelper.GetLatestReleaseAsync(_githubUpdateToken, GetUpdateChannel(), _githubUpdateCancellationToken);
-            if (credential.HasError)
-            {
-                return (CheckUpdateRetT.CredentialError, AppUpdateSource.GitHub);
-            }
-
             if (source != settings.UpdateSource || revision != credential.Revision)
             {
                 return (CheckUpdateRetT.NoNeedToUpdate, null);
             }
 
-            return (ReadReleaseDetails(release, release?["tag_name"]?.ToString()), AppUpdateSource.GitHub);
+            if (release is not null)
+            {
+                return (ReadReleaseDetails(release, release["tag_name"]?.ToString()), AppUpdateSource.GitHub);
+            }
+
+            _logger.Warning("GitHub update metadata unavailable, falling back to Maa API");
+            var fallbackRet = await CheckUpdateByMaaApi();
+            return (fallbackRet, AppUpdateSource.MaaApi);
         }
 
         if (SettingsViewModel.VersionUpdateSettings.UpdateSource == UpdateSource.MirrorChyan)
@@ -1616,13 +1660,13 @@ public class VersionUpdateDialogViewModel : Screen
             return CheckUpdateRetT.AlreadyLatest;
         }
 
-        var waited = await TryWaitForMirrorChyanOtaAsync(url, data, request);
-        if (waited.Ret != CheckUpdateRetT.OK || waited.Data is null)
+        var (data1, ret1) = await TryWaitForMirrorChyanOtaAsync(url, data, request);
+        if (ret1 != CheckUpdateRetT.OK || data1 is null)
         {
-            return waited.Ret;
+            return ret1;
         }
 
-        data = waited.Data;
+        data = data1;
 
         // 到这里已经确定有新版本了
         _logger.Information("New version found: {Version}", version);
@@ -1665,8 +1709,8 @@ public class VersionUpdateDialogViewModel : Screen
         }
 
         // 重试请求，检查 OTA 包是否已就绪
-        var (retryData, ret) = await MirrorChyanUpdateHelper.RequestAsync(url, request);
-        if (ret != CheckUpdateRetT.OK)
+        var (retryData, ret) = await MirrorChyanUpdateHelper.RequestAsync(url, request, preserveCredentialOnFailure: true);
+        if (ret is CheckUpdateRetT.CredentialError or CheckUpdateRetT.NoNeedToUpdate)
         {
             return (null, ret);
         }
@@ -1727,10 +1771,7 @@ public class VersionUpdateDialogViewModel : Screen
             var headers = token is not null && GitHubUpdateHelper.IsGitHubApiUrl(uri)
                 ? GitHubUpdateHelper.CreateHeaders(token)
                 : null;
-            if (headers is not null)
-            {
-                headers["Accept"] = "application/octet-stream";
-            }
+            headers?["Accept"] = "application/octet-stream";
 
             bool authorizationFailed = false;
             async Task<HttpDownloadResult> DownloadAsync()
@@ -1995,4 +2036,7 @@ public class VersionUpdateDialogViewModel : Screen
         var lastId = version.PrereleaseIdentifiers.LastOrDefault().ToString();
         return lastId.StartsWith('g') && lastId.Length >= 7;
     }
+
+    [GeneratedRegex(@"(?<=<details\s)open(?=[\s>])")]
+    private static partial Regex MyRegex();
 }
