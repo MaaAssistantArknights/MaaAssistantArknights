@@ -30,8 +30,8 @@
         "text": ["迷迭香"]
     },
     "RelaunchAnchor@RA@RA1-DeliverWood5": {
-        "text": ["木材"],
-        "ocrReplace": [["木朽", "木材"]]
+        "ocrReplace": [["木朽", "木材"]],
+        "text": ["木材"]
     },
     "RelaunchAnchor@RA@RA1-DeliverWood": {
         "text": ["交付木材8+"],
