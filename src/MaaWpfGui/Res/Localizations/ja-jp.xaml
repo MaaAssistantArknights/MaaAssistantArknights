@@ -2093,16 +2093,16 @@ MAA は非インストール型のアプリケーションであり、レジス�
     <system:String x:Key="TaskQueue.OperProgress.Detail">{key=TaskQueue.Task.OperProgress} {0}:{1} {2}</system:String>
     <system:String x:Key="TaskQueue.OperProgress.Elite">昇進段階</system:String>
     <system:String x:Key="TaskQueue.OperProgress.EliteTarget">昇進段階 {0}</system:String>
+    <system:String x:Key="TaskQueue.OperProgress.ImportOperBox">オペレーター識別 / ツールボックス</system:String>
     <system:String x:Key="TaskQueue.OperProgress.Mastery1">特化 1</system:String>
     <system:String x:Key="TaskQueue.OperProgress.Mastery2">特化 2</system:String>
     <system:String x:Key="TaskQueue.OperProgress.Mastery3">特化 3</system:String>
     <system:String x:Key="TaskQueue.OperProgress.MasteryTarget">スキル {0} 特化 {1}</system:String>
     <system:String x:Key="TaskQueue.OperProgress.NotSet">---</system:String>
     <system:String x:Key="TaskQueue.OperProgress.OnlineEditor">アークナイツツールボックスでオンライン編集</system:String>
-    <system:String x:Key="TaskQueue.OperProgress.ReadFrom">読み取り...</system:String>
     <system:String x:Key="TaskQueue.OperProgress.ParseClipboard">クリップボード</system:String>
-    <system:String x:Key="TaskQueue.OperProgress.ImportOperBox">オペレーター識別 / ツールボックス</system:String>
     <system:String x:Key="TaskQueue.OperProgress.ParseFailed">解析に失敗しました</system:String>
+    <system:String x:Key="TaskQueue.OperProgress.ReadFrom">読み取り...</system:String>
     <system:String x:Key="TaskQueue.OperProgress.SkillLevelTarget">スキルランク {0}</system:String>
     <system:String x:Key="TaskQueue.OperProgress.SkillNumber">スキル{0}</system:String>
     <system:String x:Key="TaskQueue.OperProgress.SkillUpgrade">スキルランクアップ</system:String>

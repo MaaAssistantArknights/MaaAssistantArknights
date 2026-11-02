@@ -214,7 +214,7 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
 
     public void ImportOperBox()
     {
-        var filePath = Path.Combine(Directory.GetCurrentDirectory(), "data", "OperBoxData.json");
+        var filePath = Path.Combine(PathsHelper.DataDir, "OperBoxData.json");
 
         if (!File.Exists(filePath))
         {
@@ -225,17 +225,26 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
         try
         {
             var jsonString = File.ReadAllText(filePath);
-            var jsonObject = JObject.Parse(jsonString);
-            var jsonArray = jsonObject["own_opers"] as JArray;
+            var token = JToken.Parse(jsonString);
+            JArray? jsonArray = token switch
+            {
+                JArray arr => arr,
+                JObject obj => obj["own_opers"] as JArray,
+                _ => null,
+            };
 
             if (jsonArray is null)
             {
-                Instances.TaskQueueViewModel.AddLog("Import failed: Could not find 'own_opers' array in the JSON.", UiLogColor.Error);
+                Instances.TaskQueueViewModel.AddLog("Import failed: Could not find operator data in the JSON.", UiLogColor.Error);
                 return;
             }
 
             var currentPlans = GetTaskConfig<OperProgressTask>()?.Plans.ToList() ?? [];
-            var planDict = currentPlans.ToDictionary(p => p.Name, p => p);
+            var planDict = new Dictionary<string, Plan>();
+            foreach (var plan in currentPlans)
+            {
+                planDict.TryAdd(plan.Name, plan);
+            }
 
             foreach (var item in jsonArray)
             {
@@ -245,7 +254,7 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
                     continue;
                 }
 
-                // 1. Block Amiya forms to match dropdown safety restrictions
+                // Block Amiya forms to match dropdown safety restrictions
                 if (id is "char_002_amiya" or "char_1001_amiya2" or "char_1037_amiya3")
                 {
                     continue;
@@ -259,34 +268,24 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
                 int rarity = item.Value<int?>("rarity") ?? operInfo.Rarity;
 
                 int maxElite;
-                int maxLevel;
                 int targetSkillLevel;
                 SkillMastery targetMastery;
 
-                // 2. Set rarity caps and default mastery targets
                 if (rarity <= 2)
                 {
                     maxElite = 0;
-                    maxLevel = 30;
                     targetSkillLevel = 0;
                     targetMastery = SkillMastery.Of(0, 0, 0);
                 }
                 else if (rarity == 3)
                 {
                     maxElite = 1;
-                    maxLevel = 55;
                     targetSkillLevel = 7;
-                    targetMastery = SkillMastery.Of(0, 0, 0);
+                    targetMastery = SkillMastery.Of(0, 0, 0); // 3-stars cannot master
                 }
                 else
                 {
                     maxElite = 2;
-                    maxLevel = rarity switch {
-                        4 => 70,
-                        5 => 80,
-                        6 => 90,
-                        _ => 90,
-                    };
                     targetSkillLevel = 7;
 
                     // Only 6★ operators have a third skill
@@ -303,7 +302,9 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
                     targetMastery,
                     false);
 
-                planDict[id] = newPlan;
+                // Key by Name on both sides so re-imports update the existing entry
+                // rather than appending a duplicate.
+                planDict[operInfo.Name!] = newPlan;
             }
 
             var finalList = planDict.Values.ToList();

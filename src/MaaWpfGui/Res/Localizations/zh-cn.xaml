@@ -2092,16 +2092,16 @@ DEBUG 目录下保存的图片有数量限制，超出后会自动清理旧图�
     <system:String x:Key="TaskQueue.OperProgress.Detail">{key=TaskQueue.Task.OperProgress} {0}:{1} {2}</system:String>
     <system:String x:Key="TaskQueue.OperProgress.Elite">精英化</system:String>
     <system:String x:Key="TaskQueue.OperProgress.EliteTarget">精英化 {0}</system:String>
+    <system:String x:Key="TaskQueue.OperProgress.ImportOperBox">干员识别或工具箱导入</system:String>
     <system:String x:Key="TaskQueue.OperProgress.Mastery1">专精 1</system:String>
     <system:String x:Key="TaskQueue.OperProgress.Mastery2">专精 2</system:String>
     <system:String x:Key="TaskQueue.OperProgress.Mastery3">专精 3</system:String>
     <system:String x:Key="TaskQueue.OperProgress.MasteryTarget">技能 {0} 专精 {1}</system:String>
     <system:String x:Key="TaskQueue.OperProgress.NotSet">---</system:String>
     <system:String x:Key="TaskQueue.OperProgress.OnlineEditor">在明日方舟工具箱中在线编辑计划</system:String>
-    <system:String x:Key="TaskQueue.OperProgress.ReadFrom">从...</system:String>
     <system:String x:Key="TaskQueue.OperProgress.ParseClipboard">剪贴板读取</system:String>
-    <system:String x:Key="TaskQueue.OperProgress.ImportOperBox">干员识别或工具箱导入</system:String>
     <system:String x:Key="TaskQueue.OperProgress.ParseFailed">解析失败</system:String>
+    <system:String x:Key="TaskQueue.OperProgress.ReadFrom">从...</system:String>
     <system:String x:Key="TaskQueue.OperProgress.SkillLevelTarget">技能等级 {0}</system:String>
     <system:String x:Key="TaskQueue.OperProgress.SkillNumber">技能 {0}</system:String>
     <system:String x:Key="TaskQueue.OperProgress.SkillUpgrade">技能基础等级</system:String>

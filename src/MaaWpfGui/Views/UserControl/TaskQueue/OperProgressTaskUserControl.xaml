@@ -57,8 +57,10 @@
                         Command="{s:Action ClearPlan}"
                         Content="{DynamicResource Common.Clear}" />
                     <hc:SplitButton
+                        x:Name="ReadFromSplitButton"
                         Margin="0,0,0,0"
                         hc:BorderElement.CornerRadius="0,4,4,0"
+                        Click="OpenImportMenu"
                         Content="{DynamicResource TaskQueue.OperProgress.ReadFrom}">
                         <hc:SplitButton.DropDownContent>
                             <StackPanel>
