@@ -43,6 +43,6 @@
         "baseTask": "ReturnButton",
         "template": ["Return.png", "Return-White.png"],
         "postDelay": 1500,
-        "next": ["SwitchTheme@ReturnTheme", "#next"]
+        "next": ["#next"]
     }
 }
