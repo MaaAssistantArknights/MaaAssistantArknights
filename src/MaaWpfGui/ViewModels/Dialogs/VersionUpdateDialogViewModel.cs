@@ -827,7 +827,7 @@ public class VersionUpdateDialogViewModel : Screen
             return CheckUpdateRetT.NoNeedToUpdate;
         }
 
-        string? url = GetGitHubAssetDownloadUrl(_assetsObject, token);
+        string? url = await GetGitHubAssetDownloadUrlAsync(_assetsObject, token, cancellationToken);
         if (string.IsNullOrEmpty(url))
         {
             return CheckUpdateRetT.FailedToGetInfo;
@@ -1333,7 +1333,7 @@ public class VersionUpdateDialogViewModel : Screen
                     continue;
                 }
 
-                string? rawUrl = GetGitHubAssetDownloadUrl(fullPackage, token);
+                string? rawUrl = await GetGitHubAssetDownloadUrlAsync(fullPackage, token, cancellationToken).ConfigureAwait(false);
                 if (string.IsNullOrEmpty(rawUrl))
                 {
                     return null;
@@ -1767,14 +1767,14 @@ public class VersionUpdateDialogViewModel : Screen
         }
     }
 
-    private static string? GetGitHubAssetDownloadUrl(JObject asset, string? token)
+    private static async Task<string?> GetGitHubAssetDownloadUrlAsync(JObject asset, string? token, CancellationToken cancellationToken = default)
     {
-        if (token is not null && Uri.TryCreate(asset["url"]?.ToString(), UriKind.Absolute, out var apiUri) &&
-            GitHubUpdateHelper.IsGitHubApiUrl(apiUri))
+        if (token is not null)
         {
-            return apiUri.AbsoluteUri;
+            return await GitHubUpdateHelper.ResolveAssetApiUrlAsync(asset, token, cancellationToken).ConfigureAwait(false);
         }
 
+        cancellationToken.ThrowIfCancellationRequested();
         return asset["browser_download_url"]?.ToString();
     }
 

@@ -14,6 +14,7 @@
 #nullable enable
 
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -32,6 +33,9 @@ namespace MaaWpfGui.Helper;
 public static class GitHubUpdateHelper
 {
     private static readonly ILogger _logger = Log.ForContext(typeof(GitHubUpdateHelper));
+    private static readonly ConcurrentDictionary<string, CachedManifest> _manifestCache = new();
+
+    private sealed record CachedManifest(string ETag, JObject Body);
 
     public enum GitHubTokenValidationResult
     {
@@ -66,7 +70,8 @@ public static class GitHubUpdateHelper
         try
         {
             using var response = await Instances.HttpService.GetAsync(
-                new Uri($"{MaaUrls.GitHubApi}/user"), CreateHeaders(token), token: cancellationToken).ConfigureAwait(false);
+                new Uri($"{MaaUrls.GitHubApi}/rate_limit"), CreateHeaders(token), token: cancellationToken).ConfigureAwait(false);
+            cancellationToken.ThrowIfCancellationRequested();
             DateTimeOffset? expiresAt = null;
             if (response.StatusCode == HttpStatusCode.OK &&
                 response.Headers.TryGetValues("GitHub-Authentication-Token-Expiration", out var expirationValues))
@@ -107,52 +112,19 @@ public static class GitHubUpdateHelper
 
     public static async Task<JObject?> GetLatestReleaseAsync(string token, string channel, CancellationToken cancellationToken = default)
     {
+        if (channel is not ("stable" or "beta" or "alpha"))
+        {
+            return null;
+        }
+
         try
         {
-            // MaaRelease publishes the complete OTA release set. Stable releases also belong
-            // to beta and alpha; beta releases also belong to alpha, as in the MAA API.
-            for (int page = 1; ; page++)
-            {
-                var releases = await GetJsonAsync(
-                    $"{MaaUrls.GitHubApi}/repos/MaaAssistantArknights/MaaRelease/releases?per_page=30&page={page}", token, cancellationToken).ConfigureAwait(false) as JArray;
-                if (releases == null)
-                {
-                    return null;
-                }
-
-                var release = releases.OfType<JObject>().FirstOrDefault(candidate => MatchesChannel(candidate, channel));
-                if (release != null)
-                {
-                    string tag = release["tag_name"]!.Value<string>()!;
-                    var mainRelease = await GetJsonAsync(
-                        $"{MaaUrls.GitHubApi}/repos/MaaAssistantArknights/MaaAssistantArknights/releases/tags/{Uri.EscapeDataString(tag)}", token, cancellationToken).ConfigureAwait(false) as JObject;
-                    if (mainRelease == null || mainRelease.Value<bool>("draft"))
-                    {
-                        return release;
-                    }
-
-                    // Keep the main repository's changelog and full packages, then add OTA
-                    // assets from MaaRelease. A nightly release only exists in MaaRelease.
-                    var assets = new JArray();
-                    var names = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
-                    foreach (var asset in (mainRelease["assets"] as JArray ?? new JArray())
-                        .Concat(release["assets"] as JArray ?? new JArray()).OfType<JObject>())
-                    {
-                        if (asset.Value<string>("name") is { } name && names.Add(name))
-                        {
-                            assets.Add(asset.DeepClone());
-                        }
-                    }
-
-                    mainRelease["assets"] = assets;
-                    return mainRelease;
-                }
-
-                if (releases.Count < 30)
-                {
-                    return null;
-                }
-            }
+            // Use the publisher's channel selection and combined full/OTA asset list.
+            // Authentication stays on api.github.com; this cache is separate from MAA API data.
+            var manifest = await GetJsonAsync(
+                $"{MaaUrls.GitHubApi}/repos/MaaAssistantArknights/MaaRelease/contents/MaaAssistantArknights/api/version/{channel}.json?ref=main",
+                token, cancellationToken, cacheManifest: true).ConfigureAwait(false);
+            return GetManifestRelease(manifest)?.DeepClone() as JObject;
         }
         catch (Exception ex)
         {
@@ -166,25 +138,105 @@ public static class GitHubUpdateHelper
         }
     }
 
-    private static bool MatchesChannel(JObject release, string channel)
+    public static async Task<string?> ResolveAssetApiUrlAsync(JObject asset, string token, CancellationToken cancellationToken = default)
     {
-        if (release.Value<bool>("draft") ||
-            !SemVersion.TryParse(release.Value<string>("tag_name"), SemVersionStyles.AllowLowerV, out var version))
+        cancellationToken.ThrowIfCancellationRequested();
+        if (asset["name"]?.Type != JTokenType.String || string.IsNullOrEmpty(asset.Value<string>("name")))
+        {
+            return null;
+        }
+
+        string assetName = asset.Value<string>("name")!;
+        if (Uri.TryCreate(asset["url"]?.ToString(), UriKind.Absolute, out var assetUri) && IsReleaseAssetApiUrl(assetUri))
+        {
+            return assetUri.AbsoluteUri;
+        }
+
+        if (!Uri.TryCreate(asset["browser_download_url"]?.ToString(), UriKind.Absolute, out var browserUri) ||
+            browserUri.Scheme != Uri.UriSchemeHttps || !browserUri.Host.Equals("github.com", StringComparison.OrdinalIgnoreCase) ||
+            !browserUri.IsDefaultPort || !string.IsNullOrEmpty(browserUri.UserInfo) ||
+            !string.IsNullOrEmpty(browserUri.Query) || !string.IsNullOrEmpty(browserUri.Fragment))
+        {
+            return null;
+        }
+
+        var segments = browserUri.AbsolutePath.Split('/', StringSplitOptions.RemoveEmptyEntries);
+        if (segments.Length != 6 || !IsUpdateRepository(segments[0], segments[1]) ||
+            segments[2] != "releases" || segments[3] != "download")
+        {
+            return null;
+        }
+
+        string tag = Uri.UnescapeDataString(segments[4]);
+        if (string.IsNullOrEmpty(tag) || Uri.UnescapeDataString(segments[5]) != assetName)
+        {
+            return null;
+        }
+
+        try
+        {
+            var release = await GetJsonAsync(
+                $"{MaaUrls.GitHubApi}/repos/{segments[0]}/{segments[1]}/releases/tags/{Uri.EscapeDataString(tag)}",
+                token, cancellationToken).ConfigureAwait(false) as JObject;
+            if (release?["tag_name"]?.Value<string>() != tag || release.Value<bool>("draft") || release["assets"] is not JArray assets)
+            {
+                return null;
+            }
+
+            foreach (var candidate in assets.OfType<JObject>())
+            {
+                if (candidate["name"]?.Value<string>() == assetName &&
+                    Uri.TryCreate(candidate["url"]?.ToString(), UriKind.Absolute, out assetUri) &&
+                    IsReleaseAssetApiUrl(assetUri, segments[1]))
+                {
+                    return assetUri.AbsoluteUri;
+                }
+            }
+
+            return null;
+        }
+        catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
+        {
+            throw;
+        }
+        catch (Exception ex)
+        {
+            _logger.Warning("Failed to resolve GitHub release asset: {ExceptionType}", ex.GetType().Name);
+            return null;
+        }
+    }
+
+    private static JObject? GetManifestRelease(JToken? manifest)
+    {
+        if (manifest is not JObject data || data["version"]?.Type != JTokenType.String ||
+            !SemVersion.TryParse(data.Value<string>("version"), SemVersionStyles.AllowLowerV, out _) ||
+            data["details"] is not JObject release || release["assets"] is not JArray ||
+            release.Value<bool>("draft") || release["tag_name"]?.Value<string>() != data.Value<string>("version"))
+        {
+            return null;
+        }
+
+        return release;
+    }
+
+    private static bool IsUpdateRepository(string owner, string repository) =>
+        owner.Equals("MaaAssistantArknights", StringComparison.OrdinalIgnoreCase) &&
+        (repository.Equals("MaaAssistantArknights", StringComparison.OrdinalIgnoreCase) || repository.Equals("MaaRelease", StringComparison.OrdinalIgnoreCase));
+
+    private static bool IsReleaseAssetApiUrl(Uri uri, string? repository = null)
+    {
+        if (!IsGitHubApiUrl(uri) || !string.IsNullOrEmpty(uri.Query) || !string.IsNullOrEmpty(uri.Fragment))
         {
             return false;
         }
 
-        var lastIdentifier = version.PrereleaseIdentifiers.LastOrDefault().ToString();
-        bool nightly = version.IsPrerelease && lastIdentifier.StartsWith('g') && lastIdentifier.Length >= 7;
-        return channel switch {
-            "stable" => !version.IsPrerelease && !release.Value<bool>("prerelease"),
-            "beta" => !nightly,
-            "alpha" => true,
-            _ => false,
-        };
+        var segments = uri.AbsolutePath.Split('/', StringSplitOptions.RemoveEmptyEntries);
+        return segments.Length == 6 && segments[0] == "repos" && IsUpdateRepository(segments[1], segments[2]) &&
+            (repository is null || repository.Equals(segments[2], StringComparison.OrdinalIgnoreCase)) &&
+            segments[3] == "releases" && segments[4] == "assets" && long.TryParse(segments[5], NumberStyles.None, CultureInfo.InvariantCulture, out long id) && id > 0;
     }
 
-    private static async Task<JToken?> GetJsonAsync(string url, string token, CancellationToken cancellationToken)
+    private static async Task<JToken?> GetJsonAsync(string url, string token, CancellationToken cancellationToken, bool cacheManifest = false)
     {
         var uri = new Uri(url);
         if (!IsGitHubApiUrl(uri))
@@ -192,8 +244,19 @@ public static class GitHubUpdateHelper
             return null;
         }
 
+        var headers = CreateHeaders(token);
+        CachedManifest? cached = null;
+        if (cacheManifest)
+        {
+            headers["Accept"] = "application/vnd.github.raw+json";
+            if (_manifestCache.TryGetValue(url, out cached))
+            {
+                headers["If-None-Match"] = cached.ETag;
+            }
+        }
+
         using var response = await Instances.HttpService.GetAsync(
-            uri, CreateHeaders(token), HttpCompletionOption.ResponseContentRead, token: cancellationToken).ConfigureAwait(false);
+            uri, headers, HttpCompletionOption.ResponseContentRead, token: cancellationToken).ConfigureAwait(false);
         cancellationToken.ThrowIfCancellationRequested();
         if (response.StatusCode == HttpStatusCode.Unauthorized)
         {
@@ -206,7 +269,25 @@ public static class GitHubUpdateHelper
             return null;
         }
 
+        if (response.StatusCode == HttpStatusCode.NotModified)
+        {
+            return cached?.Body.DeepClone();
+        }
+
         response.EnsureSuccessStatusCode();
-        return JToken.Parse(await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false));
+        var json = JToken.Parse(await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false));
+        if (cacheManifest && json is JObject manifest && GetManifestRelease(manifest) is not null)
+        {
+            if (response.Headers.ETag is { } etag)
+            {
+                _manifestCache[url] = new(etag.ToString(), (JObject)manifest.DeepClone());
+            }
+            else
+            {
+                _manifestCache.TryRemove(url, out _);
+            }
+        }
+
+        return json;
     }
 }
