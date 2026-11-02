@@ -89,7 +89,7 @@
         "action": "ClickSelf",
         "template": "SwitchTheme@ConfirmThemeChange.png",
         "roi": [1070, 620, 200, 90],
-        "postDelay": 500,
+        "postDelay": 2000,
         "next": ["SwitchThemeByNameReturnAfterChange", "Stop"]
     },
     "SwitchThemeByNameCancelTheme": {
@@ -103,6 +103,7 @@
         "templThreshold": [0.7, 0.7],
         "action": "ClickSelf",
         "roi": [0, 0, 180, 80],
-        "next": ["Stop"]
+        "postDelay": 1500,
+        "next": ["SwitchThemeByNameReturnAfterChange", "Stop"]
     }
 }
