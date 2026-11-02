@@ -17,6 +17,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows;
@@ -209,6 +210,112 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
             (!oper.NameTwUnavailable && oper.NameTw == name) ||
             (!oper.NameJpUnavailable && oper.NameJp == name) ||
             (!oper.NameKrUnavailable && oper.NameKr == name);
+    }
+
+    public void ImportOperBox()
+    {
+        var filePath = Path.Combine(Directory.GetCurrentDirectory(), "data", "OperBoxData.json");
+
+        if (!File.Exists(filePath))
+        {
+            Instances.TaskQueueViewModel.AddLog("OperBoxData.json not found. Please run the Operator Recognition task first.", UiLogColor.Error);
+            return;
+        }
+
+        try
+        {
+            var jsonString = File.ReadAllText(filePath);
+            var jsonObject = JObject.Parse(jsonString);
+            var jsonArray = jsonObject["own_opers"] as JArray;
+
+            if (jsonArray is null)
+            {
+                Instances.TaskQueueViewModel.AddLog("Import failed: Could not find 'own_opers' array in the JSON.", UiLogColor.Error);
+                return;
+            }
+
+            var currentPlans = GetTaskConfig<OperProgressTask>()?.Plans.ToList() ?? [];
+            var planDict = currentPlans.ToDictionary(p => p.Name, p => p);
+
+            foreach (var item in jsonArray)
+            {
+                string id = item["id"]?.ToString() ?? string.Empty;
+                if (string.IsNullOrEmpty(id))
+                {
+                    continue;
+                }
+
+                // 1. Block Amiya forms to match dropdown safety restrictions
+                if (id is "char_002_amiya" or "char_1001_amiya2" or "char_1037_amiya3")
+                {
+                    continue;
+                }
+
+                if (!DataHelper.Operators.TryGetValue(id, out var operInfo))
+                {
+                    continue;
+                }
+
+                int rarity = item.Value<int?>("rarity") ?? operInfo.Rarity;
+
+                int maxElite;
+                int maxLevel;
+                int targetSkillLevel;
+                SkillMastery targetMastery;
+
+                // 2. Set rarity caps and default mastery targets
+                if (rarity <= 2)
+                {
+                    maxElite = 0;
+                    maxLevel = 30;
+                    targetSkillLevel = 0;
+                    targetMastery = SkillMastery.Of(0, 0, 0);
+                }
+                else if (rarity == 3)
+                {
+                    maxElite = 1;
+                    maxLevel = 55;
+                    targetSkillLevel = 7;
+                    targetMastery = SkillMastery.Of(0, 0, 0);
+                }
+                else
+                {
+                    maxElite = 2;
+                    maxLevel = rarity switch {
+                        4 => 70,
+                        5 => 80,
+                        6 => 90,
+                        _ => 90,
+                    };
+                    targetSkillLevel = 7;
+
+                    // Only 6★ operators have a third skill
+                    targetMastery = rarity >= 6
+                        ? SkillMastery.Of(3, 3, 3)
+                        : SkillMastery.Of(3, 3, 0);
+                }
+
+                var newPlan = new Plan(
+                    operInfo.Role,
+                    operInfo.Name!,
+                    maxElite,
+                    targetSkillLevel,
+                    targetMastery,
+                    false);
+
+                planDict[id] = newPlan;
+            }
+
+            var finalList = planDict.Values.ToList();
+            SetTaskConfig<OperProgressTask>(t => t.Plans.SequenceEqual(finalList), t => t.Plans = finalList);
+            RefreshUI(TaskSettingVisibilityInfo.CurrentTask);
+
+            Instances.TaskQueueViewModel.AddLog($"Successfully imported {finalList.Count} operators for progression.", UiLogColor.Success);
+        }
+        catch (Exception ex)
+        {
+            Instances.TaskQueueViewModel.AddLog($"Import failed: {ex.Message}", UiLogColor.Error);
+        }
     }
 
     /// <summary>

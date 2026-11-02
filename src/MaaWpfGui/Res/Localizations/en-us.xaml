@@ -2097,7 +2097,9 @@ Do not adjust the proxy multiplier setting in the game</system:String>
     <system:String x:Key="TaskQueue.OperProgress.MasteryTarget">Skill {0}, mastery {1}</system:String>
     <system:String x:Key="TaskQueue.OperProgress.NotSet">---</system:String>
     <system:String x:Key="TaskQueue.OperProgress.OnlineEditor">Edit the plan online with Arknights Toolbox</system:String>
-    <system:String x:Key="TaskQueue.OperProgress.ParseClipboard">Read from Clipboard</system:String>
+    <system:String x:Key="TaskQueue.OperProgress.ReadFrom">Read from</system:String>
+    <system:String x:Key="TaskQueue.OperProgress.ParseClipboard">Clipboard</system:String>
+    <system:String x:Key="TaskQueue.OperProgress.ImportOperBox">Operator data or toolbox</system:String>
     <system:String x:Key="TaskQueue.OperProgress.ParseFailed">Parse failed</system:String>
     <system:String x:Key="TaskQueue.OperProgress.SkillLevelTarget">Skill level {0}</system:String>
     <system:String x:Key="TaskQueue.OperProgress.SkillNumber">Skill {0}</system:String>

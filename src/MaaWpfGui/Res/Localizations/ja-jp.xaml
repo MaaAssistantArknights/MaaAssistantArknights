@@ -2099,7 +2099,9 @@ MAA は非インストール型のアプリケーションであり、レジス�
     <system:String x:Key="TaskQueue.OperProgress.MasteryTarget">スキル {0} 特化 {1}</system:String>
     <system:String x:Key="TaskQueue.OperProgress.NotSet">---</system:String>
     <system:String x:Key="TaskQueue.OperProgress.OnlineEditor">アークナイツツールボックスでオンライン編集</system:String>
-    <system:String x:Key="TaskQueue.OperProgress.ParseClipboard">クリップボードから読み取り</system:String>
+    <system:String x:Key="TaskQueue.OperProgress.ReadFrom">読み取り...</system:String>
+    <system:String x:Key="TaskQueue.OperProgress.ParseClipboard">クリップボード</system:String>
+    <system:String x:Key="TaskQueue.OperProgress.ImportOperBox">オペレーター識別 / ツールボックス</system:String>
     <system:String x:Key="TaskQueue.OperProgress.ParseFailed">解析に失敗しました</system:String>
     <system:String x:Key="TaskQueue.OperProgress.SkillLevelTarget">スキルランク {0}</system:String>
     <system:String x:Key="TaskQueue.OperProgress.SkillNumber">スキル{0}</system:String>
