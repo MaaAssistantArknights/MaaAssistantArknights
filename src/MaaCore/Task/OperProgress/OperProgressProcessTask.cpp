@@ -319,7 +319,10 @@ asst::OperProgressProcessTask::ResultDetail
             }
         }
         // 复核仍缺料则不点击晋升；材料齐备则点击晋升确认,再以新阶段标志确认晋升成功。
-        if (run_task("OperProgress@EliteUpMaterialMissing", 3) || !run_task("OperProgress@EliteUpPageConfirm") ||
+        if (run_task("OperProgress@EliteUpMaterialMissing", 3)) {
+            return ResultDetail::ResourceInsufficient;
+        }
+        if (!run_task("OperProgress@EliteUpPageConfirm") ||
             !run_task("OperProgress@CurrentElite" + std::to_string(phase + 1))) {
             return ResultDetail::RecognitionFailed;
         }
