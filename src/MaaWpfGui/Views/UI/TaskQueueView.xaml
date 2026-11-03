@@ -572,8 +572,7 @@
                         Margin="5"
                         Command="{s:Action RetryErrorTasks}"
                         Content="{DynamicResource TaskQueue.RetryError}"
-                        IsEnabled="{c:Binding 'Run.CanStart and !TaskSettingVisibilities.Guide'}"
-                        Visibility="{c:Binding 'Run.CanStart and HasErrorTasks', FalseToVisibility=Collapsed}" />
+                        IsEnabled="{c:Binding 'Run.CanStart and HasErrorTasks and !TaskSettingVisibilities.Guide'}" />
                     <CheckBox
                         Grid.Row="2"
                         VerticalAlignment="Center"
