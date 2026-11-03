@@ -37,6 +37,10 @@ public class GuideDemoTaskItem : PropertyChangedBase, IDisposable
 
     private bool _enableSetting;
 
+    private bool _canMoveUp;
+
+    private bool _canMoveDown;
+
     private bool _gateBadgeVisible;
 
     private string _demoStage = string.Empty;
@@ -118,6 +122,24 @@ public class GuideDemoTaskItem : PropertyChangedBase, IDisposable
     {
         get => _enableSetting;
         set => SetAndNotify(ref _enableSetting, value);
+    }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the demo task can be moved up. 首行禁止上移，集合变化时统一重算写入。
+    /// </summary>
+    public bool CanMoveUp
+    {
+        get => _canMoveUp;
+        set => SetAndNotify(ref _canMoveUp, value);
+    }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the demo task can be moved down. 末行禁止下移，集合变化时统一重算写入。
+    /// </summary>
+    public bool CanMoveDown
+    {
+        get => _canMoveDown;
+        set => SetAndNotify(ref _canMoveDown, value);
     }
 
     /// <summary>

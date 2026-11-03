@@ -154,7 +154,11 @@ public class SettingsViewModel : Screen
 
         Init();
 
-        GuideDemoTasks.CollectionChanged += (_, _) => RecomputeGuideGate();
+        GuideDemoTasks.CollectionChanged += (_, _) =>
+        {
+            RefreshGuideDemoTaskOrder();
+            RecomputeGuideGate();
+        };
         ResetGuideDemoTasks();
 
         LocalizationHelper.LanguageChanged += RefreshLocalization;
@@ -1190,6 +1194,42 @@ public class SettingsViewModel : Screen
         NotifyGuideOperationBlocked();
     }
 
+    // UI 绑定的方法（与拖拽等价的重排手段，重排教学步骤由此完成）
+    [UsedImplicitly]
+    public void MoveGuideDemoTaskUp(GuideDemoTaskItem taskItem)
+    {
+        MoveGuideDemoTask(taskItem, -1);
+    }
+
+    // UI 绑定的方法（与拖拽等价的重排手段，重排教学步骤由此完成）
+    [UsedImplicitly]
+    public void MoveGuideDemoTaskDown(GuideDemoTaskItem taskItem)
+    {
+        MoveGuideDemoTask(taskItem, 1);
+    }
+
+    /// <summary>
+    /// 移动演示任务一行，负值上移、正值下移；序号与 gate 重算由集合变更处理器完成
+    /// </summary>
+    /// <param name="taskItem">演示任务项</param>
+    /// <param name="offset">移动偏移</param>
+    private void MoveGuideDemoTask(GuideDemoTaskItem taskItem, int offset)
+    {
+        if (taskItem == null)
+        {
+            return;
+        }
+
+        var index = GuideDemoTasks.IndexOf(taskItem);
+        var newIndex = index + offset;
+        if (index < 0 || newIndex < 0 || newIndex >= GuideDemoTasks.Count)
+        {
+            return;
+        }
+
+        GuideDemoTasks.Move(index, newIndex);
+    }
+
     // UI 绑定的方法
     [UsedImplicitly]
     public void StartGuideDemo()
@@ -1214,6 +1254,18 @@ public class SettingsViewModel : Screen
         foreach (var task in GuideDemoTasks)
         {
             task.IsChecked = false;
+        }
+    }
+
+    /// <summary>
+    /// 集合任意变化后统一重算演示任务的上移/下移可用性（含行数变化时位置不变的行）。
+    /// </summary>
+    private void RefreshGuideDemoTaskOrder()
+    {
+        for (int i = 0; i < GuideDemoTasks.Count; i++)
+        {
+            GuideDemoTasks[i].CanMoveUp = i > 0;
+            GuideDemoTasks[i].CanMoveDown = i < GuideDemoTasks.Count - 1;
         }
     }
 

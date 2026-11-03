@@ -1270,8 +1270,8 @@ DEBUG 目录下保存的图片有数量限制，超出后会自动清理旧图�
     <system:String x:Key="Guide.Demo.Gate.CheckWeekDays">在周计划中勾选 ｢周一｣ 与 ｢周日｣</system:String>
     <system:String x:Key="Guide.Demo.Gate.EnableWeekly">选中剿灭任务的齿轮，在 ｢{key=TaskQueue.AdvancedSettings}｣ 勾选 ｢{key=TaskQueue.UseWeeklySchedule}｣</system:String>
     <system:String x:Key="Guide.Demo.Gate.RenameFight">悬停新添加的 ｢{key=TaskQueue.Task.Fight}｣ 任务并重命名，与默认任务区分</system:String>
-    <system:String x:Key="Guide.Demo.Gate.ReorderFight">按住重命名后的 ｢{key=TaskQueue.Task.Fight}｣ 拖动，放到默认 ｢{key=TaskQueue.Task.Fight}｣ 上面</system:String>
-    <system:String x:Key="Guide.Demo.Gate.ReorderTheme">将 ｢{key=TaskQueue.Task.SwitchTheme}｣ 任务拖动到列表最后</system:String>
+    <system:String x:Key="Guide.Demo.Gate.ReorderFight">拖动重命名后的 ｢{key=TaskQueue.Task.Fight}｣，或右键其齿轮选 ｢{key=TaskQueue.MoveUp}｣，移到默认 ｢{key=TaskQueue.Task.Fight}｣ 上面</system:String>
+    <system:String x:Key="Guide.Demo.Gate.ReorderTheme">拖动 ｢{key=TaskQueue.Task.SwitchTheme}｣ 任务，或右键其齿轮选 ｢{key=TaskQueue.MoveDown}｣，移到列表最后</system:String>
     <system:String x:Key="Guide.Demo.Gate.RestoreFight">列表需包含 ｢{key=TaskQueue.Task.Fight}｣ 任务，请通过 ｢{key=TaskQueue.AddTask}｣ 重新添加</system:String>
     <system:String x:Key="Guide.Demo.Gate.RestoreStartUp">列表需包含 ｢{key=TaskQueue.Task.StartUp}｣ 任务，请通过 ｢{key=TaskQueue.AddTask}｣ 重新添加</system:String>
     <system:String x:Key="Guide.Demo.Gate.SelectStage">点亮任务齿轮，将关卡选择为 ｢{key=TaskQueue.Annihilation.Current}｣</system:String>
@@ -2101,6 +2101,8 @@ DEBUG 目录下保存的图片有数量限制，超出后会自动清理旧图�
     <system:String x:Key="TaskQueue.MainTasksNullFunctionality.Switch">可在 ｢{key=Settings.Title} - {key=Settings.Ui.Title} - {key=TaskQueue.MainTasksNullFunctionality}｣ 切换右键单击效果</system:String>
     <system:String x:Key="TaskQueue.MainTasksNullFunctionality.Tip">默认仅一次生效，勾选后仅一次跳过</system:String>
     <system:String x:Key="TaskQueue.MainViewButtonFeature">主界面可选择按钮功能</system:String>
+    <system:String x:Key="TaskQueue.MoveDown">下移</system:String>
+    <system:String x:Key="TaskQueue.MoveUp">上移</system:String>
     <system:String x:Key="TaskQueue.MultiTasksShare.Tip">以下选项为多任务共用</system:String>
     <system:String x:Key="TaskQueue.NotSwitch">不切换</system:String>
     <system:String x:Key="TaskQueue.OperProgress.Detail">{key=TaskQueue.Task.OperProgress} {0}:{1} {2}</system:String>
