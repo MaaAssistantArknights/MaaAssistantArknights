@@ -1189,11 +1189,7 @@ public class SettingsViewModel : Screen
     [UsedImplicitly]
     public void StartGuideDemo()
     {
-        MessageBoxHelper.Show(
-            LocalizationHelper.GetString("Guide.Demo.Start"),
-            LocalizationHelper.GetString("Common.Tip"),
-            MessageBoxButton.OK,
-            MessageBoxImage.Information);
+        GrowlHelper.Info(LocalizationHelper.GetString("Guide.Demo.Start"));
     }
 
     // UI 绑定的方法
