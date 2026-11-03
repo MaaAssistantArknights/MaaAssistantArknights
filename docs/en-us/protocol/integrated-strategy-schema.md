@@ -115,32 +115,32 @@ By default, only E1 Level 55 operators will be recruited
 
    Taking Sami's I.S. as an example: operators are mainly divided into:
 
-   | Group                                                           | Considerations                                             | Class                                      | Operators                                                                                                             |
+   | Group | Considerations | Class | Operators |
    | :-------------------------------------------------------------- | :--------------------------------------------------------- | :----------------------------------------- | :-------------------------------------------------------------------------------------------------------------------- |
-   | **_地面阻挡_** (Ground Blocking)                                | Field presence and clearing enemies                        | Defenders, Guards                          | Healing defenders, cornerstones, Blacknight, Mountain, M3, Ling and Scene's summons, Spot, Defender reserve operators |
-   | **_地面单切/处决者_** (Ground Single-Target/Executors)          | Solo elite enemies                                         | Executor specialists                       | SilverAsh, Yato the Elegy, Kirara R Yato, M3, Red                                                                     |
-   | **_高台C_** (Ranged Core)                                       | Sustained and decisive output                              | Snipers, Casters                           | Weathered, Logos, Ch'en the Holungday, Chongyue                                                                       |
-   | **_高台输出_** (Ranged DPS)                                     | Anti-air and sustained output                              | Snipers, Casters                           | Archetto, Exusiai, Kroos, Steward                                                                                     |
-   | **_速狙_** (Fast Snipers)                                       | Physical damage, standard range                            | Snipers                                    | Eyjafjalla, Exusiai, Yeye, Kroos                                                                                      |
-   | **_术师_** (Casters)                                            | Arts damage, standard range                                | Single-target Casters                      | Eyjafjalla, Logos, Steward                                                                                            |
-   | **_辅助_** (Supporters)                                         | Can hit 1 tile behind                                      | Supporters                                 | Suzuran, Lily of the Valley, Yeye, Orchid                                                                             |
-   | **_狙击_** (Long-range Snipers)                                 | Longer range high ground                                   | Artilleryman, Spreadshooter                | Weathered, Toddifons, Rosa                                                                                            |
-   | **_奶_** (Healers)                                              | Healing ability                                            | Medics, Supporters                         | Kal'tsit, Skadi the Corrupting Heart, Hibiscus, Ansel                                                                 |
-   | **_单奶_** (Single-target Healers)                              | Attack range depth >= 4                                    | Medics                                     | Kal'tsit, Reed the Flame Shadow, Ptilopsis, Perfumer, Hibiscus, Ansel                                                 |
-   | **_群奶_** (AoE Healers)                                        | Attack range depth < 4, can heal behind                    | Medics, Supporters                         | Nightingale, Ptilopsis, Skadi the Corrupting Heart                                                                    |
-   | **_回费_** (DP Recovery)                                        | Cost recovery                                              | Vanguards                                  | Myrtle, Ines, Fang, Vanilla                                                                                           |
-   | **_地刺_** (Ground Traps)                                       | No blocking, provides DPS or slowing in front of defenders | Ambushers                                  | Gladiia, Ascalon, Manticore                                                                                           |
-   | **_地面远程_** (Ground Ranged)                                  | Ground long-range, can output behind shields               | Instructors, Lords                         | Horn, Pallas, Thorns, SilverAsh                                                                                       |
-   | **_领主_** (Lords)                                              | Ground attack range depth > 4, can target air              | Fortress, Lord                             | Thorns, SilverAsh, Chouyu                                                                                             |
-   | **_盾法_** (Shield Casters)                                     | Short attack range, some tanking ability                   | Arts Fighter Casters                       | Lin, Carnelian                                                                                                        |
-   | **_炮灰_** (Fodder)                                             | Absorb attacks, redeploy                                   | Specialists, summons                       | M3, Red, Myrtle, reserve operators                                                                                    |
-   | **_大龙_** (Big Dragon)                                         | Tank in front of blockers, easy to combine                 | Summons                                    | Ling's dragons, Jessica the Flame Purifier's shield                                                                   |
-   | **_补给站_** (Supply Stations)                                  | Accelerate main DPS operator skill rotation                | Summons                                    | Support Supply Station, Artificer operator summons                                                                    |
-   | **_无人机_** (Drones)                                           | Ignore height restrictions for healing summons             | Summons                                    | Skadi's Seaborn, Silence's Medical Drone                                                                              |
-   | **_支援陷阱_** (Support Traps)                                  | Deployable ground explosives                               | Summons                                    | Support Mist Generator, Support Rumble-Rumble                                                                         |
-   | **_障碍物_** (Obstacles)                                        | Don't take deployment slots, attract aggro or block        | Summons                                    | Cage, obstacles                                                                                                       |
-   | **_其他地面_** (Other Ground)                                   | Ground operators not preferred for priority use            | Push/pull, block-1 vanguards, swordmasters | Bagpipe, Croissant                                                                                                    |
-   | **_高台预备/其他高台_** (High Ground Reserve/Other High Ground) | High ground operators not preferred for priority use       | AoE casters, chain casters, tacticians     | Orchid, reserve operators                                                                                             |
+   | **_地面阻挡_** (Ground Blocking) | Field presence and clearing enemies | Defenders, Guards | Healing defenders, cornerstones, Blacknight, Mountain, M3, Ling and Scene's summons, Spot, Defender reserve operators |
+   | **_地面单切/处决者_** (Ground Single-Target/Executors) | Solo elite enemies | Executor specialists | SilverAsh, Yato the Elegy, Kirara R Yato, M3, Red |
+   | **_高台C_** (Ranged Core) | Sustained and decisive output | Snipers, Casters | Weathered, Logos, Ch'en the Holungday, Chongyue |
+   | **_高台输出_** (Ranged DPS) | Anti-air and sustained output | Snipers, Casters | Archetto, Exusiai, Kroos, Steward |
+   | **_速狙_** (Fast Snipers) | Physical damage, standard range | Snipers | Eyjafjalla, Exusiai, Yeye, Kroos |
+   | **_术师_** (Casters) | Arts damage, standard range | Single-target Casters | Eyjafjalla, Logos, Steward |
+   | **_辅助_** (Supporters) | Can hit 1 tile behind | Supporters | Suzuran, Lily of the Valley, Yeye, Orchid |
+   | **_狙击_** (Long-range Snipers) | Longer range high ground | Artilleryman, Spreadshooter | Weathered, Toddifons, Rosa |
+   | **_奶_** (Healers) | Healing ability | Medics, Supporters | Kal'tsit, Skadi the Corrupting Heart, Hibiscus, Ansel |
+   | **_单奶_** (Single-target Healers) | Attack range depth >= 4 | Medics | Kal'tsit, Reed the Flame Shadow, Ptilopsis, Perfumer, Hibiscus, Ansel |
+   | **_群奶_** (AoE Healers) | Attack range depth < 4, can heal behind | Medics, Supporters | Nightingale, Ptilopsis, Skadi the Corrupting Heart |
+   | **_回费_** (DP Recovery) | Cost recovery | Vanguards | Myrtle, Ines, Fang, Vanilla |
+   | **_地刺_** (Ground Traps) | No blocking, provides DPS or slowing in front of defenders | Ambushers | Gladiia, Ascalon, Manticore |
+   | **_地面远程_** (Ground Ranged) | Ground long-range, can output behind shields | Instructors, Lords | Horn, Pallas, Thorns, SilverAsh |
+   | **_领主_** (Lords) | Ground attack range depth > 4, can target air | Fortress, Lord | Thorns, SilverAsh, Chouyu |
+   | **_盾法_** (Shield Casters) | Short attack range, some tanking ability | Arts Fighter Casters | Lin, Carnelian |
+   | **_炮灰_** (Fodder) | Absorb attacks, redeploy | Specialists, summons | M3, Red, Myrtle, reserve operators |
+   | **_大龙_** (Big Dragon) | Tank in front of blockers, easy to combine | Summons | Ling's dragons, Jessica the Flame Purifier's shield |
+   | **_补给站_** (Supply Stations) | Accelerate main DPS operator skill rotation | Summons | Support Supply Station, Artificer operator summons |
+   | **_无人机_** (Drones) | Ignore height restrictions for healing summons | Summons | Skadi's Seaborn, Silence's Medical Drone |
+   | **_支援陷阱_** (Support Traps) | Deployable ground explosives | Summons | Support Mist Generator, Support Rumble-Rumble |
+   | **_障碍物_** (Obstacles) | Don't take deployment slots, attract aggro or block | Summons | Cage, obstacles |
+   | **_其他地面_** (Other Ground) | Ground operators not preferred for priority use | Push/pull, block-1 vanguards, swordmasters | Bagpipe, Croissant |
+   | **_高台预备/其他高台_** (High Ground Reserve/Other High Ground) | High ground operators not preferred for priority use | AoE casters, chain casters, tacticians | Orchid, reserve operators |
 
    ::: tip  
    "Ground Blocking" mainly considers an operator's overall defensive capabilities (sometimes killing everything is also a form of defense), including "Ground Ranged" and "Lord" groups.
@@ -156,17 +156,17 @@ By default, only E1 Level 55 operators will be recruited
 
    In addition to those general groups, sometimes we need more custom tweaks for some operators or types such as
 
-   | Group                    | Operators                                  | Features                                                                                                         |
+   | Group | Operators | Features |
    | :----------------------- | :----------------------------------------- | :--------------------------------------------------------------------------------------------------------------- |
-   | 益达 (Weathered)         | 维什戴尔 (Weathered)                       | High ground DPS, prioritizing deployment can reduce pressure                                                     |
-   | 棘刺 (Thorns)            | 棘刺 (Thorns), 号角 (Horn)                 | Ground ranged output, Phantom I.S. has some maps with very suitable positions                                    |
-   | 召唤类 (Summoners)       | 凯尔希 (Kal'tsit), 令 (Ling), 稀音 (Scene) | Self-contained ground blocking, some maps need priority deployment, summons can be used as blockers or fodder    |
-   | 情报官 (Agents)          | 晓歌 (Cantabile), 伊内丝 (Ines)            | Can recover DP, provide side output, and can single cut                                                          |
-   | 浊心斯卡蒂 (Skadi Alter) | 浊心斯卡蒂 (Skadi the Corrupting Heart)    | Decent healing under low pressure, but special range, some maps have suitable positions                          |
-   | 焰苇 (Reed Alter)        | 焰影苇草 (Reed the Flame Shadow)           | Commonly used opening operator in Sami I.S., combines healing and output, some maps have optimal positions       |
-   | 玛恩纳 (Mlynar)          | 玛恩纳 (Mlynar), 银灰 (SilverAsh)          | Ground large-area decisive output, can be deployed against bosses                                                |
-   | 史尔特尔 (Surtr)         | 史尔特尔 (Surtr)                           | Since Surtr always carries S3 at E2, field presence ability is almost zero, deployment priority is extremely low |
-   | 骰子 (Dice)              | 骰子 (Dice)                                | In Mizuki I.S. the dice needs to be operated separately                                                          |
+   | 益达 (Weathered) | 维什戴尔 (Weathered) | High ground DPS, prioritizing deployment can reduce pressure |
+   | 棘刺 (Thorns) | 棘刺 (Thorns), 号角 (Horn) | Ground ranged output, Phantom I.S. has some maps with very suitable positions |
+   | 召唤类 (Summoners) | 凯尔希 (Kal'tsit), 令 (Ling), 稀音 (Scene) | Self-contained ground blocking, some maps need priority deployment, summons can be used as blockers or fodder |
+   | 情报官 (Agents) | 晓歌 (Cantabile), 伊内丝 (Ines) | Can recover DP, provide side output, and can single cut |
+   | 浊心斯卡蒂 (Skadi Alter) | 浊心斯卡蒂 (Skadi the Corrupting Heart) | Decent healing under low pressure, but special range, some maps have suitable positions |
+   | 焰苇 (Reed Alter) | 焰影苇草 (Reed the Flame Shadow) | Commonly used opening operator in Sami I.S., combines healing and output, some maps have optimal positions |
+   | 玛恩纳 (Mlynar) | 玛恩纳 (Mlynar), 银灰 (SilverAsh) | Ground large-area decisive output, can be deployed against bosses |
+   | 史尔特尔 (Surtr) | 史尔特尔 (Surtr) | Since Surtr always carries S3 at E2, field presence ability is almost zero, deployment priority is extremely low |
+   | 骰子 (Dice) | 骰子 (Dice) | In Mizuki I.S. the dice needs to be operated separately |
 
 ::: info  
 Currently fixed to group unidentified ground crews behind the penultimate formation (other ground), and unidentified high-platform crews behind the penultimate formation (other high-platform)  
@@ -654,17 +654,17 @@ equals `option_num`, the option numbered `choose` (starting from 1) is selected.
 
 Event decisions can read the following built-in page facts without declaring them again in `facts`:
 
-| Fact                          | Type          | Meaning                                                                                                          |
+| Fact | Type | Meaning |
 | ----------------------------- | ------------- | ---------------------------------------------------------------------------------------------------------------- |
-| `encounter.name`              | `string`      | The currently recognized event title.                                                                            |
-| `encounter.option_count`      | `int`         | The number of options actually recognized.                                                                       |
-| `encounter.available_options` | `string_list` | Option texts available for this decision.                                                                        |
-| `encounter.route_known`       | `bool`        | Whether a valid, complete single remaining route was kept when entering the event.                               |
-| `encounter.remaining_battles` | `int`         | The number of battles after the current event on that route; only provided to decisions when the route is known. |
-| `encounter.selected_option`   | `int`         | The index of the option actually selected, starting from 1.                                                      |
-| `encounter.selected_text`     | `string`      | The text of the option actually selected.                                                                        |
-| `encounter.used_fallback`     | `bool`        | Whether the actual selection used the fallback.                                                                  |
-| `encounter.rule_id`           | `string`      | The rule matched by this selection request; empty when no rule matched.                                          |
+| `encounter.name` | `string` | The currently recognized event title. |
+| `encounter.option_count` | `int` | The number of options actually recognized. |
+| `encounter.available_options` | `string_list` | Option texts available for this decision. |
+| `encounter.route_known` | `bool` | Whether a valid, complete single remaining route was kept when entering the event. |
+| `encounter.remaining_battles` | `int` | The number of battles after the current event on that route; only provided to decisions when the route is known. |
+| `encounter.selected_option` | `int` | The index of the option actually selected, starting from 1. |
+| `encounter.selected_text` | `string` | The text of the option actually selected. |
+| `encounter.used_fallback` | `bool` | Whether the actual selection used the fallback. |
+| `encounter.rule_id` | `string` | The rule matched by this selection request; empty when no rule matched. |
 
 `available_options`, `route_known` and `remaining_battles` are provided for event decisions. Concluding that no battle remains requires both
 `route_known` to be `true` and `remaining_battles` to be `0`. An empty route, multiple landing points, or unclear identities of subsequent nodes

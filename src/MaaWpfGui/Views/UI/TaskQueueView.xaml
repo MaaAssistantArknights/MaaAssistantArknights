@@ -155,7 +155,7 @@
 
                                                                 <TextBlock FontWeight="SemiBold" Text="{DynamicResource TaskQueue.RightClick}" />
                                                                 <TextBlock>
-                                                                    <Run Text="{DynamicResource TaskQueue.RunOnce}" /><Run Text="/" /><Run Text="{DynamicResource TaskQueue.RunFromHere}" /><Run Text="/" /><Run Text="{DynamicResource Common.Copy}" /><Run Text="/" /><Run Text="{DynamicResource TaskQueue.Rename}" /><Run Text="/" /><Run Text="{DynamicResource Common.Delete}" />
+                                                                    <Run Text="{DynamicResource TaskQueue.RunOnce}" /><Run Text="/" /><Run Text="{DynamicResource TaskQueue.RunFromHere}" /><Run Text="/" /><Run Text="{DynamicResource TaskQueue.MoveUp}" /><Run Text="/" /><Run Text="{DynamicResource TaskQueue.MoveDown}" /><Run Text="/" /><Run Text="{DynamicResource Common.Copy}" /><Run Text="/" /><Run Text="{DynamicResource TaskQueue.Rename}" /><Run Text="/" /><Run Text="{DynamicResource Common.Delete}" />
                                                                 </TextBlock>
                                                             </StackPanel>
                                                         </ToolTip>
@@ -172,6 +172,18 @@
                                                                                    Target={x:Static helper:Instances.TaskQueueViewModel}}"
                                                                 CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
                                                                 Header="{DynamicResource TaskQueue.RunFromHere}" />
+                                                            <MenuItem
+                                                                Command="{s:Action MoveTaskUp,
+                                                                                   Target={x:Static helper:Instances.TaskQueueViewModel}}"
+                                                                CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
+                                                                Header="{DynamicResource TaskQueue.MoveUp}"
+                                                                IsEnabled="{Binding PlacementTarget.DataContext.CanMoveUp, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
+                                                            <MenuItem
+                                                                Command="{s:Action MoveTaskDown,
+                                                                                   Target={x:Static helper:Instances.TaskQueueViewModel}}"
+                                                                CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
+                                                                Header="{DynamicResource TaskQueue.MoveDown}"
+                                                                IsEnabled="{Binding PlacementTarget.DataContext.CanMoveDown, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
                                                             <MenuItem
                                                                 Command="{s:Action CopyTask,
                                                                                    Target={x:Static helper:Instances.TaskQueueViewModel}}"

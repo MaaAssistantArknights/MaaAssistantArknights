@@ -1272,8 +1272,8 @@ DEBUGディレクトリに保存される画像には数量制限があり、超
     <system:String x:Key="Guide.Demo.Gate.CheckWeekDays">週次スケジュールで ｢月曜日｣ と ｢日曜日｣ にチェックを入れてください</system:String>
     <system:String x:Key="Guide.Demo.Gate.EnableWeekly">殲滅タスクの歯車ボタンをオンにし、｢{key=TaskQueue.AdvancedSettings}｣ の ｢{key=TaskQueue.UseWeeklySchedule}｣ にチェックを入れてください</system:String>
     <system:String x:Key="Guide.Demo.Gate.RenameFight">追加した ｢{key=TaskQueue.Task.Fight}｣ タスクにカーソルを合わせ、デフォルトと区別できるよう名前を変更してください</system:String>
-    <system:String x:Key="Guide.Demo.Gate.ReorderFight">名前を変更した ｢{key=TaskQueue.Task.Fight}｣ をドラッグし、デフォルトのタスクの上に移動してください</system:String>
-    <system:String x:Key="Guide.Demo.Gate.ReorderTheme">｢{key=TaskQueue.Task.SwitchTheme}｣ タスクをリストの最後へドラッグしてください</system:String>
+    <system:String x:Key="Guide.Demo.Gate.ReorderFight">名前を変更した ｢{key=TaskQueue.Task.Fight}｣ をドラッグするか、歯車を右クリックして ｢{key=TaskQueue.MoveUp}｣ を選び、デフォルトのタスクの上に移動してください</system:String>
+    <system:String x:Key="Guide.Demo.Gate.ReorderTheme">｢{key=TaskQueue.Task.SwitchTheme}｣ タスクをドラッグするか、歯車を右クリックして ｢{key=TaskQueue.MoveDown}｣ を選び、リストの最後へ移動してください</system:String>
     <system:String x:Key="Guide.Demo.Gate.RestoreFight">リストには ｢{key=TaskQueue.Task.Fight}｣ タスクが必要です。｢{key=TaskQueue.AddTask}｣ で追加し直してください</system:String>
     <system:String x:Key="Guide.Demo.Gate.RestoreStartUp">リストには ｢{key=TaskQueue.Task.StartUp}｣ タスクが必要です。｢{key=TaskQueue.AddTask}｣ で追加し直してください</system:String>
     <system:String x:Key="Guide.Demo.Gate.SelectStage">歯車ボタンをオンにし、ステージを ｢{key=TaskQueue.Annihilation.Current}｣ に選択してください</system:String>
@@ -2102,6 +2102,8 @@ MAA は非インストール型のアプリケーションであり、レジス�
     <system:String x:Key="TaskQueue.MainTasksNullFunctionality.Switch">｢{key=Settings.Title} - {key=Settings.Ui.Title} - {key=TaskQueue.MainTasksNullFunctionality}｣ で右クリック効果を切替可能</system:String>
     <system:String x:Key="TaskQueue.MainTasksNullFunctionality.Tip">デフォルト：1回のみ有効、チェック後：1回のみスキップ</system:String>
     <system:String x:Key="TaskQueue.MainViewButtonFeature">スタート画面に表示する便利ボタン</system:String>
+    <system:String x:Key="TaskQueue.MoveDown">下へ移動</system:String>
+    <system:String x:Key="TaskQueue.MoveUp">上へ移動</system:String>
     <system:String x:Key="TaskQueue.MultiTasksShare.Tip">以下のオプションは複数のタスクで共有されます</system:String>
     <system:String x:Key="TaskQueue.NotSwitch">切り替えない</system:String>
     <system:String x:Key="TaskQueue.OperProgress.Detail">{key=TaskQueue.Task.OperProgress} {0}:{1} {2}</system:String>
@@ -2127,6 +2129,7 @@ MAA は非インストール型のアプリケーションであり、レジス�
     <system:String x:Key="TaskQueue.PostAction.ExitArknights">アークナイツを終了する</system:String>
     <system:String x:Key="TaskQueue.PostAction.ExitEmulator">エミュレータを終了する</system:String>
     <system:String x:Key="TaskQueue.PostAction.ExitEmulatorFailed">エミュレータの終了に失敗しました</system:String>
+    <system:String x:Key="TaskQueue.PostAction.ExitPCClient">PC クライアントを終了する</system:String>
     <system:String x:Key="TaskQueue.PostAction.ExitSelf">MAAを終了する</system:String>
     <system:String x:Key="TaskQueue.PostAction.Hibernate">休止状態にする</system:String>
     <system:String x:Key="TaskQueue.PostAction.Hibernate.Prompt">完了しました。休止状態にしようとしています</system:String>

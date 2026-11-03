@@ -76,6 +76,29 @@ public class TaskItemViewModel : PropertyChangedBase, IDisposable
     public bool CanCopy => ConfigFactory.CurrentConfig.TaskQueue[Index] is not StartUpTask;
 
     /// <summary>
+    /// Gets a value indicating whether the task can be moved up. 首行禁止上移。
+    /// </summary>
+    [PropertyDependsOn(nameof(Index))]
+    public bool CanMoveUp => Index > 0;
+
+    /// <summary>
+    /// Gets a value indicating whether the task can be moved down. 末行禁止下移。
+    /// 判定依赖集合总数，行数增减时 Index 不变的行由集合变更处理器补充通知。
+    /// </summary>
+    [PropertyDependsOn(nameof(Index))]
+    public bool CanMoveDown => Index < ConfigFactory.CurrentConfig.TaskQueue.Count - 1;
+
+    /// <summary>
+    /// 行数增减后由集合变更处理器调用，补发依赖集合总数的上移/下移可用性通知
+    /// （Index 不变的行不会经 Index 依赖链刷新）
+    /// </summary>
+    public void NotifyMoveAvailabilityChanged()
+    {
+        NotifyOfPropertyChange(nameof(CanMoveUp));
+        NotifyOfPropertyChange(nameof(CanMoveDown));
+    }
+
+    /// <summary>
     /// Gets or sets a value indicating whether gets or sets whether the setting enabled.
     /// </summary>
     public bool EnableSetting

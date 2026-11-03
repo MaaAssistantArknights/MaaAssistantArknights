@@ -97,8 +97,8 @@
                     <controls:TextBlock
                         Grid.Row="2"
                         MaxWidth="{Binding ElementName=GuideButtonPanel, Path=ActualWidth}"
+                        d:Text="Next gate tip"
                         FontSize="12"
-                        Foreground="{DynamicResource ThirdlyTextBrush}"
                         Text="{Binding GuideNextGateTip}"
                         TextWrapping="Wrap"
                         Visibility="{c:Binding 'GuideNextGateTip != null'}" />
@@ -361,7 +361,7 @@
 
                                                                                     <TextBlock FontWeight="SemiBold" Text="{DynamicResource TaskQueue.RightClick}" />
                                                                                     <TextBlock>
-                                                                                        <Run Text="{DynamicResource TaskQueue.RunOnce}" /><Run Text="/" /><Run Text="{DynamicResource TaskQueue.RunFromHere}" /><Run Text="/" /><Run Text="{DynamicResource Common.Copy}" /><Run Text="/" /><Run Text="{DynamicResource TaskQueue.Rename}" /><Run Text="/" /><Run Text="{DynamicResource Common.Delete}" />
+                                                                                        <Run Text="{DynamicResource TaskQueue.RunOnce}" /><Run Text="/" /><Run Text="{DynamicResource TaskQueue.RunFromHere}" /><Run Text="/" /><Run Text="{DynamicResource TaskQueue.MoveUp}" /><Run Text="/" /><Run Text="{DynamicResource TaskQueue.MoveDown}" /><Run Text="/" /><Run Text="{DynamicResource Common.Copy}" /><Run Text="/" /><Run Text="{DynamicResource TaskQueue.Rename}" /><Run Text="/" /><Run Text="{DynamicResource Common.Delete}" />
                                                                                     </TextBlock>
                                                                                 </StackPanel>
                                                                             </ToolTip>
@@ -370,6 +370,18 @@
                                                                             <ContextMenu Width="150">
                                                                                 <MenuItem Command="{s:Action StartGuideDemo, Target={x:Static helper:Instances.SettingsViewModel}}" Header="{DynamicResource TaskQueue.RunOnce}" />
                                                                                 <MenuItem Command="{s:Action StartGuideDemo, Target={x:Static helper:Instances.SettingsViewModel}}" Header="{DynamicResource TaskQueue.RunFromHere}" />
+                                                                                <MenuItem
+                                                                                    Command="{s:Action MoveGuideDemoTaskUp,
+                                                                                                       Target={x:Static helper:Instances.SettingsViewModel}}"
+                                                                                    CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
+                                                                                    Header="{DynamicResource TaskQueue.MoveUp}"
+                                                                                    IsEnabled="{Binding PlacementTarget.DataContext.CanMoveUp, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
+                                                                                <MenuItem
+                                                                                    Command="{s:Action MoveGuideDemoTaskDown,
+                                                                                                       Target={x:Static helper:Instances.SettingsViewModel}}"
+                                                                                    CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
+                                                                                    Header="{DynamicResource TaskQueue.MoveDown}"
+                                                                                    IsEnabled="{Binding PlacementTarget.DataContext.CanMoveDown, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
                                                                                 <MenuItem
                                                                                     Command="{s:Action CopyGuideDemoTask,
                                                                                                        Target={x:Static helper:Instances.SettingsViewModel}}"

@@ -1270,8 +1270,8 @@ DEBUG 디렉토리에 저장된 이미지는 수량 제한이 있으며 초과 �
     <system:String x:Key="Guide.Demo.Gate.CheckWeekDays">주간 일정에서 ｢월요일｣ 과 ｢일요일｣ 을 체크하세요</system:String>
     <system:String x:Key="Guide.Demo.Gate.EnableWeekly">섬멸 작업의 톱니바퀴 버튼을 켜고 ｢{key=TaskQueue.AdvancedSettings}｣ 의 ｢{key=TaskQueue.UseWeeklySchedule}｣ 을 체크하세요</system:String>
     <system:String x:Key="Guide.Demo.Gate.RenameFight">새로 추가한 ｢{key=TaskQueue.Task.Fight}｣ 작업에 커서를 올려 기본 작업과 구분되도록 이름을 변경하세요</system:String>
-    <system:String x:Key="Guide.Demo.Gate.ReorderFight">이름을 변경한 ｢{key=TaskQueue.Task.Fight}｣ 를 드래그하여 기본 작업 위로 옮기세요</system:String>
-    <system:String x:Key="Guide.Demo.Gate.ReorderTheme">｢{key=TaskQueue.Task.SwitchTheme}｣ 작업을 목록 맨 뒤로 드래그하세요</system:String>
+    <system:String x:Key="Guide.Demo.Gate.ReorderFight">이름을 변경한 ｢{key=TaskQueue.Task.Fight}｣ 를 드래그하거나 톱니바퀴를 우클릭해 ｢{key=TaskQueue.MoveUp}｣ 으로 기본 작업 위로 옮기세요</system:String>
+    <system:String x:Key="Guide.Demo.Gate.ReorderTheme">｢{key=TaskQueue.Task.SwitchTheme}｣ 작업을 드래그하거나 톱니바퀴를 우클릭해 ｢{key=TaskQueue.MoveDown}｣ 으로 목록 맨 뒤로 옮기세요</system:String>
     <system:String x:Key="Guide.Demo.Gate.RestoreFight">목록에 ｢{key=TaskQueue.Task.Fight}｣ 작업이 필요합니다. ｢{key=TaskQueue.AddTask}｣ 로 다시 추가하세요</system:String>
     <system:String x:Key="Guide.Demo.Gate.RestoreStartUp">목록에 ｢{key=TaskQueue.Task.StartUp}｣ 작업이 필요합니다. ｢{key=TaskQueue.AddTask}｣ 로 다시 추가하세요</system:String>
     <system:String x:Key="Guide.Demo.Gate.SelectStage">작업의 톱니바퀴 버튼을 켜고 스테이지를 ｢{key=TaskQueue.Annihilation.Current}｣ 로 선택하세요</system:String>
@@ -2101,6 +2101,8 @@ MAA는 비설치형 응용 프로그램으로, 삭제 시 레지스트리 항목
     <system:String x:Key="TaskQueue.MainTasksNullFunctionality.Switch">｢{key=Settings.Title} - {key=Settings.Ui.Title} - {key=TaskQueue.MainTasksNullFunctionality}｣ 에서 우클릭 효과 전환 가능</system:String>
     <system:String x:Key="TaskQueue.MainTasksNullFunctionality.Tip">기본: 한 번만 적용, 체크 시: 한 번만 건너뛰기</system:String>
     <system:String x:Key="TaskQueue.MainViewButtonFeature">메인 화면 버튼의 기능</system:String>
+    <system:String x:Key="TaskQueue.MoveDown">아래로 이동</system:String>
+    <system:String x:Key="TaskQueue.MoveUp">위로 이동</system:String>
     <system:String x:Key="TaskQueue.MultiTasksShare.Tip">다음 옵션은 여러 작업에 적용됩니다</system:String>
     <system:String x:Key="TaskQueue.NotSwitch">미변경</system:String>
     <system:String x:Key="TaskQueue.OperProgress.Detail">{key=TaskQueue.Task.OperProgress} {0}:{1} {2}</system:String>
@@ -2126,6 +2128,7 @@ MAA는 비설치형 응용 프로그램으로, 삭제 시 레지스트리 항목
     <system:String x:Key="TaskQueue.PostAction.ExitArknights">명일방주를 종료</system:String>
     <system:String x:Key="TaskQueue.PostAction.ExitEmulator">에뮬레이터를 종료</system:String>
     <system:String x:Key="TaskQueue.PostAction.ExitEmulatorFailed">에뮬레이터 종료 실패</system:String>
+    <system:String x:Key="TaskQueue.PostAction.ExitPCClient">PC 클라이언트를 종료</system:String>
     <system:String x:Key="TaskQueue.PostAction.ExitSelf">MAA를 종료</system:String>
     <system:String x:Key="TaskQueue.PostAction.Hibernate">최대 절전 모드</system:String>
     <system:String x:Key="TaskQueue.PostAction.Hibernate.Prompt">작업이 완료되었으며, 곧 최대 절전 모드로 전환됩니다</system:String>

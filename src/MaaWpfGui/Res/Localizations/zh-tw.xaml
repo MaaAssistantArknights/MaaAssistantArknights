@@ -1270,8 +1270,8 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
     <system:String x:Key="Guide.Demo.Gate.CheckWeekDays">在週計畫中勾選 ｢週一｣ 與 ｢週日｣</system:String>
     <system:String x:Key="Guide.Demo.Gate.EnableWeekly">選中剿滅任務的齒輪，在 ｢{key=TaskQueue.AdvancedSettings}｣ 勾選 ｢{key=TaskQueue.UseWeeklySchedule}｣</system:String>
     <system:String x:Key="Guide.Demo.Gate.RenameFight">懸停新新增的 ｢{key=TaskQueue.Task.Fight}｣ 任務並重新命名，與預設任務區分</system:String>
-    <system:String x:Key="Guide.Demo.Gate.ReorderFight">按住重新命名後的 ｢{key=TaskQueue.Task.Fight}｣ 拖動，放到預設 ｢{key=TaskQueue.Task.Fight}｣ 上面</system:String>
-    <system:String x:Key="Guide.Demo.Gate.ReorderTheme">將 ｢{key=TaskQueue.Task.SwitchTheme}｣ 任務拖動到列表最後</system:String>
+    <system:String x:Key="Guide.Demo.Gate.ReorderFight">拖動重新命名後的 ｢{key=TaskQueue.Task.Fight}｣，或右鍵其齒輪選 ｢{key=TaskQueue.MoveUp}｣，移到預設 ｢{key=TaskQueue.Task.Fight}｣ 上面</system:String>
+    <system:String x:Key="Guide.Demo.Gate.ReorderTheme">拖動 ｢{key=TaskQueue.Task.SwitchTheme}｣ 任務，或右鍵其齒輪選 ｢{key=TaskQueue.MoveDown}｣，移到列表最後</system:String>
     <system:String x:Key="Guide.Demo.Gate.RestoreFight">列表需包含 ｢{key=TaskQueue.Task.Fight}｣ 任務，請透過 ｢{key=TaskQueue.AddTask}｣ 重新新增</system:String>
     <system:String x:Key="Guide.Demo.Gate.RestoreStartUp">列表需包含 ｢{key=TaskQueue.Task.StartUp}｣ 任務，請透過 ｢{key=TaskQueue.AddTask}｣ 重新新增</system:String>
     <system:String x:Key="Guide.Demo.Gate.SelectStage">點亮任務齒輪，將關卡選擇為 ｢{key=TaskQueue.Annihilation.Current}｣</system:String>
@@ -2101,6 +2101,8 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
     <system:String x:Key="TaskQueue.MainTasksNullFunctionality.Switch">可在 ｢{key=Settings.Title} - {key=Settings.Ui.Title} - {key=TaskQueue.MainTasksNullFunctionality}｣ 切換右鍵單擊效果</system:String>
     <system:String x:Key="TaskQueue.MainTasksNullFunctionality.Tip">預設僅一次生效，勾選後僅一次跳過</system:String>
     <system:String x:Key="TaskQueue.MainViewButtonFeature">主介面可選擇按鈕功能</system:String>
+    <system:String x:Key="TaskQueue.MoveDown">下移</system:String>
+    <system:String x:Key="TaskQueue.MoveUp">上移</system:String>
     <system:String x:Key="TaskQueue.MultiTasksShare.Tip">以下選項為多任務共用</system:String>
     <system:String x:Key="TaskQueue.NotSwitch">不切換</system:String>
     <system:String x:Key="TaskQueue.OperProgress.Detail">{key=TaskQueue.Task.OperProgress} {0}:{1} {2}</system:String>
@@ -2126,6 +2128,7 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
     <system:String x:Key="TaskQueue.PostAction.ExitArknights">關閉 明日方舟</system:String>
     <system:String x:Key="TaskQueue.PostAction.ExitEmulator">關閉 模擬器</system:String>
     <system:String x:Key="TaskQueue.PostAction.ExitEmulatorFailed">模擬器關閉失敗</system:String>
+    <system:String x:Key="TaskQueue.PostAction.ExitPCClient">關閉 PC 客戶端</system:String>
     <system:String x:Key="TaskQueue.PostAction.ExitSelf">關閉 MAA</system:String>
     <system:String x:Key="TaskQueue.PostAction.Hibernate">休眠</system:String>
     <system:String x:Key="TaskQueue.PostAction.Hibernate.Prompt">已執行完畢，即將休眠</system:String>

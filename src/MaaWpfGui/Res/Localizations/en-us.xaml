@@ -1269,8 +1269,8 @@ Cache files (such as maps, operator avatars, etc.) need to be regenerated after 
     <system:String x:Key="Guide.Demo.Gate.CheckWeekDays">Check Monday and Sunday in the weekly schedule.</system:String>
     <system:String x:Key="Guide.Demo.Gate.EnableWeekly">Toggle the Annihilation task's gear button and enable ｢{key=TaskQueue.UseWeeklySchedule}｣ under ｢{key=TaskQueue.AdvancedSettings}｣.</system:String>
     <system:String x:Key="Guide.Demo.Gate.RenameFight">Hover the newly added ｢{key=TaskQueue.Task.Fight}｣ task and rename it to tell it apart from the default one.</system:String>
-    <system:String x:Key="Guide.Demo.Gate.ReorderFight">Drag the renamed ｢{key=TaskQueue.Task.Fight}｣ task above the default one.</system:String>
-    <system:String x:Key="Guide.Demo.Gate.ReorderTheme">Drag the ｢{key=TaskQueue.Task.SwitchTheme}｣ task to the end of the list.</system:String>
+    <system:String x:Key="Guide.Demo.Gate.ReorderFight">Drag the renamed ｢{key=TaskQueue.Task.Fight}｣ task above the default one, or right-click its gear and use ｢{key=TaskQueue.MoveUp}｣.</system:String>
+    <system:String x:Key="Guide.Demo.Gate.ReorderTheme">Drag the ｢{key=TaskQueue.Task.SwitchTheme}｣ task to the end of the list, or right-click its gear and use ｢{key=TaskQueue.MoveDown}｣.</system:String>
     <system:String x:Key="Guide.Demo.Gate.RestoreFight">The list needs a ｢{key=TaskQueue.Task.Fight}｣ task. Add it back with ｢{key=TaskQueue.AddTask}｣.</system:String>
     <system:String x:Key="Guide.Demo.Gate.RestoreStartUp">The list needs a ｢{key=TaskQueue.Task.StartUp}｣ task. Add it back with ｢{key=TaskQueue.AddTask}｣.</system:String>
     <system:String x:Key="Guide.Demo.Gate.SelectStage">Toggle the task's gear button and set the stage to ｢{key=TaskQueue.Annihilation.Current}｣.</system:String>
@@ -2100,6 +2100,8 @@ Do not adjust the proxy multiplier setting in the game</system:String>
     <system:String x:Key="TaskQueue.MainTasksNullFunctionality.Switch">Switch right-click effect at ｢{key=Settings.Title} - {key=Settings.Ui.Title} - {key=TaskQueue.MainTasksNullFunctionality}｣</system:String>
     <system:String x:Key="TaskQueue.MainTasksNullFunctionality.Tip">Default: Apply once; Checked: Skip once</system:String>
     <system:String x:Key="TaskQueue.MainViewButtonFeature">Variable function button</system:String>
+    <system:String x:Key="TaskQueue.MoveDown">Move Down</system:String>
+    <system:String x:Key="TaskQueue.MoveUp">Move Up</system:String>
     <system:String x:Key="TaskQueue.MultiTasksShare.Tip">The following options are for multiple tasks.</system:String>
     <system:String x:Key="TaskQueue.NotSwitch">Don't Switch</system:String>
     <system:String x:Key="TaskQueue.OperProgress.Detail">{key=TaskQueue.Task.OperProgress} {0}:{1} {2}</system:String>
@@ -2125,6 +2127,7 @@ Do not adjust the proxy multiplier setting in the game</system:String>
     <system:String x:Key="TaskQueue.PostAction.ExitArknights">Exit Arknights</system:String>
     <system:String x:Key="TaskQueue.PostAction.ExitEmulator">Exit Emulator</system:String>
     <system:String x:Key="TaskQueue.PostAction.ExitEmulatorFailed">Emulator shutdown failed</system:String>
+    <system:String x:Key="TaskQueue.PostAction.ExitPCClient">Exit PC Client</system:String>
     <system:String x:Key="TaskQueue.PostAction.ExitSelf">Exit MAA</system:String>
     <system:String x:Key="TaskQueue.PostAction.Hibernate">Hibernate</system:String>
     <system:String x:Key="TaskQueue.PostAction.Hibernate.Prompt">Task(s) completed, about to hibernate</system:String>

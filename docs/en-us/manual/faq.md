@@ -72,7 +72,7 @@ On startup, MAA checks installation files against the file list bundled with the
 
 If MAA shows a compatibility warning on startup, or crashes / displays rendering anomalies, it is usually caused by third-party software (such as Nahimic) injecting DLLs into MAA. You can resolve this with any of the following methods:
 
-**Method 1: Block DLL injection via Windows Security (recommended)**
+#### Method 1: Block DLL injection via Windows Security (recommended)
 
 1. Open **Windows Security** → **App & browser control** → **Exploit protection** → **Exploit protection settings** → **Program settings**
 2. Click **Add program to customize**, choose **"Add by program name"** and enter `MAA.exe` (or choose **"Choose exact file path"** and locate `MAA.exe` in the MAA installation directory)
@@ -81,7 +81,7 @@ If MAA shows a compatibility warning on startup, or crashes / displays rendering
 
 This setting blocks third-party software from injecting DLLs into MAA at the system level, without affecting other programs.
 
-**Method 2: Rename the injected DLL**
+#### Method 2: Rename the injected DLL
 
 1. Locate the corresponding DLL file at the path shown in the warning (if you cannot see file extensions or the file itself, first enable **"File name extensions"** and **"Hidden items"** under **View → Show** at the top of File Explorer)
 2. Right-click the file → **Rename**, and change the `.dll` extension to an invalid one such as `.dll1`
@@ -90,7 +90,7 @@ This setting blocks third-party software from injecting DLLs into MAA at the sys
 This method may cause the related software to malfunction. Use it with caution. For more on the root cause, see the [related post](https://t.bilibili.com/1133690423484612615) and [blog](https://blog.walterlv.com/post/wpf-renders-wrong-because-of-nahimicosd.html).  
 :::
 
-**Method 3: Handle the related software**
+#### Method 3: Handle the related software
 
 Try adding MAA to the exclusion list of the related software, or uninstall the related software and check whether the problem persists.
 

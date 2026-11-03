@@ -1,4 +1,4 @@
-## v6.21.2
+## v6.21.3
 
 ### Highlights
 
@@ -52,6 +52,34 @@ Auto formation now matches operators on the current page first, reducing paging;
 以下是详细内容：
 
 <details open>
+<summary><b>v6.21.3 (2026-11-04)</b></summary>
+
+### 新增 | New
+
+* 任务齿轮右键菜单新增 ｢上移/下移｣，环境异常或触屏设备无法拖动排序时可改用菜单调整任务顺序 @ABA2396
+* PC 端 完成后动作新增 ｢退出 PC 客户端｣，各退出选项按连接方式分开保存，切换连接配置时不再改写 ([#18687](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18687)) @LemonMars
+
+### 改进 | Improved
+
+* 繁中服适配幸运墙搓玉活动界面的识别文字 ([#19059](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/19059)) @momomochi987
+
+### 修复 | Fix
+
+* 修复黑流树海第五层每次回到地图都左滑的问题 ([#19064](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/19064)) @ZiyinLin
+* 修复黑流树海点击 ｢出发前往｣ 后未等待 loading 的问题 @ZiyinLin
+* 黑流树海事件 ｢和平守卫者｣ 改选 ｢离开队伍｣ @ZiyinLin
+* 修复重看设置指引取消重启后状态未完全归位的问题 @ABA2396
+* 繁中服修复干员 ｢凯尔希·思衡托｣ 无法识别的问题，新增干员 ｢GALLUS²｣ 识别 ([#19055](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/19055)) @Neko-no-akuma-TW
+* 繁中服修复生息演算产出 ｢萤光棒｣ 识别的 OCR 误读 ([#19059](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/19059)) @momomochi987
+
+### 其他 | Other
+
+* CI Android Core 构建改用 Ubuntu runner ([#19053](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/19053)) @Aliothmoon
+* CI Markdown 格式化工具由 Prettier 改为 markdownlint，表格恢复紧凑样式 @Rbqwow
+
+</details>
+
+<details>
 <summary><b>v6.21.2 (2026-11-03)</b></summary>
 
 ### 改进 | Improved

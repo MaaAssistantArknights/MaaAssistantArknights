@@ -149,11 +149,11 @@ VSCode를 선호한다면 CMake, clangd 등의 확장을 사용해 코드 완성
 
 VS Code Marketplace에서 설치:
 
-| 확장                                                                                                | 용도                                                      |
+| 확장 | 용도 |
 | --------------------------------------------------------------------------------------------------- | --------------------------------------------------------- |
-| [CMake Tools](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cmake-tools)            | CMake 설정, 빌드, 디버깅 통합                             |
-| [clangd](https://marketplace.visualstudio.com/items?itemName=llvm-vs-code-extensions.vscode-clangd) | C++ IntelliSense, 코드 탐색, 진단 (LSP 기반)              |
-| [C/C++](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools)                     | C++ 프로그램 디버깅 (CMake Tools 또는 launch.json과 연동) |
+| [CMake Tools](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cmake-tools) | CMake 설정, 빌드, 디버깅 통합 |
+| [clangd](https://marketplace.visualstudio.com/items?itemName=llvm-vs-code-extensions.vscode-clangd) | C++ IntelliSense, 코드 탐색, 진단 (LSP 기반) |
+| [C/C++](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools) | C++ 프로그램 디버깅 (CMake Tools 또는 launch.json과 연동) |
 
 ::: tip  
 clangd 사용 시 C/C++ 확장의 IntelliSense를 비활성화(`C_Cpp.intelliSenseEngine`을 `disabled`로 설정)하는 것을 권장합니다. 충돌을 피하기 위함입니다.  
@@ -199,13 +199,13 @@ MAA는 리포지토리의 코드 및 리소스 파일들을 아름답고 일관�
 
 현재 활성화된 포매팅 도구는 다음과 같습니다:
 
-| 파일 유형 | 포매팅 도구                                                     |
+| 파일 유형 | 포매팅 도구 |
 | --------- | --------------------------------------------------------------- |
-| C++       | [clang-format](https://clang.llvm.org/docs/ClangFormat.html)    |
-| JSON/YAML | [Prettier](https://prettier.io/)                                |
-| Markdown  | [markdownlint](https://github.com/DavidAnson/markdownlint-cli2) |
-| Python    | [ruff-format](https://docs.astral.sh/ruff/formatter/)           |
-| PNG       | [oxipng](https://github.com/oxipng/oxipng)                      |
+| C++ | [clang-format](https://clang.llvm.org/docs/ClangFormat.html) |
+| JSON/YAML | [Prettier](https://prettier.io/) |
+| Markdown | [markdownlint](https://github.com/DavidAnson/markdownlint-cli2) |
+| Python | [ruff-format](https://docs.astral.sh/ruff/formatter/) |
+| PNG | [oxipng](https://github.com/oxipng/oxipng) |
 
 ### Pre-commit Hooks를 사용하여 자동 포매팅을 활성화
 
