@@ -183,8 +183,7 @@ bool asst::OperProgressProcessTask::_run()
         if (target.elite) {
             auto elite_ret = execute_elite(target.role, target.name, *target.elite);
             json::array materials;
-            if (elite_ret == ResultDetail::ResourceInsufficient || elite_ret == ResultDetail::FormulaLocked ||
-                elite_ret == ResultDetail::ChipNotCraftable) {
+            if (is_material_shortage(elite_ret)) {
                 materials = collect_missing_materials(OperProgressAction::Elite);
                 ready = restore_operator_files();
                 if (need_exit()) {
@@ -200,8 +199,7 @@ bool asst::OperProgressProcessTask::_run()
         if (target.skill_level) {
             auto main_ret = execute_skill(*target.skill_level);
             json::array materials;
-            if (main_ret == ResultDetail::ResourceInsufficient || main_ret == ResultDetail::FormulaLocked ||
-                main_ret == ResultDetail::ChipNotCraftable) {
+            if (is_material_shortage(main_ret)) {
                 materials = collect_missing_materials(OperProgressAction::MainSkillLevel);
                 ready = restore_operator_files();
                 if (need_exit()) {
@@ -223,8 +221,7 @@ bool asst::OperProgressProcessTask::_run()
                 int training_level = 0;
                 auto skill_ret = execute_mastery(target.role, target.name, i + 1, arr[i], training_level);
                 json::array materials;
-                if (skill_ret == ResultDetail::ResourceInsufficient || skill_ret == ResultDetail::FormulaLocked ||
-                    skill_ret == ResultDetail::ChipNotCraftable) {
+                if (is_material_shortage(skill_ret)) {
                     materials = collect_missing_materials(OperProgressAction::Mastery);
                     ready = restore_operator_files();
                     if (need_exit()) {
@@ -1141,20 +1138,28 @@ bool asst::OperProgressProcessTask::reset_trainer_list_page()
     return false;
 }
 
+bool asst::OperProgressProcessTask::is_material_shortage(ResultDetail result)
+{
+    return result == ResultDetail::ResourceInsufficient || result == ResultDetail::FormulaLocked ||
+           result == ResultDetail::ChipNotCraftable;
+}
+
 bool asst::OperProgressProcessTask::restore_operator_files()
 {
     // 后续步骤从档案页读取进度，不能沿用缺料页面；恢复失败则不继续本计划。
-    if (!need_exit()) {
-        ProcessTask returning(*this, { "OperProgress@OperFiles", "OperProgress@ReturnToOperFilesPage" });
-        returning.set_times_limit("OperProgress@ReturnToOperFilesPage", 5).set_retry_times(1).run();
-        if (!need_exit() && detect_task(ctrler()->get_image(), "OperProgress@OperFiles")) {
-            return true;
-        }
+    if (need_exit()) {
+        return false;
     }
-    if (!need_exit()) {
+    ProcessTask returning(*this, { "OperProgress@OperFiles", "OperProgress@ReturnToOperFilesPage" });
+    returning.set_times_limit("OperProgress@ReturnToOperFilesPage", 5).set_retry_times(1).run();
+    if (need_exit()) {
+        return false;
+    }
+    const bool ready = detect_task(ctrler()->get_image(), "OperProgress@OperFiles");
+    if (!ready && !need_exit()) {
         LogWarn << __FUNCTION__ << "| failed to restore operator files, skip remaining steps";
     }
-    return false;
+    return ready;
 }
 
 json::array asst::OperProgressProcessTask::collect_missing_materials(OperProgressAction action)

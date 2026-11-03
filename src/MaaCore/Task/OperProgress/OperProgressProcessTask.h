@@ -90,6 +90,7 @@ private:
     std::optional<int> training_skill_mastery_level(const cv::Mat& image, int skill);
     // 通过切换职业栏标签把基建干员列表复位到第一页，参照 InfrastAbstractTask::swipe_to_the_left_of_operlist。
     bool reset_trainer_list_page();
+    static bool is_material_shortage(ResultDetail result);
     bool restore_operator_files();
     bool run_task(const std::string& task_name, int retry_times = RetryTimesDefault);
     bool run_task(std::vector<std::string> tasks, int retry_times = RetryTimesDefault);
