@@ -28,6 +28,7 @@ using HandyControl.Controls;
 using HandyControl.Data;
 using JetBrains.Annotations;
 using MaaWpfGui.Configuration.Factory;
+using MaaWpfGui.Configuration.Global;
 using MaaWpfGui.Configuration.Single.MaaTask;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Constants.Enums;
@@ -46,7 +47,6 @@ using Serilog;
 using Stylet;
 using Stylet.Xaml;
 using static MaaWpfGui.Extensions.LocalizationKeyExtensions;
-using static MaaWpfGui.Main.AsstProxy;
 using ComboBox = System.Windows.Controls.ComboBox;
 using Timer = System.Timers.Timer;
 
@@ -727,8 +727,8 @@ public class SettingsViewModel : Screen
         RestoreStartUp,
         RestoreFight,
         AddFight,
-        RenameFight,
         SelectStage,
+        RenameFight,
         ReorderFight,
         EnableWeekly,
         CheckWeekDays,
@@ -823,10 +823,10 @@ public class SettingsViewModel : Screen
     public bool GuideStageBadgeVisible => GuideGateStep == GuideGate.SelectStage;
 
     /// <summary>
-    /// Gets ｢高级设置｣ 切换按钮的红点是否显示：下一步为 ｢启用周计划｣ 且尚未切到高级页时。
+    /// Gets ｢高级设置｣ 切换按钮的红点是否显示：下一步为周计划相关步骤且尚未切到高级页时。
     /// </summary>
     [PropertyDependsOn(nameof(GuideGateStep), nameof(GuideDemoAdvancedSettings))]
-    public bool GuideAdvancedBadgeVisible => GuideGateStep == GuideGate.EnableWeekly && !GuideDemoAdvancedSettings;
+    public bool GuideAdvancedBadgeVisible => GuideGateStep is GuideGate.EnableWeekly or GuideGate.CheckWeekDays && !GuideDemoAdvancedSettings;
 
     /// <summary>
     /// Gets ｢启用周计划｣ 开关的红点是否显示：下一步为 ｢启用周计划｣ 时。
@@ -859,22 +859,36 @@ public class SettingsViewModel : Screen
     public bool GuideSwitchThemeMenuBadgeVisible => GuideGateStep == GuideGate.AddSwitchTheme;
 
     /// <summary>
-    /// Gets 演示关卡选择是否可编辑：仅在 ｢改关卡｣ 步骤与引导完成后（流程锁，非白名单步骤控件禁用）。
+    /// Gets 演示关卡选择是否可编辑：仅在 ｢改关卡｣ 步骤（流程锁白名单，其余步骤控件禁用）。
     /// </summary>
     [PropertyDependsOn(nameof(GuideGateStep))]
-    public bool GuideStageEditingAllowed => GuideGateStep is GuideGate.SelectStage or GuideGate.None;
+    public bool GuideStageEditingAllowed => GuideGateStep == GuideGate.SelectStage;
 
     /// <summary>
-    /// Gets 演示周计划是否可编辑：仅在周计划相关步骤与引导完成后。
+    /// Gets 演示周计划是否可编辑：仅在周计划相关步骤。
     /// </summary>
     [PropertyDependsOn(nameof(GuideGateStep))]
-    public bool GuideWeeklyEditingAllowed => GuideGateStep is GuideGate.EnableWeekly or GuideGate.CheckWeekDays or GuideGate.None;
+    public bool GuideWeeklyEditingAllowed => GuideGateStep is GuideGate.EnableWeekly or GuideGate.CheckWeekDays;
 
     /// <summary>
-    /// Gets 演示主题列表是否可编辑：仅在 ｢添加夜间主题｣ 步骤与引导完成后。
+    /// Gets 演示主题列表是否可编辑：仅在 ｢添加夜间主题｣ 步骤。
     /// </summary>
     [PropertyDependsOn(nameof(GuideGateStep))]
-    public bool GuideThemeEditingAllowed => GuideGateStep is GuideGate.AddNightTheme or GuideGate.None;
+    public bool GuideThemeEditingAllowed => GuideGateStep == GuideGate.AddNightTheme;
+
+    /// <summary>
+    /// Gets 演示 ｢添加任务｣ 按钮是否可用：仅在添加类步骤（含补回类），按钮禁用时菜单不可展开。
+    /// </summary>
+    [PropertyDependsOn(nameof(GuideGateStep))]
+    public bool GuideAddTaskEnabled => GuideGateStep
+        is GuideGate.AddFight or GuideGate.RestoreFight
+        or GuideGate.AddSwitchTheme or GuideGate.RestoreStartUp;
+
+    /// <summary>
+    /// Gets 演示任务的 ｢重命名｣ 按钮是否可用：仅在 ｢重命名｣ 步骤。
+    /// </summary>
+    [PropertyDependsOn(nameof(GuideGateStep))]
+    public bool GuideRenameTaskEnabled => GuideGateStep == GuideGate.RenameFight;
 
     /// <summary>
     /// 流程锁判定下 gate 步骤对应 ｢下一步操作涉及的任务｣：改关卡指向新添加的理智作战（append 在列表尾部），
@@ -937,6 +951,7 @@ public class SettingsViewModel : Screen
     {
         TaskSettingVisibilities.Guide = false;
         GuideStepIndex = GuideMaxStep;
+        ConfigFactory.Root.Gui.GuideTutorialVersion = Gui.CurrentGuideTutorialVersion;
     }
 
     // UI 绑定的方法
@@ -945,6 +960,7 @@ public class SettingsViewModel : Screen
     {
         GuideStepIndex = 0;
         GuideUserAgreementOpened = false;
+        ResetGuideDemoTasks();
         TaskSettingVisibilities.Guide = true;
         var result = MessageBoxHelper.Show(
             LocalizationHelper.GetString("Guide.RestartPrompt"),
@@ -1032,7 +1048,7 @@ public class SettingsViewModel : Screen
         }
 
         GuideDemoTasks.Clear();
-        foreach (var type in new[] { TaskType.StartUp, TaskType.Fight })
+        foreach (var type in new[] { AsstProxy.TaskType.StartUp, AsstProxy.TaskType.Fight })
         {
             var item = new GuideDemoTaskItem(type);
             AttachGuideDemoTask(item);
@@ -1068,17 +1084,16 @@ public class SettingsViewModel : Screen
 
         // 任务链名与类型名同构（XxxTask → Xxx），链名解析为 TaskType 后构造演示项
         var chainName = taskType.Name.EndsWith("Task", StringComparison.Ordinal) ? taskType.Name[..^"Task".Length] : taskType.Name;
-        if (!Enum.TryParse(chainName, out TaskType type))
+        if (!Enum.TryParse(chainName, out AsstProxy.TaskType type))
         {
             return;
         }
 
         var allowed = GuideGateStep switch
         {
-            GuideGate.AddFight or GuideGate.RestoreFight => type == TaskType.Fight,
-            GuideGate.RestoreStartUp => type == TaskType.StartUp,
-            GuideGate.AddSwitchTheme => type == TaskType.SwitchTheme,
-            GuideGate.None => true,
+            GuideGate.AddFight or GuideGate.RestoreFight => type == AsstProxy.TaskType.Fight,
+            GuideGate.RestoreStartUp => type == AsstProxy.TaskType.StartUp,
+            GuideGate.AddSwitchTheme => type == AsstProxy.TaskType.SwitchTheme,
             _ => false,
         };
         if (!allowed)
@@ -1092,7 +1107,7 @@ public class SettingsViewModel : Screen
         GuideDemoTasks.Add(item);
     }
 
-    // UI 绑定的方法
+    // UI 绑定的方法（复制按钮常灰，此处拦截旁路调用）
     [UsedImplicitly]
     public void CopyGuideDemoTask(GuideDemoTaskItem taskItem)
     {
@@ -1101,50 +1116,8 @@ public class SettingsViewModel : Screen
             return;
         }
 
-        // 流程锁：引导过程中不允许复制（副本的继承设置会引入流程外状态），完成后自由
-        if (GuideGateStep != GuideGate.None)
-        {
-            NotifyGuideOperationBlocked();
-            return;
-        }
-
-        var index = GuideDemoTasks.IndexOf(taskItem);
-        if (index < 0)
-        {
-            return;
-        }
-
-        if (GuideDemoTasks.Count >= GuideDemoTaskLimit)
-        {
-            NotifyGuideDemoTaskLimit();
-            return;
-        }
-
-        // 与真实 CopyTask 一致：副本为自定义名（原显示名 + " (2)"）、插在原项后、继承勾选状态；演示设置随副本复制
-        var copy = new GuideDemoTaskItem(taskItem.TaskType)
-        {
-            Name = taskItem.Name + " (2)",
-            IsChecked = taskItem.IsChecked,
-            DemoStage = taskItem.DemoStage,
-            DemoUseWeeklySchedule = taskItem.DemoUseWeeklySchedule,
-            DemoStartGame = taskItem.DemoStartGame,
-        };
-
-        foreach (var (source, target) in taskItem.DemoWeeklySchedule.Zip(copy.DemoWeeklySchedule, (source, target) => (source, target)))
-        {
-            target.Value = source.Value;
-        }
-
-        if (taskItem.DemoThemes is { } themes && copy.DemoThemes is { } copyThemes)
-        {
-            foreach (var theme in themes)
-            {
-                copyThemes.Add(new GuideDemoThemeItem(theme.Name));
-            }
-        }
-
-        AttachGuideDemoTask(copy);
-        GuideDemoTasks.Insert(index + 1, copy);
+        // 流程锁：教程内恒禁复制（无对应教学步骤，副本会引入流程外状态）
+        NotifyGuideOperationBlocked();
     }
 
     // UI 绑定的方法
@@ -1160,19 +1133,12 @@ public class SettingsViewModel : Screen
         themes.Add(new GuideDemoThemeItem(GuideNightThemeName));
     }
 
-    // UI 绑定的方法
+    // UI 绑定的方法（删除按钮按白名单禁用，此处拦截右键等旁路调用）
     [UsedImplicitly]
     public void RemoveGuideDemoTheme(GuideDemoThemeItem themeItem)
     {
-        // 流程锁：引导过程中不允许删除主题（含按钮禁用，此处拦截右键等旁路调用），完成后自由
-        if (GuideGateStep != GuideGate.None)
-        {
-            NotifyGuideOperationBlocked();
-            return;
-        }
-
-        var owner = GuideDemoTasks.FirstOrDefault(t => t.DemoThemes?.Contains(themeItem) == true);
-        owner?.DemoThemes?.Remove(themeItem);
+        // 流程锁：教程内恒禁删除主题（无对应教学步骤）
+        NotifyGuideOperationBlocked();
     }
 
     // UI 绑定的方法
@@ -1184,7 +1150,7 @@ public class SettingsViewModel : Screen
             return;
         }
 
-        if (GuideGateStep != GuideGate.None && (GuideGateStep != GuideGate.RenameFight || taskItem != GuideTargetTask(GuideGateStep)))
+        if (GuideGateStep != GuideGate.RenameFight || taskItem != GuideTargetTask(GuideGateStep))
         {
             NotifyGuideOperationBlocked();
             return;
@@ -1206,7 +1172,7 @@ public class SettingsViewModel : Screen
         taskItem.Name = newName;
     }
 
-    // UI 绑定的方法
+    // UI 绑定的方法（删除按钮常灰，此处拦截旁路调用）
     [UsedImplicitly]
     public void RemoveGuideDemoTask(GuideDemoTaskItem taskItem)
     {
@@ -1215,15 +1181,8 @@ public class SettingsViewModel : Screen
             return;
         }
 
-        if (GuideGateStep != GuideGate.None)
-        {
-            NotifyGuideOperationBlocked();
-            return;
-        }
-
-        GuideDemoTasks.Remove(taskItem);
-        DetachGuideDemoTask(taskItem);
-        (taskItem as IDisposable)?.Dispose();
+        // 流程锁：教程内恒禁删除任务（无对应教学步骤）
+        NotifyGuideOperationBlocked();
     }
 
     // UI 绑定的方法
@@ -1284,7 +1243,7 @@ public class SettingsViewModel : Screen
     /// </summary>
     private GuideGate ComputeGuideGateStep()
     {
-        if (!GuideDemoTasks.Any(t => t.TaskType == TaskType.StartUp))
+        if (!GuideDemoTasks.Any(t => t.TaskType == AsstProxy.TaskType.StartUp))
         {
             return GuideGate.RestoreStartUp;
         }
@@ -1303,7 +1262,8 @@ public class SettingsViewModel : Screen
             return fights.Count >= 2 ? GuideGate.SelectStage : GuideGate.AddFight;
         }
 
-        if (!annihilationFight.HasCustomName)
+        // 重命名步的终态是 ｢与默认任务区分｣：显示名仍是任务类型的本地化名（未改名或改成同名）即未完成
+        if (annihilationFight.Name == LocalizationHelper.GetString(annihilationFight.LocalizationKey))
         {
             return GuideGate.RenameFight;
         }
@@ -1333,7 +1293,7 @@ public class SettingsViewModel : Screen
             return GuideGate.AddSwitchTheme;
         }
 
-        if (GuideDemoTasks[^1].TaskType != TaskType.SwitchTheme)
+        if (GuideDemoTasks[^1].TaskType != AsstProxy.TaskType.SwitchTheme)
         {
             return GuideGate.ReorderTheme;
         }

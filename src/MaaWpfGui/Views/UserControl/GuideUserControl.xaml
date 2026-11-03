@@ -299,6 +299,7 @@
                                                                         Command="{s:Action CopyGuideDemoTask,
                                                                                            Target={x:Static helper:Instances.SettingsViewModel}}"
                                                                         CommandParameter="{Binding}"
+                                                                        IsEnabled="False"
                                                                         Style="{StaticResource TaskActionButtonStyle}"
                                                                         ToolTip="{DynamicResource Common.Copy}" />
                                                                     <Button
@@ -306,6 +307,7 @@
                                                                         Command="{s:Action RenameGuideDemoTask,
                                                                                            Target={x:Static helper:Instances.SettingsViewModel}}"
                                                                         CommandParameter="{Binding}"
+                                                                        IsEnabled="{Binding GuideRenameTaskEnabled, Source={x:Static helper:Instances.SettingsViewModel}}"
                                                                         Style="{StaticResource TaskActionButtonStyle}"
                                                                         ToolTip="{DynamicResource TaskQueue.Rename}" />
                                                                     <Button
@@ -313,6 +315,7 @@
                                                                         Command="{s:Action RemoveGuideDemoTask,
                                                                                            Target={x:Static helper:Instances.SettingsViewModel}}"
                                                                         CommandParameter="{Binding}"
+                                                                        IsEnabled="False"
                                                                         Style="{StaticResource TaskActionButtonStyle}"
                                                                         ToolTip="{DynamicResource Common.Delete}" />
                                                                 </StackPanel>
@@ -371,17 +374,20 @@
                                                                                     Command="{s:Action CopyGuideDemoTask,
                                                                                                        Target={x:Static helper:Instances.SettingsViewModel}}"
                                                                                     CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
-                                                                                    Header="{DynamicResource Common.Copy}" />
+                                                                                    Header="{DynamicResource Common.Copy}"
+                                                                                    IsEnabled="False" />
                                                                                 <MenuItem
                                                                                     Command="{s:Action RenameGuideDemoTask,
                                                                                                        Target={x:Static helper:Instances.SettingsViewModel}}"
                                                                                     CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
-                                                                                    Header="{DynamicResource TaskQueue.Rename}" />
+                                                                                    Header="{DynamicResource TaskQueue.Rename}"
+                                                                                    IsEnabled="{Binding GuideRenameTaskEnabled, Source={x:Static helper:Instances.SettingsViewModel}}" />
                                                                                 <MenuItem
                                                                                     Command="{s:Action RemoveGuideDemoTask,
                                                                                                        Target={x:Static helper:Instances.SettingsViewModel}}"
                                                                                     CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
-                                                                                    Header="{DynamicResource Common.Delete}" />
+                                                                                    Header="{DynamicResource Common.Delete}"
+                                                                                    IsEnabled="False" />
                                                                             </ContextMenu>
                                                                         </RadioButton.ContextMenu>
                                                                     </RadioButton>
@@ -411,6 +417,7 @@
                                                     hc:IconElement.Geometry="{StaticResource TaskQueueAddTaskIcon}"
                                                     AutomationProperties.Name="{DynamicResource TaskQueue.AddTask}"
                                                     Foreground="{DynamicResource PrimaryTextBrush}"
+                                                    IsEnabled="{Binding GuideAddTaskEnabled, Source={x:Static helper:Instances.SettingsViewModel}}"
                                                     Style="{StaticResource MaaButtonDefaultStyle}"
                                                     ToolTip="{DynamicResource TaskQueue.AddTask}">
                                                     <controls:MenuButton.PopupContent>
@@ -571,7 +578,7 @@
                                             <ComboBox
                                                 Height="30"
                                                 DisplayMemberPath="Display"
-                                                IsHitTestVisible="{c:Binding GuideStageEditingAllowed}"
+                                                IsEnabled="{c:Binding GuideStageEditingAllowed}"
                                                 ItemsSource="{Binding GuideDemoStageList}"
                                                 SelectedValue="{Binding SelectedGuideDemoTask.DemoStage}"
                                                 SelectedValuePath="Value" />

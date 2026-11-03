@@ -16,11 +16,11 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
+using MaaWpfGui.Main;
 using MaaWpfGui.Utilities;
 using MaaWpfGui.ViewModels;
 using MaaWpfGui.ViewModels.UserControl.Settings;
 using Stylet;
-using static MaaWpfGui.Main.AsstProxy;
 
 namespace MaaWpfGui.Models;
 
@@ -48,38 +48,38 @@ public class GuideDemoTaskItem : PropertyChangedBase, IDisposable
     /// Initializes a new instance of the <see cref="GuideDemoTaskItem"/> class.
     /// </summary>
     /// <param name="taskType">演示任务的任务类型。</param>
-    public GuideDemoTaskItem(TaskType taskType)
+    public GuideDemoTaskItem(AsstProxy.TaskType taskType)
     {
         TaskType = taskType;
         PropertyDependsOnUtility.InitializePropertyDependencies(this);
 
         // 周计划默认全不勾（真实默认全勾，照搬则引导的勾选操作无步骤可做）
-        DemoWeeklySchedule = taskType == TaskType.Fight
+        DemoWeeklySchedule = taskType == AsstProxy.TaskType.Fight
             ? [.. Enum.GetValues<DayOfWeek>().Select(day => new WeeklyScheduleItem(day) { Value = false })]
             : [];
 
-        DemoThemes = taskType == TaskType.SwitchTheme ? [] : null!;
+        DemoThemes = taskType == AsstProxy.TaskType.SwitchTheme ? [] : null!;
     }
 
     /// <summary>
     /// Gets the demo task type，右侧演示设置面板与引导 gate 判定按此分支。
     /// </summary>
-    public TaskType TaskType { get; }
+    public AsstProxy.TaskType TaskType { get; }
 
     /// <summary>
     /// Gets a value indicating whether the task is a StartUp task（右侧设置面板切换用）。
     /// </summary>
-    public bool IsStartUpTask => TaskType == TaskType.StartUp;
+    public bool IsStartUpTask => TaskType == AsstProxy.TaskType.StartUp;
 
     /// <summary>
     /// Gets a value indicating whether the task is a Fight task（右侧设置面板切换用）。
     /// </summary>
-    public bool IsFightTask => TaskType == TaskType.Fight;
+    public bool IsFightTask => TaskType == AsstProxy.TaskType.Fight;
 
     /// <summary>
     /// Gets a value indicating whether the task is a SwitchTheme task（右侧设置面板切换用）。
     /// </summary>
-    public bool IsSwitchThemeTask => TaskType == TaskType.SwitchTheme;
+    public bool IsSwitchThemeTask => TaskType == AsstProxy.TaskType.SwitchTheme;
 
     /// <summary>
     /// Gets the localization resource key of the task type；重命名不改变本值（名称走自定义文本），
@@ -108,11 +108,6 @@ public class GuideDemoTaskItem : PropertyChangedBase, IDisposable
         get => _isChecked;
         set => SetAndNotify(ref _isChecked, value);
     }
-
-    /// <summary>
-    /// Gets a value indicating whether the task carries a custom name（重命名/复制产生），引导 gate 的重命名判定用。
-    /// </summary>
-    public bool HasCustomName => _customName.Length > 0;
 
     /// <summary>
     /// Gets or sets a value indicating whether the demo task's gear button is toggled on.

@@ -102,19 +102,24 @@ public class Gui : NotifyPropertyChangedWithValue, IJsonOnDeserialized
     public int GuideStep { get; set; } = 0;
 
     /// <summary>
-    /// 设置指引教程版本号。升级到新版本教程（步骤重排、新增引导门槛等）时递增此值，
-    /// 配合 <see cref="OnDeserialized"/> 让已完成教程的用户按 <c>SettingsViewModel.GuideTutorialResetStepIndex</c> 重新走一遍。
+    /// 当前教程版本号。升级到新版本教程（步骤重排、新增引导门槛等）时递增此值，
+    /// 已完成教程的用户经 <see cref="OnDeserialized"/> 按 <c>SettingsViewModel.GuideTutorialResetStepIndex</c> 重走一遍。
+    /// </summary>
+    public const int CurrentGuideTutorialVersion = 2;
+
+    /// <summary>
+    /// 设置指引教程版本号，用户已完成到的教程版本；完成教程时由 DoneGuide 写入 <see cref="CurrentGuideTutorialVersion"/>。
     /// </summary>
     public int GuideTutorialVersion { get; set; } = 1;
 
     /// <summary>
     /// 教程版本迁移：旧版本教程完成的用户（GuideStep 为完成值）重置到预留的重置目标步，仅触发一次。
+    /// 新装用户首次运行不经反序列化不触发本方法，版本号由 DoneGuide 完成时标记。
     /// </summary>
     [UsedImplicitly]
     public void OnDeserialized()
     {
-        const int currentTutorialVersion = 2;
-        if (GuideTutorialVersion >= currentTutorialVersion)
+        if (GuideTutorialVersion >= CurrentGuideTutorialVersion)
         {
             return;
         }
@@ -124,7 +129,7 @@ public class Gui : NotifyPropertyChangedWithValue, IJsonOnDeserialized
             GuideStep = ViewModels.UI.SettingsViewModel.GuideTutorialResetStepIndex;
         }
 
-        GuideTutorialVersion = currentTutorialVersion;
+        GuideTutorialVersion = CurrentGuideTutorialVersion;
     }
 
     public Background Background { get; set; } = new();
