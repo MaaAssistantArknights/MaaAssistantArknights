@@ -1041,6 +1041,11 @@ public class SettingsViewModel : Screen
     /// </summary>
     public void ResetGuideDemoTasks()
     {
+        // 先归位流程锁残留状态（RestartGuide 不重启时复用同一实例，armed/上次合法齿轮仍指向上轮），
+        // 使下方初始选中落位与构造路径一致，不被流程锁拦截；armed 在落位后重新启用
+        _guideFlowLockArmed = false;
+        _guideLastAllowedGear = null;
+
         foreach (var task in GuideDemoTasks)
         {
             DetachGuideDemoTask(task);
