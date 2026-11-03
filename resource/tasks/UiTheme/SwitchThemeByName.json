@@ -103,6 +103,7 @@
         "templThreshold": [0.7, 0.7],
         "action": "ClickSelf",
         "roi": [0, 0, 180, 80],
-        "next": ["Stop"]
+        "postDelay": 1000,
+        "next": ["#self", "Stop"]
     }
 }

@@ -42,6 +42,7 @@
     "SwitchTheme@ReturnTheme": {
         "baseTask": "ReturnButton",
         "template": ["Return.png", "Return-White.png"],
-        "next": ["#next"]
+        "postDelay": 1000,
+        "next": ["#self", "#next"]
     }
 }
