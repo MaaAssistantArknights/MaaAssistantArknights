@@ -948,8 +948,8 @@
     },
     "BlackFlow@Roguelike@MapPrepare-Floor5Swipe": {
         "Doc": [
-            "第五层地图最右列会被界面遮挡，首次进层建图前沿 y=615 从 x=766 向左滑到 x=584 两次，把地图整体挪开。",
-            "地图有中心吸附，滑过头也会吸回左侧中心点，所以重复滑动是安全的；建图成功后 map().floor() 已是 5，之后的地图准备不再滑动。"
+            "第五层地图最右列会被界面遮挡，每次识别地图前沿 y=615 从 x=766 向左滑到 x=584 两次，把地图整体挪开。",
+            "从节点出来后地图有概率会回到原位，所以不只进层时滑；地图有中心吸附，滑过头也会吸回左侧中心点，重复滑动是安全的。"
         ],
         "algorithm": "JustReturn",
         "sub": ["BlackFlow@Roguelike@MapPrepare-Floor5SwipeOnce*2"],
@@ -980,7 +980,7 @@
     },
     "BlackFlow@Roguelike@MapPrepare-Ready": {
         "Doc": [
-            "本任务的完成回调注册了 BlackFlowRoutingTaskPlugin，由它按楼层和建图状态改写 MapPrepare-ReadyAction 的 baseTask。",
+            "本任务的完成回调注册了 BlackFlowRoutingTaskPlugin，由它按当前楼层改写 MapPrepare-ReadyAction 的 baseTask。",
             "以本任务为 baseTask 的派生任务必须自己覆盖 next：派生任务以自己的名字执行，插件收不到回调，若沿用本任务的 next 会带着上一次改写结果进入 ReadyAction。"
         ],
         "template": "BlackFlow@Roguelike@MapZoomIn.png",
@@ -990,7 +990,7 @@
         "reduceOtherTimes": ["BlackFlow@Roguelike@MapPrepare-ZoomOut*3", "BlackFlow@Roguelike@MovementInventoryClose*3"]
     },
     "BlackFlow@Roguelike@MapPrepare-ReadyAction": {
-        "Doc": "占位任务，默认转入 Routing-Enter；第五层首次建图前由插件改指 MapPrepare-Floor5Swipe。",
+        "Doc": "占位任务，默认转入 Routing-Enter；在第五层由插件改指 MapPrepare-Floor5Swipe。",
         "baseTask": "BlackFlow@Roguelike@Routing-Enter"
     },
     "BlackFlow@Roguelike@MapPrepare-ZoomOut": {
