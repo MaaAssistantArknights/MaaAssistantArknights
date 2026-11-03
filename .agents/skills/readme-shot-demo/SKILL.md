@@ -23,14 +23,18 @@ MAA GUI 内置演示模式：加载 `tools/ReadmeShotDemo/readme-demo-data.json`
 1. **前置检查**：`build/bin/Debug/MAA.exe` 的 mtime 须新于 `src/MaaWpfGui` 的最新提交，过期则先 `dotnet build src/MaaWpfGui/MaaWpfGui.csproj -r win-x64`（禁 `--no-self-contained` 与裸 `-o`）。
 2. **界面基线**：演示不写配置，界面开关与参数取 MAA.exe 所在目录 `config/gui.new.json` 的现状（如干员识别头像模式 `OperBoxAvatarMode`、理智作战各参数）。README 图需要展示某个状态（如头像模式）时，先确认该基线已处于期望状态。
 3. **截图**：
+
    ```bash
    ./build/bin/Debug/MAA.exe --demo tools/ReadmeShotDemo/readme-demo-data.json --shots "Z:\\maa\\test\\readmeshot"
    ```
+
    只更新部分页面时输出到临时目录，核对内容后仅拷贝目标页到 `docs/.vuepress/public/images/<lang>/readme/`；全部重截可让 `--shots` 直接指向 `docs/.vuepress/public/images`。
 4. **压缩**：`pre-commit run oxipng --files <图片路径>`（参数 `-q -o 2 -s --ng`）。钩子从源码编译 oxipng，本机可能因缺 dlltool 编译失败；此时用 pre-commit 缓存里的同版本产物手动等价跑：
+
    ```bash
    C:/Users/uyee/.cache/pre-commit/repovrlh11g5/target/release/oxipng.exe -q -o 2 -s --ng <图片...>
    ```
+
 5. **核对**：用读图确认新截图内容符合预期（新功能入镜、无占位名、明暗主题正确）后再覆盖；覆盖后 `git status` 确认只有目标页变更。
 
 ## 演示数据

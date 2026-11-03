@@ -9,4 +9,10 @@ resource/Arknights-Tile-Pos/
 tools/OptimizeTemplates/optimize_templates.json
 
 CITATION.cff
-CHANGELOG.md
+
+# Markdown is formatted by markdownlint.
+**/*.md
+**/*.markdown
+**/*.mdown
+**/*.mkdn
+**/*.mkd

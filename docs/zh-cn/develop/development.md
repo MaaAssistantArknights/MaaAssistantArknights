@@ -144,11 +144,11 @@ icon: iconoir:developer
 
 在 VS Code 扩展市场安装：
 
-| 扩展                                                                                                | 作用                                                |
+| 扩展 | 作用 |
 | --------------------------------------------------------------------------------------------------- | --------------------------------------------------- |
-| [CMake Tools](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cmake-tools)            | CMake 配置、构建、调试集成                          |
-| [clangd](https://marketplace.visualstudio.com/items?itemName=llvm-vs-code-extensions.vscode-clangd) | C++ 智能提示、代码跳转、诊断（基于 LSP）            |
-| [C/C++](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools)                     | 调试 C++ 程序（与 CMake Tools 或 launch.json 配合） |
+| [CMake Tools](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cmake-tools) | CMake 配置、构建、调试集成 |
+| [clangd](https://marketplace.visualstudio.com/items?itemName=llvm-vs-code-extensions.vscode-clangd) | C++ 智能提示、代码跳转、诊断（基于 LSP） |
+| [C/C++](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools) | 调试 C++ 程序（与 CMake Tools 或 launch.json 配合） |
 
 ::: tip  
 使用 clangd 时，建议禁用 C/C++ 扩展的 IntelliSense（`C_Cpp.intelliSenseEngine` 设为 `disabled`），避免与 clangd 冲突。  
@@ -196,13 +196,13 @@ MAA 使用一系列的格式化工具来保证仓库中的代码和资源文件�
 
 目前启用的格式化工具如下：
 
-| 文件类型  | 格式化工具                                                      |
+| 文件类型 | 格式化工具 |
 | --------- | --------------------------------------------------------------- |
-| C++       | [clang-format](https://clang.llvm.org/docs/ClangFormat.html)    |
-| JSON/YAML | [Prettier](https://prettier.io/)                                |
-| Markdown  | [markdownlint](https://github.com/DavidAnson/markdownlint-cli2) |
-| Python    | [ruff-format](https://docs.astral.sh/ruff/formatter/)           |
-| PNG 图片  | [oxipng](https://github.com/oxipng/oxipng)                      |
+| C++ | [clang-format](https://clang.llvm.org/docs/ClangFormat.html) |
+| JSON/YAML | [Prettier](https://prettier.io/) |
+| Markdown | [markdownlint](https://github.com/DavidAnson/markdownlint-cli2) |
+| Python | [ruff-format](https://docs.astral.sh/ruff/formatter/) |
+| PNG 图片 | [oxipng](https://github.com/oxipng/oxipng) |
 
 ### 利用 Pre-commit Hooks 自动进行代码格式化
 

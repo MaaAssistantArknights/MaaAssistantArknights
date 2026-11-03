@@ -80,13 +80,13 @@ Built-in features include:
 
 #### Tales Within the Sand
 
-**Default Mode**
+##### Default Mode
 
 1. You need to start the task from the main screen where "Start Reclamation" appears at the bottom-right
 2. Cannot be used when you already have an existing save file (delete the existing save to use)
 3. Cannot be used when operators are present in the Reclamation Algorithm squad (clear the current squad, especially after completing a wave)
 
-**Manufacturing Points Farm**
+##### Manufacturing Points Farm
 
 1. You need to start from the page where you can see the base camp after entering Reclamation Algorithm
 2. If no item name is specified, Glow Sticks will be crafted by default
@@ -95,7 +95,7 @@ Built-in features include:
 
 #### Relaunch Anchor
 
-**RA-1**
+##### RA-1
 
 - Income reference: ~159 tokens + coordination points per run, ~2 min 10 sec per cycle
 - Operator requirement: None
@@ -104,7 +104,7 @@ Built-in features include:
 - Note: If you have unlocked technologies that grant extra starting items, please remove facilities that cause this (e.g. Food Supply Station, Drink Supply Station, Large Beast Pen, etc.)
 - Task flow: Automatically executes intensive farming, construction, resource delivery, and settlement loop
 
-**RA-4**
+##### RA-4
 
 - Reward estimate: ~417 tokens + coordination points per run, ~1 min 40 sec per round
 - Operator requirement: Wis'adel (support unit allowed)
@@ -117,7 +117,7 @@ Built-in features include:
 - Note: If you have unlocked technologies that grant extra starting items, please remove facilities that cause this (e.g. Food Supply Station, Drink Supply Station, Large Beast Pen, etc.)
 - Task flow: Use the Gold from Strategy Planning Management to unlock areas, and use Wis'adel to complete the boss elimination mission.
 
-**RA-15**
+##### RA-15
 
 - Income reference: ~500 tokens + coordination points per run, ~3 min per cycle
 - Operator requirement: Civilight Eterna (can use support unit)
