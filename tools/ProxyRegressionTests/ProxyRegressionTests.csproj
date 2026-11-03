@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="..\..\src\MaaWpfGui\Services\Web\HttpService.cs" Link="HttpService.cs" />
+    <Compile Include="..\..\src\MaaWpfGui\Services\Web\IHttpService.cs" Link="IHttpService.cs" />
+    <Compile Include="..\..\src\MaaWpfGui\Helper\UpdateMirrorSelection.cs" Link="UpdateMirrorSelection.cs" />
+  </ItemGroup>
+</Project>

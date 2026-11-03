@@ -214,7 +214,8 @@
                         DisplayMemberPath="Display"
                         ItemsSource="{Binding ProxyTypeList}"
                         SelectedValue="{Binding ProxyType}"
-                        SelectedValuePath="Value" />
+                        SelectedValuePath="Value"
+                        ToolTip="{DynamicResource Settings.Update.Proxy.Tip}" />
                     <hc:TextBox
                         Grid.Row="1"
                         Width="150"
@@ -222,6 +223,7 @@
                         VerticalAlignment="Center"
                         hc:InfoElement.Placeholder="&lt;IP&gt;:&lt;Port&gt;"
                         InputMethod.IsInputMethodEnabled="False"
+                        IsEnabled="{Binding IsManualProxy}"
                         Text="{Binding Proxy}" />
                     <Grid Grid.Row="2">
                         <Grid.RowDefinitions>

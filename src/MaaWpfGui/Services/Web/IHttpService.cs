@@ -35,6 +35,13 @@ public interface IHttpService
     Task<double> HeadAsync(Uri uri, Dictionary<string, string>? extraHeader = null, UriPartial uriPartial = UriPartial.Query);
 
     /// <summary>
+    /// Probe URLs with one accepted client and report its per-URL proxy policy.
+    /// </summary>
+    /// <param name="uris">URLs to probe in parallel.</param>
+    /// <returns>Latency in milliseconds and proxy usage, in input order. Failed probes have latency -1.</returns>
+    Task<(double Latency, bool UsesProxy)[]> ProbeAsync(IEnumerable<Uri> uris);
+
+    /// <summary>
     /// Send HTTP GET request and get a string response
     /// </summary>
     /// <param name="uri">Target Uri</param>

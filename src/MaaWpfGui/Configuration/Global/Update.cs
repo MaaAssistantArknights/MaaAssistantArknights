@@ -50,7 +50,7 @@ public partial class Update : NotifyPropertyChangedWithValue
 
     public string Proxy { get; set; } = string.Empty;
 
-    public string ProxyType { get; set; } = "Http";
+    public string ProxyType { get; set; } = "System";
 
     public bool AutoDownloadUpdatePackage { get; set; } = true;
 

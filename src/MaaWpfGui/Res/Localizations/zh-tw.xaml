@@ -1904,6 +1904,11 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
     <system:String x:Key="Settings.Update.MirrorChyan.ResourceUpdate.Tip">偵測到資源更新: {0}。請前往 ｢{key=Settings.Title} - {key=Settings.Update.Title} - {key=Settings.Update.ResourceUpdate}｣ 手動更新，或設定 MirrorChyan CDK 以自動更新。</system:String>
     <system:String x:Key="Settings.Update.MirrorChyan.SelectedButNoCdk">請前往 ｢{key=Settings.Title} - {key=Settings.Update.Title}｣ 設定 MirrorChyan CDK 或切換到全域來源。</system:String>
     <system:String x:Key="Settings.Update.NoNeedToUpdateDebugVersion">目前為測試版本，無需更新</system:String>
+    <system:String x:Key="Settings.Update.Proxy.Http">HTTP 代理</system:String>
+    <system:String x:Key="Settings.Update.Proxy.None">無代理</system:String>
+    <system:String x:Key="Settings.Update.Proxy.Socks5">SOCKS5 代理</system:String>
+    <system:String x:Key="Settings.Update.Proxy.System">跟隨系統代理</system:String>
+    <system:String x:Key="Settings.Update.Proxy.Tip">跟隨系統代理時，自動使用系統代理設定，無須填寫位址；系統未設定代理時直接連線。無代理時一律直接連線，不使用系統或手動代理。切換模式時會保留手動位址。</system:String>
     <system:String x:Key="Settings.Update.ResourceDateTime">資源日期</system:String>
     <system:String x:Key="Settings.Update.ResourceRepository">資源倉庫</system:String>
     <system:String x:Key="Settings.Update.ResourceUpdate">資源更新</system:String>

@@ -25,7 +25,6 @@ using System.Text;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
-using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
@@ -40,23 +39,9 @@ public class HttpService : IHttpService
 {
     private readonly string _userAgent;
 
-    private static string Proxy
-    {
-        get
-        {
-            var proxy = ConfigFactory.Root.Update.Proxy;
-            if (string.IsNullOrEmpty(proxy))
-            {
-                return string.Empty;
-            }
-
-            return proxy.Contains("://") ? proxy : SettingsViewModel.VersionUpdateSettings.ProxyType + $"://{proxy}";
-        }
-    }
-
     private readonly ILogger _logger = Log.ForContext<HttpService>();
 
-    private HttpClient _client;
+    private volatile ProxyHttpClient _client;
 
     public HttpService()
     {
@@ -68,22 +53,70 @@ public class HttpService : IHttpService
             {
                 return;
             }
-            if (GetProxy() == null)
+            if (!TryGetProxy(out var proxy, out var useProxy))
             {
-                _logger.Warning("Proxy is not a valid URI, and HttpClient is not null, keep using the original HttpClient");
+                _logger.Warning("Invalid manual proxy settings; keep using the current HttpClient");
                 return;
             }
-            _client = BuildHttpClient();
+
+            // Replacing the client leaves requests and response streams on the previous client running.
+            _client = BuildHttpClient(proxy, useProxy);
         };
 
-        _client = BuildHttpClient();
+        if (!TryGetProxy(out var initialProxy, out var initialUseProxy))
+        {
+            _logger.Warning("Invalid saved proxy settings; use the system proxy");
+        }
+
+        _client = BuildHttpClient(initialProxy, initialUseProxy);
     }
 
-    public async Task<double> HeadAsync(Uri uri, Dictionary<string, string>? extraHeader = null, UriPartial uriPartial = UriPartial.Query)
+    public Task<double> HeadAsync(Uri uri, Dictionary<string, string>? extraHeader = null, UriPartial uriPartial = UriPartial.Query)
+    {
+        return HeadAsync(_client, uri, extraHeader, uriPartial);
+    }
+
+    public Task<(double Latency, bool UsesProxy)[]> ProbeAsync(IEnumerable<Uri> uris)
+    {
+        // Keep the accepted client and its proxy policy together for the whole batch.
+        var client = _client;
+        return Task.Run(() => Task.WhenAll(uris.Select(async uri => {
+            var usesProxy = UsesProxyFor(client, uri);
+            var latency = await HeadAsync(client, uri).ConfigureAwait(false);
+            return (latency, usesProxy);
+        })));
+    }
+
+    private bool UsesProxyFor(ProxyHttpClient client, Uri uri)
+    {
+        if (client.Proxy is not { } proxy)
+        {
+            return false;
+        }
+
+        try
+        {
+            if (proxy.IsBypassed(uri))
+            {
+                return false;
+            }
+
+            var proxyUri = proxy.GetProxy(uri);
+            return proxyUri is not null && proxyUri != uri;
+        }
+        catch (Exception)
+        {
+            // Proxy discovery must not turn an otherwise reachable mirror into a failed probe.
+            _logger.Warning("Failed to resolve mirror proxy; use unadjusted latency for {Uri}", uri);
+            return false;
+        }
+    }
+
+    private async Task<double> HeadAsync(HttpClient client, Uri uri, Dictionary<string, string>? extraHeader = null, UriPartial uriPartial = UriPartial.Query)
     {
         try
         {
-            var request = new HttpRequestMessage { RequestUri = uri, Method = HttpMethod.Head, Version = HttpVersion.Version20, };
+            using var request = new HttpRequestMessage { RequestUri = uri, Method = HttpMethod.Head, Version = HttpVersion.Version20, };
 
             if (extraHeader != null)
             {
@@ -100,7 +133,7 @@ public class HttpService : IHttpService
             request.Headers.ConnectionClose = true;
 
             var stopwatch = Stopwatch.StartNew();
-            var response = await _client.SendAsync(request).ConfigureAwait(false);
+            using var response = await client.SendAsync(request).ConfigureAwait(false);
             stopwatch.Stop();
             response.Log(uriPartial, stopwatch.Elapsed.TotalMilliseconds);
 
@@ -108,7 +141,7 @@ public class HttpService : IHttpService
         }
         catch (Exception e)
         {
-            _logger.Error(e, "Failed to send GET request to {Uri}", uri);
+            _logger.Error(e, "Failed to send HEAD request to {Uri}", uri);
             return -1.0;
         }
     }
@@ -327,31 +360,61 @@ public class HttpService : IHttpService
         return success;
     }
 
-    private static WebProxy? GetProxy()
+    private static bool TryGetProxy(out WebProxy? proxy, out bool useProxy)
     {
-        var proxyIsUri = Uri.TryCreate(Proxy, UriKind.RelativeOrAbsolute, out var uri);
-        return (proxyIsUri && (!string.IsNullOrEmpty(Proxy))) is false ? null : new WebProxy(uri);
+        proxy = null;
+        var settings = SettingsViewModel.VersionUpdateSettings;
+        useProxy = !string.Equals(settings.ProxyType, "None", StringComparison.OrdinalIgnoreCase);
+        if (!useProxy)
+        {
+            return true;
+        }
+
+        var address = (settings.Proxy ?? string.Empty).Trim();
+
+        // An empty manual address preserves the existing implicit system-proxy behavior.
+        if (string.Equals(settings.ProxyType, "System", StringComparison.OrdinalIgnoreCase) || address.Length == 0)
+        {
+            return true;
+        }
+
+        var candidate = address.Contains("://", StringComparison.Ordinal) ? address : $"{settings.ProxyType}://{address}";
+        if (!Uri.TryCreate(candidate, UriKind.Absolute, out var uri)
+            || string.IsNullOrEmpty(uri.Host)
+            || uri.Port == 0
+            || (uri.Scheme != Uri.UriSchemeHttp && uri.Scheme != Uri.UriSchemeHttps && uri.Scheme != "socks5"))
+        {
+            return false;
+        }
+
+        proxy = new WebProxy(uri);
+        return true;
     }
 
-    private HttpClient BuildHttpClient()
+    private ProxyHttpClient BuildHttpClient(WebProxy? proxy, bool useProxy)
     {
+        // Capture the same default proxy object used by requests and mirror scoring.
+        var effectiveProxy = useProxy ? proxy ?? HttpClient.DefaultProxy : null;
         var handler = new HttpClientHandler
         {
             AutomaticDecompression = DecompressionMethods.All,
             AllowAutoRedirect = true,
+
+            // System mode uses the runtime default; None disables all application-level proxies.
+            Proxy = effectiveProxy,
+            UseProxy = useProxy,
         };
 
-        var proxy = GetProxy();
-        if (proxy != null)
-        {
-            _logger.Information("Rebuild HttpClient with proxy {Proxy}", Proxy);
-            handler.Proxy = proxy;
-            handler.UseProxy = true;
-        }
+        _logger.Information("Rebuild HttpClient using {ProxyMode} proxy", !useProxy ? "none" : proxy is null ? "system" : "manual");
 
-        HttpClient client = new HttpClient(handler);
+        var client = new ProxyHttpClient(handler, effectiveProxy);
         client.DefaultRequestHeaders.Add("User-Agent", _userAgent);
         client.Timeout = TimeSpan.FromSeconds(15);
         return client;
+    }
+
+    private sealed class ProxyHttpClient(HttpClientHandler handler, IWebProxy? proxy) : HttpClient(handler)
+    {
+        public IWebProxy? Proxy { get; } = proxy;
     }
 }

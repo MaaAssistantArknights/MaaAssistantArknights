@@ -1904,6 +1904,11 @@ MAA는 비설치형 응용 프로그램으로, 삭제 시 레지스트리 항목
     <system:String x:Key="Settings.Update.MirrorChyan.ResourceUpdate.Tip">리소스 업데이트 {0}이 감지되었습니다. ｢{key=Settings.Title} - {key=Settings.Update.Title} - {key=Settings.Update.ResourceUpdate}｣ 로 이동하여 수동으로 업데이트하거나, MirrorChyan CDK를 입력하여 자동으로 업데이트하세요.</system:String>
     <system:String x:Key="Settings.Update.MirrorChyan.SelectedButNoCdk">｢{key=Settings.Title} - {key=Settings.Update.Title}｣ 으로 이동하여 MirrorChyan CDK를 구성하거나 글로벌 소스로 전환하세요.</system:String>
     <system:String x:Key="Settings.Update.NoNeedToUpdateDebugVersion">Debug 버전이므로 업데이트할 필요가 없습니다</system:String>
+    <system:String x:Key="Settings.Update.Proxy.Http">HTTP 프록시</system:String>
+    <system:String x:Key="Settings.Update.Proxy.None">프록시 없음</system:String>
+    <system:String x:Key="Settings.Update.Proxy.Socks5">SOCKS5 프록시</system:String>
+    <system:String x:Key="Settings.Update.Proxy.System">시스템 프록시 사용</system:String>
+    <system:String x:Key="Settings.Update.Proxy.Tip">시스템 프록시 사용 시 주소를 입력하지 않고 시스템 설정을 따르며, 프록시가 설정되지 않은 경우 직접 연결합니다. 프록시 없음은 시스템 또는 수동 프록시를 사용하지 않고 항상 직접 연결합니다. 모드를 전환해도 수동 프록시 주소는 유지됩니다.</system:String>
     <system:String x:Key="Settings.Update.ResourceDateTime">리소스 날짜</system:String>
     <system:String x:Key="Settings.Update.ResourceRepository">리소스 저장소</system:String>
     <system:String x:Key="Settings.Update.ResourceUpdate">리소스 업데이트</system:String>

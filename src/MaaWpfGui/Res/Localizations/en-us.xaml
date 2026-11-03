@@ -1903,6 +1903,11 @@ If system notifications are turned off, an in-app notification will be used inst
     <system:String x:Key="Settings.Update.MirrorChyan.ResourceUpdate.Tip">Resource update {0} detected. Please go to ｢{key=Settings.Title} - {key=Settings.Update.Title} - {key=Settings.Update.ResourceUpdate}｣ to update manually, or fill in MirrorChyan CDK to update automatically.</system:String>
     <system:String x:Key="Settings.Update.MirrorChyan.SelectedButNoCdk">Please go to ｢{key=Settings.Title} - {key=Settings.Update.Title}｣ to configure MirrorChyan CDK or switch to Global Source.</system:String>
     <system:String x:Key="Settings.Update.NoNeedToUpdateDebugVersion">Now using debug version, no need to update</system:String>
+    <system:String x:Key="Settings.Update.Proxy.Http">HTTP Proxy</system:String>
+    <system:String x:Key="Settings.Update.Proxy.None">No proxy</system:String>
+    <system:String x:Key="Settings.Update.Proxy.Socks5">SOCKS5 Proxy</system:String>
+    <system:String x:Key="Settings.Update.Proxy.System">Use system proxy</system:String>
+    <system:String x:Key="Settings.Update.Proxy.Tip">Use system proxy follows your system settings without a manual address, or connects directly when no proxy is configured. No proxy always connects directly without a system or manual proxy. Your manual address is retained when switching modes.</system:String>
     <system:String x:Key="Settings.Update.ResourceDateTime">Resource Date</system:String>
     <system:String x:Key="Settings.Update.ResourceRepository">Resource Repository</system:String>
     <system:String x:Key="Settings.Update.ResourceUpdate">Resource update</system:String>

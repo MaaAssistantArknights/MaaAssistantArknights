@@ -1904,6 +1904,11 @@ DEBUG 目录下保存的图片有数量限制，超出后会自动清理旧图�
     <system:String x:Key="Settings.Update.MirrorChyan.ResourceUpdate.Tip">检测到资源更新: {0}。请前往 ｢{key=Settings.Title} - {key=Settings.Update.Title} - {key=Settings.Update.ResourceUpdate}｣ 手动更新，或配置 Mirror酱 CDK 以自动更新。</system:String>
     <system:String x:Key="Settings.Update.MirrorChyan.SelectedButNoCdk">请前往 ｢{key=Settings.Title} - {key=Settings.Update.Title}｣ 配置 Mirror酱 CDK 或切换海外源。</system:String>
     <system:String x:Key="Settings.Update.NoNeedToUpdateDebugVersion">当前为调试版本，无需更新</system:String>
+    <system:String x:Key="Settings.Update.Proxy.Http">HTTP 代理</system:String>
+    <system:String x:Key="Settings.Update.Proxy.None">无代理</system:String>
+    <system:String x:Key="Settings.Update.Proxy.Socks5">SOCKS5 代理</system:String>
+    <system:String x:Key="Settings.Update.Proxy.System">跟随系统代理</system:String>
+    <system:String x:Key="Settings.Update.Proxy.Tip">跟随系统代理时，自动使用系统代理设置，无需填写地址；系统未配置代理时直接连接。无代理时始终直接连接，不使用系统或手动代理。切换模式时会保留手动地址。</system:String>
     <system:String x:Key="Settings.Update.ResourceDateTime">资源日期</system:String>
     <system:String x:Key="Settings.Update.ResourceRepository">资源仓库</system:String>
     <system:String x:Key="Settings.Update.ResourceUpdate">资源更新</system:String>

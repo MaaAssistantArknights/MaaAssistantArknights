@@ -30,6 +30,7 @@ using MaaWpfGui.Helper;
 using MaaWpfGui.Models;
 using MaaWpfGui.Properties;
 using MaaWpfGui.Services;
+using MaaWpfGui.Utilities;
 using MaaWpfGui.Utilities.ValueType;
 using MaaWpfGui.ViewModels.Dialogs;
 using MaaWpfGui.ViewModels.UI;
@@ -48,6 +49,11 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
     {
         Instance = new();
         LocalizationHelper.LanguageChanged += Instance.RefreshLocalization;
+    }
+
+    public VersionUpdateSettingsUserControlModel()
+    {
+        PropertyDependsOnUtility.InitializePropertyDependencies(this);
     }
 
     public static VersionUpdateSettingsUserControlModel Instance { get; }
@@ -405,24 +411,28 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
     public string Proxy
     {
         get; set {
-            SetAndNotify(ref field, value);
             ConfigFactory.Root.Update.Proxy = value;
+            SetAndNotify(ref field, value);
         }
     } = ConfigFactory.Root.Update.Proxy;
 
-    public List<CombinedData> ProxyTypeList { get; } =
-        [
-            new() { Display = "HTTP Proxy", Value = "Http" },
-            new() { Display = "SOCKS5 Proxy", Value = "Socks5" },
-        ];
+    public LocalizedObservableList<string> ProxyTypeList { get; } = new(
+        ("System", "Settings.Update.Proxy.System"),
+        ("None", "Settings.Update.Proxy.None"),
+        ("Http", "Settings.Update.Proxy.Http"),
+        ("Socks5", "Settings.Update.Proxy.Socks5"));
 
     public string ProxyType
     {
         get; set {
-            SetAndNotify(ref field, value);
             ConfigFactory.Root.Update.ProxyType = value;
+            SetAndNotify(ref field, value);
         }
     } = ConfigFactory.Root.Update.ProxyType;
+
+    [PropertyDependsOn(nameof(ProxyType))]
+    public bool IsManualProxy => string.Equals(ProxyType, "Http", StringComparison.OrdinalIgnoreCase)
+        || string.Equals(ProxyType, "Socks5", StringComparison.OrdinalIgnoreCase);
 
     /// <summary>
     /// Gets or sets a value indicating whether the update is being checked.
@@ -621,6 +631,7 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
     {
         AllVersionTypeList.RefreshLocalization();
         UpdateSourceList.RefreshLocalization();
+        ProxyTypeList.RefreshLocalization();
 
         // CDK 剩余天数文本为一次性格式化的本地化串，需通知重算（无 CDK 时 getter 自行返回空串）
         RefreshMirrorChyanCdkRemaining();

@@ -1906,6 +1906,11 @@ MAA は非インストール型のアプリケーションであり、レジス�
     <system:String x:Key="Settings.Update.MirrorChyan.ResourceUpdate.Tip">リソース更新 {0} が検出されました。｢{key=Settings.Title} - {key=Settings.Update.Title} - {key=Settings.Update.ResourceUpdate}｣ に移動して手動で更新するか、MirrorChyan CDK を入力して自動的に更新してください。</system:String>
     <system:String x:Key="Settings.Update.MirrorChyan.SelectedButNoCdk">｢{key=Settings.Title} - {key=Settings.Update.Title}｣ に移動して MirrorChyan CDK を設定するか、グローバル ソースに切り替えてください。</system:String>
     <system:String x:Key="Settings.Update.NoNeedToUpdateDebugVersion">現在はデバッグバージョンであり、更新は必要ありません</system:String>
+    <system:String x:Key="Settings.Update.Proxy.Http">HTTP プロキシ</system:String>
+    <system:String x:Key="Settings.Update.Proxy.None">プロキシなし</system:String>
+    <system:String x:Key="Settings.Update.Proxy.Socks5">SOCKS5 プロキシ</system:String>
+    <system:String x:Key="Settings.Update.Proxy.System">システムに従う</system:String>
+    <system:String x:Key="Settings.Update.Proxy.Tip">システムのプロキシ設定を使用する場合、アドレスの入力は不要です。プロキシが未設定の場合は直接接続します。プロキシなしの場合は、システムや手動のプロキシを使用せず常に直接接続します。モードを切り替えても手動設定のアドレスは保持されます。</system:String>
     <system:String x:Key="Settings.Update.ResourceDateTime">リソース日付</system:String>
     <system:String x:Key="Settings.Update.ResourceRepository">リソース倉庫</system:String>
     <system:String x:Key="Settings.Update.ResourceUpdate">リソース更新</system:String>

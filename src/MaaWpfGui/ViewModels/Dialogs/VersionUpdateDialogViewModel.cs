@@ -840,41 +840,25 @@ public class VersionUpdateDialogViewModel : Screen
 
         _logger.Information("Start test legacy download urls");
 
-        // run latency test parallel
-        var tasks = urls.ConvertAll(url => Instances.HttpService.HeadAsync(new Uri(url)));
-        var latencies = await Task.WhenAll(tasks);
-
-        var proxy = ConfigFactory.Root.Update.Proxy;
-        var hasProxy = !string.IsNullOrEmpty(proxy);
+        // Probe with one accepted client and use its per-URL proxy policy for scoring.
+        var uris = urls.ConvertAll(url => new Uri(url));
+        var probes = await Instances.HttpService.ProbeAsync(uris);
 
         // select the fastest mirror
         _logger.Information("Selecting the fastest mirror:");
-        var selected = 0;
-        for (int i = 0; i < latencies.Length; i++)
+        for (int i = 0; i < probes.Length; i++)
         {
-            var isInChina = urls[i].Contains("s3.maa-org.net") || urls[i].Contains("maa-ota.annangela.cn");
-
-            if (latencies[i] < 0)
+            if (probes[i].Latency < 0)
             {
                 _logger.Warning("\turl: {CDNUrl} not available", urls[i]);
                 continue;
             }
 
-            _logger.Information("\turl: {CDNUrl}, legacy: {1:0.00}ms", urls[i], latencies[i]);
-
-            if (hasProxy && isInChina)
-            {
-                // 如果设置了代理，国内镜像的延迟加上一个固定值
-                latencies[i] += 6480;
-            }
-
-            if (latencies[selected] < 0 || (latencies[i] >= 0 && latencies[i] < latencies[selected]))
-            {
-                selected = i;
-            }
+            _logger.Information("\turl: {CDNUrl}, latency: {Latency:0.00}ms, proxy: {UsesProxy}", urls[i], probes[i].Latency, probes[i].UsesProxy);
         }
 
-        if (latencies[selected] < 0)
+        var selected = UpdateMirrorSelection.SelectFastest(uris, probes);
+        if (selected < 0)
         {
             _logger.Error("All mirrors are not available");
             OutputDownloadProgress(downloading: false, output: LocalizationHelper.GetString("VersionUpdate.NewVersionDownloadFailed.Title"));
