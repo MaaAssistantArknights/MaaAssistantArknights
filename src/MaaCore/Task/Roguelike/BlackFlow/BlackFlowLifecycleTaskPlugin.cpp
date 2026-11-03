@@ -18,6 +18,9 @@ namespace asst::blackflow
 {
 namespace
 {
+// NextLevel 的 text 前 FloorCount 项按楼层顺序排列
+constexpr int FloorCount = 6;
+
 // 与 LastRewardNames 一一对应的支援卡片模板任务
 constexpr std::array<std::string_view, LastRewardNames.size()> LastRewardTasks {
     "BlackFlow@Roguelike@LastReward4", "BlackFlow@Roguelike@LastReward5", "BlackFlow@Roguelike@LastReward6",
@@ -266,6 +269,17 @@ bool BlackFlowLifecycleTaskPlugin::_run()
             return true;
         }
         const int floor = static_cast<int>(std::distance(floor_names.begin(), matched)) + 1;
+        if (floor > FloorCount) {
+            // 树洞暂时按重开处理
+            m_session->clear_current_floor();
+            m_session->fail(
+                "floor_recognition_failed",
+                "NextLevel recognized the area title behind a portal: " + area_name,
+                FailureDisposition::RestartRun);
+            LogError << __FUNCTION__ << "BlackFlow NextLevel recognized the area title behind a portal" << area_name;
+            report_outputs();
+            return true;
+        }
         if (m_start_run && !m_config->get_run_for_collectible() && m_config->get_blackflow_start_utopia()) {
             check_start_run_utopia(floor);
             return true;

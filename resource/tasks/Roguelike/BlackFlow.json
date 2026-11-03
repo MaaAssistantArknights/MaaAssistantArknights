@@ -971,7 +971,12 @@
         "action": "ClickSelf",
         "preDelay": 500,
         "postDelay": 1000,
-        "next": ["BlackFlow@Roguelike@NextLevel"]
+        "next": ["BlackFlow@Roguelike@NextLevel-ZoomOut", "BlackFlow@Roguelike@NextLevel"],
+        "reduceOtherTimes": [
+            "BlackFlow@Roguelike@MapPrepare-ZoomOut*3",
+            "BlackFlow@Roguelike@MovementInventoryClose*3",
+            "BlackFlow@Roguelike@NextLevel-ZoomOut*3"
+        ]
     },
     "BlackFlow@Roguelike@MapPrepare-Ready": {
         "Doc": [
@@ -1329,12 +1334,15 @@
         "fullMatch": true
     },
     "BlackFlow@Roguelike@NextLevel": {
-        "Doc": "本任务注册了插件 BlackFlowLifecycleTaskPlugin，识别成功后记录当前楼层。",
+        "Doc": [
+            "本任务注册了插件 BlackFlowLifecycleTaskPlugin，识别成功后记录当前楼层。",
+            "text 前六项按楼层顺序排列，插件按位置换算层号；第七项是误入奇境里的标题。"
+        ],
         "algorithm": "OcrDetect",
         "action": "DoNothing",
         "roi": [524, 0, 246, 42],
         "withoutDet": false,
-        "text": ["玻利瓦尔肤层", "甜美的伤口", "血色空脉", "受害者腐殖", "卡德霍之颅", "未萌生的摇篮"],
+        "text": ["玻利瓦尔肤层", "甜美的伤口", "血色空脉", "受害者腐殖", "卡德霍之颅", "源流交汇处", "未萌生的摇篮"],
         "ocrReplace": [["^玻利瓦尔肤$", "玻利瓦尔肤层"]],
         "fullMatch": true,
         "postDelay": 600,
@@ -1346,8 +1354,20 @@
         ]
     },
     "BlackFlow@Roguelike@NextLevel-Enter": {
+        "Doc": "进层时可能弹出带 NEXT 或 × 的弹窗（如干员归队）。弹窗盖着时放大镜仍能认到，点放大镜会被弹窗挡住，所以先关弹窗。",
         "algorithm": "JustReturn",
-        "next": ["BlackFlow@Roguelike@MapPrepare-FloorEnterZoom", "BlackFlow@Roguelike@NextLevel"]
+        "next": [
+            "BlackFlow@Roguelike@NextLevel-Enter@(BlackFlow@Roguelike@CloseCollectionContinue)",
+            "BlackFlow@Roguelike@NextLevel-Enter@(BlackFlow@Roguelike@CloseCollection)",
+            "BlackFlow@Roguelike@MapPrepare-FloorEnterZoom",
+            "BlackFlow@Roguelike@NextLevel"
+        ]
+    },
+    "BlackFlow@Roguelike@NextLevel-ZoomOut": {
+        "Doc": "MapPrepare-FloorEnterZoom 点完后仍显示减号，说明地图还是放大的，先缩小再识别层名。次数由 MapPrepare-FloorEnterZoom 清零。",
+        "baseTask": "BlackFlow@Roguelike@MapPrepare-ZoomOut",
+        "template": "BlackFlow@Roguelike@MapZoomOut.png",
+        "next": ["BlackFlow@Roguelike@NextLevel-ZoomOut", "BlackFlow@Roguelike@NextLevel"]
     },
     "BlackFlow@Roguelike@NodeCompletionAction": {
         "Doc": [
