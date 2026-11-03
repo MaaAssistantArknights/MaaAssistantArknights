@@ -31,7 +31,7 @@
     "SwitchTheme@ConfirmThemeChange": {
         "action": "ClickSelf",
         "roi": [1070, 620, 200, 90],
-        "postDelay": 500,
+        "postDelay": 2000,
         "next": ["SwitchTheme@ReturnTheme"]
     },
     "SwitchTheme@CancelThemeChange": {
