@@ -55,9 +55,19 @@ protected:
 
 private:
     ResultDetail execute_elite(battle::Role role, const std::string& name, int target);
-    void report_elite_result(battle::Role role, std::string_view name, ResultDetail result, int elite);
+    void report_elite_result(
+        battle::Role role,
+        std::string_view name,
+        ResultDetail result,
+        int elite,
+        const json::array& materials);
     ResultDetail execute_skill(int level);
-    void report_skill_result(battle::Role role, std::string_view name, ResultDetail result, int level);
+    void report_skill_result(
+        battle::Role role,
+        std::string_view name,
+        ResultDetail result,
+        int level,
+        const json::array& materials);
     // 返回 Completed 时 training_level 为本次训练完成后达到的专精等级；专精需要训练时长，启动不代表达到计划目标。
     ResultDetail
         execute_mastery(battle::Role role, std::string_view name, int skill, int target_level, int& current_level);
@@ -66,7 +76,8 @@ private:
         std::string_view name,
         ResultDetail result,
         std::array<int, 3> level,
-        int skill);
+        int skill,
+        const json::array& materials);
     ResultDetail find_and_open_operator(battle::Role role, std::string_view name);
     bool select_role(battle::Role role);
     bool analyze_training_context(std::string& operator_name, std::string& skill_name, int& level);
@@ -82,6 +93,7 @@ private:
     // task_type 区分精英化、技能升级与技能专精页面；material_index 对应页面上的材料槽 0-2。
     // 返回 FormulaLocked 表示该材料在快速跳转弹窗中的配方尚未解锁,调用方应据此跳过当前任务。
     ResultDetail synthesize_missing_material(OperProgressAction task_type, int material_index);
+    json::array collect_missing_materials(OperProgressAction action);
     bool record_factory_state();
     bool manufacture_dual_chip(battle::Role role, const std::string& name);
     bool restore_factory_state(); // 合成后恢复制造站产品

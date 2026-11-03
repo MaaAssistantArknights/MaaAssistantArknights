@@ -9,6 +9,7 @@
 #include "Config/GeneralConfig.h"
 #include "Config/Miscellaneous/BattleDataConfig.h"
 #include "Config/Miscellaneous/InfrastConfig.h"
+#include "Config/Miscellaneous/ItemConfig.h"
 #include "Config/TaskData.h"
 #include "Controller/Controller.h"
 #include "MaaUtils/NoWarningCV.hpp"
@@ -21,7 +22,9 @@
 #include "Vision/BestMatcher.h"
 #include "Vision/Hasher.h"
 #include "Vision/Infrast/InfrastOperImageAnalyzer.h"
+#include "Vision/Matcher.h"
 #include "Vision/MultiMatcher.h"
+#include "Vision/OCRer.h"
 #include "Vision/Oper/OperBoxImageAnalyzer.h"
 #include "Vision/Oper/OperFilesImageAnalyzer.h"
 #include "Vision/Oper/OperNameAnalyzer.h"
@@ -30,6 +33,40 @@
 
 namespace asst::oper_progress
 {
+constexpr int MaterialCountHorizontalPadding = 32;
+constexpr int MaterialCountVerticalPadding = 8;
+constexpr int MaterialIconPadding = 48;
+
+Rect expand_material_roi(const Rect& roi, int horizontal, int vertical)
+{
+    return { roi.x - horizontal, roi.y - vertical, roi.width + 2 * horizontal, roi.height + 2 * vertical };
+}
+
+std::string material_page_name(OperProgressProcessTask::OperProgressAction action)
+{
+    switch (action) {
+    case OperProgressProcessTask::OperProgressAction::Elite:
+        return "EliteUp";
+    case OperProgressProcessTask::OperProgressAction::MainSkillLevel:
+        return "SkillUp";
+    case OperProgressProcessTask::OperProgressAction::Mastery:
+        return "Mastery";
+    default:
+        return {};
+    }
+}
+
+std::optional<std::pair<int, int>> parse_material_count(std::string_view text)
+{
+    const auto slash = text.find('/');
+    int owned = 0;
+    int required = 0;
+    if (slash == std::string_view::npos || !utils::chars_to_number<int, true>(text.substr(0, slash), owned) ||
+        !utils::chars_to_number<int, true>(text.substr(slash + 1), required) || owned < 0 || required <= owned) {
+        return std::nullopt;
+    }
+    return std::pair { owned, required };
+}
 
 // 参照 BattleFormationTask::analyzer_opers：以职业旗标模板定位卡片,
 // 对旗标下方区域 OCR 干员名,并以旗标上方的高亮色块判断选中态。
@@ -121,6 +158,18 @@ std::string role_task_name(asst::battle::Role role)
 
 bool asst::OperProgressProcessTask::_run()
 {
+    const auto collect = [&](OperProgressAction action, ResultDetail& result) {
+        if (result != ResultDetail::ResourceInsufficient && result != ResultDetail::FormulaLocked &&
+            result != ResultDetail::ChipNotCraftable) {
+            return json::array {};
+        }
+        auto materials = collect_missing_materials(action);
+        if (need_exit()) {
+            result = ResultDetail::Interrupt;
+            materials.clear();
+        }
+        return materials;
+    };
     bool training_room_busy = false;
     for (size_t index = 0; index < m_plan.size() && !need_exit(); ++index) {
         const auto& target = m_plan[index];
@@ -144,11 +193,19 @@ bool asst::OperProgressProcessTask::_run()
         }
         if (target.elite) {
             auto elite_ret = execute_elite(target.role, target.name, *target.elite);
-            report_elite_result(target.role, target.name, elite_ret, *target.elite);
+            const auto materials = collect(OperProgressAction::Elite, elite_ret);
+            report_elite_result(target.role, target.name, elite_ret, *target.elite, materials);
+            if (need_exit()) {
+                continue;
+            }
         }
         if (target.skill_level) {
             auto main_ret = execute_skill(*target.skill_level);
-            report_skill_result(target.role, target.name, main_ret, *target.skill_level);
+            const auto materials = collect(OperProgressAction::MainSkillLevel, main_ret);
+            report_skill_result(target.role, target.name, main_ret, *target.skill_level, materials);
+            if (need_exit()) {
+                continue;
+            }
         }
         if (!training_room_busy && target.skill_mastery) {
             const auto& arr = *target.skill_mastery;
@@ -158,12 +215,16 @@ bool asst::OperProgressProcessTask::_run()
                 }
                 int training_level = 0;
                 auto skill_ret = execute_mastery(target.role, target.name, i + 1, arr[i], training_level);
+                const auto materials = collect(OperProgressAction::Mastery, skill_ret);
                 std::array<int, 3> skill_levels { 0, 0, 0 };
                 if (skill_ret == ResultDetail::AlreadySatisfied || skill_ret == ResultDetail::Completed ||
                     skill_ret == ResultDetail::PrerequisiteTraining || skill_ret == ResultDetail::TrainingRoomBusy) {
                     skill_levels[i] = training_level;
                 }
-                report_skill_result(target.role, target.name, skill_ret, skill_levels, i + 1);
+                report_skill_result(target.role, target.name, skill_ret, skill_levels, i + 1, materials);
+                if (need_exit()) {
+                    break;
+                }
                 if (skill_ret == ResultDetail::TrainingRoomBusy || skill_ret == ResultDetail::PrerequisiteTraining ||
                     skill_ret == ResultDetail::Completed) {
                     training_room_busy = true;
@@ -334,7 +395,8 @@ void asst::OperProgressProcessTask::report_elite_result(
     battle::Role role,
     std::string_view name,
     ResultDetail result,
-    int elite)
+    int elite,
+    const json::array& materials)
 {
     const auto process_result = [&]() {
         switch (result) {
@@ -359,6 +421,9 @@ void asst::OperProgressProcessTask::report_elite_result(
     }
     else {
         info["details"] |= json::object { { "step", "elite" } };
+    }
+    if (!materials.empty()) {
+        info["details"]["materials"] = materials;
     }
     callback(AsstMsg::SubTaskExtraInfo, std::move(info));
     if (process_result == Result::Success) {
@@ -444,7 +509,8 @@ void asst::OperProgressProcessTask::report_skill_result(
     battle::Role role,
     std::string_view name,
     ResultDetail result,
-    int level)
+    int level,
+    const json::array& materials)
 {
     const auto process_result = [&]() {
         switch (result) {
@@ -469,6 +535,9 @@ void asst::OperProgressProcessTask::report_skill_result(
     }
     else {
         info["details"] |= json::object { { "step", "skill_level" } };
+    }
+    if (!materials.empty()) {
+        info["details"]["materials"] = materials;
     }
     callback(AsstMsg::SubTaskExtraInfo, std::move(info));
     if (process_result == Result::Success) {
@@ -630,7 +699,8 @@ void asst::OperProgressProcessTask::report_skill_result(
     std::string_view name,
     ResultDetail result,
     std::array<int, 3> level,
-    int skill)
+    int skill,
+    const json::array& materials)
 {
     const auto process_result = [&]() {
         switch (result) {
@@ -659,6 +729,9 @@ void asst::OperProgressProcessTask::report_skill_result(
     }
     else if (process_result == Result::Failed) {
         info["details"] |= json::object { { "step", "skill_mastery" }, { "skill_index", skill } };
+    }
+    if (!materials.empty()) {
+        info["details"]["materials"] = materials;
     }
     callback(AsstMsg::SubTaskExtraInfo, std::move(info));
     if (process_result == Result::Success) {
@@ -1052,6 +1125,144 @@ bool asst::OperProgressProcessTask::reset_trainer_list_page()
     return false;
 }
 
+json::array asst::OperProgressProcessTask::collect_missing_materials(OperProgressAction action)
+{
+    if (need_exit()) {
+        return {};
+    }
+    const auto& client = ctrler()->get_client_type();
+    if (!client.empty() && client != "Official" && client != "Bilibili") {
+        LogWarn << __FUNCTION__ << "| material reporting is not supported for client" << client;
+        return {};
+    }
+    const auto page = oper_progress::material_page_name(action);
+    const std::string prefix = "OperProgress@" + page;
+    const auto match = [](const cv::Mat& image, const std::string& task) {
+        Matcher analyzer(image);
+        analyzer.set_task_info(task);
+        return analyzer.analyze().has_value();
+    };
+    const auto on_page = [&](const cv::Mat& image) {
+        // 页标志复用确认按钮模板，保持纯识别，不用带动作的确认任务探测页面。
+        return match(image, prefix + "Page") &&
+               (action != OperProgressAction::MainSkillLevel || !match(image, "OperProgress@EliteUpPage"));
+    };
+    const auto popup = [](const cv::Mat& image) {
+        OCRer analyzer(image);
+        analyzer.set_task_info("OperProgress@MaterialPopup");
+        return analyzer.analyze().has_value();
+    };
+    const auto read_text =
+        [](const cv::Mat& image, const Rect& roi, const std::string& task = "OperProgress@MaterialCount") {
+            RegionOCRer analyzer(image);
+            analyzer.set_task_info(task);
+            analyzer.set_roi(roi);
+            analyzer.set_use_raw(true);
+            const auto text = analyzer.analyze();
+            return text ? text->text : std::string();
+        };
+    const auto count_roi = [](const Rect& roi) {
+        return oper_progress::expand_material_roi(
+            roi,
+            oper_progress::MaterialCountHorizontalPadding,
+            oper_progress::MaterialCountVerticalPadding);
+    };
+    const auto read_page = [&]() {
+        auto image = ctrler()->get_image();
+        // 详情可能遮住专精页标志，须先关闭；直接返回会连同专精确认面板一起退出。
+        if (!need_exit() && popup(image)) {
+            run_task("OperProgress@CloseMaterialPopup", 0);
+            if (!need_exit()) {
+                image = ctrler()->get_image();
+            }
+        }
+        return image;
+    };
+    auto image = read_page();
+    if (need_exit()) {
+        return {};
+    }
+    if (!on_page(image) && !popup(image)) {
+        // 合成回调早于加工确认，不能用它推算库存；失败后限次返回现场读取。
+        const auto return_task = "OperProgress@ReturnTo" + page + "Page";
+        ProcessTask returning(*this, { return_task });
+        returning.set_times_limit(return_task, 5).set_retry_times(1).run();
+        if (need_exit()) {
+            return {};
+        }
+        image = read_page();
+        if (need_exit()) {
+            return {};
+        }
+    }
+    if (!on_page(image) || popup(image)) {
+        LogWarn << __FUNCTION__ << "| material page unavailable" << page;
+        return {};
+    }
+    json::array materials;
+    for (int slot = 0; slot < 3 && !need_exit(); ++slot) {
+        const auto material = action == OperProgressAction::Elite && slot == 0
+                                  ? "OperProgress@Dualchip"
+                                  : prefix + "Material" + std::to_string(slot);
+        const auto missing =
+            slot == 0 && action != OperProgressAction::Elite ? prefix + "SkillSummaryRequired" : material + "Required";
+        if (!match(image, missing)) {
+            continue;
+        }
+        const auto counts = oper_progress::parse_material_count(read_text(image, count_roi(Task.get(missing)->roi)));
+        const auto icon_roi = Task.get(material)->specific_rect;
+        BestMatcher item(
+            image,
+            oper_progress::expand_material_roi(
+                icon_roi,
+                oper_progress::MaterialIconPadding,
+                oper_progress::MaterialIconPadding));
+        item.set_mask_range(1, 255);
+        item.set_threshold(0.8);
+        item.set_method(MatchMethod::Ccoeff);
+        for (const auto& id : ItemData.get_ordered_material_item_id()) {
+            item.append_templ(id);
+        }
+        const auto matched = item.analyze();
+        if (!counts || !matched) {
+            LogWarn << __FUNCTION__ << "| material slot unrecognized" << material;
+            continue;
+        }
+        materials.emplace_back(
+            json::object { { "id", matched->templ_info.name },
+                           { "required", counts->second },
+                           { "owned", counts->first } });
+    }
+    // 龙门币槽只显示需求，持有数须从详情读取；等级槽不参与材料上报。
+    if (action == OperProgressAction::Elite && !need_exit() && match(image, "OperProgress@EliteUpLmdRequired")) {
+        const auto roi = Task.get("OperProgress@EliteUpLmdRequired")->roi;
+        int required = 0;
+        int owned = 0;
+        const bool required_known = utils::chars_to_number<int, true>(read_text(image, count_roi(roi)), required);
+        if (required_known && required > 0 && run_task("OperProgress@EliteUpLmd", 0) && !need_exit()) {
+            const auto detail_image = ctrler()->get_image();
+            if (popup(detail_image) &&
+                utils::chars_to_number<int, true>(
+                    read_text(detail_image, Task.get("OperProgress@LmdOwned")->roi, "OperProgress@LmdOwned"),
+                    owned) &&
+                owned >= 0 && owned < required) {
+                materials.emplace_back(json::object { { "id", "4001" }, { "required", required }, { "owned", owned } });
+            }
+            else {
+                LogWarn << __FUNCTION__ << "| LMD owned count unrecognized";
+            }
+            if (!need_exit()) {
+                // 同槽再次点击关闭本次打开的详情，不依赖库存文字识别是否成功。
+                run_task("OperProgress@EliteUpLmd", 0);
+            }
+        }
+        else {
+            LogWarn << __FUNCTION__ << "| LMD requirement unrecognized or detail unavailable";
+        }
+    }
+    return materials;
+}
+
 asst::OperProgressProcessTask::ResultDetail
     asst::OperProgressProcessTask::synthesize_missing_material(OperProgressAction task_type, int material_index)
 {
@@ -1060,18 +1271,8 @@ asst::OperProgressProcessTask::ResultDetail
         return ResultDetail::ResourceInsufficient;
     }
 
-    std::string_view task_type_name;
-    switch (task_type) {
-    case OperProgressAction::Elite:
-        task_type_name = "EliteUp";
-        break;
-    case OperProgressAction::MainSkillLevel:
-        task_type_name = "SkillUp";
-        break;
-    case OperProgressAction::Mastery:
-        task_type_name = "Mastery";
-        break;
-    default:
+    const auto task_type_name = oper_progress::material_page_name(task_type);
+    if (task_type_name.empty()) {
         LogError << __FUNCTION__ << "| unsupported material task type" << static_cast<int>(task_type);
         return ResultDetail::ResourceInsufficient;
     }
@@ -1081,7 +1282,7 @@ asst::OperProgressProcessTask::ResultDetail
     if (!run_task(material_task)) {
         return ResultDetail::ResourceInsufficient;
     }
-    // TODO: 以后加上识别缺口数量后上报、自动使用兑换券或者去凭证商店补购
+    // TODO: 自动使用兑换券或者去凭证商店补购
     // 快速跳转弹窗内与跳转按钮同 roi 识别到不可用态,说明该材料配方尚未解锁,无法在加工站合成。
     if (run_task(material_task + "JumpProcessingUnable", 2)) {
         LogInfo << __FUNCTION__ << "| formula locked, skip synthesizing" << material_task;

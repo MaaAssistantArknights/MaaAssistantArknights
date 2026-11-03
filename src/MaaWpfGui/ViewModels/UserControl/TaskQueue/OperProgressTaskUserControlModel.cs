@@ -476,7 +476,7 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
     {
         public Dictionary<(OperatorRole Role, string Name, string Step, int SkillIndex), MaterialRequirement[]> Steps { get; } = [];
 
-        // 持有数独立保存，移除某一步需求时不能回退到更早的库存观测。
+        // 需求按步骤覆盖，持有数始终取本轮最后一次现场观测。
         public Dictionary<string, int> LastOwned { get; } = [];
     }
 
@@ -486,25 +486,8 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
         {
             _materialReports[taskId] = report = new();
         }
-        if (result == "Success")
-        {
-            var mastery = callback.SkillMastery?.ToArray();
-            foreach (var key in report.Steps.Keys.Where(k => k.Role == callback.Role && k.Name == callback.Name).ToArray())
-            {
-                if (key.Step switch
-                {
-                    "elite" => callback.Elite.HasValue,
-                    "skill_level" => callback.MainSkillLevel.HasValue,
-                    "skill_mastery" => mastery is not null && mastery[key.SkillIndex - 1] > 0,
-                    _ => false,
-                })
-                {
-                    report.Steps.Remove(key);
-                }
-            }
-        }
-        else if (resultDetail is "ResourceInsufficient" or "FormulaLocked" or "ChipNotCraftable" &&
-                 (callback.Step is "elite" or "skill_level" || (callback.Step == "skill_mastery" && callback.SkillIndex is >= 1 and <= 3)))
+        if (result != "Success" && resultDetail is "ResourceInsufficient" or "FormulaLocked" or "ChipNotCraftable" &&
+            (callback.Step is "elite" or "skill_level" || (callback.Step == "skill_mastery" && callback.SkillIndex is >= 1 and <= 3)))
         {
             report.Steps[(callback.Role, callback.Name, callback.Step, callback.SkillIndex)] = callback.Materials;
             foreach (var material in callback.Materials)
@@ -524,7 +507,7 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
             .Select(g => (Id: g.Key, Required: g.Sum(m => (long)m.Required), Owned: report.LastOwned[g.Key]))
             .Where(m => m.Required > m.Owned)
             .Select(m => LocalizationHelper.GetStringFormat("TaskQueue.OperProgress.MaterialSummaryItem",
-                ItemListHelper.GetItemName(m.Id), m.Required - m.Owned, m.Required, m.Owned)).ToArray();
+                ItemListHelper.GetItemName(m.Id) ?? m.Id, m.Required - m.Owned, m.Required, m.Owned)).ToArray();
         if (lines.Length > 0)
         {
             Instances.TaskQueueViewModel.AddLog(
@@ -571,7 +554,7 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
         {
             str.AppendLine();
             str.Append(LocalizationHelper.GetStringFormat("TaskQueue.OperProgress.MaterialDetail",
-                ItemListHelper.GetItemName(material.Id), material.Owned, material.Required));
+                ItemListHelper.GetItemName(material.Id) ?? material.Id, material.Owned, material.Required));
         }
         return str.ToString();
     }

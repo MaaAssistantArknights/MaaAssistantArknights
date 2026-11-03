@@ -6396,6 +6396,36 @@
         "roi": [1094, 346, 147, 149],
         "postDelay": 300
     },
+    "OperProgress@MaterialPopup": {
+        "algorithm": "OcrDetect",
+        "text": ["库存", "获得方式", "跳转"],
+        "roi": [0, 180, 1280, 348],
+        "doc": "仅缺料上报使用，确认详情存在后点击空白处关闭"
+    },
+    "OperProgress@CloseMaterialPopup": {
+        "baseTask": "OperProgress@MaterialPopup",
+        "action": "ClickRect",
+        "specificRect": [1000, 150, 1, 1],
+        "postDelay": 300
+    },
+    "OperProgress@MaterialCount": {
+        "baseTask": "NumberOcrReplace",
+        "binThreshold": [120, 255],
+        "withoutDet": true
+    },
+    "OperProgress@EliteUpLmdRequired": {
+        "baseTask": "OperProgress@EliteUpMaterialMissing",
+        "template": "MaterialMissing.png",
+        "roi": [215, 667, 43, 15]
+    },
+    "OperProgress@EliteUpLmd": {
+        "baseTask": "OperProgress@Dualchip",
+        "specificRect": [213, 577, 50, 47]
+    },
+    "OperProgress@LmdOwned": {
+        "baseTask": "OperProgress@MaterialCount",
+        "roi": [720, 304, 96, 48]
+    },
     "OperProgress@EliteUpPageConfirm": {
         "template": "EliteUpPageConfirm.png",
         "action": "ClickSelf",
