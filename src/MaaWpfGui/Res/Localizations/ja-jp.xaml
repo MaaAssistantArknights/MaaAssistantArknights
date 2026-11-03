@@ -928,6 +928,10 @@ C:\Program Files\Netease\MuMuPlayer を入力してください。
     <system:String x:Key="Connection.SelectEmulator">エミュレータを選択</system:String>
     <system:String x:Key="Connection.SelectEmulatorPath">エミュレータのパスを選択</system:String>
     <system:String x:Key="Connection.SelectItem">項目を選択</system:String>
+    <system:String x:Key="Connection.StartupTimeout">起動時の認識タイムアウト（秒）</system:String>
+    <system:String x:Key="Connection.StartupTimeout.Tip" xml:space="preserve">起動またはアカウント切り替え中、各ステップで画面を認識できない状態が続く場合の待機時間の上限です。
+認識に成功するとすぐに続行します。認識できているロード画面や更新画面は、このタイムアウトの対象になりません。
+既定値は 120 秒で、10～600 秒に設定できます。</system:String>
     <system:String x:Key="Connection.TouchMode">タッチモード</system:String>
     <system:String x:Key="Connection.TouchMode.AdbInput">ADB Input (非推奨)</system:String>
     <system:String x:Key="Connection.TouchMode.MaaFwAdb">MaaFwAdb (実験機能)</system:String>

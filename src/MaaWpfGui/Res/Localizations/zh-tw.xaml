@@ -926,6 +926,10 @@ C:\Program Files\Netease\MuMuPlayer
     <system:String x:Key="Connection.SelectEmulator">選擇模擬器</system:String>
     <system:String x:Key="Connection.SelectEmulatorPath">選擇模擬器路徑</system:String>
     <system:String x:Key="Connection.SelectItem">選擇項目</system:String>
+    <system:String x:Key="Connection.StartupTimeout">啟動辨識逾時（秒）</system:String>
+    <system:String x:Key="Connection.StartupTimeout.Tip" xml:space="preserve">啟動或切換帳號時，每一步持續無法辨識畫面的等待上限。
+辨識成功後立即繼續，已辨識的載入或更新過程不計入此逾時。
+預設 120 秒，可設定為 10–600 秒。</system:String>
     <system:String x:Key="Connection.TouchMode">觸控模式</system:String>
     <system:String x:Key="Connection.TouchMode.AdbInput">ADB Input（不推薦使用）</system:String>
     <system:String x:Key="Connection.TouchMode.MaaFwAdb">MaaFwAdb（實驗功能）</system:String>

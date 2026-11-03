@@ -91,6 +91,22 @@ bool asst::StartUpTask::set_params(const json::value& params)
         return false;
     }
 
+    int startup_timeout = 120;
+    if (const auto timeout = params.find_value("startup_timeout")) {
+        if (!timeout->is<int>()) {
+            LogError << __FUNCTION__ << "startup_timeout must be an integer";
+            return false;
+        }
+        startup_timeout = timeout->as_integer();
+    }
+    if (startup_timeout < 10 || startup_timeout > 600) {
+        LogError << __FUNCTION__ << "startup_timeout must be between 10 and 600 seconds";
+        return false;
+    }
+    const auto recognition_timeout = std::chrono::seconds(startup_timeout);
+    m_start_up_task_ptr->set_recognition_timeout(recognition_timeout);
+    m_account_switch_task_ptr->set_recognition_timeout(recognition_timeout);
+
     m_start_game = params.get("start_game_enabled", false);
     m_start_game_task_ptr->set_client_type(client_type).set_enable(m_start_game);
     m_account_switch_task_ptr->set_enable(!account_name.empty());

@@ -1,5 +1,6 @@
 #pragma once
 
+#include <chrono>
 #include <unordered_map>
 
 #include "AbstractTask.h"
@@ -34,6 +35,8 @@ public:
     virtual bool run() override;
 
     ProcessTask& set_task_delay(int delay) noexcept;
+    // A positive timeout replaces the retry count for each consecutive recognition failure window.
+    ProcessTask& set_recognition_timeout(std::chrono::milliseconds timeout) noexcept;
     ProcessTask& set_tasks(std::vector<std::string> tasks_name) noexcept;
     ProcessTask& set_times_limit(std::string name, int limit, TimesLimitType type = TimesLimitType::Pre);
     ProcessTask& set_post_delay(std::string name, int delay);
@@ -51,7 +54,7 @@ protected:
     enum class NodeStatus
     {
         Success,
-        RetryFailed, // 重试次数达到上限，对应 on_error_next
+        RetryFailed, // 重试次数或识别等待时间达到上限，对应 on_error_next
         Runout,      // 执行次数达到上限，对应 exceeded_next
         Interrupted,
         InternalError,
@@ -98,6 +101,7 @@ protected:
     std::unordered_map<std::string, int> m_exec_times;
     static constexpr int TaskDelayUnsetted = -1;
     int m_task_delay = TaskDelayUnsetted;
+    std::chrono::milliseconds m_recognition_timeout { 0 };
     cv::Mat m_reusable;
     std::shared_ptr<HitDetail> m_last_hit_detail = nullptr;
     std::unordered_map<std::string, TaskList> m_next_override;

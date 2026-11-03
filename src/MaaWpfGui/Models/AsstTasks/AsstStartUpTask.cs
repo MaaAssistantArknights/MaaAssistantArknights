@@ -44,6 +44,12 @@ public class AsstStartUpTask : AsstBaseTask
     public string AccountName { get; set; } = string.Empty;
 
     /// <summary>
+    /// Gets or sets 启动导航连续识别失败的超时秒数。
+    /// </summary>
+    [JsonProperty("startup_timeout")]
+    public int StartupTimeout { get; set; } = 120;
+
+    /// <summary>
     /// 开始唤醒。
     /// </summary>
     /// <returns>是否成功。</returns>
