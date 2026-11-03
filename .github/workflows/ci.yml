@@ -394,7 +394,7 @@ jobs:
   android:
     name: Build for Android (${{ matrix.arch }})
     needs: meta
-    runs-on: macos-26
+    runs-on: ubuntu-latest
     strategy:
       matrix:
         arch: [arm64, x64]
@@ -436,7 +436,7 @@ jobs:
           cmake -B build --preset 'android-publish-${{ matrix.arch }}' \
             -DCMAKE_TOOLCHAIN_FILE=${{ steps.setup-ndk.outputs.ndk-path }}/build/cmake/android.toolchain.cmake \
             -DMAA_HASH_VERSION='${{ needs.meta.outputs.tag }}'
-          cmake --build build --parallel $(sysctl -n hw.logicalcpu)
+          cmake --build build --parallel $(nproc)
           cmake --install build --prefix install
 
       - name: Setup Python for OCR conversion
