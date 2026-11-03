@@ -127,6 +127,8 @@ bool asst::OperProgressTask::set_params(const json::value& params)
             });
     }
 
+    std::string client_type = params.get("client_type", std::string());
+    m_process_task_ptr->set_client_type(std::move(client_type));
     m_process_task_ptr->set_plan(std::move(validated_plans));
     return true;
 }

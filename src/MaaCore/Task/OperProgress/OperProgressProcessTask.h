@@ -50,6 +50,8 @@ public:
 
     void set_plan(std::vector<OperProgressTask::ProgressPlan> plan) { m_plan = std::move(plan); }
 
+    void set_client_type(std::string client_type) { m_client_type = std::move(client_type); }
+
 protected:
     virtual bool _run() override;
 
@@ -103,6 +105,7 @@ private:
 
     void report_summary();
 
+    std::string m_client_type;
     std::vector<OperProgressTask::ProgressPlan> m_plan;
     std::vector<OperProgressTask::ProgressPlan> m_plan_finish;
 

@@ -1146,9 +1146,9 @@ json::array asst::OperProgressProcessTask::collect_missing_materials(OperProgres
     if (need_exit()) {
         return {};
     }
-    const auto& client = ctrler()->get_client_type();
-    if (!client.empty() && client != "Official" && client != "Bilibili") {
-        LogWarn << __FUNCTION__ << "| material reporting is not supported for client" << client;
+    // 常规模拟器连接不设置控制器客户端，因此材料识别以任务参数为准。
+    if (m_client_type != "Official" && m_client_type != "Bilibili") {
+        LogWarn << __FUNCTION__ << "| material reporting is not supported for client" << m_client_type;
         return {};
     }
     const auto page = oper_progress::material_page_name(action);
