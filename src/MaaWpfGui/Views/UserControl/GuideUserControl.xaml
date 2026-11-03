@@ -97,8 +97,8 @@
                     <controls:TextBlock
                         Grid.Row="2"
                         MaxWidth="{Binding ElementName=GuideButtonPanel, Path=ActualWidth}"
+                        d:Text="Next gate tip"
                         FontSize="12"
-                        Foreground="{DynamicResource ThirdlyTextBrush}"
                         Text="{Binding GuideNextGateTip}"
                         TextWrapping="Wrap"
                         Visibility="{c:Binding 'GuideNextGateTip != null'}" />
