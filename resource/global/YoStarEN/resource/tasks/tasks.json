@@ -150,6 +150,9 @@
     "MiningActivities": {
         "text": ["Provisional", "Mining", "Permit"]
     },
+    "SanityMatch": {
+        "binThreshold": [100, 255]
+    },
     "OrundumActivities": {
         "text": [
             "Lucky Strips",
