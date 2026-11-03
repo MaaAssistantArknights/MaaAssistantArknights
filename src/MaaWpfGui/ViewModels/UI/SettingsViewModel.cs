@@ -17,6 +17,8 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
@@ -39,10 +41,12 @@ using MaaWpfGui.Utilities;
 using MaaWpfGui.Utilities.ValueType;
 using MaaWpfGui.ViewModels.Items;
 using MaaWpfGui.ViewModels.UserControl.Settings;
+using MaaWpfGui.ViewModels.UserControl.TaskQueue;
 using Serilog;
 using Stylet;
 using Stylet.Xaml;
 using static MaaWpfGui.Extensions.LocalizationKeyExtensions;
+using static MaaWpfGui.Main.AsstProxy;
 using ComboBox = System.Windows.Controls.ComboBox;
 using Timer = System.Timers.Timer;
 
@@ -150,6 +154,7 @@ public class SettingsViewModel : Screen
 
         Init();
 
+        GuideDemoTasks.CollectionChanged += (_, _) => RecomputeGuideGate();
         ResetGuideDemoTasks();
 
         LocalizationHelper.LanguageChanged += RefreshLocalization;
@@ -163,6 +168,12 @@ public class SettingsViewModel : Screen
         DisplayName = LocalizationHelper.GetString("Settings.Title");
         RefreshSettingsList();
         NotifyOfPropertyChange(nameof(GuideNextGateTip));
+        NotifyOfPropertyChange(nameof(GuideNightThemeName));
+        _guideDemoStageList.RefreshLocalization();
+        foreach (var weekly in GuideDemoTasks.Where(t => t.IsFightTask).SelectMany(t => t.DemoWeeklySchedule))
+        {
+            weekly.RefreshLocalization();
+        }
     }
 
     #region Init
@@ -690,85 +701,210 @@ public class SettingsViewModel : Screen
         get; set {
             ConfigFactory.Root.Gui.GuideStep = value;
             SetAndNotify(ref field, value);
-            if (value == GuideMaxStep - 1)
-            {
-                StartGuideConfirmDelay();
-            }
-            else
-            {
-                _guideConfirmTimer?.Stop();
-                GuideConfirmEnabled = true;
-            }
         }
     } = ConfigFactory.Root.Gui.GuideStep;
 
-    private bool _guideConfirmEnabled = true;
-
-    public bool GuideConfirmEnabled
-    {
-        get => _guideConfirmEnabled;
-        set => SetAndNotify(ref _guideConfirmEnabled, value);
-    }
+    // ｢使用指引｣（含用户协议确认）步骤在 StepBar 中的索引，与 GuideUserControl.xaml 步骤区的 Visibility 条件对应
+    private const int GuideAgreementStepIndex = 1;
 
     // ｢任务设置｣ 步骤在 StepBar 中的索引，与 GuideUserControl.xaml 步骤区的 Visibility 条件对应
-    private const int GuideTaskSettingsStepIndex = 3;
+    private const int GuideTaskSettingsStepIndex = 4;
 
-    // 私有依赖源属性：变更通知经 PropertyDependsOn 转发给 GuideNextGateTip
-    private bool GuideDemoTaskAdded
+    /// <summary>
+    /// Gets the reserved reset target step index for tutorial-version migration：教程版本号递增时，
+    /// 已完成教程的用户由 Gui.OnDeserialized 重置到该步重新走一遍；需要完整重走保持 0，只补走部分步骤时改为对应索引。
+    /// </summary>
+    public static int GuideTutorialResetStepIndex => 0;
+
+    /// <summary>
+    /// 设置指引 ｢任务设置｣ 步骤的引导 gate 步骤，按引导顺序排列。
+    /// gate 为终态判定：不追踪操作过程，只检查演示列表与设置数据的最终状态；
+    /// 未到 <see cref="None" /> 时 ｢下一步｣ 保持禁用并按此提示第一个未完成步骤。
+    /// </summary>
+    private enum GuideGate
     {
-        get => _guideDemoTaskAdded;
-        set => SetAndNotify(ref _guideDemoTaskAdded, value);
+        None,
+        RestoreStartUp,
+        RestoreFight,
+        AddFight,
+        RenameFight,
+        SelectStage,
+        ReorderFight,
+        EnableWeekly,
+        CheckWeekDays,
+        AddSwitchTheme,
+        ReorderTheme,
+        AddNightTheme,
     }
 
-    private bool _guideDemoTaskAdded;
+    private GuideGate _guideGateStep;
+
+    /// <summary>
+    /// Gets or sets the current unfinished guide gate step，演示数据任意变化后重算；红点与提示绑定派生的 bool 属性。
+    /// </summary>
+    private GuideGate GuideGateStep
+    {
+        get => _guideGateStep;
+        set => SetAndNotify(ref _guideGateStep, value);
+    }
 
     /// <summary>
     /// Gets 当前步骤 ｢下一步｣ 前置条件的本地化提示，已满足或无前置条件时为 null（即放行）。
-    /// 新增门槛在下面的 switch 注册：条件 + 提示资源 key，UI 与按钮无需改动。
-    /// ｢任务设置｣ 步骤要求先通过 ｢添加新任务｣ 菜单添加过任务：
-    /// 该菜单列出全部任务类型，添加过即视为看过完整列表；列表项的复制不展开该菜单，不计入。
+    /// 提示资源 key 在 <see cref="GuideGateStepLocalizationKey"/> 注册，UI 与按钮无需改动。
     /// </summary>
-    [PropertyDependsOn(nameof(GuideStepIndex), nameof(GuideDemoTaskAdded))]
+    [PropertyDependsOn(nameof(GuideStepIndex), nameof(GuideGateStep), nameof(GuideUserAgreementOpened))]
     public string? GuideNextGateTip => GuideStepIndex switch
     {
-        GuideTaskSettingsStepIndex when !GuideDemoTaskAdded => LocalizationHelper.GetString("Guide.Demo.TaskRequired.Tip"),
+        GuideAgreementStepIndex when !GuideUserAgreementOpened
+            => LocalizationHelper.GetString("Guide.Agreement.Tip"),
+        GuideTaskSettingsStepIndex when GuideGateStep != GuideGate.None
+            => LocalizationHelper.GetString(GuideGateStepLocalizationKey(GuideGateStep)),
         _ => null,
     };
 
+    private bool _guideUserAgreementOpened;
+
     /// <summary>
-    /// Gets 设置指引 ｢添加任务｣ 按钮的红点是否显示：教程要求添加过任务才能进入下一步，
-    /// 未添加时以红点引导用户注意该按钮。
+    /// Gets or sets a value indicating whether the user agreement link has been clicked in the guide：
+    /// ｢使用指引｣ 步骤要求点击协议链接后才能进入下一步；状态不落盘，重看教程时重新要求点击。
     /// </summary>
-    [PropertyDependsOn(nameof(GuideDemoTaskAdded))]
-    public bool GuideAddTaskBadgeVisible => !GuideDemoTaskAdded;
-
-    // 最后一步停留 5 秒后才允许点完成，避免一路连点跳过说明
-    private const int GuideConfirmDelaySeconds = 5;
-
-    private DispatcherTimer? _guideConfirmTimer;
-
-    private int _guideConfirmCountdown;
-
-    public int GuideConfirmCountdown
+    public bool GuideUserAgreementOpened
     {
-        get => _guideConfirmCountdown;
-        set => SetAndNotify(ref _guideConfirmCountdown, value);
+        get => _guideUserAgreementOpened;
+        set => SetAndNotify(ref _guideUserAgreementOpened, value);
     }
 
-    private void StartGuideConfirmDelay()
+    /// <summary>
+    /// Gets 设置指引左上角 ｢跳过｣ 按钮是否显示：本地 Debug 构建或存在 DEBUG/DEBUG.txt 标记时（编译期与文件判定，不依赖运行时版本链的求值时序）。
+    /// </summary>
+    public bool GuideSkipVisible
+        =>
+#if DEBUG
+            true;
+#else
+            File.Exists("DEBUG") || File.Exists("DEBUG.txt");
+#endif
+
+    // UI 绑定的方法（协议链接点击）
+    [UsedImplicitly]
+    public void OnGuideUserAgreementClick()
     {
-        GuideConfirmEnabled = false;
-        GuideConfirmCountdown = GuideConfirmDelaySeconds;
-        var timer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(1) };
-        timer.Tick += (_, _) => {
-            if (--GuideConfirmCountdown <= 0)
-            {
-                timer.Stop();
-                GuideConfirmEnabled = true;
-            }
+        GuideUserAgreementOpened = true;
+    }
+
+    private static string GuideGateStepLocalizationKey(GuideGate step) => step switch
+    {
+        GuideGate.RestoreStartUp => "Guide.Demo.Gate.RestoreStartUp",
+        GuideGate.RestoreFight => "Guide.Demo.Gate.RestoreFight",
+        GuideGate.AddFight => "Guide.Demo.Gate.AddFight",
+        GuideGate.RenameFight => "Guide.Demo.Gate.RenameFight",
+        GuideGate.SelectStage => "Guide.Demo.Gate.SelectStage",
+        GuideGate.ReorderFight => "Guide.Demo.Gate.ReorderFight",
+        GuideGate.EnableWeekly => "Guide.Demo.Gate.EnableWeekly",
+        GuideGate.CheckWeekDays => "Guide.Demo.Gate.CheckWeekDays",
+        GuideGate.AddSwitchTheme => "Guide.Demo.Gate.AddSwitchTheme",
+        GuideGate.ReorderTheme => "Guide.Demo.Gate.ReorderTheme",
+        GuideGate.AddNightTheme => "Guide.Demo.Gate.AddNightTheme",
+        _ => string.Empty,
+    };
+
+    /// <summary>
+    /// Gets 设置指引 ｢添加任务｣ 按钮的红点是否显示：下一步为添加类步骤时引导用户注意该按钮。
+    /// </summary>
+    [PropertyDependsOn(nameof(GuideGateStep))]
+    public bool GuideAddTaskBadgeVisible => GuideGateStep
+        is GuideGate.RestoreStartUp or GuideGate.RestoreFight
+        or GuideGate.AddFight or GuideGate.AddSwitchTheme;
+
+    /// <summary>
+    /// Gets 演示关卡选择下拉框的红点是否显示：下一步为 ｢选择剿灭关卡｣ 时。
+    /// </summary>
+    [PropertyDependsOn(nameof(GuideGateStep))]
+    public bool GuideStageBadgeVisible => GuideGateStep == GuideGate.SelectStage;
+
+    /// <summary>
+    /// Gets ｢高级设置｣ 切换按钮的红点是否显示：下一步为 ｢启用周计划｣ 且尚未切到高级页时。
+    /// </summary>
+    [PropertyDependsOn(nameof(GuideGateStep), nameof(GuideDemoAdvancedSettings))]
+    public bool GuideAdvancedBadgeVisible => GuideGateStep == GuideGate.EnableWeekly && !GuideDemoAdvancedSettings;
+
+    /// <summary>
+    /// Gets ｢启用周计划｣ 开关的红点是否显示：下一步为 ｢启用周计划｣ 时。
+    /// </summary>
+    [PropertyDependsOn(nameof(GuideGateStep))]
+    public bool GuideWeeklyBadgeVisible => GuideGateStep == GuideGate.EnableWeekly;
+
+    /// <summary>
+    /// Gets 周计划星期列表的红点是否显示：下一步为 ｢勾选周一与周日｣ 时。
+    /// </summary>
+    [PropertyDependsOn(nameof(GuideGateStep))]
+    public bool GuideWeekDaysBadgeVisible => GuideGateStep == GuideGate.CheckWeekDays;
+
+    /// <summary>
+    /// Gets ｢添加主题｣ 按钮的红点是否显示：下一步为 ｢添加夜间主题｣ 时。
+    /// </summary>
+    [PropertyDependsOn(nameof(GuideGateStep))]
+    public bool GuideThemeAddBadgeVisible => GuideGateStep == GuideGate.AddNightTheme;
+
+    /// <summary>
+    /// Gets 添加菜单 ｢理智作战｣ 菜单项的红点是否显示：下一步为 ｢添加理智作战｣ 时。
+    /// </summary>
+    [PropertyDependsOn(nameof(GuideGateStep))]
+    public bool GuideFightMenuBadgeVisible => GuideGateStep == GuideGate.AddFight;
+
+    /// <summary>
+    /// Gets 添加菜单 ｢更换主题｣ 菜单项的红点是否显示：下一步为 ｢添加更换主题｣ 时。
+    /// </summary>
+    [PropertyDependsOn(nameof(GuideGateStep))]
+    public bool GuideSwitchThemeMenuBadgeVisible => GuideGateStep == GuideGate.AddSwitchTheme;
+
+    /// <summary>
+    /// Gets 演示关卡选择是否可编辑：仅在 ｢改关卡｣ 步骤与引导完成后（流程锁，非白名单步骤控件禁用）。
+    /// </summary>
+    [PropertyDependsOn(nameof(GuideGateStep))]
+    public bool GuideStageEditingAllowed => GuideGateStep is GuideGate.SelectStage or GuideGate.None;
+
+    /// <summary>
+    /// Gets 演示周计划是否可编辑：仅在周计划相关步骤与引导完成后。
+    /// </summary>
+    [PropertyDependsOn(nameof(GuideGateStep))]
+    public bool GuideWeeklyEditingAllowed => GuideGateStep is GuideGate.EnableWeekly or GuideGate.CheckWeekDays or GuideGate.None;
+
+    /// <summary>
+    /// Gets 演示主题列表是否可编辑：仅在 ｢添加夜间主题｣ 步骤与引导完成后。
+    /// </summary>
+    [PropertyDependsOn(nameof(GuideGateStep))]
+    public bool GuideThemeEditingAllowed => GuideGateStep is GuideGate.AddNightTheme or GuideGate.None;
+
+    /// <summary>
+    /// 流程锁判定下 gate 步骤对应 ｢下一步操作涉及的任务｣：改关卡指向新添加的理智作战（append 在列表尾部），
+    /// 其后指向剿灭理智作战，主题步骤指向更换主题任务；添加类步骤无目标任务。
+    /// </summary>
+    private GuideDemoTaskItem? GuideTargetTask(GuideGate step)
+    {
+        var fights = GuideDemoTasks.Where(t => t.IsFightTask).ToList();
+        return step switch
+        {
+            GuideGate.SelectStage => fights.LastOrDefault(),
+            GuideGate.RenameFight or GuideGate.ReorderFight or GuideGate.EnableWeekly or GuideGate.CheckWeekDays
+                => fights.FirstOrDefault(t => t.DemoStage == FightTaskUserControlModel.AnnihilationName),
+            GuideGate.ReorderTheme or GuideGate.AddNightTheme => GuideDemoTasks.FirstOrDefault(t => t.IsSwitchThemeTask),
+            _ => null,
         };
-        timer.Start();
-        _guideConfirmTimer = timer;
+    }
+
+    /// <summary>
+    /// 流程锁：以 Growl 提示当前操作不在引导流程内，并附当前步骤的引导提示。
+    /// </summary>
+    private void NotifyGuideOperationBlocked()
+    {
+        var message = LocalizationHelper.GetString("Guide.Demo.BlockedOperation");
+        if (GuideNextGateTip is { } tip)
+        {
+            message += "\n" + tip;
+        }
+
+        GrowlHelper.Warning(message);
     }
 
     private string _guideTransitionMode = "Bottom2Top";
@@ -808,6 +944,7 @@ public class SettingsViewModel : Screen
     public void RestartGuide()
     {
         GuideStepIndex = 0;
+        GuideUserAgreementOpened = false;
         TaskSettingVisibilities.Guide = true;
         var result = MessageBoxHelper.Show(
             LocalizationHelper.GetString("Guide.RestartPrompt"),
@@ -843,34 +980,68 @@ public class SettingsViewModel : Screen
     /// </summary>
     public ObservableCollection<GuideDemoTaskItem> GuideDemoTasks { get; } = new();
 
+    /// <summary>
+    /// Gets the demo task whose gear button is toggled on，右侧演示设置面板跟随该任务切换；未选中任何齿轮时为 null。
+    /// </summary>
+    public GuideDemoTaskItem? SelectedGuideDemoTask => GuideDemoTasks.FirstOrDefault(t => t.EnableSetting);
+
+    /// <summary>
+    /// Gets 演示 ｢夜间｣ 主题名（随界面语言取对应客户端的主题译名），添加主题预填与 gate 判定共用。
+    /// </summary>
+    public string GuideNightThemeName => LocalizationHelper.GetString("Guide.Demo.NightTheme");
+
+    private readonly LocalizedObservableList<string> _guideDemoStageList = new(
+        (string.Empty, "TaskQueue.Stage.Label.Default"),
+        (FightTaskUserControlModel.AnnihilationName, "TaskQueue.Annihilation.Current"));
+
+    /// <summary>
+    /// Gets 演示关卡选择的候选列表（当前/上次、当期剿灭），随语言热切换刷新。
+    /// </summary>
+    public LocalizedObservableList<string> GuideDemoStageList => _guideDemoStageList;
+
     private bool _guideDemoAdvancedSettings;
 
     /// <summary>
     /// Gets or sets a value indicating whether the demo settings column shows advanced entries，由常规/高级设置按钮组切换。
+    /// 流程锁：仅在周计划相关步骤与引导完成后允许切到高级页，其余步骤拒绝赋值（切回常规页随时放行）。
     /// </summary>
     public bool GuideDemoAdvancedSettings
     {
         get => _guideDemoAdvancedSettings;
-        set => SetAndNotify(ref _guideDemoAdvancedSettings, value);
+        set
+        {
+            if (value && GuideGateStep is not (GuideGate.None or GuideGate.EnableWeekly or GuideGate.CheckWeekDays))
+            {
+                NotifyGuideOperationBlocked();
+                return;
+            }
+
+            SetAndNotify(ref _guideDemoAdvancedSettings, value);
+        }
     }
 
     /// <summary>
-    /// 重置指引演示任务列表为初始任务，并清空 ｢添加新任务｣ 放行记录。名称项只存类型资源 key，显示名随语言热切换刷新。
+    /// 重置指引演示任务列表为初始任务（开始唤醒 + 理智作战）并重算 gate。名称项只存任务类型，显示名随语言热切换刷新。
     /// </summary>
     public void ResetGuideDemoTasks()
     {
         foreach (var task in GuideDemoTasks)
         {
+            DetachGuideDemoTask(task);
             (task as IDisposable)?.Dispose();
         }
 
         GuideDemoTasks.Clear();
-        foreach (var key in new[] { "Fight", "Infrast", "Award" })
+        foreach (var type in new[] { TaskType.StartUp, TaskType.Fight })
         {
-            GuideDemoTasks.Add(new GuideDemoTaskItem { LocalizationKey = TaskChainLocalizationKey(key) });
+            var item = new GuideDemoTaskItem(type);
+            AttachGuideDemoTask(item);
+            GuideDemoTasks.Add(item);
         }
 
-        GuideDemoTaskAdded = false;
+        GuideDemoTasks[0].EnableSetting = true;
+        _guideFlowLockArmed = true;
+        RecomputeGuideGate();
     }
 
     private CommandAction? _addGuideDemoTaskCommand;
@@ -895,10 +1066,30 @@ public class SettingsViewModel : Screen
             return;
         }
 
-        // 任务链名与类型名同构（XxxTask → Xxx），资源 key 经 TaskChainLocalizationKey 显式映射
-        var key = taskType.Name.EndsWith("Task", StringComparison.Ordinal) ? taskType.Name[..^"Task".Length] : taskType.Name;
-        GuideDemoTasks.Add(new GuideDemoTaskItem { LocalizationKey = TaskChainLocalizationKey(key) });
-        GuideDemoTaskAdded = true;
+        // 任务链名与类型名同构（XxxTask → Xxx），链名解析为 TaskType 后构造演示项
+        var chainName = taskType.Name.EndsWith("Task", StringComparison.Ordinal) ? taskType.Name[..^"Task".Length] : taskType.Name;
+        if (!Enum.TryParse(chainName, out TaskType type))
+        {
+            return;
+        }
+
+        var allowed = GuideGateStep switch
+        {
+            GuideGate.AddFight or GuideGate.RestoreFight => type == TaskType.Fight,
+            GuideGate.RestoreStartUp => type == TaskType.StartUp,
+            GuideGate.AddSwitchTheme => type == TaskType.SwitchTheme,
+            GuideGate.None => true,
+            _ => false,
+        };
+        if (!allowed)
+        {
+            NotifyGuideOperationBlocked();
+            return;
+        }
+
+        var item = new GuideDemoTaskItem(type);
+        AttachGuideDemoTask(item);
+        GuideDemoTasks.Add(item);
     }
 
     // UI 绑定的方法
@@ -907,6 +1098,13 @@ public class SettingsViewModel : Screen
     {
         if (taskItem == null)
         {
+            return;
+        }
+
+        // 流程锁：引导过程中不允许复制（副本的继承设置会引入流程外状态），完成后自由
+        if (GuideGateStep != GuideGate.None)
+        {
+            NotifyGuideOperationBlocked();
             return;
         }
 
@@ -922,9 +1120,59 @@ public class SettingsViewModel : Screen
             return;
         }
 
-        // 与真实 CopyTask 一致：副本为自定义名（原显示名 + " (2)"）、插在原项后、继承勾选状态
-        var newName = taskItem.Name + " (2)";
-        GuideDemoTasks.Insert(index + 1, new GuideDemoTaskItem { Name = newName, IsChecked = taskItem.IsChecked });
+        // 与真实 CopyTask 一致：副本为自定义名（原显示名 + " (2)"）、插在原项后、继承勾选状态；演示设置随副本复制
+        var copy = new GuideDemoTaskItem(taskItem.TaskType)
+        {
+            Name = taskItem.Name + " (2)",
+            IsChecked = taskItem.IsChecked,
+            DemoStage = taskItem.DemoStage,
+            DemoUseWeeklySchedule = taskItem.DemoUseWeeklySchedule,
+            DemoStartGame = taskItem.DemoStartGame,
+        };
+
+        foreach (var (source, target) in taskItem.DemoWeeklySchedule.Zip(copy.DemoWeeklySchedule, (source, target) => (source, target)))
+        {
+            target.Value = source.Value;
+        }
+
+        if (taskItem.DemoThemes is { } themes && copy.DemoThemes is { } copyThemes)
+        {
+            foreach (var theme in themes)
+            {
+                copyThemes.Add(new GuideDemoThemeItem(theme.Name));
+            }
+        }
+
+        AttachGuideDemoTask(copy);
+        GuideDemoTasks.Insert(index + 1, copy);
+    }
+
+    // UI 绑定的方法
+    [UsedImplicitly]
+    public void AddGuideDemoTheme(GuideDemoTaskItem taskItem)
+    {
+        if (taskItem?.DemoThemes is not { } themes)
+        {
+            return;
+        }
+
+        // 演示中添加主题直接预填 ｢夜间｣（取当前语言译名），免打字
+        themes.Add(new GuideDemoThemeItem(GuideNightThemeName));
+    }
+
+    // UI 绑定的方法
+    [UsedImplicitly]
+    public void RemoveGuideDemoTheme(GuideDemoThemeItem themeItem)
+    {
+        // 流程锁：引导过程中不允许删除主题（含按钮禁用，此处拦截右键等旁路调用），完成后自由
+        if (GuideGateStep != GuideGate.None)
+        {
+            NotifyGuideOperationBlocked();
+            return;
+        }
+
+        var owner = GuideDemoTasks.FirstOrDefault(t => t.DemoThemes?.Contains(themeItem) == true);
+        owner?.DemoThemes?.Remove(themeItem);
     }
 
     // UI 绑定的方法
@@ -933,6 +1181,12 @@ public class SettingsViewModel : Screen
     {
         if (taskItem == null)
         {
+            return;
+        }
+
+        if (GuideGateStep != GuideGate.None && (GuideGateStep != GuideGate.RenameFight || taskItem != GuideTargetTask(GuideGateStep)))
+        {
+            NotifyGuideOperationBlocked();
             return;
         }
 
@@ -961,7 +1215,14 @@ public class SettingsViewModel : Screen
             return;
         }
 
+        if (GuideGateStep != GuideGate.None)
+        {
+            NotifyGuideOperationBlocked();
+            return;
+        }
+
         GuideDemoTasks.Remove(taskItem);
+        DetachGuideDemoTask(taskItem);
         (taskItem as IDisposable)?.Dispose();
     }
 
@@ -994,6 +1255,211 @@ public class SettingsViewModel : Screen
         {
             task.IsChecked = false;
         }
+    }
+
+    /// <summary>
+    /// 重算引导 gate：按引导顺序求第一个未满足的终态条件，并同步任务项级红点的落点。
+    /// 由演示数据（列表增删移动、重命名、关卡、周计划、主题）的变更通知触发。
+    /// </summary>
+    private void RecomputeGuideGate()
+    {
+        GuideGate step = ComputeGuideGateStep();
+        GuideGateStep = step;
+
+        foreach (var task in GuideDemoTasks)
+        {
+            task.IsGateBadgeVisible = false;
+        }
+
+        var badgeTarget = GuideTargetTask(step);
+
+        if (badgeTarget != null)
+        {
+            badgeTarget.IsGateBadgeVisible = true;
+        }
+    }
+
+    /// <summary>
+    /// 按引导顺序求第一个未满足的终态条件（终态判定，不追踪操作过程）。
+    /// </summary>
+    private GuideGate ComputeGuideGateStep()
+    {
+        if (!GuideDemoTasks.Any(t => t.TaskType == TaskType.StartUp))
+        {
+            return GuideGate.RestoreStartUp;
+        }
+
+        var fights = GuideDemoTasks.Where(t => t.IsFightTask).ToList();
+        if (fights.Count == 0)
+        {
+            return GuideGate.RestoreFight;
+        }
+
+        var annihilationFight = fights.FirstOrDefault(t => t.DemoStage == FightTaskUserControlModel.AnnihilationName);
+        if (annihilationFight == null)
+        {
+            // 引导顺序：添加任务 → 改关卡（当期剿灭）→ 重命名 → 拖动；
+            // 无剿灭理智作战时，已有两个理智作战则引导改关卡，否则先引导添加
+            return fights.Count >= 2 ? GuideGate.SelectStage : GuideGate.AddFight;
+        }
+
+        if (!annihilationFight.HasCustomName)
+        {
+            return GuideGate.RenameFight;
+        }
+
+        // 剿灭理智作战须位于所有默认理智作战（关卡为 当前/上次）之上
+        var defaultFights = fights.Where(t => t.DemoStage != FightTaskUserControlModel.AnnihilationName).ToList();
+        if (defaultFights.Any(d => GuideDemoTasks.IndexOf(annihilationFight) > GuideDemoTasks.IndexOf(d)))
+        {
+            return GuideGate.ReorderFight;
+        }
+
+        if (!annihilationFight.DemoUseWeeklySchedule)
+        {
+            return GuideGate.EnableWeekly;
+        }
+
+        bool mondayChecked = annihilationFight.DemoWeeklySchedule.First(d => d.DayOfWeek == DayOfWeek.Monday).Value;
+        bool sundayChecked = annihilationFight.DemoWeeklySchedule.First(d => d.DayOfWeek == DayOfWeek.Sunday).Value;
+        if (!mondayChecked || !sundayChecked)
+        {
+            return GuideGate.CheckWeekDays;
+        }
+
+        var themeTasks = GuideDemoTasks.Where(t => t.IsSwitchThemeTask).ToList();
+        if (themeTasks.Count == 0)
+        {
+            return GuideGate.AddSwitchTheme;
+        }
+
+        if (GuideDemoTasks[^1].TaskType != TaskType.SwitchTheme)
+        {
+            return GuideGate.ReorderTheme;
+        }
+
+        var nightTheme = GuideNightThemeName;
+        if (!themeTasks.Any(t => t.DemoThemes.Any(theme => theme.Name.Trim() == nightTheme)))
+        {
+            return GuideGate.AddNightTheme;
+        }
+
+        return GuideGate.None;
+    }
+
+    private void AttachGuideDemoTask(GuideDemoTaskItem item)
+    {
+        item.PropertyChanged += OnGuideDemoTaskPropertyChanged;
+        foreach (var weekly in item.DemoWeeklySchedule)
+        {
+            weekly.PropertyChanged += OnGuideDemoSubItemPropertyChanged;
+        }
+
+        if (item.DemoThemes is { } themes)
+        {
+            themes.CollectionChanged += OnGuideDemoThemesChanged;
+            foreach (var theme in themes)
+            {
+                theme.PropertyChanged += OnGuideDemoSubItemPropertyChanged;
+            }
+        }
+    }
+
+    private void DetachGuideDemoTask(GuideDemoTaskItem item)
+    {
+        item.PropertyChanged -= OnGuideDemoTaskPropertyChanged;
+        foreach (var weekly in item.DemoWeeklySchedule)
+        {
+            weekly.PropertyChanged -= OnGuideDemoSubItemPropertyChanged;
+        }
+
+        if (item.DemoThemes is { } themes)
+        {
+            themes.CollectionChanged -= OnGuideDemoThemesChanged;
+            foreach (var theme in themes)
+            {
+                theme.PropertyChanged -= OnGuideDemoSubItemPropertyChanged;
+            }
+        }
+    }
+
+    private GuideDemoTaskItem? _guideLastAllowedGear;
+
+    // 流程锁在构造期的初始选中落位后才启用，避免初始齿轮被无目标步骤的锁误拦
+    private bool _guideFlowLockArmed;
+
+    private void OnGuideDemoTaskPropertyChanged(object? sender, PropertyChangedEventArgs args)
+    {
+        if (sender is not GuideDemoTaskItem item)
+        {
+            return;
+        }
+
+        // 红点是 gate 的输出，写回不再作为输入触发重算，否则形成 重算→写红点→再重算 的死循环（栈溢出）
+        if (args.PropertyName == nameof(GuideDemoTaskItem.IsGateBadgeVisible))
+        {
+            return;
+        }
+
+        if (args.PropertyName == nameof(GuideDemoTaskItem.EnableSetting))
+        {
+            // 流程锁：齿轮只允许切到当前引导步骤的目标任务或切回上一个合法选中（完成后自由），非法选中回滚；
+            // 添加类步骤无目标任务，保持初始选中（开始唤醒）不拦
+            if (_guideFlowLockArmed
+                && item.EnableSetting
+                && GuideGateStep != GuideGate.None
+                && item != GuideTargetTask(GuideGateStep)
+                && item != _guideLastAllowedGear)
+            {
+                item.EnableSetting = false;
+                if (_guideLastAllowedGear is { } last && GuideDemoTasks.Contains(last))
+                {
+                    last.EnableSetting = true;
+                }
+
+                NotifyGuideOperationBlocked();
+                return;
+            }
+
+            if (item.EnableSetting)
+            {
+                _guideLastAllowedGear = item;
+
+                // 与主界面一致：切换任务后回常规页（高级页仅理智作战有内容，入口也已按任务类型禁用）
+                GuideDemoAdvancedSettings = false;
+            }
+
+            NotifyOfPropertyChange(nameof(SelectedGuideDemoTask));
+        }
+
+        RecomputeGuideGate();
+    }
+
+    private void OnGuideDemoSubItemPropertyChanged(object? sender, PropertyChangedEventArgs args)
+    {
+        RecomputeGuideGate();
+    }
+
+    private void OnGuideDemoThemesChanged(object? sender, NotifyCollectionChangedEventArgs args)
+    {
+        // 增删主题条目时同步子项订阅（Name 变更影响夜间主题判定）
+        if (args.NewItems != null)
+        {
+            foreach (GuideDemoThemeItem theme in args.NewItems)
+            {
+                theme.PropertyChanged += OnGuideDemoSubItemPropertyChanged;
+            }
+        }
+
+        if (args.OldItems != null)
+        {
+            foreach (GuideDemoThemeItem theme in args.OldItems)
+            {
+                theme.PropertyChanged -= OnGuideDemoSubItemPropertyChanged;
+            }
+        }
+
+        RecomputeGuideGate();
     }
 
     #endregion SettingsGuide

@@ -15,6 +15,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Text.Json.Serialization;
 using JetBrains.Annotations;
 using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Constants.Enums;
@@ -25,7 +26,7 @@ using static MaaWpfGui.ViewModels.UI.OverlayViewModel;
 
 namespace MaaWpfGui.Configuration.Global;
 
-public class Gui : NotifyPropertyChangedWithValue
+public class Gui : NotifyPropertyChangedWithValue, IJsonOnDeserialized
 {
     public DarkModeType DarkMode { get; set; } = DarkModeType.SyncWithOs;
 
@@ -99,6 +100,32 @@ public class Gui : NotifyPropertyChangedWithValue
     public Dictionary<MaaHotKeyAction, MaaHotKey?> HotKeys { get; set; } = [];
 
     public int GuideStep { get; set; } = 0;
+
+    /// <summary>
+    /// 设置指引教程版本号。升级到新版本教程（步骤重排、新增引导门槛等）时递增此值，
+    /// 配合 <see cref="OnDeserialized"/> 让已完成教程的用户按 <c>SettingsViewModel.GuideTutorialResetStepIndex</c> 重新走一遍。
+    /// </summary>
+    public int GuideTutorialVersion { get; set; } = 1;
+
+    /// <summary>
+    /// 教程版本迁移：旧版本教程完成的用户（GuideStep 为完成值）重置到预留的重置目标步，仅触发一次。
+    /// </summary>
+    [UsedImplicitly]
+    public void OnDeserialized()
+    {
+        const int currentTutorialVersion = 2;
+        if (GuideTutorialVersion >= currentTutorialVersion)
+        {
+            return;
+        }
+
+        if (GuideStep >= ViewModels.UI.SettingsViewModel.GuideMaxStep)
+        {
+            GuideStep = ViewModels.UI.SettingsViewModel.GuideTutorialResetStepIndex;
+        }
+
+        GuideTutorialVersion = currentTutorialVersion;
+    }
 
     public Background Background { get; set; } = new();
 

@@ -6,6 +6,7 @@
     xmlns:constants="clr-namespace:MaaWpfGui.Constants"
     xmlns:controls="clr-namespace:MaaWpfGui.Styles.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:dd="urn:gong-wpf-dragdrop"
     xmlns:enums="clr-namespace:MaaWpfGui.Constants.Enums"
     xmlns:hc="https://handyorg.github.io/handycontrol"
     xmlns:helper="clr-namespace:MaaWpfGui.Helper"
@@ -24,16 +25,18 @@
             Style="{StaticResource GroupBoxTab}">
             <GroupBox.Header>
                 <hc:RelativePanel Height="20">
+                    <Button
+                        Margin="5,0"
+                        hc:RelativePanel.AlignVerticalCenterWithPanel="True"
+                        Command="{s:Action DoneGuide}"
+                        Content="{DynamicResource Guide.Skip}"
+                        Style="{StaticResource ButtonDashedWarning.Small}"
+                        Visibility="{c:Binding GuideSkipVisible}" />
                     <TextBlock
                         hc:RelativePanel.AlignHorizontalCenterWithPanel="True"
                         hc:RelativePanel.AlignVerticalCenterWithPanel="True"
                         FontSize="14"
                         Text="{DynamicResource Guide.Settings}" />
-                    <!--<Button
-                        Margin="5,0"
-                        Command="{s:Action DoneGuide}"
-                        Content="Skip"
-                        Style="{StaticResource ButtonDashedWarning.Small}" />-->
                 </hc:RelativePanel>
             </GroupBox.Header>
             <DockPanel>
@@ -64,12 +67,12 @@
                             Dock="Right"
                             StepIndex="{Binding GuideStepIndex}">
                             <hc:StepBarItem Content="{DynamicResource Settings.Ui.Title}" />
+                            <hc:StepBarItem Content="{DynamicResource Guide.User}" />
                             <hc:StepBarItem Content="{DynamicResource Settings.Game.Title}" />
                             <hc:StepBarItem Content="{DynamicResource Settings.Connection.Title}" />
                             <hc:StepBarItem Content="{DynamicResource TaskQueue.TaskSettings}" />
                             <hc:StepBarItem Content="{DynamicResource Settings.Performance.Title}" />
                             <hc:StepBarItem Content="{DynamicResource Settings.Update.Title}" />
-                            <hc:StepBarItem Content="{DynamicResource Guide.User}" />
                         </hc:StepBar>
                         <Button
                             MinWidth="100"
@@ -88,23 +91,17 @@
                             hc:IconElement.Width="18"
                             Command="{s:Action DoneGuide}"
                             Content="{DynamicResource Guide.Done}"
-                            IsEnabled="{Binding GuideConfirmEnabled}"
                             Style="{StaticResource ButtonDashedPrimary}"
                             Visibility="{c:Binding 'GuideStepIndex >= GuideMaxStep - 1'}" />
                     </StackPanel>
-                    <Grid Grid.Row="2" MaxWidth="{Binding ElementName=GuideButtonPanel, Path=ActualWidth}">
-                        <controls:TextBlock
-                            FontSize="12"
-                            Foreground="{DynamicResource ThirdlyTextBrush}"
-                            Visibility="{c:Binding '!GuideConfirmEnabled'}">
-                            <Run Text="{DynamicResource Guide.ConfirmCountdown.Prefix}" /><Run Text="{Binding GuideConfirmCountdown}" /><Run Text="{DynamicResource Guide.ConfirmCountdown.Suffix}" />
-                        </controls:TextBlock>
-                        <controls:TextBlock
-                            Foreground="{DynamicResource ThirdlyTextBrush}"
-                            Text="{Binding GuideNextGateTip}"
-                            TextWrapping="Wrap"
-                            Visibility="{c:Binding 'GuideNextGateTip != null'}" />
-                    </Grid>
+                    <controls:TextBlock
+                        Grid.Row="2"
+                        MaxWidth="{Binding ElementName=GuideButtonPanel, Path=ActualWidth}"
+                        FontSize="12"
+                        Foreground="{DynamicResource ThirdlyTextBrush}"
+                        Text="{Binding GuideNextGateTip}"
+                        TextWrapping="Wrap"
+                        Visibility="{c:Binding 'GuideNextGateTip != null'}" />
                 </Grid>
                 <ScrollViewer Margin="10,20,10,20" VerticalScrollBarVisibility="Auto">
                     <hc:SimplePanel HorizontalAlignment="Center" VerticalAlignment="Center">
@@ -137,7 +134,7 @@
                         <hc:TransitioningContentControl
                             d:Visibility="Collapsed"
                             TransitionMode="{Binding GuideTransitionMode}"
-                            Visibility="{c:Binding 'GuideStepIndex == 1'}">
+                            Visibility="{c:Binding 'GuideStepIndex == 2'}">
                             <StackPanel DataContext="{Binding GameSettings}">
                                 <ComboBox
                                     Width="200"
@@ -164,7 +161,7 @@
                         <hc:TransitioningContentControl
                             d:Visibility="Collapsed"
                             TransitionMode="{Binding GuideTransitionMode}"
-                            Visibility="{c:Binding 'GuideStepIndex == 2'}">
+                            Visibility="{c:Binding 'GuideStepIndex == 3'}">
                             <StackPanel s:View.ActionTarget="{Binding DataContext, RelativeSource={RelativeSource Self}}" DataContext="{Binding Source={x:Static ui_vms:SettingsViewModel.ConnectSettings}}">
                                 <controls:TextBlock
                                     MaxWidth="400"
@@ -186,7 +183,7 @@
                             Height="430"
                             d:Visibility="Collapsed"
                             TransitionMode="{Binding GuideTransitionMode}"
-                            Visibility="{c:Binding 'GuideStepIndex == 3'}">
+                            Visibility="{c:Binding 'GuideStepIndex == 4'}">
                             <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto" />
@@ -240,6 +237,9 @@
                                             MinHeight="140"
                                             Margin="0,10,0,8"
                                             HorizontalAlignment="Center"
+                                            dd:DragDrop.DragDropContext="{Binding RelativeSource={RelativeSource Self}}"
+                                            dd:DragDrop.IsDragSource="True"
+                                            dd:DragDrop.IsDropTarget="True"
                                             ItemsSource="{Binding GuideDemoTasks}">
                                             <ItemsControl.ItemTemplate>
                                                 <DataTemplate>
@@ -254,7 +254,7 @@
                                                                 <ColumnDefinition Width="Auto" />
                                                             </Grid.ColumnDefinitions>
 
-                                                            <!--  Column 0: CheckBox 拉伸填充可点击区域，名称由叠加 TextBlock 展示（照真实任务项结构）  -->
+                                                            <!--  Column 0: CheckBox 拉伸填充可点击区域，名称与引导红点由叠加层展示（照真实任务项结构）  -->
                                                             <CheckBox
                                                                 Grid.Column="0"
                                                                 MaxWidth="140"
@@ -263,14 +263,23 @@
                                                                 IsChecked="{Binding IsChecked}">
                                                                 <controls:TextBlock Text="{Binding Name}" Visibility="Hidden" />
                                                             </CheckBox>
-                                                            <controls:TextBlock
+                                                            <StackPanel
                                                                 Grid.Column="0"
                                                                 Margin="26,0,4,0"
                                                                 HorizontalAlignment="Stretch"
                                                                 VerticalAlignment="Center"
                                                                 Background="Transparent"
                                                                 IsHitTestVisible="False"
-                                                                Text="{Binding Name}" />
+                                                                Orientation="Horizontal">
+                                                                <controls:TextBlock Text="{Binding Name}" />
+                                                                <Ellipse
+                                                                    Width="7"
+                                                                    Height="7"
+                                                                    Margin="4,-3,0,0"
+                                                                    VerticalAlignment="Top"
+                                                                    Fill="{DynamicResource NewBadgeBrush}"
+                                                                    Visibility="{c:Binding IsGateBadgeVisible}" />
+                                                            </StackPanel>
 
                                                             <!--  Column 1: 悬浮显示的 复制/重命名/删除 与常驻齿轮（右键菜单），交互均落在演示列表  -->
                                                             <StackPanel Grid.Column="1" Orientation="Horizontal">
@@ -400,6 +409,7 @@
                                                     Padding="0"
                                                     hc:BorderElement.CornerRadius="4,0,0,4"
                                                     hc:IconElement.Geometry="{StaticResource TaskQueueAddTaskIcon}"
+                                                    AutomationProperties.Name="{DynamicResource TaskQueue.AddTask}"
                                                     Foreground="{DynamicResource PrimaryTextBrush}"
                                                     Style="{StaticResource MaaButtonDefaultStyle}"
                                                     ToolTip="{DynamicResource TaskQueue.AddTask}">
@@ -424,7 +434,40 @@
                                                                         <Setter Property="MinHeight" Value="{StaticResource DefaultControlHeight}" />
                                                                         <Setter Property="Command" Value="{Binding AddGuideDemoTaskCommand, Source={x:Static helper:Instances.SettingsViewModel}}" />
                                                                         <Setter Property="CommandParameter" Value="{Binding Value}" />
-                                                                        <Setter Property="Header" Value="{Binding Display}" />
+                                                                        <!--  Header 默认绑定整个条目，经 HeaderTemplate 渲染名称与引导红点  -->
+                                                                        <Setter Property="HeaderTemplate">
+                                                                            <Setter.Value>
+                                                                                <DataTemplate>
+                                                                                    <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+                                                                                        <TextBlock VerticalAlignment="Center" Text="{Binding Display}" />
+                                                                                        <Ellipse
+                                                                                            x:Name="MenuGateBadge"
+                                                                                            Width="7"
+                                                                                            Height="7"
+                                                                                            Margin="4,-3,0,0"
+                                                                                            VerticalAlignment="Top"
+                                                                                            Fill="{DynamicResource NewBadgeBrush}"
+                                                                                            Visibility="Collapsed" />
+                                                                                    </StackPanel>
+                                                                                    <DataTemplate.Triggers>
+                                                                                        <MultiDataTrigger>
+                                                                                            <MultiDataTrigger.Conditions>
+                                                                                                <Condition Binding="{Binding Value.Name}" Value="FightTask" />
+                                                                                                <Condition Binding="{Binding GuideFightMenuBadgeVisible, Source={x:Static helper:Instances.SettingsViewModel}}" Value="True" />
+                                                                                            </MultiDataTrigger.Conditions>
+                                                                                            <Setter TargetName="MenuGateBadge" Property="Visibility" Value="Visible" />
+                                                                                        </MultiDataTrigger>
+                                                                                        <MultiDataTrigger>
+                                                                                            <MultiDataTrigger.Conditions>
+                                                                                                <Condition Binding="{Binding Value.Name}" Value="SwitchThemeTask" />
+                                                                                                <Condition Binding="{Binding GuideSwitchThemeMenuBadgeVisible, Source={x:Static helper:Instances.SettingsViewModel}}" Value="True" />
+                                                                                            </MultiDataTrigger.Conditions>
+                                                                                            <Setter TargetName="MenuGateBadge" Property="Visibility" Value="Visible" />
+                                                                                        </MultiDataTrigger>
+                                                                                    </DataTemplate.Triggers>
+                                                                                </DataTemplate>
+                                                                            </Setter.Value>
+                                                                        </Setter>
                                                                     </Style>
                                                                 </Menu.ItemContainerStyle>
                                                                 <Menu.ItemsPanel>
@@ -493,19 +536,26 @@
                                         Text="{DynamicResource Guide.LinkStart}" />
                                 </StackPanel>
 
-                                <!--  右：假设置列（选项随常规/高级切换）与按钮组，顶部与任务面板同行对齐  -->
+                                <!--  右：设置面板随齿轮选中的任务切换（选项随常规/高级切换），顶部与任务面板同行对齐  -->
                                 <StackPanel
                                     Grid.Row="1"
                                     Grid.Column="1"
                                     Margin="8,10,0,0"
                                     VerticalAlignment="Top"
                                     Visibility="{c:Binding !GuideDemoAdvancedSettings}">
-                                    <StackPanel Orientation="Horizontal">
-                                        <CheckBox IsChecked="True">
-                                            <controls:TextBlock>
-                                                <Run Text="{DynamicResource TaskQueue.GeneralSettings}" /><Run xml:space="preserve" Text=" 1" />
-                                            </controls:TextBlock>
-                                        </CheckBox>
+                                    <controls:TextBlock
+                                        Margin="0,20,0,0"
+                                        Foreground="{DynamicResource ThirdlyTextBrush}"
+                                        Text="{DynamicResource Guide.Demo.SettingsPlaceholder}"
+                                        TextAlignment="Center"
+                                        TextWrapping="Wrap"
+                                        Visibility="{c:Binding 'SelectedGuideDemoTask == null'}" />
+                                    <!--  开始唤醒：是否启动客户端（演示）  -->
+                                    <StackPanel
+                                        Margin="0,20,0,0"
+                                        Orientation="Horizontal"
+                                        Visibility="{c:Binding SelectedGuideDemoTask.IsStartUpTask}">
+                                        <CheckBox Content="{DynamicResource Connection.LaunchClient}" IsChecked="{Binding SelectedGuideDemoTask.DemoStartGame}" />
                                         <controls:TooltipBlock VerticalAlignment="Center" TooltipText="{DynamicResource TaskQueue.CheckBoxesNotSaved}" />
                                         <controls:TextBlock Text="←" TextWrapping="Wrap" />
                                         <controls:TextBlock
@@ -515,44 +565,154 @@
                                             Text="{DynamicResource Guide.Tip}"
                                             TextWrapping="Wrap" />
                                     </StackPanel>
-                                    <CheckBox Margin="0,10,0,0">
-                                        <controls:TextBlock>
-                                            <Run Text="{DynamicResource TaskQueue.GeneralSettings}" /><Run xml:space="preserve" Text=" 2" />
-                                        </controls:TextBlock>
-                                    </CheckBox>
-                                    <CheckBox Margin="0,10,0,0">
-                                        <controls:TextBlock>
-                                            <Run Text="{DynamicResource TaskQueue.GeneralSettings}" /><Run xml:space="preserve" Text=" 3" />
-                                        </controls:TextBlock>
-                                    </CheckBox>
+                                    <!--  理智作战：关卡选择（演示）  -->
+                                    <StackPanel Margin="0,20,0,0" Visibility="{c:Binding SelectedGuideDemoTask.IsFightTask}">
+                                        <Grid>
+                                            <ComboBox
+                                                Height="30"
+                                                DisplayMemberPath="Display"
+                                                IsHitTestVisible="{c:Binding GuideStageEditingAllowed}"
+                                                ItemsSource="{Binding GuideDemoStageList}"
+                                                SelectedValue="{Binding SelectedGuideDemoTask.DemoStage}"
+                                                SelectedValuePath="Value" />
+                                            <Ellipse
+                                                Width="7"
+                                                Height="7"
+                                                Margin="0,-3,-4,0"
+                                                HorizontalAlignment="Right"
+                                                VerticalAlignment="Top"
+                                                Fill="{DynamicResource NewBadgeBrush}"
+                                                IsHitTestVisible="False"
+                                                Visibility="{c:Binding GuideStageBadgeVisible}" />
+                                        </Grid>
+                                    </StackPanel>
+                                    <!--  更换主题：主题名列表（演示）  -->
+                                    <StackPanel
+                                        Margin="0,20,0,0"
+                                        HorizontalAlignment="Center"
+                                        Visibility="{c:Binding SelectedGuideDemoTask.IsSwitchThemeTask}">
+                                        <ItemsControl ItemsSource="{Binding SelectedGuideDemoTask.DemoThemes}">
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate>
+                                                    <Grid Margin="0,0,0,6">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition />
+                                                            <ColumnDefinition Width="Auto" />
+                                                        </Grid.ColumnDefinitions>
+                                                        <TextBox
+                                                            Width="150"
+                                                            Height="30"
+                                                            hc:InfoElement.Placeholder="{DynamicResource TaskQueue.SwitchTheme.Placeholder}"
+                                                            IsEnabled="{c:Binding GuideThemeEditingAllowed}"
+                                                            Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" />
+                                                        <Button
+                                                            Grid.Column="1"
+                                                            Width="25"
+                                                            Height="25"
+                                                            Margin="4,0,0,0"
+                                                            Padding="0"
+                                                            HorizontalAlignment="Center"
+                                                            VerticalAlignment="Center"
+                                                            hc:IconElement.Geometry="{StaticResource DeleteTaskGeometry}"
+                                                            hc:IconElement.Height="15"
+                                                            hc:IconElement.Width="15"
+                                                            Command="{s:Action RemoveGuideDemoTheme,
+                                                                               Target={x:Static helper:Instances.SettingsViewModel}}"
+                                                            CommandParameter="{Binding}"
+                                                            ToolTip="{DynamicResource Common.Delete}" />
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
+                                        <Grid HorizontalAlignment="Center">
+                                            <Button
+                                                MinWidth="50"
+                                                Command="{s:Action AddGuideDemoTheme,
+                                                                   Target={x:Static helper:Instances.SettingsViewModel}}"
+                                                CommandParameter="{Binding SelectedGuideDemoTask}"
+                                                Content="{DynamicResource TaskQueue.SwitchTheme.Add}"
+                                                IsEnabled="{c:Binding GuideThemeEditingAllowed}" />
+                                            <Ellipse
+                                                Width="7"
+                                                Height="7"
+                                                Margin="0,1,1,0"
+                                                HorizontalAlignment="Right"
+                                                VerticalAlignment="Top"
+                                                Fill="{DynamicResource NewBadgeBrush}"
+                                                IsHitTestVisible="False"
+                                                Visibility="{c:Binding GuideThemeAddBadgeVisible}" />
+                                        </Grid>
+                                    </StackPanel>
+                                    <!--  其他任务类型：跟随指引提示  -->
+                                    <controls:TextBlock
+                                        Margin="0,20,0,0"
+                                        Foreground="{DynamicResource ThirdlyTextBrush}"
+                                        Text="{DynamicResource Guide.Demo.SettingsPlaceholder}"
+                                        TextAlignment="Center"
+                                        TextWrapping="Wrap"
+                                        Visibility="{c:Binding 'SelectedGuideDemoTask != null and !SelectedGuideDemoTask.IsStartUpTask and !SelectedGuideDemoTask.IsFightTask and !SelectedGuideDemoTask.IsSwitchThemeTask'}" />
                                 </StackPanel>
-                                <hc:UniformSpacingPanel
+                                <!--  高级页：仅理智作战有演示内容（周计划），其余跟随指引提示  -->
+                                <StackPanel
                                     Grid.Row="1"
                                     Grid.Column="1"
                                     Margin="8,10,0,0"
-                                    Orientation="Vertical"
-                                    Spacing="10"
+                                    VerticalAlignment="Top"
                                     Visibility="{c:Binding GuideDemoAdvancedSettings}">
-                                    <CheckBox IsChecked="True">
-                                        <controls:TextBlock>
-                                            <Run Text="{DynamicResource TaskQueue.AdvancedSettings}" /><Run xml:space="preserve" Text=" 1" />
-                                        </controls:TextBlock>
-                                    </CheckBox>
-                                    <CheckBox>
-                                        <controls:TextBlock>
-                                            <Run Text="{DynamicResource TaskQueue.AdvancedSettings}" /><Run xml:space="preserve" Text=" 2" />
-                                        </controls:TextBlock>
-                                    </CheckBox>
-                                    <CheckBox>
-                                        <controls:TextBlock>
-                                            <Run Text="{DynamicResource TaskQueue.AdvancedSettings}" /><Run xml:space="preserve" Text=" 3" />
-                                        </controls:TextBlock>
-                                    </CheckBox>
-                                </hc:UniformSpacingPanel>
-                                <StackPanel
+                                    <StackPanel Visibility="{c:Binding SelectedGuideDemoTask.IsFightTask}">
+                                        <Grid>
+                                            <StackPanel Orientation="Horizontal">
+                                                <CheckBox
+                                                    Content="{DynamicResource TaskQueue.UseWeeklySchedule}"
+                                                    IsChecked="{Binding SelectedGuideDemoTask.DemoUseWeeklySchedule}"
+                                                    IsEnabled="{c:Binding GuideWeeklyEditingAllowed}" />
+                                                <Ellipse
+                                                    Width="7"
+                                                    Height="7"
+                                                    Margin="4,-3,0,0"
+                                                    VerticalAlignment="Top"
+                                                    Fill="{DynamicResource NewBadgeBrush}"
+                                                    IsHitTestVisible="False"
+                                                    Visibility="{c:Binding GuideWeeklyBadgeVisible}" />
+                                                <controls:TooltipBlock VerticalAlignment="Center" TooltipText="{DynamicResource TaskQueue.UseWeeklySchedule.Tip}" />
+                                            </StackPanel>
+                                        </Grid>
+                                        <Grid Margin="0,6,0,0" Visibility="{c:Binding SelectedGuideDemoTask.DemoUseWeeklySchedule}">
+                                            <ListBox
+                                                Height="150"
+                                                HorizontalContentAlignment="Stretch"
+                                                d:ItemsSource="{d:SampleData ItemCount=3}"
+                                                IsEnabled="{c:Binding GuideWeeklyEditingAllowed}"
+                                                ItemsSource="{Binding SelectedGuideDemoTask.DemoWeeklySchedule}"
+                                                ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                                Style="{DynamicResource NoSelectedHighlightListBoxStyle}">
+                                                <ListBox.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <CheckBox
+                                                            HorizontalAlignment="Left"
+                                                            VerticalAlignment="Center"
+                                                            Content="{Binding Display}"
+                                                            IsChecked="{Binding Value}" />
+                                                    </DataTemplate>
+                                                </ListBox.ItemTemplate>
+                                            </ListBox>
+                                            <Ellipse
+                                                Width="7"
+                                                Height="7"
+                                                Margin="0,-3,-4,0"
+                                                HorizontalAlignment="Right"
+                                                VerticalAlignment="Top"
+                                                Fill="{DynamicResource NewBadgeBrush}"
+                                                IsHitTestVisible="False"
+                                                Visibility="{c:Binding GuideWeekDaysBadgeVisible}" />
+                                        </Grid>
+                                    </StackPanel>
+                                </StackPanel>
+                                <Grid
                                     Grid.Row="2"
                                     Grid.Column="1"
-                                    Margin="0,10,0,0">
+                                    Margin="0,10,0,0"
+                                    HorizontalAlignment="Center">
                                     <hc:ButtonGroup
                                         Width="220"
                                         HorizontalAlignment="Center"
@@ -567,16 +727,26 @@
                                             hc:VisualElement.HighlightBackground="{DynamicResource RegionBrushOpacity25}"
                                             Background="{DynamicResource RegionBrushOpacity25}"
                                             Content="{DynamicResource TaskQueue.AdvancedSettings}"
-                                            IsChecked="{c:Binding GuideDemoAdvancedSettings}" />
+                                            IsChecked="{c:Binding GuideDemoAdvancedSettings}"
+                                            IsEnabled="{c:Binding SelectedGuideDemoTask.IsFightTask}" />
                                     </hc:ButtonGroup>
-                                </StackPanel>
+                                    <Ellipse
+                                        Width="7"
+                                        Height="7"
+                                        Margin="0,-3,-4,0"
+                                        HorizontalAlignment="Right"
+                                        VerticalAlignment="Top"
+                                        Fill="{DynamicResource NewBadgeBrush}"
+                                        IsHitTestVisible="False"
+                                        Visibility="{c:Binding GuideAdvancedBadgeVisible}" />
+                                </Grid>
                             </Grid>
                         </hc:TransitioningContentControl>
 
                         <hc:TransitioningContentControl
                             d:Visibility="Collapsed"
                             TransitionMode="{Binding GuideTransitionMode}"
-                            Visibility="{c:Binding 'GuideStepIndex == 4'}">
+                            Visibility="{c:Binding 'GuideStepIndex == 5'}">
                             <StackPanel s:View.ActionTarget="{Binding DataContext, RelativeSource={RelativeSource Self}}" DataContext="{Binding Source={x:Static ui_vms:SettingsViewModel.PerformanceSettings}}">
                                 <controls:TextBlock
                                     MaxWidth="400"
@@ -617,7 +787,7 @@
                         <hc:TransitioningContentControl
                             d:Visibility="Collapsed"
                             TransitionMode="{Binding GuideTransitionMode}"
-                            Visibility="{c:Binding 'GuideStepIndex == 5'}">
+                            Visibility="{c:Binding 'GuideStepIndex == 6'}">
                             <hc:UniformSpacingPanel
                                 s:View.ActionTarget="{Binding DataContext, RelativeSource={RelativeSource Self}}"
                                 DataContext="{Binding Source={x:Static ui_vms:SettingsViewModel.VersionUpdateSettings}}"
@@ -713,7 +883,7 @@
                         <hc:TransitioningContentControl
                             d:Visibility="Collapsed"
                             TransitionMode="{Binding GuideTransitionMode}"
-                            Visibility="{c:Binding 'GuideStepIndex == 6'}">
+                            Visibility="{c:Binding 'GuideStepIndex == 1'}">
                             <ScrollViewer MaxHeight="400" VerticalScrollBarVisibility="Auto">
                                 <hc:UniformSpacingPanel
                                     MaxWidth="550"
@@ -798,11 +968,36 @@
 
                                     <Separator />
 
+                                    <!--
+                                        UniformSpacingPanel 会把直接子项拉伸至整行宽导致内容左对齐，
+                                        须经 StackPanel 包装后子元素的 HorizontalAlignment=Center 才能生效
+                                    -->
                                     <StackPanel>
-                                        <controls:TextBlock
-                                            HorizontalAlignment="Center"
-                                            Text="{DynamicResource Guide.UserAgreement}"
-                                            TextWrapping="Wrap" />
+                                        <Grid HorizontalAlignment="Center">
+                                            <StackPanel Orientation="Horizontal">
+                                                <controls:TextBlock Text="{DynamicResource Guide.Agreement.Prefix}" />
+                                                <Grid>
+                                                    <controls:TextBlock>
+                                                        <Hyperlink
+                                                            Click="{s:Action OnGuideUserAgreementClick}"
+                                                            Cursor="Hand"
+                                                            NavigateUri="{Binding Source={x:Static constants:MaaUrls.UserAgreement}}"
+                                                            TextDecorations="None">
+                                                            <TextBlock Style="{StaticResource HyperlinkTextBlockStyle}" Text="{DynamicResource Guide.Agreement.Link}" />
+                                                        </Hyperlink>
+                                                    </controls:TextBlock>
+                                                    <Ellipse
+                                                        Width="7"
+                                                        Height="7"
+                                                        Margin="0,1,-10,0"
+                                                        HorizontalAlignment="Right"
+                                                        VerticalAlignment="Top"
+                                                        Fill="{DynamicResource NewBadgeBrush}"
+                                                        IsHitTestVisible="False"
+                                                        Visibility="{c:Binding 'GuideStepIndex == 1 and !GuideUserAgreementOpened'}" />
+                                                </Grid>
+                                            </StackPanel>
+                                        </Grid>
                                     </StackPanel>
                                 </hc:UniformSpacingPanel>
                             </ScrollViewer>
