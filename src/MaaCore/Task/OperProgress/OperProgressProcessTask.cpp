@@ -158,21 +158,37 @@ std::string role_task_name(asst::battle::Role role)
 
 bool asst::OperProgressProcessTask::_run()
 {
-    const auto collect = [&](OperProgressAction action, ResultDetail& result) {
+    const auto collect = [&](OperProgressAction action, ResultDetail& result, bool& ready) {
         if (result != ResultDetail::ResourceInsufficient && result != ResultDetail::FormulaLocked &&
             result != ResultDetail::ChipNotCraftable) {
             return json::array {};
         }
         auto materials = collect_missing_materials(action);
+        ready = false;
+        // 后续步骤从档案页读取进度，不能沿用缺料页面；恢复失败则不继续本计划。
+        if (!need_exit()) {
+            ProcessTask returning(*this, { "OperProgress@OperFiles", "OperProgress@ReturnToOperFilesPage" });
+            returning.set_times_limit("OperProgress@ReturnToOperFilesPage", 5).set_retry_times(1).run();
+            if (!need_exit()) {
+                Matcher files(ctrler()->get_image());
+                files.set_task_info("OperProgress@OperFiles");
+                ready = files.analyze().has_value();
+            }
+        }
         if (need_exit()) {
             result = ResultDetail::Interrupt;
+            ready = false;
             materials.clear();
+        }
+        else if (!ready) {
+            LogWarn << __FUNCTION__ << "| failed to restore operator files, skip remaining steps";
         }
         return materials;
     };
     bool training_room_busy = false;
     for (size_t index = 0; index < m_plan.size() && !need_exit(); ++index) {
         const auto& target = m_plan[index];
+        bool ready = true;
 
         if (training_room_busy && !target.elite && !target.skill_level && target.skill_mastery) {
             continue; // 训练室已占用且无其他目标, 跳过仅专精计划
@@ -193,17 +209,17 @@ bool asst::OperProgressProcessTask::_run()
         }
         if (target.elite) {
             auto elite_ret = execute_elite(target.role, target.name, *target.elite);
-            const auto materials = collect(OperProgressAction::Elite, elite_ret);
+            const auto materials = collect(OperProgressAction::Elite, elite_ret, ready);
             report_elite_result(target.role, target.name, elite_ret, *target.elite, materials);
-            if (need_exit()) {
+            if (!ready || need_exit()) {
                 continue;
             }
         }
         if (target.skill_level) {
             auto main_ret = execute_skill(*target.skill_level);
-            const auto materials = collect(OperProgressAction::MainSkillLevel, main_ret);
+            const auto materials = collect(OperProgressAction::MainSkillLevel, main_ret, ready);
             report_skill_result(target.role, target.name, main_ret, *target.skill_level, materials);
-            if (need_exit()) {
+            if (!ready || need_exit()) {
                 continue;
             }
         }
@@ -215,14 +231,14 @@ bool asst::OperProgressProcessTask::_run()
                 }
                 int training_level = 0;
                 auto skill_ret = execute_mastery(target.role, target.name, i + 1, arr[i], training_level);
-                const auto materials = collect(OperProgressAction::Mastery, skill_ret);
+                const auto materials = collect(OperProgressAction::Mastery, skill_ret, ready);
                 std::array<int, 3> skill_levels { 0, 0, 0 };
                 if (skill_ret == ResultDetail::AlreadySatisfied || skill_ret == ResultDetail::Completed ||
                     skill_ret == ResultDetail::PrerequisiteTraining || skill_ret == ResultDetail::TrainingRoomBusy) {
                     skill_levels[i] = training_level;
                 }
                 report_skill_result(target.role, target.name, skill_ret, skill_levels, i + 1, materials);
-                if (need_exit()) {
+                if (!ready || need_exit()) {
                     break;
                 }
                 if (skill_ret == ResultDetail::TrainingRoomBusy || skill_ret == ResultDetail::PrerequisiteTraining ||
