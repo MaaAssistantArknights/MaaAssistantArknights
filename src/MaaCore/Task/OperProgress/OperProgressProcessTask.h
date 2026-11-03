@@ -90,6 +90,7 @@ private:
     std::optional<int> training_skill_mastery_level(const cv::Mat& image, int skill);
     // 通过切换职业栏标签把基建干员列表复位到第一页，参照 InfrastAbstractTask::swipe_to_the_left_of_operlist。
     bool reset_trainer_list_page();
+    bool restore_operator_files();
     bool run_task(const std::string& task_name, int retry_times = RetryTimesDefault);
     bool run_task(std::vector<std::string> tasks, int retry_times = RetryTimesDefault);
     // task_type 区分精英化、技能升级与技能专精页面；material_index 对应页面上的材料槽 0-2。
@@ -100,6 +101,10 @@ private:
     bool manufacture_dual_chip(battle::Role role, const std::string& name);
     bool restore_factory_state(); // 合成后恢复制造站产品
     bool buy_catalyst(int count);
+    bool detect_task(const cv::Mat& image, const std::string& task_name);
+    bool detect_material_popup(const cv::Mat& image);
+    std::string
+        read_text(const cv::Mat& image, const Rect& roi, const std::string& task_name = "OperProgress@MaterialCount");
     std::optional<int> ocr_number(const std::string& task_name);
     std::optional<int> ocr_number(const cv::Mat& image, const std::string& task_name);
 

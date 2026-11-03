@@ -6400,13 +6400,20 @@
         "algorithm": "OcrDetect",
         "text": ["库存", "获得方式", "跳转"],
         "roi": [0, 180, 1280, 348],
-        "doc": "仅缺料上报使用，确认详情存在后点击空白处关闭"
+        "doc": "仅缺料上报使用，识别材料详情弹窗"
     },
     "OperProgress@CloseMaterialPopup": {
         "baseTask": "OperProgress@MaterialPopup",
         "action": "ClickRect",
         "specificRect": [1000, 150, 1, 1],
-        "postDelay": 300
+        "postDelay": 300,
+        "doc": "确认详情存在后点击空白处关闭，保留培养面板"
+    },
+    "OperProgress@Material": {
+        "template": "empty.png",
+        "templThreshold": 0.8,
+        "maskRange": [1, 255],
+        "method": "Ccoeff"
     },
     "OperProgress@MaterialCount": {
         "baseTask": "NumberOcrReplace",

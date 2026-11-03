@@ -158,33 +158,6 @@ std::string role_task_name(asst::battle::Role role)
 
 bool asst::OperProgressProcessTask::_run()
 {
-    const auto collect = [&](OperProgressAction action, ResultDetail& result, bool& ready) {
-        if (result != ResultDetail::ResourceInsufficient && result != ResultDetail::FormulaLocked &&
-            result != ResultDetail::ChipNotCraftable) {
-            return json::array {};
-        }
-        auto materials = collect_missing_materials(action);
-        ready = false;
-        // 后续步骤从档案页读取进度，不能沿用缺料页面；恢复失败则不继续本计划。
-        if (!need_exit()) {
-            ProcessTask returning(*this, { "OperProgress@OperFiles", "OperProgress@ReturnToOperFilesPage" });
-            returning.set_times_limit("OperProgress@ReturnToOperFilesPage", 5).set_retry_times(1).run();
-            if (!need_exit()) {
-                Matcher files(ctrler()->get_image());
-                files.set_task_info("OperProgress@OperFiles");
-                ready = files.analyze().has_value();
-            }
-        }
-        if (need_exit()) {
-            result = ResultDetail::Interrupt;
-            ready = false;
-            materials.clear();
-        }
-        else if (!ready) {
-            LogWarn << __FUNCTION__ << "| failed to restore operator files, skip remaining steps";
-        }
-        return materials;
-    };
     bool training_room_busy = false;
     for (size_t index = 0; index < m_plan.size() && !need_exit(); ++index) {
         const auto& target = m_plan[index];
@@ -209,7 +182,16 @@ bool asst::OperProgressProcessTask::_run()
         }
         if (target.elite) {
             auto elite_ret = execute_elite(target.role, target.name, *target.elite);
-            const auto materials = collect(OperProgressAction::Elite, elite_ret, ready);
+            json::array materials;
+            if (elite_ret == ResultDetail::ResourceInsufficient || elite_ret == ResultDetail::FormulaLocked ||
+                elite_ret == ResultDetail::ChipNotCraftable) {
+                materials = collect_missing_materials(OperProgressAction::Elite);
+                ready = restore_operator_files();
+                if (need_exit()) {
+                    elite_ret = ResultDetail::Interrupt;
+                    materials.clear();
+                }
+            }
             report_elite_result(target.role, target.name, elite_ret, *target.elite, materials);
             if (!ready || need_exit()) {
                 continue;
@@ -217,7 +199,16 @@ bool asst::OperProgressProcessTask::_run()
         }
         if (target.skill_level) {
             auto main_ret = execute_skill(*target.skill_level);
-            const auto materials = collect(OperProgressAction::MainSkillLevel, main_ret, ready);
+            json::array materials;
+            if (main_ret == ResultDetail::ResourceInsufficient || main_ret == ResultDetail::FormulaLocked ||
+                main_ret == ResultDetail::ChipNotCraftable) {
+                materials = collect_missing_materials(OperProgressAction::MainSkillLevel);
+                ready = restore_operator_files();
+                if (need_exit()) {
+                    main_ret = ResultDetail::Interrupt;
+                    materials.clear();
+                }
+            }
             report_skill_result(target.role, target.name, main_ret, *target.skill_level, materials);
             if (!ready || need_exit()) {
                 continue;
@@ -231,7 +222,16 @@ bool asst::OperProgressProcessTask::_run()
                 }
                 int training_level = 0;
                 auto skill_ret = execute_mastery(target.role, target.name, i + 1, arr[i], training_level);
-                const auto materials = collect(OperProgressAction::Mastery, skill_ret, ready);
+                json::array materials;
+                if (skill_ret == ResultDetail::ResourceInsufficient || skill_ret == ResultDetail::FormulaLocked ||
+                    skill_ret == ResultDetail::ChipNotCraftable) {
+                    materials = collect_missing_materials(OperProgressAction::Mastery);
+                    ready = restore_operator_files();
+                    if (need_exit()) {
+                        skill_ret = ResultDetail::Interrupt;
+                        materials.clear();
+                    }
+                }
                 std::array<int, 3> skill_levels { 0, 0, 0 };
                 if (skill_ret == ResultDetail::AlreadySatisfied || skill_ret == ResultDetail::Completed ||
                     skill_ret == ResultDetail::PrerequisiteTraining || skill_ret == ResultDetail::TrainingRoomBusy) {
@@ -1141,6 +1141,22 @@ bool asst::OperProgressProcessTask::reset_trainer_list_page()
     return false;
 }
 
+bool asst::OperProgressProcessTask::restore_operator_files()
+{
+    // 后续步骤从档案页读取进度，不能沿用缺料页面；恢复失败则不继续本计划。
+    if (!need_exit()) {
+        ProcessTask returning(*this, { "OperProgress@OperFiles", "OperProgress@ReturnToOperFilesPage" });
+        returning.set_times_limit("OperProgress@ReturnToOperFilesPage", 5).set_retry_times(1).run();
+        if (!need_exit() && detect_task(ctrler()->get_image(), "OperProgress@OperFiles")) {
+            return true;
+        }
+    }
+    if (!need_exit()) {
+        LogWarn << __FUNCTION__ << "| failed to restore operator files, skip remaining steps";
+    }
+    return false;
+}
+
 json::array asst::OperProgressProcessTask::collect_missing_materials(OperProgressAction action)
 {
     if (need_exit()) {
@@ -1153,30 +1169,11 @@ json::array asst::OperProgressProcessTask::collect_missing_materials(OperProgres
     }
     const auto page = oper_progress::material_page_name(action);
     const std::string prefix = "OperProgress@" + page;
-    const auto match = [](const cv::Mat& image, const std::string& task) {
-        Matcher analyzer(image);
-        analyzer.set_task_info(task);
-        return analyzer.analyze().has_value();
-    };
     const auto on_page = [&](const cv::Mat& image) {
         // 页标志复用确认按钮模板，保持纯识别，不用带动作的确认任务探测页面。
-        return match(image, prefix + "Page") &&
-               (action != OperProgressAction::MainSkillLevel || !match(image, "OperProgress@EliteUpPage"));
+        return detect_task(image, prefix + "Page") &&
+               (action != OperProgressAction::MainSkillLevel || !detect_task(image, "OperProgress@EliteUpPage"));
     };
-    const auto popup = [](const cv::Mat& image) {
-        OCRer analyzer(image);
-        analyzer.set_task_info("OperProgress@MaterialPopup");
-        return analyzer.analyze().has_value();
-    };
-    const auto read_text =
-        [](const cv::Mat& image, const Rect& roi, const std::string& task = "OperProgress@MaterialCount") {
-            RegionOCRer analyzer(image);
-            analyzer.set_task_info(task);
-            analyzer.set_roi(roi);
-            analyzer.set_use_raw(true);
-            const auto text = analyzer.analyze();
-            return text ? text->text : std::string();
-        };
     const auto count_roi = [](const Rect& roi) {
         return oper_progress::expand_material_roi(
             roi,
@@ -1186,7 +1183,7 @@ json::array asst::OperProgressProcessTask::collect_missing_materials(OperProgres
     const auto read_page = [&]() {
         auto image = ctrler()->get_image();
         // 详情可能遮住专精页标志，须先关闭；直接返回会连同专精确认面板一起退出。
-        if (!need_exit() && popup(image)) {
+        if (!need_exit() && detect_material_popup(image)) {
             run_task("OperProgress@CloseMaterialPopup", 0);
             if (!need_exit()) {
                 image = ctrler()->get_image();
@@ -1198,7 +1195,7 @@ json::array asst::OperProgressProcessTask::collect_missing_materials(OperProgres
     if (need_exit()) {
         return {};
     }
-    if (!on_page(image) && !popup(image)) {
+    if (!on_page(image) && !detect_material_popup(image)) {
         // 合成回调早于加工确认，不能用它推算库存；失败后限次返回现场读取。
         const auto return_task = "OperProgress@ReturnTo" + page + "Page";
         ProcessTask returning(*this, { return_task });
@@ -1211,7 +1208,7 @@ json::array asst::OperProgressProcessTask::collect_missing_materials(OperProgres
             return {};
         }
     }
-    if (!on_page(image) || popup(image)) {
+    if (!on_page(image) || detect_material_popup(image)) {
         LogWarn << __FUNCTION__ << "| material page unavailable" << page;
         return {};
     }
@@ -1222,20 +1219,18 @@ json::array asst::OperProgressProcessTask::collect_missing_materials(OperProgres
                                   : prefix + "Material" + std::to_string(slot);
         const auto missing =
             slot == 0 && action != OperProgressAction::Elite ? prefix + "SkillSummaryRequired" : material + "Required";
-        if (!match(image, missing)) {
+        if (!detect_task(image, missing)) {
             continue;
         }
         const auto counts = oper_progress::parse_material_count(read_text(image, count_roi(Task.get(missing)->roi)));
         const auto icon_roi = Task.get(material)->specific_rect;
-        BestMatcher item(
-            image,
+        BestMatcher item(image);
+        item.set_task_info("OperProgress@Material");
+        item.set_roi(
             oper_progress::expand_material_roi(
                 icon_roi,
                 oper_progress::MaterialIconPadding,
                 oper_progress::MaterialIconPadding));
-        item.set_mask_range(1, 255);
-        item.set_threshold(0.8);
-        item.set_method(MatchMethod::Ccoeff);
         for (const auto& id : ItemData.get_ordered_material_item_id()) {
             item.append_templ(id);
         }
@@ -1250,14 +1245,14 @@ json::array asst::OperProgressProcessTask::collect_missing_materials(OperProgres
                            { "owned", counts->first } });
     }
     // 龙门币槽只显示需求，持有数须从详情读取；等级槽不参与材料上报。
-    if (action == OperProgressAction::Elite && !need_exit() && match(image, "OperProgress@EliteUpLmdRequired")) {
+    if (action == OperProgressAction::Elite && !need_exit() && detect_task(image, "OperProgress@EliteUpLmdRequired")) {
         const auto roi = Task.get("OperProgress@EliteUpLmdRequired")->roi;
         int required = 0;
         int owned = 0;
         const bool required_known = utils::chars_to_number<int, true>(read_text(image, count_roi(roi)), required);
         if (required_known && required > 0 && run_task("OperProgress@EliteUpLmd", 0) && !need_exit()) {
             const auto detail_image = ctrler()->get_image();
-            if (popup(detail_image) &&
+            if (detect_material_popup(detail_image) &&
                 utils::chars_to_number<int, true>(
                     read_text(detail_image, Task.get("OperProgress@LmdOwned")->roi, "OperProgress@LmdOwned"),
                     owned) &&
@@ -1348,6 +1343,31 @@ bool asst::OperProgressProcessTask::record_factory_state()
         }
     }
     return false;
+}
+
+bool asst::OperProgressProcessTask::detect_task(const cv::Mat& image, const std::string& task_name)
+{
+    Matcher analyzer(image);
+    analyzer.set_task_info(task_name);
+    return analyzer.analyze().has_value();
+}
+
+bool asst::OperProgressProcessTask::detect_material_popup(const cv::Mat& image)
+{
+    OCRer analyzer(image);
+    analyzer.set_task_info("OperProgress@MaterialPopup");
+    return analyzer.analyze().has_value();
+}
+
+std::string
+    asst::OperProgressProcessTask::read_text(const cv::Mat& image, const Rect& roi, const std::string& task_name)
+{
+    RegionOCRer analyzer(image);
+    analyzer.set_task_info(task_name);
+    analyzer.set_roi(roi);
+    analyzer.set_use_raw(true);
+    const auto text = analyzer.analyze();
+    return text ? text->text : std::string();
 }
 
 std::optional<int> asst::OperProgressProcessTask::ocr_number(const std::string& task_name)
