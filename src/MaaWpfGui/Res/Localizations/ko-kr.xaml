@@ -2135,6 +2135,7 @@ MAA는 비설치형 응용 프로그램으로, 삭제 시 레지스트리 항목
     <system:String x:Key="TaskQueue.Rename">이름 변경</system:String>
     <system:String x:Key="TaskQueue.RenameTask">작업 이름 변경</system:String>
     <system:String x:Key="TaskQueue.RenameTaskPrompt">새 작업 이름을 입력하세요:</system:String>
+    <system:String x:Key="TaskQueue.RetryError">오류 재시도</system:String>
     <system:String x:Key="TaskQueue.RightClick">오른쪽 클릭</system:String>
     <system:String x:Key="TaskQueue.RunDurationLimit.Enabled">1회 실행 시간 제한</system:String>
     <system:String x:Key="TaskQueue.RunDurationLimit.ExecutePostActions">중지 후 ｢{key=TaskQueue.PostAction.Settings}｣의 동작 실행</system:String>

@@ -2135,6 +2135,7 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
     <system:String x:Key="TaskQueue.Rename">重新命名</system:String>
     <system:String x:Key="TaskQueue.RenameTask">重新命名任務</system:String>
     <system:String x:Key="TaskQueue.RenameTaskPrompt">請輸入新的任務名稱：</system:String>
+    <system:String x:Key="TaskQueue.RetryError">重試出錯任務</system:String>
     <system:String x:Key="TaskQueue.RightClick">右鍵</system:String>
     <system:String x:Key="TaskQueue.RunDurationLimit.Enabled">限制單次運行時長</system:String>
     <system:String x:Key="TaskQueue.RunDurationLimit.ExecutePostActions">停止後執行 ｢{key=TaskQueue.PostAction.Settings}｣ 中的動作</system:String>

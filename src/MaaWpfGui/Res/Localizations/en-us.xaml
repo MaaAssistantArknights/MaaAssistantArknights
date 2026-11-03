@@ -2134,6 +2134,7 @@ Right-clicking other options will check/uncheck this option simultaneously</syst
     <system:String x:Key="TaskQueue.Rename">Rename</system:String>
     <system:String x:Key="TaskQueue.RenameTask">Rename Task</system:String>
     <system:String x:Key="TaskQueue.RenameTaskPrompt">Please enter a new task name:</system:String>
+    <system:String x:Key="TaskQueue.RetryError">Retry Error</system:String>
     <system:String x:Key="TaskQueue.RightClick">Right Click</system:String>
     <system:String x:Key="TaskQueue.RunDurationLimit.Enabled">Limit run duration</system:String>
     <system:String x:Key="TaskQueue.RunDurationLimit.ExecutePostActions">Run actions in ｢{key=TaskQueue.PostAction.Settings}｣ after stopping</system:String>

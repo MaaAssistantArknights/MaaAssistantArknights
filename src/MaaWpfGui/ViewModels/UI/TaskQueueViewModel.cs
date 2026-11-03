@@ -76,6 +76,16 @@ public class TaskQueueViewModel : Screen
     public ObservableCollection<TaskItemViewModel> TaskItemViewModels { get; private set; } = [];
 
     /// <summary>
+    /// Gets a value indicating whether 是否存在状态为出错的任务。
+    /// </summary>
+    public bool HasErrorTasks => TaskItemViewModels.Any(item => item.StatusDisplay == TaskItemStatus.Error);
+
+    /// <summary>
+    /// 通知界面刷新 <see cref="HasErrorTasks"/>，供任务项状态变化时调用。
+    /// </summary>
+    public void RefreshHasErrorTasks() => NotifyOfPropertyChange(nameof(HasErrorTasks));
+
+    /// <summary>
     /// Gets the visibility of task setting views.
     /// </summary>
     public static TaskSettingVisibilityInfo TaskSettingVisibilities => TaskSettingVisibilityInfo.Instance;
@@ -160,6 +170,7 @@ public class TaskQueueViewModel : Screen
     /// <param name="e">ignored NotifyCollectionChangedEventArgs</param>
     public void TaskItemSelectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
     {
+        NotifyOfPropertyChange(nameof(HasErrorTasks));
         Application.Current.Dispatcher.InvokeAsync(() => {
             if (e.Action == NotifyCollectionChangedAction.Move)
             {
@@ -1339,6 +1350,7 @@ public class TaskQueueViewModel : Screen
 
         TaskItemViewModels = [.. taskqueue];
         TaskItemViewModels.CollectionChanged += TaskItemSelectionChanged;
+        NotifyOfPropertyChange(nameof(HasErrorTasks));
         var taskItem = TaskItemViewModels.ElementAtOrDefault(ConfigFactory.CurrentConfig.TaskSelectedIndex);
         taskItem ??= TaskItemViewModels.FirstOrDefault(i => ConfigFactory.CurrentConfig.TaskQueue[i.Index] is FightTask);
         taskItem ??= TaskItemViewModels.FirstOrDefault();
@@ -1987,6 +1999,49 @@ public class TaskQueueViewModel : Screen
         finally
         {
             task.IsEnable = originalIsEnable;
+        }
+    }
+
+    /// <summary>
+    /// 仅重新运行上次运行中状态为出错的任务。
+    /// </summary>
+    /// <returns>A <see cref="Task"/>representing the asynchronous operation.</returns>
+    [UsedImplicitly]
+    public async Task RetryErrorTasks()
+    {
+        if (!Run.CanStart || TaskSettingVisibilities.Guide)
+        {
+            return;
+        }
+
+        var taskQueue = ConfigFactory.CurrentConfig.TaskQueue;
+        var errorTasks = TaskItemViewModels
+            .Where(item => item.StatusDisplay == TaskItemStatus.Error && item.Index >= 0 && item.Index < taskQueue.Count)
+            .Select(item => taskQueue[item.Index])
+            .ToList();
+        if (errorTasks.Count == 0)
+        {
+            return;
+        }
+
+        _logger.Information("Retry {Count} error tasks", errorTasks.Count);
+
+        // 与单次运行相同：只受本次操作影响，不改变任务的持久启用状态。LinkStartWithTasks 会重置状态，故须在此之前取得出错任务
+        var originalStates = errorTasks.Select(task => (Task: task, IsEnable: task.IsEnable)).ToList();
+        try
+        {
+            foreach (var task in errorTasks)
+            {
+                task.IsEnable = true;
+            }
+            await LinkStartWithTasks(errorTasks);
+        }
+        finally
+        {
+            foreach (var (task, isEnable) in originalStates)
+            {
+                task.IsEnable = isEnable;
+            }
         }
     }
 

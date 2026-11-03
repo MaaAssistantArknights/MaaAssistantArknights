@@ -515,10 +515,11 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
                     <Button
                         Width="100"
-                        Height="50"
+                        Height="40"
                         Margin="5"
                         Command="{s:Action LinkStart}"
                         IsEnabled="{c:Binding 'Run.CanStart and !TaskSettingVisibilities.Guide'}"
@@ -550,7 +551,7 @@
                     </Button>
                     <Button
                         Width="100"
-                        Height="50"
+                        Height="40"
                         Margin="5"
                         Command="{s:Action ManualStop}"
                         Content="{DynamicResource Common.Stop}"
@@ -559,13 +560,22 @@
                         Visibility="{c:Binding 'Run.Inited and (!Run.Idle or Run.Stopping) and !(RoguelikeInCombatAndShowWait and !Waiting)'}" />
                     <Button
                         Width="100"
-                        Height="50"
+                        Height="40"
                         Margin="5"
                         Command="{s:Action WaitAndStop}"
                         Content="{DynamicResource TaskQueue.WaitAndStop}"
                         Visibility="{c:Binding 'Run.Inited and !Run.Idle and (RoguelikeInCombatAndShowWait and !Waiting)'}" />
-                    <CheckBox
+                    <Button
                         Grid.Row="1"
+                        Width="100"
+                        Height="30"
+                        Margin="5"
+                        Command="{s:Action RetryErrorTasks}"
+                        Content="{DynamicResource TaskQueue.RetryError}"
+                        IsEnabled="{c:Binding 'Run.CanStart and !TaskSettingVisibilities.Guide'}"
+                        Visibility="{c:Binding 'Run.CanStart and HasErrorTasks', FalseToVisibility=Collapsed}" />
+                    <CheckBox
+                        Grid.Row="2"
                         VerticalAlignment="Center"
                         Content="{DynamicResource TaskQueue.AutoReloadResource}"
                         IsChecked="{Binding EnableAutoReload}"

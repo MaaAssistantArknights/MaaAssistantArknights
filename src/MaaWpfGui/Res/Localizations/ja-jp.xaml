@@ -2136,6 +2136,7 @@ MAA は非インストール型のアプリケーションであり、レジス�
     <system:String x:Key="TaskQueue.Rename">名前を変更</system:String>
     <system:String x:Key="TaskQueue.RenameTask">タスク名を変更</system:String>
     <system:String x:Key="TaskQueue.RenameTaskPrompt">新しいタスク名を入力してください：</system:String>
+    <system:String x:Key="TaskQueue.RetryError">エラー再試行</system:String>
     <system:String x:Key="TaskQueue.RightClick">右クリック</system:String>
     <system:String x:Key="TaskQueue.RunDurationLimit.Enabled">1回の実行時間を制限する</system:String>
     <system:String x:Key="TaskQueue.RunDurationLimit.ExecutePostActions">停止後に ｢{key=TaskQueue.PostAction.Settings}｣ の動作を実行する</system:String>

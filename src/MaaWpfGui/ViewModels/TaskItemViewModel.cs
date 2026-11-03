@@ -112,7 +112,16 @@ public class TaskItemViewModel : PropertyChangedBase, IDisposable
     /// <summary>
     /// Gets or sets 上次状态, 可能和当前不一致
     /// </summary>
-    public TaskItemStatus StatusDisplay { get => field; set => SetAndNotify(ref field, value); }
+    public TaskItemStatus StatusDisplay
+    {
+        get => field;
+        set {
+            if (SetAndNotify(ref field, value))
+            {
+                Instances.TaskQueueViewModel?.RefreshHasErrorTasks();
+            }
+        }
+    }
 
     private void OnTaskStatusChanged(int taskId, TaskItemStatus status)
     {
