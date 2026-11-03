@@ -57,7 +57,7 @@ jobs:
           fi
 
   mirrorchyan:
-    name: Upload to MirrorChyan
+    name: Upload to MirrorChyan (${{ matrix.os }}-${{ matrix.arch }})
     needs: meta
     if: ${{ github.event.inputs.mirrorchyan == 'true' }}
     runs-on: ubuntu-latest

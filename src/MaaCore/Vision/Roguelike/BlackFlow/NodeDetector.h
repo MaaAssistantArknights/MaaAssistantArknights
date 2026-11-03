@@ -106,8 +106,7 @@ public:
         detect(const cv::Mat& image, int rows, int columns, GridLayout layout = GridLayout::Standard) const;
     cv::Mat draw_overlay(const cv::Mat& image, const NodeDetectionResult& result) const;
 
-    static std::optional<GridGeometry>
-        fixed_grid(int rows, int columns, GridLayout layout = GridLayout::Standard);
+    static std::optional<GridGeometry> fixed_grid(int rows, int columns, GridLayout layout = GridLayout::Standard);
 
 private:
     struct CellEvaluation

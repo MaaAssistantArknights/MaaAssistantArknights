@@ -29,6 +29,9 @@ public static class MaaUrls
 
     public const string GitHubIssues = "https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues";
 
+    // 用户协议全文（与官网页脚链接一致）
+    public const string UserAgreement = "https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev-v2/terms-of-service.md";
+
     public const string Telegram = "https://t.me/+Mgc2Zngr-hs3ZjU1";
 
     public const string Discord = "https://discord.gg/23DfZ9uA4V";

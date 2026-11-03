@@ -6,7 +6,7 @@ on:
 
 jobs:
   mirrorchyan:
-    name: Upload to MirrorChyan
+    name: Upload Release Note to MirrorChyan
     runs-on: macos-latest
 
     steps:

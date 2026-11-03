@@ -87,7 +87,7 @@ jobs:
       release_tag: ${{ steps.fetchReleaseInfo.outputs.release_tag }}
 
   make-ota:
-    name: Build and Upload OTA for Windows
+    name: Build and Upload OTA for Windows (${{ matrix.target }})
     needs: create-tag
     runs-on: ubuntu-latest
     strategy:
@@ -140,9 +140,9 @@ jobs:
           overwrite: true
 
   make-ota-mac:
-    name: Build and Upload OTA for macOS
+    name: Build and Upload OTA for macOS (Sparkle Appcast & Delta)
     needs: create-tag
-    runs-on: macos-14
+    runs-on: macos-latest
     steps:
       - name: Fetch release information
         run: gh release list --repo 'MaaAssistantArknights/MaaAssistantArknights' --limit ${{ inputs.limit || 31 }} | tee ./release_maa.txt
@@ -184,7 +184,7 @@ jobs:
           overwrite: true
 
   release:
-    name: Publish to Release Mirrors
+    name: Trigger Release Mirrors in MaaRelease
     needs:
       - create-tag
       - make-ota

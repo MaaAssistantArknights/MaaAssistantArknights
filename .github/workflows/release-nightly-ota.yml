@@ -26,7 +26,7 @@ on:
 
 jobs:
   build-win-nightly:
-    name: Build Nightly for Windows
+    name: Build Nightly for Windows (${{ matrix.arch }})
     if: github.repository_owner == 'MaaAssistantArknights'
     runs-on: windows-2025-vs2026
     strategy:
@@ -336,7 +336,7 @@ jobs:
           git push --tags origin HEAD:refs/tags/${{ needs.build-win-nightly.outputs.tag }}
 
   make-ota:
-    name: Build and Upload Nightly OTA for Windows
+    name: Build and Upload Nightly OTA for Windows (${{ matrix.target }})
     if: github.repository_owner == 'MaaAssistantArknights'
     needs: [build-win-nightly, push-tag]
     strategy:

@@ -20,7 +20,7 @@
     <img alt="GitHub all releases" src="https://img.shields.io/github/downloads/MaaAssistantArknights/MaaAssistantArknights/total?style=social">
 </div>
 <div>
-    <a href="https://deepwiki.com/MaaAssistantArknights/MaaAssistantArknights"><img src="https://deepwiki.com/badge.svg" alt="Ask DeepWiki"></a>
+    <a href="https://deepwiki.com/MaaAssistantArknights/MaaAssistantArknights"><img src="https://img.shields.io/badge/-Ask_DeepWiki-blue?logo=readthedocs&logoColor=white&labelColor=black" alt="Ask DeepWiki"></a>
 </div>
     <a href="https://trendshift.io/repositories/979" target="_blank"><img src="https://trendshift.io/api/badge/repositories/979" alt="MaaAssistantArknights%2FMaaAssistantArknights | Trendshift" width="250" height="55" style="width: 250px; height: 55px;" /></a>
 <div>

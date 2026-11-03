@@ -8,6 +8,7 @@ on:
 
 jobs:
   pre-commit:
+    name: Run Scheduled Pre-commit Hooks
     runs-on: ubuntu-latest
     steps:
       - name: Checkout

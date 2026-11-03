@@ -17,6 +17,8 @@ on:
       - "tools/**"
       - "!**/*.md"
   pull_request:
+    branches:
+      - "dev-v2"
     paths:
       - ".github/workflows/ci.yml"
       - "3rdparty/include/**"
@@ -106,7 +108,7 @@ jobs:
           path: CHANGELOG.md
 
   windows:
-    name: Build for Windows
+    name: Build for Windows (${{ matrix.arch }})
     needs: meta
     strategy:
       matrix:
@@ -265,7 +267,7 @@ jobs:
           compression-level: 0
 
   ubuntu:
-    name: Build for Ubuntu
+    name: Build for Ubuntu (${{ matrix.arch }})
     needs: meta
     runs-on: ubuntu-latest
     strategy:
@@ -390,7 +392,7 @@ jobs:
           compression-level: 0
 
   android:
-    name: Build for Android
+    name: Build for Android (${{ matrix.arch }})
     needs: meta
     runs-on: macos-26
     strategy:
@@ -488,7 +490,7 @@ jobs:
           compression-level: 0
 
   macOS-Core:
-    name: Build Core for macOS
+    name: Build Core for macOS (${{ matrix.arch }})
     needs: meta
     runs-on: macos-26
     strategy:

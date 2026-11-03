@@ -30,11 +30,12 @@
         "text": ["迷迭香"]
     },
     "RelaunchAnchor@RA@RA1-DeliverWood5": {
+        "ocrReplace": [["木朽", "木材"]],
         "text": ["木材"]
     },
     "RelaunchAnchor@RA@RA1-DeliverWood": {
         "text": ["交付木材8+"],
-        "ocrReplace": [["(8|9|[0-68-9]{2,3}).*5", "交付木材8+"]],
+        "ocrReplace": [["(?<!\\d)(8|9|1[0123456789]).?5", "交付木材8+"]],
         "roi": [180, 235, 75, 35]
     },
     "RelaunchAnchor@RA@RA1-Infrastructure": {
@@ -251,7 +252,7 @@
         "text": ["24+"],
         "ocrReplace": [
             ["\\^", ""],
-            ["^(24|25|26|27|28|29|[3-9]\\d+)", "24+"]
+            ["^(24|25|26|27|28|29|[3456789]\\d+)", "24+"]
         ]
     },
     "RelaunchAnchor@RA@RA15-Kill60": {

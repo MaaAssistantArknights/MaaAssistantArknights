@@ -1257,14 +1257,28 @@ DEBUG 디렉토리에 저장된 이미지는 수량 제한이 있으며 초과 �
     <system:String x:Key="Game.Role.Support">서포터</system:String>
     <system:String x:Key="Game.Role.Tank">디펜더</system:String>
     <system:String x:Key="Game.Role.Warrior">가드</system:String>
+    <system:String x:Key="Guide.Agreement.Link">이용약관</system:String>
+    <system:String x:Key="Guide.Agreement.Prefix">MAA를 사용하면 다음에 동의하는 것으로 간주됩니다:</system:String>
+    <system:String x:Key="Guide.Agreement.Tip">｢{key=Guide.Agreement.Link}｣을 클릭하여 전체 약관을 확인한 후 다음 단계로 진행하세요</system:String>
     <system:String x:Key="Guide.Clarification" xml:space="preserve">ADB가 활성화되어 있는지 확인하세요:
 • BlueStacks: 설정 → 고급 기능 설정 → ADB → 활성화
 • LDPlayer: 설정 → 기타 → ADB 디버깅 → 로컬 디버깅</system:String>
-    <system:String x:Key="Guide.ConfirmCountdown.Prefix" xml:space="preserve">완료까지 </system:String>
-    <system:String x:Key="Guide.ConfirmCountdown.Suffix">초</system:String>
+    <system:String x:Key="Guide.Demo.BlockedOperation">이 조작은 가이드 흐름에 포함되지 않습니다. 현재 단계를 따라 주세요</system:String>
+    <system:String x:Key="Guide.Demo.Gate.AddFight">｢{key=TaskQueue.AddTask}｣ 로 ｢{key=TaskQueue.Task.Fight}｣ 작업을 추가하세요</system:String>
+    <system:String x:Key="Guide.Demo.Gate.AddNightTheme">｢{key=TaskQueue.Task.SwitchTheme}｣ 작업의 톱니바퀴 버튼을 켜고 ｢{key=TaskQueue.SwitchTheme.Add}｣ 로 ｢{key=Guide.Demo.NightTheme}｣ 테마를 추가하세요</system:String>
+    <system:String x:Key="Guide.Demo.Gate.AddSwitchTheme">｢{key=TaskQueue.AddTask}｣ 로 ｢{key=TaskQueue.Task.SwitchTheme}｣ 작업을 추가하고 목록 맨 뒤에 두세요</system:String>
+    <system:String x:Key="Guide.Demo.Gate.CheckWeekDays">주간 일정에서 ｢월요일｣ 과 ｢일요일｣ 을 체크하세요</system:String>
+    <system:String x:Key="Guide.Demo.Gate.EnableWeekly">섬멸 작업의 톱니바퀴 버튼을 켜고 ｢{key=TaskQueue.AdvancedSettings}｣ 의 ｢{key=TaskQueue.UseWeeklySchedule}｣ 을 체크하세요</system:String>
+    <system:String x:Key="Guide.Demo.Gate.RenameFight">새로 추가한 ｢{key=TaskQueue.Task.Fight}｣ 작업에 커서를 올려 기본 작업과 구분되도록 이름을 변경하세요</system:String>
+    <system:String x:Key="Guide.Demo.Gate.ReorderFight">이름을 변경한 ｢{key=TaskQueue.Task.Fight}｣ 를 드래그하여 기본 작업 위로 옮기세요</system:String>
+    <system:String x:Key="Guide.Demo.Gate.ReorderTheme">｢{key=TaskQueue.Task.SwitchTheme}｣ 작업을 목록 맨 뒤로 드래그하세요</system:String>
+    <system:String x:Key="Guide.Demo.Gate.RestoreFight">목록에 ｢{key=TaskQueue.Task.Fight}｣ 작업이 필요합니다. ｢{key=TaskQueue.AddTask}｣ 로 다시 추가하세요</system:String>
+    <system:String x:Key="Guide.Demo.Gate.RestoreStartUp">목록에 ｢{key=TaskQueue.Task.StartUp}｣ 작업이 필요합니다. ｢{key=TaskQueue.AddTask}｣ 로 다시 추가하세요</system:String>
+    <system:String x:Key="Guide.Demo.Gate.SelectStage">작업의 톱니바퀴 버튼을 켜고 스테이지를 ｢{key=TaskQueue.Annihilation.Current}｣ 로 선택하세요</system:String>
+    <system:String x:Key="Guide.Demo.NightTheme">야간</system:String>
+    <system:String x:Key="Guide.Demo.SettingsPlaceholder">왼쪽의 가이드 단계를 따라 주세요. 이 작업의 설정에는 데모 콘텐츠가 없습니다</system:String>
     <system:String x:Key="Guide.Demo.Start">데모에서는 실제로 작업이 실행되지 않습니다</system:String>
     <system:String x:Key="Guide.Demo.TaskAddLimit.Tip">데모 목록에는 최대 5개의 작업만 추가할 수 있습니다. 추가 전에 일부를 삭제해 주세요</system:String>
-    <system:String x:Key="Guide.Demo.TaskRequired.Tip">다음으로 넘어가려면 ｢{key=TaskQueue.AddTask}｣ 버튼으로 작업을 추가하세요</system:String>
     <system:String x:Key="Guide.Documentation.Path">"{key=Settings.Title} - {key=Settings.About.Title} - {key=About.Website}"에서 MAA의 공식 웹사이트와 전체 문서를 찾을 수 있습니다.</system:String>
     <system:String x:Key="Guide.Documentation.Title">📖 공식 웹사이트 및 문서</system:String>
     <system:String x:Key="Guide.Done">완료</system:String>
@@ -1282,10 +1296,10 @@ DEBUG 디렉토리에 저장된 이미지는 수량 제한이 있으며 초과 �
     <system:String x:Key="Guide.Restart">설정 가이드 다시 보기</system:String>
     <system:String x:Key="Guide.RestartPrompt">설정 가이드는 기본 인터페이스에 표시됩니다. 지금 애플리케이션을 다시 시작하시겠습니까?</system:String>
     <system:String x:Key="Guide.Settings">설정 가이드</system:String>
+    <system:String x:Key="Guide.Skip">건너뛰기</system:String>
     <system:String x:Key="Guide.Tip">마우스를 올리면 팁이 보입니다</system:String>
     <system:String x:Key="Guide.Title">조작 및 가이드</system:String>
     <system:String x:Key="Guide.User">사용 가이드</system:String>
-    <system:String x:Key="Guide.UserAgreement">MAA를 사용함으로써 귀하는 "사용자 동의"를 준수하는 데 동의하게 됩니다. 전체 동의서는 공식 웹사이트 하단의 링크에서 확인할 수 있습니다.</system:String>
     <system:String x:Key="Guide.ViewLog">"{key=Settings.Title} - {key=Settings.IssueReport.Title} - {key=Error.OpenDebugFolder}"로 이동하여 로그를 확인하고 오류의 구체적인 원인을 파악할 수 있습니다.</system:String>
     <system:String x:Key="Infrast.ContinueTraining">마스터리 훈련 완료 시 이어서 시도</system:String>
     <system:String x:Key="Infrast.Custom.File">기반시설 구성</system:String>
