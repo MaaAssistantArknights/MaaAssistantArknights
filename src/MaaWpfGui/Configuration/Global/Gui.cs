@@ -112,26 +112,6 @@ public class Gui : NotifyPropertyChangedWithValue, IJsonOnDeserialized
     /// </summary>
     public int GuideTutorialVersion { get; set; } = 1;
 
-    /// <summary>
-    /// 教程版本迁移：旧版本教程完成的用户（GuideStep 为完成值）重置到预留的重置目标步，仅触发一次。
-    /// 新装用户首次运行不经反序列化不触发本方法，版本号由 DoneGuide 完成时标记。
-    /// </summary>
-    [UsedImplicitly]
-    public void OnDeserialized()
-    {
-        if (GuideTutorialVersion >= CurrentGuideTutorialVersion)
-        {
-            return;
-        }
-
-        if (GuideStep >= ViewModels.UI.SettingsViewModel.GuideMaxStep)
-        {
-            GuideStep = ViewModels.UI.SettingsViewModel.GuideTutorialResetStepIndex;
-        }
-
-        GuideTutorialVersion = CurrentGuideTutorialVersion;
-    }
-
     public Background Background { get; set; } = new();
 
     public Performance Performance { get; set; } = new();
@@ -228,5 +208,21 @@ public class Gui : NotifyPropertyChangedWithValue, IJsonOnDeserialized
         /// 无动画。
         /// </summary>
         None,
+    }
+
+    /// <summary>
+    /// 教程版本迁移：版本不一致时无论旧进度如何都重置到预留的重置目标步重走，仅触发一次。
+    /// 新装用户首次运行不经反序列化不触发本方法，版本号由 DoneGuide 完成时标记。
+    /// </summary>
+    [UsedImplicitly]
+    public void OnDeserialized()
+    {
+        if (GuideTutorialVersion >= CurrentGuideTutorialVersion)
+        {
+            return;
+        }
+
+        GuideStep = ViewModels.UI.SettingsViewModel.GuideTutorialResetStepIndex;
+        GuideTutorialVersion = CurrentGuideTutorialVersion;
     }
 }

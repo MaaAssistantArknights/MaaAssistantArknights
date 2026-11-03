@@ -10,6 +10,7 @@
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY
 // </copyright>
+#nullable enable
 
 using System;
 using System.Collections.ObjectModel;
@@ -58,7 +59,7 @@ public class GuideDemoTaskItem : PropertyChangedBase, IDisposable
             ? [.. Enum.GetValues<DayOfWeek>().Select(day => new WeeklyScheduleItem(day) { Value = false })]
             : [];
 
-        DemoThemes = taskType == AsstProxy.TaskType.SwitchTheme ? [] : null!;
+        DemoThemes = taskType == AsstProxy.TaskType.SwitchTheme ? [] : null;
     }
 
     /// <summary>
@@ -164,7 +165,7 @@ public class GuideDemoTaskItem : PropertyChangedBase, IDisposable
     /// <summary>
     /// Gets the demo theme list of a SwitchTheme task. 仅 SwitchTheme 任务有效，其余类型为 null。
     /// </summary>
-    public ObservableCollection<GuideDemoThemeItem> DemoThemes { get; }
+    public ObservableCollection<GuideDemoThemeItem>? DemoThemes { get; }
 
     /// <summary>
     /// 清理依赖注册，避免被静态依赖表强引用持有（内存泄漏与语言切换时的僵尸通知）。

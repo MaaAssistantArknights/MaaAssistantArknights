@@ -610,7 +610,7 @@
                                                             Width="150"
                                                             Height="30"
                                                             hc:InfoElement.Placeholder="{DynamicResource TaskQueue.SwitchTheme.Placeholder}"
-                                                            IsEnabled="{c:Binding GuideThemeEditingAllowed}"
+                                                            IsEnabled="{Binding GuideThemeEditingAllowed, Source={x:Static helper:Instances.SettingsViewModel}}"
                                                             Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" />
                                                         <Button
                                                             Grid.Column="1"
@@ -626,6 +626,7 @@
                                                             Command="{s:Action RemoveGuideDemoTheme,
                                                                                Target={x:Static helper:Instances.SettingsViewModel}}"
                                                             CommandParameter="{Binding}"
+                                                            IsEnabled="{Binding GuideThemeEditingAllowed, Source={x:Static helper:Instances.SettingsViewModel}}"
                                                             ToolTip="{DynamicResource Common.Delete}" />
                                                     </Grid>
                                                 </DataTemplate>

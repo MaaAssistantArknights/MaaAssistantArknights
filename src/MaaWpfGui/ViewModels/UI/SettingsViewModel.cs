@@ -1295,7 +1295,7 @@ public class SettingsViewModel : Screen
         }
 
         var nightTheme = GuideNightThemeName;
-        if (!themeTasks.Any(t => t.DemoThemes.Any(theme => theme.Name.Trim() == nightTheme)))
+        if (!themeTasks.Any(t => t.DemoThemes?.Any(theme => theme.Name.Trim() == nightTheme) == true))
         {
             return GuideGate.AddNightTheme;
         }
