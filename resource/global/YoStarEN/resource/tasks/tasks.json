@@ -116,6 +116,9 @@
         "text": ["Unit Limit"],
         "roi": [1144, 545, 135, 32]
     },
+    "SanityMatch": {
+        "binThreshold": [100, 255]
+    },
     "MedicineExpiringTime": {
         "ocrReplace": [
             ["[^\\d]*(\\d+)days", "${1}"],
@@ -149,9 +152,6 @@
     },
     "MiningActivities": {
         "text": ["Provisional", "Mining", "Permit"]
-    },
-    "SanityMatch": {
-        "binThreshold": [100, 255]
     },
     "OrundumActivities": {
         "text": [
