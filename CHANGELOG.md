@@ -1,10 +1,14 @@
-## v6.21.1
+## v6.21.2
 
 ### Highlights
 
-已适配明日方舟 26.11.1 版本的游戏新界面。
+已适配明日方舟 26.11.1 版本的游戏新界面，修复新版主界面下肉鸽与生息演算入口的识别问题。后续不做日间主题以外的主题适配；如需使用其他主题，可在任务列表末尾自行添加 ｢更换主题｣ 任务。
 
 本版本按功能域全量重写了 WPF 语言资源，个别界面可能出现文案显示异常；如遇到问题，请通过 ｢设置 - 问题反馈｣ 提交反馈。
+
+#### 设置指引改为任务设置演示教学，新增用户协议确认
+
+设置指引 ｢任务设置｣ 步骤改为分步演示教学，按引导顺序完成任务配置；新增用户协议确认步骤，已完成旧版指引的用户升级后重新进入指引。
 
 #### 生息演算迁移到 ｢小工具-牛杂｣，外服支持 ｢重启锚点｣
 
@@ -21,9 +25,13 @@
 <details>
 <summary><b>English</b></summary>
 
-Adapted to the new UI in the Arknights 26.11.1 update.
+Adapted to the new UI in the Arknights 26.11.1 update, and fixed Roguelike and Reclamation Algorithm entry recognition on the new main screen. No themes other than Day will be adapted going forward; to use a different theme, add a ｢Switch Theme｣ task at the end of the task list.
 
 The WPF localization resources have been extensively rewritten by feature domain in this version; a few texts may display incorrectly. If you run into any, please report via Settings - Issue Report.
+
+#### First-Run Guide Revamped as Task Settings Demo Tutorial with User Agreement Confirmation
+
+The ｢Task Settings｣ step of the first-run guide is now a step-by-step demo tutorial that walks through task configuration in a guided order; a user agreement confirmation step has been added, and users who completed the old guide will go through the new one again after upgrading.
 
 #### Reclamation Algorithm Moved to Toolbox "Useful Tasks", "RELAUNCH ANCHOR" on Overseas Servers
 
@@ -44,6 +52,37 @@ Auto formation now matches operators on the current page first, reducing paging;
 以下是详细内容：
 
 <details open>
+<summary><b>v6.21.2 (2026-11-03)</b></summary>
+
+### 改进 | Improved
+
+* 设置指引 ｢任务设置｣ 步骤改为分步演示教学，按引导顺序完成添加任务、选择关卡、重命名排序、周计划与更换主题配置；新增用户协议确认步骤，已完成旧版指引的用户升级后重新进入指引 ([#19050](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/19050)) @ABA2396
+* 补全 ｢战时新闻委员会｣ 流程，当日已完成时自动进入下一天，五天完成后自动结束 ([#19039](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/19039)) @Daydreamer114
+* 更换主题确认切换后延长等待时间，点击未生效时自动重试 @ABA2396 @XXLC
+
+### 修复 | Fix
+
+* 修复复用上次编队时干员与编队组映射错位、编队干员未被正确恢复的问题 ([#19014](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/19014)) @status102
+* 修复 26.11.1 新版主界面下肉鸽与生息演算入口识别失败的问题 ([#19010](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/19010)) @moranfanhua @Saratoga-Official
+* 修复黑流树海换层时地图缩放未生效、进层弹窗遮挡导致的层名识别失败问题；识别到误入奇境的标题时重开本局 ([#19052](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/19052)) @ZiyinLin
+* 修复萨卡兹肉鸽 ｢已深化｣ 与 ｢可重建｣ 状态节点不显示节点日志的问题 @Constrat
+* YostarJP fix Relaunch Anchor RA-1 wood delivery OCR recognition ([#19028](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/19028)) @Radekyspec
+* YostarJP fix Reclamation Algorithm 3 deliver wood OCR regex @Daydreamer114
+* YostarEN fix depot entry icon recognition ([#19005](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/19005)) @Daydreamer114 @Constrat
+
+### 文档 | Docs
+
+* 更换 README 的 Ask DeepWiki 徽章 @Constrat
+
+### 其他 | Other
+
+* CI 规范化各工作流的 job 名称 @Rbqwow
+* CI 更新 release-ota 的 macOS 镜像版本 @Rbqwow
+* CI 仅允许 base 为 dev-v2 的 PR 触发 CI 工作流 @Rbqwow
+
+</details>
+
+<details>
 <summary><b>v6.21.1 (2026-11-02)</b></summary>
 
 ### 新增 | New
