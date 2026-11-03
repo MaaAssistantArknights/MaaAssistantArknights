@@ -58,9 +58,8 @@ bool BlackFlowRoutingTaskPlugin::_run()
         return true;
     }
     if (work == PendingWork::MapPrepared) {
-        // 首次进层时向左滑地图避免遮挡
-        const bool swipe = m_session != nullptr && !m_session->terminated() && m_session->current_floor() == 5 &&
-                           m_session->map().floor() != 5;
+        // 第五层每次准备地图都向左滑，避免最右列被遮挡
+        const bool swipe = m_session != nullptr && !m_session->terminated() && m_session->current_floor() == 5;
         Task.set_task_base(
             "BlackFlow@Roguelike@MapPrepare-ReadyAction",
             swipe ? "BlackFlow@Roguelike@MapPrepare-Floor5Swipe" : "BlackFlow@Roguelike@Routing-Enter");
