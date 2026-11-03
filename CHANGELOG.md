@@ -69,6 +69,7 @@ Auto formation now matches operators on the current page first, reducing paging;
 * YostarJP fix Relaunch Anchor RA-1 wood delivery OCR recognition ([#19028](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/19028)) @Radekyspec
 * YostarJP fix Reclamation Algorithm 3 deliver wood OCR regex @Daydreamer114
 * YostarEN fix depot entry icon recognition ([#19005](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/19005)) @Daydreamer114 @Constrat
+* YostarEN fix SanityMatch misreading sanity as 7/1210 @Constrat
 
 ### 文档 | Docs
 
