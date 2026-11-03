@@ -1259,14 +1259,28 @@ DEBUGディレクトリに保存される画像には数量制限があり、超
     <system:String x:Key="Game.Role.Support">補助</system:String>
     <system:String x:Key="Game.Role.Tank">重装</system:String>
     <system:String x:Key="Game.Role.Warrior">前衛</system:String>
+    <system:String x:Key="Guide.Agreement.Link">利用規約</system:String>
+    <system:String x:Key="Guide.Agreement.Prefix">MAA を使用すると、以下に同意したものとみなされます:</system:String>
+    <system:String x:Key="Guide.Agreement.Tip">｢{key=Guide.Agreement.Link}｣ をクリックして完全な規約を確認してから、次のステップに進んでください</system:String>
     <system:String x:Key="Guide.Clarification" xml:space="preserve">ADBが有効になっていることを確認してください：
 • BlueStacks：設定 → 詳細設定 → Android Debug Bridge → 有効にする
 • LDPlayer：設定 → その他 → ADBデバッグ → ローカル接続を有効にする</system:String>
-    <system:String x:Key="Guide.ConfirmCountdown.Prefix">あと</system:String>
-    <system:String x:Key="Guide.ConfirmCountdown.Suffix">秒</system:String>
+    <system:String x:Key="Guide.Demo.BlockedOperation">この操作はガイドの流れの外です。現在のステップに従ってください</system:String>
+    <system:String x:Key="Guide.Demo.Gate.AddFight">｢{key=TaskQueue.AddTask}｣ で ｢{key=TaskQueue.Task.Fight}｣ タスクを追加してください</system:String>
+    <system:String x:Key="Guide.Demo.Gate.AddNightTheme">｢{key=TaskQueue.Task.SwitchTheme}｣ タスクの歯車ボタンをオンにし、｢{key=TaskQueue.SwitchTheme.Add}｣ で ｢{key=Guide.Demo.NightTheme}｣ テーマを追加してください</system:String>
+    <system:String x:Key="Guide.Demo.Gate.AddSwitchTheme">｢{key=TaskQueue.AddTask}｣ で ｢{key=TaskQueue.Task.SwitchTheme}｣ タスクを追加し、リストの最後に置いてください</system:String>
+    <system:String x:Key="Guide.Demo.Gate.CheckWeekDays">週次スケジュールで ｢月曜日｣ と ｢日曜日｣ にチェックを入れてください</system:String>
+    <system:String x:Key="Guide.Demo.Gate.EnableWeekly">殲滅タスクの歯車ボタンをオンにし、｢{key=TaskQueue.AdvancedSettings}｣ の ｢{key=TaskQueue.UseWeeklySchedule}｣ にチェックを入れてください</system:String>
+    <system:String x:Key="Guide.Demo.Gate.RenameFight">追加した ｢{key=TaskQueue.Task.Fight}｣ タスクにカーソルを合わせ、デフォルトと区別できるよう名前を変更してください</system:String>
+    <system:String x:Key="Guide.Demo.Gate.ReorderFight">名前を変更した ｢{key=TaskQueue.Task.Fight}｣ をドラッグし、デフォルトのタスクの上に移動してください</system:String>
+    <system:String x:Key="Guide.Demo.Gate.ReorderTheme">｢{key=TaskQueue.Task.SwitchTheme}｣ タスクをリストの最後へドラッグしてください</system:String>
+    <system:String x:Key="Guide.Demo.Gate.RestoreFight">リストには ｢{key=TaskQueue.Task.Fight}｣ タスクが必要です。｢{key=TaskQueue.AddTask}｣ で追加し直してください</system:String>
+    <system:String x:Key="Guide.Demo.Gate.RestoreStartUp">リストには ｢{key=TaskQueue.Task.StartUp}｣ タスクが必要です。｢{key=TaskQueue.AddTask}｣ で追加し直してください</system:String>
+    <system:String x:Key="Guide.Demo.Gate.SelectStage">歯車ボタンをオンにし、ステージを ｢{key=TaskQueue.Annihilation.Current}｣ に選択してください</system:String>
+    <system:String x:Key="Guide.Demo.NightTheme">夜</system:String>
+    <system:String x:Key="Guide.Demo.SettingsPlaceholder">左側のガイド手順に従ってください。このタスクの設定にデモ内容はありません</system:String>
     <system:String x:Key="Guide.Demo.Start">デモでは実際にタスクは実行されません</system:String>
     <system:String x:Key="Guide.Demo.TaskAddLimit.Tip">デモリストに追加できるタスクは最大 5 個です。追加する前に一部を削除してください</system:String>
-    <system:String x:Key="Guide.Demo.TaskRequired.Tip">次に進むには、｢{key=TaskQueue.AddTask}｣ ボタンでタスクを追加してください</system:String>
     <system:String x:Key="Guide.Documentation.Path">MAA の公式サイトと完全なドキュメントは ｢{key=Settings.Title} - {key=Settings.About.Title} - {key=About.Website}｣ でご覧いただけます。</system:String>
     <system:String x:Key="Guide.Documentation.Title">📖 公式サイトとドキュメント</system:String>
     <system:String x:Key="Guide.Done">完了</system:String>
@@ -1284,10 +1298,10 @@ DEBUGディレクトリに保存される画像には数量制限があり、超
     <system:String x:Key="Guide.Restart">設定ガイドを再表示</system:String>
     <system:String x:Key="Guide.RestartPrompt">設定ガイドはメイン画面に表示されます。今すぐアプリケーションを再起動しますか？</system:String>
     <system:String x:Key="Guide.Settings">設定ガイド</system:String>
+    <system:String x:Key="Guide.Skip">スキップ</system:String>
     <system:String x:Key="Guide.Tip">マウスを乗せるとヒントあり</system:String>
     <system:String x:Key="Guide.Title">操作とガイド</system:String>
     <system:String x:Key="Guide.User">使用ガイド</system:String>
-    <system:String x:Key="Guide.UserAgreement">MAA を使用することにより、｢利用規約｣ に同意したものとみなされます。完全な規約は、公式サイトの下部のリンクからご覧いただけます。</system:String>
     <system:String x:Key="Guide.ViewLog">｢{key=Settings.Title} - {key=Settings.IssueReport.Title} - {key=Error.OpenDebugFolder}｣ にアクセスしてログを確認し、エラーの具体的な原因を把握できます。</system:String>
     <system:String x:Key="Infrast.ContinueTraining">訓練完了後に現在スキルの継続特化を試みます</system:String>
     <system:String x:Key="Infrast.Custom.File">基地構成ファイルの指定</system:String>

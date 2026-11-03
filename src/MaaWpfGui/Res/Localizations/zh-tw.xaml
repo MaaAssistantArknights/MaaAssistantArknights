@@ -1257,14 +1257,28 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
     <system:String x:Key="Game.Role.Support">輔助</system:String>
     <system:String x:Key="Game.Role.Tank">重裝</system:String>
     <system:String x:Key="Game.Role.Warrior">近衛</system:String>
+    <system:String x:Key="Guide.Agreement.Link">使用者協議</system:String>
+    <system:String x:Key="Guide.Agreement.Prefix">使用 MAA 即表示您同意遵守</system:String>
+    <system:String x:Key="Guide.Agreement.Tip">請先閱讀並點擊 ｢{key=Guide.Agreement.Link}｣ 查看完整協議內容，再進入下一步</system:String>
     <system:String x:Key="Guide.Clarification" xml:space="preserve">請確保 ADB 已啟用：
 • BlueStacks：設定 → 進階 → Android 調試橋 (ADB) → 啟用
 • 雷電模擬器：設定 → 其他 → ADB 偵錯 → 開啟本機連接</system:String>
-    <system:String x:Key="Guide.ConfirmCountdown.Prefix" xml:space="preserve">還剩 </system:String>
-    <system:String x:Key="Guide.ConfirmCountdown.Suffix" xml:space="preserve"> 秒</system:String>
+    <system:String x:Key="Guide.Demo.BlockedOperation">示範流程不支援此操作，請依引導完成目前步驟</system:String>
+    <system:String x:Key="Guide.Demo.Gate.AddFight">透過 ｢{key=TaskQueue.AddTask}｣ 新增一個 ｢{key=TaskQueue.Task.Fight}｣ 任務</system:String>
+    <system:String x:Key="Guide.Demo.Gate.AddNightTheme">選中 ｢{key=TaskQueue.Task.SwitchTheme}｣ 任務的齒輪，點擊 ｢{key=TaskQueue.SwitchTheme.Add}｣ 新增 ｢{key=Guide.Demo.NightTheme}｣ 主題</system:String>
+    <system:String x:Key="Guide.Demo.Gate.AddSwitchTheme">透過 ｢{key=TaskQueue.AddTask}｣ 新增一個 ｢{key=TaskQueue.Task.SwitchTheme}｣ 任務，放在列表最後</system:String>
+    <system:String x:Key="Guide.Demo.Gate.CheckWeekDays">在週計畫中勾選 ｢週一｣ 與 ｢週日｣</system:String>
+    <system:String x:Key="Guide.Demo.Gate.EnableWeekly">選中剿滅任務的齒輪，在 ｢{key=TaskQueue.AdvancedSettings}｣ 勾選 ｢{key=TaskQueue.UseWeeklySchedule}｣</system:String>
+    <system:String x:Key="Guide.Demo.Gate.RenameFight">懸停新新增的 ｢{key=TaskQueue.Task.Fight}｣ 任務並重新命名，與預設任務區分</system:String>
+    <system:String x:Key="Guide.Demo.Gate.ReorderFight">按住重新命名後的 ｢{key=TaskQueue.Task.Fight}｣ 拖動，放到預設 ｢{key=TaskQueue.Task.Fight}｣ 上面</system:String>
+    <system:String x:Key="Guide.Demo.Gate.ReorderTheme">將 ｢{key=TaskQueue.Task.SwitchTheme}｣ 任務拖動到列表最後</system:String>
+    <system:String x:Key="Guide.Demo.Gate.RestoreFight">列表需包含 ｢{key=TaskQueue.Task.Fight}｣ 任務，請透過 ｢{key=TaskQueue.AddTask}｣ 重新新增</system:String>
+    <system:String x:Key="Guide.Demo.Gate.RestoreStartUp">列表需包含 ｢{key=TaskQueue.Task.StartUp}｣ 任務，請透過 ｢{key=TaskQueue.AddTask}｣ 重新新增</system:String>
+    <system:String x:Key="Guide.Demo.Gate.SelectStage">點亮任務齒輪，將關卡選擇為 ｢{key=TaskQueue.Annihilation.Current}｣</system:String>
+    <system:String x:Key="Guide.Demo.NightTheme">夜間</system:String>
+    <system:String x:Key="Guide.Demo.SettingsPlaceholder">請跟隨指引完成左列步驟，此任務的設定暫無示範內容</system:String>
     <system:String x:Key="Guide.Demo.Start">示範中不會真的執行任務</system:String>
     <system:String x:Key="Guide.Demo.TaskAddLimit.Tip">示範列表最多容納 5 個任務，可先刪除部分後再新增</system:String>
-    <system:String x:Key="Guide.Demo.TaskRequired.Tip">先透過 ｢{key=TaskQueue.AddTask}｣ 按鈕新增一個任務，再進入下一步</system:String>
     <system:String x:Key="Guide.Documentation.Path">您可以在 ｢{key=Settings.Title} - {key=Settings.About.Title} - {key=About.Website}｣ 找到 MAA 的官方網站和完整文件。</system:String>
     <system:String x:Key="Guide.Documentation.Title">📖 官網與文件</system:String>
     <system:String x:Key="Guide.Done">完成</system:String>
@@ -1282,10 +1296,10 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
     <system:String x:Key="Guide.Restart">重看設定指引</system:String>
     <system:String x:Key="Guide.RestartPrompt">設定指引將在主介面顯示，是否立即重新啟動應用程式？</system:String>
     <system:String x:Key="Guide.Settings">設定指引</system:String>
+    <system:String x:Key="Guide.Skip">跳過</system:String>
     <system:String x:Key="Guide.Tip">滑鼠移至此處會有提示喔</system:String>
     <system:String x:Key="Guide.Title">操作與指引</system:String>
     <system:String x:Key="Guide.User">使用指引</system:String>
-    <system:String x:Key="Guide.UserAgreement">使用 MAA 即表示您同意遵守 ｢使用者協議｣，完整協議內容可在官網底部的連結中查看。</system:String>
     <system:String x:Key="Guide.ViewLog">您可以前往 ｢{key=Settings.Title} - {key=Settings.IssueReport.Title} - {key=Error.OpenDebugFolder}｣ 查看日誌，了解錯誤發生的具體原因。</system:String>
     <system:String x:Key="Infrast.ContinueTraining">訓練完成後繼續嘗試專精目前技能</system:String>
     <system:String x:Key="Infrast.Custom.File">自訂基建排班檔案</system:String>
