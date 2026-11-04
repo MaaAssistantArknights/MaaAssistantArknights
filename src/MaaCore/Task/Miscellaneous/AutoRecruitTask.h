@@ -165,6 +165,7 @@ protected:
     }
 
     calc_task_result_type recruit_calc_task(slot_index = 0);
+    bool wait_until_slot_recruiting(slot_index index);
 
     std::vector<int> m_select_level;
     std::vector<int> m_confirm_level;
