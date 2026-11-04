@@ -358,9 +358,10 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
         ("CA5", "TaskQueue.DepotMaintain.PresetSkillSummary"));
 
     /// <summary>
-    /// 预设数据：关卡 → [(掉落物 itemId, 掉落物名称), ...]。
+    /// 预设数据：预设 key → [(关卡, 掉落物 itemId 列表, 默认目标数量), ...]。
+    /// 教程关卡（TutorialChallenge）的达成判定按同一份数据构建期望计划，改预设值时两边语义保持一致。
     /// </summary>
-    private static readonly Dictionary<string, (string Stage, string[] Drops, int DefaultCount)[]> PresetData = new() {
+    internal static readonly Dictionary<string, (string Stage, string[] Drops, int DefaultCount)[]> PresetData = new() {
         ["Chip1"] = [
             ("PR-A-1", ["3261", "3231"], 20),  // 医疗芯片、重装芯片
             ("PR-B-1", ["3251", "3241"], 20),  // 术师芯片、狙击芯片
@@ -388,6 +389,11 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
     /// 随关卡数据重载刷新；无进行中活动时为空，菜单隐藏活动分组。
     /// </summary>
     public ObservableCollection<GenericCombinedData<string>> ActivityPresetList { get; private set => SetAndNotify(ref field, value); } = [];
+
+    /// <summary>
+    /// 供沙盒教程关卡下拉打开时重查活动时间窗口的公开入口，等价 <see cref="RefreshActivityPresetList"/>。
+    /// </summary>
+    public void RefreshActivityPresetListPublic() => RefreshActivityPresetList();
 
     /// <summary>
     /// 刷新活动预设列表：筛当前进行中的活动，且至少含一个掉落为已知物品的关卡（其余为文案型 Drop，无可生成计划）。
