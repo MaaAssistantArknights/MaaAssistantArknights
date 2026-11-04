@@ -779,14 +779,15 @@ public class SettingsViewModel : Screen
     }
 
     /// <summary>
-    /// Gets 设置指引左上角 ｢跳过｣ 按钮是否显示：本地 Debug 构建或存在 DEBUG/DEBUG.txt 标记时（编译期与文件判定，不依赖运行时版本链的求值时序）。
+    /// Gets 设置指引左上角 ｢跳过｣ 按钮是否显示：通过用户协议步骤后可跳过剩余指引，调试时始终可跳过。
     /// </summary>
+    [PropertyDependsOn(nameof(GuideStepIndex))]
     public bool GuideSkipVisible
         =>
 #if DEBUG
             true;
 #else
-            File.Exists("DEBUG") || File.Exists("DEBUG.txt");
+            GuideStepIndex > GuideAgreementStepIndex || File.Exists("DEBUG") || File.Exists("DEBUG.txt");
 #endif
 
     // UI 绑定的方法（协议链接点击）
