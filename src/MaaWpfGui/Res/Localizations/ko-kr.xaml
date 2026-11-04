@@ -2554,7 +2554,7 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="TutorialChallenge.Enter">들어가기</system:String>
     <system:String x:Key="TutorialChallenge.ImportPresetHint">프리셋을 가져오면 해당 목표 전체가 계획 목록에 추가됩니다.</system:String>
     <system:String x:Key="TutorialChallenge.Introduction">각 챌린지의 목표를 향해 자유롭게 조작하세요. 목표를 달성하면 클리어되며, 조작 순서는 자유이고 언제든 닫고 다시 시도할 수 있습니다.</system:String>
-    <system:String x:Key="TutorialChallenge.Level.AddFight.Goal">대기열에 {key=TaskQueue.Task.Fight} 작업을 하나 더 늘려 보세요.</system:String>
+    <system:String x:Key="TutorialChallenge.Level.AddFight.Goal">이성을 소모할 작업이 필요합니다.</system:String>
     <system:String x:Key="TutorialChallenge.Level.AddFight.Title">작전 추가</system:String>
     <system:String x:Key="TutorialChallenge.Level.ChipStock.Goal">칩은 각 20개, 칩셋은 각 32개까지 채우세요. 도전해 보세요: 최소 몇 개의 작업으로 해낼 수 있을까요?</system:String>
     <system:String x:Key="TutorialChallenge.Level.ChipStock.Title">칩 풀세트</system:String>

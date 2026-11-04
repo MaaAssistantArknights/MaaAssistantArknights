@@ -2555,7 +2555,7 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="TutorialChallenge.Enter">進む</system:String>
     <system:String x:Key="TutorialChallenge.ImportPresetHint">プリセットをインポートすると、その目標がすべて計画リストに追加されます。</system:String>
     <system:String x:Key="TutorialChallenge.Introduction">チャレンジの目標に向かって自由に操作し、達成すればクリアになります。操作手順は自由、いつでも閉じてやり直せます。</system:String>
-    <system:String x:Key="TutorialChallenge.Level.AddFight.Goal">キューに {key=TaskQueue.Task.Fight} を 1 つ増やしてください。</system:String>
+    <system:String x:Key="TutorialChallenge.Level.AddFight.Goal">理性を消費する任務がほしい。</system:String>
     <system:String x:Key="TutorialChallenge.Level.AddFight.Title">作戦タスクを追加</system:String>
     <system:String x:Key="TutorialChallenge.Level.ChipStock.Goal">初級 SoC を各 20 個、中級 SoC を各 32 個まで補充してください。挑戦してみましょう：最小限でいくつのタスクで達成できますか？</system:String>
     <system:String x:Key="TutorialChallenge.Level.ChipStock.Title">チップフルセット</system:String>
