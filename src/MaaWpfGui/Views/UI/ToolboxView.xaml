@@ -1519,5 +1519,10 @@
                 </Grid>
             </Grid>
         </TabItem>
+        <TabItem Header="{DynamicResource Toolbox.TutorialChallenge.Title}">
+            <Grid Margin="20,0,20,20">
+                <toolbox:TutorialChallengeUserControl DataContext="{x:Static toolbox_vms:TutorialChallengeUserControlModel.Instance}" />
+            </Grid>
+        </TabItem>
     </TabControl>
 </UserControl>
