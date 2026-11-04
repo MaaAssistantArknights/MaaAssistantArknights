@@ -1258,49 +1258,13 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
     <system:String x:Key="Game.Role.Tank">重裝</system:String>
     <system:String x:Key="Game.Role.Warrior">近衛</system:String>
     <system:String x:Key="Guide.Agreement.Link">使用者協議</system:String>
-    <system:String x:Key="Guide.Agreement.Prefix">使用 MAA 即表示您同意遵守</system:String>
-    <system:String x:Key="Guide.Agreement.Tip">請先閱讀並點擊 ｢{key=Guide.Agreement.Link}｣ 查看完整協議內容，再進入下一步</system:String>
-    <system:String x:Key="Guide.Clarification" xml:space="preserve">請確保 ADB 已啟用：
-• BlueStacks：設定 → 進階 → Android 調試橋 (ADB) → 啟用
-• 雷電模擬器：設定 → 其他 → ADB 偵錯 → 開啟本機連接</system:String>
-    <system:String x:Key="Guide.Demo.BlockedOperation">示範流程不支援此操作，請依引導完成目前步驟</system:String>
-    <system:String x:Key="Guide.Demo.Gate.AddFight">透過 ｢{key=TaskQueue.AddTask}｣ 新增一個 ｢{key=TaskQueue.Task.Fight}｣ 任務</system:String>
-    <system:String x:Key="Guide.Demo.Gate.AddNightTheme">選中 ｢{key=TaskQueue.Task.SwitchTheme}｣ 任務的齒輪，點擊 ｢{key=TaskQueue.SwitchTheme.Add}｣ 新增 ｢{key=Guide.Demo.NightTheme}｣ 主題</system:String>
-    <system:String x:Key="Guide.Demo.Gate.AddSwitchTheme">透過 ｢{key=TaskQueue.AddTask}｣ 新增一個 ｢{key=TaskQueue.Task.SwitchTheme}｣ 任務，放在列表最後</system:String>
-    <system:String x:Key="Guide.Demo.Gate.CheckWeekDays">在週計畫中勾選 ｢週一｣ 與 ｢週日｣</system:String>
-    <system:String x:Key="Guide.Demo.Gate.EnableWeekly">選中剿滅任務的齒輪，在 ｢{key=TaskQueue.AdvancedSettings}｣ 勾選 ｢{key=TaskQueue.UseWeeklySchedule}｣</system:String>
-    <system:String x:Key="Guide.Demo.Gate.RenameFight">懸停新新增的 ｢{key=TaskQueue.Task.Fight}｣ 任務並重新命名，與預設任務區分</system:String>
-    <system:String x:Key="Guide.Demo.Gate.ReorderFight">拖動重新命名後的 ｢{key=TaskQueue.Task.Fight}｣，或右鍵其齒輪選 ｢{key=TaskQueue.MoveUp}｣，移到預設 ｢{key=TaskQueue.Task.Fight}｣ 上面</system:String>
-    <system:String x:Key="Guide.Demo.Gate.ReorderTheme">拖動 ｢{key=TaskQueue.Task.SwitchTheme}｣ 任務，或右鍵其齒輪選 ｢{key=TaskQueue.MoveDown}｣，移到列表最後</system:String>
-    <system:String x:Key="Guide.Demo.Gate.RestoreFight">列表需包含 ｢{key=TaskQueue.Task.Fight}｣ 任務，請透過 ｢{key=TaskQueue.AddTask}｣ 重新新增</system:String>
-    <system:String x:Key="Guide.Demo.Gate.RestoreStartUp">列表需包含 ｢{key=TaskQueue.Task.StartUp}｣ 任務，請透過 ｢{key=TaskQueue.AddTask}｣ 重新新增</system:String>
-    <system:String x:Key="Guide.Demo.Gate.SelectStage">點亮任務齒輪，將關卡選擇為 ｢{key=TaskQueue.Annihilation.Current}｣</system:String>
-    <system:String x:Key="Guide.Demo.NightTheme">夜間</system:String>
-    <system:String x:Key="Guide.Demo.SettingsPlaceholder">請跟隨指引完成左列步驟，此任務的設定暫無示範內容</system:String>
-    <system:String x:Key="Guide.Demo.Start">示範中不會真的執行任務</system:String>
-    <system:String x:Key="Guide.Demo.TaskAddLimit.Tip">示範列表最多容納 5 個任務，可先刪除部分後再新增</system:String>
-    <system:String x:Key="Guide.Documentation.Path">您可以在 ｢{key=Settings.Title} - {key=Settings.About.Title} - {key=About.Website}｣ 找到 MAA 的官方網站和完整文件。</system:String>
-    <system:String x:Key="Guide.Documentation.Title">📖 官網與文件</system:String>
+    <system:String x:Key="Guide.Connection.Tip">啟動模擬器並啟用 ADB，即可使用自動偵測。</system:String>
     <system:String x:Key="Guide.Done">完成</system:String>
-    <system:String x:Key="Guide.GearContextMenu.Tip">右鍵齒輪顯示更多操作 ↓</system:String>
-    <system:String x:Key="Guide.GenerateReport">請使用 ｢{key=Settings.Title} - {key=Settings.IssueReport.Title} - {key=Error.GenerateSupportPayload}｣ 產生錯誤報告，並點擊藍色的 ｢{key=Error.Issue}｣ 連結提交回饋。</system:String>
-    <system:String x:Key="Guide.GitHubIssue.Description">MAA Team 僅受理使用者透過 GitHub 平台依照 Issue 範本規範提交的回饋，並保留對所有回饋的處理決定權。</system:String>
-    <system:String x:Key="Guide.GitHubIssue.Title">⚠️ 回饋規範</system:String>
-    <system:String x:Key="Guide.HoverActionButtons">懸停顯示 複製/重新命名/刪除</system:String>
-    <system:String x:Key="Guide.IssueReport.Subtitle">🔧 遇到問題時</system:String>
-    <system:String x:Key="Guide.LinkStart">← 開始任務</system:String>
-    <system:String x:Key="Guide.Next">下一步</system:String>
-    <system:String x:Key="Guide.OpenSource.Description">作為開源專案，使用者可依據 AGPL-3.0 許可證在 GitHub 平台參與 MAA 的開發。MAA Team 鼓勵使用者透過更有價值的程式碼貢獻代替問題回饋。</system:String>
-    <system:String x:Key="Guide.OpenSource.Title">💡 參與開源</system:String>
-    <system:String x:Key="Guide.Prev">上一步</system:String>
-    <system:String x:Key="Guide.Restart">重看設定指引</system:String>
-    <system:String x:Key="Guide.RestartPrompt">設定指引將在主介面顯示，是否立即重新啟動應用程式？</system:String>
+    <system:String x:Key="Guide.Reopen">重看設定指引</system:String>
     <system:String x:Key="Guide.Settings">設定指引</system:String>
-    <system:String x:Key="Guide.Skip">跳過</system:String>
-    <system:String x:Key="Guide.Tip">滑鼠移至此處會有提示喔</system:String>
+    <system:String x:Key="Guide.Skip">跳過設定</system:String>
+    <system:String x:Key="Guide.TaskSettings.Tip">點擊任務旁的齒輪可調整設定，點擊 ｢{key=TaskQueue.LinkStart}｣ 執行勾選的任務。</system:String>
     <system:String x:Key="Guide.Title">操作與指引</system:String>
-    <system:String x:Key="Guide.User">使用指引</system:String>
-    <system:String x:Key="Guide.ViewLog">您可以前往 ｢{key=Settings.Title} - {key=Settings.IssueReport.Title} - {key=Error.OpenDebugFolder}｣ 查看日誌，了解錯誤發生的具體原因。</system:String>
     <system:String x:Key="Infrast.ContinueTraining">訓練完成後繼續嘗試專精目前技能</system:String>
     <system:String x:Key="Infrast.Custom.File">自訂基建排班檔案</system:String>
     <system:String x:Key="Infrast.Custom.FileHasPlanNoPeriod">自訂基建排班僅有部分計畫設定了時段，可能會產生預期外的行為。若需設定換班時段請確保所有計畫均有設定時段，否則請全部留白。</system:String>

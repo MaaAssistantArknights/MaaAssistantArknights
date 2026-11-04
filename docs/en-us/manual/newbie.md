@@ -41,7 +41,7 @@ Some features (such as Depot Maintain, scheduled execution, and drag-and-drop pa
 
 0. If you want to use automatic detection, run **one** emulator and ensure no other Android devices are connected to your computer.
 
-1. Follow the setup guide for configuration. MAA will automatically detect the running emulator. If detection fails or you need multiple instances, refer to [Connection Settings](./connection.md).
+1. Use the setup guide to configure MAA, or skip it and open Settings → Connection Settings later. MAA automatically detects the running emulator. If detection fails or you need multiple instances, refer to [Connection Settings](./connection.md).
 
 2. MAA automatically checks for and updates game resources on startup; updates are loaded automatically when the system is idle, without requiring a restart.
 

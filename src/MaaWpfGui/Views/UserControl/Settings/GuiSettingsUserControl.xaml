@@ -223,9 +223,10 @@
                 Width="180"
                 Margin="8"
                 HorizontalAlignment="Center"
-                Command="{s:Action RestartGuide,
+                Command="{s:Action ShowGuide,
                                    Target={x:Static helper:Instances.SettingsViewModel}}"
-                Content="{DynamicResource Guide.Restart}"
+                Content="{DynamicResource Guide.Reopen}"
+                IsEnabled="{Binding Run.Idle, Source={x:Static helper:Instances.SettingsViewModel}}"
                 Style="{StaticResource ButtonPrimary}" />
         </Grid>
         <hc:Divider Margin="0" Content="{DynamicResource Settings.Background}" />
