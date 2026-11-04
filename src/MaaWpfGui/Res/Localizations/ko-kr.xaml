@@ -2491,6 +2491,7 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="Toolbox.MiniGame.TL.WartimePressCommittee.Tip" xml:space="preserve">이벤트 신문 선택 화면이 표시된 상태에서 시작하세요</system:String>
     <system:String x:Key="Toolbox.MiniGame.Title">편의 기능</system:String>
     <system:String x:Key="Toolbox.Title">툴박스</system:String>
+    <system:String x:Key="Toolbox.TutorialChallenge.Title">튜토리얼 챌린지</system:String>
     <system:String x:Key="Tray.Exit">종료</system:String>
     <system:String x:Key="Tray.ForceShow">MAA 강제 표시</system:String>
     <system:String x:Key="Tray.Hide">트레이 아이콘 숨기기</system:String>
@@ -2499,6 +2500,24 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="Tray.SwitchLanguage">언어 전환 🌐</system:String>
     <system:String x:Key="Tray.Title">트레이</system:String>
     <system:String x:Key="Tray.Use">트레이 아이콘 표시</system:String>
+    <system:String x:Key="TutorialChallenge.Completed">클리어</system:String>
+    <system:String x:Key="TutorialChallenge.Enter">들어가기</system:String>
+    <system:String x:Key="TutorialChallenge.ImportPresetHint">프리셋을 가져오면 해당 목표 전체가 계획 목록에 추가됩니다.</system:String>
+    <system:String x:Key="TutorialChallenge.Introduction">각 챌린지의 목표를 향해 자유롭게 조작하세요. 목표를 달성하면 클리어 및 업적이 해금되며, 조작 순서는 자유이고 언제든 닫고 다시 시도할 수 있습니다.</system:String>
+    <system:String x:Key="TutorialChallenge.Level.AddFight.Goal">대기열에 {key=TaskQueue.Task.Fight} 작업을 하나 더 늘려 보세요.</system:String>
+    <system:String x:Key="TutorialChallenge.Level.AddFight.Title">작전 추가</system:String>
+    <system:String x:Key="TutorialChallenge.Level.ChipStock.Goal">칩은 각 20개, 칩셋은 각 32개까지 채우세요. 도전해 보세요: 최소 몇 개의 작업으로 해낼 수 있을까요?</system:String>
+    <system:String x:Key="TutorialChallenge.Level.ChipStock.Title">칩 풀세트</system:String>
+    <system:String x:Key="TutorialChallenge.Level.InventoryTarget.Goal">원암 큐브 재고를 100개까지 채우세요.</system:String>
+    <system:String x:Key="TutorialChallenge.Level.InventoryTarget.Title">목표 재고</system:String>
+    <system:String x:Key="TutorialChallenge.Level.StagePriority.Goal">AP-5를 우선해서 돌고 싶습니다. AP-5가 닫혀 있으면 CE-6, 둘 다 닫혀 있으면 1-7로 하고 싶습니다.</system:String>
+    <system:String x:Key="TutorialChallenge.Level.StagePriority.Title">대체 스테이지 우선순위</system:String>
+    <system:String x:Key="TutorialChallenge.Level.TargetDrop.Goal">1-7에서 원암 큐브를 10개 모아 보세요.</system:String>
+    <system:String x:Key="TutorialChallenge.Level.TargetDrop.Title">지정 드롭</system:String>
+    <system:String x:Key="TutorialChallenge.NoSimulatedPanel">이 작업 유형에는 시뮬레이션 설정이 없습니다</system:String>
+    <system:String x:Key="TutorialChallenge.Reset">초기화</system:String>
+    <system:String x:Key="TutorialChallenge.SelectTaskHint">작업 오른쪽의 톱니 바퀴를 클릭하면 설정을 볼 수 있습니다</system:String>
+    <system:String x:Key="TutorialChallenge.SmartSolutionHint">더 손쉬운 방법도 있습니다: {key=TaskQueue.Task.DepotMaintain} 작업 하나로 칩과 칩셋 프리셋 두 개를 가져오면 전체 목표를 해결할 수 있습니다.</system:String>
     <system:String x:Key="VersionUpdate.Api.UpdateFailed">핫 업데이트 데이터를 가져오지 못했습니다</system:String>
     <system:String x:Key="VersionUpdate.Api.UpdateSuccess">핫 업데이트 데이터를 성공적으로 가져왔습니다</system:String>
     <system:String x:Key="VersionUpdate.CheckNetworking">네트워크 연결이나 프록시를 확인해 주세요.</system:String>

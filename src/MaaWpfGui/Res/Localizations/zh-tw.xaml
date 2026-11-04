@@ -2491,6 +2491,7 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="Toolbox.MiniGame.TL.WartimePressCommittee.Tip" xml:space="preserve">請從活動報紙選擇介面（可見報紙名稱與 ｢開始組版｣ 按鈕）的狀態開始。</system:String>
     <system:String x:Key="Toolbox.MiniGame.Title">快捷功能</system:String>
     <system:String x:Key="Toolbox.Title">小工具</system:String>
+    <system:String x:Key="Toolbox.TutorialChallenge.Title">教程關卡</system:String>
     <system:String x:Key="Tray.Exit">結束</system:String>
     <system:String x:Key="Tray.ForceShow">強制顯示 MAA</system:String>
     <system:String x:Key="Tray.Hide">隱藏工作列圖示</system:String>
@@ -2499,6 +2500,24 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="Tray.SwitchLanguage">切換語言 🌐</system:String>
     <system:String x:Key="Tray.Title">工作列</system:String>
     <system:String x:Key="Tray.Use">顯示工作列圖示</system:String>
+    <system:String x:Key="TutorialChallenge.Completed">已通關</system:String>
+    <system:String x:Key="TutorialChallenge.Enter">進入</system:String>
+    <system:String x:Key="TutorialChallenge.ImportPresetHint">匯入預設會向計畫列表追加該預設的全部目標。</system:String>
+    <system:String x:Key="TutorialChallenge.Introduction">按關卡目標自由操作，達成即通關並解鎖成就；不限操作步驟，隨時可關閉重來。</system:String>
+    <system:String x:Key="TutorialChallenge.Level.AddFight.Goal">讓佇列裡多一個 {key=TaskQueue.Task.Fight}。</system:String>
+    <system:String x:Key="TutorialChallenge.Level.AddFight.Title">添加理智作戰</system:String>
+    <system:String x:Key="TutorialChallenge.Level.ChipStock.Goal">晶片每種補到 20 個、晶片組每種補到 32 個。試試看，最少用幾個任務能辦到？</system:String>
+    <system:String x:Key="TutorialChallenge.Level.ChipStock.Title">晶片全套</system:String>
+    <system:String x:Key="TutorialChallenge.Level.InventoryTarget.Goal">把固源岩庫存補到 100 個。</system:String>
+    <system:String x:Key="TutorialChallenge.Level.InventoryTarget.Title">庫存目標</system:String>
+    <system:String x:Key="TutorialChallenge.Level.StagePriority.Goal">希望優先刷 AP-5，AP-5 沒開時刷 CE-6，兩者都沒開就刷 1-7。</system:String>
+    <system:String x:Key="TutorialChallenge.Level.StagePriority.Title">備選關卡優先級</system:String>
+    <system:String x:Key="TutorialChallenge.Level.TargetDrop.Goal">在 1-7 刷夠 10 個固源岩。</system:String>
+    <system:String x:Key="TutorialChallenge.Level.TargetDrop.Title">指定掉落</system:String>
+    <system:String x:Key="TutorialChallenge.NoSimulatedPanel">該任務類型暫無模擬設定</system:String>
+    <system:String x:Key="TutorialChallenge.Reset">重置</system:String>
+    <system:String x:Key="TutorialChallenge.SelectTaskHint">點亮任務右側的齒輪可查看設定</system:String>
+    <system:String x:Key="TutorialChallenge.SmartSolutionHint">還有一種更省事的解法：用一個 {key=TaskQueue.Task.DepotMaintain} 任務，匯入晶片與晶片組兩個預設即可覆蓋全部目標。</system:String>
     <system:String x:Key="VersionUpdate.Api.UpdateFailed">熱更新資料取得失敗</system:String>
     <system:String x:Key="VersionUpdate.Api.UpdateSuccess">熱更新資料取得成功</system:String>
     <system:String x:Key="VersionUpdate.CheckNetworking">請檢查網路連線或 Proxy 代理設定。</system:String>
