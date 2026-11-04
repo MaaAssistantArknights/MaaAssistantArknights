@@ -1,4 +1,4 @@
-## v6.21.3
+## v6.21.4
 
 ### Highlights
 
@@ -6,9 +6,9 @@
 
 本版本按功能域全量重写了 WPF 语言资源，个别界面可能出现文案显示异常；如遇到问题，请通过 ｢设置 - 问题反馈｣ 提交反馈。
 
-#### 设置指引改为任务设置演示教学，新增用户协议确认
+#### WPF 设置指引可跳过
 
-设置指引 ｢任务设置｣ 步骤改为分步演示教学，按引导顺序完成任务配置；新增用户协议确认步骤，已完成旧版指引的用户升级后重新进入指引。
+首次启动时可在一页内选择语言、区服和连接方式，也可直接跳过并进入任务列表。已完成设置指引的用户升级后可以直接进入任务页。
 
 #### 生息演算迁移到 ｢小工具-牛杂｣，外服支持 ｢重启锚点｣
 
@@ -18,9 +18,9 @@
 
 刷开局新增 ｢凹第一层实托邦｣ 选项，需难度 6 及以上。
 
-#### 编队与选人提速
+#### 海外源支持通过 GitHub 更新软件和资源
 
-自动编队优先在当前页匹配待选干员，减少翻页；自定义基建与宿舍选人按职业分桶定位剩余目标干员。
+在 ｢设置 - 更新设置｣ 选择海外源并填写、验证 GitHub Token 后，软件和资源的更新检查及下载均可通过 GitHub 完成。
 
 <details>
 <summary><b>English</b></summary>
@@ -29,9 +29,9 @@ Adapted to the new UI in the Arknights 26.11.1 update, and fixed Roguelike and R
 
 The WPF localization resources have been extensively rewritten by feature domain in this version; a few texts may display incorrectly. If you run into any, please report via Settings - Issue Report.
 
-#### First-Run Guide Revamped as Task Settings Demo Tutorial with User Agreement Confirmation
+#### Skippable WPF Setup Guide
 
-The ｢Task Settings｣ step of the first-run guide is now a step-by-step demo tutorial that walks through task configuration in a guided order; a user agreement confirmation step has been added, and users who completed the old guide will go through the new one again after upgrading.
+The first-run guide puts language, server, and connection settings on one page. You can skip it and go straight to the task list. Upgrading preserves your previous completion status.
 
 #### Reclamation Algorithm Moved to Toolbox "Useful Tasks", "RELAUNCH ANCHOR" on Overseas Servers
 
@@ -41,9 +41,9 @@ Reclamation Algorithm now runs standalone in the Toolbox "Useful Tasks" section;
 
 New option for start-run farming to reroll until Floor 1 is 实托邦 (a Floor 1 variant); requires difficulty 6 or above.
 
-#### Faster Formation and Operator Selection
+#### Software and Resource Updates via GitHub
 
-Auto formation now matches operators on the current page first, reducing paging; custom infrast and dormitory selection locate remaining targets by class.
+Select Global Source in the update settings and verify a GitHub token to check for and download software and resource updates through GitHub.
 
 </details>
 
@@ -52,6 +52,19 @@ Auto formation now matches operators on the current page first, reducing paging;
 以下是详细内容：
 
 <details open>
+<summary><b>v6.21.4 (2026-11-04)</b></summary>
+
+### 新增 | New
+
+* WPF 海外源支持填写并验证 GitHub Token，通过 GitHub 检查和下载软件与资源更新 ([#19034](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/19034)) @Rbqwow @Daydreamer114
+
+### 改进 | Improved
+
+* WPF 设置指引精简为一页，支持跳过并直接进入任务页。升级时保留已有完成状态，也可从 ｢设置 - 界面设置｣ 直接重看 ([#19084](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/19084)) @MistEO
+
+</details>
+
+<details>
 <summary><b>v6.21.3 (2026-11-04)</b></summary>
 
 ### 新增 | New
