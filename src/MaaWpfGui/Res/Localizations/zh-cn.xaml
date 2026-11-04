@@ -2504,7 +2504,7 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="TutorialChallenge.Enter">进入</system:String>
     <system:String x:Key="TutorialChallenge.ImportPresetHint">导入预设会向计划列表追加该预设的全部目标。</system:String>
     <system:String x:Key="TutorialChallenge.Introduction">按关卡目标自由操作，达成即通关；不限操作步骤，随时可关闭重来。</system:String>
-    <system:String x:Key="TutorialChallenge.Level.AddFight.Goal">让队列里多一个 {key=TaskQueue.Task.Fight}。</system:String>
+    <system:String x:Key="TutorialChallenge.Level.AddFight.Goal">需要个任务帮我消耗理智。</system:String>
     <system:String x:Key="TutorialChallenge.Level.AddFight.Title">添加理智作战</system:String>
     <system:String x:Key="TutorialChallenge.Level.ChipStock.Goal">芯片每种补到 20 个、芯片组每种补到 32 个。试试看，最少用几个任务能办到？</system:String>
     <system:String x:Key="TutorialChallenge.Level.ChipStock.Title">芯片全套</system:String>

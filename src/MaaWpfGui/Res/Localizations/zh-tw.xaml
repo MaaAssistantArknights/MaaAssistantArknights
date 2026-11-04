@@ -2504,7 +2504,7 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="TutorialChallenge.Enter">進入</system:String>
     <system:String x:Key="TutorialChallenge.ImportPresetHint">匯入預設會向計畫列表追加該預設的全部目標。</system:String>
     <system:String x:Key="TutorialChallenge.Introduction">按關卡目標自由操作，達成即通關；不限操作步驟，隨時可關閉重來。</system:String>
-    <system:String x:Key="TutorialChallenge.Level.AddFight.Goal">讓佇列裡多一個 {key=TaskQueue.Task.Fight}。</system:String>
+    <system:String x:Key="TutorialChallenge.Level.AddFight.Goal">需要個任務幫我消耗理智。</system:String>
     <system:String x:Key="TutorialChallenge.Level.AddFight.Title">添加理智作戰</system:String>
     <system:String x:Key="TutorialChallenge.Level.ChipStock.Goal">晶片每種補到 20 個、晶片組每種補到 32 個。試試看，最少用幾個任務能辦到？</system:String>
     <system:String x:Key="TutorialChallenge.Level.ChipStock.Title">晶片全套</system:String>
