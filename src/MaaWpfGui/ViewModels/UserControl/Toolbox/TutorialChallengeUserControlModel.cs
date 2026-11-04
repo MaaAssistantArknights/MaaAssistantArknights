@@ -28,6 +28,7 @@ namespace MaaWpfGui.ViewModels.UserControl.Toolbox;
 public class TutorialChallengeUserControlModel : PropertyChangedBase
 {
     private static TutorialChallengeLevelView? _levelWindow;
+    private static TutorialChallengeShopView? _shopWindow;
 
     static TutorialChallengeUserControlModel()
     {
@@ -79,12 +80,27 @@ public class TutorialChallengeUserControlModel : PropertyChangedBase
         if (_levelWindow is null)
         {
             _levelWindow = new TutorialChallengeLevelView();
+            _levelWindow.Loaded += (_, _) => Helper.WindowManager.MoveWindowToRootCenter(_levelWindow);
             _levelWindow.Closed += (_, _) => _levelWindow = null;
         }
 
         _levelWindow.DataContext = new TutorialChallengeLevelViewModel(item.Level);
-        _levelWindow.Show();
-        _levelWindow.Activate();
+        Helper.WindowManager.ShowWindow(_levelWindow);
+    }
+
+    /// <summary>
+    /// 打开牛牛币商城窗口；非模态单例，已打开时激活前置。
+    /// </summary>
+    public void OpenShop()
+    {
+        if (_shopWindow is null)
+        {
+            _shopWindow = new TutorialChallengeShopView { DataContext = new TutorialChallengeShopViewModel() };
+            _shopWindow.Loaded += (_, _) => Helper.WindowManager.MoveWindowToRootCenter(_shopWindow);
+            _shopWindow.Closed += (_, _) => _shopWindow = null;
+        }
+
+        Helper.WindowManager.ShowWindow(_shopWindow);
     }
 
     /// <summary>

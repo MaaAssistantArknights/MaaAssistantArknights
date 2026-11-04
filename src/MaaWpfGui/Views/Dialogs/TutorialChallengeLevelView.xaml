@@ -543,7 +543,7 @@
                                                 Content="{DynamicResource TaskQueue.Fight.TargetInventory}"
                                                 IsChecked="{Binding UseTargetInventoryMode}" />
                                         </hc:ButtonGroup>
-                                        <Grid Grid.Column="1" Visibility="{c:Binding SandboxEnableTargetDrop}">
+                                        <Grid Grid.Column="1">
                                             <ComboBox
                                                 Height="30"
                                                 Margin="6"
@@ -615,11 +615,12 @@
                                                 Minimum="1"
                                                 Visibility="{c:Binding SandboxEnableTargetDrop}"
                                                 Value="{Binding SelectedFightTask.DropCount, UpdateSourceTrigger=PropertyChanged}" />
-                                            <StackPanel Margin="6,2,6,0" Visibility="{c:Binding 'SandboxEnableTargetDrop and SandboxIsInventoryTarget'}">
+                                            <StackPanel Margin="6,2,6,0" Visibility="{c:Binding SandboxIsInventoryTarget}">
                                                 <StackPanel Orientation="Horizontal">
                                                     <controls:TextBlock Text="{DynamicResource TaskQueue.Stage.Label.Inventory}" />
                                                     <controls:TextBlock Margin="4,0,0,0" Text=":" />
-                                                    <controls:TextBlock Margin="4,0,0,0" Text="{Binding FakeInventoryText}" />
+                                                    <controls:TextBlock Margin="4,0,0,0" Text="{Binding CurrentDropsInventoryText}" />
+                                                    <controls:TooltipBlock Margin="4,0,0,0" TooltipText="{DynamicResource TaskQueue.Fight.InventoryUpdate.Tip}" />
                                                 </StackPanel>
                                                 <StackPanel Margin="0,2,0,0" Orientation="Horizontal">
                                                     <controls:TextBlock Text="{DynamicResource TaskQueue.Fight.Quantity}" />
