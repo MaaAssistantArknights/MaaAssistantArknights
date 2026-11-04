@@ -31,7 +31,6 @@ using System.Windows.Media;
 using System.Windows.Threading;
 using GlobalHotKey;
 using MaaWpfGui.Configuration.Factory;
-using MaaWpfGui.Configuration.Global;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
@@ -785,7 +784,7 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
         ConfigFactory.CurrentConfig.Gui.RuntimeSettings.ClientType = MaaWpfGui.Constants.Enums.ClientType.Official;
         ConfigFactory.Root.Gui.Background.ImagePath = string.Empty;
         ConfigFactory.Root.Gui.BackgroundMonetEnabled = false;
-        ConfigFactory.Root.Gui.GuideStep = Gui.GuideCompletedStep;
+        ConfigFactory.Root.Gui.GuideStep = SettingsViewModel.GuideMaxStep;
     }
 
     /// <summary>
@@ -1739,6 +1738,14 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
             return;
         }
 
+        // DragDrop.DoDragSourceMove 会在拖拽时偶发 COMException，属瞬时竞态，
+        // 静默忽略即可，无需弹窗或写日志。
+        if (e.Exception is COMException && e.Exception.ToString().Contains("DragDrop.DoDragSourceMove"))
+        {
+            e.Handled = true;
+            return;
+        }
+
         LogUnhandledException(e.Exception);
         ShowErrorDialog(e.Exception);
         e.Handled = true;
@@ -1760,11 +1767,7 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
             // 这些异常虽然会导致崩溃，但不需要退出程序
             // 这是一坨屎，但是没办法，只能这样了
             var comEx = exception as COMException;
-
             var details = exception.ToString();
-
-            // DragDrop.DoDragSourceMove 会在拖拽时偶发崩溃
-            var isDragDropException = comEx != null && details.Contains("DragDrop.DoDragSourceMove");
 
             // DWM 桌面组合被禁用（0x80263001），通常是瞬时的显卡驱动问题，DWM 会自行恢复
             // 同时用 HResult 与异常文本双重判断，避免不同 .NET 版本/语言环境下 HRESULT 暴露不一致
@@ -1774,9 +1777,7 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
                  details.Contains("Desktop composition is disabled") ||
                  details.Contains("0x80263001"));
 
-            var shouldExit = !isDragDropException && !isDwmCompositionDisabledException;
-
-            var errorView = new ErrorDialogView(exception, shouldExit);
+            var errorView = new ErrorDialogView(exception, shouldExit: !isDwmCompositionDisabledException);
             errorView.ShowDialog();
         });
     }

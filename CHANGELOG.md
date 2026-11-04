@@ -6,9 +6,9 @@
 
 本版本按功能域全量重写了 WPF 语言资源，个别界面可能出现文案显示异常；如遇到问题，请通过 ｢设置 - 问题反馈｣ 提交反馈。
 
-#### WPF 设置指引可跳过
+#### 设置指引改为任务设置演示教学，新增用户协议确认
 
-首次启动时可在一页内选择语言、区服和连接方式，也可直接跳过并进入任务列表。已完成设置指引的用户升级后可以直接进入任务页。
+设置指引 ｢任务设置｣ 步骤改为分步演示教学，按引导顺序完成任务配置；新增用户协议确认步骤，已完成旧版指引的用户升级后重新进入指引。
 
 #### 生息演算迁移到 ｢小工具-牛杂｣，外服支持 ｢重启锚点｣
 
@@ -18,9 +18,9 @@
 
 刷开局新增 ｢凹第一层实托邦｣ 选项，需难度 6 及以上。
 
-#### 海外源支持通过 GitHub 更新软件和资源
+#### 编队与选人提速
 
-在 ｢设置 - 更新设置｣ 选择海外源并填写、验证 GitHub Token 后，软件和资源的更新检查及下载均可通过 GitHub 完成。
+自动编队优先在当前页匹配待选干员，减少翻页；自定义基建与宿舍选人按职业分桶定位剩余目标干员。
 
 <details>
 <summary><b>English</b></summary>
@@ -29,9 +29,9 @@ Adapted to the new UI in the Arknights 26.11.1 update, and fixed Roguelike and R
 
 The WPF localization resources have been extensively rewritten by feature domain in this version; a few texts may display incorrectly. If you run into any, please report via Settings - Issue Report.
 
-#### Skippable WPF Setup Guide
+#### First-Run Guide Revamped as Task Settings Demo Tutorial with User Agreement Confirmation
 
-The first-run guide puts language, server, and connection settings on one page. You can skip it and go straight to the task list. Upgrading preserves your previous completion status.
+The ｢Task Settings｣ step of the first-run guide is now a step-by-step demo tutorial that walks through task configuration in a guided order; a user agreement confirmation step has been added, and users who completed the old guide will go through the new one again after upgrading.
 
 #### Reclamation Algorithm Moved to Toolbox "Useful Tasks", "RELAUNCH ANCHOR" on Overseas Servers
 
@@ -41,9 +41,9 @@ Reclamation Algorithm now runs standalone in the Toolbox "Useful Tasks" section;
 
 New option for start-run farming to reroll until Floor 1 is 实托邦 (a Floor 1 variant); requires difficulty 6 or above.
 
-#### Software and Resource Updates via GitHub
+#### Faster Formation and Operator Selection
 
-Select Global Source in the update settings and verify a GitHub token to check for and download software and resource updates through GitHub.
+Auto formation now matches operators on the current page first, reducing paging; custom infrast and dormitory selection locate remaining targets by class.
 
 </details>
 
@@ -56,11 +56,16 @@ Select Global Source in the update settings and verify a GitHub token to check f
 
 ### 新增 | New
 
-* WPF 海外源支持填写并验证 GitHub Token，通过 GitHub 检查和下载软件与资源更新 ([#19034](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/19034)) @Rbqwow @Daydreamer114
+* 海外源支持填写并验证 GitHub Token，凭个人 Token 的独立配额直接从 GitHub 检查并下载软件与资源更新 ([#19034](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/19034)) @Rbqwow @Daydreamer114 @ABA2396
 
 ### 改进 | Improved
 
-* WPF 设置指引精简为一页，支持跳过并直接进入任务页。升级时保留已有完成状态，也可从 ｢设置 - 界面设置｣ 直接重看 ([#19084](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/19084)) @MistEO
+* 设置指引自 ｢性能设置｣ 步骤起可跳过剩余步骤 @ABA2396
+* 拖动任务时偶发的拖拽异常改为静默忽略 @ABA2396
+
+### 其他 | Other
+
+* Android OCR 的 ncnn 模型改为预转换后入库，CI 由构建期转换改为校验入库模型与源模型一致 ([#19088](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/19088)) @Aliothmoon
 
 </details>
 

@@ -1260,13 +1260,50 @@ DEBUGディレクトリに保存される画像には数量制限があり、超
     <system:String x:Key="Game.Role.Tank">重装</system:String>
     <system:String x:Key="Game.Role.Warrior">前衛</system:String>
     <system:String x:Key="Guide.Agreement.Link">利用規約</system:String>
-    <system:String x:Key="Guide.Connection.Tip">エミュレーターを起動し、ADB を有効にすると自動検出を利用できます。</system:String>
+    <system:String x:Key="Guide.Agreement.Prefix">MAA を使用すると、以下に同意したものとみなされます:</system:String>
+    <system:String x:Key="Guide.Agreement.Tip">｢{key=Guide.Agreement.Link}｣ をクリックして完全な規約を確認してから、次のステップに進んでください</system:String>
+    <system:String x:Key="Guide.Clarification" xml:space="preserve">ADBが有効になっていることを確認してください：
+• BlueStacks：設定 → 詳細設定 → Android Debug Bridge → 有効にする
+• LDPlayer：設定 → その他 → ADBデバッグ → ローカル接続を有効にする</system:String>
+    <system:String x:Key="Guide.Demo.BlockedOperation">この操作はガイドの流れの外です。現在のステップに従ってください</system:String>
+    <system:String x:Key="Guide.Demo.Gate.AddFight">｢{key=TaskQueue.AddTask}｣ で ｢{key=TaskQueue.Task.Fight}｣ タスクを追加してください</system:String>
+    <system:String x:Key="Guide.Demo.Gate.AddNightTheme">｢{key=TaskQueue.Task.SwitchTheme}｣ タスクの歯車ボタンをオンにし、｢{key=TaskQueue.SwitchTheme.Add}｣ で ｢{key=Guide.Demo.NightTheme}｣ テーマを追加してください</system:String>
+    <system:String x:Key="Guide.Demo.Gate.AddSwitchTheme">｢{key=TaskQueue.AddTask}｣ で ｢{key=TaskQueue.Task.SwitchTheme}｣ タスクを追加し、リストの最後に置いてください</system:String>
+    <system:String x:Key="Guide.Demo.Gate.CheckWeekDays">週次スケジュールで ｢月曜日｣ と ｢日曜日｣ にチェックを入れてください</system:String>
+    <system:String x:Key="Guide.Demo.Gate.EnableWeekly">殲滅タスクの歯車ボタンをオンにし、｢{key=TaskQueue.AdvancedSettings}｣ の ｢{key=TaskQueue.UseWeeklySchedule}｣ にチェックを入れてください</system:String>
+    <system:String x:Key="Guide.Demo.Gate.RenameFight">追加した ｢{key=TaskQueue.Task.Fight}｣ タスクにカーソルを合わせ、デフォルトと区別できるよう名前を変更してください</system:String>
+    <system:String x:Key="Guide.Demo.Gate.ReorderFight">名前を変更した ｢{key=TaskQueue.Task.Fight}｣ をドラッグするか、歯車を右クリックして ｢{key=TaskQueue.MoveUp}｣ を選び、デフォルトのタスクの上に移動してください</system:String>
+    <system:String x:Key="Guide.Demo.Gate.ReorderTheme">｢{key=TaskQueue.Task.SwitchTheme}｣ タスクをドラッグするか、歯車を右クリックして ｢{key=TaskQueue.MoveDown}｣ を選び、リストの最後へ移動してください</system:String>
+    <system:String x:Key="Guide.Demo.Gate.RestoreFight">リストには ｢{key=TaskQueue.Task.Fight}｣ タスクが必要です。｢{key=TaskQueue.AddTask}｣ で追加し直してください</system:String>
+    <system:String x:Key="Guide.Demo.Gate.RestoreStartUp">リストには ｢{key=TaskQueue.Task.StartUp}｣ タスクが必要です。｢{key=TaskQueue.AddTask}｣ で追加し直してください</system:String>
+    <system:String x:Key="Guide.Demo.Gate.SelectStage">歯車ボタンをオンにし、ステージを ｢{key=TaskQueue.Annihilation.Current}｣ に選択してください</system:String>
+    <system:String x:Key="Guide.Demo.NightTheme">夜</system:String>
+    <system:String x:Key="Guide.Demo.SettingsPlaceholder">左側のガイド手順に従ってください。このタスクの設定にデモ内容はありません</system:String>
+    <system:String x:Key="Guide.Demo.Start">デモでは実際にタスクは実行されません</system:String>
+    <system:String x:Key="Guide.Demo.TaskAddLimit.Tip">デモリストに追加できるタスクは最大 5 個です。追加する前に一部を削除してください</system:String>
+    <system:String x:Key="Guide.Documentation.Path">MAA の公式サイトと完全なドキュメントは ｢{key=Settings.Title} - {key=Settings.About.Title} - {key=About.Website}｣ でご覧いただけます。</system:String>
+    <system:String x:Key="Guide.Documentation.Title">📖 公式サイトとドキュメント</system:String>
     <system:String x:Key="Guide.Done">完了</system:String>
-    <system:String x:Key="Guide.Reopen">設定ガイドを再表示</system:String>
+    <system:String x:Key="Guide.GearContextMenu.Tip">歯車を右クリックで操作一覧 ↓</system:String>
+    <system:String x:Key="Guide.GenerateReport">｢{key=Settings.Title} - {key=Settings.IssueReport.Title} - {key=Error.GenerateSupportPayload}｣ を使用してエラーレポートを生成し、青い ｢{key=Error.Issue}｣ リンクをクリックしてフィードバックを送信してください。</system:String>
+    <system:String x:Key="Guide.GitHubIssue.Description">MAA Team は、Issue テンプレートの仕様に従って GitHub プラットフォームを通じてユーザーから提出されたフィードバックのみを受け付け、すべてのフィードバックの処理に関する決定権を留保します。</system:String>
+    <system:String x:Key="Guide.GitHubIssue.Title">⚠️ フィードバックガイドライン</system:String>
+    <system:String x:Key="Guide.HoverActionButtons">ホバーでコピー/名前変更/削除</system:String>
+    <system:String x:Key="Guide.IssueReport.Subtitle">🔧 問題が発生した場合</system:String>
+    <system:String x:Key="Guide.LinkStart">← タスクを開始</system:String>
+    <system:String x:Key="Guide.Next">次へ</system:String>
+    <system:String x:Key="Guide.OpenSource.Description">オープンソースプロジェクトとして、ユーザーは AGPL-3.0 ライセンスの下で GitHub プラットフォーム上で MAA の開発に参加できます。MAA Team は、問題報告の代わりに価値あるコード貢献をすることを推奨しています。</system:String>
+    <system:String x:Key="Guide.OpenSource.Title">💡 オープンソースへの参加</system:String>
+    <system:String x:Key="Guide.Prev">前へ</system:String>
+    <system:String x:Key="Guide.Restart">設定ガイドを再表示</system:String>
+    <system:String x:Key="Guide.RestartPrompt">設定ガイドはメイン画面に表示されます。今すぐアプリケーションを再起動しますか？</system:String>
     <system:String x:Key="Guide.Settings">設定ガイド</system:String>
-    <system:String x:Key="Guide.Skip">設定をスキップ</system:String>
-    <system:String x:Key="Guide.TaskSettings.Tip">タスク横の歯車から設定を変更できます。｢{key=TaskQueue.LinkStart}｣ でチェックしたタスクを実行します。</system:String>
+    <system:String x:Key="Guide.Skip">スキップ</system:String>
+    <system:String x:Key="Guide.SkipPrompt" xml:space="preserve">｢{key=TaskQueue.TaskSettings}｣ など残りのステップではタスクの基本的な操作を説明します。最後まで進めることをおすすめします。スキップしますか？&#10;後で ｢{key=Settings.Title} - {key=Settings.Ui.Title} - {key=Guide.Title}｣ で{key=Guide.Restart}できます。</system:String>
+    <system:String x:Key="Guide.Tip">マウスを乗せるとヒントあり</system:String>
     <system:String x:Key="Guide.Title">操作とガイド</system:String>
+    <system:String x:Key="Guide.User">使用ガイド</system:String>
+    <system:String x:Key="Guide.ViewLog">｢{key=Settings.Title} - {key=Settings.IssueReport.Title} - {key=Error.OpenDebugFolder}｣ にアクセスしてログを確認し、エラーの具体的な原因を把握できます。</system:String>
     <system:String x:Key="Infrast.ContinueTraining">訓練完了後に現在スキルの継続特化を試みます</system:String>
     <system:String x:Key="Infrast.Custom.File">基地構成ファイルの指定</system:String>
     <system:String x:Key="Infrast.Custom.FileHasPlanNoPeriod">カスタムインフラストラクチャ設定では、一部のプランにのみ時間帯が設定されている場合があり、予期しない動作が発生する可能性があります。シフト交代時間帯を設定する必要がある場合は、すべてのプランに時間帯が設定されていることを確認してください。設定されていない場合は、すべてのプランを空白のままにしてください。</system:String>
@@ -1882,9 +1919,13 @@ MAA は非インストール型のアプリケーションであり、レジス�
     <system:String x:Key="Settings.Update.GitHub.Token.Invalid">Token が無効です。入力が正しいか確認してください。</system:String>
     <system:String x:Key="Settings.Update.GitHub.Token.NeverExpires">Token は無期限です。</system:String>
     <system:String x:Key="Settings.Update.GitHub.Token.RemainingDays">Token の有効期限まで残り {0} 日です。</system:String>
+    <system:String x:Key="Settings.Update.GitHub.Token.Tip" xml:space="preserve">GitHub API への匿名アクセスはレート制限の対象です。未入力の場合、更新確認は MAA Team が提供します。
+独自の {key=Settings.Update.GitHub.Token} を入力して検証に成功すると、専用の枠が使えるほか、ソフトウェアとリソースの更新確認とダウンロードはどちらも GitHub が提供します。
+読み取り専用 Token の使用を推奨します。他の権限は不要です。</system:String>
     <system:String x:Key="Settings.Update.LocalResourcePackageTooOld">リソースパッケージのバージョン（{0}）は現在のバージョン（{1}）と同じか古いため、インポートをスキップしました。</system:String>
     <system:String x:Key="Settings.Update.MaaVersion">Software バージョン</system:String>
     <system:String x:Key="Settings.Update.MirrorChyan.Cdk">{key=Settings.Update.Source.MirrorChyan} CDK</system:String>
+    <system:String x:Key="Settings.Update.MirrorChyan.Cdk.Tip" xml:space="preserve">{key=Settings.Update.Source.MirrorChyan} CDK を入力すると、ソフトウェアとリソースの自動更新が有効になり、ダウンロードは高速 CDN が優先され、より安定かつ高速になります。</system:String>
     <system:String x:Key="Settings.Update.MirrorChyan.CdkRemainingDays">CDK の有効期限は残り {0} 日です。</system:String>
     <system:String x:Key="Settings.Update.MirrorChyan.Checking">CDK を検証中……</system:String>
     <system:String x:Key="Settings.Update.MirrorChyan.ExpirationUnknown">CDK の有効期限を取得できませんでした。</system:String>

@@ -63,7 +63,13 @@ if(INSTALL_PYTHON)
 endif()
 
 if(INSTALL_RESOURCE)
-    install(DIRECTORY resource DESTINATION .)
+    if(ANDROID)
+        # Android OCR 用 ncnn，以 resource_android/ 替换 PP-OCR 的 onnx
+        install(DIRECTORY resource DESTINATION . REGEX "/(det|rec)/inference\\.onnx$" EXCLUDE)
+        install(DIRECTORY resource_android/ DESTINATION resource)
+    else()
+        install(DIRECTORY resource DESTINATION .)
+    endif()
 endif()
 
 if(BUILD_DEBUG_DEMO OR BUILD_SMOKE_TEST)
