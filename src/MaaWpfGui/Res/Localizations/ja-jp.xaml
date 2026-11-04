@@ -1919,9 +1919,13 @@ MAA は非インストール型のアプリケーションであり、レジス�
     <system:String x:Key="Settings.Update.GitHub.Token.Invalid">Token が無効です。入力が正しいか確認してください。</system:String>
     <system:String x:Key="Settings.Update.GitHub.Token.NeverExpires">Token は無期限です。</system:String>
     <system:String x:Key="Settings.Update.GitHub.Token.RemainingDays">Token の有効期限まで残り {0} 日です。</system:String>
+    <system:String x:Key="Settings.Update.GitHub.Token.Tip" xml:space="preserve">GitHub API への匿名アクセスはレート制限の対象です。未入力の場合、更新確認は MAA Team が提供します。
+独自の {key=Settings.Update.GitHub.Token} を入力して検証に成功すると、専用の枠が使えるほか、ソフトウェアとリソースの更新確認とダウンロードはどちらも GitHub が提供します。
+読み取り専用 Token の使用を推奨します。他の権限は不要です。</system:String>
     <system:String x:Key="Settings.Update.LocalResourcePackageTooOld">リソースパッケージのバージョン（{0}）は現在のバージョン（{1}）と同じか古いため、インポートをスキップしました。</system:String>
     <system:String x:Key="Settings.Update.MaaVersion">Software バージョン</system:String>
     <system:String x:Key="Settings.Update.MirrorChyan.Cdk">{key=Settings.Update.Source.MirrorChyan} CDK</system:String>
+    <system:String x:Key="Settings.Update.MirrorChyan.Cdk.Tip" xml:space="preserve">{key=Settings.Update.Source.MirrorChyan} CDK を入力すると、ソフトウェアとリソースの自動更新が有効になり、ダウンロードは高速 CDN が優先され、より安定かつ高速になります。</system:String>
     <system:String x:Key="Settings.Update.MirrorChyan.CdkRemainingDays">CDK の有効期限は残り {0} 日です。</system:String>
     <system:String x:Key="Settings.Update.MirrorChyan.Checking">CDK を検証中……</system:String>
     <system:String x:Key="Settings.Update.MirrorChyan.ExpirationUnknown">CDK の有効期限を取得できませんでした。</system:String>

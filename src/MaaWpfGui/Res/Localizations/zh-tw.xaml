@@ -1917,9 +1917,13 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
     <system:String x:Key="Settings.Update.GitHub.Token.Invalid">Token 無效，請檢查輸入是否正確。</system:String>
     <system:String x:Key="Settings.Update.GitHub.Token.NeverExpires">Token 永不過期。</system:String>
     <system:String x:Key="Settings.Update.GitHub.Token.RemainingDays">Token 還剩 {0} 天到期。</system:String>
+    <system:String x:Key="Settings.Update.GitHub.Token.Tip" xml:space="preserve">GitHub API 匿名存取有速率限制；不填寫時更新偵測由 MAA Team 提供。
+填寫並驗證自己的 {key=Settings.Update.GitHub.Token} 後使用獨立配額，軟體與資源的更新檢查與下載皆由 GitHub 提供。
+建議使用唯讀 Token，無需授予其他權限。</system:String>
     <system:String x:Key="Settings.Update.LocalResourcePackageTooOld">資源檔案版本（{0}）小於等於目前版本（{1}），已跳過匯入。</system:String>
     <system:String x:Key="Settings.Update.MaaVersion">軟體版本</system:String>
     <system:String x:Key="Settings.Update.MirrorChyan.Cdk">{key=Settings.Update.Source.MirrorChyan} CDK</system:String>
+    <system:String x:Key="Settings.Update.MirrorChyan.Cdk.Tip" xml:space="preserve">填寫 {key=Settings.Update.Source.MirrorChyan} CDK 後，支援軟體與資源的自動更新，下載優先走高速 CDN，更穩定快速。</system:String>
     <system:String x:Key="Settings.Update.MirrorChyan.CdkRemainingDays">CDK 還剩 {0} 天到期。</system:String>
     <system:String x:Key="Settings.Update.MirrorChyan.Checking">正在驗證 CDK……</system:String>
     <system:String x:Key="Settings.Update.MirrorChyan.ExpirationUnknown">未取得 CDK 到期時間。</system:String>

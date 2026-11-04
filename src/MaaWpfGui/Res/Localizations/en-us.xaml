@@ -1916,9 +1916,13 @@ If system notifications are turned off, an in-app notification will be used inst
     <system:String x:Key="Settings.Update.GitHub.Token.Invalid">The token is invalid. Please check if the input is correct.</system:String>
     <system:String x:Key="Settings.Update.GitHub.Token.NeverExpires">Token never expires.</system:String>
     <system:String x:Key="Settings.Update.GitHub.Token.RemainingDays">Token expires in {0} days.</system:String>
+    <system:String x:Key="Settings.Update.GitHub.Token.Tip" xml:space="preserve">Anonymous access to the GitHub API is rate-limited; without a token, update checks are provided by the MAA Team.
+After entering and validating your own {key=Settings.Update.GitHub.Token}, you get a dedicated quota, and both software and resource update checks and downloads are provided by GitHub.
+A read-only token is recommended; no other permissions are required.</system:String>
     <system:String x:Key="Settings.Update.LocalResourcePackageTooOld">Resource package version ({0}) is not newer than the current version ({1}). Import skipped.</system:String>
     <system:String x:Key="Settings.Update.MaaVersion">Software Version</system:String>
     <system:String x:Key="Settings.Update.MirrorChyan.Cdk">{key=Settings.Update.Source.MirrorChyan} CDK</system:String>
+    <system:String x:Key="Settings.Update.MirrorChyan.Cdk.Tip" xml:space="preserve">After entering a {key=Settings.Update.Source.MirrorChyan} CDK, automatic updates for both software and resources are enabled, with downloads prioritized via the high-speed CDN for greater stability and speed.</system:String>
     <system:String x:Key="Settings.Update.MirrorChyan.CdkRemainingDays">CDK expires in {0} days.</system:String>
     <system:String x:Key="Settings.Update.MirrorChyan.Checking">Validating CDK…</system:String>
     <system:String x:Key="Settings.Update.MirrorChyan.ExpirationUnknown">CDK expiration date is unavailable.</system:String>
