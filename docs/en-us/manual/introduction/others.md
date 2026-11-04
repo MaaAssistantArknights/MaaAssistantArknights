@@ -87,8 +87,8 @@ If the interface prompts that your version is too low and the minimum required v
 In `Settings` - `Update Settings`, you can choose the update source:
 
 | Update Source | Description |
-| :------------------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Global Source** (GitHub) | Software version pulled from GitHub; resource version uses [MirrorChyan](https://mirrorchyan.com/en/projects?rid=MAA) for free update detection, manually click `Resource Update` to download from GitHub. |
+| :------------------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Global Source** (GitHub) | Software updates are checked through the MAA API and downloaded from GitHub; resource updates use [MirrorChyan](https://mirrorchyan.com/en/projects?rid=MAA) for free update checks, and you can click `Resource Update` to download them from GitHub manually.<br>After a GitHub Token is entered and validated, both software and resource updates are checked and downloaded through GitHub. |
 | **MirrorChyan** | Enter CDK to enable automatic updates for both software and resources, prioritizing high-speed CDN downloads. More stable and faster. |
 
 You can toggle the following options in update settings:

@@ -15,11 +15,11 @@ using System;
 using System.Linq;
 using HandyControl.Data;
 using MaaWpfGui.Configuration.Factory;
+using MaaWpfGui.Configuration.Global;
 using MaaWpfGui.Configuration.Single.MaaTask;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
 using MaaWpfGui.Utilities;
-using MaaWpfGui.ViewModels.UI;
 using Serilog;
 using Stylet;
 
@@ -231,5 +231,5 @@ public class TaskSettingVisibilityInfo : PropertyChangedBase
 
     public bool AdvancedSettingsVisibility { get; set => SetAndNotify(ref field, value); }
 
-    public bool Guide { get; set => SetAndNotify(ref field, value); } = ConfigFactory.Root.Gui.GuideStep < SettingsViewModel.GuideMaxStep;
+    public bool Guide { get; set => SetAndNotify(ref field, value); } = ConfigFactory.Root.Gui.GuideStep < Gui.GuideCompletedStep;
 }

@@ -11,6 +11,7 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 #nullable enable
+using System;
 using MaaWpfGui.Constants.Enums;
 using MaaWpfGui.Models;
 using static MaaWpfGui.ViewModels.UserControl.Settings.VersionUpdateSettingsUserControlModel;
@@ -38,7 +39,9 @@ public partial class Update : NotifyPropertyChangedWithValue
 
     public UpdateSource UpdateSource { get; set; } = UpdateSource.GitHub;
 
-    public bool ForceGithubGlobalSource { get; set; }
+    public string GitHubToken { get; set; } = string.Empty;
+
+    public DateTimeOffset? GitHubTokenExpiresAt { get; set; }
 
     public string MirrorChyanCdk { get; set; } = string.Empty;
 

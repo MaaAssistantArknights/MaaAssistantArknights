@@ -31,6 +31,7 @@ using System.Windows.Media;
 using System.Windows.Threading;
 using GlobalHotKey;
 using MaaWpfGui.Configuration.Factory;
+using MaaWpfGui.Configuration.Global;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
@@ -784,7 +785,7 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
         ConfigFactory.CurrentConfig.Gui.RuntimeSettings.ClientType = MaaWpfGui.Constants.Enums.ClientType.Official;
         ConfigFactory.Root.Gui.Background.ImagePath = string.Empty;
         ConfigFactory.Root.Gui.BackgroundMonetEnabled = false;
-        ConfigFactory.Root.Gui.GuideStep = SettingsViewModel.GuideMaxStep;
+        ConfigFactory.Root.Gui.GuideStep = Gui.GuideCompletedStep;
     }
 
     /// <summary>

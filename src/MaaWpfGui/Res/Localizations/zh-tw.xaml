@@ -1258,49 +1258,13 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
     <system:String x:Key="Game.Role.Tank">重裝</system:String>
     <system:String x:Key="Game.Role.Warrior">近衛</system:String>
     <system:String x:Key="Guide.Agreement.Link">使用者協議</system:String>
-    <system:String x:Key="Guide.Agreement.Prefix">使用 MAA 即表示您同意遵守</system:String>
-    <system:String x:Key="Guide.Agreement.Tip">請先閱讀並點擊 ｢{key=Guide.Agreement.Link}｣ 查看完整協議內容，再進入下一步</system:String>
-    <system:String x:Key="Guide.Clarification" xml:space="preserve">請確保 ADB 已啟用：
-• BlueStacks：設定 → 進階 → Android 調試橋 (ADB) → 啟用
-• 雷電模擬器：設定 → 其他 → ADB 偵錯 → 開啟本機連接</system:String>
-    <system:String x:Key="Guide.Demo.BlockedOperation">示範流程不支援此操作，請依引導完成目前步驟</system:String>
-    <system:String x:Key="Guide.Demo.Gate.AddFight">透過 ｢{key=TaskQueue.AddTask}｣ 新增一個 ｢{key=TaskQueue.Task.Fight}｣ 任務</system:String>
-    <system:String x:Key="Guide.Demo.Gate.AddNightTheme">選中 ｢{key=TaskQueue.Task.SwitchTheme}｣ 任務的齒輪，點擊 ｢{key=TaskQueue.SwitchTheme.Add}｣ 新增 ｢{key=Guide.Demo.NightTheme}｣ 主題</system:String>
-    <system:String x:Key="Guide.Demo.Gate.AddSwitchTheme">透過 ｢{key=TaskQueue.AddTask}｣ 新增一個 ｢{key=TaskQueue.Task.SwitchTheme}｣ 任務，放在列表最後</system:String>
-    <system:String x:Key="Guide.Demo.Gate.CheckWeekDays">在週計畫中勾選 ｢週一｣ 與 ｢週日｣</system:String>
-    <system:String x:Key="Guide.Demo.Gate.EnableWeekly">選中剿滅任務的齒輪，在 ｢{key=TaskQueue.AdvancedSettings}｣ 勾選 ｢{key=TaskQueue.UseWeeklySchedule}｣</system:String>
-    <system:String x:Key="Guide.Demo.Gate.RenameFight">懸停新新增的 ｢{key=TaskQueue.Task.Fight}｣ 任務並重新命名，與預設任務區分</system:String>
-    <system:String x:Key="Guide.Demo.Gate.ReorderFight">拖動重新命名後的 ｢{key=TaskQueue.Task.Fight}｣，或右鍵其齒輪選 ｢{key=TaskQueue.MoveUp}｣，移到預設 ｢{key=TaskQueue.Task.Fight}｣ 上面</system:String>
-    <system:String x:Key="Guide.Demo.Gate.ReorderTheme">拖動 ｢{key=TaskQueue.Task.SwitchTheme}｣ 任務，或右鍵其齒輪選 ｢{key=TaskQueue.MoveDown}｣，移到列表最後</system:String>
-    <system:String x:Key="Guide.Demo.Gate.RestoreFight">列表需包含 ｢{key=TaskQueue.Task.Fight}｣ 任務，請透過 ｢{key=TaskQueue.AddTask}｣ 重新新增</system:String>
-    <system:String x:Key="Guide.Demo.Gate.RestoreStartUp">列表需包含 ｢{key=TaskQueue.Task.StartUp}｣ 任務，請透過 ｢{key=TaskQueue.AddTask}｣ 重新新增</system:String>
-    <system:String x:Key="Guide.Demo.Gate.SelectStage">點亮任務齒輪，將關卡選擇為 ｢{key=TaskQueue.Annihilation.Current}｣</system:String>
-    <system:String x:Key="Guide.Demo.NightTheme">夜間</system:String>
-    <system:String x:Key="Guide.Demo.SettingsPlaceholder">請跟隨指引完成左列步驟，此任務的設定暫無示範內容</system:String>
-    <system:String x:Key="Guide.Demo.Start">示範中不會真的執行任務</system:String>
-    <system:String x:Key="Guide.Demo.TaskAddLimit.Tip">示範列表最多容納 5 個任務，可先刪除部分後再新增</system:String>
-    <system:String x:Key="Guide.Documentation.Path">您可以在 ｢{key=Settings.Title} - {key=Settings.About.Title} - {key=About.Website}｣ 找到 MAA 的官方網站和完整文件。</system:String>
-    <system:String x:Key="Guide.Documentation.Title">📖 官網與文件</system:String>
+    <system:String x:Key="Guide.Connection.Tip">啟動模擬器並啟用 ADB，即可使用自動偵測。</system:String>
     <system:String x:Key="Guide.Done">完成</system:String>
-    <system:String x:Key="Guide.GearContextMenu.Tip">右鍵齒輪顯示更多操作 ↓</system:String>
-    <system:String x:Key="Guide.GenerateReport">請使用 ｢{key=Settings.Title} - {key=Settings.IssueReport.Title} - {key=Error.GenerateSupportPayload}｣ 產生錯誤報告，並點擊藍色的 ｢{key=Error.Issue}｣ 連結提交回饋。</system:String>
-    <system:String x:Key="Guide.GitHubIssue.Description">MAA Team 僅受理使用者透過 GitHub 平台依照 Issue 範本規範提交的回饋，並保留對所有回饋的處理決定權。</system:String>
-    <system:String x:Key="Guide.GitHubIssue.Title">⚠️ 回饋規範</system:String>
-    <system:String x:Key="Guide.HoverActionButtons">懸停顯示 複製/重新命名/刪除</system:String>
-    <system:String x:Key="Guide.IssueReport.Subtitle">🔧 遇到問題時</system:String>
-    <system:String x:Key="Guide.LinkStart">← 開始任務</system:String>
-    <system:String x:Key="Guide.Next">下一步</system:String>
-    <system:String x:Key="Guide.OpenSource.Description">作為開源專案，使用者可依據 AGPL-3.0 許可證在 GitHub 平台參與 MAA 的開發。MAA Team 鼓勵使用者透過更有價值的程式碼貢獻代替問題回饋。</system:String>
-    <system:String x:Key="Guide.OpenSource.Title">💡 參與開源</system:String>
-    <system:String x:Key="Guide.Prev">上一步</system:String>
-    <system:String x:Key="Guide.Restart">重看設定指引</system:String>
-    <system:String x:Key="Guide.RestartPrompt">設定指引將在主介面顯示，是否立即重新啟動應用程式？</system:String>
+    <system:String x:Key="Guide.Reopen">重看設定指引</system:String>
     <system:String x:Key="Guide.Settings">設定指引</system:String>
-    <system:String x:Key="Guide.Skip">跳過</system:String>
-    <system:String x:Key="Guide.Tip">滑鼠移至此處會有提示喔</system:String>
+    <system:String x:Key="Guide.Skip">跳過設定</system:String>
+    <system:String x:Key="Guide.TaskSettings.Tip">點擊任務旁的齒輪可調整設定，點擊 ｢{key=TaskQueue.LinkStart}｣ 執行勾選的任務。</system:String>
     <system:String x:Key="Guide.Title">操作與指引</system:String>
-    <system:String x:Key="Guide.User">使用指引</system:String>
-    <system:String x:Key="Guide.ViewLog">您可以前往 ｢{key=Settings.Title} - {key=Settings.IssueReport.Title} - {key=Error.OpenDebugFolder}｣ 查看日誌，了解錯誤發生的具體原因。</system:String>
     <system:String x:Key="Infrast.ContinueTraining">訓練完成後繼續嘗試專精目前技能</system:String>
     <system:String x:Key="Infrast.Custom.File">自訂基建排班檔案</system:String>
     <system:String x:Key="Infrast.Custom.FileHasPlanNoPeriod">自訂基建排班僅有部分計畫設定了時段，可能會產生預期外的行為。若需設定換班時段請確保所有計畫均有設定時段，否則請全部留白。</system:String>
@@ -1908,15 +1872,24 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
 • {key=Settings.Update.Channel.Stable}: Bug 更少，新功能新主題支援更慢。新功能可能需要數週後才會支援。</system:String>
     <system:String x:Key="Settings.Update.CheckNow">軟體更新</system:String>
     <system:String x:Key="Settings.Update.CoreVersion">Core 版本</system:String>
-    <system:String x:Key="Settings.Update.ForceGithub">強制使用 GitHub</system:String>
-    <system:String x:Key="Settings.Update.ForceGithub.Tip">偵測到更新後，強制從 GitHub 下載更新壓縮檔</system:String>
+    <system:String x:Key="Settings.Update.GitHub.Token">GitHub Token</system:String>
+    <system:String x:Key="Settings.Update.GitHub.Token.Checking">正在驗證 Token……</system:String>
+    <system:String x:Key="Settings.Update.GitHub.Token.Expired">Token 已過期。</system:String>
+    <system:String x:Key="Settings.Update.GitHub.Token.Failed">Token 驗證失敗，請檢查網路。</system:String>
+    <system:String x:Key="Settings.Update.GitHub.Token.Generate">產生 Token</system:String>
+    <system:String x:Key="Settings.Update.GitHub.Token.Invalid">Token 無效，請檢查輸入是否正確。</system:String>
+    <system:String x:Key="Settings.Update.GitHub.Token.NeverExpires">Token 永不過期。</system:String>
+    <system:String x:Key="Settings.Update.GitHub.Token.RemainingDays">Token 還剩 {0} 天到期。</system:String>
     <system:String x:Key="Settings.Update.LocalResourcePackageTooOld">資源檔案版本（{0}）小於等於目前版本（{1}），已跳過匯入。</system:String>
     <system:String x:Key="Settings.Update.MaaVersion">軟體版本</system:String>
-    <system:String x:Key="Settings.Update.MirrorChyan.CdkFetchFailed">取得 CDK 資訊失敗，已顯示上次成功查詢的結果。</system:String>
+    <system:String x:Key="Settings.Update.MirrorChyan.Cdk">{key=Settings.Update.Source.MirrorChyan} CDK</system:String>
     <system:String x:Key="Settings.Update.MirrorChyan.CdkRemainingDays">CDK 還剩 {0} 天到期。</system:String>
+    <system:String x:Key="Settings.Update.MirrorChyan.Checking">正在驗證 CDK……</system:String>
+    <system:String x:Key="Settings.Update.MirrorChyan.ExpirationUnknown">未取得 CDK 到期時間。</system:String>
     <system:String x:Key="Settings.Update.MirrorChyan.ResourceUpdate.Brief.Tip">偵測到資源更新: {0}</system:String>
     <system:String x:Key="Settings.Update.MirrorChyan.ResourceUpdate.Tip">偵測到資源更新: {0}。請前往 ｢{key=Settings.Title} - {key=Settings.Update.Title} - {key=Settings.Update.ResourceUpdate}｣ 手動更新，或設定 MirrorChyan CDK 以自動更新。</system:String>
     <system:String x:Key="Settings.Update.MirrorChyan.SelectedButNoCdk">請前往 ｢{key=Settings.Title} - {key=Settings.Update.Title}｣ 設定 MirrorChyan CDK 或切換到全域來源。</system:String>
+    <system:String x:Key="Settings.Update.MirrorChyan.ValidationFailed">CDK 驗證失敗，請檢查網路。</system:String>
     <system:String x:Key="Settings.Update.NoNeedToUpdateDebugVersion">目前為測試版本，無需更新</system:String>
     <system:String x:Key="Settings.Update.ResourceDateTime">資源日期</system:String>
     <system:String x:Key="Settings.Update.ResourceRepository">資源倉庫</system:String>
@@ -1939,8 +1912,8 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
     <system:String x:Key="Settings.Update.Source.MirrorChyan">MirrorChyan</system:String>
     <system:String x:Key="Settings.Update.Source.Tip" xml:space="preserve">
 🌏 使用 {key=Settings.Update.Source.Global}：
-    • {key=Settings.Update.CheckNow}：由 MAA Team 提供更新偵測，從 GitHub 下載更新壓縮檔，中國國內同步提供直連鏡像站（頻寬有限，高峰時段可能受限）
-    • {key=Settings.Update.ResourceUpdate}：由 {key=Settings.Update.Source.MirrorChyan} 提供免費的更新偵測，可手動在設定中點擊 ｢{key=Settings.Update.ResourceUpdate}｣ 從 GitHub 下載
+    • 未啟用 GitHub Token 時，{key=Settings.Update.CheckNow}由 MAA Team 提供更新偵測，從 GitHub 下載更新檔案；{key=Settings.Update.ResourceUpdate}由 {key=Settings.Update.Source.MirrorChyan} 提供免費的更新偵測，可手動在設定中點擊 ｢{key=Settings.Update.ResourceUpdate}｣ 從 GitHub 下載
+    • 填寫並驗證 GitHub Token 後，軟體與資源的更新檢查與下載皆由 GitHub 提供。
 
 🔑 使用 {key=Settings.Update.Source.MirrorChyan}：
     • 填寫 CDK 後，支援軟體與資源的自動更新
@@ -2560,6 +2533,7 @@ D:\
     <system:String x:Key="VersionUpdate.PendingFullUpdate.No">暫不更新，繼續啟動目前版本</system:String>
     <system:String x:Key="VersionUpdate.PendingFullUpdate.Title">完整檔案更新需要手動確認</system:String>
     <system:String x:Key="VersionUpdate.PendingFullUpdate.Yes">我已手動確認並備份，繼續更新</system:String>
+    <system:String x:Key="VersionUpdate.RateLimited">更新請求受到速率限制，請稍後重試。</system:String>
     <system:String x:Key="VersionUpdate.ResourceBroken">檔案損毀，可嘗試自動修復（重新下載完整安裝檔），或暫不處理、稍後拖入本機完整包更新。\n\n{key=VersionUpdate.FullPackageUpgrade.Tip}</system:String>
     <system:String x:Key="VersionUpdate.ResourceVersion">資源版本</system:String>
     <system:String x:Key="VersionUpdate.SecurityWhitelist.Tip">建議將 MAA 所在資料夾加入對應軟體白名單後再試一次。</system:String>

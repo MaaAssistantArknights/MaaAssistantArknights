@@ -43,14 +43,14 @@ public class MaaApiService : IMaaApiService
         return await TryRequest(api, fallbackBaseUrl, allowFallbackToCache);
     }
 
-    private async Task<(bool Cached, JObject? Response)> TryRequest(string api, string baseUrl, bool allowFallbackToCache = true)
+    private static async Task<(bool Cached, JObject? Response)> TryRequest(string api, string baseUrl, bool allowFallbackToCache = true)
     {
         var url = baseUrl + api;
-        var cachePath = Path.Combine(_cacheDir, api);
-        var response = await ETagCache.FetchResponseWithEtag(url, !File.Exists(cachePath));
+        var cachePath = GetCachePath(api, baseUrl);
+        using var response = await ETagCache.FetchResponseWithEtag(url, !File.Exists(cachePath));
         if (response?.StatusCode == System.Net.HttpStatusCode.NotModified)
         {
-            var cache = LoadApiCache(api);
+            var cache = LoadApiCacheFile(cachePath);
             return (cache != null, cache);
         }
 
@@ -61,14 +61,14 @@ public class MaaApiService : IMaaApiService
                 return (false, null);
             }
 
-            var cache = LoadApiCache(api);
+            var cache = LoadApiCacheFile(cachePath);
             return (cache != null, cache);
         }
 
         var body = await HttpResponseHelper.GetStringAsync(response);
         if (string.IsNullOrEmpty(body))
         {
-            var cache = LoadApiCache(api);
+            var cache = LoadApiCacheFile(cachePath);
             return (cache != null, cache);
         }
 
@@ -95,7 +95,17 @@ public class MaaApiService : IMaaApiService
 
     public JObject? LoadApiCache(string api)
     {
-        var cache = Path.Combine(_cacheDir, api);
+        return LoadApiCacheFile(GetCachePath(api, MaaUrls.MaaApi));
+    }
+
+    private static string GetCachePath(string api, string baseUrl)
+    {
+        var path = Path.Combine(_cacheDir, api);
+        return baseUrl == MaaUrls.MaaApi ? path : path + ".api2";
+    }
+
+    private static JObject? LoadApiCacheFile(string cache)
+    {
         if (!File.Exists(cache))
         {
             return null;

@@ -146,7 +146,7 @@ public class ETagCache
 
         try
         {
-            var response = await Instances.HttpService.GetAsync(new Uri(url), headers);
+            var response = await Instances.HttpService.GetAsync(new Uri(url), headers, HttpCompletionOption.ResponseContentRead);
             return response;
         }
         catch (Exception e)

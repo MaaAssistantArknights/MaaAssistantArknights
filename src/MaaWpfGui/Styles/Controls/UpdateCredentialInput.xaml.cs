@@ -1,4 +1,4 @@
-// <copyright file="GuideDemoThemeItem.cs" company="MaaAssistantArknights">
+// <copyright file="UpdateCredentialInput.xaml.cs" company="MaaAssistantArknights">
 // Part of the MaaWpfGui project, maintained by the MaaAssistantArknights team (Maa Team)
 // Copyright (C) 2021-2026 MaaAssistantArknights Contributors
 //
@@ -11,17 +11,14 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
-using Stylet;
+using System.Windows.Controls;
 
-namespace MaaWpfGui.Models;
+namespace MaaWpfGui.Styles.Controls;
 
-/// <summary>
-/// 设置指引演示用的更换主题任务主题名条目，纯内存演示数据。
-/// </summary>
-public class GuideDemoThemeItem(string name = "") : PropertyChangedBase
+public partial class UpdateCredentialInput : UserControl
 {
-    /// <summary>
-    /// Gets or sets the demo theme name.
-    /// </summary>
-    public string Name { get => field; set => SetAndNotify(ref field, value); } = name;
+    public UpdateCredentialInput()
+    {
+        InitializeComponent();
+    }
 }
