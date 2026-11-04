@@ -1,4 +1,4 @@
-﻿<hc:Window
+<hc:Window
     x:Class="MaaWpfGui.Views.Dialogs.TutorialChallengeLevelView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -17,10 +17,10 @@
     xmlns:ui_vms="clr-namespace:MaaWpfGui.ViewModels.UI"
     xmlns:vms="clr-namespace:MaaWpfGui.ViewModels"
     Title="{Binding WindowTitle}"
-    Width="780"
+    Width="640"
     Height="560"
     MinWidth="640"
-    MinHeight="480"
+    MinHeight="560"
     d:DataContext="{d:DesignInstance {x:Type dialogs_vms:TutorialChallengeLevelViewModel}}"
     s:View.ActionTarget="{Binding}"
     Background="{DynamicResource RegionBrush}"
