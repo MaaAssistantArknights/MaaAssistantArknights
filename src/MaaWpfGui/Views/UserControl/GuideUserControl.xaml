@@ -95,6 +95,7 @@
                     <controls:TextBlock
                         Grid.Row="2"
                         MaxWidth="{Binding ElementName=GuideButtonPanel, Path=ActualWidth}"
+                        VerticalAlignment="Top"
                         d:Text="Next gate tip"
                         FontSize="12"
                         Text="{Binding GuideNextGateTip}"
