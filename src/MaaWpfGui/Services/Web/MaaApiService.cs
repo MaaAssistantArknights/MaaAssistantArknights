@@ -95,7 +95,7 @@ public class MaaApiService : IMaaApiService
 
     public JObject? LoadApiCache(string api)
     {
-        return LoadApiCache(GetCachePath(api, MaaUrls.MaaApi));
+        return LoadApiCacheFile(GetCachePath(api, MaaUrls.MaaApi));
     }
 
     private static string GetCachePath(string api, string baseUrl)
