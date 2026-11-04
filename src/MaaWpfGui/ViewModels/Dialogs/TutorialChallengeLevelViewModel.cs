@@ -113,7 +113,7 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
     /// Gets 当前选中理智作战任务指定掉落材料的伪造库存文本。
     /// </summary>
     public string CurrentDropsInventoryText =>
-        SelectedFightTask is { } fight ? FakeInventoryFor(fight.DropId).ToString() : string.Empty;
+        SelectedFightTask is { DropId.Length: > 0 } fight ? FakeInventoryFor(fight.DropId).ToString() : "--";
 
     /// <summary>
     /// Gets 当前选中理智作战任务在库存目标模式下的有效数量文本（还需刷多少个）。
@@ -316,9 +316,19 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
     {
         get => SelectedFightTask?.UseOptionalStage ?? false;
         set {
-            if (SelectedFightTask is { } fight)
+            if (SelectedFightTask is not { } fight || fight.UseOptionalStage == value)
             {
-                fight.UseOptionalStage = value;
+                return;
+            }
+
+            fight.UseOptionalStage = value;
+            if (!value)
+            {
+                // 取消备选时按计划首行回填主关卡，其余备选行丢弃；无行则补一空行
+                var first = StagePlanRows.Count > 0 ? StagePlanRows[0].Stage : string.Empty;
+                StagePlanRows.Clear();
+                StagePlanRows.Add(new TutorialChallengeStagePlanRow(this, first));
+                SyncStagePlanFromRow();
             }
         }
     }

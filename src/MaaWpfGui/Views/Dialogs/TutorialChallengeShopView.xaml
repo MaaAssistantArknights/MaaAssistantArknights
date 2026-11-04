@@ -1,0 +1,27 @@
+﻿<hc:Window
+    x:Class="MaaWpfGui.Views.Dialogs.TutorialChallengeShopView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="clr-namespace:MaaWpfGui.Styles.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:dialogs_vms="clr-namespace:MaaWpfGui.ViewModels.Dialogs"
+    xmlns:hc="https://handyorg.github.io/handycontrol"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:s="https://github.com/canton7/Stylet"
+    Title="{DynamicResource TutorialChallenge.Shop.Title}"
+    Width="480"
+    Height="360"
+    MinWidth="360"
+    MinHeight="240"
+    d:DataContext="{d:DesignInstance {x:Type dialogs_vms:TutorialChallengeShopViewModel}}"
+    s:View.ActionTarget="{Binding}"
+    Background="{DynamicResource RegionBrush}"
+    mc:Ignorable="d">
+    <Grid>
+        <controls:TextBlock
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Foreground="{DynamicResource SecondaryTextBrush}"
+            Text="{DynamicResource TutorialChallenge.Shop.Placeholder}" />
+    </Grid>
+</hc:Window>
