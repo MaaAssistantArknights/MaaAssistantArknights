@@ -207,7 +207,7 @@
     },
     "MiniGame@WartimePressCommittee@Day2-Article2": {
         "baseTask": "MiniGame@WartimePressCommittee@Article",
-        "text": ["环圣骏堡电车"],
+        "text": ["电车新线路"],
         "next": ["MiniGame@WartimePressCommittee@Day2-Article2Selected"]
     },
     "MiniGame@WartimePressCommittee@Day2-Article2Selected": {
@@ -427,7 +427,7 @@
     },
     "MiniGame@WartimePressCommittee@Day5-Article3": {
         "baseTask": "MiniGame@WartimePressCommittee@Article",
-        "text": ["环圣骏堡电车"],
+        "text": ["电车新线路"],
         "next": ["MiniGame@WartimePressCommittee@Day5-Article3Selected"]
     },
     "MiniGame@WartimePressCommittee@Day5-Article3Selected": {
