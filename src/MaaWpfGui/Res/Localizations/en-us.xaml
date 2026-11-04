@@ -1296,6 +1296,7 @@ Cache files (such as maps, operator avatars, etc.) need to be regenerated after 
     <system:String x:Key="Guide.RestartPrompt">The settings guide will be displayed on the main interface. Restart the application now?</system:String>
     <system:String x:Key="Guide.Settings">Settings Guide</system:String>
     <system:String x:Key="Guide.Skip">Skip</system:String>
+    <system:String x:Key="Guide.SkipPrompt" xml:space="preserve">The remaining steps, such as "{key=TaskQueue.TaskSettings}", demonstrate common task queue operations. Completing the guide is recommended. Skip anyway?&#10;You can revisit it later via "{key=Guide.Restart}" under "{key=Settings.Title} - {key=Settings.Ui.Title} - {key=Guide.Title}".</system:String>
     <system:String x:Key="Guide.Tip">Prompt appears when hovered</system:String>
     <system:String x:Key="Guide.Title">Operations and Guide</system:String>
     <system:String x:Key="Guide.User">User Guide</system:String>

@@ -711,8 +711,11 @@ public class SettingsViewModel : Screen
     // ｢使用指引｣（含用户协议确认）步骤在 StepBar 中的索引，与 GuideUserControl.xaml 步骤区的 Visibility 条件对应
     private const int GuideAgreementStepIndex = 1;
 
+    // ｢性能设置｣ 步骤在 StepBar 中的索引，与 GuideUserControl.xaml 步骤区的 Visibility 条件对应；｢跳过｣ 按钮自该步起显示
+    private const int GuidePerformanceSettingsStepIndex = 4;
+
     // ｢任务设置｣ 步骤在 StepBar 中的索引，与 GuideUserControl.xaml 步骤区的 Visibility 条件对应
-    private const int GuideTaskSettingsStepIndex = 4;
+    private const int GuideTaskSettingsStepIndex = 5;
 
     /// <summary>
     /// Gets the reserved reset target step index for tutorial-version migration：教程版本号递增时，
@@ -779,15 +782,22 @@ public class SettingsViewModel : Screen
     }
 
     /// <summary>
-    /// Gets 设置指引左上角 ｢跳过｣ 按钮是否显示：本地 Debug 构建或存在 DEBUG/DEBUG.txt 标记时（编译期与文件判定，不依赖运行时版本链的求值时序）。
+    /// Gets 是否为本地调试环境：本地 Debug 构建或存在 DEBUG/DEBUG.txt 标记时
+    /// （编译期与文件判定，不依赖运行时版本链的求值时序）。
     /// </summary>
-    public bool GuideSkipVisible
+    private static bool IsLocalDebugEnvironment
         =>
 #if DEBUG
             true;
 #else
             File.Exists("DEBUG") || File.Exists("DEBUG.txt");
 #endif
+
+    /// <summary>
+    /// Gets 设置指引左上角 ｢跳过｣ 按钮是否显示：调试环境恒显示，否则自 ｢性能设置｣ 步起显示。
+    /// </summary>
+    [PropertyDependsOn(nameof(GuideStepIndex))]
+    public bool GuideSkipVisible => IsLocalDebugEnvironment || GuideStepIndex >= GuidePerformanceSettingsStepIndex;
 
     // UI 绑定的方法（协议链接点击）
     [UsedImplicitly]
@@ -947,6 +957,27 @@ public class SettingsViewModel : Screen
     {
         GuideTransitionMode = "Top2Bottom";
         stepBar.Prev();
+    }
+
+    // UI 绑定的方法：跳过设置指引；调试环境直接结束，其余先弹确认（含重看入口指引）再结束
+    [UsedImplicitly]
+    public void SkipGuide()
+    {
+        if (!IsLocalDebugEnvironment)
+        {
+            var result = MessageBoxHelper.Show(
+                LocalizationHelper.GetString("Guide.SkipPrompt"),
+                LocalizationHelper.GetString("Common.Tip"),
+                MessageBoxButton.OKCancel,
+                MessageBoxImage.Question,
+                ok: LocalizationHelper.GetString("Guide.Skip"));
+            if (result != MessageBoxResult.OK)
+            {
+                return;
+            }
+        }
+
+        DoneGuide();
     }
 
     // UI 绑定的方法

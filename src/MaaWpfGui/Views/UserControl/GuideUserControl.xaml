@@ -26,7 +26,7 @@
                     <Button
                         Margin="5,0"
                         hc:RelativePanel.AlignVerticalCenterWithPanel="True"
-                        Command="{s:Action DoneGuide}"
+                        Command="{s:Action SkipGuide}"
                         Content="{DynamicResource Guide.Skip}"
                         Style="{StaticResource ButtonDashedWarning.Small}"
                         Visibility="{c:Binding GuideSkipVisible}" />
@@ -68,8 +68,8 @@
                             <hc:StepBarItem Content="{DynamicResource Guide.User}" />
                             <hc:StepBarItem Content="{DynamicResource Settings.Game.Title}" />
                             <hc:StepBarItem Content="{DynamicResource Settings.Connection.Title}" />
-                            <hc:StepBarItem Content="{DynamicResource TaskQueue.TaskSettings}" />
                             <hc:StepBarItem Content="{DynamicResource Settings.Performance.Title}" />
+                            <hc:StepBarItem Content="{DynamicResource TaskQueue.TaskSettings}" />
                             <hc:StepBarItem Content="{DynamicResource Settings.Update.Title}" />
                         </hc:StepBar>
                         <Button
@@ -181,7 +181,7 @@
                             Height="430"
                             d:Visibility="Collapsed"
                             TransitionMode="{Binding GuideTransitionMode}"
-                            Visibility="{c:Binding 'GuideStepIndex == 4'}">
+                            Visibility="{c:Binding 'GuideStepIndex == 5'}">
                             <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto" />
@@ -764,7 +764,7 @@
                         <hc:TransitioningContentControl
                             d:Visibility="Collapsed"
                             TransitionMode="{Binding GuideTransitionMode}"
-                            Visibility="{c:Binding 'GuideStepIndex == 5'}">
+                            Visibility="{c:Binding 'GuideStepIndex == 4'}">
                             <StackPanel s:View.ActionTarget="{Binding DataContext, RelativeSource={RelativeSource Self}}" DataContext="{Binding Source={x:Static ui_vms:SettingsViewModel.PerformanceSettings}}">
                                 <controls:TextBlock
                                     MaxWidth="400"

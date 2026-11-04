@@ -1297,6 +1297,7 @@ DEBUG 디렉토리에 저장된 이미지는 수량 제한이 있으며 초과 �
     <system:String x:Key="Guide.RestartPrompt">설정 가이드는 기본 인터페이스에 표시됩니다. 지금 애플리케이션을 다시 시작하시겠습니까?</system:String>
     <system:String x:Key="Guide.Settings">설정 가이드</system:String>
     <system:String x:Key="Guide.Skip">건너뛰기</system:String>
+    <system:String x:Key="Guide.SkipPrompt" xml:space="preserve">{key=TaskQueue.TaskSettings} 등 남은 단계에서 주요 작업 방법을 안내합니다. 끝까지 진행하는 것을 권장합니다. 건너뛰시겠습니까?&#10;나중에 "{key=Settings.Title} - {key=Settings.Ui.Title} - {key=Guide.Title}"에서 {key=Guide.Restart} 기능을 사용할 수 있습니다.</system:String>
     <system:String x:Key="Guide.Tip">마우스를 올리면 팁이 보입니다</system:String>
     <system:String x:Key="Guide.Title">조작 및 가이드</system:String>
     <system:String x:Key="Guide.User">사용 가이드</system:String>
