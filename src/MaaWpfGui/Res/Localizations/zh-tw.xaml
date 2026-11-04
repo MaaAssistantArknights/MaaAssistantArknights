@@ -2512,7 +2512,7 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="TutorialChallenge.Level.InventoryTarget.Title">庫存目標</system:String>
     <system:String x:Key="TutorialChallenge.Level.StagePriority.Goal">希望優先刷 AP-5，AP-5 沒開時刷 CE-6，兩者都沒開就刷 1-7。</system:String>
     <system:String x:Key="TutorialChallenge.Level.StagePriority.Title">備選關卡優先級</system:String>
-    <system:String x:Key="TutorialChallenge.Level.TargetDrop.Goal">想要 10 個固源岩，準備去 1-7 刷 10 回來。</system:String>
+    <system:String x:Key="TutorialChallenge.Level.TargetDrop.Goal">想要 10 個固源岩，準備去 1-7 刷 10 個回來。</system:String>
     <system:String x:Key="TutorialChallenge.Level.TargetDrop.Title">指定掉落</system:String>
     <system:String x:Key="TutorialChallenge.NoSimulatedPanel">該任務類型暫無模擬設定</system:String>
     <system:String x:Key="TutorialChallenge.Reset">重置</system:String>

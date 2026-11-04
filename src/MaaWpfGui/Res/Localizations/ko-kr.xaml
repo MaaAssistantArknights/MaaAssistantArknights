@@ -2512,7 +2512,7 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="TutorialChallenge.Level.InventoryTarget.Title">목표 재고</system:String>
     <system:String x:Key="TutorialChallenge.Level.StagePriority.Goal">AP-5를 우선해서 돌고 싶습니다. AP-5가 닫혀 있으면 CE-6, 둘 다 닫혀 있으면 1-7로 하고 싶습니다.</system:String>
     <system:String x:Key="TutorialChallenge.Level.StagePriority.Title">대체 스테이지 우선순위</system:String>
-    <system:String x:Key="TutorialChallenge.Level.TargetDrop.Goal">1-7에서 원암 큐브를 10개 모아 보세요.</system:String>
+    <system:String x:Key="TutorialChallenge.Level.TargetDrop.Goal">원암 큐브 10개 필요. 1-7에서 10개 모아 올 예정.</system:String>
     <system:String x:Key="TutorialChallenge.Level.TargetDrop.Title">지정 드롭</system:String>
     <system:String x:Key="TutorialChallenge.NoSimulatedPanel">이 작업 유형에는 시뮬레이션 설정이 없습니다</system:String>
     <system:String x:Key="TutorialChallenge.Reset">초기화</system:String>

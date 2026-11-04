@@ -2513,7 +2513,7 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="TutorialChallenge.Level.InventoryTarget.Title">在庫目標</system:String>
     <system:String x:Key="TutorialChallenge.Level.StagePriority.Goal">AP-5 を優先して周回したい。AP-5 が閉じている時は CE-6、両方閉じている時は 1-7 にしたい。</system:String>
     <system:String x:Key="TutorialChallenge.Level.StagePriority.Title">代替ステージの優先度</system:String>
-    <system:String x:Key="TutorialChallenge.Level.TargetDrop.Goal">1-7 で初級源岩を 10 個集めてください。</system:String>
+    <system:String x:Key="TutorialChallenge.Level.TargetDrop.Goal">初級源岩が 10 個ほしい。1-7 で 10 個集めてくる。</system:String>
     <system:String x:Key="TutorialChallenge.Level.TargetDrop.Title">指定ドロップ</system:String>
     <system:String x:Key="TutorialChallenge.NoSimulatedPanel">このタスクタイプにはシミュレートされた設定がありません</system:String>
     <system:String x:Key="TutorialChallenge.Reset">リセット</system:String>
