@@ -1275,8 +1275,8 @@ public partial class VersionUpdateDialogViewModel : Screen
     {
         try
         {
-            // 修复流程不传 current_version，让 MirrorChyan 按全新安装处理；
-            // 即使客户端已是最新版本，也能返回完整包。
+            // 修复场景不传当前版本：MirrorChyan 视为全新安装，直接返回完整包，
+            // 避免已是最新版本时拿不到下载地址
             string url = BuildMirrorChyanUpdateUrl(check.Value, currentVersion: null);
             var (data, ret) = await MirrorChyanUpdateHelper.RequestAsync(url, check).ConfigureAwait(false);
             check.CancellationToken.ThrowIfCancellationRequested();
