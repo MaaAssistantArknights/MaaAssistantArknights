@@ -1,4 +1,4 @@
-## v6.21.3
+## v6.21.4
 
 ### Highlights
 
@@ -52,6 +52,24 @@ Auto formation now matches operators on the current page first, reducing paging;
 以下是详细内容：
 
 <details open>
+<summary><b>v6.21.4 (2026-11-04)</b></summary>
+
+### 新增 | New
+
+* 海外源支持填写并验证 GitHub Token，凭个人 Token 的独立配额直接从 GitHub 检查并下载软件与资源更新 ([#19034](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/19034)) @Rbqwow @Daydreamer114 @ABA2396
+
+### 改进 | Improved
+
+* 设置指引自 ｢性能设置｣ 步骤起可跳过剩余步骤 @ABA2396
+* 拖动任务时偶发的拖拽异常改为静默忽略 @ABA2396
+
+### 其他 | Other
+
+* Android OCR 的 ncnn 模型改为预转换后入库，CI 由构建期转换改为校验入库模型与源模型一致 ([#19088](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/19088)) @Aliothmoon
+
+</details>
+
+<details>
 <summary><b>v6.21.3 (2026-11-04)</b></summary>
 
 ### 新增 | New
