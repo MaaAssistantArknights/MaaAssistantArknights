@@ -11,6 +11,8 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
+using MaaWpfGui.Constants.Enums;
+using MaaWpfGui.Utilities;
 using Stylet;
 
 namespace MaaWpfGui.ViewModels.Items;
@@ -18,9 +20,17 @@ namespace MaaWpfGui.ViewModels.Items;
 /// <summary>
 /// The view model of setting item.
 /// </summary>
-public class SettingItemViewModel(string key, string display, int value) : PropertyChangedBase
+public class SettingItemViewModel : PropertyChangedBase
 {
-    private string _key = key;
+    public SettingItemViewModel(string key, string display, int value)
+    {
+        _key = key;
+        _display = display;
+        _value = value;
+        PropertyDependsOnUtility.InitializePropertyDependencies(this);
+    }
+
+    private string _key;
 
     public string Key
     {
@@ -28,7 +38,7 @@ public class SettingItemViewModel(string key, string display, int value) : Prope
         set => SetAndNotify(ref _key, value);
     }
 
-    private string _display = display;
+    private string _display;
 
     public string Display
     {
@@ -36,13 +46,35 @@ public class SettingItemViewModel(string key, string display, int value) : Prope
         set => SetAndNotify(ref _display, value);
     }
 
-    private int _value = value;
+    private int _value;
 
     public int Value
     {
         get => _value;
         set => SetAndNotify(ref _value, value);
     }
+
+    [PropertyDependsOn(nameof(Key))]
+    public bool IsAdvanced => Key is nameof(SettingKey.PerformanceSettings)
+        or nameof(SettingKey.RemoteControlSettings)
+        or nameof(SettingKey.ThirdPartyServiceSettings)
+        or nameof(SettingKey.HotKeySettings)
+        or nameof(SettingKey.AchievementSettings);
+
+    // 高级分区前预留一行放置分割线，Value 仍与导航索引一一对应。
+    [PropertyDependsOn(nameof(Value), nameof(IsAdvanced))]
+    public int GridRow => Value + (IsAdvanced ? 1 : 0);
+
+    private bool _areAdvancedSettingsVisible;
+
+    public bool AreAdvancedSettingsVisible
+    {
+        get => _areAdvancedSettingsVisible;
+        set => SetAndNotify(ref _areAdvancedSettingsVisible, value);
+    }
+
+    [PropertyDependsOn(nameof(IsVisibleInSearch), nameof(IsAdvanced), nameof(AreAdvancedSettingsVisible))]
+    public bool IsVisible => IsVisibleInSearch && (!IsAdvanced || AreAdvancedSettingsVisible);
 
     private bool _isVisibleInSearch = true;
 

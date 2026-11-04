@@ -36,6 +36,7 @@ using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
 using MaaWpfGui.Models;
+using MaaWpfGui.Services;
 using MaaWpfGui.Services.HotKeys;
 using MaaWpfGui.States;
 using MaaWpfGui.Utilities;
@@ -229,33 +230,77 @@ public class SettingsViewModel : Screen
 
     private void InitSettings()
     {
-        var keyList = Enum.GetValues<SettingKey>();
-
-        var tempOrderList = new List<SettingItemViewModel?>();
-
-        bool isAdded = false;
-
         // 已删除设置项的死键由 SettingsPageReorgMigrationConverter 在反序列化前的 JsonNode 层剔除
-        var orderList = ConfigFactory.Root.Gui.SettingOrders.ToList();
-        foreach (var key in keyList.Where(k => !orderList.Any(o => o == k)))
+        var orderList = ConfigFactory.Root.Gui.SettingOrders.Concat(Enum.GetValues<SettingKey>()).Distinct();
+
+        // 稳定分组，保留旧配置中两个组各自的自定义顺序。
+        Settings = [.. orderList
+            .Select(key => new SettingItemViewModel(key.ToString(), LocalizationHelper.GetString(key.LocalizationKey()), 0))
+            .OrderBy(item => item.IsAdvanced)];
+        for (int i = 0; i < Settings.Count; i++)
         {
-            isAdded = true;
-            orderList.Add(key);
-        }
-        if (isAdded)
-        {
-            ConfigFactory.Root.Gui.SettingOrders = orderList;
+            Settings[i].Value = i;
+            Settings[i].AreAdvancedSettingsVisible = ShowAdvancedSettings;
+            Settings[i].PropertyChanged += SettingItem_PropertyChanged;
         }
 
-        foreach (var (i, key) in orderList.Select((key, index) => (index, key)))
-        {
-            var item = new SettingItemViewModel(key.ToString(), LocalizationHelper.GetString(key.LocalizationKey()), i);
-            tempOrderList.Add(item);
-        }
-
-        Settings = [.. tempOrderList.OfType<SettingItemViewModel>()];
+        SaveSettingOrder();
+        _selectedSetting = Settings[0];
+        SettingsDropHandler = new SettingsDropHandler(Settings);
         Settings.CollectionChanged += Settings_CollectionChanged;
     }
+
+    public SettingsDropHandler SettingsDropHandler { get; private set; } = null!;
+
+    private bool _showAdvancedSettings = ConfigFactory.Root.Gui.ShowAdvancedSettings;
+
+    public bool ShowAdvancedSettings
+    {
+        get => _showAdvancedSettings;
+        set {
+            if (SetAndNotify(ref _showAdvancedSettings, value))
+            {
+                ConfigFactory.Root.Gui.ShowAdvancedSettings = value;
+                UpdateAdvancedSettingsVisibility();
+            }
+        }
+    }
+
+    [PropertyDependsOn(nameof(Settings))]
+    public int AdvancedSettingsDividerRow => Settings.Count(item => !item.IsAdvanced);
+
+    [PropertyDependsOn(nameof(Settings))]
+    public bool HasVisibleAdvancedSettings => Settings.Any(item => item.IsAdvanced && item.IsVisible);
+
+    [UsedImplicitly]
+    public void ToggleAdvancedSettings() => ShowAdvancedSettings = !ShowAdvancedSettings;
+
+    private void UpdateAdvancedSettingsVisibility()
+    {
+        // 搜索期间临时显示高级分区，不改变用户持久化的显示偏好。
+        var showAdvanced = ShowAdvancedSettings || !string.IsNullOrEmpty(SearchText);
+        if (!showAdvanced && _selectedSetting is { IsAdvanced: true })
+        {
+            _settingToSelectAfterLayout = _lastGeneralSetting ?? Settings.FirstOrDefault(item => !item.IsAdvanced);
+        }
+
+        foreach (var item in Settings)
+        {
+            item.AreAdvancedSettingsVisible = showAdvanced;
+        }
+    }
+
+    private void SettingItem_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName == nameof(SettingItemViewModel.IsVisible))
+        {
+            NotifyOfPropertyChange(nameof(HasVisibleAdvancedSettings));
+            OnSettingItemValueChanged();
+        }
+    }
+
+    private void SaveSettingOrder() =>
+        ConfigFactory.Root.Gui.SettingOrders = [.. Settings.Select(item => Enum.Parse<SettingKey>(item.Key))];
 
     /// <summary>
     /// 刷新设置菜单项的本地化文本。
@@ -270,7 +315,8 @@ public class SettingsViewModel : Screen
 
     private void Settings_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs? e)
     {
-        ConfigFactory.Root.Gui.SettingOrders = [.. Settings.Select(item => Enum.Parse<SettingKey>(item.Key))];
+        _settingToSelectAfterLayout = _selectedSetting;
+        SaveSettingOrder();
         Execute.OnUIThread(() => {
             // 集合变更后，根据新的顺序更新各 item 的 Value（右边 Grid.Row 绑定依赖此值）
             for (int i = 0; i < Settings.Count; i++)
@@ -287,10 +333,35 @@ public class SettingsViewModel : Screen
         });
     }
 
+    private bool _isSettingsLayoutRefreshPending;
+
     private void OnSettingItemValueChanged()
     {
+        if (_isSettingsLayoutRefreshPending)
+        {
+            return;
+        }
+
+        _isSettingsLayoutRefreshPending = true;
         Application.Current.Dispatcher.InvokeAsync(() => {
+            _isSettingsLayoutRefreshPending = false;
             RefreshDividerOffsetsRequested?.Invoke(this, EventArgs.Empty);
+
+            var preferred = _settingToSelectAfterLayout;
+            _settingToSelectAfterLayout = null;
+            if (preferred is { IsVisible: true }
+                || SelectedIndex < 0 || SelectedIndex >= Settings.Count || !Settings[SelectedIndex].IsVisible)
+            {
+                var target = preferred is { IsVisible: true } ? preferred
+                    : _lastGeneralSetting is { IsVisible: true } ? _lastGeneralSetting
+                    : Settings.FirstOrDefault(item => item.IsVisible);
+                _notifySource = NotifyType.None;
+                SelectedIndex = target == null ? -1 : Settings.IndexOf(target);
+                if (SelectedIndex >= 0 && SelectedIndex < DividerVerticalOffsetList.Count)
+                {
+                    ScrollAnimationTarget = DividerVerticalOffsetList[SelectedIndex];
+                }
+            }
         }, System.Windows.Threading.DispatcherPriority.Loaded);
     }
 
@@ -306,6 +377,7 @@ public class SettingsViewModel : Screen
         set {
             if (SetAndNotify(ref _searchText, value))
             {
+                UpdateAdvancedSettingsVisibility();
                 SearchRequested?.Invoke(this, value);
             }
         }
@@ -1562,12 +1634,17 @@ public class SettingsViewModel : Screen
                 return;
             }
 
-            _dividerVerticalOffsetList = value;
             SetAndNotify(ref _dividerVerticalOffsetList, value);
         }
     }
 
     private int _selectedIndex;
+
+    private SettingItemViewModel? _lastGeneralSetting;
+
+    private SettingItemViewModel? _selectedSetting;
+
+    private SettingItemViewModel? _settingToSelectAfterLayout;
 
     /// <summary>
     /// Gets or sets the index selected.
@@ -1581,7 +1658,15 @@ public class SettingsViewModel : Screen
                 return;
             }
 
-            if (value < 0 || value >= DividerVerticalOffsetList.Count)
+            if (value == -1)
+            {
+                _selectedSetting = null;
+                SetAndNotify(ref _selectedIndex, value);
+                return;
+            }
+
+            if (value < 0 || value >= Settings.Count || !Settings[value].IsVisible
+                || value >= DividerVerticalOffsetList.Count || double.IsNaN(DividerVerticalOffsetList[value]))
             {
                 return;
             }
@@ -1606,6 +1691,15 @@ public class SettingsViewModel : Screen
 
                 default:
                     throw new ArgumentOutOfRangeException();
+            }
+
+            if (_selectedIndex == value)
+            {
+                _selectedSetting = Settings[value];
+                if (!_selectedSetting.IsAdvanced)
+                {
+                    _lastGeneralSetting = _selectedSetting;
+                }
             }
         }
     }
@@ -1636,22 +1730,22 @@ public class SettingsViewModel : Screen
                     SetAndNotify(ref _scrollOffset, value);
 
                     // 设置 ListBox SelectedIndex 为当前 ScrollOffset 索引
-                    if (DividerVerticalOffsetList.Count > 0)
+                    var visibleDividers = DividerVerticalOffsetList
+                        .Select((offset, index) => (offset, index))
+                        .Where(item => !double.IsNaN(item.offset) && Settings[item.index].IsVisible)
+                        .ToArray();
+                    if (visibleDividers.Length > 0)
                     {
                         // 滚动条滚动到底部，返回最后一个 Divider 索引
                         if (value + ScrollViewportHeight >= ScrollExtentHeight)
                         {
-                            SelectedIndex = DividerVerticalOffsetList.Count - 1;
+                            SelectedIndex = visibleDividers[^1].index;
                             ResetNotifySource();
                             break;
                         }
 
                         // 根据出当前 ScrollOffset 选出最后一个在可视范围的 Divider 索引
-                        var dividerSelect = DividerVerticalOffsetList.Select((n, i) => (
-                            dividerAppeared: value >= n,
-                            index: i));
-
-                        var index = dividerSelect.LastOrDefault(n => n.dividerAppeared).index;
+                        var index = visibleDividers.LastOrDefault(item => value >= item.offset, visibleDividers[0]).index;
                         SelectedIndex = index;
                     }
 

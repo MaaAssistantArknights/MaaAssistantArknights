@@ -97,10 +97,24 @@ public static class SearchHighlightBehavior
         }
         else
         {
+            // 上一次搜索隐藏的分区也必须参与本次搜索。
+            foreach (var item in sectionFilter)
+            {
+                if (item is SettingItemViewModel setting)
+                {
+                    setting.IsVisibleInSearch = true;
+                }
+            }
+
             // 先展开所有 Expander，等布局更新后再搜索
             ExpandAllSections(contentGrid);
             contentGrid.Dispatcher.BeginInvoke(
-                () => PerformSearch(contentGrid, searchText, sectionFilter),
+                () => {
+                    if (GetSearchText(scrollViewer) == searchText)
+                    {
+                        PerformSearch(contentGrid, searchText, sectionFilter);
+                    }
+                },
                 System.Windows.Threading.DispatcherPriority.Loaded);
         }
     }
@@ -181,7 +195,7 @@ public static class SearchHighlightBehavior
     {
         foreach (var item in sectionFilter)
         {
-            if (item is SettingItemViewModel setting && setting.Value == rowIndex)
+            if (item is SettingItemViewModel setting && setting.GridRow == rowIndex)
             {
                 return setting;
             }
