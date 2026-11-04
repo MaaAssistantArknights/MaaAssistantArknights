@@ -4206,7 +4206,14 @@
     "InfrastTrainingLevel3": {},
     "InfrastTrainingTime": {
         "baseTask": "NumberOcrReplace",
-        "roi": [150, 645, 100, 40]
+        "roi": [150, 645, 100, 40],
+        "specialParams": [35, 6, 67, 6],
+        "specialParams_Doc": [
+            "第一个冒号遮罩相对 roi 的 x 偏移",
+            "第一个冒号遮罩宽度",
+            "第二个冒号遮罩相对 roi 的 x 偏移",
+            "第二个冒号遮罩宽度"
+        ]
     },
     "InfrastTrainingChooseSkillRec": {
         "algorithm": "FeatureMatch",
