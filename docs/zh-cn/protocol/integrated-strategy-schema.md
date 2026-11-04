@@ -68,14 +68,16 @@ icon: ri:game-fill
 
 支持以下任务类型：
 
-| `type` | 必填字段 | 说明 |
-| --- | --- | --- |
-| `ReachThirdFloor` | 无 | 沿用原有逻辑探索至第三层 |
-| `DeployOperator` | `operator`、`count` | 部署指定干员并累计次数 |
-| `DeployOperatorSummon` | `operator`、`count` | 先部署指定干员，再持续部署其关联召唤物 |
-| `UseOperatorSkill` | `operator`、`count`、`skill` | 选择并使用指定干员的一、二或三技能 |
+| `type`                 | 必填字段                     | 说明                                   |
+| ---------------------- | ---------------------------- | -------------------------------------- |
+| `ReachThirdFloor`      | 无                           | 沿用原有逻辑探索至第三层               |
+| `DeployOperator`       | `operator`、`count`          | 部署指定干员并累计次数                 |
+| `DeployOperatorSummon` | `operator`、`count`          | 先部署指定干员，再持续部署其关联召唤物 |
+| `UseOperatorSkill`     | `operator`、`count`、`skill` | 选择并使用指定干员的一、二或三技能     |
 
 `count` 必须是大于零的整数。`skill` 的取值范围为 `1`～`3`；在 `DeployOperatorSummon` 中可以省略，省略后沿用该干员原有的选技能逻辑。
+
+三技能的 `UseOperatorSkill` 任务目标尚未精二时，招募会为该次晋升预留希望：期间只招募不消耗希望的三星及以下干员，其他干员（含临时招募）一概不招，目标干员自身不受限制。
 
 ## 肉鸽第一步——干员招募
 

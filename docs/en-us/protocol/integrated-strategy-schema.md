@@ -74,14 +74,16 @@ Please note that JSON files do not support comments. Comments are for demonstrat
 
 The following task types are supported:
 
-| `type` | Required fields | Description |
-| --- | --- | --- |
-| `ReachThirdFloor` | None | Follow the existing exploration logic until the third floor |
-| `DeployOperator` | `operator`, `count` | Deploy the specified operator the required number of times |
-| `DeployOperatorSummon` | `operator`, `count` | Deploy the specified operator, then repeatedly deploy their related summons |
-| `UseOperatorSkill` | `operator`, `count`, `skill` | Select and use the specified operator's first, second, or third skill |
+| `type`                 | Required fields              | Description                                                                 |
+| ---------------------- | ---------------------------- | --------------------------------------------------------------------------- |
+| `ReachThirdFloor`      | None                         | Follow the existing exploration logic until the third floor                 |
+| `DeployOperator`       | `operator`, `count`          | Deploy the specified operator the required number of times                  |
+| `DeployOperatorSummon` | `operator`, `count`          | Deploy the specified operator, then repeatedly deploy their related summons |
+| `UseOperatorSkill`     | `operator`, `count`, `skill` | Select and use the specified operator's first, second, or third skill       |
 
 `count` must be a positive integer. `skill` must be from `1` to `3`. It is optional for `DeployOperatorSummon`; when omitted, the operator's existing skill-selection logic is preserved.
+
+While the target operator of a third-skill `UseOperatorSkill` task is not yet Elite 2, recruitment reserves hope for that promotion: only 3-star or lower operators, which cost no hope, are recruited in the meantime, other operators (temporary recruits included) are skipped, and the target operator itself is still allowed.
 
 ## Integrated Strategy Step 1: Operator Recruitment
 

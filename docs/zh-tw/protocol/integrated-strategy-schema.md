@@ -68,14 +68,16 @@ icon: ri:game-fill
 
 支援以下任務類型：
 
-| `type` | 必填欄位 | 說明 |
-| --- | --- | --- |
-| `ReachThirdFloor` | 無 | 沿用原有邏輯探索至第三層 |
-| `DeployOperator` | `operator`、`count` | 部署指定幹員並累計次數 |
-| `DeployOperatorSummon` | `operator`、`count` | 先部署指定幹員，再持續部署其關聯召喚物 |
-| `UseOperatorSkill` | `operator`、`count`、`skill` | 選擇並使用指定幹員的一、二或三技能 |
+| `type`                 | 必填欄位                     | 說明                                   |
+| ---------------------- | ---------------------------- | -------------------------------------- |
+| `ReachThirdFloor`      | 無                           | 沿用原有邏輯探索至第三層               |
+| `DeployOperator`       | `operator`、`count`          | 部署指定幹員並累計次數                 |
+| `DeployOperatorSummon` | `operator`、`count`          | 先部署指定幹員，再持續部署其關聯召喚物 |
+| `UseOperatorSkill`     | `operator`、`count`、`skill` | 選擇並使用指定幹員的一、二或三技能     |
 
 `count` 必須是大於零的整數。`skill` 的取值範圍為 `1`～`3`；在 `DeployOperatorSummon` 中可以省略，省略後沿用該幹員原有的技能選擇邏輯。
+
+三技能的 `UseOperatorSkill` 任務目標尚未精二時，招募會為該次晉升預留希望：期間只招募不消耗希望的三星及以下幹員，其他幹員（含臨時招募）一概不招，目標幹員自身不受限制。
 
 ## 肉鴿第一步——幹員招募
 
