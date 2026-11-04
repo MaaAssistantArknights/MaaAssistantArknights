@@ -132,6 +132,6 @@ public static class MirrorChyanUpdateHelper
 
         return result.Status == UpdateCredentialStatus.Valid
             ? (data, CheckUpdateRetT.OK)
-            : (null, data is null ? CheckUpdateRetT.NetworkError : CheckUpdateRetT.UnknownError);
+            : (null, CheckUpdateRetT.UnknownError);
     }
 }

@@ -16,7 +16,6 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Net;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
@@ -102,11 +101,9 @@ public interface IHttpService
     /// <param name="uri">The URI of the file</param>
     /// <param name="fileName">On disk filename</param>
     /// <param name="contentType">File content type</param>
-    /// <param name="extraHeader">Extra HTTP Request Headers</param>
-    /// <param name="onError">Optional handler for an unsuccessful HTTP status</param>
     /// <param name="token">Cancellation token to abort the download</param>
     /// <returns>true if succeeded, false if failed</returns>
-    Task<bool> DownloadFileAsync(Uri uri, string fileName, string? contentType = null, Dictionary<string, string>? extraHeader = null, Func<HttpStatusCode, Task>? onError = null, CancellationToken token = default);
+    Task<bool> DownloadFileAsync(Uri uri, string fileName, string? contentType = null, CancellationToken token = default);
 
     /// <summary>
     /// Download a file and preserve the HTTP status and retry delay.

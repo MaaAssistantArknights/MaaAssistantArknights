@@ -18,4 +18,4 @@ using System.Net;
 
 namespace MaaWpfGui.Services.Web;
 
-public sealed record HttpDownloadResult(bool Success, HttpStatusCode? StatusCode = null, TimeSpan? RetryAfter = null);
+public sealed record HttpDownloadResult(bool Success, HttpStatusCode? StatusCode = null, TimeSpan? RetryAfter = null, bool IsRateLimited = false);

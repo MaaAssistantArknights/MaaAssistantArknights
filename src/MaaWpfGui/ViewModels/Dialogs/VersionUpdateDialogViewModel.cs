@@ -684,7 +684,7 @@ public partial class VersionUpdateDialogViewModel : Screen
 
             return source switch {
                 AppUpdateSource.MaaApi => await HandleUpdateFromGitHubRelease(),
-                AppUpdateSource.GitHub => await HandleUpdateFromGitHubRelease(_githubUpdateToken, _githubUpdateCancellationToken),
+                AppUpdateSource.GitHub => await HandleUpdateFromGitHubRelease(_githubUpdateRequest),
                 AppUpdateSource.MirrorChyan => await HandleUpdateFromMirrorChyan(),
                 _ => CheckUpdateRetT.UnknownError,
             };
@@ -780,7 +780,7 @@ public partial class VersionUpdateDialogViewModel : Screen
         OutputDownloadProgress(downloading: false, output: LocalizationHelper.GetString("VersionUpdate.NewVersionDownloadCompleted.Title"));
     }
 
-    private async Task<CheckUpdateRetT> HandleUpdateFromGitHubRelease(string? token = null, CancellationToken cancellationToken = default)
+    private async Task<CheckUpdateRetT> HandleUpdateFromGitHubRelease(UpdateCredentialRequest? request = null)
     {
         // 保存新版本的信息
         var name = _latestJson?["name"]?.ToString();
@@ -827,7 +827,7 @@ public partial class VersionUpdateDialogViewModel : Screen
             return CheckUpdateRetT.NoNeedToUpdate;
         }
 
-        string? url = await GetGitHubAssetDownloadUrlAsync(_assetsObject, token, cancellationToken);
+        string? url = await GetGitHubAssetDownloadUrlAsync(_assetsObject, request);
         if (string.IsNullOrEmpty(url))
         {
             url = GitHubUpdateHelper.GetBrowserDownloadUrl(_assetsObject);
@@ -835,19 +835,9 @@ public partial class VersionUpdateDialogViewModel : Screen
             {
                 return CheckUpdateRetT.FailedToGetInfo;
             }
-
-            token = null;
         }
 
-        var downloaded = await DownloadGithubAssets(url, _assetsObject, token, cancellationToken);
-        if (!downloaded.Success && token is not null)
-        {
-            var fallbackUrl = GitHubUpdateHelper.GetBrowserDownloadUrl(_assetsObject);
-            if (fallbackUrl is not null)
-            {
-                downloaded = await DownloadGithubAssets(fallbackUrl, _assetsObject, null, cancellationToken);
-            }
-        }
+        var downloaded = await DownloadGithubAssets(url, _assetsObject, request);
         if (downloaded.Success)
         {
             UpdatePackageName = packageName;
@@ -855,7 +845,7 @@ public partial class VersionUpdateDialogViewModel : Screen
         }
         else
         {
-            if (token is not null && SettingsViewModel.VersionUpdateSettings.GitHubCredential.HasError)
+            if (request is not null && SettingsViewModel.VersionUpdateSettings.GitHubCredential.HasError)
             {
                 OutputDownloadProgress(SettingsViewModel.VersionUpdateSettings.GitHubCredential.StatusText, downloading: false);
                 return CheckUpdateRetT.CredentialError;
@@ -1124,28 +1114,31 @@ public partial class VersionUpdateDialogViewModel : Screen
 
         // 先解析下载源并确认完整包覆盖风险，再执行下载；
         // 与其他完整包更新入口保持一致，用户拒绝时不必下载 200MB+ 的完整包
-        // 有效 Token 直接从 GitHub 解析完整包，其他情况沿用更新源配置。
+        // 填写 Token 时通过 GitHub 更新响应验证并解析完整包，其他情况沿用更新源配置。
         var settings = SettingsViewModel.VersionUpdateSettings;
         var source = settings.UpdateSource;
         var credential = settings.CurrentUpdateCredential;
         int revision = credential.Revision;
-        var request = await settings.GetValidatedGitHubRequestAsync();
-        var token = request?.Value;
-        var cancellationToken = request?.CancellationToken ?? default;
+        var request = await credential.BeginCheckAsync();
         if (source != settings.UpdateSource || revision != credential.Revision)
         {
             return IntegrityRepairResult.Canceled;
         }
 
-        bool useMirrorChyan = source == UpdateSource.MirrorChyan && !string.IsNullOrEmpty(settings.MirrorChyanCdk);
-
-        var mirrorChyanPackage = useMirrorChyan ? await ResolveMirrorChyanRepairPackageAsync() : null;
+        var githubRequest = source == UpdateSource.GitHub ? request : null;
+        MirrorChyanRepairPackage? mirrorChyanPackage = null;
+        if (source == UpdateSource.MirrorChyan && request is { } mirrorRequest)
+        {
+            mirrorChyanPackage = await ResolveMirrorChyanRepairPackageAsync(mirrorRequest);
+        }
         if (source != settings.UpdateSource || revision != credential.Revision)
         {
             return IntegrityRepairResult.Canceled;
         }
 
-        var releasePackage = mirrorChyanPackage is null ? await ResolveReleaseRepairPackageAsync(token, cancellationToken) : null;
+        var releasePackage = mirrorChyanPackage is null
+            ? await ResolveReleaseRepairPackageAsync(githubRequest)
+            : null;
         if (source != settings.UpdateSource || revision != credential.Revision)
         {
             return IntegrityRepairResult.Canceled;
@@ -1184,7 +1177,7 @@ public partial class VersionUpdateDialogViewModel : Screen
 
         if (packagePath is null)
         {
-            releasePackage ??= await ResolveReleaseRepairPackageAsync(token, cancellationToken);
+            releasePackage ??= await ResolveReleaseRepairPackageAsync(githubRequest);
             if (releasePackage is null)
             {
                 FailIntegrityRepair("Integrity repair: no release full package resolved");
@@ -1193,7 +1186,7 @@ public partial class VersionUpdateDialogViewModel : Screen
 
             _logger.Information("Integrity repair: downloading release full package {PackageName}", releasePackage.PackageName);
             OutputDownloadProgress(LocalizationHelper.GetString("VersionUpdate.IntegrityRepair.Downloading"), downloading: true, globalSource: true);
-            if ((await DownloadGithubAssets(releasePackage.DownloadUrl, releasePackage.Asset, token, cancellationToken)).Success)
+            if ((await DownloadGithubAssets(releasePackage.DownloadUrl, releasePackage.Asset, request)).Success)
             {
                 packagePath = GetPlannedUpdatePackagePath(releasePackage.PackageName);
             }
@@ -1278,18 +1271,12 @@ public partial class VersionUpdateDialogViewModel : Screen
     /// 从 MirrorChyan 解析当前渠道完整包的下载信息（不执行下载）。
     /// </summary>
     /// <returns>解析结果；解析失败时返回 null，交给 maaApi 兜底。</returns>
-    private async Task<MirrorChyanRepairPackage?> ResolveMirrorChyanRepairPackageAsync()
+    private async Task<MirrorChyanRepairPackage?> ResolveMirrorChyanRepairPackageAsync(UpdateCredentialRequest check)
     {
         try
         {
-            // 修复场景不传当前版本：MirrorChyan 视为全新安装，直接返回完整包，
-            // 避免已是最新版本时拿不到下载地址
-            var request = await SettingsViewModel.VersionUpdateSettings.MirrorChyanCredential.BeginCheckAsync().ConfigureAwait(false);
-            if (request is not { } check)
-            {
-                return null;
-            }
-
+            // 修复流程不传 current_version，让 MirrorChyan 按全新安装处理；
+            // 即使客户端已是最新版本，也能返回完整包。
             string url = BuildMirrorChyanUpdateUrl(check.Value, currentVersion: null);
             var (data, ret) = await MirrorChyanUpdateHelper.RequestAsync(url, check).ConfigureAwait(false);
             check.CancellationToken.ThrowIfCancellationRequested();
@@ -1322,23 +1309,25 @@ public partial class VersionUpdateDialogViewModel : Screen
     /// <summary>
     /// 从 GitHub 或 MAA API 解析当前渠道完整包的下载信息（不执行下载）。
     /// </summary>
-    /// <param name="token">已验证的 GitHub Token；为空时使用 MAA API。</param>
-    /// <param name="cancellationToken">取消本次 GitHub 请求。</param>
+    /// <param name="request">本次 GitHub 凭据快照；为空时使用 MAA API。</param>
     /// <returns>解析结果；解析失败时返回 null。</returns>
-    private static async Task<ReleaseRepairPackage?> ResolveReleaseRepairPackageAsync(string? token, CancellationToken cancellationToken = default)
+    private static async Task<ReleaseRepairPackage?> ResolveReleaseRepairPackageAsync(UpdateCredentialRequest? request)
     {
+        var cancellationToken = request?.CancellationToken ?? default;
         try
         {
             string versionType = GetUpdateChannel();
 
             JObject? release;
             string? latestVersion;
-            if (token is not null)
+            if (request is { } check)
             {
-                release = await GitHubUpdateHelper.GetLatestReleaseAsync(token, versionType, cancellationToken).ConfigureAwait(false);
+                (release, _) = await GitHubUpdateHelper.GetLatestReleaseAsync(check, versionType).ConfigureAwait(false);
+                cancellationToken.ThrowIfCancellationRequested();
                 latestVersion = release?["tag_name"]?.ToString();
                 if (release is null)
                 {
+                    request = null;
                     _logger.Warning("GitHub repair metadata unavailable, falling back to Maa API");
                     var (_, json) = await Instances.MaaApiService.RequestMaaApiWithCache($"version/{versionType}.json", false).ConfigureAwait(false);
                     release = json?["details"] as JObject;
@@ -1374,7 +1363,7 @@ public partial class VersionUpdateDialogViewModel : Screen
                     continue;
                 }
 
-                string? rawUrl = await GetGitHubAssetDownloadUrlAsync(fullPackage, token, cancellationToken).ConfigureAwait(false);
+                string? rawUrl = await GetGitHubAssetDownloadUrlAsync(fullPackage, request).ConfigureAwait(false);
                 rawUrl ??= GitHubUpdateHelper.GetBrowserDownloadUrl(fullPackage);
                 if (string.IsNullOrEmpty(rawUrl))
                 {
@@ -1470,7 +1459,7 @@ public partial class VersionUpdateDialogViewModel : Screen
     /// <returns>检查到更新返回 <see langword="true"/>，反之则返回 <see langword="false"/>。</returns>
     private async Task<(CheckUpdateRetT Ret, AppUpdateSource? Source)> CheckUpdate()
     {
-        _githubUpdateToken = null;
+        _githubUpdateRequest = null;
 
         // 调试版不检查更新
         if (IsDebugVersion())
@@ -1482,18 +1471,17 @@ public partial class VersionUpdateDialogViewModel : Screen
         var source = settings.UpdateSource;
         var credential = settings.CurrentUpdateCredential;
         int revision = credential.Revision;
-        var request = await settings.GetValidatedGitHubRequestAsync();
-        _githubUpdateToken = request?.Value;
-        _githubUpdateCancellationToken = request?.CancellationToken ?? default;
+        var request = await credential.BeginCheckAsync();
         if (source != settings.UpdateSource || revision != credential.Revision)
         {
             return (CheckUpdateRetT.NoNeedToUpdate, null);
         }
 
-        if (_githubUpdateToken is not null)
+        _githubUpdateRequest = source == UpdateSource.GitHub ? request : null;
+        if (source == UpdateSource.GitHub && request is { } check)
         {
-            var release = await GitHubUpdateHelper.GetLatestReleaseAsync(_githubUpdateToken, GetUpdateChannel(), _githubUpdateCancellationToken);
-            if (source != settings.UpdateSource || revision != credential.Revision)
+            var (release, ret) = await GitHubUpdateHelper.GetLatestReleaseAsync(check, GetUpdateChannel());
+            if (ret == CheckUpdateRetT.NoNeedToUpdate || source != settings.UpdateSource || revision != credential.Revision)
             {
                 return (CheckUpdateRetT.NoNeedToUpdate, null);
             }
@@ -1505,6 +1493,11 @@ public partial class VersionUpdateDialogViewModel : Screen
 
             _logger.Warning("GitHub update metadata unavailable, falling back to Maa API");
             var fallbackRet = await CheckUpdateByMaaApi();
+            if (source != settings.UpdateSource || revision != credential.Revision)
+            {
+                return (CheckUpdateRetT.NoNeedToUpdate, null);
+            }
+
             return (fallbackRet, AppUpdateSource.MaaApi);
         }
 
@@ -1512,7 +1505,12 @@ public partial class VersionUpdateDialogViewModel : Screen
         {
             try
             {
-                var ret = await CheckUpdateByMirrorChyan();
+                var ret = await CheckUpdateByMirrorChyan(request);
+                if (source != settings.UpdateSource || revision != credential.Revision)
+                {
+                    return (CheckUpdateRetT.NoNeedToUpdate, null);
+                }
+
                 if (ret is CheckUpdateRetT.OK or CheckUpdateRetT.AlreadyLatest or CheckUpdateRetT.NoNeedToUpdate)
                 {
                     return (ret, AppUpdateSource.MirrorChyan);
@@ -1576,8 +1574,7 @@ public partial class VersionUpdateDialogViewModel : Screen
         return ReadReleaseDetails(json["details"] as JObject, json["version"]?.ToString());
     }
 
-    private string? _githubUpdateToken;
-    private CancellationToken _githubUpdateCancellationToken;
+    private UpdateCredentialRequest? _githubUpdateRequest;
     private CancellationToken _mirrorcCancellationToken;
 
     private CheckUpdateRetT ReadReleaseDetails(JObject? release, string? latestVersion)
@@ -1635,11 +1632,10 @@ public partial class VersionUpdateDialogViewModel : Screen
         return CheckUpdateRetT.OK;
     }
 
-    private async Task<CheckUpdateRetT> CheckUpdateByMirrorChyan()
+    private async Task<CheckUpdateRetT> CheckUpdateByMirrorChyan(UpdateCredentialRequest? request)
     {
         _requiresFullPackageConfirmation = false;
 
-        var request = await SettingsViewModel.VersionUpdateSettings.MirrorChyanCredential.BeginCheckAsync();
         _mirrorcCancellationToken = request?.CancellationToken ?? default;
         var cdk = request?.Value ?? string.Empty;
         string url = BuildMirrorChyanUpdateUrl(cdk, currentVersion: _curVersion);
@@ -1760,20 +1756,17 @@ public partial class VersionUpdateDialogViewModel : Screen
     /// </summary>
     /// <param name="url">下载链接</param>
     /// <param name="assetsObject">Github Assets 对象</param>
-    /// <param name="token">已验证的 GitHub Token；仅发送到 GitHub API。</param>
-    /// <param name="cancellationToken">取消本次下载及重试。</param>
+    /// <param name="request">本次 GitHub 凭据快照；为空时使用浏览器直链。</param>
     /// <returns>下载结果及服务器提供的重试信息。</returns>
-    private static async Task<HttpDownloadResult> DownloadGithubAssets(string url, JObject assetsObject, string? token = null, CancellationToken cancellationToken = default)
+    private static async Task<HttpDownloadResult> DownloadGithubAssets(string url, JObject assetsObject, UpdateCredentialRequest? request = null)
     {
+        var cancellationToken = request?.CancellationToken ?? default;
         try
         {
             var uri = new Uri(url);
-            var headers = token is not null && GitHubUpdateHelper.IsGitHubApiUrl(uri)
-                ? GitHubUpdateHelper.CreateHeaders(token)
+            var headers = request is { } check && GitHubUpdateHelper.IsGitHubApiUrl(uri)
+                ? GitHubUpdateHelper.CreateHeaders(check.Value)
                 : null;
-            headers?["Accept"] = "application/octet-stream";
-
-            bool authorizationFailed = false;
             async Task<HttpDownloadResult> DownloadAsync()
             {
                 var result = await Instances.HttpService.DownloadFileWithResultAsync(
@@ -1782,21 +1775,34 @@ public partial class VersionUpdateDialogViewModel : Screen
                     headers is not null ? "application/octet-stream" : assetsObject["content_type"]?.ToString(),
                     headers, cancellationToken).ConfigureAwait(false);
                 cancellationToken.ThrowIfCancellationRequested();
-                if (result.StatusCode == HttpStatusCode.Unauthorized && headers is not null && token is not null)
+                if (headers is not null && request is { } check)
                 {
-                    authorizationFailed = true;
-                    await SettingsViewModel.VersionUpdateSettings.InvalidateGitHubTokenAsync(token, cancellationToken).ConfigureAwait(false);
+                    if (result.StatusCode == HttpStatusCode.Unauthorized)
+                    {
+                        await SettingsViewModel.VersionUpdateSettings.GitHubCredential
+                            .ApplyAsync(check, new(UpdateCredentialStatus.Invalid)).ConfigureAwait(false);
+                    }
+                    else if (result.IsRateLimited)
+                    {
+                        await SettingsViewModel.VersionUpdateSettings.GitHubCredential.ApplyAsync(
+                            check,
+                            new(UpdateCredentialStatus.Failed, ErrorKey: GitHubUpdateHelper.RateLimitedErrorKey)).ConfigureAwait(false);
+                    }
                 }
 
                 return result;
             }
 
-            return await DownloadUpdatePackageWithRetryAsync(
-                    DownloadAsync,
-                    uri,
-                    () => authorizationFailed,
-                    cancellationToken)
-                .ConfigureAwait(false);
+            var downloaded = await DownloadUpdatePackageWithRetryAsync(DownloadAsync, uri, cancellationToken).ConfigureAwait(false);
+            if (!downloaded.Success && headers is not null &&
+                GitHubUpdateHelper.GetBrowserDownloadUrl(assetsObject) is { } fallbackUrl)
+            {
+                uri = new Uri(fallbackUrl);
+                headers = null;
+                downloaded = await DownloadUpdatePackageWithRetryAsync(DownloadAsync, uri, cancellationToken).ConfigureAwait(false);
+            }
+
+            return downloaded;
         }
         catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
         {
@@ -1808,14 +1814,13 @@ public partial class VersionUpdateDialogViewModel : Screen
         }
     }
 
-    private static async Task<string?> GetGitHubAssetDownloadUrlAsync(JObject asset, string? token, CancellationToken cancellationToken = default)
+    private static async Task<string?> GetGitHubAssetDownloadUrlAsync(JObject asset, UpdateCredentialRequest? request)
     {
-        if (token is not null)
+        if (request is { } check)
         {
-            return await GitHubUpdateHelper.ResolveAssetApiUrlAsync(asset, token, cancellationToken).ConfigureAwait(false);
+            return await GitHubUpdateHelper.ResolveAssetApiUrlAsync(asset, check).ConfigureAwait(false);
         }
 
-        cancellationToken.ThrowIfCancellationRequested();
         return asset["browser_download_url"]?.ToString();
     }
 
@@ -1839,7 +1844,7 @@ public partial class VersionUpdateDialogViewModel : Screen
         }
     }
 
-    private static async Task<HttpDownloadResult> DownloadUpdatePackageWithRetryAsync(Func<Task<HttpDownloadResult>> download, Uri uri, Func<bool>? shouldStop = null, CancellationToken cancellationToken = default)
+    private static async Task<HttpDownloadResult> DownloadUpdatePackageWithRetryAsync(Func<Task<HttpDownloadResult>> download, Uri uri, CancellationToken cancellationToken = default)
     {
         HttpDownloadResult result = new(false);
         for (var attempt = 1; attempt <= UpdatePackageDownloadMaxAttempts; attempt++)
@@ -1852,11 +1857,6 @@ public partial class VersionUpdateDialogViewModel : Screen
                 return result;
             }
 
-            if (shouldStop?.Invoke() == true)
-            {
-                return result;
-            }
-
             var retryDelay = GetDownloadRetryDelay(result, attempt);
             if (retryDelay is null)
             {
@@ -1865,7 +1865,7 @@ public partial class VersionUpdateDialogViewModel : Screen
             }
 
             // 较长的限流等待交给用户稍后重试，避免更新状态长时间阻塞；绝不提前重试。
-            if (retryDelay.Value > TimeSpan.FromMinutes(1))
+            if (retryDelay.Value >= TimeSpan.FromMinutes(1))
             {
                 _logger.Warning("Update package download deferred for {Uri}: retry after {Delay}", uri.GetLeftPart(UriPartial.Path), retryDelay.Value);
                 return result with { RetryAfter = retryDelay };
@@ -1900,13 +1900,12 @@ public partial class VersionUpdateDialogViewModel : Screen
 
     private static bool ShowDownloadRateLimit(HttpDownloadResult result)
     {
-        if (result.StatusCode != HttpStatusCode.TooManyRequests && result.RetryAfter is null)
+        if (!result.IsRateLimited)
         {
             return false;
         }
 
-        string message = LocalizationHelper.GetStringFormat("VersionUpdate.NewVersionDownloadRateLimited",
-            Math.Ceiling((result.RetryAfter ?? TimeSpan.FromMinutes(1)).TotalSeconds));
+        string message = LocalizationHelper.GetString(GitHubUpdateHelper.RateLimitedErrorKey);
         OutputDownloadProgress(message, downloading: false);
         ToastNotification.ShowDirect(message);
         return true;
@@ -1914,17 +1913,19 @@ public partial class VersionUpdateDialogViewModel : Screen
 
     private static TimeSpan? GetDownloadRetryDelay(HttpDownloadResult result, int attempt)
     {
+        if (result.StatusCode is { } status && (int)status is >= 400 and < 500 &&
+            status != HttpStatusCode.RequestTimeout && !result.IsRateLimited)
+        {
+            return null;
+        }
+
         var delay = TimeSpan.FromSeconds(attempt);
         if (result.RetryAfter is { } serverDelay)
         {
             return serverDelay > delay ? serverDelay : delay;
         }
 
-        return result.StatusCode switch {
-            HttpStatusCode.TooManyRequests => TimeSpan.FromMinutes(1),
-            HttpStatusCode.Forbidden => null,
-            _ => delay,
-        };
+        return delay;
     }
 
     public static void OutputDownloadProgress(long value = 0, long maximum = 1, int len = 0, double ts = 1, string? toolTip = null)

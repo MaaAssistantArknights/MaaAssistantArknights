@@ -2531,7 +2531,6 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="VersionUpdate.NewVersionDownloadFailed.Description">ZIP 파일을 수동으로 다운로드해 폴더 안에 놓아 주세요</system:String>
     <system:String x:Key="VersionUpdate.NewVersionDownloadFailed.Title">업데이트 패키지 다운로드 실패</system:String>
     <system:String x:Key="VersionUpdate.NewVersionDownloadPreparing">업데이트 패키지 다운로드 준비 중……</system:String>
-    <system:String x:Key="VersionUpdate.NewVersionDownloadRateLimited">다운로드 요청 빈도가 제한되었습니다. {0}초 후에 다시 시도해 주세요.</system:String>
     <system:String x:Key="VersionUpdate.NewVersionDownloadRetrying">업데이트 패키지 다운로드에 실패했습니다. {0}초 후 재시도합니다(다운로드 {1}/{2}회차 실패).</system:String>
     <system:String x:Key="VersionUpdate.NewVersionDownloading.GlobalSource">｢{key=Settings.Update.Source.Global}｣ 에서 다운로드 중...</system:String>
     <system:String x:Key="VersionUpdate.NewVersionDownloading.MirrorChyan">｢{key=Settings.Update.Source.MirrorChyan}｣ 에서 다운로드 중...</system:String>
@@ -2570,6 +2569,7 @@ D:\
     <system:String x:Key="VersionUpdate.PendingFullUpdate.No">나중에 하겠습니다</system:String>
     <system:String x:Key="VersionUpdate.PendingFullUpdate.Title">전체 패키지 업데이트는 수동 확인이 필요합니다</system:String>
     <system:String x:Key="VersionUpdate.PendingFullUpdate.Yes">백업했으니 업데이트를 하겠습니다</system:String>
+    <system:String x:Key="VersionUpdate.RateLimited">업데이트 요청이 속도 제한되었습니다. 잠시 후 다시 시도해 주세요.</system:String>
     <system:String x:Key="VersionUpdate.ResourceBroken">리소스 파일이 손상되었습니다. 자동 복구(전체 패키지 다운로드)를 시도하거나, 지금은 계속 진행한 뒤 나중에 로컬 전체 패키지를 끌어다 놓아 업데이트하세요.\n\n{key=VersionUpdate.FullPackageUpgrade.Tip}</system:String>
     <system:String x:Key="VersionUpdate.ResourceVersion">리소스 버전</system:String>
     <system:String x:Key="VersionUpdate.SecurityWhitelist.Tip">MAA가 있는 폴더를 해당 소프트웨어의 허용 목록에 추가한 뒤 다시 시도해 주세요.</system:String>

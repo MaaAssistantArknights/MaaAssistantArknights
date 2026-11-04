@@ -267,14 +267,9 @@ public class HttpService : IHttpService
         return name.Length > 0 && name.All(c => c is > ' ' and < '\u007f' && !"()<>@,;:\\\"/[]?={}".Contains(c));
     }
 
-    public async Task<bool> DownloadFileAsync(Uri uri, string fileName, string? contentType = "application/octet-stream", Dictionary<string, string>? extraHeader = null, Func<HttpStatusCode, Task>? onError = null, CancellationToken token = default)
+    public async Task<bool> DownloadFileAsync(Uri uri, string fileName, string? contentType = "application/octet-stream", CancellationToken token = default)
     {
-        var result = await DownloadFileWithResultAsync(uri, fileName, contentType, extraHeader, token).ConfigureAwait(false);
-        if (!result.Success && result.StatusCode is { } status && status != HttpStatusCode.OK && onError is not null)
-        {
-            await onError(status).ConfigureAwait(false);
-        }
-
+        var result = await DownloadFileWithResultAsync(uri, fileName, contentType, token: token).ConfigureAwait(false);
         return result.Success;
     }
 
@@ -298,7 +293,8 @@ public class HttpService : IHttpService
             statusCode = response.StatusCode;
             if (response.StatusCode != HttpStatusCode.OK)
             {
-                return new(false, statusCode, GetRetryDelay(response));
+                var (retryAfter, isRateLimited) = await GetRetryInfoAsync(response, token).ConfigureAwait(false);
+                return new(false, statusCode, retryAfter, isRateLimited);
             }
 
             using var idleTimeout = CancellationTokenSource.CreateLinkedTokenSource(token);
@@ -381,11 +377,18 @@ public class HttpService : IHttpService
         }
     }
 
-    private static TimeSpan? GetRetryDelay(HttpResponseMessage response)
+    internal static async Task<(TimeSpan? RetryAfter, bool IsRateLimited)> GetRetryInfoAsync(HttpResponseMessage response, CancellationToken cancellationToken = default)
     {
+        if (response.IsSuccessStatusCode)
+        {
+            return (null, false);
+        }
+
         var now = DateTimeOffset.UtcNow;
         var delay = response.Headers.RetryAfter?.Delta ?? (response.Headers.RetryAfter?.Date - now);
-        if (response.Headers.TryGetValues("X-RateLimit-Remaining", out var remaining) && remaining.Contains("0") &&
+        bool exhausted = response.Headers.TryGetValues("X-RateLimit-Remaining", out var remaining) &&
+            remaining.Any(value => long.TryParse(value, NumberStyles.Integer, CultureInfo.InvariantCulture, out long count) && count == 0);
+        if (exhausted &&
             response.Headers.TryGetValues("X-RateLimit-Reset", out var resetValues) &&
             long.TryParse(resetValues.FirstOrDefault(), NumberStyles.Integer, CultureInfo.InvariantCulture, out var seconds) &&
             seconds >= DateTimeOffset.MinValue.ToUnixTimeSeconds() && seconds <= DateTimeOffset.MaxValue.ToUnixTimeSeconds())
@@ -397,7 +400,29 @@ public class HttpService : IHttpService
             }
         }
 
-        return delay is { } value && value < TimeSpan.Zero ? TimeSpan.Zero : delay;
+        bool rateLimited = response.StatusCode == HttpStatusCode.TooManyRequests ||
+            (response.StatusCode == HttpStatusCode.Forbidden && (exhausted || delay.HasValue));
+        if (response.StatusCode == HttpStatusCode.Forbidden && !rateLimited)
+        {
+            // GitHub secondary limits can be reported only in a 403 response body.
+            using var timeout = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+            timeout.CancelAfter(_downloadIdleTimeout);
+            try
+            {
+                var body = await response.Content.ReadAsStringAsync(timeout.Token).ConfigureAwait(false);
+                rateLimited = body.Contains("rate limit", StringComparison.OrdinalIgnoreCase);
+            }
+            catch (OperationCanceledException) when (!cancellationToken.IsCancellationRequested)
+            {
+                // Failure to read an error body must not discard the known HTTP status.
+            }
+            catch (HttpRequestException)
+            {
+            }
+        }
+
+        delay ??= rateLimited ? TimeSpan.FromMinutes(1) : null;
+        return (delay is { } value && value < TimeSpan.Zero ? TimeSpan.Zero : delay, rateLimited);
     }
 
     private static bool TryGetProxy(out WebProxy? proxy)

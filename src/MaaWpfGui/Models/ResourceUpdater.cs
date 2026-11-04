@@ -18,8 +18,6 @@ using System.Globalization;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using MaaWpfGui.Constants;
@@ -41,29 +39,17 @@ public static class ResourceUpdater
 {
     private static readonly ILogger _logger = Log.ForContext(typeof(ResourceUpdater));
 
-    public static async Task<(CheckUpdateRetT Ret, string? UpdateUrl, string? ReleaseNote)> CheckFromGitHubAsync(string token, CancellationToken cancellationToken = default)
+    public static async Task<(CheckUpdateRetT Ret, string? UpdateUrl, string? ReleaseNote)> CheckFromGitHubAsync(UpdateCredentialRequest request)
     {
         try
         {
-            var headers = GitHubUpdateHelper.CreateHeaders(token);
-            headers["Accept"] = "application/vnd.github.raw+json";
-            using var response = await Instances.HttpService.GetAsync(
-                new Uri("https://api.github.com/repos/MaaAssistantArknights/MaaResource/contents/resource/version.json?ref=main"), headers,
-                HttpCompletionOption.ResponseContentRead, token: cancellationToken);
-            cancellationToken.ThrowIfCancellationRequested();
-            if (response.StatusCode == HttpStatusCode.Unauthorized)
+            var (version, ret) = await GitHubUpdateHelper.RequestAsync(
+                $"{MaaUrls.GitHubApi}/repos/MaaAssistantArknights/MaaResource/contents/resource/version.json?ref=main", request, rawContent: true);
+            if (ret != CheckUpdateRetT.OK || version is null)
             {
-                await SettingsViewModel.VersionUpdateSettings.InvalidateGitHubTokenAsync(token, cancellationToken);
-                cancellationToken.ThrowIfCancellationRequested();
-                return (CheckUpdateRetT.CredentialError, null, null);
+                return (ret, null, null);
             }
 
-            if (!response.IsSuccessStatusCode)
-            {
-                return (CheckUpdateRetT.NetworkError, null, null);
-            }
-
-            var version = JObject.Parse(await response.Content.ReadAsStringAsync(cancellationToken));
             if (!DateTimeOffset.TryParseExact(
                     version["last_updated"]?.ToString(),
                     "yyyy-MM-dd HH:mm:ss.fff",
@@ -86,7 +72,7 @@ public static class ResourceUpdater
                 "Settings.Update.MirrorChyan.ResourceUpdate.Brief.Tip", releaseNote);
             return (CheckUpdateRetT.OK, MaaUrls.GithubResourceUpdate, releaseNote);
         }
-        catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
+        catch (OperationCanceledException) when (request.CancellationToken.IsCancellationRequested)
         {
             return (CheckUpdateRetT.NoNeedToUpdate, null, null);
         }
@@ -304,21 +290,15 @@ public static class ResourceUpdater
             var source = settings.UpdateSource;
             var credential = settings.CurrentUpdateCredential;
             int revision = credential.Revision;
-            var request = await settings.GetValidatedGitHubRequestAsync();
+            var request = await credential.BeginCheckAsync();
             if (source != settings.UpdateSource || revision != credential.Revision)
             {
                 return CheckUpdateRetT.NoNeedToUpdate;
             }
 
-            if (source == UpdateSource.GitHub && credential.HasError)
-            {
-                return CheckUpdateRetT.CredentialError;
-            }
-
-            request ??= source == UpdateSource.MirrorChyan ? await credential.BeginCheckAsync() : null;
             var cancellationToken = request?.CancellationToken ?? default;
             var (ret, uri, releaseNote) = source == UpdateSource.GitHub && request is { } check
-                ? await CheckFromGitHubAsync(check.Value, cancellationToken)
+                ? await CheckFromGitHubAsync(check)
                 : await CheckFromMirrorChyanAsync(request);
             if (source != settings.UpdateSource || revision != credential.Revision)
             {
@@ -346,8 +326,8 @@ public static class ResourceUpdater
                 return ret;
             }
 
-            // Without a GitHub token, the GitHub source only uses MirrorChyan as a check fallback;
-            // its download request belongs to the selected source and must not be started anonymously.
+            // GitHub source without a token only uses MirrorChyan to detect the update.
+            // Its download URL is not selected by the user and must not be used anonymously.
             if (source == UpdateSource.GitHub && request is null)
             {
                 return ret;

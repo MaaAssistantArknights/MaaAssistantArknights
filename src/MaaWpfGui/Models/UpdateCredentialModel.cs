@@ -234,13 +234,25 @@ public sealed class UpdateCredentialModel : PropertyChangedBase
             var status = result.Status;
             if (status == UpdateCredentialStatus.Valid)
             {
-                ExpiresAt = result.ExpiresAt;
+                // 成功响应未返回到期时间时保留上一次已知值。
+                // MirrorChyan 仅在响应包含 cdk_expired_time 时更新 CDK 到期时间。
+                if (result.ExpiresAt is { } expiresAt)
+                {
+                    ExpiresAt = expiresAt;
+                }
+
                 if (ExpiresAt <= DateTimeOffset.UtcNow)
                 {
                     status = UpdateCredentialStatus.Expired;
                 }
 
                 _saveExpiration(ExpiresAt, status);
+            }
+            else if (status == UpdateCredentialStatus.Invalid)
+            {
+                // 凭据无效后不得继续保留上一次成功验证的到期时间。
+                ExpiresAt = null;
+                _saveExpiration(null, status);
             }
             else if (status == UpdateCredentialStatus.Expired)
             {
@@ -267,21 +279,6 @@ public sealed class UpdateCredentialModel : PropertyChangedBase
             applied = true;
         }).ConfigureAwait(false);
         return applied;
-    }
-
-    public async Task InvalidateAsync(string value, CancellationToken cancellationToken = default)
-    {
-        await Execute.OnUIThreadAsync(() => {
-            if (cancellationToken.IsCancellationRequested || !_isSelected() || string.IsNullOrEmpty(value) || value != Value)
-            {
-                return;
-            }
-
-            CancelRequests();
-            Status = UpdateCredentialStatus.Invalid;
-            ErrorKey = null;
-            NotifyError();
-        }).ConfigureAwait(false);
     }
 
     [UsedImplicitly]

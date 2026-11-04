@@ -96,18 +96,15 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
                 expiresAt?.ToUnixTimeSeconds() ?? (status == UpdateCredentialStatus.Expired ? 1 : 0),
             revision => QueueCredentialUpdate(UpdateSource.MirrorChyan, revision));
 
-        GitHubCredential.PropertyChanged += (_, args) => {
-            if (args.PropertyName == nameof(UpdateCredentialModel.Value) && UpdateSource == UpdateSource.GitHub)
-            {
-                CancelPendingCredentialUpdate();
-            }
-        };
-        MirrorChyanCredential.PropertyChanged += (_, args) => {
-            if (args.PropertyName == nameof(UpdateCredentialModel.Value) && UpdateSource == UpdateSource.MirrorChyan)
-            {
-                CancelPendingCredentialUpdate();
-            }
-        };
+        foreach (var credential in new[] { GitHubCredential, MirrorChyanCredential })
+        {
+            credential.PropertyChanged += (_, args) => {
+                if (args.PropertyName == nameof(UpdateCredentialModel.Value) && credential == CurrentUpdateCredential)
+                {
+                    CancelPendingCredentialUpdate();
+                }
+            };
+        }
 
         PropertyDependsOnUtility.InitializePropertyDependencies(this);
     }
@@ -328,13 +325,10 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
             }
 
             ConfigFactory.Root.Update.UpdateSource = value;
-            CancelPendingCredentialUpdate();
-            GitHubCredential.CancelCheck();
-            MirrorChyanCredential.CancelCheck();
+            CancelCredentialChecks();
         }
     } = ConfigFactory.Root.Update.UpdateSource;
 
-    private readonly SemaphoreSlim _gitHubTokenValidationLock = new(1, 1);
     private (UpdateSource Source, int Revision)? _pendingCredentialUpdate;
     private bool _credentialUpdateRunning;
 
@@ -343,9 +337,7 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
     public UpdateCredentialModel MirrorChyanCredential { get; }
 
     [PropertyDependsOn(nameof(UpdateSource))]
-    public UpdateCredentialModel CurrentUpdateCredential => UpdateSource == UpdateSource.GitHub ? GitHubCredential : MirrorChyanCredential;
-
-    public string GitHubToken => GitHubCredential.Value;
+    public UpdateCredentialModel CurrentUpdateCredential => GetCredential(UpdateSource);
 
     public string MirrorChyanCdk => MirrorChyanCredential.Value;
 
@@ -355,6 +347,9 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
         MirrorChyanCredential.RefreshDisplay();
     }
 
+    private UpdateCredentialModel GetCredential(UpdateSource source) =>
+        source == UpdateSource.GitHub ? GitHubCredential : MirrorChyanCredential;
+
     private void CancelPendingCredentialUpdate()
     {
         _pendingCredentialUpdate = null;
@@ -362,7 +357,7 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
 
     private void QueueCredentialUpdate(UpdateSource source, int revision)
     {
-        var credential = source == UpdateSource.GitHub ? GitHubCredential : MirrorChyanCredential;
+        var credential = GetCredential(source);
         if (source != UpdateSource || revision != credential.Revision || string.IsNullOrEmpty(credential.Value))
         {
             return;
@@ -380,7 +375,7 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
         }
 
         CancelPendingCredentialUpdate();
-        var credential = pending.Source == UpdateSource.GitHub ? GitHubCredential : MirrorChyanCredential;
+        var credential = GetCredential(pending.Source);
         if (pending.Source != UpdateSource || pending.Revision != credential.Revision || string.IsNullOrEmpty(credential.Value))
         {
             return;
@@ -392,7 +387,7 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
 
     private async Task CheckUpdatesAfterCredentialChangedAsync(UpdateSource source, int revision)
     {
-        var credential = source == UpdateSource.GitHub ? GitHubCredential : MirrorChyanCredential;
+        var credential = GetCredential(source);
         try
         {
             await Instances.VersionUpdateDialogViewModel.VersionUpdateAndAskToRestartAsync();
@@ -417,40 +412,6 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
             });
         }
     }
-
-    public async Task<UpdateCredentialRequest?> GetValidatedGitHubRequestAsync()
-    {
-        await _gitHubTokenValidationLock.WaitAsync().ConfigureAwait(false);
-        try
-        {
-            var request = await GitHubCredential.BeginCheckAsync().ConfigureAwait(false);
-            if (request is not { } check)
-            {
-                return null;
-            }
-
-            var result = await GitHubUpdateHelper.ValidateTokenAsync(check.Value, check.CancellationToken).ConfigureAwait(false);
-            var status = result.Result switch {
-                GitHubUpdateHelper.GitHubTokenValidationResult.Valid => UpdateCredentialStatus.Valid,
-                GitHubUpdateHelper.GitHubTokenValidationResult.Invalid => UpdateCredentialStatus.Invalid,
-                _ => UpdateCredentialStatus.Failed,
-            };
-            bool applied = await GitHubCredential.ApplyAsync(check, new(status, result.ExpiresAt)).ConfigureAwait(false);
-            return applied && GitHubCredential.IsCurrent(check) && GitHubCredential.Status == UpdateCredentialStatus.Valid && !GitHubCredential.IsExpired
-                ? check
-                : null;
-        }
-        catch (OperationCanceledException)
-        {
-            return null;
-        }
-        finally
-        {
-            _gitHubTokenValidationLock.Release();
-        }
-    }
-
-    public Task InvalidateGitHubTokenAsync(string token, CancellationToken cancellationToken = default) => GitHubCredential.InvalidateAsync(token, cancellationToken);
 
     /// <summary>
     /// Gets or sets a value indicating whether to check update.
@@ -487,7 +448,7 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
 
             ConfigFactory.Root.Update.Proxy = value;
             SetAndNotify(ref field, value);
-            CancelCredentialChecksAfterProxyChanged();
+            CancelCredentialChecks();
         }
     } = ConfigFactory.Root.Update.Proxy;
 
@@ -507,11 +468,11 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
 
             ConfigFactory.Root.Update.ProxyType = value;
             SetAndNotify(ref field, value);
-            CancelCredentialChecksAfterProxyChanged();
+            CancelCredentialChecks();
         }
     } = ConfigFactory.Root.Update.ProxyType;
 
-    private void CancelCredentialChecksAfterProxyChanged()
+    private void CancelCredentialChecks()
     {
         CancelPendingCredentialUpdate();
         GitHubCredential.CancelCheck();
@@ -662,17 +623,15 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
             var credential = CurrentUpdateCredential;
             int revision = credential.Revision;
             var updateSource = UpdateSource;
-            var request = await GetValidatedGitHubRequestAsync();
-            if (updateSource != UpdateSource || revision != credential.Revision ||
-                (updateSource == UpdateSource.GitHub && credential.HasError))
+            var request = await credential.BeginCheckAsync();
+            if (updateSource != UpdateSource || revision != credential.Revision)
             {
                 return;
             }
 
-            request ??= updateSource == UpdateSource.MirrorChyan ? await credential.BeginCheckAsync() : null;
             var cancellationToken = request?.CancellationToken ?? default;
             var (ret, uri, releaseNote) = updateSource == UpdateSource.GitHub && request is { } check
-                ? await ResourceUpdater.CheckFromGitHubAsync(check.Value, cancellationToken)
+                ? await ResourceUpdater.CheckFromGitHubAsync(check)
                 : await ResourceUpdater.CheckFromMirrorChyanAsync(request);
             if (updateSource != UpdateSource || revision != credential.Revision)
             {
@@ -691,9 +650,8 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
                 ToastNotification.ShowDirect(toastMessage);
             }
 
-            if (ret is VersionUpdateDialogViewModel.CheckUpdateRetT.AlreadyLatest or
-                VersionUpdateDialogViewModel.CheckUpdateRetT.CredentialError or VersionUpdateDialogViewModel.CheckUpdateRetT.NoNeedToUpdate ||
-                (request != null && ret != VersionUpdateDialogViewModel.CheckUpdateRetT.OK))
+            if (ret is not (VersionUpdateDialogViewModel.CheckUpdateRetT.OK or
+                VersionUpdateDialogViewModel.CheckUpdateRetT.NoMirrorChyanCdk))
             {
                 return;
             }
@@ -725,7 +683,7 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
 
     // UI 绑定的方法
     [UsedImplicitly]
-    public static void ShowChangelog()
+    public void ShowChangelog()
     {
         AchievementTrackerHelper.Instance.Unlock(AchievementIds.ChangelogReader);
         _ = Instances.VersionUpdateDialogViewModel.DownloadMissingContributorAvatarsAsync();

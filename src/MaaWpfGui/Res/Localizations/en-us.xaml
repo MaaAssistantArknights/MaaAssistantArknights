@@ -2531,7 +2531,6 @@ Only level rewards can be farmed; to get the Engraved Medal, all ｢Key Objectiv
     <system:String x:Key="VersionUpdate.NewVersionDownloadFailed.Description">Please download the zip file manually and place it in the directory</system:String>
     <system:String x:Key="VersionUpdate.NewVersionDownloadFailed.Title">Download of Update Package Failed</system:String>
     <system:String x:Key="VersionUpdate.NewVersionDownloadPreparing">Preparing to download update package……</system:String>
-    <system:String x:Key="VersionUpdate.NewVersionDownloadRateLimited">Downloads are rate limited. Please try again in {0} seconds.</system:String>
     <system:String x:Key="VersionUpdate.NewVersionDownloadRetrying">Update package download failed. Retrying in {0} seconds (download attempt {1}/{2} failed).</system:String>
     <system:String x:Key="VersionUpdate.NewVersionDownloading.GlobalSource">\nDownloading from ｢{key=Settings.Update.Source.Global}｣...</system:String>
     <system:String x:Key="VersionUpdate.NewVersionDownloading.MirrorChyan">\nDownloading from ｢{key=Settings.Update.Source.MirrorChyan}｣...</system:String>
@@ -2570,6 +2569,7 @@ Continue only after you have verified the directory layout and finished a manual
     <system:String x:Key="VersionUpdate.PendingFullUpdate.No">Not now, start current version</system:String>
     <system:String x:Key="VersionUpdate.PendingFullUpdate.Title">Manual confirmation required for full-package update</system:String>
     <system:String x:Key="VersionUpdate.PendingFullUpdate.Yes">I backed it up, continue update</system:String>
+    <system:String x:Key="VersionUpdate.RateLimited">Update requests are rate limited. Please try again later.</system:String>
     <system:String x:Key="VersionUpdate.ResourceBroken">The resources are damaged. Try auto repair (download the full package again), or continue for now and update later by dragging in a local full package.\n\n{key=VersionUpdate.FullPackageUpgrade.Tip}</system:String>
     <system:String x:Key="VersionUpdate.ResourceVersion">Resource Version</system:String>
     <system:String x:Key="VersionUpdate.SecurityWhitelist.Tip">add the MAA installation folder to that software's allowlist before trying again.</system:String>

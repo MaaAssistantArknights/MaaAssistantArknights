@@ -2532,7 +2532,6 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="VersionUpdate.NewVersionDownloadFailed.Description">ZIPファイルを手動でダウンロードし、ディレクトリに配置してください</system:String>
     <system:String x:Key="VersionUpdate.NewVersionDownloadFailed.Title">アップデートパッケージのダウンロードに失敗しました</system:String>
     <system:String x:Key="VersionUpdate.NewVersionDownloadPreparing">アップデートパッケージのダウンロードを準備中です……</system:String>
-    <system:String x:Key="VersionUpdate.NewVersionDownloadRateLimited">ダウンロードがレート制限されています。{0} 秒後に再試行してください。</system:String>
     <system:String x:Key="VersionUpdate.NewVersionDownloadRetrying">アップデートパッケージのダウンロードに失敗しました。{0} 秒後に再試行します（{1}/{2} 回目のダウンロードに失敗）。</system:String>
     <system:String x:Key="VersionUpdate.NewVersionDownloading.GlobalSource">｢{key=Settings.Update.Source.Global}｣ からダウンロード中...</system:String>
     <system:String x:Key="VersionUpdate.NewVersionDownloading.MirrorChyan">｢{key=Settings.Update.Source.MirrorChyan}｣ からダウンロード中...</system:String>
@@ -2571,6 +2570,7 @@ D:\
     <system:String x:Key="VersionUpdate.PendingFullUpdate.No">今は更新せず、このバージョンを起動します</system:String>
     <system:String x:Key="VersionUpdate.PendingFullUpdate.Title">フルパッケージ更新には手動確認が必要です</system:String>
     <system:String x:Key="VersionUpdate.PendingFullUpdate.Yes">バックアップ済みです。更新を続行します</system:String>
+    <system:String x:Key="VersionUpdate.RateLimited">更新リクエストがレート制限されています。しばらくしてから再試行してください。</system:String>
     <system:String x:Key="VersionUpdate.ResourceBroken">リソースファイルが破損しています。自動修復（完全なパッケージの再ダウンロード）を試すか、今はそのまま続けて、後でローカルの完全パッケージをドラッグして更新してください。\n\n{key=VersionUpdate.FullPackageUpgrade.Tip}</system:String>
     <system:String x:Key="VersionUpdate.ResourceVersion">リソースバーション</system:String>
     <system:String x:Key="VersionUpdate.SecurityWhitelist.Tip">MAA のフォルダーを当該ソフトの許可リストに追加してから、もう一度お試しください。</system:String>
