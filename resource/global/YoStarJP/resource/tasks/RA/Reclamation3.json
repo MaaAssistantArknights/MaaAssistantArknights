@@ -39,11 +39,11 @@
         "roi": [180, 235, 75, 35]
     },
     "RelaunchAnchor@RA@RA1-Infrastructure": {
-        "text": ["インフラ設備"],
+        "text": ["インフラ", "設備"],
         "roi": [95, 170, 120, 30]
     },
     "RelaunchAnchor@RA@RA1-CommunicationStation": {
-        "text": ["通信基地局"],
+        "text": ["通信", "基地局"],
         "roi": [370, 159, 136, 34]
     },
     "RelaunchAnchor@RA@RA1-StartBuildingStation": {
