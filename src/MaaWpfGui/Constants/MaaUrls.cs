@@ -25,6 +25,10 @@ public static class MaaUrls
 
     public const string GitHub = "https://github.com/MaaAssistantArknights/MaaAssistantArknights";
 
+    public const string GitHubApi = "https://api.github.com";
+
+    public const string GitHubTokenSettings = "https://github.com/settings/tokens/new?description=MAA%20Update";
+
     public const string ResourceRepository = "https://github.com/MaaAssistantArknights/MaaResource";
 
     public const string GitHubIssues = "https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues";

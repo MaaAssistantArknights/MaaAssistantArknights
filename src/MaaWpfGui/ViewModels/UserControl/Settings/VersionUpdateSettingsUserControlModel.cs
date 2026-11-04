@@ -19,6 +19,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using JetBrains.Annotations;
@@ -30,12 +31,15 @@ using MaaWpfGui.Helper;
 using MaaWpfGui.Models;
 using MaaWpfGui.Properties;
 using MaaWpfGui.Services;
+using MaaWpfGui.Utilities;
 using MaaWpfGui.Utilities.ValueType;
 using MaaWpfGui.ViewModels.Dialogs;
 using MaaWpfGui.ViewModels.UI;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Serilog;
 using Stylet;
+using static MaaWpfGui.Models.UpdateCredentialModel;
 
 namespace MaaWpfGui.ViewModels.UserControl.Settings;
 
@@ -44,10 +48,68 @@ namespace MaaWpfGui.ViewModels.UserControl.Settings;
 /// </summary>
 public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
 {
+    private static readonly ILogger _logger = Log.ForContext<VersionUpdateSettingsUserControlModel>();
+
     static VersionUpdateSettingsUserControlModel()
     {
         Instance = new();
         LocalizationHelper.LanguageChanged += Instance.RefreshLocalization;
+    }
+
+    public VersionUpdateSettingsUserControlModel()
+    {
+        GitHubCredential = new(
+            SimpleEncryptionHelper.Decrypt(ConfigFactory.Root.Update.GitHubToken),
+            ConfigFactory.Root.Update.GitHubTokenExpiresAt,
+            UpdateCredentialStatus.None,
+            new("Settings.Update.GitHub.Token.Checking", "Settings.Update.GitHub.Token.Invalid",
+                "Settings.Update.GitHub.Token.Expired", "Settings.Update.GitHub.Token.Failed",
+                "Settings.Update.GitHub.Token.RemainingDays", "Settings.Update.GitHub.Token.NeverExpires"),
+            () => UpdateSource == UpdateSource.GitHub,
+            value => value.Length == (value.StartsWith("github_pat_", StringComparison.Ordinal) ? 93 : 40),
+            value => {
+                if (SimpleEncryptionHelper.TryEncrypt(value, out var encryptedValue))
+                {
+                    ConfigFactory.Root.Update.GitHubToken = encryptedValue;
+                }
+            },
+            (expiresAt, _) => ConfigFactory.Root.Update.GitHubTokenExpiresAt = expiresAt,
+            revision => QueueCredentialUpdate(UpdateSource.GitHub, revision));
+
+        long mirrorExpiration = ConfigFactory.Root.Update.MirrorChyanCdkExpiredTime;
+        MirrorChyanCredential = new(
+            SimpleEncryptionHelper.Decrypt(ConfigFactory.Root.Update.MirrorChyanCdk),
+            MirrorChyanUpdateHelper.ParseExpiration(mirrorExpiration.ToString()),
+            mirrorExpiration == 1 ? UpdateCredentialStatus.Expired : UpdateCredentialStatus.None,
+            new("Settings.Update.MirrorChyan.Checking", "VersionUpdate.MirrorChyan.CdkInvalid",
+                "VersionUpdate.MirrorChyan.CdkExpired", "Settings.Update.MirrorChyan.ValidationFailed",
+                "Settings.Update.MirrorChyan.CdkRemainingDays", UnknownExpiration: "Settings.Update.MirrorChyan.ExpirationUnknown"),
+            () => UpdateSource == UpdateSource.MirrorChyan,
+            value => value.Length == 24,
+            value => {
+                if (SimpleEncryptionHelper.TryEncrypt(value, out var encryptedValue))
+                {
+                    ConfigFactory.Root.Update.MirrorChyanCdk = encryptedValue;
+                }
+            },
+            (expiresAt, status) => ConfigFactory.Root.Update.MirrorChyanCdkExpiredTime =
+                expiresAt?.ToUnixTimeSeconds() ?? (status == UpdateCredentialStatus.Expired ? 1 : 0),
+            revision => QueueCredentialUpdate(UpdateSource.MirrorChyan, revision));
+
+        GitHubCredential.PropertyChanged += (_, args) => {
+            if (args.PropertyName == nameof(UpdateCredentialModel.Value) && UpdateSource == UpdateSource.GitHub)
+            {
+                CancelPendingCredentialUpdate();
+            }
+        };
+        MirrorChyanCredential.PropertyChanged += (_, args) => {
+            if (args.PropertyName == nameof(UpdateCredentialModel.Value) && UpdateSource == UpdateSource.MirrorChyan)
+            {
+                CancelPendingCredentialUpdate();
+            }
+        };
+
+        PropertyDependsOnUtility.InitializePropertyDependencies(this);
     }
 
     public static VersionUpdateSettingsUserControlModel Instance { get; }
@@ -110,7 +172,7 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
 
     public string NewResourceFoundInfo
     {
-        get => field;
+        get;
         set {
             SetAndNotify(ref field, value);
             Instances.SettingsViewModel.UpdateWindowTitle();
@@ -119,7 +181,7 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
 
     public string NewVersionFoundInfo
     {
-        get => field;
+        get;
         set {
             SetAndNotify(ref field, value);
             Instances.SettingsViewModel.UpdateWindowTitle();
@@ -260,122 +322,135 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
     public UpdateSource UpdateSource
     {
         get; set {
-            SetAndNotify(ref field, value);
+            if (!SetAndNotify(ref field, value))
+            {
+                return;
+            }
+
             ConfigFactory.Root.Update.UpdateSource = value;
+            CancelPendingCredentialUpdate();
+            GitHubCredential.CancelCheck();
+            MirrorChyanCredential.CancelCheck();
         }
     } = ConfigFactory.Root.Update.UpdateSource;
 
-    public bool ForceGithubGlobalSource
+    private readonly SemaphoreSlim _gitHubTokenValidationLock = new(1, 1);
+    private (UpdateSource Source, int Revision)? _pendingCredentialUpdate;
+    private bool _credentialUpdateRunning;
+
+    public UpdateCredentialModel GitHubCredential { get; }
+
+    public UpdateCredentialModel MirrorChyanCredential { get; }
+
+    [PropertyDependsOn(nameof(UpdateSource))]
+    public UpdateCredentialModel CurrentUpdateCredential => UpdateSource == UpdateSource.GitHub ? GitHubCredential : MirrorChyanCredential;
+
+    public string GitHubToken => GitHubCredential.Value;
+
+    public string MirrorChyanCdk => MirrorChyanCredential.Value;
+
+    public void RefreshUpdateCredentials()
     {
-        get; set {
-            SetAndNotify(ref field, value);
-            ConfigFactory.Root.Update.ForceGithubGlobalSource = value;
+        GitHubCredential.RefreshDisplay();
+        MirrorChyanCredential.RefreshDisplay();
+    }
+
+    private void CancelPendingCredentialUpdate()
+    {
+        _pendingCredentialUpdate = null;
+    }
+
+    private void QueueCredentialUpdate(UpdateSource source, int revision)
+    {
+        var credential = source == UpdateSource.GitHub ? GitHubCredential : MirrorChyanCredential;
+        if (source != UpdateSource || revision != credential.Revision || string.IsNullOrEmpty(credential.Value))
+        {
+            return;
         }
-    } = ConfigFactory.Root.Update.ForceGithubGlobalSource;
 
-    public string MirrorChyanCdk
+        _pendingCredentialUpdate = (source, revision);
+        TryStartPendingCredentialUpdate();
+    }
+
+    private void TryStartPendingCredentialUpdate()
     {
-        get; set {
-            if (string.IsNullOrEmpty(value))
-            {
-                MirrorChyanCdkExpiredTime = 0;
-            }
-
-            if (!SetAndNotify(ref field, value))
-            {
-                return;
-            }
-
-            if (value.Length == 24)
-            {
-                Task.Run(async () => {
-                    await Instances.VersionUpdateDialogViewModel.VersionUpdateAndAskToRestartAsync();
-                    await ResourceUpdater.ResourceUpdateAndReloadAsync();
-                });
-            }
-
-            ConfigFactory.Root.Update.MirrorChyanCdk = SimpleEncryptionHelper.Encrypt(value);
+        if (IsCheckingForUpdates || _credentialUpdateRunning || _pendingCredentialUpdate is not { } pending)
+        {
+            return;
         }
-    } = SimpleEncryptionHelper.Decrypt(ConfigFactory.Root.Update.MirrorChyanCdk);
 
-    // 0 表示未设置，1 表示未设置且已过期
-    public long MirrorChyanCdkExpiredTime
-    {
-        get; set {
-            if (!SetAndNotify(ref field, value))
-            {
-                return;
-            }
-
-            ConfigFactory.Root.Update.MirrorChyanCdkExpiredTime = value;
-            RefreshMirrorChyanCdkRemaining();
+        CancelPendingCredentialUpdate();
+        var credential = pending.Source == UpdateSource.GitHub ? GitHubCredential : MirrorChyanCredential;
+        if (pending.Source != UpdateSource || pending.Revision != credential.Revision || string.IsNullOrEmpty(credential.Value))
+        {
+            return;
         }
-    } = ConfigFactory.Root.Update.MirrorChyanCdkExpiredTime;
 
-    public bool MirrorChyanCdkFetchFailed { get; set => SetAndNotify(ref field, value); }
+        _credentialUpdateRunning = true;
+        _ = CheckUpdatesAfterCredentialChangedAsync(pending.Source, pending.Revision);
+    }
 
-    public DateTimeOffset MirrorChyanCdkExpiredDateTime => DateTimeOffset.FromUnixTimeSeconds(MirrorChyanCdkExpiredTime);
-
-    public DateTime MirrorChyanCdkExpiredLocalTime => MirrorChyanCdkExpiredDateTime.LocalDateTime;
-
-    /// <summary>
-    /// Gets 剩余时间
-    /// </summary>
-    public TimeSpan MirrorChyanCdkRemaining => MirrorChyanCdkExpiredDateTime - DateTimeOffset.Now;
-
-    /// <summary>
-    /// Gets a value indicating whether 是否已过期
-    /// </summary>
-    public bool IsMirrorChyanCdkExpired => MirrorChyanCdkRemaining.TotalSeconds <= 0;
-
-    /// <summary>
-    /// Gets 显示用的剩余时间提示
-    /// </summary>
-    public string MirrorChyanCdkRemainingText =>
-        MirrorChyanCdkExpiredTime != 0
-        ? IsMirrorChyanCdkExpired
-            ? LocalizationHelper.GetString("VersionUpdate.MirrorChyan.CdkExpired")
-            : LocalizationHelper.GetStringFormat("Settings.Update.MirrorChyan.CdkRemainingDays",
-                            MirrorChyanCdkRemaining.TotalDays.ToString("F1"))
-        : string.Empty;
-
-    /// <summary>
-    /// Gets uI 显示用颜色
-    /// </summary>
-    public string MirrorChyanCdkRemainingBrush
+    private async Task CheckUpdatesAfterCredentialChangedAsync(UpdateSource source, int revision)
     {
-        get {
-            if (IsMirrorChyanCdkExpired)
+        var credential = source == UpdateSource.GitHub ? GitHubCredential : MirrorChyanCredential;
+        try
+        {
+            await Instances.VersionUpdateDialogViewModel.VersionUpdateAndAskToRestartAsync();
+            if (source == UpdateSource && revision == credential.Revision)
             {
-                return UiLogColor.Error;
+                await ResourceUpdater.ResourceUpdateAndReloadAsync();
             }
-
-            if (MirrorChyanCdkRemaining.TotalDays <= 7)
-            {
-                return UiLogColor.Warning;
-            }
-
-            return UiLogColor.Success;
+        }
+        catch (OperationCanceledException)
+        {
+            // 输入或更新源已改变，忽略旧请求。
+        }
+        catch (Exception ex)
+        {
+            _logger.Error(ex, "Failed to check updates after credential change");
+        }
+        finally
+        {
+            await Execute.OnUIThreadAsync(() => {
+                _credentialUpdateRunning = false;
+                TryStartPendingCredentialUpdate();
+            });
         }
     }
 
-    public void RefreshMirrorChyanCdkRemaining()
+    public async Task<UpdateCredentialRequest?> GetValidatedGitHubRequestAsync()
     {
-        OnPropertyChanged(nameof(MirrorChyanCdkExpiredDateTime));
-        OnPropertyChanged(nameof(MirrorChyanCdkRemaining));
-        OnPropertyChanged(nameof(IsMirrorChyanCdkExpired));
-        OnPropertyChanged(nameof(MirrorChyanCdkRemainingText));
-        OnPropertyChanged(nameof(MirrorChyanCdkRemainingBrush));
-        OnPropertyChanged(nameof(MirrorChyanCdkExpiredLocalTime));
+        await _gitHubTokenValidationLock.WaitAsync().ConfigureAwait(false);
+        try
+        {
+            var request = await GitHubCredential.BeginCheckAsync().ConfigureAwait(false);
+            if (request is not { } check)
+            {
+                return null;
+            }
+
+            var result = await GitHubUpdateHelper.ValidateTokenAsync(check.Value, check.CancellationToken).ConfigureAwait(false);
+            var status = result.Result switch {
+                GitHubUpdateHelper.GitHubTokenValidationResult.Valid => UpdateCredentialStatus.Valid,
+                GitHubUpdateHelper.GitHubTokenValidationResult.Invalid => UpdateCredentialStatus.Invalid,
+                _ => UpdateCredentialStatus.Failed,
+            };
+            bool applied = await GitHubCredential.ApplyAsync(check, new(status, result.ExpiresAt)).ConfigureAwait(false);
+            return applied && GitHubCredential.IsCurrent(check) && GitHubCredential.Status == UpdateCredentialStatus.Valid && !GitHubCredential.IsExpired
+                ? check
+                : null;
+        }
+        catch (OperationCanceledException)
+        {
+            return null;
+        }
+        finally
+        {
+            _gitHubTokenValidationLock.Release();
+        }
     }
 
-    // UI 绑定的方法
-    [UsedImplicitly]
-    public void MirrorChyanCdkCopy()
-    {
-        Clipboard.Clear();
-        Clipboard.SetDataObject(MirrorChyanCdk);
-    }
+    public Task InvalidateGitHubTokenAsync(string token, CancellationToken cancellationToken = default) => GitHubCredential.InvalidateAsync(token, cancellationToken);
 
     /// <summary>
     /// Gets or sets a value indicating whether to check update.
@@ -405,8 +480,14 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
     public string Proxy
     {
         get; set {
-            SetAndNotify(ref field, value);
+            if (field == value)
+            {
+                return;
+            }
+
             ConfigFactory.Root.Update.Proxy = value;
+            SetAndNotify(ref field, value);
+            CancelCredentialChecksAfterProxyChanged();
         }
     } = ConfigFactory.Root.Update.Proxy;
 
@@ -419,15 +500,36 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
     public string ProxyType
     {
         get; set {
-            SetAndNotify(ref field, value);
+            if (field == value)
+            {
+                return;
+            }
+
             ConfigFactory.Root.Update.ProxyType = value;
+            SetAndNotify(ref field, value);
+            CancelCredentialChecksAfterProxyChanged();
         }
     } = ConfigFactory.Root.Update.ProxyType;
+
+    private void CancelCredentialChecksAfterProxyChanged()
+    {
+        CancelPendingCredentialUpdate();
+        GitHubCredential.CancelCheck();
+        MirrorChyanCredential.CancelCheck();
+    }
 
     /// <summary>
     /// Gets or sets a value indicating whether the update is being checked.
     /// </summary>
-    public bool IsCheckingForUpdates { get; set => SetAndNotify(ref field, value); }
+    public bool IsCheckingForUpdates
+    {
+        get; set {
+            if (SetAndNotify(ref field, value) && !value)
+            {
+                Execute.OnUIThread(TryStartPendingCredentialUpdate);
+            }
+        }
+    }
 
     /// <summary>
     /// Gets or sets a value indicating whether to auto download update package.
@@ -524,7 +626,7 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
             _ => string.Empty,
         };
 
-        if (toastMessage != string.Empty)
+        if (toastMessage != string.Empty && !CurrentUpdateCredential.HasError)
         {
             ToastNotification.ShowDirect(toastMessage);
         }
@@ -555,47 +657,75 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
         }
 
         IsCheckingForUpdates = true;
-
-        var (ret, uri, releaseNote) = await ResourceUpdater.CheckFromMirrorChyanAsync();
-        var toastMessage = ret switch {
-            VersionUpdateDialogViewModel.CheckUpdateRetT.AlreadyLatest => LocalizationHelper.GetString("Settings.Update.AlreadyLatest"),
-            VersionUpdateDialogViewModel.CheckUpdateRetT.UnknownError => LocalizationHelper.GetString("VersionUpdate.NewVersionDetectFailed.Title"),
-            VersionUpdateDialogViewModel.CheckUpdateRetT.NetworkError => LocalizationHelper.GetString("VersionUpdate.CheckNetworking"),
-            _ => string.Empty,
-        };
-
-        if (toastMessage != string.Empty)
+        try
         {
-            ToastNotification.ShowDirect(toastMessage);
-        }
+            var credential = CurrentUpdateCredential;
+            int revision = credential.Revision;
+            var updateSource = UpdateSource;
+            var request = await GetValidatedGitHubRequestAsync();
+            if (updateSource != UpdateSource || revision != credential.Revision ||
+                (updateSource == UpdateSource.GitHub && credential.HasError))
+            {
+                return;
+            }
 
-        if (ret == VersionUpdateDialogViewModel.CheckUpdateRetT.AlreadyLatest)
+            request ??= updateSource == UpdateSource.MirrorChyan ? await credential.BeginCheckAsync() : null;
+            var cancellationToken = request?.CancellationToken ?? default;
+            var (ret, uri, releaseNote) = updateSource == UpdateSource.GitHub && request is { } check
+                ? await ResourceUpdater.CheckFromGitHubAsync(check.Value, cancellationToken)
+                : await ResourceUpdater.CheckFromMirrorChyanAsync(request);
+            if (updateSource != UpdateSource || revision != credential.Revision)
+            {
+                return;
+            }
+
+            var toastMessage = ret switch {
+                VersionUpdateDialogViewModel.CheckUpdateRetT.AlreadyLatest => LocalizationHelper.GetString("Settings.Update.AlreadyLatest"),
+                VersionUpdateDialogViewModel.CheckUpdateRetT.UnknownError => LocalizationHelper.GetString("VersionUpdate.NewVersionDetectFailed.Title"),
+                VersionUpdateDialogViewModel.CheckUpdateRetT.NetworkError => LocalizationHelper.GetString("VersionUpdate.CheckNetworking"),
+                _ => string.Empty,
+            };
+
+            if (toastMessage != string.Empty && !credential.HasError)
+            {
+                ToastNotification.ShowDirect(toastMessage);
+            }
+
+            if (ret is VersionUpdateDialogViewModel.CheckUpdateRetT.AlreadyLatest or
+                VersionUpdateDialogViewModel.CheckUpdateRetT.CredentialError or VersionUpdateDialogViewModel.CheckUpdateRetT.NoNeedToUpdate ||
+                (request != null && ret != VersionUpdateDialogViewModel.CheckUpdateRetT.OK))
+            {
+                return;
+            }
+
+            bool success = updateSource switch {
+                UpdateSource.GitHub => await ResourceUpdater.UpdateFromGithubAsync(cancellationToken),
+                UpdateSource.MirrorChyan => (ret == VersionUpdateDialogViewModel.CheckUpdateRetT.OK) && await ResourceUpdater.DownloadFromMirrorChyanAsync(uri, releaseNote, cancellationToken),
+                _ => await ResourceUpdater.UpdateFromGithubAsync(cancellationToken),
+            };
+
+            if (success)
+            {
+                _ = ResourceUpdater.ResourceReloadWhenIdleAsync();
+            }
+            else
+            {
+                AchievementTrackerHelper.Instance.AddProgress(AchievementIds.CdnTorture);
+            }
+        }
+        catch (OperationCanceledException)
+        {
+            VersionUpdateDialogViewModel.OutputDownloadProgress(string.Empty, downloading: false);
+        }
+        finally
         {
             IsCheckingForUpdates = false;
-            return;
         }
-
-        bool success = UpdateSource switch {
-            UpdateSource.GitHub => await ResourceUpdater.UpdateFromGithubAsync(),
-            UpdateSource.MirrorChyan => (ret == VersionUpdateDialogViewModel.CheckUpdateRetT.OK) && await ResourceUpdater.DownloadFromMirrorChyanAsync(uri, releaseNote),
-            _ => await ResourceUpdater.UpdateFromGithubAsync(),
-        };
-
-        if (success)
-        {
-            _ = ResourceUpdater.ResourceReloadWhenIdleAsync();
-        }
-        else
-        {
-            AchievementTrackerHelper.Instance.AddProgress(AchievementIds.CdnTorture);
-        }
-
-        IsCheckingForUpdates = false;
     }
 
     // UI 绑定的方法
     [UsedImplicitly]
-    public void ShowChangelog()
+    public static void ShowChangelog()
     {
         AchievementTrackerHelper.Instance.Unlock(AchievementIds.ChangelogReader);
         _ = Instances.VersionUpdateDialogViewModel.DownloadMissingContributorAvatarsAsync();
@@ -622,7 +752,6 @@ public class VersionUpdateSettingsUserControlModel : PropertyChangedBase
         AllVersionTypeList.RefreshLocalization();
         UpdateSourceList.RefreshLocalization();
 
-        // CDK 剩余天数文本为一次性格式化的本地化串，需通知重算（无 CDK 时 getter 自行返回空串）
-        RefreshMirrorChyanCdkRemaining();
+        RefreshUpdateCredentials();
     }
 }

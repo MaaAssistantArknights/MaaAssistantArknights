@@ -33,27 +33,46 @@ public static class SimpleEncryptionHelper
     /// <returns>返回加密后的Base64编码字符串。如果加密失败，则返回原始plainText。</returns>
     public static string Encrypt(string plainText, string defaultText = "", DataProtectionScope dataProtectionScope = DataProtectionScope.CurrentUser, [CallerMemberName] string caller = "")
     {
+        return TryEncrypt(plainText, out var encryptedText, defaultText, dataProtectionScope, caller)
+            ? encryptedText
+            : plainText;
+    }
+
+    /// <summary>
+    /// 使用数据保护API对明文进行加密，并报告加密是否成功。
+    /// </summary>
+    /// <param name="plainText">需要加密的文本。如果为null或空字符串，则返回空字符串。</param>
+    /// <param name="encryptedText">加密后的Base64编码字符串；加密失败时为空字符串。</param>
+    /// <param name="defaultText">用于比较的默认文本。如果plainText与defaultText相同，则直接返回plainText而不加密。</param>
+    /// <param name="dataProtectionScope">数据保护的范围，默认为CurrentUser（当前用户）。</param>
+    /// <param name="caller">调用方法的名称，由编译器自动填充。</param>
+    /// <returns>加密成功返回 <see langword="true"/>，否则返回 <see langword="false"/>。</returns>
+    public static bool TryEncrypt(string plainText, out string encryptedText, string defaultText = "", DataProtectionScope dataProtectionScope = DataProtectionScope.CurrentUser, [CallerMemberName] string caller = "")
+    {
+        encryptedText = string.Empty;
         if (string.IsNullOrEmpty(plainText))
         {
-            return string.Empty;
+            return true;
         }
 
         if (plainText == defaultText)
         {
-            return plainText;
+            encryptedText = plainText;
+            return true;
         }
 
         try
         {
             var data = Encoding.UTF8.GetBytes(plainText);
             var encryptedData = ProtectedData.Protect(data, null, dataProtectionScope);
-            return Convert.ToBase64String(encryptedData);
+            encryptedText = Convert.ToBase64String(encryptedData);
+            return true;
         }
         catch (Exception e)
         {
             ToastNotification.ShowDirect(caller + LocalizationHelper.GetString("ExternalNotification.EncryptionError"));
             _logger.Error("Failed to encrypt text: " + e.Message);
-            return plainText;
+            return false;
         }
     }
 
