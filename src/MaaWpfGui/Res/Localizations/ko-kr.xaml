@@ -414,6 +414,7 @@
     <system:String x:Key="Asst.Drop.ReportSkippedForPcClient">PC 클라이언트에서는 커서가 드롭 아이템과 수량 인식을 가릴 수 있습니다. 잘못된 데이터가 데이터 풀을 오염시키지 않도록 {0}에 대한 이번 보고는 자동으로 건너뜁니다</system:String>
     <system:String x:Key="Asst.Drop.TotalDrop" xml:space="preserve">드롭 통계: </system:String>
     <system:String x:Key="Asst.Fight.ActingCommandError">대리 지휘 오류 발생</system:String>
+    <system:String x:Key="Asst.Fight.AnnihilationEntryNotFound">터미널 할 일 목록에서 섬멸 작전을 찾을 수 없습니다. 이번 주 섬멸 작전이 이미 완료되었을 수 있습니다. 섬멸 작전을 건너뜁니다</system:String>
     <system:String x:Key="Asst.Fight.CurrentSanity" xml:space="preserve">이성: {0}/{1}  </system:String>
     <system:String x:Key="Asst.Fight.ExpiringMedicineUsed">{0}일 이내 만료되는 이성 회복제를 사용했습니다</system:String>
     <system:String x:Key="Asst.Fight.MedicineInfo">약품: {0}, 재고: {1}</system:String>

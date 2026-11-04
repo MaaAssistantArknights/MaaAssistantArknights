@@ -415,6 +415,7 @@
     <system:String x:Key="Asst.Drop.ReportSkippedForPcClient">PC 端鼠标为独立渲染，可能遮挡掉落物及数量识别。为避免错误数据污染数据池，已自动跳过本次上报{0}</system:String>
     <system:String x:Key="Asst.Drop.TotalDrop" xml:space="preserve">掉落统计: </system:String>
     <system:String x:Key="Asst.Fight.ActingCommandError">代理指挥失误</system:String>
+    <system:String x:Key="Asst.Fight.AnnihilationEntryNotFound">未在终端待办中找到剿灭入口，可能本周剿灭已完成，跳过剿灭</system:String>
     <system:String x:Key="Asst.Fight.CurrentSanity" xml:space="preserve">理智: {0}/{1}  </system:String>
     <system:String x:Key="Asst.Fight.ExpiringMedicineUsed">已使用 {0} 天内过期理智药</system:String>
     <system:String x:Key="Asst.Fight.MedicineInfo">药: {0}, 库存: {1}</system:String>

@@ -414,6 +414,7 @@
     <system:String x:Key="Asst.Drop.ReportSkippedForPcClient">PC クライアントではカーソルがドロップ品や個数の認識を遮る場合があります。誤ったデータでデータプールを汚染しないよう、{0}への今回のレポートは自動的にスキップしました</system:String>
     <system:String x:Key="Asst.Drop.TotalDrop" xml:space="preserve">ドロップ統計: </system:String>
     <system:String x:Key="Asst.Fight.ActingCommandError">自動指揮のミスが生じました</system:String>
+    <system:String x:Key="Asst.Fight.AnnihilationEntryNotFound">ターミナルのTo-Doリストに殲滅作戦が見つかりません。今週分は完了済みの可能性があります。殲滅作戦をスキップします</system:String>
     <system:String x:Key="Asst.Fight.CurrentSanity" xml:space="preserve">理性: {0}/{1}  </system:String>
     <system:String x:Key="Asst.Fight.ExpiringMedicineUsed">{0}日以内に期限が切れる回復剤を使った</system:String>
     <system:String x:Key="Asst.Fight.MedicineInfo">回復剤：{0}、在庫：{1}</system:String>

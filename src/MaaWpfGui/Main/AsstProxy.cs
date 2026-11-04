@@ -2922,6 +2922,10 @@ public class AsstProxy
                 Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("Asst.Fight.StageQueue") + $" {subTaskDetails!["stage_code"]} " + LocalizationHelper.GetString("Asst.Fight.UnableToAgent"), UiLogColor.Info);
                 break;
 
+            case "AnnihilationEntryNotFound":
+                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("Asst.Fight.AnnihilationEntryNotFound"), UiLogColor.Info);
+                break;
+
             case "SwitchThemeSkipped":
                 Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("TaskQueue.SwitchTheme.Skipped"), UiLogColor.Info);
                 break;
