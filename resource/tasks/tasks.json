@@ -1447,6 +1447,13 @@
         "roi": [0, 290, 70, 60],
         "next": ["ClickCorner"]
     },
+    "EndOfActionThenStop": {
+        "baseTask": "EndOfAction",
+        "template": "EndOfAction.png",
+        "preDelay": 1000,
+        "Doc": "失败次数超限后等待结算动画完成，确认返回关卡页后停止",
+        "next": ["ClickCornerAfterFailure"]
+    },
     "EndOfActionAnnihilation": {
         "Doc": "本任务注册了插件 StageDropsTaskPlugin",
         "roi": [50, 50, 170, 180],
@@ -1477,6 +1484,11 @@
     "ClickCornerThenStop": {
         "baseTask": "ClickCorner",
         "next": []
+    },
+    "ClickCornerAfterFailure": {
+        "baseTask": "ClickCorner",
+        "postDelay": 500,
+        "next": ["BattleStartPreFlag", "#self"]
     },
     "SanityMatch": {
         "baseTask": "NumberOcrReplace",
@@ -1653,7 +1665,8 @@
         "text": ["任务失败"],
         "preDelay": 5000,
         "action": "ClickSelf",
-        "roi": [36, 226, 482, 269]
+        "roi": [36, 226, 482, 269],
+        "next": ["EndOfActionThenStop"]
     },
     "RestartGameAndContinue": {
         "Doc": "base_task。掉线重连移除后暂无引用，保留作恢复重连时的参考（原为 ClickCorner/ClickCornerAfterPRTS 超限后的重启续跑入口）",
