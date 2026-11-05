@@ -1,8 +1,7 @@
-﻿<UserControl
+<UserControl
     x:Class="MaaWpfGui.Views.UserControl.Toolbox.TutorialChallengeUserControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:c="clr-namespace:CalcBinding;assembly=CalcBinding"
     xmlns:controls="clr-namespace:MaaWpfGui.Styles.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:hc="https://handyorg.github.io/handycontrol"
@@ -50,7 +49,7 @@
                     <Button
                         Margin="8,0,0,0"
                         Command="{s:Action OpenShop}"
-                        Content="{DynamicResource TutorialChallenge.Shop.Button}" />
+                        Content="{DynamicResource TutorialChallenge.Shop.Title}" />
                 </StackPanel>
             </Grid>
             <ItemsControl ItemsSource="{Binding LevelItems}">
@@ -84,7 +83,7 @@
                                     Grid.Column="1"
                                     VerticalAlignment="Center"
                                     Orientation="Horizontal">
-                                    <!--  完成徽章恒占位（Hidden 而非 Collapsed），避免达成时布局跳变；条件显隐用 DataTrigger，不走 Setter 内 c:Binding（CalcBinding 在 Setter 上下文拿不到目标属性类型会静默失效）  -->
+                                    <!--  完成徽章恒占位（Hidden 而非 Collapsed），避免达成时布局跳变  -->
                                     <Border
                                         MinWidth="58"
                                         Padding="8,2"
@@ -103,7 +102,7 @@
                                         </Border.Style>
                                         <controls:TextBlock
                                             HorizontalAlignment="Center"
-                                            Foreground="{DynamicResource RegionBrush}"
+                                            Foreground="{DynamicResource TextIconBrush}"
                                             Text="{DynamicResource TutorialChallenge.Completed}" />
                                     </Border>
                                     <Button

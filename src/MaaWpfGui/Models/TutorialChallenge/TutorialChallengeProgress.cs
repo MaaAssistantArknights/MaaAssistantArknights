@@ -15,6 +15,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using MaaWpfGui.Helper;
@@ -69,7 +70,9 @@ public static class TutorialChallengeProgress
             var data = JsonSerializer.Deserialize<ProgressData>(File.ReadAllText(_filePath), _options);
             if (data?.ClearedLevels is { } list)
             {
-                _clearedLevels = [.. list];
+                // 只认已注册的关卡，关卡下线或文件被手改时牛牛币不会多于关卡总数
+                var registered = TutorialChallengeLevels.All.Select(level => level.Id).ToHashSet();
+                _clearedLevels = [.. list.Where(registered.Contains)];
             }
         }
         catch (Exception e)
@@ -99,7 +102,11 @@ public static class TutorialChallengeProgress
         {
             Directory.CreateDirectory(ConfigDir);
             var data = new ProgressData { ClearedLevels = [.. _clearedLevels] };
-            File.WriteAllText(_filePath, JsonSerializer.Serialize(data, _options));
+
+            // 先写临时文件再整体替换，写入中途崩溃不会留下半截文件导致下次加载清零进度
+            var tempPath = _filePath + ".tmp";
+            File.WriteAllText(tempPath, JsonSerializer.Serialize(data, _options));
+            File.Move(tempPath, _filePath, overwrite: true);
         }
         catch (Exception e)
         {

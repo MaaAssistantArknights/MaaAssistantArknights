@@ -2552,13 +2552,12 @@ Only level rewards can be farmed; to get the Engraved Medal, all ｢Key Objectiv
     <system:String x:Key="Tray.Use">Display Tray Icon</system:String>
     <system:String x:Key="TutorialChallenge.Completed">Completed</system:String>
     <system:String x:Key="TutorialChallenge.Enter">Enter</system:String>
-    <system:String x:Key="TutorialChallenge.ImportPresetHint">Importing a preset appends all of its targets to the plan list.</system:String>
     <system:String x:Key="TutorialChallenge.Introduction">Work toward each goal freely; meet the goal to clear the level. There are no required steps, and you can close and retry anytime.</system:String>
     <system:String x:Key="TutorialChallenge.Level.AddFight.Goal">Need a task to burn my Sanity.</system:String>
     <system:String x:Key="TutorialChallenge.Level.AddFight.Title">Add a Fight Task</system:String>
     <system:String x:Key="TutorialChallenge.Level.ChipStock.Goal">Top up every chip to 20 and every chip pack to 32. Give it a try: what is the minimum number of tasks you need?</system:String>
     <system:String x:Key="TutorialChallenge.Level.ChipStock.Title">Full Chip Stock</system:String>
-    <system:String x:Key="TutorialChallenge.Level.InventoryTarget.Goal">Stock up on Orirock Cubes at 1-7 to 100 for orundum.</system:String>
+    <system:String x:Key="TutorialChallenge.Level.InventoryTarget.Goal">Getting ready to craft Orundum. Head to 1-7 and stock Orirock Cubes up to 100.</system:String>
     <system:String x:Key="TutorialChallenge.Level.InventoryTarget.Title">Inventory Target</system:String>
     <system:String x:Key="TutorialChallenge.Level.StagePriority.Goal">I want to farm AP-5 first, then CE-6 when AP-5 is closed, and 1-7 when both are closed.</system:String>
     <system:String x:Key="TutorialChallenge.Level.StagePriority.Title">Candidate Stage Priority</system:String>
@@ -2566,11 +2565,10 @@ Only level rewards can be farmed; to get the Engraved Medal, all ｢Key Objectiv
     <system:String x:Key="TutorialChallenge.Level.TargetDrop.Title">Specified Drops</system:String>
     <system:String x:Key="TutorialChallenge.NoSimulatedPanel">This task type has no simulated settings</system:String>
     <system:String x:Key="TutorialChallenge.Reset">Reset</system:String>
-    <system:String x:Key="TutorialChallenge.SelectTaskHint">Click the gear on the right of a task to view its settings</system:String>
-    <system:String x:Key="TutorialChallenge.Shop.Button">Moo Coin Shop</system:String>
+    <system:String x:Key="TutorialChallenge.SelectTaskHint">Toggle a task's gear button to view its settings</system:String>
     <system:String x:Key="TutorialChallenge.Shop.Placeholder">Nothing here yet — still deciding what to stock</system:String>
     <system:String x:Key="TutorialChallenge.Shop.Title">Moo Coin Shop</system:String>
-    <system:String x:Key="TutorialChallenge.SmartSolutionHint">There is an easier way: use a single {key=TaskQueue.Task.DepotMaintain} task and import the chip and chip pack presets to cover all targets.</system:String>
+    <system:String x:Key="TutorialChallenge.SmartSolutionHint">There is an easier way: use a single {key=TaskQueue.Task.DepotMaintain} task and import the {key=TaskQueue.DepotMaintain.PresetChip1} and {key=TaskQueue.DepotMaintain.PresetChip2} presets to cover all targets.</system:String>
     <system:String x:Key="VersionUpdate.Api.UpdateFailed">Hot update data retrieval failed</system:String>
     <system:String x:Key="VersionUpdate.Api.UpdateSuccess">Hot update data retrieval successful</system:String>
     <system:String x:Key="VersionUpdate.CheckNetworking">Please check your network connection or proxy.</system:String>

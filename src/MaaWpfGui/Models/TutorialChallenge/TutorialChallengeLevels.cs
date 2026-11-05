@@ -33,7 +33,7 @@ public static class TutorialChallengeLevels
     /// <summary>
     /// Gets 全部关卡，顺序即清单页建议学习路径，关卡间无解锁依赖。
     /// </summary>
-    public static IReadOnlyList<TutorialChallengeLevel> All =>
+    public static IReadOnlyList<TutorialChallengeLevel> All { get; } =
     [
         new(
             id: "AddFight",
@@ -59,6 +59,7 @@ public static class TutorialChallengeLevels
             goalPredicate: tasks => tasks.OfType<FightTask>().Any(fight =>
                 fight.StagePlan is [var first, ..] && first == Stage17
                 && fight.EnableTargetDrop == true
+                && !fight.IsInventoryTarget
                 && fight.DropId == ItemRock
                 && fight.DropCount == 10)),
 

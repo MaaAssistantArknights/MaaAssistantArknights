@@ -15,7 +15,6 @@
     xmlns:taskQueue="clr-namespace:MaaWpfGui.Configuration.Single.MaaTask"
     xmlns:taskQueue_vms="clr-namespace:MaaWpfGui.ViewModels.UserControl.TaskQueue"
     xmlns:ui_vms="clr-namespace:MaaWpfGui.ViewModels.UI"
-    xmlns:vms="clr-namespace:MaaWpfGui.ViewModels"
     Title="{Binding WindowTitle}"
     Width="640"
     Height="560"
@@ -72,7 +71,7 @@
                             </Style.Triggers>
                         </Style>
                     </Border.Style>
-                    <controls:TextBlock Foreground="{DynamicResource RegionBrush}" Text="{DynamicResource TutorialChallenge.Completed}" />
+                    <controls:TextBlock Foreground="{DynamicResource TextIconBrush}" Text="{DynamicResource TutorialChallenge.Completed}" />
                 </Border>
                 <Button
                     Margin="8,0,0,0"
@@ -440,7 +439,7 @@
                                                 VerticalContentAlignment="Center"
                                                 Content="{DynamicResource TaskQueue.Fight.UseSanityPotion}"
                                                 IsChecked="{Binding SelectedFightTask.UseMedicine}"
-                                                IsEnabled="{c:Binding !SelectedFightTask.UseStone}"
+                                                IsEnabled="{c:Binding !SandboxUseStoneDisplay}"
                                                 MouseRightButtonUp="{s:Action ToggleCheckBoxNullOnRightClick,
                                                                               Target={x:Type helper:CheckBoxHelper}}"
                                                 ToolTip="{DynamicResource TaskQueue.CheckBoxesNotSavedAsNull}" />
@@ -474,7 +473,7 @@
                                                 HorizontalAlignment="Left"
                                                 HorizontalContentAlignment="Center"
                                                 VerticalContentAlignment="Center"
-                                                IsEnabled="{c:Binding !SelectedFightTask.UseStone}"
+                                                IsEnabled="{c:Binding !SandboxUseStoneDisplay}"
                                                 Maximum="999"
                                                 Minimum="0"
                                                 Value="{Binding SelectedFightTask.MedicineCount, UpdateSourceTrigger=PropertyChanged}" />
@@ -549,6 +548,7 @@
                                                 Margin="6"
                                                 Padding="28,5,10,5"
                                                 VerticalContentAlignment="Center"
+                                                DropDownClosed="{s:Action DropsListDropDownClosed}"
                                                 IsEditable="True"
                                                 IsTextSearchEnabled="False"
                                                 ItemsSource="{Binding DropsList}"
@@ -728,6 +728,8 @@
                                             BorderThickness="{c:Binding 'SandboxUseOptionalStage ? 1 : 0'}"
                                             ClipToBounds="False"
                                             ItemsSource="{Binding StagePlanRows}"
+                                            PreviewMouseWheel="{s:Action RouteMouseWheelToParentExceptScrollable,
+                                                                         Target={x:Type helper:MouseWheelHelper}}"
                                             Style="{DynamicResource NoSelectedHighlightListBoxStyle}">
                                             <ListBox.ItemTemplate>
                                                 <DataTemplate DataType="{x:Type dialogs_vms:TutorialChallengeStagePlanRow}">
@@ -741,7 +743,7 @@
                                                             Grid.Column="0"
                                                             Height="30"
                                                             Margin="-10,0,0,0">
-                                                            <!--  当 CustomStageCode 为 false 时显示 ComboBox  -->
+                                                            <!--  当 IsStageManually 为 false 时显示 ComboBox  -->
                                                             <ComboBox
                                                                 IsEnabled="{c:Binding '!DataContext.IsStageItemDragging',
                                                                                       RelativeSource={RelativeSource AncestorType=hc:Window}}"
@@ -784,7 +786,7 @@
                                                                 </ComboBox.ItemTemplate>
                                                             </ComboBox>
 
-                                                            <!--  当 CustomStageCode 为 true 时显示 TextBox  -->
+                                                            <!--  当 IsStageManually 为 true 时显示 TextBox  -->
                                                             <TextBox
                                                                 Height="30"
                                                                 hc:InfoElement.Placeholder="{DynamicResource TaskQueue.Stage.Label.Default}"
@@ -828,8 +830,7 @@
                                                                     Background="Transparent"
                                                                     BorderThickness="0"
                                                                     Cursor="Hand"
-                                                                    PreviewMouseLeftButtonDown="DragHandle_PreviewMouseLeftButtonDown"
-                                                                    PreviewMouseLeftButtonUp="DragHandle_PreviewMouseLeftButtonUp" />
+                                                                    PreviewMouseLeftButtonDown="DragHandle_PreviewMouseLeftButtonDown" />
                                                                 <!--  删除按钮  -->
                                                                 <Button
                                                                     Grid.Column="1"
@@ -926,7 +927,8 @@
                                     <CheckBox
                                         Margin="0,10"
                                         Content="{DynamicResource TaskQueue.Fight.HideUnavailableStage}"
-                                        IsChecked="{Binding SelectedFightTask.HideUnavailableStage}" />
+                                        IsChecked="{Binding SelectedFightTask.HideUnavailableStage}"
+                                        IsEnabled="{c:Binding !SelectedFightTask.UseWeeklySchedule}" />
                                     <StackPanel Margin="0,10" Orientation="Horizontal">
                                         <CheckBox Content="{DynamicResource TaskQueue.UseWeeklySchedule}" IsChecked="{Binding SelectedFightTask.UseWeeklySchedule}" />
                                         <controls:TooltipBlock TooltipText="{DynamicResource TaskQueue.UseWeeklySchedule.Tip}" />
@@ -1048,8 +1050,7 @@
                                     </StackPanel>
 
                                     <!--
-                                        计划列表：容器与交互对齐 OperProgressTaskUserControl 的 ListBox。
-                                        宿主链最外层是设置面板的 ScrollViewer，经 SimpleStackPanel 透传给列表的高度约束无限，
+                                        外层设置面板的 ScrollViewer 给列表的高度约束无限，
                                         MaxHeight 绑 ｢视口 - 固定区实际高度｣ 建立有界视口，虚拟化方能生效；
                                         固定区随语言换行增高时列表自动收缩，固定区超出视口时列表归零、由外层面板滚动兜底
                                     -->
@@ -1063,6 +1064,8 @@
                                         BorderThickness="0"
                                         ClipToBounds="False"
                                         ItemsSource="{Binding PlanRows}"
+                                        PreviewMouseWheel="{s:Action RouteMouseWheelToParentExceptScrollable,
+                                                                     Target={x:Type helper:MouseWheelHelper}}"
                                         VirtualizingPanel.IsVirtualizing="True"
                                         VirtualizingPanel.ScrollUnit="Pixel"
                                         VirtualizingPanel.VirtualizationMode="Recycling">
