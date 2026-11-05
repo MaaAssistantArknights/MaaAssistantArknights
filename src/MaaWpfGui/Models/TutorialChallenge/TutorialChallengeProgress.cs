@@ -14,26 +14,19 @@
 #nullable enable
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Text.Json;
-using System.Text.Json.Serialization;
+using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
-using Serilog;
-using static MaaWpfGui.Helper.PathsHelper;
+using Newtonsoft.Json;
 
 namespace MaaWpfGui.Models.TutorialChallenge;
 
 /// <summary>
-/// 教程关卡进度存档。独立于主配置单独成文件（config/tutorial_challenge.json），
+/// 教程关卡进度存档，经 <see cref="JsonDataHelper"/> 存于 data/TutorialChallengeProgress.json，
 /// 记录每关通关标记；牛牛币数由已通关关数推导，不单独落盘。
 /// </summary>
 public static class TutorialChallengeProgress
 {
-    private static readonly ILogger _logger = Log.ForContext(typeof(TutorialChallengeProgress));
-    private static readonly string _filePath = Path.Combine(ConfigDir, "tutorial_challenge.json");
-    private static readonly JsonSerializerOptions _options = new() { WriteIndented = true };
-
     private static HashSet<string> _clearedLevels = [];
 
     /// <summary>
@@ -60,24 +53,12 @@ public static class TutorialChallengeProgress
     {
         _clearedLevels = [];
 
-        if (!File.Exists(_filePath))
+        var data = JsonDataHelper.Get<ProgressData>(JsonDataKey.TutorialChallengeProgress);
+        if (data?.ClearedLevels is { } list)
         {
-            return;
-        }
-
-        try
-        {
-            var data = JsonSerializer.Deserialize<ProgressData>(File.ReadAllText(_filePath), _options);
-            if (data?.ClearedLevels is { } list)
-            {
-                // 只认已注册的关卡，关卡下线或文件被手改时牛牛币不会多于关卡总数
-                var registered = TutorialChallengeLevels.All.Select(level => level.Id).ToHashSet();
-                _clearedLevels = [.. list.Where(registered.Contains)];
-            }
-        }
-        catch (Exception e)
-        {
-            _logger.Warning(e, "Failed to load tutorial challenge progress, starting fresh");
+            // 只认已注册的关卡，关卡下线或文件被手改时牛牛币不会多于关卡总数
+            var registered = TutorialChallengeLevels.All.Select(level => level.Id).ToHashSet();
+            _clearedLevels = [.. list.Where(registered.Contains)];
         }
     }
 
@@ -98,25 +79,13 @@ public static class TutorialChallengeProgress
 
     private static void Save()
     {
-        try
-        {
-            Directory.CreateDirectory(ConfigDir);
-            var data = new ProgressData { ClearedLevels = [.. _clearedLevels] };
-
-            // 先写临时文件再整体替换，写入中途崩溃不会留下半截文件导致下次加载清零进度
-            var tempPath = _filePath + ".tmp";
-            File.WriteAllText(tempPath, JsonSerializer.Serialize(data, _options));
-            File.Move(tempPath, _filePath, overwrite: true);
-        }
-        catch (Exception e)
-        {
-            _logger.Error(e, "Failed to save tutorial challenge progress");
-        }
+        var data = new ProgressData { ClearedLevels = [.. _clearedLevels] };
+        JsonDataHelper.Set(JsonDataKey.TutorialChallengeProgress, data);
     }
 
     private class ProgressData
     {
-        [JsonPropertyName("clearedLevels")]
+        [JsonProperty("clearedLevels")]
         public List<string> ClearedLevels { get; set; } = [];
     }
 }

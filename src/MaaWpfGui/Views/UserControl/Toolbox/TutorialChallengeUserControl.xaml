@@ -33,19 +33,25 @@
                         CornerRadius="4">
                         <controls:TextBlock Text="{Binding ProgressText, Mode=OneWay}" />
                     </Border>
-                    <!--  牛牛币图标暂用成就牛牛奖章，后续换专属资源  -->
-                    <Path
-                        Width="16"
-                        Height="16"
+                    <StackPanel
                         Margin="8,0,0,0"
                         VerticalAlignment="Center"
-                        Data="{DynamicResource HangoverGeometry}"
-                        Fill="{DynamicResource AchievementBrush.FeatureExploration}"
-                        Stretch="Uniform" />
-                    <controls:TextBlock
-                        Margin="4,0,0,0"
-                        VerticalAlignment="Center"
-                        Text="{Binding CoinCount, Mode=OneWay}" />
+                        Background="Transparent"
+                        Orientation="Horizontal"
+                        ToolTip="{DynamicResource TutorialChallenge.Coin}">
+                        <!--  牛牛币图标暂用成就牛牛奖章，后续换专属资源  -->
+                        <Path
+                            Width="16"
+                            Height="16"
+                            VerticalAlignment="Center"
+                            Data="{DynamicResource HangoverGeometry}"
+                            Fill="{DynamicResource AchievementBrush.FeatureExploration}"
+                            Stretch="Uniform" />
+                        <controls:TextBlock
+                            Margin="4,0,0,0"
+                            VerticalAlignment="Center"
+                            Text="{Binding CoinCount, Mode=OneWay}" />
+                    </StackPanel>
                     <Button
                         Margin="8,0,0,0"
                         Command="{s:Action OpenShop}"

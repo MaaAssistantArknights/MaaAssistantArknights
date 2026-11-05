@@ -97,7 +97,7 @@ public static class TutorialChallengeLevels
     }
 
     /// <summary>
-    /// 芯片全套库存的朴素解判定：逐材料配置的理智作战任务覆盖全部芯片目标（按库存目标模式）。
+    /// 芯片全套库存的朴素解判定：逐材料配置的理智作战任务覆盖全部芯片目标（首个关卡为该材料的预设关卡，按库存目标模式）。
     /// </summary>
     /// <param name="tasks">沙盒任务列表。</param>
     /// <returns>覆盖全部芯片目标时返回 true。</returns>
@@ -105,7 +105,8 @@ public static class TutorialChallengeLevels
     {
         var expected = ExpandChipPresets();
         return expected.All(expectedPlan => tasks.OfType<FightTask>().Any(fight =>
-            fight.EnableTargetDrop == true
+            fight.StagePlan is [var first, ..] && first == expectedPlan.Stage
+            && fight.EnableTargetDrop == true
             && fight.IsInventoryTarget
             && fight.DropId == expectedPlan.DropId
             && fight.DropCount == expectedPlan.DropCount));
