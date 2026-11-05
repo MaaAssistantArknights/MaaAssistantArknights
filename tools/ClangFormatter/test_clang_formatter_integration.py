@@ -15,6 +15,72 @@ FORMATTER = shutil.which("clang-format")
 
 @unittest.skipUnless(FORMATTER, "clang-format is required for integration tests")
 class FormatterIntegrationTests(unittest.TestCase):
+    def test_formatter_path_with_spaces_and_inline_style(self):
+        with tempfile.TemporaryDirectory(prefix="maa formatter ") as temp:
+            root = Path(temp)
+            formatter = root / Path(FORMATTER).name
+            shutil.copy2(FORMATTER, formatter)
+            contents = "int  main(){return  0;}\n"
+            style = "{BasedOnStyle: LLVM, IndentWidth: 3}"
+            expected = subprocess.run(
+                [FORMATTER, f"--style={style}"],
+                input=contents,
+                check=True,
+                capture_output=True,
+                text=True,
+            ).stdout
+            for directory_input in [False, True]:
+                with self.subTest(directory_input=directory_input):
+                    source = root / "operator & name.cpp"
+                    source.write_text(contents, encoding="utf-8")
+                    subprocess.run(
+                        [
+                            sys.executable,
+                            str(SCRIPT),
+                            "--input",
+                            str(root if directory_input else source),
+                            "--clang-format",
+                            str(formatter),
+                            "--style",
+                            style,
+                        ],
+                        check=True,
+                        capture_output=True,
+                        text=True,
+                    )
+                    self.assertEqual(source.read_text(encoding="utf-8"), expected)
+
+    def test_formatter_errors_produce_nonzero_exit_status(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            source = root / "test.cpp"
+            contents = "int  main(){return  0;}\n"
+            source.write_text(contents, encoding="utf-8")
+            for formatter, style in [
+                (FORMATTER, "InvalidStyle"),
+                (str(root / "missing-clang-format"), "LLVM"),
+            ]:
+                for directory_input in [False, True]:
+                    with self.subTest(
+                        formatter=formatter, directory_input=directory_input
+                    ):
+                        result = subprocess.run(
+                            [
+                                sys.executable,
+                                str(SCRIPT),
+                                "--input",
+                                str(root if directory_input else source),
+                                "--clang-format",
+                                formatter,
+                                "--style",
+                                style,
+                            ],
+                            capture_output=True,
+                            text=True,
+                        )
+                        self.assertNotEqual(result.returncode, 0)
+                        self.assertEqual(source.read_text(encoding="utf-8"), contents)
+
     def test_only_requested_directory_is_ignored(self):
         with tempfile.TemporaryDirectory() as temp:
             root = Path(temp)
