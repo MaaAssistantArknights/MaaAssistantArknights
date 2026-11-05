@@ -2331,6 +2331,19 @@ Then delete the entries corresponding to the paths.</system:String>
     <system:String x:Key="Toolbox.MiniGame.EventShop.FurniturePart">Furniture Part</system:String>
     <system:String x:Key="Toolbox.MiniGame.EventShop.Lmd">LMD</system:String>
     <system:String x:Key="Toolbox.MiniGame.EventShop.Other">Other custom items</system:String>
+    <system:String x:Key="Toolbox.MiniGame.InfrastPresetImport">Import in-game base presets</system:String>
+    <system:String x:Key="Toolbox.MiniGame.InfrastPresetImport.Client">Preset editing currently supports the Chinese Official and Bilibili clients.</system:String>
+    <system:String x:Key="Toolbox.MiniGame.InfrastPresetImport.Completed">Import complete: {2} saved rosters verified.</system:String>
+    <system:String x:Key="Toolbox.MiniGame.InfrastPresetImport.Confirm" xml:space="preserve">{0}&#10;&#10;Write {2} rosters across {1} rooms, replacing the corresponding saved presets.&#10;Open the base or staffing overview first. This saves presets without rotating staff.&#10;Shift times, products and drone settings are not part of the saved presets.</system:String>
+    <system:String x:Key="Toolbox.MiniGame.InfrastPresetImport.Core">Cannot start preset import. Use the complete debug build containing this feature.</system:String>
+    <system:String x:Key="Toolbox.MiniGame.InfrastPresetImport.Editing">Editing {0} · Queue {1}</system:String>
+    <system:String x:Key="Toolbox.MiniGame.InfrastPresetImport.Failed">Import stopped at {0} · Queue {1}; {2} verified. Check the game screen. Saved presets remain; the current queue may have been created or saved without verification.</system:String>
+    <system:String x:Key="Toolbox.MiniGame.InfrastPresetImport.Invalid">Unsupported schedule. Exactly three shifts with explicit operator lists are required. Check duplicates, room capacity, autofill and dynamic groups.</system:String>
+    <system:String x:Key="Toolbox.MiniGame.InfrastPresetImport.IoError">Cannot read the schedule. Check the path and file permissions.</system:String>
+    <system:String x:Key="Toolbox.MiniGame.InfrastPresetImport.Mapping">{0} → In-game queue {1}</system:String>
+    <system:String x:Key="Toolbox.MiniGame.InfrastPresetImport.Skipped">Preserved / no preset feature:</system:String>
+    <system:String x:Key="Toolbox.MiniGame.InfrastPresetImport.Tip">Save three shifts as in-game preset queues 1, 2 and 3 for each room. Open the base, staffing overview or preset dialog first. Each saved roster is reopened and verified.</system:String>
+    <system:String x:Key="Toolbox.MiniGame.InfrastPresetImport.Verified">Saved and read back: {0} · Queue {1} ({2} verified)</system:String>
     <system:String x:Key="Toolbox.MiniGame.InteractiveExhibition">Interactive Exhibition - Find Unrecorded Wonders</system:String>
     <system:String x:Key="Toolbox.MiniGame.InteractiveExhibition.Tip" xml:space="preserve">Start the task at the bottom right of the grass in the advanced zone of the selected map.&#10;Wander back and forth across the grass to find unrecorded creatures; the task stops automatically once one is found.&#10;Creatures can only be found on grass.</system:String>
     <system:String x:Key="Toolbox.MiniGame.InteractiveExhibition.UncollectedNotification.Content">MAA has stopped exploring. Return to the game and complete the battle manually.</system:String>

@@ -2333,6 +2333,19 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="Toolbox.MiniGame.EventShop.FurniturePart">家具パーツ</system:String>
     <system:String x:Key="Toolbox.MiniGame.EventShop.Lmd">龍門幣</system:String>
     <system:String x:Key="Toolbox.MiniGame.EventShop.Other">その他のカスタム商品</system:String>
+    <system:String x:Key="Toolbox.MiniGame.InfrastPresetImport">ゲーム内の基地プリセットをインポート</system:String>
+    <system:String x:Key="Toolbox.MiniGame.InfrastPresetImport.Client">プリセット編集は現在、中国公式サーバーと Bilibili サーバーに対応しています。</system:String>
+    <system:String x:Key="Toolbox.MiniGame.InfrastPresetImport.Completed">インポート完了：保存した {2} 名簿を確認しました。</system:String>
+    <system:String x:Key="Toolbox.MiniGame.InfrastPresetImport.Confirm" xml:space="preserve">{0}&#10;&#10;{1} 部屋の {2} 名簿を書き込み、対応する既存プリセットを上書きします。&#10;先に基地か配属一覧を開いてください。保存のみ行い、交代は実行しません。&#10;シフト時間・製品・ドローン設定は保存対象外です。</system:String>
+    <system:String x:Key="Toolbox.MiniGame.InfrastPresetImport.Core">インポートを開始できません。この機能を含む完全なデバッグ版を使用してください。</system:String>
+    <system:String x:Key="Toolbox.MiniGame.InfrastPresetImport.Editing">編集中：{0} · 隊列 {1}</system:String>
+    <system:String x:Key="Toolbox.MiniGame.InfrastPresetImport.Failed">{0} · 隊列 {1} で中断。確認済み {2}。ゲーム画面を確認してください。保存済みの隊列は残ります。現在の隊列は作成・保存済みで未確認の場合があります。</system:String>
+    <system:String x:Key="Toolbox.MiniGame.InfrastPresetImport.Invalid">対応していないシフト表です。3つのシフトと固定のオペレーター名簿が必要です。重複、定員、自動補充、動的グループを確認してください。</system:String>
+    <system:String x:Key="Toolbox.MiniGame.InfrastPresetImport.IoError">シフト表を読み込めません。パスと権限を確認してください。</system:String>
+    <system:String x:Key="Toolbox.MiniGame.InfrastPresetImport.Mapping">{0} → ゲーム内隊列 {1}</system:String>
+    <system:String x:Key="Toolbox.MiniGame.InfrastPresetImport.Skipped">変更なし／プリセット対象外：</system:String>
+    <system:String x:Key="Toolbox.MiniGame.InfrastPresetImport.Tip">3つのシフトを各部屋のゲーム内プリセット隊列 1・2・3 に保存します。先に基地・配属一覧・プリセット画面を開いてください。保存後に名簿を再度開いて確認します。</system:String>
+    <system:String x:Key="Toolbox.MiniGame.InfrastPresetImport.Verified">保存と再確認が完了：{0} · 隊列 {1}（確認済み {2}）</system:String>
     <system:String x:Key="Toolbox.MiniGame.InteractiveExhibition">奇象巡展-未収録の奇象を探す</system:String>
     <system:String x:Key="Toolbox.MiniGame.InteractiveExhibition.Tip" xml:space="preserve">選択したマップの高級エリアにある草原の右下からタスクを開始します。&#10;草原を行き来して未収録の生物を探し、見つかると自動的に停止します。&#10;生物に出会えるのは草原だけです。</system:String>
     <system:String x:Key="Toolbox.MiniGame.InteractiveExhibition.UncollectedNotification.Content">MAAは自動探索を停止しました。ゲームに戻って手動で戦闘を完了してください。</system:String>

@@ -153,6 +153,94 @@ public class ToolboxViewModel : Screen
         set => SetAndNotify(ref _toolboxSelectedIndex, value);
     }
 
+    public async Task ImportInfrastSchedule()
+    {
+        if (!_runningState.GetIdle())
+        {
+            return;
+        }
+
+        if (Bootstrapper.TryGetTaskBlockReason() is { } reason)
+        {
+            GrowlHelper.Error(reason);
+            return;
+        }
+
+        if (SettingsViewModel.GameSettings.ClientType is not (ClientType.Official or ClientType.Bilibili))
+        {
+            GrowlHelper.Error(LocalizationHelper.GetString("Toolbox.MiniGame.InfrastPresetImport.Client"));
+            return;
+        }
+
+        var dialog = new Microsoft.Win32.OpenFileDialog {
+            Title = LocalizationHelper.GetString("Toolbox.MiniGame.InfrastPresetImport"),
+            Filter = LocalizationHelper.GetString("Infrast.Custom.File") + "|*.json",
+            CheckFileExists = true,
+        };
+        if (dialog.ShowDialog(Application.Current.MainWindow) != true || !_runningState.GetIdle())
+        {
+            return;
+        }
+
+        InfrastPresetImport schedule;
+        try
+        {
+            schedule = InfrastPresetImport.Parse(File.ReadAllText(dialog.FileName));
+        }
+        catch (JsonException ex)
+        {
+            _logger.Warning(ex, "Invalid preset import {File}", dialog.FileName);
+            GrowlHelper.Error(LocalizationHelper.GetString("Toolbox.MiniGame.InfrastPresetImport.Invalid") + "\n" + ex.Message);
+            return;
+        }
+        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+        {
+            _logger.Warning(ex, "Could not read schedule {File}", dialog.FileName);
+            GrowlHelper.Error(LocalizationHelper.GetString("Toolbox.MiniGame.InfrastPresetImport.IoError"));
+            return;
+        }
+
+        var mapping = string.Join("\n", schedule.PlanNames.Select((name, i) =>
+            LocalizationHelper.GetStringFormat("Toolbox.MiniGame.InfrastPresetImport.Mapping", name, i + 1)));
+        var summary = LocalizationHelper.GetStringFormat("Toolbox.MiniGame.InfrastPresetImport.Confirm", mapping, schedule.Rooms.Count, schedule.QueueCount);
+        if (schedule.Skipped.Count > 0)
+        {
+            summary += "\n\n" + LocalizationHelper.GetString("Toolbox.MiniGame.InfrastPresetImport.Skipped") + string.Join(", ", schedule.Skipped);
+        }
+
+        if (MessageBoxHelper.Show(summary, LocalizationHelper.GetString("Toolbox.MiniGame.InfrastPresetImport"),
+            MessageBoxButton.OKCancel, MessageBoxImage.Information) != MessageBoxResult.OK || !_runningState.GetIdle())
+        {
+            return;
+        }
+
+        Instances.TaskQueueViewModel.ClearLog();
+        Instances.TaskQueueViewModel.AddLog(mapping, UiLogColor.Info);
+        _runningState.BeginRun(RunOwner.MiniGame);
+        try
+        {
+            string error = string.Empty;
+            var connected = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref error));
+            if (_runningState.GetStopping())
+            {
+                Instances.TaskQueueViewModel.SetStopped();
+                return;
+            }
+
+            if (!connected || !Instances.AsstProxy.AsstImportInfrastPresets(schedule))
+            {
+                Instances.TaskQueueViewModel.AddLog(connected ? LocalizationHelper.GetString("Toolbox.MiniGame.InfrastPresetImport.Core") : error, UiLogColor.Error);
+                _runningState.SetIdle(true);
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.Error(ex, "Preset import could not start");
+            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("Toolbox.MiniGame.InfrastPresetImport.Core"), UiLogColor.Error);
+            _runningState.SetIdle(true);
+        }
+    }
+
     #region Recruit
 
     /// <summary>
@@ -2769,6 +2857,8 @@ public class ToolboxViewModel : Screen
         public bool IsEventShop => Value == "SS@Store@Begin";
 
         public bool IsReclamation => Value == "Reclamation";
+
+        public bool IsInfrastPresetImport => Value == "InfrastPresetImport";
     }
 
     public static string MaterialSynthesisVideoPath => Path.Combine(PathsHelper.BaseDir, "Res", "Video", "MaterialSynthesis.mp4");
@@ -2831,6 +2921,12 @@ public class ToolboxViewModel : Screen
             })
             .ToList();
 
+        categorizedItems.Add(new MiniGameCategoryItem {
+            Display = LocalizationHelper.GetString("Toolbox.MiniGame.InfrastPresetImport"),
+            Value = "InfrastPresetImport",
+            Category = LocalizationHelper.GetString("Toolbox.MiniGame.Category.PermanentFeature"),
+        });
+
         Execute.OnUIThread(() => {
             var toolbox = Instances.ToolboxViewModel;
             if (toolbox == null)
@@ -2881,6 +2977,11 @@ public class ToolboxViewModel : Screen
 
     private static string GetMiniGameTip(string name)
     {
+        if (name == "InfrastPresetImport")
+        {
+            return LocalizationHelper.GetString("Toolbox.MiniGame.InfrastPresetImport.Tip");
+        }
+
         if (string.IsNullOrEmpty(name))
         {
             return LocalizationHelper.GetString("Toolbox.MiniGame.NameEmpty.Tip");
@@ -3526,6 +3627,12 @@ public class ToolboxViewModel : Screen
 
     private async Task StartMiniGameAsync()
     {
+        if (SelectedMiniGameItem?.IsInfrastPresetImport == true)
+        {
+            await ImportInfrastSchedule();
+            return;
+        }
+
         if (!CheckSelectedMiniGameReady())
         {
             return;
