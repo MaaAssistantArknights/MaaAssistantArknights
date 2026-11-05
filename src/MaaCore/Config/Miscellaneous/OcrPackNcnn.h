@@ -40,6 +40,8 @@ public:
 
     void set_cpu_threads(int num) { m_cpu_threads = num > 0 ? num : 1; }
 
+    static int bind_performance_cores();
+
     // without_det 时把整张 image 当作一行文本只跑 rec；否则 det -> 裁切 -> rec。
     // 返回的 rect 为 4 点框的轴对齐外接矩形（与 fastdeploy 版语义一致）。
     ResultsVec recognize(const cv::Mat& image, bool without_det);

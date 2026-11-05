@@ -7,7 +7,6 @@
 #include <algorithm>
 #include <filesystem>
 #include <ranges>
-#include <thread>
 
 #include "MaaUtils/NoWarningCV.hpp"
 
@@ -122,25 +121,8 @@ bool OcrPack::check_and_load()
 
     LogTraceFunction;
 
-    int logical = std::max(1u, std::thread::hardware_concurrency());
-    int cpu_threads;
-    if (logical <= 2) {
-        cpu_threads = 1;
-    }
-    else if (logical <= 4) {
-        cpu_threads = 2;
-    }
-    else if (logical <= 12) {
-        cpu_threads = 3;
-    }
-    else {
-        cpu_threads = 4;
-    }
-
-    ncnn::set_cpu_powersave(2); // Android big.LITTLE：绑定大核
-
     m_impl->ncnn = std::make_unique<OcrPackNcnn>();
-    m_impl->ncnn->set_cpu_threads(cpu_threads);
+    m_impl->ncnn->set_cpu_threads(OcrPackNcnn::bind_performance_cores());
 
     const auto det_bin = std::filesystem::path(m_impl->det_model_path).replace_extension("bin");
     const auto rec_bin = std::filesystem::path(m_impl->rec_model_path).replace_extension("bin");
@@ -160,6 +142,7 @@ bool OcrPack::check_and_load()
 #include <algorithm>
 #include <array>
 #include <cmath>
+#include <format>
 #include <fstream>
 #include <numeric>
 #include <utility>
@@ -187,6 +170,8 @@ constexpr int kRecImgW = 320;
 constexpr size_t kRecBatchSize = 6; // fastdeploy PPOCRv2::rec_batch_size_ 默认值，影响同批的补边宽度
 constexpr float kRecMean[3] = { 127.5f, 127.5f, 127.5f };
 constexpr float kRecNorm[3] = { 1.f / 127.5f, 1.f / 127.5f, 1.f / 127.5f };
+
+constexpr int kMaxCpuThreads = 4;
 
 cv::Mat ensure_continuous_bgr(const cv::Mat& img)
 {
@@ -348,6 +333,39 @@ using namespace asst::ocr_ncnn;
 asst::OcrPackNcnn::OcrPackNcnn() = default;
 
 asst::OcrPackNcnn::~OcrPackNcnn() = default;
+
+// ncnn 的 powersave 2 以各核最高频率的中点划分大小核，中核低于中点的 SoC（如骁龙 870）只会绑到一个超大核，
+// 这里改为只排除最低频的一簇
+int asst::OcrPackNcnn::bind_performance_cores()
+{
+    const int count = ncnn::get_cpu_count();
+    std::vector<long> max_freq(count, 0);
+    long lowest = 0;
+    for (int i = 0; i < count; ++i) {
+        std::ifstream ifs(utils::path(std::format("/sys/devices/system/cpu/cpu{}/cpufreq/cpuinfo_max_freq", i)));
+        if (ifs >> max_freq[i] && max_freq[i] > 0 && (lowest == 0 || max_freq[i] < lowest)) {
+            lowest = max_freq[i];
+        }
+    }
+    ncnn::CpuSet mask;
+    for (int i = 0; i < count; ++i) {
+        if (max_freq[i] > lowest) {
+            mask.enable(i);
+        }
+    }
+
+    if (mask.num_enabled() == 0) {
+        ncnn::set_cpu_powersave(2);
+        const int threads = count <= 2 ? 1 : count <= 4 ? 2 : count <= 12 ? 3 : 4;
+        LogInfo << __FUNCTION__ << "uniform cpu frequency, powersave 2, threads" << threads;
+        return threads;
+    }
+
+    ncnn::set_cpu_thread_affinity(mask);
+    const int threads = std::min(mask.num_enabled(), kMaxCpuThreads);
+    LogInfo << __FUNCTION__ << "performance cores" << mask.num_enabled() << "threads" << threads;
+    return threads;
+}
 
 bool asst::OcrPackNcnn::load(
     const std::filesystem::path& det_param,
