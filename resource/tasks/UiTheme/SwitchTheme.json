@@ -16,7 +16,12 @@
         "roi": [0, 99, 430, 180],
         "maxTimes": 10,
         "exceededNext": ["SwitchTheme@CancelThemeChange"],
-        "next": ["SwitchTheme@ConfirmThemeChange", "SwitchTheme@SelectLightTheme"]
+        "next": ["SwitchTheme@AlreadySet", "SwitchTheme@ConfirmThemeChange", "SwitchTheme@SelectLightTheme"]
+    },
+    "SwitchTheme@AlreadySet": {
+        "Doc": "已是日间则取消；须先于确认判定，灰色 ｢已设置｣ 会被确认模板命中",
+        "baseTask": "SwitchThemeByNameAlreadySet",
+        "next": ["SwitchTheme@CancelThemeChange"]
     },
     "SwitchTheme@SwipeToLightTheme": {
         "algorithm": "JustReturn",
@@ -40,9 +45,11 @@
         "next": ["SwitchTheme@ReturnTheme"]
     },
     "SwitchTheme@ReturnTheme": {
+        "Doc": "换完主题返回后就结束，不再重新换主题，避免无限循环",
         "baseTask": "ReturnButton",
         "template": ["Return.png", "Return-White.png"],
         "postDelay": 1000,
-        "next": ["#self", "#next"]
+        "next": ["#self", "#next"],
+        "onErrorNext": ["Stop"]
     }
 }
