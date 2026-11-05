@@ -1191,6 +1191,7 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
     protected override void Configure()
     {
         base.Configure();
+        SkinHelper.Apply(SkinHelper.CurrentSkin);
         Instances.Instantiate(Container);
     }
 

@@ -170,6 +170,40 @@
                 <BlurEffect Radius="{Binding BackgroundBlurEffectRadius}" />
             </Image.Effect>
         </Image>
+        <!--  Decorative shapes sit behind the content and never intercept input.  -->
+        <Grid
+            ClipToBounds="True"
+            IsHitTestVisible="False"
+            Visibility="{DynamicResource Skin.DecorationVisibility}">
+            <Ellipse
+                Width="440"
+                Height="440"
+                Margin="0,0,-170,-190"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Bottom"
+                Fill="{DynamicResource Skin.PatternBrush}" />
+            <Ellipse
+                Width="180"
+                Height="180"
+                Margin="-80,60,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Stroke="{DynamicResource Skin.PatternBrush}"
+                StrokeThickness="32" />
+            <controls:TextBlock
+                Margin="0,30,35,0"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Top"
+                FontSize="80"
+                FontWeight="Black"
+                Foreground="{DynamicResource Skin.PatternBrush}"
+                RenderTransformOrigin="0.5,0.5"
+                Text="HA!">
+                <controls:TextBlock.RenderTransform>
+                    <RotateTransform Angle="-12" />
+                </controls:TextBlock.RenderTransform>
+            </controls:TextBlock>
+        </Grid>
         <DockPanel>
             <local:NotifyIcon x:Name="NotifyIcon" Visibility="Hidden" />
             <Grid>

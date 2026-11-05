@@ -49,7 +49,7 @@
                     Background="{DynamicResource RegionBrushOpacity25}"
                     BorderBrush="{DynamicResource BorderBrush}"
                     BorderThickness="1"
-                    CornerRadius="4">
+                    CornerRadius="{DynamicResource Skin.CardCornerRadius}">
                     <Grid Width="190" Margin="0">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*" />
@@ -755,6 +755,68 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
+
+                <Border
+                    Grid.Row="0"
+                    Margin="0,0,0,14"
+                    Padding="12,10"
+                    Background="{DynamicResource Skin.CardBrush}"
+                    BorderBrush="{DynamicResource Skin.BorderBrush}"
+                    BorderThickness="1"
+                    CornerRadius="{DynamicResource Skin.CardCornerRadius}"
+                    Visibility="{DynamicResource Skin.DecorationVisibility}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="100" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.ColumnSpan="2" Orientation="Horizontal">
+                            <Ellipse
+                                Width="7"
+                                Height="7"
+                                Margin="0,0,6,0"
+                                Fill="{DynamicResource Skin.AccentBrush}" />
+                            <controls:TextBlock
+                                FontSize="11"
+                                FontWeight="Bold"
+                                Foreground="{DynamicResource Skin.AccentBrush}"
+                                Text="{DynamicResource Skin.Nailong.Title}" />
+                        </StackPanel>
+                        <controls:TextBlock
+                            Grid.Row="1"
+                            Margin="0,8,0,0"
+                            VerticalAlignment="Center"
+                            FontSize="18"
+                            FontWeight="Bold"
+                            Foreground="{DynamicResource Skin.InkBrush}"
+                            Text="{DynamicResource Skin.Nailong.Tagline}"
+                            TextWrapping="Wrap" />
+                        <controls:NailongMascot
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            Width="100"
+                            Height="108"
+                            Margin="0,4,-5,0" />
+                        <Border
+                            Grid.Row="2"
+                            Grid.ColumnSpan="2"
+                            Padding="7,4"
+                            HorizontalAlignment="Left"
+                            Background="{DynamicResource Skin.HighlightBrush}"
+                            CornerRadius="6">
+                            <controls:TextBlock
+                                FontSize="11"
+                                Foreground="#49371F"
+                                Text="{DynamicResource Skin.Nailong.Badge}"
+                                TextWrapping="Wrap" />
+                        </Border>
+                    </Grid>
+                </Border>
 
                 <!--  Logs (download + feed cards)  -->
                 <Grid Grid.Row="1">

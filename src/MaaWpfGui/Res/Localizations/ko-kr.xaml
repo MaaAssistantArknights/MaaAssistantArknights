@@ -1977,6 +1977,12 @@ MAA는 비설치형 응용 프로그램으로, 삭제 시 레지스트리 항목
     <system:String x:Key="Settings.Update.StartupCheck">시작 시 업데이트 확인</system:String>
     <system:String x:Key="Settings.Update.Title">업데이트</system:String>
     <system:String x:Key="Settings.Update.UiVersion">UI 버전</system:String>
+    <system:String x:Key="Skin.Nailong.Badge">오늘은 배꼽 빠지게 웃는 날</system:String>
+    <system:String x:Key="Skin.Nailong.Credit">Naiwa pixel animation · Maple498 / nai-wa-codex-pet · CC BY 4.0 · Unmodified · https://github.com/Maple498/nai-wa-codex-pet · https://creativecommons.org/licenses/by/4.0/</system:String>
+    <system:String x:Key="Skin.Nailong.Laugh">하하하</system:String>
+    <system:String x:Key="Skin.Nailong.Sanity">이성 -1</system:String>
+    <system:String x:Key="Skin.Nailong.Tagline">이성은 퇴근. 나이롱은 출근.</system:String>
+    <system:String x:Key="Skin.Nailong.Title">MAA × 나이롱</system:String>
     <system:String x:Key="TaskQueue.AdbReplacementTips">작업이 전혀 반응하지 않을 경우, ｢{key=Settings.Title} - {key=Settings.Connection.Title} - {key=Connection.ForcedReplaceAdb}｣를 사용하거나, 터치 모드에서 ADB Input(권장하지 않음)을 선택해 보세요.</system:String>
     <system:String x:Key="TaskQueue.AddTask">새 작업 추가</system:String>
     <system:String x:Key="TaskQueue.AdvancedSettings">고급 설정</system:String>

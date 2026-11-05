@@ -4,6 +4,7 @@
         x:Key="MaaButtonDefaultStyle"
         BasedOn="{StaticResource ButtonBaseStyle}"
         TargetType="{x:Type Button}">
+        <Setter Property="hc:BorderElement.CornerRadius" Value="{DynamicResource Skin.ControlCornerRadius}" />
         <Setter Property="Background" Value="{DynamicResource RegionBrushOpacity25}" />
         <Setter Property="Foreground" Value="{DynamicResource PrimaryTextBrush}" />
     </Style>

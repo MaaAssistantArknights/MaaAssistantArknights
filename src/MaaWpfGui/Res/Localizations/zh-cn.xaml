@@ -1977,6 +1977,12 @@ DEBUG 目录下保存的图片有数量限制，超出后会自动清理旧图�
     <system:String x:Key="Settings.Update.StartupCheck">启动时检查更新</system:String>
     <system:String x:Key="Settings.Update.Title">更新设置</system:String>
     <system:String x:Key="Settings.Update.UiVersion">界面版本</system:String>
+    <system:String x:Key="Skin.Nailong.Badge">今日宜：捧腹大笑</system:String>
+    <system:String x:Key="Skin.Nailong.Credit">Naiwa pixel animation · Maple498 / nai-wa-codex-pet · CC BY 4.0 · Unmodified · https://github.com/Maple498/nai-wa-codex-pet · https://creativecommons.org/licenses/by/4.0/</system:String>
+    <system:String x:Key="Skin.Nailong.Laugh">哈哈哈</system:String>
+    <system:String x:Key="Skin.Nailong.Sanity">理智 -1</system:String>
+    <system:String x:Key="Skin.Nailong.Tagline">理智下班，奶龙上班。</system:String>
+    <system:String x:Key="Skin.Nailong.Title">MAA × 奶龙</system:String>
     <system:String x:Key="TaskQueue.AdbReplacementTips">如果任务完全没有反应，请使用 ｢{key=Settings.Title} - {key=Settings.Connection.Title} - {key=Connection.ForcedReplaceAdb}｣，或触控模式选择 ADB Input（不推荐）。</system:String>
     <system:String x:Key="TaskQueue.AddTask">添加新任务</system:String>
     <system:String x:Key="TaskQueue.AdvancedSettings">高级设置</system:String>
