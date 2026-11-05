@@ -341,23 +341,26 @@ int asst::OcrPackNcnn::bind_performance_cores()
     const int count = ncnn::get_cpu_count();
     std::vector<long> max_freq(count, 0);
     long lowest = 0;
+    bool readable = true;
     for (int i = 0; i < count; ++i) {
         std::ifstream ifs(utils::path(std::format("/sys/devices/system/cpu/cpu{}/cpufreq/cpuinfo_max_freq", i)));
-        if (ifs >> max_freq[i] && max_freq[i] > 0 && (lowest == 0 || max_freq[i] < lowest)) {
-            lowest = max_freq[i];
+        if (!(ifs >> max_freq[i]) || max_freq[i] <= 0) {
+            readable = false;
+            break;
         }
+        lowest = lowest == 0 ? max_freq[i] : std::min(lowest, max_freq[i]);
     }
     ncnn::CpuSet mask;
-    for (int i = 0; i < count; ++i) {
+    for (int i = 0; readable && i < count; ++i) {
         if (max_freq[i] > lowest) {
             mask.enable(i);
         }
     }
 
     if (mask.num_enabled() == 0) {
-        ncnn::set_cpu_powersave(2);
+        ncnn::set_cpu_powersave(0);
         const int threads = count <= 2 ? 1 : count <= 4 ? 2 : count <= 12 ? 3 : 4;
-        LogInfo << __FUNCTION__ << "uniform cpu frequency, powersave 2, threads" << threads;
+        LogInfo << __FUNCTION__ << "no frequency tiers, unbound, threads" << threads;
         return threads;
     }
 
