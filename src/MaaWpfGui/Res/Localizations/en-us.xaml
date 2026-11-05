@@ -1296,6 +1296,7 @@ Cache files (such as maps, operator avatars, etc.) need to be regenerated after 
     <system:String x:Key="Guide.RestartPrompt">The settings guide will be displayed on the main interface. Restart the application now?</system:String>
     <system:String x:Key="Guide.Settings">Settings Guide</system:String>
     <system:String x:Key="Guide.Skip">Skip</system:String>
+    <system:String x:Key="Guide.SkipPrompt" xml:space="preserve">The remaining steps, such as "{key=TaskQueue.TaskSettings}", demonstrate common task queue operations. Completing the guide is recommended. Skip anyway?&#10;You can revisit it later via "{key=Guide.Restart}" under "{key=Settings.Title} - {key=Settings.Ui.Title} - {key=Guide.Title}".</system:String>
     <system:String x:Key="Guide.Tip">Prompt appears when hovered</system:String>
     <system:String x:Key="Guide.Title">Operations and Guide</system:String>
     <system:String x:Key="Guide.User">User Guide</system:String>
@@ -1907,15 +1908,28 @@ If system notifications are turned off, an in-app notification will be used inst
     • {key=Settings.Update.Channel.Stable}: Contains fewer bugs, but new features and themes are supported later. New features may take several weeks to become available</system:String>
     <system:String x:Key="Settings.Update.CheckNow">Software update</system:String>
     <system:String x:Key="Settings.Update.CoreVersion">Core Version</system:String>
-    <system:String x:Key="Settings.Update.ForceGithub">Force using GitHub</system:String>
-    <system:String x:Key="Settings.Update.ForceGithub.Tip">When updates are detected, force download update packages from GitHub</system:String>
+    <system:String x:Key="Settings.Update.GitHub.Token">GitHub Token</system:String>
+    <system:String x:Key="Settings.Update.GitHub.Token.Checking">Validating token…</system:String>
+    <system:String x:Key="Settings.Update.GitHub.Token.Expired">Token has expired.</system:String>
+    <system:String x:Key="Settings.Update.GitHub.Token.Failed">Token validation failed. Check your network connection.</system:String>
+    <system:String x:Key="Settings.Update.GitHub.Token.Generate">Generate Token</system:String>
+    <system:String x:Key="Settings.Update.GitHub.Token.Invalid">The token is invalid. Please check if the input is correct.</system:String>
+    <system:String x:Key="Settings.Update.GitHub.Token.NeverExpires">Token never expires.</system:String>
+    <system:String x:Key="Settings.Update.GitHub.Token.RemainingDays">Token expires in {0} days.</system:String>
+    <system:String x:Key="Settings.Update.GitHub.Token.Tip" xml:space="preserve">Anonymous access to the GitHub API is rate-limited; without a token, update checks are provided by the MAA Team.
+After entering and validating your own {key=Settings.Update.GitHub.Token}, you get a dedicated quota, and both software and resource update checks and downloads are provided by GitHub.
+A read-only token is recommended; no other permissions are required.</system:String>
     <system:String x:Key="Settings.Update.LocalResourcePackageTooOld">Resource package version ({0}) is not newer than the current version ({1}). Import skipped.</system:String>
     <system:String x:Key="Settings.Update.MaaVersion">Software Version</system:String>
-    <system:String x:Key="Settings.Update.MirrorChyan.CdkFetchFailed">Failed to retrieve CDK information. Showing the result from the last successful query.</system:String>
+    <system:String x:Key="Settings.Update.MirrorChyan.Cdk">{key=Settings.Update.Source.MirrorChyan} CDK</system:String>
+    <system:String x:Key="Settings.Update.MirrorChyan.Cdk.Tip" xml:space="preserve">After entering a {key=Settings.Update.Source.MirrorChyan} CDK, automatic updates for both software and resources are enabled, with downloads prioritized via the high-speed CDN for greater stability and speed.</system:String>
     <system:String x:Key="Settings.Update.MirrorChyan.CdkRemainingDays">CDK expires in {0} days.</system:String>
+    <system:String x:Key="Settings.Update.MirrorChyan.Checking">Validating CDK…</system:String>
+    <system:String x:Key="Settings.Update.MirrorChyan.ExpirationUnknown">CDK expiration date is unavailable.</system:String>
     <system:String x:Key="Settings.Update.MirrorChyan.ResourceUpdate.Brief.Tip">Resource update {0} detected</system:String>
     <system:String x:Key="Settings.Update.MirrorChyan.ResourceUpdate.Tip">Resource update {0} detected. Please go to ｢{key=Settings.Title} - {key=Settings.Update.Title} - {key=Settings.Update.ResourceUpdate}｣ to update manually, or fill in MirrorChyan CDK to update automatically.</system:String>
     <system:String x:Key="Settings.Update.MirrorChyan.SelectedButNoCdk">Please go to ｢{key=Settings.Title} - {key=Settings.Update.Title}｣ to configure MirrorChyan CDK or switch to Global Source.</system:String>
+    <system:String x:Key="Settings.Update.MirrorChyan.ValidationFailed">CDK validation failed. Check your network connection.</system:String>
     <system:String x:Key="Settings.Update.NoNeedToUpdateDebugVersion">Now using debug version, no need to update</system:String>
     <system:String x:Key="Settings.Update.ResourceDateTime">Resource Date</system:String>
     <system:String x:Key="Settings.Update.ResourceRepository">Resource Repository</system:String>
@@ -1938,8 +1952,8 @@ Are you sure you want to disable the update progress window?</system:String>
     <system:String x:Key="Settings.Update.Source.MirrorChyan">MirrorChyan</system:String>
     <system:String x:Key="Settings.Update.Source.Tip" xml:space="preserve">
 🌏 Using {key=Settings.Update.Source.Global}:
-    • {key=Settings.Update.CheckNow}: Update checks are provided by the MAA Team, with update packages pulled from GitHub. A direct domestic mirror is also available (limited bandwidth during peak hours)
-    • {key=Settings.Update.ResourceUpdate}: Free update checks provided by {key=Settings.Update.Source.MirrorChyan}. You can manually click "{key=Settings.Update.ResourceUpdate}" in Settings to download from GitHub
+    • Without a validated GitHub Token, {key=Settings.Update.CheckNow} checks are provided by the MAA Team, with update packages downloaded from GitHub; {key=Settings.Update.ResourceUpdate} checks are provided free by {key=Settings.Update.Source.MirrorChyan}, and you can click "{key=Settings.Update.ResourceUpdate}" in Settings to download from GitHub manually
+    • After entering and validating a GitHub Token, both software and resource update checks and downloads are provided by GitHub.
 
 🔑 Using {key=Settings.Update.Source.MirrorChyan}:
     • After entering a CDK, automatic updates for both software and resources are enabled
@@ -2560,6 +2574,7 @@ Continue only after you have verified the directory layout and finished a manual
     <system:String x:Key="VersionUpdate.PendingFullUpdate.No">Not now, start current version</system:String>
     <system:String x:Key="VersionUpdate.PendingFullUpdate.Title">Manual confirmation required for full-package update</system:String>
     <system:String x:Key="VersionUpdate.PendingFullUpdate.Yes">I backed it up, continue update</system:String>
+    <system:String x:Key="VersionUpdate.RateLimited">Update requests are rate limited. Please try again later.</system:String>
     <system:String x:Key="VersionUpdate.ResourceBroken">The resources are damaged. Try auto repair (download the full package again), or continue for now and update later by dragging in a local full package.\n\n{key=VersionUpdate.FullPackageUpgrade.Tip}</system:String>
     <system:String x:Key="VersionUpdate.ResourceVersion">Resource Version</system:String>
     <system:String x:Key="VersionUpdate.SecurityWhitelist.Tip">add the MAA installation folder to that software's allowlist before trying again.</system:String>

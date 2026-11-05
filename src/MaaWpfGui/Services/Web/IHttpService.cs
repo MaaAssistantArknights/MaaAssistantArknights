@@ -101,6 +101,18 @@ public interface IHttpService
     /// <param name="uri">The URI of the file</param>
     /// <param name="fileName">On disk filename</param>
     /// <param name="contentType">File content type</param>
+    /// <param name="token">Cancellation token to abort the download</param>
     /// <returns>true if succeeded, false if failed</returns>
-    Task<bool> DownloadFileAsync(Uri uri, string fileName, string? contentType = null);
+    Task<bool> DownloadFileAsync(Uri uri, string fileName, string? contentType = null, CancellationToken token = default);
+
+    /// <summary>
+    /// Download a file and preserve the HTTP status and retry delay.
+    /// </summary>
+    /// <param name="uri">The URI of the file.</param>
+    /// <param name="fileName">On disk filename.</param>
+    /// <param name="contentType">File content type.</param>
+    /// <param name="extraHeader">Extra HTTP request headers.</param>
+    /// <param name="token">Cancellation token to abort the download.</param>
+    /// <returns>The download result, including any server retry delay.</returns>
+    Task<HttpDownloadResult> DownloadFileWithResultAsync(Uri uri, string fileName, string? contentType = null, Dictionary<string, string>? extraHeader = null, CancellationToken token = default);
 }

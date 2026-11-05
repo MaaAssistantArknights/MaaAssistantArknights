@@ -245,6 +245,9 @@
     "InfrastDormConfirmButtonWait": {
         "text": ["正在提交", "反饋至神經"]
     },
+    "InfrastUnexecutedPlanLeaveConfirm": {
+        "text": ["尚未執行", "確認離開設施"]
+    },
     "InfrastClueSelfFull": {
         "text": ["已達線索上限", "無法獲取新的線索", "上限", "無法"]
     },

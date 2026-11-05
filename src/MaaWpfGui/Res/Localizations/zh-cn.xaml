@@ -1297,6 +1297,7 @@ DEBUG 目录下保存的图片有数量限制，超出后会自动清理旧图�
     <system:String x:Key="Guide.RestartPrompt">设置指引将在主界面显示，是否立即重启应用？</system:String>
     <system:String x:Key="Guide.Settings">设置指引</system:String>
     <system:String x:Key="Guide.Skip">跳过</system:String>
+    <system:String x:Key="Guide.SkipPrompt" xml:space="preserve">｢{key=TaskQueue.TaskSettings}｣ 等剩余步骤演示了任务队列的常用操作，建议完整走完。确定跳过吗？&#10;之后可在 ｢{key=Settings.Title} - {key=Settings.Ui.Title} - {key=Guide.Title}｣ 中{key=Guide.Restart}。</system:String>
     <system:String x:Key="Guide.Tip">鼠标移至此处会有提示哦</system:String>
     <system:String x:Key="Guide.Title">操作与指引</system:String>
     <system:String x:Key="Guide.User">使用指引</system:String>
@@ -1908,15 +1909,28 @@ DEBUG 目录下保存的图片有数量限制，超出后会自动清理旧图�
 • {key=Settings.Update.Channel.Stable}: Bug 更少, 新功能新主题支持更慢。新功能可能需要数周后才会支持</system:String>
     <system:String x:Key="Settings.Update.CheckNow">软件更新</system:String>
     <system:String x:Key="Settings.Update.CoreVersion">核心版本</system:String>
-    <system:String x:Key="Settings.Update.ForceGithub">强制使用 GitHub</system:String>
-    <system:String x:Key="Settings.Update.ForceGithub.Tip">检测到更新后，强制从 GitHub 下载更新包</system:String>
+    <system:String x:Key="Settings.Update.GitHub.Token">GitHub Token</system:String>
+    <system:String x:Key="Settings.Update.GitHub.Token.Checking">正在验证 Token……</system:String>
+    <system:String x:Key="Settings.Update.GitHub.Token.Expired">Token 已过期。</system:String>
+    <system:String x:Key="Settings.Update.GitHub.Token.Failed">Token 验证失败，请检查网络。</system:String>
+    <system:String x:Key="Settings.Update.GitHub.Token.Generate">生成 Token</system:String>
+    <system:String x:Key="Settings.Update.GitHub.Token.Invalid">Token 无效，请检查输入是否正确。</system:String>
+    <system:String x:Key="Settings.Update.GitHub.Token.NeverExpires">Token 永不过期。</system:String>
+    <system:String x:Key="Settings.Update.GitHub.Token.RemainingDays">Token 还剩 {0} 天到期。</system:String>
+    <system:String x:Key="Settings.Update.GitHub.Token.Tip" xml:space="preserve">GitHub API 匿名访问有速率限制；不填写时更新检测由 MAA Team 提供。
+填写并验证自己的 {key=Settings.Update.GitHub.Token} 后使用独立配额，软件和资源的更新检查与下载均由 GitHub 提供。
+建议使用只读 Token，无需授予其他权限。</system:String>
     <system:String x:Key="Settings.Update.LocalResourcePackageTooOld">资源包版本（{0}）小于等于当前版本（{1}），已跳过导入。</system:String>
     <system:String x:Key="Settings.Update.MaaVersion">软件版本</system:String>
-    <system:String x:Key="Settings.Update.MirrorChyan.CdkFetchFailed">获取 CDK 信息失败，已显示上次成功查询的结果。</system:String>
+    <system:String x:Key="Settings.Update.MirrorChyan.Cdk">{key=Settings.Update.Source.MirrorChyan} CDK</system:String>
+    <system:String x:Key="Settings.Update.MirrorChyan.Cdk.Tip" xml:space="preserve">填写 {key=Settings.Update.Source.MirrorChyan} CDK 后，支持软件与资源的自动更新，下载优先走高速 CDN，更稳定快速。</system:String>
     <system:String x:Key="Settings.Update.MirrorChyan.CdkRemainingDays">CDK 还剩 {0} 天到期。</system:String>
+    <system:String x:Key="Settings.Update.MirrorChyan.Checking">正在验证 CDK……</system:String>
+    <system:String x:Key="Settings.Update.MirrorChyan.ExpirationUnknown">未获取到 CDK 到期时间。</system:String>
     <system:String x:Key="Settings.Update.MirrorChyan.ResourceUpdate.Brief.Tip">检测到资源更新: {0}</system:String>
     <system:String x:Key="Settings.Update.MirrorChyan.ResourceUpdate.Tip">检测到资源更新: {0}。请前往 ｢{key=Settings.Title} - {key=Settings.Update.Title} - {key=Settings.Update.ResourceUpdate}｣ 手动更新，或配置 Mirror酱 CDK 以自动更新。</system:String>
     <system:String x:Key="Settings.Update.MirrorChyan.SelectedButNoCdk">请前往 ｢{key=Settings.Title} - {key=Settings.Update.Title}｣ 配置 Mirror酱 CDK 或切换海外源。</system:String>
+    <system:String x:Key="Settings.Update.MirrorChyan.ValidationFailed">CDK 验证失败，请检查网络。</system:String>
     <system:String x:Key="Settings.Update.NoNeedToUpdateDebugVersion">当前为调试版本，无需更新</system:String>
     <system:String x:Key="Settings.Update.ResourceDateTime">资源日期</system:String>
     <system:String x:Key="Settings.Update.ResourceRepository">资源仓库</system:String>
@@ -1939,8 +1953,8 @@ DEBUG 目录下保存的图片有数量限制，超出后会自动清理旧图�
     <system:String x:Key="Settings.Update.Source.MirrorChyan">Mirror酱</system:String>
     <system:String x:Key="Settings.Update.Source.Tip" xml:space="preserve">
 🌏 使用{key=Settings.Update.Source.Global}：
-    • {key=Settings.Update.CheckNow}：由 MAA Team 提供更新检测，从 GitHub 拉取更新包，国内同步提供直连镜像（带宽有限，高峰期可能受限）
-    • {key=Settings.Update.ResourceUpdate}：由 {key=Settings.Update.Source.MirrorChyan} 提供免费的更新检测，可手动在设置中点击 ｢{key=Settings.Update.ResourceUpdate}｣ 从 GitHub 下载
+    • 未启用 GitHub Token 时，{key=Settings.Update.CheckNow}由 MAA Team 提供更新检测，从 GitHub 下载更新包；{key=Settings.Update.ResourceUpdate}由 {key=Settings.Update.Source.MirrorChyan} 提供免费的更新检测，可手动在设置中点击 ｢{key=Settings.Update.ResourceUpdate}｣ 从 GitHub 下载
+    • 填写并验证 GitHub Token 后，软件和资源的更新检查与下载均由 GitHub 提供。
 
 🔑 使用 {key=Settings.Update.Source.MirrorChyan}：
     • 填写 CDK 后，支持软件与资源的自动更新
@@ -2560,6 +2574,7 @@ D:\
     <system:String x:Key="VersionUpdate.PendingFullUpdate.No">暂不更新，继续启动当前版本</system:String>
     <system:String x:Key="VersionUpdate.PendingFullUpdate.Title">完整包更新需要手动确认</system:String>
     <system:String x:Key="VersionUpdate.PendingFullUpdate.Yes">我已手动确认并备份，继续更新</system:String>
+    <system:String x:Key="VersionUpdate.RateLimited">更新请求受到速率限制，请稍后重试。</system:String>
     <system:String x:Key="VersionUpdate.ResourceBroken">资源损坏，可尝试自动修复（重新下载完整安装包），或暂不处理、稍后拖入本地完整包更新。\n\n{key=VersionUpdate.FullPackageUpgrade.Tip}</system:String>
     <system:String x:Key="VersionUpdate.ResourceVersion">资源版本</system:String>
     <system:String x:Key="VersionUpdate.SecurityWhitelist.Tip">建议将 MAA 所在文件夹加入对应软件白名单后再试。</system:String>

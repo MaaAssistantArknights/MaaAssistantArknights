@@ -1297,6 +1297,7 @@ DEBUG 디렉토리에 저장된 이미지는 수량 제한이 있으며 초과 �
     <system:String x:Key="Guide.RestartPrompt">설정 가이드는 기본 인터페이스에 표시됩니다. 지금 애플리케이션을 다시 시작하시겠습니까?</system:String>
     <system:String x:Key="Guide.Settings">설정 가이드</system:String>
     <system:String x:Key="Guide.Skip">건너뛰기</system:String>
+    <system:String x:Key="Guide.SkipPrompt" xml:space="preserve">{key=TaskQueue.TaskSettings} 등 남은 단계에서 주요 작업 방법을 안내합니다. 끝까지 진행하는 것을 권장합니다. 건너뛰시겠습니까?&#10;나중에 "{key=Settings.Title} - {key=Settings.Ui.Title} - {key=Guide.Title}"에서 {key=Guide.Restart} 기능을 사용할 수 있습니다.</system:String>
     <system:String x:Key="Guide.Tip">마우스를 올리면 팁이 보입니다</system:String>
     <system:String x:Key="Guide.Title">조작 및 가이드</system:String>
     <system:String x:Key="Guide.User">사용 가이드</system:String>
@@ -1908,15 +1909,28 @@ MAA는 비설치형 응용 프로그램으로, 삭제 시 레지스트리 항목
 • {key=Settings.Update.Channel.Stable}: 새로운 기능 및 테마의 지원이 느리게 제공되지만, 버그가 적습니다. 단, 새로운 기능이 지원되기까지 몇 주가 걸릴 수 있습니다.</system:String>
     <system:String x:Key="Settings.Update.CheckNow">소프트웨어 업데이트</system:String>
     <system:String x:Key="Settings.Update.CoreVersion">Core 버전</system:String>
-    <system:String x:Key="Settings.Update.ForceGithub">GitHub 강제 사용</system:String>
-    <system:String x:Key="Settings.Update.ForceGithub.Tip">업데이트 감지 후, Github에서 강제로 업데이트 패키지 다운로드</system:String>
+    <system:String x:Key="Settings.Update.GitHub.Token">GitHub Token</system:String>
+    <system:String x:Key="Settings.Update.GitHub.Token.Checking">Token 확인 중…</system:String>
+    <system:String x:Key="Settings.Update.GitHub.Token.Expired">Token이 만료되었습니다.</system:String>
+    <system:String x:Key="Settings.Update.GitHub.Token.Failed">Token 검증에 실패했습니다. 네트워크 연결을 확인하세요.</system:String>
+    <system:String x:Key="Settings.Update.GitHub.Token.Generate">Token 생성</system:String>
+    <system:String x:Key="Settings.Update.GitHub.Token.Invalid">Token이 유효하지 않습니다. 입력값이 올바른지 확인해 주세요.</system:String>
+    <system:String x:Key="Settings.Update.GitHub.Token.NeverExpires">Token 만료 없음.</system:String>
+    <system:String x:Key="Settings.Update.GitHub.Token.RemainingDays">Token 만료까지 {0}일 남았습니다.</system:String>
+    <system:String x:Key="Settings.Update.GitHub.Token.Tip" xml:space="preserve">GitHub API 익명 접근은 속도 제한 대상입니다. 입력하지 않으면 업데이트 확인은 MAA Team이 제공합니다.
+자신의 {key=Settings.Update.GitHub.Token}을(를) 입력하고 유효성 확인에 성공하면 별도 할당량을 사용하며, 소프트웨어와 리소스의 업데이트 확인 및 다운로드를 모두 GitHub에서 제공합니다.
+읽기 전용 Token 사용을 권장하며, 다른 권한은 필요하지 않습니다.</system:String>
     <system:String x:Key="Settings.Update.LocalResourcePackageTooOld">리소스 패키지 버전({0})이 현재 버전({1})보다 새롭지 않아 가져오기를 건너뛰었습니다.</system:String>
     <system:String x:Key="Settings.Update.MaaVersion">소프트웨어 버전</system:String>
-    <system:String x:Key="Settings.Update.MirrorChyan.CdkFetchFailed">CDK 정보를 가져오지 못했습니다. 마지막으로 성공적으로 조회한 결과를 표시합니다.</system:String>
+    <system:String x:Key="Settings.Update.MirrorChyan.Cdk">{key=Settings.Update.Source.MirrorChyan} CDK</system:String>
+    <system:String x:Key="Settings.Update.MirrorChyan.Cdk.Tip" xml:space="preserve">{key=Settings.Update.Source.MirrorChyan} CDK를 입력하면 소프트웨어와 리소스 모두 자동 업데이트를 지원하며, 다운로드는 고속 CDN이 우선되어 더욱 안정적이고 빠릅니다.</system:String>
     <system:String x:Key="Settings.Update.MirrorChyan.CdkRemainingDays">CDK 만료까지 {0}일 남았습니다.</system:String>
+    <system:String x:Key="Settings.Update.MirrorChyan.Checking">CDK 확인 중…</system:String>
+    <system:String x:Key="Settings.Update.MirrorChyan.ExpirationUnknown">CDK 만료 날짜를 가져오지 못했습니다.</system:String>
     <system:String x:Key="Settings.Update.MirrorChyan.ResourceUpdate.Brief.Tip">리소스 업데이트 {0}이 감지되었습니다</system:String>
     <system:String x:Key="Settings.Update.MirrorChyan.ResourceUpdate.Tip">리소스 업데이트 {0}이 감지되었습니다. ｢{key=Settings.Title} - {key=Settings.Update.Title} - {key=Settings.Update.ResourceUpdate}｣ 로 이동하여 수동으로 업데이트하거나, MirrorChyan CDK를 입력하여 자동으로 업데이트하세요.</system:String>
     <system:String x:Key="Settings.Update.MirrorChyan.SelectedButNoCdk">｢{key=Settings.Title} - {key=Settings.Update.Title}｣ 으로 이동하여 MirrorChyan CDK를 구성하거나 글로벌 소스로 전환하세요.</system:String>
+    <system:String x:Key="Settings.Update.MirrorChyan.ValidationFailed">CDK 검증에 실패했습니다. 네트워크 연결을 확인하세요.</system:String>
     <system:String x:Key="Settings.Update.NoNeedToUpdateDebugVersion">Debug 버전이므로 업데이트할 필요가 없습니다</system:String>
     <system:String x:Key="Settings.Update.ResourceDateTime">리소스 날짜</system:String>
     <system:String x:Key="Settings.Update.ResourceRepository">리소스 저장소</system:String>
@@ -1939,8 +1953,8 @@ MAA는 비설치형 응용 프로그램으로, 삭제 시 레지스트리 항목
     <system:String x:Key="Settings.Update.Source.MirrorChyan">MirrorChyan</system:String>
     <system:String x:Key="Settings.Update.Source.Tip" xml:space="preserve">
 🌏 {key=Settings.Update.Source.Global} 사용:
-    • {key=Settings.Update.CheckNow}: MAA Team에서 업데이트를 확인하고, GitHub에서 설치 파일을 다운로드합니다. 중국에서는 직접 연결 가능한 미러도 제공됩니다. (대역폭이 제한되어 있으며, 트래픽에 따라 접속이 제한될 수 있습니다)
-    • {key=Settings.Update.ResourceUpdate}: {key=Settings.Update.Source.MirrorChyan}에서 무료로 업데이트 확인을 제공합니다. 설정에서 "{key=Settings.Update.ResourceUpdate}"를 수동으로 클릭하여 GitHub에서 다운로드할 수 있습니다
+    • 확인된 GitHub Token이 없으면 {key=Settings.Update.CheckNow}는 MAA Team에서 업데이트를 확인하고 GitHub에서 업데이트 패키지를 다운로드합니다. {key=Settings.Update.ResourceUpdate}는 {key=Settings.Update.Source.MirrorChyan}에서 무료로 업데이트를 확인하며, 설정의 "{key=Settings.Update.ResourceUpdate}"를 클릭하여 GitHub에서 수동으로 다운로드할 수 있습니다
+    • GitHub Token을 입력하고 유효성 확인에 성공하면 소프트웨어와 리소스의 업데이트 확인 및 다운로드를 모두 GitHub에서 제공합니다.
 
 🔑 {key=Settings.Update.Source.MirrorChyan} 사용:
     • CDK 입력 시, 소프트웨어와 리소스 모두 자동 업데이트를 지원합니다
@@ -2560,6 +2574,7 @@ D:\
     <system:String x:Key="VersionUpdate.PendingFullUpdate.No">나중에 하겠습니다</system:String>
     <system:String x:Key="VersionUpdate.PendingFullUpdate.Title">전체 패키지 업데이트는 수동 확인이 필요합니다</system:String>
     <system:String x:Key="VersionUpdate.PendingFullUpdate.Yes">백업했으니 업데이트를 하겠습니다</system:String>
+    <system:String x:Key="VersionUpdate.RateLimited">업데이트 요청이 속도 제한되었습니다. 잠시 후 다시 시도해 주세요.</system:String>
     <system:String x:Key="VersionUpdate.ResourceBroken">리소스 파일이 손상되었습니다. 자동 복구(전체 패키지 다운로드)를 시도하거나, 지금은 계속 진행한 뒤 나중에 로컬 전체 패키지를 끌어다 놓아 업데이트하세요.\n\n{key=VersionUpdate.FullPackageUpgrade.Tip}</system:String>
     <system:String x:Key="VersionUpdate.ResourceVersion">리소스 버전</system:String>
     <system:String x:Key="VersionUpdate.SecurityWhitelist.Tip">MAA가 있는 폴더를 해당 소프트웨어의 허용 목록에 추가한 뒤 다시 시도해 주세요.</system:String>

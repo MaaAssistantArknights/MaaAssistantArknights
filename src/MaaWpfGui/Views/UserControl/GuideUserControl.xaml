@@ -7,13 +7,11 @@
     xmlns:controls="clr-namespace:MaaWpfGui.Styles.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:dd="urn:gong-wpf-dragdrop"
-    xmlns:enums="clr-namespace:MaaWpfGui.Constants.Enums"
     xmlns:hc="https://handyorg.github.io/handycontrol"
     xmlns:helper="clr-namespace:MaaWpfGui.Helper"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:s="https://github.com/canton7/Stylet"
     xmlns:settings="clr-namespace:MaaWpfGui.Views.UserControl.Settings"
-    xmlns:uiBehaviors="clr-namespace:MaaWpfGui.Extensions.UIBehaviors"
     xmlns:ui_vms="clr-namespace:MaaWpfGui.ViewModels.UI"
     d:Background="White"
     d:DataContext="{d:DesignInstance ui_vms:SettingsViewModel}"
@@ -28,7 +26,7 @@
                     <Button
                         Margin="5,0"
                         hc:RelativePanel.AlignVerticalCenterWithPanel="True"
-                        Command="{s:Action DoneGuide}"
+                        Command="{s:Action SkipGuide}"
                         Content="{DynamicResource Guide.Skip}"
                         Style="{StaticResource ButtonDashedWarning.Small}"
                         Visibility="{c:Binding GuideSkipVisible}" />
@@ -70,8 +68,8 @@
                             <hc:StepBarItem Content="{DynamicResource Guide.User}" />
                             <hc:StepBarItem Content="{DynamicResource Settings.Game.Title}" />
                             <hc:StepBarItem Content="{DynamicResource Settings.Connection.Title}" />
-                            <hc:StepBarItem Content="{DynamicResource TaskQueue.TaskSettings}" />
                             <hc:StepBarItem Content="{DynamicResource Settings.Performance.Title}" />
+                            <hc:StepBarItem Content="{DynamicResource TaskQueue.TaskSettings}" />
                             <hc:StepBarItem Content="{DynamicResource Settings.Update.Title}" />
                         </hc:StepBar>
                         <Button
@@ -97,6 +95,7 @@
                     <controls:TextBlock
                         Grid.Row="2"
                         MaxWidth="{Binding ElementName=GuideButtonPanel, Path=ActualWidth}"
+                        VerticalAlignment="Top"
                         d:Text="Next gate tip"
                         FontSize="12"
                         Text="{Binding GuideNextGateTip}"
@@ -183,7 +182,7 @@
                             Height="430"
                             d:Visibility="Collapsed"
                             TransitionMode="{Binding GuideTransitionMode}"
-                            Visibility="{c:Binding 'GuideStepIndex == 4'}">
+                            Visibility="{c:Binding 'GuideStepIndex == 5'}">
                             <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto" />
@@ -766,7 +765,7 @@
                         <hc:TransitioningContentControl
                             d:Visibility="Collapsed"
                             TransitionMode="{Binding GuideTransitionMode}"
-                            Visibility="{c:Binding 'GuideStepIndex == 5'}">
+                            Visibility="{c:Binding 'GuideStepIndex == 4'}">
                             <StackPanel s:View.ActionTarget="{Binding DataContext, RelativeSource={RelativeSource Self}}" DataContext="{Binding Source={x:Static ui_vms:SettingsViewModel.PerformanceSettings}}">
                                 <controls:TextBlock
                                     MaxWidth="400"
@@ -845,58 +844,7 @@
                                         SelectedValue="{Binding UpdateSource}"
                                         SelectedValuePath="Value" />
                                 </StackPanel>
-                                <StackPanel>
-                                    <StackPanel Visibility="{c:Binding 'UpdateSource == enums:UpdateSource.MirrorChyan'}">
-                                        <controls:TextBlock Margin="8,0,0,5" HorizontalAlignment="Center">
-                                            <TextBlock.Text>
-                                                <MultiBinding StringFormat="{}{0} CDK">
-                                                    <Binding Source="{StaticResource Settings.Update.Source.MirrorChyan}" />
-                                                </MultiBinding>
-                                            </TextBlock.Text>
-                                        </controls:TextBlock>
-                                        <Grid Width="200">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="*" />
-                                                <ColumnDefinition Width="Auto" />
-                                            </Grid.ColumnDefinitions>
-                                            <hc:PasswordBox
-                                                hc:BorderElement.CornerRadius="4,0,0,4"
-                                                IsSafeEnabled="False"
-                                                ShowEyeButton="True"
-                                                UnsafePassword="{Binding MirrorChyanCdk}" />
-                                            <Button
-                                                Grid.Column="1"
-                                                hc:BorderElement.CornerRadius="0,4,4,0"
-                                                BorderThickness="0,1,1,1"
-                                                Command="{s:Action MirrorChyanCdkCopy}"
-                                                Content="{DynamicResource Common.Copy}" />
-                                        </Grid>
-                                        <controls:TextBlock
-                                            MaxWidth="300"
-                                            Margin="0,5,0,0"
-                                            Foreground="{DynamicResource ErrorLogBrush}"
-                                            Text="{DynamicResource Settings.Update.MirrorChyan.CdkFetchFailed}"
-                                            TextWrapping="Wrap"
-                                            Visibility="{c:Binding MirrorChyanCdkFetchFailed}" />
-                                        <controls:TextBlock
-                                            MaxWidth="300"
-                                            Margin="0,5,0,0"
-                                            d:Foreground="{DynamicResource SuccessLogBrush}"
-                                            d:Text="{DynamicResource Settings.Update.MirrorChyan.CdkRemainingDays}"
-                                            uiBehaviors:ResourceReferenceHelper.ForegroundResourceKey="{Binding MirrorChyanCdkRemainingBrush}"
-                                            Text="{Binding MirrorChyanCdkRemainingText}"
-                                            TextWrapping="Wrap"
-                                            ToolTip="{Binding MirrorChyanCdkExpiredLocalTime}" />
-                                    </StackPanel>
-                                    <controls:TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">
-                                        <Hyperlink
-                                            Cursor="Hand"
-                                            NavigateUri="{Binding Source={x:Static constants:MaaUrls.MirrorChyanWebsite}}"
-                                            TextDecorations="None">
-                                            <TextBlock Style="{StaticResource HyperlinkTextBlockStyle}" Text="{DynamicResource Settings.Update.Source.MirrorChyan}" />
-                                        </Hyperlink>
-                                    </controls:TextBlock>
-                                </StackPanel>
+                                <controls:UpdateCredentialInput Width="200" HorizontalAlignment="Center" />
                             </hc:UniformSpacingPanel>
                         </hc:TransitioningContentControl>
 

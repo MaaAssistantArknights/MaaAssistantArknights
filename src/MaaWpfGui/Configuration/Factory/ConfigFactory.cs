@@ -312,6 +312,12 @@ public static class ConfigFactory
         _debounceTimer.Change(PendingDelayMs, Timeout.Infinite);
 
         ConfigurationUpdateEvent?.Invoke(key, oldValue, newValue);
+        if (key is "Root.Update.GitHubToken" or "Root.Update.MirrorChyanCdk")
+        {
+            _logger.Information("Configuration {Key} has been updated, save scheduled", key);
+            return;
+        }
+
         _logger.Information("Configuration {Key} has been set: `{OldValue}` -> `{NewValue}`, save scheduled", key, oldValue, newValue);
     }
 

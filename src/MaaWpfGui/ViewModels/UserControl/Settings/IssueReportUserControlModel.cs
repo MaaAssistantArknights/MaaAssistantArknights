@@ -25,6 +25,8 @@ using HandyControl.Data;
 using JetBrains.Annotations;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using Serilog;
 using Stylet;
 
@@ -127,8 +129,7 @@ public class IssueReportUserControlModel : PropertyChangedBase
             };
 
             // 枚举与删除为纯 IO，移入后台线程避免文件多时冻结 UI；结束后需回 UI 线程展示结果，故不加 ConfigureAwait(false)
-            int deletedCount = await Task.Run(() =>
-            {
+            int deletedCount = await Task.Run(() => {
                 int count = 0;
 
                 if (Directory.Exists(PathsHelper.CacheDir))
@@ -222,8 +223,7 @@ public class IssueReportUserControlModel : PropertyChangedBase
             string fullZipPath = Path.Combine(PathsHelper.ReportsDir, $"{reportNameBase}.zip");
 
             // 目录复制与压缩为纯 IO，移入后台线程避免冻结 UI；结束后需回 UI 线程展示结果，故不加 ConfigureAwait(false)
-            await Task.Run(() =>
-            {
+            await Task.Run(() => {
                 string tempPath = Path.Combine(PathsHelper.ReportsDir, $"maa-report-{Guid.NewGuid()}");
                 Directory.CreateDirectory(tempPath);
 
@@ -238,6 +238,7 @@ public class IssueReportUserControlModel : PropertyChangedBase
                 CopyDirectoryIfExists(PathsHelper.ResourceDir, Path.Combine(tempPath, "resource"),
                     f => { return Path.GetFileName(f).Contains("_custom.", StringComparison.OrdinalIgnoreCase); });
                 CopyDirectoryIfExists(PathsHelper.ConfigDir, Path.Combine(tempPath, "config"));
+                RedactUpdateCredentials(Path.Combine(tempPath, "config"));
                 CopyDirectoryIfExists(PathsHelper.CacheDir, Path.Combine(tempPath, "cache"));
 
                 string partsFolder = Path.Combine(PathsHelper.ReportsDir, $"{reportNameBase}_parts");
@@ -348,6 +349,46 @@ public class IssueReportUserControlModel : PropertyChangedBase
         finally
         {
             IsGeneratingSupportPayload = false;
+        }
+    }
+
+    private static void RedactUpdateCredentials(string configDir)
+    {
+        if (!Directory.Exists(configDir))
+        {
+            return;
+        }
+
+        foreach (string file in Directory.EnumerateFiles(configDir, "gui.new.json*", SearchOption.AllDirectories))
+        {
+            JObject config;
+            try
+            {
+                config = JObject.Parse(File.ReadAllText(file));
+            }
+            catch (JsonException)
+            {
+                // 损坏的配置无法可靠移除凭据，不将其收入反馈包；仅删除临时副本。
+                File.Delete(file);
+                _logger.Warning("Excluded unreadable configuration from support payload: {File}", Path.GetFileName(file));
+                continue;
+            }
+
+            var credentials = config.Descendants().OfType<JProperty>()
+                .Where(property => property.Name.Equals("GitHubToken", StringComparison.OrdinalIgnoreCase) ||
+                    property.Name.Equals("MirrorChyanCdk", StringComparison.OrdinalIgnoreCase))
+                .ToList();
+            if (credentials.Count == 0)
+            {
+                continue;
+            }
+
+            foreach (var credential in credentials)
+            {
+                credential.Remove();
+            }
+
+            File.WriteAllText(file, config.ToString());
         }
     }
 
