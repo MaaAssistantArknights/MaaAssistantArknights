@@ -38,43 +38,97 @@
                 </hc:RelativePanel>
             </GroupBox.Header>
             <DockPanel>
-                <Grid VerticalAlignment="Stretch" DockPanel.Dock="Right">
+                <!--  顶部导航：横排步骤条，其下上一步/下一步分居左右两端，门槛提示居中占满两者之间的宽度  -->
+                <Grid Margin="10,10,10,0" DockPanel.Dock="Top">
                     <Grid.RowDefinitions>
-                        <RowDefinition />
                         <RowDefinition Height="Auto" />
-                        <RowDefinition Height="2*" />
+                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
-                    <StackPanel
-                        x:Name="GuideButtonPanel"
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <!--  步骤项等分整行宽度，外服长文案用包装 TextBlock 在格内换行（原版 TextBlock 以继承步骤状态前景色）  -->
+                    <hc:StepBar
+                        Name="GuideStepBar"
+                        Grid.ColumnSpan="3"
+                        d:StepIndex="5"
+                        StepIndex="{Binding GuideStepIndex}">
+                        <hc:StepBarItem>
+                            <TextBlock
+                                Text="{DynamicResource Settings.Ui.Title}"
+                                TextAlignment="Center"
+                                TextWrapping="Wrap" />
+                        </hc:StepBarItem>
+                        <hc:StepBarItem>
+                            <TextBlock
+                                Text="{DynamicResource Guide.User}"
+                                TextAlignment="Center"
+                                TextWrapping="Wrap" />
+                        </hc:StepBarItem>
+                        <hc:StepBarItem>
+                            <TextBlock
+                                Text="{DynamicResource Settings.Game.Title}"
+                                TextAlignment="Center"
+                                TextWrapping="Wrap" />
+                        </hc:StepBarItem>
+                        <hc:StepBarItem>
+                            <TextBlock
+                                Text="{DynamicResource Settings.Connection.Title}"
+                                TextAlignment="Center"
+                                TextWrapping="Wrap" />
+                        </hc:StepBarItem>
+                        <hc:StepBarItem>
+                            <TextBlock
+                                Text="{DynamicResource Settings.Performance.Title}"
+                                TextAlignment="Center"
+                                TextWrapping="Wrap" />
+                        </hc:StepBarItem>
+                        <hc:StepBarItem>
+                            <TextBlock
+                                Text="{DynamicResource TaskQueue.TaskSettings}"
+                                TextAlignment="Center"
+                                TextWrapping="Wrap" />
+                        </hc:StepBarItem>
+                        <hc:StepBarItem>
+                            <TextBlock
+                                Text="{DynamicResource Settings.Update.Title}"
+                                TextAlignment="Center"
+                                TextWrapping="Wrap" />
+                        </hc:StepBarItem>
+                    </hc:StepBar>
+                    <Button
                         Grid.Row="1"
-                        Margin="10,0"
+                        MinWidth="100"
+                        Margin="0,10,0,0"
+                        VerticalAlignment="Center"
+                        hc:IconElement.Geometry="{StaticResource UpGeometry}"
+                        hc:IconElement.Width="18"
+                        Command="{s:Action PrevGuide}"
+                        CommandParameter="{Binding ElementName=GuideStepBar}"
+                        Content="{DynamicResource Guide.Prev}"
+                        Style="{StaticResource ButtonDashedPrimary}" />
+                    <controls:TextBlock
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        Margin="10,10,10,0"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        d:Text="Next gate tip"
+                        FontSize="12"
+                        Foreground="{DynamicResource WarningBrush}"
+                        Text="{Binding GuideNextGateTip}"
+                        TextAlignment="Center"
+                        TextWrapping="Wrap"
+                        Visibility="{c:Binding 'GuideNextGateTip != null'}" />
+                    <Grid
+                        Grid.Row="1"
+                        Grid.Column="2"
+                        Margin="0,10,0,0"
                         VerticalAlignment="Center">
                         <Button
                             MinWidth="100"
-                            HorizontalAlignment="Right"
-                            hc:IconElement.Geometry="{StaticResource UpGeometry}"
-                            hc:IconElement.Width="18"
-                            Command="{s:Action PrevGuide}"
-                            CommandParameter="{Binding ElementName=GuideStepBar}"
-                            Content="{DynamicResource Guide.Prev}"
-                            Style="{StaticResource ButtonDashedPrimary}" />
-                        <hc:StepBar
-                            Name="GuideStepBar"
-                            Margin="10,0"
-                            d:StepIndex="7"
-                            Dock="Right"
-                            StepIndex="{Binding GuideStepIndex}">
-                            <hc:StepBarItem Content="{DynamicResource Settings.Ui.Title}" />
-                            <hc:StepBarItem Content="{DynamicResource Guide.User}" />
-                            <hc:StepBarItem Content="{DynamicResource Settings.Game.Title}" />
-                            <hc:StepBarItem Content="{DynamicResource Settings.Connection.Title}" />
-                            <hc:StepBarItem Content="{DynamicResource Settings.Performance.Title}" />
-                            <hc:StepBarItem Content="{DynamicResource TaskQueue.TaskSettings}" />
-                            <hc:StepBarItem Content="{DynamicResource Settings.Update.Title}" />
-                        </hc:StepBar>
-                        <Button
-                            MinWidth="100"
-                            HorizontalAlignment="Right"
                             hc:IconElement.Geometry="{StaticResource DownGeometry}"
                             hc:IconElement.Width="18"
                             Command="{s:Action NextGuide}"
@@ -91,18 +145,9 @@
                             Content="{DynamicResource Guide.Done}"
                             Style="{StaticResource ButtonDashedPrimary}"
                             Visibility="{c:Binding 'GuideStepIndex >= GuideMaxStep - 1'}" />
-                    </StackPanel>
-                    <controls:TextBlock
-                        Grid.Row="2"
-                        MaxWidth="{Binding ElementName=GuideButtonPanel, Path=ActualWidth}"
-                        VerticalAlignment="Top"
-                        d:Text="Next gate tip"
-                        FontSize="12"
-                        Text="{Binding GuideNextGateTip}"
-                        TextWrapping="Wrap"
-                        Visibility="{c:Binding 'GuideNextGateTip != null'}" />
+                    </Grid>
                 </Grid>
-                <ScrollViewer Margin="10,20,10,20" VerticalScrollBarVisibility="Auto">
+                <ScrollViewer Margin="10" VerticalScrollBarVisibility="Auto">
                     <hc:SimplePanel HorizontalAlignment="Center" VerticalAlignment="Center">
                         <hc:TransitioningContentControl
                             Width="200"
@@ -162,8 +207,9 @@
                             TransitionMode="{Binding GuideTransitionMode}"
                             Visibility="{c:Binding 'GuideStepIndex == 3'}">
                             <StackPanel s:View.ActionTarget="{Binding DataContext, RelativeSource={RelativeSource Self}}" DataContext="{Binding Source={x:Static ui_vms:SettingsViewModel.ConnectSettings}}">
+                                <!--  提示宽度跟随下方连接设置控件，外服长文案少折行  -->
                                 <controls:TextBlock
-                                    MaxWidth="400"
+                                    MaxWidth="{Binding ActualWidth, ElementName=GuideConnectSettings}"
                                     Margin="0,5"
                                     HorizontalAlignment="Left"
                                     VerticalAlignment="Center"
@@ -173,13 +219,13 @@
                                     TextWrapping="Wrap"
                                     Visibility="{c:Binding !IsPCConnectConfig}" />
 
-                                <settings:ConnectSettingsUserControl ShowAdvancedConnectSettings="False" />
+                                <settings:ConnectSettingsUserControl x:Name="GuideConnectSettings" ShowAdvancedConnectSettings="False" />
                             </StackPanel>
                         </hc:TransitioningContentControl>
 
+                        <!--  外服文案较长时允许加宽，固定宽度会使居中内容两侧被裁切  -->
                         <hc:TransitioningContentControl
-                            Width="480"
-                            Height="430"
+                            MinWidth="480"
                             d:Visibility="Collapsed"
                             TransitionMode="{Binding GuideTransitionMode}"
                             Visibility="{c:Binding 'GuideStepIndex == 5'}">
@@ -852,123 +898,122 @@
                             d:Visibility="Collapsed"
                             TransitionMode="{Binding GuideTransitionMode}"
                             Visibility="{c:Binding 'GuideStepIndex == 1'}">
-                            <ScrollViewer MaxHeight="400" VerticalScrollBarVisibility="Auto">
-                                <hc:UniformSpacingPanel
-                                    MaxWidth="550"
-                                    Margin="10"
-                                    Orientation="Vertical"
-                                    Spacing="12">
-                                    <!--  官网/文档位置  -->
-                                    <StackPanel>
-                                        <controls:TextBlock
-                                            FontSize="14"
-                                            FontWeight="SemiBold"
-                                            Text="{DynamicResource Guide.Documentation.Title}"
-                                            TextWrapping="Wrap" />
-                                        <controls:TextBlock
-                                            Margin="0,2.5"
-                                            HorizontalAlignment="Left"
-                                            FontSize="13"
-                                            Text="{DynamicResource Guide.Documentation.Path}"
-                                            TextWrapping="Wrap" />
-                                    </StackPanel>
+                            <!--  宽度放开到导航区以下的可用宽度，减少折行使默认窗口下整页可见，超出时由外层滚动  -->
+                            <hc:UniformSpacingPanel
+                                MaxWidth="720"
+                                Margin="10,0"
+                                Orientation="Vertical"
+                                Spacing="8">
+                                <!--  官网/文档位置  -->
+                                <StackPanel>
+                                    <controls:TextBlock
+                                        FontSize="14"
+                                        FontWeight="SemiBold"
+                                        Text="{DynamicResource Guide.Documentation.Title}"
+                                        TextWrapping="Wrap" />
+                                    <controls:TextBlock
+                                        Margin="0,2.5"
+                                        HorizontalAlignment="Left"
+                                        FontSize="13"
+                                        Text="{DynamicResource Guide.Documentation.Path}"
+                                        TextWrapping="Wrap" />
+                                </StackPanel>
 
-                                    <Separator />
+                                <Separator />
 
-                                    <!--  问题反馈  -->
-                                    <StackPanel>
-                                        <controls:TextBlock
-                                            FontSize="14"
-                                            FontWeight="SemiBold"
-                                            Text="{DynamicResource Guide.IssueReport.Subtitle}"
-                                            TextWrapping="Wrap" />
+                                <!--  问题反馈  -->
+                                <StackPanel>
+                                    <controls:TextBlock
+                                        FontSize="14"
+                                        FontWeight="SemiBold"
+                                        Text="{DynamicResource Guide.IssueReport.Subtitle}"
+                                        TextWrapping="Wrap" />
 
-                                        <!--  查看日志  -->
-                                        <controls:TextBlock
-                                            Margin="0,2.5"
-                                            HorizontalAlignment="Left"
-                                            FontSize="13"
-                                            Text="{DynamicResource Guide.ViewLog}"
-                                            TextWrapping="Wrap" />
+                                    <!--  查看日志  -->
+                                    <controls:TextBlock
+                                        Margin="0,2.5"
+                                        HorizontalAlignment="Left"
+                                        FontSize="13"
+                                        Text="{DynamicResource Guide.ViewLog}"
+                                        TextWrapping="Wrap" />
 
-                                        <!--  生成报告  -->
-                                        <controls:TextBlock
-                                            Margin="0,2.5"
-                                            HorizontalAlignment="Left"
-                                            FontSize="13"
-                                            Text="{DynamicResource Guide.GenerateReport}"
-                                            TextWrapping="Wrap" />
-                                    </StackPanel>
+                                    <!--  生成报告  -->
+                                    <controls:TextBlock
+                                        Margin="0,2.5"
+                                        HorizontalAlignment="Left"
+                                        FontSize="13"
+                                        Text="{DynamicResource Guide.GenerateReport}"
+                                        TextWrapping="Wrap" />
+                                </StackPanel>
 
-                                    <Separator />
+                                <Separator />
 
-                                    <!--  GitHub 反馈规范  -->
-                                    <StackPanel>
-                                        <controls:TextBlock
-                                            FontSize="14"
-                                            FontWeight="SemiBold"
-                                            Text="{DynamicResource Guide.GitHubIssue.Title}"
-                                            TextWrapping="Wrap" />
-                                        <controls:TextBlock
-                                            Margin="0,2.5"
-                                            HorizontalAlignment="Left"
-                                            FontSize="13"
-                                            Text="{DynamicResource Guide.GitHubIssue.Description}"
-                                            TextWrapping="Wrap" />
-                                    </StackPanel>
+                                <!--  GitHub 反馈规范  -->
+                                <StackPanel>
+                                    <controls:TextBlock
+                                        FontSize="14"
+                                        FontWeight="SemiBold"
+                                        Text="{DynamicResource Guide.GitHubIssue.Title}"
+                                        TextWrapping="Wrap" />
+                                    <controls:TextBlock
+                                        Margin="0,2.5"
+                                        HorizontalAlignment="Left"
+                                        FontSize="13"
+                                        Text="{DynamicResource Guide.GitHubIssue.Description}"
+                                        TextWrapping="Wrap" />
+                                </StackPanel>
 
-                                    <Separator />
+                                <Separator />
 
-                                    <!--  开源项目参与  -->
-                                    <StackPanel>
-                                        <controls:TextBlock
-                                            FontSize="14"
-                                            FontWeight="SemiBold"
-                                            Text="{DynamicResource Guide.OpenSource.Title}"
-                                            TextWrapping="Wrap" />
-                                        <controls:TextBlock
-                                            Margin="0,2.5"
-                                            HorizontalAlignment="Left"
-                                            FontSize="13"
-                                            Text="{DynamicResource Guide.OpenSource.Description}"
-                                            TextWrapping="Wrap" />
-                                    </StackPanel>
+                                <!--  开源项目参与  -->
+                                <StackPanel>
+                                    <controls:TextBlock
+                                        FontSize="14"
+                                        FontWeight="SemiBold"
+                                        Text="{DynamicResource Guide.OpenSource.Title}"
+                                        TextWrapping="Wrap" />
+                                    <controls:TextBlock
+                                        Margin="0,2.5"
+                                        HorizontalAlignment="Left"
+                                        FontSize="13"
+                                        Text="{DynamicResource Guide.OpenSource.Description}"
+                                        TextWrapping="Wrap" />
+                                </StackPanel>
 
-                                    <Separator />
+                                <Separator />
 
-                                    <!--
-                                        UniformSpacingPanel 会把直接子项拉伸至整行宽导致内容左对齐，
-                                        须经 StackPanel 包装后子元素的 HorizontalAlignment=Center 才能生效
-                                    -->
-                                    <StackPanel>
-                                        <Grid HorizontalAlignment="Center">
-                                            <StackPanel Orientation="Horizontal">
-                                                <controls:TextBlock Text="{DynamicResource Guide.Agreement.Prefix}" />
-                                                <Grid>
-                                                    <controls:TextBlock>
-                                                        <Hyperlink
-                                                            Click="{s:Action OnGuideUserAgreementClick}"
-                                                            Cursor="Hand"
-                                                            NavigateUri="{Binding Source={x:Static constants:MaaUrls.UserAgreement}}"
-                                                            TextDecorations="None">
-                                                            <TextBlock Style="{StaticResource HyperlinkTextBlockStyle}" Text="{DynamicResource Guide.Agreement.Link}" />
-                                                        </Hyperlink>
-                                                    </controls:TextBlock>
-                                                    <Ellipse
-                                                        Width="7"
-                                                        Height="7"
-                                                        Margin="0,1,-10,0"
-                                                        HorizontalAlignment="Right"
-                                                        VerticalAlignment="Top"
-                                                        Fill="{DynamicResource NewBadgeBrush}"
-                                                        IsHitTestVisible="False"
-                                                        Visibility="{c:Binding 'GuideStepIndex == 1 and !GuideUserAgreementOpened'}" />
-                                                </Grid>
-                                            </StackPanel>
-                                        </Grid>
-                                    </StackPanel>
-                                </hc:UniformSpacingPanel>
-                            </ScrollViewer>
+                                <!--
+                                    UniformSpacingPanel 会把直接子项拉伸至整行宽导致内容左对齐，
+                                    须经 StackPanel 包装后子元素的 HorizontalAlignment=Center 才能生效
+                                -->
+                                <StackPanel>
+                                    <Grid HorizontalAlignment="Center">
+                                        <StackPanel Orientation="Horizontal">
+                                            <controls:TextBlock Text="{DynamicResource Guide.Agreement.Prefix}" />
+                                            <Grid>
+                                                <controls:TextBlock>
+                                                    <Hyperlink
+                                                        Click="{s:Action OnGuideUserAgreementClick}"
+                                                        Cursor="Hand"
+                                                        NavigateUri="{Binding Source={x:Static constants:MaaUrls.UserAgreement}}"
+                                                        TextDecorations="None">
+                                                        <TextBlock Style="{StaticResource HyperlinkTextBlockStyle}" Text="{DynamicResource Guide.Agreement.Link}" />
+                                                    </Hyperlink>
+                                                </controls:TextBlock>
+                                                <Ellipse
+                                                    Width="7"
+                                                    Height="7"
+                                                    Margin="0,1,-10,0"
+                                                    HorizontalAlignment="Right"
+                                                    VerticalAlignment="Top"
+                                                    Fill="{DynamicResource NewBadgeBrush}"
+                                                    IsHitTestVisible="False"
+                                                    Visibility="{c:Binding 'GuideStepIndex == 1 and !GuideUserAgreementOpened'}" />
+                                            </Grid>
+                                        </StackPanel>
+                                    </Grid>
+                                </StackPanel>
+                            </hc:UniformSpacingPanel>
                         </hc:TransitioningContentControl>
                     </hc:SimplePanel>
                 </ScrollViewer>
