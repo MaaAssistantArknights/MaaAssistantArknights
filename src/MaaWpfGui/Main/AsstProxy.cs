@@ -2089,11 +2089,6 @@ public class AsstProxy
                             break;
 
                         /* 肉鸽相关 */
-                        case "ExitThenAbandon":
-                            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("Asst.Roguelike.ExplorationAbandoned"), UiLogColor.ExplorationAbandonedIS);
-                            AchievementTrackerHelper.Instance.AddProgress(AchievementIds.RoguelikeRetreat);
-                            break;
-
                         // case "StartAction":
                         //    Instances.TaskQueueViewModel.AddLog("开始战斗");
                         //    break;
@@ -2243,6 +2238,11 @@ public class AsstProxy
                             if (taskName == "StartExplore")
                             {
                                 Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("Asst.Roguelike.BegunToExplore") + $" {execTimes} " + LocalizationHelper.GetString("Asst.UnitTime"), UiLogColor.Info, splitMode: TaskQueueViewModel.LogCardSplitMode.Before);
+                            }
+                            else if (taskName == "AbandonConfirm")
+                            {
+                                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("Asst.Roguelike.ExplorationAbandoned"), UiLogColor.ExplorationAbandonedIS);
+                                AchievementTrackerHelper.Instance.AddProgress(AchievementIds.RoguelikeRetreat);
                             }
 
                             break;
