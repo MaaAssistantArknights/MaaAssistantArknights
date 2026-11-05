@@ -1982,7 +1982,6 @@ DEBUG 目录下保存的图片有数量限制，超出后会自动清理旧图�
     <system:String x:Key="Skin.Nailong.Laugh">哈哈哈</system:String>
     <system:String x:Key="Skin.Nailong.Sanity">理智 -1</system:String>
     <system:String x:Key="Skin.Nailong.Tagline">理智下班，奶龙上班。</system:String>
-    <system:String x:Key="Skin.Nailong.Title">MAA × 奶龙</system:String>
     <system:String x:Key="TaskQueue.AdbReplacementTips">如果任务完全没有反应，请使用 ｢{key=Settings.Title} - {key=Settings.Connection.Title} - {key=Connection.ForcedReplaceAdb}｣，或触控模式选择 ADB Input（不推荐）。</system:String>
     <system:String x:Key="TaskQueue.AddTask">添加新任务</system:String>
     <system:String x:Key="TaskQueue.AdvancedSettings">高级设置</system:String>

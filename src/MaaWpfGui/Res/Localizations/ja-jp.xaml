@@ -1984,7 +1984,6 @@ MAA は非インストール型のアプリケーションであり、レジス�
     <system:String x:Key="Skin.Nailong.Laugh">アハハ</system:String>
     <system:String x:Key="Skin.Nailong.Sanity">理性 -1</system:String>
     <system:String x:Key="Skin.Nailong.Tagline">理性は休憩。奶龙は出勤。</system:String>
-    <system:String x:Key="Skin.Nailong.Title">MAA × 奶龙</system:String>
     <system:String x:Key="TaskQueue.AdbReplacementTips">タスクが応答なしになる場合は、｢{key=Settings.Title} - {key=Settings.Connection.Title} - {key=Connection.ForcedReplaceAdb}｣、もしくは ADB Input タッチモード をチェックしてください（お勧めしない）。</system:String>
     <system:String x:Key="TaskQueue.AddTask">新しいタスクを追加</system:String>
     <system:String x:Key="TaskQueue.AdvancedSettings">高度な設定</system:String>

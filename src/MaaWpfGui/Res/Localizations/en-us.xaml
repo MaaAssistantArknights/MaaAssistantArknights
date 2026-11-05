@@ -1981,7 +1981,6 @@ Are you sure you want to disable the update progress window?</system:String>
     <system:String x:Key="Skin.Nailong.Laugh">HAHAHA</system:String>
     <system:String x:Key="Skin.Nailong.Sanity">Sanity -1</system:String>
     <system:String x:Key="Skin.Nailong.Tagline">Sanity off. Nailong on.</system:String>
-    <system:String x:Key="Skin.Nailong.Title">MAA × NAILONG</system:String>
     <system:String x:Key="TaskQueue.AdbReplacementTips">If nothing happens or appears stuck, please go to ｢{key=Settings.Title} - {key=Settings.Connection.Title} - {key=Connection.ForcedReplaceAdb}｣, or turn on ADB Input (Deprecated).</system:String>
     <system:String x:Key="TaskQueue.AddTask">Add New Task</system:String>
     <system:String x:Key="TaskQueue.AdvancedSettings">Advanced</system:String>
