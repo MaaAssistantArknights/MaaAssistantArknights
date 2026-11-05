@@ -40,7 +40,7 @@ namespace MaaWpfGui.ViewModels.Dialogs;
 
 /// <summary>
 /// 教程关卡操作场的视图模型。持有纯内存沙盒任务队列（不进入真实任务队列、不持久化），
-/// 沙盒任何变更即时重算终态判定，达成即解锁对应成就。
+/// 沙盒任何变更即时重算终态判定，达成即记录通关并发放牛牛币。
 /// 条目与面板的形状对齐真实任务队列（TaskItemViewModel / FightTaskUserControlModel），仅数据源隔离。
 /// </summary>
 public class TutorialChallengeLevelViewModel : PropertyChangedBase
@@ -52,6 +52,7 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
     private bool _isCompleted;
     private TutorialChallengeSandboxItem? _selectedItem;
     private string _stagePlanTip = string.Empty;
+    private string _dropsItemName = string.Empty;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="TutorialChallengeLevelViewModel"/> class.
@@ -60,42 +61,51 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
     public TutorialChallengeLevelViewModel(TutorialChallengeLevel level)
     {
         _level = level;
-        _taskPropertyChangedHandler = (_, e) =>
+        _taskPropertyChangedHandler = (sender, e) =>
         {
             switch (e.PropertyName)
             {
                 case nameof(FightTask.UseOptionalStage):
-                case nameof(FightTask.StagePlan):
                     RefreshPanelState();
+                    NotifyOfPropertyChange(nameof(SandboxUseOptionalStage));
+                    break;
+                case nameof(FightTask.StagePlan):
+                    // 行内编辑写回的计划与现有行一致时不重建，否则正在输入的关卡框随行容器销毁而丢焦点
+                    if (sender is FightTask fight && !StagePlanRows.Select(row => row.Stage).SequenceEqual(fight.StagePlan))
+                    {
+                        RefreshPanelState();
+                    }
+
+                    break;
+                case nameof(FightTask.DropId):
+                    SyncDropsItemName();
+                    NotifySpecifiedDropsStateChanged();
+                    RefreshInventoryDisplay();
                     break;
                 case nameof(FightTask.EnableTargetDrop):
                 case nameof(FightTask.IsInventoryTarget):
-                case nameof(FightTask.DropId):
                 case nameof(FightTask.DropCount):
                     NotifySpecifiedDropsStateChanged();
                     RefreshInventoryDisplay();
                     break;
-            }
-
-            if (e.PropertyName == nameof(FightTask.UseOptionalStage))
-            {
-                NotifyOfPropertyChange(nameof(SandboxUseOptionalStage));
+                case nameof(FightTask.UseStone):
+                    NotifyOfPropertyChange(nameof(SandboxUseStoneDisplay));
+                    break;
             }
 
             RefreshStagePlanTip();
             Evaluate();
         };
 
-        // 进关窗口内一律按未通关起步，进度存档判定是否已通关
-
         // 添加任务/预设导入菜单的条目命令经 ItemContainerStyle 统一下发，s:Action 无法进入 Style Setter，故走 ICommand
         AddTaskCommand = new RelayCommand<Type>(AddTask);
         ImportPresetCommand = new RelayCommand<string>(ImportPreset);
 
         SandboxItems.CollectionChanged += OnSandboxItemsChanged;
+        StagePlanRows.CollectionChanged += OnStagePlanRowsChanged;
+        PlanRows.CollectionChanged += OnPlanRowsChanged;
         LocalizationHelper.LanguageChanged += OnLanguageChanged;
         BuildStageListSource();
-        BuildDropsList();
         BuildSandbox();
     }
 
@@ -177,7 +187,7 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
     public DepotMaintainTask? SelectedDepotMaintainTask => SelectedTask as DepotMaintainTask;
 
     /// <summary>
-    /// Gets a value indicating whether 本关已达成。已达成后判定停算，重进或重置沙盒可重玩但不再重复解锁成就。
+    /// Gets a value indicating whether 本关已达成。已达成后判定停算，重进或重置沙盒可重玩，但不再重复发放牛牛币。
     /// </summary>
     public bool IsCompleted
     {
@@ -195,44 +205,19 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
     }
 
     /// <summary>
-    /// Gets 连战次数候选列表，数据源同真实面板的 SeriesList。
+    /// Gets 连战次数候选列表。只读展示数据，直接共用真实面板的实例，语言切换由其刷新。
     /// </summary>
-    public LocalizedObservableList<int> SeriesList { get; } = new(
-        (0, "AUTO"),
-        (10, "10"),
-        (9, "9"),
-        (8, "8"),
-        (7, "7"),
-        (6, "6"),
-        (5, "5"),
-        (4, "4"),
-        (3, "3"),
-        (2, "2"),
-        (1, "1"),
-        (-1, "TaskQueue.NotSwitch"));
+    public LocalizedObservableList<int> SeriesList => FightTaskUserControlModel.Instance.SeriesList;
 
     /// <summary>
-    /// Gets 剿灭模式候选列表，数据源同真实面板的 AnnihilationModeList。
+    /// Gets 剿灭模式候选列表，共用真实面板的实例。
     /// </summary>
-    public LocalizedObservableList<string> AnnihilationModeList { get; } = new(
-        (AnnihilationName, "TaskQueue.Annihilation.Current"),
-        ("Chernobog@Annihilation", "TaskQueue.Annihilation.Chernobog"),
-        ("LungmenOutskirts@Annihilation", "TaskQueue.Annihilation.LungmenOutskirts"),
-        ("LungmenDowntown@Annihilation", "TaskQueue.Annihilation.LungmenDowntown"));
+    public LocalizedObservableList<string> AnnihilationModeList => FightTaskUserControlModel.Instance.AnnihilationModeList;
 
     /// <summary>
-    /// Gets 关卡重置模式候选列表，数据源同真实面板的 StageResetModeList。
+    /// Gets 关卡重置模式候选列表，共用真实面板的实例。
     /// </summary>
-    public LocalizedObservableList<FightStageResetMode> StageResetModeList { get; } = new(
-        (FightStageResetMode.Current, "TaskQueue.Stage.Label.Default"),
-        (FightStageResetMode.Ignore, "TaskQueue.NotSwitch"));
-
-    private const string AnnihilationName = "Annihilation";
-
-    /// <summary>
-    /// 活动预设默认目标数量，对齐真实面板的同名常量。
-    /// </summary>
-    private const int ActivityPresetDefaultCount = 200;
+    public LocalizedObservableList<FightStageResetMode> StageResetModeList => FightTaskUserControlModel.Instance.StageResetModeList;
 
     /// <summary>
     /// Gets 关卡名。
@@ -265,11 +250,6 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
     public bool ShowDepotMaintainPanel => PanelKind == TutorialChallengePanelKind.DepotMaintain && SelectedDepotMaintainTask != null;
 
     /// <summary>
-    /// Gets a value indicating whether 显示 ｢该任务类型暂无模拟设置｣ 占位（已选中任务但无对应模拟面板）。
-    /// </summary>
-    public bool ShowNoSimulatedPanelHint => SelectedTask != null && !ShowFightPanel && !ShowDepotMaintainPanel;
-
-    /// <summary>
     /// Gets ｢+｣ 添加任务菜单的条目，按 <see cref="TutorialChallengeLevel.AddableTaskTypes"/> 从全量任务类型过滤。
     /// </summary>
     public IEnumerable<TaskTypeItem> TaskTypeList => TaskQueueViewModel.TaskTypeList.Where(item => _level.AddableTaskTypes.Contains(item.Value));
@@ -280,9 +260,9 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
     public ObservableCollection<FightTaskUserControlModel.StageSourceItem> StageListSource { get; } = [];
 
     /// <summary>
-    /// Gets 指定掉落材料候选列表，构建逻辑同真实面板（<c>InitDrops</c>），数据源全局共享。
+    /// Gets 指定掉落材料候选列表，共用真实面板的实例；该实例在语言切换时原地更新显示名，不会清掉 ComboBox 的选中项。
     /// </summary>
-    public ObservableCollection<CombinedData> DropsList { get; } = [];
+    public ObservableCollection<CombinedData> DropsList => FightTaskUserControlModel.Instance.DropsList;
 
     /// <summary>
     /// Gets 备选关卡列表行。
@@ -354,13 +334,19 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
         && !string.IsNullOrEmpty(fight.DropId);
 
     /// <summary>
+    /// Gets a value indicating whether 选中理智作战任务的源石勾选框不为 ｢未勾选｣（含右键切出的 null 态），用于停用理智药相关控件。
+    /// </summary>
+    public bool SandboxUseStoneDisplay => SelectedFightTask?.UseStone != false;
+
+    /// <summary>
     /// Gets 指定掉落 ｢数量｣ 模式（已启用指定材料且非库存目标），语义同真实面板的同名包装属性。
     /// </summary>
     public bool UseDropQuantityMode
     {
         get => SelectedFightTask is { EnableTargetDrop: true, IsInventoryTarget: false };
         set {
-            if (SelectedFightTask is not { } fight)
+            // 同组 RadioButton 取消选中时也会回写 false，只响应选中
+            if (!value || SelectedFightTask is not { } fight)
             {
                 return;
             }
@@ -377,7 +363,7 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
     {
         get => SelectedFightTask is { EnableTargetDrop: true, IsInventoryTarget: true };
         set {
-            if (SelectedFightTask is not { } fight)
+            if (!value || SelectedFightTask is not { } fight)
             {
                 return;
             }
@@ -388,28 +374,28 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
     }
 
     /// <summary>
-    /// Gets or sets 当前选中理智作战任务的掉落材料名称（可编辑 ComboBox 的 Text 绑定；set 时按 Display 名反查回 DropId）。
+    /// Gets or sets 当前选中理智作战任务的掉落材料名称（可编辑 ComboBox 的 Text 绑定）。
+    /// 输入过程中只缓存文本，下拉关闭时由 <see cref="DropsListDropDownClosed"/> 反查回 DropId，避免搜索时逐字清空选中材料。
     /// </summary>
     public string DropsItemName
     {
-        get {
-            if (SelectedFightTask is not { } fight || string.IsNullOrEmpty(fight.DropId))
-            {
-                return string.Empty;
-            }
+        get => _dropsItemName;
+        set => SetAndNotify(ref _dropsItemName, value);
+    }
 
-            return ItemListHelper.GetItemName(fight.DropId) ?? fight.DropId;
+    /// <summary>
+    /// 掉落材料下拉关闭时按输入文本反查材料，查不到则回到 ｢不选择｣。
+    /// </summary>
+    public void DropsListDropDownClosed()
+    {
+        if (SelectedFightTask is not { } fight)
+        {
+            return;
         }
 
-        set {
-            if (SelectedFightTask is not { } fight)
-            {
-                return;
-            }
-
-            var match = DropsList.FirstOrDefault(d => string.Equals(d.Display, value, StringComparison.Ordinal));
-            fight.DropId = match?.Value ?? string.Empty;
-        }
+        var match = DropsList.FirstOrDefault(d => string.Equals(d.Display, DropsItemName, StringComparison.Ordinal));
+        fight.DropId = match?.Value ?? string.Empty;
+        SyncDropsItemName();
     }
 
     /// <summary>
@@ -423,7 +409,7 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
             return;
         }
 
-        SandboxItems.Add(new TutorialChallengeSandboxItem(this, task));
+        SandboxItems.Add(new TutorialChallengeSandboxItem(task));
     }
 
     /// <summary>
@@ -504,7 +490,7 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
             return;
         }
 
-        SandboxItems.Insert(SandboxItems.IndexOf(item) + 1, new TutorialChallengeSandboxItem(this, copy));
+        SandboxItems.Insert(SandboxItems.IndexOf(item) + 1, new TutorialChallengeSandboxItem(copy));
     }
 
     /// <summary>
@@ -537,7 +523,6 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
         EnableAdvancedSettings = false;
         IsCompleted = false;
         _fakeInventories.Clear();
-        SelectedItem = null;
         BuildSandbox();
     }
 
@@ -576,14 +561,19 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
     public void StagePlanTipRefresh() => RefreshStagePlanTip();
 
     /// <summary>
-    /// 向当前库存保持任务导入一份预设的全部计划。
+    /// 向当前库存保持任务导入一份预设的全部计划；静态预设未命中时按进行中活动的 key 导入。
     /// </summary>
-    /// <param name="presetKey">预设 key（见 <see cref="DepotMaintainTaskUserControlModel.PresetData"/>）。</param>
+    /// <param name="presetKey">预设 key（见 <see cref="DepotMaintainTaskUserControlModel.PresetData"/>）或活动 key。</param>
     public void ImportPreset(string presetKey)
     {
-        if (SelectedDepotMaintainTask is not { } task
-            || !DepotMaintainTaskUserControlModel.PresetData.TryGetValue(presetKey, out var presets))
+        if (SelectedDepotMaintainTask is not { } task)
         {
+            return;
+        }
+
+        if (!DepotMaintainTaskUserControlModel.PresetData.TryGetValue(presetKey, out var presets))
+        {
+            AddActivityPresetPlan(task, presetKey);
             return;
         }
 
@@ -600,46 +590,12 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
     }
 
     /// <summary>
-    /// 向当前库存保持任务导入一份进行中活动的全部计划（关卡掉落为已知物品的项一对一生成）。
-    /// </summary>
-    /// <param name="activityKey"><see cref="Services.StageManager"/> 的活动 key。</param>
-    public void AddActivityPresetPlan(string activityKey)
-    {
-        if (SelectedDepotMaintainTask is not { } task
-            || !Instances.StageManager.ActivityList.TryGetValue(activityKey, out var activity))
-        {
-            return;
-        }
-
-        foreach (var stage in activity.StageList)
-        {
-            if (!string.IsNullOrEmpty(stage.Drop) && ItemListHelper.ArkItems.ContainsKey(stage.Drop))
-            {
-                task.PlanList.Add(new DepotMaintainTask.Plan(stage.Value, stage.Drop, ActivityPresetDefaultCount));
-            }
-        }
-
-        if (task.SkipDuringActivity)
-        {
-            GrowlHelper.Warning(LocalizationHelper.GetString("TaskQueue.DepotMaintain.PresetActivitySkipConflict"));
-        }
-
-        RefreshPanelState();
-        Evaluate();
-    }
-
-    /// <summary>
     /// 预设下拉打开时重估活动时间窗口（活动开始/结束不触发关卡数据事件，以打开时刻墙钟重查）。
     /// </summary>
     /// <param name="sender">事件发送者。</param>
     /// <param name="e">可见性变化参数。</param>
     public void PresetDropDownVisibilityChanged(object sender, DependencyPropertyChangedEventArgs e)
-    {
-        if (e.NewValue is true)
-        {
-            DepotMaintainTaskUserControlModel.Instance.RefreshActivityPresetListPublic();
-        }
-    }
+        => DepotMaintainTaskUserControlModel.Instance.PresetDropDownVisibilityChanged(sender, e);
 
     /// <summary>
     /// 清空当前库存保持任务的全部计划。
@@ -708,13 +664,16 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
     /// <param name="row">行。</param>
     public void RemovePlan(TutorialChallengePlanRow row)
     {
-        if (SelectedDepotMaintainTask is not { } task)
+        // Plan 是 record，按值比较会命中第一条等值计划，用行下标定位
+        var index = PlanRows.IndexOf(row);
+        if (SelectedDepotMaintainTask is not { } task || index < 0)
         {
             return;
         }
 
-        task.PlanList.Remove(row.Plan);
-        PlanRows.Remove(row);
+        task.PlanList.RemoveAt(index);
+        PlanRows.RemoveAt(index);
+        NotifyOfPropertyChange(nameof(PlanInfo));
         Evaluate();
     }
 
@@ -725,13 +684,8 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
     /// <param name="updated">更新后的 Plan。</param>
     internal void ReplacePlan(TutorialChallengePlanRow row, DepotMaintainTask.Plan updated)
     {
-        if (SelectedDepotMaintainTask is not { } task)
-        {
-            return;
-        }
-
-        var index = task.PlanList.IndexOf(row.Plan);
-        if (index < 0)
+        var index = PlanRows.IndexOf(row);
+        if (SelectedDepotMaintainTask is not { } task || index < 0)
         {
             return;
         }
@@ -739,6 +693,51 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
         task.PlanList[index] = updated;
         row.Plan = updated;
         row.RefreshTitle();
+        NotifyOfPropertyChange(nameof(PlanInfo));
+        Evaluate();
+    }
+
+    private void AddActivityPresetPlan(DepotMaintainTask task, string activityKey)
+    {
+        if (!Instances.StageManager.ActivityList.TryGetValue(activityKey, out var activity))
+        {
+            return;
+        }
+
+        foreach (var stage in activity.StageList)
+        {
+            if (!string.IsNullOrEmpty(stage.Drop) && ItemListHelper.ArkItems.ContainsKey(stage.Drop))
+            {
+                task.PlanList.Add(new DepotMaintainTask.Plan(stage.Value, stage.Drop, DepotMaintainTaskUserControlModel.ActivityPresetDefaultCount));
+            }
+        }
+
+        if (task.SkipDuringActivity)
+        {
+            GrowlHelper.Warning(LocalizationHelper.GetString("TaskQueue.DepotMaintain.PresetActivitySkipConflict"));
+        }
+
+        RefreshPanelState();
+        Evaluate();
+    }
+
+    // 拖拽排序只产生 Move；RefreshPanelState 重建行时的 Reset/Add 不需要写回
+    private void OnStagePlanRowsChanged(object? sender, NotifyCollectionChangedEventArgs e)
+    {
+        if (e.Action == NotifyCollectionChangedAction.Move)
+        {
+            SyncStagePlanFromRow();
+        }
+    }
+
+    private void OnPlanRowsChanged(object? sender, NotifyCollectionChangedEventArgs e)
+    {
+        if (e.Action != NotifyCollectionChangedAction.Move || SelectedDepotMaintainTask is not { } task)
+        {
+            return;
+        }
+
+        task.PlanList = [.. PlanRows.Select(row => row.Plan)];
         NotifyOfPropertyChange(nameof(PlanInfo));
         Evaluate();
     }
@@ -755,7 +754,7 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
 
         foreach (var task in _level.SandboxFactory())
         {
-            SandboxItems.Add(new TutorialChallengeSandboxItem(this, task));
+            SandboxItems.Add(new TutorialChallengeSandboxItem(task));
         }
     }
 
@@ -791,7 +790,7 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
 
     private void OnSandboxItemPropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
-        // 齿轮选中由条目 EnableSetting 双向绑定驱动，同步到 SelectedItem（setter 会回写其余条目的选中态）
+        // 齿轮由条目 EnableSetting 双向绑定驱动，其余条目的取消选中由 RadioButton 的 GroupName 完成，这里只同步 SelectedItem
         if (e.PropertyName == nameof(TutorialChallengeSandboxItem.EnableSetting)
             && sender is TutorialChallengeSandboxItem { EnableSetting: true } item)
         {
@@ -809,17 +808,27 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
         NotifyOfPropertyChange(nameof(SelectedDepotMaintainTask));
         NotifyOfPropertyChange(nameof(ShowFightPanel));
         NotifyOfPropertyChange(nameof(ShowDepotMaintainPanel));
+        NotifyOfPropertyChange(nameof(SandboxUseStoneDisplay));
+        SyncDropsItemName();
         NotifySpecifiedDropsStateChanged();
+        RefreshInventoryDisplay();
     }
 
     private void NotifySpecifiedDropsStateChanged()
     {
         NotifyOfPropertyChange(nameof(UseDropQuantityMode));
         NotifyOfPropertyChange(nameof(UseTargetInventoryMode));
-        NotifyOfPropertyChange(nameof(DropsItemName));
         NotifyOfPropertyChange(nameof(SandboxUseOptionalStage));
         NotifyOfPropertyChange(nameof(SandboxEnableTargetDrop));
         NotifyOfPropertyChange(nameof(SandboxIsInventoryTarget));
+    }
+
+    private void SyncDropsItemName()
+    {
+        var dropId = SelectedFightTask?.DropId ?? string.Empty;
+        DropsItemName = DropsList.FirstOrDefault(d => d.Value == dropId)?.Display
+            ?? ItemListHelper.GetItemName(dropId)
+            ?? dropId;
     }
 
     private void RefreshInventoryDisplay()
@@ -1015,27 +1024,15 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
     }
 
     /// <summary>
-    /// 构建指定掉落材料候选列表，过滤规则同真实面板的 <c>InitDrops</c>。
+    /// 窗口关闭或切换到其他关卡时退订外部事件，否则静态的语言切换事件会一直持有本实例。
     /// </summary>
-    private void BuildDropsList()
+    public void Detach()
     {
-        DropsList.Add(new() { Display = LocalizationHelper.GetString("Common.NotSelected"), Value = string.Empty });
-        var drops = new List<CombinedData>();
-        foreach (var (id, value) in ItemListHelper.ArkItems)
+        LocalizationHelper.LanguageChanged -= OnLanguageChanged;
+        foreach (var item in SandboxItems)
         {
-            // 不是数字的东西都是正常关卡不会掉的（大概吧）
-            if (!int.TryParse(id, out _))
-            {
-                continue;
-            }
-
-            drops.Add(new() { Display = value.Name, Value = id });
-        }
-
-        drops.Sort((a, b) => string.Compare(a.Value, b.Value, StringComparison.Ordinal));
-        foreach (var drop in drops)
-        {
-            DropsList.Add(drop);
+            item.Task.PropertyChanged -= _taskPropertyChangedHandler;
+            item.PropertyChanged -= OnSandboxItemPropertyChanged;
         }
     }
 
@@ -1044,12 +1041,32 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
         NotifyOfPropertyChange(nameof(Title));
         NotifyOfPropertyChange(nameof(Goal));
         NotifyOfPropertyChange(nameof(WindowTitle));
-        NotifyOfPropertyChange(nameof(DropsItemName));
         RefreshStagePlanTip();
 
-        // DropsList 首项 ｢不选择｣ 与 ArkItems 名均为本地化串，整表重建
-        DropsList.Clear();
-        BuildDropsList();
+        // DropsList 由真实面板原地刷新，选中项不变，只需按新显示名回填输入框
+        SyncDropsItemName();
+
+        foreach (var stage in StageListSource)
+        {
+            stage.Display = Instances.StageManager.GetStageInfo(stage.Value).Display;
+        }
+
+        foreach (var item in WeeklyScheduleSource)
+        {
+            item.RefreshLocalization();
+        }
+
+        foreach (var item in SandboxItems)
+        {
+            item.RefreshDisplayName();
+        }
+
+        foreach (var row in PlanRows)
+        {
+            row.RefreshTitle();
+        }
+
+        NotifyOfPropertyChange(nameof(PlanInfo));
     }
 }
 
@@ -1057,16 +1074,11 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
 /// <summary>
 /// 沙盒任务条目。仅承载选中态等 UI 状态，配置字段直接读写所包装的任务实例，形状对齐真实队列的条目视图模型。
 /// </summary>
-public class TutorialChallengeSandboxItem(TutorialChallengeLevelViewModel owner, BaseTask task) : PropertyChangedBase
+public class TutorialChallengeSandboxItem(BaseTask task) : PropertyChangedBase
 {
     private bool _enableSetting;
     private bool _canMoveUp;
     private bool _canMoveDown;
-
-    /// <summary>
-    /// Gets 所属关卡视图模型。
-    /// </summary>
-    public TutorialChallengeLevelViewModel Owner => owner;
 
     /// <summary>
     /// Gets 包装的沙盒任务实例。
@@ -1106,9 +1118,9 @@ public class TutorialChallengeSandboxItem(TutorialChallengeLevelViewModel owner,
     }
 
     /// <summary>
-    /// Gets a value indicating whether 可复制（与真实队列一致，任务均允许复制）。
+    /// Gets a value indicating whether 可复制。开始唤醒至多一个，不可复制。
     /// </summary>
-    public bool CanCopy => true;
+    public bool CanCopy => Task is not StartUpTask;
 
     /// <summary>
     /// 任务名变更后刷新条目显示名（显示名由任务实例字段计算，无独立变更通知）。
@@ -1136,11 +1148,6 @@ public class TutorialChallengeStagePlanRow(TutorialChallengeLevelViewModel owner
             }
         }
     }
-
-    /// <summary>
-    /// Gets 关卡显示名。
-    /// </summary>
-    public string StageDisplay => Instances.StageManager.GetStageInfo(_stage).Display;
 }
 
 /// <summary>

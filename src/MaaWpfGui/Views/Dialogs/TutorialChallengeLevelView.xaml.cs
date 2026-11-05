@@ -39,18 +39,9 @@ public partial class TutorialChallengeLevelView
             viewModel.IsStageItemDragging = true;
         }
 
-        // 拖拽松开时可能不经过 Button，在 Window 层兜底恢复
-        var window = Window.GetWindow(this);
-        window?.PreviewMouseLeftButtonUp -= Window_PreviewMouseLeftButtonUp;
-        window?.PreviewMouseLeftButtonUp += Window_PreviewMouseLeftButtonUp;
-    }
-
-    private void DragHandle_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-    {
-        if (DataContext is TutorialChallengeLevelViewModel viewModel)
-        {
-            viewModel.IsStageItemDragging = false;
-        }
+        // 拖拽松开时鼠标未必还在拖拽手柄上，在窗口层恢复
+        PreviewMouseLeftButtonUp -= Window_PreviewMouseLeftButtonUp;
+        PreviewMouseLeftButtonUp += Window_PreviewMouseLeftButtonUp;
     }
 
     /// <summary>
@@ -66,7 +57,7 @@ public partial class TutorialChallengeLevelView
     }
 
     /// <summary>
-    /// 预设 SplitButton 左半边点击时也展开下拉，与真实面板行为一致。
+    /// SplitButton 左半边没有独立动作，点击时同样展开下拉。
     /// </summary>
     private void PresetSplitButton_Click(object sender, RoutedEventArgs e)
     {
@@ -83,9 +74,6 @@ public partial class TutorialChallengeLevelView
             viewModel.IsStageItemDragging = false;
         }
 
-        if (sender is Window window)
-        {
-            window.PreviewMouseLeftButtonUp -= Window_PreviewMouseLeftButtonUp;
-        }
+        PreviewMouseLeftButtonUp -= Window_PreviewMouseLeftButtonUp;
     }
 }

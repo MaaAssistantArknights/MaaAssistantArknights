@@ -23,7 +23,7 @@ using Stylet;
 namespace MaaWpfGui.ViewModels.UserControl.Toolbox;
 
 /// <summary>
-/// 工具箱 ｢教程关卡｣ 清单页。关卡完成态即成就解锁态；进入关卡弹出非模态单例操作场窗口。
+/// 工具箱 ｢教程关卡｣ 清单页。完成态读取进度存档；进入关卡弹出非模态单例操作场窗口。
 /// </summary>
 public class TutorialChallengeUserControlModel : PropertyChangedBase
 {
@@ -81,9 +81,14 @@ public class TutorialChallengeUserControlModel : PropertyChangedBase
         {
             _levelWindow = new TutorialChallengeLevelView();
             _levelWindow.Loaded += (_, _) => Helper.WindowManager.MoveWindowToRootCenter(_levelWindow);
-            _levelWindow.Closed += (_, _) => _levelWindow = null;
+            _levelWindow.Closed += (_, _) =>
+            {
+                (_levelWindow?.DataContext as TutorialChallengeLevelViewModel)?.Detach();
+                _levelWindow = null;
+            };
         }
 
+        (_levelWindow.DataContext as TutorialChallengeLevelViewModel)?.Detach();
         _levelWindow.DataContext = new TutorialChallengeLevelViewModel(item.Level);
         Helper.WindowManager.ShowWindow(_levelWindow);
     }
@@ -104,9 +109,9 @@ public class TutorialChallengeUserControlModel : PropertyChangedBase
     }
 
     /// <summary>
-    /// 依据成就解锁态刷新全部关卡完成态与进度显示，关卡达成时由关卡视图模型回调。
+    /// 依据进度存档刷新全部关卡完成态与进度显示。
     /// </summary>
-    public void RefreshCompletion()
+    private void RefreshCompletion()
     {
         foreach (var item in LevelItems)
         {
