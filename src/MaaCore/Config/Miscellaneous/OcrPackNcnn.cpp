@@ -458,7 +458,14 @@ bool asst::OcrPackNcnn::load(
     {
         // pnnx 动态转换的 rec 在 2 倍宽度下输出 2 倍时间步；静态转换的仍输出 320 宽对应的步数
         ncnn::Mat out;
-        m_rec_dynamic_width = probe_rec(kRecImgW * 2, out) && out.h == steps * 2 && out.w == num_classes;
+        if (!probe_rec(kRecImgW * 2, out)) {
+            m_rec_dynamic_width = false;
+            LogWarn << __FUNCTION__ << "rec probe extract failed at width" << kRecImgW * 2
+                    << ", fall back to static width";
+        }
+        else {
+            m_rec_dynamic_width = out.h == steps * 2 && out.w == num_classes;
+        }
     }
 
     m_charset.clear();
