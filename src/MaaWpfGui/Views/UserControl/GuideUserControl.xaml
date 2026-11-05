@@ -250,8 +250,10 @@
                                         <RowDefinition Height="Auto" />
                                     </Grid.RowDefinitions>
                                     <controls:TextBlock
+                                        HorizontalAlignment="Left"
                                         FontSize="14"
                                         Text="{DynamicResource Guide.HoverActionButtons}"
+                                        TextAlignment="Left"
                                         TextWrapping="Wrap" />
                                     <controls:TextBlock
                                         Grid.Row="1"
