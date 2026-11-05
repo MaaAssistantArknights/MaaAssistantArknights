@@ -36,7 +36,10 @@ struct DawnContext
     // timeoutNS > 0 就要求 instance 开了 TimedWaitAny（dawn/native/Instance.cpp: APIWaitAny），
     // 否则直接返回 WaitStatus::Error → ORT 报 "Failed to wait for the operation:3"。
     // ORT 自建默认 instance 时（WebGpuContextFactory::CreateContext）也是这么开的。
-    DawnContext() : instance(instance_descriptor()) {}
+    DawnContext() :
+        instance(instance_descriptor())
+    {
+    }
 
     static const WGPUInstanceDescriptor* instance_descriptor()
     {
@@ -75,7 +78,7 @@ std::shared_ptr<DawnContext> create_context(const GpuDeviceSelector& selector, i
     dawn::native::d3d::RequestAdapterOptionsLUID luid_options;
     if (selector.uses_adapter_luid()) {
         const uint64_t luid = *selector.adapter_luid();
-        luid_options.adapterLUID.LowPart = static_cast<DWORD>(luid & 0xFFFF'FFFFULL);
+        luid_options.adapterLUID.LowPart = static_cast<DWORD>(luid & 0xFFFFFFFFULL);
         luid_options.adapterLUID.HighPart = static_cast<LONG>(luid >> 32);
         adapter_options.nextInChain = &luid_options;
     }
@@ -99,7 +102,7 @@ std::shared_ptr<DawnContext> create_context(const GpuDeviceSelector& selector, i
 
     // ORT 自建 device 时会按 adapter 请求一批特性和 limits（WebGpuContext::Initialize），
     // 但 device 由调用方提供时它不会补回来，所以这里照做，免得它的内核
-    //（subgroups / subgroup matrix / f16 / timestamp query 等）编译不起来
+    // （subgroups / subgroup matrix / f16 / timestamp query 等）编译不起来
     WGPUSupportedFeatures supported_features {};
     ::wgpuAdapterGetFeatures(adapter, &supported_features);
     const std::vector<WGPUFeatureName> features(
@@ -134,7 +137,8 @@ std::shared_ptr<DawnContext> create_context(const GpuDeviceSelector& selector, i
 
     context->device = adapters.at(index).CreateDevice(&device_descriptor);
     if (context->device == nullptr) {
-        LogWarn << "failed to create WebGPU device with" << features.size() << "feature(s), retrying with the default descriptor";
+        LogWarn << "failed to create WebGPU device with" << features.size()
+                << "feature(s), retrying with the default descriptor";
         context->device = adapters.at(index).CreateDevice();
     }
     if (context->device == nullptr) {
@@ -142,8 +146,8 @@ std::shared_ptr<DawnContext> create_context(const GpuDeviceSelector& selector, i
         return nullptr;
     }
 
-    LogInfo << "created WebGPU device for" << context_key(selector, device_id) << "of" << adapters.size() << "adapter(s),"
-            << features.size() << "feature(s)";
+    LogInfo << "created WebGPU device for" << context_key(selector, device_id) << "of" << adapters.size()
+            << "adapter(s)," << features.size() << "feature(s)";
     return context;
 }
 
@@ -166,7 +170,8 @@ std::shared_ptr<DawnContext> get_context(const GpuDeviceSelector& selector, int 
 } // namespace
 #endif // ASST_HAS_WEBGPU_DAWN
 
-std::optional<std::unordered_map<std::string, std::string>> make_webgpu_provider_options(const GpuDeviceSelector& selector)
+std::optional<std::unordered_map<std::string, std::string>>
+    make_webgpu_provider_options(const GpuDeviceSelector& selector)
 {
 #ifdef ASST_HAS_WEBGPU_DAWN
     const auto device_id = selector.resolve_device_id();

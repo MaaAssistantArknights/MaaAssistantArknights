@@ -362,7 +362,8 @@ bool asst::OnnxSessions::initialize_gpu_options()
 #endif
 #ifdef WITH_COREML
         else if (support_coreml) {
-            if (!Ort::Status(OrtSessionOptionsAppendExecutionProvider_CoreML((OrtSessionOptions*)m_options, 0)).IsOK()) {
+            if (!Ort::Status(OrtSessionOptionsAppendExecutionProvider_CoreML((OrtSessionOptions*)m_options, 0))
+                     .IsOK()) {
                 return false;
             }
             provider_configured = true;
