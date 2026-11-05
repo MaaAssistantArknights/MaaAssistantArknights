@@ -40,23 +40,25 @@ public:
 
     void set_cpu_threads(int num) { m_cpu_threads = num > 0 ? num : 1; }
 
+    static int bind_performance_cores();
+
     // without_det 时把整张 image 当作一行文本只跑 rec；否则 det -> 裁切 -> rec。
     // 返回的 rect 为 4 点框的轴对齐外接矩形（与 fastdeploy 版语义一致）。
     ResultsVec recognize(const cv::Mat& image, bool without_det);
 
 private:
-    // DBNet 检测出的一个候选框（已还原到原图坐标系）
+    // DBNet 检测出的一个候选框（已还原到原图坐标系，与 fastdeploy 同样取整）
     struct DetBox
     {
-        cv::Point2f pts[4]; // 左上、右上、右下、左下
+        cv::Point pts[4]; // 左上、右上、右下、左下
         float score = 0.f;
     };
 
     std::vector<DetBox> detect(const cv::Mat& image) const;
     // 透视摆正裁出文本行（竖排自动旋正）
     static cv::Mat crop_rotated(const cv::Mat& image, const DetBox& box);
-    // 单行文本识别：返回 (utf-8 文本, 平均置信度)
-    std::pair<std::string, float> recognize_line(const cv::Mat& line) const;
+    // 单行文本识别：返回 (utf-8 文本, 平均置信度)；max_wh_ratio 为同批最大宽高比，决定补边后的画布宽度
+    std::pair<std::string, float> recognize_line(const cv::Mat& line, float max_wh_ratio) const;
 
     std::unique_ptr<ncnn::Net> m_det;
     std::unique_ptr<ncnn::Net> m_rec;
@@ -64,6 +66,7 @@ private:
     int m_cpu_threads = 2;
     bool m_loaded = false;
     bool m_rec_output_is_prob = false;
+    bool m_rec_dynamic_width = false; // rec 模型能否接受 320 以外的输入宽度（加载时探测）
 };
 }
 
