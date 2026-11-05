@@ -14,6 +14,7 @@
 #nullable enable
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -22,9 +23,16 @@ namespace MaaWpfGui.Models;
 
 public sealed class InfrastPresetImport
 {
+    public const int MaxFileSize = 1024 * 1024;
+
     private static readonly Dictionary<string, int> Capacities = new() {
-        ["control"] = 5, ["meeting"] = 2, ["manufacture"] = 3, ["trading"] = 3,
-        ["power"] = 1, ["hire"] = 1, ["recycle"] = 2,
+        ["control"] = 5,
+        ["meeting"] = 2,
+        ["manufacture"] = 3,
+        ["trading"] = 3,
+        ["power"] = 1,
+        ["hire"] = 1,
+        ["recycle"] = 2,
     };
 
     [JsonProperty("rooms")]
@@ -39,8 +47,34 @@ public sealed class InfrastPresetImport
     [JsonIgnore]
     public int QueueCount => Rooms.Sum(room => room.Queues.Count(queue => queue.Count > 0));
 
+    public static InfrastPresetImport ReadFile(string path)
+    {
+        using var file = File.OpenRead(path);
+        if (file.Length > MaxFileSize)
+        {
+            throw new JsonSerializationException("Schedule files must not exceed 1 MiB.");
+        }
+
+        // Bound the read as well, in case the file grows after the length check.
+        var buffer = new byte[MaxFileSize + 1];
+        int count = file.ReadAtLeast(buffer, buffer.Length, throwOnEndOfStream: false);
+        if (count > MaxFileSize)
+        {
+            throw new JsonSerializationException("Schedule files must not exceed 1 MiB.");
+        }
+
+        using var content = new MemoryStream(buffer, 0, count);
+        using var reader = new StreamReader(content);
+        return Parse(reader.ReadToEnd());
+    }
+
     public static InfrastPresetImport Parse(string json)
     {
+        if (json.Length > MaxFileSize)
+        {
+            throw new JsonSerializationException("Schedule text must not exceed 1,048,576 characters.");
+        }
+
         var document = JObject.Parse(json);
         if (document["plans"] is not JArray { Count: 3 } plans)
         {

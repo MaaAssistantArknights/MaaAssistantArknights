@@ -185,7 +185,7 @@ public class ToolboxViewModel : Screen
         InfrastPresetImport schedule;
         try
         {
-            schedule = InfrastPresetImport.Parse(File.ReadAllText(dialog.FileName));
+            schedule = InfrastPresetImport.ReadFile(dialog.FileName);
         }
         catch (JsonException ex)
         {
