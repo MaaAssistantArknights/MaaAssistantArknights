@@ -27,6 +27,9 @@ ROOT = Path(__file__).resolve().parents[2]
 PNNX_VERSION = "20260526"
 
 INPUTSHAPE = {"det": "[1,3,640,640]", "rec": "[1,3,48,320]"}
+# rec 需动态宽度：FastDeploy 按行宽高比把画布加宽到 48 * max(320 / 48, ratio)，
+# 只给一个 inputshape 时 pnnx 会把序列长度 40 写死进 Reshape / Gemm，长文本行只能横向压缩
+INPUTSHAPE2 = {"rec": "[1,3,48,960]"}
 NCNN_SUFFIXES = ("param", "bin")
 
 
@@ -83,19 +86,37 @@ def find_pnnx() -> str:
     return exe
 
 
-def run_pnnx(pnnx: str, onnx: Path, kind: str, workdir: Path) -> tuple[Path, Path]:
-    work_onnx = workdir / f"{kind}.onnx"
-    shutil.copy(onnx, work_onnx)
-    # det 用 fp16 会破坏 DBNet 概率图
-    cmd = [pnnx, work_onnx.name, f"inputshape={INPUTSHAPE[kind]}", "fp16=0"]
-    res = subprocess.run(
-        cmd,
+def pnnx_once(pnnx: str, workdir: Path, cmd: list[str]) -> subprocess.CompletedProcess:
+    for p in workdir.iterdir():
+        if p.suffix != ".onnx" or p.name.endswith(".pnnxsim.onnx"):
+            p.unlink()
+    return subprocess.run(
+        [pnnx, *cmd],
         cwd=workdir,
         stdout=subprocess.PIPE,
         stderr=subprocess.STDOUT,
         text=True,
         errors="replace",
     )
+
+
+def run_pnnx(
+    pnnx: str, onnx: Path, kind: str, workdir: Path
+) -> tuple[tuple[Path, Path], bool]:
+    """返回 (param, bin) 与是否为动态形状转换。"""
+    work_onnx = workdir / f"{kind}.onnx"
+    shutil.copy(onnx, work_onnx)
+    # det 用 fp16 会破坏 DBNet 概率图
+    cmd = [work_onnx.name, f"inputshape={INPUTSHAPE[kind]}", "fp16=0"]
+    dynamic = kind in INPUTSHAPE2
+    res = None
+    if dynamic:
+        res = pnnx_once(pnnx, workdir, [*cmd, f"inputshape2={INPUTSHAPE2[kind]}"])
+        # 部分导出的 onnx（如 PaddleCharOCR）带动态 Shape/Slice，pnnx 处理 inputshape2 时会崩溃，
+        # 退回静态宽度：OcrPackNcnn 加载时探测得到，长行仍按 320 宽压缩
+        dynamic = res.returncode == 0
+    if not dynamic:
+        res = pnnx_once(pnnx, workdir, cmd)
     if res.returncode != 0:
         sys.stderr.write(res.stdout)
         raise SystemExit(f"pnnx failed (exit={res.returncode}): {' '.join(cmd)}")
@@ -104,7 +125,7 @@ def run_pnnx(pnnx: str, onnx: Path, kind: str, workdir: Path) -> tuple[Path, Pat
         if not p.is_file() or p.stat().st_size == 0:
             sys.stderr.write(res.stdout)
             raise SystemExit(f"pnnx output missing or empty: {p.name}")
-    return outputs
+    return outputs, dynamic
 
 
 def remove_empty_dirs(start: Path, stop: Path) -> None:
@@ -120,7 +141,7 @@ def convert(resource: Path, output: Path) -> None:
 
     expected: set[Path] = set()
     with tempfile.TemporaryDirectory(prefix="maa_ocr_ncnn_") as tmp:
-        # 同一份 onnx 只转换一次（如 YoStarEN rec 与 PaddleCharOCR rec）
+        # 同一份 onnx 只转换一次（多个目录放同一模型时复用转换结果）
         converted: dict[str, tuple[Path, Path]] = {}
         staged: list[tuple[tuple[Path, Path], list[Path]]] = []
         for onnx, kind in models:
@@ -132,8 +153,8 @@ def convert(resource: Path, output: Path) -> None:
             else:
                 workdir = Path(tmp) / key
                 workdir.mkdir()
-                converted[key] = run_pnnx(pnnx, onnx, kind, workdir)
-                tag = "CONVERT"
+                converted[key], dynamic = run_pnnx(pnnx, onnx, kind, workdir)
+                tag = "CONVERT" if dynamic or kind not in INPUTSHAPE2 else "STATIC"
             print(f"\r  [{tag}] {rel}")
             targets = ncnn_targets(onnx, kind, resource, output)
             staged.append((converted[key], targets))
