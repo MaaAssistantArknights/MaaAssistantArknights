@@ -695,6 +695,13 @@
                 Grid.Row="2"
                 HorizontalAlignment="Center"
                 Orientation="Vertical">
+                <Grid Visibility="{DynamicResource Skin.DecorationVisibility}">
+                    <controls:NailongMascot
+                        Width="128"
+                        Height="124"
+                        Margin="0,0,0,10"
+                        Visibility="{c:Binding 'Filename.Length == 0 and !UseCopilotList and CopilotTabIndex == 0'}" />
+                </Grid>
                 <controls:TextBlock Block.TextAlignment="Center" Visibility="{c:Binding HasVideoUrl}">
                     <Hyperlink
                         Cursor="Hand"

@@ -30,6 +30,7 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <Grid Grid.Column="0">
                 <Grid.ColumnDefinitions>
@@ -128,8 +129,14 @@
                     TextWrapping="Wrap"
                     Visibility="{c:Binding !WindowTitleScrollable}" />
             </Grid>
-            <Button
+            <controls:NailongMascot
                 Grid.Column="1"
+                Width="36"
+                Height="29"
+                ShowCaptions="False"
+                Visibility="{DynamicResource Skin.DecorationVisibility}" />
+            <Button
+                Grid.Column="2"
                 Width="46"
                 Height="29"
                 VerticalAlignment="Top"

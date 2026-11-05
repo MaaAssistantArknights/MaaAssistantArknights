@@ -8,6 +8,9 @@
     Focusable="False"
     IsTabStop="False"
     ToolTip="{DynamicResource Skin.Nailong.Credit}">
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="CaptionVisibilityConverter" />
+    </UserControl.Resources>
     <Viewbox Stretch="Uniform">
         <Grid
             Width="160"
@@ -49,7 +52,8 @@
                 BorderBrush="{DynamicResource Skin.InkBrush}"
                 BorderThickness="1.5"
                 CornerRadius="8"
-                RenderTransformOrigin="0.5,0.5">
+                RenderTransformOrigin="0.5,0.5"
+                Visibility="{Binding ShowCaptions, RelativeSource={RelativeSource AncestorType=controls:NailongMascot}, Converter={StaticResource CaptionVisibilityConverter}}">
                 <Border.RenderTransform>
                     <RotateTransform Angle="-12" />
                 </Border.RenderTransform>
@@ -68,7 +72,8 @@
                 BorderBrush="{DynamicResource Skin.BorderBrush}"
                 BorderThickness="1"
                 CornerRadius="5"
-                RenderTransformOrigin="0.5,0.5">
+                RenderTransformOrigin="0.5,0.5"
+                Visibility="{Binding ShowCaptions, RelativeSource={RelativeSource AncestorType=controls:NailongMascot}, Converter={StaticResource CaptionVisibilityConverter}}">
                 <Border.RenderTransform>
                     <RotateTransform Angle="7" />
                 </Border.RenderTransform>

@@ -12,19 +12,21 @@
 // </copyright>
 
 using System;
-using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using HandyControl.Controls;
-using Stylet;
+using GifImage = HandyControl.Controls.GifImage;
 
 namespace MaaWpfGui.Styles.Controls;
 
 public partial class NailongMascot : UserControl
 {
+    public static readonly DependencyProperty ShowCaptionsProperty = DependencyProperty.Register(
+        nameof(ShowCaptions), typeof(bool), typeof(NailongMascot), new PropertyMetadata(true));
+
     private static readonly Uri _laughUri = new("pack://application:,,,/MAA;component/Res/Skins/Assets/NaiwaLaugh.gif");
+    private Window _window;
 
     public NailongMascot()
     {
@@ -32,33 +34,44 @@ public partial class NailongMascot : UserControl
         Loaded += OnLoaded;
         Unloaded += OnUnloaded;
         IsVisibleChanged += (_, _) => UpdateAnimation();
-        MouseEnter += (_, _) => UpdateAnimation();
-        MouseLeave += (_, _) => UpdateAnimation();
+    }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the laugh and sanity captions are shown.
+    /// </summary>
+    public bool ShowCaptions
+    {
+        get => (bool)GetValue(ShowCaptionsProperty);
+        set => SetValue(ShowCaptionsProperty, value);
     }
 
     private void OnLoaded(object sender, RoutedEventArgs e)
     {
-        SystemParameters.StaticPropertyChanged += OnSystemParametersChanged;
+        _window = Window.GetWindow(this);
+        if (_window != null)
+        {
+            _window.StateChanged += OnWindowStateChanged;
+        }
+
         UpdateAnimation();
     }
 
     private void OnUnloaded(object sender, RoutedEventArgs e)
     {
-        SystemParameters.StaticPropertyChanged -= OnSystemParametersChanged;
+        if (_window != null)
+        {
+            _window.StateChanged -= OnWindowStateChanged;
+            _window = null;
+        }
+
         StopAnimation();
     }
 
-    private void OnSystemParametersChanged(object sender, PropertyChangedEventArgs e)
-    {
-        if (e.PropertyName == nameof(SystemParameters.ClientAreaAnimation))
-        {
-            Execute.OnUIThread(UpdateAnimation);
-        }
-    }
+    private void OnWindowStateChanged(object sender, EventArgs e) => UpdateAnimation();
 
     private void UpdateAnimation()
     {
-        if (!IsLoaded || !IsVisible || !IsMouseOver || !SystemParameters.ClientAreaAnimation)
+        if (!IsLoaded || !IsVisible || _window?.WindowState == WindowState.Minimized)
         {
             StopAnimation();
             return;

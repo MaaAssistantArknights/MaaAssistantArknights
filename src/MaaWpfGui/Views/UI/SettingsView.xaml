@@ -3,6 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:c="clr-namespace:CalcBinding;assembly=CalcBinding"
+    xmlns:controls="clr-namespace:MaaWpfGui.Styles.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:dd="urn:gong-wpf-dragdrop"
     xmlns:hc="https://handyorg.github.io/handycontrol"
@@ -28,6 +29,14 @@
                 hc:BorderElement.CornerRadius="4,4,0,0"
                 DockPanel.Dock="Top"
                 Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" />
+
+            <controls:NailongMascot
+                Width="108"
+                Height="104"
+                Margin="0,8,0,0"
+                DockPanel.Dock="Bottom"
+                ShowCaptions="False"
+                Visibility="{DynamicResource Skin.DecorationVisibility}" />
 
             <ListBox
                 x:Name="MasterListBox"
