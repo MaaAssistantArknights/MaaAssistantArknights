@@ -27,6 +27,58 @@
     <hc:Window.Resources>
         <converters:ItemImageConverter x:Key="ItemImageConverter" />
         <converters:SubtractConverter x:Key="SubtractConverter" />
+        <ItemsPanelTemplate x:Key="VerticalStackItemsPanel">
+            <StackPanel Orientation="Vertical" />
+        </ItemsPanelTemplate>
+        <Style
+            x:Key="StageComboBoxItemStyle"
+            BasedOn="{StaticResource ComboBoxItemBaseStyle}"
+            TargetType="ComboBoxItem">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding IsVisible}" Value="False">
+                    <Setter Property="Visibility" Value="Collapsed" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+        <DataTemplate x:Key="StageComboBoxItemTemplate">
+            <TextBlock Text="{Binding Display}">
+                <TextBlock.Style>
+                    <Style TargetType="TextBlock">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsOutdated}" Value="True">
+                                <Setter Property="TextDecorations" Value="Strikethrough" />
+                                <Setter Property="Foreground" Value="{DynamicResource ErrorLogBrush}" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding IsOpen}" Value="False">
+                                <Setter Property="Opacity" Value="0.5" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding IsOpen}" Value="True">
+                                <Setter Property="Opacity" Value="1" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBlock.Style>
+            </TextBlock>
+        </DataTemplate>
+        <DataTemplate x:Key="DropComboBoxItemTemplate">
+            <StackPanel Orientation="Horizontal">
+                <Grid
+                    Width="18"
+                    Height="18"
+                    VerticalAlignment="Center">
+                    <!--  ｢不选择｣ 空值项无图标，以描边圆环占位，保持与图标项的文字对齐  -->
+                    <Ellipse
+                        Stroke="{DynamicResource BorderBrush}"
+                        StrokeThickness="1"
+                        Visibility="{c:Binding 'Value.Length == 0'}" />
+                    <Image Source="{Binding Value, Converter={StaticResource ItemImageConverter}}" />
+                </Grid>
+                <TextBlock
+                    Margin="4,0,0,0"
+                    VerticalAlignment="Center"
+                    Text="{Binding Display}" />
+            </StackPanel>
+        </DataTemplate>
     </hc:Window.Resources>
     <Grid Margin="12">
         <Grid.RowDefinitions>
@@ -60,17 +112,8 @@
                     Padding="8,3"
                     VerticalAlignment="Center"
                     Background="{DynamicResource PrimaryBrush}"
-                    CornerRadius="4">
-                    <Border.Style>
-                        <Style TargetType="Border">
-                            <Setter Property="Visibility" Value="Collapsed" />
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding IsCompleted}" Value="True">
-                                    <Setter Property="Visibility" Value="Visible" />
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Border.Style>
+                    CornerRadius="4"
+                    Visibility="{c:Binding IsCompleted}">
                     <controls:TextBlock Foreground="{DynamicResource TextIconBrush}" Text="{DynamicResource TutorialChallenge.Completed}" />
                 </Border>
                 <Button
@@ -106,7 +149,7 @@
                     ToolTip="{DynamicResource Common.LabelSequence.Tip}">
                     <ListBox.ItemTemplate>
                         <DataTemplate DataType="{x:Type dialogs_vms:TutorialChallengeSandboxItem}">
-                            <Border x:Name="TaskItemBorder" CornerRadius="4">
+                            <Border CornerRadius="4">
                                 <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*" />
@@ -331,7 +374,10 @@
                                     CornerRadius="4"
                                     Effect="{DynamicResource EffectShadow2}">
                                     <!--  本版 HandyControls 的 Menu 顶级项模板默认无最小高度，需在容器样式显式补 MinHeight  -->
-                                    <Menu Padding="0" ItemsSource="{Binding TaskTypeList}">
+                                    <Menu
+                                        Padding="0"
+                                        ItemsPanel="{StaticResource VerticalStackItemsPanel}"
+                                        ItemsSource="{Binding TaskTypeList}">
                                         <Menu.ItemContainerStyle>
                                             <Style BasedOn="{StaticResource MaaMenuItemDefaultStyle}" TargetType="MenuItem">
                                                 <Setter Property="MinHeight" Value="{StaticResource DefaultControlHeight}" />
@@ -353,11 +399,6 @@
                                                 </Style.Triggers>
                                             </Style>
                                         </Menu.ItemContainerStyle>
-                                        <Menu.ItemsPanel>
-                                            <ItemsPanelTemplate>
-                                                <StackPanel Orientation="Vertical" />
-                                            </ItemsPanelTemplate>
-                                        </Menu.ItemsPanel>
                                     </Menu>
                                 </Border>
                             </controls:MenuButton.PopupContent>
@@ -418,7 +459,7 @@
                                 Text="{DynamicResource TutorialChallenge.NoSimulatedPanel}"
                                 Visibility="{c:Binding 'SelectedTask != null and !ShowFightPanel and !ShowDepotMaintainPanel'}" />
 
-                            <!--  理智作战沙盒面板：结构一比一对照真实 FightTaskUserControl 普通区+高级区，仅数据源换到沙盒任务  -->
+                            <!--  理智作战沙盒面板：结构照抄真实 FightTaskUserControl 普通区+高级区，仅数据源换到沙盒任务；改真实面板时须同步此处  -->
                             <StackPanel Visibility="{c:Binding ShowFightPanel}">
                                 <Grid Visibility="{c:Binding !EnableAdvancedSettings}">
                                     <Grid.RowDefinitions>
@@ -551,34 +592,13 @@
                                                 DropDownClosed="{s:Action DropsListDropDownClosed}"
                                                 IsEditable="True"
                                                 IsTextSearchEnabled="False"
+                                                ItemTemplate="{StaticResource DropComboBoxItemTemplate}"
                                                 ItemsSource="{Binding DropsList}"
                                                 Loaded="{s:Action MakeComboBoxSearchable,
                                                                   Target={x:Type ui_vms:SettingsViewModel}}"
                                                 SelectedValue="{Binding SelectedFightTask.DropId}"
                                                 SelectedValuePath="Value"
-                                                Text="{Binding DropsItemName}">
-                                                <ComboBox.ItemTemplate>
-                                                    <DataTemplate>
-                                                        <StackPanel Orientation="Horizontal">
-                                                            <Grid
-                                                                Width="18"
-                                                                Height="18"
-                                                                VerticalAlignment="Center">
-                                                                <!--  ｢不选择｣ 空值项无图标，以描边圆环占位，保持与图标项的文字对齐  -->
-                                                                <Ellipse
-                                                                    Stroke="{DynamicResource BorderBrush}"
-                                                                    StrokeThickness="1"
-                                                                    Visibility="{c:Binding 'Value.Length == 0'}" />
-                                                                <Image Source="{Binding Value, Converter={StaticResource ItemImageConverter}}" />
-                                                            </Grid>
-                                                            <TextBlock
-                                                                Margin="4,0,0,0"
-                                                                VerticalAlignment="Center"
-                                                                Text="{Binding Display}" />
-                                                        </StackPanel>
-                                                    </DataTemplate>
-                                                </ComboBox.ItemTemplate>
-                                            </ComboBox>
+                                                Text="{Binding DropsItemName}" />
                                             <!--  选中材料缩略图：IsEditable ComboBox 收起态显示区是纯文本 TextBox 无法内嵌图片，以不命中浮层贴在框内左侧，ComboBox 用 Padding 为其让出文本起点；｢不选择｣ 无图标，同位以描边圆环占位  -->
                                             <Ellipse
                                                 Width="16"
@@ -638,7 +658,6 @@
                                         <StackPanel Orientation="Vertical">
                                             <Grid Height="42">
                                                 <controls:TextBlock
-                                                    x:Name="SeriesTextBlock"
                                                     Margin="0,6"
                                                     HorizontalAlignment="Center"
                                                     VerticalAlignment="Center"
@@ -702,18 +721,8 @@
                                                 Margin="6"
                                                 VerticalAlignment="Bottom"
                                                 Command="{s:Action AddStageToPlan}"
-                                                Content="{DynamicResource TaskQueue.Fight.AddCandidateStage}">
-                                                <Button.Style>
-                                                    <Style BasedOn="{StaticResource {x:Type Button}}" TargetType="Button">
-                                                        <Setter Property="Visibility" Value="Collapsed" />
-                                                        <Style.Triggers>
-                                                            <DataTrigger Binding="{Binding SandboxUseOptionalStage}" Value="True">
-                                                                <Setter Property="Visibility" Value="Visible" />
-                                                            </DataTrigger>
-                                                        </Style.Triggers>
-                                                    </Style>
-                                                </Button.Style>
-                                            </Button>
+                                                Content="{DynamicResource TaskQueue.Fight.AddCandidateStage}"
+                                                Visibility="{c:Binding SandboxUseOptionalStage}" />
                                         </Grid>
                                         <ListBox
                                             Grid.Column="1"
@@ -747,44 +756,14 @@
                                                             <ComboBox
                                                                 IsEnabled="{c:Binding '!DataContext.IsStageItemDragging',
                                                                                       RelativeSource={RelativeSource AncestorType=hc:Window}}"
+                                                                ItemContainerStyle="{StaticResource StageComboBoxItemStyle}"
+                                                                ItemTemplate="{StaticResource StageComboBoxItemTemplate}"
                                                                 ItemsSource="{Binding DataContext.StageListSource, RelativeSource={RelativeSource AncestorType=hc:Window}}"
                                                                 ScrollViewer.CanContentScroll="False"
                                                                 SelectedValue="{Binding Stage}"
                                                                 SelectedValuePath="Value"
                                                                 Visibility="{c:Binding '!DataContext.SelectedFightTask.IsStageManually',
-                                                                                       RelativeSource={RelativeSource AncestorType=hc:Window}}">
-                                                                <ComboBox.ItemContainerStyle>
-                                                                    <Style BasedOn="{StaticResource ComboBoxItemBaseStyle}" TargetType="ComboBoxItem">
-                                                                        <Style.Triggers>
-                                                                            <DataTrigger Binding="{Binding IsVisible}" Value="False">
-                                                                                <Setter Property="Visibility" Value="Collapsed" />
-                                                                            </DataTrigger>
-                                                                        </Style.Triggers>
-                                                                    </Style>
-                                                                </ComboBox.ItemContainerStyle>
-                                                                <ComboBox.ItemTemplate>
-                                                                    <DataTemplate>
-                                                                        <TextBlock Text="{Binding Display}">
-                                                                            <TextBlock.Style>
-                                                                                <Style TargetType="TextBlock">
-                                                                                    <Style.Triggers>
-                                                                                        <DataTrigger Binding="{Binding IsOutdated}" Value="True">
-                                                                                            <Setter Property="TextDecorations" Value="Strikethrough" />
-                                                                                            <Setter Property="Foreground" Value="{DynamicResource ErrorLogBrush}" />
-                                                                                        </DataTrigger>
-                                                                                        <DataTrigger Binding="{Binding IsOpen}" Value="False">
-                                                                                            <Setter Property="Opacity" Value="0.5" />
-                                                                                        </DataTrigger>
-                                                                                        <DataTrigger Binding="{Binding IsOpen}" Value="True">
-                                                                                            <Setter Property="Opacity" Value="1" />
-                                                                                        </DataTrigger>
-                                                                                    </Style.Triggers>
-                                                                                </Style>
-                                                                            </TextBlock.Style>
-                                                                        </TextBlock>
-                                                                    </DataTemplate>
-                                                                </ComboBox.ItemTemplate>
-                                                            </ComboBox>
+                                                                                       RelativeSource={RelativeSource AncestorType=hc:Window}}" />
 
                                                             <!--  当 IsStageManually 为 true 时显示 TextBox  -->
                                                             <TextBox
@@ -940,23 +919,14 @@
                                         ItemsSource="{Binding WeeklyScheduleSource}"
                                         PreviewMouseWheel="{s:Action RouteMouseWheelToParent,
                                                                      Target={x:Type helper:MouseWheelHelper}}"
-                                        ScrollViewer.VerticalScrollBarVisibility="Auto">
-                                        <ListBox.Style>
-                                            <Style BasedOn="{StaticResource NoSelectedHighlightListBoxStyle}" TargetType="ListBox">
-                                                <Setter Property="Visibility" Value="Collapsed" />
-                                                <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding SelectedFightTask.UseWeeklySchedule}" Value="True">
-                                                        <Setter Property="Visibility" Value="Visible" />
-                                                    </DataTrigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </ListBox.Style>
+                                        ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                        Style="{DynamicResource NoSelectedHighlightListBoxStyle}"
+                                        Visibility="{c:Binding SelectedFightTask.UseWeeklySchedule}">
                                         <ListBox.ItemTemplate>
                                             <DataTemplate>
                                                 <CheckBox
                                                     HorizontalAlignment="Left"
                                                     VerticalAlignment="Center"
-                                                    Click="WeeklyScheduleItem_Click"
                                                     Content="{Binding Display}"
                                                     IsChecked="{Binding Value}" />
                                             </DataTemplate>
@@ -965,7 +935,7 @@
                                 </StackPanel>
                             </StackPanel>
 
-                            <!--  库存保持沙盒面板：结构一比一对照真实 DepotMaintainTaskUserControl，仅数据源换到沙盒任务  -->
+                            <!--  库存保持沙盒面板：结构照抄真实 DepotMaintainTaskUserControl，仅数据源换到沙盒任务；改真实面板时须同步此处  -->
                             <StackPanel Visibility="{c:Binding ShowDepotMaintainPanel}">
                                 <StackPanel Visibility="{c:Binding !EnableAdvancedSettings}">
                                     <Viewbox
@@ -1021,13 +991,10 @@
                                                             Text="{DynamicResource TaskQueue.DepotMaintain.PresetPermanent}"
                                                             Visibility="{c:Binding 'ActivityPresetList.Count > 0',
                                                                                    Source={x:Static taskQueue_vms:DepotMaintainTaskUserControlModel.Instance}}" />
-                                                        <Menu ItemContainerStyle="{StaticResource PresetMenuItemStyle}" ItemsSource="{Binding PresetList, Source={x:Static taskQueue_vms:DepotMaintainTaskUserControlModel.Instance}}">
-                                                            <Menu.ItemsPanel>
-                                                                <ItemsPanelTemplate>
-                                                                    <StackPanel Orientation="Vertical" />
-                                                                </ItemsPanelTemplate>
-                                                            </Menu.ItemsPanel>
-                                                        </Menu>
+                                                        <Menu
+                                                            ItemContainerStyle="{StaticResource PresetMenuItemStyle}"
+                                                            ItemsPanel="{StaticResource VerticalStackItemsPanel}"
+                                                            ItemsSource="{Binding PresetList, Source={x:Static taskQueue_vms:DepotMaintainTaskUserControlModel.Instance}}" />
                                                         <StackPanel Visibility="{c:Binding 'ActivityPresetList.Count > 0', Source={x:Static taskQueue_vms:DepotMaintainTaskUserControlModel.Instance}}">
                                                             <controls:TextBlock
                                                                 Margin="10,4,0,2"
@@ -1035,13 +1002,10 @@
                                                                 FontWeight="Bold"
                                                                 Foreground="{DynamicResource SecondaryTextBrush}"
                                                                 Text="{DynamicResource TaskQueue.DepotMaintain.PresetCurrentActivity}" />
-                                                            <Menu ItemContainerStyle="{StaticResource PresetMenuItemStyle}" ItemsSource="{Binding ActivityPresetList, Source={x:Static taskQueue_vms:DepotMaintainTaskUserControlModel.Instance}}">
-                                                                <Menu.ItemsPanel>
-                                                                    <ItemsPanelTemplate>
-                                                                        <StackPanel Orientation="Vertical" />
-                                                                    </ItemsPanelTemplate>
-                                                                </Menu.ItemsPanel>
-                                                            </Menu>
+                                                            <Menu
+                                                                ItemContainerStyle="{StaticResource PresetMenuItemStyle}"
+                                                                ItemsPanel="{StaticResource VerticalStackItemsPanel}"
+                                                                ItemsSource="{Binding ActivityPresetList, Source={x:Static taskQueue_vms:DepotMaintainTaskUserControlModel.Instance}}" />
                                                         </StackPanel>
                                                     </StackPanel>
                                                 </hc:SplitButton.DropDownContent>
@@ -1131,44 +1095,14 @@
                                                             <Grid Height="30">
                                                                 <!--  当 IsStageManually 为 false 时显示 ComboBox  -->
                                                                 <ComboBox
+                                                                    ItemContainerStyle="{StaticResource StageComboBoxItemStyle}"
+                                                                    ItemTemplate="{StaticResource StageComboBoxItemTemplate}"
                                                                     ItemsSource="{Binding DataContext.StageListSource, RelativeSource={RelativeSource AncestorType=hc:Window}}"
                                                                     ScrollViewer.CanContentScroll="False"
                                                                     SelectedValue="{Binding Stage}"
                                                                     SelectedValuePath="Value"
                                                                     Visibility="{c:Binding '!DataContext.SelectedDepotMaintainTask.IsStageManually',
-                                                                                           RelativeSource={RelativeSource AncestorType=hc:Window}}">
-                                                                    <ComboBox.ItemContainerStyle>
-                                                                        <Style BasedOn="{StaticResource ComboBoxItemBaseStyle}" TargetType="ComboBoxItem">
-                                                                            <Style.Triggers>
-                                                                                <DataTrigger Binding="{Binding IsVisible}" Value="False">
-                                                                                    <Setter Property="Visibility" Value="Collapsed" />
-                                                                                </DataTrigger>
-                                                                            </Style.Triggers>
-                                                                        </Style>
-                                                                    </ComboBox.ItemContainerStyle>
-                                                                    <ComboBox.ItemTemplate>
-                                                                        <DataTemplate>
-                                                                            <TextBlock Text="{Binding Display}">
-                                                                                <TextBlock.Style>
-                                                                                    <Style TargetType="TextBlock">
-                                                                                        <Style.Triggers>
-                                                                                            <DataTrigger Binding="{Binding IsOutdated}" Value="True">
-                                                                                                <Setter Property="TextDecorations" Value="Strikethrough" />
-                                                                                                <Setter Property="Foreground" Value="{DynamicResource ErrorLogBrush}" />
-                                                                                            </DataTrigger>
-                                                                                            <DataTrigger Binding="{Binding IsOpen}" Value="False">
-                                                                                                <Setter Property="Opacity" Value="0.5" />
-                                                                                            </DataTrigger>
-                                                                                            <DataTrigger Binding="{Binding IsOpen}" Value="True">
-                                                                                                <Setter Property="Opacity" Value="1" />
-                                                                                            </DataTrigger>
-                                                                                        </Style.Triggers>
-                                                                                    </Style>
-                                                                                </TextBlock.Style>
-                                                                            </TextBlock>
-                                                                        </DataTemplate>
-                                                                    </ComboBox.ItemTemplate>
-                                                                </ComboBox>
+                                                                                           RelativeSource={RelativeSource AncestorType=hc:Window}}" />
 
                                                                 <!--  当 IsStageManually 为 true 时显示 TextBox  -->
                                                                 <TextBox
@@ -1197,34 +1131,13 @@
                                                                         VerticalContentAlignment="Center"
                                                                         IsEditable="True"
                                                                         IsTextSearchEnabled="False"
+                                                                        ItemTemplate="{StaticResource DropComboBoxItemTemplate}"
                                                                         ItemsSource="{Binding DataContext.DropsList, RelativeSource={RelativeSource AncestorType=hc:Window}}"
                                                                         Loaded="{s:Action MakeComboBoxSearchable,
                                                                                           Target={x:Type ui_vms:SettingsViewModel}}"
                                                                         SelectedValue="{Binding DropId}"
                                                                         SelectedValuePath="Value"
-                                                                        Text="{Binding DropName}">
-                                                                        <ComboBox.ItemTemplate>
-                                                                            <DataTemplate>
-                                                                                <StackPanel Orientation="Horizontal">
-                                                                                    <Grid
-                                                                                        Width="18"
-                                                                                        Height="18"
-                                                                                        VerticalAlignment="Center">
-                                                                                        <!--  ｢不选择｣ 空值项无图标，以描边圆环占位，保持与图标项的文字对齐  -->
-                                                                                        <Ellipse
-                                                                                            Stroke="{DynamicResource BorderBrush}"
-                                                                                            StrokeThickness="1"
-                                                                                            Visibility="{c:Binding 'Value.Length == 0'}" />
-                                                                                        <Image Source="{Binding Value, Converter={StaticResource ItemImageConverter}}" />
-                                                                                    </Grid>
-                                                                                    <TextBlock
-                                                                                        Margin="4,0,0,0"
-                                                                                        VerticalAlignment="Center"
-                                                                                        Text="{Binding Display}" />
-                                                                                </StackPanel>
-                                                                            </DataTemplate>
-                                                                        </ComboBox.ItemTemplate>
-                                                                    </ComboBox>
+                                                                        Text="{Binding DropName}" />
                                                                     <!--  选中材料缩略图：IsEditable ComboBox 收起态显示区是纯文本 TextBox 无法内嵌图片，以不命中浮层贴在框内左侧，ComboBox 用 Padding 为其让出文本起点；｢不选择｣ 无图标，同位以描边圆环占位  -->
                                                                     <Ellipse
                                                                         Width="16"
@@ -1385,8 +1298,7 @@
                             Background="{DynamicResource RegionBrushOpacity25}"
                             Content="{DynamicResource TaskQueue.GeneralSettings}"
                             GroupName="TutorialChallengeSettingsTab"
-                            IsChecked="{c:Binding !EnableAdvancedSettings}"
-                            IsEnabled="True" />
+                            IsChecked="{c:Binding !EnableAdvancedSettings}" />
                         <RadioButton
                             hc:VisualElement.HighlightBackground="{DynamicResource RegionBrushOpacity25}"
                             AutomationProperties.Name="{DynamicResource TaskQueue.AdvancedSettings}"

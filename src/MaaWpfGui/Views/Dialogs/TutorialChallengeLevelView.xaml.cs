@@ -14,7 +14,6 @@
 #nullable enable
 using System.Windows;
 using System.Windows.Input;
-using MaaWpfGui.ViewModels;
 using MaaWpfGui.ViewModels.Dialogs;
 
 namespace MaaWpfGui.Views.Dialogs;
@@ -42,18 +41,6 @@ public partial class TutorialChallengeLevelView
         // 拖拽松开时鼠标未必还在拖拽手柄上，在窗口层恢复
         PreviewMouseLeftButtonUp -= Window_PreviewMouseLeftButtonUp;
         PreviewMouseLeftButtonUp += Window_PreviewMouseLeftButtonUp;
-    }
-
-    /// <summary>
-    /// 周计划行勾选/取消后写回所属理智作战任务。
-    /// </summary>
-    private void WeeklyScheduleItem_Click(object sender, RoutedEventArgs e)
-    {
-        if (DataContext is TutorialChallengeLevelViewModel viewModel
-            && sender is FrameworkElement { DataContext: WeeklyScheduleItem item })
-        {
-            viewModel.SaveWeeklyScheduleFromItem(item);
-        }
     }
 
     /// <summary>

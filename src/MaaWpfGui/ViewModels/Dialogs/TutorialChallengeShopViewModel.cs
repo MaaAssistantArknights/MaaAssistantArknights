@@ -19,4 +19,4 @@ namespace MaaWpfGui.ViewModels.Dialogs;
 /// <summary>
 /// 牛牛币商城占位窗口，货架内容待定。
 /// </summary>
-public class TutorialChallengeShopViewModel : Screen;
+public class TutorialChallengeShopViewModel : PropertyChangedBase;

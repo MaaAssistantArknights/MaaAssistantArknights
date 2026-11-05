@@ -104,6 +104,11 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
         SandboxItems.CollectionChanged += OnSandboxItemsChanged;
         StagePlanRows.CollectionChanged += OnStagePlanRowsChanged;
         PlanRows.CollectionChanged += OnPlanRowsChanged;
+        foreach (var item in WeeklyScheduleSource)
+        {
+            item.PropertyChanged += OnWeeklyScheduleItemPropertyChanged;
+        }
+
         LocalizationHelper.LanguageChanged += OnLanguageChanged;
         BuildStageListSource();
         BuildSandbox();
@@ -915,7 +920,7 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
     }
 
     /// <summary>
-    /// 把当前选中理智作战任务的周计划回填到展示行；行内勾选变更经 <see cref="SaveWeeklyScheduleFromItem"/> 写回。
+    /// 把当前选中理智作战任务的周计划回填到展示行；行内勾选变更经 <see cref="OnWeeklyScheduleItemPropertyChanged"/> 写回。
     /// </summary>
     private void RefreshWeeklySchedule()
     {
@@ -931,12 +936,15 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
     }
 
     /// <summary>
-    /// 展示行勾选变更后写回任务实例并重算判定；供 XAML 行内 CheckBox 绑定调用。
+    /// 展示行勾选变更后写回当前选中理智作战任务并重算判定。
     /// </summary>
-    /// <param name="item">变更的周计划行。</param>
-    public void SaveWeeklyScheduleFromItem(WeeklyScheduleItem item)
+    /// <param name="sender">变更的周计划行。</param>
+    /// <param name="e">属性变更参数。</param>
+    private void OnWeeklyScheduleItemPropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
-        if (SelectedFightTask is not { } fight)
+        if (e.PropertyName != nameof(WeeklyScheduleItem.Value)
+            || sender is not WeeklyScheduleItem item
+            || SelectedFightTask is not { } fight)
         {
             return;
         }
@@ -985,7 +993,8 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
             return;
         }
 
-        var tasks = SandboxItems.Select(item => item.Task).ToList();
+        // 只计入真实队列会执行的任务，IsEnable 为 null 时是否执行跟随 ｢反转主任务右键单击效果｣ 设置
+        var tasks = SandboxItems.Select(item => item.Task).Where(TaskQueueViewModel.IsTaskEnable).ToList();
         if (!_level.GoalPredicate(tasks))
         {
             return;
@@ -1033,6 +1042,11 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
         {
             item.Task.PropertyChanged -= _taskPropertyChangedHandler;
             item.PropertyChanged -= OnSandboxItemPropertyChanged;
+        }
+
+        foreach (var item in WeeklyScheduleSource)
+        {
+            item.PropertyChanged -= OnWeeklyScheduleItemPropertyChanged;
         }
     }
 
