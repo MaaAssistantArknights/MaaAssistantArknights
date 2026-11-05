@@ -39,7 +39,7 @@
     "MiniGame@WartimePressCommittee@Day3": {
         "algorithm": "OcrDetect",
         "text": ["基尔萨宁乡土报"],
-        "ocrReplace": [["尔乡报", "基尔萨宁乡土报"]],
+        "ocrReplace": [["尔萨?乡报", "基尔萨宁乡土报"]],
         "roi": [490, 415, 309, 59],
         "next": ["MiniGame@WartimePressCommittee@Day3-Max", "MiniGame@WartimePressCommittee@Day3-Unlocked", "Stop"]
     },
