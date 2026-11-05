@@ -51,7 +51,7 @@ jobs:
         id: cache_key
         continue-on-error: true
         run: |
-          echo "key=Smoke-testing-v2-${{ hashFiles('src/Cpp/**', 'src/MaaCore/**', '3rdparty/include/**', 'include/**', 'cmake/**', 'CMakeLists.txt', 'tools/maadeps-download.py', 'tools/linux-toolchain-download.py') }}" >> $GITHUB_OUTPUT
+          echo "key=Smoke-testing-v3-${{ hashFiles('src/Cpp/**', 'src/MaaCore/**', '3rdparty/include/**', 'include/**', 'cmake/**', 'CMakeLists.txt', 'tools/maadeps-download.py', 'tools/linux-toolchain-download.py') }}" >> $GITHUB_OUTPUT
 
       - name: Restore cache for Smoke Test
         if: ${{ steps.cache_key.outputs.key != '' }}
@@ -65,6 +65,7 @@ jobs:
             ./install/libMaaCore.dylib
             ./install/libMaaUtils.dylib
             ./install/libonnxruntime*.dylib
+            ./install/libwebgpu_dawn.dylib
             ./install/libopencv_world4*.dylib
             ./install/smoke_test
 
@@ -116,6 +117,7 @@ jobs:
             ./install/libMaaCore.dylib
             ./install/libMaaUtils.dylib
             ./install/libonnxruntime*.dylib
+            ./install/libwebgpu_dawn.dylib
             ./install/libopencv_world4*.dylib
             ./install/smoke_test
 
