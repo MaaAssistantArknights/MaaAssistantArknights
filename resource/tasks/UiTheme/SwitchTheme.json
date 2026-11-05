@@ -45,11 +45,11 @@
         "next": ["SwitchTheme@ReturnTheme"]
     },
     "SwitchTheme@ReturnTheme": {
-        "Doc": "去掉 ReturnButton 继承的换主题 onErrorNext，避免无限循环",
+        "Doc": "换完主题返回后就结束，不再重新换主题，避免无限循环",
         "baseTask": "ReturnButton",
         "template": ["Return.png", "Return-White.png"],
         "postDelay": 1000,
         "next": ["#self", "#next"],
-        "onErrorNext": []
+        "onErrorNext": ["Stop"]
     }
 }
