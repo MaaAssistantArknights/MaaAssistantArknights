@@ -172,6 +172,7 @@ public class SettingsViewModel : Screen
         DisplayName = LocalizationHelper.GetString("Settings.Title");
         RefreshSettingsList();
         NotifyOfPropertyChange(nameof(GuideNextGateTip));
+        NotifyOfPropertyChange(nameof(GuideStepTitle));
         NotifyOfPropertyChange(nameof(GuideNightThemeName));
         _guideDemoStageList.RefreshLocalization();
         foreach (var weekly in GuideDemoTasks.Where(t => t.IsFightTask).SelectMany(t => t.DemoWeeklySchedule))
@@ -708,13 +709,34 @@ public class SettingsViewModel : Screen
         }
     } = ConfigFactory.Root.Gui.GuideStep;
 
-    // ｢使用指引｣（含用户协议确认）步骤在 StepBar 中的索引，与 GuideUserControl.xaml 步骤区的 Visibility 条件对应
+    /// <summary>
+    /// Gets 当前步骤的标题，用于右侧只显示当前步骤的紧凑指示。
+    /// </summary>
+    [PropertyDependsOn(nameof(GuideStepIndex))]
+    public string GuideStepTitle => LocalizationHelper.GetString(GuideStepIndex switch
+    {
+        0 => "Settings.Ui.Title",
+        GuideAgreementStepIndex => "Guide.User",
+        2 => "Settings.Game.Title",
+        3 => "Settings.Connection.Title",
+        GuidePerformanceSettingsStepIndex => "Settings.Performance.Title",
+        GuideTaskSettingsStepIndex => "TaskQueue.TaskSettings",
+        _ => "Settings.Update.Title",
+    });
+
+    /// <summary>
+    /// Gets 当前步骤进度，形如 ｢6 / 7｣。
+    /// </summary>
+    [PropertyDependsOn(nameof(GuideStepIndex))]
+    public string GuideStepProgress => $"{GuideStepIndex + 1} / {GuideMaxStep}";
+
+    // ｢使用指引｣（含用户协议确认）步骤的索引，与 GuideUserControl.xaml 步骤区的 Visibility 条件对应
     private const int GuideAgreementStepIndex = 1;
 
-    // ｢性能设置｣ 步骤在 StepBar 中的索引，与 GuideUserControl.xaml 步骤区的 Visibility 条件对应；｢跳过｣ 按钮自该步起显示
+    // ｢性能设置｣ 步骤的索引，与 GuideUserControl.xaml 步骤区的 Visibility 条件对应；｢跳过｣ 按钮自该步起显示
     private const int GuidePerformanceSettingsStepIndex = 4;
 
-    // ｢任务设置｣ 步骤在 StepBar 中的索引，与 GuideUserControl.xaml 步骤区的 Visibility 条件对应
+    // ｢任务设置｣ 步骤的索引，与 GuideUserControl.xaml 步骤区的 Visibility 条件对应
     private const int GuideTaskSettingsStepIndex = 5;
 
     /// <summary>
@@ -945,18 +967,24 @@ public class SettingsViewModel : Screen
 
     // UI 绑定的方法
     [UsedImplicitly]
-    public void NextGuide(StepBar stepBar)
+    public void NextGuide()
     {
         GuideTransitionMode = "Bottom2Top";
-        stepBar.Next();
+        if (GuideStepIndex < GuideMaxStep - 1)
+        {
+            GuideStepIndex++;
+        }
     }
 
     // UI 绑定的方法
     [UsedImplicitly]
-    public void PrevGuide(StepBar stepBar)
+    public void PrevGuide()
     {
         GuideTransitionMode = "Top2Bottom";
-        stepBar.Prev();
+        if (GuideStepIndex > 0)
+        {
+            GuideStepIndex--;
+        }
     }
 
     // UI 绑定的方法：跳过设置指引；调试环境直接结束，其余先弹确认（含重看入口指引）再结束
