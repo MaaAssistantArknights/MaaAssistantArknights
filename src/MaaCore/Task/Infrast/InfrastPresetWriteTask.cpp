@@ -234,12 +234,13 @@ bool asst::InfrastPresetWriteTask::verify_selection(const std::vector<std::strin
     }
     swipe_to_the_left_of_operlist();
     sleep(500);
-    InfrastOperImageAnalyzer analyzer(ctrler()->get_image());
+    const auto image = ctrler()->get_image();
+    InfrastOperImageAnalyzer analyzer(image);
     analyzer.set_to_be_calced(InfrastOperImageAnalyzer::ToBeCalced::Selected);
     if (!analyzer.analyze()) {
         return false;
     }
-    std::set<std::string> selected;
+    std::vector<std::string> selected(names.size());
     size_t count = 0;
     const auto replace = Task.get<OcrTaskInfo>("CharsNameOcrReplace");
     for (const auto& oper : analyzer.get_result()) {
@@ -254,9 +255,30 @@ bool asst::InfrastPresetWriteTask::verify_selection(const std::vector<std::strin
         if (!ocr.analyze()) {
             return false;
         }
-        selected.emplace(ocr.get_result().text);
+        size_t index = 0;
+        if (m_capacity > 1) {
+            // Read the selection badge, not the card's display position or analyzer traversal order.
+            OCRer order(image, oper.rect.move(Rect(65, 5, 55, 70)));
+            const auto results = order.analyze();
+            if (!results || results->size() != 1 || results->front().score < 0.85) {
+                LogWarn << __FUNCTION__ << "Could not recognize selection order" << ocr.get_result().text;
+                return false;
+            }
+            const auto& text = results->front().text;
+            if (text.size() != 1 || text[0] < '1' || text[0] > '5') {
+                LogWarn << __FUNCTION__ << "Invalid selection order" << text;
+                return false;
+            }
+            index = static_cast<size_t>(text[0] - '1');
+        }
+        // Single-seat editors have no order badge. Multiple cards or duplicate badges still fail.
+        if (index >= selected.size() || !selected[index].empty()) {
+            LogWarn << __FUNCTION__ << "Duplicate or unexpected selection position" << index + 1;
+            return false;
+        }
+        selected[index] = ocr.get_result().text;
     }
-    return count == names.size() && selected == std::set<std::string>(names.begin(), names.end());
+    return count == names.size() && selected == names;
 }
 
 bool asst::InfrastPresetWriteTask::write_queue(const Page& page, int queue, const std::vector<std::string>& names)
