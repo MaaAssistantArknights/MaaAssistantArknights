@@ -2124,6 +2124,7 @@ DEBUG 目录下保存的图片有数量限制，超出后会自动清理旧图�
     <system:String x:Key="TaskQueue.MoveUp">上移</system:String>
     <system:String x:Key="TaskQueue.MultiTasksShare.Tip">以下选项为多任务共用</system:String>
     <system:String x:Key="TaskQueue.NotSwitch">不切换</system:String>
+    <system:String x:Key="TaskQueue.OperProgress.ClearPlansConfirm">确认要清空全部干员培养计划吗？此操作不可恢复。</system:String>
     <system:String x:Key="TaskQueue.OperProgress.Detail">{key=TaskQueue.Task.OperProgress} {0}:{1} {2}</system:String>
     <system:String x:Key="TaskQueue.OperProgress.Elite">精英化</system:String>
     <system:String x:Key="TaskQueue.OperProgress.EliteTarget">精英化 {0}</system:String>

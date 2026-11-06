@@ -2124,6 +2124,7 @@ MAA는 비설치형 응용 프로그램으로, 삭제 시 레지스트리 항목
     <system:String x:Key="TaskQueue.MoveUp">위로 이동</system:String>
     <system:String x:Key="TaskQueue.MultiTasksShare.Tip">다음 옵션은 여러 작업에 적용됩니다</system:String>
     <system:String x:Key="TaskQueue.NotSwitch">미변경</system:String>
+    <system:String x:Key="TaskQueue.OperProgress.ClearPlansConfirm">모든 오퍼레이터 육성 계획을 지우시겠습니까? 이 작업은 되돌릴 수 없습니다.</system:String>
     <system:String x:Key="TaskQueue.OperProgress.Detail">{key=TaskQueue.Task.OperProgress} {0}:{1} {2}</system:String>
     <system:String x:Key="TaskQueue.OperProgress.Elite">정예화</system:String>
     <system:String x:Key="TaskQueue.OperProgress.EliteTarget">정예화 {0}</system:String>
