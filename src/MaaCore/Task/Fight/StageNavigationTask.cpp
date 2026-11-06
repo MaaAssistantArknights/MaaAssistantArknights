@@ -154,6 +154,9 @@ bool asst::StageNavigationTask::_run()
         task.set_retry_times(RetryTimesDefault);
         bool ret = task.run();
         if (!ret && task.get_last_task_name().empty() && m_directly_task.ends_with(AnnihilationSuffix)) {
+            // 待办清单里找不到剿灭入口，视为本周已完成而跳过；但也可能是识别失败，需让用户知道跳过了
+            LogInfo << __FUNCTION__ << "| annihilation entry not found, skip fight";
+            callback(AsstMsg::SubTaskExtraInfo, basic_info_with_what("AnnihilationEntryNotFound"));
             m_fight_task_ptr->set_enable(false);
             return true;
         }

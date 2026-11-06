@@ -1875,6 +1875,15 @@ public class AsstProxy
                 {
                     if (details["what"]?.ToString() != "UnknownTask")
                     {
+                        // 访问好友失败被忽略、任务链仍报完成，单独提示（只认最外层 VisitBegin）
+                        if (details["taskchain"]?.ToString() == "Mall"
+                            && details["first"]?.Values<string>().Contains("VisitBegin") == true)
+                        {
+                            Instances.TaskQueueViewModel.AddLog(
+                                LocalizationHelper.GetString("Asst.TaskQueue.TaskError") + LocalizationHelper.GetString("Mall.Visiting"),
+                                UiLogColor.Warning);
+                        }
+
                         break;
                     }
 
@@ -2927,6 +2936,10 @@ public class AsstProxy
 
             case "StageQueueUnableToAgent":
                 Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("Asst.Fight.StageQueue") + $" {subTaskDetails!["stage_code"]} " + LocalizationHelper.GetString("Asst.Fight.UnableToAgent"), UiLogColor.Info);
+                break;
+
+            case "AnnihilationEntryNotFound":
+                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("Asst.Fight.AnnihilationEntryNotFound"), UiLogColor.Info);
                 break;
 
             case "SwitchThemeSkipped":

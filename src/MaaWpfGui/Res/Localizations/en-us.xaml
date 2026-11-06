@@ -414,6 +414,7 @@
     <system:String x:Key="Asst.Drop.ReportSkippedForPcClient">The PC client cursor can obscure drop items and counts. This report to {0} was skipped to avoid polluting the data pool with inaccurate data</system:String>
     <system:String x:Key="Asst.Drop.TotalDrop" xml:space="preserve">Total Drops:&#160;</system:String>
     <system:String x:Key="Asst.Fight.ActingCommandError">PRTS error</system:String>
+    <system:String x:Key="Asst.Fight.AnnihilationEntryNotFound">Annihilation entry not found in the Terminal to-do list, possibly already completed this week. Skipped Annihilation</system:String>
     <system:String x:Key="Asst.Fight.CurrentSanity" xml:space="preserve">Sanity: {0}/{1}  </system:String>
     <system:String x:Key="Asst.Fight.ExpiringMedicineUsed">Expiring medicine (in {0} days) used</system:String>
     <system:String x:Key="Asst.Fight.MedicineInfo">Medicine: {0}, Inventory: {1}</system:String>
