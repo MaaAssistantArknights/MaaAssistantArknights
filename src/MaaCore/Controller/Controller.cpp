@@ -85,21 +85,6 @@ std::shared_ptr<asst::ControllerAPI>
     }
 }
 
-size_t asst::Controller::get_pipe_data_size() const noexcept
-{
-    return m_controller->get_pipe_data_size();
-}
-
-size_t asst::Controller::get_version() const noexcept
-{
-    return m_controller->get_version();
-}
-
-asst::ControllerType asst::Controller::get_controller_type() const noexcept
-{
-    return m_controller_type;
-}
-
 std::pair<int, int> asst::Controller::get_scale_size() const noexcept
 {
     return m_scale_size;

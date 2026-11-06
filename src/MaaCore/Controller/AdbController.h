@@ -80,10 +80,6 @@ public:
 
     virtual const std::string& get_uuid() const override;
 
-    virtual size_t get_pipe_data_size() const noexcept override;
-
-    virtual size_t get_version() const noexcept override;
-
     virtual bool screencap(cv::Mat& image_payload, bool allow_reconnect = false) override;
 
     virtual bool start_game(const std::string& client_type) override;
@@ -200,8 +196,6 @@ protected:
         std::string start;
         std::string stop;
 
-        std::string version;
-
         std::string back_to_home;
 
         std::string fps; // 获取模拟器刷新率的命令
@@ -230,8 +224,6 @@ protected:
     } m_adb;
 
     std::string m_uuid;
-    size_t m_pipe_data_size = 0;
-    size_t m_version = 0;
     std::pair<int, int> m_screen_size = { 0, 0 };
     int m_width = 0;
     int m_height = 0;
