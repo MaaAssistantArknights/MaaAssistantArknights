@@ -194,6 +194,12 @@
                     <TabControl.ItemContainerStyle>
                         <Style BasedOn="{StaticResource TabItemInLine}" TargetType="TabItem">
                             <Setter Property="Background" Value="{DynamicResource RegionBrushOpacity25}" />
+                            <Style.Triggers>
+                                <!--  设置指引期间隐藏顶部标签，避免用户中途切走；完成或跳过后自动恢复  -->
+                                <DataTrigger Binding="{Binding Guide, Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}" Value="True">
+                                    <Setter Property="Visibility" Value="Collapsed" />
+                                </DataTrigger>
+                            </Style.Triggers>
                         </Style>
                     </TabControl.ItemContainerStyle>
                 </TabControl>

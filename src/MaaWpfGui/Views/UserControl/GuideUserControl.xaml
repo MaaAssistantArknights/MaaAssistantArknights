@@ -22,7 +22,7 @@
             Background="{DynamicResource RegionBrush}"
             Style="{StaticResource GroupBoxTab}">
             <GroupBox.Header>
-                <hc:RelativePanel Height="20">
+                <hc:RelativePanel MinHeight="24">
                     <Button
                         Margin="5,0"
                         hc:RelativePanel.AlignVerticalCenterWithPanel="True"
@@ -30,58 +30,42 @@
                         Content="{DynamicResource Guide.Skip}"
                         Style="{StaticResource ButtonDashedWarning.Small}"
                         Visibility="{c:Binding GuideSkipVisible}" />
-                    <TextBlock
+                    <StackPanel
                         hc:RelativePanel.AlignHorizontalCenterWithPanel="True"
                         hc:RelativePanel.AlignVerticalCenterWithPanel="True"
-                        FontSize="14"
-                        Text="{DynamicResource Guide.Settings}" />
-                </hc:RelativePanel>
-            </GroupBox.Header>
-            <DockPanel>
-                <Grid VerticalAlignment="Stretch" DockPanel.Dock="Right">
-                    <Grid.RowDefinitions>
-                        <RowDefinition />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="2*" />
-                    </Grid.RowDefinitions>
+                        Orientation="Horizontal">
+                        <controls:TextBlock
+                            d:Text="任务设置"
+                            FontSize="14"
+                            Text="{Binding GuideStepTitle}" />
+                        <controls:TextBlock
+                            Margin="6,0,0,1"
+                            VerticalAlignment="Bottom"
+                            d:Text="6 / 7"
+                            FontSize="12"
+                            Foreground="{DynamicResource ThirdlyTextBrush}"
+                            Text="{Binding GuideStepProgress}" />
+                    </StackPanel>
                     <StackPanel
-                        x:Name="GuideButtonPanel"
-                        Grid.Row="1"
-                        Margin="10,0"
-                        VerticalAlignment="Center">
+                        hc:RelativePanel.AlignRightWithPanel="True"
+                        hc:RelativePanel.AlignVerticalCenterWithPanel="True"
+                        Orientation="Horizontal">
                         <Button
                             MinWidth="100"
-                            HorizontalAlignment="Right"
+                            Margin="0,0,6,0"
                             hc:IconElement.Geometry="{StaticResource UpGeometry}"
                             hc:IconElement.Width="18"
                             Command="{s:Action PrevGuide}"
-                            CommandParameter="{Binding ElementName=GuideStepBar}"
                             Content="{DynamicResource Guide.Prev}"
-                            Style="{StaticResource ButtonDashedPrimary}" />
-                        <hc:StepBar
-                            Name="GuideStepBar"
-                            Margin="10,0"
-                            d:StepIndex="7"
-                            Dock="Right"
-                            StepIndex="{Binding GuideStepIndex}">
-                            <hc:StepBarItem Content="{DynamicResource Settings.Ui.Title}" />
-                            <hc:StepBarItem Content="{DynamicResource Guide.User}" />
-                            <hc:StepBarItem Content="{DynamicResource Settings.Game.Title}" />
-                            <hc:StepBarItem Content="{DynamicResource Settings.Connection.Title}" />
-                            <hc:StepBarItem Content="{DynamicResource Settings.Performance.Title}" />
-                            <hc:StepBarItem Content="{DynamicResource TaskQueue.TaskSettings}" />
-                            <hc:StepBarItem Content="{DynamicResource Settings.Update.Title}" />
-                        </hc:StepBar>
+                            Style="{StaticResource ButtonDashedPrimary.Small}" />
                         <Button
                             MinWidth="100"
-                            HorizontalAlignment="Right"
                             hc:IconElement.Geometry="{StaticResource DownGeometry}"
                             hc:IconElement.Width="18"
                             Command="{s:Action NextGuide}"
-                            CommandParameter="{Binding ElementName=GuideStepBar}"
                             Content="{DynamicResource Guide.Next}"
                             IsEnabled="{c:Binding 'GuideNextGateTip == null'}"
-                            Style="{StaticResource ButtonDashedPrimary}"
+                            Style="{StaticResource ButtonDashedPrimary.Small}"
                             Visibility="{c:Binding 'GuideStepIndex less GuideMaxStep - 1'}" />
                         <Button
                             MinWidth="100"
@@ -89,20 +73,31 @@
                             hc:IconElement.Width="18"
                             Command="{s:Action DoneGuide}"
                             Content="{DynamicResource Guide.Done}"
-                            Style="{StaticResource ButtonDashedPrimary}"
+                            Style="{StaticResource ButtonDashedPrimary.Small}"
                             Visibility="{c:Binding 'GuideStepIndex >= GuideMaxStep - 1'}" />
                     </StackPanel>
-                    <controls:TextBlock
-                        Grid.Row="2"
-                        MaxWidth="{Binding ElementName=GuideButtonPanel, Path=ActualWidth}"
-                        VerticalAlignment="Top"
-                        d:Text="Next gate tip"
-                        FontSize="12"
-                        Text="{Binding GuideNextGateTip}"
-                        TextWrapping="Wrap"
-                        Visibility="{c:Binding 'GuideNextGateTip != null'}" />
-                </Grid>
-                <ScrollViewer Margin="10,20,10,20" VerticalScrollBarVisibility="Auto">
+                </hc:RelativePanel>
+            </GroupBox.Header>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <controls:TextBlock
+                    Grid.Row="0"
+                    Margin="10,8,10,0"
+                    HorizontalAlignment="Right"
+                    MaxWidth="400"
+                    d:Text="Next gate tip"
+                    FontSize="12"
+                    Text="{Binding GuideNextGateTip}"
+                    TextWrapping="Wrap"
+                    Visibility="{c:Binding 'GuideNextGateTip != null'}" />
+                <hc:ScrollViewer
+                    Grid.Row="1"
+                    Margin="10,10,10,20"
+                    IsInertiaEnabled="True"
+                    VerticalScrollBarVisibility="Auto">
                     <hc:SimplePanel HorizontalAlignment="Center" VerticalAlignment="Center">
                         <hc:TransitioningContentControl
                             Width="200"
@@ -971,8 +966,8 @@
                             </ScrollViewer>
                         </hc:TransitioningContentControl>
                     </hc:SimplePanel>
-                </ScrollViewer>
-            </DockPanel>
+                </hc:ScrollViewer>
+            </Grid>
         </GroupBox>
     </Grid>
 </UserControl>
