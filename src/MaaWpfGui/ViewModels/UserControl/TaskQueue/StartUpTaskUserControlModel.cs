@@ -61,7 +61,7 @@ public class StartUpTaskUserControlModel : TaskSettingsViewModel, StartUpTaskUse
             return;
         }
         var task = new StartUpTask() { AccountSwitchEnabled = true, AccountName = startUp.AccountName };
-        await Instances.TaskQueueViewModel.LinkStartWithTasks([task]);
+        await Instances.TaskQueueViewModel.LinkStartWithTasks([task], executePostActions: false);
     }
 
     public void ProcSubTaskMsg(AsstMsg msg, AsstSubTaskMsg? details)

@@ -2513,7 +2513,7 @@ public class TaskQueueViewModel : Screen
     }
 #endif
 
-    public async Task LinkStartWithTasks(IEnumerable<BaseTask> tasks, int? startIndex = null)
+    public async Task LinkStartWithTasks(IEnumerable<BaseTask> tasks, int? startIndex = null, bool executePostActions = true)
     {
         if (!_runningState.Idle)
         {
@@ -2572,6 +2572,11 @@ public class TaskQueueViewModel : Screen
 
         // 所有提前 return 都要放在进入运行态之前，否则会导致无法再次点击开始
         _runningState.BeginRun(RunOwner.TaskQueue);
+        if (!executePostActions)
+        {
+            // 快捷操作不执行完成后动作；提前消耗本轮发射权，同时覆盖自然完成与时长上限停止。
+            Interlocked.Exchange(ref _postActionsLaunched, 1);
+        }
 
         // 虽然更改时已经保存过了，不过保险起见在点击开始之后再次保存任务和基建列表
         // TaskItemSelectionChanged();
