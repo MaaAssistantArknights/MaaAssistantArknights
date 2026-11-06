@@ -3,7 +3,6 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:c="clr-namespace:CalcBinding;assembly=CalcBinding"
-    xmlns:controls="clr-namespace:MaaWpfGui.Styles.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:dd="urn:gong-wpf-dragdrop"
     xmlns:hc="https://handyorg.github.io/handycontrol"
@@ -58,6 +57,20 @@
                 SelectedIndex="{Binding SelectedIndex}">
                 <ListBox.GroupStyle>
                     <GroupStyle>
+                        <GroupStyle.ContainerStyle>
+                            <Style TargetType="{x:Type GroupItem}">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type GroupItem}">
+                                            <StackPanel>
+                                                <ContentPresenter x:Name="PART_Header" />
+                                                <ItemsPresenter x:Name="ItemsPresenter" Margin="0" />
+                                            </StackPanel>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </GroupStyle.ContainerStyle>
                         <GroupStyle.HeaderTemplate>
                             <DataTemplate>
                                 <Grid Visibility="{c:Binding Name}">
@@ -69,6 +82,7 @@
                 </ListBox.GroupStyle>
                 <ListBox.ItemContainerStyle>
                     <Style BasedOn="{StaticResource TransparentListBoxItemStyle}" TargetType="ListBoxItem">
+                        <Setter Property="hc:BorderElement.CornerRadius" Value="4" />
                         <Style.Triggers>
                             <DataTrigger Binding="{Binding IsVisible}" Value="False">
                                 <Setter Property="Visibility" Value="Collapsed" />
@@ -83,8 +97,7 @@
                 HorizontalAlignment="Stretch"
                 hc:BorderElement.CornerRadius="0,0,4,4"
                 BorderThickness="1,0,1,1"
-                Command="{s:Action ToggleAdvancedSettings}"
-                DockPanel.Dock="Bottom">
+                Command="{s:Action ToggleAdvancedSettings}">
                 <Grid>
                     <TextBlock
                         Text="{DynamicResource Settings.Advanced.Show}"
