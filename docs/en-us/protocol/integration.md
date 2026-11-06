@@ -375,7 +375,7 @@ When `oper_priority_allow_low_star` is `true`, whether combinations picked for R
 ::: field operbox_data_path  
 @type string  
 @optional  
-Path of the operator box data file (same format as `own_opers` in the operator recognition callback; needs `id` and `potential`, optional `own`). Only used when `oper_priority_mode` is not 0. An empty owned list means every operator is treated as unowned. If the file is missing, unparsable or malformed, the option is skipped for this run and recruitment continues as usual. Updating these parameters while the task is running has no effect until the task runs again.  
+Path of the operator box data file (same format as `own_opers` in the operator recognition callback; needs `id` and `potential`, optional `own`). Only used when `oper_priority_mode` is not 0. An empty owned list means every operator is treated as unowned. If the file is missing, not a regular file, larger than 16 MiB, unparsable or malformed (any entry lacks a valid `id`, has a `potential` that is not an integer from 1 to 6, or has a non-boolean `own`), the option is skipped for this run and recruitment continues as usual. Updating these parameters while the task is running has no effect until the task runs again.  
 :::  
 ::: field times  
 @type number  

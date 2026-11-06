@@ -1,6 +1,7 @@
 #pragma once
 #include "Task/AbstractTask.h"
 
+#include <mutex>
 #include <optional>
 #include <set>
 #include <string>
@@ -22,6 +23,8 @@ public:
     using AbstractTask::AbstractTask;
     virtual ~AutoRecruitTask() override = default;
 
+    virtual bool run() override;
+
     AutoRecruitTask& set_select_level(std::vector<int> select_level) noexcept;
     AutoRecruitTask& set_confirm_level(std::vector<int> confirm_level) noexcept;
     AutoRecruitTask& set_level3_recruitment_permit_reserve(int reserve) noexcept;
@@ -30,11 +33,12 @@ public:
     AutoRecruitTask& set_use_expedited(bool use_or_not) noexcept;
     AutoRecruitTask& set_select_extra_tags(ExtraTagsMode select_extra_tags_mode) noexcept;
     AutoRecruitTask& set_first_tags(std::vector<std::string> first_tags) noexcept;
+    // 线程安全；新设置在下一次 run() 时生效
     AutoRecruitTask& set_oper_priority(
         OperPriorityMode mode,
         bool allow_low_star,
         bool low_star_confirm,
-        std::string operbox_data_path) noexcept;
+        std::string operbox_data_path);
     AutoRecruitTask& set_preserve_tags(std::vector<RecruitConfig::TagId> skip_tags) noexcept;
     AutoRecruitTask& set_set_time(bool set_time) noexcept;
     AutoRecruitTask& set_force_refresh(bool force_refrest) noexcept;
@@ -80,6 +84,14 @@ protected:
         bool oper_priority_applied = false);
 
     // ---- 优先选择未拥有/未满潜干员 ----
+    struct OperPriorityConfig
+    {
+        OperPriorityMode mode = OperPriorityMode::Disabled;
+        bool allow_low_star = false;   // 允许招募小车/2 星干员
+        bool low_star_confirm = false; // 自动确认小车/2 星
+        std::string operbox_data_path;
+    };
+
     struct OperPriorityScore
     {
         size_t considered = 0;      // 参与统计的干员数
@@ -211,10 +223,9 @@ protected:
     ExtraTagsMode m_select_extra_tags_mode = ExtraTagsMode::NoExtra;
     std::vector<std::string> m_first_tags;
     std::vector<RecruitConfig::TagId> m_preserve_tags = { "支援机械" };
-    OperPriorityMode m_oper_priority_mode = OperPriorityMode::Disabled;
-    bool m_oper_priority_allow_low_star = false;            // 允许招募小车/2 星干员
-    bool m_oper_priority_low_star_confirm = false;          // 自动确认小车/2 星
-    std::string m_operbox_data_path;
+    std::mutex m_oper_priority_mutex;
+    OperPriorityConfig m_pending_oper_priority;             // 最新设置，由 m_oper_priority_mutex 保护
+    OperPriorityConfig m_oper_priority;                     // 本次运行的快照，以下成员只在工作线程访问
     bool m_operbox_loaded = false;                          // 本次任务已尝试读取过
     bool m_operbox_available = false;                       // 干员数据读取成功（已拥有列表可以为空）
     std::unordered_map<std::string, int> m_owned_potential; // 已拥有干员 id -> 潜能（1~6）
