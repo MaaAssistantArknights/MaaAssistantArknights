@@ -2814,9 +2814,23 @@ public class TaskQueueViewModel : Screen
     [UsedImplicitly]
     public async Task WaitAndStop()
     {
+        var startTaskTime = Instances.AsstProxy.StartTaskTime;
+        var runOwner = _runningState.Owner;
         Waiting = true;
         AddLog(LocalizationHelper.GetString("TaskQueue.Waiting"));
         await WaitUntilRoguelikeCombatComplete();
+
+        var sameRun = Instances.AsstProxy.StartTaskTime == startTaskTime && _runningState.Owner == runOwner;
+        if (!sameRun || !Instances.AsstProxy.AsstRunning())
+        {
+            if (sameRun || _runningState.GetIdle())
+            {
+                Waiting = false;
+            }
+
+            return;
+        }
+
         await StopManuallyAsync();
     }
 
