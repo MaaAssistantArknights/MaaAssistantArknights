@@ -22,8 +22,32 @@ void OCRerConfig::set_required(std::vector<std::string> required) noexcept
     }
 }
 
-// 正则 key 只能扩展简单的字符类：把 [Oo] 变成 [Ooо]，而不是 [O(?:o|о)]。
-// 区间/否定/转义类保持原样，避免错误改变正则语义。
+static std::string escape_regex_literal(std::string_view value)
+{
+    std::string escaped;
+    for (const char ch : value) {
+        if (std::string_view("\\^$.|?*+()[]{}").find(ch) != std::string_view::npos) {
+            escaped += '\\';
+        }
+        escaped += ch;
+    }
+    return escaped;
+}
+
+static std::string escape_class_literal(std::string_view value)
+{
+    std::string escaped;
+    for (const char ch : value) {
+        if (ch == '\\' || ch == ']' || ch == '-' || ch == '^') {
+            escaped += '\\';
+        }
+        escaped += ch;
+    }
+    return escaped;
+}
+
+// 正则 key 需要语法感知地扩展等价字符：字面量位置生成 (?:a|b) 组，
+// 简单字符类内追加等价字符（[Oo] -> [Ooо]）；转义、分组、量词、锚点等保持原样。
 static std::string expand_equivalence_classes_in_regex(
     std::string_view key,
     const std::vector<std::vector<std::string>>& eq_classes)
@@ -32,48 +56,119 @@ static std::string expand_equivalence_classes_in_regex(
     result.reserve(key.size());
 
     for (size_t i = 0; i < key.size();) {
-        if (key[i] != '[') {
-            result += key[i++];
+        const char ch = key[i];
+
+        if (ch == '\\') {
+            result += ch;
+            if (i + 1 < key.size()) {
+                result += key[i + 1];
+            }
+            i += 2;
             continue;
         }
 
-        const size_t close = key.find(']', i + 1);
-        if (close == std::string_view::npos) {
-            result.append(key.substr(i));
-            break;
-        }
+        if (ch == '[') {
+            size_t close = i + 1;
+            while (close < key.size()) {
+                if (key[close] == '\\') {
+                    close += 2;
+                    continue;
+                }
+                if (key[close] == ']') {
+                    break;
+                }
+                ++close;
+            }
+            if (close >= key.size()) {
+                result.append(key.substr(i));
+                break;
+            }
 
-        const std::string_view content = key.substr(i + 1, close - i - 1);
-        const bool simple =
-            !content.empty() && content.front() != '^' && content.find_first_of("\\-") == std::string_view::npos;
-        if (!simple) {
-            result.append(key.substr(i, close - i + 1));
+            const std::string_view content = key.substr(i + 1, close - i - 1);
+            const bool simple =
+                !content.empty() && content.front() != '^' && content.find_first_of("\\-") == std::string_view::npos;
+            if (!simple) {
+                result.append(key.substr(i, close - i + 1));
+                i = close + 1;
+                continue;
+            }
+
+            std::string expanded(content);
+            for (const auto& eq_class : eq_classes) {
+                if (eq_class.size() <= 1) {
+                    continue;
+                }
+                bool matched = false;
+                for (const auto& elem : eq_class) {
+                    if (content.find(elem) != std::string_view::npos) {
+                        matched = true;
+                        break;
+                    }
+                }
+                if (!matched) {
+                    continue;
+                }
+                for (const auto& elem : eq_class) {
+                    if (expanded.find(elem) == std::string::npos) {
+                        expanded += escape_class_literal(elem);
+                    }
+                }
+            }
+
+            result += '[';
+            result += expanded;
+            result += ']';
             i = close + 1;
             continue;
         }
 
-        std::string expanded(content);
+        if (ch == '{') {
+            const size_t close = key.find('}', i + 1);
+            if (close != std::string_view::npos) {
+                result.append(key.substr(i, close - i + 1));
+                i = close + 1;
+                continue;
+            }
+        }
+
+        if (std::string_view("(){}\\[].*+?|^$").find(ch) != std::string_view::npos) {
+            result += ch;
+            ++i;
+            continue;
+        }
+
+        const std::vector<std::string>* matched_class = nullptr;
+        std::string_view matched_elem;
         for (const auto& eq_class : eq_classes) {
             if (eq_class.size() <= 1) {
                 continue;
             }
-            const bool matched = std::ranges::any_of(eq_class, [&](const std::string& elem) {
-                return content.find(elem) != std::string_view::npos;
-            });
-            if (!matched) {
-                continue;
-            }
             for (const auto& elem : eq_class) {
-                if (expanded.find(elem) == std::string::npos) {
-                    expanded += elem;
+                if (elem.empty() || key.compare(i, elem.size(), elem) != 0) {
+                    continue;
+                }
+                if (matched_elem.empty() || elem.size() > matched_elem.size()) {
+                    matched_class = &eq_class;
+                    matched_elem = elem;
                 }
             }
         }
 
-        result += '[';
-        result += expanded;
-        result += ']';
-        i = close + 1;
+        if (matched_class == nullptr) {
+            result += ch;
+            ++i;
+            continue;
+        }
+
+        result += "(?:";
+        for (size_t j = 0; j < matched_class->size(); ++j) {
+            if (j != 0) {
+                result += '|';
+            }
+            result += escape_regex_literal((*matched_class)[j]);
+        }
+        result += ')';
+        i += matched_elem.size();
     }
 
     return result;
