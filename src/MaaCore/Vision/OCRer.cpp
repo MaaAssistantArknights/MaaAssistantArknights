@@ -121,7 +121,9 @@ void OCRer::postproc_replace_(Result& res) const
         return;
     }
 
-    std::wstring text_u16 = MAA_NS::to_u16(res.text);
+    // 与 set_replace 的 key 规范化保持一致，避免等价字符在 replace 前不匹配。
+    auto& ocr_config = OcrConfig::get_instance();
+    std::wstring text_u16 = MAA_NS::to_u16(ocr_config.process_equivalence_class(res.text));
     for (const auto& [regex, new_str] : m_params.replace) {
         std::wstring regex_u16 = MAA_NS::to_u16(regex);
         std::wstring new_str_u16 = MAA_NS::to_u16(new_str);
