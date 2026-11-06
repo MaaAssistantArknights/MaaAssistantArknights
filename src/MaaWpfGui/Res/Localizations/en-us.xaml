@@ -2123,6 +2123,7 @@ Do not adjust the proxy multiplier setting in the game</system:String>
     <system:String x:Key="TaskQueue.MoveUp">Move Up</system:String>
     <system:String x:Key="TaskQueue.MultiTasksShare.Tip">The following options are for multiple tasks.</system:String>
     <system:String x:Key="TaskQueue.NotSwitch">Don't Switch</system:String>
+    <system:String x:Key="TaskQueue.OperProgress.ClearPlansConfirm">Clear all operator progression plans? This cannot be undone.</system:String>
     <system:String x:Key="TaskQueue.OperProgress.Detail">{key=TaskQueue.Task.OperProgress} {0}:{1} {2}</system:String>
     <system:String x:Key="TaskQueue.OperProgress.Elite">Elite</system:String>
     <system:String x:Key="TaskQueue.OperProgress.EliteTarget">Elite {0}</system:String>

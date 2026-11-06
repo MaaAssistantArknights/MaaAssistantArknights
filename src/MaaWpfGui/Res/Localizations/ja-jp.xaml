@@ -2125,6 +2125,7 @@ MAA は非インストール型のアプリケーションであり、レジス�
     <system:String x:Key="TaskQueue.MoveUp">上へ移動</system:String>
     <system:String x:Key="TaskQueue.MultiTasksShare.Tip">以下のオプションは複数のタスクで共有されます</system:String>
     <system:String x:Key="TaskQueue.NotSwitch">切り替えない</system:String>
+    <system:String x:Key="TaskQueue.OperProgress.ClearPlansConfirm">すべてのオペレーター育成計画をクリアしますか？この操作は元に戻せません。</system:String>
     <system:String x:Key="TaskQueue.OperProgress.Detail">{key=TaskQueue.Task.OperProgress} {0}:{1} {2}</system:String>
     <system:String x:Key="TaskQueue.OperProgress.Elite">昇進段階</system:String>
     <system:String x:Key="TaskQueue.OperProgress.EliteTarget">昇進段階 {0}</system:String>
