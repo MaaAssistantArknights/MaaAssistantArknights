@@ -240,6 +240,7 @@ public class ReclamationUserControlModel : PropertyChangedBase
             started = Instances.AsstProxy.AsstStart();
             if (started)
             {
+                Instances.TaskQueueViewModel.RoguelikeInCombatAndShowWait = false;
                 Instances.AsstProxy.StartTaskTime = DateTimeOffset.Now;
                 Instances.TaskQueueViewModel.SetRunDeadlineFromSettings();
             }
