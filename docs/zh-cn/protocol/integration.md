@@ -358,24 +358,24 @@ B服：`张三`，可输入 `张三`、`张`、`三`
 <br>
 `2` - 直接优先：可以放弃更高星的组合，但不会放弃资深/高级资深干员词条和 5 星以上保底
 <br>
-只有 3 星组合且命中 `first_tags` 时以 `first_tags` 为准；`preserve_tags` 优先于本选项。  
+挑出的组合只选它本身的 Tag，不受 `extra_tags_mode` 影响；挑出 3 星档组合时，即使 `select` 不含 3 也会选择 Tag（与 `first_tags` 相同）。只有 3 星组合且命中 `first_tags` 时以 `first_tags` 为准；`preserve_tags` 优先于本选项。  
 :::  
 ::: field oper_priority_allow_low_star  
 @type boolean  
 @default false  
 @optional  
-`oper_priority_mode` 非 0 时，是否允许为未拥有/未满潜的 1 星支援机械（小车）和 2 星干员选择组合（2 星只在没有 4 星以上保底的组合中考虑）。因此选中的组合不会被自动刷新，招募时长缩短为：小车 3:50，2 星不超过 7:30。为 `false` 时不会主动招募小车和 2 星干员。  
+`oper_priority_mode` 非 0 时，是否允许为未拥有/未满潜的 1 星支援机械（小车）和 2 星干员挑选组合（2 星只在没有 4 星以上保底的组合中考虑）。为此挑出的组合不会被自动刷新，即使 `select` 不含对应星级也会选择 Tag，招募时长缩短为：小车 3:50，2 星不超过 7:30。为 `false` 时不会主动招募小车和 2 星干员。  
 :::  
 ::: field oper_priority_low_star_confirm  
 @type boolean  
 @default false  
 @optional  
-`oper_priority_allow_low_star` 为 `true` 时，为小车/2 星干员选中的组合是否自动确认招募，不受 `confirm` 中 3、4 星设置的影响。为 `false` 时跳过并保留该栏位（不刷新）。`level3_recruitment_permit_reserve` 同样适用。  
+`oper_priority_allow_low_star` 为 `true` 时，为小车/2 星干员挑出的组合是否自动确认招募，不受 `confirm` 中 3、4 星设置的影响。为 `false` 时跳过并保留该栏位（不刷新）。`level3_recruitment_permit_reserve` 同样适用。  
 :::  
 ::: field operbox_data_path  
 @type string  
 @optional  
-干员识别数据文件路径（格式同干员识别回调中的 `own_opers`，需包含 `id`、`potential`，可选 `own`）。仅在 `oper_priority_mode` 非 0 时使用；文件不存在或无法解析时该功能本次不生效，其余公招逻辑照常执行。  
+干员识别数据文件路径（格式同干员识别回调中的 `own_opers`，需包含 `id`、`potential`，可选 `own`）。仅在 `oper_priority_mode` 非 0 时使用。已拥有列表为空时视为所有干员都未拥有；文件不存在、无法解析或格式错误时该功能本次不生效，其余公招逻辑照常执行。任务运行中更新本组参数不会生效，下次运行该任务时生效。  
 :::  
 ::: field times  
 @type number  

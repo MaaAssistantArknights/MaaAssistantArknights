@@ -358,24 +358,24 @@ Prefer tag combinations that can yield unowned / non-max-potential operators. Re
 <br>
 `2` - prefer directly: may give up higher-rarity combinations, but never Senior/Top Operator tags or a 5★+ guarantee
 <br>
-When only 3★ combinations exist and `first_tags` matches, `first_tags` wins; `preserve_tags` takes precedence over this option.  
+A picked combination selects only its own tags and ignores `extra_tags_mode`; a picked 3★-tier combination is selected even if `select` does not contain 3 (same as `first_tags`). When only 3★ combinations exist and `first_tags` matches, `first_tags` wins; `preserve_tags` takes precedence over this option.  
 :::  
 ::: field oper_priority_allow_low_star  
 @type boolean  
 @default false  
 @optional  
-When `oper_priority_mode` is not 0, whether combinations may be chosen for unowned / non-max-potential 1★ Robots and 2★ operators (2★ only in combinations without a 4★+ guarantee). Such a combination is never refreshed away, and the recruitment time is shortened to 3:50 for Robots and at most 7:30 for 2★. When `false`, Robots and 2★ operators are never targeted.  
+When `oper_priority_mode` is not 0, whether combinations may be picked for unowned / non-max-potential 1★ Robots and 2★ operators (2★ only in combinations without a 4★+ guarantee). Such a combination is never refreshed away, is selected even if `select` does not contain its rarity, and the recruitment time is shortened to 3:50 for Robots and at most 7:30 for 2★. When `false`, Robots and 2★ operators are never targeted.  
 :::  
 ::: field oper_priority_low_star_confirm  
 @type boolean  
 @default false  
 @optional  
-When `oper_priority_allow_low_star` is `true`, whether combinations chosen for Robots / 2★ operators are confirmed automatically, regardless of the 3★/4★ entries in `confirm`. When `false`, the slot is skipped and kept (not refreshed). `level3_recruitment_permit_reserve` still applies.  
+When `oper_priority_allow_low_star` is `true`, whether combinations picked for Robots / 2★ operators are confirmed automatically, regardless of the 3★/4★ entries in `confirm`. When `false`, the slot is skipped and kept (not refreshed). `level3_recruitment_permit_reserve` still applies.  
 :::  
 ::: field operbox_data_path  
 @type string  
 @optional  
-Path of the operator box data file (same format as `own_opers` in the operator recognition callback; needs `id` and `potential`, optional `own`). Only used when `oper_priority_mode` is not 0. If the file is missing or invalid, the option is skipped for this run and recruitment continues as usual.  
+Path of the operator box data file (same format as `own_opers` in the operator recognition callback; needs `id` and `potential`, optional `own`). Only used when `oper_priority_mode` is not 0. An empty owned list means every operator is treated as unowned. If the file is missing, unparsable or malformed, the option is skipped for this run and recruitment continues as usual. Updating these parameters while the task is running has no effect until the task runs again.  
 :::  
 ::: field times  
 @type number  

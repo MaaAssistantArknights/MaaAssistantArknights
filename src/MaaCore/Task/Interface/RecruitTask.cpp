@@ -97,11 +97,6 @@ bool asst::RecruitTask::set_params(const json::value& params)
         .set_use_expedited(expedite)
         .set_select_extra_tags(extra_tags_mode)
         .set_first_tags(first_tags)
-        .set_oper_priority(
-            oper_priority_mode,
-            oper_priority_allow_low_star,
-            oper_priority_low_star_confirm,
-            std::move(operbox_data_path))
         .set_preserve_tags(std::move(preserve_tags))
         .set_select_level(std::move(select))
         .set_confirm_level(std::move(confirm))
@@ -113,6 +108,16 @@ bool asst::RecruitTask::set_params(const json::value& params)
         .set_set_time(set_time)
         .set_force_refresh(force_refresh)
         .set_retry_times(3);
+
+    // 运行中收到的参数更新不改动 ｢优先未拥有/未满潜｣ 相关设置：
+    // 子任务运行时会读取干员数据快照，此时替换会与公招计算产生数据竞争；新设置在下一次运行该任务时生效
+    if (!m_running) {
+        m_auto_recruit_task_ptr->set_oper_priority(
+            oper_priority_mode,
+            oper_priority_allow_low_star,
+            oper_priority_low_star_confirm,
+            std::move(operbox_data_path));
+    }
 
     return true;
 }

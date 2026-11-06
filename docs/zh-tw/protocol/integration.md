@@ -347,6 +347,37 @@ B 服：`張三`，可輸入 `張三`、`張`、`三`
 <br>
 `2`：儘可能同時選擇更多高星標籤組合，即使可能產生衝突。  
 :::  
+::: field oper_priority_mode  
+@type number  
+@default 0  
+@optional  
+優先選擇能招到未擁有/未滿潛幹員的 Tag 組合，需要同時提供 `operbox_data_path`。自動刷新、確認、招聘許可保留與招募時長仍以依星級排序的最佳組合為準。
+<br>
+`0` - 不啟用
+<br>
+`1` - 保持目前星級：只在與最高保底星級相同的組合中挑選（小車視為 3★ 檔）
+<br>
+`2` - 直接優先：可以放棄更高星的組合，但不會放棄資深/高級資深幹員 Tag 與 5★ 以上保底
+<br>
+挑出的組合只選它本身的 Tag，不受 `extra_tags_mode` 影響；挑出 3★ 檔組合時，即使 `select` 不含 3 也會選擇 Tag（與 `first_tags` 相同）。只有 3★ 組合且命中 `first_tags` 時以 `first_tags` 為準；`preserve_tags` 優先於本選項。  
+:::  
+::: field oper_priority_allow_low_star  
+@type boolean  
+@default false  
+@optional  
+`oper_priority_mode` 非 0 時，是否允許為未擁有/未滿潛的 1★ 支援機械（小車）與 2★ 幹員挑選組合（2★ 只在沒有 4★ 以上保底的組合中考慮）。為此挑出的組合不會被自動刷新，即使 `select` 不含對應星級也會選擇 Tag，招募時長縮短為：小車 3:50，2★ 不超過 7:30。為 `false` 時不會主動招募小車與 2★ 幹員。  
+:::  
+::: field oper_priority_low_star_confirm  
+@type boolean  
+@default false  
+@optional  
+`oper_priority_allow_low_star` 為 `true` 時，為小車/2★ 幹員挑出的組合是否自動確認招募，不受 `confirm` 中 3★、4★ 設定影響。為 `false` 時跳過並保留該欄位（不刷新）。`level3_recruitment_permit_reserve` 同樣適用。  
+:::  
+::: field operbox_data_path  
+@type string  
+@optional  
+幹員辨識資料檔案路徑（格式同幹員辨識回呼中的 `own_opers`，需包含 `id`、`potential`，可選 `own`）。僅在 `oper_priority_mode` 非 0 時使用。已擁有清單為空時視為所有幹員皆未擁有；檔案不存在、無法解析或格式錯誤時該功能本次不生效，其餘公招邏輯照常執行。任務執行中更新本組參數不會生效，下次執行該任務時生效。  
+:::  
 ::: field times  
 @type number  
 @default 0  

@@ -73,7 +73,7 @@ protected:
     bool hire_all();
     bool initialize_dirty_slot_info(const cv::Mat&);
     std::vector<std::string> get_tag_names(const std::vector<RecruitConfig::TagId>& ids) const;
-    // combinations.front() 为最终选中的组合；oper_priority_applied 表示它是由「优先未拥有/未满潜」挑出来的
+    // combinations.front() 为最终选中的组合；oper_priority_applied 表示它是由 ｢优先未拥有/未满潜｣ 挑出来的
     std::vector<asst::RecruitConfig::TagId> get_select_tags(
         const std::vector<RecruitCombs>& combinations,
         std::vector<RecruitConfig::TagId> tag_ids,
@@ -82,9 +82,9 @@ protected:
     // ---- 优先选择未拥有/未满潜干员 ----
     struct OperPriorityScore
     {
-        size_t considered = 0; // 参与统计的干员数
-        size_t wanted = 0;     // 其中未拥有或未满潜的干员数
-        size_t unowned = 0;    // 其中未拥有的干员数
+        size_t considered = 0;      // 参与统计的干员数
+        size_t wanted = 0;          // 其中未拥有或未满潜的干员数
+        size_t unowned = 0;         // 其中未拥有的干员数
         size_t low_star_wanted = 0; // wanted 中 1、2 星干员的数量（需要缩短招募时长才可能招到）
 
         double wanted_ratio() const { return considered == 0 ? 0. : static_cast<double>(wanted) / considered; }
@@ -92,11 +92,11 @@ protected:
         double unowned_ratio() const { return considered == 0 ? 0. : static_cast<double>(unowned) / considered; }
     };
 
-    // 读取干员识别数据，返回是否可用。失败时本次任务不启用该功能，不影响其他公招逻辑
+    // 读取干员识别数据，返回是否可用。失败时本次任务不启用该功能，不影响其他公招逻辑；不抛异常
     bool load_operbox_data();
     // 是否为只出 1 星支援机械（小车）的组合
     static bool is_robot_comb(const RecruitCombs& comb);
-    // 用于「保持当前星级」比较的档位：小车组合视为与 3 星同档
+    // 用于 ｢保持当前星级｣ 比较的档位：小车组合视为与 3 星同档
     static int comb_tier(const RecruitCombs& comb);
     OperPriorityScore calc_oper_priority_score(const RecruitCombs& comb) const;
     // 在已按星级排好序的组合中挑选优先组合，返回其下标；不需要调整时返回 std::nullopt
@@ -211,10 +211,11 @@ protected:
     std::vector<std::string> m_first_tags;
     std::vector<RecruitConfig::TagId> m_preserve_tags = { "支援机械" };
     OperPriorityMode m_oper_priority_mode = OperPriorityMode::Disabled;
-    bool m_oper_priority_allow_low_star = false;   // 允许招募小车/2 星干员
-    bool m_oper_priority_low_star_confirm = false; // 自动确认小车/2 星
+    bool m_oper_priority_allow_low_star = false;            // 允许招募小车/2 星干员
+    bool m_oper_priority_low_star_confirm = false;          // 自动确认小车/2 星
     std::string m_operbox_data_path;
     bool m_operbox_loaded = false;                          // 本次任务已尝试读取过
+    bool m_operbox_available = false;                       // 干员数据读取成功（已拥有列表可以为空）
     std::unordered_map<std::string, int> m_owned_potential; // 已拥有干员 id -> 潜能（1~6）
     int m_max_times = 0;
     bool m_has_permit = true;

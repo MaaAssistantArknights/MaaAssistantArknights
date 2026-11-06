@@ -2612,7 +2612,7 @@ public class AsstProxy
             case "RecruitOperBoxDataUnavailable":
                 {
                     var why = subTaskDetails?["why"]?.ToString() ?? string.Empty;
-                    var message = why is "file not found" or "no owned operators"
+                    var message = why is "file not found"
                         ? LocalizationHelper.GetString("Recruit.OperPriority.NoOperBoxData")
                         : LocalizationHelper.GetStringFormat("Asst.Recruit.OperBoxDataUnavailable", why);
                     Instances.TaskQueueViewModel.AddLog(message, UiLogColor.Warning);

@@ -349,6 +349,37 @@ Yituliu 전송 ID, 기본값 비어 있음. `report_to_yituliu`가 true일 때�
 <br>
 `2` - 충돌 가능성 무시하고 가능한 많은 고성급 태그 조합 동시 선택  
 :::  
+::: field oper_priority_mode  
+@type number  
+@default 0  
+@optional  
+미보유/잠재 미완성 오퍼레이터를 얻을 수 있는 태그 조합을 우선 선택합니다. `operbox_data_path`가 필요합니다. 자동 갱신, 확정, 모집 허가증 보유, 모집 시간은 여전히 등급순 최적 조합을 기준으로 합니다.
+<br>
+`0` - 사용 안 함
+<br>
+`1` - 현재 등급 유지: 최고 보장 등급과 같은 조합 중에서만 선택합니다(로봇은 ★3으로 취급)
+<br>
+`2` - 직접 우선: 더 높은 등급의 조합을 포기할 수 있지만, 특별채용/고급특별채용 태그와 ★5 이상 보장은 포기하지 않습니다
+<br>
+선택한 조합은 해당 태그만 선택하며 `extra_tags_mode`의 영향을 받지 않습니다. ★3 등급 조합을 선택한 경우 `select`에 3이 없어도 태그를 선택합니다(`first_tags`와 동일). ★3 조합만 있고 `first_tags`에 해당하면 `first_tags`가 우선하며, `preserve_tags`가 이 옵션보다 우선합니다.  
+:::  
+::: field oper_priority_allow_low_star  
+@type boolean  
+@default false  
+@optional  
+`oper_priority_mode`가 0이 아닐 때, 미보유/잠재 미완성 ★1 로봇과 ★2 오퍼레이터를 위해 조합을 선택할지 여부입니다(★2는 ★4 이상 보장이 없는 조합에서만). 이를 위해 선택한 조합은 자동 갱신되지 않고, `select`에 해당 등급이 없어도 태그를 선택하며, 모집 시간은 로봇 3:50, ★2는 최대 7:30으로 단축됩니다. `false`이면 로봇과 ★2 오퍼레이터를 노리지 않습니다.  
+:::  
+::: field oper_priority_low_star_confirm  
+@type boolean  
+@default false  
+@optional  
+`oper_priority_allow_low_star`가 `true`일 때, 로봇/★2 오퍼레이터를 위해 선택한 조합을 자동으로 확정할지 여부입니다. `confirm`의 ★3, ★4 설정과 무관합니다. `false`이면 해당 슬롯을 건너뛰고 유지합니다(갱신하지 않음). `level3_recruitment_permit_reserve`도 적용됩니다.  
+:::  
+::: field operbox_data_path  
+@type string  
+@optional  
+오퍼레이터 인식 데이터 파일 경로(오퍼레이터 인식 콜백의 `own_opers`와 같은 형식, `id`와 `potential` 필수, `own` 선택). `oper_priority_mode`가 0이 아닐 때만 사용합니다. 보유 목록이 비어 있으면 모든 오퍼레이터를 미보유로 취급합니다. 파일이 없거나 파싱할 수 없거나 형식이 잘못된 경우 이번에는 이 기능을 끄고 나머지 공개모집은 평소대로 진행합니다. 작업 실행 중에 이 매개변수를 갱신해도 다음에 작업을 실행할 때까지 반영되지 않습니다.  
+:::  
 ::: field times  
 @type number  
 @default 0  

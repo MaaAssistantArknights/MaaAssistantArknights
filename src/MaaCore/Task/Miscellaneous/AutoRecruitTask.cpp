@@ -175,6 +175,7 @@ asst::AutoRecruitTask& asst::AutoRecruitTask::set_oper_priority(
     m_operbox_data_path = std::move(operbox_data_path);
     // 参数变化后下次运行重新读取
     m_operbox_loaded = false;
+    m_operbox_available = false;
     m_owned_potential.clear();
     return *this;
 }
@@ -230,9 +231,10 @@ asst::AutoRecruitTask& asst::AutoRecruitTask::set_server(std::string server) noe
 bool asst::AutoRecruitTask::load_operbox_data()
 {
     if (m_operbox_loaded) {
-        return !m_owned_potential.empty();
+        return m_operbox_available;
     }
     m_operbox_loaded = true;
+    m_operbox_available = false;
     m_owned_potential.clear();
 
     if (m_oper_priority_mode == OperPriorityMode::Disabled) {
@@ -241,9 +243,10 @@ bool asst::AutoRecruitTask::load_operbox_data()
 
     // 不复用 OperBoxDataConfig 单例：
     // 1. 它被抄作业的辅助编队共用，且 parse 遇到任一未知干员 id 会清空全部数据；
-    // 2. 公招只需要「是否拥有 + 潜能」，本地识别与一图流导入的数据都满足。
+    // 2. 公招只需要 ｢是否拥有 + 潜能｣，本地识别与一图流导入的数据都满足。
+    // 任何读取或格式问题都只关闭本功能，不影响其余公招逻辑
     const auto fail = [&](std::string_view why) {
-        Log.warn(__FUNCTION__, "| oper priority disabled:", why, ", path:", m_operbox_data_path);
+        LogWarn << __FUNCTION__ << "oper priority disabled:" << why << ", path:" << m_operbox_data_path;
         json::value cb_info = basic_info_with_what("RecruitOperBoxDataUnavailable");
         cb_info["details"] = json::object { { "why", std::string(why) } };
         callback(AsstMsg::SubTaskExtraInfo, cb_info);
@@ -262,26 +265,49 @@ bool asst::AutoRecruitTask::load_operbox_data()
     if (!json_opt) {
         return fail("parse failed");
     }
+    if (!json_opt->is_object()) {
+        return fail("invalid data");
+    }
+    auto own_opers_opt = json_opt->find<json::array>("own_opers");
+    if (!own_opers_opt) {
+        return fail("invalid data");
+    }
 
-    for (const auto& item : json_opt->get("own_opers", json::array())) {
-        if (!item.is_object() || !item.get("own", true)) {
+    size_t skipped = 0;
+    for (const auto& item : *own_opers_opt) {
+        if (!item.is_object()) {
+            ++skipped;
             continue;
         }
-        std::string id = item.get("id", std::string());
-        if (id.empty()) {
+        auto id_opt = item.find<std::string>("id");
+        auto potential_opt = item.find<int>("potential");
+        if (!id_opt || id_opt->empty() || !potential_opt) {
+            ++skipped;
             continue;
         }
-        int potential = std::clamp(item.get("potential", 1), 1, 6);
-        auto [iter, inserted] = m_owned_potential.emplace(std::move(id), potential);
+        // own 字段可缺省（视为已拥有），存在时必须为布尔值
+        bool own = true;
+        if (auto own_value = item.find("own")) {
+            if (!own_value->is_boolean()) {
+                ++skipped;
+                continue;
+            }
+            own = own_value->as_boolean();
+        }
+        if (!own) {
+            continue;
+        }
+        int potential = std::clamp(*potential_opt, 1, 6);
+        auto [iter, inserted] = m_owned_potential.emplace(std::move(*id_opt), potential);
         if (!inserted) {
             iter->second = (std::max)(iter->second, potential);
         }
     }
 
-    if (m_owned_potential.empty()) {
-        return fail("no owned operators");
-    }
-    Log.info(__FUNCTION__, "| loaded", m_owned_potential.size(), "owned operators, source:", json_opt->get("source", std::string("unknown")));
+    // 已拥有列表为空也是合法数据：此时所有干员都视为未拥有
+    m_operbox_available = true;
+    LogInfo << __FUNCTION__ << "loaded" << m_owned_potential.size() << "owned operators, skipped" << skipped
+            << "invalid entries, source:" << json_opt->find<std::string>("source").value_or("unknown");
     return true;
 }
 
@@ -337,7 +363,7 @@ std::optional<size_t> asst::AutoRecruitTask::pick_oper_priority_comb(
     bool has_special_tag,
     const std::vector<RecruitConfig::TagId>& special_tags) const
 {
-    if (m_oper_priority_mode == OperPriorityMode::Disabled || m_owned_potential.empty() || sorted_combs.empty()) {
+    if (m_oper_priority_mode == OperPriorityMode::Disabled || !m_operbox_available || sorted_combs.empty()) {
         return std::nullopt;
     }
 
@@ -800,13 +826,8 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
                     { "considered", static_cast<int>(score.considered) },
                 };
                 callback(AsstMsg::SubTaskExtraInfo, cb_info);
-                Log.info(
-                    "oper priority picked tags:",
-                    result_vec.front().tags,
-                    "wanted",
-                    score.wanted,
-                    "/",
-                    score.considered);
+                LogInfo << __FUNCTION__ << "oper priority picked tags:" << result_vec.front().tags << "wanted"
+                        << score.wanted << "/" << score.considered;
             }
         }
 
@@ -906,7 +927,7 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
 
         if (!is_calc_only_task()) {
             if (low_star_pick) {
-                // 为小车/2 星干员选中的组合只看「自动确认小车/2星」，不受 3/4 星确认设置影响
+                // 为小车/2 星干员选中的组合只看 ｢自动确认小车/2星｣，不受 3/4 星确认设置影响
                 if (!m_oper_priority_low_star_confirm && !has_skip_tag) {
                     calc_task_result_type result(calc_task_result::force_skip);
                     return result;
@@ -971,9 +992,8 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
             // 1 星只在招募时长不超过 3:50 时出现，2 星只在不超过 7:30 时出现
             static constexpr int RobotRecruitmentTime = 3 * 60 + 50;
             static constexpr int Level2RecruitmentTime = 7 * 60 + 30;
-            recruitment_time = is_robot_comb(final_combination)
-                                   ? RobotRecruitmentTime
-                                   : (std::min)(recruitment_time, Level2RecruitmentTime);
+            recruitment_time = is_robot_comb(final_combination) ? RobotRecruitmentTime
+                                                                : (std::min)(recruitment_time, Level2RecruitmentTime);
         }
 
         // try to set the timer to desired value
@@ -994,7 +1014,9 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
 
         // nothing to select, leave the selection empty
         // 空选不消耗招募许可，因此不受上方 3 星许可保留线的约束，属有意行为
-        // 3 星档默认不选 Tag；命中首选 Tag 或由「优先未拥有/未满潜」挑出组合时才选
+        // select 列表决定哪些星级会选 Tag，以下两种是协议文档中写明的例外（与 first_tags 一致）：
+        // 1. 3 星档命中首选 Tag，或 oper_priority_mode 非 0 时由 ｢优先未拥有/未满潜｣ 挑出 3 星档组合；
+        // 2. oper_priority_allow_low_star 为 true 时为小车/2 星干员挑出的组合。
         if (!low_star_pick && !(decision_level == 3 && (has_preferred_tag || oper_priority_applied)) &&
             !is_select_level_valid(decision_level)) {
             calc_task_result_type result(calc_task_result::nothing_to_select, recruitment_time);
@@ -1155,7 +1177,13 @@ std::vector<asst::RecruitConfig::TagId> asst::AutoRecruitTask::get_select_tags(
     std::unordered_set<RecruitConfig::TagId> unique_tags;
     std::vector<RecruitConfig::TagId> select;
 
-    if (combinations.front().min_level == 3 && !oper_priority_applied) {
+    // 由 ｢优先未拥有/未满潜｣ 挑出的组合只选它本身的 Tag：
+    // 额外 Tag 会改变 Tag 交集，使结果偏离挑选依据（以及据此缩短的招募时长），因此不受多选 Tag 策略影响
+    if (oper_priority_applied) {
+        return combinations.front().tags;
+    }
+
+    if (combinations.front().min_level == 3) {
         // only run if we have certain preferred tags for 3★ tags
         if (!m_first_tags.empty()) {
             for (const RecruitConfig::TagId& tag_id : tag_ids) {
@@ -1202,10 +1230,6 @@ std::vector<asst::RecruitConfig::TagId> asst::AutoRecruitTask::get_select_tags(
         int min_level = combinations.front().min_level;
         // tag combo will be either full selected, or abandoned.
         int emplace_back_count = 0;
-        if (oper_priority_applied && comb_tier(combinations.front()) <= 3) {
-            // 优先未拥有/未满潜挑出的 3 星档（含小车）组合没有可额外搭配的高星 Tag，只选它本身
-            return combinations.front().tags;
-        }
         if (min_level == 3) {
             return select;
         }
