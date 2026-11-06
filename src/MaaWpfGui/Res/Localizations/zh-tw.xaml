@@ -358,6 +358,7 @@
     <system:String x:Key="Announcement.NotFinishedConfirm2">就是在說你，還點！</system:String>
     <system:String x:Key="Announcement.NotFinishedConfirm3">還點</system:String>
     <system:String x:Key="Announcement.Title">公告</system:String>
+    <system:String x:Key="Asst.AdvancedVoucherRedeemed">使用高級材料提貨券領取 {0} × {1}</system:String>
     <system:String x:Key="Asst.Connection.AttachWindow.Failed">AttachWindow 綁定視窗失敗，請檢查截圖/輸入方式設定</system:String>
     <system:String x:Key="Asst.Connection.AttachWindow.Found">找到視窗 "{0}"</system:String>
     <system:String x:Key="Asst.Connection.AttachWindow.MultipleFound">找到 {0} 個 "{1}" 視窗，將使用第一個</system:String>
@@ -413,6 +414,7 @@
     <system:String x:Key="Asst.Drop.RecognitionError">掉落辨識錯誤</system:String>
     <system:String x:Key="Asst.Drop.ReportSkippedForPcClient">PC 端滑鼠為獨立渲染，可能遮擋掉落物及數量辨識。為避免錯誤資料污染資料池，已自動跳過本次回報{0}</system:String>
     <system:String x:Key="Asst.Drop.TotalDrop" xml:space="preserve">掉落統計：</system:String>
+    <system:String x:Key="Asst.EventMaterialPurchased">活動商店兌換 {0} × {1}，消耗 {2} 活動代幣</system:String>
     <system:String x:Key="Asst.Fight.ActingCommandError">代理指揮失誤</system:String>
     <system:String x:Key="Asst.Fight.AnnihilationEntryNotFound">未在終端待辦中找到剿滅入口，可能本週剿滅已完成，跳過剿滅</system:String>
     <system:String x:Key="Asst.Fight.CurrentSanity" xml:space="preserve">理智: {0}/{1}  </system:String>
@@ -460,6 +462,8 @@
     <system:String x:Key="Asst.Infrast.TrainingTimeLeft">剩餘時間</system:String>
     <system:String x:Key="Asst.InitializationError">初始化錯誤！</system:String>
     <system:String x:Key="Asst.Mall.CreditFullOnlyBuyDiscount">博士！\n只購買折扣商品讓信用點數溢出了！\n小心信用點數浪費哦！\n剩餘信用點數：</system:String>
+    <system:String x:Key="Asst.ParametricPurchased">使用 {2} 尋訪參數模型兌換 {0} × {1}</system:String>
+    <system:String x:Key="Asst.PremiumVoucherRedeemed">使用特級材料提貨券領取 {0} × {1}</system:String>
     <system:String x:Key="Asst.Reclamation.AlgorithmBadge">繁榮證章</system:String>
     <system:String x:Key="Asst.Reclamation.AlgorithmConstructionPoint">建造點數</system:String>
     <system:String x:Key="Asst.Reclamation.AlgorithmDoneSmeltGold">鍛造赤金</system:String>
@@ -1309,8 +1313,6 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
     <system:String x:Key="InferenceBackendDirectML">DirectML</system:String>
     <system:String x:Key="InferenceBackendTip" xml:space="preserve">選擇模型推論計算後端。&#10;自動模式會選擇最成熟穩定的後端（DirectML）；WebGPU 仍處於實驗階段。</system:String>
     <system:String x:Key="InferenceBackendWebGpu">WebGPU (實驗性)</system:String>
-    <system:String x:Key="Infrast.BuyMaterialsWithGreenTickets">繼續專精時自動用綠票補料</system:String>
-    <system:String x:Key="Infrast.BuyMaterialsWithGreenTicketsTip" xml:space="preserve">僅在開啟繼續專精時生效，與幹員培養的開關獨立。&#10;先嘗試合成，再按缺口兌換已解鎖綠票商店二層的藍材料，包括遞迴合成原料。&#10;餘額、庫存或辨識不足時停止補料。</system:String>
     <system:String x:Key="Infrast.ContinueTraining">訓練完成後繼續嘗試專精目前技能</system:String>
     <system:String x:Key="Infrast.Custom.File">自訂基建排班檔案</system:String>
     <system:String x:Key="Infrast.Custom.FileHasPlanNoPeriod">自訂基建排班僅有部分計畫設定了時段，可能會產生預期外的行為。若需設定換班時段請確保所有計畫均有設定時段，否則請全部留白。</system:String>
@@ -2178,8 +2180,7 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
     <system:String x:Key="TaskQueue.MoveUp">上移</system:String>
     <system:String x:Key="TaskQueue.MultiTasksShare.Tip">以下選項為多任務共用</system:String>
     <system:String x:Key="TaskQueue.NotSwitch">不切換</system:String>
-    <system:String x:Key="TaskQueue.OperProgress.BuyMaterialsWithGreenTickets">自動用綠票兌換缺少的材料</system:String>
-    <system:String x:Key="TaskQueue.OperProgress.BuyMaterialsWithGreenTicketsTip" xml:space="preserve">合成無法補齊時，按目前步驟的缺口兌換二層出售的材料。&#10;需要先自行解鎖二層；餘額、庫存或辨識不足時停止補料。</system:String>
+    <system:String x:Key="TaskQueue.OperProgress.AutoReplenishMaterials">自動補齊缺少的材料</system:String>
     <system:String x:Key="TaskQueue.OperProgress.ClearPlansConfirm">確定要清空全部幹員培養計畫嗎？此操作無法復原。</system:String>
     <system:String x:Key="TaskQueue.OperProgress.Detail">{key=TaskQueue.Task.OperProgress} {0}:{1} {2}</system:String>
     <system:String x:Key="TaskQueue.OperProgress.Elite">精英化</system:String>
@@ -2188,6 +2189,14 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
     <system:String x:Key="TaskQueue.OperProgress.Mastery2">專精 2</system:String>
     <system:String x:Key="TaskQueue.OperProgress.Mastery3">專精 3</system:String>
     <system:String x:Key="TaskQueue.OperProgress.MasteryTarget">技能 {0} 專精 {1}</system:String>
+    <system:String x:Key="TaskQueue.OperProgress.MaterialPurchase.ActivityMedicine.Tip">本次幹員培養任務共用的藥劑使用上限，跨材料和幹員累計。</system:String>
+    <system:String x:Key="TaskQueue.OperProgress.MaterialPurchase.ActivityStages">刷取活動 UP 材料</system:String>
+    <system:String x:Key="TaskQueue.OperProgress.MaterialPurchase.AdvancedVoucher">高級材料提貨券</system:String>
+    <system:String x:Key="TaskQueue.OperProgress.MaterialPurchase.EventShop">活動商店</system:String>
+    <system:String x:Key="TaskQueue.OperProgress.MaterialPurchase.GreenTickets">綠票</system:String>
+    <system:String x:Key="TaskQueue.OperProgress.MaterialPurchase.ParametricModels">尋訪參數模型</system:String>
+    <system:String x:Key="TaskQueue.OperProgress.MaterialPurchase.PremiumVoucher">特級材料提貨券</system:String>
+    <system:String x:Key="TaskQueue.OperProgress.MaterialPurchase.Priority.Tip">先嘗試合成。仍缺料時，由上至下依序嘗試已勾選的來源；拖曳可調整優先順序。活動刷取預設不使用藥劑，不碎石。</system:String>
     <system:String x:Key="TaskQueue.OperProgress.NotSet">---</system:String>
     <system:String x:Key="TaskQueue.OperProgress.OnlineEditor">在明日方舟工具箱中線上編輯計畫</system:String>
     <system:String x:Key="TaskQueue.OperProgress.ParseClipboard">從剪貼簿讀取</system:String>

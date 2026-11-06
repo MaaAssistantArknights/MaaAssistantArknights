@@ -178,7 +178,7 @@ asst::MaterialSynthesisTaskPlugin::Result asst::MaterialSynthesisTaskPlugin::syn
                         { "ingredient", ingredient },
                     });
                 result = Result::InsufficientResources;
-                if (m_collect_material_shortfall) {
+                if (m_purchasable_material) {
                     const auto& formula = ItemData.get_item_formula(material_id);
                     std::vector<std::string> ingredient_ids;
                     for (const auto& [id, quantity] : formula) {
@@ -331,9 +331,10 @@ asst::MaterialSynthesisTaskPlugin::Result asst::MaterialSynthesisTaskPlugin::syn
         return Result::Cancelled;
     }
     if (result != Result::Completed) {
-        // 可合成的蓝材料缺少低级原料时，优先上报蓝材料本身的缺口，供培养任务去绿票商店兑换。
-        if (result == Result::InsufficientResources && m_collect_material_shortfall && !count_image.empty() &&
-            ItemData.get_item_rarity(material_id) == 2) {
+        // 子材料无法兑换时，回退到可兑换的当前材料；缺口仍须现场确认。
+        if (result == Result::InsufficientResources && m_purchasable_material && !count_image.empty() &&
+            m_purchasable_material(material_id) &&
+            (!m_material_shortfall || !m_purchasable_material(m_material_shortfall->first))) {
             // 合成沿用原有数量解析；兑换缺口必须从同一帧重新严格确认。
             const auto missing_count =
                 MaterialSynthesisImageAnalyzer::read_number(count_image, "MiniGame@MaterialSynthesis@RequiredCount");

@@ -358,6 +358,7 @@
     <system:String x:Key="Announcement.NotFinishedConfirm2">そう、あなたですね、まだ押す</system:String>
     <system:String x:Key="Announcement.NotFinishedConfirm3">まだ押す</system:String>
     <system:String x:Key="Announcement.Title">アナウンス</system:String>
+    <system:String x:Key="Asst.AdvancedVoucherRedeemed">中級素材交換券で {0} × {1} を獲得</system:String>
     <system:String x:Key="Asst.Connection.AttachWindow.Failed">AttachWindow の接続に失敗しました。スクリーンキャプチャ/入力方法の設定を確認してください</system:String>
     <system:String x:Key="Asst.Connection.AttachWindow.Found">ウィンドウ "{0}" が見つかりました</system:String>
     <system:String x:Key="Asst.Connection.AttachWindow.MultipleFound">{0} 個の "{1}" ウィンドウが見つかりました。最初のものを使用します</system:String>
@@ -413,6 +414,7 @@
     <system:String x:Key="Asst.Drop.RecognitionError">ドロップ認識エラー</system:String>
     <system:String x:Key="Asst.Drop.ReportSkippedForPcClient">PC クライアントではカーソルがドロップ品や個数の認識を遮る場合があります。誤ったデータでデータプールを汚染しないよう、{0}への今回のレポートは自動的にスキップしました</system:String>
     <system:String x:Key="Asst.Drop.TotalDrop" xml:space="preserve">ドロップ統計: </system:String>
+    <system:String x:Key="Asst.EventMaterialPurchased">イベントショップで {0} × {1} を交換、イベント通貨 {2} を消費</system:String>
     <system:String x:Key="Asst.Fight.ActingCommandError">自動指揮のミスが生じました</system:String>
     <system:String x:Key="Asst.Fight.AnnihilationEntryNotFound">ターミナルのTo-Doリストに殲滅作戦が見つかりません。今週分は完了済みの可能性があります。殲滅作戦をスキップします</system:String>
     <system:String x:Key="Asst.Fight.CurrentSanity" xml:space="preserve">理性: {0}/{1}  </system:String>
@@ -460,6 +462,8 @@
     <system:String x:Key="Asst.Infrast.TrainingTimeLeft">残り時間</system:String>
     <system:String x:Key="Asst.InitializationError">初期化エラー！</system:String>
     <system:String x:Key="Asst.Mall.CreditFullOnlyBuyDiscount">ドクター！ \n割引アイテムのみの購入がFPのオーバーフローを引き起こしました！ \nFPの浪費に注意してください！ \n残りのFP：</system:String>
+    <system:String x:Key="Asst.ParametricPurchased">特別引換証 {2} 枚で {0} × {1} を交換しました</system:String>
+    <system:String x:Key="Asst.PremiumVoucherRedeemed">上級素材交換券で {0} × {1} を獲得</system:String>
     <system:String x:Key="Asst.Reclamation.AlgorithmBadge">繁栄のバッジ</system:String>
     <system:String x:Key="Asst.Reclamation.AlgorithmConstructionPoint">ビルドポイント</system:String>
     <system:String x:Key="Asst.Reclamation.AlgorithmDoneSmeltGold">鍛造レッドゴールド</system:String>
@@ -1311,8 +1315,6 @@ DEBUGディレクトリに保存される画像には数量制限があり、超
     <system:String x:Key="InferenceBackendDirectML">DirectML</system:String>
     <system:String x:Key="InferenceBackendTip" xml:space="preserve">モデル推論の実行バックエンドを選択します。&#10;自動モードでは最も安定したバックエンド（DirectML）が選択されます。WebGPU は現在実験的機能です。</system:String>
     <system:String x:Key="InferenceBackendWebGpu">WebGPU (実験的)</system:String>
-    <system:String x:Key="Infrast.BuyMaterialsWithGreenTickets">継続特化時に緑チケットで不足素材を補充する</system:String>
-    <system:String x:Key="Infrast.BuyMaterialsWithGreenTicketsTip" xml:space="preserve">継続特化が有効な場合のみ適用され、オペレーター育成の設定とは独立しています。&#10;加工を優先し、不足分の青素材（再帰加工の原料を含む）を開放済みの緑チケット交換所2階で交換します。&#10;残高・在庫不足や認識失敗時は補充を停止します。</system:String>
     <system:String x:Key="Infrast.ContinueTraining">訓練完了後に現在スキルの継続特化を試みます</system:String>
     <system:String x:Key="Infrast.Custom.File">基地構成ファイルの指定</system:String>
     <system:String x:Key="Infrast.Custom.FileHasPlanNoPeriod">カスタムインフラストラクチャ設定では、一部のプランにのみ時間帯が設定されている場合があり、予期しない動作が発生する可能性があります。シフト交代時間帯を設定する必要がある場合は、すべてのプランに時間帯が設定されていることを確認してください。設定されていない場合は、すべてのプランを空白のままにしてください。</system:String>
@@ -2179,8 +2181,7 @@ MAA は非インストール型のアプリケーションであり、レジス�
     <system:String x:Key="TaskQueue.MoveUp">上へ移動</system:String>
     <system:String x:Key="TaskQueue.MultiTasksShare.Tip">以下のオプションは複数のタスクで共有されます</system:String>
     <system:String x:Key="TaskQueue.NotSwitch">切り替えない</system:String>
-    <system:String x:Key="TaskQueue.OperProgress.BuyMaterialsWithGreenTickets">不足素材を緑チケットで交換する</system:String>
-    <system:String x:Key="TaskQueue.OperProgress.BuyMaterialsWithGreenTicketsTip" xml:space="preserve">加工で不足を補えない場合、現在の手順に必要な分だけ2階の素材を交換します。&#10;2階は事前に手動で開放してください。残高・在庫不足や認識失敗時は補充を停止します。</system:String>
+    <system:String x:Key="TaskQueue.OperProgress.AutoReplenishMaterials">不足素材を自動補充</system:String>
     <system:String x:Key="TaskQueue.OperProgress.ClearPlansConfirm">すべてのオペレーター育成計画をクリアしますか？この操作は元に戻せません。</system:String>
     <system:String x:Key="TaskQueue.OperProgress.Detail">{key=TaskQueue.Task.OperProgress} {0}:{1} {2}</system:String>
     <system:String x:Key="TaskQueue.OperProgress.Elite">昇進段階</system:String>
@@ -2189,6 +2190,14 @@ MAA は非インストール型のアプリケーションであり、レジス�
     <system:String x:Key="TaskQueue.OperProgress.Mastery2">特化 2</system:String>
     <system:String x:Key="TaskQueue.OperProgress.Mastery3">特化 3</system:String>
     <system:String x:Key="TaskQueue.OperProgress.MasteryTarget">スキル {0} 特化 {1}</system:String>
+    <system:String x:Key="TaskQueue.OperProgress.MaterialPurchase.ActivityMedicine.Tip">このオペレーター育成タスク全体で共有する理性回復剤の使用上限です。素材やオペレーターをまたいで累計します。</system:String>
+    <system:String x:Key="TaskQueue.OperProgress.MaterialPurchase.ActivityStages">イベント素材を周回</system:String>
+    <system:String x:Key="TaskQueue.OperProgress.MaterialPurchase.AdvancedVoucher">中級素材交換券</system:String>
+    <system:String x:Key="TaskQueue.OperProgress.MaterialPurchase.EventShop">イベントショップ</system:String>
+    <system:String x:Key="TaskQueue.OperProgress.MaterialPurchase.GreenTickets">一般資格証</system:String>
+    <system:String x:Key="TaskQueue.OperProgress.MaterialPurchase.ParametricModels">スカウトパラメータモデル</system:String>
+    <system:String x:Key="TaskQueue.OperProgress.MaterialPurchase.PremiumVoucher">上級素材交換券</system:String>
+    <system:String x:Key="TaskQueue.OperProgress.MaterialPurchase.Priority.Tip">まず加工を試み、不足時は選択した入手元を上から順に試します。ドラッグで優先順位を変更できます。イベント周回は既定で理性回復剤を使用せず、純正源石は使用しません。</system:String>
     <system:String x:Key="TaskQueue.OperProgress.NotSet">---</system:String>
     <system:String x:Key="TaskQueue.OperProgress.OnlineEditor">アークナイツツールボックスでオンライン編集</system:String>
     <system:String x:Key="TaskQueue.OperProgress.ParseClipboard">クリップボードから読み取り</system:String>

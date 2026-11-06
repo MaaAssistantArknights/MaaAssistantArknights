@@ -2,6 +2,7 @@
 
 #include "Config/AbstractConfigWithTempl.h"
 
+#include <array>
 #include <optional>
 #include <unordered_map>
 #include <unordered_set>
@@ -13,6 +14,22 @@ class ItemConfig final : public MAA_NS::SingletonHolder<ItemConfig>, public Abst
 {
 public:
     virtual ~ItemConfig() override = default;
+
+    struct TicketShopItem
+    {
+        int price = 0;
+        int quantity = 1;
+        std::array<int, 2> monthly_limits {};
+    };
+
+    std::optional<TicketShopItem> get_ticket_shop_item(const std::string& id, bool parametric = false) const noexcept
+    {
+        const auto& items = parametric ? m_parametric_items : m_green_ticket_items;
+        if (const auto iter = items.find(id); iter != items.end()) {
+            return iter->second;
+        }
+        return std::nullopt;
+    }
 
     const std::string& get_item_name(const std::string& id) const noexcept
     {
@@ -68,6 +85,8 @@ protected:
     std::vector<std::string> m_ordered_material_item_id;
     std::vector<std::string> m_ordered_non_chip_formula_item_id;
     std::unordered_map<std::string, std::unordered_map<std::string, int>> m_item_formulas;
+    std::unordered_map<std::string, TicketShopItem> m_green_ticket_items;
+    std::unordered_map<std::string, TicketShopItem> m_parametric_items;
 };
 
 inline static auto& ItemData = ItemConfig::get_instance();

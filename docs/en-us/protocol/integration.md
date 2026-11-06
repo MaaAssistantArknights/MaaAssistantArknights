@@ -597,12 +597,7 @@ Plan index number in the configuration. Editing in run-time is not supported.
 @optional  
 Whether to continue unfinished skill training in the Training Room.  
 :::  
-::: field buy_materials_with_green_tickets
-@type boolean
-@default false
-@optional
-Whether to replenish materials with green tickets when continuing mastery. Only effective when `continue_training` is `true`. Independent of the same parameter in `OperProgress`; replenishment rules and the success callback are the same.
-:::
+
 ::::
 
 <details>
@@ -1460,15 +1455,38 @@ Whether to enable this task.
 Use the Simplified Chinese operator name for `name`, regardless of client language.
 Development plans. Each object requires `name` (operator name). `role` (class) is optional unless the operator has multiple classes; use `Pioneer`, `Warrior`, `Tank`, `Sniper`, `Caster`, `Medic`, `Support`, `Special`. Optional targets: `elite` is 1–2; `skill_level` is 2–7; `skill_mastery` is an array of three target mastery levels, each 0–3 (0 skips that skill). Omitted targets are skipped.
 :::
+
 ::: field buy_materials_with_green_tickets
 @type boolean
 @default false
 @optional
-Whether to buy missing blue materials from the already-unlocked second floor with green tickets when synthesis cannot supply them. If the shortfall exceeds the remaining quota, buy only the available amount. Do not purchase if funds are insufficient or purchase information cannot be confirmed.
+Whether to buy missing blue materials from the already-unlocked second floor with green tickets when synthesis cannot supply them. Buy the minimum of the shortfall, remaining stock, and affordable quantity. Do not purchase if funds cannot cover one exchange or purchase information cannot be confirmed.
+:::
+::: field buy_materials_with_parametric_models  
+@type boolean  
+@default false  
+@optional  
+Allow replenishment with Headhunting Parametric Models. Green tickets take priority; the currency switches are independent.  
+:::
+::: field material_purchase_sources  
+@type array<string>  
+@optional  
+Synthesis is attempted first. Replenishment sources in priority order: `GreenTickets`, `ParametricModels`, `PremiumVoucher` (T4), `AdvancedVoucher` (T3), `EventShop`, and `ActivityStages` (event material farming). Only listed sources are attempted; an empty array disables replenishment. This overrides both legacy exchange switches. Unavailable or partially fulfilling sources fall through with the remaining shortfall until it is filled or all sources are exhausted. Recognition failures or uncertain results stop replenishment. The original page is restored afterward.  
+:::
+::: field activity_material_stages  
+@type object<string, string>  
+@optional  
+Maps main material drop IDs to stages in currently open events on the selected server. WPF supplies this from activity data. `ActivityStages` farms mapped materials using Fight and stops at the shortfall quantity, with potions disabled by default and no Originite Prime. `EventShop` also uses this mapping to select the event shop; it skips this source when the current event or server is unsupported.  
+:::
+::: field activity_medicine  
+@type integer  
+@default 0  
+@optional  
+Total potion allowance for event farming, defaulting to 0. Shared across the entire operator development task and only used when `ActivityStages` is enabled. Originite Prime is never used.  
 :::
 ::::
 
-A successful purchase emits `SubTaskExtraInfo` with `what: "GreenTicketPurchased"`. Its `details` contains `material` (name), `material_id`, `count` (number of material items received), and `cost` (green tickets spent).
+A successful purchase emits `SubTaskExtraInfo` with `what: "GreenTicketPurchased"` / `"ParametricPurchased"`. Its `details` contains `material` (name), `material_id`, `count` (number of material items received), and `cost` (amount of the selected currency spent).
 
 - `Reclamation`  
   Reclamation Algorithm

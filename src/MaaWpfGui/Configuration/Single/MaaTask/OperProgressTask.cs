@@ -35,6 +35,16 @@ public class OperProgressTask : BaseTask
 
     public bool BuyMaterialsWithGreenTickets { get; set; }
 
+    public bool BuyMaterialsWithParametricModels { get; set; }
+
+    public bool? AutoReplenishMaterials { get; set; }
+
+    public bool ActivityUseMedicine { get; set; }
+
+    public int ActivityMedicineCount { get; set; }
+
+    public List<MaterialPurchaseSourceOption>? MaterialPurchaseSources { get; set; }
+
     public record Plan(OperatorRole Role, string Name, int Elite, int SkillLevel, SkillMastery SkillMastery, bool ShowRole);
 
     /// <summary>

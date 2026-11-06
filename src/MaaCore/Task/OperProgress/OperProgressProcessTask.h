@@ -1,5 +1,7 @@
 #pragma once
+
 #include "Task/AbstractTask.h"
+#include "Task/OperProgress/MaterialReplenishTask.h"
 
 #include <functional>
 #include <optional>
@@ -51,11 +53,7 @@ public:
 
     void set_plan(std::vector<OperProgressTask::ProgressPlan> plan) { m_plan = std::move(plan); }
 
-    void set_buy_with_green_tickets(bool enabled) { m_buy_with_green_tickets = enabled; }
-
-    // 从基建专精页继续当前技能，不更换受训干员或协助者；nullopt 表示无法恢复训练室或任务中止。
-    std::optional<bool>
-        continue_training_with_material_purchase(int skill, const std::function<bool()>& return_to_training);
+    void set_material_purchase_options(MaterialPurchaseOptions options) { m_purchase_options = std::move(options); }
 
 protected:
     virtual bool _run() override;
@@ -71,7 +69,6 @@ private:
     // 返回 Completed 时 training_level 为本次训练完成后达到的专精等级；专精需要训练时长，启动不代表达到计划目标。
     ResultDetail
         execute_mastery(battle::Role role, std::string_view name, int skill, int target_level, int& current_level);
-    ResultDetail start_mastery_training();
     void report_skill_result(battle::Role role, std::string_view name, ResultDetail result, std::array<int, 3> level);
     ResultDetail find_and_open_operator(battle::Role role, std::string_view name);
     bool select_role(battle::Role role);
@@ -101,8 +98,8 @@ private:
     std::vector<OperProgressTask::ProgressPlan> m_plan_finish;
 
     bool m_entry_completed = false; // 首条目标已定位:任务开始时可能停在主页走完整入口链,之后换干员保证不去主页。
-    bool m_buy_with_green_tickets = false;
-    // 商店补料后无法恢复培养页面时，停止当前干员或训练室的后续动作。
+    MaterialPurchaseOptions m_purchase_options;
+    // 商店补料后无法恢复培养页面时，停止当前干员的后续动作。
     bool m_material_recovery_failed = false;
     std::optional<std::pair<std::string, int>> m_material_shortfall;
     std::string m_material_shortfall_context;

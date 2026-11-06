@@ -6246,6 +6246,53 @@
             "Stop"
         ]
     },
+    "MaterialPurchase@DepotMaterialTabClicked": {
+        "baseTask": "DepotMaterialTabClicked",
+        "template": "DepotMaterialTabClicked.png",
+        "next": ["MaterialPurchase@DepotConsumables"]
+    },
+    "MaterialPurchase@DepotConsumables": {
+        "algorithm": "OcrDetect",
+        "text": ["消耗物品"],
+        "roi": [620, 10, 170, 70],
+        "action": "ClickSelf",
+        "postDelay": 600
+    },
+    "Parametric@Store@ChooseTicketType": {
+        "algorithm": "JustReturn",
+        "next": ["Parametric@Store@Select", "Parametric@Store@ScrollTypes"]
+    },
+    "Parametric@Store@Select": {
+        "algorithm": "OcrDetect",
+        "text": ["寻访参数模型"],
+        "roi": [80, 140, 165, 505],
+        "action": "ClickSelf",
+        "postDelay": 800,
+        "sub": ["SlowlySwipeToTheLeft*3"]
+    },
+    "Parametric@Store@ScrollTypes": {
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "specificRect": [145, 570, 15, 15],
+        "rectMove": [145, 275, 15, 15],
+        "specialParams": [500, 1, 2, 0],
+        "postDelay": 500,
+        "maxTimes": 2,
+        "next": ["Parametric@Store@ChooseTicketType"]
+    },
+    "Parametric@Store@ClickItem": {
+        "baseTask": "GreenTicket@Store@ClickItem",
+        "template": "empty.png",
+        "roi": [250, 139, 1024, 484]
+    },
+    "Parametric@Store@PurchaseName": {
+        "baseTask": "GreenTicket@Store@ReplenishPurchaseName",
+        "roi": [180, 175, 490, 50]
+    },
+    "Parametric@Store@PurchaseBalance": {
+        "baseTask": "GreenTicket@Store@ReplenishPurchaseBalance",
+        "roi": [1200, 14, 75, 50]
+    },
     "GreenTicket@Store@ReplenishStoreBegin": {
         "baseTask": "Store@Begin",
         "next": [
@@ -6300,124 +6347,10 @@
         "specialParams": [0],
         "specialParams_Doc": "0=现行限购，1=扭转醇/轻锰矿/研磨石/RMA70-12不限月度兑换次数。确认当前服务器实际更新后切换，不按本机日期自动切换。国服更新：2026-11-01 12:00，https://ak.hypergryph.com/news/0787"
     },
-    "GreenTicket@Store@ReplenishItem": {
-        "algorithm": "JustReturn",
-        "specialParams_Doc": "各商品的 [每次兑换价格, 现行月度兑换次数上限, 新版月度兑换次数上限, 每次获得件数（可选，默认1）]，上限 0 为不限月度兑换次数。来源：https://prts.wiki/w/采购中心#tabber-阶段2。仅列出二层可补购蓝材料。"
-    },
-    "GreenTicket@Store@ReplenishItem-3302": {
-        "baseTask": "GreenTicket@Store@ReplenishItem",
-        "specialParams": [20, 15, 15, 3],
-        "doc": "技巧概要·卷2，每次兑换3本。"
-    },
     "GreenTicket@Store@ReplenishClickSkillSummary": {
         "baseTask": "GreenTicket@Store@ClickItem",
         "template": "items/3302.png",
         "count": 15
-    },
-    "GreenTicket@Store@ReplenishItem-30013": {
-        "baseTask": "GreenTicket@Store@ReplenishItem",
-        "specialParams": [25, 15, 15],
-        "doc": "固源岩组"
-    },
-    "GreenTicket@Store@ReplenishItem-30023": {
-        "baseTask": "GreenTicket@Store@ReplenishItem",
-        "specialParams": [30, 15, 15],
-        "doc": "糖组"
-    },
-    "GreenTicket@Store@ReplenishItem-30033": {
-        "baseTask": "GreenTicket@Store@ReplenishItem",
-        "specialParams": [30, 15, 15],
-        "doc": "聚酸酯组"
-    },
-    "GreenTicket@Store@ReplenishItem-30043": {
-        "baseTask": "GreenTicket@Store@ReplenishItem",
-        "specialParams": [35, 15, 15],
-        "doc": "异铁组"
-    },
-    "GreenTicket@Store@ReplenishItem-30053": {
-        "baseTask": "GreenTicket@Store@ReplenishItem",
-        "specialParams": [35, 15, 15],
-        "doc": "酮凝集组"
-    },
-    "GreenTicket@Store@ReplenishItem-30063": {
-        "baseTask": "GreenTicket@Store@ReplenishItem",
-        "specialParams": [45, 10, 10],
-        "doc": "全新装置"
-    },
-    "GreenTicket@Store@ReplenishItem-30073": {
-        "baseTask": "GreenTicket@Store@ReplenishItem",
-        "specialParams": [30, 15, 0],
-        "doc": "扭转醇"
-    },
-    "GreenTicket@Store@ReplenishItem-30083": {
-        "baseTask": "GreenTicket@Store@ReplenishItem",
-        "specialParams": [35, 15, 0],
-        "doc": "轻锰矿"
-    },
-    "GreenTicket@Store@ReplenishItem-30093": {
-        "baseTask": "GreenTicket@Store@ReplenishItem",
-        "specialParams": [40, 15, 0],
-        "doc": "研磨石"
-    },
-    "GreenTicket@Store@ReplenishItem-30103": {
-        "baseTask": "GreenTicket@Store@ReplenishItem",
-        "specialParams": [45, 10, 0],
-        "doc": "RMA70-12"
-    },
-    "GreenTicket@Store@ReplenishItem-31013": {
-        "baseTask": "GreenTicket@Store@ReplenishItem",
-        "specialParams": [40, 10, 10],
-        "doc": "凝胶"
-    },
-    "GreenTicket@Store@ReplenishItem-31023": {
-        "baseTask": "GreenTicket@Store@ReplenishItem",
-        "specialParams": [35, 10, 10],
-        "doc": "炽合金"
-    },
-    "GreenTicket@Store@ReplenishItem-31033": {
-        "baseTask": "GreenTicket@Store@ReplenishItem",
-        "specialParams": [30, 10, 10],
-        "doc": "晶体元件"
-    },
-    "GreenTicket@Store@ReplenishItem-31043": {
-        "baseTask": "GreenTicket@Store@ReplenishItem",
-        "specialParams": [40, 10, 10],
-        "doc": "半自然溶剂"
-    },
-    "GreenTicket@Store@ReplenishItem-31053": {
-        "baseTask": "GreenTicket@Store@ReplenishItem",
-        "specialParams": [40, 10, 10],
-        "doc": "化合切削液"
-    },
-    "GreenTicket@Store@ReplenishItem-31063": {
-        "baseTask": "GreenTicket@Store@ReplenishItem",
-        "specialParams": [45, 10, 10],
-        "doc": "转质盐组"
-    },
-    "GreenTicket@Store@ReplenishItem-31073": {
-        "baseTask": "GreenTicket@Store@ReplenishItem",
-        "specialParams": [40, 10, 10],
-        "doc": "褐素纤维"
-    },
-    "GreenTicket@Store@ReplenishItem-31083": {
-        "baseTask": "GreenTicket@Store@ReplenishItem",
-        "specialParams": [45, 10, 10],
-        "doc": "环烃聚质"
-    },
-    "GreenTicket@Store@ReplenishItem-31093": {
-        "baseTask": "GreenTicket@Store@ReplenishItem",
-        "specialParams": [40, 10, 10],
-        "doc": "类凝结核"
-    },
-    "GreenTicket@Store@ReplenishItem-31103": {
-        "baseTask": "GreenTicket@Store@ReplenishItem",
-        "specialParams": [45, 10, 10],
-        "doc": "液化高能气体"
-    },
-    "GreenTicket@Store@ReplenishItem-31113": {
-        "baseTask": "GreenTicket@Store@ReplenishItem",
-        "specialParams": [40, 10, 10],
-        "doc": "电极单元"
     },
     "GreenTicket@Store@ReplenishPurchaseStock": {
         "algorithm": "OcrDetect",
@@ -6444,7 +6377,7 @@
     },
     "GreenTicket@Store@ReplenishPurchasedConfirm": {
         "baseTask": "GreenTicket@Store@PurchasedConfirm",
-        "template": "CreditShop-Bought.png",
+        "template": "ItemObtainedIcon.png",
         "maxTimes": 1,
         "next": []
     },
@@ -7173,5 +7106,58 @@
         "action": "ClickRect",
         "specificRect": [169, 473, 88, 104],
         "postDelay": 1000
+    },
+    "MaterialPurchase@VoucherDetail": {
+        "algorithm": "OcrDetect",
+        "text": ["使用"],
+        "roi": [570, 570, 140, 55]
+    },
+    "MaterialPurchase@VoucherName": {
+        "algorithm": "OcrDetect",
+        "text": [],
+        "fullMatch": true,
+        "roi": [215, 130, 300, 65]
+    },
+    "MaterialPurchase@VoucherUse": {
+        "baseTask": "MaterialPurchase@VoucherDetail",
+        "action": "ClickSelf",
+        "postDelay": 600,
+        "next": ["MaterialPurchase@VoucherSelect"]
+    },
+    "MaterialPurchase@VoucherSelect": {
+        "algorithm": "OcrDetect",
+        "text": ["选择需要的材料"],
+        "roi": [225, 120, 500, 55]
+    },
+    "MaterialPurchase@VoucherOwned": {
+        "baseTask": "GreenTicket@Store@ReplenishPurchaseQuantity",
+        "binThreshold": [120, 255],
+        "roi": [1047, 129, 28, 35]
+    },
+    "MaterialPurchase@VoucherSelected": {
+        "baseTask": "MaterialPurchase@VoucherOwned",
+        "roi": [932, 129, 31, 35]
+    },
+    "MaterialPurchase@VoucherItem": {
+        "baseTask": "GreenTicket@Store@ClickItem",
+        "roi": [200, 190, 875, 355],
+        "action": "DoNothing",
+        "next": [],
+        "template": "empty.png"
+    },
+    "MaterialPurchase@VoucherSwipe": {
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "specificRect": [1050, 480, 10, 10],
+        "rectMove": [1050, 220, 10, 10],
+        "postDelay": 500,
+        "specialParams": [450]
+    },
+    "MaterialPurchase@VoucherConfirm": {
+        "baseTask": "MaterialPurchase@VoucherSelect",
+        "action": "ClickRect",
+        "specificRect": [600, 580, 70, 30],
+        "maxTimes": 1,
+        "next": ["GreenTicket@Store@ReplenishPurchasedConfirm"]
     }
 }

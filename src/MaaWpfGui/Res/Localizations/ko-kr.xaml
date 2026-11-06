@@ -358,6 +358,7 @@
     <system:String x:Key="Announcement.NotFinishedConfirm2">그래 너, 계속 누르네</system:String>
     <system:String x:Key="Announcement.NotFinishedConfirm3">계속 누르네</system:String>
     <system:String x:Key="Announcement.Title">공지사항</system:String>
+    <system:String x:Key="Asst.AdvancedVoucherRedeemed">중급 재료 교환권으로 {0} × {1} 획득</system:String>
     <system:String x:Key="Asst.Connection.AttachWindow.Failed">AttachWindow 연결에 실패했습니다. 스크린샷/입력 방법 설정을 확인하세요</system:String>
     <system:String x:Key="Asst.Connection.AttachWindow.Found">창 "{0}"을(를) 찾았습니다</system:String>
     <system:String x:Key="Asst.Connection.AttachWindow.MultipleFound">{0}개의 "{1}" 창을 찾았습니다. 첫 번째 창을 사용합니다</system:String>
@@ -413,6 +414,7 @@
     <system:String x:Key="Asst.Drop.RecognitionError">드롭 인식 오류</system:String>
     <system:String x:Key="Asst.Drop.ReportSkippedForPcClient">PC 클라이언트에서는 커서가 드롭 아이템과 수량 인식을 가릴 수 있습니다. 잘못된 데이터가 데이터 풀을 오염시키지 않도록 {0}에 대한 이번 보고는 자동으로 건너뜁니다</system:String>
     <system:String x:Key="Asst.Drop.TotalDrop" xml:space="preserve">드롭 통계: </system:String>
+    <system:String x:Key="Asst.EventMaterialPurchased">이벤트 상점에서 {0} × {1} 교환, 이벤트 재화 {2} 소모</system:String>
     <system:String x:Key="Asst.Fight.ActingCommandError">대리 지휘 오류 발생</system:String>
     <system:String x:Key="Asst.Fight.AnnihilationEntryNotFound">터미널 할 일 목록에서 섬멸 작전을 찾을 수 없습니다. 이번 주 섬멸 작전이 이미 완료되었을 수 있습니다. 섬멸 작전을 건너뜁니다</system:String>
     <system:String x:Key="Asst.Fight.CurrentSanity" xml:space="preserve">이성: {0}/{1}  </system:String>
@@ -460,6 +462,8 @@
     <system:String x:Key="Asst.Infrast.TrainingTimeLeft">남은 시간</system:String>
     <system:String x:Key="Asst.InitializationError">초기화 오류!</system:String>
     <system:String x:Key="Asst.Mall.CreditFullOnlyBuyDiscount">박사님!\n할인된 상품만 구매해 크레딧이 넘쳤습니다!\n낭비되는 크레딧을 주의하세요!\n남은 크레딧:</system:String>
+    <system:String x:Key="Asst.ParametricPurchased">헤드헌팅 파라미터 모델 {2}개로 {0} × {1} 교환</system:String>
+    <system:String x:Key="Asst.PremiumVoucherRedeemed">고급 재료 교환권으로 {0} × {1} 획득</system:String>
     <system:String x:Key="Asst.Reclamation.AlgorithmBadge">번영의 배지</system:String>
     <system:String x:Key="Asst.Reclamation.AlgorithmConstructionPoint">빌드 포인트</system:String>
     <system:String x:Key="Asst.Reclamation.AlgorithmDoneSmeltGold">순금 단조</system:String>
@@ -1309,8 +1313,6 @@ DEBUG 디렉토리에 저장된 이미지는 수량 제한이 있으며 초과 �
     <system:String x:Key="InferenceBackendDirectML">DirectML</system:String>
     <system:String x:Key="InferenceBackendTip" xml:space="preserve">모델 추론 실행 백엔드를 선택합니다.&#10;자동 모드는 가장 안정적인 백엔드(DirectML)를 선택하며, WebGPU 지원은 현재 실험적 단계입니다.</system:String>
     <system:String x:Key="InferenceBackendWebGpu">WebGPU (실험적)</system:String>
-    <system:String x:Key="Infrast.BuyMaterialsWithGreenTickets">연속 훈련 시 녹색 티켓으로 부족한 재료 보충</system:String>
-    <system:String x:Key="Infrast.BuyMaterialsWithGreenTicketsTip" xml:space="preserve">연속 훈련이 켜져 있을 때만 적용되며 오퍼레이터 육성 설정과 독립적입니다.&#10;먼저 가공을 시도한 뒤, 재귀 가공 원료를 포함한 부족한 파란색 재료를 개방된 녹색 티켓 상점 2층에서 교환합니다.&#10;잔액이나 재고가 부족하거나 인식에 실패하면 보충을 중단합니다.</system:String>
     <system:String x:Key="Infrast.ContinueTraining">마스터리 훈련 완료 시 이어서 시도</system:String>
     <system:String x:Key="Infrast.Custom.File">기반시설 구성</system:String>
     <system:String x:Key="Infrast.Custom.FileHasPlanNoPeriod">{key=Infrast.Mode.Custom} 설정 중 일부 계획에만 시간대가 설정되어 있어, 예기치 않은 동작이 발생할 수 있습니다. 교대 시간대를 설정하려면 모든 계획에 시간대를 설정하거나, 그렇지 않으면 모두 비워 두세요.</system:String>
@@ -2178,8 +2180,7 @@ MAA는 비설치형 응용 프로그램으로, 삭제 시 레지스트리 항목
     <system:String x:Key="TaskQueue.MoveUp">위로 이동</system:String>
     <system:String x:Key="TaskQueue.MultiTasksShare.Tip">다음 옵션은 여러 작업에 적용됩니다</system:String>
     <system:String x:Key="TaskQueue.NotSwitch">미변경</system:String>
-    <system:String x:Key="TaskQueue.OperProgress.BuyMaterialsWithGreenTickets">부족한 재료를 녹색 티켓으로 교환</system:String>
-    <system:String x:Key="TaskQueue.OperProgress.BuyMaterialsWithGreenTicketsTip" xml:space="preserve">가공으로 충당할 수 없으면 현재 단계에 필요한 수량만 2층에서 교환합니다.&#10;2층을 먼저 수동으로 개방하세요. 잔액이나 재고가 부족하거나 인식에 실패하면 보충을 중단합니다.</system:String>
+    <system:String x:Key="TaskQueue.OperProgress.AutoReplenishMaterials">부족한 재료 자동 보충</system:String>
     <system:String x:Key="TaskQueue.OperProgress.ClearPlansConfirm">모든 오퍼레이터 육성 계획을 지우시겠습니까? 이 작업은 되돌릴 수 없습니다.</system:String>
     <system:String x:Key="TaskQueue.OperProgress.Detail">{key=TaskQueue.Task.OperProgress} {0}:{1} {2}</system:String>
     <system:String x:Key="TaskQueue.OperProgress.Elite">정예화</system:String>
@@ -2188,6 +2189,14 @@ MAA는 비설치형 응용 프로그램으로, 삭제 시 레지스트리 항목
     <system:String x:Key="TaskQueue.OperProgress.Mastery2">마스터리 2</system:String>
     <system:String x:Key="TaskQueue.OperProgress.Mastery3">마스터리 3</system:String>
     <system:String x:Key="TaskQueue.OperProgress.MasteryTarget">스킬 {0}, 마스터리 {1}</system:String>
+    <system:String x:Key="TaskQueue.OperProgress.MaterialPurchase.ActivityMedicine.Tip">이번 오퍼레이터 육성 작업 전체의 회복제 사용 한도이며 재료와 오퍼레이터에 걸쳐 누적됩니다.</system:String>
+    <system:String x:Key="TaskQueue.OperProgress.MaterialPurchase.ActivityStages">이벤트 재료 파밍</system:String>
+    <system:String x:Key="TaskQueue.OperProgress.MaterialPurchase.AdvancedVoucher">중급 재료 교환권</system:String>
+    <system:String x:Key="TaskQueue.OperProgress.MaterialPurchase.EventShop">이벤트 상점</system:String>
+    <system:String x:Key="TaskQueue.OperProgress.MaterialPurchase.GreenTickets">자격증명서</system:String>
+    <system:String x:Key="TaskQueue.OperProgress.MaterialPurchase.ParametricModels">헤드헌팅 파라미터 모델</system:String>
+    <system:String x:Key="TaskQueue.OperProgress.MaterialPurchase.PremiumVoucher">고급 재료 교환권</system:String>
+    <system:String x:Key="TaskQueue.OperProgress.MaterialPurchase.Priority.Tip">먼저 가공을 시도한 후 선택한 항목을 위에서 아래로 시도합니다. 드래그하여 우선순위를 변경할 수 있습니다. 이벤트 파밍은 기본적으로 회복제를 사용하지 않으며 순오리지늄은 사용하지 않습니다.</system:String>
     <system:String x:Key="TaskQueue.OperProgress.NotSet">---</system:String>
     <system:String x:Key="TaskQueue.OperProgress.OnlineEditor">명일방주 공구 상자에서 온라인 편집</system:String>
     <system:String x:Key="TaskQueue.OperProgress.ParseClipboard">클립보드에서 읽기</system:String>

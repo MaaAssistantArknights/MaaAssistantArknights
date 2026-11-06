@@ -15,7 +15,7 @@
 #include "MaaUtils/NoWarningCV.hpp"
 #include "Task/Infrast/InfrastScore.h"
 #include "Task/MiniGame/MaterialSynthesisTaskPlugin.h"
-#include "Task/Miscellaneous/GreenTicketShoppingTask.h"
+#include "Task/OperProgress/MaterialReplenishTask.h"
 #include "Task/OperProgress/OperProgressFormation.h"
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
@@ -207,13 +207,13 @@ asst::OperProgressProcessTask::ResultDetail asst::OperProgressProcessTask::execu
         m_material_shortfall.reset();
         m_material_shortfall_context.clear();
         const ResultDetail result = execute();
-        if (!m_buy_with_green_tickets ||
+        if (!m_purchase_options.enabled() ||
             (result != ResultDetail::ResourceInsufficient && result != ResultDetail::FormulaLocked) ||
             !m_material_shortfall) {
             return result;
         }
         const auto [item_id, count] = *m_material_shortfall;
-        if (ItemData.get_item_rarity(item_id) != 2) {
+        if (!m_purchase_options.can_buy(item_id)) {
             return result;
         }
         const auto context = m_step_context + ":" + m_material_shortfall_context + ":" + item_id;
@@ -222,10 +222,10 @@ asst::OperProgressProcessTask::ResultDetail asst::OperProgressProcessTask::execu
             LogWarn << __FUNCTION__ << "material shortfall did not decrease after purchase" << context << count;
             return ResultDetail::ResourceInsufficient;
         }
-        GreenTicketShoppingTask shopping(m_callback, m_inst, m_task_chain);
+        MaterialReplenishTask shopping(m_callback, m_inst, m_task_chain, item_id, count, m_purchase_options);
         shopping.set_task_id(m_task_id);
-        shopping.set_material(item_id, count);
-        const bool purchased = shopping.run();
+        shopping.run();
+        const auto purchased = shopping.get_acquired();
         if (need_exit()) {
             return ResultDetail::Interrupt;
         }
@@ -233,10 +233,10 @@ asst::OperProgressProcessTask::ResultDetail asst::OperProgressProcessTask::execu
         const auto located = recover();
         if (located != ResultDetail::Completed) {
             m_material_recovery_failed = true;
-            LogWarn << __FUNCTION__ << "failed to restore development page after green ticket purchase";
+            LogWarn << __FUNCTION__ << "failed to restore development page after material purchase";
             return located;
         }
-        if (!purchased || !shopping.is_shortfall_filled()) {
+        if (purchased < count) {
             return ResultDetail::ResourceInsufficient;
         }
         previous_shortfalls[context] = count;
@@ -651,20 +651,6 @@ asst::OperProgressProcessTask::ResultDetail asst::OperProgressProcessTask::execu
     }
     m_step_context = "Mastery:" + std::to_string(skill) + ":" + std::to_string(current_level + 1);
 
-    const auto prepared = start_mastery_training();
-    if (prepared != ResultDetail::Completed) {
-        return prepared;
-    }
-    current_level = current_level + 1; // 开始专精后当前等级 +1
-    // 选好技能之后再选陪练，这样能确保逻各斯类技能触发
-    if (!run_task("OperProgress@MasterySelectTrainer") || !select_training_trainer(role, current_level)) {
-        LogWarn << __FUNCTION__ << "| trainer selection failed, training already started";
-    }
-    return current_level == target_level ? ResultDetail::Completed : ResultDetail::PrerequisiteTraining;
-}
-
-asst::OperProgressProcessTask::ResultDetail asst::OperProgressProcessTask::start_mastery_training()
-{
     // 选定受训干员与技能后确认面板展示材料行；逐槽检测（同 execute_elite 槽位分派）：
     // 技能书/材料1/材料2 依次跳加工站走自动合成,全部修复后复核仍缺料则不启动专精。
     if (run_task("OperProgress@MasterySkillSummaryRequired", 2)) {
@@ -693,41 +679,12 @@ asst::OperProgressProcessTask::ResultDetail asst::OperProgressProcessTask::start
     if (!run_task("InfrastTrainingConfirm") || !run_task("InfrastTrainingMasteryPage", 10)) {
         return ResultDetail::RecognitionFailed;
     }
-    return ResultDetail::Completed;
-}
-
-std::optional<bool> asst::OperProgressProcessTask::continue_training_with_material_purchase(
-    int skill,
-    const std::function<bool()>& return_to_training)
-{
-    m_buy_with_green_tickets = true;
-    m_material_recovery_failed = false;
-    bool restored = false;
-    const auto recover = [&] {
-        restored = return_to_training();
-        return restored ? ResultDetail::Completed : ResultDetail::RecognitionFailed;
-    };
-    const auto result = execute_with_material_purchase(recover, [&] {
-        restored = false;
-        if (!run_task("InfrastTrainingMasteryPage") || run_task("InfrastTrainingMasterybusy", 2) ||
-            !run_task("OperProgress@MasterySelectSkill" + std::to_string(skill))) {
-            return ResultDetail::RecognitionFailed;
-        }
-        m_step_context = "Mastery:" + std::to_string(skill);
-        return start_mastery_training();
-    });
-    if (m_material_recovery_failed || need_exit()) {
-        return std::nullopt;
+    current_level = current_level + 1; // 开始专精后当前等级 +1
+    // 选好技能之后再选陪练，这样能确保逻各斯类技能触发
+    if (!run_task("OperProgress@MasterySelectTrainer") || !select_training_trainer(role, current_level)) {
+        LogWarn << __FUNCTION__ << "| trainer selection failed, training already started";
     }
-    if (result == ResultDetail::Completed) {
-        return true;
-    }
-    // 合成失败也可能停留在加工站，回到训练室后调用方才可按原排班继续处理。
-    if (!restored && !return_to_training()) {
-        return std::nullopt;
-    }
-    // 确认后识别超时也可能已经开训；现场复核，避免随后尝试更换已锁定的受训干员。
-    return run_task("InfrastTrainingMasterybusy", 2);
+    return current_level == target_level ? ResultDetail::Completed : ResultDetail::PrerequisiteTraining;
 }
 
 void asst::OperProgressProcessTask::report_skill_result(
@@ -1179,7 +1136,8 @@ asst::OperProgressProcessTask::ResultDetail
 
     const std::string material_task =
         "OperProgress@" + std::string(task_type_name) + "Material" + std::to_string(material_index);
-    if (m_buy_with_green_tickets) {
+    const bool replenish = m_purchase_options.enabled();
+    if (replenish) {
         const auto image = ctrler()->get_image();
         const auto slot = Task.get(material_task);
         const auto required = Task.get(
@@ -1214,7 +1172,6 @@ asst::OperProgressProcessTask::ResultDetail
     if (!run_task(material_task)) {
         return ResultDetail::ResourceInsufficient;
     }
-    // TODO: 自动使用材料兑换券。
     // 快速跳转弹窗内与跳转按钮同 roi 识别到不可用态,说明该材料配方尚未解锁,无法在加工站合成。
     if (run_task(material_task + "JumpProcessingUnable", 2)) {
         LogInfo << __FUNCTION__ << "| formula locked, skip synthesizing" << material_task;
@@ -1226,12 +1183,14 @@ asst::OperProgressProcessTask::ResultDetail
     // 加工站递归合成复用小游戏自动合成逻辑：插件入口校验加工站标志并驱动当前配方。
     MaterialSynthesisTaskPlugin synthesis(m_callback, m_inst, m_task_chain);
     synthesis.set_task_id(m_task_id).set_retry_times(0);
-    synthesis.set_collect_material_shortfall(m_buy_with_green_tickets);
+    if (replenish) {
+        synthesis.set_purchasable_material([this](const std::string& id) { return m_purchase_options.can_buy(id); });
+    }
     // 合成可能已经产出一部分材料，之后只能使用合成现场重新确认的缺口。
     m_material_shortfall.reset();
     if (!synthesis.run()) {
         const auto& shortfall = synthesis.get_material_shortfall();
-        if (shortfall && ItemData.get_item_rarity(shortfall->first) == 2) {
+        if (shortfall && m_purchase_options.can_buy(shortfall->first)) {
             m_material_shortfall = shortfall;
             m_material_shortfall_context = material_task + ":" + synthesis.get_material_shortfall_context();
         }

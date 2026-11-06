@@ -103,10 +103,33 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
 
     public OperItem? OperSelect { get; set => SetAndNotify(ref field, value); }
 
-    public bool BuyMaterialsWithGreenTickets
+    public bool AutoReplenishMaterials
     {
-        get => GetTaskConfig<OperProgressTask>().BuyMaterialsWithGreenTickets;
-        set => SetTaskConfig<OperProgressTask>(t => t.BuyMaterialsWithGreenTickets == value, t => t.BuyMaterialsWithGreenTickets = value);
+        get => GetTaskConfig<OperProgressTask>().AutoReplenishMaterials ??
+            (GetTaskConfig<OperProgressTask>().BuyMaterialsWithGreenTickets || GetTaskConfig<OperProgressTask>().BuyMaterialsWithParametricModels);
+        set => SetTaskConfig<OperProgressTask>(t => t.AutoReplenishMaterials == value, t => t.AutoReplenishMaterials = value);
+    }
+
+    public bool ActivityUseMedicine
+    {
+        get => GetTaskConfig<OperProgressTask>().ActivityUseMedicine;
+        set => SetTaskConfig<OperProgressTask>(t => t.ActivityUseMedicine == value, t => t.ActivityUseMedicine = value);
+    }
+
+    public int ActivityMedicineCount
+    {
+        get => GetTaskConfig<OperProgressTask>().ActivityMedicineCount;
+        set => SetTaskConfig<OperProgressTask>(t => t.ActivityMedicineCount == value, t => t.ActivityMedicineCount = value);
+    }
+
+    public ObservableCollection<MaterialPurchaseSourceItemViewModel> MaterialPurchaseSources { get; private set => SetAndNotify(ref field, value); } = [];
+
+    private void RefreshMaterialPurchaseSources()
+    {
+        var task = GetTaskConfig<OperProgressTask>();
+        MaterialPurchaseSources = MaterialPurchaseSourceItemViewModel.Create(
+            task.MaterialPurchaseSources ?? MaterialPurchaseSourceOption.Defaults(task.BuyMaterialsWithGreenTickets, task.BuyMaterialsWithParametricModels),
+            list => SetTaskConfig<OperProgressTask>(t => t.MaterialPurchaseSources?.SequenceEqual(list) == true, t => t.MaterialPurchaseSources = list));
     }
 
     public override void RefreshUI(BaseTask? baseTask)
@@ -118,6 +141,7 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
 
         _isRefreshing = true;
         RefreshPlanItems(task);
+        RefreshMaterialPurchaseSources();
         Refresh();
         _isRefreshing = false;
     }
@@ -303,6 +327,10 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
     private void RefreshPlanItemLocalization()
     {
         SpecializationSkillLevelList.RefreshLocalization();
+        foreach (var source in MaterialPurchaseSources)
+        {
+            source.RefreshLocalization();
+        }
         foreach (var item in PlanItems)
         {
             item.RefreshLocalizedText();
@@ -336,7 +364,10 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
 
             var task = new AsstOperProgressTask {
                 Plans = operProgress.Plans,
-                BuyMaterialsWithGreenTickets = operProgress.BuyMaterialsWithGreenTickets,
+                AutoReplenishMaterials = operProgress.AutoReplenishMaterials ?? (operProgress.BuyMaterialsWithGreenTickets || operProgress.BuyMaterialsWithParametricModels),
+                ActivityUseMedicine = operProgress.ActivityUseMedicine,
+                ActivityMedicineCount = operProgress.ActivityMedicineCount,
+                MaterialPurchaseSources = operProgress.MaterialPurchaseSources ?? MaterialPurchaseSourceOption.Defaults(operProgress.BuyMaterialsWithGreenTickets, operProgress.BuyMaterialsWithParametricModels),
             };
             return taskId switch {
                 int id when id > 0 => (Instances.AsstProxy.AsstSetTaskParamsEncoded(id, task), [id]),

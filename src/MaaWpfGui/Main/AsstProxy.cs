@@ -2881,12 +2881,16 @@ public class AsstProxy
                     LocalizationHelper.GetString("Asst.Infrast.RoomsNotConfigured"));
                 break;
 
+            case "EventMaterialPurchased":
+            case "PremiumVoucherRedeemed":
+            case "AdvancedVoucherRedeemed":
+            case "ParametricPurchased":
             case "GreenTicketPurchased":
                 var materialId = subTaskDetails?["material_id"]?.ToString() ?? string.Empty;
                 var materialName = ItemListHelper.GetItemName(materialId);
                 Instances.TaskQueueViewModel.AddLog(
                     LocalizationHelper.GetStringFormat(
-                        "Asst.GreenTicketPurchased",
+                        "Asst." + details["what"]?.ToString(),
                         string.IsNullOrEmpty(materialName) || materialName == materialId
                             ? subTaskDetails?["material"]?.ToString() ?? materialId
                             : materialName,

@@ -31,12 +31,6 @@
         <StackPanel Visibility="{c:Binding '!EnableAdvancedSettings', Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}">
             <!--  固定区：在线编辑计划链接、操作按钮行与干员选择添加行  -->
             <StackPanel x:Name="FixedHeaderPanel">
-                <StackPanel Margin="0,0,0,5" Orientation="Horizontal">
-                    <CheckBox MaxWidth="190" IsChecked="{Binding BuyMaterialsWithGreenTickets}">
-                        <controls:TextBlock Text="{DynamicResource TaskQueue.OperProgress.BuyMaterialsWithGreenTickets}" TextWrapping="Wrap" />
-                    </CheckBox>
-                    <controls:TooltipBlock TooltipText="{DynamicResource TaskQueue.OperProgress.BuyMaterialsWithGreenTicketsTip}" />
-                </StackPanel>
                 <!--  在线编辑计划链接  -->
                 <controls:TextBlock>
                     <Hyperlink
@@ -486,6 +480,107 @@
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
+        </StackPanel>
+        <!--  高级设置  -->
+        <StackPanel Visibility="{c:Binding EnableAdvancedSettings, Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}">
+            <CheckBox Margin="0,0,0,5" IsChecked="{Binding AutoReplenishMaterials}">
+                <controls:TextBlock Text="{DynamicResource TaskQueue.OperProgress.AutoReplenishMaterials}" TextWrapping="Wrap" />
+            </CheckBox>
+            <StackPanel Visibility="{c:Binding AutoReplenishMaterials}">
+                <ListBox
+                    Margin="20,3,0,12"
+                    Padding="0,4"
+                    dd:DragDrop.DragDropContext="{Binding RelativeSource={RelativeSource Self}}"
+                    dd:DragDrop.IsDragSource="True"
+                    dd:DragDrop.IsDropTarget="True"
+                    BorderThickness="1"
+                    FontFamily="Microsoft YaHei, Global User Interface"
+                    FontSize="12"
+                    ItemsSource="{Binding MaterialPurchaseSources}"
+                    PreviewMouseWheel="{s:Action RouteMouseWheelToParent,
+                                                 Target={x:Type helper:MouseWheelHelper}}"
+                    ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                    Style="{DynamicResource NoSelectedHighlightListBoxStyle}"
+                    ToolTip="{DynamicResource TaskQueue.OperProgress.MaterialPurchase.Priority.Tip}">
+                    <ListBox.ItemContainerStyle>
+                        <Style BasedOn="{StaticResource NoSelectedHighlightListBoxItemStyle}" TargetType="ListBoxItem">
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                            <Setter Property="Padding" Value="8,0" />
+                            <Setter Property="MinHeight" Value="30" />
+                        </Style>
+                    </ListBox.ItemContainerStyle>
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Margin="0,3">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="12" />
+                                </Grid.ColumnDefinitions>
+                                <CheckBox
+                                    Grid.Column="0"
+                                    VerticalAlignment="Center"
+                                    IsChecked="{Binding IsEnabled}">
+                                    <TextBlock Text="{Binding Name}" TextWrapping="Wrap" />
+                                </CheckBox>
+                                <TextBlock
+                                    Grid.Column="1"
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Center"
+                                    FontFamily="Segoe UI Symbol"
+                                    FontSize="14"
+                                    Foreground="{DynamicResource SecondaryTextBrush}"
+                                    Opacity="0.65"
+                                    Text="⠿" />
+                                <StackPanel
+                                    Grid.Row="1"
+                                    Grid.ColumnSpan="2"
+                                    Margin="2.5,6,0,0"
+                                    Orientation="Horizontal">
+                                    <StackPanel.Style>
+                                        <Style TargetType="StackPanel">
+                                            <Setter Property="Visibility" Value="Collapsed" />
+                                            <Style.Triggers>
+                                                <MultiDataTrigger>
+                                                    <MultiDataTrigger.Conditions>
+                                                        <Condition Binding="{Binding IsActivityStages}" Value="True" />
+                                                        <Condition Binding="{Binding IsEnabled}" Value="True" />
+                                                    </MultiDataTrigger.Conditions>
+                                                    <Setter Property="Visibility" Value="Visible" />
+                                                </MultiDataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </StackPanel.Style>
+                                    <TextBlock
+                                        Margin="0,0,7.5,0"
+                                        VerticalAlignment="Center"
+                                        Foreground="{DynamicResource SecondaryTextBrush}"
+                                        Text="└" />
+                                    <CheckBox
+                                        VerticalAlignment="Center"
+                                        Content="{DynamicResource TaskQueue.Fight.UseSanityPotion}"
+                                        IsChecked="{Binding DataContext.ActivityUseMedicine, RelativeSource={RelativeSource AncestorType=ListBox}}"
+                                        ToolTip="{DynamicResource TaskQueue.OperProgress.MaterialPurchase.ActivityMedicine.Tip}" />
+                                    <hc:NumericUpDown
+                                        Width="55"
+                                        Height="26"
+                                        Margin="6,0,0,0"
+                                        HorizontalContentAlignment="Center"
+                                        Maximum="999"
+                                        Minimum="0"
+                                        Visibility="{c:Binding DataContext.ActivityUseMedicine,
+                                                               RelativeSource={RelativeSource AncestorType=ListBox}}"
+                                        Value="{Binding DataContext.ActivityMedicineCount, RelativeSource={RelativeSource AncestorType=ListBox}, UpdateSourceTrigger=PropertyChanged}" />
+                                </StackPanel>
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </StackPanel>
         </StackPanel>
     </StackPanel>
 </UserControl>

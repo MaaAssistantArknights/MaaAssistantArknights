@@ -358,6 +358,7 @@
     <system:String x:Key="Announcement.NotFinishedConfirm2">Yes, you — still clicking</system:String>
     <system:String x:Key="Announcement.NotFinishedConfirm3">Still clicking</system:String>
     <system:String x:Key="Announcement.Title">Announcement</system:String>
+    <system:String x:Key="Asst.AdvancedVoucherRedeemed">T3 Material Vouchers: obtained {0} × {1}</system:String>
     <system:String x:Key="Asst.Connection.AttachWindow.Failed">AttachWindow failed, please check screencap/input method settings</system:String>
     <system:String x:Key="Asst.Connection.AttachWindow.Found">Found window "{0}"</system:String>
     <system:String x:Key="Asst.Connection.AttachWindow.MultipleFound">Found {0} "{1}" windows, using the first one</system:String>
@@ -413,6 +414,7 @@
     <system:String x:Key="Asst.Drop.RecognitionError">Drops recognition error</system:String>
     <system:String x:Key="Asst.Drop.ReportSkippedForPcClient">The PC client cursor can obscure drop items and counts. This report to {0} was skipped to avoid polluting the data pool with inaccurate data</system:String>
     <system:String x:Key="Asst.Drop.TotalDrop" xml:space="preserve">Total Drops:&#160;</system:String>
+    <system:String x:Key="Asst.EventMaterialPurchased">Event shop: obtained {0} × {1}, spent {2} event currency</system:String>
     <system:String x:Key="Asst.Fight.ActingCommandError">PRTS error</system:String>
     <system:String x:Key="Asst.Fight.AnnihilationEntryNotFound">Annihilation entry not found in the Terminal to-do list, possibly already completed this week. Skipped Annihilation</system:String>
     <system:String x:Key="Asst.Fight.CurrentSanity" xml:space="preserve">Sanity: {0}/{1}  </system:String>
@@ -460,6 +462,8 @@
     <system:String x:Key="Asst.Infrast.TrainingTimeLeft">Remaining Time</system:String>
     <system:String x:Key="Asst.InitializationError">Initialization error!</system:String>
     <system:String x:Key="Asst.Mall.CreditFullOnlyBuyDiscount">Doctor! \nPurchasing only discounted items has caused an overflow in credits! \nBe cautious of wasting credits!\nRemaining credits:&#160;</system:String>
+    <system:String x:Key="Asst.ParametricPurchased">Exchanged {2} Headhunting Parametric Models for {0} × {1}</system:String>
+    <system:String x:Key="Asst.PremiumVoucherRedeemed">T4 Material Vouchers: obtained {0} × {1}</system:String>
     <system:String x:Key="Asst.Reclamation.AlgorithmBadge">Algorithm Badge</system:String>
     <system:String x:Key="Asst.Reclamation.AlgorithmConstructionPoint">Algorithm Construction Point</system:String>
     <system:String x:Key="Asst.Reclamation.AlgorithmDoneSmeltGold">Forging Red Gold</system:String>
@@ -1308,8 +1312,6 @@ Cache files (such as maps, operator avatars, etc.) need to be regenerated after 
     <system:String x:Key="InferenceBackendDirectML">DirectML</system:String>
     <system:String x:Key="InferenceBackendTip" xml:space="preserve">Select the execution provider for model inference.&#10;Auto mode selects the most stable provider (DirectML); WebGPU is still experimental.</system:String>
     <system:String x:Key="InferenceBackendWebGpu">WebGPU (Experimental)</system:String>
-    <system:String x:Key="Infrast.BuyMaterialsWithGreenTickets">Use green tickets to replenish materials when continuing training</system:String>
-    <system:String x:Key="Infrast.BuyMaterialsWithGreenTicketsTip" xml:space="preserve">Only applies when continuing training is enabled; independent of the operator development setting.&#10;Try synthesis first, then exchange missing blue materials, including recipe ingredients, on the already unlocked second floor.&#10;Stop if funds, stock, or recognition are insufficient.</system:String>
     <system:String x:Key="Infrast.ContinueTraining">After training is complete, try to continue mastering the current Skill</system:String>
     <system:String x:Key="Infrast.Custom.File">Base Configuration</system:String>
     <system:String x:Key="Infrast.Custom.FileHasPlanNoPeriod">Some rotations in the {key=Infrast.Mode.Custom} configuration have time periods set, which may lead to unexpected behavior. To set shift change time periods, ensure all rotations have time periods configured; otherwise, leave them all blank.</system:String>
@@ -2177,8 +2179,7 @@ Do not adjust the proxy multiplier setting in the game</system:String>
     <system:String x:Key="TaskQueue.MoveUp">Move Up</system:String>
     <system:String x:Key="TaskQueue.MultiTasksShare.Tip">The following options are for multiple tasks.</system:String>
     <system:String x:Key="TaskQueue.NotSwitch">Don't Switch</system:String>
-    <system:String x:Key="TaskQueue.OperProgress.BuyMaterialsWithGreenTickets">Exchange missing materials with green tickets</system:String>
-    <system:String x:Key="TaskQueue.OperProgress.BuyMaterialsWithGreenTicketsTip" xml:space="preserve">When synthesis cannot fill the gap, exchange only the materials needed for the current step on the second floor.&#10;Unlock the second floor manually first; stop if funds, stock, or recognition are insufficient.</system:String>
+    <system:String x:Key="TaskQueue.OperProgress.AutoReplenishMaterials">Automatically replenish missing materials</system:String>
     <system:String x:Key="TaskQueue.OperProgress.ClearPlansConfirm">Clear all operator progression plans? This cannot be undone.</system:String>
     <system:String x:Key="TaskQueue.OperProgress.Detail">{key=TaskQueue.Task.OperProgress} {0}:{1} {2}</system:String>
     <system:String x:Key="TaskQueue.OperProgress.Elite">Elite</system:String>
@@ -2187,6 +2188,14 @@ Do not adjust the proxy multiplier setting in the game</system:String>
     <system:String x:Key="TaskQueue.OperProgress.Mastery2">Mastery 2</system:String>
     <system:String x:Key="TaskQueue.OperProgress.Mastery3">Mastery 3</system:String>
     <system:String x:Key="TaskQueue.OperProgress.MasteryTarget">Skill {0}, mastery {1}</system:String>
+    <system:String x:Key="TaskQueue.OperProgress.MaterialPurchase.ActivityMedicine.Tip">Potion limit shared across all materials and operators in this operator development task.</system:String>
+    <system:String x:Key="TaskQueue.OperProgress.MaterialPurchase.ActivityStages">Farm event materials</system:String>
+    <system:String x:Key="TaskQueue.OperProgress.MaterialPurchase.AdvancedVoucher">T3 Material Vouchers</system:String>
+    <system:String x:Key="TaskQueue.OperProgress.MaterialPurchase.EventShop">Event shop</system:String>
+    <system:String x:Key="TaskQueue.OperProgress.MaterialPurchase.GreenTickets">Commendations</system:String>
+    <system:String x:Key="TaskQueue.OperProgress.MaterialPurchase.ParametricModels">Parametric Models</system:String>
+    <system:String x:Key="TaskQueue.OperProgress.MaterialPurchase.PremiumVoucher">T4 Material Vouchers</system:String>
+    <system:String x:Key="TaskQueue.OperProgress.MaterialPurchase.Priority.Tip">Try synthesis first, then enabled sources from top to bottom. Drag to change priority. Event farming uses no potions by default and never uses Originite Prime.</system:String>
     <system:String x:Key="TaskQueue.OperProgress.NotSet">---</system:String>
     <system:String x:Key="TaskQueue.OperProgress.OnlineEditor">Edit the plan online with Arknights Toolbox</system:String>
     <system:String x:Key="TaskQueue.OperProgress.ParseClipboard">Read from Clipboard</system:String>

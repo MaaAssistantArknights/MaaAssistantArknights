@@ -496,5 +496,17 @@
     },
     "OperProgress@OperBoxSortTabs": {
         "text": ["Level", "Rarity", "Acquisition Date"]
+    },
+    "Parametric@Store@Select": {
+        "text": ["Headhunting Parametric"]
+    },
+    "MaterialPurchase@DepotConsumables": {
+        "text": ["Consumables"]
+    },
+    "MaterialPurchase@VoucherDetail": {
+        "text": ["Use"]
+    },
+    "MaterialPurchase@VoucherSelect": {
+        "text": ["Please select"]
     }
 }

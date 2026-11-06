@@ -597,12 +597,7 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 @optional  
 训练室是否继续未完成的专精训练。  
 :::  
-::: field buy_materials_with_green_tickets
-@type boolean
-@default false
-@optional
-是否在继续专精时自动用绿票补料，仅在 `continue_training` 为 `true` 时生效。与 `OperProgress` 的同名参数独立，补料规则及成功回调与其相同。
-:::
+
 ::::
 
 <details>
@@ -1459,15 +1454,38 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 `name` 使用简体中文干员名，与客户端语言无关。
 培养计划数组。每项必填 `name`（干员名）；`role`（职业）可省略，但多职业干员必须指定，取值为 `Pioneer`, `Warrior`, `Tank`, `Sniper`, `Caster`, `Medic`, `Support`, `Special`。可选目标：`elite` 为 1–2，`skill_level` 为 2–7，`skill_mastery` 为三个技能的目标专精等级数组（各 0–3，0 表示跳过）。省略的目标不执行。
 :::
+
 ::: field buy_materials_with_green_tickets
 @type boolean
 @default false
 @optional
-是否在合成后仍缺料时，用绿票从已解锁的商店二层补购蓝材料。缺口超过剩余额度时只兑换剩余部分；余额不足或无法确认购买信息时不兑换。
+是否在合成后仍缺料时，用绿票从已解锁的商店二层补购蓝材料。兑换数量取缺口、剩余库存和余额可负担数量的最小值；余额不足一次兑换或无法确认购买信息时不兑换。
+:::
+::: field buy_materials_with_parametric_models  
+@type boolean  
+@default false  
+@optional  
+是否允许用寻访参数模型补购材料。绿票优先，两种凭证开关独立。  
+:::
+::: field material_purchase_sources  
+@type array<string>  
+@optional  
+补料前先尝试合成。补料来源按优先级排列：`GreenTickets`（绿票）、`ParametricModels`（寻访参数模型）、`PremiumVoucher`（特级材料提货券）、`AdvancedVoucher`（高级材料提货券）、`EventShop`（活动商店）、`ActivityStages`（刷取活动 UP 材料）。仅尝试列出的来源，空数组关闭补料；提供此参数时覆盖两个旧兑换开关。来源不可用或仅部分补齐时，按剩余缺口继续尝试下一项，直到补齐或来源用尽；识别失败或结果不确定时停止补料。结束后恢复原页。  
+:::
+::: field activity_material_stages  
+@type object<string, string>  
+@optional  
+当前服务器开放活动的主要掉落材料 ID 到关卡名的映射，由 WPF 根据活动数据提供。`ActivityStages` 仅刷取映射中的材料，复用理智作战按缺口数量停止，默认不使用药剂，不碎石。 `EventShop` 也通过此映射选择活动商店；没有适配当前活动或服务器时跳过该来源。  
+:::
+::: field activity_medicine  
+@type integer  
+@default 0  
+@optional  
+活动刷取可使用的药剂总数，默认为 0。整个干员培养任务共用额度，仅在启用 `ActivityStages` 时生效；不使用源石。  
 :::
 ::::
 
-兑换成功后通过 `SubTaskExtraInfo` 上报 `what: "GreenTicketPurchased"`，`details` 包含 `material`（材料名）、`material_id`、`count`（实际获得的材料数量）和 `cost`（实际消耗的绿票数）。
+兑换成功后通过 `SubTaskExtraInfo` 上报 `what: "GreenTicketPurchased"` / `"ParametricPurchased"`，`details` 包含 `material`（材料名）、`material_id`、`count`（实际获得的材料数量）和 `cost`（实际消耗的对应凭证数量）。
 
 - `Reclamation`  
   生息演算

@@ -2,6 +2,7 @@
 
 #include "Task/AbstractTaskPlugin.h"
 
+#include <functional>
 #include <optional>
 #include <string>
 #include <unordered_set>
@@ -18,7 +19,10 @@ public:
 
     virtual bool verify(AsstMsg msg, const json::value& details) const override;
 
-    void set_collect_material_shortfall(bool enabled) { m_collect_material_shortfall = enabled; }
+    void set_purchasable_material(std::function<bool(const std::string&)> predicate)
+    {
+        m_purchasable_material = std::move(predicate);
+    }
 
     const auto& get_material_shortfall() const noexcept { return m_material_shortfall; }
 
@@ -60,7 +64,7 @@ private:
 
     static std::string_view result_name(Result result);
 
-    bool m_collect_material_shortfall = false;
+    std::function<bool(const std::string&)> m_purchasable_material;
     std::optional<std::pair<std::string, int>> m_material_shortfall;
     std::string m_material_shortfall_context;
 };

@@ -22,6 +22,22 @@ bool asst::ItemConfig::parse(const json::value& json)
         std::string name = item_json.at("name").as_string();
         m_item_name.emplace(id, std::move(name));
         m_all_item_id.emplace(id);
+        for (const auto& [key, items] : {
+                 std::pair { "greenTicketShop", &m_green_ticket_items },
+                 std::pair { "parametricShop", &m_parametric_items },
+             }) {
+            if (const auto shop = item_json.find_value(key)) {
+                const auto price = shop->find<int>("price");
+                const auto quantity = shop->find<int>("quantity");
+                const auto limits = shop->find<std::vector<int>>("monthlyLimits");
+                if (!price || *price <= 0 || !quantity || *quantity <= 0 || !limits || limits->size() != 2 ||
+                    (*limits)[0] < 0 || (*limits)[1] < 0) {
+                    LogError << __FUNCTION__ << "invalid ticket shop item" << id << key;
+                    return false;
+                }
+                items->emplace(id, TicketShopItem { *price, *quantity, { (*limits)[0], (*limits)[1] } });
+            }
+        }
         if (auto rarity_opt = item_json.find<int>("rarity")) {
             m_item_rarity.emplace(id, *rarity_opt);
         }
@@ -61,4 +77,6 @@ void asst::ItemConfig::clear()
     m_ordered_material_item_id.clear();
     m_ordered_non_chip_formula_item_id.clear();
     m_item_formulas.clear();
+    m_green_ticket_items.clear();
+    m_parametric_items.clear();
 }
