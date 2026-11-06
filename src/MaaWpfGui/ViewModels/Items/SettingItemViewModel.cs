@@ -55,11 +55,11 @@ public class SettingItemViewModel : PropertyChangedBase
     }
 
     [PropertyDependsOn(nameof(Key))]
-    public bool IsAdvanced => Key is nameof(SettingKey.PerformanceSettings)
+    public bool IsAdvanced => Key is nameof(SettingKey.SwitchConfiguration)
+        or nameof(SettingKey.PerformanceSettings)
         or nameof(SettingKey.RemoteControlSettings)
         or nameof(SettingKey.ThirdPartyServiceSettings)
-        or nameof(SettingKey.HotKeySettings)
-        or nameof(SettingKey.AchievementSettings);
+        or nameof(SettingKey.HotKeySettings);
 
     // 高级分区前预留一行放置分割线，Value 仍与导航索引一一对应。
     [PropertyDependsOn(nameof(Value), nameof(IsAdvanced))]
