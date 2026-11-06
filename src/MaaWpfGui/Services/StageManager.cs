@@ -98,7 +98,8 @@ public class StageManager
         return _activityList.Values
             .Where(activity => activity.Info.StartTimeUtc <= now && now < activity.Info.ExpireTimeUtc)
             .SelectMany(activity => activity.StageList)
-            .Where(stage => ItemListHelper.ArkItems.ContainsKey(stage.Drop) && !string.IsNullOrEmpty(stage.Value))
+            .Where(stage => !string.IsNullOrEmpty(stage.Drop) && ItemListHelper.ArkItems.ContainsKey(stage.Drop) &&
+                !string.IsNullOrEmpty(stage.Value))
             .GroupBy(stage => stage.Drop)
             .ToDictionary(group => group.Key, group => group.First().Value);
     }
