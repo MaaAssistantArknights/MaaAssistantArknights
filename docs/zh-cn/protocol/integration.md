@@ -366,6 +366,12 @@ B服：`张三`，可输入 `张三`、`张`、`三`
 @optional  
 `oper_priority_mode` 非 0 时，是否允许为未拥有/未满潜的 1 星支援机械（小车）和 2 星干员选择组合（2 星只在没有 4 星以上保底的组合中考虑）。因此选中的组合不会被自动刷新，招募时长缩短为：小车 3:50，2 星不超过 7:30。为 `false` 时不会主动招募小车和 2 星干员。  
 :::  
+::: field oper_priority_low_star_confirm  
+@type boolean  
+@default false  
+@optional  
+`oper_priority_allow_low_star` 为 `true` 时，为小车/2 星干员选中的组合是否自动确认招募，不受 `confirm` 中 3、4 星设置的影响。为 `false` 时跳过并保留该栏位（不刷新）。`level3_recruitment_permit_reserve` 同样适用。  
+:::  
 ::: field operbox_data_path  
 @type string  
 @optional  

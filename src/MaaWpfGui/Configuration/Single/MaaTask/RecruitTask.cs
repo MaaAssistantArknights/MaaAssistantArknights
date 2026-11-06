@@ -47,14 +47,24 @@ public class RecruitTask : BaseTask, IJsonOnDeserialized
     public int ExtraTagMode { get; set; }
 
     /// <summary>
-    /// Gets or sets 优先选择未拥有/未满潜干员的模式。0：不启用；1：保持当前星级；2：直接优先。
+    /// Gets or sets a value indicating whether 启用优先选择未拥有/未满潜干员。
     /// </summary>
-    public int OperPriorityMode { get; set; }
+    public bool OperPriorityEnabled { get; set; }
+
+    /// <summary>
+    /// Gets or sets 优先选择未拥有/未满潜干员的模式。1：保持当前星级；2：直接优先。
+    /// </summary>
+    public int OperPriorityMode { get; set; } = 1;
 
     /// <summary>
     /// Gets or sets a value indicating whether 优先未拥有/未满潜时允许招募小车和 2 星干员（会缩短该次招募时长）。
     /// </summary>
     public bool OperPriorityAllowLowStar { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether 自动确认为小车/2 星干员选中的招募（不受 3/4 星自动确认影响）。
+    /// </summary>
+    public bool OperPriorityLowStarConfirm { get; set; }
 
     /// <summary>
     /// Gets or sets 3星首选Tag

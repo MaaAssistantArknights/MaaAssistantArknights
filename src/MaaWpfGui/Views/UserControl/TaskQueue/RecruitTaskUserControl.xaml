@@ -113,23 +113,41 @@
                 ItemsSource="{Binding AutoRecruitSelectExtraTagsList}"
                 SelectedValue="{Binding SelectExtraTags}"
                 SelectedValuePath="Value" />
-            <StackPanel Margin="0,5">
-                <StackPanel Margin="0,0,0,5" Orientation="Horizontal">
-                    <controls:TextBlock Margin="8,0,0,0" Text="{DynamicResource Recruit.OperPriority}" />
-                    <controls:TooltipBlock TooltipText="{DynamicResource Recruit.OperPriority.Tip}" />
-                </StackPanel>
-                <hc:ComboBox
+            <StackPanel Margin="0,10,0,5" Orientation="Horizontal">
+                <CheckBox Content="{DynamicResource Recruit.OperPriority}" IsChecked="{Binding OperPriorityEnabled}" />
+                <controls:TooltipBlock TooltipText="{DynamicResource Recruit.OperPriority.Tip}" />
+            </StackPanel>
+            <StackPanel
+                HorizontalAlignment="Left"
+                Orientation="Horizontal"
+                Visibility="{c:Binding OperPriorityEnabled}">
+                <controls:TextBlock Margin="2.5,0,7.5,0" Text="├" />
+                <controls:TextBlock VerticalAlignment="Center" Text="{DynamicResource Recruit.OperPriority.Mode}" />
+                <ComboBox
+                    Margin="6,0,0,0"
+                    HorizontalAlignment="Left"
                     DisplayMemberPath="Display"
                     ItemsSource="{Binding AutoRecruitOperPriorityModeList}"
                     SelectedValue="{Binding OperPriorityMode}"
                     SelectedValuePath="Value" />
             </StackPanel>
             <StackPanel
-                Margin="0,5"
+                Margin="0,5,0,0"
+                HorizontalAlignment="Left"
                 Orientation="Horizontal"
-                Visibility="{c:Binding 'OperPriorityMode != 0'}">
+                Visibility="{c:Binding OperPriorityEnabled}">
+                <controls:TextBlock Margin="2.5,0,7.5,0" Text="└" />
                 <CheckBox Content="{DynamicResource Recruit.OperPriority.AllowLowStar}" IsChecked="{Binding OperPriorityAllowLowStar}" />
                 <controls:TooltipBlock TooltipText="{DynamicResource Recruit.OperPriority.AllowLowStar.Tip}" />
+            </StackPanel>
+            <StackPanel
+                Margin="0,5,0,5"
+                HorizontalAlignment="Left"
+                Orientation="Horizontal"
+                Visibility="{c:Binding 'OperPriorityEnabled and OperPriorityAllowLowStar'}">
+                <controls:TextBlock Margin="20,0,7.5,0" Text="└" />
+                <CheckBox Content="{DynamicResource Recruit.OperPriority.LowStarConfirm}" IsChecked="{Binding OperPriorityLowStarConfirm}" />
+                <controls:TooltipBlock TooltipText="{DynamicResource Recruit.OperPriority.LowStarConfirm.Tip}" />
             </StackPanel>
             <StackPanel Margin="0,10">
                 <StackPanel Orientation="Horizontal">

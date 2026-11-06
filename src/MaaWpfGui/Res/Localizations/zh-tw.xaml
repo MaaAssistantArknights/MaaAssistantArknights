@@ -1475,8 +1475,10 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
     <system:String x:Key="Recruit.OperPriority.AllowLowStar">允許招募小車/2★幹員</system:String>
     <system:String x:Key="Recruit.OperPriority.AllowLowStar.Tip" xml:space="preserve">勾選後，未擁有/未滿潛的 1★ 支援機械（小車）與 2★ 幹員也會被優先選擇（2★ 只在沒有 4★ 以上保底的組合中考慮）。&#10;為此選中的組合不會被自動刷新，招募時長會縮短：小車設為 3:50，2★ 設為不超過 7:30。&#10;不勾選時不會主動招募小車與 2★ 幹員。&#10;若在「保留指定 Tag」中保留了支援機械，以保留為準。</system:String>
     <system:String x:Key="Recruit.OperPriority.Direct">直接優先</system:String>
-    <system:String x:Key="Recruit.OperPriority.Disabled">不啟用</system:String>
     <system:String x:Key="Recruit.OperPriority.KeepLevel">保持目前星級</system:String>
+    <system:String x:Key="Recruit.OperPriority.LowStarConfirm">自動確認小車/2★</system:String>
+    <system:String x:Key="Recruit.OperPriority.LowStarConfirm.Tip" xml:space="preserve">勾選後，為小車/2★ 幹員選中的組合會自動確認招募，不受第一頁「自動確認 3★」「自動確認 4★」影響。&#10;不勾選時，這類組合會跳過並保留該欄位（不刷新），留給你手動招募。&#10;「保留招聘許可」同樣適用：許可數量小於等於保留數量時跳過。</system:String>
+    <system:String x:Key="Recruit.OperPriority.Mode">模式</system:String>
     <system:String x:Key="Recruit.OperPriority.NoOperBoxData">未找到幹員辨識資料，「優先未擁有/未滿潛幹員」本次不生效。請先在小工具中執行幹員辨識</system:String>
     <system:String x:Key="Recruit.OperPriority.Tip" xml:space="preserve">根據「幹員辨識」保存的資料（本地辨識或一圖流匯入，以最近一次為準），在可選的 Tag 組合中優先選擇能招到未擁有或未滿潛幹員的組合。自動刷新、是否確認、保留招聘許可與招募時長仍依星級最高的組合決定。&#10;保持目前星級：只在與最高保底星級相同的組合中挑選。&#10;直接優先：可以為了未擁有/未滿潛幹員放棄更高星的組合，但不會放棄資深/高級資深幹員 Tag 與 5★ 以上的保底。&#10;注意：&#10;· 僅對任務佇列中的自動公招生效，需要先執行過一次幹員辨識；&#10;· 只有 3★ 組合且命中「3★ 首選 Tag」時，以首選 Tag 為準；&#10;· 「保留指定 Tag」優先於本功能；&#10;· 選擇策略為「選滿 3 個 Tag」時，額外選擇的 Tag 可能會稀釋目標幹員的機率。</system:String>
     <system:String x:Key="Recruit.PreserveTags">保留指定 Tag</system:String>

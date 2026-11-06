@@ -111,6 +111,11 @@ public class AsstRecruitTask : AsstBaseTask
     public bool OperPriorityAllowLowStar { get; set; }
 
     /// <summary>
+    /// Gets or sets a value indicating whether 自动确认为小车/2 星干员选中的招募。
+    /// </summary>
+    public bool OperPriorityLowStarConfirm { get; set; }
+
+    /// <summary>
     /// Gets or sets 干员识别数据文件路径，仅在 <see cref="OperPriorityMode"/> 非 0 时有效。
     /// </summary>
     public string OperBoxDataPath { get; set; } = string.Empty;
@@ -197,6 +202,7 @@ public class AsstRecruitTask : AsstBaseTask
         {
             param["oper_priority_mode"] = OperPriorityMode;
             param["oper_priority_allow_low_star"] = OperPriorityAllowLowStar;
+            param["oper_priority_low_star_confirm"] = OperPriorityLowStarConfirm;
             param["operbox_data_path"] = OperBoxDataPath;
         }
 

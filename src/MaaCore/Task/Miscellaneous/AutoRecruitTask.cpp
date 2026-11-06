@@ -166,10 +166,12 @@ asst::AutoRecruitTask& asst::AutoRecruitTask::set_first_tags(std::vector<std::st
 asst::AutoRecruitTask& asst::AutoRecruitTask::set_oper_priority(
     OperPriorityMode mode,
     bool allow_low_star,
+    bool low_star_confirm,
     std::string operbox_data_path) noexcept
 {
     m_oper_priority_mode = mode;
     m_oper_priority_allow_low_star = allow_low_star;
+    m_oper_priority_low_star_confirm = low_star_confirm;
     m_operbox_data_path = std::move(operbox_data_path);
     // 参数变化后下次运行重新读取
     m_operbox_loaded = false;
@@ -903,17 +905,26 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
         }
 
         if (!is_calc_only_task()) {
-            if (!(has_skip_tag || has_special_tag)) {
-                // do not confirm 3 star, force skip
-                if (!is_confirm_level_valid(3) && decision_level == 3) {
+            if (low_star_pick) {
+                // 为小车/2 星干员选中的组合只看「自动确认小车/2星」，不受 3/4 星确认设置影响
+                if (!m_oper_priority_low_star_confirm && !has_skip_tag) {
                     calc_task_result_type result(calc_task_result::force_skip);
                     return result;
                 }
             }
-            // do not confirm 4 star
-            if (!is_confirm_level_valid(4) && decision_level == 4) {
-                calc_task_result_type result(calc_task_result::force_skip);
-                return result;
+            else {
+                if (!(has_skip_tag || has_special_tag)) {
+                    // do not confirm 3 star, force skip
+                    if (!is_confirm_level_valid(3) && decision_level == 3) {
+                        calc_task_result_type result(calc_task_result::force_skip);
+                        return result;
+                    }
+                }
+                // do not confirm 4 star
+                if (!is_confirm_level_valid(4) && decision_level == 4) {
+                    calc_task_result_type result(calc_task_result::force_skip);
+                    return result;
+                }
             }
             // "Automatically recruit 5/6 Star operators" is not checked.
             if (has_special_tag && !is_confirm_level_valid(decision_level)) {
@@ -926,7 +937,8 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
                 return result;
             }
 
-            if (decision_level == 3 && m_level3_recruitment_permit_reserve > 0) {
+            // 小车/2 星招募同样受 3 星档的招聘许可保留数量约束
+            if ((decision_level == 3 || low_star_pick) && m_level3_recruitment_permit_reserve > 0) {
                 const auto permit_count = image_analyzer.get_recruitment_permit_count();
                 if (!permit_count) {
                     json::value cb_info = basic_info_with_what("RecruitPermitCountRecognitionFailed");
@@ -983,7 +995,7 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
         // nothing to select, leave the selection empty
         // 空选不消耗招募许可，因此不受上方 3 星许可保留线的约束，属有意行为
         // 3 星档默认不选 Tag；命中首选 Tag 或由「优先未拥有/未满潜」挑出组合时才选
-        if (!(decision_level == 3 && (has_preferred_tag || oper_priority_applied)) &&
+        if (!low_star_pick && !(decision_level == 3 && (has_preferred_tag || oper_priority_applied)) &&
             !is_select_level_valid(decision_level)) {
             calc_task_result_type result(calc_task_result::nothing_to_select, recruitment_time);
             return result;

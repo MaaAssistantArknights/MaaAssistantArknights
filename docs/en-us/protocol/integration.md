@@ -366,6 +366,12 @@ When only 3★ combinations exist and `first_tags` matches, `first_tags` wins; `
 @optional  
 When `oper_priority_mode` is not 0, whether combinations may be chosen for unowned / non-max-potential 1★ Robots and 2★ operators (2★ only in combinations without a 4★+ guarantee). Such a combination is never refreshed away, and the recruitment time is shortened to 3:50 for Robots and at most 7:30 for 2★. When `false`, Robots and 2★ operators are never targeted.  
 :::  
+::: field oper_priority_low_star_confirm  
+@type boolean  
+@default false  
+@optional  
+When `oper_priority_allow_low_star` is `true`, whether combinations chosen for Robots / 2★ operators are confirmed automatically, regardless of the 3★/4★ entries in `confirm`. When `false`, the slot is skipped and kept (not refreshed). `level3_recruitment_permit_reserve` still applies.  
+:::  
 ::: field operbox_data_path  
 @type string  
 @optional  

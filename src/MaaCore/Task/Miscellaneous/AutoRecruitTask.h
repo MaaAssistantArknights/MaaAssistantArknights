@@ -33,6 +33,7 @@ public:
     AutoRecruitTask& set_oper_priority(
         OperPriorityMode mode,
         bool allow_low_star,
+        bool low_star_confirm,
         std::string operbox_data_path) noexcept;
     AutoRecruitTask& set_preserve_tags(std::vector<RecruitConfig::TagId> skip_tags) noexcept;
     AutoRecruitTask& set_set_time(bool set_time) noexcept;
@@ -210,7 +211,8 @@ protected:
     std::vector<std::string> m_first_tags;
     std::vector<RecruitConfig::TagId> m_preserve_tags = { "支援机械" };
     OperPriorityMode m_oper_priority_mode = OperPriorityMode::Disabled;
-    bool m_oper_priority_allow_low_star = false; // 允许招募小车/2 星干员
+    bool m_oper_priority_allow_low_star = false;   // 允许招募小车/2 星干员
+    bool m_oper_priority_low_star_confirm = false; // 自动确认小车/2 星
     std::string m_operbox_data_path;
     bool m_operbox_loaded = false;                          // 本次任务已尝试读取过
     std::unordered_map<std::string, int> m_owned_potential; // 已拥有干员 id -> 潜能（1~6）

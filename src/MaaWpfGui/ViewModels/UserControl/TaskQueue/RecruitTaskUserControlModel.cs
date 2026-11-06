@@ -165,12 +165,20 @@ public class RecruitTaskUserControlModel : TaskSettingsViewModel, RecruitTaskUse
     /// Gets the list of oper priority modes (prefer unowned / not max potential operators).
     /// </summary>
     public LocalizedObservableList<int> AutoRecruitOperPriorityModeList { get; } = new(
-        (0, "Recruit.OperPriority.Disabled"),
         (1, "Recruit.OperPriority.KeepLevel"),
         (2, "Recruit.OperPriority.Direct"));
 
     /// <summary>
-    /// Gets or sets 优先选择未拥有/未满潜干员的模式。
+    /// Gets or sets a value indicating whether 启用优先选择未拥有/未满潜干员。
+    /// </summary>
+    public bool OperPriorityEnabled
+    {
+        get => GetTaskConfig<RecruitTask>().OperPriorityEnabled;
+        set => SetTaskConfig<RecruitTask>(t => t.OperPriorityEnabled == value, t => t.OperPriorityEnabled = value);
+    }
+
+    /// <summary>
+    /// Gets or sets 优先选择未拥有/未满潜干员的模式（1：保持当前星级；2：直接优先）。
     /// </summary>
     public int OperPriorityMode
     {
@@ -185,6 +193,15 @@ public class RecruitTaskUserControlModel : TaskSettingsViewModel, RecruitTaskUse
     {
         get => GetTaskConfig<RecruitTask>().OperPriorityAllowLowStar;
         set => SetTaskConfig<RecruitTask>(t => t.OperPriorityAllowLowStar == value, t => t.OperPriorityAllowLowStar = value);
+    }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether 自动确认为小车/2 星干员选中的招募。
+    /// </summary>
+    public bool OperPriorityLowStarConfirm
+    {
+        get => GetTaskConfig<RecruitTask>().OperPriorityLowStarConfirm;
+        set => SetTaskConfig<RecruitTask>(t => t.OperPriorityLowStarConfirm == value, t => t.OperPriorityLowStarConfirm = value);
     }
 
     /// <summary>
@@ -338,7 +355,7 @@ public class RecruitTaskUserControlModel : TaskSettingsViewModel, RecruitTaskUse
             var preserveTags = recruit.PreserveTagEnabled ? RecruitTagHelper.NormalizeTagList(recruit.PreserveTagList) : [];
             var firstTags = recruit.PreferTagEnabled ? RecruitTagHelper.NormalizeTagList(recruit.Level3PreferTags) : [];
 
-            var operPriorityMode = recruit.OperPriorityMode is >= 0 and <= 2 ? recruit.OperPriorityMode : 0;
+            var operPriorityMode = !recruit.OperPriorityEnabled ? 0 : recruit.OperPriorityMode is 2 ? 2 : 1;
 
             // 数据缺失或解析失败时 Core 会关闭该功能并继续公招，并通过 RecruitOperBoxDataUnavailable 回调提示
             var operBoxDataPath = operPriorityMode != 0 ? OperBoxAssistHelper.OperBoxDataJsonPath : string.Empty;
@@ -355,6 +372,7 @@ public class RecruitTaskUserControlModel : TaskSettingsViewModel, RecruitTaskUse
                 PreserveTags = preserveTags,
                 OperPriorityMode = operPriorityMode,
                 OperPriorityAllowLowStar = recruit.OperPriorityAllowLowStar,
+                OperPriorityLowStarConfirm = recruit.OperPriorityAllowLowStar && recruit.OperPriorityLowStarConfirm,
                 OperBoxDataPath = operBoxDataPath,
                 Level3RecruitmentPermitReserve = recruit.Level3RecruitmentPermitReserveEnabled
                     ? recruit.Level3RecruitmentPermitReserve

@@ -51,6 +51,8 @@ bool asst::RecruitTask::set_params(const json::value& params)
     }
     // 是否允许为了未拥有/未满潜而招募小车（1 星）和 2 星干员（会缩短该次招募时长）
     bool oper_priority_allow_low_star = params.get("oper_priority_allow_low_star", false);
+    // 为小车/2 星干员选中的组合是否自动确认（不受 3/4 星确认设置影响）
+    bool oper_priority_low_star_confirm = params.get("oper_priority_low_star_confirm", false);
     // 干员识别数据（GUI 落盘的 OperBoxData.json）路径，仅在 oper_priority_mode 非 0 时使用
     std::string operbox_data_path = params.get("operbox_data_path", std::string());
 
@@ -95,7 +97,11 @@ bool asst::RecruitTask::set_params(const json::value& params)
         .set_use_expedited(expedite)
         .set_select_extra_tags(extra_tags_mode)
         .set_first_tags(first_tags)
-        .set_oper_priority(oper_priority_mode, oper_priority_allow_low_star, std::move(operbox_data_path))
+        .set_oper_priority(
+            oper_priority_mode,
+            oper_priority_allow_low_star,
+            oper_priority_low_star_confirm,
+            std::move(operbox_data_path))
         .set_preserve_tags(std::move(preserve_tags))
         .set_select_level(std::move(select))
         .set_confirm_level(std::move(confirm))
