@@ -2178,7 +2178,8 @@ MAA는 비설치형 응용 프로그램으로, 삭제 시 레지스트리 항목
     <system:String x:Key="TaskQueue.RunDurationLimit.ExecutePostActions">중지 후 ｢{key=TaskQueue.PostAction.Settings}｣의 동작 실행</system:String>
     <system:String x:Key="TaskQueue.RunDurationLimit.Minutes">실행 시간 상한 (분)</system:String>
     <system:String x:Key="TaskQueue.RunDurationLimit.Reached">실행 시간 상한({0}분)에 도달하여 작업을 중지합니다</system:String>
-    <system:String x:Key="TaskQueue.RunDurationLimit.Tip" xml:space="preserve">｢{key=TaskQueue.LinkStart}｣ 클릭 시점부터 시간을 측정하며, 상한에 도달하면 수동 중지를 한 번 실행합니다.
+    <system:String x:Key="TaskQueue.RunDurationLimit.Tip" xml:space="preserve">｢{key=TaskQueue.LinkStart}｣ 또는 ｢{key=Toolbox.MiniGame.Reclamation.Title}｣ 작업이 성공적으로 시작된 시점부터 시간을 측정합니다.
+상한에 도달하면 수동 중지를 한 번 실행합니다.
 {key=TaskQueue.CheckBoxesNotSavedAsNull}.</system:String>
     <system:String x:Key="TaskQueue.RunFromHere">여기서부터 실행</system:String>
     <system:String x:Key="TaskQueue.RunOnce">1회 실행</system:String>

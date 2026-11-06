@@ -228,7 +228,13 @@ public class ReclamationUserControlModel : PropertyChangedBase
             ClearStore = ReclamationClearStore,
         };
 
-        return Instances.AsstProxy.AsstReclamation(task) && Instances.AsstProxy.AsstStart();
+        if (!Instances.AsstProxy.AsstReclamation(task) || !Instances.AsstProxy.AsstStart())
+        {
+            return false;
+        }
+
+        Instances.TaskQueueViewModel.SetRunDeadlineFromSettings();
+        return true;
     }
 
     /// <summary>

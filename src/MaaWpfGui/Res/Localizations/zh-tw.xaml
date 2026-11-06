@@ -2178,7 +2178,8 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
     <system:String x:Key="TaskQueue.RunDurationLimit.ExecutePostActions">停止後執行 ｢{key=TaskQueue.PostAction.Settings}｣ 中的動作</system:String>
     <system:String x:Key="TaskQueue.RunDurationLimit.Minutes">運行時長上限（分鐘）</system:String>
     <system:String x:Key="TaskQueue.RunDurationLimit.Reached">已達到執行時長上限（{0} 分鐘），停止任務</system:String>
-    <system:String x:Key="TaskQueue.RunDurationLimit.Tip" xml:space="preserve">從點擊 ｢{key=TaskQueue.LinkStart}｣ 開始計時，到達上限後自動停止任務，並依下方選項決定是否執行 ｢{key=TaskQueue.PostAction.Settings}｣ 中的動作（如退出遊戲、關閉模擬器、關機）。
+    <system:String x:Key="TaskQueue.RunDurationLimit.Tip" xml:space="preserve">從 ｢{key=TaskQueue.LinkStart}｣ 或 ｢{key=Toolbox.MiniGame.Reclamation.Title}｣ 成功啟動任務後開始計時。
+到達上限後自動停止任務，並依下方選項決定是否執行 ｢{key=TaskQueue.PostAction.Settings}｣ 中的動作（如退出遊戲、關閉模擬器、關機）。
 {key=TaskQueue.CheckBoxesNotSavedAsNull}。</system:String>
     <system:String x:Key="TaskQueue.RunFromHere">從此處執行</system:String>
     <system:String x:Key="TaskQueue.RunOnce">單次執行</system:String>

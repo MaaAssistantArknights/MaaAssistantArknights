@@ -2179,7 +2179,8 @@ MAA は非インストール型のアプリケーションであり、レジス�
     <system:String x:Key="TaskQueue.RunDurationLimit.ExecutePostActions">停止後に ｢{key=TaskQueue.PostAction.Settings}｣ の動作を実行する</system:String>
     <system:String x:Key="TaskQueue.RunDurationLimit.Minutes">実行時間の上限（分）</system:String>
     <system:String x:Key="TaskQueue.RunDurationLimit.Reached">実行時間の上限（{0} 分）に達したため、タスクを停止します</system:String>
-    <system:String x:Key="TaskQueue.RunDurationLimit.Tip" xml:space="preserve">｢{key=TaskQueue.LinkStart}｣ をクリックした時点から計測し、上限に達すると手動停止を一度だけ実行します。
+    <system:String x:Key="TaskQueue.RunDurationLimit.Tip" xml:space="preserve">｢{key=TaskQueue.LinkStart}｣ または ｢{key=Toolbox.MiniGame.Reclamation.Title}｣ のタスクが正常に開始した時点から計測します。
+上限に達すると手動停止を一度だけ実行します。
 {key=TaskQueue.CheckBoxesNotSavedAsNull}。</system:String>
     <system:String x:Key="TaskQueue.RunFromHere">ここから実行</system:String>
     <system:String x:Key="TaskQueue.RunOnce">1回実行</system:String>
