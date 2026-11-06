@@ -75,6 +75,33 @@ static EquivalenceMatch find_equivalence_match(
     return match;
 }
 
+static void append_class_equivalents(
+    std::string& expanded,
+    std::string_view literal,
+    const std::vector<std::vector<std::string>>& eq_classes)
+{
+    for (const auto& eq_class : eq_classes) {
+        if (eq_class.size() <= 1) {
+            continue;
+        }
+        bool matched = false;
+        for (const auto& elem : eq_class) {
+            if (std::string_view(elem.data(), elem.size()) == literal) {
+                matched = true;
+                break;
+            }
+        }
+        if (!matched) {
+            continue;
+        }
+        for (const auto& elem : eq_class) {
+            if (std::string_view(elem.data(), elem.size()) != literal) {
+                expanded += escape_class_literal(elem);
+            }
+        }
+    }
+}
+
 static std::string expand_class_content(
     std::string_view content,
     const std::vector<std::vector<std::string>>& eq_classes)
@@ -97,6 +124,17 @@ static std::string expand_class_content(
             continue;
         }
 
+        // 先把 a-z 当作一个整体复制，再把端点等价字符追加到区间之后，
+        // 避免生成 [aа-z] 这种被 Boost 解释为倒序区间的结果。
+        if (i + 2 < content.size() && content[i + 1] == '-' && content[i] != '-' && content[i + 2] != '-' &&
+            static_cast<unsigned char>(content[i]) < 0x80 && static_cast<unsigned char>(content[i + 2]) < 0x80) {
+            expanded.append(content.substr(i, 3));
+            append_class_equivalents(expanded, content.substr(i, 1), eq_classes);
+            append_class_equivalents(expanded, content.substr(i + 2, 1), eq_classes);
+            i += 3;
+            continue;
+        }
+
         const EquivalenceMatch match = find_equivalence_match(content, i, eq_classes);
         if (match.eq_class == nullptr) {
             expanded += content[i++];
@@ -105,7 +143,7 @@ static std::string expand_class_content(
 
         expanded.append(content.substr(i, match.elem.size()));
         for (const auto& elem : *match.eq_class) {
-            if (elem != match.elem) {
+            if (std::string_view(elem.data(), elem.size()) != match.elem) {
                 expanded += escape_class_literal(elem);
             }
         }
