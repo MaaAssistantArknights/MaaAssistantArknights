@@ -1242,6 +1242,9 @@ public class TaskQueueViewModel : Screen
                 SetStopped();
             }
 
+            // 强制定时保留本次启动请求，等待上轮结束脚本或完成后动作释放收尾锁。
+            await _runningState.UntilIdleAsync(confirmTimes: 0);
+
             var mode = SettingsViewModel.GameSettings.ClientType;
             if (!Instances.AsstProxy.AsstAppendCloseDown(mode))
             {
