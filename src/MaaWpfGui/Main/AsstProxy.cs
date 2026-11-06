@@ -1868,6 +1868,15 @@ public class AsstProxy
                 {
                     if (details["what"]?.ToString() != "UnknownTask")
                     {
+                        // 访问好友失败被忽略、任务链仍报完成，单独提示（只认最外层 VisitBegin）
+                        if (details["taskchain"]?.ToString() == "Mall"
+                            && details["first"]?.Values<string>().Contains("VisitBegin") == true)
+                        {
+                            Instances.TaskQueueViewModel.AddLog(
+                                LocalizationHelper.GetString("Asst.TaskQueue.TaskError") + LocalizationHelper.GetString("Mall.Visiting"),
+                                UiLogColor.Warning);
+                        }
+
                         break;
                     }
 
