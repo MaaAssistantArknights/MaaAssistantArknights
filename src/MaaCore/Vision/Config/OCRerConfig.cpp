@@ -52,10 +52,8 @@ struct EquivalenceMatch
     std::string_view elem;
 };
 
-static EquivalenceMatch find_equivalence_match(
-    std::string_view text,
-    size_t pos,
-    const std::vector<std::vector<std::string>>& eq_classes)
+static EquivalenceMatch
+    find_equivalence_match(std::string_view text, size_t pos, const std::vector<std::vector<std::string>>& eq_classes)
 {
     EquivalenceMatch match;
     for (const auto& eq_class : eq_classes) {
@@ -102,9 +100,8 @@ static void append_class_equivalents(
     }
 }
 
-static std::string expand_class_content(
-    std::string_view content,
-    const std::vector<std::vector<std::string>>& eq_classes)
+static std::string
+    expand_class_content(std::string_view content, const std::vector<std::vector<std::string>>& eq_classes)
 {
     std::string expanded;
     expanded.reserve(content.size());
@@ -155,9 +152,8 @@ static std::string expand_class_content(
 
 // 正则 key 需要语法感知地扩展等价字符：字面量位置生成 (?:a|b) 组，
 // 字符类内追加等价字符；转义、分组前缀/名称、量词、锚点等保持原样。
-static std::string expand_equivalence_classes_in_regex(
-    std::string_view key,
-    const std::vector<std::vector<std::string>>& eq_classes)
+static std::string
+    expand_equivalence_classes_in_regex(std::string_view key, const std::vector<std::vector<std::string>>& eq_classes)
 {
     std::string result;
     result.reserve(key.size());
@@ -242,9 +238,8 @@ static std::string expand_equivalence_classes_in_regex(
                 }
                 else {
                     size_t end = i + 2;
-                    while (end < key.size() &&
-                           ((key[end] >= 'A' && key[end] <= 'Z') || (key[end] >= 'a' && key[end] <= 'z') ||
-                            key[end] == '-')) {
+                    while (end < key.size() && ((key[end] >= 'A' && key[end] <= 'Z') ||
+                                                (key[end] >= 'a' && key[end] <= 'z') || key[end] == '-')) {
                         ++end;
                     }
                     if (end > i + 2 && end < key.size() && (key[end] == ':' || key[end] == ')')) {
