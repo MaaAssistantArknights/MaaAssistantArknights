@@ -112,7 +112,8 @@
                 计划列表：容器与交互对齐 OperProgressTaskUserControl 的 ListBox。
                 宿主链最外层是设置面板的 ScrollViewer，经 SimpleStackPanel 透传给列表的高度约束无限，
                 MaxHeight 绑 ｢视口 - 固定区实际高度｣ 建立有界视口，虚拟化方能生效；
-                固定区随语言换行增高时列表自动收缩，固定区超出视口时列表归零、由外层面板滚动兜底
+                固定区随语言换行增高时列表自动收缩，固定区超出视口时列表归零、由外层面板滚动兜底；
+                滚轮在列表内滚动，到达上下边缘后接力外层面板滚动
             -->
             <ListBox
                 Padding="0"
@@ -125,7 +126,7 @@
                 BorderThickness="0"
                 ClipToBounds="False"
                 ItemsSource="{Binding Path=PlanList}"
-                PreviewMouseWheel="{s:Action RouteMouseWheelToParentExceptScrollable,
+                PreviewMouseWheel="{s:Action RouteMouseWheelToParentAtScrollEdge,
                                              Target={x:Type helper:MouseWheelHelper}}"
                 VirtualizingPanel.IsVirtualizing="True"
                 VirtualizingPanel.ScrollUnit="Pixel"
