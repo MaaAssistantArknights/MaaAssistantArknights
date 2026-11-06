@@ -22,6 +22,306 @@ void OCRerConfig::set_required(std::vector<std::string> required) noexcept
     }
 }
 
+static std::string escape_regex_literal(std::string_view value)
+{
+    std::string escaped;
+    for (const char ch : value) {
+        if (std::string_view("\\^$.|?*+()[]{}").find(ch) != std::string_view::npos) {
+            escaped += '\\';
+        }
+        escaped += ch;
+    }
+    return escaped;
+}
+
+static std::string escape_class_literal(std::string_view value)
+{
+    std::string escaped;
+    for (const char ch : value) {
+        if (ch == '\\' || ch == ']' || ch == '-' || ch == '^') {
+            escaped += '\\';
+        }
+        escaped += ch;
+    }
+    return escaped;
+}
+
+struct EquivalenceMatch
+{
+    const std::vector<std::string>* eq_class = nullptr;
+    std::string_view elem;
+};
+
+static EquivalenceMatch
+    find_equivalence_match(std::string_view text, size_t pos, const std::vector<std::vector<std::string>>& eq_classes)
+{
+    EquivalenceMatch match;
+    for (const auto& eq_class : eq_classes) {
+        if (eq_class.size() <= 1) {
+            continue;
+        }
+        for (const auto& elem : eq_class) {
+            if (elem.empty() || text.substr(pos, elem.size()) != std::string_view(elem.data(), elem.size())) {
+                continue;
+            }
+            if (match.eq_class == nullptr || elem.size() > match.elem.size()) {
+                match.eq_class = &eq_class;
+                match.elem = std::string_view(elem.data(), elem.size());
+            }
+        }
+    }
+    return match;
+}
+
+static void append_class_equivalents(
+    std::string& expanded,
+    std::string_view literal,
+    const std::vector<std::vector<std::string>>& eq_classes)
+{
+    for (const auto& eq_class : eq_classes) {
+        if (eq_class.size() <= 1) {
+            continue;
+        }
+        bool matched = false;
+        for (const auto& elem : eq_class) {
+            if (std::string_view(elem.data(), elem.size()) == literal) {
+                matched = true;
+                break;
+            }
+        }
+        if (!matched) {
+            continue;
+        }
+        for (const auto& elem : eq_class) {
+            if (std::string_view(elem.data(), elem.size()) != literal) {
+                expanded += escape_class_literal(elem);
+            }
+        }
+    }
+}
+
+static size_t utf8_char_length(unsigned char first)
+{
+    if (first < 0x80) {
+        return 1;
+    }
+    if ((first & 0xE0) == 0xC0) {
+        return 2;
+    }
+    if ((first & 0xF0) == 0xE0) {
+        return 3;
+    }
+    if ((first & 0xF8) == 0xF0) {
+        return 4;
+    }
+    return 1;
+}
+
+static std::string
+    expand_class_content(std::string_view content, const std::vector<std::vector<std::string>>& eq_classes)
+{
+    std::string expanded;
+    expanded.reserve(content.size());
+
+    for (size_t i = 0; i < content.size();) {
+        if (content[i] == '\\') {
+            expanded += content[i];
+            if (i + 1 < content.size()) {
+                expanded += content[i + 1];
+            }
+            i += 2;
+            continue;
+        }
+        if (content[i] == '-') {
+            // 走到这里说明它不是区间操作符（区间在起点已被整体消费）；
+            // 边缘/中部的字面 hyphen 转义后追加等价字符，避免插入变体后形成新区间。
+            expanded += "\\-";
+            append_class_equivalents(expanded, std::string_view("-", 1), eq_classes);
+            ++i;
+            continue;
+        }
+
+        // 先把整个区间复制，再把端点等价字符追加到区间之后，避免生成 [aа-z] /
+        // [가\-힣] 这类被 Boost 当成倒序区间或字面 hyphen 的结果。端点按 UTF-8 码位计算。
+        const size_t start_len = utf8_char_length(static_cast<unsigned char>(content[i]));
+        if (i + start_len + 1 < content.size() && content[i + start_len] == '-') {
+            const size_t end_start = i + start_len + 1;
+            const size_t end_len = utf8_char_length(static_cast<unsigned char>(content[end_start]));
+            if (end_start + end_len <= content.size() && content[end_start] != '-') {
+                expanded.append(content.substr(i, start_len + 1 + end_len));
+                append_class_equivalents(expanded, content.substr(i, start_len), eq_classes);
+                append_class_equivalents(expanded, content.substr(end_start, end_len), eq_classes);
+                i = end_start + end_len;
+                continue;
+            }
+        }
+
+        const EquivalenceMatch match = find_equivalence_match(content, i, eq_classes);
+        if (match.eq_class == nullptr) {
+            expanded += content[i++];
+            continue;
+        }
+
+        expanded.append(content.substr(i, match.elem.size()));
+        for (const auto& elem : *match.eq_class) {
+            if (std::string_view(elem.data(), elem.size()) != match.elem) {
+                expanded += escape_class_literal(elem);
+            }
+        }
+        i += match.elem.size();
+    }
+
+    return expanded;
+}
+
+// 正则 key 需要语法感知地扩展等价字符：字面量位置生成 (?:a|b) 组，
+// 字符类内追加等价字符；转义、分组前缀/名称、量词、锚点等保持原样。
+static std::string
+    expand_equivalence_classes_in_regex(std::string_view key, const std::vector<std::vector<std::string>>& eq_classes)
+{
+    std::string result;
+    result.reserve(key.size());
+
+    for (size_t i = 0; i < key.size();) {
+        const char ch = key[i];
+
+        if (ch == '\\') {
+            if (i + 2 < key.size() && (key[i + 1] == 'k' || key[i + 1] == 'g') &&
+                (key[i + 2] == '<' || key[i + 2] == '\'' || key[i + 2] == '{')) {
+                const char open = key[i + 2];
+                const char close = open == '<' ? '>' : (open == '\'' ? '\'' : '}');
+                const size_t end = key.find(close, i + 3);
+                if (end != std::string_view::npos) {
+                    result.append(key.substr(i, end - i + 1));
+                    i = end + 1;
+                    continue;
+                }
+            }
+            result += ch;
+            if (i + 1 < key.size()) {
+                result += key[i + 1];
+            }
+            i += 2;
+            continue;
+        }
+
+        if (ch == '[') {
+            size_t close = i + 1;
+            while (close < key.size()) {
+                if (key[close] == '\\') {
+                    close += 2;
+                    continue;
+                }
+                if (key[close] == ']') {
+                    break;
+                }
+                ++close;
+            }
+            if (close >= key.size()) {
+                result.append(key.substr(i));
+                break;
+            }
+
+            const std::string_view content = key.substr(i + 1, close - i - 1);
+            result += '[';
+            if (!content.empty() && content.front() == '^') {
+                result += '^';
+                result.append(expand_class_content(content.substr(1), eq_classes));
+            }
+            else {
+                result.append(expand_class_content(content, eq_classes));
+            }
+            result += ']';
+            i = close + 1;
+            continue;
+        }
+
+        if (ch == '(') {
+            if (i + 1 < key.size() && key[i + 1] == '?') {
+                size_t prefix_len = 0;
+                if (key.substr(i, 3) == "(?:" || key.substr(i, 3) == "(?=" || key.substr(i, 3) == "(?!" ||
+                    key.substr(i, 3) == "(?>" || key.substr(i, 3) == "(?|") {
+                    prefix_len = 3;
+                }
+                else if (key.substr(i, 4) == "(?<=" || key.substr(i, 4) == "(?<!") {
+                    prefix_len = 4;
+                }
+                else if (key.substr(i, 4) == "(?P<" || key.substr(i, 3) == "(?<" || key.substr(i, 3) == "(?'") {
+                    const char close = key[i + 2] == '\'' ? '\'' : '>';
+                    const size_t end = key.find(close, i + 3);
+                    if (end == std::string_view::npos) {
+                        return std::string(key);
+                    }
+                    prefix_len = end - i + 1;
+                }
+                else if (key.substr(i, 4) == "(?P=" || key.substr(i, 3) == "(?#") {
+                    const size_t end = key.find(')', i + 3);
+                    if (end == std::string_view::npos) {
+                        return std::string(key);
+                    }
+                    prefix_len = end - i + 1;
+                }
+                else {
+                    size_t end = i + 2;
+                    while (end < key.size() && ((key[end] >= 'A' && key[end] <= 'Z') ||
+                                                (key[end] >= 'a' && key[end] <= 'z') || key[end] == '-')) {
+                        ++end;
+                    }
+                    if (end > i + 2 && end < key.size() && (key[end] == ':' || key[end] == ')')) {
+                        prefix_len = end - i + 1;
+                    }
+                    else {
+                        // 未识别的 (?...) 构造：不重写，避免生成无效正则
+                        return std::string(key);
+                    }
+                }
+
+                result.append(key.substr(i, prefix_len));
+                i += prefix_len;
+                continue;
+            }
+
+            result += ch;
+            ++i;
+            continue;
+        }
+
+        if (ch == '{') {
+            const size_t close = key.find('}', i + 1);
+            if (close != std::string_view::npos) {
+                result.append(key.substr(i, close - i + 1));
+                i = close + 1;
+                continue;
+            }
+        }
+
+        if (std::string_view("(){}\\[].*+?|^$").find(ch) != std::string_view::npos) {
+            result += ch;
+            ++i;
+            continue;
+        }
+
+        const EquivalenceMatch match = find_equivalence_match(key, i, eq_classes);
+        if (match.eq_class == nullptr) {
+            result += ch;
+            ++i;
+            continue;
+        }
+
+        result += "(?:";
+        for (size_t j = 0; j < match.eq_class->size(); ++j) {
+            if (j != 0) {
+                result += '|';
+            }
+            result += escape_regex_literal((*match.eq_class)[j]);
+        }
+        result += ')';
+        i += match.elem.size();
+    }
+
+    return result;
+}
+
 void OCRerConfig::set_replace(
     const std::vector<std::pair<std::string, std::string>>& replace,
     bool replace_full) noexcept
@@ -29,10 +329,31 @@ void OCRerConfig::set_replace(
     m_params.replace.clear();
     m_params.replace.reserve(replace.size());
 
-    auto& ocr_config = OcrConfig::get_instance();
     for (auto&& [key, val] : replace) {
-        // 统一规范化 replace key；OCR 文本在 OCRer::postproc_replace_ 中做同样处理。
-        std::string new_key = ocr_config.process_equivalence_class(key);
+        auto& ocr_config = OcrConfig::get_instance();
+        std::string new_key = key;
+        if (key.find_first_of("\\[](){}.*+?|^$") == std::string::npos) {
+            // 纯文本 key：保留原来的等价字符组注入
+            for (const auto& eq_class : ocr_config.get_eq_classes()) {
+                if (eq_class.size() <= 1) {
+                    continue;
+                }
+
+                // eq_class: [s, S] -> regex: "(?:s|S)"
+                std::string eq_classes_regex = "(?:";
+                for (const auto& elem : eq_class) {
+                    (eq_classes_regex += elem) += '|';
+                }
+                eq_classes_regex.pop_back();
+                eq_classes_regex += ')';
+                std::ranges::for_each(eq_class, [&](std::string_view elem) {
+                    utils::string_replace_all_in_place(new_key, elem, eq_classes_regex);
+                });
+            }
+        }
+        else {
+            new_key = expand_equivalence_classes_in_regex(key, ocr_config.get_eq_classes());
+        }
         // do not create new_val as val is user-provided, and can avoid issues like 夕 and katakana タ
         m_params.replace.emplace_back(std::move(new_key), val);
     }
