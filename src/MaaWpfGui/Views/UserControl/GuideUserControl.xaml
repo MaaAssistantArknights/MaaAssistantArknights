@@ -12,6 +12,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:s="https://github.com/canton7/Stylet"
     xmlns:settings="clr-namespace:MaaWpfGui.Views.UserControl.Settings"
+    xmlns:sys="clr-namespace:System;assembly=System.Runtime"
     xmlns:ui_vms="clr-namespace:MaaWpfGui.ViewModels.UI"
     d:Background="White"
     d:DataContext="{d:DesignInstance ui_vms:SettingsViewModel}"
@@ -117,7 +118,7 @@
                         VerticalAlignment="Center"
                         d:Text="Next gate tip"
                         FontSize="12"
-                        Foreground="{DynamicResource WarningBrush}"
+                        Foreground="{DynamicResource WarningLogBrush}"
                         Text="{Binding GuideNextGateTip}"
                         TextAlignment="Center"
                         TextWrapping="Wrap"
@@ -127,6 +128,7 @@
                         Grid.Column="2"
                         Margin="0,10,0,0"
                         VerticalAlignment="Center">
+                        <!--  门槛未满足时按钮禁用，ToolTip 复用门槛提示说明原因；禁用控件默认不弹 ToolTip，需 ShowOnDisabled  -->
                         <Button
                             MinWidth="100"
                             hc:IconElement.Geometry="{StaticResource DownGeometry}"
@@ -136,6 +138,9 @@
                             Content="{DynamicResource Guide.Next}"
                             IsEnabled="{c:Binding 'GuideNextGateTip == null'}"
                             Style="{StaticResource ButtonDashedPrimary}"
+                            ToolTip="{Binding GuideNextGateTip}"
+                            ToolTipService.InitialShowDelay="0"
+                            ToolTipService.ShowOnDisabled="True"
                             Visibility="{c:Binding 'GuideStepIndex less GuideMaxStep - 1'}" />
                         <Button
                             MinWidth="100"
@@ -319,13 +324,50 @@
                                                                 IsHitTestVisible="False"
                                                                 Orientation="Horizontal">
                                                                 <controls:TextBlock Text="{Binding Name}" />
+                                                                <!--  重命名步骤中鼠标移到任务上时，红点让位给随之显示的重命名按钮  -->
                                                                 <Ellipse
                                                                     Width="7"
                                                                     Height="7"
                                                                     Margin="4,-3,0,0"
                                                                     VerticalAlignment="Top"
+                                                                    Fill="{DynamicResource NewBadgeBrush}">
+                                                                    <Ellipse.Style>
+                                                                        <Style TargetType="Ellipse">
+                                                                            <Setter Property="Visibility" Value="Collapsed" />
+                                                                            <Style.Triggers>
+                                                                                <DataTrigger Binding="{Binding IsNameBadgeVisible}" Value="True">
+                                                                                    <Setter Property="Visibility" Value="Visible" />
+                                                                                </DataTrigger>
+                                                                                <MultiDataTrigger>
+                                                                                    <MultiDataTrigger.Conditions>
+                                                                                        <Condition Binding="{Binding IsRenameBadgeVisible}" Value="True" />
+                                                                                        <Condition Binding="{Binding IsMouseOver, ElementName=GuideDemoItemBorder}" Value="True" />
+                                                                                    </MultiDataTrigger.Conditions>
+                                                                                    <Setter Property="Visibility" Value="Collapsed" />
+                                                                                </MultiDataTrigger>
+                                                                            </Style.Triggers>
+                                                                        </Style>
+                                                                    </Ellipse.Style>
+                                                                </Ellipse>
+                                                                <!--  移动任务顺序的步骤用箭头代替红点，指示移动方向  -->
+                                                                <Path
+                                                                    Width="8"
+                                                                    Height="10"
+                                                                    Margin="4,0,0,0"
+                                                                    VerticalAlignment="Center"
+                                                                    Data="M 4,0 L 8,4.5 L 5.2,4.5 L 5.2,10 L 2.8,10 L 2.8,4.5 L 0,4.5 Z"
                                                                     Fill="{DynamicResource NewBadgeBrush}"
-                                                                    Visibility="{c:Binding IsGateBadgeVisible}" />
+                                                                    Stretch="Fill"
+                                                                    Visibility="{c:Binding IsMoveUpBadgeVisible}" />
+                                                                <Path
+                                                                    Width="8"
+                                                                    Height="10"
+                                                                    Margin="4,0,0,0"
+                                                                    VerticalAlignment="Center"
+                                                                    Data="M 4,10 L 8,5.5 L 5.2,5.5 L 5.2,0 L 2.8,0 L 2.8,5.5 L 0,5.5 Z"
+                                                                    Fill="{DynamicResource NewBadgeBrush}"
+                                                                    Stretch="Fill"
+                                                                    Visibility="{c:Binding IsMoveDownBadgeVisible}" />
                                                             </StackPanel>
 
                                                             <!--  Column 1: 悬浮显示的 复制/重命名/删除 与常驻齿轮（右键菜单），交互均落在演示列表  -->
@@ -349,14 +391,25 @@
                                                                         IsEnabled="False"
                                                                         Style="{StaticResource TaskActionButtonStyle}"
                                                                         ToolTip="{DynamicResource Common.Copy}" />
-                                                                    <Button
-                                                                        hc:IconElement.Geometry="{StaticResource RenameTaskGeometry}"
-                                                                        Command="{s:Action RenameGuideDemoTask,
-                                                                                           Target={x:Static helper:Instances.SettingsViewModel}}"
-                                                                        CommandParameter="{Binding}"
-                                                                        IsEnabled="{Binding GuideRenameTaskEnabled, Source={x:Static helper:Instances.SettingsViewModel}}"
-                                                                        Style="{StaticResource TaskActionButtonStyle}"
-                                                                        ToolTip="{DynamicResource TaskQueue.Rename}" />
+                                                                    <Grid>
+                                                                        <Button
+                                                                            hc:IconElement.Geometry="{StaticResource RenameTaskGeometry}"
+                                                                            Command="{s:Action RenameGuideDemoTask,
+                                                                                               Target={x:Static helper:Instances.SettingsViewModel}}"
+                                                                            CommandParameter="{Binding}"
+                                                                            IsEnabled="{Binding GuideRenameTaskEnabled, Source={x:Static helper:Instances.SettingsViewModel}}"
+                                                                            Style="{StaticResource TaskActionButtonStyle}"
+                                                                            ToolTip="{DynamicResource TaskQueue.Rename}" />
+                                                                        <Ellipse
+                                                                            Width="7"
+                                                                            Height="7"
+                                                                            Margin="0,1,1,0"
+                                                                            HorizontalAlignment="Right"
+                                                                            VerticalAlignment="Top"
+                                                                            Fill="{DynamicResource NewBadgeBrush}"
+                                                                            IsHitTestVisible="False"
+                                                                            Visibility="{c:Binding IsRenameBadgeVisible}" />
+                                                                    </Grid>
                                                                     <Button
                                                                         hc:IconElement.Geometry="{StaticResource DeleteTaskGeometry}"
                                                                         Command="{s:Action RemoveGuideDemoTask,
@@ -366,91 +419,102 @@
                                                                         Style="{StaticResource TaskActionButtonStyle}"
                                                                         ToolTip="{DynamicResource Common.Delete}" />
                                                                 </StackPanel>
-                                                                <hc:ButtonGroup>
-                                                                    <RadioButton
-                                                                        Width="22"
-                                                                        Margin="0,0,4,0"
-                                                                        Padding="0"
-                                                                        hc:VisualElement.HighlightBackground="Transparent"
-                                                                        hc:VisualElement.HighlightForeground="{DynamicResource PrimaryBrush}"
-                                                                        Background="Transparent"
-                                                                        BorderThickness="0"
-                                                                        GroupName="TaskSettings"
-                                                                        IsChecked="{Binding EnableSetting}"
-                                                                        Style="{DynamicResource RadioGroupItemSingle}">
-                                                                        <Grid Width="16" Height="16">
-                                                                            <Path
-                                                                                Data="{StaticResource ConfigGeometry}"
-                                                                                Stretch="Uniform"
-                                                                                Visibility="{c:Binding !EnableSetting}">
-                                                                                <Path.Style>
-                                                                                    <Style TargetType="Path">
-                                                                                        <Setter Property="Fill" Value="{DynamicResource SecondaryTextBrush}" />
-                                                                                        <Style.Triggers>
-                                                                                            <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType=RadioButton}}" Value="True">
-                                                                                                <Setter Property="Fill" Value="{DynamicResource PrimaryBrush}" />
-                                                                                            </DataTrigger>
-                                                                                        </Style.Triggers>
-                                                                                    </Style>
-                                                                                </Path.Style>
-                                                                            </Path>
-                                                                            <Path
-                                                                                Data="{StaticResource ConfigGeometry2}"
-                                                                                Fill="{DynamicResource PrimaryBrush}"
-                                                                                Stretch="Uniform"
-                                                                                Visibility="{c:Binding EnableSetting}" />
-                                                                        </Grid>
-                                                                        <RadioButton.ToolTip>
-                                                                            <ToolTip>
-                                                                                <StackPanel>
-                                                                                    <TextBlock FontWeight="SemiBold" Text="{DynamicResource TaskQueue.LeftClick}" />
-                                                                                    <TextBlock Text="{DynamicResource TaskQueue.TaskSettings}" />
+                                                                <Grid>
+                                                                    <hc:ButtonGroup>
+                                                                        <RadioButton
+                                                                            Width="22"
+                                                                            Margin="0,0,4,0"
+                                                                            Padding="0"
+                                                                            hc:VisualElement.HighlightBackground="Transparent"
+                                                                            hc:VisualElement.HighlightForeground="{DynamicResource PrimaryBrush}"
+                                                                            Background="Transparent"
+                                                                            BorderThickness="0"
+                                                                            GroupName="TaskSettings"
+                                                                            IsChecked="{Binding EnableSetting}"
+                                                                            Style="{DynamicResource RadioGroupItemSingle}">
+                                                                            <Grid Width="16" Height="16">
+                                                                                <Path
+                                                                                    Data="{StaticResource ConfigGeometry}"
+                                                                                    Stretch="Uniform"
+                                                                                    Visibility="{c:Binding !EnableSetting}">
+                                                                                    <Path.Style>
+                                                                                        <Style TargetType="Path">
+                                                                                            <Setter Property="Fill" Value="{DynamicResource SecondaryTextBrush}" />
+                                                                                            <Style.Triggers>
+                                                                                                <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType=RadioButton}}" Value="True">
+                                                                                                    <Setter Property="Fill" Value="{DynamicResource PrimaryBrush}" />
+                                                                                                </DataTrigger>
+                                                                                            </Style.Triggers>
+                                                                                        </Style>
+                                                                                    </Path.Style>
+                                                                                </Path>
+                                                                                <Path
+                                                                                    Data="{StaticResource ConfigGeometry2}"
+                                                                                    Fill="{DynamicResource PrimaryBrush}"
+                                                                                    Stretch="Uniform"
+                                                                                    Visibility="{c:Binding EnableSetting}" />
+                                                                            </Grid>
+                                                                            <RadioButton.ToolTip>
+                                                                                <ToolTip>
+                                                                                    <StackPanel>
+                                                                                        <TextBlock FontWeight="SemiBold" Text="{DynamicResource TaskQueue.LeftClick}" />
+                                                                                        <TextBlock Text="{DynamicResource TaskQueue.TaskSettings}" />
 
-                                                                                    <TextBlock FontWeight="SemiBold" Text="{DynamicResource TaskQueue.RightClick}" />
-                                                                                    <TextBlock>
-                                                                                        <Run Text="{DynamicResource TaskQueue.RunOnce}" /><Run Text="/" /><Run Text="{DynamicResource TaskQueue.RunFromHere}" /><Run Text="/" /><Run Text="{DynamicResource TaskQueue.MoveUp}" /><Run Text="/" /><Run Text="{DynamicResource TaskQueue.MoveDown}" /><Run Text="/" /><Run Text="{DynamicResource Common.Copy}" /><Run Text="/" /><Run Text="{DynamicResource TaskQueue.Rename}" /><Run Text="/" /><Run Text="{DynamicResource Common.Delete}" />
-                                                                                    </TextBlock>
-                                                                                </StackPanel>
-                                                                            </ToolTip>
-                                                                        </RadioButton.ToolTip>
-                                                                        <RadioButton.ContextMenu>
-                                                                            <ContextMenu Width="150">
-                                                                                <MenuItem Command="{s:Action StartGuideDemo, Target={x:Static helper:Instances.SettingsViewModel}}" Header="{DynamicResource TaskQueue.RunOnce}" />
-                                                                                <MenuItem Command="{s:Action StartGuideDemo, Target={x:Static helper:Instances.SettingsViewModel}}" Header="{DynamicResource TaskQueue.RunFromHere}" />
-                                                                                <MenuItem
-                                                                                    Command="{s:Action MoveGuideDemoTaskUp,
-                                                                                                       Target={x:Static helper:Instances.SettingsViewModel}}"
-                                                                                    CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
-                                                                                    Header="{DynamicResource TaskQueue.MoveUp}"
-                                                                                    IsEnabled="{Binding PlacementTarget.DataContext.CanMoveUp, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
-                                                                                <MenuItem
-                                                                                    Command="{s:Action MoveGuideDemoTaskDown,
-                                                                                                       Target={x:Static helper:Instances.SettingsViewModel}}"
-                                                                                    CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
-                                                                                    Header="{DynamicResource TaskQueue.MoveDown}"
-                                                                                    IsEnabled="{Binding PlacementTarget.DataContext.CanMoveDown, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
-                                                                                <MenuItem
-                                                                                    Command="{s:Action CopyGuideDemoTask,
-                                                                                                       Target={x:Static helper:Instances.SettingsViewModel}}"
-                                                                                    CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
-                                                                                    Header="{DynamicResource Common.Copy}"
-                                                                                    IsEnabled="False" />
-                                                                                <MenuItem
-                                                                                    Command="{s:Action RenameGuideDemoTask,
-                                                                                                       Target={x:Static helper:Instances.SettingsViewModel}}"
-                                                                                    CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
-                                                                                    Header="{DynamicResource TaskQueue.Rename}"
-                                                                                    IsEnabled="{Binding GuideRenameTaskEnabled, Source={x:Static helper:Instances.SettingsViewModel}}" />
-                                                                                <MenuItem
-                                                                                    Command="{s:Action RemoveGuideDemoTask,
-                                                                                                       Target={x:Static helper:Instances.SettingsViewModel}}"
-                                                                                    CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
-                                                                                    Header="{DynamicResource Common.Delete}"
-                                                                                    IsEnabled="False" />
-                                                                            </ContextMenu>
-                                                                        </RadioButton.ContextMenu>
-                                                                    </RadioButton>
-                                                                </hc:ButtonGroup>
+                                                                                        <TextBlock FontWeight="SemiBold" Text="{DynamicResource TaskQueue.RightClick}" />
+                                                                                        <TextBlock>
+                                                                                            <Run Text="{DynamicResource TaskQueue.RunOnce}" /><Run Text="/" /><Run Text="{DynamicResource TaskQueue.RunFromHere}" /><Run Text="/" /><Run Text="{DynamicResource TaskQueue.MoveUp}" /><Run Text="/" /><Run Text="{DynamicResource TaskQueue.MoveDown}" /><Run Text="/" /><Run Text="{DynamicResource Common.Copy}" /><Run Text="/" /><Run Text="{DynamicResource TaskQueue.Rename}" /><Run Text="/" /><Run Text="{DynamicResource Common.Delete}" />
+                                                                                        </TextBlock>
+                                                                                    </StackPanel>
+                                                                                </ToolTip>
+                                                                            </RadioButton.ToolTip>
+                                                                            <RadioButton.ContextMenu>
+                                                                                <ContextMenu Width="150">
+                                                                                    <MenuItem Command="{s:Action StartGuideDemo, Target={x:Static helper:Instances.SettingsViewModel}}" Header="{DynamicResource TaskQueue.RunOnce}" />
+                                                                                    <MenuItem Command="{s:Action StartGuideDemo, Target={x:Static helper:Instances.SettingsViewModel}}" Header="{DynamicResource TaskQueue.RunFromHere}" />
+                                                                                    <MenuItem
+                                                                                        Command="{s:Action MoveGuideDemoTaskUp,
+                                                                                                           Target={x:Static helper:Instances.SettingsViewModel}}"
+                                                                                        CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
+                                                                                        Header="{DynamicResource TaskQueue.MoveUp}"
+                                                                                        IsEnabled="{Binding PlacementTarget.DataContext.CanMoveUp, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
+                                                                                    <MenuItem
+                                                                                        Command="{s:Action MoveGuideDemoTaskDown,
+                                                                                                           Target={x:Static helper:Instances.SettingsViewModel}}"
+                                                                                        CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
+                                                                                        Header="{DynamicResource TaskQueue.MoveDown}"
+                                                                                        IsEnabled="{Binding PlacementTarget.DataContext.CanMoveDown, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
+                                                                                    <MenuItem
+                                                                                        Command="{s:Action CopyGuideDemoTask,
+                                                                                                           Target={x:Static helper:Instances.SettingsViewModel}}"
+                                                                                        CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
+                                                                                        Header="{DynamicResource Common.Copy}"
+                                                                                        IsEnabled="False" />
+                                                                                    <MenuItem
+                                                                                        Command="{s:Action RenameGuideDemoTask,
+                                                                                                           Target={x:Static helper:Instances.SettingsViewModel}}"
+                                                                                        CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
+                                                                                        Header="{DynamicResource TaskQueue.Rename}"
+                                                                                        IsEnabled="{Binding GuideRenameTaskEnabled, Source={x:Static helper:Instances.SettingsViewModel}}" />
+                                                                                    <MenuItem
+                                                                                        Command="{s:Action RemoveGuideDemoTask,
+                                                                                                           Target={x:Static helper:Instances.SettingsViewModel}}"
+                                                                                        CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
+                                                                                        Header="{DynamicResource Common.Delete}"
+                                                                                        IsEnabled="False" />
+                                                                                </ContextMenu>
+                                                                            </RadioButton.ContextMenu>
+                                                                        </RadioButton>
+                                                                    </hc:ButtonGroup>
+                                                                    <Ellipse
+                                                                        Width="7"
+                                                                        Height="7"
+                                                                        Margin="0,0,2,0"
+                                                                        HorizontalAlignment="Right"
+                                                                        VerticalAlignment="Top"
+                                                                        Fill="{DynamicResource NewBadgeBrush}"
+                                                                        IsHitTestVisible="False"
+                                                                        Visibility="{c:Binding IsGearBadgeVisible}" />
+                                                                </Grid>
                                                             </StackPanel>
                                                         </Grid>
                                                     </Border>
@@ -755,23 +819,43 @@
                                                 Style="{DynamicResource NoSelectedHighlightListBoxStyle}">
                                                 <ListBox.ItemTemplate>
                                                     <DataTemplate>
-                                                        <CheckBox
-                                                            HorizontalAlignment="Left"
-                                                            VerticalAlignment="Center"
-                                                            Content="{Binding Display}"
-                                                            IsChecked="{Binding Value}" />
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <CheckBox
+                                                                HorizontalAlignment="Left"
+                                                                VerticalAlignment="Center"
+                                                                Content="{Binding Display}"
+                                                                IsChecked="{Binding Value}" />
+                                                            <Ellipse
+                                                                x:Name="WeekDayGateBadge"
+                                                                Width="7"
+                                                                Height="7"
+                                                                Margin="4,-3,0,0"
+                                                                VerticalAlignment="Top"
+                                                                Fill="{DynamicResource NewBadgeBrush}"
+                                                                IsHitTestVisible="False"
+                                                                Visibility="Collapsed" />
+                                                        </StackPanel>
+                                                        <DataTemplate.Triggers>
+                                                            <MultiDataTrigger>
+                                                                <MultiDataTrigger.Conditions>
+                                                                    <Condition Binding="{Binding DayOfWeek}" Value="{x:Static sys:DayOfWeek.Sunday}" />
+                                                                    <Condition Binding="{Binding Value}" Value="False" />
+                                                                    <Condition Binding="{Binding GuideWeekDaysBadgeVisible, Source={x:Static helper:Instances.SettingsViewModel}}" Value="True" />
+                                                                </MultiDataTrigger.Conditions>
+                                                                <Setter TargetName="WeekDayGateBadge" Property="Visibility" Value="Visible" />
+                                                            </MultiDataTrigger>
+                                                            <MultiDataTrigger>
+                                                                <MultiDataTrigger.Conditions>
+                                                                    <Condition Binding="{Binding DayOfWeek}" Value="{x:Static sys:DayOfWeek.Monday}" />
+                                                                    <Condition Binding="{Binding Value}" Value="False" />
+                                                                    <Condition Binding="{Binding GuideWeekDaysBadgeVisible, Source={x:Static helper:Instances.SettingsViewModel}}" Value="True" />
+                                                                </MultiDataTrigger.Conditions>
+                                                                <Setter TargetName="WeekDayGateBadge" Property="Visibility" Value="Visible" />
+                                                            </MultiDataTrigger>
+                                                        </DataTemplate.Triggers>
                                                     </DataTemplate>
                                                 </ListBox.ItemTemplate>
                                             </ListBox>
-                                            <Ellipse
-                                                Width="7"
-                                                Height="7"
-                                                Margin="0,-3,-4,0"
-                                                HorizontalAlignment="Right"
-                                                VerticalAlignment="Top"
-                                                Fill="{DynamicResource NewBadgeBrush}"
-                                                IsHitTestVisible="False"
-                                                Visibility="{c:Binding GuideWeekDaysBadgeVisible}" />
                                         </Grid>
                                     </StackPanel>
                                 </StackPanel>

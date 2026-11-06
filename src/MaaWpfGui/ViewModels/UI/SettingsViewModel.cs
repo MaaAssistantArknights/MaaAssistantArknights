@@ -831,34 +831,35 @@ public class SettingsViewModel : Screen
         or GuideGate.AddFight or GuideGate.AddSwitchTheme;
 
     /// <summary>
-    /// Gets 演示关卡选择下拉框的红点是否显示：下一步为 ｢选择剿灭关卡｣ 时。
+    /// Gets 演示关卡选择下拉框的红点是否显示：下一步为 ｢选择剿灭关卡｣ 且已选中目标任务齿轮时。
     /// </summary>
-    [PropertyDependsOn(nameof(GuideGateStep))]
-    public bool GuideStageBadgeVisible => GuideGateStep == GuideGate.SelectStage;
+    [PropertyDependsOn(nameof(GuideGateStep), nameof(GuideTargetGearSelected))]
+    public bool GuideStageBadgeVisible => GuideGateStep == GuideGate.SelectStage && GuideTargetGearSelected;
 
     /// <summary>
-    /// Gets ｢高级设置｣ 切换按钮的红点是否显示：下一步为周计划相关步骤且尚未切到高级页时。
+    /// Gets ｢高级设置｣ 切换按钮的红点是否显示：下一步为周计划相关步骤、已选中目标任务齿轮且尚未切到高级页时。
     /// </summary>
-    [PropertyDependsOn(nameof(GuideGateStep), nameof(GuideDemoAdvancedSettings))]
-    public bool GuideAdvancedBadgeVisible => GuideGateStep is GuideGate.EnableWeekly or GuideGate.CheckWeekDays && !GuideDemoAdvancedSettings;
+    [PropertyDependsOn(nameof(GuideGateStep), nameof(GuideTargetGearSelected), nameof(GuideDemoAdvancedSettings))]
+    public bool GuideAdvancedBadgeVisible => GuideGateStep is GuideGate.EnableWeekly or GuideGate.CheckWeekDays
+        && GuideTargetGearSelected && !GuideDemoAdvancedSettings;
 
     /// <summary>
-    /// Gets ｢启用周计划｣ 开关的红点是否显示：下一步为 ｢启用周计划｣ 时。
+    /// Gets ｢启用周计划｣ 开关的红点是否显示：下一步为 ｢启用周计划｣ 且已选中目标任务齿轮时。
     /// </summary>
-    [PropertyDependsOn(nameof(GuideGateStep))]
-    public bool GuideWeeklyBadgeVisible => GuideGateStep == GuideGate.EnableWeekly;
+    [PropertyDependsOn(nameof(GuideGateStep), nameof(GuideTargetGearSelected))]
+    public bool GuideWeeklyBadgeVisible => GuideGateStep == GuideGate.EnableWeekly && GuideTargetGearSelected;
 
     /// <summary>
-    /// Gets 周计划星期列表的红点是否显示：下一步为 ｢勾选周一与周日｣ 时。
+    /// Gets 周计划 ｢周一｣ ｢周日｣ 勾选框的红点是否显示：下一步为 ｢勾选周一与周日｣ 且已选中目标任务齿轮时（已勾选的项由模板隐藏红点）。
     /// </summary>
-    [PropertyDependsOn(nameof(GuideGateStep))]
-    public bool GuideWeekDaysBadgeVisible => GuideGateStep == GuideGate.CheckWeekDays;
+    [PropertyDependsOn(nameof(GuideGateStep), nameof(GuideTargetGearSelected))]
+    public bool GuideWeekDaysBadgeVisible => GuideGateStep == GuideGate.CheckWeekDays && GuideTargetGearSelected;
 
     /// <summary>
-    /// Gets ｢添加主题｣ 按钮的红点是否显示：下一步为 ｢添加夜间主题｣ 时。
+    /// Gets ｢添加主题｣ 按钮的红点是否显示：下一步为 ｢添加夜间主题｣ 且已选中目标任务齿轮时。
     /// </summary>
-    [PropertyDependsOn(nameof(GuideGateStep))]
-    public bool GuideThemeAddBadgeVisible => GuideGateStep == GuideGate.AddNightTheme;
+    [PropertyDependsOn(nameof(GuideGateStep), nameof(GuideTargetGearSelected))]
+    public bool GuideThemeAddBadgeVisible => GuideGateStep == GuideGate.AddNightTheme && GuideTargetGearSelected;
 
     /// <summary>
     /// Gets 添加菜单 ｢理智作战｣ 菜单项的红点是否显示：下一步为 ｢添加理智作战｣ 时。
@@ -1311,15 +1312,49 @@ public class SettingsViewModel : Screen
 
         foreach (var task in GuideDemoTasks)
         {
-            task.IsGateBadgeVisible = false;
+            task.IsNameBadgeVisible = false;
+            task.IsMoveUpBadgeVisible = false;
+            task.IsMoveDownBadgeVisible = false;
+            task.IsGearBadgeVisible = false;
+            task.IsRenameBadgeVisible = false;
         }
 
-        var badgeTarget = GuideTargetTask(step);
-
-        if (badgeTarget != null)
+        var target = GuideTargetTask(step);
+        GuideTargetGearSelected = target is { EnableSetting: true };
+        if (target == null)
         {
-            badgeTarget.IsGateBadgeVisible = true;
+            return;
         }
+
+        switch (step)
+        {
+            // 在设置面板内操作的步骤：未选中目标齿轮时红点引导点齿轮，选中后交给面板内的红点
+            case GuideGate.SelectStage or GuideGate.EnableWeekly or GuideGate.CheckWeekDays or GuideGate.AddNightTheme:
+                target.IsGearBadgeVisible = !target.EnableSetting;
+                break;
+            case GuideGate.RenameFight:
+                target.IsNameBadgeVisible = true;
+                target.IsRenameBadgeVisible = true;
+                break;
+            case GuideGate.ReorderFight:
+                target.IsMoveUpBadgeVisible = true;
+                break;
+            case GuideGate.ReorderTheme:
+                target.IsMoveDownBadgeVisible = true;
+                break;
+        }
+    }
+
+    private bool _guideTargetGearSelected;
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the current gate step's target task has its gear selected；
+    /// 设置面板内的红点仅在此时显示，保证同一时刻只有一个红点指向下一步。
+    /// </summary>
+    private bool GuideTargetGearSelected
+    {
+        get => _guideTargetGearSelected;
+        set => SetAndNotify(ref _guideTargetGearSelected, value);
     }
 
     /// <summary>
@@ -1439,8 +1474,12 @@ public class SettingsViewModel : Screen
             return;
         }
 
-        // 红点是 gate 的输出，写回不再作为输入触发重算，否则形成 重算→写红点→再重算 的死循环（栈溢出）
-        if (args.PropertyName == nameof(GuideDemoTaskItem.IsGateBadgeVisible))
+        // 红点与箭头是 gate 的输出，写回不再作为输入触发重算，否则形成 重算→写标记→再重算 的死循环（栈溢出）
+        if (args.PropertyName is nameof(GuideDemoTaskItem.IsNameBadgeVisible)
+            or nameof(GuideDemoTaskItem.IsMoveUpBadgeVisible)
+            or nameof(GuideDemoTaskItem.IsMoveDownBadgeVisible)
+            or nameof(GuideDemoTaskItem.IsGearBadgeVisible)
+            or nameof(GuideDemoTaskItem.IsRenameBadgeVisible))
         {
             return;
         }
