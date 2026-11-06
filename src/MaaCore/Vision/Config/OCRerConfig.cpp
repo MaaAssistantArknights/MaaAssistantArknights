@@ -201,7 +201,8 @@ static std::string
             const std::string_view content = key.substr(i + 1, close - i - 1);
             result += '[';
             if (!content.empty() && content.front() == '^') {
-                result.append(content);
+                result += '^';
+                result.append(expand_class_content(content.substr(1), eq_classes));
             }
             else {
                 result.append(expand_class_content(content, eq_classes));
