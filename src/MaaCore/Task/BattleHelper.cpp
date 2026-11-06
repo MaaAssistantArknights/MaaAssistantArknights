@@ -458,8 +458,7 @@ bool asst::BattleHelper::deploy_oper(
         duration,
         SwipeExtraDirection::None,
         swipe_oper_task_ptr->special_params.at(2) / 10.0,
-        swipe_oper_task_ptr->special_params.at(3) / 10.0,
-        false);
+        swipe_oper_task_ptr->special_params.at(3) / 10.0);
 
     // 拖动干员朝向
     if (direction != DeployDirection::None) {
