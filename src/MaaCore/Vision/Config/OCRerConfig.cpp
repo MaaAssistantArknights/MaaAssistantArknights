@@ -22,6 +22,63 @@ void OCRerConfig::set_required(std::vector<std::string> required) noexcept
     }
 }
 
+// 正则 key 只能扩展简单的字符类：把 [Oo] 变成 [Ooо]，而不是 [O(?:o|о)]。
+// 区间/否定/转义类保持原样，避免错误改变正则语义。
+static std::string expand_equivalence_classes_in_regex(
+    std::string_view key,
+    const std::vector<std::vector<std::string>>& eq_classes)
+{
+    std::string result;
+    result.reserve(key.size());
+
+    for (size_t i = 0; i < key.size();) {
+        if (key[i] != '[') {
+            result += key[i++];
+            continue;
+        }
+
+        const size_t close = key.find(']', i + 1);
+        if (close == std::string_view::npos) {
+            result.append(key.substr(i));
+            break;
+        }
+
+        const std::string_view content = key.substr(i + 1, close - i - 1);
+        const bool simple =
+            !content.empty() && content.front() != '^' && content.find_first_of("\\-") == std::string_view::npos;
+        if (!simple) {
+            result.append(key.substr(i, close - i + 1));
+            i = close + 1;
+            continue;
+        }
+
+        std::string expanded(content);
+        for (const auto& eq_class : eq_classes) {
+            if (eq_class.size() <= 1) {
+                continue;
+            }
+            const bool matched = std::ranges::any_of(eq_class, [&](const std::string& elem) {
+                return content.find(elem) != std::string_view::npos;
+            });
+            if (!matched) {
+                continue;
+            }
+            for (const auto& elem : eq_class) {
+                if (expanded.find(elem) == std::string::npos) {
+                    expanded += elem;
+                }
+            }
+        }
+
+        result += '[';
+        result += expanded;
+        result += ']';
+        i = close + 1;
+    }
+
+    return result;
+}
+
 void OCRerConfig::set_replace(
     const std::vector<std::pair<std::string, std::string>>& replace,
     bool replace_full) noexcept
@@ -32,9 +89,8 @@ void OCRerConfig::set_replace(
     for (auto&& [key, val] : replace) {
         auto& ocr_config = OcrConfig::get_instance();
         std::string new_key = key;
-        // 含正则元字符的 key 不能再做原始字符串替换，否则 [Oo] 会被改写成 [O(?:o|о)]，
-        // 把 ':' 也纳入字符类；等价字符规范化仍由 required 文本处理。
         if (key.find_first_of("\\[](){}.*+?|^$") == std::string::npos) {
+            // 纯文本 key：保留原来的等价字符组注入
             for (const auto& eq_class : ocr_config.get_eq_classes()) {
                 if (eq_class.size() <= 1) {
                     continue;
@@ -51,6 +107,9 @@ void OCRerConfig::set_replace(
                     utils::string_replace_all_in_place(new_key, elem, eq_classes_regex);
                 });
             }
+        }
+        else {
+            new_key = expand_equivalence_classes_in_regex(key, ocr_config.get_eq_classes());
         }
         // do not create new_val as val is user-provided, and can avoid issues like 夕 and katakana タ
         m_params.replace.emplace_back(std::move(new_key), val);
