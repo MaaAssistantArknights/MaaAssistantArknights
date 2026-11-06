@@ -1749,7 +1749,6 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
     <system:String x:Key="Settings.Achievement.Title">成就設定</system:String>
     <system:String x:Key="Settings.Advanced.Hide">隱藏進階設定</system:String>
     <system:String x:Key="Settings.Advanced.Show">顯示進階設定</system:String>
-    <system:String x:Key="Settings.Advanced.Tip" xml:space="preserve">顯示效能、遠端控制、第三方服務、快捷鍵及成就設定。&#10;隱藏分區不會停用已設定的功能。&#10;搜尋時會暫時顯示符合的進階分區。</system:String>
     <system:String x:Key="Settings.Advanced.Title">進階設定</system:String>
     <system:String x:Key="Settings.Background">背景設定</system:String>
     <system:String x:Key="Settings.Background.BlurRadius">背景模糊半徑</system:String>

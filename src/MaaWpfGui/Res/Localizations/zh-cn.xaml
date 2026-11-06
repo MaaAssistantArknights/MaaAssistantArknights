@@ -1749,7 +1749,6 @@ DEBUG 目录下保存的图片有数量限制，超出后会自动清理旧图�
     <system:String x:Key="Settings.Achievement.Title">成就设置</system:String>
     <system:String x:Key="Settings.Advanced.Hide">隐藏高级设置</system:String>
     <system:String x:Key="Settings.Advanced.Show">显示高级设置</system:String>
-    <system:String x:Key="Settings.Advanced.Tip" xml:space="preserve">显示性能、远程控制、三方服务、热键和成就设置。&#10;隐藏分区不会停用已配置的功能。&#10;搜索时会临时显示匹配的高级分区。</system:String>
     <system:String x:Key="Settings.Advanced.Title">高级设置</system:String>
     <system:String x:Key="Settings.Background">背景设置</system:String>
     <system:String x:Key="Settings.Background.BlurRadius">背景模糊半径</system:String>

@@ -1749,7 +1749,6 @@ OF-1 스테이지가 개방되지 않은 경우에는 선택하지 마세요.</s
     <system:String x:Key="Settings.Achievement.Title">도전과제</system:String>
     <system:String x:Key="Settings.Advanced.Hide">고급 설정 숨기기</system:String>
     <system:String x:Key="Settings.Advanced.Show">고급 설정 표시</system:String>
-    <system:String x:Key="Settings.Advanced.Tip" xml:space="preserve">성능, 원격 제어, 외부 서비스, 단축키 및 업적 설정을 표시합니다.&#10;설정 영역을 숨겨도 설정된 기능은 비활성화되지 않습니다.&#10;검색 중에는 일치하는 고급 설정 영역이 일시적으로 표시됩니다.</system:String>
     <system:String x:Key="Settings.Advanced.Title">고급 설정</system:String>
     <system:String x:Key="Settings.Background">배경 설정</system:String>
     <system:String x:Key="Settings.Background.BlurRadius">배경 흐림 반경</system:String>

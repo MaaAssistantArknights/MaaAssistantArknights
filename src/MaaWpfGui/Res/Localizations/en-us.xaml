@@ -1748,7 +1748,6 @@ When difficulty ≥ N6, 6★ Hope cost +1; some squads may be unable to recruit 
     <system:String x:Key="Settings.Achievement.Title">Achievements</system:String>
     <system:String x:Key="Settings.Advanced.Hide">Hide advanced settings</system:String>
     <system:String x:Key="Settings.Advanced.Show">Show advanced settings</system:String>
-    <system:String x:Key="Settings.Advanced.Tip" xml:space="preserve">Show performance, remote control, third-party services, hotkeys, and achievements.&#10;Hiding these sections does not disable configured features.&#10;Search temporarily shows matching advanced sections.</system:String>
     <system:String x:Key="Settings.Advanced.Title">Advanced settings</system:String>
     <system:String x:Key="Settings.Background">Background Setting</system:String>
     <system:String x:Key="Settings.Background.BlurRadius">Background Blur Radius</system:String>

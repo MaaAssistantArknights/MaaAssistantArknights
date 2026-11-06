@@ -31,59 +31,37 @@
         </Grid.ColumnDefinitions>
 
         <!--  左侧导航栏（搜索 + 分区列表）  -->
-        <DockPanel Grid.Column="0" Margin="5">
+        <Grid Grid.Column="0" Margin="5">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
             <hc:SearchBar
                 x:Name="SettingsSearchBar"
+                Grid.Row="0"
                 hc:BorderElement.CornerRadius="4,4,0,0"
-                DockPanel.Dock="Top"
                 Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" />
-
-            <Button
-                Margin="0,8,0,0"
-                Padding="8"
-                Command="{s:Action ToggleAdvancedSettings}"
-                DockPanel.Dock="Bottom">
-                <Button.ToolTip>
-                    <controls:TextBlock
-                        MaxWidth="300"
-                        Text="{DynamicResource Settings.Advanced.Tip}"
-                        TextWrapping="Wrap" />
-                </Button.ToolTip>
-                <Grid>
-                    <TextBlock
-                        Text="{DynamicResource Settings.Advanced.Show}"
-                        TextAlignment="Center"
-                        TextWrapping="Wrap"
-                        Visibility="{c:Binding !ShowAdvancedSettings}" />
-                    <TextBlock
-                        Text="{DynamicResource Settings.Advanced.Hide}"
-                        TextAlignment="Center"
-                        TextWrapping="Wrap"
-                        Visibility="{c:Binding ShowAdvancedSettings}" />
-                </Grid>
-            </Button>
 
             <ListBox
                 x:Name="MasterListBox"
+                Grid.Row="1"
                 dd:DragDrop.DropHandler="{Binding SettingsDropHandler}"
                 dd:DragDrop.IsDragSource="True"
                 dd:DragDrop.IsDropTarget="True"
-                hc:BorderElement.CornerRadius="0,0,4,4"
+                hc:BorderElement.CornerRadius="0"
                 BorderThickness="1,0,1,1"
                 DisplayMemberPath="Display"
                 IsSynchronizedWithCurrentItem="true"
                 ItemsSource="{Binding Source={StaticResource SettingsNavigation}}"
+                ScrollViewer.CanContentScroll="False"
                 SelectedIndex="{Binding SelectedIndex}">
                 <ListBox.GroupStyle>
                     <GroupStyle>
                         <GroupStyle.HeaderTemplate>
                             <DataTemplate>
                                 <Grid Visibility="{c:Binding Name}">
-                                    <hc:Divider
-                                        Margin="5,12,5,6"
-                                        Content="{DynamicResource Settings.Advanced.Title}"
-                                        Visibility="{c:Binding DataContext.HasVisibleAdvancedSettings,
-                                                               RelativeSource={RelativeSource AncestorType=UserControl}}" />
+                                    <hc:Divider Content="{DynamicResource Settings.Advanced.Title}" Visibility="{c:Binding DataContext.HasVisibleAdvancedSettings, RelativeSource={RelativeSource AncestorType=UserControl}}" />
                                 </Grid>
                             </DataTemplate>
                         </GroupStyle.HeaderTemplate>
@@ -99,12 +77,33 @@
                     </Style>
                 </ListBox.ItemContainerStyle>
             </ListBox>
-        </DockPanel>
+
+            <Button
+                Grid.Row="2"
+                HorizontalAlignment="Stretch"
+                hc:BorderElement.CornerRadius="0,0,4,4"
+                BorderThickness="1,0,1,1"
+                Command="{s:Action ToggleAdvancedSettings}"
+                DockPanel.Dock="Bottom">
+                <Grid>
+                    <TextBlock
+                        Text="{DynamicResource Settings.Advanced.Show}"
+                        TextAlignment="Center"
+                        TextWrapping="Wrap"
+                        Visibility="{c:Binding !ShowAdvancedSettings}" />
+                    <TextBlock
+                        Text="{DynamicResource Settings.Advanced.Hide}"
+                        TextAlignment="Center"
+                        TextWrapping="Wrap"
+                        Visibility="{c:Binding ShowAdvancedSettings}" />
+                </Grid>
+            </Button>
+        </Grid>
 
         <hc:ScrollViewer
             x:Name="SettingsScrollViewer"
             Grid.Column="1"
-            Margin="20,5"
+            Margin="20,0,20,5"
             HorizontalAlignment="Stretch"
             properties:ScrollViewerBinding.DividerVerticalOffsetList="{Binding DividerVerticalOffsetList}"
             properties:ScrollViewerBinding.ExtentHeight="{Binding ScrollExtentHeight}"
@@ -143,7 +142,7 @@
 
                 <Grid
                     Grid.Row="{Binding SwitchConfigurationSetting.GridRow}"
-                    Margin="0,0,0,5"
+                    Margin="0,5,0,0"
                     d:Grid.Row="0"
                     Visibility="{c:Binding SwitchConfigurationSetting.IsVisible}">
                     <Expander
@@ -162,7 +161,7 @@
 
                 <Grid
                     Grid.Row="{Binding ScheduleSettingsSetting.GridRow}"
-                    Margin="0,0,0,5"
+                    Margin="0,5,0,0"
                     d:Grid.Row="1"
                     Visibility="{c:Binding ScheduleSettingsSetting.IsVisible}">
                     <Expander
@@ -184,7 +183,7 @@
 
                 <Grid
                     Grid.Row="{Binding PerformanceSettingsSetting.GridRow}"
-                    Margin="0,0,0,5"
+                    Margin="0,5,0,0"
                     d:Grid.Row="2"
                     Visibility="{c:Binding PerformanceSettingsSetting.IsVisible}">
                     <Expander
@@ -207,7 +206,7 @@
 
                 <Grid
                     Grid.Row="{Binding GameSettingsSetting.GridRow}"
-                    Margin="0,0,0,5"
+                    Margin="0,5,0,0"
                     d:Grid.Row="3"
                     Visibility="{c:Binding GameSettingsSetting.IsVisible}">
                     <Expander
@@ -229,7 +228,7 @@
 
                 <Grid
                     Grid.Row="{Binding ConnectionSettingsSetting.GridRow}"
-                    Margin="0,0,0,5"
+                    Margin="0,5,0,0"
                     d:Grid.Row="4"
                     Visibility="{c:Binding ConnectionSettingsSetting.IsVisible}">
                     <Expander
@@ -251,7 +250,7 @@
 
                 <Grid
                     Grid.Row="{Binding StartupSettingsSetting.GridRow}"
-                    Margin="0,0,0,5"
+                    Margin="0,5,0,0"
                     d:Grid.Row="5"
                     Visibility="{c:Binding StartupSettingsSetting.IsVisible}">
                     <Expander
@@ -273,7 +272,7 @@
 
                 <Grid
                     Grid.Row="{Binding RemoteControlSettingsSetting.GridRow}"
-                    Margin="0,0,0,5"
+                    Margin="0,5,0,0"
                     d:Grid.Row="6"
                     Visibility="{c:Binding RemoteControlSettingsSetting.IsVisible}">
                     <Expander
@@ -295,7 +294,7 @@
 
                 <Grid
                     Grid.Row="{Binding UiSettingsSetting.GridRow}"
-                    Margin="0,0,0,5"
+                    Margin="0,5,0,0"
                     d:Grid.Row="7"
                     Visibility="{c:Binding UiSettingsSetting.IsVisible}">
                     <Expander
@@ -317,7 +316,7 @@
 
                 <Grid
                     Grid.Row="{Binding NotificationSettingsSetting.GridRow}"
-                    Margin="0,0,0,5"
+                    Margin="0,5,0,0"
                     d:Grid.Row="8"
                     Visibility="{c:Binding NotificationSettingsSetting.IsVisible}">
                     <Expander
@@ -347,7 +346,7 @@
 
                 <Grid
                     Grid.Row="{Binding ThirdPartyServiceSettingsSetting.GridRow}"
-                    Margin="0,0,0,5"
+                    Margin="0,5,0,0"
                     d:Grid.Row="9"
                     Visibility="{c:Binding ThirdPartyServiceSettingsSetting.IsVisible}">
                     <Expander
@@ -369,7 +368,7 @@
 
                 <Grid
                     Grid.Row="{Binding HotKeySettingsSetting.GridRow}"
-                    Margin="0,0,0,5"
+                    Margin="0,5,0,0"
                     d:Grid.Row="10"
                     Visibility="{c:Binding HotKeySettingsSetting.IsVisible}">
                     <Expander
@@ -388,7 +387,7 @@
 
                 <Grid
                     Grid.Row="{Binding AchievementSettingsSetting.GridRow}"
-                    Margin="0,0,0,5"
+                    Margin="0,5,0,0"
                     d:Grid.Row="11"
                     Visibility="{c:Binding AchievementSettingsSetting.IsVisible}">
                     <Expander
@@ -410,7 +409,7 @@
 
                 <Grid
                     Grid.Row="{Binding UpdateSettingsSetting.GridRow}"
-                    Margin="0,0,0,5"
+                    Margin="0,5,0,0"
                     d:Grid.Row="12"
                     Visibility="{c:Binding UpdateSettingsSetting.IsVisible}">
                     <Expander
@@ -432,7 +431,7 @@
 
                 <Grid
                     Grid.Row="{Binding IssueReportSetting.GridRow}"
-                    Margin="0,0,0,5"
+                    Margin="0,5,0,0"
                     d:Grid.Row="13"
                     Visibility="{c:Binding IssueReportSetting.IsVisible}">
                     <Expander
@@ -454,7 +453,7 @@
 
                 <Grid
                     Grid.Row="{Binding AboutUsSetting.GridRow}"
-                    Margin="0,0,0,5"
+                    Margin="0,5,0,0"
                     d:Grid.Row="14"
                     Visibility="{c:Binding AboutUsSetting.IsVisible}">
                     <Expander

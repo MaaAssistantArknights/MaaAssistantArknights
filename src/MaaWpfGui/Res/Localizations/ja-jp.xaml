@@ -1751,7 +1751,6 @@ DEBUGディレクトリに保存される画像には数量制限があり、超
     <system:String x:Key="Settings.Achievement.Title">実績設定</system:String>
     <system:String x:Key="Settings.Advanced.Hide">詳細設定を非表示</system:String>
     <system:String x:Key="Settings.Advanced.Show">詳細設定を表示</system:String>
-    <system:String x:Key="Settings.Advanced.Tip" xml:space="preserve">パフォーマンス、リモート操作、外部サービス、ホットキー、実績の設定を表示します。&#10;非表示にしても設定済みの機能は無効になりません。&#10;検索中は一致する詳細設定が一時的に表示されます。</system:String>
     <system:String x:Key="Settings.Advanced.Title">詳細設定</system:String>
     <system:String x:Key="Settings.Background">背景設定</system:String>
     <system:String x:Key="Settings.Background.BlurRadius">背景のぼかし半径</system:String>
