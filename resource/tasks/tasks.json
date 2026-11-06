@@ -4661,10 +4661,6 @@
         "maskRange": [100, 255],
         "templThreshold": 0.7
     },
-    "BattleDeployWhenPause": {
-        "algorithm": "JustReturn",
-        "specialParams": [1]
-    },
     "BattleSpeedUp": {
         "algorithm": "JustReturn",
         "action": "ClickRect",

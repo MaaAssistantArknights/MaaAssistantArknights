@@ -418,9 +418,6 @@
     "BattleStartSimulationForTwo": {
         "text": ["시작", "시뮬레이션"]
     },
-    "BattleDeployWhenPause": {
-        "specialParams": [0]
-    },
     "StageDrops-TimesCheck": {
         "text": ["연속", "대리", "지휘"]
     },
