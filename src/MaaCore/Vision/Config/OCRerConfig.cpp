@@ -116,7 +116,10 @@ static std::string
             continue;
         }
         if (content[i] == '-') {
-            expanded += '-';
+            // 走到这里说明它不是区间操作符（区间在起点已被整体消费）；
+            // 边缘/中部的字面 hyphen 转义后追加等价字符，避免插入变体后形成新区间。
+            expanded += "\\-";
+            append_class_equivalents(expanded, std::string_view("-", 1), eq_classes);
             ++i;
             continue;
         }
