@@ -471,10 +471,10 @@
     <system:String x:Key="Asst.Recruit.LabelsRefreshed">已刷新標籤</system:String>
     <system:String x:Key="Asst.Recruit.NoRecruitmentPermit">無招聘許可，已返回</system:String>
     <system:String x:Key="Asst.Recruit.NotEnoughStaff">可用{key=Game.Operator}不足</system:String>
+    <system:String x:Key="Asst.Recruit.OperBoxDataUnavailable">幹員辨識資料不可用（{0}），「優先未擁有/未滿潛幹員」本次不生效</system:String>
+    <system:String x:Key="Asst.Recruit.OperPriorityApplied">優先未擁有/未滿潛：選擇 {0}（{1}/{2} 名可能招到的幹員未擁有或未滿潛）</system:String>
     <system:String x:Key="Asst.Recruit.PermitCountRecognitionFailed">招聘許可數量辨識失敗，為避免消耗保留許可，已跳過目前的 3★ 招聘</system:String>
     <system:String x:Key="Asst.Recruit.PermitReserved">招聘許可剩餘 {0}，小於等於保留數量，跳過目前的 3★ 招聘</system:String>
-    <system:String x:Key="Asst.Recruit.OperPriorityApplied">優先未擁有/未滿潛：選擇 {0}（{1}/{2} 名可能招到的幹員未擁有或未滿潛）</system:String>
-    <system:String x:Key="Asst.Recruit.OperBoxDataUnavailable">幹員辨識資料不可用（{0}），「優先未擁有/未滿潛幹員」本次不生效</system:String>
     <system:String x:Key="Asst.Recruit.RecruitingResults" xml:space="preserve">公招辨識結果：</system:String>
     <system:String x:Key="Asst.Recruit.RecruitingTips">公招提示</system:String>
     <system:String x:Key="Asst.Recruit.RecruitmentOfBot">公招出現小車囉！</system:String>
@@ -1471,18 +1471,18 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
     <system:String x:Key="Recruit.Level3PermitReserve">3★ 保留招聘許可</system:String>
     <system:String x:Key="Recruit.Level3PermitReserve.Tip">當剩餘招聘許可小於等於此值時跳過 3★ 招聘</system:String>
     <system:String x:Key="Recruit.MaxTimes">每次執行時最大招募次數</system:String>
-    <system:String x:Key="Recruit.PreserveTags">保留指定 Tag</system:String>
-    <system:String x:Key="Recruit.PreserveTags.Tip">辨識到任一已選 Tag 時，跳過該次招募並保留該欄位；留空時不保留任何 Tag。</system:String>
     <system:String x:Key="Recruit.OperPriority">優先未擁有/未滿潛幹員</system:String>
-    <system:String x:Key="Recruit.OperPriority.Tip" xml:space="preserve">根據「幹員辨識」保存的資料（本地辨識或一圖流匯入，以最近一次為準），在可選的 Tag 組合中優先選擇能招到未擁有或未滿潛幹員的組合，包含 1★ 支援機械（小車）。&#10;保持目前星級：只在與最高保底星級相同的組合中挑選（小車視為 3★ 檔）。&#10;直接優先：可以為了未擁有/未滿潛幹員放棄更高星的組合，但不會放棄資深/高級資深幹員 Tag 與 5★ 以上的保底。&#10;注意：&#10;· 僅對任務佇列中的自動公招生效，需要先執行過一次幹員辨識；&#10;· 只有 3★ 組合且命中「3★ 首選 Tag」時，以首選 Tag 為準；&#10;· 「保留指定 Tag」優先於本功能，保留了支援機械時不會選擇小車；&#10;· 選擇策略為「選滿 3 個 Tag」時，額外選擇的 Tag 可能會稀釋目標幹員的機率。</system:String>
-    <system:String x:Key="Recruit.OperPriority.Disabled">不啟用</system:String>
-    <system:String x:Key="Recruit.OperPriority.KeepLevel">保持目前星級</system:String>
-    <system:String x:Key="Recruit.OperPriority.Direct">直接優先</system:String>
     <system:String x:Key="Recruit.OperPriority.Decision">決策依據</system:String>
-    <system:String x:Key="Recruit.OperPriority.Decision.Tip" xml:space="preserve">啟用上方功能後，自動刷新、是否確認招募、保留招聘許可與招募時長以哪個組合為準。&#10;星級優先：以星級最高的組合為準，與原邏輯一致。招募時長依高星設定，可能會導致無法招聘到 1★、2★ 幹員（如小車）。&#10;優先未擁有/未滿潛：以實際選中的組合為準，選中的組合不會被自動刷新掉；選中小車組合時招募時長設為 3:50。</system:String>
     <system:String x:Key="Recruit.OperPriority.Decision.LevelFirst">星級優先</system:String>
     <system:String x:Key="Recruit.OperPriority.Decision.OperFirst">優先未擁有/未滿潛</system:String>
+    <system:String x:Key="Recruit.OperPriority.Decision.Tip" xml:space="preserve">啟用上方功能後，自動刷新、是否確認招募、保留招聘許可與招募時長以哪個組合為準。&#10;星級優先：以星級最高的組合為準，與原邏輯一致。招募時長依高星設定，可能會導致無法招聘到 1★、2★ 幹員（如小車）。&#10;優先未擁有/未滿潛：以實際選中的組合為準，選中的組合不會被自動刷新掉；選中小車組合時招募時長設為 3:50。</system:String>
+    <system:String x:Key="Recruit.OperPriority.Direct">直接優先</system:String>
+    <system:String x:Key="Recruit.OperPriority.Disabled">不啟用</system:String>
+    <system:String x:Key="Recruit.OperPriority.KeepLevel">保持目前星級</system:String>
     <system:String x:Key="Recruit.OperPriority.NoOperBoxData">未找到幹員辨識資料，「優先未擁有/未滿潛幹員」本次不生效。請先在小工具中執行幹員辨識</system:String>
+    <system:String x:Key="Recruit.OperPriority.Tip" xml:space="preserve">根據「幹員辨識」保存的資料（本地辨識或一圖流匯入，以最近一次為準），在可選的 Tag 組合中優先選擇能招到未擁有或未滿潛幹員的組合，包含 1★ 支援機械（小車）。&#10;保持目前星級：只在與最高保底星級相同的組合中挑選（小車視為 3★ 檔）。&#10;直接優先：可以為了未擁有/未滿潛幹員放棄更高星的組合，但不會放棄資深/高級資深幹員 Tag 與 5★ 以上的保底。&#10;注意：&#10;· 僅對任務佇列中的自動公招生效，需要先執行過一次幹員辨識；&#10;· 只有 3★ 組合且命中「3★ 首選 Tag」時，以首選 Tag 為準；&#10;· 「保留指定 Tag」優先於本功能，保留了支援機械時不會選擇小車；&#10;· 選擇策略為「選滿 3 個 Tag」時，額外選擇的 Tag 可能會稀釋目標幹員的機率。</system:String>
+    <system:String x:Key="Recruit.PreserveTags">保留指定 Tag</system:String>
+    <system:String x:Key="Recruit.PreserveTags.Tip">辨識到任一已選 Tag 時，跳過該次招募並保留該欄位；留空時不保留任何 Tag。</system:String>
     <system:String x:Key="Recruit.Recognition.AutoSelectLevel3Tags">自動選擇 3★ Tags</system:String>
     <system:String x:Key="Recruit.Recognition.AutoSelectLevel4Tags">自動選擇 4★ Tags</system:String>
     <system:String x:Key="Recruit.Recognition.AutoSelectLevel5Tags">自動選擇 5★ Tags</system:String>

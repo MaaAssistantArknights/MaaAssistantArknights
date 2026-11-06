@@ -471,10 +471,10 @@
     <system:String x:Key="Asst.Recruit.LabelsRefreshed">Labels refreshed</system:String>
     <system:String x:Key="Asst.Recruit.NoRecruitmentPermit">No recruitment permit, returned</system:String>
     <system:String x:Key="Asst.Recruit.NotEnoughStaff">Insufficient {key=Game.Operator}s</system:String>
+    <system:String x:Key="Asst.Recruit.OperBoxDataUnavailable">Operator Recognition data unavailable ({0}), &quot;Prefer unowned / non-max-potential operators&quot; is skipped this time</system:String>
+    <system:String x:Key="Asst.Recruit.OperPriorityApplied">Prefer unowned / non-max potential: selected {0} ({1}/{2} possible operators are unowned or not at max potential)</system:String>
     <system:String x:Key="Asst.Recruit.PermitCountRecognitionFailed">Failed to recognize the recruitment permit count. Skipped the current 3★ recruitment to preserve permits</system:String>
     <system:String x:Key="Asst.Recruit.PermitReserved">{0} recruitment permit(s) remaining; at or below the reserve. Skipped the current 3★ recruitment</system:String>
-    <system:String x:Key="Asst.Recruit.OperPriorityApplied">Prefer unowned / non-max potential: selected {0} ({1}/{2} possible operators are unowned or not at max potential)</system:String>
-    <system:String x:Key="Asst.Recruit.OperBoxDataUnavailable">Operator Recognition data unavailable ({0}), &quot;Prefer unowned / non-max-potential operators&quot; is skipped this time</system:String>
     <system:String x:Key="Asst.Recruit.RecruitingResults" xml:space="preserve">Recruitment Results:&#160;</system:String>
     <system:String x:Key="Asst.Recruit.RecruitingTips">Recruiting Tips</system:String>
     <system:String x:Key="Asst.Recruit.RecruitmentOfBot">Robot! Robot! More Robot!</system:String>
@@ -1470,18 +1470,18 @@ Recruitment permits are consumed faster than acquired; normally the timer expire
     <system:String x:Key="Recruit.Level3PermitReserve">Reserve recruitment permits for 3★</system:String>
     <system:String x:Key="Recruit.Level3PermitReserve.Tip">Skip 3★ recruitment when the remaining permit count is less than or equal to this value</system:String>
     <system:String x:Key="Recruit.MaxTimes">Recruit max times</system:String>
-    <system:String x:Key="Recruit.PreserveTags">Preserve selected tags</system:String>
-    <system:String x:Key="Recruit.PreserveTags.Tip">Skip the recruitment and keep the slot when any selected tag is identified. Leave it empty to preserve none.</system:String>
     <system:String x:Key="Recruit.OperPriority">Prefer unowned / non-max-potential operators</system:String>
-    <system:String x:Key="Recruit.OperPriority.Tip" xml:space="preserve">Using the data saved by Operator Recognition (local recognition or Yituliu import, whichever is newest), prefer Tag combinations that can yield unowned or non-max-potential operators, including the 1★ Robots.&#10;Keep current rarity: only choose among combinations with the same guaranteed rarity as the best one (Robots count as 3★).&#10;Prefer directly: may give up a higher-rarity combination for such operators, but never gives up Senior/Top Operator tags or a 5★+ guarantee.&#10;Notes:&#10;· Only applies to Auto Recruit in the task queue; run Operator Recognition at least once first;&#10;· When only 3★ combinations exist and a 3★ preferred Tag is present, the preferred Tag wins;&#10;· Preserve Tags takes precedence; Robots are never picked if the Robot tag is preserved;&#10;· With the &quot;select 3 Tags&quot; strategy, the extra Tags may dilute the chance of the target operator.</system:String>
-    <system:String x:Key="Recruit.OperPriority.Disabled">Disabled</system:String>
-    <system:String x:Key="Recruit.OperPriority.KeepLevel">Keep current rarity</system:String>
-    <system:String x:Key="Recruit.OperPriority.Direct">Prefer directly</system:String>
     <system:String x:Key="Recruit.OperPriority.Decision">Decide by</system:String>
-    <system:String x:Key="Recruit.OperPriority.Decision.Tip" xml:space="preserve">When the option above is enabled, which combination auto refresh, confirmation, permit reserve and recruitment time follow.&#10;Rarity first: the highest-rarity combination, same as before. Recruitment time follows the higher rarity, which may make 1★/2★ operators (such as the Robots) impossible to recruit.&#10;Unowned / non-max potential first: the combination actually selected; it will not be refreshed away, and the time is set to 3:50 when a Robot combination is selected.</system:String>
     <system:String x:Key="Recruit.OperPriority.Decision.LevelFirst">Rarity first</system:String>
     <system:String x:Key="Recruit.OperPriority.Decision.OperFirst">Unowned / non-max potential first</system:String>
+    <system:String x:Key="Recruit.OperPriority.Decision.Tip" xml:space="preserve">When the option above is enabled, which combination auto refresh, confirmation, permit reserve and recruitment time follow.&#10;Rarity first: the highest-rarity combination, same as before. Recruitment time follows the higher rarity, which may make 1★/2★ operators (such as the Robots) impossible to recruit.&#10;Unowned / non-max potential first: the combination actually selected; it will not be refreshed away, and the time is set to 3:50 when a Robot combination is selected.</system:String>
+    <system:String x:Key="Recruit.OperPriority.Direct">Prefer directly</system:String>
+    <system:String x:Key="Recruit.OperPriority.Disabled">Disabled</system:String>
+    <system:String x:Key="Recruit.OperPriority.KeepLevel">Keep current rarity</system:String>
     <system:String x:Key="Recruit.OperPriority.NoOperBoxData">Operator Recognition data not found, &quot;Prefer unowned / non-max-potential operators&quot; is skipped this time. Please run Operator Recognition in Toolbox first</system:String>
+    <system:String x:Key="Recruit.OperPriority.Tip" xml:space="preserve">Using the data saved by Operator Recognition (local recognition or Yituliu import, whichever is newest), prefer Tag combinations that can yield unowned or non-max-potential operators, including the 1★ Robots.&#10;Keep current rarity: only choose among combinations with the same guaranteed rarity as the best one (Robots count as 3★).&#10;Prefer directly: may give up a higher-rarity combination for such operators, but never gives up Senior/Top Operator tags or a 5★+ guarantee.&#10;Notes:&#10;· Only applies to Auto Recruit in the task queue; run Operator Recognition at least once first;&#10;· When only 3★ combinations exist and a 3★ preferred Tag is present, the preferred Tag wins;&#10;· Preserve Tags takes precedence; Robots are never picked if the Robot tag is preserved;&#10;· With the &quot;select 3 Tags&quot; strategy, the extra Tags may dilute the chance of the target operator.</system:String>
+    <system:String x:Key="Recruit.PreserveTags">Preserve selected tags</system:String>
+    <system:String x:Key="Recruit.PreserveTags.Tip">Skip the recruitment and keep the slot when any selected tag is identified. Leave it empty to preserve none.</system:String>
     <system:String x:Key="Recruit.Recognition.AutoSelectLevel3Tags">Auto select 3★ Tags</system:String>
     <system:String x:Key="Recruit.Recognition.AutoSelectLevel4Tags">Auto select 4★ Tags</system:String>
     <system:String x:Key="Recruit.Recognition.AutoSelectLevel5Tags">Auto select 5★ Tags</system:String>

@@ -471,10 +471,10 @@
     <system:String x:Key="Asst.Recruit.LabelsRefreshed">태그 갱신 완료</system:String>
     <system:String x:Key="Asst.Recruit.NoRecruitmentPermit">모집 허가증 없음, 중지</system:String>
     <system:String x:Key="Asst.Recruit.NotEnoughStaff">{key=Game.Operator} 부족</system:String>
+    <system:String x:Key="Asst.Recruit.OperBoxDataUnavailable">오퍼레이터 인식 데이터를 사용할 수 없습니다({0}). 「미보유/잠재 미완성 오퍼레이터 우선」이 이번에는 적용되지 않습니다</system:String>
+    <system:String x:Key="Asst.Recruit.OperPriorityApplied">미보유/잠재 미완성 우선: {0} 선택 (가능한 오퍼레이터 {2}명 중 {1}명이 미보유 또는 잠재 미완성)</system:String>
     <system:String x:Key="Asst.Recruit.PermitCountRecognitionFailed">모집 허가증 수를 인식하지 못했습니다. 허가증을 보존하기 위해 현재 ★3 모집을 건너뜁니다</system:String>
     <system:String x:Key="Asst.Recruit.PermitReserved">모집 허가증이 {0}개 남아 보유 한도 이하입니다. 현재 ★3 모집을 건너뜁니다</system:String>
-    <system:String x:Key="Asst.Recruit.OperPriorityApplied">미보유/잠재 미완성 우선: {0} 선택 (가능한 오퍼레이터 {2}명 중 {1}명이 미보유 또는 잠재 미완성)</system:String>
-    <system:String x:Key="Asst.Recruit.OperBoxDataUnavailable">오퍼레이터 인식 데이터를 사용할 수 없습니다({0}). 「미보유/잠재 미완성 오퍼레이터 우선」이 이번에는 적용되지 않습니다</system:String>
     <system:String x:Key="Asst.Recruit.RecruitingResults" xml:space="preserve">공개모집 인식 결과: </system:String>
     <system:String x:Key="Asst.Recruit.RecruitingTips">공개모집 팁</system:String>
     <system:String x:Key="Asst.Recruit.RecruitmentOfBot">로봇을 모집했습니다!</system:String>
@@ -1471,18 +1471,18 @@ OF-1 스테이지가 개방되지 않은 경우에는 선택하지 마세요.</s
     <system:String x:Key="Recruit.Level3PermitReserve">★3 모집용 모집 허가증 보유</system:String>
     <system:String x:Key="Recruit.Level3PermitReserve.Tip">남은 모집 허가증 수가 이 값 이하이면 ★3 모집을 건너뜁니다</system:String>
     <system:String x:Key="Recruit.MaxTimes">시행 시의 최대 모집횟수</system:String>
-    <system:String x:Key="Recruit.PreserveTags">지정 태그 보류</system:String>
-    <system:String x:Key="Recruit.PreserveTags.Tip">선택한 태그 중 하나라도 인식되면 해당 모집을 건너뛰고 슬롯을 유지합니다. 비워 두면 어떤 태그도 보류하지 않습니다.</system:String>
     <system:String x:Key="Recruit.OperPriority">미보유/잠재 미완성 오퍼레이터 우선</system:String>
-    <system:String x:Key="Recruit.OperPriority.Tip" xml:space="preserve">「오퍼레이터 인식」으로 저장된 데이터(로컬 인식 또는 Yituliu 가져오기 중 최신)를 바탕으로, 미보유 또는 잠재가 최대가 아닌 오퍼레이터를 얻을 수 있는 태그 조합을 우선 선택합니다. ★1 로봇도 포함됩니다.&#10;현재 등급 유지: 최고 보장 등급과 같은 조합 중에서만 선택합니다(로봇은 ★3으로 취급).&#10;직접 우선: 더 높은 등급의 조합을 포기할 수 있지만, 특별채용/고급특별채용 태그와 ★5 이상 보장은 포기하지 않습니다.&#10;주의:&#10;· 작업 대기열의 자동 공개모집에만 적용되며, 먼저 오퍼레이터 인식을 한 번 실행해야 합니다;&#10;· ★3 조합만 있고 ★3 우선 태그가 있으면 우선 태그가 우선합니다;&#10;· 「지정 태그 보류」가 우선하며, 로봇 태그를 보류한 경우 로봇을 선택하지 않습니다;&#10;· 「태그 3개 선택」 전략에서는 추가 태그가 목표 오퍼레이터의 확률을 낮출 수 있습니다.</system:String>
-    <system:String x:Key="Recruit.OperPriority.Disabled">사용 안 함</system:String>
-    <system:String x:Key="Recruit.OperPriority.KeepLevel">현재 등급 유지</system:String>
-    <system:String x:Key="Recruit.OperPriority.Direct">직접 우선</system:String>
     <system:String x:Key="Recruit.OperPriority.Decision">판단 기준</system:String>
-    <system:String x:Key="Recruit.OperPriority.Decision.Tip" xml:space="preserve">위 기능을 켰을 때 자동 갱신, 모집 확정, 모집 허가증 보유, 모집 시간을 어떤 조합 기준으로 정할지 선택합니다.&#10;등급 우선: 가장 높은 등급의 조합 기준(기존과 동일). 모집 시간이 높은 등급에 맞춰지므로 ★1, ★2 오퍼레이터(로봇 등)를 모집하지 못할 수 있습니다.&#10;미보유/잠재 미완성 우선: 실제로 선택한 조합 기준이며 자동 갱신으로 사라지지 않습니다. 로봇 조합을 선택하면 모집 시간을 3:50으로 설정합니다.</system:String>
     <system:String x:Key="Recruit.OperPriority.Decision.LevelFirst">등급 우선</system:String>
     <system:String x:Key="Recruit.OperPriority.Decision.OperFirst">미보유/잠재 미완성 우선</system:String>
+    <system:String x:Key="Recruit.OperPriority.Decision.Tip" xml:space="preserve">위 기능을 켰을 때 자동 갱신, 모집 확정, 모집 허가증 보유, 모집 시간을 어떤 조합 기준으로 정할지 선택합니다.&#10;등급 우선: 가장 높은 등급의 조합 기준(기존과 동일). 모집 시간이 높은 등급에 맞춰지므로 ★1, ★2 오퍼레이터(로봇 등)를 모집하지 못할 수 있습니다.&#10;미보유/잠재 미완성 우선: 실제로 선택한 조합 기준이며 자동 갱신으로 사라지지 않습니다. 로봇 조합을 선택하면 모집 시간을 3:50으로 설정합니다.</system:String>
+    <system:String x:Key="Recruit.OperPriority.Direct">직접 우선</system:String>
+    <system:String x:Key="Recruit.OperPriority.Disabled">사용 안 함</system:String>
+    <system:String x:Key="Recruit.OperPriority.KeepLevel">현재 등급 유지</system:String>
     <system:String x:Key="Recruit.OperPriority.NoOperBoxData">오퍼레이터 인식 데이터를 찾을 수 없어 「미보유/잠재 미완성 오퍼레이터 우선」이 이번에는 적용되지 않습니다. 먼저 도구에서 오퍼레이터 인식을 실행하세요</system:String>
+    <system:String x:Key="Recruit.OperPriority.Tip" xml:space="preserve">「오퍼레이터 인식」으로 저장된 데이터(로컬 인식 또는 Yituliu 가져오기 중 최신)를 바탕으로, 미보유 또는 잠재가 최대가 아닌 오퍼레이터를 얻을 수 있는 태그 조합을 우선 선택합니다. ★1 로봇도 포함됩니다.&#10;현재 등급 유지: 최고 보장 등급과 같은 조합 중에서만 선택합니다(로봇은 ★3으로 취급).&#10;직접 우선: 더 높은 등급의 조합을 포기할 수 있지만, 특별채용/고급특별채용 태그와 ★5 이상 보장은 포기하지 않습니다.&#10;주의:&#10;· 작업 대기열의 자동 공개모집에만 적용되며, 먼저 오퍼레이터 인식을 한 번 실행해야 합니다;&#10;· ★3 조합만 있고 ★3 우선 태그가 있으면 우선 태그가 우선합니다;&#10;· 「지정 태그 보류」가 우선하며, 로봇 태그를 보류한 경우 로봇을 선택하지 않습니다;&#10;· 「태그 3개 선택」 전략에서는 추가 태그가 목표 오퍼레이터의 확률을 낮출 수 있습니다.</system:String>
+    <system:String x:Key="Recruit.PreserveTags">지정 태그 보류</system:String>
+    <system:String x:Key="Recruit.PreserveTags.Tip">선택한 태그 중 하나라도 인식되면 해당 모집을 건너뛰고 슬롯을 유지합니다. 비워 두면 어떤 태그도 보류하지 않습니다.</system:String>
     <system:String x:Key="Recruit.Recognition.AutoSelectLevel3Tags">★3 태그 자동 선택</system:String>
     <system:String x:Key="Recruit.Recognition.AutoSelectLevel4Tags">★4 태그 자동 선택</system:String>
     <system:String x:Key="Recruit.Recognition.AutoSelectLevel5Tags">★5 태그 자동 선택</system:String>
