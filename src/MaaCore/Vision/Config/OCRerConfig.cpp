@@ -32,21 +32,25 @@ void OCRerConfig::set_replace(
     for (auto&& [key, val] : replace) {
         auto& ocr_config = OcrConfig::get_instance();
         std::string new_key = key;
-        for (const auto& eq_class : ocr_config.get_eq_classes()) {
-            if (eq_class.size() <= 1) {
-                continue;
-            }
+        // 含正则元字符的 key 不能再做原始字符串替换，否则 [Oo] 会被改写成 [O(?:o|о)]，
+        // 把 ':' 也纳入字符类；等价字符规范化仍由 required 文本处理。
+        if (key.find_first_of("\\[](){}.*+?|^$") == std::string::npos) {
+            for (const auto& eq_class : ocr_config.get_eq_classes()) {
+                if (eq_class.size() <= 1) {
+                    continue;
+                }
 
-            // eq_class: [s, S] -> regex: "(?:s|S)"
-            std::string eq_classes_regex = "(?:";
-            for (const auto& elem : eq_class) {
-                (eq_classes_regex += elem) += '|';
+                // eq_class: [s, S] -> regex: "(?:s|S)"
+                std::string eq_classes_regex = "(?:";
+                for (const auto& elem : eq_class) {
+                    (eq_classes_regex += elem) += '|';
+                }
+                eq_classes_regex.pop_back();
+                eq_classes_regex += ')';
+                std::ranges::for_each(eq_class, [&](std::string_view elem) {
+                    utils::string_replace_all_in_place(new_key, elem, eq_classes_regex);
+                });
             }
-            eq_classes_regex.pop_back();
-            eq_classes_regex += ')';
-            std::ranges::for_each(eq_class, [&](std::string_view elem) {
-                utils::string_replace_all_in_place(new_key, elem, eq_classes_regex);
-            });
         }
         // do not create new_val as val is user-provided, and can avoid issues like 夕 and katakana タ
         m_params.replace.emplace_back(std::move(new_key), val);
