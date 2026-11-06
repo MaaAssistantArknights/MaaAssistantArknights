@@ -246,6 +246,7 @@ public class SettingsViewModel : Screen
 
         SaveSettingOrder();
         _selectedSetting = Settings[0];
+        _lastGeneralSetting = Settings[0];
         SettingsDropHandler = new SettingsDropHandler(Settings);
         Settings.CollectionChanged += Settings_CollectionChanged;
     }
@@ -279,11 +280,6 @@ public class SettingsViewModel : Screen
     {
         // 搜索期间临时显示高级分区，不改变用户持久化的显示偏好。
         var showAdvanced = ShowAdvancedSettings || !string.IsNullOrEmpty(SearchText);
-        if (!showAdvanced && _selectedSetting is { IsAdvanced: true })
-        {
-            _settingToSelectAfterLayout = _lastGeneralSetting ?? Settings.FirstOrDefault(item => !item.IsAdvanced);
-        }
-
         foreach (var item in Settings)
         {
             item.AreAdvancedSettingsVisible = showAdvanced;
@@ -313,8 +309,11 @@ public class SettingsViewModel : Screen
         }
     }
 
+    private bool _isReorderingSettings;
+
     private void Settings_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs? e)
     {
+        _isReorderingSettings = true;
         _settingToSelectAfterLayout = _selectedSetting;
         SaveSettingOrder();
         Execute.OnUIThread(() => {
@@ -342,24 +341,42 @@ public class SettingsViewModel : Screen
             return;
         }
 
+        var oldSelectedOffset = SelectedIndex >= 0 && SelectedIndex < DividerVerticalOffsetList.Count
+            ? DividerVerticalOffsetList[SelectedIndex]
+            : double.NaN;
+
         _isSettingsLayoutRefreshPending = true;
         Application.Current.Dispatcher.InvokeAsync(() => {
             _isSettingsLayoutRefreshPending = false;
+            _isReorderingSettings = false;
             RefreshDividerOffsetsRequested?.Invoke(this, EventArgs.Empty);
 
             var preferred = _settingToSelectAfterLayout;
             _settingToSelectAfterLayout = null;
-            if (preferred is { IsVisible: true }
-                || SelectedIndex < 0 || SelectedIndex >= Settings.Count || !Settings[SelectedIndex].IsVisible)
+            var shouldSelectPreferred = preferred is { IsVisible: true };
+            var isCurrentSelectionInvalid = SelectedIndex < 0 || SelectedIndex >= Settings.Count || !Settings[SelectedIndex].IsVisible;
+            if (shouldSelectPreferred || isCurrentSelectionInvalid)
             {
-                var target = preferred is { IsVisible: true } ? preferred
+                var target = shouldSelectPreferred ? preferred
                     : _lastGeneralSetting is { IsVisible: true } ? _lastGeneralSetting
                     : Settings.FirstOrDefault(item => item.IsVisible);
                 _notifySource = NotifyType.None;
-                SelectedIndex = target == null ? -1 : Settings.IndexOf(target);
-                if (SelectedIndex >= 0 && SelectedIndex < DividerVerticalOffsetList.Count)
+                SelectedIndex = target == null ? -1 : Settings.IndexOf(target!);
+            }
+
+            if (SelectedIndex >= 0 && SelectedIndex < DividerVerticalOffsetList.Count
+                && !double.IsNaN(DividerVerticalOffsetList[SelectedIndex]))
+            {
+                var targetOffset = DividerVerticalOffsetList[SelectedIndex];
+                var offsetShifted = !double.IsNaN(oldSelectedOffset) && Math.Abs(targetOffset - oldSelectedOffset) >= 0.5;
+                if (shouldSelectPreferred || isCurrentSelectionInvalid || offsetShifted)
                 {
-                    ScrollAnimationTarget = DividerVerticalOffsetList[SelectedIndex];
+                    if (Math.Abs(ScrollAnimationTarget - targetOffset) < 0.5)
+                    {
+                        ScrollAnimationTarget = double.NaN;
+                    }
+
+                    ScrollAnimationTarget = targetOffset;
                 }
             }
         }, System.Windows.Threading.DispatcherPriority.Loaded);
@@ -378,12 +395,9 @@ public class SettingsViewModel : Screen
             if (SetAndNotify(ref _searchText, value))
             {
                 UpdateAdvancedSettingsVisibility();
-                SearchRequested?.Invoke(this, value);
             }
         }
     }
-
-    public event EventHandler<string>? SearchRequested;
 
     public ObservableCollection<SettingItemViewModel> Settings
     {
@@ -1668,6 +1682,18 @@ public class SettingsViewModel : Screen
             if (value < 0 || value >= Settings.Count || !Settings[value].IsVisible
                 || value >= DividerVerticalOffsetList.Count || double.IsNaN(DividerVerticalOffsetList[value]))
             {
+                return;
+            }
+
+            if (_isReorderingSettings)
+            {
+                SetAndNotify(ref _selectedIndex, value);
+                _selectedSetting = Settings[value];
+                if (!_selectedSetting.IsAdvanced)
+                {
+                    _lastGeneralSetting = _selectedSetting;
+                }
+
                 return;
             }
 
