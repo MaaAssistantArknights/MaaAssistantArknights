@@ -21,7 +21,7 @@ namespace MaaWpfGui.Configuration.Global;
 /// </summary>
 public partial class Performance : NotifyPropertyChangedWithValue
 {
-    public bool UseGpu { get; set; }
+    public bool UseGpu { get; set; } = true;
 
     public string GpuDescription { get; set; } = string.Empty;
 
