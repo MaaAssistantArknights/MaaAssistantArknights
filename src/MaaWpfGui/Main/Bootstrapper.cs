@@ -104,6 +104,10 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
                 "onnxruntime_maa.dll",
                 "opencv_world4_maa.dll",
 
+                // Dawn（WebGPU 推理后端）的 D3D12 后端运行时加载的 DXC shader 编译器
+                "dxcompiler.dll",
+                "dxil.dll",
+
                 // NetBeauty 关闭 patch（loader 模式）时 .NET 运行时核心件保留在安装目录根下
                 "clrjit.dll",
                 "coreclr.dll",
