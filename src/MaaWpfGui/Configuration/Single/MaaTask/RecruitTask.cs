@@ -52,9 +52,9 @@ public class RecruitTask : BaseTask, IJsonOnDeserialized
     public int OperPriorityMode { get; set; }
 
     /// <summary>
-    /// Gets or sets 启用优先未拥有/未满潜后，刷新/确认/招募时长等决策的依据。0：星级优先；1：优先未拥有/未满潜。
+    /// Gets or sets a value indicating whether 优先未拥有/未满潜时允许招募小车和 2 星干员（会缩短该次招募时长）。
     /// </summary>
-    public int OperPriorityDecision { get; set; }
+    public bool OperPriorityAllowLowStar { get; set; }
 
     /// <summary>
     /// Gets or sets 3星首选Tag

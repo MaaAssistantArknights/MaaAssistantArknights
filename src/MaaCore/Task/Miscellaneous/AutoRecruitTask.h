@@ -32,7 +32,7 @@ public:
     AutoRecruitTask& set_first_tags(std::vector<std::string> first_tags) noexcept;
     AutoRecruitTask& set_oper_priority(
         OperPriorityMode mode,
-        OperPriorityDecision decision,
+        bool allow_low_star,
         std::string operbox_data_path) noexcept;
     AutoRecruitTask& set_preserve_tags(std::vector<RecruitConfig::TagId> skip_tags) noexcept;
     AutoRecruitTask& set_set_time(bool set_time) noexcept;
@@ -84,6 +84,7 @@ protected:
         size_t considered = 0; // 参与统计的干员数
         size_t wanted = 0;     // 其中未拥有或未满潜的干员数
         size_t unowned = 0;    // 其中未拥有的干员数
+        size_t low_star_wanted = 0; // wanted 中 1、2 星干员的数量（需要缩短招募时长才可能招到）
 
         double wanted_ratio() const { return considered == 0 ? 0. : static_cast<double>(wanted) / considered; }
 
@@ -209,7 +210,7 @@ protected:
     std::vector<std::string> m_first_tags;
     std::vector<RecruitConfig::TagId> m_preserve_tags = { "支援机械" };
     OperPriorityMode m_oper_priority_mode = OperPriorityMode::Disabled;
-    OperPriorityDecision m_oper_priority_decision = OperPriorityDecision::LevelFirst;
+    bool m_oper_priority_allow_low_star = false; // 允许招募小车/2 星干员
     std::string m_operbox_data_path;
     bool m_operbox_loaded = false;                          // 本次任务已尝试读取过
     std::unordered_map<std::string, int> m_owned_potential; // 已拥有干员 id -> 潜能（1~6）

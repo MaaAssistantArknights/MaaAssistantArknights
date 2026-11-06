@@ -165,11 +165,11 @@ asst::AutoRecruitTask& asst::AutoRecruitTask::set_first_tags(std::vector<std::st
 
 asst::AutoRecruitTask& asst::AutoRecruitTask::set_oper_priority(
     OperPriorityMode mode,
-    OperPriorityDecision decision,
+    bool allow_low_star,
     std::string operbox_data_path) noexcept
 {
     m_oper_priority_mode = mode;
-    m_oper_priority_decision = decision;
+    m_oper_priority_allow_low_star = allow_low_star;
     m_operbox_data_path = std::move(operbox_data_path);
     // 参数变化后下次运行重新读取
     m_operbox_loaded = false;
@@ -297,19 +297,34 @@ asst::AutoRecruitTask::OperPriorityScore asst::AutoRecruitTask::calc_oper_priori
 {
     OperPriorityScore score;
     const bool robot = is_robot_comb(comb);
+    if (robot && !m_oper_priority_allow_low_star) {
+        return score; // 不允许招募小车时，小车组合不参与挑选
+    }
+    // 默认与星级计算保持一致：招募时间按 9:00 计，1、2 星不会出现。
+    // 允许招募低星时：小车组合（时长 3:50）只统计 1 星；3 星档组合（时长 7:30）把 2 星也算进来。
+    // 4 星以上保底的组合不统计 2 星，否则缩短时长会破坏保底。
+    int min_counted_level = 3;
+    if (robot) {
+        min_counted_level = 1;
+    }
+    else if (m_oper_priority_allow_low_star && comb.min_level <= 3) {
+        min_counted_level = 2;
+    }
     for (const Recruitment& op : comb.opers) {
-        // 与星级计算保持一致：招募时间按 9:00 计，1、2 星不会出现；小车组合会设置为 3:50，只统计 1 星
-        if (robot ? op.level != 1 : op.level < 3) {
+        if (robot ? op.level != 1 : op.level < min_counted_level) {
             continue;
         }
         ++score.considered;
         auto iter = m_owned_potential.find(op.id);
-        if (iter == m_owned_potential.end()) {
+        const bool unowned = iter == m_owned_potential.end();
+        if (unowned || iter->second < 6) {
             ++score.wanted;
-            ++score.unowned;
-        }
-        else if (iter->second < 6) {
-            ++score.wanted;
+            if (unowned) {
+                ++score.unowned;
+            }
+            if (op.level < 3) {
+                ++score.low_star_wanted;
+            }
         }
     }
     return score;
@@ -793,14 +808,12 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
             }
         }
 
-        // 实际要选的组合
+        // 实际要选的组合；刷新/确认/许可保留/招募时长仍以按星级排序的最佳组合为准（与原逻辑一致）
         const RecruitCombs& final_combination = result_vec.front();
-        // 刷新/确认/许可保留/招募时长等决策依据的组合
-        const bool decide_by_final =
-            oper_priority_applied && m_oper_priority_decision == OperPriorityDecision::OperFirst;
-        const RecruitCombs& decision_combination = decide_by_final ? final_combination : best_combination;
-        // 小车组合按 3 星档处理（确认、许可保留沿用 3 星设置）
-        const int decision_level = decide_by_final ? comb_tier(final_combination) : best_combination.min_level;
+        const int decision_level = best_combination.min_level;
+        // 为了未拥有/未满潜的小车或 2 星干员而选中的组合：不刷新，并缩短招募时长
+        const bool low_star_pick = oper_priority_applied && m_oper_priority_allow_low_star &&
+                                   calc_oper_priority_score(final_combination).low_star_wanted > 0;
 
         bool to_report = false;
         if (!is_calc_only_task()) {
@@ -831,7 +844,7 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
             !has_special_tag &&                 // 5 星以上 tag 不刷新
             !has_skip_tag &&                    // 保留词条时不刷新
             decision_level == 3 &&              // 如果只有 3 星 tag，即使有倾向 tag 也应该刷新
-            !decide_by_final)                   // 以选中组合为准时，选中的就是想要的干员，不刷新
+            !low_star_pick)                     // 选中了想要的小车/2 星干员时不刷新
         // clang-format on
         {
             if (refresh_count > refresh_limit) [[unlikely]] {
@@ -938,14 +951,17 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
             }
         }
 
-        int recruitment_time = m_desired_time_map[(std::max)(decision_combination.min_level, 3)];
+        int recruitment_time = m_desired_time_map[(std::max)(decision_level, 3)];
         if (recruitment_time == 0) {
             recruitment_time = 9 * 60;
         }
-        // 小车只在招募时长不超过 3:50 时出现
-        if (decide_by_final && is_robot_comb(final_combination)) {
+        if (low_star_pick) {
+            // 1 星只在招募时长不超过 3:50 时出现，2 星只在不超过 7:30 时出现
             static constexpr int RobotRecruitmentTime = 3 * 60 + 50;
-            recruitment_time = RobotRecruitmentTime;
+            static constexpr int Level2RecruitmentTime = 7 * 60 + 30;
+            recruitment_time = is_robot_comb(final_combination)
+                                   ? RobotRecruitmentTime
+                                   : (std::min)(recruitment_time, Level2RecruitmentTime);
         }
 
         // try to set the timer to desired value

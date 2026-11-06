@@ -350,7 +350,7 @@ B服：`张三`，可输入 `张三`、`张`、`三`
 @type number  
 @default 0  
 @optional  
-优先选择能招到未拥有/未满潜干员（含 1 星支援机械）的 Tag 组合，需要同时提供 `operbox_data_path`。
+优先选择能招到未拥有/未满潜干员的 Tag 组合，需要同时提供 `operbox_data_path`。自动刷新、确认、招聘许可保留和招募时长仍以按星级排序的最佳组合为准。
 <br>
 `0` - 不启用
 <br>
@@ -360,15 +360,11 @@ B服：`张三`，可输入 `张三`、`张`、`三`
 <br>
 只有 3 星组合且命中 `first_tags` 时以 `first_tags` 为准；`preserve_tags` 优先于本选项。  
 :::  
-::: field oper_priority_decision  
-@type number  
-@default 0  
+::: field oper_priority_allow_low_star  
+@type boolean  
+@default false  
 @optional  
-`oper_priority_mode` 非 0 时，自动刷新、确认、招聘许可保留和招募时长以哪个组合为准。
-<br>
-`0` - 星级优先：以按星级排序的最佳组合为准，与原逻辑一致（可能无法招到 1、2 星干员）
-<br>
-`1` - 优先未拥有/未满潜：以实际选中的组合为准，不会刷新掉选中的组合；选中小车组合时招募时长为 3:50  
+`oper_priority_mode` 非 0 时，是否允许为未拥有/未满潜的 1 星支援机械（小车）和 2 星干员选择组合（2 星只在没有 4 星以上保底的组合中考虑）。因此选中的组合不会被自动刷新，招募时长缩短为：小车 3:50，2 星不超过 7:30。为 `false` 时不会主动招募小车和 2 星干员。  
 :::  
 ::: field operbox_data_path  
 @type string  

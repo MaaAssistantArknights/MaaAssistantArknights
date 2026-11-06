@@ -124,16 +124,12 @@
                     SelectedValue="{Binding OperPriorityMode}"
                     SelectedValuePath="Value" />
             </StackPanel>
-            <StackPanel Margin="0,5" Visibility="{c:Binding 'OperPriorityMode != 0'}">
-                <StackPanel Margin="0,0,0,5" Orientation="Horizontal">
-                    <controls:TextBlock Margin="8,0,0,0" Text="{DynamicResource Recruit.OperPriority.Decision}" />
-                    <controls:TooltipBlock TooltipText="{DynamicResource Recruit.OperPriority.Decision.Tip}" />
-                </StackPanel>
-                <hc:ComboBox
-                    DisplayMemberPath="Display"
-                    ItemsSource="{Binding AutoRecruitOperPriorityDecisionList}"
-                    SelectedValue="{Binding OperPriorityDecision}"
-                    SelectedValuePath="Value" />
+            <StackPanel
+                Margin="0,5"
+                Orientation="Horizontal"
+                Visibility="{c:Binding 'OperPriorityMode != 0'}">
+                <CheckBox Content="{DynamicResource Recruit.OperPriority.AllowLowStar}" IsChecked="{Binding OperPriorityAllowLowStar}" />
+                <controls:TooltipBlock TooltipText="{DynamicResource Recruit.OperPriority.AllowLowStar.Tip}" />
             </StackPanel>
             <StackPanel Margin="0,10">
                 <StackPanel Orientation="Horizontal">

@@ -350,7 +350,7 @@ Select more tags.
 @type number  
 @default 0  
 @optional  
-Prefer tag combinations that can yield unowned / non-max-potential operators (including the 1★ Robots). Requires `operbox_data_path`.
+Prefer tag combinations that can yield unowned / non-max-potential operators. Requires `operbox_data_path`. Auto refresh, confirmation, permit reserve and recruitment time still follow the best combination by rarity.
 <br>
 `0` - disabled
 <br>
@@ -360,15 +360,11 @@ Prefer tag combinations that can yield unowned / non-max-potential operators (in
 <br>
 When only 3★ combinations exist and `first_tags` matches, `first_tags` wins; `preserve_tags` takes precedence over this option.  
 :::  
-::: field oper_priority_decision  
-@type number  
-@default 0  
+::: field oper_priority_allow_low_star  
+@type boolean  
+@default false  
 @optional  
-When `oper_priority_mode` is not 0, which combination auto refresh, confirmation, permit reserve and recruitment time follow.
-<br>
-`0` - rarity first: the best combination by rarity, same as before (1★/2★ operators may become impossible to recruit)
-<br>
-`1` - unowned / non-max potential first: the combination actually selected; it is never refreshed away, and the time is 3:50 for a Robot combination  
+When `oper_priority_mode` is not 0, whether combinations may be chosen for unowned / non-max-potential 1★ Robots and 2★ operators (2★ only in combinations without a 4★+ guarantee). Such a combination is never refreshed away, and the recruitment time is shortened to 3:50 for Robots and at most 7:30 for 2★. When `false`, Robots and 2★ operators are never targeted.  
 :::  
 ::: field operbox_data_path  
 @type string  

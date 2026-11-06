@@ -179,19 +179,12 @@ public class RecruitTaskUserControlModel : TaskSettingsViewModel, RecruitTaskUse
     }
 
     /// <summary>
-    /// Gets the list of decision bases when oper priority is enabled.
+    /// Gets or sets a value indicating whether 优先未拥有/未满潜时允许招募小车和 2 星干员。
     /// </summary>
-    public LocalizedObservableList<int> AutoRecruitOperPriorityDecisionList { get; } = new(
-        (0, "Recruit.OperPriority.Decision.LevelFirst"),
-        (1, "Recruit.OperPriority.Decision.OperFirst"));
-
-    /// <summary>
-    /// Gets or sets 启用优先未拥有/未满潜后，刷新/确认/招募时长等决策的依据。
-    /// </summary>
-    public int OperPriorityDecision
+    public bool OperPriorityAllowLowStar
     {
-        get => GetTaskConfig<RecruitTask>().OperPriorityDecision;
-        set => SetTaskConfig<RecruitTask>(t => t.OperPriorityDecision == value, t => t.OperPriorityDecision = value);
+        get => GetTaskConfig<RecruitTask>().OperPriorityAllowLowStar;
+        set => SetTaskConfig<RecruitTask>(t => t.OperPriorityAllowLowStar == value, t => t.OperPriorityAllowLowStar = value);
     }
 
     /// <summary>
@@ -331,7 +324,6 @@ public class RecruitTaskUserControlModel : TaskSettingsViewModel, RecruitTaskUse
     {
         AutoRecruitSelectExtraTagsList.RefreshLocalization();
         AutoRecruitOperPriorityModeList.RefreshLocalization();
-        AutoRecruitOperPriorityDecisionList.RefreshLocalization();
     }
 
     private interface ISerialize : ITaskQueueModelSerialize
@@ -362,7 +354,7 @@ public class RecruitTaskUserControlModel : TaskSettingsViewModel, RecruitTaskUse
                 Level3FirstList = firstTags,
                 PreserveTags = preserveTags,
                 OperPriorityMode = operPriorityMode,
-                OperPriorityDecision = recruit.OperPriorityDecision is 1 ? 1 : 0,
+                OperPriorityAllowLowStar = recruit.OperPriorityAllowLowStar,
                 OperBoxDataPath = operBoxDataPath,
                 Level3RecruitmentPermitReserve = recruit.Level3RecruitmentPermitReserveEnabled
                     ? recruit.Level3RecruitmentPermitReserve

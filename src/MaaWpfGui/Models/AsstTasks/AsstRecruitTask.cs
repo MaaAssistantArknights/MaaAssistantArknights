@@ -106,9 +106,9 @@ public class AsstRecruitTask : AsstBaseTask
     public int OperPriorityMode { get; set; }
 
     /// <summary>
-    /// Gets or sets 启用优先未拥有/未满潜后的决策依据。0：星级优先；1：优先未拥有/未满潜。
+    /// Gets or sets a value indicating whether 优先未拥有/未满潜时允许招募小车和 2 星干员。
     /// </summary>
-    public int OperPriorityDecision { get; set; }
+    public bool OperPriorityAllowLowStar { get; set; }
 
     /// <summary>
     /// Gets or sets 干员识别数据文件路径，仅在 <see cref="OperPriorityMode"/> 非 0 时有效。
@@ -196,7 +196,7 @@ public class AsstRecruitTask : AsstBaseTask
         if (OperPriorityMode != 0)
         {
             param["oper_priority_mode"] = OperPriorityMode;
-            param["oper_priority_decision"] = OperPriorityDecision;
+            param["oper_priority_allow_low_star"] = OperPriorityAllowLowStar;
             param["operbox_data_path"] = OperBoxDataPath;
         }
 

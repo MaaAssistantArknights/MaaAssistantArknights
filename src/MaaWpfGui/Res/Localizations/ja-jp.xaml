@@ -1474,15 +1474,13 @@ DEBUGディレクトリに保存される画像には数量制限があり、超
     <system:String x:Key="Recruit.Level3PermitReserve.Tip">求人票の残数がこの値以下の場合、星3募集をスキップします</system:String>
     <system:String x:Key="Recruit.MaxTimes">1回の実行あたりの求人の最大回数</system:String>
     <system:String x:Key="Recruit.OperPriority">未所持/潜在未完凸のオペレーターを優先</system:String>
-    <system:String x:Key="Recruit.OperPriority.Decision">判定基準</system:String>
-    <system:String x:Key="Recruit.OperPriority.Decision.LevelFirst">レア度優先</system:String>
-    <system:String x:Key="Recruit.OperPriority.Decision.OperFirst">未所持/潜在未完凸優先</system:String>
-    <system:String x:Key="Recruit.OperPriority.Decision.Tip" xml:space="preserve">上の機能を有効にした場合、自動更新・募集確定・求人票の保留・募集時間をどの組み合わせに基づいて決めるか。&#10;レア度優先：最もレア度の高い組み合わせに基づきます（従来通り）。募集時間が高レア度に合わせて設定されるため、星1・星2オペレーター（ロボットなど）を獲得できない場合があります。&#10;未所持/潜在未完凸優先：実際に選択した組み合わせに基づき、自動更新で消されません。ロボットの組み合わせを選んだ場合は募集時間を3:50に設定します。</system:String>
+    <system:String x:Key="Recruit.OperPriority.AllowLowStar">ロボット/星2オペレーターの募集を許可</system:String>
+    <system:String x:Key="Recruit.OperPriority.AllowLowStar.Tip" xml:space="preserve">チェックすると、未所持/潜在未完凸の星1ロボットと星2オペレーターも優先されます（星2は星4以上の保証がない組み合わせのみ）。&#10;そのために選んだ組み合わせは自動更新されず、募集時間が短縮されます：ロボットは3:50、星2は最大7:30。&#10;チェックしない場合、ロボットと星2オペレーターを狙うことはありません。&#10;「指定タグを保留する」でロボットタグを保留している場合は保留が優先されます。</system:String>
     <system:String x:Key="Recruit.OperPriority.Direct">直接優先</system:String>
     <system:String x:Key="Recruit.OperPriority.Disabled">無効</system:String>
     <system:String x:Key="Recruit.OperPriority.KeepLevel">現在のレア度を維持</system:String>
     <system:String x:Key="Recruit.OperPriority.NoOperBoxData">オペレーター識別データが見つからないため、「未所持/潜在未完凸のオペレーターを優先」は今回適用されません。先にツールでオペレーター識別を実行してください</system:String>
-    <system:String x:Key="Recruit.OperPriority.Tip" xml:space="preserve">「オペレーター識別」で保存したデータ（ローカル識別または一図流インポートのうち最新のもの）に基づき、未所持または潜在が最大でないオペレーターを獲得できるタグの組み合わせを優先します。星1ロボットも含みます。&#10;現在のレア度を維持：最高保証レア度と同じ組み合わせの中からのみ選びます（ロボットは星3扱い）。&#10;直接優先：より高いレア度の組み合わせを諦めることがありますが、エリート/上級エリートタグと星5以上の保証は諦めません。&#10;注意：&#10;· タスクキューの自動公開求人にのみ適用されます。事前にオペレーター識別を一度実行してください；&#10;· 星3の組み合わせのみで星3優先タグがある場合は、優先タグが優先されます；&#10;· 「指定タグを保留する」が優先され、ロボットタグを保留している場合はロボットを選びません；&#10;· 「タグを3つ選択」戦略では、追加のタグが目標オペレーターの確率を下げる可能性があります。</system:String>
+    <system:String x:Key="Recruit.OperPriority.Tip" xml:space="preserve">「オペレーター識別」で保存したデータ（ローカル識別または一図流インポートのうち最新のもの）に基づき、未所持または潜在が最大でないオペレーターを獲得できるタグの組み合わせを優先します。自動更新・募集確定・求人票の保留・募集時間は引き続き最もレア度の高い組み合わせで決まります。&#10;現在のレア度を維持：最高保証レア度と同じ組み合わせの中からのみ選びます。&#10;直接優先：より高いレア度の組み合わせを諦めることがありますが、エリート/上級エリートタグと星5以上の保証は諦めません。&#10;注意：&#10;· タスクキューの自動公開求人にのみ適用されます。事前にオペレーター識別を一度実行してください；&#10;· 星3の組み合わせのみで星3優先タグがある場合は、優先タグが優先されます；&#10;· 「指定タグを保留する」がこの機能より優先されます；&#10;· 「タグを3つ選択」戦略では、追加のタグが目標オペレーターの確率を下げる可能性があります。</system:String>
     <system:String x:Key="Recruit.PreserveTags">指定タグを保留する</system:String>
     <system:String x:Key="Recruit.PreserveTags.Tip">選択したタグのいずれかを認識した場合、その募集をスキップして枠を残します。未選択の場合は何も保留しません。</system:String>
     <system:String x:Key="Recruit.Recognition.AutoSelectLevel3Tags">星3タグを自動的に選択する</system:String>

@@ -65,13 +65,6 @@ enum class OperPriorityMode
     Direct,    // 2 - 直接优先未拥有/未满潜干员（不会放弃资深/高资词条和 5 星以上保底）
 };
 
-// 启用 OperPriorityMode 后，刷新/确认/招募时长/许可保留等决策以哪个组合为准
-enum class OperPriorityDecision
-{
-    LevelFirst, // 0 - 星级优先：以按星级排序的最佳组合为准（与原逻辑一致，可能无法招到 1、2 星干员）
-    OperFirst,  // 1 - 优先未拥有/未满潜：以实际选中的组合为准
-};
-
 class RecruitConfig final : public MAA_NS::SingletonHolder<RecruitConfig>, public AbstractConfig
 {
 public:
@@ -87,11 +80,6 @@ public:
     {
         return mode == OperPriorityMode::Disabled || mode == OperPriorityMode::KeepLevel ||
                mode == OperPriorityMode::Direct;
-    }
-
-    static constexpr bool is_valid_oper_priority_decision(OperPriorityDecision decision)
-    {
-        return decision == OperPriorityDecision::LevelFirst || decision == OperPriorityDecision::OperFirst;
     }
 
 public:
