@@ -347,6 +347,7 @@ public class RecruitTaskUserControlModel : TaskSettingsViewModel, RecruitTaskUse
             var firstTags = recruit.PreferTagEnabled ? RecruitTagHelper.NormalizeTagList(recruit.Level3PreferTags) : [];
 
             var operPriorityMode = recruit.OperPriorityMode is >= 0 and <= 2 ? recruit.OperPriorityMode : 0;
+
             // 数据缺失或解析失败时 Core 会关闭该功能并继续公招，并通过 RecruitOperBoxDataUnavailable 回调提示
             var operBoxDataPath = operPriorityMode != 0 ? OperBoxAssistHelper.OperBoxDataJsonPath : string.Empty;
 
