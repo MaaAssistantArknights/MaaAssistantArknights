@@ -1,6 +1,7 @@
 ---
 order: 1
 icon: bxs:book
+outline: [2, 6]
 ---
 
 # 集成文档
