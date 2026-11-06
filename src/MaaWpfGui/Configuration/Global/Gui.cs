@@ -89,6 +89,8 @@ public class Gui : NotifyPropertyChangedWithValue, IJsonOnDeserialized
     /// </summary>
     public List<SettingKey> SettingOrders { get; set; } = [];
 
+    public bool ShowAdvancedSettings { get; set; }
+
     /// <summary>
     /// 设置页折叠框展开状态。
     /// </summary>

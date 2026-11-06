@@ -1749,6 +1749,9 @@ DEBUGディレクトリに保存される画像には数量制限があり、超
     <system:String x:Key="Settings.About.Title">私たちについて</system:String>
     <system:String x:Key="Settings.About.UiPreviewMode">UI プレビュー</system:String>
     <system:String x:Key="Settings.Achievement.Title">実績設定</system:String>
+    <system:String x:Key="Settings.Advanced.Hide">詳細設定を非表示</system:String>
+    <system:String x:Key="Settings.Advanced.Show">詳細設定を表示</system:String>
+    <system:String x:Key="Settings.Advanced.Title">詳細設定</system:String>
     <system:String x:Key="Settings.Background">背景設定</system:String>
     <system:String x:Key="Settings.Background.BlurRadius">背景のぼかし半径</system:String>
     <system:String x:Key="Settings.Background.Image">背景画像</system:String>

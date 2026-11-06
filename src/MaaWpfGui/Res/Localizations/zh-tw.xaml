@@ -1747,6 +1747,9 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
     <system:String x:Key="Settings.About.Title">關於我們</system:String>
     <system:String x:Key="Settings.About.UiPreviewMode">UI 預覽</system:String>
     <system:String x:Key="Settings.Achievement.Title">成就設定</system:String>
+    <system:String x:Key="Settings.Advanced.Hide">隱藏進階設定</system:String>
+    <system:String x:Key="Settings.Advanced.Show">顯示進階設定</system:String>
+    <system:String x:Key="Settings.Advanced.Title">進階設定</system:String>
     <system:String x:Key="Settings.Background">背景設定</system:String>
     <system:String x:Key="Settings.Background.BlurRadius">背景模糊半徑</system:String>
     <system:String x:Key="Settings.Background.Image">背景圖片</system:String>
