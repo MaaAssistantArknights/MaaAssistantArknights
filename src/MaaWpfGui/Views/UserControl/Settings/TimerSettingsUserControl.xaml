@@ -89,7 +89,7 @@
                     InputMethod.IsInputMethodEnabled="False"
                     Maximum="1439"
                     Minimum="1"
-                    Visibility="{c:Binding 'NotifyBeforeScheduledStart || (ExternalNotificationSettings.DeliverySettings.Enable &amp;&amp; ExternalNotificationSettings.DeliverySettings.SendBeforeScheduledStart &amp;&amp; ExternalNotificationSettings.ConfigCount > 0)'}"
+                    Visibility="{c:Binding 'NotifyBeforeScheduledStart || ExternalNotificationSettings.HasScheduledNotifications'}"
                     Value="{Binding ScheduledStartNotificationMinutes}" />
                 <controls:TooltipBlock VerticalAlignment="Center" TooltipText="{DynamicResource TaskQueue.Schedule.NotifyBeforeScheduledStart.Tip}" />
             </StackPanel>
