@@ -2,6 +2,7 @@ from ast import literal_eval
 from enum import IntEnum
 from typing import Annotated, Any, List, get_args, get_origin
 
+from pydantic import TypeAdapter
 from PyQt5.QtCore import Qt
 
 
@@ -71,6 +72,8 @@ def parse_field(value: str, field_type: type) -> Any:
                 isinstance(item, str) for item in field_value
             ):
                 field_value = None
+            else:
+                field_value = TypeAdapter(field_type).validate_python(field_value)
         except (SyntaxError, ValueError):
             field_value = None
     else:
