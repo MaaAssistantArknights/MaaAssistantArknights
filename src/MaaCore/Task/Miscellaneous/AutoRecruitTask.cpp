@@ -258,7 +258,13 @@ bool asst::AutoRecruitTask::load_operbox_data()
         return fail("empty path");
     }
     const auto path = utils::path(m_operbox_data_path);
-    if (!std::filesystem::exists(path)) {
+    // 使用 error_code 重载：路径无法检查（权限、循环符号链接等）时不抛异常，同样只关闭本功能
+    std::error_code ec;
+    const bool exists = std::filesystem::exists(path, ec);
+    if (ec) {
+        return fail("file inaccessible");
+    }
+    if (!exists) {
         return fail("file not found");
     }
     auto json_opt = json::open(path, true, true);
@@ -323,36 +329,50 @@ int asst::AutoRecruitTask::comb_tier(const RecruitCombs& comb)
 
 asst::AutoRecruitTask::OperPriorityScore asst::AutoRecruitTask::calc_oper_priority_score(const RecruitCombs& comb) const
 {
-    OperPriorityScore score;
     const bool robot = is_robot_comb(comb);
     if (robot && !m_oper_priority_allow_low_star) {
-        return score; // 不允许招募小车时，小车组合不参与挑选
+        return {}; // 不允许招募小车时，小车组合不参与挑选
     }
-    // 默认与星级计算保持一致：招募时间按 9:00 计，1、2 星不会出现。
-    // 允许招募低星时：小车组合（时长 3:50）只统计 1 星；3 星档组合（时长 7:30）把 2 星也算进来。
-    // 4 星以上保底的组合不统计 2 星，否则缩短时长会破坏保底。
-    int min_counted_level = 3;
-    if (robot) {
-        min_counted_level = 1;
-    }
-    else if (m_oper_priority_allow_low_star && comb.min_level <= 3) {
-        min_counted_level = 2;
-    }
-    for (const Recruitment& op : comb.opers) {
-        if (robot ? op.level != 1 : op.level < min_counted_level) {
-            continue;
+
+    // 统计招募池中 level 不低于 min_level 的干员（robot 时只统计 1 星）
+    const auto count_pool = [&](int min_level) {
+        OperPriorityScore score;
+        for (const Recruitment& op : comb.opers) {
+            if (robot ? op.level != 1 : op.level < min_level) {
+                continue;
+            }
+            ++score.considered;
+            auto iter = m_owned_potential.find(op.id);
+            const bool unowned = iter == m_owned_potential.end();
+            if (unowned || iter->second < 6) {
+                ++score.wanted;
+                if (unowned) {
+                    ++score.unowned;
+                }
+                if (op.level < 3) {
+                    ++score.low_star_wanted;
+                }
+            }
         }
-        ++score.considered;
-        auto iter = m_owned_potential.find(op.id);
-        const bool unowned = iter == m_owned_potential.end();
-        if (unowned || iter->second < 6) {
-            ++score.wanted;
-            if (unowned) {
-                ++score.unowned;
-            }
-            if (op.level < 3) {
-                ++score.low_star_wanted;
-            }
+        return score;
+    };
+
+    // 统计的招募池必须与该组合实际使用的招募时长一致：
+    // - 小车组合使用 3:50，只会出 1 星；
+    // - 其余组合默认 9:00，1、2 星不会出现，只统计 3 星及以上；
+    // - 允许招募低星且组合没有 4 星以上保底时，可改用 7:30 让 2 星进入招募池，
+    //   仅当这样的期望比例严格更高时才采用（low_duration = true），否则仍按 9:00 统计。
+    if (robot) {
+        auto score = count_pool(1);
+        score.low_duration = true;
+        return score;
+    }
+    auto score = count_pool(3);
+    if (m_oper_priority_allow_low_star && comb.min_level <= 3) {
+        auto low_score = count_pool(2);
+        if (low_score.low_star_wanted > 0 && low_score.wanted_ratio() > score.wanted_ratio() + DoubleDiff) {
+            low_score.low_duration = true;
+            return low_score;
         }
     }
     return score;
@@ -836,7 +856,7 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
         const int decision_level = best_combination.min_level;
         // 为了未拥有/未满潜的小车或 2 星干员而选中的组合：不刷新，并缩短招募时长
         const bool low_star_pick = oper_priority_applied && m_oper_priority_allow_low_star &&
-                                   calc_oper_priority_score(final_combination).low_star_wanted > 0;
+                                   calc_oper_priority_score(final_combination).low_duration;
 
         bool to_report = false;
         if (!is_calc_only_task()) {

@@ -86,6 +86,7 @@ protected:
         size_t wanted = 0;          // 其中未拥有或未满潜的干员数
         size_t unowned = 0;         // 其中未拥有的干员数
         size_t low_star_wanted = 0; // wanted 中 1、2 星干员的数量（需要缩短招募时长才可能招到）
+        bool low_duration = false;  // 该分数基于缩短后的招募时长（小车 3:50 / 2 星 7:30）计算
 
         double wanted_ratio() const { return considered == 0 ? 0. : static_cast<double>(wanted) / considered; }
 
