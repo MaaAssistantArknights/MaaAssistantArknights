@@ -2594,6 +2594,31 @@ public class AsstProxy
                     break;
                 }
 
+            case "RecruitOperPriorityApplied":
+                {
+                    // 仅在挑选结果与按星级排序的结果不同时提示，避免每个栏位都刷日志
+                    if ((bool?)subTaskDetails?["changed"] != true)
+                    {
+                        break;
+                    }
+
+                    var tags = string.Join(" ", (subTaskDetails!["tags"] as JArray ?? new JArray()).Select(t => t.ToString()));
+                    int wanted = (int?)subTaskDetails["wanted"] ?? 0;
+                    int considered = (int?)subTaskDetails["considered"] ?? 0;
+                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetStringFormat("Asst.Recruit.OperPriorityApplied", tags, wanted, considered), UiLogColor.Info);
+                    break;
+                }
+
+            case "RecruitOperBoxDataUnavailable":
+                {
+                    var why = subTaskDetails?["why"]?.ToString() ?? string.Empty;
+                    var message = why is "file not found" or "no owned operators"
+                        ? LocalizationHelper.GetString("Recruit.OperPriority.NoOperBoxData")
+                        : LocalizationHelper.GetStringFormat("Asst.Recruit.OperBoxDataUnavailable", why);
+                    Instances.TaskQueueViewModel.AddLog(message, UiLogColor.Warning);
+                    break;
+                }
+
             case "RecruitPermitCountRecognitionFailed":
                 Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("Asst.Recruit.PermitCountRecognitionFailed"), UiLogColor.Warning);
                 break;

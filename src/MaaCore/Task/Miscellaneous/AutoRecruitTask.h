@@ -3,6 +3,8 @@
 
 #include <optional>
 #include <set>
+#include <string>
+#include <unordered_map>
 #include <vector>
 
 #include "Common/AsstTypes.h"
@@ -28,6 +30,10 @@ public:
     AutoRecruitTask& set_use_expedited(bool use_or_not) noexcept;
     AutoRecruitTask& set_select_extra_tags(ExtraTagsMode select_extra_tags_mode) noexcept;
     AutoRecruitTask& set_first_tags(std::vector<std::string> first_tags) noexcept;
+    AutoRecruitTask& set_oper_priority(
+        OperPriorityMode mode,
+        OperPriorityDecision decision,
+        std::string operbox_data_path) noexcept;
     AutoRecruitTask& set_preserve_tags(std::vector<RecruitConfig::TagId> skip_tags) noexcept;
     AutoRecruitTask& set_set_time(bool set_time) noexcept;
     AutoRecruitTask& set_force_refresh(bool force_refrest) noexcept;
@@ -66,8 +72,36 @@ protected:
     bool hire_all();
     bool initialize_dirty_slot_info(const cv::Mat&);
     std::vector<std::string> get_tag_names(const std::vector<RecruitConfig::TagId>& ids) const;
-    std::vector<asst::RecruitConfig::TagId>
-        get_select_tags(const std::vector<RecruitCombs>& combinations, std::vector<RecruitConfig::TagId> tag_ids);
+    // combinations.front() 为最终选中的组合；oper_priority_applied 表示它是由「优先未拥有/未满潜」挑出来的
+    std::vector<asst::RecruitConfig::TagId> get_select_tags(
+        const std::vector<RecruitCombs>& combinations,
+        std::vector<RecruitConfig::TagId> tag_ids,
+        bool oper_priority_applied = false);
+
+    // ---- 优先选择未拥有/未满潜干员 ----
+    struct OperPriorityScore
+    {
+        size_t considered = 0; // 参与统计的干员数
+        size_t wanted = 0;     // 其中未拥有或未满潜的干员数
+        size_t unowned = 0;    // 其中未拥有的干员数
+
+        double wanted_ratio() const { return considered == 0 ? 0. : static_cast<double>(wanted) / considered; }
+
+        double unowned_ratio() const { return considered == 0 ? 0. : static_cast<double>(unowned) / considered; }
+    };
+
+    // 读取干员识别数据，返回是否可用。失败时本次任务不启用该功能，不影响其他公招逻辑
+    bool load_operbox_data();
+    // 是否为只出 1 星支援机械（小车）的组合
+    static bool is_robot_comb(const RecruitCombs& comb);
+    // 用于「保持当前星级」比较的档位：小车组合视为与 3 星同档
+    static int comb_tier(const RecruitCombs& comb);
+    OperPriorityScore calc_oper_priority_score(const RecruitCombs& comb) const;
+    // 在已按星级排好序的组合中挑选优先组合，返回其下标；不需要调整时返回 std::nullopt
+    std::optional<size_t> pick_oper_priority_comb(
+        const std::vector<RecruitCombs>& sorted_combs,
+        bool has_special_tag,
+        const std::vector<RecruitConfig::TagId>& special_tags) const;
     static std::vector<TextRect> start_recruit_analyze(const cv::Mat& image);
 
     template <typename Rng>
@@ -174,6 +208,11 @@ protected:
     ExtraTagsMode m_select_extra_tags_mode = ExtraTagsMode::NoExtra;
     std::vector<std::string> m_first_tags;
     std::vector<RecruitConfig::TagId> m_preserve_tags = { "支援机械" };
+    OperPriorityMode m_oper_priority_mode = OperPriorityMode::Disabled;
+    OperPriorityDecision m_oper_priority_decision = OperPriorityDecision::LevelFirst;
+    std::string m_operbox_data_path;
+    bool m_operbox_loaded = false;                          // 本次任务已尝试读取过
+    std::unordered_map<std::string, int> m_owned_potential; // 已拥有干员 id -> 潜能（1~6）
     int m_max_times = 0;
     bool m_has_permit = true;
     bool m_has_refresh = true;

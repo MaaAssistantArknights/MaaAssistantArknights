@@ -346,6 +346,35 @@ B服：`张三`，可输入 `张三`、`张`、`三`
 <br>
 `2` - 如果可能, 同时选择更多的高星 Tag 组合, 即使可能冲突  
 :::  
+::: field oper_priority_mode  
+@type number  
+@default 0  
+@optional  
+优先选择能招到未拥有/未满潜干员（含 1 星支援机械）的 Tag 组合，需要同时提供 `operbox_data_path`。
+<br>
+`0` - 不启用
+<br>
+`1` - 保持当前星级：只在与最高保底星级相同的组合中挑选（小车视为 3 星档）
+<br>
+`2` - 直接优先：可以放弃更高星的组合，但不会放弃资深/高级资深干员词条和 5 星以上保底
+<br>
+只有 3 星组合且命中 `first_tags` 时以 `first_tags` 为准；`preserve_tags` 优先于本选项。  
+:::  
+::: field oper_priority_decision  
+@type number  
+@default 0  
+@optional  
+`oper_priority_mode` 非 0 时，自动刷新、确认、招聘许可保留和招募时长以哪个组合为准。
+<br>
+`0` - 星级优先：以按星级排序的最佳组合为准，与原逻辑一致（可能无法招到 1、2 星干员）
+<br>
+`1` - 优先未拥有/未满潜：以实际选中的组合为准，不会刷新掉选中的组合；选中小车组合时招募时长为 3:50  
+:::  
+::: field operbox_data_path  
+@type string  
+@optional  
+干员识别数据文件路径（格式同干员识别回调中的 `own_opers`，需包含 `id`、`potential`，可选 `own`）。仅在 `oper_priority_mode` 非 0 时使用；文件不存在或无法解析时该功能本次不生效，其余公招逻辑照常执行。  
+:::  
 ::: field times  
 @type number  
 @default 0  

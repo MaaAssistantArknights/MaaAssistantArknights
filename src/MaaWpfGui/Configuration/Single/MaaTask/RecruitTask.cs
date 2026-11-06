@@ -47,6 +47,16 @@ public class RecruitTask : BaseTask, IJsonOnDeserialized
     public int ExtraTagMode { get; set; }
 
     /// <summary>
+    /// Gets or sets 优先选择未拥有/未满潜干员的模式。0：不启用；1：保持当前星级；2：直接优先。
+    /// </summary>
+    public int OperPriorityMode { get; set; }
+
+    /// <summary>
+    /// Gets or sets 启用优先未拥有/未满潜后，刷新/确认/招募时长等决策的依据。0：星级优先；1：优先未拥有/未满潜。
+    /// </summary>
+    public int OperPriorityDecision { get; set; }
+
+    /// <summary>
     /// Gets or sets 3星首选Tag
     /// </summary>
     public List<string> Level3PreferTags { get; set; } = [];

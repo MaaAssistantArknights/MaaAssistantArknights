@@ -346,6 +346,35 @@ Select more tags.
 <br>
 `2` - if possible, select more high star tag combinations even if they might conflict  
 :::  
+::: field oper_priority_mode  
+@type number  
+@default 0  
+@optional  
+Prefer tag combinations that can yield unowned / non-max-potential operators (including the 1★ Robots). Requires `operbox_data_path`.
+<br>
+`0` - disabled
+<br>
+`1` - keep current rarity: only choose among combinations with the same guaranteed rarity as the best one (Robots count as 3★)
+<br>
+`2` - prefer directly: may give up higher-rarity combinations, but never Senior/Top Operator tags or a 5★+ guarantee
+<br>
+When only 3★ combinations exist and `first_tags` matches, `first_tags` wins; `preserve_tags` takes precedence over this option.  
+:::  
+::: field oper_priority_decision  
+@type number  
+@default 0  
+@optional  
+When `oper_priority_mode` is not 0, which combination auto refresh, confirmation, permit reserve and recruitment time follow.
+<br>
+`0` - rarity first: the best combination by rarity, same as before (1★/2★ operators may become impossible to recruit)
+<br>
+`1` - unowned / non-max potential first: the combination actually selected; it is never refreshed away, and the time is 3:50 for a Robot combination  
+:::  
+::: field operbox_data_path  
+@type string  
+@optional  
+Path of the operator box data file (same format as `own_opers` in the operator recognition callback; needs `id` and `potential`, optional `own`). Only used when `oper_priority_mode` is not 0. If the file is missing or invalid, the option is skipped for this run and recruitment continues as usual.  
+:::  
 ::: field times  
 @type number  
 @default 0  

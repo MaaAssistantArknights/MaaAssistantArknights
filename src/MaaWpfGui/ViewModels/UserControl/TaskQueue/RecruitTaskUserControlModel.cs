@@ -162,6 +162,39 @@ public class RecruitTaskUserControlModel : TaskSettingsViewModel, RecruitTaskUse
     }
 
     /// <summary>
+    /// Gets the list of oper priority modes (prefer unowned / not max potential operators).
+    /// </summary>
+    public LocalizedObservableList<int> AutoRecruitOperPriorityModeList { get; } = new(
+        (0, "Recruit.OperPriority.Disabled"),
+        (1, "Recruit.OperPriority.KeepLevel"),
+        (2, "Recruit.OperPriority.Direct"));
+
+    /// <summary>
+    /// Gets or sets 优先选择未拥有/未满潜干员的模式。
+    /// </summary>
+    public int OperPriorityMode
+    {
+        get => GetTaskConfig<RecruitTask>().OperPriorityMode;
+        set => SetTaskConfig<RecruitTask>(t => t.OperPriorityMode == value, t => t.OperPriorityMode = value);
+    }
+
+    /// <summary>
+    /// Gets the list of decision bases when oper priority is enabled.
+    /// </summary>
+    public LocalizedObservableList<int> AutoRecruitOperPriorityDecisionList { get; } = new(
+        (0, "Recruit.OperPriority.Decision.LevelFirst"),
+        (1, "Recruit.OperPriority.Decision.OperFirst"));
+
+    /// <summary>
+    /// Gets or sets 启用优先未拥有/未满潜后，刷新/确认/招募时长等决策的依据。
+    /// </summary>
+    public int OperPriorityDecision
+    {
+        get => GetTaskConfig<RecruitTask>().OperPriorityDecision;
+        set => SetTaskConfig<RecruitTask>(t => t.OperPriorityDecision == value, t => t.OperPriorityDecision = value);
+    }
+
+    /// <summary>
     /// Gets or sets a value indicating whether to choose level 3.
     /// </summary>
     public bool ChooseLevel3
@@ -297,6 +330,8 @@ public class RecruitTaskUserControlModel : TaskSettingsViewModel, RecruitTaskUse
     private void RefreshLocalization()
     {
         AutoRecruitSelectExtraTagsList.RefreshLocalization();
+        AutoRecruitOperPriorityModeList.RefreshLocalization();
+        AutoRecruitOperPriorityDecisionList.RefreshLocalization();
     }
 
     private interface ISerialize : ITaskQueueModelSerialize
@@ -311,6 +346,10 @@ public class RecruitTaskUserControlModel : TaskSettingsViewModel, RecruitTaskUse
             var preserveTags = recruit.PreserveTagEnabled ? RecruitTagHelper.NormalizeTagList(recruit.PreserveTagList) : [];
             var firstTags = recruit.PreferTagEnabled ? RecruitTagHelper.NormalizeTagList(recruit.Level3PreferTags) : [];
 
+            var operPriorityMode = recruit.OperPriorityMode is >= 0 and <= 2 ? recruit.OperPriorityMode : 0;
+            // 数据缺失或解析失败时 Core 会关闭该功能并继续公招，并通过 RecruitOperBoxDataUnavailable 回调提示
+            var operBoxDataPath = operPriorityMode != 0 ? OperBoxAssistHelper.OperBoxDataJsonPath : string.Empty;
+
             var task = new AsstRecruitTask() {
                 Refresh = recruit.RefreshLevel3,
                 ForceRefresh = recruit.ForceRefresh,
@@ -321,6 +360,9 @@ public class RecruitTaskUserControlModel : TaskSettingsViewModel, RecruitTaskUse
                 SelectExtraTags = recruit.ExtraTagMode,
                 Level3FirstList = firstTags,
                 PreserveTags = preserveTags,
+                OperPriorityMode = operPriorityMode,
+                OperPriorityDecision = recruit.OperPriorityDecision is 1 ? 1 : 0,
+                OperBoxDataPath = operBoxDataPath,
                 Level3RecruitmentPermitReserve = recruit.Level3RecruitmentPermitReserveEnabled
                     ? recruit.Level3RecruitmentPermitReserve
                     : 0,

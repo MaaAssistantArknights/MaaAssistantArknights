@@ -13,6 +13,7 @@
 
 #include <algorithm>
 #include <boost/regex.hpp>
+#include <filesystem>
 #include <ranges>
 
 namespace asst::recruit_calc
@@ -162,6 +163,20 @@ asst::AutoRecruitTask& asst::AutoRecruitTask::set_first_tags(std::vector<std::st
     return *this;
 }
 
+asst::AutoRecruitTask& asst::AutoRecruitTask::set_oper_priority(
+    OperPriorityMode mode,
+    OperPriorityDecision decision,
+    std::string operbox_data_path) noexcept
+{
+    m_oper_priority_mode = mode;
+    m_oper_priority_decision = decision;
+    m_operbox_data_path = std::move(operbox_data_path);
+    // 参数变化后下次运行重新读取
+    m_operbox_loaded = false;
+    m_owned_potential.clear();
+    return *this;
+}
+
 asst::AutoRecruitTask& asst::AutoRecruitTask::set_preserve_tags(std::vector<RecruitConfig::TagId> skip_tags) noexcept
 {
     m_preserve_tags = std::move(skip_tags);
@@ -210,8 +225,146 @@ asst::AutoRecruitTask& asst::AutoRecruitTask::set_server(std::string server) noe
     return *this;
 }
 
+bool asst::AutoRecruitTask::load_operbox_data()
+{
+    if (m_operbox_loaded) {
+        return !m_owned_potential.empty();
+    }
+    m_operbox_loaded = true;
+    m_owned_potential.clear();
+
+    if (m_oper_priority_mode == OperPriorityMode::Disabled) {
+        return false;
+    }
+
+    // 不复用 OperBoxDataConfig 单例：
+    // 1. 它被抄作业的辅助编队共用，且 parse 遇到任一未知干员 id 会清空全部数据；
+    // 2. 公招只需要「是否拥有 + 潜能」，本地识别与一图流导入的数据都满足。
+    const auto fail = [&](std::string_view why) {
+        Log.warn(__FUNCTION__, "| oper priority disabled:", why, ", path:", m_operbox_data_path);
+        json::value cb_info = basic_info_with_what("RecruitOperBoxDataUnavailable");
+        cb_info["details"] = json::object { { "why", std::string(why) } };
+        callback(AsstMsg::SubTaskExtraInfo, cb_info);
+        m_owned_potential.clear();
+        return false;
+    };
+
+    if (m_operbox_data_path.empty()) {
+        return fail("empty path");
+    }
+    const auto path = utils::path(m_operbox_data_path);
+    if (!std::filesystem::exists(path)) {
+        return fail("file not found");
+    }
+    auto json_opt = json::open(path, true, true);
+    if (!json_opt) {
+        return fail("parse failed");
+    }
+
+    for (const auto& item : json_opt->get("own_opers", json::array())) {
+        if (!item.is_object() || !item.get("own", true)) {
+            continue;
+        }
+        std::string id = item.get("id", std::string());
+        if (id.empty()) {
+            continue;
+        }
+        int potential = std::clamp(item.get("potential", 1), 1, 6);
+        auto [iter, inserted] = m_owned_potential.emplace(std::move(id), potential);
+        if (!inserted) {
+            iter->second = (std::max)(iter->second, potential);
+        }
+    }
+
+    if (m_owned_potential.empty()) {
+        return fail("no owned operators");
+    }
+    Log.info(__FUNCTION__, "| loaded", m_owned_potential.size(), "owned operators, source:", json_opt->get("source", std::string("unknown")));
+    return true;
+}
+
+bool asst::AutoRecruitTask::is_robot_comb(const RecruitCombs& comb)
+{
+    return !comb.opers.empty() && comb.max_level == 1;
+}
+
+int asst::AutoRecruitTask::comb_tier(const RecruitCombs& comb)
+{
+    return is_robot_comb(comb) ? 3 : comb.min_level;
+}
+
+asst::AutoRecruitTask::OperPriorityScore asst::AutoRecruitTask::calc_oper_priority_score(const RecruitCombs& comb) const
+{
+    OperPriorityScore score;
+    const bool robot = is_robot_comb(comb);
+    for (const Recruitment& op : comb.opers) {
+        // 与星级计算保持一致：招募时间按 9:00 计，1、2 星不会出现；小车组合会设置为 3:50，只统计 1 星
+        if (robot ? op.level != 1 : op.level < 3) {
+            continue;
+        }
+        ++score.considered;
+        auto iter = m_owned_potential.find(op.id);
+        if (iter == m_owned_potential.end()) {
+            ++score.wanted;
+            ++score.unowned;
+        }
+        else if (iter->second < 6) {
+            ++score.wanted;
+        }
+    }
+    return score;
+}
+
+std::optional<size_t> asst::AutoRecruitTask::pick_oper_priority_comb(
+    const std::vector<RecruitCombs>& sorted_combs,
+    bool has_special_tag,
+    const std::vector<RecruitConfig::TagId>& special_tags) const
+{
+    if (m_oper_priority_mode == OperPriorityMode::Disabled || m_owned_potential.empty() || sorted_combs.empty()) {
+        return std::nullopt;
+    }
+
+    const RecruitCombs& best = sorted_combs.front();
+    const int best_tier = comb_tier(best);
+
+    std::optional<size_t> picked;
+    OperPriorityScore picked_score;
+    for (size_t i = 0; i < sorted_combs.size(); ++i) {
+        const RecruitCombs& comb = sorted_combs[i];
+        // 资深/高资词条永远优先：出现时只在含该词条的组合中挑选
+        if (has_special_tag && std::ranges::find_first_of(comb.tags, special_tags) == comb.tags.cend()) {
+            continue;
+        }
+        const int tier = comb_tier(comb);
+        if (m_oper_priority_mode == OperPriorityMode::KeepLevel || best_tier >= 5) {
+            // 保持当前星级；直接模式下也不放弃 5 星以上保底
+            if (tier != best_tier) {
+                continue;
+            }
+        }
+        const auto score = calc_oper_priority_score(comb);
+        if (score.wanted == 0) {
+            continue;
+        }
+        // 比例高者优先，其次未拥有比例高者优先；仍相同时保留原排序（星级高、Tag 少）
+        if (!picked || score.wanted_ratio() > picked_score.wanted_ratio() + DoubleDiff ||
+            (std::fabs(score.wanted_ratio() - picked_score.wanted_ratio()) <= DoubleDiff &&
+             score.unowned_ratio() > picked_score.unowned_ratio() + DoubleDiff)) {
+            picked = i;
+            picked_score = score;
+        }
+    }
+
+    // 按原排序遍历且同分不替换，所以原最佳组合同分时会保持下标 0
+    return picked;
+}
+
 bool asst::AutoRecruitTask::_run()
 {
+    if (m_oper_priority_mode != OperPriorityMode::Disabled) {
+        load_operbox_data();
+    }
+
     if (is_calc_only_task()) {
         // 小工具中的公招计算，不需要点击确认按钮
         return recruit_calc_task().success;
@@ -575,12 +728,13 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
             continue;
         }
 
-        const auto& final_combination = result_vec.front();
+        // 按星级排序得到的最佳组合（原逻辑的 final_combination）
+        const RecruitCombs best_combination = result_vec.front();
 
         {
             json::object results_json;
             results_json["result"] = json::array();
-            results_json["level"] = final_combination.min_level;
+            results_json["level"] = best_combination.min_level;
             for (const auto& comb : result_vec) {
                 json::array opers_json;
                 for (const Recruitment& oper_info : comb.opers | std::views::reverse) { // print reversely
@@ -604,6 +758,49 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
             cb_info["what"] = "RecruitResult";
             callback(AsstMsg::SubTaskExtraInfo, cb_info);
         }
+
+        // 优先选择未拥有/未满潜干员。放在 RecruitResult 之后，不影响公招识别结果的展示顺序
+        bool oper_priority_applied = false;
+        // 3 星首选 Tag 优先：只有 3 星（及以下）组合且命中首选 Tag 时不介入
+        if (m_oper_priority_mode != OperPriorityMode::Disabled &&
+            !(comb_tier(best_combination) <= 3 && has_preferred_tag)) {
+            if (auto picked = pick_oper_priority_comb(result_vec, has_special_tag, SpecialTags)) {
+                oper_priority_applied = true;
+                if (*picked != 0) {
+                    std::rotate(
+                        result_vec.begin(),
+                        result_vec.begin() + static_cast<std::ptrdiff_t>(*picked),
+                        result_vec.begin() + static_cast<std::ptrdiff_t>(*picked) + 1);
+                }
+                const auto score = calc_oper_priority_score(result_vec.front());
+                json::value cb_info = basic_info_with_what("RecruitOperPriorityApplied");
+                cb_info["details"] = json::object {
+                    { "tags", json::array(get_tag_names(result_vec.front().tags)) },
+                    { "level", result_vec.front().min_level },
+                    { "changed", *picked != 0 },
+                    { "wanted", static_cast<int>(score.wanted) },
+                    { "unowned", static_cast<int>(score.unowned) },
+                    { "considered", static_cast<int>(score.considered) },
+                };
+                callback(AsstMsg::SubTaskExtraInfo, cb_info);
+                Log.info(
+                    "oper priority picked tags:",
+                    result_vec.front().tags,
+                    "wanted",
+                    score.wanted,
+                    "/",
+                    score.considered);
+            }
+        }
+
+        // 实际要选的组合
+        const RecruitCombs& final_combination = result_vec.front();
+        // 刷新/确认/许可保留/招募时长等决策依据的组合
+        const bool decide_by_final =
+            oper_priority_applied && m_oper_priority_decision == OperPriorityDecision::OperFirst;
+        const RecruitCombs& decision_combination = decide_by_final ? final_combination : best_combination;
+        // 小车组合按 3 星档处理（确认、许可保留沿用 3 星设置）
+        const int decision_level = decide_by_final ? comb_tier(final_combination) : best_combination.min_level;
 
         bool to_report = false;
         if (!is_calc_only_task()) {
@@ -633,7 +830,8 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
         if (m_need_refresh && m_has_refresh &&  // 基础条件
             !has_special_tag &&                 // 5 星以上 tag 不刷新
             !has_skip_tag &&                    // 保留词条时不刷新
-            final_combination.min_level == 3)   // 如果只有 3 星 tag，即使有倾向 tag 也应该刷新
+            decision_level == 3 &&              // 如果只有 3 星 tag，即使有倾向 tag 也应该刷新
+            !decide_by_final)                   // 以选中组合为准时，选中的就是想要的干员，不刷新
         // clang-format on
         {
             if (refresh_count > refresh_limit) [[unlikely]] {
@@ -687,25 +885,25 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
             return result;
         }
 
-        if (final_combination.min_level > 4) {
+        if (best_combination.min_level > 4) {
             has_special_tag = true;
         }
 
         if (!is_calc_only_task()) {
             if (!(has_skip_tag || has_special_tag)) {
                 // do not confirm 3 star, force skip
-                if (!is_confirm_level_valid(3) && final_combination.min_level == 3) {
+                if (!is_confirm_level_valid(3) && decision_level == 3) {
                     calc_task_result_type result(calc_task_result::force_skip);
                     return result;
                 }
             }
             // do not confirm 4 star
-            if (!is_confirm_level_valid(4) && final_combination.min_level == 4) {
+            if (!is_confirm_level_valid(4) && decision_level == 4) {
                 calc_task_result_type result(calc_task_result::force_skip);
                 return result;
             }
             // "Automatically recruit 5/6 Star operators" is not checked.
-            if (has_special_tag && !is_confirm_level_valid(final_combination.min_level)) {
+            if (has_special_tag && !is_confirm_level_valid(decision_level)) {
                 calc_task_result_type result(calc_task_result::special_tag_skip);
                 return result;
             }
@@ -715,7 +913,7 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
                 return result;
             }
 
-            if (final_combination.min_level == 3 && m_level3_recruitment_permit_reserve > 0) {
+            if (decision_level == 3 && m_level3_recruitment_permit_reserve > 0) {
                 const auto permit_count = image_analyzer.get_recruitment_permit_count();
                 if (!permit_count) {
                     json::value cb_info = basic_info_with_what("RecruitPermitCountRecognitionFailed");
@@ -740,9 +938,14 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
             }
         }
 
-        int recruitment_time = m_desired_time_map[(std::max)(final_combination.min_level, 3)];
+        int recruitment_time = m_desired_time_map[(std::max)(decision_combination.min_level, 3)];
         if (recruitment_time == 0) {
             recruitment_time = 9 * 60;
+        }
+        // 小车只在招募时长不超过 3:50 时出现
+        if (decide_by_final && is_robot_comb(final_combination)) {
+            static constexpr int RobotRecruitmentTime = 3 * 60 + 50;
+            recruitment_time = RobotRecruitmentTime;
         }
 
         // try to set the timer to desired value
@@ -763,14 +966,15 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
 
         // nothing to select, leave the selection empty
         // 空选不消耗招募许可，因此不受上方 3 星许可保留线的约束，属有意行为
-        if (!(final_combination.min_level == 3 && has_preferred_tag) &&
-            !is_select_level_valid(final_combination.min_level)) {
+        // 3 星档默认不选 Tag；命中首选 Tag 或由「优先未拥有/未满潜」挑出组合时才选
+        if (!(decision_level == 3 && (has_preferred_tag || oper_priority_applied)) &&
+            !is_select_level_valid(decision_level)) {
             calc_task_result_type result(calc_task_result::nothing_to_select, recruitment_time);
             return result;
         }
 
         // get selections
-        auto final_select = get_select_tags(result_vec, tag_ids);
+        auto final_select = get_select_tags(result_vec, tag_ids, oper_priority_applied);
 
         // select tags
         for (const std::string& final_tag_name : final_select) {
@@ -916,13 +1120,14 @@ std::vector<std::string> asst::AutoRecruitTask::get_tag_names(const std::vector<
 
 std::vector<asst::RecruitConfig::TagId> asst::AutoRecruitTask::get_select_tags(
     const std::vector<RecruitCombs>& combinations,
-    std::vector<RecruitConfig::TagId> tag_ids)
+    std::vector<RecruitConfig::TagId> tag_ids,
+    bool oper_priority_applied)
 {
     LogTraceFunction;
     std::unordered_set<RecruitConfig::TagId> unique_tags;
     std::vector<RecruitConfig::TagId> select;
 
-    if (combinations.front().min_level == 3) {
+    if (combinations.front().min_level == 3 && !oper_priority_applied) {
         // only run if we have certain preferred tags for 3★ tags
         if (!m_first_tags.empty()) {
             for (const RecruitConfig::TagId& tag_id : tag_ids) {
@@ -969,6 +1174,10 @@ std::vector<asst::RecruitConfig::TagId> asst::AutoRecruitTask::get_select_tags(
         int min_level = combinations.front().min_level;
         // tag combo will be either full selected, or abandoned.
         int emplace_back_count = 0;
+        if (oper_priority_applied && comb_tier(combinations.front()) <= 3) {
+            // 优先未拥有/未满潜挑出的 3 星档（含小车）组合没有可额外搭配的高星 Tag，只选它本身
+            return combinations.front().tags;
+        }
         if (min_level == 3) {
             return select;
         }

@@ -113,6 +113,28 @@
                 ItemsSource="{Binding AutoRecruitSelectExtraTagsList}"
                 SelectedValue="{Binding SelectExtraTags}"
                 SelectedValuePath="Value" />
+            <StackPanel Margin="0,5">
+                <StackPanel Margin="0,0,0,5" Orientation="Horizontal">
+                    <controls:TextBlock Margin="8,0,0,0" Text="{DynamicResource Recruit.OperPriority}" />
+                    <controls:TooltipBlock TooltipText="{DynamicResource Recruit.OperPriority.Tip}" />
+                </StackPanel>
+                <hc:ComboBox
+                    DisplayMemberPath="Display"
+                    ItemsSource="{Binding AutoRecruitOperPriorityModeList}"
+                    SelectedValue="{Binding OperPriorityMode}"
+                    SelectedValuePath="Value" />
+            </StackPanel>
+            <StackPanel Margin="0,5" Visibility="{c:Binding 'OperPriorityMode != 0'}">
+                <StackPanel Margin="0,0,0,5" Orientation="Horizontal">
+                    <controls:TextBlock Margin="8,0,0,0" Text="{DynamicResource Recruit.OperPriority.Decision}" />
+                    <controls:TooltipBlock TooltipText="{DynamicResource Recruit.OperPriority.Decision.Tip}" />
+                </StackPanel>
+                <hc:ComboBox
+                    DisplayMemberPath="Display"
+                    ItemsSource="{Binding AutoRecruitOperPriorityDecisionList}"
+                    SelectedValue="{Binding OperPriorityDecision}"
+                    SelectedValuePath="Value" />
+            </StackPanel>
             <StackPanel Margin="0,10">
                 <StackPanel Orientation="Horizontal">
                     <CheckBox Content="{DynamicResource Recruit.HighPriority}" IsChecked="{Binding UseLevel3PreferTags}" />
