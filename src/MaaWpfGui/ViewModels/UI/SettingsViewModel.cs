@@ -246,7 +246,6 @@ public class SettingsViewModel : Screen
 
         SaveSettingOrder();
         _selectedSetting = Settings[0];
-        _lastGeneralSetting = Settings[0];
         SettingsDropHandler = new SettingsDropHandler(Settings);
         Settings.CollectionChanged += Settings_CollectionChanged;
     }
@@ -355,13 +354,22 @@ public class SettingsViewModel : Screen
             _settingToSelectAfterLayout = null;
             var shouldSelectPreferred = preferred is { IsVisible: true };
             var isCurrentSelectionInvalid = SelectedIndex < 0 || SelectedIndex >= Settings.Count || !Settings[SelectedIndex].IsVisible;
+            var isCollapsingAdvancedSelection = false;
             if (shouldSelectPreferred || isCurrentSelectionInvalid)
             {
+                isCollapsingAdvancedSelection = !shouldSelectPreferred
+                    && _selectedSetting is { IsAdvanced: true }
+                    && string.IsNullOrEmpty(SearchText);
                 var target = shouldSelectPreferred ? preferred
-                    : _lastGeneralSetting is { IsVisible: true } ? _lastGeneralSetting
-                    : Settings.FirstOrDefault(item => item.IsVisible);
-                _notifySource = NotifyType.None;
-                SelectedIndex = target == null ? -1 : Settings.IndexOf(target!);
+                    : isCollapsingAdvancedSelection
+                        ? Settings.LastOrDefault(item => !item.IsAdvanced && item.IsVisible)
+                        : Settings.FirstOrDefault(item => item.IsVisible);
+                _notifySource = isCollapsingAdvancedSelection ? NotifyType.ScrollOffset : NotifyType.None;
+                SelectedIndex = target == null ? -1 : Settings.IndexOf(target);
+                if (isCollapsingAdvancedSelection)
+                {
+                    _notifySource = NotifyType.None;
+                }
             }
 
             if (SelectedIndex >= 0 && SelectedIndex < DividerVerticalOffsetList.Count
@@ -369,7 +377,7 @@ public class SettingsViewModel : Screen
             {
                 var targetOffset = DividerVerticalOffsetList[SelectedIndex];
                 var offsetShifted = !double.IsNaN(oldSelectedOffset) && Math.Abs(targetOffset - oldSelectedOffset) >= 0.5;
-                if (shouldSelectPreferred || isCurrentSelectionInvalid || offsetShifted)
+                if ((shouldSelectPreferred || isCurrentSelectionInvalid || offsetShifted) && !isCollapsingAdvancedSelection)
                 {
                     if (Math.Abs(ScrollAnimationTarget - targetOffset) < 0.5)
                     {
@@ -1654,8 +1662,6 @@ public class SettingsViewModel : Screen
 
     private int _selectedIndex;
 
-    private SettingItemViewModel? _lastGeneralSetting;
-
     private SettingItemViewModel? _selectedSetting;
 
     private SettingItemViewModel? _settingToSelectAfterLayout;
@@ -1689,11 +1695,6 @@ public class SettingsViewModel : Screen
             {
                 SetAndNotify(ref _selectedIndex, value);
                 _selectedSetting = Settings[value];
-                if (!_selectedSetting.IsAdvanced)
-                {
-                    _lastGeneralSetting = _selectedSetting;
-                }
-
                 return;
             }
 
@@ -1722,10 +1723,6 @@ public class SettingsViewModel : Screen
             if (_selectedIndex == value)
             {
                 _selectedSetting = Settings[value];
-                if (!_selectedSetting.IsAdvanced)
-                {
-                    _lastGeneralSetting = _selectedSetting;
-                }
             }
         }
     }

@@ -381,6 +381,15 @@ public static class ScrollViewerBinding
         scrollViewer.Loaded += (s, se) => {
             SetExtentHeight(scrollViewer, scrollViewer.ExtentHeight);
         };
+
+        scrollViewer.ScrollChanged += (s, se) => {
+            if (!ReferenceEquals(se.OriginalSource, scrollViewer))
+            {
+                return;
+            }
+
+            SetExtentHeight(scrollViewer, se.ExtentHeight);
+        };
     }
 
     #endregion ExtentHeight attached property
