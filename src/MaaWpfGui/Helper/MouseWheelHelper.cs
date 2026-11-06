@@ -30,6 +30,8 @@ namespace MaaWpfGui.Helper;
 /// </summary>
 public static class MouseWheelHelper
 {
+    private const double ScrollEdgeTolerance = 0.5;
+
     private static readonly ConditionalWeakTable<Popup, PopupScrollIsolationState> _popupIsolationStates = [];
 
     public static void RouteMouseWheelToParent(object sender, MouseWheelEventArgs e)
@@ -74,11 +76,44 @@ public static class MouseWheelHelper
     }
 
     /// <summary>
+    /// 将鼠标滚轮事件路由到父元素；如果事件源在可滚动子控件内部，仅在子控件已到达
+    /// 当前滚动方向的边缘时继续向父元素接力，否则让子控件自行滚动。
+    /// </summary>
+    /// <param name="sender">要检查的元素</param>
+    /// <param name="e">滚动事件参数</param>
+    public static void RouteMouseWheelToParentAtScrollEdge(object sender, MouseWheelEventArgs e)
+    {
+        if (e.Handled)
+        {
+            return;
+        }
+
+        // 未到滚动边缘时让子控件自己处理；到达边缘后继续向外层接力
+        if (IsInsideScrollableControl(e.OriginalSource as DependencyObject, sender as DependencyObject, e.Delta, chainAtEdges: true))
+        {
+            return;
+        }
+
+        e.Handled = true;
+        var eventArg = new MouseWheelEventArgs(e.MouseDevice, e.Timestamp, e.Delta) {
+            RoutedEvent = UIElement.MouseWheelEvent,
+        };
+        var parent = ((Control)sender).Parent as UIElement;
+        parent?.RaiseEvent(eventArg);
+    }
+
+    /// <summary>
     /// 检查元素是否在可滚动的控件内部（如 ComboBox 的 Popup、ScrollViewer 等）。
     /// </summary>
     /// <param name="element">要检查的元素</param>
     /// <param name="stopAt">停止查找的元素（通常是 sender），不包括此元素本身</param>
-    private static bool IsInsideScrollableControl(DependencyObject? element, DependencyObject? stopAt)
+    /// <param name="delta">滚轮方向；仅在 <paramref name="chainAtEdges"/> 为 true 时使用</param>
+    /// <param name="chainAtEdges">是否允许子控件到达滚动边缘后继续向父元素接力</param>
+    private static bool IsInsideScrollableControl(
+        DependencyObject? element,
+        DependencyObject? stopAt,
+        int delta = 0,
+        bool chainAtEdges = false)
     {
         while (element != null && element != stopAt)
         {
@@ -93,7 +128,10 @@ public static class MouseWheelHelper
             {
                 if (scrollViewer.ScrollableHeight > 0 || scrollViewer.ScrollableWidth > 0)
                 {
-                    return true;
+                    if (!chainAtEdges || !IsAtVerticalScrollEdge(scrollViewer, delta))
+                    {
+                        return true;
+                    }
                 }
             }
 
@@ -102,6 +140,18 @@ public static class MouseWheelHelper
         }
 
         return false;
+    }
+
+    private static bool IsAtVerticalScrollEdge(ScrollViewer scrollViewer, int delta)
+    {
+        if (scrollViewer.ScrollableHeight <= 0)
+        {
+            return true;
+        }
+
+        return delta > 0
+            ? scrollViewer.VerticalOffset <= ScrollEdgeTolerance
+            : delta < 0 && scrollViewer.VerticalOffset >= scrollViewer.ScrollableHeight - ScrollEdgeTolerance;
     }
 
     public static void DisableComboBoxScrollWhenClosed(object sender, MouseWheelEventArgs e)
