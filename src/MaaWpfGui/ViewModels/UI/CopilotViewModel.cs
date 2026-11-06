@@ -2311,7 +2311,7 @@ public partial class CopilotViewModel : Screen
                 UseSanityPotion = UseSanityPotion,
                 FormationIndex = UseFormation ? FormationIndex : 0,
                 OperBoxDataPath = EffectiveOperBoxAssist ? OperBoxAssistHelper.OperBoxDataJsonPath : string.Empty,
-                AutoRestart = AutoRestart,
+                AutoRestart = Form && AutoRestart,
                 AutoRestartTimes = AutoRestartTimes,
             };
 
@@ -2369,8 +2369,6 @@ public partial class CopilotViewModel : Screen
                 UseSanityPotion = false,
                 FormationIndex = UseFormation ? FormationIndex : 0,
                 OperBoxDataPath = EffectiveOperBoxAssist ? OperBoxAssistHelper.OperBoxDataJsonPath : string.Empty,
-                AutoRestart = AutoRestart,
-                AutoRestartTimes = AutoRestartTimes,
             };
 
             // 单作业需要区分 Copilot / SSSCopilot

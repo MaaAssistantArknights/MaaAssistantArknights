@@ -5,6 +5,7 @@
 #include <meojson/json.hpp>
 
 #include "Common/AsstTypes.h"
+
 namespace asst
 {
 class MultiCopilotTaskPlugin;

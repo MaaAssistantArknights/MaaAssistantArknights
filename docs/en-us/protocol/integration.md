@@ -1240,7 +1240,7 @@ Whether to use sanity potions when sanity is insufficient.
 @default 3
 @optional
 Maximum number of automatic restarts allowed for each job in multi-job mode, from 1 to 999. Effective only when `auto_restart` is `true`.  
-::: 
+:::
 ::: field formation  
 @type boolean  
 @default false  

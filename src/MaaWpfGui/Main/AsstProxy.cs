@@ -2345,21 +2345,21 @@ public class AsstProxy
                     var runIndex = subTaskDetails?["run_index"]?.ToString() ?? "?";
                     var runCount = subTaskDetails?["run_count"]?.ToString() ?? "?";
                     var reasonKey = subTaskDetails?["reason"]?.ToString() == "EnemyLeak"
-                        ? "CopilotAutoRestartReasonEnemyLeak"
-                        : "CopilotAutoRestartReasonBattleFailed";
+                        ? "Asst.Copilot.AutoRestart.Reason.EnemyLeak"
+                        : "Asst.Copilot.AutoRestart.Reason.BattleFailed";
 
                     switch (state)
                     {
                         case "Enabled":
                             Instances.CopilotViewModel.AddLog(
-                                LocalizationHelper.GetStringFormat("CopilotAutoRestartEnabledLog", runCount, maxRestartTimes),
+                                LocalizationHelper.GetStringFormat("Asst.Copilot.AutoRestart.Enabled", runCount, maxRestartTimes),
                                 UiLogColor.Info);
                             break;
 
                         case "Restarting":
                             Instances.CopilotViewModel.AddLog(
                                 LocalizationHelper.GetStringFormat(
-                                    "CopilotAutoRestartLog",
+                                    "Asst.Copilot.AutoRestart.Restarting",
                                     runIndex,
                                     runCount,
                                     LocalizationHelper.GetString(reasonKey),
@@ -2370,14 +2370,14 @@ public class AsstProxy
 
                         case "Recovered":
                             Instances.CopilotViewModel.AddLog(
-                                LocalizationHelper.GetStringFormat("CopilotAutoRestartRecoveredLog", runIndex, runCount),
+                                LocalizationHelper.GetStringFormat("Asst.Copilot.AutoRestart.Recovered", runIndex, runCount),
                                 UiLogColor.Info);
                             break;
 
                         case "LimitReached":
                             Instances.CopilotViewModel.AddLog(
                                 LocalizationHelper.GetStringFormat(
-                                    "CopilotAutoRestartLimitLog",
+                                    "Asst.Copilot.AutoRestart.LimitReached",
                                     runIndex,
                                     runCount,
                                     LocalizationHelper.GetString(reasonKey),
