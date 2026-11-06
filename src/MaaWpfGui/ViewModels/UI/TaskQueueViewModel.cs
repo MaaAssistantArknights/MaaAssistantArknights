@@ -499,11 +499,16 @@ public class TaskQueueViewModel : Screen
     /// <returns>Task</returns>
     public async Task CheckAfterCompleted(bool hasErrorTask = false)
     {
+        // 在结束脚本让出执行权之前保留本轮策略，其他入口开始新轮次不能重新启用已跳过的动作。
+        var executePostActions = Volatile.Read(ref _postActionsLaunched) == 0;
         RunningState.Instance.LockInterrupt();
         try
         {
             await RunStopScriptOnceAsync();
-            await RunPostActionsCoreAsync(hasErrorTask);
+            if (executePostActions)
+            {
+                await RunPostActionsCoreAsync(hasErrorTask);
+            }
         }
         finally
         {
@@ -941,6 +946,7 @@ public class TaskQueueViewModel : Screen
 
     private async Task StopByRunDurationLimitAsync(int limitMinutes, bool executePostActions)
     {
+        executePostActions &= Volatile.Read(ref _postActionsLaunched) == 0;
         try
         {
             if (_runningState.GetStopping() || _runningState.GetIdle())
@@ -2515,9 +2521,10 @@ public class TaskQueueViewModel : Screen
 
     public async Task LinkStartWithTasks(IEnumerable<BaseTask> tasks, int? startIndex = null, bool executePostActions = true)
     {
-        if (!_runningState.Idle)
+        // Core 空闲后仍可能在执行上轮结束脚本或完成后动作，须等收尾锁释放后才能开始新一轮。
+        if (!_runningState.CanInterrupt())
         {
-            _logger.Information("Not idle, return.");
+            _logger.Information("Run cannot be interrupted, return.");
             return;
         }
 
