@@ -47,8 +47,9 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
 
 ##### 任务类型一览
 
-- `StartUp`  
-  开始唤醒
+###### `StartUp`
+
+开始唤醒
 
 :::: field-group  
 ::: field enable  
@@ -99,8 +100,9 @@ B服：`张三`，可输入 `张三`、`张`、`三`
 
 </details>
 
-- `CloseDown`  
-  关闭游戏
+###### `CloseDown`
+
+关闭游戏
 
 :::: field-group  
 ::: field enable  
@@ -130,8 +132,9 @@ B服：`张三`，可输入 `张三`、`张`、`三`
 
 </details>
 
-- `Fight`  
-  理智作战
+###### `Fight`
+
+理智作战
 
 :::: field-group  
 ::: field enable  
@@ -295,8 +298,9 @@ B服：`张三`，可输入 `张三`、`张`、`三`
 
 </details>
 
-- `Recruit`  
-  公开招募
+###### `Recruit`
+
+公开招募
 
 :::: field-group  
 ::: field enable  
@@ -454,8 +458,9 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 
 </details>
 
-- `Infrast`  
-  基建换班
+###### `Infrast`
+
+基建换班
 
 :::: field-group  
 ::: field enable  
@@ -622,8 +627,9 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 
 </details>
 
-- `Mall`  
-  领取信用及商店购物。  
+###### `Mall`
+
+领取信用及商店购物。
   会先有序的按 `buy_first` 购买一遍，再从左到右并避开 `blacklist` 购买第二遍，在信用溢出时则会无视黑名单从左到右购买第三遍直到不再溢出
 
 :::: field-group  
@@ -711,8 +717,9 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 
 </details>
 
-- `Award`  
-  领取各种奖励
+###### `Award`
+
+领取各种奖励
 
 :::: field-group  
 ::: field enable  
@@ -780,8 +787,9 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 
 </details>
 
-- `SwitchTheme`  
-  更换游戏主界面主题
+###### `SwitchTheme`
+
+更换游戏主界面主题
 
 :::: field-group  
 ::: field enable  
@@ -809,8 +817,9 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 
 </details>
 
-- `Roguelike`  
-  无限刷肉鸽
+###### `Roguelike`
+
+无限刷肉鸽
 
 :::: field-group  
 ::: field enable  
@@ -1189,8 +1198,9 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 
 刷坍缩范式功能具体请参考 [肉鸽辅助协议](./integrated-strategy-schema.md#萨米肉鸽——坍缩范式)
 
-- `Copilot`  
-  自动抄作业
+###### `Copilot`
+
+自动抄作业
 
 :::: field-group  
 ::: field enable  
@@ -1318,8 +1328,9 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 
 </details>
 
-- `SSSCopilot`  
-  自动抄保全作业
+###### `SSSCopilot`
+
+自动抄保全作业
 
 :::: field-group  
 ::: field enable  
@@ -1354,8 +1365,9 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 
 </details>
 
-- `ParadoxCopilot`
-  自动抄悖论模拟作业
+###### `ParadoxCopilot`
+
+自动抄悖论模拟作业
 
 :::: field-group  
 ::: field enable  
@@ -1391,8 +1403,9 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 
 </details>
 
-- `Depot`  
-  仓库识别
+###### `Depot`
+
+仓库识别
 
 :::: field-group  
 ::: field enable  
@@ -1414,8 +1427,9 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 
 </details>
 
-- `OperBox`  
-  干员 box 识别
+###### `OperBox`
+
+干员 box 识别
 
 :::: field-group  
 ::: field enable  
@@ -1437,8 +1451,9 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 
 </details>
 
-- `Reclamation`  
-  生息演算
+###### `Reclamation`
+
+生息演算
 
 :::: field-group  
 ::: field enable  
@@ -1525,8 +1540,9 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 
 </details>
 
-- `Custom`  
-  自定义任务
+###### `Custom`
+
+自定义任务
 
 :::: field-group  
 ::: field enable  
@@ -1581,8 +1597,9 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 
 </details>
 
-- `SingleStep`  
-  单步任务（目前仅支持战斗）
+###### `SingleStep`
+
+单步任务（目前仅支持战斗）
 
 :::: field-group  
 ::: field enable  
@@ -1631,8 +1648,9 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 
 </details>
 
-- `VideoRecognition`  
-  视频识别，目前仅支持作业（作战）视频
+###### `VideoRecognition`
+
+视频识别，目前仅支持作业（作战）视频
 
 :::: field-group  
 ::: field enable  

@@ -47,8 +47,9 @@ Task parameters, json string
 
 ##### List of Task Types
 
-- `StartUp`  
-  Start-up
+###### `StartUp`
+
+Start-up
 
 :::: field-group  
 ::: field enable  
@@ -99,8 +100,9 @@ Traditional Chinese server: Email-based, e.g. `ab****01@gmail.com`. Entering the
 
 </details>
 
-- `CloseDown`  
-  Close Game Client
+###### `CloseDown`
+
+Close Game Client
 
 :::: field-group  
 ::: field enable  
@@ -130,8 +132,9 @@ Options: `Official` | `Bilibili` | `txwy` | `YoStarEN` | `YoStarJP` | `YoStarKR`
 
 </details>
 
-- `Fight`  
-  Operation
+###### `Fight`
+
+Operation
 
 :::: field-group  
 ::: field enable  
@@ -295,8 +298,9 @@ Wait at the Originite confirmation screen until the current 1 sanity point is re
 
 </details>
 
-- `Recruit`  
-  Recruitment
+###### `Recruit`
+
+Recruitment
 
 :::: field-group  
 ::: field enable  
@@ -454,8 +458,9 @@ Options: `CN` | `US` | `JP` | `KR`
 
 </details>
 
-- `Infrast`  
-  Infrastructure shifting
+###### `Infrast`
+
+Infrastructure shifting
 
 :::: field-group  
 ::: field enable  
@@ -622,8 +627,9 @@ Whether to continue unfinished skill training in the Training Room.
 
 </details>
 
-- `Mall`  
-  Collecting Credits and auto-purchasing.  
+###### `Mall`
+
+Collecting Credits and auto-purchasing.
   Will buy items in order following `buy_first` list, buy other items from left to right ignoring items in `blacklist`, and buy other items from left to right ignoring the `blacklist` while credit overflows.
 
 :::: field-group  
@@ -711,8 +717,9 @@ Integer between 0–4, where 0 = current squad, 1–4 = first, second, third, fo
 
 </details>
 
-- `Award`  
-  Collecting various rewards
+###### `Award`
+
+Collecting various rewards
 
 :::: field-group  
 ::: field enable  
@@ -780,8 +787,9 @@ Collect rewards from limited-time sign-in events (only standard horizontal layou
 
 </details>
 
-- `SwitchTheme`  
-  Switch the game's main interface theme
+###### `SwitchTheme`
+
+Switch the game's main interface theme
 
 :::: field-group  
 ::: field enable  
@@ -809,8 +817,9 @@ List of candidate theme names, matching the names shown in the in-game theme lis
 
 </details>
 
-- `Roguelike`  
-  Integrated Strategies
+###### `Roguelike`
+
+Integrated Strategies
 
 :::: field-group  
 ::: field enable  
@@ -1189,8 +1198,9 @@ Target playtime node of the playtime node farming mode. `1` - Ling (掷地有声
 
 For specific information about the Collapsal Paradigm farming feature, please refer to [Integrated Strategy Schema](./integrated-strategy-schema.md#sami-integrated-strategy-collapsal-paradigms)
 
-- `Copilot`  
-  Auto combat feature
+###### `Copilot`
+
+Auto combat feature
 
 :::: field-group  
 ::: field enable  
@@ -1318,8 +1328,9 @@ For more details about auto-combat JSON, please refer to [Combat Operation Proto
 
 </details>
 
-- `SSSCopilot`  
-  Auto combat feature for Stationary Security Service
+###### `SSSCopilot`
+
+Auto combat feature for Stationary Security Service
 
 :::: field-group  
 ::: field enable  
@@ -1355,8 +1366,9 @@ For more details about Stationary Security Service JSON, please refer to [SSS Sc
 
 </details>
 
-- `ParadoxCopilot`
-  Automatically run Paradox Simulation operations
+###### `ParadoxCopilot`
+
+Automatically run Paradox Simulation operations
 
 :::: field-group  
 ::: field enable  
@@ -1392,8 +1404,9 @@ Array elements support two forms: an object containing `id` (job identifier, pas
 
 </details>
 
-- `Depot`
-  Depot recognition
+###### `Depot`
+
+Depot recognition
 
 :::: field-group  
 ::: field enable  
@@ -1415,8 +1428,9 @@ Whether to enable this task.
 
 </details>
 
-- `OperBox`  
-  Operator box recognition
+###### `OperBox`
+
+Operator box recognition
 
 :::: field-group  
 ::: field enable  
@@ -1438,8 +1452,9 @@ Whether to enable this task.
 
 </details>
 
-- `Reclamation`  
-  Reclamation Algorithm
+###### `Reclamation`
+
+Reclamation Algorithm
 
 :::: field-group  
 ::: field enable  
@@ -1526,8 +1541,9 @@ Maximum number of craft batches per session. Only effective for Tales theme.
 
 </details>
 
-- `Custom`  
-  Custom Task
+###### `Custom`
+
+Custom Task
 
 :::: field-group  
 ::: field enable  
@@ -1582,8 +1598,9 @@ Additional task parameters. Currently used by the pixel paint task (`MiniGame@Pi
 
 </details>
 
-- `SingleStep`  
-  Single-step task (currently only supports copilot)
+###### `SingleStep`
+
+Single-step task (currently only supports copilot)
 
 :::: field-group  
 ::: field enable  
@@ -1632,8 +1649,9 @@ Detailed parameters for the subtask.
 
 </details>
 
-- `VideoRecognition`  
-  Video recognition, currently only supports operation (combat) video
+###### `VideoRecognition`
+
+Video recognition, currently only supports operation (combat) video
 
 :::: field-group  
 ::: field enable  

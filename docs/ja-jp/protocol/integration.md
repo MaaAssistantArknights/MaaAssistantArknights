@@ -47,8 +47,9 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
 
 ##### タスク タイプ一覧
 
-- `StartUp`  
-  ゲーム起動
+###### `StartUp`
+
+ゲーム起動
 
 :::: field-group  
 ::: field enable  
@@ -99,8 +100,9 @@ Bilibili：`张三`、入力可能：`张三`、`张`、`三`
 
 </details>
 
-- `CloseDown`  
-  ゲームを閉じます。
+###### `CloseDown`
+
+ゲームを閉じます。
 
 :::: field-group  
 ::: field enable  
@@ -130,8 +132,9 @@ Bilibili：`张三`、入力可能：`张三`、`张`、`三`
 
 </details>
 
-- `Fight`  
-  作戦
+###### `Fight`
+
+作戦
 
 :::: field-group  
 ::: field enable  
@@ -295,8 +298,9 @@ v6.8.0 で非推奨になりました。代わりに `medicine_expire_days` を�
 
 </details>
 
-- `Recruit`  
-  公開求人
+###### `Recruit`
+
+公開求人
 
 :::: field-group  
 ::: field enable  
@@ -454,8 +458,9 @@ v6.8.0 で非推奨になりました。代わりに `medicine_expire_days` を�
 
 </details>
 
-- `Infrast`  
-  基地シフト
+###### `Infrast`
+
+基地シフト
 
 :::: field-group  
 ::: field enable  
@@ -622,8 +627,9 @@ v6.8.0 で非推奨になりました。代わりに `medicine_expire_days` を�
 
 </details>
 
-- `Mall`  
-  FP受け取りと商店購物。  
+###### `Mall`
+
+FP受け取りと商店購物。
   まず `buy_first` にあるものを順番に 1 回購入し、次に左から右に 2 回購入して `blacklist` を回避し、FP溢出時はブラックリストを無視して左から右に 3 回購入して溢出しなくなるまで続けます。
 
 :::: field-group  
@@ -711,8 +717,9 @@ OF-1 実行時に使用する編成スロットのインデックス。
 
 </details>
 
-- `Award`  
-  各種報酬の受け取り
+###### `Award`
+
+各種報酬の受け取り
 
 :::: field-group  
 ::: field enable  
@@ -780,8 +787,9 @@ OF-1 実行時に使用する編成スロットのインデックス。
 
 </details>
 
-- `SwitchTheme`  
-  ゲームのメイン画面テーマを切り替える
+###### `SwitchTheme`
+
+ゲームのメイン画面テーマを切り替える
 
 :::: field-group  
 ::: field enable  
@@ -809,8 +817,9 @@ OF-1 実行時に使用する編成スロットのインデックス。
 
 </details>
 
-- `Roguelike`  
-  統合戦略
+###### `Roguelike`
+
+統合戦略
 
 :::: field-group  
 ::: field enable  
@@ -1189,8 +1198,9 @@ Sarkaz テーマ、Investment モード、 ｢破棘成金分隊｣ または �
 
 パラダイムロスト稼ぎ機能の詳細は [統合戦略補助プロトコル](./integrated-strategy-schema.md#サーミテーマ-パラダイムロスト)を参照してください。
 
-- `Copilot`  
-  自動戦闘
+###### `Copilot`
+
+自動戦闘
 
 :::: field-group  
 ::: field enable  
@@ -1318,8 +1328,9 @@ Sarkaz テーマ、Investment モード、 ｢破棘成金分隊｣ または �
 
 </details>
 
-- `SSSCopilot`  
-  自動戦闘保全駐在
+###### `SSSCopilot`
+
+自動戦闘保全駐在
 
 :::: field-group  
 ::: field enable  
@@ -1354,8 +1365,9 @@ Sarkaz テーマ、Investment モード、 ｢破棘成金分隊｣ または �
 
 </details>
 
-- `ParadoxCopilot`
-  自動戦闘逆理演算
+###### `ParadoxCopilot`
+
+自動戦闘逆理演算
 
 :::: field-group  
 ::: field enable  
@@ -1391,8 +1403,9 @@ Sarkaz テーマ、Investment モード、 ｢破棘成金分隊｣ または �
 
 </details>
 
-- `Depot`  
-  倉庫識別
+###### `Depot`
+
+倉庫識別
 
 :::: field-group  
 ::: field enable  
@@ -1414,8 +1427,9 @@ Sarkaz テーマ、Investment モード、 ｢破棘成金分隊｣ または �
 
 </details>
 
-- `OperBox`  
-  オペレーター box 識別
+###### `OperBox`
+
+オペレーター box 識別
 
 :::: field-group  
 ::: field enable  
@@ -1437,8 +1451,9 @@ Sarkaz テーマ、Investment モード、 ｢破棘成金分隊｣ または �
 
 </details>
 
-- `Reclamation`  
-  生息演算
+###### `Reclamation`
+
+生息演算
 
 :::: field-group  
 ::: field enable  
@@ -1525,8 +1540,9 @@ Sarkaz テーマ、Investment モード、 ｢破棘成金分隊｣ または �
 
 </details>
 
-- `Custom`  
-  カスタム タスク
+###### `Custom`
+
+カスタム タスク
 
 :::: field-group  
 ::: field enable  
@@ -1581,8 +1597,9 @@ Sarkaz テーマ、Investment モード、 ｢破棘成金分隊｣ または �
 
 </details>
 
-- `SingleStep`  
-  単一ステップ タスク（現在は戦闘のみ対応）
+###### `SingleStep`
+
+単一ステップ タスク（現在は戦闘のみ対応）
 
 :::: field-group  
 ::: field enable  
@@ -1631,8 +1648,9 @@ Sarkaz テーマ、Investment モード、 ｢破棘成金分隊｣ または �
 
 </details>
 
-- `VideoRecognition`  
-  ビデオ識別、現在は作業（戦闘）ビデオのみ対応
+###### `VideoRecognition`
+
+ビデオ識別、現在は作業（戦闘）ビデオのみ対応
 
 :::: field-group  
 ::: field enable  

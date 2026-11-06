@@ -47,8 +47,9 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
 
 ##### 任務類型一覽
 
-- `StartUp`  
-  開始喚醒
+###### `StartUp`
+
+開始喚醒
 
 :::: field-group  
 ::: field enable  
@@ -99,8 +100,9 @@ B 服：`張三`，可輸入 `張三`、`張`、`三`
 
 </details>
 
-- `CloseDown`  
-  關閉遊戲
+###### `CloseDown`
+
+關閉遊戲
 
 :::: field-group  
 ::: field enable  
@@ -130,8 +132,9 @@ B 服：`張三`，可輸入 `張三`、`張`、`三`
 
 </details>
 
-- `Fight`  
-  理智作戰
+###### `Fight`
+
+理智作戰
 
 :::: field-group  
 ::: field enable  
@@ -296,8 +299,9 @@ B 服：`張三`，可輸入 `張三`、`張`、`三`
 
 </details>
 
-- `Recruit`  
-  公開招募
+###### `Recruit`
+
+公開招募
 
 :::: field-group  
 ::: field enable  
@@ -455,8 +459,9 @@ Tag 等級（大於等於 3）對應的期望招募時限（單位：分鐘）�
 
 </details>
 
-- `Infrast`  
-  基建換班
+###### `Infrast`
+
+基建換班
 
 :::: field-group  
 ::: field enable  
@@ -623,8 +628,9 @@ Tag 等級（大於等於 3）對應的期望招募時限（單位：分鐘）�
 
 </details>
 
-- `Mall`  
-  領取信用點數及商店購物。  
+###### `Mall`
+
+領取信用點數及商店購物。
   會先依據 `buy_first` 清單依序購買；接著由左至右掃描商店，避開 `blacklist` 進行第二輪購買；若信用點數溢出，則會無視黑名單再次由左至右購買，直到信用點數不再溢出為止。
 
 :::: field-group  
@@ -712,8 +718,9 @@ Tag 等級（大於等於 3）對應的期望招募時限（單位：分鐘）�
 
 </details>
 
-- `Award`  
-  領取各種獎勵
+###### `Award`
+
+領取各種獎勵
 
 :::: field-group  
 ::: field enable  
@@ -781,8 +788,9 @@ Tag 等級（大於等於 3）對應的期望招募時限（單位：分鐘）�
 
 </details>
 
-- `SwitchTheme`  
-  更換遊戲主介面主題
+###### `SwitchTheme`
+
+更換遊戲主介面主題
 
 :::: field-group  
 ::: field enable  
@@ -810,8 +818,9 @@ Tag 等級（大於等於 3）對應的期望招募時限（單位：分鐘）�
 
 </details>
 
-- `Roguelike`  
-  無限刷肉鴿
+###### `Roguelike`
+
+無限刷肉鴿
 
 :::: field-group  
 ::: field enable  
@@ -1190,8 +1199,9 @@ Tag 等級（大於等於 3）對應的期望招募時限（單位：分鐘）�
 
 刷坍縮範式功能，具體請參閱 [肉鴿輔助協定](./integrated-strategy-schema.md#薩米肉鴿——坍縮範式)
 
-- `Copilot`  
-  自動抄作業
+###### `Copilot`
+
+自動抄作業
 
 :::: field-group  
 ::: field enable  
@@ -1319,8 +1329,9 @@ Tag 等級（大於等於 3）對應的期望招募時限（單位：分鐘）�
 
 </details>
 
-- `SSSCopilot`  
-  自動抄保全派駐作業
+###### `SSSCopilot`
+
+自動抄保全派駐作業
 
 :::: field-group  
 ::: field enable  
@@ -1355,8 +1366,9 @@ Tag 等級（大於等於 3）對應的期望招募時限（單位：分鐘）�
 
 </details>
 
-- `ParadoxCopilot`
-  自動抄悖論模擬作業
+###### `ParadoxCopilot`
+
+自動抄悖論模擬作業
 
 :::: field-group  
 ::: field enable  
@@ -1392,8 +1404,9 @@ Tag 等級（大於等於 3）對應的期望招募時限（單位：分鐘）�
 
 </details>
 
-- `Depot`  
-  倉庫辨識
+###### `Depot`
+
+倉庫辨識
 
 :::: field-group  
 ::: field enable  
@@ -1415,8 +1428,9 @@ Tag 等級（大於等於 3）對應的期望招募時限（單位：分鐘）�
 
 </details>
 
-- `OperBox`  
-  幹員 box 辨識
+###### `OperBox`
+
+幹員 box 辨識
 
 :::: field-group  
 ::: field enable  
@@ -1438,8 +1452,9 @@ Tag 等級（大於等於 3）對應的期望招募時限（單位：分鐘）�
 
 </details>
 
-- `Reclamation`  
-  生息演算
+###### `Reclamation`
+
+生息演算
 
 :::: field-group  
 ::: field enable  
@@ -1526,8 +1541,9 @@ Tag 等級（大於等於 3）對應的期望招募時限（單位：分鐘）�
 
 </details>
 
-- `Custom`  
-  自訂任務
+###### `Custom`
+
+自訂任務
 
 :::: field-group  
 ::: field enable  
@@ -1582,8 +1598,9 @@ Tag 等級（大於等於 3）對應的期望招募時限（單位：分鐘）�
 
 </details>
 
-- `SingleStep`  
-  單步任務（目前僅支援戰鬥）
+###### `SingleStep`
+
+單步任務（目前僅支援戰鬥）
 
 :::: field-group  
 ::: field enable  
@@ -1632,8 +1649,9 @@ Tag 等級（大於等於 3）對應的期望招募時限（單位：分鐘）�
 
 </details>
 
-- `VideoRecognition`  
-  影片辨識（目前僅支援作業 / 作戰影片）
+###### `VideoRecognition`
+
+影片辨識（目前僅支援作業 / 作戰影片）
 
 :::: field-group  
 ::: field enable  
