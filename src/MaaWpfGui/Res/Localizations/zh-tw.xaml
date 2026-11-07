@@ -2570,8 +2570,10 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="TutorialChallenge.Level.InventoryTarget.Title">{key=TaskQueue.Fight.TargetInventory}</system:String>
     <system:String x:Key="TutorialChallenge.Level.RecruitRobot.Goal">公招刷出 ｢支援機械｣ 詞條想留給小車。請在公招任務裡開啟 ｢{key=Recruit.PreserveTags}｣ 並把 ｢支援機械｣ 加進清單。</system:String>
     <system:String x:Key="TutorialChallenge.Level.RecruitRobot.Title">支援機械</system:String>
-    <system:String x:Key="TutorialChallenge.Level.SettingsSearch.Goal">設定項太多找不到？試著用設定頁的搜尋框定位 ｢{key=TaskQueue.Schedule.ForceScheduledStart}｣。</system:String>
+    <system:String x:Key="TutorialChallenge.Level.SettingsSearch.DecoySection">雜項</system:String>
+    <system:String x:Key="TutorialChallenge.Level.SettingsSearch.Goal">設定項太多找不到？試著用設定頁的搜尋框篩出含 ｢MAA｣ 字樣的選項，把 5 個目標全部勾選。</system:String>
     <system:String x:Key="TutorialChallenge.Level.SettingsSearch.Title">設定搜尋</system:String>
+    <system:String x:Key="TutorialChallenge.Level.SettingsSearch.WrongPick">這個不是 MAA 相關設定，再找找看</system:String>
     <system:String x:Key="TutorialChallenge.Level.StagePriority.Goal">希望優先刷 AP-5，AP-5 沒開時刷 CE-6，兩者都沒開就刷 1-7。</system:String>
     <system:String x:Key="TutorialChallenge.Level.StagePriority.Title">備選關卡優先級</system:String>
     <system:String x:Key="TutorialChallenge.Level.TargetDrop.Goal">想要 10 個固源岩，準備去 1-7 刷 10 個回來。</system:String>

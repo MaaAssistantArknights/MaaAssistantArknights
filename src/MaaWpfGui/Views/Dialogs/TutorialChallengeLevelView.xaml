@@ -1632,6 +1632,30 @@
                                                         <CheckBox Margin="10,5" Content="{DynamicResource Settings.Game.BlockSleep}" />
                                                         <CheckBox Margin="10,5" Content="{DynamicResource Settings.Game.BlockSleepWithScreenOn}" />
                                                     </StackPanel>
+
+                                                    <!--  ｢设置搜索｣ 关卡干扰分区：随机 CheckBox 群，CheckBox 的 IsChecked 直接写回项实例  -->
+                                                    <StackPanel Margin="0,20" HorizontalAlignment="Center">
+                                                        <StackPanel.Style>
+                                                            <Style TargetType="StackPanel">
+                                                                <Setter Property="Visibility" Value="Collapsed" />
+                                                                <Style.Triggers>
+                                                                    <DataTrigger Binding="{Binding Kind}" Value="{x:Static dialogs_vms:TutorialChallengeSettingSectionKind.Decoy}">
+                                                                        <Setter Property="Visibility" Value="Visible" />
+                                                                    </DataTrigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </StackPanel.Style>
+                                                        <ItemsControl ItemsSource="{Binding Items}">
+                                                            <ItemsControl.ItemTemplate>
+                                                                <DataTemplate DataType="{x:Type dialogs_vms:TutorialChallengeDecoyItem}">
+                                                                    <CheckBox
+                                                                        Margin="10,5"
+                                                                        Content="{Binding Text}"
+                                                                        IsChecked="{Binding IsChecked}" />
+                                                                </DataTemplate>
+                                                            </ItemsControl.ItemTemplate>
+                                                        </ItemsControl>
+                                                    </StackPanel>
                                                 </Grid>
                                             </Border>
                                         </Expander>

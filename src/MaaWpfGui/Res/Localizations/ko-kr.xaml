@@ -2570,8 +2570,10 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="TutorialChallenge.Level.InventoryTarget.Title">{key=TaskQueue.Fight.TargetInventory}</system:String>
     <system:String x:Key="TutorialChallenge.Level.RecruitRobot.Goal">공개모집에서 ｢로봇｣ 태그가 뜨면 로봇을 위해 남겨 두고 싶습니다. 공개모집 작업에서 ｢{key=Recruit.PreserveTags}｣를 켜고 ｢로봇｣을 목록에 추가해 주세요.</system:String>
     <system:String x:Key="TutorialChallenge.Level.RecruitRobot.Title">로봇</system:String>
-    <system:String x:Key="TutorialChallenge.Level.SettingsSearch.Goal">설정 항목이 너무 많아 못 찾겠다면? 설정 페이지의 검색 상자로 ｢{key=TaskQueue.Schedule.ForceScheduledStart}｣를 찾아 보세요.</system:String>
+    <system:String x:Key="TutorialChallenge.Level.SettingsSearch.DecoySection">기타</system:String>
+    <system:String x:Key="TutorialChallenge.Level.SettingsSearch.Goal">설정 항목이 너무 많아 못 찾겠다면? 설정 페이지의 검색 상자로 ｢MAA｣가 들어간 항목만 골라 5개를 모두 체크해 보세요.</system:String>
     <system:String x:Key="TutorialChallenge.Level.SettingsSearch.Title">설정 검색</system:String>
+    <system:String x:Key="TutorialChallenge.Level.SettingsSearch.WrongPick">MAA 관련 설정이 아닙니다. 다시 찾아 보세요.</system:String>
     <system:String x:Key="TutorialChallenge.Level.StagePriority.Goal">AP-5를 우선해서 돌고 싶습니다. AP-5가 닫혀 있으면 CE-6, 둘 다 닫혀 있으면 1-7로 하고 싶습니다.</system:String>
     <system:String x:Key="TutorialChallenge.Level.StagePriority.Title">대체 스테이지 우선순위</system:String>
     <system:String x:Key="TutorialChallenge.Level.TargetDrop.Goal">원암 큐브가 10개 필요합니다. 1-7에서 10개 모아 오려고 합니다.</system:String>

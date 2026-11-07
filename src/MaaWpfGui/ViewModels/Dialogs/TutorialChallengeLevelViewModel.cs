@@ -57,6 +57,11 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
     private string _stagePlanTip = string.Empty;
     private string _dropsItemName = string.Empty;
 
+    // 设置搜索关卡的干扰项常量：5 个分区、每分区 4 项、每分区恰 1 个目标项
+    private const int SettingsSearchSectionCount = 5;
+    private const int SettingsSearchItemsPerSection = 4;
+    private const string SettingsSearchTargetMarker = "MAA";
+
     /// <summary>
     /// Initializes a new instance of the <see cref="TutorialChallengeLevelViewModel"/> class.
     /// </summary>
@@ -122,6 +127,11 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
         Instances.StageManager.StageDataChanged += OnStageDataChanged;
         SandboxSchedule = new TutorialChallengeSandboxSchedule(Evaluate);
         BuildSettingSections();
+        if (IsSettingsSearchLevel)
+        {
+            BuildSettingsSearchDecoySections();
+        }
+
         BuildStageListSource();
         BuildSandbox();
     }
@@ -395,6 +405,20 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
     /// Gets a value indicating whether 本关开放设置页场景。
     /// </summary>
     public bool ShowSettingsPanel => _level.HasPanel(TutorialChallengePanelKind.Settings);
+
+    /// <summary>
+    /// Gets a value indicating whether 本关为 ｢设置搜索｣ 关卡（决定沙盒设置页是否投放干扰分区与目标 CheckBox）。
+    /// </summary>
+    public bool IsSettingsSearchLevel => _level.Id == "SettingsSearch";
+
+    /// <summary>
+    /// Gets a value indicating whether 全部 ｢MAA｣ 目标干扰项均已勾选（SettingsSearch 关卡的判定源）。
+    /// </summary>
+    public bool SandboxDecoyTargetsAllChecked => SandboxSettingSections
+        .Where(section => section.Kind == TutorialChallengeSettingSectionKind.Decoy)
+        .SelectMany(section => section.Items)
+        .Where(item => item.IsTarget)
+        .All(item => item.IsChecked);
 
     /// <summary>
     /// Gets a value indicating whether 本关开放拖拽投放区场景。
@@ -691,49 +715,168 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
         SettingsSearchText = string.Empty;
         ShowAdvancedSettings = false;
         SandboxSchedule.Reset();
+        if (IsSettingsSearchLevel)
+        {
+            BuildSettingsSearchDecoySections();
+        }
+
         BuildSandbox();
     }
 
     /// <summary>
     /// 构建沙盒设置页分区导航。骨架版投放少量真实分区占位，后续关卡提交按关替换分区内容。
+    /// ｢设置搜索｣ 关卡占位分区的 searchTextKeys 一律清空——本关唯一交互是搜 ｢MAA｣ 勾选目标项，
+    /// 任何占位分区命中都会误导玩家勾选非目标项（如 Startup 的 ｢启动 MAA 后...｣ 文案含 ｢MAA｣）。
     /// </summary>
     private void BuildSettingSections()
     {
+        // 占位分区 searchTextKeys 在 ｢设置搜索｣ 关卡全部置空（值本身仍列出以便阅读默认数据）
+        var scheduleKeys = IsSettingsSearchLevel ? [] : (string[])["TaskQueue.Schedule.ForceScheduledStart", "TaskQueue.Schedule.ShowWindowBeforeForceScheduledStart", "TaskQueue.Schedule.Timer"];
+        var startupKeys = IsSettingsSearchLevel ? [] : (string[])["Settings.Startup.RunTaskAfterLaunch", "Settings.Startup.OpenEmulatorAfterLaunch"];
+        var uiKeys = IsSettingsSearchLevel ? [] : (string[])["TaskQueue.MainTasksNullFunctionality", "Settings.TitleBar.HideCloseButton"];
+        var updateKeys = IsSettingsSearchLevel ? [] : (string[])["Settings.Update.AutoCheck", "Settings.Update.AutoDownload", "Settings.Update.ResourceUpdate"];
+        var issueReportKeys = IsSettingsSearchLevel ? [] : (string[])["Error.GenerateSupportPayload"];
+        var performanceKeys = IsSettingsSearchLevel ? [] : (string[])["Settings.Game.BlockSleep", "Settings.Game.BlockSleepWithScreenOn"];
+
         SandboxSettingSections.Clear();
         SandboxSettingSections.Add(new TutorialChallengeSettingSection(
             TutorialChallengeSettingSectionKind.Schedule,
             "Settings.Schedule.Title",
             isAdvanced: false,
-            searchTextKeys: ["TaskQueue.Schedule.ForceScheduledStart", "TaskQueue.Schedule.ShowWindowBeforeForceScheduledStart", "TaskQueue.Schedule.Timer"]));
+            searchTextKeys: scheduleKeys));
         SandboxSettingSections.Add(new TutorialChallengeSettingSection(
             TutorialChallengeSettingSectionKind.Startup,
             "Settings.Startup.Title",
             isAdvanced: false,
-            searchTextKeys: ["Settings.Startup.RunTaskAfterLaunch", "Settings.Startup.OpenEmulatorAfterLaunch"]));
+            searchTextKeys: startupKeys));
         SandboxSettingSections.Add(new TutorialChallengeSettingSection(
             TutorialChallengeSettingSectionKind.Ui,
             "Settings.Ui.Title",
             isAdvanced: false,
-            searchTextKeys: ["TaskQueue.MainTasksNullFunctionality", "Settings.TitleBar.HideCloseButton"]));
+            searchTextKeys: uiKeys));
         SandboxSettingSections.Add(new TutorialChallengeSettingSection(
             TutorialChallengeSettingSectionKind.Update,
             "Settings.Update.Title",
             isAdvanced: false,
-            searchTextKeys: ["Settings.Update.AutoCheck", "Settings.Update.AutoDownload", "Settings.Update.ResourceUpdate"]));
+            searchTextKeys: updateKeys));
         SandboxSettingSections.Add(new TutorialChallengeSettingSection(
             TutorialChallengeSettingSectionKind.IssueReport,
             "Settings.IssueReport.Title",
             isAdvanced: false,
-            searchTextKeys: ["Error.GenerateSupportPayload"]));
+            searchTextKeys: issueReportKeys));
         SandboxSettingSections.Add(new TutorialChallengeSettingSection(
             TutorialChallengeSettingSectionKind.Performance,
             "Settings.Performance.Title",
             isAdvanced: true,
-            searchTextKeys: ["Settings.Game.BlockSleep", "Settings.Game.BlockSleepWithScreenOn"]));
+            searchTextKeys: performanceKeys));
     }
 
     /// <summary>
-    /// 按搜索文本过滤设置分区：分区标题或区内登记文本命中即保留，未命中分区整体折叠。空搜索时全部恢复。
+    /// 重建 ｢设置搜索｣ 关卡的干扰分区与 CheckBox 项：5 个分区、每分区 4 项、每分区恰好 1 个目标项
+    /// （文本内嵌 ｢MAA｣ 字样，可经搜索框按字面命中），其余 3 项为不含 ｢MAA｣ 的随机字母。
+    /// 每次进关与重置时重新生成，保证观感随机。
+    /// </summary>
+    private void BuildSettingsSearchDecoySections()
+    {
+        for (var i = SandboxSettingSections.Count - 1; i >= 0; i--)
+        {
+            if (SandboxSettingSections[i].Kind == TutorialChallengeSettingSectionKind.Decoy)
+            {
+                SandboxSettingSections.RemoveAt(i);
+            }
+        }
+
+        for (var sectionIndex = 0; sectionIndex < SettingsSearchSectionCount; sectionIndex++)
+        {
+            // 每分区 4 个槽位随机挑一个放目标项，其余填非目标随机串
+            var targetSlot = _random.Next(SettingsSearchItemsPerSection);
+            var items = new List<TutorialChallengeDecoyItem>(SettingsSearchItemsPerSection);
+            for (var slot = 0; slot < SettingsSearchItemsPerSection; slot++)
+            {
+                var isTarget = slot == targetSlot;
+                var text = isTarget ? GenerateTargetItemText() : GenerateDecoyItemText();
+                items.Add(new TutorialChallengeDecoyItem(text, isTarget, OnDecoyItemCheckChanged));
+            }
+
+            var section = new TutorialChallengeSettingSection(
+                TutorialChallengeSettingSectionKind.Decoy,
+                "TutorialChallenge.Level.SettingsSearch.DecoySection",
+                isAdvanced: false,
+                searchTextKeys: [],
+                searchExtraTexts: items.Select(item => item.Text).ToList(),
+                items: items);
+            SandboxSettingSections.Add(section);
+        }
+    }
+
+    /// <summary>
+    /// 干扰项 CheckBox 勾选变化回调：勾上非目标项弹 Info 提示（不清除勾选，由玩家自行取消），
+    /// 任何变化都重算终态判定。
+    /// </summary>
+    /// <param name="item">变化的干扰项。</param>
+    private void OnDecoyItemCheckChanged(TutorialChallengeDecoyItem item)
+    {
+        if (item is { IsChecked: true, IsTarget: false })
+        {
+            var msg = LocalizationHelper.GetString("TutorialChallenge.Level.SettingsSearch.WrongPick");
+            GrowlHelper.Show(InfoType.Info, msg, () => Growl.Info(msg, "TutorialChallenge"));
+        }
+
+        NotifyOfPropertyChange(nameof(SandboxDecoyTargetsAllChecked));
+        Evaluate();
+    }
+
+    /// <summary>
+    /// 生成一个干扰项显示文本：随机小写字母串（6-8 位），保证不偶然含 ｢MAA｣。
+    /// </summary>
+    /// <returns>不含目标标记的随机文本。</returns>
+    private string GenerateDecoyItemText()
+    {
+        const string letters = "abcdefghijklmnopqrstuvwxyz";
+        string text;
+        do
+        {
+            var length = _random.Next(6, 9);
+            var chars = new char[length];
+            for (var i = 0; i < length; i++)
+            {
+                chars[i] = letters[_random.Next(letters.Length)];
+            }
+
+            text = new string(chars);
+        }
+        while (text.Contains(SettingsSearchTargetMarker, StringComparison.OrdinalIgnoreCase));
+
+        return text;
+    }
+
+    /// <summary>
+    /// 生成一个目标项显示文本：随机前后拼写字母环绕 ｢MAA｣，总长 6-8。
+    /// </summary>
+    /// <returns>含 ｢MAA｣ 字样的随机文本。</returns>
+    private string GenerateTargetItemText()
+    {
+        const string letters = "abcdefghijklmnopqrstuvwxyz";
+        var totalLength = _random.Next(6, 9);
+        var prefixLength = _random.Next(0, totalLength - SettingsSearchTargetMarker.Length + 1);
+        var suffixLength = totalLength - SettingsSearchTargetMarker.Length - prefixLength;
+        var chars = new char[totalLength];
+        for (var i = 0; i < prefixLength; i++)
+        {
+            chars[i] = letters[_random.Next(letters.Length)];
+        }
+
+        SettingsSearchTargetMarker.CopyTo(0, chars, prefixLength, SettingsSearchTargetMarker.Length);
+        for (var i = 0; i < suffixLength; i++)
+        {
+            chars[prefixLength + SettingsSearchTargetMarker.Length + i] = letters[_random.Next(letters.Length)];
+        }
+
+        return new string(chars);
+    }
+
+    /// <summary>
+    /// 按搜索文本过滤设置分区：分区标题、区内登记文本或字面附加文本命中即保留，未命中分区整体折叠。空搜索时全部恢复。
     /// </summary>
     private void ApplySettingsSearch()
     {
@@ -747,7 +890,8 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
             }
 
             var hit = section.Display.Contains(keyword, StringComparison.OrdinalIgnoreCase)
-                || section.SearchTextKeys.Any(key => LocalizationHelper.GetString(key).Contains(keyword, StringComparison.OrdinalIgnoreCase));
+                || section.SearchTextKeys.Any(key => LocalizationHelper.GetString(key).Contains(keyword, StringComparison.OrdinalIgnoreCase))
+                || section.SearchExtraTexts.Any(text => text.Contains(keyword, StringComparison.OrdinalIgnoreCase));
             section.IsVisibleInSearch = hit;
         }
 
@@ -1736,13 +1880,24 @@ public enum TutorialChallengeSettingSectionKind
     /// 性能设置占位分区（高级分区示例）。
     /// </summary>
     Performance,
+
+    /// <summary>
+    /// 干扰分区（｢设置搜索｣ 关卡的随机 CheckBox 群）。
+    /// </summary>
+    Decoy,
 }
 
 /// <summary>
 /// 沙盒设置页分区导航项。形状对齐真实设置页的 SettingItemViewModel（Display/IsAdvanced/搜索折叠），
 /// 同时携带分区种类供右栏内容选择器投放对应面板。
 /// </summary>
-public class TutorialChallengeSettingSection(TutorialChallengeSettingSectionKind kind, string displayKey, bool isAdvanced, IReadOnlyList<string> searchTextKeys) : PropertyChangedBase
+public class TutorialChallengeSettingSection(
+    TutorialChallengeSettingSectionKind kind,
+    string displayKey,
+    bool isAdvanced,
+    IReadOnlyList<string> searchTextKeys,
+    IReadOnlyList<string>? searchExtraTexts = null,
+    IReadOnlyList<TutorialChallengeDecoyItem>? items = null) : PropertyChangedBase
 {
     /// <summary>
     /// Gets 分区标识（种类名的字符串形式）。
@@ -1768,6 +1923,16 @@ public class TutorialChallengeSettingSection(TutorialChallengeSettingSectionKind
     /// Gets 区内登记的可搜索文本本地化 key 列表（搜索时逐项取当前语言文本比对）。
     /// </summary>
     public IReadOnlyList<string> SearchTextKeys { get; } = searchTextKeys;
+
+    /// <summary>
+    /// Gets 区内登记的可搜索原样文本列表（非本地化 key；供 ｢设置搜索｣ 关卡随机生成的 CheckBox 文本命中搜索）。
+    /// </summary>
+    public IReadOnlyList<string> SearchExtraTexts { get; } = searchExtraTexts ?? [];
+
+    /// <summary>
+    /// Gets 本分区持有的干扰 CheckBox 项（仅 <see cref="TutorialChallengeSettingSectionKind.Decoy"/> 分区非空）。
+    /// </summary>
+    public IReadOnlyList<TutorialChallengeDecoyItem> Items { get; } = items ?? [];
 
     /// <summary>
     /// Gets a value indicating whether 本分区属于高级分区（导航分组与折叠行为对齐真实设置页）。
@@ -1811,5 +1976,39 @@ public class TutorialChallengeSettingSection(TutorialChallengeSettingSectionKind
     /// 语言切换后刷新分区标题显示。
     /// </summary>
     public void RefreshDisplay() => NotifyOfPropertyChange(nameof(Display));
+}
+
+/// <summary>
+/// ｢设置搜索｣ 关卡干扰分区的单个 CheckBox 项。文本为运行时生成的随机串（不本地化），
+/// 勾选变化经 <paramref name="onCheckChanged"/> 回调上报告知宿主 VM 做提示与判定。
+/// </summary>
+/// <param name="text">显示文本（目标项含 ｢MAA｣ 字样）。</param>
+/// <param name="isTarget">是否为关卡要求勾选的目标项。</param>
+/// <param name="onCheckChanged">勾选状态变化后的回调。</param>
+public class TutorialChallengeDecoyItem(string text, bool isTarget, Action<TutorialChallengeDecoyItem> onCheckChanged) : PropertyChangedBase
+{
+    /// <summary>
+    /// Gets 显示文本。
+    /// </summary>
+    public string Text { get; } = text;
+
+    /// <summary>
+    /// Gets a value indicating whether 本项为关卡目标项（文本内嵌 ｢MAA｣）。
+    /// </summary>
+    public bool IsTarget { get; } = isTarget;
+
+    /// <summary>
+    /// Gets 或设置 a value indicating whether 本项已勾选（变化经回调通知宿主 VM）。
+    /// </summary>
+    public bool IsChecked
+    {
+        get;
+        set {
+            if (SetAndNotify(ref field, value))
+            {
+                onCheckChanged(this);
+            }
+        }
+    }
 }
 #pragma warning restore SA1402

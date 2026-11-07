@@ -2571,8 +2571,10 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="TutorialChallenge.Level.InventoryTarget.Title">{key=TaskQueue.Fight.TargetInventory}</system:String>
     <system:String x:Key="TutorialChallenge.Level.RecruitRobot.Goal">公開求人で ｢ロボット｣ タグが出たら取っておきたい。公開求人タスクで ｢{key=Recruit.PreserveTags}｣ を有効にし、｢ロボット｣ をリストに追加してください。</system:String>
     <system:String x:Key="TutorialChallenge.Level.RecruitRobot.Title">ロボット</system:String>
-    <system:String x:Key="TutorialChallenge.Level.SettingsSearch.Goal">設定項目が多すぎて見つからない？設定ページの検索ボックスで ｢{key=TaskQueue.Schedule.ForceScheduledStart}｣ を探してみましょう。</system:String>
+    <system:String x:Key="TutorialChallenge.Level.SettingsSearch.DecoySection">その他</system:String>
+    <system:String x:Key="TutorialChallenge.Level.SettingsSearch.Goal">設定項目が多すぎて見つからない？設定ページの検索ボックスで ｢MAA｣ を含む項目を絞り込み、5 つすべてをチェックしましょう。</system:String>
     <system:String x:Key="TutorialChallenge.Level.SettingsSearch.Title">設定検索</system:String>
+    <system:String x:Key="TutorialChallenge.Level.SettingsSearch.WrongPick">これは MAA 関連の設定ではありません。もう一度探してみましょう。</system:String>
     <system:String x:Key="TutorialChallenge.Level.StagePriority.Goal">AP-5 を優先して周回したい。AP-5 が未開放の時は CE-6、両方とも未開放なら 1-7 にしたい。</system:String>
     <system:String x:Key="TutorialChallenge.Level.StagePriority.Title">代替ステージの優先度</system:String>
     <system:String x:Key="TutorialChallenge.Level.TargetDrop.Goal">初級源岩が 10 個ほしい。1-7 で 10 個集めてくる。</system:String>

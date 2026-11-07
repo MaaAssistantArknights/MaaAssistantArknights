@@ -110,7 +110,7 @@ public static class TutorialChallengeLevels
         new(
             id: "SettingsSearch",
             sandboxFactory: () => [new StartUpTask()],
-            goalPredicate: (_, _) => false,
+            goalPredicate: (_, vm) => vm.SandboxDecoyTargetsAllChecked,
             panelKinds: [TutorialChallengePanelKind.Settings]),
 
         new(

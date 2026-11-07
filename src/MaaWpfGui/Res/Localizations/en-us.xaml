@@ -2570,8 +2570,10 @@ Only level rewards can be farmed; to get the Engraved Medal, all ｢Key Objectiv
     <system:String x:Key="TutorialChallenge.Level.InventoryTarget.Title">Inventory Target</system:String>
     <system:String x:Key="TutorialChallenge.Level.RecruitRobot.Goal">Want to keep a Robot tag when it shows up in recruitment? Enable {key=Recruit.PreserveTags} in the recruit task and add 支援机械 to the list.</system:String>
     <system:String x:Key="TutorialChallenge.Level.RecruitRobot.Title">Robot Tag</system:String>
-    <system:String x:Key="TutorialChallenge.Level.SettingsSearch.Goal">Too many settings to find? Try locating {key=TaskQueue.Schedule.ForceScheduledStart} with the search box on the settings page.</system:String>
+    <system:String x:Key="TutorialChallenge.Level.SettingsSearch.DecoySection">Misc</system:String>
+    <system:String x:Key="TutorialChallenge.Level.SettingsSearch.Goal">Too many settings to find? Try using the search box on the settings page to filter for items containing "MAA" — check all 5 of them.</system:String>
     <system:String x:Key="TutorialChallenge.Level.SettingsSearch.Title">Settings Search</system:String>
+    <system:String x:Key="TutorialChallenge.Level.SettingsSearch.WrongPick">That's not an MAA-related setting. Keep looking.</system:String>
     <system:String x:Key="TutorialChallenge.Level.StagePriority.Goal">I want to farm AP-5 first, then CE-6 when AP-5 is closed, and 1-7 when both are closed.</system:String>
     <system:String x:Key="TutorialChallenge.Level.StagePriority.Title">Candidate Stage Priority</system:String>
     <system:String x:Key="TutorialChallenge.Level.TargetDrop.Goal">Want 10 Orirock Cubes — heading to 1-7 to farm 10.</system:String>
