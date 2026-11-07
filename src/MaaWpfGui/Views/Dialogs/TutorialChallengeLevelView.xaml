@@ -1502,7 +1502,7 @@
                                                                             MouseRightButtonUp="{s:Action ToggleCheckBoxNullOnRightClick,
                                                                                                           Target={x:Type helper:CheckBoxHelper}}"
                                                                             ToolTip="{DynamicResource TaskQueue.CheckBoxesNotSavedAsNull}">
-                                                                            <TextBlock><Run Text="{DynamicResource TaskQueue.Schedule.Timer}" /><Run xml:space="preserve" Text=" " /><Run Text="{c:Binding 'Id + 1'}" /></TextBlock>
+                                                                            <TextBlock><Run Text="{DynamicResource TaskQueue.Schedule.Timer}" /><Run xml:space="preserve" Text=" " /><Run Text="{c:Binding 'Id + 1', Mode=OneWay}" /></TextBlock>
                                                                         </CheckBox>
                                                                         <StackPanel Orientation="Horizontal">
                                                                             <hc:NumericUpDown
