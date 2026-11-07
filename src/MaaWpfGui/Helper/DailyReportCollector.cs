@@ -165,13 +165,17 @@ public static class DailyReportCollector
         }
 
         // 别传复刻一条链依次打多个关卡，关卡变化时结束当前 session 另起一条，各关的场次、理智与掉落分开记录
+        // stageCode 为空是 OCR 完全没识别到（识别出错会上报错码，无掉落关会上报 _INVALID_），无归属信息，并入当前 session
         var stageCode = details["stage"]?["stageCode"]?.ToString();
-        if (!string.IsNullOrEmpty(stageCode) && !string.IsNullOrEmpty(session.Stage) && stageCode != session.Stage)
+        if (!string.IsNullOrEmpty(stageCode))
         {
-            session = StartNextStageSession(taskId);
-        }
+            if (!string.IsNullOrEmpty(session.Stage) && stageCode != session.Stage)
+            {
+                session = StartNextStageSession(taskId);
+            }
 
-        session.Stage = stageCode ?? session.Stage;
+            session.Stage = stageCode;
+        }
 
         // cur_times 是结算画面识别的本局代理倍率（识别不到时缺省），不是累计场次；缺省时退回开局读到的倍率
         var hasRound = _pendingRounds.Remove(taskId, out var round);
