@@ -2559,14 +2559,25 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="TutorialChallenge.Level.AddFight.Title">{key=TaskQueue.Task.Fight}</system:String>
     <system:String x:Key="TutorialChallenge.Level.ChipStock.Goal">初級 SoC を各 20 個、中級 SoC を各 32 個まで補充してください。挑戦してみましょう：最少でいくつのタスクで達成できるでしょうか？</system:String>
     <system:String x:Key="TutorialChallenge.Level.ChipStock.Title">チップフルセット</system:String>
+    <system:String x:Key="TutorialChallenge.Level.DailyReconnect.Goal">毎日午前 4 時のゲーム更新後に自動で周回したい。｢{key=Settings.Title} - {key=Settings.Schedule.Title}｣ で 4 時以降のタイマーを設定し、｢{key=TaskQueue.Schedule.ForceScheduledStart}｣ を有効にしてください。</system:String>
+    <system:String x:Key="TutorialChallenge.Level.DailyReconnect.Title">定時周回</system:String>
+    <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.Goal">アップデートパッケージはダウンロード済みです。ウィンドウにドラッグして更新を完了させましょう。</system:String>
+    <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.Title">ドラッグ更新</system:String>
+    <system:String x:Key="TutorialChallenge.Level.ExportLogs.Goal">不具合でログが必要になったら？｢{key=Settings.Title} - {key=Settings.IssueReport.Title}｣ でエラーレポートを生成する方法を覚えましょう。</system:String>
+    <system:String x:Key="TutorialChallenge.Level.ExportLogs.Title">ログのエクスポート</system:String>
     <system:String x:Key="TutorialChallenge.Level.InventoryTarget.Goal">合成玉用に 1-7 で初級源岩の在庫を 100 個まで補充したい。</system:String>
     <system:String x:Key="TutorialChallenge.Level.InventoryTarget.Title">{key=TaskQueue.Fight.TargetInventory}</system:String>
+    <system:String x:Key="TutorialChallenge.Level.RecruitRobot.Goal">公開求人で ｢ロボット｣ タグが出たら取っておきたい。公開求人タスクで ｢{key=Recruit.PreserveTags}｣ を有効にし、｢ロボット｣ をリストに追加してください。</system:String>
+    <system:String x:Key="TutorialChallenge.Level.RecruitRobot.Title">ロボット</system:String>
+    <system:String x:Key="TutorialChallenge.Level.SettingsSearch.Goal">設定項目が多すぎて見つからない？設定ページの検索ボックスで ｢{key=TaskQueue.Schedule.ForceScheduledStart}｣ を探してみましょう。</system:String>
+    <system:String x:Key="TutorialChallenge.Level.SettingsSearch.Title">設定検索</system:String>
     <system:String x:Key="TutorialChallenge.Level.StagePriority.Goal">AP-5 を優先して周回したい。AP-5 が未開放の時は CE-6、両方とも未開放なら 1-7 にしたい。</system:String>
     <system:String x:Key="TutorialChallenge.Level.StagePriority.Title">代替ステージの優先度</system:String>
     <system:String x:Key="TutorialChallenge.Level.TargetDrop.Goal">初級源岩が 10 個ほしい。1-7 で 10 個集めてくる。</system:String>
     <system:String x:Key="TutorialChallenge.Level.TargetDrop.Title">{key=TaskQueue.Fight.AssignedMaterial}</system:String>
     <system:String x:Key="TutorialChallenge.NoSimulatedPanel">このタスクタイプにはシミュレートされた設定がありません</system:String>
     <system:String x:Key="TutorialChallenge.Reset">リセット</system:String>
+    <system:String x:Key="TutorialChallenge.SectionContentPlaceholder">このセクションにはシミュレートされた内容がありません</system:String>
     <system:String x:Key="TutorialChallenge.SelectTaskHint">タスクの歯車ボタンをオンにすると設定を確認できます</system:String>
     <system:String x:Key="TutorialChallenge.Shop.Placeholder">何を置くかはまだ未定</system:String>
     <system:String x:Key="TutorialChallenge.Shop.Title">{key=TutorialChallenge.Coin}ショップ</system:String>

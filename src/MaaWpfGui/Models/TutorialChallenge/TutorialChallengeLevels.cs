@@ -37,49 +37,84 @@ public static class TutorialChallengeLevels
     [
         new(
             id: "AddFight",
-            panelKind: TutorialChallengePanelKind.None,
             sandboxFactory: () => [new StartUpTask()],
-            goalPredicate: tasks => tasks.OfType<FightTask>().Any()),
+            goalPredicate: (tasks, _) => tasks.OfType<FightTask>().Any(),
+            panelKinds: [TutorialChallengePanelKind.None]),
 
         new(
             id: "StagePriority",
-            panelKind: TutorialChallengePanelKind.Fight,
             sandboxFactory: () => [new StartUpTask(), new FightTask { StagePlan = [Stage17] }],
-            goalPredicate: tasks => tasks.OfType<FightTask>().Any(fight =>
+            goalPredicate: (tasks, _) => tasks.OfType<FightTask>().Any(fight =>
                 fight.UseOptionalStage
                 && fight.StagePlan.Count >= 3
                 && fight.StagePlan[0] == StageAp5
                 && fight.StagePlan[1] == StageCe6
-                && fight.StagePlan[2] == Stage17)),
+                && fight.StagePlan[2] == Stage17),
+            panelKinds: [TutorialChallengePanelKind.Fight]),
 
         new(
             id: "TargetDrop",
-            panelKind: TutorialChallengePanelKind.Fight,
             sandboxFactory: () => [new StartUpTask(), new FightTask { StagePlan = [Stage17], DropCount = 5 }],
-            goalPredicate: tasks => tasks.OfType<FightTask>().Any(fight =>
+            goalPredicate: (tasks, _) => tasks.OfType<FightTask>().Any(fight =>
                 fight.StagePlan is [var first, ..] && first == Stage17
                 && fight.EnableTargetDrop == true
                 && !fight.IsInventoryTarget
                 && fight.DropId == ItemRock
-                && fight.DropCount == 10)),
+                && fight.DropCount == 10),
+            panelKinds: [TutorialChallengePanelKind.Fight]),
 
         new(
             id: "InventoryTarget",
-            panelKind: TutorialChallengePanelKind.Fight,
             sandboxFactory: () => [new StartUpTask(), new FightTask { StagePlan = [Stage17], DropCount = 50 }],
-            goalPredicate: tasks => tasks.OfType<FightTask>().Any(fight =>
+            goalPredicate: (tasks, _) => tasks.OfType<FightTask>().Any(fight =>
                 fight.StagePlan is [var first, ..] && first == Stage17
                 && fight.EnableTargetDrop == true
                 && fight.DropId == ItemRock
                 && fight.DropCount == 100
-                && fight.IsInventoryTarget)),
+                && fight.IsInventoryTarget),
+            panelKinds: [TutorialChallengePanelKind.Fight]),
 
         new(
             id: "ChipStock",
-            panelKind: TutorialChallengePanelKind.DepotMaintain,
             sandboxFactory: () => [new StartUpTask()],
-            goalPredicate: tasks => IsChipStockByAnyPresets(tasks) || IsChipStockByFightTasks(tasks),
-            smartPredicate: IsChipStockByPresets),
+            goalPredicate: (tasks, _) => IsChipStockByAnyPresets(tasks) || IsChipStockByFightTasks(tasks),
+            panelKinds: [TutorialChallengePanelKind.DepotMaintain],
+            smartPredicate: (tasks, _) => IsChipStockByPresets(tasks)),
+
+        new(
+            id: "DailyReconnect",
+            sandboxFactory: () => [new StartUpTask()],
+            goalPredicate: (tasks, vm) => tasks.OfType<StartUpTask>().Any()
+                && vm.SandboxSchedule.TimerList.Count(timer => timer.IsEnabled == true) == 1
+                && vm.SandboxSchedule.TimerList.Any(timer => timer.IsEnabled == true && (timer.Hour > 4 || (timer.Hour == 4 && timer.Minute > 0)))
+                && vm.SandboxSchedule.ForceScheduledStart,
+            panelKinds: [TutorialChallengePanelKind.Schedule, TutorialChallengePanelKind.Settings]),
+
+        new(
+            id: "RecruitRobot",
+            sandboxFactory: () => [new StartUpTask(), new RecruitTask { PreserveTagList = [] }],
+            goalPredicate: (tasks, _) => tasks.OfType<RecruitTask>().Any(recruit =>
+                recruit.PreserveTagEnabled
+                && recruit.PreserveTagList.Contains(RecruitTaskUserControlModel.LegacyRobotTag)),
+            panelKinds: [TutorialChallengePanelKind.Recruit]),
+
+        new(
+            id: "ExportLogs",
+            sandboxFactory: () => [new StartUpTask()],
+            goalPredicate: (_, _) => false,
+            panelKinds: [TutorialChallengePanelKind.Settings]),
+
+        new(
+            id: "SettingsSearch",
+            sandboxFactory: () => [new StartUpTask()],
+            goalPredicate: (_, _) => false,
+            panelKinds: [TutorialChallengePanelKind.Settings]),
+
+        new(
+            id: "DragDropUpdate",
+            sandboxFactory: () => [new StartUpTask()],
+            goalPredicate: (_, _) => false,
+            panelKinds: [TutorialChallengePanelKind.Settings, TutorialChallengePanelKind.DropZone]),
     ];
 
     /// <summary>

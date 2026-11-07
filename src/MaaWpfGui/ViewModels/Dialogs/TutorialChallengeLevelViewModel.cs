@@ -93,6 +93,12 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
                 case nameof(FightTask.UseStone):
                     NotifyOfPropertyChange(nameof(SandboxUseStoneDisplay));
                     break;
+                case nameof(RecruitTask.PreserveTagEnabled):
+                    NotifyOfPropertyChange(nameof(SandboxPreserveTagEnabled));
+                    break;
+                case nameof(RecruitTask.PreserveTagList):
+                    NotifyOfPropertyChange(nameof(AutoRecruitPreserveTagList));
+                    break;
             }
 
             RefreshStagePlanTip();
@@ -113,6 +119,8 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
 
         LocalizationHelper.LanguageChanged += OnLanguageChanged;
         Instances.StageManager.StageDataChanged += OnStageDataChanged;
+        SandboxSchedule = new TutorialChallengeSandboxSchedule(Evaluate);
+        BuildSettingSections();
         BuildStageListSource();
         BuildSandbox();
     }
@@ -195,6 +203,121 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
     public DepotMaintainTask? SelectedDepotMaintainTask => SelectedTask as DepotMaintainTask;
 
     /// <summary>
+    /// Gets 选中的公招沙盒任务，非公招时为 null。
+    /// </summary>
+    public RecruitTask? SelectedRecruitTask => SelectedTask as RecruitTask;
+
+    /// <summary>
+    /// Gets 或设置 当前选中的页签下标（0=任务队列页，1=设置页）。
+    /// </summary>
+    public int SelectedTab
+    {
+        get;
+        set => SetAndNotify(ref field, value);
+    }
+
+    /// <summary>
+    /// Gets 窗口级定时设置沙盒状态（形状对齐真实设置页的定时执行区，数据仅存于本关卡窗口生命周期内）。
+    /// </summary>
+    public TutorialChallengeSandboxSchedule SandboxSchedule { get; }
+
+    /// <summary>
+    /// Gets 沙盒设置页分区导航列表，形状对齐真实设置页的 Settings 导航项。
+    /// </summary>
+    public ObservableCollection<TutorialChallengeSettingSection> SandboxSettingSections { get; } = [];
+
+    /// <summary>
+    /// Gets 或设置 设置页搜索框文本；非空时按分区标题与区内登记文本过滤，未命中分区整体折叠。
+    /// </summary>
+    public string SettingsSearchText
+    {
+        get;
+        set {
+            if (SetAndNotify(ref field, value))
+            {
+                ApplySettingsSearch();
+            }
+        }
+    } = string.Empty;
+
+    /// <summary>
+    /// Gets 或设置 a value indicating whether 沙盒设置页展开高级分区（对齐真实设置页的 ｢显示高级设置｣ 开关）。
+    /// </summary>
+    public bool ShowAdvancedSettings
+    {
+        get;
+        set {
+            if (SetAndNotify(ref field, value))
+            {
+                foreach (var section in SandboxSettingSections)
+                {
+                    section.AreAdvancedSettingsVisible = value;
+                }
+
+                NotifyOfPropertyChange(nameof(HasVisibleAdvancedSettings));
+            }
+        }
+    }
+
+    /// <summary>
+    /// Gets a value indicating whether 存在因搜索或高级开关而当前可见的高级分区（控制 ｢高级设置｣ 分隔线显隐）。
+    /// </summary>
+    public bool HasVisibleAdvancedSettings => SandboxSettingSections.Any(section => section.IsAdvanced && section.IsVisible);
+
+    /// <summary>
+    /// 切换高级分区显隐，对齐真实设置页底部按钮行为。
+    /// </summary>
+    public void ToggleAdvancedSettings() => ShowAdvancedSettings = !ShowAdvancedSettings;
+
+    /// <summary>
+    /// Gets 公招词条候选列表，共用真实面板的实例（全量词条，Display 为显示名、Value 为词条 key）。
+    /// </summary>
+    public List<CombinedData> AutoRecruitSkipTagShowList => RecruitTaskUserControlModel.AutoRecruitSkipTagShowList;
+
+    /// <summary>
+    /// Gets 或设置 选中公招任务的保留词条选中项（CheckComboBox 的 SelectedItems 绑定，形状对齐真实面板的 AutoRecruitPreserveTagList）。
+    /// </summary>
+    public object[] AutoRecruitPreserveTagList
+    {
+        get {
+            var value = SelectedRecruitTask?.PreserveTagList ?? [];
+            return value.Select(tag => AutoRecruitSkipTagShowList.FirstOrDefault(i => i.Value == tag))
+                .Where(v => v is not null)
+                .Cast<CombinedData>()
+                .ToArray();
+        }
+
+        set {
+            if (SelectedRecruitTask is not { } recruit)
+            {
+                return;
+            }
+
+            var config = RecruitTagHelper.NormalizeTagList(value.Cast<CombinedData>().Select(item => item.Value));
+            if (!recruit.PreserveTagList.SequenceEqual(config, StringComparer.Ordinal))
+            {
+                recruit.PreserveTagList = config;
+            }
+
+            Evaluate();
+        }
+    }
+
+    /// <summary>
+    /// Gets 或设置 选中公招任务是否启用保留指定词条。
+    /// </summary>
+    public bool SandboxPreserveTagEnabled
+    {
+        get => SelectedRecruitTask?.PreserveTagEnabled ?? false;
+        set {
+            if (SelectedRecruitTask is { } recruit)
+            {
+                recruit.PreserveTagEnabled = value;
+            }
+        }
+    }
+
+    /// <summary>
     /// Gets a value indicating whether 本关已达成。已达成后判定停算，重进或重置沙盒可重玩，但不再重复发放牛牛币。
     /// </summary>
     public bool IsCompleted
@@ -243,19 +366,39 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
     public string WindowTitle => $"{LocalizationHelper.GetString("Toolbox.TutorialChallenge.Title")} - {Title}";
 
     /// <summary>
-    /// Gets 操作场右侧设置面板的种类。
+    /// Gets 本关开放的沙盒场景列表。
     /// </summary>
-    public TutorialChallengePanelKind PanelKind => _level.PanelKind;
+    public IReadOnlyList<TutorialChallengePanelKind> PanelKinds => _level.PanelKinds;
 
     /// <summary>
     /// Gets a value indicating whether 显示理智作战沙盒面板。
     /// </summary>
-    public bool ShowFightPanel => PanelKind == TutorialChallengePanelKind.Fight && SelectedFightTask != null;
+    public bool ShowFightPanel => _level.HasPanel(TutorialChallengePanelKind.Fight) && SelectedFightTask != null;
 
     /// <summary>
     /// Gets a value indicating whether 显示库存保持沙盒面板。
     /// </summary>
-    public bool ShowDepotMaintainPanel => PanelKind == TutorialChallengePanelKind.DepotMaintain && SelectedDepotMaintainTask != null;
+    public bool ShowDepotMaintainPanel => _level.HasPanel(TutorialChallengePanelKind.DepotMaintain) && SelectedDepotMaintainTask != null;
+
+    /// <summary>
+    /// Gets a value indicating whether 显示公招沙盒面板。
+    /// </summary>
+    public bool ShowRecruitPanel => _level.HasPanel(TutorialChallengePanelKind.Recruit) && SelectedRecruitTask != null;
+
+    /// <summary>
+    /// Gets a value indicating whether 本关开放 ｢定时执行｣ 设置场景。
+    /// </summary>
+    public bool ShowSchedulePanel => _level.HasPanel(TutorialChallengePanelKind.Schedule);
+
+    /// <summary>
+    /// Gets a value indicating whether 本关开放设置页场景。
+    /// </summary>
+    public bool ShowSettingsPanel => _level.HasPanel(TutorialChallengePanelKind.Settings);
+
+    /// <summary>
+    /// Gets a value indicating whether 本关开放拖拽投放区场景。
+    /// </summary>
+    public bool ShowDropZonePanel => _level.HasPanel(TutorialChallengePanelKind.DropZone);
 
     /// <summary>
     /// Gets ｢+｣ 添加任务菜单的条目，按 <see cref="TutorialChallengeLevel.AddableTaskTypes"/> 从全量任务类型过滤。
@@ -535,14 +678,78 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
     }
 
     /// <summary>
-    /// 重置沙盒，等价重新进入关卡：任务、完成态、伪造库存、设置页签全部回到进关初始状态。
+    /// 重置沙盒，等价重新进入关卡：任务、完成态、伪造库存、窗口级设置沙盒、页签与搜索全部回到进关初始状态。
     /// </summary>
     public void Reset()
     {
         EnableAdvancedSettings = false;
+        SelectedTab = 0;
         IsCompleted = false;
         _fakeInventories.Clear();
+        SettingsSearchText = string.Empty;
+        ShowAdvancedSettings = false;
+        SandboxSchedule.Reset();
         BuildSandbox();
+    }
+
+    /// <summary>
+    /// 构建沙盒设置页分区导航。骨架版投放少量真实分区占位，后续关卡提交按关替换分区内容。
+    /// </summary>
+    private void BuildSettingSections()
+    {
+        SandboxSettingSections.Clear();
+        SandboxSettingSections.Add(new TutorialChallengeSettingSection(
+            TutorialChallengeSettingSectionKind.Schedule,
+            "Settings.Schedule.Title",
+            isAdvanced: false,
+            searchTextKeys: ["TaskQueue.Schedule.ForceScheduledStart", "TaskQueue.Schedule.ShowWindowBeforeForceScheduledStart", "TaskQueue.Schedule.Timer"]));
+        SandboxSettingSections.Add(new TutorialChallengeSettingSection(
+            TutorialChallengeSettingSectionKind.Startup,
+            "Settings.Startup.Title",
+            isAdvanced: false,
+            searchTextKeys: ["Settings.Startup.RunTaskAfterLaunch", "Settings.Startup.OpenEmulatorAfterLaunch"]));
+        SandboxSettingSections.Add(new TutorialChallengeSettingSection(
+            TutorialChallengeSettingSectionKind.Ui,
+            "Settings.Ui.Title",
+            isAdvanced: false,
+            searchTextKeys: ["TaskQueue.MainTasksNullFunctionality", "Settings.TitleBar.HideCloseButton"]));
+        SandboxSettingSections.Add(new TutorialChallengeSettingSection(
+            TutorialChallengeSettingSectionKind.Update,
+            "Settings.Update.Title",
+            isAdvanced: false,
+            searchTextKeys: ["Settings.Update.AutoCheck", "Settings.Update.AutoDownload", "Settings.Update.ResourceUpdate"]));
+        SandboxSettingSections.Add(new TutorialChallengeSettingSection(
+            TutorialChallengeSettingSectionKind.IssueReport,
+            "Settings.IssueReport.Title",
+            isAdvanced: false,
+            searchTextKeys: ["Error.GenerateSupportPayload"]));
+        SandboxSettingSections.Add(new TutorialChallengeSettingSection(
+            TutorialChallengeSettingSectionKind.Performance,
+            "Settings.Performance.Title",
+            isAdvanced: true,
+            searchTextKeys: ["Settings.Game.BlockSleep", "Settings.Game.BlockSleepWithScreenOn"]));
+    }
+
+    /// <summary>
+    /// 按搜索文本过滤设置分区：分区标题或区内登记文本命中即保留，未命中分区整体折叠。空搜索时全部恢复。
+    /// </summary>
+    private void ApplySettingsSearch()
+    {
+        var keyword = SettingsSearchText.Trim();
+        foreach (var section in SandboxSettingSections)
+        {
+            if (keyword.Length == 0)
+            {
+                section.IsVisibleInSearch = true;
+                continue;
+            }
+
+            var hit = section.Display.Contains(keyword, StringComparison.OrdinalIgnoreCase)
+                || section.SearchTextKeys.Any(key => LocalizationHelper.GetString(key).Contains(keyword, StringComparison.OrdinalIgnoreCase));
+            section.IsVisibleInSearch = hit;
+        }
+
+        NotifyOfPropertyChange(nameof(HasVisibleAdvancedSettings));
     }
 
     /// <summary>
@@ -826,9 +1033,13 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
         NotifyOfPropertyChange(nameof(SelectedTask));
         NotifyOfPropertyChange(nameof(SelectedFightTask));
         NotifyOfPropertyChange(nameof(SelectedDepotMaintainTask));
+        NotifyOfPropertyChange(nameof(SelectedRecruitTask));
         NotifyOfPropertyChange(nameof(ShowFightPanel));
         NotifyOfPropertyChange(nameof(ShowDepotMaintainPanel));
+        NotifyOfPropertyChange(nameof(ShowRecruitPanel));
         NotifyOfPropertyChange(nameof(SandboxUseStoneDisplay));
+        NotifyOfPropertyChange(nameof(SandboxPreserveTagEnabled));
+        NotifyOfPropertyChange(nameof(AutoRecruitPreserveTagList));
         SyncDropsItemName();
         NotifySpecifiedDropsStateChanged();
         RefreshInventoryDisplay();
@@ -1010,7 +1221,7 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
 
         // 只计入真实队列会执行的任务，IsEnable 为 null 时是否执行跟随 ｢反转主任务右键单击效果｣ 设置
         var tasks = SandboxItems.Select(item => item.Task).Where(TaskQueueViewModel.IsTaskEnable).ToList();
-        if (!_level.GoalPredicate(tasks))
+        if (!_level.GoalPredicate(tasks, this))
         {
             return;
         }
@@ -1022,7 +1233,7 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
     {
         IsCompleted = true;
 
-        if (_level.SmartPredicate is { } smart && !smart(tasks))
+        if (_level.SmartPredicate is { } smart && !smart(tasks, this))
         {
             var msg = LocalizationHelper.GetString("TutorialChallenge.SmartSolutionHint");
             GrowlHelper.Show(InfoType.Info, msg, () => Growl.Info(msg, "TutorialChallenge"));
@@ -1099,6 +1310,11 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
         foreach (var row in PlanRows)
         {
             row.RefreshTitle();
+        }
+
+        foreach (var section in SandboxSettingSections)
+        {
+            section.RefreshDisplay();
         }
 
         NotifyOfPropertyChange(nameof(PlanInfo));
@@ -1320,5 +1536,223 @@ public class TutorialChallengePlanRow(TutorialChallengeLevelViewModel owner, Dep
         NotifyOfPropertyChange(nameof(DropCount));
         NotifyOfPropertyChange(nameof(Title));
     }
+}
+
+/// <summary>
+/// 窗口级定时设置沙盒状态。形状对齐真实设置页 ｢定时执行｣ 区，仅保留单定时项与强制定时启动两个教学要素，
+/// 每项变更经 <paramref name="evaluate"/> 回调触发关卡判定。
+/// </summary>
+/// <param name="evaluate">状态变更后调用的判定回调。</param>
+public class TutorialChallengeSandboxSchedule(Action evaluate) : PropertyChangedBase
+{
+    /// <summary>
+    /// Gets 沙盒定时项列表。骨架版固定单条定时项，对齐真实 ｢定时 N｣ 行的交互（三态勾选 + 时/分）。
+    /// </summary>
+    public ObservableCollection<TutorialChallengeSandboxTimerItem> TimerList { get; } = [new TutorialChallengeSandboxTimerItem(0, evaluate)];
+
+    /// <summary>
+    /// Gets 或设置 a value indicating whether 强制定时启动。
+    /// </summary>
+    public bool ForceScheduledStart
+    {
+        get;
+        set {
+            if (SetAndNotify(ref field, value))
+            {
+                evaluate();
+            }
+        }
+    }
+
+    /// <summary>
+    /// Gets 或设置 a value indicating whether 强制定时启动前显示窗口（仅强制定时启动开启时可见）。
+    /// </summary>
+    public bool ShowWindowBeforeForceScheduledStart
+    {
+        get;
+        set {
+            if (SetAndNotify(ref field, value))
+            {
+                evaluate();
+            }
+        }
+    }
+
+    /// <summary>
+    /// 回到进关初始状态：清空勾选并只留一条未启用定时项。
+    /// </summary>
+    public void Reset()
+    {
+        ForceScheduledStart = false;
+        ShowWindowBeforeForceScheduledStart = false;
+        TimerList.Clear();
+        TimerList.Add(new TutorialChallengeSandboxTimerItem(0, evaluate));
+    }
+}
+
+/// <summary>
+/// 沙盒定时项。形状对齐真实定时设置的单条定时行（三态启用勾选 + 时/分），变更经回调触发判定。
+/// </summary>
+/// <param name="id">定时项序号（从 0 起，显示为 ｢定时 N+1｣）。</param>
+/// <param name="evaluate">状态变更后调用的判定回调。</param>
+public class TutorialChallengeSandboxTimerItem(int id, Action evaluate) : PropertyChangedBase
+{
+    /// <summary>
+    /// Gets 定时项序号。
+    /// </summary>
+    public int Id { get; } = id;
+
+    /// <summary>
+    /// Gets 或设置 a value indicating whether 本定时项启用（三态：勾选/未勾/右键 null）。
+    /// </summary>
+    public bool? IsEnabled
+    {
+        get;
+        set {
+            if (SetAndNotify(ref field, value))
+            {
+                evaluate();
+            }
+        }
+    } = false;
+
+    /// <summary>
+    /// Gets 或设置 定时小时（0-23）。
+    /// </summary>
+    public int Hour
+    {
+        get;
+        set {
+            if (SetAndNotify(ref field, value))
+            {
+                evaluate();
+            }
+        }
+    }
+
+    /// <summary>
+    /// Gets 或设置 定时分钟（0-59）。
+    /// </summary>
+    public int Minute
+    {
+        get;
+        set {
+            if (SetAndNotify(ref field, value))
+            {
+                evaluate();
+            }
+        }
+    }
+}
+
+/// <summary>
+/// 沙盒设置页分区标识，决定右栏投放哪种分区内容。
+/// </summary>
+public enum TutorialChallengeSettingSectionKind
+{
+    /// <summary>
+    /// 定时执行（沙盒定时面板）。
+    /// </summary>
+    Schedule,
+
+    /// <summary>
+    /// 启动设置占位分区。
+    /// </summary>
+    Startup,
+
+    /// <summary>
+    /// 界面设置占位分区。
+    /// </summary>
+    Ui,
+
+    /// <summary>
+    /// 更新设置占位分区。
+    /// </summary>
+    Update,
+
+    /// <summary>
+    /// 问题反馈占位分区。
+    /// </summary>
+    IssueReport,
+
+    /// <summary>
+    /// 性能设置占位分区（高级分区示例）。
+    /// </summary>
+    Performance,
+}
+
+/// <summary>
+/// 沙盒设置页分区导航项。形状对齐真实设置页的 SettingItemViewModel（Display/IsAdvanced/搜索折叠），
+/// 同时携带分区种类供右栏内容选择器投放对应面板。
+/// </summary>
+public class TutorialChallengeSettingSection(TutorialChallengeSettingSectionKind kind, string displayKey, bool isAdvanced, IReadOnlyList<string> searchTextKeys) : PropertyChangedBase
+{
+    /// <summary>
+    /// Gets 分区标识（种类名的字符串形式）。
+    /// </summary>
+    public string Key { get; } = kind.ToString();
+
+    /// <summary>
+    /// Gets 分区种类。
+    /// </summary>
+    public TutorialChallengeSettingSectionKind Kind { get; } = kind;
+
+    /// <summary>
+    /// Gets 分区标题本地化 key。
+    /// </summary>
+    public string DisplayKey { get; } = displayKey;
+
+    /// <summary>
+    /// Gets 分区标题（随语言切换刷新）。
+    /// </summary>
+    public string Display => LocalizationHelper.GetString(DisplayKey);
+
+    /// <summary>
+    /// Gets 区内登记的可搜索文本本地化 key 列表（搜索时逐项取当前语言文本比对）。
+    /// </summary>
+    public IReadOnlyList<string> SearchTextKeys { get; } = searchTextKeys;
+
+    /// <summary>
+    /// Gets a value indicating whether 本分区属于高级分区（导航分组与折叠行为对齐真实设置页）。
+    /// </summary>
+    public bool IsAdvanced { get; } = isAdvanced;
+
+    /// <summary>
+    /// Gets 或设置 a value indicating whether 搜索过滤后本分区仍可见。
+    /// </summary>
+    public bool IsVisibleInSearch
+    {
+        get;
+        set {
+            if (SetAndNotify(ref field, value))
+            {
+                NotifyOfPropertyChange(nameof(IsVisible));
+            }
+        }
+    } = true;
+
+    /// <summary>
+    /// Gets 或设置 a value indicating whether 高级分区当前展开（由宿主 VM 的 ｢显示高级设置｣ 开关写入）。
+    /// </summary>
+    public bool AreAdvancedSettingsVisible
+    {
+        get;
+        set {
+            if (SetAndNotify(ref field, value))
+            {
+                NotifyOfPropertyChange(nameof(IsVisible));
+            }
+        }
+    }
+
+    /// <summary>
+    /// Gets a value indicating whether 本分区当前可见（搜索命中且高级分区已展开）。
+    /// </summary>
+    public bool IsVisible => IsVisibleInSearch && (!IsAdvanced || AreAdvancedSettingsVisible);
+
+    /// <summary>
+    /// 语言切换后刷新分区标题显示。
+    /// </summary>
+    public void RefreshDisplay() => NotifyOfPropertyChange(nameof(Display));
 }
 #pragma warning restore SA1402

@@ -14,17 +14,20 @@
 #nullable enable
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using MaaWpfGui.Configuration.Single.MaaTask;
+using MaaWpfGui.ViewModels.Dialogs;
 
 namespace MaaWpfGui.Models.TutorialChallenge;
 
 /// <summary>
-/// 教程关卡操作场右侧设置面板的种类，决定关卡窗口展示哪套沙盒面板。
+/// 教程关卡操作场可交互场景的种类，决定关卡窗口向学习者开放哪些沙盒面板。
+/// 一关可同时声明多个场景（如任务队列 + 定时设置），按声明的顺序排布。
 /// </summary>
 public enum TutorialChallengePanelKind
 {
     /// <summary>
-    /// 无设置面板，仅任务队列操作。
+    /// 无附加场景，仅任务队列操作。
     /// </summary>
     None,
 
@@ -37,6 +40,26 @@ public enum TutorialChallengePanelKind
     /// 库存保持沙盒面板（预设导入与计划列表）。
     /// </summary>
     DepotMaintain,
+
+    /// <summary>
+    /// 公招沙盒面板（保留指定词条等）。
+    /// </summary>
+    Recruit,
+
+    /// <summary>
+    /// 设置页 ｢定时执行｣ 场景（沙盒定时项与强制定时启动）。
+    /// </summary>
+    Schedule,
+
+    /// <summary>
+    /// 设置页骨架场景（导航、搜索、分区折叠；具体内容随关卡投放）。
+    /// </summary>
+    Settings,
+
+    /// <summary>
+    /// 拖拽投放区场景（预留，供拖拽教学关卡使用）。
+    /// </summary>
+    DropZone,
 }
 
 /// <summary>
@@ -48,30 +71,45 @@ public class TutorialChallengeLevel
     /// Initializes a new instance of the <see cref="TutorialChallengeLevel"/> class.
     /// </summary>
     /// <param name="id">关卡标识，用于推导本地化 key（TutorialChallenge.Level.{id}.Title / .Goal）与进度存档的通关键。</param>
-    /// <param name="panelKind">操作场右侧设置面板的种类。</param>
     /// <param name="sandboxFactory">初始沙盒任务列表工厂，每次进入关卡重新调用。</param>
-    /// <param name="goalPredicate">终态判定谓词，输入为当前沙盒任务列表。</param>
+    /// <param name="goalPredicate">终态判定谓词，输入为当前沙盒任务列表与关卡视图模型（可读取窗口级沙盒状态，如定时设置）。</param>
+    /// <param name="panelKinds">本关开放的沙盒场景列表；不传时退化为仅任务队列。</param>
     /// <param name="smartPredicate">可选的更优解判定；达成 <paramref name="goalPredicate"/> 但不满足此项时，提示更优解法。</param>
-    /// <param name="addableTaskTypes">｢+｣ 添加任务菜单列出的任务类型；null 表示与本关面板相关的默认全集（None: Fight；Fight: StartUp+Fight；DepotMaintain: StartUp+DepotMaintain+Fight）。</param>
+    /// <param name="addableTaskTypes">｢+｣ 添加任务菜单列出的任务类型；null 表示按本关首个场景取默认全集（None: Fight；Fight: StartUp+Fight；DepotMaintain: StartUp+DepotMaintain+Fight；Recruit: StartUp+Recruit+Fight）。</param>
     public TutorialChallengeLevel(
         string id,
-        TutorialChallengePanelKind panelKind,
         Func<IList<BaseTask>> sandboxFactory,
-        Func<IReadOnlyList<BaseTask>, bool> goalPredicate,
-        Func<IReadOnlyList<BaseTask>, bool>? smartPredicate = null,
+        Func<IReadOnlyList<BaseTask>, TutorialChallengeLevelViewModel, bool> goalPredicate,
+        IReadOnlyList<TutorialChallengePanelKind> panelKinds,
+        Func<IReadOnlyList<BaseTask>, TutorialChallengeLevelViewModel, bool>? smartPredicate = null,
         IReadOnlyList<Type>? addableTaskTypes = null)
     {
         Id = id;
-        PanelKind = panelKind;
+        PanelKinds = panelKinds;
         SandboxFactory = sandboxFactory;
         GoalPredicate = goalPredicate;
         SmartPredicate = smartPredicate;
-        AddableTaskTypes = addableTaskTypes ?? panelKind switch
+        AddableTaskTypes = addableTaskTypes ?? DefaultAddableTaskTypes(panelKinds);
+    }
+
+    private static IReadOnlyList<Type> DefaultAddableTaskTypes(IReadOnlyList<TutorialChallengePanelKind> panelKinds)
+    {
+        if (panelKinds.Contains(TutorialChallengePanelKind.Recruit))
         {
-            TutorialChallengePanelKind.Fight => [typeof(StartUpTask), typeof(FightTask)],
-            TutorialChallengePanelKind.DepotMaintain => [typeof(StartUpTask), typeof(DepotMaintainTask), typeof(FightTask)],
-            _ => [typeof(FightTask)],
-        };
+            return [typeof(StartUpTask), typeof(RecruitTask), typeof(FightTask)];
+        }
+
+        if (panelKinds.Contains(TutorialChallengePanelKind.DepotMaintain))
+        {
+            return [typeof(StartUpTask), typeof(DepotMaintainTask), typeof(FightTask)];
+        }
+
+        if (panelKinds.Contains(TutorialChallengePanelKind.Fight))
+        {
+            return [typeof(StartUpTask), typeof(FightTask)];
+        }
+
+        return [typeof(FightTask)];
     }
 
     /// <summary>
@@ -80,9 +118,9 @@ public class TutorialChallengeLevel
     public string Id { get; }
 
     /// <summary>
-    /// Gets 操作场右侧设置面板的种类。
+    /// Gets 本关开放的沙盒场景列表。
     /// </summary>
-    public TutorialChallengePanelKind PanelKind { get; }
+    public IReadOnlyList<TutorialChallengePanelKind> PanelKinds { get; }
 
     /// <summary>
     /// Gets 初始沙盒任务列表工厂。
@@ -92,12 +130,12 @@ public class TutorialChallengeLevel
     /// <summary>
     /// Gets 终态判定谓词。
     /// </summary>
-    public Func<IReadOnlyList<BaseTask>, bool> GoalPredicate { get; }
+    public Func<IReadOnlyList<BaseTask>, TutorialChallengeLevelViewModel, bool> GoalPredicate { get; }
 
     /// <summary>
     /// Gets 可选的更优解判定谓词。
     /// </summary>
-    public Func<IReadOnlyList<BaseTask>, bool>? SmartPredicate { get; }
+    public Func<IReadOnlyList<BaseTask>, TutorialChallengeLevelViewModel, bool>? SmartPredicate { get; }
 
     /// <summary>
     /// Gets ｢+｣ 添加任务菜单列出的任务类型，按关卡过滤无关任务。
@@ -113,4 +151,11 @@ public class TutorialChallengeLevel
     /// Gets 关卡目标描述本地化 key。
     /// </summary>
     public string GoalKey => $"TutorialChallenge.Level.{Id}.Goal";
+
+    /// <summary>
+    /// 本关是否开放指定场景。
+    /// </summary>
+    /// <param name="kind">场景种类。</param>
+    /// <returns>已声明该场景时返回 true。</returns>
+    public bool HasPanel(TutorialChallengePanelKind kind) => PanelKinds.Contains(kind);
 }
