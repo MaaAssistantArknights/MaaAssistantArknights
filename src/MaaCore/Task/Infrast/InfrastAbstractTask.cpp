@@ -1161,10 +1161,72 @@ bool asst::InfrastAbstractTask::stationed_in_production_facility(const infrast::
     return stationed;
 }
 
+std::optional<json::array> asst::InfrastAbstractTask::recognize_selected_operators(const cv::Mat& image) const
+{
+    LogTraceFunction;
+    if (image.empty()) {
+        return std::nullopt;
+    }
+
+    // 找出选中干员
+    InfrastOperImageAnalyzer analyzer(image);
+    analyzer.set_to_be_calced(InfrastOperImageAnalyzer::Selected);
+    if (!analyzer.analyze()) {
+        LogWarn << __FUNCTION__ << "failed to recognize the operator list";
+        return std::nullopt;
+    }
+    analyzer.sort_by_loc();
+
+    // 通过OCR扫描选中干员名字
+    json::array operators;
+    const auto& replace_task = Task.get<OcrTaskInfo>("CharsNameOcrReplace");
+    for (const auto& oper : analyzer.get_result()) {
+        // 覆盖收到停止任务情况
+        if (need_exit()) {
+            return std::nullopt;
+        }
+        if (!oper.selected) {
+            continue;
+        }
+        // ocr读取名字区域
+        RegionOCRer name_analyzer(oper.name_img);
+        name_analyzer.set_replace(replace_task->replace_map, replace_task->replace_full);
+        name_analyzer.set_bin_expansion(0);
+        if (!name_analyzer.analyze() || name_analyzer.get_result().text.empty()) {
+            LogWarn << __FUNCTION__ << "failed to recognize a selected operator name";
+            return std::nullopt;
+        }
+        // 通过名字查找干员ID，若查不到则不返回ID
+        const auto& name = name_analyzer.get_result().text;
+        json::value info = json::object { { "name", name } };
+        auto matches = BattleData.find_opers(battle::Role::Unknown, name);
+        std::erase_if(matches, [](const auto& props) { return props->role == battle::Role::Drone; });
+        if (matches.size() == 1) {
+            info["id"] = matches.front()->id;
+        }
+        operators.emplace_back(std::move(info));
+    }
+    return operators;
+}
+
 bool asst::InfrastAbstractTask::click_confirm_button()
 {
     LogTraceFunction;
 
+    // 让界面稳定
+    if (!sleep(500)) {
+        discard_pending_selection();
+        return false;
+    }
+
+    // 识别已选干员
+    auto selected_operators = recognize_selected_operators(ctrler()->get_image());
+
+    // 覆盖收到停止任务情况
+    if (need_exit()) {
+        discard_pending_selection();
+        return false;
+    }
     ProcessTask task(*this, { "InfrastDormConfirmButton" });
     bool ret = task.run();
     if (ret) {
@@ -1175,7 +1237,11 @@ bool asst::InfrastAbstractTask::click_confirm_button()
             m_task_data->commit_pending();
         }
         discard_pending_selection();
-        callback(AsstMsg::SubTaskExtraInfo, basic_info_with_what("InfrastConfirmButton"));
+        auto info = basic_info_with_what("InfrastConfirmButton");
+        if (selected_operators) {
+            info["details"]["operators"] = std::move(*selected_operators);
+        }
+        callback(AsstMsg::SubTaskExtraInfo, info);
     }
     else {
         discard_pending_selection();
