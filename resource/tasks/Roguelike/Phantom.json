@@ -155,6 +155,9 @@
         ],
         "onErrorNext": ["Phantom@Roguelike@DialogTimeout", "Phantom@Roguelike@Stages#next"]
     },
+    "Phantom@Roguelike@NormalAction": {
+        "template": "Phantom@Roguelike@NormalAction.png"
+    },
     "Phantom@Roguelike@RecruitMain": {
         "template": "Phantom@Roguelike@Recruit.png"
     },
@@ -302,6 +305,14 @@
     "Phantom@Roguelike@StartExplore": {},
     "Phantom@Roguelike@StartExplore-EnterCheck": {
         "template": "Phantom@Roguelike@StartExplore.png"
+    },
+    "Phantom@Roguelike@StartExplore-Entry": {
+        "baseTask": "Phantom@Roguelike@StartExplore",
+        "template": "Phantom@Roguelike@StartExplore.png",
+        "action": "DoNothing",
+        "postDelay": 0,
+        "sub": ["Phantom@Roguelike@StartExplore-SelectMode#next"],
+        "next": ["Phantom@Roguelike@StartExplore"]
     },
     "Phantom@Roguelike@StrategyChange_mode0": {
         "text": ["_aggressive", "_pragmatic", "_default"],
