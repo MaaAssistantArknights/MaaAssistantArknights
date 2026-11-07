@@ -75,6 +75,11 @@ Please note that JSON files do not support comments. The comments in this docume
                                             // Auto-scales to 1280 * 720 resolution; default [0, 0, 1280, 720] when not specified
                                             // Try to specify this to reduce recognition area, improve performance and recognition speed
 
+        "mainScreen": false,                // Optional, prepare screenshots using the main-screen recognition strategy
+                                            // Inherits from the base task; defaults to false without a base. Explicit false overrides inheritance
+                                            // Does not propagate through next or sub; mark the actual recognition node. JustReturn does not take screenshots
+                                            // Only applies to controllers that support this strategy; normally enabled by platform-specific resources
+
         "cache": false,                     // Optional, whether to use cache for this task, default false
                                             // When enabled, after the first recognition the task will always check at the same position as the first recognition, greatly improves performance
                                             // Only suitable for targets whose position never changes, keep the default false if the target position may change

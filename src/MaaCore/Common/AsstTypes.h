@@ -751,6 +751,7 @@ struct TaskInfo : public TaskPipelineInfo
     Rect rect_move;                         // 识别结果移动：有些结果识别到的，和要点击的不是同一个位置。
                                             // 即识别到了res，点击res + result_move的位置
     bool cache = false;                     // 是否使用缓存区域
+    bool main_screen = false;               // 是否按主界面识别策略准备截图
     std::vector<int> special_params;        // 某些任务会用到的特殊参数
     std::string input_text;                 // 输入任务的文字，目前希望仅针对 Input 任务有效， algorithm 为 JustReturn
 };

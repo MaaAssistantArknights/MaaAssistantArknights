@@ -524,6 +524,9 @@ asst::TaskPtr asst::TaskData::generate_task_info(const std::string& name)
 
     ASST_TASKDATA_GET_VALUE_OR("action", action);
     ASST_TASKDATA_GET_VALUE_OR("cache", cache);
+    if (!ASST_TASKDATA_GET_VALUE_OR("mainScreen", main_screen)) {
+        return nullptr;
+    }
     ASST_TASKDATA_GET_VALUE_OR("maxTimes", max_times);
     ASST_TASKDATA_GET_VALUE_OR("preDelay", pre_delay);
     ASST_TASKDATA_GET_VALUE_OR("postDelay", post_delay);
@@ -1102,7 +1105,7 @@ bool asst::TaskData::syntax_check(const std::string& task_name, const json::valu
         { AlgorithmType::MatchTemplate,
           {
               // common
-              "action",        "algorithm",     "baseTask",        "exceededNext",   "maxTimes",
+              "action",        "algorithm",     "baseTask",        "exceededNext",   "mainScreen", "maxTimes",
               "next",          "onErrorNext",   "postDelay",       "preDelay",       "reduceOtherTimes",
               "specialParams", "sub",           "subErrorIgnored", "highResolutionSwipeFix",
 
@@ -1114,7 +1117,7 @@ bool asst::TaskData::syntax_check(const std::string& task_name, const json::valu
         { AlgorithmType::OcrDetect,
           {
               // common
-              "action",        "algorithm",   "baseTask",        "exceededNext", "maxTimes",
+              "action",        "algorithm",   "baseTask",        "exceededNext", "mainScreen", "maxTimes",
               "next",          "onErrorNext", "postDelay",       "preDelay",     "reduceOtherTimes",
               "specialParams", "sub",         "subErrorIgnored", "highResolutionSwipeFix",
 
@@ -1126,7 +1129,7 @@ bool asst::TaskData::syntax_check(const std::string& task_name, const json::valu
         { AlgorithmType::FeatureMatch,
           {
               // common
-              "action",        "algorithm",   "baseTask",        "exceededNext", "maxTimes",
+              "action",        "algorithm",   "baseTask",        "exceededNext", "mainScreen", "maxTimes",
               "next",          "onErrorNext", "postDelay",       "preDelay",     "reduceOtherTimes",
               "specialParams", "sub",         "subErrorIgnored", "highResolutionSwipeFix",
               // specific
@@ -1135,7 +1138,7 @@ bool asst::TaskData::syntax_check(const std::string& task_name, const json::valu
         { AlgorithmType::JustReturn,
           {
               // common
-              "action",        "algorithm",   "baseTask",        "exceededNext", "maxTimes",
+              "action",        "algorithm",   "baseTask",        "exceededNext", "mainScreen", "maxTimes",
               "next",          "onErrorNext", "postDelay",       "preDelay",     "reduceOtherTimes",
               "specialParams", "sub",         "subErrorIgnored", "highResolutionSwipeFix",
 
