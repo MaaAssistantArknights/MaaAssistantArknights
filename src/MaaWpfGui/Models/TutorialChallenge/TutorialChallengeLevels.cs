@@ -78,7 +78,7 @@ public static class TutorialChallengeLevels
             id: "ChipStock",
             panelKind: TutorialChallengePanelKind.DepotMaintain,
             sandboxFactory: () => [new StartUpTask()],
-            goalPredicate: tasks => IsChipStockByPresets(tasks) || IsChipStockByFightTasks(tasks),
+            goalPredicate: tasks => IsChipStockByAnyPresets(tasks) || IsChipStockByFightTasks(tasks),
             smartPredicate: IsChipStockByPresets),
     ];
 
@@ -94,6 +94,21 @@ public static class TutorialChallengeLevels
             => task.PlanList.Any(plan => plan.Stage == expectedPlan.Stage
                 && plan.DropId == expectedPlan.DropId
                 && plan.DropCount == expectedPlan.DropCount)));
+    }
+
+    /// <summary>
+    /// 芯片全套库存的达成判定：所有库存保持任务的计划并集覆盖 芯片（Chip1）与芯片组（Chip2）两个预设展开的全部目标。
+    /// </summary>
+    /// <param name="tasks">沙盒任务列表。</param>
+    /// <returns>覆盖全部芯片目标时返回 true。</returns>
+    private static bool IsChipStockByAnyPresets(IReadOnlyList<BaseTask> tasks)
+    {
+        var expected = ExpandChipPresets();
+        var plans = tasks.OfType<DepotMaintainTask>().SelectMany(task => task.PlanList).ToList();
+        return expected.All(expectedPlan
+            => plans.Any(plan => plan.Stage == expectedPlan.Stage
+                && plan.DropId == expectedPlan.DropId
+                && plan.DropCount == expectedPlan.DropCount));
     }
 
     /// <summary>
