@@ -1545,6 +1545,25 @@ public class TaskQueueViewModel : Screen
         private set => SetAndNotify(ref _stagesOfTodayInlines, value);
     }
 
+    private static Views.Dialogs.DailyReportDialogView? _dailyReportWindow;
+
+    /// <summary>
+    /// 打开作战日报窗口（Command 绑定入口）。
+    /// </summary>
+    public void OpenDailyReport()
+    {
+        if (_dailyReportWindow is null)
+        {
+            _dailyReportWindow = new Views.Dialogs.DailyReportDialogView();
+            _dailyReportWindow.Loaded += (_, _) => MaaWpfGui.Helper.WindowManager.MoveWindowToRootCenter(_dailyReportWindow);
+            _dailyReportWindow.Closed += (_, _) => {
+                _dailyReportWindow = null;
+            };
+        }
+
+        MaaWpfGui.Helper.WindowManager.ShowWindow(_dailyReportWindow);
+    }
+
     public enum LogCardSplitMode
     {
         /// <summary>
