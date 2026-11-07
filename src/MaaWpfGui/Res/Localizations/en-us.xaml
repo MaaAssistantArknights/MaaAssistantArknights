@@ -358,6 +358,7 @@
     <system:String x:Key="Announcement.NotFinishedConfirm2">Yes, you — still clicking</system:String>
     <system:String x:Key="Announcement.NotFinishedConfirm3">Still clicking</system:String>
     <system:String x:Key="Announcement.Title">Announcement</system:String>
+    <system:String x:Key="Asst.AdvancedVoucherRedeemed">T3 Material Vouchers: obtained {0} × {1}</system:String>
     <system:String x:Key="Asst.Connection.AttachWindow.Failed">AttachWindow failed, please check screencap/input method settings</system:String>
     <system:String x:Key="Asst.Connection.AttachWindow.Found">Found window "{0}"</system:String>
     <system:String x:Key="Asst.Connection.AttachWindow.MultipleFound">Found {0} "{1}" windows, using the first one</system:String>
@@ -431,6 +432,7 @@
     <system:String x:Key="Asst.Fight.TheEx">No bonus stage, stopped</system:String>
     <system:String x:Key="Asst.Fight.TimesUnused">Completed {0} battles, will execute {1} multiplier proxy next time, will complete {2} battles after entering, exceeds {3} limit, will not enter battle</system:String>
     <system:String x:Key="Asst.Fight.UnableToAgent">Unable to use PRTS</system:String>
+    <system:String x:Key="Asst.GreenTicketPurchased">Exchanged {2} green tickets for {0} × {1}</system:String>
     <system:String x:Key="Asst.Infrast.AssistantLowMood">Assistant candidates' morale is below the threshold and has been skipped; the assistant has been left unchanged: {0}</system:String>
     <system:String x:Key="Asst.Infrast.AssistantNotFound">No assistant candidate matched; the assistant has been left unchanged: {0}</system:String>
     <system:String x:Key="Asst.Infrast.AssistantWorkingExcluded">Assistant candidates are working in other facilities and have been skipped; the assistant has been left unchanged: {0}</system:String>
@@ -459,6 +461,8 @@
     <system:String x:Key="Asst.Infrast.TrainingTimeLeft">Remaining Time</system:String>
     <system:String x:Key="Asst.InitializationError">Initialization error!</system:String>
     <system:String x:Key="Asst.Mall.CreditFullOnlyBuyDiscount">Doctor! \nPurchasing only discounted items has caused an overflow in credits! \nBe cautious of wasting credits!\nRemaining credits:&#160;</system:String>
+    <system:String x:Key="Asst.ParametricPurchased">Exchanged {2} Headhunting Parametric Models for {0} × {1}</system:String>
+    <system:String x:Key="Asst.PremiumVoucherRedeemed">T4 Material Vouchers: obtained {0} × {1}</system:String>
     <system:String x:Key="Asst.Reclamation.AlgorithmBadge">Algorithm Badge</system:String>
     <system:String x:Key="Asst.Reclamation.AlgorithmConstructionPoint">Algorithm Construction Point</system:String>
     <system:String x:Key="Asst.Reclamation.AlgorithmDoneSmeltGold">Forging Red Gold</system:String>
@@ -2174,6 +2178,7 @@ Do not adjust the proxy multiplier setting in the game</system:String>
     <system:String x:Key="TaskQueue.MoveUp">Move Up</system:String>
     <system:String x:Key="TaskQueue.MultiTasksShare.Tip">The following options are for multiple tasks.</system:String>
     <system:String x:Key="TaskQueue.NotSwitch">Don't Switch</system:String>
+    <system:String x:Key="TaskQueue.OperProgress.AutoReplenishMaterials">Automatically replenish missing materials</system:String>
     <system:String x:Key="TaskQueue.OperProgress.ClearPlansConfirm">Clear all operator progression plans? This cannot be undone.</system:String>
     <system:String x:Key="TaskQueue.OperProgress.Detail">{key=TaskQueue.Task.OperProgress} {0}:{1} {2}</system:String>
     <system:String x:Key="TaskQueue.OperProgress.Elite">Elite</system:String>
@@ -2182,6 +2187,11 @@ Do not adjust the proxy multiplier setting in the game</system:String>
     <system:String x:Key="TaskQueue.OperProgress.Mastery2">Mastery 2</system:String>
     <system:String x:Key="TaskQueue.OperProgress.Mastery3">Mastery 3</system:String>
     <system:String x:Key="TaskQueue.OperProgress.MasteryTarget">Skill {0}, mastery {1}</system:String>
+    <system:String x:Key="TaskQueue.OperProgress.MaterialPurchase.AdvancedVoucher">T3 Material Vouchers</system:String>
+    <system:String x:Key="TaskQueue.OperProgress.MaterialPurchase.GreenTickets">Commendations</system:String>
+    <system:String x:Key="TaskQueue.OperProgress.MaterialPurchase.ParametricModels">Parametric Models</system:String>
+    <system:String x:Key="TaskQueue.OperProgress.MaterialPurchase.PremiumVoucher">T4 Material Vouchers</system:String>
+    <system:String x:Key="TaskQueue.OperProgress.MaterialPurchase.Priority.Tip">Try synthesis first, then enabled sources from top to bottom. Drag to change priority.</system:String>
     <system:String x:Key="TaskQueue.OperProgress.NotSet">---</system:String>
     <system:String x:Key="TaskQueue.OperProgress.OnlineEditor">Edit the plan online with Arknights Toolbox</system:String>
     <system:String x:Key="TaskQueue.OperProgress.ParseClipboard">Read from Clipboard</system:String>

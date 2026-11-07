@@ -359,6 +359,7 @@
     <system:String x:Key="Announcement.NotFinishedConfirm2">说的就是你，还点</system:String>
     <system:String x:Key="Announcement.NotFinishedConfirm3">还点</system:String>
     <system:String x:Key="Announcement.Title">公告</system:String>
+    <system:String x:Key="Asst.AdvancedVoucherRedeemed">使用高级材料提货券领取 {0} × {1}</system:String>
     <system:String x:Key="Asst.Connection.AttachWindow.Failed">AttachWindow 绑定窗口失败，请检查截图/输入方式配置</system:String>
     <system:String x:Key="Asst.Connection.AttachWindow.Found">找到窗口 "{0}"</system:String>
     <system:String x:Key="Asst.Connection.AttachWindow.MultipleFound">找到 {0} 个 "{1}" 窗口，将使用第一个</system:String>
@@ -432,6 +433,7 @@
     <system:String x:Key="Asst.Fight.TheEx">无奖励关卡，已停止</system:String>
     <system:String x:Key="Asst.Fight.TimesUnused">已完成 {0} 次战斗, 下次将执行 {1} 倍率代理, 进入后将完成 {2} 次战斗, 超过 {3} 次限制, 不进入战斗</system:String>
     <system:String x:Key="Asst.Fight.UnableToAgent">无法使用代理指挥</system:String>
+    <system:String x:Key="Asst.GreenTicketPurchased">使用 {2} 绿票兑换 {0} × {1}</system:String>
     <system:String x:Key="Asst.Infrast.AssistantLowMood">协助者候选心情低于阈值，已跳过，协助者保持原样：{0}</system:String>
     <system:String x:Key="Asst.Infrast.AssistantNotFound">协助者候选均未命中，协助者保持原样：{0}</system:String>
     <system:String x:Key="Asst.Infrast.AssistantWorkingExcluded">协助者候选正在其他设施工作中，已跳过，协助者保持原样：{0}</system:String>
@@ -460,6 +462,8 @@
     <system:String x:Key="Asst.Infrast.TrainingTimeLeft">剩余时间</system:String>
     <system:String x:Key="Asst.InitializationError">初始化错误！</system:String>
     <system:String x:Key="Asst.Mall.CreditFullOnlyBuyDiscount">博士！ \n只购买折扣商品让信用点数溢出了！\n小心信用点数浪费哦！\n剩余信用点数：</system:String>
+    <system:String x:Key="Asst.ParametricPurchased">使用 {2} 寻访参数模型兑换 {0} × {1}</system:String>
+    <system:String x:Key="Asst.PremiumVoucherRedeemed">使用特级材料提货券领取 {0} × {1}</system:String>
     <system:String x:Key="Asst.Reclamation.AlgorithmBadge">繁荣证章</system:String>
     <system:String x:Key="Asst.Reclamation.AlgorithmConstructionPoint">建造点数</system:String>
     <system:String x:Key="Asst.Reclamation.AlgorithmDoneSmeltGold">锻造赤金</system:String>
@@ -2175,6 +2179,7 @@ DEBUG 目录下保存的图片有数量限制，超出后会自动清理旧图�
     <system:String x:Key="TaskQueue.MoveUp">上移</system:String>
     <system:String x:Key="TaskQueue.MultiTasksShare.Tip">以下选项为多任务共用</system:String>
     <system:String x:Key="TaskQueue.NotSwitch">不切换</system:String>
+    <system:String x:Key="TaskQueue.OperProgress.AutoReplenishMaterials">自动补齐缺少的材料</system:String>
     <system:String x:Key="TaskQueue.OperProgress.ClearPlansConfirm">确认要清空全部干员培养计划吗？此操作不可恢复。</system:String>
     <system:String x:Key="TaskQueue.OperProgress.Detail">{key=TaskQueue.Task.OperProgress} {0}:{1} {2}</system:String>
     <system:String x:Key="TaskQueue.OperProgress.Elite">精英化</system:String>
@@ -2183,6 +2188,11 @@ DEBUG 目录下保存的图片有数量限制，超出后会自动清理旧图�
     <system:String x:Key="TaskQueue.OperProgress.Mastery2">专精 2</system:String>
     <system:String x:Key="TaskQueue.OperProgress.Mastery3">专精 3</system:String>
     <system:String x:Key="TaskQueue.OperProgress.MasteryTarget">技能 {0} 专精 {1}</system:String>
+    <system:String x:Key="TaskQueue.OperProgress.MaterialPurchase.AdvancedVoucher">高级材料提货券</system:String>
+    <system:String x:Key="TaskQueue.OperProgress.MaterialPurchase.GreenTickets">绿票</system:String>
+    <system:String x:Key="TaskQueue.OperProgress.MaterialPurchase.ParametricModels">寻访参数模型</system:String>
+    <system:String x:Key="TaskQueue.OperProgress.MaterialPurchase.PremiumVoucher">特级材料提货券</system:String>
+    <system:String x:Key="TaskQueue.OperProgress.MaterialPurchase.Priority.Tip">先尝试合成。仍缺料时，按从上到下的顺序尝试已勾选的来源；拖动可调整优先级。</system:String>
     <system:String x:Key="TaskQueue.OperProgress.NotSet">---</system:String>
     <system:String x:Key="TaskQueue.OperProgress.OnlineEditor">在明日方舟工具箱中在线编辑计划</system:String>
     <system:String x:Key="TaskQueue.OperProgress.ParseClipboard">从剪贴板读取</system:String>

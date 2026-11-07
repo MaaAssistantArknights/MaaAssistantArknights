@@ -584,5 +584,17 @@
     },
     "OperProgress@OperBoxSortTabs": {
         "text": ["레벨", "레어도", "획득 시간"]
+    },
+    "Parametric@Store@Select": {
+        "text": ["헤드헌팅 파라미터"]
+    },
+    "MaterialPurchase@DepotConsumables": {
+        "text": ["소모품"]
+    },
+    "MaterialPurchase@VoucherDetail": {
+        "text": ["사용"]
+    },
+    "MaterialPurchase@VoucherSelect": {
+        "text": ["재료를 선택"]
     }
 }
