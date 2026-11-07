@@ -2559,7 +2559,8 @@ Only level rewards can be farmed; to get the Engraved Medal, all ｢Key Objectiv
     <system:String x:Key="TutorialChallenge.Level.ChipStock.Goal">Top up every chip to 20 and every chip pack to 32. Give it a try: what is the minimum number of tasks you need?</system:String>
     <system:String x:Key="TutorialChallenge.Level.ChipStock.Title">Full Chip Stock</system:String>
     <system:String x:Key="TutorialChallenge.Level.DailyReconnect.Goal">Start farming automatically after the game's 4 AM reset. Set a timer later than 04:00 in {key=Settings.Title} - {key=Settings.Schedule.Title} and enable {key=TaskQueue.Schedule.ForceScheduledStart}.</system:String>
-    <system:String x:Key="TutorialChallenge.Level.DailyReconnect.Title">Scheduled Farming</system:String>
+        <system:String x:Key="TutorialChallenge.Level.DailyReconnect.Hint" xml:space="preserve">The game announces a 04:00-04:10 flash update window; filling in 04:10 is safer.</system:String>
+<system:String x:Key="TutorialChallenge.Level.DailyReconnect.Title">Scheduled Farming</system:String>
     <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.Goal">The update package is downloaded — drag it into the window to finish updating.</system:String>
     <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.Title">Drag &amp; Drop Update</system:String>
     <system:String x:Key="TutorialChallenge.Level.ExportLogs.Goal">Something went wrong and you need the logs? Learn to generate a support payload in {key=Settings.Title} - {key=Settings.IssueReport.Title}.</system:String>

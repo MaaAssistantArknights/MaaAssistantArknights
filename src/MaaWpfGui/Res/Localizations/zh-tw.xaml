@@ -2559,7 +2559,8 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="TutorialChallenge.Level.ChipStock.Goal">晶片每種補到 20 個、晶片組每種補到 32 個。試試看，最少用幾個任務能辦到？</system:String>
     <system:String x:Key="TutorialChallenge.Level.ChipStock.Title">晶片全套</system:String>
     <system:String x:Key="TutorialChallenge.Level.DailyReconnect.Goal">每天凌晨 4 點遊戲刷新後自動開肝。請在 ｢{key=Settings.Title} - {key=Settings.Schedule.Title}｣ 裡設一個 4 點以後的定時，並開啟 ｢{key=TaskQueue.Schedule.ForceScheduledStart}｣。</system:String>
-    <system:String x:Key="TutorialChallenge.Level.DailyReconnect.Title">定時開肝</system:String>
+        <system:String x:Key="TutorialChallenge.Level.DailyReconnect.Hint" xml:space="preserve">遊戲公告寫明 4:00-4:10 閃斷更新，保險起見推薦填 4:10。</system:String>
+<system:String x:Key="TutorialChallenge.Level.DailyReconnect.Title">定時開肝</system:String>
     <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.Goal">更新包已經下載好了，把它拖進視窗完成更新。</system:String>
     <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.Title">拖曳更新</system:String>
     <system:String x:Key="TutorialChallenge.Level.ExportLogs.Goal">出問題了要找日誌？學會在 ｢{key=Settings.Title} - {key=Settings.IssueReport.Title}｣ 裡產生錯誤報告。</system:String>

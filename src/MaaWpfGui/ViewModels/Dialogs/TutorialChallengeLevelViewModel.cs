@@ -1235,7 +1235,7 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
 
         if (_level.SmartPredicate is { } smart && !smart(tasks, this))
         {
-            var msg = LocalizationHelper.GetString("TutorialChallenge.SmartSolutionHint");
+            var msg = LocalizationHelper.GetString(_level.SmartHintKey);
             GrowlHelper.Show(InfoType.Info, msg, () => Growl.Info(msg, "TutorialChallenge"));
         }
 

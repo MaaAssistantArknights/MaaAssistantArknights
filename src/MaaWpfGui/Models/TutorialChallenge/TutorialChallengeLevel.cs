@@ -75,6 +75,7 @@ public class TutorialChallengeLevel
     /// <param name="goalPredicate">终态判定谓词，输入为当前沙盒任务列表与关卡视图模型（可读取窗口级沙盒状态，如定时设置）。</param>
     /// <param name="panelKinds">本关开放的沙盒场景列表；不传时退化为仅任务队列。</param>
     /// <param name="smartPredicate">可选的更优解判定；达成 <paramref name="goalPredicate"/> 但不满足此项时，提示更优解法。</param>
+    /// <param name="smartHintKey">更优解提示的本地化 key；null 时回退 <c>TutorialChallenge.SmartSolutionHint</c>。</param>
     /// <param name="addableTaskTypes">｢+｣ 添加任务菜单列出的任务类型；null 表示按本关首个场景取默认全集（None: Fight；Fight: StartUp+Fight；DepotMaintain: StartUp+DepotMaintain+Fight；Recruit: StartUp+Recruit+Fight）。</param>
     public TutorialChallengeLevel(
         string id,
@@ -82,6 +83,7 @@ public class TutorialChallengeLevel
         Func<IReadOnlyList<BaseTask>, TutorialChallengeLevelViewModel, bool> goalPredicate,
         IReadOnlyList<TutorialChallengePanelKind> panelKinds,
         Func<IReadOnlyList<BaseTask>, TutorialChallengeLevelViewModel, bool>? smartPredicate = null,
+        string? smartHintKey = null,
         IReadOnlyList<Type>? addableTaskTypes = null)
     {
         Id = id;
@@ -89,6 +91,7 @@ public class TutorialChallengeLevel
         SandboxFactory = sandboxFactory;
         GoalPredicate = goalPredicate;
         SmartPredicate = smartPredicate;
+        SmartHintKey = smartHintKey ?? "TutorialChallenge.SmartSolutionHint";
         AddableTaskTypes = addableTaskTypes ?? DefaultAddableTaskTypes(panelKinds);
     }
 
@@ -136,6 +139,11 @@ public class TutorialChallengeLevel
     /// Gets 可选的更优解判定谓词。
     /// </summary>
     public Func<IReadOnlyList<BaseTask>, TutorialChallengeLevelViewModel, bool>? SmartPredicate { get; }
+
+    /// <summary>
+    /// Gets 更优解提示的本地化 key。
+    /// </summary>
+    public string SmartHintKey { get; }
 
     /// <summary>
     /// Gets ｢+｣ 添加任务菜单列出的任务类型，按关卡过滤无关任务。
