@@ -118,6 +118,9 @@ private:
     int m_skipped = 0;
     const int TraineeMissingRetryTimes = 1; // 训练室受训干员整列表完整扫寻的轮数,超出后判定干员不在列表中。
     const int MaxOperatorPages = 20;
+    const int MaterialCountHorizontalPadding = 32;
+    const int MaterialCountVerticalPadding = 8;
+    const int MaterialIconPadding = 48;
     std::optional<std::string> FactoryLastProduct = std::nullopt; // 制造站的当前产品
 };
 } // namespace asst

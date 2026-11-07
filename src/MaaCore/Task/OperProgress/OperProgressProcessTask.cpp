@@ -33,10 +33,6 @@
 
 namespace asst::oper_progress
 {
-constexpr int MaterialCountHorizontalPadding = 32;
-constexpr int MaterialCountVerticalPadding = 8;
-constexpr int MaterialIconPadding = 48;
-
 Rect expand_material_roi(const Rect& roi, int horizontal, int vertical)
 {
     return { roi.x - horizontal, roi.y - vertical, roi.width + 2 * horizontal, roi.height + 2 * vertical };
@@ -1162,11 +1158,8 @@ json::array asst::OperProgressProcessTask::collect_missing_materials(OperProgres
         return detect_task(image, prefix + "Page") &&
                (action != OperProgressAction::MainSkillLevel || !detect_task(image, "OperProgress@EliteUpPage"));
     };
-    const auto count_roi = [](const Rect& roi) {
-        return oper_progress::expand_material_roi(
-            roi,
-            oper_progress::MaterialCountHorizontalPadding,
-            oper_progress::MaterialCountVerticalPadding);
+    const auto count_roi = [this](const Rect& roi) {
+        return oper_progress::expand_material_roi(roi, MaterialCountHorizontalPadding, MaterialCountVerticalPadding);
     };
     const auto read_page = [&]() {
         auto image = ctrler()->get_image();
@@ -1214,11 +1207,7 @@ json::array asst::OperProgressProcessTask::collect_missing_materials(OperProgres
         const auto icon_roi = Task.get(material)->specific_rect;
         BestMatcher item(image);
         item.set_task_info("OperProgress@Material");
-        item.set_roi(
-            oper_progress::expand_material_roi(
-                icon_roi,
-                oper_progress::MaterialIconPadding,
-                oper_progress::MaterialIconPadding));
+        item.set_roi(oper_progress::expand_material_roi(icon_roi, MaterialIconPadding, MaterialIconPadding));
         for (const auto& id : ItemData.get_ordered_material_item_id()) {
             item.append_templ(id);
         }
