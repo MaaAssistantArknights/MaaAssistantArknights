@@ -38,6 +38,9 @@ public static class DailyReportCollector
 
     // 每局开始前 FightTimes 读到的代理倍率与理智消耗（已含倍率），供该局结算时累加
     private static readonly Dictionary<int, (int Series, int SanityCost)> _pendingRounds = [];
+
+    // 别传复刻进新关后、首个 StageDrops 之前发生的用药/碎石先挂账，随该关结算归属
+    private static readonly Dictionary<int, (int Medicines, int Expiring, int Stones)> _pendingConsumables = [];
     private static DateOnly _currentDay;
     private static DailyReportDayData _currentData = new();
 
@@ -117,16 +120,17 @@ public static class DailyReportCollector
                         {
                             var isExpiring = msg.Details?.Value<bool?>("is_expiring") ?? false;
                             var count = msg.Details?.Value<int?>("count") ?? 0;
+                            var pending = _pendingConsumables.GetValueOrDefault(msg.TaskId);
                             if (isExpiring)
                             {
-                                session.ExpiringMedicinesUsed += count;
+                                pending.Expiring += count;
                             }
                             else
                             {
-                                session.MedicinesUsed += count;
+                                pending.Medicines += count;
                             }
 
-                            PersistIfNeeded(msg.TaskId, session);
+                            _pendingConsumables[msg.TaskId] = pending;
                             break;
                         }
 
@@ -144,9 +148,12 @@ public static class DailyReportCollector
 
             // 碎石确认以通用 ProcessTask 子任务上报，具体任务名在 details.task
             case AsstMsg.SubTaskStart when msg.SubTask == "ProcessTask" && (msg.Details?["task"]?.ToString() == "StoneConfirm"):
-                session.StonesUsed++;
-                PersistIfNeeded(msg.TaskId, session);
-                break;
+                {
+                    var pending = _pendingConsumables.GetValueOrDefault(msg.TaskId);
+                    pending.Stones++;
+                    _pendingConsumables[msg.TaskId] = pending;
+                    break;
+                }
         }
     }
 
@@ -170,10 +177,19 @@ public static class DailyReportCollector
         var hasRound = _pendingRounds.Remove(taskId, out var round);
         var series = details.Value<int?>("cur_times") ?? (hasRound ? round.Series : 1);
         session.Times += series;
+        session.Rounds += 1;
         if (hasRound)
         {
             // 开局消耗按开局倍率计；结算倍率与之不同时（如次数上限截断）按单局消耗折算
             session.Sanity += round.Series == series ? round.SanityCost : round.SanityCost / Math.Max(round.Series, 1) * series;
+        }
+
+        // 该关结算时把开局前挂账的用药/碎石并入本关
+        if (_pendingConsumables.Remove(taskId, out var consumables))
+        {
+            session.MedicinesUsed += consumables.Medicines;
+            session.ExpiringMedicinesUsed += consumables.Expiring;
+            session.StonesUsed += consumables.Stones;
         }
 
         // stats 的 quantity 是本关卡内的累计值（别传复刻每关从零计），最后一次回调即终值快照
@@ -250,6 +266,17 @@ public static class DailyReportCollector
     private static void FinalizeSession(int taskId, DateTimeOffset endTime)
     {
         _pendingRounds.Remove(taskId);
+
+        // 链尾仍挂账的用药/碎石并回当前 session（吃药后未再开局、或结算未至即停止）
+        if (_pendingConsumables.Remove(taskId, out var consumables)
+            && _pendingSessions.TryGetValue(taskId, out var tail)
+            && (consumables.Medicines + consumables.Expiring + consumables.Stones) > 0)
+        {
+            tail.MedicinesUsed += consumables.Medicines;
+            tail.ExpiringMedicinesUsed += consumables.Expiring;
+            tail.StonesUsed += consumables.Stones;
+        }
+
         if (!_pendingSessions.Remove(taskId, out var session))
         {
             return;
@@ -287,6 +314,9 @@ public static class DailyReportCollector
 
         _currentDay = today;
         _currentData = DailyReportStore.Load(today, out _currentWritable) ?? new DailyReportDayData();
+
+        // 游戏日切换顺手清超期，免长开不重启时旧文件一直留着
+        PruneNow();
     }
 
     private static void SaveCurrent()
@@ -300,7 +330,5 @@ public static class DailyReportCollector
         {
             DailyReportStore.Save(_currentDay, _currentData);
         }
-
-        Instances.TaskQueueViewModel.UpdateDailyReportSummary();
     }
 }

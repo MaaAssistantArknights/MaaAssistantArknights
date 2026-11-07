@@ -49,6 +49,12 @@ public class CombatSession
     public int Times { get; set; }
 
     /// <summary>
+    /// Gets or sets 本链代理作战的局数（不含倍率折算）；平均耗时按局数分母，不按 Times。
+    /// </summary>
+    [JsonProperty("rounds")]
+    public int Rounds { get; set; }
+
+    /// <summary>
     /// Gets or sets 本链理智总消耗：每局结算累加开始前读到的消耗（已含代理倍率）。
     /// </summary>
     [JsonProperty("sanity")]

@@ -476,6 +476,16 @@ public class DailyReportDialogViewModel : PropertyChangedBase
     private bool _chartExpandedOnce;
 
     /// <summary>
+    /// 窗口每次打开时复位跨次状态：浮层跳转的临时展开标记与日历开合。
+    /// </summary>
+    public void ResetWindowLifetimeState()
+    {
+        _chartExpandedOnce = false;
+        IsCalendarOpen = false;
+        NotifyOfPropertyChange(nameof(IsChartCollapsed));
+    }
+
+    /// <summary>
     /// 计算某种物品的单件理智排名：数据取全部历史记录（时段内样本太少，排名误差大到没有参考意义），
     /// 只列出当前时段刷过的关卡；可靠样本在前、按单件理智升序，样本不足的排到末尾。
     /// </summary>
@@ -1177,13 +1187,13 @@ public class DailyReportDialogViewModel : PropertyChangedBase
         session.EndTime is { } end && end > session.StartTime ? end - session.StartTime : TimeSpan.Zero;
 
     /// <summary>
-    /// 每场平均耗时；只统计有起止时刻的记录，缺结束时刻的记录场次不计入分母，避免拉低平均值。
+    /// 每局代理作战的平均耗时；分母用局数（不含倍率折算），只统计有起止时刻且打过局的记录。
     /// </summary>
     private static TimeSpan AveragePerBattle(IEnumerable<CombatSession> sessions)
     {
-        var timed = sessions.Where(s => s.Times > 0 && Duration(s) > TimeSpan.Zero).ToList();
-        var times = timed.Sum(s => s.Times);
-        return times > 0 ? TimeSpan.FromSeconds(Math.Round(timed.Sum(s => Duration(s).TotalSeconds) / times)) : TimeSpan.Zero;
+        var timed = sessions.Where(s => s.Rounds > 0 && Duration(s) > TimeSpan.Zero).ToList();
+        var rounds = timed.Sum(s => s.Rounds);
+        return rounds > 0 ? TimeSpan.FromSeconds(Math.Round(timed.Sum(s => Duration(s).TotalSeconds) / rounds)) : TimeSpan.Zero;
     }
 
     /// <summary>
