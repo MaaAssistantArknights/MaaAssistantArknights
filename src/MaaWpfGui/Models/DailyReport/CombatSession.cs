@@ -37,7 +37,7 @@ public class CombatSession
     public DateTimeOffset StartTime { get; set; }
 
     /// <summary>
-    /// Gets or sets 链结束时刻（UTC）。运行中的记录与崩溃遗留的记录为 null，后者在加载时补齐。
+    /// Gets or sets 链结束时刻（UTC）。运行中的记录与崩溃遗留的记录为 null，加载时不补齐。
     /// </summary>
     [JsonProperty("endTime")]
     public DateTimeOffset? EndTime { get; set; }

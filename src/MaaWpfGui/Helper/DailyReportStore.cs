@@ -78,6 +78,7 @@ public static class DailyReportStore
             foreach (var session in data.Sessions)
             {
                 session.Drops ??= [];
+                session.Stage ??= string.Empty;
             }
 
             return data;
