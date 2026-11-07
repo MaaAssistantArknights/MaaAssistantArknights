@@ -1,5 +1,6 @@
 {
     "LE-Open": {
+        "ocrReplace": [[" ", ""]],
         "text": ["링거링에코스", "스테이지", "개방중"]
     },
     "LEChapterToLE": {

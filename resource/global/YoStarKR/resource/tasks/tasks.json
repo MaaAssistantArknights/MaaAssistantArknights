@@ -18,7 +18,8 @@
         "algorithm": "OcrDetect",
         "doc": "This is a task for handling KR-specific announcements (linked StartUpThemes)",
         "next": ["StartUpThemes#next"],
-        "text": ["알겠습니다", "로그인계속하기"]
+        "ocrReplace": [["로그인 ?계속하기", "로그인 계속하기"]],
+        "text": ["알겠습니다", "로그인 계속하기"]
     },
     "YostarStartToWakeUp": {
         "Doc": "START after logout, which opens the account list instead of signing back in.",
@@ -42,6 +43,7 @@
         "text": ["석양"]
     },
     "ClickChapterNew": {
+        "ocrReplace": [[" ", ""]],
         "text": ["서사수록"]
     },
     "ClickChapterNewOpenTime": {
@@ -62,9 +64,11 @@
         "text": ["환경", "PRTS"]
     },
     "EnterChapterDifficultyHard": {
+        "ocrReplace": [[" ", ""]],
         "text": ["하드모드", "하드", "작전진입"]
     },
     "EnterChapterDifficultyNormal": {
+        "ocrReplace": [[" ", ""]],
         "text": ["노멀모드", "노멀", "작전진입"]
     },
     "CharsNameOcrReplace": {
@@ -87,6 +91,7 @@
         "roi": [50, 550, 50, 75]
     },
     "LogoutOCR": {
+        "ocrReplace": [["계정 ?변경", "계정변경"]],
         "text": ["계정변경"],
         "roi": [825, 170, 210, 50]
     },
@@ -154,6 +159,7 @@
         "roi": [0, 635, 550, 85]
     },
     "TodaysSupplies": {
+        "ocrReplace": [[" ", ""]],
         "text": ["당일배급"]
     },
     "LoadingText": {
@@ -164,9 +170,11 @@
         "text": ["체르노보그"]
     },
     "LungmenOutskirts@AnnihilationStage": {
+        "ocrReplace": [[" ", ""]],
         "text": ["용문외곽"]
     },
     "LungmenDowntown@AnnihilationStage": {
+        "ocrReplace": [[" ", ""]],
         "text": ["용문시내"]
     },
     "AnnihilationSwitchButton": {
@@ -201,6 +209,7 @@
         "text": ["수동", "조작"]
     },
     "PRTS3": {
+        "ocrReplace": [[" ", ""]],
         "text": ["배치가능", "인원"],
         "roi": [1100, 545, 135, 33]
     },
@@ -212,15 +221,24 @@
         ]
     },
     "FightMissionFailed": {
-        "ocrReplace": [["^임무실.+$", "임무실패"]],
+        "ocrReplace": [
+            [" ", ""],
+            ["^임무실.+$", "임무실패"]
+        ],
         "text": ["임무실패"]
     },
     "FightMissionFailedAndStop": {
-        "ocrReplace": [["^임무실.+$", "임무실패"]],
+        "ocrReplace": [
+            [" ", ""],
+            ["^임무실.+$", "임무실패"]
+        ],
         "text": ["임무실패"]
     },
     "GoLastBattle": {
-        "ocrReplace": [["바로가.+", "바로가기"]],
+        "ocrReplace": [
+            [" ", ""],
+            ["바로가.+", "바로가기"]
+        ],
         "text": ["지난", "지난작전", "바로가기"]
     },
     "StartRecruit": {
@@ -230,6 +248,7 @@
         "text": ["공개모집"]
     },
     "RecruitNow": {
+        "ocrReplace": [[" ", ""]],
         "text": ["즉시모집", "측시모집", "즉시"]
     },
     "MiningActivities": {
@@ -242,6 +261,7 @@
         "roi": [70, 80, 90, 150]
     },
     "OrundumActivitiesChoose": {
+        "ocrReplace": [[" ", ""]],
         "text": ["행운티켓", "선택"]
     },
     "OrundumActivitiesConfirm": {
@@ -276,6 +296,7 @@
         "text": ["종료시간"]
     },
     "SignInEventEarnRewards": {
+        "ocrReplace": [[" ", ""]],
         "text": ["물자획득"]
     },
     "NoFriends": {
@@ -292,6 +313,7 @@
         "text": ["크레딧"]
     },
     "VisitLimited": {
+        "ocrReplace": [[" ", ""]],
         "text": ["일일공유참여상한도달", "일일최대10회", "상한"]
     },
     "CreditShop-NoMoney": {
@@ -299,6 +321,7 @@
     },
     "CreditShop-ProductName": {
         "ocrReplace": [
+            [" ", ""],
             ["가구부품", "가구 부품"],
             ["모집허가증", "모집 허가증"],
             ["스킬개론제1권", "스킬개론 제1권"],
@@ -315,16 +338,16 @@
     "RecruitTags": {
         "ocrReplace": [
             ["[ $().\"/'—_\\-+=,《》■~シ]", ""],
-            ["고급특별채용", "고급 특별 채용"],
-            ["^특별채용$", "특별 채용"],
-            ["^가(드|도|든)$", "가드"],
-            ["메(딕|달|딜|닉)", "메딕"],
-            ["뱅가(드|도|든)", "뱅가드"],
-            ["스(나|냐)이퍼", "스나이퍼"],
-            ["디(펜|핀)더", "디펜더"],
-            ["스페(셜|설|솔)리스트", "스페셜리스트"],
+            ["고급 ?특별 ?채용", "고급 특별 채용"],
+            ["^특별 ?채용", "특별 채용"],
+            ["^가[다-딯]$", "가드"],
+            ["^메.$", "메딕"],
+            ["뱅가[다-딯]", "뱅가드"],
+            ["스[나-닣]이퍼", "스나이퍼"],
+            ["디[파-핗]더", "디펜더"],
+            ["스페[사-싷]리스트", "스페셜리스트"],
             ["코스트\\+?", "코스트+"],
-            ["로(봇|못|뭇)", "로봇"]
+            ["^로.$", "로봇"]
         ]
     },
     "RecruitContinue": {
@@ -339,9 +362,11 @@
         "text": ["획득 가능", "오더 납품", "오퍼레이터 신뢰도"]
     },
     "InfrastStationedInfo": {
+        "ocrReplace": [[" ", ""]],
         "text": ["배치정보"]
     },
     "InfrastEnterOperList": {
+        "ocrReplace": [[" ", ""]],
         "text": ["컨디션", "휴식중", "업무중", "배치"]
     },
     "InfrastFilterMenuAllButton": {
@@ -364,6 +389,7 @@
         "text": ["도달", "불가", "최대치"]
     },
     "InfrastTrainingIdle": {
+        "ocrReplace": [[" ", ""]],
         "text": ["미사용중"],
         "roi": [380, 645, 135, 35]
     },
@@ -371,12 +397,14 @@
         "text": ["트레이너"]
     },
     "InfrastTrainingMasterybusy": {
+        "ocrReplace": [[" ", ""]],
         "text": ["훈련중"]
     },
     "InfrastTrainingProcessing": {
         "text": ["진행도"]
     },
     "InfrastTrainingCompleted": {
+        "ocrReplace": [[" ", ""]],
         "text": ["훈련완료"]
     },
     "InfrastTrainingOperatorAndSkill": {
@@ -389,9 +417,10 @@
     },
     "BattleQuickFormationClear": {
         "docs": "Added as Vector Breakthrough formation clear differs from normal formation clear",
-        "template": ["BattleQuickFormationClear", "BattleQuickFormationClear2"]
+        "template": ["BattleQuickFormationClear.png", "BattleQuickFormationClear2.png"]
     },
     "BattleQuickFormationFilter-Cost": {
+        "ocrReplace": [[" ", ""]],
         "text": ["배치코스트"]
     },
     "BattleQuickFormationRole-All-OCR": {
@@ -400,6 +429,7 @@
     },
     "BattleStartPre": {
         "ocrReplace": [
+            [" ", ""],
             [".+드모드", "하드모드"],
             ["개.+", "개시"]
         ],
@@ -452,10 +482,12 @@
         "text": ["보안작전개시"]
     },
     "SSSDebuffConfirm": {
+        "ocrReplace": [[" ", ""]],
         "text": ["확인완료"]
     },
     "SSSBuffChoose": {
         "ocrReplace": [
+            [" ", ""],
             ["에기르오실로스코프", "阿戈尔示波器"],
             ["다목적공급장치", "自适应补给元件"],
             ["정글용추적비콘", "丛林用示踪信标"],
@@ -482,6 +514,7 @@
         ]
     },
     "SSSBuffChooseConfirm": {
+        "ocrReplace": [[" ", ""]],
         "text": ["선택완료"]
     },
     "SSSEquipmentConfirm": {
@@ -516,9 +549,11 @@
         "text": ["물자", "획득"]
     },
     "GachaOncePrefix@DoGacha": {
+        "ocrReplace": [[" ", ""]],
         "text": ["1회진행"]
     },
     "GachaTenTimesPrefix@DoGacha": {
+        "ocrReplace": [[" ", ""]],
         "text": ["10회진행"]
     },
     "RecruitSupportConfirm": {

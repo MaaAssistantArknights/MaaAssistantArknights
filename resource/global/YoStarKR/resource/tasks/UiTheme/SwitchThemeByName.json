@@ -1,8 +1,10 @@
 {
     "SwitchThemeByNameLockedTheme": {
+        "ocrReplace": [[" ", ""]],
         "text": ["개방조건"]
     },
     "SwitchThemeByNameAlreadySet": {
+        "ocrReplace": [[" ", ""]],
         "text": ["설정중"]
     }
 }

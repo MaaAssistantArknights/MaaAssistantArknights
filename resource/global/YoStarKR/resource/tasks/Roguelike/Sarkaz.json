@@ -43,6 +43,7 @@
         "templThreshold": 0.7
     },
     "Sarkaz@Roguelike@StageSafeHouseReuse": {
+        "ocrReplace": [[" ", ""]],
         "text": ["안전가옥활용"]
     },
     "Sarkaz@Roguelike@StartExplore": {

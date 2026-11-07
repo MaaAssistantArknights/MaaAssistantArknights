@@ -6,6 +6,7 @@
         "text": ["시작하기"]
     },
     "RelaunchAnchor@RA@Common-StartConstruction": {
+        "ocrReplace": [[" ", ""]],
         "text": ["건설시작"]
     },
     "RelaunchAnchor@RA@RA1-Prepare": {
@@ -15,6 +16,7 @@
         "text": ["정밀농경"]
     },
     "RelaunchAnchor@RA@RA1-ConfirmSelection": {
+        "ocrReplace": [[" ", ""]],
         "text": ["선택확인"]
     },
     "RelaunchAnchor@RA@RA1-SkipPlot": {
@@ -48,6 +50,7 @@
         "roi": [168, 235, 57, 35]
     },
     "RelaunchAnchor@RA@RA1-Infrastructure": {
+        "ocrReplace": [[" ", ""]],
         "text": ["기초시설"]
     },
     "RelaunchAnchor@RA@RA1-CommunicationStation": {
@@ -57,18 +60,25 @@
         "text": ["제작하기"]
     },
     "RelaunchAnchor@RA@RA1-BlankContinue": {
+        "ocrReplace": [[" ", ""]],
         "text": ["탭하여", "계속하기"]
     },
     "RelaunchAnchor@RA@RA1-ExitConstruction": {
         "text": ["제작"]
     },
     "RelaunchAnchor@RA@RA1-CraftOwnCommStation1": {
-        "ocrReplace": [["[타-팋][사-싷][가-깋][자-짛]", "통신기지"]],
+        "ocrReplace": [
+            [" ", ""],
+            ["[타-팋][사-싷][가-깋][자-짛]", "통신기지"]
+        ],
         "text": ["통신기지", "제작및보유"],
         "roi": [525, 280, 230, 35]
     },
     "RelaunchAnchor@RA@RA1-CraftOwnCommStation": {
-        "ocrReplace": [["[타-팋][사-싷][가-깋][자-짛]", "통신기지"]],
+        "ocrReplace": [
+            [" ", ""],
+            ["[타-팋][사-싷][가-깋][자-짛]", "통신기지"]
+        ],
         "text": ["통신기지", "제작및보유"]
     },
     "RelaunchAnchor@RA@RA1-DeliverStone10": {
@@ -81,6 +91,7 @@
         "text": ["정산하기"]
     },
     "RelaunchAnchor@RA@RA1-ContinueAfterSettlement": {
+        "ocrReplace": [[" ", ""]],
         "text": ["탭하여", "계속하기"],
         "roi": [560, 664, 195, 44]
     },
@@ -108,12 +119,14 @@
         "text": ["위셔델"]
     },
     "RelaunchAnchor@RA@RA4-EW-ConfirmHelp": {
+        "ocrReplace": [[" ", ""]],
         "text": ["지원유닛", "모집"]
     },
     "RelaunchAnchor@RA@RA4-ExamineEWExistence": {
         "text": ["위셔델"]
     },
     "RelaunchAnchor@RA@RA4-ConfirmTeam": {
+        "ocrReplace": [[" ", ""]],
         "text": ["모집확인"]
     },
     "RelaunchAnchor@RA@RA4-ConfirmTeam2": {
@@ -149,10 +162,12 @@
         "roi": [85, 232, 240, 30]
     },
     "RelaunchAnchor@RA@RA4-Mission3": {
+        "ocrReplace": [[" ", ""]],
         "text": ["리더적"],
         "roi": [415, 281, 195, 32]
     },
     "RelaunchAnchor@RA@RA4-ClickMission3": {
+        "ocrReplace": [[" ", ""]],
         "text": ["리더적", "누적", "처치"],
         "roi": [80, 238, 205, 32]
     },
@@ -222,10 +237,12 @@
         "roi": [1096, 577, 130, 30]
     },
     "RelaunchAnchor@RA@RA15-CX-ConfirmHelp": {
+        "ocrReplace": [[" ", ""]],
         "text": ["지원유닛", "모집"],
         "roi": [740, 580, 200, 40]
     },
     "RelaunchAnchor@RA@RA15-ConfirmTeam": {
+        "ocrReplace": [[" ", ""]],
         "text": ["모집확인"]
     },
     "RelaunchAnchor@RA@RA15-ConfirmTeam2": {
