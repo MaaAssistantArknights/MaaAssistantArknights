@@ -234,6 +234,31 @@
                                     <controls:TooltipBlock TooltipText="{DynamicResource Copilot.AutoSquad.Tip}" />
                                 </StackPanel>
 
+                                <!--  AutoRestart  -->
+                                <StackPanel Visibility="{c:Binding 'UseCopilotList and Form and CopilotTabIndex == 0'}">
+                                    <StackPanel Margin="0,5" Orientation="Horizontal">
+                                        <CheckBox Content="{DynamicResource Copilot.AutoRestart}" IsChecked="{Binding AutoRestart}" />
+                                        <controls:TooltipBlock TooltipText="{DynamicResource Copilot.AutoRestartTip}" />
+                                    </StackPanel>
+                                    <StackPanel
+                                        Margin="20,0,0,5"
+                                        Orientation="Horizontal"
+                                        Visibility="{c:Binding AutoRestart}">
+                                        <controls:TextBlock
+                                            Margin="0,0,4,0"
+                                            VerticalAlignment="Center"
+                                            Text="{DynamicResource Copilot.AutoRestartTimes}" />
+                                        <hc:NumericUpDown
+                                            Width="55"
+                                            Height="20"
+                                            VerticalAlignment="Center"
+                                            InputMethod.IsInputMethodEnabled="False"
+                                            Maximum="999"
+                                            Minimum="1"
+                                            Value="{Binding AutoRestartTimes}" />
+                                    </StackPanel>
+                                </StackPanel>
+
                                 <!--  UseFormation  -->
                                 <StackPanel
                                     Height="28"
@@ -517,7 +542,6 @@
                                 </StackPanel>
                             </StackPanel>
                         </hc:ScrollViewer>
-
                     </Grid>
 
                     <Grid

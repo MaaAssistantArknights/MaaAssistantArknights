@@ -2346,6 +2346,60 @@ public class AsstProxy
         string what = details["what"]?.ToString() ?? string.Empty;
         switch (what)
         {
+            case "CopilotAutoRestart":
+                {
+                    // AddLog 会同时在作业面板显示状态变化，并将其持久化到 debug/gui.log。
+                    var state = subTaskDetails?["state"]?.ToString() ?? string.Empty;
+                    var restartTimes = subTaskDetails?["times"]?.ToString() ?? "?";
+                    var maxRestartTimes = subTaskDetails?["max_times"]?.ToString() ?? "?";
+                    var runIndex = subTaskDetails?["run_index"]?.ToString() ?? "?";
+                    var runCount = subTaskDetails?["run_count"]?.ToString() ?? "?";
+                    var reasonKey = subTaskDetails?["reason"]?.ToString() == "EnemyLeak"
+                        ? "Asst.Copilot.AutoRestart.Reason.EnemyLeak"
+                        : "Asst.Copilot.AutoRestart.Reason.BattleFailed";
+
+                    switch (state)
+                    {
+                        case "Enabled":
+                            Instances.CopilotViewModel.AddLog(
+                                LocalizationHelper.GetStringFormat("Asst.Copilot.AutoRestart.Enabled", runCount, maxRestartTimes),
+                                UiLogColor.Info);
+                            break;
+
+                        case "Restarting":
+                            Instances.CopilotViewModel.AddLog(
+                                LocalizationHelper.GetStringFormat(
+                                    "Asst.Copilot.AutoRestart.Restarting",
+                                    runIndex,
+                                    runCount,
+                                    LocalizationHelper.GetString(reasonKey),
+                                    restartTimes,
+                                    maxRestartTimes),
+                                UiLogColor.Warning);
+                            break;
+
+                        case "Recovered":
+                            Instances.CopilotViewModel.AddLog(
+                                LocalizationHelper.GetStringFormat("Asst.Copilot.AutoRestart.Recovered", runIndex, runCount),
+                                UiLogColor.Info);
+                            break;
+
+                        case "LimitReached":
+                            Instances.CopilotViewModel.AddLog(
+                                LocalizationHelper.GetStringFormat(
+                                    "Asst.Copilot.AutoRestart.LimitReached",
+                                    runIndex,
+                                    runCount,
+                                    LocalizationHelper.GetString(reasonKey),
+                                    restartTimes,
+                                    maxRestartTimes),
+                                UiLogColor.Error);
+                            break;
+                    }
+
+                    break;
+                }
+
             case "StageDrops":
                 {
                     string allDrops = string.Empty;

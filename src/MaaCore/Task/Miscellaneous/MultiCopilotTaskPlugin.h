@@ -34,6 +34,16 @@ public:
 
     void set_formation_task_ptr(const std::shared_ptr<BattleFormationTask>& ptr) { m_formation_task_ptr = ptr; }
 
+    // _run() 会在作业开始前推进游标；重试同一作业时仅回退一次。
+    bool retry_current_config() noexcept
+    {
+        if (m_index_current == 0) {
+            return false;
+        }
+        --m_index_current;
+        return true;
+    }
+
 private:
     virtual bool _run() override;
     bool navigate_to_stage(const std::string& stage_name);

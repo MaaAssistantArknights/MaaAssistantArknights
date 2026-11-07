@@ -381,6 +381,12 @@
     <system:String x:Key="Asst.Connection.ScreencapFailed">Screencap failed. If it happens repeatedly, try to restart or change the emulator!</system:String>
     <system:String x:Key="Asst.Connection.TouchModeNotAvailable">Touch mode is not available, please go to ｢{key=Settings.Title} - {key=Settings.Connection.Title}｣ to switch to a different touch mode.</system:String>
     <system:String x:Key="Asst.Connection.TryToReconnect">Emulator disconnected, trying to reconnect</system:String>
+    <system:String x:Key="Asst.Copilot.AutoRestart.Enabled">Auto Restart enabled for {0} run(s), with up to {1} restarts per run.</system:String>
+    <system:String x:Key="Asst.Copilot.AutoRestart.LimitReached">Run {0}/{1}: stopped because repeated {2} reached the Auto Restart limit ({3}/{4}).</system:String>
+    <system:String x:Key="Asst.Copilot.AutoRestart.Reason.BattleFailed">a battle failure</system:String>
+    <system:String x:Key="Asst.Copilot.AutoRestart.Reason.EnemyLeak">an enemy leak</system:String>
+    <system:String x:Key="Asst.Copilot.AutoRestart.Recovered">Run {0}/{1}: Auto Restart succeeded and execution resumed.</system:String>
+    <system:String x:Key="Asst.Copilot.AutoRestart.Restarting">Run {0}/{1}: detected {2}. Restarting the current stage ({3}/{4}).</system:String>
     <system:String x:Key="Asst.Copilot.BattleFormation">Start formation</system:String>
     <system:String x:Key="Asst.Copilot.BattleFormationParseFailed">Formation parse failed</system:String>
     <system:String x:Key="Asst.Copilot.BattleFormationSelected" xml:space="preserve">Selected:&#160;</system:String>
@@ -961,6 +967,9 @@ Right click to add challenge difficulty</system:String>
     <system:String x:Key="Copilot.AddTrust">Add low-trust {key=Game.Operator}s</system:String>
     <system:String x:Key="Copilot.AddUserAdditional">Add custom {key=Game.Operator}s</system:String>
     <system:String x:Key="Copilot.AddUserAdditional.Tip">Click the settings button next to it to open the editing window, then click ｢{key=Copilot.UserAdditional.Add}｣ to add entries one by one, and fill in the {key=Game.Operator} name, skill, and action in each column</system:String>
+    <system:String x:Key="Copilot.AutoRestart">Auto Restart</system:String>
+    <system:String x:Key="Copilot.AutoRestartTimes">Max</system:String>
+    <system:String x:Key="Copilot.AutoRestartTip" xml:space="preserve">Some event stages may rely on deliberate leaking.&#10;A leaked battle is abandoned before settlement to avoid a non-3-star result.&#10;Max restarts can be set from 1 to 999 per run.</system:String>
     <system:String x:Key="Copilot.AutoSquad">Auto Squad</system:String>
     <system:String x:Key="Copilot.AutoSquad.Tip">｢Favourite｣ marked {key=Game.Operator}s may not be recognized</system:String>
     <system:String x:Key="Copilot.ClearTask" xml:space="preserve">Left-click to clear all jobs
