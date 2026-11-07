@@ -3,7 +3,6 @@
 #include "Task/AbstractTask.h"
 
 #include <cstdint>
-#include <unordered_map>
 #include <vector>
 
 #include "Common/AsstTypes.h"
@@ -17,19 +16,16 @@ enum class MaterialPurchaseSource
     ParametricModels,
     PremiumVoucher,
     AdvancedVoucher,
-    EventShop,
 };
 
 struct MaterialPurchaseOptions
 {
     std::vector<MaterialPurchaseSource> sources;
-    std::unordered_map<std::string, std::string> activity_stages;
 
     bool enabled() const noexcept { return !sources.empty(); }
 
     bool can_buy(const std::string& item_id) const;
     bool supports(MaterialPurchaseSource source, const std::string& item_id) const;
-    std::string event_shop_task() const;
     static std::optional<MaterialPurchaseOptions> parse(const json::value& params);
 };
 
@@ -51,17 +47,17 @@ public:
         set_retry_times(0);
     }
 
-    std::int64_t get_acquired() const noexcept { return m_acquired; }
+    std::optional<std::int64_t> get_acquired() const noexcept { return m_acquired; }
 
 protected:
     bool _run() override;
 
 private:
-    std::int64_t replenish_material(const std::string& item_id, int count, const MaterialPurchaseOptions& options);
+    std::optional<std::int64_t>
+        replenish_material(const std::string& item_id, int count, const MaterialPurchaseOptions& options);
     bool run_material_purchase_task(const std::string& name, int retry_times = RetryTimesDefault);
     std::optional<std::int64_t> buy_material_with_tickets(const std::string& item_id, int count, bool parametric);
     std::optional<std::int64_t> redeem_material_voucher(const std::string& item_id, int count, bool premium);
-    std::optional<std::int64_t> buy_event_material(const std::string& item_id, int count, const std::string& shop_task);
     std::optional<std::int64_t> purchase_selected_material(
         const std::string& item_id,
         int count,
@@ -73,6 +69,6 @@ private:
     std::string m_item_id;
     int m_count = 0;
     const MaterialPurchaseOptions& m_options;
-    std::int64_t m_acquired = 0;
+    std::optional<std::int64_t> m_acquired;
 };
 }

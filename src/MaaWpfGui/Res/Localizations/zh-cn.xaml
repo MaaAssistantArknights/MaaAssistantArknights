@@ -415,7 +415,6 @@
     <system:String x:Key="Asst.Drop.RecognitionError">掉落识别错误</system:String>
     <system:String x:Key="Asst.Drop.ReportSkippedForPcClient">PC 端鼠标为独立渲染，可能遮挡掉落物及数量识别。为避免错误数据污染数据池，已自动跳过本次上报{0}</system:String>
     <system:String x:Key="Asst.Drop.TotalDrop" xml:space="preserve">掉落统计: </system:String>
-    <system:String x:Key="Asst.EventMaterialPurchased">活动商店兑换 {0} × {1}，消耗 {2} 活动代币</system:String>
     <system:String x:Key="Asst.Fight.ActingCommandError">代理指挥失误</system:String>
     <system:String x:Key="Asst.Fight.AnnihilationEntryNotFound">未在终端待办中找到剿灭入口，可能本周剿灭已完成，跳过剿灭</system:String>
     <system:String x:Key="Asst.Fight.CurrentSanity" xml:space="preserve">理智: {0}/{1}  </system:String>
@@ -2190,11 +2189,10 @@ DEBUG 目录下保存的图片有数量限制，超出后会自动清理旧图�
     <system:String x:Key="TaskQueue.OperProgress.Mastery3">专精 3</system:String>
     <system:String x:Key="TaskQueue.OperProgress.MasteryTarget">技能 {0} 专精 {1}</system:String>
     <system:String x:Key="TaskQueue.OperProgress.MaterialPurchase.AdvancedVoucher">高级材料提货券</system:String>
-    <system:String x:Key="TaskQueue.OperProgress.MaterialPurchase.EventShop">活动商店</system:String>
     <system:String x:Key="TaskQueue.OperProgress.MaterialPurchase.GreenTickets">绿票</system:String>
     <system:String x:Key="TaskQueue.OperProgress.MaterialPurchase.ParametricModels">寻访参数模型</system:String>
     <system:String x:Key="TaskQueue.OperProgress.MaterialPurchase.PremiumVoucher">特级材料提货券</system:String>
-    <system:String x:Key="TaskQueue.OperProgress.MaterialPurchase.Priority.Tip">先尝试合成。仍缺料时，按从上到下的顺序尝试已勾选的来源；拖动可调整优先级。活动刷取默认不使用药剂，不碎石。</system:String>
+    <system:String x:Key="TaskQueue.OperProgress.MaterialPurchase.Priority.Tip">先尝试合成。仍缺料时，按从上到下的顺序尝试已勾选的来源；拖动可调整优先级。</system:String>
     <system:String x:Key="TaskQueue.OperProgress.NotSet">---</system:String>
     <system:String x:Key="TaskQueue.OperProgress.OnlineEditor">在明日方舟工具箱中在线编辑计划</system:String>
     <system:String x:Key="TaskQueue.OperProgress.ParseClipboard">从剪贴板读取</system:String>

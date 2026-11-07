@@ -202,6 +202,7 @@ asst::OperProgressProcessTask::ResultDetail asst::OperProgressProcessTask::execu
     const std::function<ResultDetail()>& recover,
     const std::function<ResultDetail()>& execute)
 {
+    m_exhausted_materials.clear();
     std::unordered_map<std::string, int> previous_shortfalls;
     while (!need_exit()) {
         m_material_shortfall.reset();
@@ -213,7 +214,7 @@ asst::OperProgressProcessTask::ResultDetail asst::OperProgressProcessTask::execu
             return result;
         }
         const auto [item_id, count] = *m_material_shortfall;
-        if (!m_purchase_options.can_buy(item_id)) {
+        if (!m_purchase_options.can_buy(item_id) || m_exhausted_materials.contains(item_id)) {
             return result;
         }
         const auto context = m_step_context + ":" + m_material_shortfall_context + ":" + item_id;
@@ -236,8 +237,12 @@ asst::OperProgressProcessTask::ResultDetail asst::OperProgressProcessTask::execu
             LogWarn << __FUNCTION__ << "failed to restore development page after material purchase";
             return located;
         }
-        if (purchased < count) {
+        if (!purchased) {
             return ResultDetail::ResourceInsufficient;
+        }
+        if (*purchased < count) {
+            // 来源已确认用尽：重新合成并识别缺口，允许直接补齐其上层材料。
+            m_exhausted_materials.emplace(item_id);
         }
         previous_shortfalls[context] = count;
     }
@@ -1184,7 +1189,9 @@ asst::OperProgressProcessTask::ResultDetail
     MaterialSynthesisTaskPlugin synthesis(m_callback, m_inst, m_task_chain);
     synthesis.set_task_id(m_task_id).set_retry_times(0);
     if (replenish) {
-        synthesis.set_purchasable_material([this](const std::string& id) { return m_purchase_options.can_buy(id); });
+        synthesis.set_purchasable_material([this](const std::string& id) {
+            return !m_exhausted_materials.contains(id) && m_purchase_options.can_buy(id);
+        });
     }
     // 合成可能已经产出一部分材料，之后只能使用合成现场重新确认的缺口。
     m_material_shortfall.reset();

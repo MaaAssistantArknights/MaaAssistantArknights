@@ -597,7 +597,6 @@ Plan index number in the configuration. Editing in run-time is not supported.
 @optional  
 Whether to continue unfinished skill training in the Training Room.  
 :::  
-
 ::::
 
 <details>
@@ -1442,42 +1441,37 @@ Whether to enable this task.
 - `OperProgress`
   Operator development
 
-:::: field-group
-::: field enable
-@type boolean
-@default true
-@optional
-Whether to enable this task.
-:::
-::: field plans
-@type array<object>
-@required
-Use the Simplified Chinese operator name for `name`, regardless of client language.
-Development plans. Each object requires `name` (operator name). `role` (class) is optional unless the operator has multiple classes; use `Pioneer`, `Warrior`, `Tank`, `Sniper`, `Caster`, `Medic`, `Support`, `Special`. Optional targets: `elite` is 1–2; `skill_level` is 2–7; `skill_mastery` is an array of three target mastery levels, each 0–3 (0 skips that skill). Omitted targets are skipped.
+:::: field-group  
+::: field enable  
+@type boolean  
+@default true  
+@optional  
+Whether to enable this task.  
+:::  
+::: field plans  
+@type array<object>  
+@required  
+Use the Simplified Chinese operator name for `name`, regardless of client language.  
+Development plans. Each object requires `name` (operator name). `role` (class) is optional unless the operator has multiple classes; use `Pioneer`, `Warrior`, `Tank`, `Sniper`, `Caster`, `Medic`, `Support`, `Special`. Optional targets: `elite` is 1–2; `skill_level` is 2–7; `skill_mastery` is an array of three target mastery levels, each 0–3 (0 skips that skill). Omitted targets are skipped.  
 :::
 
-::: field buy_materials_with_green_tickets
-@type boolean
-@default false
-@optional
-Whether to buy missing blue materials from the already-unlocked second floor with green tickets when synthesis cannot supply them. Buy the minimum of the shortfall, remaining stock, and affordable quantity. Do not purchase if funds cannot cover one exchange or purchase information cannot be confirmed.
-:::
+::: field buy_materials_with_green_tickets  
+@type boolean  
+@default false  
+@optional  
+Whether to buy missing blue materials from the already-unlocked second floor with green tickets when synthesis cannot supply them. Buy the minimum of the shortfall, remaining stock, and affordable quantity. Do not purchase if funds cannot cover one exchange or purchase information cannot be confirmed.  
+:::  
 ::: field buy_materials_with_parametric_models  
 @type boolean  
 @default false  
 @optional  
 Allow replenishment with Headhunting Parametric Models. Green tickets take priority; the currency switches are independent.  
-:::
+:::  
 ::: field material_purchase_sources  
 @type array<string>  
 @optional  
-Synthesis is attempted first. Replenishment sources in priority order: `GreenTickets`, `ParametricModels`, `PremiumVoucher` (T4), `AdvancedVoucher` (T3), `EventShop`. Only listed sources are attempted; an empty array disables replenishment. This overrides both legacy exchange switches. Unavailable or partially fulfilling sources fall through with the remaining shortfall until it is filled or all sources are exhausted. Recognition failures or uncertain results stop replenishment. The original page is restored afterward.  
-:::
-::: field activity_material_stages  
-@type object<string, string>  
-@optional  
-Maps main material drop IDs to stages in currently open events on the selected server. WPF supplies this from activity data. `EventShop` uses this mapping to select the event shop and skips this source when the current event or server is unsupported.  
-:::
+Synthesis is attempted first. Replenishment sources in priority order: `GreenTickets`, `AdvancedVoucher` (T3), `PremiumVoucher` (T4), `ParametricModels`. Only listed sources are attempted; an empty array disables replenishment. This overrides both legacy exchange switches. Unavailable or partially fulfilling sources fall through with the remaining shortfall until it is filled or all sources are exhausted. Recognition failures or uncertain results stop replenishment. The original page is restored afterward.  
+:::  
 ::::
 
 A successful purchase emits `SubTaskExtraInfo` with `what: "GreenTicketPurchased"` / `"ParametricPurchased"`. Its `details` contains `material` (name), `material_id`, `count` (number of material items received), and `cost` (amount of the selected currency spent).

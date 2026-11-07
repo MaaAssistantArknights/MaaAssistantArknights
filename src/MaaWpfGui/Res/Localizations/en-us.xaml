@@ -414,7 +414,6 @@
     <system:String x:Key="Asst.Drop.RecognitionError">Drops recognition error</system:String>
     <system:String x:Key="Asst.Drop.ReportSkippedForPcClient">The PC client cursor can obscure drop items and counts. This report to {0} was skipped to avoid polluting the data pool with inaccurate data</system:String>
     <system:String x:Key="Asst.Drop.TotalDrop" xml:space="preserve">Total Drops:&#160;</system:String>
-    <system:String x:Key="Asst.EventMaterialPurchased">Event shop: obtained {0} × {1}, spent {2} event currency</system:String>
     <system:String x:Key="Asst.Fight.ActingCommandError">PRTS error</system:String>
     <system:String x:Key="Asst.Fight.AnnihilationEntryNotFound">Annihilation entry not found in the Terminal to-do list, possibly already completed this week. Skipped Annihilation</system:String>
     <system:String x:Key="Asst.Fight.CurrentSanity" xml:space="preserve">Sanity: {0}/{1}  </system:String>
@@ -2189,11 +2188,10 @@ Do not adjust the proxy multiplier setting in the game</system:String>
     <system:String x:Key="TaskQueue.OperProgress.Mastery3">Mastery 3</system:String>
     <system:String x:Key="TaskQueue.OperProgress.MasteryTarget">Skill {0}, mastery {1}</system:String>
     <system:String x:Key="TaskQueue.OperProgress.MaterialPurchase.AdvancedVoucher">T3 Material Vouchers</system:String>
-    <system:String x:Key="TaskQueue.OperProgress.MaterialPurchase.EventShop">Event shop</system:String>
     <system:String x:Key="TaskQueue.OperProgress.MaterialPurchase.GreenTickets">Commendations</system:String>
     <system:String x:Key="TaskQueue.OperProgress.MaterialPurchase.ParametricModels">Parametric Models</system:String>
     <system:String x:Key="TaskQueue.OperProgress.MaterialPurchase.PremiumVoucher">T4 Material Vouchers</system:String>
-    <system:String x:Key="TaskQueue.OperProgress.MaterialPurchase.Priority.Tip">Try synthesis first, then enabled sources from top to bottom. Drag to change priority. Event farming uses no potions by default and never uses Originite Prime.</system:String>
+    <system:String x:Key="TaskQueue.OperProgress.MaterialPurchase.Priority.Tip">Try synthesis first, then enabled sources from top to bottom. Drag to change priority.</system:String>
     <system:String x:Key="TaskQueue.OperProgress.NotSet">---</system:String>
     <system:String x:Key="TaskQueue.OperProgress.OnlineEditor">Edit the plan online with Arknights Toolbox</system:String>
     <system:String x:Key="TaskQueue.OperProgress.ParseClipboard">Read from Clipboard</system:String>

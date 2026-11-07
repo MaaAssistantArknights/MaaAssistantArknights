@@ -12,7 +12,6 @@
 // </copyright>
 
 #nullable enable
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using MaaWpfGui.Configuration.Single.MaaTask;
@@ -57,10 +56,9 @@ public class AsstOperProgressTask : AsstBaseTask
         }
         var jObject = new JObject {
             ["plans"] = list,
-            ["material_purchase_sources"] = new JArray(MaterialPurchaseSources
-                .Where(source => AutoReplenishMaterials && source.IsEnabled && Enum.IsDefined(source.Source))
+            ["material_purchase_sources"] = new JArray(MaterialPurchaseSourceOption.Normalize(MaterialPurchaseSources)
+                .Where(source => AutoReplenishMaterials && source.IsEnabled)
                 .Select(source => source.Source.ToString())),
-            ["activity_material_stages"] = JObject.FromObject(Instances.StageManager.GetActivityMaterialStages()),
         };
         return (TaskType, jObject);
     }

@@ -414,7 +414,6 @@
     <system:String x:Key="Asst.Drop.RecognitionError">ドロップ認識エラー</system:String>
     <system:String x:Key="Asst.Drop.ReportSkippedForPcClient">PC クライアントではカーソルがドロップ品や個数の認識を遮る場合があります。誤ったデータでデータプールを汚染しないよう、{0}への今回のレポートは自動的にスキップしました</system:String>
     <system:String x:Key="Asst.Drop.TotalDrop" xml:space="preserve">ドロップ統計: </system:String>
-    <system:String x:Key="Asst.EventMaterialPurchased">イベントショップで {0} × {1} を交換、イベント通貨 {2} を消費</system:String>
     <system:String x:Key="Asst.Fight.ActingCommandError">自動指揮のミスが生じました</system:String>
     <system:String x:Key="Asst.Fight.AnnihilationEntryNotFound">ターミナルのTo-Doリストに殲滅作戦が見つかりません。今週分は完了済みの可能性があります。殲滅作戦をスキップします</system:String>
     <system:String x:Key="Asst.Fight.CurrentSanity" xml:space="preserve">理性: {0}/{1}  </system:String>
@@ -2191,11 +2190,10 @@ MAA は非インストール型のアプリケーションであり、レジス�
     <system:String x:Key="TaskQueue.OperProgress.Mastery3">特化 3</system:String>
     <system:String x:Key="TaskQueue.OperProgress.MasteryTarget">スキル {0} 特化 {1}</system:String>
     <system:String x:Key="TaskQueue.OperProgress.MaterialPurchase.AdvancedVoucher">中級素材交換券</system:String>
-    <system:String x:Key="TaskQueue.OperProgress.MaterialPurchase.EventShop">イベントショップ</system:String>
     <system:String x:Key="TaskQueue.OperProgress.MaterialPurchase.GreenTickets">一般資格証</system:String>
     <system:String x:Key="TaskQueue.OperProgress.MaterialPurchase.ParametricModels">スカウトパラメータモデル</system:String>
     <system:String x:Key="TaskQueue.OperProgress.MaterialPurchase.PremiumVoucher">上級素材交換券</system:String>
-    <system:String x:Key="TaskQueue.OperProgress.MaterialPurchase.Priority.Tip">まず加工を試み、不足時は選択した入手元を上から順に試します。ドラッグで優先順位を変更できます。イベント周回は既定で理性回復剤を使用せず、純正源石は使用しません。</system:String>
+    <system:String x:Key="TaskQueue.OperProgress.MaterialPurchase.Priority.Tip">まず加工を試み、不足時は選択した入手元を上から順に試します。ドラッグで優先順位を変更できます。</system:String>
     <system:String x:Key="TaskQueue.OperProgress.NotSet">---</system:String>
     <system:String x:Key="TaskQueue.OperProgress.OnlineEditor">アークナイツツールボックスでオンライン編集</system:String>
     <system:String x:Key="TaskQueue.OperProgress.ParseClipboard">クリップボードから読み取り</system:String>

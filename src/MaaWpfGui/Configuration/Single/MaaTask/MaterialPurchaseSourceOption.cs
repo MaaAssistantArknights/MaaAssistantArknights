@@ -12,7 +12,9 @@
 // </copyright>
 
 #nullable enable
+using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace MaaWpfGui.Configuration.Single.MaaTask;
 
@@ -22,17 +24,19 @@ public enum MaterialPurchaseSource
     ParametricModels,
     PremiumVoucher,
     AdvancedVoucher,
-    EventShop,
 }
 
-public record MaterialPurchaseSourceOption(MaterialPurchaseSource Source, bool IsEnabled)
+// 未知来源被配置容错逻辑移除后，不能回落成绿票。
+public record MaterialPurchaseSourceOption(MaterialPurchaseSource Source = (MaterialPurchaseSource)(-1), bool IsEnabled = false)
 {
+    public static List<MaterialPurchaseSourceOption> Normalize(IEnumerable<MaterialPurchaseSourceOption> sources) =>
+        sources.Where(option => Enum.IsDefined(option.Source)).DistinctBy(option => option.Source).ToList();
+
     public static List<MaterialPurchaseSourceOption> Defaults(bool green = false, bool parametric = false) =>
     [
         new(MaterialPurchaseSource.GreenTickets, green),
-        new(MaterialPurchaseSource.ParametricModels, parametric),
-        new(MaterialPurchaseSource.PremiumVoucher, false),
         new(MaterialPurchaseSource.AdvancedVoucher, false),
-        new(MaterialPurchaseSource.EventShop, false),
+        new(MaterialPurchaseSource.PremiumVoucher, false),
+        new(MaterialPurchaseSource.ParametricModels, parametric),
     ];
 }

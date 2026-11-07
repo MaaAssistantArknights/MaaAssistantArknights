@@ -92,18 +92,6 @@ public class StageManager
     // 资源全开放活动（resourceCollection），用于判断当前是否处于资源全开放期间
     private StageActivityInfo _resourceCollection = new() { IsResourceCollection = true };
 
-    public Dictionary<string, string> GetActivityMaterialStages()
-    {
-        var now = DateTimeOffset.UtcNow;
-        return _activityList.Values
-            .Where(activity => activity.Info.StartTimeUtc <= now && now < activity.Info.ExpireTimeUtc)
-            .SelectMany(activity => activity.StageList)
-            .Where(stage => !string.IsNullOrEmpty(stage.Drop) && ItemListHelper.ArkItems.ContainsKey(stage.Drop) &&
-                !string.IsNullOrEmpty(stage.Value))
-            .GroupBy(stage => stage.Drop)
-            .ToDictionary(group => group.Key, group => group.First().Value);
-    }
-
     /// <summary>
     /// 判断当前是否有 SideStory（SideStory/故事集/别的限时）活动进行中。
     /// </summary>

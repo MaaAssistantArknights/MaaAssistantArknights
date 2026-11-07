@@ -35,7 +35,7 @@ public class MaterialPurchaseSourceItemViewModel(MaterialPurchaseSourceOption op
     public static ObservableCollection<MaterialPurchaseSourceItemViewModel> Create(
         List<MaterialPurchaseSourceOption> options, Action<List<MaterialPurchaseSourceOption>> save)
     {
-        var sources = options.Where(option => Enum.IsDefined(option.Source)).Concat(MaterialPurchaseSourceOption.Defaults()
+        var sources = MaterialPurchaseSourceOption.Normalize(options).Concat(MaterialPurchaseSourceOption.Defaults()
             .Where(option => options.All(saved => saved.Source != option.Source)));
         ObservableCollection<MaterialPurchaseSourceItemViewModel> items = [.. sources.Select(option => new MaterialPurchaseSourceItemViewModel(option))];
         void Save() => save(items.Select(item => new MaterialPurchaseSourceOption(item.Source, item.IsEnabled)).ToList());

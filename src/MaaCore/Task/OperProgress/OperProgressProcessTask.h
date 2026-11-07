@@ -5,6 +5,7 @@
 
 #include <functional>
 #include <optional>
+#include <unordered_set>
 #include <variant>
 
 #include "Common/AsstBattleDef.h"
@@ -99,6 +100,7 @@ private:
 
     bool m_entry_completed = false; // 首条目标已定位:任务开始时可能停在主页走完整入口链,之后换干员保证不去主页。
     MaterialPurchaseOptions m_purchase_options;
+    std::unordered_set<std::string> m_exhausted_materials;
     // 商店补料后无法恢复培养页面时，停止当前干员的后续动作。
     bool m_material_recovery_failed = false;
     std::optional<std::pair<std::string, int>> m_material_shortfall;

@@ -597,7 +597,6 @@ v6.8.0 で非推奨になりました。代わりに `medicine_expire_days` を�
 @optional  
 訓練室で未完了の専門化トレーニングを続行するかどうか。  
 :::  
-
 ::::
 
 <details>
@@ -1441,42 +1440,37 @@ Sarkaz テーマ、Investment モード、 ｢破棘成金分隊｣ または �
 - `OperProgress`
   オペレーター育成
 
-:::: field-group
-::: field enable
-@type boolean
-@default true
-@optional
-このタスクを有効にするかどうか。
-:::
-::: field plans
-@type array<object>
-@required
-`name` にはクライアントの言語にかかわらず、簡体字中国語のオペレーター名を指定します。
-育成計画の配列です。各要素には `name`（オペレーター名）が必須です。`role`（職分）は省略可能ですが、複数職分を持つ場合は指定が必要です。指定値は `Pioneer`, `Warrior`, `Tank`, `Sniper`, `Caster`, `Medic`, `Support`, `Special` です。任意の目標：`elite` は1–2、`skill_level` は2–7、`skill_mastery` は3スキルの目標特化ランクの配列（各0–3、0はスキップ）です。省略した目標は実行しません。
+:::: field-group  
+::: field enable  
+@type boolean  
+@default true  
+@optional  
+このタスクを有効にするかどうか。  
+:::  
+::: field plans  
+@type array<object>  
+@required  
+`name` にはクライアントの言語にかかわらず、簡体字中国語のオペレーター名を指定します。  
+育成計画の配列です。各要素には `name`（オペレーター名）が必須です。`role`（職分）は省略可能ですが、複数職分を持つ場合は指定が必要です。指定値は `Pioneer`, `Warrior`, `Tank`, `Sniper`, `Caster`, `Medic`, `Support`, `Special` です。任意の目標：`elite` は1–2、`skill_level` は2–7、`skill_mastery` は3スキルの目標特化ランクの配列（各0–3、0はスキップ）です。省略した目標は実行しません。  
 :::
 
-::: field buy_materials_with_green_tickets
-@type boolean
-@default false
-@optional
-加工後も不足する青素材を、開放済みの商店2階から緑チケットで補充するかどうか。不足数、残り在庫、残高で購入できる数のうち最小の数量を交換します。1回分の残高がない場合や購入情報を確認できない場合は交換しません。
-:::
+::: field buy_materials_with_green_tickets  
+@type boolean  
+@default false  
+@optional  
+加工後も不足する青素材を、開放済みの商店2階から緑チケットで補充するかどうか。不足数、残り在庫、残高で購入できる数のうち最小の数量を交換します。1回分の残高がない場合や購入情報を確認できない場合は交換しません。  
+:::  
 ::: field buy_materials_with_parametric_models  
 @type boolean  
 @default false  
 @optional  
 特別引換証での素材補充を許可します。緑チケットを優先し、各通貨は個別に有効化します。  
-:::
+:::  
 ::: field material_purchase_sources  
 @type array<string>  
 @optional  
-まず加工を試みます。補充元を優先順に指定します：`GreenTickets`（一般資格証）、`ParametricModels`（スカウトパラメータモデル）、`PremiumVoucher`（上級素材交換券）、`AdvancedVoucher`（中級素材交換券）、`EventShop`（イベントショップ）。指定した補充元のみ使用し、空配列は補充を無効にします。指定時は従来の二つの交換設定を上書きします。利用不可または一部のみ補充できた場合は、残りの不足分を次の補充元で補います。不足が解消するか補充元をすべて試すまで続け、認識失敗や結果が不確かな場合は補充を停止します。終了後は元の画面へ戻ります。  
-:::
-::: field activity_material_stages  
-@type object<string, string>  
-@optional  
-現在のサーバーで開催中のイベントの主要ドロップ素材 ID とステージ名の対応表です。WPF が活動データから提供します。`EventShop` はこの対応表からイベントショップを選択し、現在のイベントまたはサーバーに未対応の場合はこの補充元をスキップします。  
-:::
+まず加工を試みます。補充元を優先順に指定します：`GreenTickets`、`AdvancedVoucher`（T3）、`PremiumVoucher`（T4）、`ParametricModels`。指定した補充元のみ使用し、空配列は補充を無効にします。指定時は従来の二つの交換設定を上書きします。利用不可または一部のみ補充できた場合は、残りの不足分を次の補充元で補います。不足が解消するか補充元をすべて試すまで続け、認識失敗や結果が不確かな場合は補充を停止します。終了後は元の画面へ戻ります。  
+:::  
 ::::
 
 交換成功時は `SubTaskExtraInfo` の `what: "GreenTicketPurchased"` / `"ParametricPurchased"` を通知します。`details` には `material`（素材名）、`material_id`、`count`（実際に獲得した素材の数量）、`cost`（消費した対象通貨の数量）が含まれます。

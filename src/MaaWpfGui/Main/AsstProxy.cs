@@ -2881,7 +2881,6 @@ public class AsstProxy
                     LocalizationHelper.GetString("Asst.Infrast.RoomsNotConfigured"));
                 break;
 
-            case "EventMaterialPurchased":
             case "PremiumVoucherRedeemed":
             case "AdvancedVoucherRedeemed":
             case "ParametricPurchased":

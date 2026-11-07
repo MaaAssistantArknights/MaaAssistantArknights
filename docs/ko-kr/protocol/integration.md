@@ -600,7 +600,6 @@ Yituliu 전송 ID, 기본값 비어 있음. `report_to_yituliu`가 true일 때�
 @optional  
 훈련실에서 완료되지 않은 특화 훈련을 계속할지 여부  
 :::  
-
 ::::
 
 <details>
@@ -1443,42 +1442,37 @@ Sarkaz 테마, Investment 모드, "연금술 분대" 또는 "지원 분대"일 �
 - `OperProgress`
   오퍼레이터 육성
 
-:::: field-group
-::: field enable
-@type boolean
-@default true
-@optional
-이 작업의 활성화 여부입니다.
-:::
-::: field plans
-@type array<object>
-@required
-클라이언트 언어와 관계없이 `name`에는 중국어 간체 오퍼레이터 이름을 사용합니다.
-육성 계획 배열입니다. 각 항목은 `name`(오퍼레이터 이름)이 필수입니다. `role`(클래스)은 생략할 수 있지만 여러 클래스를 가진 오퍼레이터는 지정해야 하며, 값은 `Pioneer`, `Warrior`, `Tank`, `Sniper`, `Caster`, `Medic`, `Support`, `Special` 중 하나입니다. 선택 목표: `elite`는 1–2, `skill_level`은 2–7, `skill_mastery`는 세 스킬의 목표 특화 레벨 배열이며 각 값은 0–3(0은 건너뛰기)입니다. 생략한 목표는 실행하지 않습니다.
+:::: field-group  
+::: field enable  
+@type boolean  
+@default true  
+@optional  
+이 작업의 활성화 여부입니다.  
+:::  
+::: field plans  
+@type array<object>  
+@required  
+클라이언트 언어와 관계없이 `name`에는 중국어 간체 오퍼레이터 이름을 사용합니다.  
+육성 계획 배열입니다. 각 항목은 `name`(오퍼레이터 이름)이 필수입니다. `role`(클래스)은 생략할 수 있지만 여러 클래스를 가진 오퍼레이터는 지정해야 하며, 값은 `Pioneer`, `Warrior`, `Tank`, `Sniper`, `Caster`, `Medic`, `Support`, `Special` 중 하나입니다. 선택 목표: `elite`는 1–2, `skill_level`은 2–7, `skill_mastery`는 세 스킬의 목표 특화 레벨 배열이며 각 값은 0–3(0은 건너뛰기)입니다. 생략한 목표는 실행하지 않습니다.  
 :::
 
-::: field buy_materials_with_green_tickets
-@type boolean
-@default false
-@optional
-가공 후에도 부족한 파란색 재료를 이미 개방된 상점 2층에서 녹색 티켓으로 보충할지 여부입니다. 부족 수량, 남은 재고, 잔액으로 구매 가능한 수량 중 최솟값만 교환합니다. 잔액이 1회 교환 비용보다 적거나 구매 정보를 확인할 수 없으면 교환하지 않습니다.
-:::
+::: field buy_materials_with_green_tickets  
+@type boolean  
+@default false  
+@optional  
+가공 후에도 부족한 파란색 재료를 이미 개방된 상점 2층에서 녹색 티켓으로 보충할지 여부입니다. 부족 수량, 남은 재고, 잔액으로 구매 가능한 수량 중 최솟값만 교환합니다. 잔액이 1회 교환 비용보다 적거나 구매 정보를 확인할 수 없으면 교환하지 않습니다.  
+:::  
 ::: field buy_materials_with_parametric_models  
 @type boolean  
 @default false  
 @optional  
 헤드헌팅 파라미터 모델로 재료를 보충합니다. 녹색 티켓을 우선하며 각 재화 설정은 독립적입니다.  
-:::
+:::  
 ::: field material_purchase_sources  
 @type array<string>  
 @optional  
-먼저 가공을 시도합니다. 우선순위별 보충 경로: `GreenTickets`, `ParametricModels`, `PremiumVoucher` (고급), `AdvancedVoucher` (중급), `EventShop`. 나열된 경로만 시도하며 빈 배열은 보충을 끕니다. 지정하면 기존 두 교환 설정을 덮어씁니다. 이용할 수 없거나 일부만 보충한 경우 남은 수량을 다음 경로에서 보충하며, 부족분을 채우거나 모든 경로를 시도할 때까지 계속합니다. 인식 실패나 결과가 불확실한 경우 보충을 중단합니다. 종료 후 원래 화면으로 돌아갑니다.  
-:::
-::: field activity_material_stages  
-@type object<string, string>  
-@optional  
-현재 서버에서 진행 중인 이벤트의 주요 드롭 재료 ID와 스테이지 이름의 매핑입니다. WPF가 이벤트 데이터에서 제공합니다. `EventShop`은 이 매핑으로 이벤트 상점을 선택하며, 현재 이벤트 또는 서버를 지원하지 않으면 해당 공급원을 건너뜁니다.  
-:::
+먼저 가공을 시도합니다. 우선순위별 보충 경로: `GreenTickets`, `AdvancedVoucher` (T3), `PremiumVoucher` (T4), `ParametricModels`. 나열된 경로만 시도하며 빈 배열은 보충을 끕니다. 지정하면 기존 두 교환 설정을 덮어씁니다. 이용할 수 없거나 일부만 보충한 경우 남은 수량을 다음 경로에서 보충하며, 부족분을 채우거나 모든 경로를 시도할 때까지 계속합니다. 인식 실패나 결과가 불확실한 경우 보충을 중단합니다. 종료 후 원래 화면으로 돌아갑니다.  
+:::  
 ::::
 
 교환에 성공하면 `SubTaskExtraInfo`의 `what: "GreenTicketPurchased"` / `"ParametricPurchased"`를 알립니다. `details`에는 `material`(재료명), `material_id`, `count`(실제 획득한 재료 수량), `cost`(사용한 해당 재화 수량)가 포함됩니다.

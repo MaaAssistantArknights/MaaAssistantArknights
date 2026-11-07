@@ -1,12 +1,12 @@
 #include "MaterialReplenishTask.h"
 
 #include <algorithm>
+#include <unordered_map>
 #include <vector>
 
 #include "Config/Miscellaneous/ItemConfig.h"
 #include "Config/TaskData.h"
 #include "Controller/Controller.h"
-#include "Task/MiniGame/EventShopTaskPlugin.h"
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
 #include "Vision/FeatureMatcher.h"
@@ -19,7 +19,7 @@
 bool asst::MaterialReplenishTask::_run()
 {
     m_acquired = replenish_material(m_item_id, m_count, m_options);
-    return m_acquired >= m_count;
+    return m_acquired && *m_acquired >= m_count;
 }
 
 std::optional<std::int64_t>
@@ -45,9 +45,11 @@ std::optional<std::int64_t>
         LogWarn << __FUNCTION__ << "invalid ticket shop request" << item_id << count << monthly_limit << profile;
         return std::nullopt;
     }
-    if (need_exit() || !run_material_purchase_task("GreenTicket@Store@ReplenishStoreBegin") ||
-        !run_material_purchase_task(
-            parametric ? "Parametric@Store@ChooseTicketType" : "GreenTicket@Store@ReplenishChooseTicketType")) {
+    ProcessTask navigation(*this, { "GreenTicket@Store@ReplenishStoreBegin" });
+    if (!navigation.override_next(
+            "Store@ChooseTicketType",
+            { parametric ? "Parametric@Store@ChooseTicketType" : "GreenTicket@Store@ReplenishChooseTicketType" }) ||
+        need_exit() || !navigation.run()) {
         return std::nullopt;
     }
 
@@ -98,7 +100,6 @@ std::optional<std::int64_t> asst::MaterialReplenishTask::purchase_selected_mater
     MaterialPurchaseSource source)
 {
     const bool parametric = source == MaterialPurchaseSource::ParametricModels;
-    const bool event = source == MaterialPurchaseSource::EventShop;
     const int unit_price = limits.price;
     const int bundle_size = limits.quantity;
     const int profile = Task.get("GreenTicket@Store@ReplenishShopProfile")->special_params.front();
@@ -111,13 +112,12 @@ std::optional<std::int64_t> asst::MaterialReplenishTask::purchase_selected_mater
         return remaining ? *remaining >= count && (monthly_limit == 0 || *remaining <= monthly_limit)
                          : monthly_limit == 0;
     };
-    const std::string balance_task = event        ? "MaterialPurchase@EventBalance"
-                                     : parametric ? "Parametric@Store@PurchaseBalance"
-                                                  : "GreenTicket@Store@ReplenishPurchaseBalance";
+    const std::string balance_task =
+        parametric ? "Parametric@Store@PurchaseBalance" : "GreenTicket@Store@ReplenishPurchaseBalance";
     const auto recognize_name = [&](const cv::Mat& image) {
         OCRer analyzer(image);
         analyzer.set_task_info(
-            (parametric || event) ? "Parametric@Store@PurchaseName" : "GreenTicket@Store@ReplenishPurchaseName");
+            parametric ? "Parametric@Store@PurchaseName" : "GreenTicket@Store@ReplenishPurchaseName");
         analyzer.set_required({ ItemData.get_item_name(item_id) });
         const auto names = analyzer.analyze();
         return names && names->size() == 1 && names->front().score >= 0.9;
@@ -152,9 +152,8 @@ std::optional<std::int64_t> asst::MaterialReplenishTask::purchase_selected_mater
     const auto image = ctrler()->get_image();
     const auto selected =
         MaterialSynthesisImageAnalyzer::read_number(image, "GreenTicket@Store@ReplenishPurchaseQuantity");
-    const auto price = MaterialSynthesisImageAnalyzer::read_number(
-        image,
-        event ? "MaterialPurchase@EventTotalPrice" : "GreenTicket@Store@ReplenishPurchaseTotalPrice");
+    const auto price =
+        MaterialSynthesisImageAnalyzer::read_number(image, "GreenTicket@Store@ReplenishPurchaseTotalPrice");
     const auto balance = MaterialSynthesisImageAnalyzer::read_number(image, balance_task);
     const auto remaining = read_remaining_stock(image);
     if (need_exit() || !recognize_name(image) || !selected || !price || !balance || *selected != count ||
@@ -166,8 +165,7 @@ std::optional<std::int64_t> asst::MaterialReplenishTask::purchase_selected_mater
         return std::nullopt;
     }
     // 保留默认识别重试以等待收据；付款节点只执行一次，任务链不会回到付款节点。
-    if (!run_material_purchase_task(event ? "MaterialPurchase@EventPurchase" : "GreenTicket@Store@ReplenishPurchase") ||
-        need_exit()) {
+    if (!run_material_purchase_task("GreenTicket@Store@ReplenishPurchase") || need_exit()) {
         return std::nullopt;
     }
     const auto purchased_count = static_cast<std::int64_t>(count) * bundle_size;
@@ -175,9 +173,7 @@ std::optional<std::int64_t> asst::MaterialReplenishTask::purchase_selected_mater
         item_id,
         purchased_count,
         *price,
-        event        ? "EventMaterialPurchased"
-        : parametric ? "ParametricPurchased"
-                     : "GreenTicketPurchased");
+        parametric ? "ParametricPurchased" : "GreenTicketPurchased");
     return purchased_count;
 }
 
@@ -250,23 +246,8 @@ bool asst::MaterialPurchaseOptions::supports(MaterialPurchaseSource source, cons
         return rarity == 3 && elite_material;
     case MaterialPurchaseSource::AdvancedVoucher:
         return rarity == 2 && elite_material;
-    case MaterialPurchaseSource::EventShop:
-        return !event_shop_task().empty() && std::ranges::find(ItemData.get_ordered_material_item_id(), item_id) !=
-                                                 ItemData.get_ordered_material_item_id().end();
     }
     return false;
-}
-
-std::string asst::MaterialPurchaseOptions::event_shop_task() const
-{
-    for (const auto& [_, stage] : activity_stages) {
-        const auto name = stage.substr(0, stage.find('-')) + "@MaterialPurchase@EventShopBegin";
-        const auto task = Task.get(name);
-        if (task && task->special_params == std::vector<int> { 1 }) {
-            return name;
-        }
-    }
-    return {};
 }
 
 bool asst::MaterialPurchaseOptions::can_buy(const std::string& item_id) const
@@ -287,7 +268,6 @@ std::optional<asst::MaterialPurchaseOptions> asst::MaterialPurchaseOptions::pars
             { "ParametricModels", MaterialPurchaseSource::ParametricModels },
             { "PremiumVoucher", MaterialPurchaseSource::PremiumVoucher },
             { "AdvancedVoucher", MaterialPurchaseSource::AdvancedVoucher },
-            { "EventShop", MaterialPurchaseSource::EventShop },
         };
         for (const auto& name : *sources) {
             const auto found = names.find(name);
@@ -313,22 +293,10 @@ std::optional<asst::MaterialPurchaseOptions> asst::MaterialPurchaseOptions::pars
             }
         }
     }
-    if (params.contains("activity_material_stages")) {
-        const auto stages = params.find<std::unordered_map<std::string, std::string>>("activity_material_stages");
-        if (!stages) {
-            return std::nullopt;
-        }
-        for (const auto& [id, stage] : *stages) {
-            if (ItemData.get_item_name(id).empty() || stage.empty()) {
-                return std::nullopt;
-            }
-        }
-        options.activity_stages = *stages;
-    }
     return options;
 }
 
-std::int64_t asst::MaterialReplenishTask::replenish_material(
+std::optional<std::int64_t> asst::MaterialReplenishTask::replenish_material(
     const std::string& item_id,
     int count,
     const MaterialPurchaseOptions& options)
@@ -339,7 +307,7 @@ std::int64_t asst::MaterialReplenishTask::replenish_material(
     std::int64_t acquired = 0;
     for (const auto source : options.sources) {
         if (need_exit()) {
-            return 0;
+            return std::nullopt;
         }
         if (!options.supports(source, item_id)) {
             continue;
@@ -358,25 +326,22 @@ std::int64_t asst::MaterialReplenishTask::replenish_material(
         case MaterialPurchaseSource::AdvancedVoucher:
             result = redeem_material_voucher(item_id, count, false);
             break;
-        case MaterialPurchaseSource::EventShop:
-            result = buy_event_material(item_id, count, options.event_shop_task());
-            break;
         }
         if (source == MaterialPurchaseSource::PremiumVoucher || source == MaterialPurchaseSource::AdvancedVoucher) {
             for (const auto* page : { "MaterialPurchase@VoucherSelect", "MaterialPurchase@VoucherDetail" }) {
                 if (need_exit()) {
-                    return 0;
+                    return std::nullopt;
                 }
                 OCRer popup(ctrler()->get_image());
                 popup.set_task_info(page);
                 if (popup.analyze() && (!ctrler()->press_esc() || !sleep(500))) {
-                    return 0;
+                    return std::nullopt;
                 }
             }
         }
         // 结果未知时停止补料；已确认的部分数量从缺口扣除后交给下一来源。
         if (!result) {
-            return acquired;
+            return std::nullopt;
         }
         acquired += *result;
         if (*result >= count) {
@@ -385,43 +350,6 @@ std::int64_t asst::MaterialReplenishTask::replenish_material(
         count -= static_cast<int>(*result);
     }
     return acquired;
-}
-
-std::optional<std::int64_t>
-    asst::MaterialReplenishTask::buy_event_material(const std::string& item_id, int count, const std::string& shop_task)
-{
-    if (!run_material_purchase_task(shop_task)) {
-        return std::nullopt;
-    }
-    EventShopTaskPlugin shop(m_callback, m_inst, m_task_chain);
-    shop.set_task_id(m_task_id);
-    const auto item = shop.find_material(ItemData.get_item_name(item_id));
-    if (!item) {
-        return std::nullopt;
-    }
-    if (item->empty()) {
-        return 0;
-    }
-    if (need_exit() || !ctrler()->click(*item) ||
-        !run_material_purchase_task("MaterialPurchase@EventPurchasePage", 3)) {
-        return std::nullopt;
-    }
-    const auto image = ctrler()->get_image();
-    const auto quantity =
-        MaterialSynthesisImageAnalyzer::read_number(image, "GreenTicket@Store@ReplenishPurchaseQuantity");
-    const auto price = MaterialSynthesisImageAnalyzer::read_number(image, "MaterialPurchase@EventTotalPrice");
-    const auto stock = read_remaining_stock(image);
-    if (quantity != 1 || !price || *price <= 0 || !stock) {
-        return std::nullopt;
-    }
-    if (*stock == 0) {
-        return 0;
-    }
-    return purchase_selected_material(
-        item_id,
-        count,
-        { *price, 1, { *stock, *stock } },
-        MaterialPurchaseSource::EventShop);
 }
 
 std::optional<std::int64_t>

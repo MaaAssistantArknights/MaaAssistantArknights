@@ -21,9 +21,6 @@ public:
 
     void set_blacklist(std::vector<std::string> blacklist);
 
-    // Read-only scan; the caller enters the event shop and restores its own page.
-    std::optional<Rect> find_material(const std::string& name);
-
 protected:
     virtual bool _run() override;
 

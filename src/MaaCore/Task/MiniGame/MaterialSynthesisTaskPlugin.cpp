@@ -58,6 +58,10 @@ bool asst::MaterialSynthesisTaskPlugin::_run()
     bool operator_selection_initialized = false;
     const Result result =
         synthesize_material(0, material_stack, operation_budget, processing_task, operator_selection_initialized);
+    if (result != Result::InsufficientResources) {
+        m_material_shortfall.reset();
+        m_material_shortfall_context.clear();
+    }
     Log.info("MaterialSynthesis | finished", result_name(result), "remaining operations", operation_budget);
     if (result != Result::Cancelled && !need_exit()) {
         if (result != Result::Completed) {
@@ -179,6 +183,7 @@ asst::MaterialSynthesisTaskPlugin::Result asst::MaterialSynthesisTaskPlugin::syn
                     });
                 result = Result::InsufficientResources;
                 if (m_purchasable_material) {
+                    result = Result::Unsupported;
                     const auto& formula = ItemData.get_item_formula(material_id);
                     std::vector<std::string> ingredient_ids;
                     for (const auto& [id, quantity] : formula) {
@@ -196,6 +201,7 @@ asst::MaterialSynthesisTaskPlugin::Result asst::MaterialSynthesisTaskPlugin::syn
                             *needed <= std::numeric_limits<int>::max() / per_craft->second) {
                             const int shortfall = *needed * per_craft->second - missing->owned;
                             if (shortfall > 0) {
+                                result = Result::InsufficientResources;
                                 m_material_shortfall = { missing->item_id, shortfall };
                                 m_material_shortfall_context = material_id + ":" + std::to_string(ingredient);
                             }
@@ -331,7 +337,7 @@ asst::MaterialSynthesisTaskPlugin::Result asst::MaterialSynthesisTaskPlugin::syn
         return Result::Cancelled;
     }
     if (result != Result::Completed) {
-        // 子材料无法兑换时，回退到可兑换的当前材料；缺口仍须现场确认。
+        // 子材料不受支持或来源已用尽时，回退到可兑换的当前材料；缺口仍须现场确认。
         if (result == Result::InsufficientResources && m_purchasable_material && !count_image.empty() &&
             m_purchasable_material(material_id) &&
             (!m_material_shortfall || !m_purchasable_material(m_material_shortfall->first))) {
