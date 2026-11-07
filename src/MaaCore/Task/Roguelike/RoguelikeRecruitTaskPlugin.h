@@ -47,6 +47,8 @@ private:
     bool recruit_appointed_char(const std::string& char_name, bool is_rtl = false);
     // 选择干员
     void select_oper(const battle::roguelike::Recruitment& oper);
+    // 该干员招募是否不消耗希望（集成战略中三星及以下，含预备干员）
+    static bool is_zero_hope_oper(const std::string& name);
     // 找出给定的 Offset 组所有满足条件的干员
     std::unordered_set<std::string> calculate_condition_oper(
         const RecruitPriorityOffset& condition,
