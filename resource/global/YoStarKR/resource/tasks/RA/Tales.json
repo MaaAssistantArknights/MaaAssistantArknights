@@ -22,6 +22,7 @@
         "text": ["작전", "개시"]
     },
     "Tales@RA@FinishCalc": {
+        "ocrReplace": [[" ", ""]],
         "text": ["탭하여", "계", "속"]
     },
     "Tales@RA@PIS-Resume": {
@@ -34,6 +35,7 @@
         "text": ["연", "산", "시", "작"]
     },
     "Tales@RA@ResourceGained": {
+        "ocrReplace": [[" ", ""]],
         "text": ["탭하여", "계", "속"]
     }
 }

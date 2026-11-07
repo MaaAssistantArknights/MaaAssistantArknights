@@ -1,5 +1,6 @@
 {
     "MiniGame@OS@CheckPointsUsed": {
+        "ocrReplace": [[" ", ""]],
         "text": ["사용완료", "종료"]
     }
 }

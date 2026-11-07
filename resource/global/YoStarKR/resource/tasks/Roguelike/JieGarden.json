@@ -165,6 +165,7 @@
         "template": "JieGarden@Roguelike@StartAction.png"
     },
     "JieGarden@Roguelike@StageSafeHouseReuse": {
+        "ocrReplace": [[" ", ""]],
         "text": ["안전가옥활용"]
     },
     "JieGarden@Roguelike@StartExploreWithSeed-Open": {
