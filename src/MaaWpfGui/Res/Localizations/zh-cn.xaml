@@ -2384,6 +2384,19 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="Toolbox.MiniGame.EventShop.FurniturePart">家具零件</system:String>
     <system:String x:Key="Toolbox.MiniGame.EventShop.Lmd">龙门币</system:String>
     <system:String x:Key="Toolbox.MiniGame.EventShop.Other">其他自定义商品</system:String>
+    <system:String x:Key="Toolbox.MiniGame.InfrastPresetImport">导入游戏内预设队列</system:String>
+    <system:String x:Key="Toolbox.MiniGame.InfrastPresetImport.Client">目前预设编辑识别支持官服和 B 服。</system:String>
+    <system:String x:Key="Toolbox.MiniGame.InfrastPresetImport.Completed">导入完成，已保存并核对 {2} 个预设名单。</system:String>
+    <system:String x:Key="Toolbox.MiniGame.InfrastPresetImport.Confirm" xml:space="preserve">{0}&#10;&#10;将写入 {1} 个房间、{2} 个预设名单，覆盖对应队列原有名单。&#10;请先进入基建主界面或进驻总览。导入仅保存预设，不执行换班。&#10;班次时间、产品与无人机设置不写入游戏预设。</system:String>
+    <system:String x:Key="Toolbox.MiniGame.InfrastPresetImport.Core">预设导入任务无法启动，请使用包含此功能的完整调试版。</system:String>
+    <system:String x:Key="Toolbox.MiniGame.InfrastPresetImport.Editing">正在编辑 {0} · 队列 {1}</system:String>
+    <system:String x:Key="Toolbox.MiniGame.InfrastPresetImport.Failed">导入中断于 {0} · 队列 {1}，已核对 {2} 队。请检查当前游戏画面；已保存的队列会保留，当前队列可能已创建或保存但尚未核对。</system:String>
+    <system:String x:Key="Toolbox.MiniGame.InfrastPresetImport.Invalid">排班文件不支持导入。需要恰好三个班次和明确的干员名单；请检查重复干员、人数上限、自动补人及动态编组。</system:String>
+    <system:String x:Key="Toolbox.MiniGame.InfrastPresetImport.IoError">无法读取排班文件，请检查文件路径和权限。</system:String>
+    <system:String x:Key="Toolbox.MiniGame.InfrastPresetImport.Mapping">{0} → 游戏队列 {1}</system:String>
+    <system:String x:Key="Toolbox.MiniGame.InfrastPresetImport.Skipped">保留原样／无预设功能：</system:String>
+    <system:String x:Key="Toolbox.MiniGame.InfrastPresetImport.Tip">将三个班次依次保存到游戏内各房间的预设队列 1、2、3。请先进入基建主界面、进驻总览或预设队列窗口。保存后会重新打开名单核对。</system:String>
+    <system:String x:Key="Toolbox.MiniGame.InfrastPresetImport.Verified">已保存并重新核对：{0} · 队列 {1}（累计 {2} 队）</system:String>
     <system:String x:Key="Toolbox.MiniGame.InteractiveExhibition">奇象巡展-找未收录生物</system:String>
     <system:String x:Key="Toolbox.MiniGame.InteractiveExhibition.Tip" xml:space="preserve">在所选地图的高级区草地右下角开始任务。&#10;在草地来回走动寻找未收录生物，找到后自动停止。&#10;只有草地能遇到生物。</system:String>
     <system:String x:Key="Toolbox.MiniGame.InteractiveExhibition.UncollectedNotification.Content">MAA 已停止自动探索，请返回游戏完成战斗。</system:String>

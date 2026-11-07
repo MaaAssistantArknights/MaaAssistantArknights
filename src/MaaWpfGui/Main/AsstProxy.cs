@@ -2772,6 +2772,21 @@ public class AsstProxy
                 _ = ResourceUpdater.ResourceUpdateAndReloadAsync();
                 break;
 
+            case "InfrastPresetImportProgress":
+                {
+                    var stage = subTaskDetails?["stage"]?.ToString();
+                    var key = stage switch {
+                        "editing" => "Toolbox.MiniGame.InfrastPresetImport.Editing",
+                        "verified" => "Toolbox.MiniGame.InfrastPresetImport.Verified",
+                        "completed" => "Toolbox.MiniGame.InfrastPresetImport.Completed",
+                        _ => "Toolbox.MiniGame.InfrastPresetImport.Failed",
+                    };
+                    Instances.TaskQueueViewModel.AddLog(
+                        LocalizationHelper.GetStringFormat(key, subTaskDetails?["room"], subTaskDetails?["queue"], subTaskDetails?["verified"]),
+                        stage == "failed" ? UiLogColor.Error : UiLogColor.Info);
+                    break;
+                }
+
             case "CustomInfrastRoomGroupsMatch":
                 // 选用xxx组编组
                 Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("Asst.Infrast.RoomGroupsMatch") + subTaskDetails!["group"]);
@@ -3926,6 +3941,11 @@ public class AsstProxy
 
         var (type, param) = task.Serialize();
         return AsstAppendTaskWithEncoding(TaskType.MiniGame, type, param) && AsstStart();
+    }
+
+    public bool AsstImportInfrastPresets(InfrastPresetImport schedule)
+    {
+        return AsstAppendTaskWithEncoding(TaskType.MiniGame, AsstTaskType.InfrastPresetImport, JObject.FromObject(schedule)) && AsstStart();
     }
 
     /// <summary>
