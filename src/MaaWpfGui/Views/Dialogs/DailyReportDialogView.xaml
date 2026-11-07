@@ -154,14 +154,16 @@
                             Visibility="{c:Binding IsPageable}" />
                     </StackPanel>
                 </ToggleButton>
+                <!--  开合交 PopupDismissController：再点触发控件即关、点外部关闭，手感与 ComboBox/掉率浮层一致  -->
                 <Popup
+                    x:Name="CalendarPopup"
                     AllowsTransparency="True"
-                    IsOpen="{Binding IsCalendarOpen}"
+                    IsOpen="{Binding IsCalendarOpen, Mode=TwoWay}"
                     Opened="OnCalendarPopupOpened"
                     Placement="Bottom"
                     PlacementTarget="{Binding ElementName=PeriodToggle}"
                     PopupAnimation="Fade"
-                    StaysOpen="False">
+                    StaysOpen="True">
                     <Border
                         Margin="8"
                         s:View.ActionTarget="{Binding}"
@@ -598,7 +600,7 @@
                                             Text="{Binding ValueText}">
                                             <TextBlock.Visibility>
                                                 <MultiBinding Converter="{x:Static converters:FitsWidthToVisibilityConverter.Instance}">
-                                                    <Binding Path="ActualWidth" RelativeSource="{RelativeSource Self}" />
+                                                    <Binding Path="DesiredSize.Width" RelativeSource="{RelativeSource Self}" />
                                                     <Binding Path="ActualWidth" RelativeSource="{RelativeSource AncestorType=Grid}" />
                                                 </MultiBinding>
                                             </TextBlock.Visibility>

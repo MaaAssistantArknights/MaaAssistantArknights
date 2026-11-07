@@ -37,6 +37,7 @@ public partial class DailyReportDialogView
     {
         InitializeComponent();
         DataContext = DailyReportDialogViewModel.Instance;
+        DailyReportDialogViewModel.Instance.ResetWindowLifetimeState();
         DailyReportDialogViewModel.Instance.LoadHistory();
         DailyReportDialogViewModel.Instance.RefreshAll();
 
@@ -47,10 +48,17 @@ public partial class DailyReportDialogView
             DropRatePopup,
             StageList,
             repeatClickTarget: () => DropRatePopup.PlacementTarget as FrameworkElement);
+
+        // 日历浮层：锚点取触发它的日期 Toggle，再点即关；close 走 VM 属性保持双向一致
+        _calendarDismiss = new PopupDismissController(
+            CalendarPopup,
+            PeriodToggle,
+            close: () => ViewModel.IsCalendarOpen = false);
     }
 
     // 持有引用使控制器存活不依赖 Popup 事件订阅的隐式引用
     private readonly PopupDismissController _dropRateDismiss;
+    private readonly PopupDismissController _calendarDismiss;
 
     private static DailyReportDialogViewModel ViewModel => DailyReportDialogViewModel.Instance;
 
