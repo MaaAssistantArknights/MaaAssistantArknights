@@ -13,7 +13,7 @@
         "isAscii": true
     },
     "RelaunchAnchor@RA@RA1-ChooseStrategy": {
-        "text": ["정밀농경"]
+        "text": ["정밀", "농경"]
     },
     "RelaunchAnchor@RA@RA1-ConfirmSelection": {
         "ocrReplace": [[" ", ""]],
@@ -68,24 +68,24 @@
     },
     "RelaunchAnchor@RA@RA1-CraftOwnCommStation1": {
         "ocrReplace": [
-            [" ", ""],
+            ["제작.+보유", "제작 및 보유"],
             ["[타-팋][사-싷][가-깋][자-짛]", "통신기지"]
         ],
-        "text": ["통신기지", "제작및보유"],
+        "text": ["통신기지", "제작 및 보유"],
         "roi": [525, 280, 230, 35]
     },
     "RelaunchAnchor@RA@RA1-CraftOwnCommStation": {
         "ocrReplace": [
-            [" ", ""],
+            ["제작.+보유", "제작 및 보유"],
             ["[타-팋][사-싷][가-깋][자-짛]", "통신기지"]
         ],
-        "text": ["통신기지", "제작및보유"]
+        "text": ["통신기지", "제작 및 보유"]
     },
     "RelaunchAnchor@RA@RA1-DeliverStone10": {
         "text": ["석재"]
     },
     "RelaunchAnchor@RA@RA1-DeliverStone": {
-        "text": ["석재납품"]
+        "text": ["석재"]
     },
     "RelaunchAnchor@RA@RA1-SettleNow": {
         "text": ["정산하기"]
@@ -115,19 +115,20 @@
     "RelaunchAnchor@RA@RA4-AddHelp": {
         "text": ["지원", "유닛"]
     },
+    "RelaunchAnchor@RA@RA4-ChooseType": {
+        "preDelay": 1500
+    },
     "RelaunchAnchor@RA@RA4-EW-Common": {
         "text": ["위셔델"]
     },
     "RelaunchAnchor@RA@RA4-EW-ConfirmHelp": {
-        "ocrReplace": [[" ", ""]],
-        "text": ["지원유닛", "모집"]
+        "text": ["지원", "유닛", "모집"]
     },
     "RelaunchAnchor@RA@RA4-ExamineEWExistence": {
         "text": ["위셔델"]
     },
     "RelaunchAnchor@RA@RA4-ConfirmTeam": {
-        "ocrReplace": [[" ", ""]],
-        "text": ["모집확인"]
+        "text": ["모집", "확인"]
     },
     "RelaunchAnchor@RA@RA4-ConfirmTeam2": {
         "text": ["확인"]
@@ -162,13 +163,11 @@
         "roi": [85, 232, 240, 30]
     },
     "RelaunchAnchor@RA@RA4-Mission3": {
-        "ocrReplace": [[" ", ""]],
-        "text": ["리더적"],
+        "text": ["리더"],
         "roi": [415, 281, 195, 32]
     },
     "RelaunchAnchor@RA@RA4-ClickMission3": {
-        "ocrReplace": [[" ", ""]],
-        "text": ["리더적", "누적", "처치"],
+        "text": ["리더", "누적", "처치"],
         "roi": [80, 238, 205, 32]
     },
     "RelaunchAnchor@RA@RA4-ExitSettleNow": {
@@ -209,6 +208,9 @@
     "RelaunchAnchor@RA@RA15-AddHelp": {
         "text": ["지원", "유닛"]
     },
+    "RelaunchAnchor@RA@RA15-ChooseType": {
+        "preDelay": 1500
+    },
     "RelaunchAnchor@RA@RA15-CX-Common": {
         "text": ["프라마닉스", "프레리타"]
     },
@@ -237,13 +239,11 @@
         "roi": [1096, 577, 130, 30]
     },
     "RelaunchAnchor@RA@RA15-CX-ConfirmHelp": {
-        "ocrReplace": [[" ", ""]],
-        "text": ["지원유닛", "모집"],
+        "text": ["지원", "유닛", "모집"],
         "roi": [740, 580, 200, 40]
     },
     "RelaunchAnchor@RA@RA15-ConfirmTeam": {
-        "ocrReplace": [[" ", ""]],
-        "text": ["모집확인"]
+        "text": ["모집", "확인"]
     },
     "RelaunchAnchor@RA@RA15-ConfirmTeam2": {
         "text": ["확인"]
