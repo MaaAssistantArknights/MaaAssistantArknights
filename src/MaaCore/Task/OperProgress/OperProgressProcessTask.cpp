@@ -162,6 +162,18 @@ bool asst::OperProgressProcessTask::_run()
     for (size_t index = 0; index < m_plan.size() && !need_exit(); ++index) {
         const auto& target = m_plan[index];
         bool ready = true;
+        const auto collect = [&](OperProgressAction action, ResultDetail& result) {
+            json::array materials;
+            if (is_material_shortage(result)) {
+                materials = collect_missing_materials(action);
+                ready = restore_operator_files();
+                if (need_exit()) {
+                    result = ResultDetail::Interrupt;
+                    materials.clear();
+                }
+            }
+            return materials;
+        };
 
         if (training_room_busy && !target.elite && !target.skill_level && target.skill_mastery) {
             continue; // 训练室已占用且无其他目标, 跳过仅专精计划
@@ -182,15 +194,7 @@ bool asst::OperProgressProcessTask::_run()
         }
         if (target.elite) {
             auto elite_ret = execute_elite(target.role, target.name, *target.elite);
-            json::array materials;
-            if (is_material_shortage(elite_ret)) {
-                materials = collect_missing_materials(OperProgressAction::Elite);
-                ready = restore_operator_files();
-                if (need_exit()) {
-                    elite_ret = ResultDetail::Interrupt;
-                    materials.clear();
-                }
-            }
+            const auto materials = collect(OperProgressAction::Elite, elite_ret);
             report_elite_result(target.role, target.name, elite_ret, *target.elite, materials);
             if (!ready || need_exit()) {
                 continue;
@@ -198,15 +202,7 @@ bool asst::OperProgressProcessTask::_run()
         }
         if (target.skill_level) {
             auto main_ret = execute_skill(*target.skill_level);
-            json::array materials;
-            if (is_material_shortage(main_ret)) {
-                materials = collect_missing_materials(OperProgressAction::MainSkillLevel);
-                ready = restore_operator_files();
-                if (need_exit()) {
-                    main_ret = ResultDetail::Interrupt;
-                    materials.clear();
-                }
-            }
+            const auto materials = collect(OperProgressAction::MainSkillLevel, main_ret);
             report_skill_result(target.role, target.name, main_ret, *target.skill_level, materials);
             if (!ready || need_exit()) {
                 continue;
@@ -220,15 +216,7 @@ bool asst::OperProgressProcessTask::_run()
                 }
                 int training_level = 0;
                 auto skill_ret = execute_mastery(target.role, target.name, i + 1, arr[i], training_level);
-                json::array materials;
-                if (is_material_shortage(skill_ret)) {
-                    materials = collect_missing_materials(OperProgressAction::Mastery);
-                    ready = restore_operator_files();
-                    if (need_exit()) {
-                        skill_ret = ResultDetail::Interrupt;
-                        materials.clear();
-                    }
-                }
+                const auto materials = collect(OperProgressAction::Mastery, skill_ret);
                 std::array<int, 3> skill_levels { 0, 0, 0 };
                 if (skill_ret == ResultDetail::AlreadySatisfied || skill_ret == ResultDetail::Completed ||
                     skill_ret == ResultDetail::PrerequisiteTraining || skill_ret == ResultDetail::TrainingRoomBusy) {
@@ -1165,11 +1153,6 @@ bool asst::OperProgressProcessTask::restore_operator_files()
 json::array asst::OperProgressProcessTask::collect_missing_materials(OperProgressAction action)
 {
     if (need_exit()) {
-        return {};
-    }
-    // 常规模拟器连接不设置控制器客户端，因此材料识别以任务参数为准。
-    if (m_client_type != "Official" && m_client_type != "Bilibili") {
-        LogWarn << __FUNCTION__ << "| material reporting is not supported for client" << m_client_type;
         return {};
     }
     const auto page = oper_progress::material_page_name(action);

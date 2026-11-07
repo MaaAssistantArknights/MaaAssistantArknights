@@ -335,10 +335,7 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
                 // 队列在执行前统一序列化，此时清理上轮中断后没有收到汇总的记录。
                 Instance._materialReports.Clear();
             }
-            var task = new AsstOperProgressTask {
-                Plans = operProgress.Plans,
-                ClientType = SettingsViewModel.GameSettings.ClientType,
-            };
+            var task = new AsstOperProgressTask { Plans = operProgress.Plans };
             return taskId switch {
                 int id when id > 0 => (Instances.AsstProxy.AsstSetTaskParamsEncoded(id, task), [id]),
                 null => FromSingle(Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.OperProgress, task)),

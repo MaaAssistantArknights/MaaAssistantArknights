@@ -15,8 +15,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using MaaWpfGui.Configuration.Single.MaaTask;
-using MaaWpfGui.Constants.Enums;
-using MaaWpfGui.Extensions;
 using MaaWpfGui.Services;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -29,11 +27,6 @@ public class AsstOperProgressTask : AsstBaseTask
 
     [JsonProperty("plans")]
     public List<OperProgressTask.Plan> Plans { get; set; } = [];
-
-    /// <summary>
-    /// Gets or sets 客户端类型。
-    /// </summary>
-    public ClientType ClientType { get; set; } = ClientType.Official;
 
     public override (AsstTaskType TaskType, JObject Params) Serialize()
     {
@@ -60,7 +53,6 @@ public class AsstOperProgressTask : AsstBaseTask
         }
         var jObject = new JObject {
             ["plans"] = list,
-            ["client_type"] = ClientType.ToCustomString(),
         };
         return (TaskType, jObject);
     }
