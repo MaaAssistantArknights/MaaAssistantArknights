@@ -45,6 +45,17 @@ bool asst::RecruitTask::set_params(const json::value& params)
         extra_tags_mode = ExtraTagsMode::NoExtra;
     }
 
+    auto oper_priority_mode = static_cast<OperPriorityMode>(params.get("oper_priority_mode", 0));
+    if (!RecruitConfig::is_valid_oper_priority_mode(oper_priority_mode)) {
+        oper_priority_mode = OperPriorityMode::Disabled;
+    }
+    // 是否允许为了未拥有/未满潜而招募小车（1 星）和 2 星干员（会缩短该次招募时长）
+    bool oper_priority_allow_low_star = params.get("oper_priority_allow_low_star", false);
+    // 为小车/2 星干员选中的组合是否自动确认（不受 3/4 星确认设置影响）
+    bool oper_priority_low_star_confirm = params.get("oper_priority_low_star_confirm", false);
+    // 干员识别数据（GUI 落盘的 OperBoxData.json）路径，仅在 oper_priority_mode 非 0 时使用
+    std::string operbox_data_path = params.get("operbox_data_path", std::string());
+
     bool refresh = params.get("refresh", false);
     bool set_time = params.get("set_time", true);
     bool force_refresh = params.get("force_refresh", true);
@@ -97,6 +108,13 @@ bool asst::RecruitTask::set_params(const json::value& params)
         .set_set_time(set_time)
         .set_force_refresh(force_refresh)
         .set_retry_times(3);
+
+    // 子任务每次运行开始时才取用 ｢优先未拥有/未满潜｣ 相关设置，运行中更新在下一次运行该任务时生效
+    m_auto_recruit_task_ptr->set_oper_priority(
+        oper_priority_mode,
+        oper_priority_allow_low_star,
+        oper_priority_low_star_confirm,
+        std::move(operbox_data_path));
 
     return true;
 }
