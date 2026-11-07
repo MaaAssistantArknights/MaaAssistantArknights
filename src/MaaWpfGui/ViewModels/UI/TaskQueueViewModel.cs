@@ -21,7 +21,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
@@ -1520,7 +1519,7 @@ public class TaskQueueViewModel : Screen
     {
         Execute.OnUIThread(() => {
             // 复用既有集合以 CollectionChanged 增量更新，避免整表重建导致绑定闪烁
-            var inlines = StagesOfTodayInlines ?? new ObservableCollection<Inline>();
+            var inlines = StagesOfTodayInlines ?? [];
             inlines.Clear();
             inlines.Add(new Run(LocalizationHelper.GetString("TaskQueue.Stage.TodaysStage.Tip") + "\n"));
 
