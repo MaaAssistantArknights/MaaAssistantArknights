@@ -21,6 +21,8 @@ using System.Linq;
 using System.Text.Json;
 using System.Windows;
 using System.Windows.Input;
+using HandyControl.Controls;
+using HandyControl.Data;
 using HandyControl.Tools.Command;
 using MaaWpfGui.Configuration.Single.MaaTask;
 using MaaWpfGui.Constants;
@@ -1022,7 +1024,8 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
 
         if (_level.SmartPredicate is { } smart && !smart(tasks))
         {
-            GrowlHelper.Info(LocalizationHelper.GetString("TutorialChallenge.SmartSolutionHint"));
+            var msg = LocalizationHelper.GetString("TutorialChallenge.SmartSolutionHint");
+            GrowlHelper.Show(InfoType.Info, msg, () => Growl.Info(msg, "TutorialChallenge"));
         }
 
         TutorialChallengeProgress.MarkCleared(_level.Id);

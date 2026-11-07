@@ -1313,5 +1313,13 @@
                 </Grid>
             </Border>
         </Grid>
+
+        <ScrollViewer
+            Grid.Row="1"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Top"
+            VerticalScrollBarVisibility="Hidden">
+            <StackPanel Margin="0,0,0,5" hc:Growl.Token="TutorialChallenge" />
+        </ScrollViewer>
     </Grid>
 </hc:Window>
