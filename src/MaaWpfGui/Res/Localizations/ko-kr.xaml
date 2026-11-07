@@ -927,6 +927,10 @@ C:\Program Files\Netease\MuMuPlayer으로 입력해야 합니다.
     <system:String x:Key="Connection.SelectEmulator">에뮬레이터 선택</system:String>
     <system:String x:Key="Connection.SelectEmulatorPath">에뮬레이터 경로 선택</system:String>
     <system:String x:Key="Connection.SelectItem">항목 선택</system:String>
+    <system:String x:Key="Connection.StartupTimeout">시작 화면 인식 제한 시간(초)</system:String>
+    <system:String x:Key="Connection.StartupTimeout.Tip" xml:space="preserve">시작 또는 계정 전환 중 각 단계에서 화면을 계속 인식하지 못할 때 기다리는 최대 시간입니다.
+인식에 성공하면 즉시 진행하며, 인식된 로딩 또는 업데이트 화면은 이 제한 시간에 포함되지 않습니다.
+기본값은 120초이며 10~600초로 설정할 수 있습니다.</system:String>
     <system:String x:Key="Connection.TouchMode">터치 수행 방식</system:String>
     <system:String x:Key="Connection.TouchMode.AdbInput">ADB Input (비권장)</system:String>
     <system:String x:Key="Connection.TouchMode.MaaFwAdb">MaaFwAdb (실험적)</system:String>

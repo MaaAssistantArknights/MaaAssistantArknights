@@ -12,6 +12,7 @@
 // </copyright>
 
 #nullable enable
+using System;
 using System.Collections.Generic;
 using JetBrains.Annotations;
 using MaaWpfGui.Configuration.Single.MaaTask;
@@ -51,6 +52,15 @@ public class StartUpTaskUserControlModel : TaskSettingsViewModel, StartUpTaskUse
         set => SetTaskConfig<StartUpTask>(t => t.AccountSwitchEnabled == value, t => t.AccountSwitchEnabled = value);
     }
 
+    public int StartupTimeout
+    {
+        get => GetTaskConfig<StartUpTask>().StartupTimeout;
+        set {
+            value = Math.Clamp(value, 10, 600);
+            SetTaskConfig<StartUpTask>(t => t.StartupTimeout == value, t => t.StartupTimeout = value);
+        }
+    }
+
     // UI 绑定的方法
     [UsedImplicitly]
     public async void AccountSwitchManualRun()
@@ -60,7 +70,11 @@ public class StartUpTaskUserControlModel : TaskSettingsViewModel, StartUpTaskUse
             Instances.TaskQueueViewModel.AddLog("Current task is not StartUpTask", UiLogColor.Error);
             return;
         }
-        var task = new StartUpTask() { AccountSwitchEnabled = true, AccountName = startUp.AccountName };
+        var task = new StartUpTask() {
+            AccountSwitchEnabled = true,
+            AccountName = startUp.AccountName,
+            StartupTimeout = startUp.StartupTimeout,
+        };
         await Instances.TaskQueueViewModel.LinkStartWithTasks([task]);
     }
 
@@ -102,6 +116,7 @@ public class StartUpTaskUserControlModel : TaskSettingsViewModel, StartUpTaskUse
                 ClientType = clientType,
                 StartGame = SettingsViewModel.GameSettings.StartGame,
                 AccountName = accountName,
+                StartupTimeout = startUp.StartupTimeout,
             };
 
             return taskId switch {

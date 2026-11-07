@@ -87,6 +87,12 @@ ProcessTask& ProcessTask::set_task_delay(int delay) noexcept
     return *this;
 }
 
+ProcessTask& ProcessTask::set_recognition_timeout(std::chrono::milliseconds timeout) noexcept
+{
+    m_recognition_timeout = timeout;
+    return *this;
+}
+
 ProcessTask& ProcessTask::set_tasks(std::vector<std::string> tasks_name) noexcept
 {
     m_begin_task_list = std::move(tasks_name);
@@ -463,21 +469,70 @@ std::pair<ProcessTask::NodeStatus, TaskConstPtr> ProcessTask::find_and_run_task(
         return { NodeStatus::Interrupted, nullptr };
     }
 
+    // Each successful recognition ends this call and gives the next node a fresh deadline.
+    // This does not limit actions or recognized loading/update screens.
+    const bool use_timeout = m_recognition_timeout > std::chrono::milliseconds::zero();
+    const auto started = std::chrono::steady_clock::now();
+    const auto deadline = started + m_recognition_timeout;
+    const auto timed_out = [&]() {
+        if (!use_timeout || std::chrono::steady_clock::now() < deadline) {
+            return false;
+        }
+        LogWarn << __FUNCTION__ << "Recognition timed out after" << m_recognition_timeout.count() << "ms"
+                << "task:" << m_last_task_name;
+        return true;
+    };
+
     HitDetail hits;
-    for (int cur_retry = 0; cur_retry <= m_retry_times; ++cur_retry) {
+    for (int cur_retry = 0; use_timeout || cur_retry <= m_retry_times; ++cur_retry) {
+        if (need_exit() || !m_enable) {
+            return { NodeStatus::Interrupted, nullptr };
+        }
+        if (timed_out()) {
+            return { NodeStatus::RetryFailed, nullptr };
+        }
+
         json::value info = basic_info();
         info["details"] = json::object {
             { "to_be_recognized", json::array(list) },
             { "cur_retry", cur_retry },
-            { "retry_times", m_retry_times },
         };
+        if (use_timeout) {
+            info["details"]["recognition_timeout_ms"] = m_recognition_timeout.count();
+            info["details"]["elapsed_ms"] =
+                std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now() - started)
+                    .count();
+        }
+        else {
+            info["details"]["retry_times"] = m_retry_times;
+        }
         info["cur_task"] = m_last_task_name;
-        Log.info(info.to_string());
+        LogInfo << info.to_string();
 
-        if (cur_retry != 0 && !sleep(m_task_delay)) {
+        if (cur_retry != 0) {
+            auto delay = std::chrono::milliseconds(std::max(m_task_delay, 0));
+            if (use_timeout) {
+                const auto remaining =
+                    std::chrono::ceil<std::chrono::milliseconds>(deadline - std::chrono::steady_clock::now());
+                delay = std::max(std::chrono::milliseconds::zero(), std::min(delay, remaining));
+            }
+            if (!sleep(static_cast<unsigned>(delay.count())) || !m_enable) {
+                return { NodeStatus::Interrupted, nullptr };
+            }
+            if (timed_out()) {
+                return { NodeStatus::RetryFailed, nullptr };
+            }
+        }
+
+        hits = find_first(list);
+        if (need_exit() || !m_enable) {
             return { NodeStatus::Interrupted, nullptr };
         }
-        if (hits = find_first(list); hits.task_ptr != nullptr) {
+        // A screenshot/OCR call cannot be interrupted; do not act on a result past the deadline.
+        if (timed_out()) {
+            return { NodeStatus::RetryFailed, nullptr };
+        }
+        if (hits.task_ptr != nullptr) {
             break;
         }
     }

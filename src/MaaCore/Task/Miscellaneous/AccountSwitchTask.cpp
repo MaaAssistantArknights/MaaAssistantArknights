@@ -65,8 +65,11 @@ bool asst::AccountSwitchTask::_run()
 bool asst::AccountSwitchTask::navigate_to_start_page()
 {
     auto task = ProcessTask(*this, { "SwitchAccount@StartUpBegin" });
-    task.set_retry_times(30);
+    task.set_recognition_timeout(m_recognition_timeout).set_retry_times(30);
     task.run();
+    if (need_exit()) {
+        return false;
+    }
     std::string last_name = task.get_last_task_name();
     if (last_name == "LoginOther") {
         return true;

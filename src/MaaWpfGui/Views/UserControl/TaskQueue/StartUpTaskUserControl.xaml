@@ -56,6 +56,25 @@
             </StackPanel>
         </StackPanel>
 
+        <StackPanel Margin="0,5">
+            <controls:TextBlock Text="{DynamicResource Connection.StartupTimeout}" TextWrapping="Wrap" />
+            <StackPanel Margin="0,5,0,0" Orientation="Horizontal">
+                <hc:NumericUpDown
+                    Width="100"
+                    Height="30"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    AutomationProperties.Name="{DynamicResource Connection.StartupTimeout}"
+                    DecimalPlaces="0"
+                    IsEnabled="{Binding Run.Idle, Source={x:Static helper:Instances.SettingsViewModel}}"
+                    Maximum="600"
+                    Minimum="10"
+                    ValueFormat="0"
+                    Value="{Binding StartupTimeout, UpdateSourceTrigger=PropertyChanged}" />
+                <controls:TooltipBlock TooltipText="{DynamicResource Connection.StartupTimeout.Tip}" />
+            </StackPanel>
+        </StackPanel>
+
         <controls:TextBlock
             Margin="0,5"
             HorizontalAlignment="Center"

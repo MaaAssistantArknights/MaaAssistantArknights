@@ -70,6 +70,14 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
 @optional  
 是否自動啟動用戶端。  
 :::  
+::: field startup_timeout  
+@type number  
+@default 120  
+@optional  
+啟動導覽及帳號切換導覽中，每個步驟連續無法辨識畫面的最長等待時間，單位為秒。必須為 `10` 至 `600` 之間的整數；類型或範圍不合法時，任務參數設定失敗。
+<br>
+依實際經過時間計時，辨識成功即繼續，並在下一個辨識步驟重新計時。已辨識的載入或更新畫面不屬於連續辨識失敗；這不是固定延遲，也不是整個啟動流程的總時限。逾時後保留原有失敗或重新啟動處理，不影響其他任務的重試設定。  
+:::  
 ::: field account_name  
 @type string  
 @optional  
@@ -93,6 +101,7 @@ B 服：`張三`，可輸入 `張三`、`張`、`三`
    "enable": true,
    "client_type": "Official",
    "start_game_enabled": true,
+   "startup_timeout": 120,
    "account_name": "123****4567"
 }
 ```

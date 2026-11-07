@@ -70,6 +70,14 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
 @optional  
 是否自动启动客户端。  
 :::  
+::: field startup_timeout  
+@type number  
+@default 120  
+@optional  
+启动导航及账号切换导航中，每个步骤连续识别不到界面的最长等待时间，单位为秒。必须为 `10` 至 `600` 之间的整数；类型或范围不合法时，任务参数设置失败。
+<br>
+按实际经过的时间计时，识别成功即继续，并在下一个识别步骤重新计时。已识别的加载或更新画面不属于连续识别失败；这不是固定延迟，也不是整个启动过程的总时限。超时后保留原有失败或重启处理，不影响其他任务的重试设置。  
+:::  
 ::: field account_name  
 @type string  
 @optional  
@@ -93,6 +101,7 @@ B服：`张三`，可输入 `张三`、`张`、`三`
    "enable": true,
    "client_type": "Official",
    "start_game_enabled": true,
+   "startup_timeout": 120,
    "account_name": "123****4567"
 }
 ```
