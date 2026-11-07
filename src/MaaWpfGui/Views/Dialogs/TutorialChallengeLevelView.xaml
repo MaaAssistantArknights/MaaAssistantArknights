@@ -1312,13 +1312,27 @@
                                                     VerticalAlignment="Top"
                                                     TooltipText="{DynamicResource Recruit.PreserveTags.Tip}" />
                                             </StackPanel>
-                                            <hc:CheckComboBox
+                                            <ListBox
                                                 Margin="0,10,0,0"
-                                                hc:ListBoxAttach.SelectedItems="{Binding AutoRecruitPreserveTagList}"
                                                 DisplayMemberPath="Display"
+                                                hc:ListBoxAttach.SelectedItems="{Binding AutoRecruitPreserveTagList}"
                                                 ItemsSource="{Binding AutoRecruitSkipTagShowList}"
                                                 SelectionMode="Multiple"
-                                                Visibility="{c:Binding SandboxPreserveTagEnabled}" />
+                                                Visibility="{c:Binding SandboxPreserveTagEnabled}">
+                                                <ListBox.ItemContainerStyle>
+                                                    <Style TargetType="ListBoxItem">
+                                                        <Setter Property="Template">
+                                                            <Setter.Value>
+                                                                <ControlTemplate TargetType="ListBoxItem">
+                                                                    <CheckBox
+                                                                        Content="{Binding Display}"
+                                                                        IsChecked="{Binding IsSelected, Mode=TwoWay, RelativeSource={RelativeSource AncestorType=ListBoxItem}}" />
+                                                                </ControlTemplate>
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                    </Style>
+                                                </ListBox.ItemContainerStyle>
+                                            </ListBox>
                                         </StackPanel>
                                     </StackPanel>
                                 </Grid>
