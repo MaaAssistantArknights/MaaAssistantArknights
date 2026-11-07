@@ -230,10 +230,17 @@ public static class DailyReportCollector
     {
         var now = DateTimeOffset.UtcNow;
         var hasRound = _pendingRounds.Remove(taskId, out var round);
+        var hasConsumables = _pendingConsumables.Remove(taskId, out var consumables);
         FinalizeSession(taskId, now);
         if (hasRound)
         {
             _pendingRounds[taskId] = round;
+        }
+
+        if (hasConsumables)
+        {
+            // 挂账随新关归属，不并回已结束的旧 session
+            _pendingConsumables[taskId] = consumables;
         }
 
         var next = new CombatSession { StartTime = now };
