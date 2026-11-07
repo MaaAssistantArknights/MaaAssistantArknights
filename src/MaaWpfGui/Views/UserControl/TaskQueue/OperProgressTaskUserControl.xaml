@@ -56,11 +56,23 @@
                         hc:BorderElement.CornerRadius="0"
                         Command="{s:Action ClearPlan}"
                         Content="{DynamicResource Common.Clear}" />
-                    <Button
-                        Margin="0,0,-1,0"
+                    <hc:SplitButton
+                        x:Name="ReadFromSplitButton"
+                        Margin="0,0,0,0"
                         hc:BorderElement.CornerRadius="0,4,4,0"
-                        Command="{s:Action ParsePlan}"
-                        Content="{DynamicResource TaskQueue.OperProgress.ParseClipboard}" />
+                        Click="OpenImportMenu"
+                        Content="{DynamicResource TaskQueue.OperProgress.ReadFrom}">
+                        <hc:SplitButton.DropDownContent>
+                            <StackPanel>
+                                <MenuItem
+                                    Command="{s:Action ParsePlan}"
+                                    Header="{DynamicResource TaskQueue.OperProgress.ParseClipboard}" />
+                                <MenuItem
+                                    Command="{s:Action ImportOperBox}"
+                                    Header="{DynamicResource TaskQueue.OperProgress.ImportOperBox}" />
+                            </StackPanel>
+                        </hc:SplitButton.DropDownContent>
+                    </hc:SplitButton>
                 </WrapPanel>
                 <!--  干员选择与添加培养目标  -->
                 <Grid Margin="0,3,0,0">
