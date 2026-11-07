@@ -17,4 +17,5 @@ public static class JsonDataKey
 {
     public const string OperBoxData = "OperBoxData";
     public const string DepotData = "DepotData";
+    public const string TutorialChallengeProgress = "TutorialChallengeProgress";
 }

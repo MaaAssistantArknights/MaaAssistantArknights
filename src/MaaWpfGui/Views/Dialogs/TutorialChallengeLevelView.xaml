@@ -1,0 +1,1314 @@
+<hc:Window
+    x:Class="MaaWpfGui.Views.Dialogs.TutorialChallengeLevelView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:c="clr-namespace:CalcBinding;assembly=CalcBinding"
+    xmlns:controls="clr-namespace:MaaWpfGui.Styles.Controls"
+    xmlns:converters="clr-namespace:MaaWpfGui.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:dd="urn:gong-wpf-dragdrop"
+    xmlns:dialogs_vms="clr-namespace:MaaWpfGui.ViewModels.Dialogs"
+    xmlns:hc="https://handyorg.github.io/handycontrol"
+    xmlns:helper="clr-namespace:MaaWpfGui.Helper"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:s="https://github.com/canton7/Stylet"
+    xmlns:taskQueue="clr-namespace:MaaWpfGui.Configuration.Single.MaaTask"
+    xmlns:taskQueue_vms="clr-namespace:MaaWpfGui.ViewModels.UserControl.TaskQueue"
+    xmlns:ui_vms="clr-namespace:MaaWpfGui.ViewModels.UI"
+    Title="{Binding WindowTitle}"
+    Width="640"
+    Height="560"
+    MinWidth="640"
+    MinHeight="560"
+    d:DataContext="{d:DesignInstance {x:Type dialogs_vms:TutorialChallengeLevelViewModel}}"
+    s:View.ActionTarget="{Binding}"
+    Background="{DynamicResource RegionBrush}"
+    mc:Ignorable="d">
+    <hc:Window.Resources>
+        <converters:ItemImageConverter x:Key="ItemImageConverter" />
+        <converters:SubtractConverter x:Key="SubtractConverter" />
+        <ItemsPanelTemplate x:Key="VerticalStackItemsPanel">
+            <StackPanel Orientation="Vertical" />
+        </ItemsPanelTemplate>
+        <Style
+            x:Key="StageComboBoxItemStyle"
+            BasedOn="{StaticResource ComboBoxItemBaseStyle}"
+            TargetType="ComboBoxItem">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding IsVisible}" Value="False">
+                    <Setter Property="Visibility" Value="Collapsed" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+        <DataTemplate x:Key="StageComboBoxItemTemplate">
+            <TextBlock Text="{Binding Display}">
+                <TextBlock.Style>
+                    <Style TargetType="TextBlock">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsOutdated}" Value="True">
+                                <Setter Property="TextDecorations" Value="Strikethrough" />
+                                <Setter Property="Foreground" Value="{DynamicResource ErrorLogBrush}" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding IsOpen}" Value="False">
+                                <Setter Property="Opacity" Value="0.5" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding IsOpen}" Value="True">
+                                <Setter Property="Opacity" Value="1" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBlock.Style>
+            </TextBlock>
+        </DataTemplate>
+        <DataTemplate x:Key="DropComboBoxItemTemplate">
+            <StackPanel Orientation="Horizontal">
+                <Grid
+                    Width="18"
+                    Height="18"
+                    VerticalAlignment="Center">
+                    <!--  ｢不选择｣ 空值项无图标，以描边圆环占位，保持与图标项的文字对齐  -->
+                    <Ellipse
+                        Stroke="{DynamicResource BorderBrush}"
+                        StrokeThickness="1"
+                        Visibility="{c:Binding 'Value.Length == 0'}" />
+                    <Image Source="{Binding Value, Converter={StaticResource ItemImageConverter}}" />
+                </Grid>
+                <TextBlock
+                    Margin="4,0,0,0"
+                    VerticalAlignment="Center"
+                    Text="{Binding Display}" />
+            </StackPanel>
+        </DataTemplate>
+    </hc:Window.Resources>
+    <Grid Margin="12">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!--  目标区：关卡目标描述与达成状态  -->
+        <Grid Grid.Row="0" Margin="0,0,0,10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0">
+                <controls:TextBlock
+                    HorizontalAlignment="Left"
+                    FontSize="16"
+                    Style="{StaticResource TextBlockDefaultBold}"
+                    Text="{Binding Title}" />
+                <controls:TextBlock
+                    Margin="0,4,0,0"
+                    HorizontalAlignment="Left"
+                    Text="{Binding Goal}"
+                    TextWrapping="Wrap" />
+            </StackPanel>
+            <StackPanel
+                Grid.Column="1"
+                VerticalAlignment="Center"
+                Orientation="Horizontal">
+                <Border
+                    Padding="8,3"
+                    VerticalAlignment="Center"
+                    Background="{DynamicResource PrimaryBrush}"
+                    CornerRadius="4"
+                    Visibility="{c:Binding IsCompleted}">
+                    <controls:TextBlock Foreground="{DynamicResource TextIconBrush}" Text="{DynamicResource TutorialChallenge.Completed}" />
+                </Border>
+                <Button
+                    Margin="8,0,0,0"
+                    Command="{s:Action Reset}"
+                    Content="{DynamicResource TutorialChallenge.Reset}" />
+            </StackPanel>
+        </Grid>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="230" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <!--  左列：沙盒任务队列；条目交互对齐真实任务队列（名称/齿轮选中/悬停按钮/右键菜单），数据仅沙盒内  -->
+            <Grid Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <ListBox
+                    Grid.Row="0"
+                    Margin="0,10,0,0"
+                    HorizontalContentAlignment="Stretch"
+                    dd:DragDrop.DragDropContext="{Binding RelativeSource={RelativeSource Self}}"
+                    dd:DragDrop.IsDragSource="True"
+                    dd:DragDrop.IsDropTarget="True"
+                    Background="Transparent"
+                    BorderThickness="0"
+                    ItemsSource="{Binding SandboxItems}"
+                    Style="{DynamicResource NoSelectedHighlightListBoxStyle}"
+                    ToolTip="{DynamicResource Common.LabelSequence.Tip}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate DataType="{x:Type dialogs_vms:TutorialChallengeSandboxItem}">
+                            <Border CornerRadius="4">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <!--  齿轮整行铺底：点击空白处也能打开任务设置；悬浮操作按钮在其上层。不用 hc:ButtonGroup 包装（其 ItemsControl 容器把子项封成 DataItem，UIA 拿不到 RadioButton 原生 pattern），单裸 RadioButton 加 GroupName 即够  -->
+                                    <RadioButton
+                                        Grid.ColumnSpan="2"
+                                        Margin="0,0,4,0"
+                                        Padding="0"
+                                        HorizontalContentAlignment="Right"
+                                        hc:VisualElement.HighlightBackground="Transparent"
+                                        hc:VisualElement.HighlightForeground="{DynamicResource PrimaryBrush}"
+                                        AutomationProperties.Name="{DynamicResource TaskQueue.TaskSettings}"
+                                        Background="Transparent"
+                                        BorderThickness="0"
+                                        GroupName="SandboxTaskSettings"
+                                        IsChecked="{Binding EnableSetting}"
+                                        Style="{DynamicResource RadioGroupItemSingle}">
+                                        <Grid
+                                            Width="16"
+                                            Height="16"
+                                            HorizontalAlignment="Right">
+                                            <Path
+                                                Data="{StaticResource ConfigGeometry}"
+                                                Stretch="Uniform"
+                                                Visibility="{c:Binding !EnableSetting}">
+                                                <Path.Style>
+                                                    <Style TargetType="Path">
+                                                        <Setter Property="Fill" Value="{DynamicResource SecondaryTextBrush}" />
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType=RadioButton}}" Value="True">
+                                                                <Setter Property="Fill" Value="{DynamicResource PrimaryBrush}" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Path.Style>
+                                            </Path>
+                                            <Path
+                                                Data="{StaticResource ConfigGeometry2}"
+                                                Fill="{DynamicResource PrimaryBrush}"
+                                                Stretch="Uniform"
+                                                Visibility="{c:Binding EnableSetting}" />
+                                        </Grid>
+                                        <RadioButton.ToolTip>
+                                            <ToolTip>
+                                                <StackPanel>
+                                                    <TextBlock FontWeight="SemiBold" Text="{DynamicResource TaskQueue.LeftClick}" />
+                                                    <TextBlock Text="{DynamicResource TaskQueue.TaskSettings}" />
+                                                    <TextBlock FontWeight="SemiBold" Text="{DynamicResource TaskQueue.RightClick}" />
+                                                    <TextBlock>
+                                                        <Run Text="{DynamicResource TaskQueue.MoveUp}" /><Run Text="/" /><Run Text="{DynamicResource TaskQueue.MoveDown}" /><Run Text="/" /><Run Text="{DynamicResource Common.Copy}" /><Run Text="/" /><Run Text="{DynamicResource TaskQueue.Rename}" /><Run Text="/" /><Run Text="{DynamicResource Common.Delete}" />
+                                                    </TextBlock>
+                                                </StackPanel>
+                                            </ToolTip>
+                                        </RadioButton.ToolTip>
+                                        <RadioButton.ContextMenu>
+                                            <ContextMenu Width="150">
+                                                <MenuItem
+                                                    Command="{s:Action MoveTaskUp}"
+                                                    CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
+                                                    Header="{DynamicResource TaskQueue.MoveUp}"
+                                                    IsEnabled="{Binding PlacementTarget.DataContext.CanMoveUp, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
+                                                <MenuItem
+                                                    Command="{s:Action MoveTaskDown}"
+                                                    CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
+                                                    Header="{DynamicResource TaskQueue.MoveDown}"
+                                                    IsEnabled="{Binding PlacementTarget.DataContext.CanMoveDown, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
+                                                <MenuItem
+                                                    Command="{s:Action CopyTask}"
+                                                    CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
+                                                    Header="{DynamicResource Common.Copy}"
+                                                    IsEnabled="{Binding PlacementTarget.DataContext.CanCopy, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
+                                                <MenuItem
+                                                    Command="{s:Action RenameTask}"
+                                                    CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
+                                                    Header="{DynamicResource TaskQueue.Rename}" />
+                                                <MenuItem
+                                                    Command="{s:Action RemoveTask}"
+                                                    CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
+                                                    Header="{DynamicResource Common.Delete}" />
+                                            </ContextMenu>
+                                        </RadioButton.ContextMenu>
+                                    </RadioButton>
+
+                                    <CheckBox
+                                        Grid.Column="0"
+                                        MaxWidth="140"
+                                        Margin="4.5,0,0,0"
+                                        HorizontalAlignment="Left"
+                                        IsChecked="{Binding Task.IsEnable}"
+                                        MouseRightButtonUp="{s:Action ToggleCheckBoxNullOnRightClick,
+                                                                      Target={x:Type helper:CheckBoxHelper}}">
+                                        <controls:TextBlock Text="{Binding DisplayName}" Visibility="Hidden" />
+                                        <CheckBox.ToolTip>
+                                            <ToolTip>
+                                                <StackPanel>
+                                                    <TextBlock HorizontalAlignment="Left">
+                                                        <TextBlock.Style>
+                                                            <Style BasedOn="{StaticResource TextBlockBaseStyle}" TargetType="TextBlock">
+                                                                <Setter Property="Text" Value="{DynamicResource TaskQueue.CheckBoxesNotSavedAsNull}" />
+                                                                <Style.Triggers>
+                                                                    <DataTrigger Binding="{Binding Source={x:Static ui_vms:SettingsViewModel.GuiSettings}, Path=MainTasksInvertNullFunction}" Value="True">
+                                                                        <Setter Property="Text" Value="{DynamicResource TaskQueue.CheckBoxesNotSavedAsNullInvert}" />
+                                                                    </DataTrigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </TextBlock.Style>
+                                                    </TextBlock>
+                                                    <TextBlock HorizontalAlignment="Left" Text="{DynamicResource TaskQueue.MainTasksNullFunctionality.Switch}" />
+                                                </StackPanel>
+                                            </ToolTip>
+                                        </CheckBox.ToolTip>
+                                    </CheckBox>
+                                    <controls:TextBlock
+                                        Grid.Column="0"
+                                        Margin="26,0,4,0"
+                                        HorizontalAlignment="Stretch"
+                                        VerticalAlignment="Center"
+                                        Background="Transparent"
+                                        IsHitTestVisible="False"
+                                        Text="{Binding DisplayName}">
+                                        <controls:TextBlock.Style>
+                                            <Style BasedOn="{StaticResource MaaTextBlockDefaultStyle}" TargetType="{x:Type controls:TextBlock}">
+                                                <Style.Triggers>
+                                                    <MultiDataTrigger>
+                                                        <MultiDataTrigger.Conditions>
+                                                            <Condition Binding="{Binding Source={x:Static ui_vms:SettingsViewModel.GuiSettings}, Path=MainTasksInvertNullFunction}" Value="True" />
+                                                            <Condition Binding="{Binding Task.IsEnable}" Value="{x:Null}" />
+                                                        </MultiDataTrigger.Conditions>
+                                                        <Setter Property="Foreground" Value="{DynamicResource TraceLogBrush}" />
+                                                    </MultiDataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </controls:TextBlock.Style>
+                                    </controls:TextBlock>
+
+                                    <!--  悬浮操作按钮：复制/重命名/删除，同真实任务项  -->
+                                    <StackPanel
+                                        Grid.Column="1"
+                                        Margin="0,0,26,0"
+                                        HorizontalAlignment="Right"
+                                        VerticalAlignment="Center"
+                                        Orientation="Horizontal">
+                                        <StackPanel.Style>
+                                            <Style TargetType="StackPanel">
+                                                <Setter Property="Visibility" Value="Collapsed" />
+                                                <Style.Triggers>
+                                                    <MultiDataTrigger>
+                                                        <MultiDataTrigger.Conditions>
+                                                            <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType={x:Type Border}, AncestorLevel=1}}" Value="True" />
+                                                            <Condition Binding="{Binding Source={x:Static ui_vms:SettingsViewModel.GuiSettings}, Path=HideHoverActionButtons}" Value="False" />
+                                                        </MultiDataTrigger.Conditions>
+                                                        <Setter Property="Visibility" Value="Visible" />
+                                                    </MultiDataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </StackPanel.Style>
+                                        <Button
+                                            hc:IconElement.Geometry="{StaticResource CopyTaskGeometry}"
+                                            Command="{s:Action CopyTask}"
+                                            CommandParameter="{Binding}"
+                                            IsEnabled="{c:Binding CanCopy}"
+                                            Style="{StaticResource TaskActionButtonStyle}"
+                                            ToolTip="{DynamicResource Common.Copy}" />
+                                        <Button
+                                            hc:IconElement.Geometry="{StaticResource RenameTaskGeometry}"
+                                            Command="{s:Action RenameTask}"
+                                            CommandParameter="{Binding}"
+                                            Style="{StaticResource TaskActionButtonStyle}"
+                                            ToolTip="{DynamicResource TaskQueue.Rename}" />
+                                        <Button
+                                            hc:IconElement.Geometry="{StaticResource DeleteTaskGeometry}"
+                                            Command="{s:Action RemoveTask}"
+                                            CommandParameter="{Binding}"
+                                            Style="{StaticResource TaskActionButtonStyle}"
+                                            ToolTip="{DynamicResource Common.Delete}" />
+                                    </StackPanel>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                    <ListBox.ItemContainerStyle>
+                        <Style BasedOn="{StaticResource NoSelectedHighlightListBoxItemStyle}" TargetType="{x:Type ListBoxItem}">
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                            <Setter Property="Padding" Value="0" />
+                            <Setter Property="MinHeight" Value="24.5" />
+                            <Setter Property="Height" Value="Auto" />
+                        </Style>
+                    </ListBox.ItemContainerStyle>
+                </ListBox>
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid
+                        Grid.Column="0"
+                        Width="30"
+                        Height="30"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top">
+                        <controls:MenuButton
+                            Width="30"
+                            Height="30"
+                            Padding="0"
+                            hc:BorderElement.CornerRadius="4,0,0,4"
+                            hc:IconElement.Geometry="{StaticResource TaskQueueAddTaskIcon}"
+                            Foreground="{DynamicResource PrimaryTextBrush}"
+                            Style="{StaticResource MaaButtonDefaultStyle}"
+                            ToolTip="{DynamicResource TaskQueue.AddTask}">
+                            <controls:MenuButton.PopupContent>
+                                <Border
+                                    Width="190"
+                                    Margin="8"
+                                    Padding="2,2,2,0"
+                                    Background="{DynamicResource RegionBrush}"
+                                    BorderBrush="{DynamicResource BorderBrush}"
+                                    BorderThickness="1"
+                                    CornerRadius="4"
+                                    Effect="{DynamicResource EffectShadow2}">
+                                    <!--  本版 HandyControls 的 Menu 顶级项模板默认无最小高度，需在容器样式显式补 MinHeight  -->
+                                    <Menu
+                                        Padding="0"
+                                        ItemsPanel="{StaticResource VerticalStackItemsPanel}"
+                                        ItemsSource="{Binding TaskTypeList}">
+                                        <Menu.ItemContainerStyle>
+                                            <Style BasedOn="{StaticResource MaaMenuItemDefaultStyle}" TargetType="MenuItem">
+                                                <Setter Property="MinHeight" Value="{StaticResource DefaultControlHeight}" />
+                                                <Setter Property="Command" Value="{Binding DataContext.AddTaskCommand, RelativeSource={RelativeSource AncestorType=hc:Window}}" />
+                                                <Setter Property="CommandParameter" Value="{Binding Value}" />
+                                                <Setter Property="Header" Value="{Binding}" />
+                                                <Setter Property="HeaderTemplate">
+                                                    <Setter.Value>
+                                                        <DataTemplate>
+                                                            <TextBlock VerticalAlignment="Center" Text="{Binding Display}" />
+                                                        </DataTemplate>
+                                                    </Setter.Value>
+                                                </Setter>
+                                                <Style.Triggers>
+                                                    <!--  开始唤醒至多一个，已有则禁用  -->
+                                                    <DataTrigger Binding="{Binding Value}" Value="{x:Type taskQueue:StartUpTask}">
+                                                        <Setter Property="IsEnabled" Value="{c:Binding 'DataContext.StartUpTaskCount less 1', RelativeSource={RelativeSource AncestorType=hc:Window}}" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Menu.ItemContainerStyle>
+                                    </Menu>
+                                </Border>
+                            </controls:MenuButton.PopupContent>
+                        </controls:MenuButton>
+                    </Grid>
+                    <Button
+                        Grid.Column="1"
+                        Height="30"
+                        Margin="-1,0"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Top"
+                        hc:BorderElement.CornerRadius="0"
+                        Command="{s:Action SelectedAll}"
+                        Content="{DynamicResource TaskQueue.SelectAll}" />
+                    <Button
+                        Grid.Column="2"
+                        Height="30"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Top"
+                        hc:BorderElement.CornerRadius="0,4,4,0"
+                        Command="{s:Action ClearAll}"
+                        Content="{DynamicResource Common.Clear}" />
+                </Grid>
+            </Grid>
+
+            <!--  右列：随齿轮选中任务切换的沙盒设置面板  -->
+            <Border
+                Grid.Column="1"
+                Margin="8,0,0,0"
+                Background="{DynamicResource RegionBrushOpacity25}"
+                BorderBrush="{DynamicResource BorderBrush}"
+                BorderThickness="1"
+                CornerRadius="4">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <hc:ScrollViewer
+                        Grid.Row="0"
+                        Margin="8,8,8,0"
+                        IsInertiaEnabled="True"
+                        PanningMode="Both">
+                        <Grid>
+                            <!--  未选中任务提示  -->
+                            <controls:TextBlock
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Foreground="{DynamicResource SecondaryTextBrush}"
+                                Text="{DynamicResource TutorialChallenge.SelectTaskHint}"
+                                Visibility="{c:Binding 'SelectedTask == null'}" />
+
+                            <!--  已选中但无对应模拟面板（开始唤醒等未模拟类型）  -->
+                            <controls:TextBlock
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Foreground="{DynamicResource SecondaryTextBrush}"
+                                Text="{DynamicResource TutorialChallenge.NoSimulatedPanel}"
+                                Visibility="{c:Binding 'SelectedTask != null and !ShowFightPanel and !ShowDepotMaintainPanel'}" />
+
+                            <!--  理智作战沙盒面板：结构照抄真实 FightTaskUserControl 普通区+高级区，仅数据源换到沙盒任务；改真实面板时须同步此处  -->
+                            <StackPanel Visibility="{c:Binding ShowFightPanel}">
+                                <Grid Visibility="{c:Binding !EnableAdvancedSettings}">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <Grid Grid.Row="0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" MinWidth="100" />
+                                            <ColumnDefinition />
+                                        </Grid.ColumnDefinitions>
+                                        <StackPanel Orientation="Vertical">
+                                            <CheckBox
+                                                Height="30"
+                                                Margin="6"
+                                                VerticalContentAlignment="Center"
+                                                Content="{DynamicResource TaskQueue.Fight.UseSanityPotion}"
+                                                IsChecked="{Binding SelectedFightTask.UseMedicine}"
+                                                IsEnabled="{c:Binding !SandboxUseStoneDisplay}"
+                                                MouseRightButtonUp="{s:Action ToggleCheckBoxNullOnRightClick,
+                                                                              Target={x:Type helper:CheckBoxHelper}}"
+                                                ToolTip="{DynamicResource TaskQueue.CheckBoxesNotSavedAsNull}" />
+                                            <CheckBox
+                                                Height="30"
+                                                Margin="6"
+                                                VerticalContentAlignment="Center"
+                                                IsChecked="{Binding SelectedFightTask.UseStone}"
+                                                MouseRightButtonUp="{s:Action ToggleCheckBoxNullOnRightClick,
+                                                                              Target={x:Type helper:CheckBoxHelper}}"
+                                                ToolTip="{DynamicResource TaskQueue.CheckBoxesNotSaved}">
+                                                <TextBlock>
+                                                    <Run Text="{DynamicResource TaskQueue.Fight.UseOriginitePrime}" /><Run Text="{c:Binding '(SelectedFightTask.UseStoneAllowSave ? &quot;&quot; : &quot;*&quot;)'}" />
+                                                </TextBlock>
+                                            </CheckBox>
+                                            <CheckBox
+                                                Height="30"
+                                                Margin="6"
+                                                VerticalContentAlignment="Center"
+                                                Content="{DynamicResource TaskQueue.Fight.PerformBattles}"
+                                                IsChecked="{Binding SelectedFightTask.EnableTimesLimit}"
+                                                MouseRightButtonUp="{s:Action ToggleCheckBoxNullOnRightClick,
+                                                                              Target={x:Type helper:CheckBoxHelper}}"
+                                                ToolTip="{DynamicResource TaskQueue.CheckBoxesNotSavedAsNull}" />
+                                        </StackPanel>
+                                        <StackPanel Grid.Column="1" Orientation="Vertical">
+                                            <hc:NumericUpDown
+                                                Width="70"
+                                                Height="30"
+                                                Margin="6"
+                                                HorizontalAlignment="Left"
+                                                HorizontalContentAlignment="Center"
+                                                VerticalContentAlignment="Center"
+                                                IsEnabled="{c:Binding !SandboxUseStoneDisplay}"
+                                                Maximum="999"
+                                                Minimum="0"
+                                                Value="{Binding SelectedFightTask.MedicineCount, UpdateSourceTrigger=PropertyChanged}" />
+                                            <hc:NumericUpDown
+                                                Width="70"
+                                                Height="30"
+                                                Margin="6"
+                                                HorizontalAlignment="Left"
+                                                HorizontalContentAlignment="Center"
+                                                VerticalContentAlignment="Center"
+                                                Maximum="999"
+                                                Minimum="0"
+                                                Value="{Binding SelectedFightTask.StoneCount, UpdateSourceTrigger=PropertyChanged}" />
+                                            <hc:NumericUpDown
+                                                Width="70"
+                                                Height="30"
+                                                Margin="6"
+                                                HorizontalAlignment="Left"
+                                                HorizontalContentAlignment="Center"
+                                                VerticalContentAlignment="Center"
+                                                Maximum="999"
+                                                Minimum="0"
+                                                Value="{Binding SelectedFightTask.TimesLimit, UpdateSourceTrigger=PropertyChanged}" />
+                                        </StackPanel>
+                                    </Grid>
+                                    <Grid Grid.Row="1">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" MinWidth="100" />
+                                            <ColumnDefinition />
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition />
+                                            <RowDefinition />
+                                        </Grid.RowDefinitions>
+                                        <Grid Margin="6">
+                                            <CheckBox
+                                                Height="30"
+                                                VerticalContentAlignment="Center"
+                                                Content="{DynamicResource TaskQueue.Fight.AssignedMaterial}"
+                                                IsChecked="{Binding SandboxEnableTargetDrop}"
+                                                MouseRightButtonUp="{s:Action ToggleCheckBoxNullOnRightClick,
+                                                                              Target={x:Type helper:CheckBoxHelper}}"
+                                                ToolTip="{DynamicResource TaskQueue.CheckBoxesNotSavedAsNull}" />
+                                            <controls:TooltipBlock
+                                                HorizontalAlignment="Right"
+                                                VerticalAlignment="Top"
+                                                NormalOpacity="0.25"
+                                                TooltipText="{DynamicResource TaskQueue.Fight.SpecifiedDrops.Tip}" />
+                                        </Grid>
+                                        <hc:ButtonGroup
+                                            Grid.Row="1"
+                                            MaxWidth="88"
+                                            Margin="6,6,6,0"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            Orientation="Vertical"
+                                            Visibility="{c:Binding SandboxEnableTargetDrop}">
+                                            <RadioButton
+                                                hc:VisualElement.HighlightBackground="{DynamicResource RegionBrushOpacity25}"
+                                                Background="{DynamicResource RegionBrushOpacity25}"
+                                                Content="{DynamicResource TaskQueue.Fight.Quantity}"
+                                                IsChecked="{Binding UseDropQuantityMode}" />
+                                            <RadioButton
+                                                hc:VisualElement.HighlightBackground="{DynamicResource RegionBrushOpacity25}"
+                                                Background="{DynamicResource RegionBrushOpacity25}"
+                                                Content="{DynamicResource TaskQueue.Fight.TargetInventory}"
+                                                IsChecked="{Binding UseTargetInventoryMode}" />
+                                        </hc:ButtonGroup>
+                                        <Grid Grid.Column="1">
+                                            <ComboBox
+                                                Height="30"
+                                                Margin="6"
+                                                Padding="28,5,10,5"
+                                                VerticalContentAlignment="Center"
+                                                DropDownClosed="{s:Action DropsListDropDownClosed}"
+                                                IsEditable="True"
+                                                IsTextSearchEnabled="False"
+                                                ItemTemplate="{StaticResource DropComboBoxItemTemplate}"
+                                                ItemsSource="{Binding DropsList}"
+                                                Loaded="{s:Action MakeComboBoxSearchable,
+                                                                  Target={x:Type ui_vms:SettingsViewModel}}"
+                                                SelectedValue="{Binding SelectedFightTask.DropId}"
+                                                SelectedValuePath="Value"
+                                                Text="{Binding DropsItemName}" />
+                                            <!--  选中材料缩略图：IsEditable ComboBox 收起态显示区是纯文本 TextBox 无法内嵌图片，以不命中浮层贴在框内左侧，ComboBox 用 Padding 为其让出文本起点；｢不选择｣ 无图标，同位以描边圆环占位  -->
+                                            <Ellipse
+                                                Width="16"
+                                                Height="16"
+                                                Margin="13,0,0,0"
+                                                HorizontalAlignment="Left"
+                                                VerticalAlignment="Center"
+                                                IsHitTestVisible="False"
+                                                Stroke="{DynamicResource BorderBrush}"
+                                                StrokeThickness="1"
+                                                Visibility="{c:Binding 'SelectedFightTask.DropId.Length == 0'}" />
+                                            <Image
+                                                Width="16"
+                                                Height="16"
+                                                Margin="12,0,0,0"
+                                                HorizontalAlignment="Left"
+                                                VerticalAlignment="Center"
+                                                IsHitTestVisible="False"
+                                                Source="{Binding SelectedFightTask.DropId, Converter={StaticResource ItemImageConverter}}" />
+                                        </Grid>
+                                        <StackPanel
+                                            Grid.Row="1"
+                                            Grid.Column="1"
+                                            VerticalAlignment="Center"
+                                            Orientation="Vertical">
+                                            <hc:NumericUpDown
+                                                Height="30"
+                                                MinWidth="60"
+                                                Margin="6"
+                                                HorizontalAlignment="Left"
+                                                HorizontalContentAlignment="Center"
+                                                VerticalContentAlignment="Center"
+                                                Maximum="1145141919"
+                                                Minimum="1"
+                                                Visibility="{c:Binding SandboxEnableTargetDrop}"
+                                                Value="{Binding SelectedFightTask.DropCount, UpdateSourceTrigger=PropertyChanged}" />
+                                            <StackPanel Margin="6,2,6,0" Visibility="{c:Binding SandboxIsInventoryTarget}">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <controls:TextBlock Text="{DynamicResource TaskQueue.Stage.Label.Inventory}" />
+                                                    <controls:TextBlock Margin="4,0,0,0" Text=":" />
+                                                    <controls:TextBlock Margin="4,0,0,0" Text="{Binding CurrentDropsInventoryText}" />
+                                                    <controls:TooltipBlock Margin="4,0,0,0" TooltipText="{DynamicResource TaskQueue.Fight.InventoryUpdate.Tip}" />
+                                                </StackPanel>
+                                                <StackPanel Margin="0,2,0,0" Orientation="Horizontal">
+                                                    <controls:TextBlock Text="{DynamicResource TaskQueue.Fight.Quantity}" />
+                                                    <controls:TextBlock Margin="4,0,0,0" Text=":" />
+                                                    <controls:TextBlock Margin="4,0,0,0" Text="{Binding EffectiveDropsQuantityText}" />
+                                                </StackPanel>
+                                            </StackPanel>
+                                        </StackPanel>
+                                    </Grid>
+                                    <Grid Grid.Row="2" Visibility="{c:Binding !SelectedFightTask.HideSeries}">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="100" />
+                                            <ColumnDefinition />
+                                        </Grid.ColumnDefinitions>
+                                        <StackPanel Orientation="Vertical">
+                                            <Grid Height="42">
+                                                <controls:TextBlock
+                                                    Margin="0,6"
+                                                    HorizontalAlignment="Center"
+                                                    VerticalAlignment="Center"
+                                                    Text="{DynamicResource TaskQueue.Fight.Series}"
+                                                    TextAlignment="Center"
+                                                    TextWrapping="Wrap" />
+                                                <controls:TooltipBlock
+                                                    Margin="0,5,6,0"
+                                                    HorizontalAlignment="Right"
+                                                    VerticalAlignment="Top"
+                                                    NormalOpacity="0.25"
+                                                    TooltipText="{DynamicResource TaskQueue.Fight.Series.Tip}" />
+                                            </Grid>
+                                        </StackPanel>
+                                        <StackPanel Grid.Column="1" Orientation="Vertical">
+                                            <ComboBox
+                                                Height="30"
+                                                Margin="6"
+                                                VerticalContentAlignment="Center"
+                                                DisplayMemberPath="Display"
+                                                ItemsSource="{Binding SeriesList}"
+                                                SelectedValue="{Binding SelectedFightTask.Series}"
+                                                SelectedValuePath="Value" />
+                                        </StackPanel>
+                                    </Grid>
+                                    <Grid Grid.Row="3">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="100" />
+                                            <ColumnDefinition />
+                                        </Grid.ColumnDefinitions>
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
+                                            </Grid.RowDefinitions>
+                                            <controls:TextBlock
+                                                Margin="6,11"
+                                                HorizontalAlignment="Center"
+                                                VerticalAlignment="Top"
+                                                Text="{DynamicResource TaskQueue.Fight.StageSelect}"
+                                                TextAlignment="Center"
+                                                TextWrapping="Wrap"
+                                                Visibility="{c:Binding !SandboxUseOptionalStage}" />
+                                            <controls:TextBlock
+                                                Margin="6,11"
+                                                HorizontalAlignment="Center"
+                                                VerticalAlignment="Top"
+                                                Text="{DynamicResource TaskQueue.Fight.CandidateStages}"
+                                                TextAlignment="Center"
+                                                TextWrapping="Wrap"
+                                                Visibility="{c:Binding SandboxUseOptionalStage}" />
+                                            <controls:TooltipBlock
+                                                Margin="0,5,6,0"
+                                                HorizontalAlignment="Right"
+                                                VerticalAlignment="Top"
+                                                MouseEnter="{s:Action StagePlanTipRefresh}"
+                                                NormalOpacity="0.25"
+                                                TooltipText="{Binding StagePlanTip}" />
+                                            <Button
+                                                Grid.Row="1"
+                                                Margin="6"
+                                                VerticalAlignment="Bottom"
+                                                Command="{s:Action AddStageToPlan}"
+                                                Content="{DynamicResource TaskQueue.Fight.AddCandidateStage}"
+                                                Visibility="{c:Binding SandboxUseOptionalStage}" />
+                                        </Grid>
+                                        <ListBox
+                                            Grid.Column="1"
+                                            MinHeight="{c:Binding 'SandboxUseOptionalStage ? 75 : 0'}"
+                                            Margin="6,6"
+                                            Padding="-1"
+                                            VerticalAlignment="Top"
+                                            HorizontalContentAlignment="Stretch"
+                                            dd:DragDrop.DragDropContext="{Binding RelativeSource={RelativeSource Self}}"
+                                            dd:DragDrop.IsDragSource="{c:Binding SandboxUseOptionalStage}"
+                                            dd:DragDrop.IsDropTarget="{c:Binding SandboxUseOptionalStage}"
+                                            BorderThickness="{c:Binding 'SandboxUseOptionalStage ? 1 : 0'}"
+                                            ClipToBounds="False"
+                                            ItemsSource="{Binding StagePlanRows}"
+                                            PreviewMouseWheel="{s:Action RouteMouseWheelToParentExceptScrollable,
+                                                                         Target={x:Type helper:MouseWheelHelper}}"
+                                            Style="{DynamicResource NoSelectedHighlightListBoxStyle}">
+                                            <ListBox.ItemTemplate>
+                                                <DataTemplate DataType="{x:Type dialogs_vms:TutorialChallengeStagePlanRow}">
+                                                    <Grid x:Name="StageItemGrid" Margin="0,0,0,-2">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="*" />
+                                                            <ColumnDefinition Width="Auto" />
+                                                        </Grid.ColumnDefinitions>
+
+                                                        <Grid
+                                                            Grid.Column="0"
+                                                            Height="30"
+                                                            Margin="-10,0,0,0">
+                                                            <!--  当 IsStageManually 为 false 时显示 ComboBox  -->
+                                                            <ComboBox
+                                                                IsEnabled="{c:Binding '!DataContext.IsStageItemDragging',
+                                                                                      RelativeSource={RelativeSource AncestorType=hc:Window}}"
+                                                                ItemContainerStyle="{StaticResource StageComboBoxItemStyle}"
+                                                                ItemTemplate="{StaticResource StageComboBoxItemTemplate}"
+                                                                ItemsSource="{Binding DataContext.StageListSource, RelativeSource={RelativeSource AncestorType=hc:Window}}"
+                                                                ScrollViewer.CanContentScroll="False"
+                                                                SelectedValue="{Binding Stage}"
+                                                                SelectedValuePath="Value"
+                                                                Visibility="{c:Binding '!DataContext.SelectedFightTask.IsStageManually',
+                                                                                       RelativeSource={RelativeSource AncestorType=hc:Window}}" />
+
+                                                            <!--  当 IsStageManually 为 true 时显示 TextBox  -->
+                                                            <TextBox
+                                                                Height="30"
+                                                                hc:InfoElement.Placeholder="{DynamicResource TaskQueue.Stage.Label.Default}"
+                                                                IsEnabled="{c:Binding '!DataContext.IsStageItemDragging',
+                                                                                      RelativeSource={RelativeSource AncestorType=hc:Window}}"
+                                                                Text="{Binding Stage, UpdateSourceTrigger=PropertyChanged}"
+                                                                ToolTip="{DynamicResource TaskQueue.CustomStageCode.Tip}"
+                                                                Visibility="{c:Binding 'DataContext.SelectedFightTask.IsStageManually',
+                                                                                       RelativeSource={RelativeSource AncestorType=hc:Window}}" />
+                                                        </Grid>
+
+                                                        <Border Grid.Column="1">
+                                                            <Border.Style>
+                                                                <Style TargetType="Border">
+                                                                    <Setter Property="Visibility" Value="Collapsed" />
+                                                                    <Style.Triggers>
+                                                                        <MultiDataTrigger>
+                                                                            <MultiDataTrigger.Conditions>
+                                                                                <Condition Binding="{Binding IsMouseOver, ElementName=StageItemGrid}" Value="True" />
+                                                                                <Condition Binding="{c:Binding 'DataContext.SandboxUseOptionalStage', RelativeSource={RelativeSource AncestorType=hc:Window}}" Value="True" />
+                                                                            </MultiDataTrigger.Conditions>
+                                                                            <Setter Property="Visibility" Value="Visible" />
+                                                                        </MultiDataTrigger>
+                                                                    </Style.Triggers>
+                                                                </Style>
+                                                            </Border.Style>
+                                                            <Grid>
+                                                                <Grid.ColumnDefinitions>
+                                                                    <ColumnDefinition Width="Auto" />
+                                                                    <ColumnDefinition Width="Auto" />
+                                                                </Grid.ColumnDefinitions>
+                                                                <!--  拖动手柄  -->
+                                                                <Button
+                                                                    Margin="0"
+                                                                    Padding="2"
+                                                                    VerticalAlignment="Stretch"
+                                                                    hc:IconElement.Geometry="{StaticResource AlignHStretchGeometry}"
+                                                                    hc:IconElement.Height="10"
+                                                                    hc:IconElement.Width="10"
+                                                                    hc:VisualElement.HighlightBackground="Transparent"
+                                                                    Background="Transparent"
+                                                                    BorderThickness="0"
+                                                                    Cursor="Hand"
+                                                                    PreviewMouseLeftButtonDown="DragHandle_PreviewMouseLeftButtonDown" />
+                                                                <!--  删除按钮  -->
+                                                                <Button
+                                                                    Grid.Column="1"
+                                                                    Padding="2"
+                                                                    VerticalAlignment="Stretch"
+                                                                    hc:IconElement.Geometry="{StaticResource DeleteTaskGeometry}"
+                                                                    hc:IconElement.Height="10"
+                                                                    hc:IconElement.Width="10"
+                                                                    hc:VisualElement.HighlightBackground="Transparent"
+                                                                    hc:VisualElement.HighlightForeground="{DynamicResource PrimaryBrush}"
+                                                                    Background="Transparent"
+                                                                    BorderThickness="0"
+                                                                    Command="{s:Action RemoveStageFromPlan}"
+                                                                    CommandParameter="{c:Binding DataContext,
+                                                                                                 RelativeSource={RelativeSource Self}}"
+                                                                    Visibility="{c:Binding 'DataContext.StagePlanRows.Count > 1',
+                                                                                           RelativeSource={RelativeSource AncestorType={x:Type ListBox}}}" />
+                                                            </Grid>
+                                                        </Border>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </ListBox.ItemTemplate>
+                                        </ListBox>
+                                    </Grid>
+                                </Grid>
+
+                                <!--  高级设置区  -->
+                                <StackPanel Visibility="{c:Binding EnableAdvancedSettings}">
+                                    <StackPanel>
+                                        <CheckBox
+                                            Margin="0,10"
+                                            Content="{DynamicResource TaskQueue.Annihilation.UseCustom}"
+                                            IsChecked="{Binding SelectedFightTask.UseCustomAnnihilation}" />
+                                        <ComboBox
+                                            Height="30"
+                                            DisplayMemberPath="Display"
+                                            ItemsSource="{Binding AnnihilationModeList}"
+                                            SelectedValue="{Binding SelectedFightTask.AnnihilationStage}"
+                                            SelectedValuePath="Value"
+                                            Visibility="{c:Binding SelectedFightTask.UseCustomAnnihilation}" />
+                                    </StackPanel>
+                                    <StackPanel Margin="0,10" Orientation="Horizontal">
+                                        <CheckBox Content="{DynamicResource TaskQueue.Fight.DrGrandet}" IsChecked="{Binding SelectedFightTask.IsDrGrandet}" />
+                                        <controls:TooltipBlock TooltipText="{DynamicResource TaskQueue.Fight.DrGrandet.Tip}" />
+                                    </StackPanel>
+                                    <CheckBox Margin="0,10" IsChecked="{Binding SelectedFightTask.UseExpiringMedicine}">
+                                        <TextBlock
+                                            Block.TextAlignment="Left"
+                                            Text="{DynamicResource TaskQueue.Fight.InfiniteExpiringMedicine}"
+                                            TextWrapping="Wrap" />
+                                    </CheckBox>
+                                    <StackPanel
+                                        Margin="0,0,10,0"
+                                        Orientation="Horizontal"
+                                        Visibility="{c:Binding SelectedFightTask.UseExpiringMedicine}">
+                                        <controls:TextBlock Margin="4,0,7.5,0" Text="└" />
+                                        <hc:NumericUpDown
+                                            Width="60"
+                                            Height="30"
+                                            HorizontalAlignment="Left"
+                                            HorizontalContentAlignment="Center"
+                                            VerticalContentAlignment="Center"
+                                            Maximum="30"
+                                            Minimum="1"
+                                            Value="{Binding SelectedFightTask.MedicineExpireDays, UpdateSourceTrigger=PropertyChanged}" />
+                                        <controls:TooltipBlock TooltipText="{DynamicResource TaskQueue.Fight.MedicineExpireDays.Tip}" />
+                                    </StackPanel>
+                                    <CheckBox
+                                        Margin="0,10"
+                                        Content="{DynamicResource TaskQueue.Fight.UseExpireMedicineForActivity}"
+                                        IsChecked="{Binding SelectedFightTask.UseExpireMedicineForActivity}" />
+                                    <CheckBox
+                                        Margin="0,10"
+                                        Content="{DynamicResource TaskQueue.Fight.HideSeries}"
+                                        IsChecked="{Binding SelectedFightTask.HideSeries}" />
+                                    <StackPanel Margin="0,10" Orientation="Horizontal">
+                                        <CheckBox Content="{DynamicResource TaskQueue.Fight.AllowUseStoneSave}" IsChecked="{Binding SelectedFightTask.UseStoneAllowSave}" />
+                                        <controls:TooltipBlock TooltipText="{DynamicResource TaskQueue.Fight.AllowUseStoneSave.Tip}" />
+                                    </StackPanel>
+                                    <StackPanel Margin="0,10" Orientation="Horizontal">
+                                        <CheckBox Content="{DynamicResource TaskQueue.CustomStageCode}" IsChecked="{Binding SelectedFightTask.IsStageManually}" />
+                                        <controls:TooltipBlock TooltipText="{DynamicResource TaskQueue.CustomStageCode.Tip}" />
+                                    </StackPanel>
+                                    <ComboBox
+                                        hc:InfoElement.Title="{DynamicResource TaskQueue.Fight.StageResetMode}"
+                                        DisplayMemberPath="Display"
+                                        ItemsSource="{Binding StageResetModeList}"
+                                        SelectedValue="{Binding SelectedFightTask.StageResetMode}"
+                                        SelectedValuePath="Value" />
+                                    <CheckBox
+                                        Margin="0,10"
+                                        Content="{DynamicResource TaskQueue.Fight.UseAlternateStage}"
+                                        IsChecked="{Binding SandboxUseOptionalStage}" />
+                                    <CheckBox
+                                        Margin="0,10"
+                                        Content="{DynamicResource TaskQueue.Fight.HideUnavailableStage}"
+                                        IsChecked="{Binding SelectedFightTask.HideUnavailableStage}"
+                                        IsEnabled="{c:Binding !SelectedFightTask.UseWeeklySchedule}" />
+                                    <StackPanel Margin="0,10" Orientation="Horizontal">
+                                        <CheckBox Content="{DynamicResource TaskQueue.UseWeeklySchedule}" IsChecked="{Binding SelectedFightTask.UseWeeklySchedule}" />
+                                        <controls:TooltipBlock TooltipText="{DynamicResource TaskQueue.UseWeeklySchedule.Tip}" />
+                                    </StackPanel>
+                                    <ListBox
+                                        MaxHeight="300"
+                                        Margin="6,5"
+                                        HorizontalContentAlignment="Stretch"
+                                        ItemsSource="{Binding WeeklyScheduleSource}"
+                                        PreviewMouseWheel="{s:Action RouteMouseWheelToParent,
+                                                                     Target={x:Type helper:MouseWheelHelper}}"
+                                        ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                        Style="{DynamicResource NoSelectedHighlightListBoxStyle}"
+                                        Visibility="{c:Binding SelectedFightTask.UseWeeklySchedule}">
+                                        <ListBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <CheckBox
+                                                    HorizontalAlignment="Left"
+                                                    VerticalAlignment="Center"
+                                                    Content="{Binding Display}"
+                                                    IsChecked="{Binding Value}" />
+                                            </DataTemplate>
+                                        </ListBox.ItemTemplate>
+                                    </ListBox>
+                                </StackPanel>
+                            </StackPanel>
+
+                            <!--  库存保持沙盒面板：结构照抄真实 DepotMaintainTaskUserControl，仅数据源换到沙盒任务；改真实面板时须同步此处  -->
+                            <StackPanel Visibility="{c:Binding ShowDepotMaintainPanel}">
+                                <StackPanel Visibility="{c:Binding !EnableAdvancedSettings}">
+                                    <Viewbox
+                                        Margin="0,0,0,5"
+                                        HorizontalAlignment="Left"
+                                        Stretch="Uniform"
+                                        StretchDirection="DownOnly"
+                                        Visibility="{c:Binding 'PlanInfo != &quot;&quot;'}">
+                                        <controls:TextBlock d:Text="1: 当前/上次 - 不选择 x0" Text="{Binding PlanInfo}" />
+                                    </Viewbox>
+                                    <!--  固定区：仅操作按钮行；计划摘要随外层面板滚动  -->
+                                    <StackPanel x:Name="FixedHeaderPanel">
+                                        <WrapPanel Margin="0,6,0,6" HorizontalAlignment="Center">
+                                            <Button
+                                                MinWidth="50"
+                                                Margin="0,0,-1,0"
+                                                hc:BorderElement.CornerRadius="4,0,0,4"
+                                                Command="{s:Action CollapseAll}"
+                                                Content="{DynamicResource Common.CollapseAll}" />
+                                            <Button
+                                                MinWidth="50"
+                                                Margin="0,0,-1,0"
+                                                hc:BorderElement.CornerRadius="0"
+                                                Command="{s:Action ClearPlans}"
+                                                Content="{DynamicResource TaskQueue.DepotMaintain.ClearPlans}" />
+                                            <Button
+                                                MinWidth="50"
+                                                Margin="0,0,-1,0"
+                                                hc:BorderElement.CornerRadius="0"
+                                                Command="{s:Action AddPlan}"
+                                                Content="{DynamicResource TaskQueue.DepotMaintain.AddPlan}" />
+                                            <hc:SplitButton
+                                                hc:BorderElement.CornerRadius="0,4,4,0"
+                                                Click="PresetSplitButton_Click"
+                                                Content="{DynamicResource TaskQueue.DepotMaintain.Preset}">
+                                                <hc:SplitButton.DropDownContent>
+                                                    <StackPanel IsVisibleChanged="{s:Action PresetDropDownVisibilityChanged}">
+                                                        <StackPanel.Resources>
+                                                            <Style
+                                                                x:Key="PresetMenuItemStyle"
+                                                                BasedOn="{StaticResource {x:Type MenuItem}}"
+                                                                TargetType="MenuItem">
+                                                                <Setter Property="Command" Value="{Binding DataContext.ImportPresetCommand, RelativeSource={RelativeSource AncestorType=hc:Window}}" />
+                                                                <Setter Property="CommandParameter" Value="{Binding Value}" />
+                                                                <Setter Property="Header" Value="{Binding Display}" />
+                                                            </Style>
+                                                        </StackPanel.Resources>
+                                                        <controls:TextBlock
+                                                            Margin="10,4,0,2"
+                                                            HorizontalAlignment="Left"
+                                                            FontWeight="Bold"
+                                                            Foreground="{DynamicResource SecondaryTextBrush}"
+                                                            Text="{DynamicResource TaskQueue.DepotMaintain.PresetPermanent}"
+                                                            Visibility="{c:Binding 'ActivityPresetList.Count > 0',
+                                                                                   Source={x:Static taskQueue_vms:DepotMaintainTaskUserControlModel.Instance}}" />
+                                                        <Menu
+                                                            ItemContainerStyle="{StaticResource PresetMenuItemStyle}"
+                                                            ItemsPanel="{StaticResource VerticalStackItemsPanel}"
+                                                            ItemsSource="{Binding PresetList, Source={x:Static taskQueue_vms:DepotMaintainTaskUserControlModel.Instance}}" />
+                                                        <StackPanel Visibility="{c:Binding 'ActivityPresetList.Count > 0', Source={x:Static taskQueue_vms:DepotMaintainTaskUserControlModel.Instance}}">
+                                                            <controls:TextBlock
+                                                                Margin="10,4,0,2"
+                                                                HorizontalAlignment="Left"
+                                                                FontWeight="Bold"
+                                                                Foreground="{DynamicResource SecondaryTextBrush}"
+                                                                Text="{DynamicResource TaskQueue.DepotMaintain.PresetCurrentActivity}" />
+                                                            <Menu
+                                                                ItemContainerStyle="{StaticResource PresetMenuItemStyle}"
+                                                                ItemsPanel="{StaticResource VerticalStackItemsPanel}"
+                                                                ItemsSource="{Binding ActivityPresetList, Source={x:Static taskQueue_vms:DepotMaintainTaskUserControlModel.Instance}}" />
+                                                        </StackPanel>
+                                                    </StackPanel>
+                                                </hc:SplitButton.DropDownContent>
+                                            </hc:SplitButton>
+                                        </WrapPanel>
+                                    </StackPanel>
+
+                                    <!--
+                                        外层设置面板的 ScrollViewer 给列表的高度约束无限，
+                                        MaxHeight 绑 ｢视口 - 固定区实际高度｣ 建立有界视口，虚拟化方能生效；
+                                        固定区随语言换行增高时列表自动收缩，固定区超出视口时列表归零、由外层面板滚动兜底
+                                    -->
+                                    <ListBox
+                                        Padding="0"
+                                        HorizontalContentAlignment="Stretch"
+                                        dd:DragDrop.DragDropContext="{Binding RelativeSource={RelativeSource Self}}"
+                                        dd:DragDrop.IsDragSource="True"
+                                        dd:DragDrop.IsDropTarget="True"
+                                        hc:ScrollViewer.IsInertiaEnabled="True"
+                                        BorderThickness="0"
+                                        ClipToBounds="False"
+                                        ItemsSource="{Binding PlanRows}"
+                                        PreviewMouseWheel="{s:Action RouteMouseWheelToParentExceptScrollable,
+                                                                     Target={x:Type helper:MouseWheelHelper}}"
+                                        VirtualizingPanel.IsVirtualizing="True"
+                                        VirtualizingPanel.ScrollUnit="Pixel"
+                                        VirtualizingPanel.VirtualizationMode="Recycling">
+                                        <ListBox.MaxHeight>
+                                            <MultiBinding Converter="{StaticResource SubtractConverter}">
+                                                <Binding Path="ViewportHeight" RelativeSource="{RelativeSource AncestorType=ScrollViewer}" />
+                                                <Binding ElementName="FixedHeaderPanel" Path="ActualHeight" />
+                                            </MultiBinding>
+                                        </ListBox.MaxHeight>
+                                        <ListBox.ItemContainerStyle>
+                                            <Style BasedOn="{StaticResource NoSelectedHighlightListBoxItemStyle}" TargetType="{x:Type ListBoxItem}">
+                                                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                                <Setter Property="Padding" Value="0" />
+                                                <Setter Property="Margin" Value="1" />
+                                            </Style>
+                                        </ListBox.ItemContainerStyle>
+                                        <ListBox.ItemTemplate>
+                                            <DataTemplate DataType="{x:Type dialogs_vms:TutorialChallengePlanRow}">
+                                                <Expander HorizontalContentAlignment="Stretch" IsExpanded="{Binding IsExpanded}">
+                                                    <Expander.Header>
+                                                        <Grid HorizontalAlignment="Stretch" Background="Transparent">
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="*" />
+                                                                <ColumnDefinition Width="Auto" />
+                                                            </Grid.ColumnDefinitions>
+                                                            <controls:TextBlock
+                                                                HorizontalAlignment="Left"
+                                                                Text="{Binding Title}"
+                                                                TextTrimming="CharacterEllipsis" />
+                                                            <Button
+                                                                Grid.Column="1"
+                                                                Width="25"
+                                                                Height="25"
+                                                                Margin="0,0,-5,0"
+                                                                Padding="0"
+                                                                hc:IconElement.Geometry="{StaticResource DeleteTaskGeometry}"
+                                                                hc:IconElement.Height="15"
+                                                                hc:IconElement.Width="15"
+                                                                BorderBrush="Transparent"
+                                                                BorderThickness="0"
+                                                                Command="{s:Action RemovePlan}"
+                                                                CommandParameter="{Binding}"
+                                                                ToolTip="{DynamicResource Common.Delete}">
+                                                                <Button.Style>
+                                                                    <Style BasedOn="{StaticResource {x:Type Button}}" TargetType="Button">
+                                                                        <Setter Property="Visibility" Value="Collapsed" />
+                                                                        <Style.Triggers>
+                                                                            <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType={x:Type Grid}}}" Value="True">
+                                                                                <Setter Property="Visibility" Value="Visible" />
+                                                                            </DataTrigger>
+                                                                        </Style.Triggers>
+                                                                    </Style>
+                                                                </Button.Style>
+                                                            </Button>
+                                                        </Grid>
+                                                    </Expander.Header>
+                                                    <Border
+                                                        BorderBrush="{DynamicResource BorderBrush}"
+                                                        BorderThickness="1,0,1,1"
+                                                        CornerRadius="0,0,4,4">
+                                                        <StackPanel Margin="6">
+                                                            <!--  关卡选择  -->
+                                                            <Grid Height="30">
+                                                                <!--  当 IsStageManually 为 false 时显示 ComboBox  -->
+                                                                <ComboBox
+                                                                    ItemContainerStyle="{StaticResource StageComboBoxItemStyle}"
+                                                                    ItemTemplate="{StaticResource StageComboBoxItemTemplate}"
+                                                                    ItemsSource="{Binding DataContext.StageListSource, RelativeSource={RelativeSource AncestorType=hc:Window}}"
+                                                                    ScrollViewer.CanContentScroll="False"
+                                                                    SelectedValue="{Binding Stage}"
+                                                                    SelectedValuePath="Value"
+                                                                    Visibility="{c:Binding '!DataContext.SelectedDepotMaintainTask.IsStageManually',
+                                                                                           RelativeSource={RelativeSource AncestorType=hc:Window}}" />
+
+                                                                <!--  当 IsStageManually 为 true 时显示 TextBox  -->
+                                                                <TextBox
+                                                                    Height="30"
+                                                                    hc:InfoElement.Placeholder="{DynamicResource TaskQueue.Stage.Label.Default}"
+                                                                    IsEnabled="{c:Binding '!DataContext.IsStageItemDragging',
+                                                                                          RelativeSource={RelativeSource AncestorType=hc:Window}}"
+                                                                    Text="{Binding Stage, UpdateSourceTrigger=PropertyChanged}"
+                                                                    ToolTip="{DynamicResource TaskQueue.CustomStageCode.Tip}"
+                                                                    Visibility="{c:Binding 'DataContext.SelectedDepotMaintainTask.IsStageManually',
+                                                                                           RelativeSource={RelativeSource AncestorType=hc:Window}}" />
+                                                            </Grid>
+
+                                                            <!--  指定材料 + 目标库存（同一行，独立 Grid）  -->
+                                                            <Grid Margin="0,6,0,0">
+                                                                <Grid.ColumnDefinitions>
+                                                                    <ColumnDefinition Width="*" />
+                                                                    <ColumnDefinition Width="Auto" />
+                                                                </Grid.ColumnDefinitions>
+                                                                <Grid Grid.Column="0">
+                                                                    <ComboBox
+                                                                        Height="30"
+                                                                        Margin="0,0,6,0"
+                                                                        Padding="28,5,10,5"
+                                                                        HorizontalContentAlignment="Stretch"
+                                                                        VerticalContentAlignment="Center"
+                                                                        IsEditable="True"
+                                                                        IsTextSearchEnabled="False"
+                                                                        ItemTemplate="{StaticResource DropComboBoxItemTemplate}"
+                                                                        ItemsSource="{Binding DataContext.DropsList, RelativeSource={RelativeSource AncestorType=hc:Window}}"
+                                                                        Loaded="{s:Action MakeComboBoxSearchable,
+                                                                                          Target={x:Type ui_vms:SettingsViewModel}}"
+                                                                        SelectedValue="{Binding DropId}"
+                                                                        SelectedValuePath="Value"
+                                                                        Text="{Binding DropName}" />
+                                                                    <!--  选中材料缩略图：IsEditable ComboBox 收起态显示区是纯文本 TextBox 无法内嵌图片，以不命中浮层贴在框内左侧，ComboBox 用 Padding 为其让出文本起点；｢不选择｣ 无图标，同位以描边圆环占位  -->
+                                                                    <Ellipse
+                                                                        Width="16"
+                                                                        Height="16"
+                                                                        Margin="7,0,0,0"
+                                                                        HorizontalAlignment="Left"
+                                                                        VerticalAlignment="Center"
+                                                                        IsHitTestVisible="False"
+                                                                        Stroke="{DynamicResource BorderBrush}"
+                                                                        StrokeThickness="1"
+                                                                        Visibility="{c:Binding 'DropId.Length == 0'}" />
+                                                                    <Image
+                                                                        Width="16"
+                                                                        Height="16"
+                                                                        Margin="6,0,0,0"
+                                                                        HorizontalAlignment="Left"
+                                                                        VerticalAlignment="Center"
+                                                                        IsHitTestVisible="False"
+                                                                        Source="{Binding DropId, Converter={StaticResource ItemImageConverter}}" />
+                                                                </Grid>
+                                                                <hc:NumericUpDown
+                                                                    Grid.Column="1"
+                                                                    Height="30"
+                                                                    MinWidth="70"
+                                                                    MaxWidth="110"
+                                                                    Maximum="1145141919"
+                                                                    Minimum="0"
+                                                                    Value="{Binding DropCount, UpdateSourceTrigger=PropertyChanged}" />
+                                                            </Grid>
+
+                                                            <!--  使用药剂  -->
+                                                            <Grid Margin="0,6,0,0" Visibility="{c:Binding 'DataContext.SelectedDepotMaintainTask.UseMedicine', RelativeSource={RelativeSource AncestorType=hc:Window}}">
+                                                                <Grid.ColumnDefinitions>
+                                                                    <ColumnDefinition Width="*" />
+                                                                    <ColumnDefinition Width="Auto" />
+                                                                </Grid.ColumnDefinitions>
+                                                                <StackPanel Grid.Column="0" Orientation="Horizontal">
+                                                                    <CheckBox
+                                                                        MaxWidth="110"
+                                                                        VerticalAlignment="Center"
+                                                                        IsChecked="{Binding UseMedicine}">
+                                                                        <TextBlock Text="{DynamicResource TaskQueue.Fight.UseSanityPotion}" TextWrapping="Wrap" />
+                                                                    </CheckBox>
+                                                                    <controls:TooltipBlock
+                                                                        Margin="3,0,0,0"
+                                                                        VerticalAlignment="Center"
+                                                                        TooltipText="{DynamicResource TaskQueue.DepotMaintain.PlanBudget.Tip}" />
+                                                                </StackPanel>
+                                                                <hc:NumericUpDown
+                                                                    Grid.Column="1"
+                                                                    Width="70"
+                                                                    Height="30"
+                                                                    Margin="6,0,0,0"
+                                                                    Maximum="999"
+                                                                    Minimum="0"
+                                                                    Value="{Binding MedicineCount, UpdateSourceTrigger=PropertyChanged}" />
+                                                            </Grid>
+
+                                                            <!--  使用源石  -->
+                                                            <Grid Margin="0,6,0,0" Visibility="{c:Binding 'DataContext.SelectedDepotMaintainTask.UseStone', RelativeSource={RelativeSource AncestorType=hc:Window}}">
+                                                                <Grid.ColumnDefinitions>
+                                                                    <ColumnDefinition Width="*" />
+                                                                    <ColumnDefinition Width="Auto" />
+                                                                </Grid.ColumnDefinitions>
+                                                                <StackPanel Grid.Column="0" Orientation="Horizontal">
+                                                                    <CheckBox
+                                                                        MaxWidth="110"
+                                                                        VerticalAlignment="Center"
+                                                                        IsChecked="{Binding UseStone}">
+                                                                        <TextBlock Text="{DynamicResource TaskQueue.Fight.UseOriginitePrime}" TextWrapping="Wrap" />
+                                                                    </CheckBox>
+                                                                    <controls:TooltipBlock
+                                                                        Margin="3,0,0,0"
+                                                                        VerticalAlignment="Center"
+                                                                        TooltipText="{DynamicResource TaskQueue.DepotMaintain.PlanBudget.Tip}" />
+                                                                </StackPanel>
+                                                                <hc:NumericUpDown
+                                                                    Grid.Column="1"
+                                                                    Width="70"
+                                                                    Height="30"
+                                                                    Margin="6,0,0,0"
+                                                                    Maximum="999"
+                                                                    Minimum="0"
+                                                                    Value="{Binding StoneCount, UpdateSourceTrigger=PropertyChanged}" />
+                                                            </Grid>
+                                                        </StackPanel>
+                                                    </Border>
+                                                </Expander>
+                                            </DataTemplate>
+                                        </ListBox.ItemTemplate>
+                                    </ListBox>
+                                </StackPanel>
+
+                                <!--  高级设置区  -->
+                                <StackPanel Visibility="{c:Binding EnableAdvancedSettings}">
+                                    <hc:Divider Content="{DynamicResource TaskQueue.DepotMaintain.GroupTaskBehavior}" />
+                                    <StackPanel Margin="0,6,0,0" Orientation="Horizontal">
+                                        <CheckBox Content="{DynamicResource TaskQueue.DepotMaintain.UpdateBeforeStart}" IsChecked="{Binding SelectedDepotMaintainTask.UpdateDepot}" />
+                                        <controls:TooltipBlock Margin="3,0,0,0" TooltipText="{DynamicResource TaskQueue.DepotMaintain.UpdateBeforeStart.Tip}" />
+                                    </StackPanel>
+                                    <CheckBox
+                                        Margin="0,6,0,0"
+                                        Content="{DynamicResource TaskQueue.DepotMaintain.SkipDuringActivity}"
+                                        IsChecked="{Binding SelectedDepotMaintainTask.SkipDuringActivity}" />
+                                    <CheckBox
+                                        Margin="0,6,0,0"
+                                        Content="{DynamicResource TaskQueue.DepotMaintain.SkipDuringResourceCollection}"
+                                        IsChecked="{Binding SelectedDepotMaintainTask.SkipDuringResourceCollection}" />
+                                    <StackPanel Margin="0,6,0,0" Orientation="Horizontal">
+                                        <CheckBox Content="{DynamicResource TaskQueue.DepotMaintain.OnlyFirstInsufficientPlan}" IsChecked="{Binding SelectedDepotMaintainTask.OnlyFirstInsufficientPlan}" />
+                                        <controls:TooltipBlock Margin="3,0,0,0" TooltipText="{DynamicResource TaskQueue.DepotMaintain.OnlyFirstInsufficientPlan.Tip}" />
+                                    </StackPanel>
+                                    <StackPanel Margin="0,6,0,0" Orientation="Horizontal">
+                                        <CheckBox Content="{DynamicResource TaskQueue.DepotMaintain.SortByProgress}" IsChecked="{Binding SelectedDepotMaintainTask.SortByProgress}" />
+                                        <controls:TooltipBlock Margin="3,0,0,0" TooltipText="{DynamicResource TaskQueue.DepotMaintain.SortByProgress.Tip}" />
+                                    </StackPanel>
+                                    <StackPanel Margin="0,6,0,0" Orientation="Horizontal">
+                                        <CheckBox Content="{DynamicResource TaskQueue.DepotMaintain.CountDualChipAsChipPack}" IsChecked="{Binding SelectedDepotMaintainTask.CountDualChipAsChipPack}" />
+                                        <controls:TooltipBlock Margin="3,0,0,0" TooltipText="{DynamicResource TaskQueue.DepotMaintain.CountDualChipAsChipPack.Tip}" />
+                                    </StackPanel>
+
+                                    <hc:Divider Margin="0,12,0,0" Content="{DynamicResource TaskQueue.DepotMaintain.GroupStageAndBattle}" />
+                                    <StackPanel Margin="0,6,0,0" Orientation="Horizontal">
+                                        <CheckBox Content="{DynamicResource TaskQueue.CustomStageCode}" IsChecked="{Binding SelectedDepotMaintainTask.IsStageManually}" />
+                                        <controls:TooltipBlock TooltipText="{DynamicResource TaskQueue.CustomStageCode.Tip}" />
+                                    </StackPanel>
+                                    <StackPanel Margin="0,6,0,0" Orientation="Horizontal">
+                                        <CheckBox Content="{DynamicResource TaskQueue.DepotMaintain.UseAutoSeries}" IsChecked="{Binding SelectedDepotMaintainTask.UseAutoSeries}" />
+                                        <controls:TooltipBlock Margin="3,0,0,0" TooltipText="{DynamicResource TaskQueue.DepotMaintain.UseAutoSeries.Tip}" />
+                                    </StackPanel>
+
+                                    <hc:Divider Margin="0,12,0,0" Content="{DynamicResource TaskQueue.DepotMaintain.GroupSanityRecovery}" />
+                                    <CheckBox
+                                        Margin="0,6,0,0"
+                                        Content="{DynamicResource TaskQueue.DepotMaintain.EnableUseMedicine}"
+                                        IsChecked="{Binding SelectedDepotMaintainTask.UseMedicine}" />
+                                    <CheckBox
+                                        Margin="0,6,0,0"
+                                        Content="{DynamicResource TaskQueue.DepotMaintain.EnableUseStone}"
+                                        IsChecked="{Binding SelectedDepotMaintainTask.UseStone}" />
+                                    <StackPanel Margin="0,6,0,0" Orientation="Horizontal">
+                                        <CheckBox Content="{DynamicResource TaskQueue.DepotMaintain.UseExpiringMedicine}" IsChecked="{Binding SelectedDepotMaintainTask.UseExpiringMedicine}" />
+                                        <controls:TooltipBlock Margin="3,0,0,0" TooltipText="{DynamicResource TaskQueue.DepotMaintain.UseExpiringMedicine.Tip}" />
+                                    </StackPanel>
+                                </StackPanel>
+                            </StackPanel>
+                        </Grid>
+                    </hc:ScrollViewer>
+                    <hc:ButtonGroup
+                        Grid.Row="1"
+                        Margin="8,0,8,8"
+                        HorizontalAlignment="Center"
+                        Orientation="Horizontal">
+                        <RadioButton
+                            hc:BorderElement.CornerRadius="4,0,0,4"
+                            hc:VisualElement.HighlightBackground="{DynamicResource RegionBrushOpacity25}"
+                            AutomationProperties.Name="{DynamicResource TaskQueue.GeneralSettings}"
+                            Background="{DynamicResource RegionBrushOpacity25}"
+                            Content="{DynamicResource TaskQueue.GeneralSettings}"
+                            GroupName="TutorialChallengeSettingsTab"
+                            IsChecked="{c:Binding !EnableAdvancedSettings}" />
+                        <RadioButton
+                            hc:VisualElement.HighlightBackground="{DynamicResource RegionBrushOpacity25}"
+                            AutomationProperties.Name="{DynamicResource TaskQueue.AdvancedSettings}"
+                            Background="{DynamicResource RegionBrushOpacity25}"
+                            Content="{DynamicResource TaskQueue.AdvancedSettings}"
+                            GroupName="TutorialChallengeSettingsTab"
+                            IsChecked="{Binding EnableAdvancedSettings}" />
+                    </hc:ButtonGroup>
+                </Grid>
+            </Border>
+        </Grid>
+    </Grid>
+</hc:Window>

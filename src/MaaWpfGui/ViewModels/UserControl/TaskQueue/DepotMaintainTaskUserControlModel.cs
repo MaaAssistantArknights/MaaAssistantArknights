@@ -358,9 +358,10 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
         ("CA5", "TaskQueue.DepotMaintain.PresetSkillSummary"));
 
     /// <summary>
-    /// 预设数据：关卡 → [(掉落物 itemId, 掉落物名称), ...]。
+    /// 预设数据：预设 key → [(关卡, 掉落物 itemId 列表, 默认目标数量), ...]。
+    /// 教程关卡 ChipStock 的目标文案（TutorialChallenge.Level.ChipStock.Goal）写明了 Chip1/Chip2 的默认目标数量，改这两组数值时须同步五语言文案。
     /// </summary>
-    private static readonly Dictionary<string, (string Stage, string[] Drops, int DefaultCount)[]> PresetData = new() {
+    internal static readonly Dictionary<string, (string Stage, string[] Drops, int DefaultCount)[]> PresetData = new() {
         ["Chip1"] = [
             ("PR-A-1", ["3261", "3231"], 20),  // 医疗芯片、重装芯片
             ("PR-B-1", ["3251", "3241"], 20),  // 术师芯片、狙击芯片
@@ -381,7 +382,7 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
     /// <summary>
     /// 活动预设默认目标数量，导入后按个人兑换计划调整。
     /// </summary>
-    private const int ActivityPresetDefaultCount = 200;
+    internal const int ActivityPresetDefaultCount = 200;
 
     /// <summary>
     /// 当前进行中活动的预设列表（Display 为活动名，Value 为 <see cref="StageManager.ActivityList"/> 的 key），
