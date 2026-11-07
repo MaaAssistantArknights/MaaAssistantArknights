@@ -116,7 +116,7 @@ public static class TutorialChallengeLevels
         new(
             id: "DragDropUpdate",
             sandboxFactory: () => [new StartUpTask()],
-            goalPredicate: (_, _) => false,
+            goalPredicate: (_, vm) => vm.DragDropAllPackagesIdentified,
             panelKinds: [TutorialChallengePanelKind.Settings, TutorialChallengePanelKind.DropZone]),
     ];
 

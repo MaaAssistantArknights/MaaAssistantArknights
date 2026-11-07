@@ -447,11 +447,59 @@
                         CornerRadius="4">
                         <Grid>
                             <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
                                 <RowDefinition Height="*" />
                                 <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
-                            <hc:ScrollViewer
+
+                            <!--  更新包投放区：仅 ｢拖拽更新｣ 关卡显示，对齐真实主窗口拖入更新包的交互；描边框提示拖入，下方三项识别状态清单  -->
+                            <Border
                                 Grid.Row="0"
+                                Margin="8,8,8,0"
+                                Padding="10"
+                                AllowDrop="True"
+                                BorderBrush="{DynamicResource BorderBrush}"
+                                BorderThickness="1"
+                                CornerRadius="4"
+                                PreviewDragOver="{s:Action SandboxPackagePreviewDragOver}"
+                                PreviewDrop="{s:Action SandboxPackageDrop}"
+                                Visibility="{c:Binding ShowDropZonePanel}">
+                                <StackPanel>
+                                    <controls:TextBlock
+                                        HorizontalAlignment="Center"
+                                        Foreground="{DynamicResource SecondaryTextBrush}"
+                                        Text="{DynamicResource TutorialChallenge.Level.DragDropUpdate.DropZone.Hint}"
+                                        TextAlignment="Center"
+                                        TextWrapping="Wrap" />
+                                    <!--  三项识别状态清单：识别成功后勾选，未识别为灰色未勾态；只读展示，不可交互  -->
+                                    <StackPanel Margin="0,8,0,0">
+                                        <CheckBox
+                                            Margin="0,2"
+                                            Focusable="False"
+                                            IsChecked="{Binding FullPackageIdentified, Mode=OneWay}"
+                                            IsHitTestVisible="False">
+                                            <controls:TextBlock Text="{DynamicResource TutorialChallenge.Level.DragDropUpdate.DropZone.FullPackage}" />
+                                        </CheckBox>
+                                        <CheckBox
+                                            Margin="0,2"
+                                            Focusable="False"
+                                            IsChecked="{Binding OtaPackageIdentified, Mode=OneWay}"
+                                            IsHitTestVisible="False">
+                                            <controls:TextBlock Text="{DynamicResource TutorialChallenge.Level.DragDropUpdate.DropZone.OtaPackage}" />
+                                        </CheckBox>
+                                        <CheckBox
+                                            Margin="0,2"
+                                            Focusable="False"
+                                            IsChecked="{Binding ResourcePackageIdentified, Mode=OneWay}"
+                                            IsHitTestVisible="False">
+                                            <controls:TextBlock Text="{DynamicResource TutorialChallenge.Level.DragDropUpdate.DropZone.ResourcePackage}" />
+                                        </CheckBox>
+                                    </StackPanel>
+                                </StackPanel>
+                            </Border>
+
+                            <hc:ScrollViewer
+                                Grid.Row="1"
                                 Margin="8,8,8,0"
                                 IsInertiaEnabled="True"
                                 PanningMode="Both">
@@ -1336,7 +1384,7 @@
                                 </Grid>
                             </hc:ScrollViewer>
                             <hc:ButtonGroup
-                                Grid.Row="1"
+                                Grid.Row="2"
                                 Margin="8,0,8,8"
                                 HorizontalAlignment="Center"
                                 Orientation="Horizontal">

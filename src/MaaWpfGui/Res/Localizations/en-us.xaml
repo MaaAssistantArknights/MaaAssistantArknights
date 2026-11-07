@@ -2561,8 +2561,19 @@ Only level rewards can be farmed; to get the Engraved Medal, all ｢Key Objectiv
     <system:String x:Key="TutorialChallenge.Level.DailyReconnect.Goal">Start farming automatically after the game's 4 AM reset. Set a timer later than 04:00 in {key=Settings.Title} - {key=Settings.Schedule.Title} and enable {key=TaskQueue.Schedule.ForceScheduledStart}.</system:String>
         <system:String x:Key="TutorialChallenge.Level.DailyReconnect.Hint" xml:space="preserve">The game announces a 04:00-04:10 flash update window; filling in 04:10 is safer.</system:String>
 <system:String x:Key="TutorialChallenge.Level.DailyReconnect.Title">Scheduled Farming</system:String>
-    <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.Goal">The update package is downloaded — drag it into the window to finish updating.</system:String>
+    <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.AdminBlocked">Running as administrator: Windows blocks file drops into elevated windows, so this level cannot be completed by dragging.</system:String>
+    <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.AlreadyIdentified">This type is already recognized. Drag the next one.</system:String>
+    <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.DropZone.FullPackage">Full update package</system:String>
+    <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.DropZone.Hint">Drag update packages here</system:String>
+    <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.DropZone.OtaPackage">OTA delta package</system:String>
+    <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.DropZone.ResourcePackage">Resource update package</system:String>
+    <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.Goal">Three update packages (the MAA-v9.9.9, MAAComponent-OTA, and MaaResource-main zips) are already on your desktop. Drag all of them into the drop zone on the right to finish updating.</system:String>
+    <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.Identified.FullPackage">Recognized as a full update package. In real usage it would be registered and prompt a restart.</system:String>
+    <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.Identified.OtaPackage">Recognized as an OTA delta package. In real usage it would be registered and prompt a restart.</system:String>
+    <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.Identified.ResourcePackage">Recognized as a resource update package. In real usage it would be imported and reloaded directly.</system:String>
+    <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.Rejected">The file name looks like an update package, but the version or architecture doesn't match. Rejected.</system:String>
     <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.Title">Drag &amp; Drop Update</system:String>
+    <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.Unknown">Not a recognizable update package.</system:String>
     <system:String x:Key="TutorialChallenge.Level.ExportLogs.Generating">Generating…</system:String>
     <system:String x:Key="TutorialChallenge.Level.ExportLogs.Goal">Something went wrong and you need the logs? Learn to generate a support payload in {key=Settings.Title} - {key=Settings.IssueReport.Title}.</system:String>
     <system:String x:Key="TutorialChallenge.Level.ExportLogs.Title">Export Logs</system:String>
