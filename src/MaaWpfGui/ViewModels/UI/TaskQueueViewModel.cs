@@ -786,7 +786,6 @@ public class TaskQueueViewModel : Screen
         LogItemViewModels = [];
         InitializeItems();
         InitTimer();
-        UpdateDailyReportSummary();
 
         _ = UpdateDatePromptAndStagesWeb();
 
@@ -796,7 +795,6 @@ public class TaskQueueViewModel : Screen
 
             // 刷新反选按钮的两个本地化文本
             RefreshInverseModeText();
-            UpdateDailyReportSummary();
 
             // 延迟到所有 LanguageChanged 回调执行完毕后再更新关卡列表
             // 确保 StageManager.RefreshLocalization 已更新 StageInfo 的 Display/Tip
@@ -1545,36 +1543,6 @@ public class TaskQueueViewModel : Screen
     {
         get => _stagesOfTodayInlines;
         private set => SetAndNotify(ref _stagesOfTodayInlines, value);
-    }
-
-    private string _dailyReportSummary = string.Empty;
-
-    /// <summary>
-    /// Gets 今日作战摘要（任务数、场次、理智消耗），由日报采集器在写盘后更新；无记录时为空。
-    /// </summary>
-    public string DailyReportSummary
-    {
-        get => _dailyReportSummary;
-        private set => SetAndNotify(ref _dailyReportSummary, value);
-    }
-
-    /// <summary>
-    /// 从当日日报数据刷新今日作战摘要。
-    /// </summary>
-    public void UpdateDailyReportSummary()
-    {
-        var today = DateOnly.FromDateTime(DateTime.UtcNow.ToYjDate());
-        var data = DailyReportStore.Load(today);
-        if (data is null || data.Sessions.Count == 0)
-        {
-            DailyReportSummary = string.Empty;
-            return;
-        }
-
-        var times = data.Sessions.Sum(s => s.Times);
-        var sanity = data.Sessions.Sum(s => s.Sanity);
-        DailyReportSummary = LocalizationHelper.GetStringFormat(
-            "TaskQueue.DailyReport.SummaryFormat", data.Sessions.Count, times, sanity);
     }
 
     private static Views.Dialogs.DailyReportDialogView? _dailyReportWindow;

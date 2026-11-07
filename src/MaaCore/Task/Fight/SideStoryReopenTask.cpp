@@ -222,7 +222,7 @@ bool asst::SideStoryReopenTask::fight(bool use_medicine, bool use_stone)
     medicine_plugin->set_count(use_medicine ? 1 : 0);
     medicine_plugin->set_expire_days(m_expiring_medicine != 0 ? 2 : 0);
 
-    // 每关新建插件，掉落统计只含本关，GUI 按关卡分别记录
+    // 每关新建插件，掉落统计只含本关
     auto plugin = fight_task.register_plugin<StageQueueMissionCompletedTaskPlugin>();
     plugin->set_enable_penguin(m_enable_penguin);
     plugin->set_enable_yituliu(m_enable_yituliu);

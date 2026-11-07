@@ -56,7 +56,7 @@ public class DailyReportDropItemViewModel
     public string Stage { get; }
 
     /// <summary>
-    /// Gets or sets 浮层里的排名摘要（名次、参与排名的关卡数与误差），打开浮层时按当前时段全部记录计算；
+    /// Gets or sets 浮层里的排名摘要（名次、参与排名的关卡数与误差），按全部历史记录计算；
     /// 日视图里浮层上方的两项数值只算这一条记录，二者口径不同。无从排名时为空。
     /// </summary>
     public string RankText { get; set; } = string.Empty;

@@ -1,4 +1,4 @@
-<UserControl
+﻿<UserControl
     x:Class="MaaWpfGui.Views.UI.TaskQueueView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -710,20 +710,12 @@
                         IsEnabled="{c:Binding TaskSettingVisibilities.AdvancedSettingsVisibility}" />
                 </hc:ButtonGroup>
 
-                <Grid
-                    x:Name="InfoGrid"
-                    Grid.Row="2"
-                    HorizontalAlignment="Center">
+                <Grid Grid.Row="2" HorizontalAlignment="Center">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                         <RowDefinition />
                     </Grid.RowDefinitions>
                     <StackPanel>
-                        <!--<controls:TextBlock
-                            Width="200"
-                            Margin="0,5,10,0"
-                            Text="{Binding DailyReportSummary}"
-                            TextWrapping="Wrap" />-->
                         <Button
                             Width="220"
                             Height="25"
@@ -733,7 +725,7 @@
                             Content="{DynamicResource TaskQueue.DailyReport.OpenButton}" />
                     </StackPanel>
 
-                    <Grid x:Name="TipGrid" Grid.Row="1">
+                    <Grid Grid.Row="1">
                         <hc:ScrollViewer
                             Width="200"
                             Margin="0,5,10,0"

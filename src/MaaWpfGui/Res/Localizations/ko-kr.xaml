@@ -2055,7 +2055,6 @@ MAA는 비설치형 응용 프로그램으로, 삭제 시 레지스트리 항목
     <system:String x:Key="TaskQueue.DailyReport.Stat.Sanity">이성 소모</system:String>
     <system:String x:Key="TaskQueue.DailyReport.Stat.Sessions">횟수</system:String>
     <system:String x:Key="TaskQueue.DailyReport.Stat.Stones">순오리지늄</system:String>
-    <system:String x:Key="TaskQueue.DailyReport.SummaryFormat">오늘 작전 {0}개 · {1}회 · 이성 {2}</system:String>
     <system:String x:Key="TaskQueue.DailyReport.Title">작전 일보</system:String>
     <system:String x:Key="TaskQueue.DailyReport.Today">오늘</system:String>
     <system:String x:Key="TaskQueue.DailyReport.View.Material">재료별</system:String>

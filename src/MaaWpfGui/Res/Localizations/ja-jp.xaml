@@ -2056,7 +2056,6 @@ MAA は非インストール型のアプリケーションであり、レジス�
     <system:String x:Key="TaskQueue.DailyReport.Stat.Sanity">理性消費</system:String>
     <system:String x:Key="TaskQueue.DailyReport.Stat.Sessions">回数</system:String>
     <system:String x:Key="TaskQueue.DailyReport.Stat.Stones">源石</system:String>
-    <system:String x:Key="TaskQueue.DailyReport.SummaryFormat">本日の戦闘 {0} タスク · {1} 回 · 理性 {2}</system:String>
     <system:String x:Key="TaskQueue.DailyReport.Title">戦闘日報</system:String>
     <system:String x:Key="TaskQueue.DailyReport.Today">今日</system:String>
     <system:String x:Key="TaskQueue.DailyReport.View.Material">素材別</system:String>

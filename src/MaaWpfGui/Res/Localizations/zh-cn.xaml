@@ -2055,7 +2055,6 @@ DEBUG 目录下保存的图片有数量限制，超出后会自动清理旧图�
     <system:String x:Key="TaskQueue.DailyReport.Stat.Sanity">理智消耗</system:String>
     <system:String x:Key="TaskQueue.DailyReport.Stat.Sessions">场次</system:String>
     <system:String x:Key="TaskQueue.DailyReport.Stat.Stones">源石</system:String>
-    <system:String x:Key="TaskQueue.DailyReport.SummaryFormat">今日作战 {0} 个任务 · {1} 场 · 理智 {2}</system:String>
     <system:String x:Key="TaskQueue.DailyReport.Title">作战日报</system:String>
     <system:String x:Key="TaskQueue.DailyReport.Today">今天</system:String>
     <system:String x:Key="TaskQueue.DailyReport.View.Material">按材料</system:String>

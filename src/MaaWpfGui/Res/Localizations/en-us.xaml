@@ -2054,7 +2054,6 @@ Enter ｢SSReopen-XX｣ once to clear all normal stages with Auto-Deploy in SS r
     <system:String x:Key="TaskQueue.DailyReport.Stat.Sanity">Sanity used</system:String>
     <system:String x:Key="TaskQueue.DailyReport.Stat.Sessions">Battles</system:String>
     <system:String x:Key="TaskQueue.DailyReport.Stat.Stones">Originite Prime</system:String>
-    <system:String x:Key="TaskQueue.DailyReport.SummaryFormat">Today: {0} tasks · {1} battles · {2} sanity</system:String>
     <system:String x:Key="TaskQueue.DailyReport.Title">Combat Daily Report</system:String>
     <system:String x:Key="TaskQueue.DailyReport.Today">Today</system:String>
     <system:String x:Key="TaskQueue.DailyReport.View.Material">By item</system:String>
