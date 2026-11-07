@@ -43,7 +43,7 @@ public static class DailyReportStore
     public static string DirectoryPath => Path.Combine(PathsHelper.DataDir, DirName);
 
     /// <summary>
-    /// 加载单日数据；崩溃遗留的无结束时刻记录在加载时补齐。
+    /// 加载单日数据；崩溃遗留的无结束时刻记录保持 null（展示侧按未结束处理），不虚构停机时长。
     /// 无法读取或解析的文件改名为 .bak 留存，避免随后的保存用空数据覆盖原内容。
     /// </summary>
     /// <param name="day">游戏日。</param>
@@ -74,11 +74,10 @@ public static class DailyReportStore
                 return null;
             }
 
-            // 崩溃遗留的未定稿记录补结束时刻，避免半截数据进入展示
-            var now = DateTimeOffset.UtcNow;
-            foreach (var session in data.Sessions.Where(s => s.EndTime is null))
+            // 规范化可从 JSON 得到显式 null 的字段，避免消费方解引用崩溃
+            foreach (var session in data.Sessions)
             {
-                session.EndTime = now;
+                session.Drops ??= [];
             }
 
             return data;
