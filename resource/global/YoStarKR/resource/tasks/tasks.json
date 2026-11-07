@@ -43,8 +43,7 @@
         "text": ["석양"]
     },
     "ClickChapterNew": {
-        "ocrReplace": [[" ", ""]],
-        "text": ["서사수록"]
+        "text": ["서사", "수록"]
     },
     "ClickChapterNewOpenTime": {
         "text": ["시간대"]
@@ -64,12 +63,18 @@
         "text": ["환경", "PRTS"]
     },
     "EnterChapterDifficultyHard": {
-        "ocrReplace": [[" ", ""]],
-        "text": ["하드모드", "하드", "작전진입"]
+        "ocrReplace": [
+            ["하드 ?모드", "하드모드"],
+            ["작전 ?진입", "작전진입"]
+        ],
+        "text": ["하드모드", "작전진입"]
     },
     "EnterChapterDifficultyNormal": {
-        "ocrReplace": [[" ", ""]],
-        "text": ["노멀모드", "노멀", "작전진입"]
+        "ocrReplace": [
+            ["노멀 ?모드", "노멀모드"],
+            ["작전 ?진입", "작전진입"]
+        ],
+        "text": ["노멀모드", "작전진입"]
     },
     "CharsNameOcrReplace": {
         "Doc": "干员名 OCR 纠错，数据体在 tasks/hotfix/ocr_replace.json（CharsNameOcrReplaceHotfix），随资源更新分发",
@@ -209,8 +214,7 @@
         "text": ["수동", "조작"]
     },
     "PRTS3": {
-        "ocrReplace": [[" ", ""]],
-        "text": ["배치가능", "인원"],
+        "text": ["배치", "가능", "인원"],
         "roi": [1100, 545, 135, 33]
     },
     "MedicineExpiringTime": {
@@ -221,25 +225,16 @@
         ]
     },
     "FightMissionFailed": {
-        "ocrReplace": [
-            [" ", ""],
-            ["^임무실.+$", "임무실패"]
-        ],
+        "ocrReplace": [["^임무 ?실.+", "임무실패"]],
         "text": ["임무실패"]
     },
     "FightMissionFailedAndStop": {
-        "ocrReplace": [
-            [" ", ""],
-            ["^임무실.+$", "임무실패"]
-        ],
+        "ocrReplace": [["^임무 ?실.+", "임무실패"]],
         "text": ["임무실패"]
     },
     "GoLastBattle": {
-        "ocrReplace": [
-            [" ", ""],
-            ["바로가.+", "바로가기"]
-        ],
-        "text": ["지난", "지난작전", "바로가기"]
+        "ocrReplace": [["바로가.+", "바로가기"]],
+        "text": ["지난", "작전", "바로가기"]
     },
     "StartRecruit": {
         "text": ["개시"]
@@ -248,8 +243,8 @@
         "text": ["공개모집"]
     },
     "RecruitNow": {
-        "ocrReplace": [[" ", ""]],
-        "text": ["즉시모집", "측시모집", "즉시"]
+        "ocrReplace": [[".시 ?모집", "즉시 모집"]],
+        "text": ["즉시 모집"]
     },
     "MiningActivities": {
         "text": ["채굴", "허가증"],
@@ -261,8 +256,7 @@
         "roi": [70, 80, 90, 150]
     },
     "OrundumActivitiesChoose": {
-        "ocrReplace": [[" ", ""]],
-        "text": ["행운티켓", "선택"]
+        "text": ["행운", "티켓", "선택"]
     },
     "OrundumActivitiesConfirm": {
         "ocrReplace": [["뽑.?", "뽑기"]],
@@ -429,9 +423,8 @@
     },
     "BattleStartPre": {
         "ocrReplace": [
-            [" ", ""],
-            [".+드모드", "하드모드"],
-            ["개.+", "개시"]
+            [".드모드 ?개.+", "하드모드개시"],
+            ["작전 ?개.+", "작전개시"]
         ],
         "text": ["작전개시", "하드모드개시", "련개"]
     },
@@ -482,8 +475,7 @@
         "text": ["보안작전개시"]
     },
     "SSSDebuffConfirm": {
-        "ocrReplace": [[" ", ""]],
-        "text": ["확인완료"]
+        "text": ["확인", "완료"]
     },
     "SSSBuffChoose": {
         "ocrReplace": [
