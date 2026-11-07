@@ -2228,7 +2228,8 @@ DEBUG 目录下保存的图片有数量限制，超出后会自动清理旧图�
     <system:String x:Key="TaskQueue.RunDurationLimit.ExecutePostActions">停止后执行 ｢{key=TaskQueue.PostAction.Settings}｣ 中的动作</system:String>
     <system:String x:Key="TaskQueue.RunDurationLimit.Minutes">运行时长上限（分钟）</system:String>
     <system:String x:Key="TaskQueue.RunDurationLimit.Reached">已达到运行时长上限（{0} 分钟），停止任务</system:String>
-    <system:String x:Key="TaskQueue.RunDurationLimit.Tip" xml:space="preserve">从点击 ｢{key=TaskQueue.LinkStart}｣ 开始计时，到达上限后触发一次手动停止。
+    <system:String x:Key="TaskQueue.RunDurationLimit.Tip" xml:space="preserve">从 ｢{key=TaskQueue.LinkStart}｣ 或 ｢{key=Toolbox.MiniGame.Reclamation.Title}｣ 成功启动任务后开始计时。
+到达上限后触发一次手动停止。
 {key=TaskQueue.CheckBoxesNotSavedAsNull}。</system:String>
     <system:String x:Key="TaskQueue.RunFromHere">从此处运行</system:String>
     <system:String x:Key="TaskQueue.RunOnce">单次运行</system:String>
