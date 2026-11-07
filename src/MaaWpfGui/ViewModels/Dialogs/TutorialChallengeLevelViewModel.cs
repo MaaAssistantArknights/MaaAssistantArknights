@@ -110,6 +110,7 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
         }
 
         LocalizationHelper.LanguageChanged += OnLanguageChanged;
+        Instances.StageManager.StageDataChanged += OnStageDataChanged;
         BuildStageListSource();
         BuildSandbox();
     }
@@ -307,7 +308,12 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
             }
 
             fight.UseOptionalStage = value;
-            if (!value)
+            if (value)
+            {
+                fight.HideUnavailableStage = false;
+                fight.StageResetMode = FightStageResetMode.Ignore;
+            }
+            else
             {
                 // 取消备选时按计划首行回填主关卡，其余备选行丢弃；无行则补一空行
                 var first = StagePlanRows.Count > 0 ? StagePlanRows[0].Stage : string.Empty;
@@ -409,6 +415,12 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
     /// <param name="taskType">任务类型。</param>
     public void AddTask(Type taskType)
     {
+        // 开始唤醒任务至多一个，入口按钮禁用之外的行为兜底
+        if (taskType == typeof(StartUpTask) && StartUpTaskCount >= 1)
+        {
+            return;
+        }
+
         if (Activator.CreateInstance(taskType) is not BaseTask task)
         {
             return;
@@ -800,6 +812,7 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
             && sender is TutorialChallengeSandboxItem { EnableSetting: true } item)
         {
             _selectedItem = item;
+            EnableAdvancedSettings = false;
             NotifySelectedChanged();
             RefreshPanelState();
         }
@@ -968,7 +981,7 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
 
     private static string? GetEffectiveStage(FightTask fight)
     {
-        var day = DateTimeOffset.Now.DayOfWeek;
+        var day = Instances.TaskQueueViewModel.CurDayOfWeek;
         foreach (var code in fight.StagePlan)
         {
             if (string.IsNullOrEmpty(code))
@@ -1020,7 +1033,8 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
     /// </summary>
     private void BuildStageListSource()
     {
-        var day = DateTimeOffset.Now.DayOfWeek;
+        var day = Instances.TaskQueueViewModel.CurDayOfWeek;
+        StageListSource.Clear();
         foreach (var stage in Instances.StageManager.GetStageList())
         {
             StageListSource.Add(new FightTaskUserControlModel.StageSourceItem() {
@@ -1032,12 +1046,16 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
         }
     }
 
+    private void OnStageDataChanged(object? sender, EventArgs e)
+        => _ = Execute.OnUIThreadAsync(BuildStageListSource);
+
     /// <summary>
     /// 窗口关闭或切换到其他关卡时退订外部事件，否则静态的语言切换事件会一直持有本实例。
     /// </summary>
     public void Detach()
     {
         LocalizationHelper.LanguageChanged -= OnLanguageChanged;
+        Instances.StageManager.StageDataChanged -= OnStageDataChanged;
         foreach (var item in SandboxItems)
         {
             item.Task.PropertyChanged -= _taskPropertyChangedHandler;
@@ -1158,10 +1176,16 @@ public class TutorialChallengeStagePlanRow(TutorialChallengeLevelViewModel owner
         set {
             if (SetAndNotify(ref _stage, value))
             {
+                IsOpen = Instances.TaskQueueViewModel.IsStageOpen(value);
                 owner.SyncStagePlanFromRow();
             }
         }
     }
+
+    /// <summary>
+    /// Gets 或设置 a value indicating whether 该关卡当日开放（ComboBox 与手写框半透明提示用）。
+    /// </summary>
+    public bool IsOpen { get; set => SetAndNotify(ref field, value); } = Instances.TaskQueueViewModel.IsStageOpen(stage);
 }
 
 /// <summary>
@@ -1170,7 +1194,7 @@ public class TutorialChallengeStagePlanRow(TutorialChallengeLevelViewModel owner
 public class TutorialChallengePlanRow(TutorialChallengeLevelViewModel owner, DepotMaintainTask.Plan plan) : PropertyChangedBase
 {
     /// <summary>
-    /// Gets or sets 包装的库存保持计划记录。
+    /// Gets or sets 包装的库存保持计划记录。替换后由 <see cref="RefreshTitle"/> 补齐依赖属性通知，本属性本身不带通知。
     /// </summary>
     public DepotMaintainTask.Plan Plan { get; set; } = plan;
 
@@ -1218,6 +1242,22 @@ public class TutorialChallengePlanRow(TutorialChallengeLevelViewModel owner, Dep
             {
                 DropId = match.Value ?? string.Empty;
             }
+        }
+    }
+
+    /// <summary>
+    /// 材料下拉关闭时按输入文本反查材料，查不到则回退 ｢不选择｣。
+    /// </summary>
+    public void DropsListDropDownClosed()
+    {
+        if (owner.DropsList.FirstOrDefault(d => string.Equals(d.Display, DropName, StringComparison.Ordinal)) is { } item)
+        {
+            DropId = item.Value ?? string.Empty;
+        }
+        else
+        {
+            DropId = string.Empty;
+            NotifyOfPropertyChange(nameof(DropName));
         }
     }
 

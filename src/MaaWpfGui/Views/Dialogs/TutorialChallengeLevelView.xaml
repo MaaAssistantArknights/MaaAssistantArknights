@@ -771,6 +771,7 @@
                                                                 hc:InfoElement.Placeholder="{DynamicResource TaskQueue.Stage.Label.Default}"
                                                                 IsEnabled="{c:Binding '!DataContext.IsStageItemDragging',
                                                                                       RelativeSource={RelativeSource AncestorType=hc:Window}}"
+                                                                Opacity="{c:Binding 'IsOpen ? 1 : 0.5'}"
                                                                 Text="{Binding Stage, UpdateSourceTrigger=PropertyChanged}"
                                                                 ToolTip="{DynamicResource TaskQueue.CustomStageCode.Tip}"
                                                                 Visibility="{c:Binding 'DataContext.SelectedFightTask.IsStageManually',
@@ -1129,6 +1130,8 @@
                                                                         Padding="28,5,10,5"
                                                                         HorizontalContentAlignment="Stretch"
                                                                         VerticalContentAlignment="Center"
+                                                                        s:View.ActionTarget="{Binding}"
+                                                                        DropDownClosed="{s:Action DropsListDropDownClosed}"
                                                                         IsEditable="True"
                                                                         IsTextSearchEnabled="False"
                                                                         ItemTemplate="{StaticResource DropComboBoxItemTemplate}"
