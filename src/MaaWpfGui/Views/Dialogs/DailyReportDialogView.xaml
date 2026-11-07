@@ -1,4 +1,4 @@
-﻿<hc:Window
+<hc:Window
     x:Class="MaaWpfGui.Views.Dialogs.DailyReportDialogView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -590,7 +590,6 @@
                                             <RowDefinition Height="{Binding FilledHeight}" />
                                         </Grid.RowDefinitions>
                                         <TextBlock
-                                            x:Name="BarValue"
                                             Grid.Row="2"
                                             Margin="0,0,0,1"
                                             HorizontalAlignment="Center"

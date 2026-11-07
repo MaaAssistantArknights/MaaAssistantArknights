@@ -36,7 +36,7 @@ public class FitsWidthToVisibilityConverter : IMultiValueConverter
     public object Convert(object[] values, Type targetType, object? parameter, CultureInfo culture)
     {
         // values[0] 用 DesiredSize.Width（自然宽度）：居中时 ActualWidth 被列宽 clamp，恒不大于可用宽度
-        var content = values is [Size size, ..] ? size.Width : values is [double d, ..] ? d : 0;
+        var content = values is [double d, ..] ? d : 0;
         var available = values is [_, double a, ..] ? a : 0;
         return content <= available ? Visibility.Visible : Visibility.Hidden;
     }
