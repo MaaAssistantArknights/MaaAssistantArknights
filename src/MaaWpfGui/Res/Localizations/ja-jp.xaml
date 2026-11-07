@@ -2190,8 +2190,6 @@ MAA は非インストール型のアプリケーションであり、レジス�
     <system:String x:Key="TaskQueue.OperProgress.Mastery2">特化 2</system:String>
     <system:String x:Key="TaskQueue.OperProgress.Mastery3">特化 3</system:String>
     <system:String x:Key="TaskQueue.OperProgress.MasteryTarget">スキル {0} 特化 {1}</system:String>
-    <system:String x:Key="TaskQueue.OperProgress.MaterialPurchase.ActivityMedicine.Tip">このオペレーター育成タスク全体で共有する理性回復剤の使用上限です。素材やオペレーターをまたいで累計します。</system:String>
-    <system:String x:Key="TaskQueue.OperProgress.MaterialPurchase.ActivityStages">イベント素材を周回</system:String>
     <system:String x:Key="TaskQueue.OperProgress.MaterialPurchase.AdvancedVoucher">中級素材交換券</system:String>
     <system:String x:Key="TaskQueue.OperProgress.MaterialPurchase.EventShop">イベントショップ</system:String>
     <system:String x:Key="TaskQueue.OperProgress.MaterialPurchase.GreenTickets">一般資格証</system:String>

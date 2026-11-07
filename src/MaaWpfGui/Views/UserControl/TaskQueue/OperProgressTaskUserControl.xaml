@@ -512,10 +512,6 @@
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <Grid Margin="0,3">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                </Grid.RowDefinitions>
                                 <Grid.ColumnDefinitions>
 
                                     <ColumnDefinition Width="*" />
@@ -536,46 +532,6 @@
                                     Foreground="{DynamicResource SecondaryTextBrush}"
                                     Opacity="0.65"
                                     Text="⠿" />
-                                <StackPanel
-                                    Grid.Row="1"
-                                    Grid.ColumnSpan="2"
-                                    Margin="2.5,6,0,0"
-                                    Orientation="Horizontal">
-                                    <StackPanel.Style>
-                                        <Style TargetType="StackPanel">
-                                            <Setter Property="Visibility" Value="Collapsed" />
-                                            <Style.Triggers>
-                                                <MultiDataTrigger>
-                                                    <MultiDataTrigger.Conditions>
-                                                        <Condition Binding="{Binding IsActivityStages}" Value="True" />
-                                                        <Condition Binding="{Binding IsEnabled}" Value="True" />
-                                                    </MultiDataTrigger.Conditions>
-                                                    <Setter Property="Visibility" Value="Visible" />
-                                                </MultiDataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </StackPanel.Style>
-                                    <TextBlock
-                                        Margin="0,0,7.5,0"
-                                        VerticalAlignment="Center"
-                                        Foreground="{DynamicResource SecondaryTextBrush}"
-                                        Text="└" />
-                                    <CheckBox
-                                        VerticalAlignment="Center"
-                                        Content="{DynamicResource TaskQueue.Fight.UseSanityPotion}"
-                                        IsChecked="{Binding DataContext.ActivityUseMedicine, RelativeSource={RelativeSource AncestorType=ListBox}}"
-                                        ToolTip="{DynamicResource TaskQueue.OperProgress.MaterialPurchase.ActivityMedicine.Tip}" />
-                                    <hc:NumericUpDown
-                                        Width="55"
-                                        Height="26"
-                                        Margin="6,0,0,0"
-                                        HorizontalContentAlignment="Center"
-                                        Maximum="999"
-                                        Minimum="0"
-                                        Visibility="{c:Binding DataContext.ActivityUseMedicine,
-                                                               RelativeSource={RelativeSource AncestorType=ListBox}}"
-                                        Value="{Binding DataContext.ActivityMedicineCount, RelativeSource={RelativeSource AncestorType=ListBox}, UpdateSourceTrigger=PropertyChanged}" />
-                                </StackPanel>
                             </Grid>
                         </DataTemplate>
                     </ListBox.ItemTemplate>

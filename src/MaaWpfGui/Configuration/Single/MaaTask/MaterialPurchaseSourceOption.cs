@@ -23,7 +23,6 @@ public enum MaterialPurchaseSource
     PremiumVoucher,
     AdvancedVoucher,
     EventShop,
-    ActivityStages,
 }
 
 public record MaterialPurchaseSourceOption(MaterialPurchaseSource Source, bool IsEnabled)
@@ -35,6 +34,5 @@ public record MaterialPurchaseSourceOption(MaterialPurchaseSource Source, bool I
         new(MaterialPurchaseSource.PremiumVoucher, false),
         new(MaterialPurchaseSource.AdvancedVoucher, false),
         new(MaterialPurchaseSource.EventShop, false),
-        new(MaterialPurchaseSource.ActivityStages, false),
     ];
 }

@@ -2189,8 +2189,6 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
     <system:String x:Key="TaskQueue.OperProgress.Mastery2">專精 2</system:String>
     <system:String x:Key="TaskQueue.OperProgress.Mastery3">專精 3</system:String>
     <system:String x:Key="TaskQueue.OperProgress.MasteryTarget">技能 {0} 專精 {1}</system:String>
-    <system:String x:Key="TaskQueue.OperProgress.MaterialPurchase.ActivityMedicine.Tip">本次幹員培養任務共用的藥劑使用上限，跨材料和幹員累計。</system:String>
-    <system:String x:Key="TaskQueue.OperProgress.MaterialPurchase.ActivityStages">刷取活動 UP 材料</system:String>
     <system:String x:Key="TaskQueue.OperProgress.MaterialPurchase.AdvancedVoucher">高級材料提貨券</system:String>
     <system:String x:Key="TaskQueue.OperProgress.MaterialPurchase.EventShop">活動商店</system:String>
     <system:String x:Key="TaskQueue.OperProgress.MaterialPurchase.GreenTickets">綠票</system:String>

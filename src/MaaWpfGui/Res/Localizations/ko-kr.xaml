@@ -2189,8 +2189,6 @@ MAA는 비설치형 응용 프로그램으로, 삭제 시 레지스트리 항목
     <system:String x:Key="TaskQueue.OperProgress.Mastery2">마스터리 2</system:String>
     <system:String x:Key="TaskQueue.OperProgress.Mastery3">마스터리 3</system:String>
     <system:String x:Key="TaskQueue.OperProgress.MasteryTarget">스킬 {0}, 마스터리 {1}</system:String>
-    <system:String x:Key="TaskQueue.OperProgress.MaterialPurchase.ActivityMedicine.Tip">이번 오퍼레이터 육성 작업 전체의 회복제 사용 한도이며 재료와 오퍼레이터에 걸쳐 누적됩니다.</system:String>
-    <system:String x:Key="TaskQueue.OperProgress.MaterialPurchase.ActivityStages">이벤트 재료 파밍</system:String>
     <system:String x:Key="TaskQueue.OperProgress.MaterialPurchase.AdvancedVoucher">중급 재료 교환권</system:String>
     <system:String x:Key="TaskQueue.OperProgress.MaterialPurchase.EventShop">이벤트 상점</system:String>
     <system:String x:Key="TaskQueue.OperProgress.MaterialPurchase.GreenTickets">자격증명서</system:String>

@@ -1471,18 +1471,12 @@ Allow replenishment with Headhunting Parametric Models. Green tickets take prior
 ::: field material_purchase_sources  
 @type array<string>  
 @optional  
-Synthesis is attempted first. Replenishment sources in priority order: `GreenTickets`, `ParametricModels`, `PremiumVoucher` (T4), `AdvancedVoucher` (T3), `EventShop`, and `ActivityStages` (event material farming). Only listed sources are attempted; an empty array disables replenishment. This overrides both legacy exchange switches. Unavailable or partially fulfilling sources fall through with the remaining shortfall until it is filled or all sources are exhausted. Recognition failures or uncertain results stop replenishment. The original page is restored afterward.  
+Synthesis is attempted first. Replenishment sources in priority order: `GreenTickets`, `ParametricModels`, `PremiumVoucher` (T4), `AdvancedVoucher` (T3), `EventShop`. Only listed sources are attempted; an empty array disables replenishment. This overrides both legacy exchange switches. Unavailable or partially fulfilling sources fall through with the remaining shortfall until it is filled or all sources are exhausted. Recognition failures or uncertain results stop replenishment. The original page is restored afterward.  
 :::
 ::: field activity_material_stages  
 @type object<string, string>  
 @optional  
-Maps main material drop IDs to stages in currently open events on the selected server. WPF supplies this from activity data. `ActivityStages` farms mapped materials using Fight and stops at the shortfall quantity, with potions disabled by default and no Originite Prime. `EventShop` also uses this mapping to select the event shop; it skips this source when the current event or server is unsupported.  
-:::
-::: field activity_medicine  
-@type integer  
-@default 0  
-@optional  
-Total potion allowance for event farming, defaulting to 0. Shared across the entire operator development task and only used when `ActivityStages` is enabled. Originite Prime is never used.  
+Maps main material drop IDs to stages in currently open events on the selected server. WPF supplies this from activity data. `EventShop` uses this mapping to select the event shop and skips this source when the current event or server is unsupported.  
 :::
 ::::
 

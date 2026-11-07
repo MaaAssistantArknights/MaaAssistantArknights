@@ -18,14 +18,12 @@ enum class MaterialPurchaseSource
     PremiumVoucher,
     AdvancedVoucher,
     EventShop,
-    ActivityStages,
 };
 
 struct MaterialPurchaseOptions
 {
     std::vector<MaterialPurchaseSource> sources;
     std::unordered_map<std::string, std::string> activity_stages;
-    int activity_medicine = 0;
 
     bool enabled() const noexcept { return !sources.empty(); }
 
@@ -44,7 +42,7 @@ public:
         std::string_view task_chain,
         const std::string& item_id,
         int count,
-        MaterialPurchaseOptions& options) :
+        const MaterialPurchaseOptions& options) :
         AbstractTask(callback, inst, task_chain),
         m_item_id(item_id),
         m_count(count),
@@ -59,12 +57,10 @@ protected:
     bool _run() override;
 
 private:
-    std::int64_t replenish_material(const std::string& item_id, int count, MaterialPurchaseOptions& options);
+    std::int64_t replenish_material(const std::string& item_id, int count, const MaterialPurchaseOptions& options);
     bool run_material_purchase_task(const std::string& name, int retry_times = RetryTimesDefault);
     std::optional<std::int64_t> buy_material_with_tickets(const std::string& item_id, int count, bool parametric);
     std::optional<std::int64_t> redeem_material_voucher(const std::string& item_id, int count, bool premium);
-    std::optional<std::int64_t>
-        farm_activity_material(const std::string& item_id, int count, const std::string& stage, int& medicine);
     std::optional<std::int64_t> buy_event_material(const std::string& item_id, int count, const std::string& shop_task);
     std::optional<std::int64_t> purchase_selected_material(
         const std::string& item_id,
@@ -76,7 +72,7 @@ private:
 
     std::string m_item_id;
     int m_count = 0;
-    MaterialPurchaseOptions& m_options;
+    const MaterialPurchaseOptions& m_options;
     std::int64_t m_acquired = 0;
 };
 }

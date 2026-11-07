@@ -1470,18 +1470,12 @@ Tag 等级（大于等于 3）和对应的希望招募时限，单位为分钟�
 ::: field material_purchase_sources  
 @type array<string>  
 @optional  
-补料前先尝试合成。补料来源按优先级排列：`GreenTickets`（绿票）、`ParametricModels`（寻访参数模型）、`PremiumVoucher`（特级材料提货券）、`AdvancedVoucher`（高级材料提货券）、`EventShop`（活动商店）、`ActivityStages`（刷取活动 UP 材料）。仅尝试列出的来源，空数组关闭补料；提供此参数时覆盖两个旧兑换开关。来源不可用或仅部分补齐时，按剩余缺口继续尝试下一项，直到补齐或来源用尽；识别失败或结果不确定时停止补料。结束后恢复原页。  
+补料前先尝试合成。补料来源按优先级排列：`GreenTickets`（绿票）、`ParametricModels`（寻访参数模型）、`PremiumVoucher`（特级材料提货券）、`AdvancedVoucher`（高级材料提货券）、`EventShop`（活动商店）。仅尝试列出的来源，空数组关闭补料；提供此参数时覆盖两个旧兑换开关。来源不可用或仅部分补齐时，按剩余缺口继续尝试下一项，直到补齐或来源用尽；识别失败或结果不确定时停止补料。结束后恢复原页。  
 :::
 ::: field activity_material_stages  
 @type object<string, string>  
 @optional  
-当前服务器开放活动的主要掉落材料 ID 到关卡名的映射，由 WPF 根据活动数据提供。`ActivityStages` 仅刷取映射中的材料，复用理智作战按缺口数量停止，默认不使用药剂，不碎石。 `EventShop` 也通过此映射选择活动商店；没有适配当前活动或服务器时跳过该来源。  
-:::
-::: field activity_medicine  
-@type integer  
-@default 0  
-@optional  
-活动刷取可使用的药剂总数，默认为 0。整个干员培养任务共用额度，仅在启用 `ActivityStages` 时生效；不使用源石。  
+当前服务器开放活动的主要掉落材料 ID 到关卡名的映射，由 WPF 根据活动数据提供。`EventShop` 通过此映射选择活动商店；没有适配当前活动或服务器时跳过该来源。  
 :::
 ::::
 

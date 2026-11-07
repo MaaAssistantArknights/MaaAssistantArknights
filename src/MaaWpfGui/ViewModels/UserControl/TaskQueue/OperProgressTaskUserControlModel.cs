@@ -110,18 +110,6 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
         set => SetTaskConfig<OperProgressTask>(t => t.AutoReplenishMaterials == value, t => t.AutoReplenishMaterials = value);
     }
 
-    public bool ActivityUseMedicine
-    {
-        get => GetTaskConfig<OperProgressTask>().ActivityUseMedicine;
-        set => SetTaskConfig<OperProgressTask>(t => t.ActivityUseMedicine == value, t => t.ActivityUseMedicine = value);
-    }
-
-    public int ActivityMedicineCount
-    {
-        get => GetTaskConfig<OperProgressTask>().ActivityMedicineCount;
-        set => SetTaskConfig<OperProgressTask>(t => t.ActivityMedicineCount == value, t => t.ActivityMedicineCount = value);
-    }
-
     public ObservableCollection<MaterialPurchaseSourceItemViewModel> MaterialPurchaseSources { get; private set => SetAndNotify(ref field, value); } = [];
 
     private void RefreshMaterialPurchaseSources()
@@ -365,8 +353,6 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
             var task = new AsstOperProgressTask {
                 Plans = operProgress.Plans,
                 AutoReplenishMaterials = operProgress.AutoReplenishMaterials ?? (operProgress.BuyMaterialsWithGreenTickets || operProgress.BuyMaterialsWithParametricModels),
-                ActivityUseMedicine = operProgress.ActivityUseMedicine,
-                ActivityMedicineCount = operProgress.ActivityMedicineCount,
                 MaterialPurchaseSources = operProgress.MaterialPurchaseSources ?? MaterialPurchaseSourceOption.Defaults(operProgress.BuyMaterialsWithGreenTickets, operProgress.BuyMaterialsWithParametricModels),
             };
             return taskId switch {

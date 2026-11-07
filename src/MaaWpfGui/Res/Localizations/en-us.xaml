@@ -2188,8 +2188,6 @@ Do not adjust the proxy multiplier setting in the game</system:String>
     <system:String x:Key="TaskQueue.OperProgress.Mastery2">Mastery 2</system:String>
     <system:String x:Key="TaskQueue.OperProgress.Mastery3">Mastery 3</system:String>
     <system:String x:Key="TaskQueue.OperProgress.MasteryTarget">Skill {0}, mastery {1}</system:String>
-    <system:String x:Key="TaskQueue.OperProgress.MaterialPurchase.ActivityMedicine.Tip">Potion limit shared across all materials and operators in this operator development task.</system:String>
-    <system:String x:Key="TaskQueue.OperProgress.MaterialPurchase.ActivityStages">Farm event materials</system:String>
     <system:String x:Key="TaskQueue.OperProgress.MaterialPurchase.AdvancedVoucher">T3 Material Vouchers</system:String>
     <system:String x:Key="TaskQueue.OperProgress.MaterialPurchase.EventShop">Event shop</system:String>
     <system:String x:Key="TaskQueue.OperProgress.MaterialPurchase.GreenTickets">Commendations</system:String>

@@ -12,6 +12,7 @@
 // </copyright>
 
 #nullable enable
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using MaaWpfGui.Configuration.Single.MaaTask;
@@ -28,10 +29,6 @@ public class AsstOperProgressTask : AsstBaseTask
     public List<OperProgressTask.Plan> Plans { get; set; } = [];
 
     public bool AutoReplenishMaterials { get; set; }
-
-    public bool ActivityUseMedicine { get; set; }
-
-    public int ActivityMedicineCount { get; set; }
 
     public List<MaterialPurchaseSourceOption> MaterialPurchaseSources { get; set; } = [];
 
@@ -61,12 +58,9 @@ public class AsstOperProgressTask : AsstBaseTask
         var jObject = new JObject {
             ["plans"] = list,
             ["material_purchase_sources"] = new JArray(MaterialPurchaseSources
-                .Where(source => AutoReplenishMaterials && source.IsEnabled)
+                .Where(source => AutoReplenishMaterials && source.IsEnabled && Enum.IsDefined(source.Source))
                 .Select(source => source.Source.ToString())),
             ["activity_material_stages"] = JObject.FromObject(Instances.StageManager.GetActivityMaterialStages()),
-            ["activity_medicine"] = AutoReplenishMaterials && ActivityUseMedicine &&
-                MaterialPurchaseSources.Any(source => source.Source == MaterialPurchaseSource.ActivityStages && source.IsEnabled)
-                    ? ActivityMedicineCount : 0,
         };
         return (TaskType, jObject);
     }

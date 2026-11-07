@@ -39,10 +39,6 @@ public class OperProgressTask : BaseTask
 
     public bool? AutoReplenishMaterials { get; set; }
 
-    public bool ActivityUseMedicine { get; set; }
-
-    public int ActivityMedicineCount { get; set; }
-
     public List<MaterialPurchaseSourceOption>? MaterialPurchaseSources { get; set; }
 
     public record Plan(OperatorRole Role, string Name, int Elite, int SkillLevel, SkillMastery SkillMastery, bool ShowRole);

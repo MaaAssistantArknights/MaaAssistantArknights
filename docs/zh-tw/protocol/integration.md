@@ -1471,18 +1471,12 @@ Tag 等級（大於等於 3）對應的期望招募時限（單位：分鐘）�
 ::: field material_purchase_sources  
 @type array<string>  
 @optional  
-補料前先嘗試合成。補料來源依優先順序排列：`GreenTickets`（綠票）、`ParametricModels`（尋訪參數模型）、`PremiumVoucher`（特級材料提貨券）、`AdvancedVoucher`（高級材料提貨券）、`EventShop`（活動商店）、`ActivityStages`（刷取活動 UP 材料）。僅嘗試列出的來源，空陣列關閉補料；提供此參數時覆蓋兩個舊兌換開關。來源不可用或僅部分補齊時，依剩餘缺口繼續嘗試下一項，直到補齊或來源用盡；辨識失敗或結果不確定時停止補料。結束後恢復原頁。  
+補料前先嘗試合成。補料來源依優先順序排列：`GreenTickets`（綠票）、`ParametricModels`（尋訪參數模型）、`PremiumVoucher`（特級材料提貨券）、`AdvancedVoucher`（高級材料提貨券）、`EventShop`（活動商店）。僅嘗試列出的來源，空陣列關閉補料；提供此參數時覆蓋兩個舊兌換開關。來源不可用或僅部分補齊時，依剩餘缺口繼續嘗試下一項，直到補齊或來源用盡；辨識失敗或結果不確定時停止補料。結束後恢復原頁。  
 :::
 ::: field activity_material_stages  
 @type object<string, string>  
 @optional  
-目前伺服器開放活動的主要掉落材料 ID 至關卡名稱的對照，由 WPF 根據活動資料提供。`ActivityStages` 僅刷取對照中的材料，沿用理智作戰依缺口數量停止，預設不使用藥劑，不碎石。 `EventShop` 也透過此對照選擇活動商店；尚未適配目前活動或伺服器時跳過該來源。  
-:::
-::: field activity_medicine  
-@type integer  
-@default 0  
-@optional  
-活動刷取可使用的藥劑總數，預設為 0。整個幹員培養任務共用額度，僅在啟用 `ActivityStages` 時生效；不使用源石。  
+目前伺服器開放活動的主要掉落材料 ID 至關卡名稱的對照，由 WPF 根據活動資料提供。`EventShop` 透過此對照選擇活動商店；尚未適配目前活動或伺服器時跳過該來源。  
 :::
 ::::
 

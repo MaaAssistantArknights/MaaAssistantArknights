@@ -1472,18 +1472,12 @@ Sarkaz 테마, Investment 모드, "연금술 분대" 또는 "지원 분대"일 �
 ::: field material_purchase_sources  
 @type array<string>  
 @optional  
-먼저 가공을 시도합니다. 우선순위별 보충 경로: `GreenTickets`, `ParametricModels`, `PremiumVoucher` (고급), `AdvancedVoucher` (중급), `EventShop`, `ActivityStages` (이벤트 재료 파밍). 나열된 경로만 시도하며 빈 배열은 보충을 끕니다. 지정하면 기존 두 교환 설정을 덮어씁니다. 이용할 수 없거나 일부만 보충한 경우 남은 수량을 다음 경로에서 보충하며, 부족분을 채우거나 모든 경로를 시도할 때까지 계속합니다. 인식 실패나 결과가 불확실한 경우 보충을 중단합니다. 종료 후 원래 화면으로 돌아갑니다.  
+먼저 가공을 시도합니다. 우선순위별 보충 경로: `GreenTickets`, `ParametricModels`, `PremiumVoucher` (고급), `AdvancedVoucher` (중급), `EventShop`. 나열된 경로만 시도하며 빈 배열은 보충을 끕니다. 지정하면 기존 두 교환 설정을 덮어씁니다. 이용할 수 없거나 일부만 보충한 경우 남은 수량을 다음 경로에서 보충하며, 부족분을 채우거나 모든 경로를 시도할 때까지 계속합니다. 인식 실패나 결과가 불확실한 경우 보충을 중단합니다. 종료 후 원래 화면으로 돌아갑니다.  
 :::
 ::: field activity_material_stages  
 @type object<string, string>  
 @optional  
-현재 서버에서 진행 중인 이벤트의 주요 드롭 재료 ID와 스테이지 이름의 매핑입니다. WPF가 이벤트 데이터에서 제공합니다. `ActivityStages`는 매핑된 재료만 기존 이성 소모 전투로 파밍하며 부족 수량에 도달하면 중단합니다. 회복제는 기본적으로 사용하지 않으며 순오리지늄은 사용하지 않습니다. `EventShop`도 이 매핑으로 이벤트 상점을 선택하며, 현재 이벤트 또는 서버를 지원하지 않으면 해당 공급원을 건너뜁니다.  
-:::
-::: field activity_medicine  
-@type integer  
-@default 0  
-@optional  
-이벤트 파밍에 사용할 회복제 총량으로 기본값은 0입니다. 전체 오퍼레이터 육성 작업에서 한도를 공유하며 `ActivityStages`가 활성화된 경우에만 사용합니다. 순오리지늄은 사용하지 않습니다.  
+현재 서버에서 진행 중인 이벤트의 주요 드롭 재료 ID와 스테이지 이름의 매핑입니다. WPF가 이벤트 데이터에서 제공합니다. `EventShop`은 이 매핑으로 이벤트 상점을 선택하며, 현재 이벤트 또는 서버를 지원하지 않으면 해당 공급원을 건너뜁니다.  
 :::
 ::::
 

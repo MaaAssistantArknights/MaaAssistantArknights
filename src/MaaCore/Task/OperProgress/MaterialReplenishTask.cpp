@@ -6,7 +6,6 @@
 #include "Config/Miscellaneous/ItemConfig.h"
 #include "Config/TaskData.h"
 #include "Controller/Controller.h"
-#include "Task/Interface/FightTask.h"
 #include "Task/MiniGame/EventShopTaskPlugin.h"
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
@@ -251,8 +250,6 @@ bool asst::MaterialPurchaseOptions::supports(MaterialPurchaseSource source, cons
         return rarity == 3 && elite_material;
     case MaterialPurchaseSource::AdvancedVoucher:
         return rarity == 2 && elite_material;
-    case MaterialPurchaseSource::ActivityStages:
-        return activity_stages.contains(item_id);
     case MaterialPurchaseSource::EventShop:
         return !event_shop_task().empty() && std::ranges::find(ItemData.get_ordered_material_item_id(), item_id) !=
                                                  ItemData.get_ordered_material_item_id().end();
@@ -291,7 +288,6 @@ std::optional<asst::MaterialPurchaseOptions> asst::MaterialPurchaseOptions::pars
             { "PremiumVoucher", MaterialPurchaseSource::PremiumVoucher },
             { "AdvancedVoucher", MaterialPurchaseSource::AdvancedVoucher },
             { "EventShop", MaterialPurchaseSource::EventShop },
-            { "ActivityStages", MaterialPurchaseSource::ActivityStages },
         };
         for (const auto& name : *sources) {
             const auto found = names.find(name);
@@ -317,13 +313,6 @@ std::optional<asst::MaterialPurchaseOptions> asst::MaterialPurchaseOptions::pars
             }
         }
     }
-    if (params.contains("activity_medicine")) {
-        const auto medicine = params.find<int>("activity_medicine");
-        if (!medicine || *medicine < 0) {
-            return std::nullopt;
-        }
-        options.activity_medicine = *medicine;
-    }
     if (params.contains("activity_material_stages")) {
         const auto stages = params.find<std::unordered_map<std::string, std::string>>("activity_material_stages");
         if (!stages) {
@@ -342,7 +331,7 @@ std::optional<asst::MaterialPurchaseOptions> asst::MaterialPurchaseOptions::pars
 std::int64_t asst::MaterialReplenishTask::replenish_material(
     const std::string& item_id,
     int count,
-    MaterialPurchaseOptions& options)
+    const MaterialPurchaseOptions& options)
 {
     if (count <= 0 || !options.can_buy(item_id)) {
         return 0;
@@ -369,10 +358,6 @@ std::int64_t asst::MaterialReplenishTask::replenish_material(
         case MaterialPurchaseSource::AdvancedVoucher:
             result = redeem_material_voucher(item_id, count, false);
             break;
-        case MaterialPurchaseSource::ActivityStages:
-            result =
-                farm_activity_material(item_id, count, options.activity_stages.at(item_id), options.activity_medicine);
-            break;
         case MaterialPurchaseSource::EventShop:
             result = buy_event_material(item_id, count, options.event_shop_task());
             break;
@@ -398,57 +383,6 @@ std::int64_t asst::MaterialReplenishTask::replenish_material(
             return acquired;
         }
         count -= static_cast<int>(*result);
-    }
-    return acquired;
-}
-
-std::optional<std::int64_t> asst::MaterialReplenishTask::farm_activity_material(
-    const std::string& item_id,
-    int count,
-    const std::string& stage,
-    int& medicine)
-{
-    if (!Task.get(stage)) {
-        return 0;
-    }
-    std::int64_t acquired = 0;
-    bool failed = false;
-    const json::value params = json::object {
-        { "stage", stage }, { "drops", json::object { { item_id, count } } }, { "series", 1 }, { "medicine", medicine },
-        { "stone", 0 },
-    };
-    std::unique_ptr<FightTask> fight;
-    fight = std::make_unique<FightTask>(
-        [&](AsstMsg msg, const json::value& detail, Assistant*) {
-            if (msg == AsstMsg::SubTaskExtraInfo && detail.get("what", "") == "UseMedicine") {
-                // 同一培养任务中的后续材料和干员共用剩余药剂额度。
-                medicine = std::max(0, medicine - detail.at("details").get("count", 0));
-            }
-            if (msg == AsstMsg::SubTaskExtraInfo && detail.get("what", "") == "StageDrops") {
-                for (const auto& drop : detail.at("details").at("stats").as_array()) {
-                    if (drop.get("itemId", "") == item_id) {
-                        acquired = drop.get("quantity", 0);
-                    }
-                }
-            }
-            if (msg == AsstMsg::SubTaskError && detail.get("subtask", "") == "StageDropsTask") {
-                failed = true;
-                auto stop = params;
-                stop["times"] = 0;
-                fight->set_params(stop);
-            }
-            auto info = detail;
-            info["taskchain"] = std::string(m_task_chain);
-            callback(msg, info);
-        },
-        m_inst);
-    fight->set_task_id(m_task_id);
-    if (!fight->set_params(params)) {
-        return 0;
-    }
-    // 沿用理智作战的选关、掉落计数与达量停止；识别失败后不再开始下一局。
-    if (!fight->run() || failed || need_exit()) {
-        return std::nullopt;
     }
     return acquired;
 }
