@@ -102,6 +102,11 @@
                     "$ref": "#/definitions/Rectangle",
                     "description": "Optional, indicates the recognition range, the format is [x, y, width, height]\nAutomatic scaling based on 1280 * 720; default [0, 0, 1280, 720]\nFill in as much as possible to reduce the recognition range. This can reduce performance consumption and speed up recognition"
                 },
+                "mainScreen": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Optional, prepare screenshots using the main-screen recognition strategy. Inherits from the base task; defaults to false without a base. Explicit false overrides inheritance\nDoes not propagate through next or sub; mark the actual recognition node. JustReturn does not take screenshots\nOnly applies to controllers that support this strategy; normally enabled by platform-specific resources"
+                },
                 "cache": {
                     "type": "boolean",
                     "default": false,
