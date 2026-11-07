@@ -224,7 +224,7 @@ public static class DailyReportCollector
 
     /// <summary>
     /// 结束任务当前的 session 并以同一任务 id 新开一条，起始时刻接上一条的结束时刻。
-    /// 新关卡开局时暂存的倍率与理智属于新 session，不随旧 session 结束而丢弃。
+    /// 新关卡开局时暂存的倍率、理智与挂账的用药/碎石属于新 session，不随旧 session 结束而丢弃。
     /// </summary>
     private static CombatSession StartNextStageSession(int taskId)
     {
