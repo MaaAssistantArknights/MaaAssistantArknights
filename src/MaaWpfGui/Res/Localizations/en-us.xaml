@@ -1980,6 +1980,11 @@ Are you sure you want to disable the update progress window?</system:String>
     <system:String x:Key="Settings.Update.StartupCheck">Startup Update Check</system:String>
     <system:String x:Key="Settings.Update.Title">Update</system:String>
     <system:String x:Key="Settings.Update.UiVersion">UI Version</system:String>
+    <system:String x:Key="Skin.Nailong.Badge">Forecast: belly laughs</system:String>
+    <system:String x:Key="Skin.Nailong.Credit">Naiwa pixel animation · Maple498 / nai-wa-codex-pet · CC BY 4.0 · Unmodified · https://github.com/Maple498/nai-wa-codex-pet · https://creativecommons.org/licenses/by/4.0/</system:String>
+    <system:String x:Key="Skin.Nailong.Laugh">HAHAHA</system:String>
+    <system:String x:Key="Skin.Nailong.Sanity">Sanity -1</system:String>
+    <system:String x:Key="Skin.Nailong.Tagline">Sanity off. Nailong on.</system:String>
     <system:String x:Key="TaskQueue.AdbReplacementTips">If nothing happens or appears stuck, please go to ｢{key=Settings.Title} - {key=Settings.Connection.Title} - {key=Connection.ForcedReplaceAdb}｣, or turn on ADB Input (Deprecated).</system:String>
     <system:String x:Key="TaskQueue.AddTask">Add New Task</system:String>
     <system:String x:Key="TaskQueue.AdvancedSettings">Advanced</system:String>

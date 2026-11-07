@@ -1,0 +1,30 @@
+// <copyright file="SkinType.cs" company="MaaAssistantArknights">
+// Part of the MaaWpfGui project, maintained by the MaaAssistantArknights team (Maa Team)
+// Copyright (C) 2021-2026 MaaAssistantArknights Contributors
+//
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU Affero General Public License v3.0 only as published by
+// the Free Software Foundation, either version 3 of the License, or
+// any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY
+// </copyright>
+
+namespace MaaWpfGui.Constants.Enums;
+
+/// <summary>
+/// GUI 皮肤标识，与明暗模式独立。
+/// </summary>
+public enum SkinType
+{
+    /// <summary>
+    /// 原有外观，保留当前莫奈取色。
+    /// </summary>
+    Default,
+
+    /// <summary>
+    /// 奶龙与奶蛙主题。
+    /// </summary>
+    Nailong,
+}

@@ -14,7 +14,6 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Media;
 using HandyControl.Themes;
 using HandyControl.Tools;
@@ -40,7 +39,7 @@ public static class ThemeHelper
             ThemeManager.Current.AccentColor = ThemeManager.Current.GetAccentColorFromSystem();
         }
 
-        Application.Current.Resources["TitleBrush"] = ThemeManager.Current.AccentColor;
+        SkinHelper.ThemeOverrides["TitleBrush"] = ThemeManager.Current.AccentColor;
 
         // 系统主题切换后，莫奈调色板需要按新的明暗模式重新生成
         ReapplyMonet();
@@ -51,7 +50,7 @@ public static class ThemeHelper
         SystemEvents.UserPreferenceChanged -= SystemEvents_UserPreferenceChanged;
         ThemeManager.Current.UsingWindowsAppTheme = false;
         ThemeManager.Current.ApplicationTheme = ApplicationTheme.Light;
-        Application.Current.Resources["TitleBrush"] = ThemeManager.Current.AccentColor;
+        SkinHelper.ThemeOverrides["TitleBrush"] = ThemeManager.Current.AccentColor;
         ReapplyMonet();
     }
 
@@ -60,7 +59,7 @@ public static class ThemeHelper
         SystemEvents.UserPreferenceChanged -= SystemEvents_UserPreferenceChanged;
         ThemeManager.Current.UsingWindowsAppTheme = false;
         ThemeManager.Current.ApplicationTheme = ApplicationTheme.Dark;
-        Application.Current.Resources["TitleBrush"] = ThemeManager.Current.AccentColor;
+        SkinHelper.ThemeOverrides["TitleBrush"] = ThemeManager.Current.AccentColor;
         ReapplyMonet();
     }
 
@@ -76,7 +75,7 @@ public static class ThemeHelper
             SystemEvents.UserPreferenceChanged += SystemEvents_UserPreferenceChanged;
         }
 
-        Application.Current.Resources["TitleBrush"] = ThemeManager.Current.AccentColor;
+        SkinHelper.ThemeOverrides["TitleBrush"] = ThemeManager.Current.AccentColor;
         ReapplyMonet();
     }
 
@@ -164,7 +163,7 @@ public static class ThemeHelper
     private static void ApplyPaletteToResources(Dictionary<string, Color> palette, Color baseColor)
     {
         // 先设置 AccentColor：HandyControl 的 ThemeManager 会根据它重新生成
-        // PrimaryBrush / DarkPrimaryBrush / TitleBrush 等内部资源，
+        // PrimaryBrush / DarkPrimaryBrush / TitleBrush 等资源（SkinHelper 会将它们移入覆盖层），
         // 因此必须在 AccentColor 之后再覆盖为莫奈调色板的值，否则会被覆盖回去
         ThemeManager.Current.AccentColor = new SolidColorBrush(baseColor);
 
@@ -176,11 +175,11 @@ public static class ThemeHelper
             if (MonetPaletteHelper.BackgroundMaskKeys.Contains(key)
                 && ConfigFactory.Root.Gui.BackgroundMonetKeepMaskNeutral)
             {
-                Application.Current.Resources.Remove(key);
+                SkinHelper.ThemeOverrides.Remove(key);
                 continue;
             }
 
-            Application.Current.Resources[key] = new SolidColorBrush(color);
+            SkinHelper.ThemeOverrides[key] = new SolidColorBrush(color);
         }
     }
 
@@ -199,13 +198,13 @@ public static class ThemeHelper
         // 只有资源写入需要在 UI 线程
         Execute.OnUIThread(() =>
         {
-            // 移除莫奈写入 Application.Current.Resources 的直接覆盖项，
+            // 移除莫奈覆盖层中的颜色，
             // 让底层主题字典的值（随明暗切换自动更新）重新生效。
             // 不能将保存的原始 brush 写回——它们是启用莫奈时的快照，
-            // 写回后会成为永久的 app 级覆盖，导致后续亮色/暗色模式切换异常。
+            // 写回后会成为永久的颜色覆盖，导致后续亮色/暗色模式切换异常。
             foreach (var key in MonetPaletteHelper.PaletteKeys)
             {
-                Application.Current.Resources.Remove(key);
+                SkinHelper.ThemeOverrides.Remove(key);
             }
 
             // 恢复 AccentColor 到系统值（HandyControl 会据此重写内部 brush）
@@ -214,7 +213,7 @@ public static class ThemeHelper
                 ThemeManager.Current.AccentColor = ThemeManager.Current.GetAccentColorFromSystem();
             }
 
-            Application.Current.Resources["TitleBrush"] = ThemeManager.Current.AccentColor;
+            SkinHelper.ThemeOverrides["TitleBrush"] = ThemeManager.Current.AccentColor;
         });
     }
 
@@ -227,13 +226,13 @@ public static class ThemeHelper
         if (_monetBaseColor is Color color)
         {
             // 明暗模式切换后，HandyControl 会通过 ThemeResources 切换底层主题字典，
-            // 但莫奈之前直接写入 Application.Current.Resources 的值会遮蔽新主题的值。
+            // 但莫奈覆盖层中的值会遮蔽新主题的值。
             // 需要先移除这些直接覆盖项，让底层新主题值透出，再重新保存和生成。
             Execute.OnUIThread(() =>
             {
                 foreach (var key in MonetPaletteHelper.PaletteKeys)
                 {
-                    Application.Current.Resources.Remove(key);
+                    SkinHelper.ThemeOverrides.Remove(key);
                 }
             });
 
