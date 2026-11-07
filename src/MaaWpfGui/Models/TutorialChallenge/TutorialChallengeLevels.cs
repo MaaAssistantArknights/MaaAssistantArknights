@@ -104,7 +104,7 @@ public static class TutorialChallengeLevels
         new(
             id: "ExportLogs",
             sandboxFactory: () => [new StartUpTask()],
-            goalPredicate: (_, _) => false,
+            goalPredicate: (_, vm) => vm.ExportLogsClicked,
             panelKinds: [TutorialChallengePanelKind.Settings]),
 
         new(

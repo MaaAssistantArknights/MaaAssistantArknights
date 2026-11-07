@@ -2564,6 +2564,7 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
 <system:String x:Key="TutorialChallenge.Level.DailyReconnect.Title">定時周回</system:String>
     <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.Goal">アップデートパッケージはダウンロード済みです。ウィンドウにドラッグして更新を完了させましょう。</system:String>
     <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.Title">ドラッグ更新</system:String>
+    <system:String x:Key="TutorialChallenge.Level.ExportLogs.Generating">生成中…</system:String>
     <system:String x:Key="TutorialChallenge.Level.ExportLogs.Goal">不具合でログが必要になったら？｢{key=Settings.Title} - {key=Settings.IssueReport.Title}｣ でエラーレポートを生成する方法を覚えましょう。</system:String>
     <system:String x:Key="TutorialChallenge.Level.ExportLogs.Title">ログのエクスポート</system:String>
     <system:String x:Key="TutorialChallenge.Level.InventoryTarget.Goal">合成玉用に 1-7 で初級源岩の在庫を 100 個まで補充したい。</system:String>

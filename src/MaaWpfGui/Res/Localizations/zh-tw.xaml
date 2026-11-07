@@ -2563,6 +2563,7 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
 <system:String x:Key="TutorialChallenge.Level.DailyReconnect.Title">定時開肝</system:String>
     <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.Goal">更新包已經下載好了，把它拖進視窗完成更新。</system:String>
     <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.Title">拖曳更新</system:String>
+    <system:String x:Key="TutorialChallenge.Level.ExportLogs.Generating">產生中…</system:String>
     <system:String x:Key="TutorialChallenge.Level.ExportLogs.Goal">出問題了要找日誌？學會在 ｢{key=Settings.Title} - {key=Settings.IssueReport.Title}｣ 裡產生錯誤報告。</system:String>
     <system:String x:Key="TutorialChallenge.Level.ExportLogs.Title">匯出日誌</system:String>
     <system:String x:Key="TutorialChallenge.Level.InventoryTarget.Goal">最近準備搓玉，先去 1-7 把固源岩庫存補到 100 個。</system:String>

@@ -19,6 +19,7 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 using System.Text.Json;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using HandyControl.Controls;
@@ -685,6 +686,7 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
         EnableAdvancedSettings = false;
         SelectedTab = 0;
         IsCompleted = false;
+        ExportLogsClicked = false;
         _fakeInventories.Clear();
         SettingsSearchText = string.Empty;
         ShowAdvancedSettings = false;
@@ -836,6 +838,61 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
         task.PlanList.Clear();
         RefreshPanelState();
         Evaluate();
+    }
+
+    /// <summary>
+    /// Gets a value indicating whether 导出日志按钮已被点击过（ExportLogs 关卡的判定源）。
+    /// </summary>
+    public bool ExportLogsClicked
+    {
+        get;
+        private set => SetAndNotify(ref field, value);
+    }
+
+    /// <summary>
+    /// Gets a value indicating whether 沙盒 ｢生成日志压缩包｣ 模拟生成中（期间按钮禁用并切换文案）。
+    /// </summary>
+    public bool IsExportingLogs
+    {
+        get;
+        private set {
+            if (SetAndNotify(ref field, value))
+            {
+                NotifyOfPropertyChange(nameof(CanExportLogs));
+            }
+        }
+    }
+
+    /// <summary>
+    /// Gets a value indicating whether 当前可点击 ｢生成日志压缩包｣（非生成中）。
+    /// </summary>
+    public bool CanExportLogs => !IsExportingLogs;
+
+    /// <summary>
+    /// 沙盒内模拟 ｢生成日志压缩包｣：短暂延迟后弹成功 Growl（token 限定在关卡窗口内），并记录点击态供关卡判定。
+    /// </summary>
+    /// <returns>Task</returns>
+    public async Task ExportLogs()
+    {
+        if (IsExportingLogs)
+        {
+            return;
+        }
+
+        IsExportingLogs = true;
+        try
+        {
+            // 模拟真实导出耗时；结束后回到 UI 线程弹 Growl 与置判定态，不加 ConfigureAwait(false)
+            await Task.Delay(1500);
+            var msg = LocalizationHelper.GetString("Error.GenerateSupportPayloadSuccessful");
+            GrowlHelper.Show(InfoType.Success, msg, () => Growl.Success(msg, "TutorialChallenge"));
+            ExportLogsClicked = true;
+            Evaluate();
+        }
+        finally
+        {
+            IsExportingLogs = false;
+        }
     }
 
     /// <summary>

@@ -2563,6 +2563,7 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
 <system:String x:Key="TutorialChallenge.Level.DailyReconnect.Title">예약 자동 실행</system:String>
     <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.Goal">업데이트 패키지는 이미 다운로드되어 있습니다. 창에 끌어다 놓아 업데이트를 완료하세요.</system:String>
     <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.Title">드래그 업데이트</system:String>
+    <system:String x:Key="TutorialChallenge.Level.ExportLogs.Generating">생성 중…</system:String>
     <system:String x:Key="TutorialChallenge.Level.ExportLogs.Goal">문제가 생겨 로그가 필요할 때는? ｢{key=Settings.Title} - {key=Settings.IssueReport.Title}｣에서 오류 보고서를 생성하는 법을 배워 보세요.</system:String>
     <system:String x:Key="TutorialChallenge.Level.ExportLogs.Title">로그 내보내기</system:String>
     <system:String x:Key="TutorialChallenge.Level.InventoryTarget.Goal">합성옥 준비용으로 1-7에서 원암 큐브 재고를 100개까지 채우고 싶습니다.</system:String>

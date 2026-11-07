@@ -2563,6 +2563,7 @@ Only level rewards can be farmed; to get the Engraved Medal, all ｢Key Objectiv
 <system:String x:Key="TutorialChallenge.Level.DailyReconnect.Title">Scheduled Farming</system:String>
     <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.Goal">The update package is downloaded — drag it into the window to finish updating.</system:String>
     <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.Title">Drag &amp; Drop Update</system:String>
+    <system:String x:Key="TutorialChallenge.Level.ExportLogs.Generating">Generating…</system:String>
     <system:String x:Key="TutorialChallenge.Level.ExportLogs.Goal">Something went wrong and you need the logs? Learn to generate a support payload in {key=Settings.Title} - {key=Settings.IssueReport.Title}.</system:String>
     <system:String x:Key="TutorialChallenge.Level.ExportLogs.Title">Export Logs</system:String>
     <system:String x:Key="TutorialChallenge.Level.InventoryTarget.Goal">Getting ready to craft Orundum. Head to 1-7 and stock Orirock Cubes up to 100.</system:String>

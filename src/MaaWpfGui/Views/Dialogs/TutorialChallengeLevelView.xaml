@@ -1314,8 +1314,8 @@
                                             </StackPanel>
                                             <ListBox
                                                 Margin="0,10,0,0"
-                                                DisplayMemberPath="Display"
                                                 hc:ListBoxAttach.SelectedItems="{Binding AutoRecruitPreserveTagList}"
+                                                DisplayMemberPath="Display"
                                                 ItemsSource="{Binding AutoRecruitSkipTagShowList}"
                                                 SelectionMode="Multiple"
                                                 Visibility="{c:Binding SandboxPreserveTagEnabled}">
@@ -1324,9 +1324,7 @@
                                                         <Setter Property="Template">
                                                             <Setter.Value>
                                                                 <ControlTemplate TargetType="ListBoxItem">
-                                                                    <CheckBox
-                                                                        Content="{Binding Display}"
-                                                                        IsChecked="{Binding IsSelected, Mode=TwoWay, RelativeSource={RelativeSource AncestorType=ListBoxItem}}" />
+                                                                    <CheckBox Content="{Binding Display}" IsChecked="{Binding IsSelected, Mode=TwoWay, RelativeSource={RelativeSource AncestorType=ListBoxItem}}" />
                                                                 </ControlTemplate>
                                                             </Setter.Value>
                                                         </Setter>
@@ -1545,14 +1543,10 @@
                                                         </ItemsControl>
                                                     </StackPanel>
 
-                                                    <!--  问题反馈分区：占位内容，真实按钮在后续关卡提交接入  -->
-                                                    <controls:TextBlock
-                                                        Margin="0,20"
-                                                        HorizontalAlignment="Center"
-                                                        Foreground="{DynamicResource SecondaryTextBrush}"
-                                                        Text="{DynamicResource TutorialChallenge.SectionContentPlaceholder}">
-                                                        <controls:TextBlock.Style>
-                                                            <Style BasedOn="{StaticResource MaaTextBlockDefaultStyle}" TargetType="{x:Type controls:TextBlock}">
+                                                    <!--  问题反馈分区：模拟 ｢生成日志压缩包｣ 按钮；外层沿分区 DataContext 判 Kind，内层挂回窗口 VM 读沙盒态  -->
+                                                    <StackPanel Margin="0,20" HorizontalAlignment="Center">
+                                                        <StackPanel.Style>
+                                                            <Style TargetType="StackPanel">
                                                                 <Setter Property="Visibility" Value="Collapsed" />
                                                                 <Style.Triggers>
                                                                     <DataTrigger Binding="{Binding Kind}" Value="{x:Static dialogs_vms:TutorialChallengeSettingSectionKind.IssueReport}">
@@ -1560,8 +1554,19 @@
                                                                     </DataTrigger>
                                                                 </Style.Triggers>
                                                             </Style>
-                                                        </controls:TextBlock.Style>
-                                                    </controls:TextBlock>
+                                                        </StackPanel.Style>
+                                                        <Button
+                                                            Margin="5,2"
+                                                            HorizontalAlignment="Left"
+                                                            Command="{s:Action ExportLogs}"
+                                                            DataContext="{Binding DataContext, RelativeSource={RelativeSource AncestorType=hc:Window}}"
+                                                            IsEnabled="{Binding CanExportLogs}">
+                                                            <Grid>
+                                                                <TextBlock Text="{DynamicResource Error.GenerateSupportPayload}" Visibility="{c:Binding !IsExportingLogs}" />
+                                                                <TextBlock Text="{DynamicResource TutorialChallenge.Level.ExportLogs.Generating}" Visibility="{c:Binding IsExportingLogs}" />
+                                                            </Grid>
+                                                        </Button>
+                                                    </StackPanel>
 
                                                     <!--  启动设置占位分区  -->
                                                     <StackPanel Margin="0,20" HorizontalAlignment="Center">
