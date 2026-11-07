@@ -55,13 +55,29 @@ protected:
 
 private:
     ResultDetail execute_elite(battle::Role role, const std::string& name, int target);
-    void report_elite_result(battle::Role role, std::string_view name, ResultDetail result, int elite);
+    void report_elite_result(
+        battle::Role role,
+        std::string_view name,
+        ResultDetail result,
+        int elite,
+        const json::array& materials);
     ResultDetail execute_skill(int level);
-    void report_skill_result(battle::Role role, std::string_view name, ResultDetail result, int level);
+    void report_skill_result(
+        battle::Role role,
+        std::string_view name,
+        ResultDetail result,
+        int level,
+        const json::array& materials);
     // 返回 Completed 时 training_level 为本次训练完成后达到的专精等级；专精需要训练时长，启动不代表达到计划目标。
     ResultDetail
         execute_mastery(battle::Role role, std::string_view name, int skill, int target_level, int& current_level);
-    void report_skill_result(battle::Role role, std::string_view name, ResultDetail result, std::array<int, 3> level);
+    void report_skill_result(
+        battle::Role role,
+        std::string_view name,
+        ResultDetail result,
+        std::array<int, 3> level,
+        int skill,
+        const json::array& materials);
     ResultDetail find_and_open_operator(battle::Role role, std::string_view name);
     bool select_role(battle::Role role);
     bool analyze_training_context(std::string& operator_name, std::string& skill_name, int& level);
@@ -72,15 +88,22 @@ private:
     std::optional<int> training_skill_mastery_level(const cv::Mat& image, int skill);
     // 通过切换职业栏标签把基建干员列表复位到第一页，参照 InfrastAbstractTask::swipe_to_the_left_of_operlist。
     bool reset_trainer_list_page();
+    static bool is_material_shortage(ResultDetail result);
+    bool restore_operator_files();
     bool run_task(const std::string& task_name, int retry_times = RetryTimesDefault);
     bool run_task(std::vector<std::string> tasks, int retry_times = RetryTimesDefault);
     // task_type 区分精英化、技能升级与技能专精页面；material_index 对应页面上的材料槽 0-2。
     // 返回 FormulaLocked 表示该材料在快速跳转弹窗中的配方尚未解锁,调用方应据此跳过当前任务。
     ResultDetail synthesize_missing_material(OperProgressAction task_type, int material_index);
+    json::array collect_missing_materials(OperProgressAction action);
     bool record_factory_state();
     bool manufacture_dual_chip(battle::Role role, const std::string& name);
     bool restore_factory_state(); // 合成后恢复制造站产品
     bool buy_catalyst(int count);
+    bool detect_task(const cv::Mat& image, const std::string& task_name);
+    bool detect_material_popup(const cv::Mat& image);
+    std::string
+        read_text(const cv::Mat& image, const Rect& roi, const std::string& task_name = "OperProgress@MaterialCount");
     std::optional<int> ocr_number(const std::string& task_name);
     std::optional<int> ocr_number(const cv::Mat& image, const std::string& task_name);
 
@@ -95,6 +118,9 @@ private:
     int m_skipped = 0;
     const int TraineeMissingRetryTimes = 1; // 训练室受训干员整列表完整扫寻的轮数,超出后判定干员不在列表中。
     const int MaxOperatorPages = 20;
+    const int MaterialCountHorizontalPadding = 32;
+    const int MaterialCountVerticalPadding = 8;
+    const int MaterialIconPadding = 48;
     std::optional<std::string> FactoryLastProduct = std::nullopt; // 制造站的当前产品
 };
 } // namespace asst

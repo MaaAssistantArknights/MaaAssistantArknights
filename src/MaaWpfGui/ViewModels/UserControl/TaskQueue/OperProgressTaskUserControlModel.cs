@@ -63,6 +63,8 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
 
     private readonly HashSet<OperProgressPlanItemViewModel> _subscribedPlanItems = [];
 
+    private readonly Dictionary<int, MaterialReport> _materialReports = [];
+
     private void RefreshPlanItems(OperProgressTask task)
     {
         PlanItems.CollectionChanged -= PlanItems_CollectionChanged;
@@ -328,6 +330,11 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
                 return (null, []);
             }
 
+            if (taskId is null)
+            {
+                // 队列在执行前统一序列化，此时清理上轮中断后没有收到汇总的记录。
+                Instance._materialReports.Clear();
+            }
             var task = new AsstOperProgressTask { Plans = operProgress.Plans };
             return taskId switch {
                 int id when id > 0 => (Instances.AsstProxy.AsstSetTaskParamsEncoded(id, task), [id]),
@@ -354,6 +361,7 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
                         summary?.Failed ?? -1,
                         summary?.Skipped ?? -1),
                     (summary?.Failed ?? -1) > 0 ? UiLogColor.Warning : UiLogColor.Info);
+                LogMaterialSummary(msg.TaskId);
                 Instance.RemoveFinishedPlans(msg.TaskId);
                 break;
 
@@ -412,6 +420,7 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
                         task.Plans = [.. list];
                     }
                     var status = msg.Details?["result"]?.ToString() ?? string.Empty;
+                    RecordMaterials(msg.TaskId, callback, status, msg.Details?.Value<string>("result_detail"));
                     var operName = DataHelper.GetLocalizedCharacterName(callback.Name) ?? callback.Name;
                     Instances.TaskQueueViewModel.AddLog(
                         LocalizationHelper.GetStringFormat(
@@ -450,12 +459,61 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
             skillMastery = SkillMastery.Of(list[0], list[1], list[2]);
         }
 
-        return new ProgressCallback(role, name, elite, mainSkillLevel, skillMastery);
+        var materials = json?["materials"]?.ToObject<MaterialRequirement[]>() ?? [];
+        return new ProgressCallback(role, name, elite, mainSkillLevel, skillMastery,
+            json?.Value<string>("step"), json?.Value<int?>("skill_index") ?? 0,
+            [.. materials.Where(m => !string.IsNullOrEmpty(m.Id) && m.Owned >= 0 && m.Required > m.Owned)]);
     }
 
-    private record ProgressCallback(OperatorRole Role, string Name, int? Elite, int? MainSkillLevel, SkillMastery? SkillMastery);
+    private record ProgressCallback(OperatorRole Role, string Name, int? Elite, int? MainSkillLevel, SkillMastery? SkillMastery,
+        string? Step, int SkillIndex, MaterialRequirement[] Materials);
 
     private record ProgressSummary(int Success, int Failed, int Skipped);
+
+    private record MaterialRequirement(string Id, int Required, int Owned);
+
+    private sealed class MaterialReport
+    {
+        public Dictionary<(OperatorRole Role, string Name, string Step, int SkillIndex), MaterialRequirement[]> Steps { get; } = [];
+
+        // 需求按步骤覆盖，持有数始终取本轮最后一次现场观测。
+        public Dictionary<string, int> LastOwned { get; } = [];
+    }
+
+    private void RecordMaterials(int taskId, ProgressCallback callback, string result, string? resultDetail)
+    {
+        if (!_materialReports.TryGetValue(taskId, out var report))
+        {
+            _materialReports[taskId] = report = new();
+        }
+        if (result != "Success" && resultDetail is "ResourceInsufficient" or "FormulaLocked" or "ChipNotCraftable" &&
+            (callback.Step is "elite" or "skill_level" || (callback.Step == "skill_mastery" && callback.SkillIndex is >= 1 and <= 3)))
+        {
+            report.Steps[(callback.Role, callback.Name, callback.Step, callback.SkillIndex)] = callback.Materials;
+            foreach (var material in callback.Materials)
+            {
+                report.LastOwned[material.Id] = material.Owned;
+            }
+        }
+    }
+
+    private void LogMaterialSummary(int taskId)
+    {
+        if (!_materialReports.Remove(taskId, out var report))
+        {
+            return;
+        }
+        var lines = report.Steps.Values.SelectMany(m => m).GroupBy(m => m.Id)
+            .Select(g => (Id: g.Key, Required: g.Sum(m => (long)m.Required), Owned: report.LastOwned[g.Key]))
+            .Where(m => m.Required > m.Owned)
+            .Select(m => LocalizationHelper.GetStringFormat("TaskQueue.OperProgress.MaterialSummaryItem",
+                ItemListHelper.GetItemName(m.Id) ?? m.Id, m.Required - m.Owned, m.Required, m.Owned)).ToArray();
+        if (lines.Length > 0)
+        {
+            Instances.TaskQueueViewModel.AddLog(
+                LocalizationHelper.GetStringFormat("TaskQueue.OperProgress.MaterialSummary", string.Join(Environment.NewLine, lines)), UiLogColor.Warning);
+        }
+    }
 
     private static string BuildTargetCallbackDescription(ProgressCallback callback)
     {
@@ -480,6 +538,23 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
                     str.Append(LocalizationHelper.GetStringFormat("TaskQueue.OperProgress.MasteryTarget", index + 1, level));
                 }
             }
+        }
+        if (callback.Step is not null)
+        {
+            str.AppendLine();
+            str.Append(callback.Step switch
+            {
+                "elite" => LocalizationHelper.GetString("TaskQueue.OperProgress.Elite"),
+                "skill_level" => LocalizationHelper.GetString("TaskQueue.OperProgress.SkillUpgrade"),
+                "skill_mastery" => LocalizationHelper.GetStringFormat("TaskQueue.OperProgress.MasteryStep", callback.SkillIndex),
+                _ => callback.Step,
+            });
+        }
+        foreach (var material in callback.Materials)
+        {
+            str.AppendLine();
+            str.Append(LocalizationHelper.GetStringFormat("TaskQueue.OperProgress.MaterialDetail",
+                ItemListHelper.GetItemName(material.Id) ?? material.Id, material.Owned, material.Required));
         }
         return str.ToString();
     }
