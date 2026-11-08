@@ -14,9 +14,9 @@
 
 卫戍协议三期活动已适配，可使用 ｢小工具-牛杂｣ 中的 ｢卫戍协议｣ 刷取等级奖励。
 
-#### 设置页结构调整：低频项收纳至 ｢高级｣
+#### 设置页结构调整
 
-WPF 设置页低频项收纳到 ｢高级｣ 分区，成就设置保留在常规区。
+WPF 设置页分 ｢常规设置｣ 与 ｢高级设置｣ 两区，低频项收纳到 ｢高级设置｣。
 
 <details>
 <summary><b>English</b></summary>
@@ -55,7 +55,7 @@ Low-frequency WPF settings are grouped under an "Advanced" section while achieve
 ### 改进 | Improved
 
 * OCR 引擎升级至 PP-OCRv6（中英繁日统一多语言模型）与 PP-OCRv5（韩文），并接入 v6 ASCII 专用识别模型 ([#18246](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18246), [#18812](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18812)) @SherkeyXD @Plumess
-* WPF 设置页将低频设置收纳至 ｢高级｣ 分区，成就设置保留在常规区 ([#19095](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/19095)) @MistEO @ABA2396
+* WPF 设置页分 ｢常规设置｣ 与 ｢高级设置｣ 两区，低频项收纳至 ｢高级设置｣ ([#19095](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/19095)) @MistEO @ABA2396
 * 设置指引导航移至顶部横排并优化红点指引与长文案适配；允许跳过的起始步骤改为 ｢连接设置｣ ([#19134](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/19134)) @ABA2396
 * 部署操作统一在控制器支持暂停时先暂停再部署，移除原外服的单独开关 ([#19135](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/19135)) @momomochi987
 * 干员培养清空计划增加二次确认 ([#19140](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/19140)) @Appler-D
