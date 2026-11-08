@@ -1,4 +1,4 @@
-## v6.22.0-beta.2
+## v6.22.0-beta.3
 
 ### Highlights
 
@@ -44,6 +44,17 @@ Low-frequency WPF settings are grouped under an "Advanced" section while achieve
 以下是详细内容：
 
 <details open>
+<summary><b>v6.22.0-beta.3 (2026-11-09)</b></summary>
+
+### 修复 | Fix
+
+* 关卡名确认失败的问题修复扩展至全客户端 ([#19188](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/19188)) @Daydreamer114
+* YostarJP 放宽遥（ハルカ）干员名 OCR 替换规则 @Manicsteiner
+* 修复 macOS 图形界面版打包缺少 Dawn 框架、无法使用 WebGPU 推理后端的问题 @hguandl
+
+</details>
+
+<details>
 <summary><b>v6.22.0-beta.2 (2026-11-08)</b></summary>
 
 ### 修复 | Fix
