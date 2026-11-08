@@ -6,6 +6,7 @@ BUILD_DIR := build
 XCFRAMEWORKS := $(BUILD_DIR)/MaaCore.xcframework \
                 $(BUILD_DIR)/MaaUtils.xcframework \
                 $(BUILD_DIR)/fastdeploy_ppocr.xcframework \
+                $(BUILD_DIR)/Dawn.xcframework \
                 $(BUILD_DIR)/ONNXRuntime.xcframework \
                 $(BUILD_DIR)/OpenCV.xcframework
 
@@ -34,6 +35,7 @@ get_srcs = $(foreach dir,$(SRC_DIRS),$(call _get_and_check,$(dir),$(1)))
 $(BUILD_DIR)/MaaCore.xcframework: $(call get_srcs,libMaaCore.dylib)
 $(BUILD_DIR)/MaaUtils.xcframework: $(call get_srcs,libMaaUtils.dylib)
 $(BUILD_DIR)/fastdeploy_ppocr.xcframework: $(call get_srcs,libfastdeploy_ppocr.dylib)
+$(BUILD_DIR)/Dawn.xcframework: $(call get_srcs,libwebgpu_dawn.dylib)
 $(BUILD_DIR)/ONNXRuntime.xcframework: $(call get_srcs,libonnxruntime*.dylib)
 $(BUILD_DIR)/OpenCV.xcframework: $(call get_srcs,libopencv*.dylib)
 
