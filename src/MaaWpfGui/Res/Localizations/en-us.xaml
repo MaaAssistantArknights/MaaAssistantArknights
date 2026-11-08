@@ -2574,11 +2574,11 @@ Only level rewards can be farmed; to get the Engraved Medal, all ｢Key Objectiv
     <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.Title">Drag &amp; Drop Update</system:String>
     <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.Unknown">Not a recognizable update package.</system:String>
     <system:String x:Key="TutorialChallenge.Level.ExportLogs.Generating">Generating…</system:String>
-    <system:String x:Key="TutorialChallenge.Level.ExportLogs.Goal">Something went wrong and you need the logs? Learn to generate a support payload in {key=Settings.Title} - {key=Settings.IssueReport.Title}.</system:String>
+    <system:String x:Key="TutorialChallenge.Level.ExportLogs.Goal">Hit a bug and want to report it? Generate an error report.</system:String>
     <system:String x:Key="TutorialChallenge.Level.ExportLogs.Title">Export Logs</system:String>
     <system:String x:Key="TutorialChallenge.Level.InventoryTarget.Goal">Getting ready to craft Orundum. Head to 1-7 and stock Orirock Cubes up to 100.</system:String>
     <system:String x:Key="TutorialChallenge.Level.InventoryTarget.Title">Inventory Target</system:String>
-    <system:String x:Key="TutorialChallenge.Level.RecruitRobot.Goal">Want to keep a Robot tag when it shows up in recruitment? Enable {key=Recruit.PreserveTags} in the recruit task and add 支援机械 to the list.</system:String>
+    <system:String x:Key="TutorialChallenge.Level.RecruitRobot.Goal">Spotted the Robot tag in recruitment and want to save it for a Robot? Have the recruit task keep Robot tags.</system:String>
     <system:String x:Key="TutorialChallenge.Level.RecruitRobot.Title">Robot Tag</system:String>
     <system:String x:Key="TutorialChallenge.Level.SettingsSearch.DecoySection">Misc</system:String>
     <system:String x:Key="TutorialChallenge.Level.SettingsSearch.Goal">Too many settings to find? Use the search box to filter every setting item containing "maa" and check them all.</system:String>

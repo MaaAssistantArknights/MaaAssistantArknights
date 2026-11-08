@@ -2575,11 +2575,11 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.Title">ドラッグ更新</system:String>
     <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.Unknown">認識できるアップデートパッケージではありません。</system:String>
     <system:String x:Key="TutorialChallenge.Level.ExportLogs.Generating">生成中…</system:String>
-    <system:String x:Key="TutorialChallenge.Level.ExportLogs.Goal">不具合でログが必要になったら？｢{key=Settings.Title} - {key=Settings.IssueReport.Title}｣ でエラーレポートを生成する方法を覚えましょう。</system:String>
+    <system:String x:Key="TutorialChallenge.Level.ExportLogs.Goal">バグを報告したい？エラーレポートを 1 件生成しましょう。</system:String>
     <system:String x:Key="TutorialChallenge.Level.ExportLogs.Title">ログのエクスポート</system:String>
     <system:String x:Key="TutorialChallenge.Level.InventoryTarget.Goal">合成玉用に 1-7 で初級源岩の在庫を 100 個まで補充したい。</system:String>
     <system:String x:Key="TutorialChallenge.Level.InventoryTarget.Title">{key=TaskQueue.Fight.TargetInventory}</system:String>
-    <system:String x:Key="TutorialChallenge.Level.RecruitRobot.Goal">公開求人で ｢ロボット｣ タグが出たら取っておきたい。公開求人タスクで ｢{key=Recruit.PreserveTags}｣ を有効にし、｢ロボット｣ をリストに追加してください。</system:String>
+    <system:String x:Key="TutorialChallenge.Level.RecruitRobot.Goal">公開求人で ｢ロボット｣ タグが出たらロボット用に取っておきたい。公開求人タスクに ｢ロボット｣ タグを残させましょう。</system:String>
     <system:String x:Key="TutorialChallenge.Level.RecruitRobot.Title">ロボット</system:String>
     <system:String x:Key="TutorialChallenge.Level.SettingsSearch.DecoySection">その他</system:String>
     <system:String x:Key="TutorialChallenge.Level.SettingsSearch.Goal">設定項目が多すぎて見つからない？検索ボックスで ｢maa｣ を含む設定項目をすべて絞り込み、対象をすべてチェックしましょう。</system:String>
