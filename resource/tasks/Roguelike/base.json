@@ -863,7 +863,7 @@
     },
     "Roguelike@IntegratedStrategies": {
         "action": "ClickSelf",
-        "roi": [884, 606, 146, 114],
+        "roi": [760, 606, 146, 114],
         "next": ["Roguelike@IntegratedStrategies", "Roguelike@PreSelectTheme"]
     },
     "Roguelike@LastReward": {
