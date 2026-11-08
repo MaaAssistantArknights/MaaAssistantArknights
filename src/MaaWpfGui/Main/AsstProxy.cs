@@ -201,6 +201,11 @@ public class AsstProxy
         AsstSetConnectionExtras("LDPlayer", extras);
     }
 
+    private static void AsstSetConnectionExtrasModAvd(string extras)
+    {
+        AsstSetConnectionExtras("ModAVD", extras);
+    }
+
     private static unsafe AsstTaskId AsstAppendTask(AsstHandle handle, string type, string taskParams)
     {
         fixed (byte* ptr1 = EncodeNullTerminatedUtf8(type),
@@ -1237,6 +1242,18 @@ public class AsstProxy
                             }
 
                             break;
+
+                        case ConnectConfig.ModAVD:
+                            // 根目录为空时只用 ADB 截图，不提示
+                            if (SettingsViewModel.ConnectSettings.ExtraConfig is ModAvdExtra { RootPath: not "" } && method != "ModAvdExtras")
+                            {
+                                var modAvdExtrasMsg = LocalizationHelper.GetString("Connection.ModAVD.ExtrasNotEnabledMessage");
+                                Instances.TaskQueueViewModel.AddLog(modAvdExtrasMsg, UiLogColor.Error);
+                                Instances.CopilotViewModel.AddLog(modAvdExtrasMsg, UiLogColor.Error, showTime: false);
+                                needToStop = true;
+                            }
+
+                            break;
                     }
 
                     fastestScreencapStringBuilder.Insert(0, LocalizationHelper.GetStringFormat("Asst.Connection.FastestWayToScreencap", costString, method));
@@ -1363,7 +1380,7 @@ public class AsstProxy
                 default:
                     {
                         // 高配电脑未开截图增强时耗时也常在 100ms 以上，此档不告警，仅提示可优化
-                        if (avgInt >= 100 && SettingsViewModel.ConnectSettings.ScreencapMethod is not ("MumuExtras" or "LDExtras"))
+                        if (avgInt >= 100 && SettingsViewModel.ConnectSettings.ScreencapMethod is not ("MumuExtras" or "LDExtras" or "ModAvdExtras"))
                         {
                             AddLog(LocalizationHelper.GetStringFormat("Asst.Connection.FastestWayToScreencap.InfoTip", avgInt), UiLogColor.Info);
                         }
@@ -3508,6 +3525,10 @@ public class AsstProxy
         else if (ConnectSettingsUserControlModel.Instance.ExtraConfig is LDPlayerExtra ldPlayer)
         {
             AsstSetConnectionExtrasLdPlayer(ldPlayer.Config);
+        }
+        else if (ConnectSettingsUserControlModel.Instance.ExtraConfig is ModAvdExtra modAvd)
+        {
+            AsstSetConnectionExtrasModAvd(modAvd.Config);
         }
 
         switch (SettingsViewModel.ConnectSettings.ConnectConfig)

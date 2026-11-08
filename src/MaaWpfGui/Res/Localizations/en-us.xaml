@@ -836,6 +836,7 @@ Please ensure only the target emulator is running during detection. Running mult
     <system:String x:Key="Connection.Config.General">General Mode</system:String>
     <system:String x:Key="Connection.Config.GeneralWithoutScreencapErr">General Mode (Blocked exception output)</system:String>
     <system:String x:Key="Connection.Config.LDPlayer">LD Player</system:String>
+    <system:String x:Key="Connection.Config.ModAVD">ModAVD</system:String>
     <system:String x:Key="Connection.Config.MuMu">MuMu Emulator</system:String>
     <system:String x:Key="Connection.Config.MuMuArm">MuMu Player (Windows ARM)</system:String>
     <system:String x:Key="Connection.Config.Nox">Nox</system:String>
@@ -878,6 +879,12 @@ If the game is launched in portrait mode and then switched to landscape, it may 
     <system:String x:Key="Connection.LdPlayer.ManualSetIndex">Manually enter ｢{key=Connection.LdPlayer.Index}｣</system:String>
     <system:String x:Key="Connection.LdPlayer.OpenglMissing">ldopengl64.dll was not found in the selected LDPlayer path. Please verify the installation directory.</system:String>
     <system:String x:Key="Connection.Lost">Connection lost</system:String>
+    <system:String x:Key="Connection.ModAVD.ExtrasNotEnabledMessage">ModAVD screenshot enhancement is not working. Check the ModAVD root and the connection address in ｢{key=Settings.Title} - {key=Settings.Connection.Title} - {key=Connection.Config}｣</system:String>
+    <system:String x:Key="Connection.ModAVD.LibraryMissing">extras\modavd_extras.dll was not found in the selected folder. Please select the ModAVD root (the folder that contains ModAVD.exe); if your ModAVD is too old, update it first.</system:String>
+    <system:String x:Key="Connection.ModAVD.RootPath">ModAVD root</system:String>
+    <system:String x:Key="Connection.ModAVD.RootPath.Tip" xml:space="preserve">The ModAVD root is the folder that contains ModAVD.exe. MAA reads the emulator screen directly through extras\modavd_extras.dll in it, without ADB.
+The instance is taken from the connection address, e.g. 127.0.0.1:20001 or emulator-20000 (adb port = console port + 1); no instance index is needed.
+Leave it empty to take screenshots through ADB only. Touch still uses the touch mode selected below.</system:String>
     <system:String x:Key="Connection.MuMu.BridgeConnection">MuMu Network Bridge Connection</system:String>
     <system:String x:Key="Connection.MuMu.BridgeConnection.Tip">Unless you know what you are doing, do not enable this option</system:String>
     <system:String x:Key="Connection.MuMu.EmulatorPath">MuMu Installation Path</system:String>

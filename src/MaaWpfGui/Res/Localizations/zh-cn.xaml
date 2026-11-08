@@ -836,6 +836,7 @@
     <system:String x:Key="Connection.Config.General">通用模式</system:String>
     <system:String x:Key="Connection.Config.GeneralWithoutScreencapErr">通用模式（屏蔽异常输出）</system:String>
     <system:String x:Key="Connection.Config.LDPlayer">雷电模拟器</system:String>
+    <system:String x:Key="Connection.Config.ModAVD">ModAVD</system:String>
     <system:String x:Key="Connection.Config.MuMu">MuMu 模拟器</system:String>
     <system:String x:Key="Connection.Config.MuMuArm">MuMu 模拟器（Windows ARM）</system:String>
     <system:String x:Key="Connection.Config.Nox">夜神模拟器</system:String>
@@ -878,6 +879,12 @@ C:\leidian\LDPlayer9
     <system:String x:Key="Connection.LdPlayer.ManualSetIndex">手动填写 ｢{key=Connection.LdPlayer.Index}｣</system:String>
     <system:String x:Key="Connection.LdPlayer.OpenglMissing">在所选 LDPlayer 路径中未找到 ldopengl64.dll，请确认安装目录。</system:String>
     <system:String x:Key="Connection.Lost">连接已断开</system:String>
+    <system:String x:Key="Connection.ModAVD.ExtrasNotEnabledMessage">ModAVD 截图增强未生效，请在 ｢{key=Settings.Title} - {key=Settings.Connection.Title} - {key=Connection.Config}｣ 检查 ModAVD 根目录和连接地址</system:String>
+    <system:String x:Key="Connection.ModAVD.LibraryMissing">所选目录下没有 extras\modavd_extras.dll。请选择 ModAVD 的根目录（ModAVD.exe 所在的目录）；ModAVD 版本过旧时请先更新。</system:String>
+    <system:String x:Key="Connection.ModAVD.RootPath">ModAVD 根目录</system:String>
+    <system:String x:Key="Connection.ModAVD.RootPath.Tip" xml:space="preserve">ModAVD 根目录即 ModAVD.exe 所在的目录。MAA 会通过其中的 extras\modavd_extras.dll 直接读取模拟器画面，不经过 ADB。
+实例由连接地址确定，例如 127.0.0.1:20001 或 emulator-20000（adb 端口 = 控制台端口 + 1），不需要填写实例编号。
+留空则只用 ADB 截图；触控照常使用下方选择的触控模式。</system:String>
     <system:String x:Key="Connection.MuMu.BridgeConnection">MuMu 网络桥接模式</system:String>
     <system:String x:Key="Connection.MuMu.BridgeConnection.Tip">除非你知道自己在做什么，否则不要启用此选项</system:String>
     <system:String x:Key="Connection.MuMu.EmulatorPath">MuMu 安装路径</system:String>
