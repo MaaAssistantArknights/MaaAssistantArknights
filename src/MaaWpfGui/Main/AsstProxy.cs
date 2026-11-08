@@ -3526,7 +3526,7 @@ public class AsstProxy
         {
             AsstSetConnectionExtrasLdPlayer(ldPlayer.Config);
         }
-        else if (ConnectSettingsUserControlModel.Instance.ExtraConfig is ModAvdExtra modAvd)
+        else if (SettingsViewModel.ConnectSettings.ExtraConfig is ModAvdExtra modAvd)
         {
             AsstSetConnectionExtrasModAvd(modAvd.Config);
         }

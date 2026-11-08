@@ -3,13 +3,15 @@
 
 #include "MaaUtils/NoWarningCV.hpp"
 #include "Utils/Logger.hpp"
+#include "Utils/Platform.hpp"
 
 namespace asst
 {
 ModAvdExtras::~ModAvdExtras()
 {
-    // 库的引用由 ~LibraryHolder 归还，和 MumuExtras 一样
     uninit();
+    // 只还自己取到的那份引用
+    unload_modavd_library();
 }
 
 bool ModAvdExtras::init(const std::filesystem::path& modavd_root, const std::string& adb_address)
@@ -117,9 +119,11 @@ std::optional<cv::Mat> ModAvdExtras::capture_frame(int& ret)
 
 bool ModAvdExtras::load_modavd_library()
 {
+    using namespace asst::utils::path_literals;
+
     // LibraryHolder 自己补平台的前后缀：extras/modavd_extras.dll、extras/libmodavd_extras.so / .dylib
-    auto lib_path = modavd_root_ / "extras" / "modavd_extras";
-    if (!load_library(lib_path)) {
+    auto lib_path = modavd_root_ / "extras"_p / "modavd_extras"_p;
+    if (!Library::load_library(lib_path)) {
         LogError << "Failed to load ModAVD extras library" << VAR(lib_path);
         unload_modavd_library();
         return false;
@@ -127,12 +131,13 @@ bool ModAvdExtras::load_modavd_library()
     library_loaded_ = true;
     LogInfo << "Successfully loaded ModAVD extras library from: " << lib_path;
 
-    api_version_func_ = get_function<uint32_t()>(kApiVersionFuncName);
-    open_func_ = get_function<int(const OpenParams*, void**)>(kOpenFuncName);
-    close_func_ = get_function<void(void*)>(kCloseFuncName);
-    capabilities_func_ = get_function<uint32_t(void*)>(kCapabilitiesFuncName);
-    capture_func_ = get_function<int(void*, int, uint32_t, uint32_t, void*, size_t, FrameInfo*)>(kCaptureFuncName);
-    strerror_func_ = get_function<const char*(int)>(kStrErrorFuncName);
+    api_version_func_ = Library::get_function<uint32_t()>(kApiVersionFuncName);
+    open_func_ = Library::get_function<int(const OpenParams*, void**)>(kOpenFuncName);
+    close_func_ = Library::get_function<void(void*)>(kCloseFuncName);
+    capabilities_func_ = Library::get_function<uint32_t(void*)>(kCapabilitiesFuncName);
+    capture_func_ =
+        Library::get_function<int(void*, int, uint32_t, uint32_t, void*, size_t, FrameInfo*)>(kCaptureFuncName);
+    strerror_func_ = Library::get_function<const char*(int)>(kStrErrorFuncName);
 
     if (!api_version_func_ || !open_func_ || !close_func_ || !capabilities_func_ || !capture_func_) {
         LogError << "ModAVD extras library is missing functions";
@@ -162,7 +167,7 @@ void ModAvdExtras::unload_modavd_library()
     strerror_func_ = nullptr;
 
     if (library_loaded_) {
-        unload_library();
+        Library::unload_library();
         library_loaded_ = false;
     }
 }

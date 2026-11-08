@@ -17,11 +17,14 @@ namespace asst
 // 读模拟器的截图共享内存。与 MumuExtras / LDExtras 不同，它不依赖 3rdparty/EmulatorExtras，
 // 不受 ASST_WITH_EMULATOR_EXTRAS 控制，Windows / Linux / macOS 都可用。
 // 库的接口见 https://github.com/ModAVD/ModAVDExtras/blob/main/include/modavd_extras.h
-class ModAvdExtras : public LibraryHolder<ModAvdExtras>
+// 不继承 LibraryHolder：它的析构无条件归还一次引用，而引用计数按类型全进程共用。AdbController
+// 总会构造这个成员，没载过库的实例析构时，会把同一进程里别的控制器正在用的库卸掉。
+// 这里只用它的静态函数，自己记住取没取到引用，取到了才还。
+class ModAvdExtras
 {
 public:
     ModAvdExtras() = default;
-    virtual ~ModAvdExtras();
+    ~ModAvdExtras();
 
     bool inited() const { return inited_; }
 
@@ -34,6 +37,8 @@ public:
     std::optional<cv::Mat> screencap();
 
 private:
+    using Library = LibraryHolder<ModAvdExtras>;
+
     // 与 modavd_extras.h 的同名结构体逐字段一致；size 字段让新旧版本的库互相兼容
     struct OpenParams
     {

@@ -806,20 +806,22 @@ bool asst::AdbController::screencap(cv::Mat& image_payload, bool allow_reconnect
 
         if (m_modavd_extras.inited()) {
             start_time = steady_clock::now();
-            if (m_modavd_extras.screencap()) {
+            if (auto image = m_modavd_extras.screencap()) {
                 auto duration = duration_cast<milliseconds>(steady_clock::now() - start_time);
                 if (duration < min_cost) {
                     fastest_method = AdbProperty::ScreencapMethod::ModAvdExtras;
                     m_inited = true;
                     min_cost = duration;
+                    // 选中时交出这一帧：ADB 的几种都失败时，image_payload 不会是空的
+                    image_payload = std::move(*image);
                 }
-                Log.info("ModAvdExtras cost", duration.count(), "ms");
+                LogInfo << "ModAvdExtras cost" << duration.count() << "ms";
                 all_methods_cost.emplace_back(
                     AdbProperty::ScreencapMethod::ModAvdExtras,
                     std::to_string(duration.count()));
             }
             else {
-                Log.info("ModAvdExtras is not supported");
+                LogInfo << "ModAvdExtras is not supported";
                 all_methods_cost.emplace_back(AdbProperty::ScreencapMethod::ModAvdExtras, "???");
             }
         }
