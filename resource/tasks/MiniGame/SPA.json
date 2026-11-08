@@ -2,7 +2,20 @@
     "MiniGame@SPA@Begin": {
         "doc": "卫戍协议：盟约",
         "algorithm": "JustReturn",
-        "next": ["MiniGame@SPA@EnterIndependent"]
+        "next": ["MiniGame@SPA@EnterIndependentQuickly", "MiniGame@SPA@EnterIndependent"]
+    },
+    "MiniGame@SPA@EnterIndependentQuickly": {
+        "doc": "三期新增极速模拟模式",
+        "action": "ClickSelf",
+        "roi": [707, 549, 166, 171],
+        "next": ["MiniGame@SPA@StartSimulation2", "#self"]
+    },
+    "MiniGame@SPA@StartSimulation2": {
+        "doc": "三期新增极速模拟模式",
+        "action": "ClickSelf",
+        "roi": [969, 553, 158, 167],
+        "postDelay": 1000,
+        "next": ["MiniGame@SPA@ReadyScreen", "MiniGame@SPA@Goliath", "#self"]
     },
     "MiniGame@SPA@EnterIndependent": {
         "action": "ClickSelf",
@@ -33,13 +46,26 @@
     },
     "MiniGame@SPA@Goliath": {
         "action": "ClickSelf",
-        "roi": [1048, 84, 191, 196],
-        "next": ["MiniGame@SPA@GoliathConfirmSelect"]
+        "roi": [620, 84, 600, 400],
+        "next": ["MiniGame@SPA@GoliathConfirmSelect", "MiniGame@SPA@GoliathConfirmSelect2"]
     },
     "MiniGame@SPA@GoliathConfirmSelect": {
         "action": "ClickSelf",
         "roi": [1002, 588, 148, 132],
         "next": ["MiniGame@SPA@LoopWaitStart"]
+    },
+    "MiniGame@SPA@GoliathConfirmSelect2": {
+        "doc": "三期修改了确认按钮",
+        "action": "ClickSelf",
+        "roi": [946, 572, 271, 148],
+        "next": ["#self", "MiniGame@SPA@CustomOpersConfirm"]
+    },
+    "MiniGame@SPA@CustomOpersConfirm": {
+        "doc": "三期增加了个自选编队确认页面，和 ReadyScreen 甚至大小不一样",
+        "action": "ClickSelf",
+        "roi": [946, 572, 271, 148],
+        "postDelay": 5000,
+        "next": ["#self", "MiniGame@SPA@LoopWaitStart"]
     },
     "MiniGame@SPA@LoopWaitStart": {
         "algorithm": "JustReturn",
@@ -122,7 +148,7 @@
         "action": "ClickSelf",
         "roi": [964, 590, 294, 130],
         "postDelay": 2000,
-        "next": ["MiniGame@SPA@EnterIndependent"]
+        "next": ["MiniGame@SPA@EnterIndependentQuickly", "MiniGame@SPA@EnterIndependent"]
     },
     "MiniGame@SPA@GiveUp": {
         "doc": "二期新加的允许中断返回",

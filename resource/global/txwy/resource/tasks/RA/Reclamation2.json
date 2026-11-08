@@ -31,6 +31,7 @@
         "text": ["繼", "續", "演", "算"]
     },
     "Reclamation2ExClickProduct": {
+        "ocrReplace": [["蜜光棒", "螢光棒"]],
         "text": ["螢光棒"]
     },
     "Reclamation2ExDeleteArchiveConfirm": {

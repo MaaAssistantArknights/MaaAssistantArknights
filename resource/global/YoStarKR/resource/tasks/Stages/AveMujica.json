@@ -1,8 +1,10 @@
 {
     "AveMujica-OpenOcr": {
+        "ocrReplace": [[" ", ""]],
         "text": ["편안한", "잠꼬대", "잊을", "수없는", "없는꿈", "운명적인", "사랑"]
     },
     "AveMujicaChapterToAveMujica": {
+        "ocrReplace": [[" ", ""]],
         "text": ["잊을", "수없는", "없는꿈"]
     }
 }

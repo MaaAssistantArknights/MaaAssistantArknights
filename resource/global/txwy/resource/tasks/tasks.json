@@ -39,6 +39,10 @@
     "EnterChapterDifficultyNormal": {
         "text": ["進入", "作戰"]
     },
+    "ClickedCorrectStage": {
+        "doc": "新 OCR 会把左侧 OPERATION 装饰标签与关卡码合并成一个词条，且标签前几个字母常识别错误（BATION/BRATION/SPFRATION），OPERATION 替换规则随之失效；关卡码右侧另有美术角标点。roi 缩窄到只框关卡码本身（繁中服实测量取），标签与角标均落在 roi 外",
+        "roi": [922, 81, 83, 32]
+    },
     "CharsNameOcrReplace": {
         "Doc": "干员名 OCR 纠错，数据体在 tasks/hotfix/ocr_replace.json（CharsNameOcrReplaceHotfix），随资源更新分发",
         "baseTask": "CharsNameOcrReplaceHotfix"
@@ -161,7 +165,7 @@
         "text": ["限時開採", "開採"]
     },
     "OrundumActivities": {
-        "text": ["幸運牆", "幸運", "好運牆", "好運", "游樂", "許願牆", "願牆"]
+        "text": ["幸運牆", "幸運", "好運牆", "好運", "游樂", "許願牆", "願牆", "告示板", "澤爾格"]
     },
     "OrundumActivitiesChoose": {
         "text": ["請選擇", "選擇"]
@@ -245,6 +249,9 @@
     "InfrastDormConfirmButtonWait": {
         "text": ["正在提交", "反饋至神經"]
     },
+    "InfrastUnexecutedPlanLeaveConfirm": {
+        "text": ["尚未執行", "確認離開設施"]
+    },
     "InfrastClueSelfFull": {
         "text": ["已達線索上限", "無法獲取新的線索", "上限", "無法"]
     },
@@ -279,9 +286,6 @@
     },
     "BattleStartSimulationForTwo": {
         "text": ["開始", "模擬"]
-    },
-    "BattleDeployWhenPause": {
-        "specialParams": [0]
     },
     "StageDrops-TimesCheck": {
         "text": ["連續", "成功", "代理", "作戰"]

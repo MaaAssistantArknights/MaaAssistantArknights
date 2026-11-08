@@ -104,6 +104,10 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
                 "onnxruntime_maa.dll",
                 "opencv_world4_maa.dll",
 
+                // Dawn（WebGPU 推理后端）的 D3D12 后端运行时加载的 DXC shader 编译器
+                "dxcompiler.dll",
+                "dxil.dll",
+
                 // NetBeauty 关闭 patch（loader 模式）时 .NET 运行时核心件保留在安装目录根下
                 "clrjit.dll",
                 "coreclr.dll",
@@ -1192,6 +1196,7 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
     {
         base.Configure();
         Instances.Instantiate(Container);
+        DailyReportCollector.Initialize(Instances.AsstProxy);
     }
 
     /// <inheritdoc/>
@@ -1738,6 +1743,14 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
             return;
         }
 
+        // DragDrop.DoDragSourceMove 会在拖拽时偶发 COMException，属瞬时竞态，
+        // 静默忽略即可，无需弹窗或写日志。
+        if (e.Exception is COMException && e.Exception.ToString().Contains("DragDrop.DoDragSourceMove"))
+        {
+            e.Handled = true;
+            return;
+        }
+
         LogUnhandledException(e.Exception);
         ShowErrorDialog(e.Exception);
         e.Handled = true;
@@ -1759,11 +1772,7 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
             // 这些异常虽然会导致崩溃，但不需要退出程序
             // 这是一坨屎，但是没办法，只能这样了
             var comEx = exception as COMException;
-
             var details = exception.ToString();
-
-            // DragDrop.DoDragSourceMove 会在拖拽时偶发崩溃
-            var isDragDropException = comEx != null && details.Contains("DragDrop.DoDragSourceMove");
 
             // DWM 桌面组合被禁用（0x80263001），通常是瞬时的显卡驱动问题，DWM 会自行恢复
             // 同时用 HResult 与异常文本双重判断，避免不同 .NET 版本/语言环境下 HRESULT 暴露不一致
@@ -1773,9 +1782,7 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
                  details.Contains("Desktop composition is disabled") ||
                  details.Contains("0x80263001"));
 
-            var shouldExit = !isDragDropException && !isDwmCompositionDisabledException;
-
-            var errorView = new ErrorDialogView(exception, shouldExit);
+            var errorView = new ErrorDialogView(exception, shouldExit: !isDwmCompositionDisabledException);
             errorView.ShowDialog();
         });
     }

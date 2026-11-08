@@ -37,7 +37,19 @@ public class GuideDemoTaskItem : PropertyChangedBase, IDisposable
 
     private bool _enableSetting;
 
-    private bool _gateBadgeVisible;
+    private bool _canMoveUp;
+
+    private bool _canMoveDown;
+
+    private bool _nameBadgeVisible;
+
+    private bool _moveUpBadgeVisible;
+
+    private bool _moveDownBadgeVisible;
+
+    private bool _gearBadgeVisible;
+
+    private bool _renameBadgeVisible;
 
     private string _demoStage = string.Empty;
 
@@ -121,13 +133,68 @@ public class GuideDemoTaskItem : PropertyChangedBase, IDisposable
     }
 
     /// <summary>
-    /// Gets or sets a value indicating whether the gate badge shows on this task item：
-    /// 引导红点跟随 ｢下一个待操作步骤｣ 定位，由 <c>SettingsViewModel</c> 在 gate 重算时写入。
+    /// Gets or sets a value indicating whether the demo task can be moved up. 首行禁止上移，集合变化时统一重算写入。
     /// </summary>
-    public bool IsGateBadgeVisible
+    public bool CanMoveUp
     {
-        get => _gateBadgeVisible;
-        set => SetAndNotify(ref _gateBadgeVisible, value);
+        get => _canMoveUp;
+        set => SetAndNotify(ref _canMoveUp, value);
+    }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the demo task can be moved down. 末行禁止下移，集合变化时统一重算写入。
+    /// </summary>
+    public bool CanMoveDown
+    {
+        get => _canMoveDown;
+        set => SetAndNotify(ref _canMoveDown, value);
+    }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the gate badge shows on this task's name（重命名等以任务本身为对象的步骤）。
+    /// 任务项上的引导标记跟随 ｢下一个待操作步骤｣ 落在对应控件上，由 <c>SettingsViewModel</c> 在 gate 重算时写入。
+    /// </summary>
+    public bool IsNameBadgeVisible
+    {
+        get => _nameBadgeVisible;
+        set => SetAndNotify(ref _nameBadgeVisible, value);
+    }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the move-up arrow badge shows on this task's name（需将该任务上移的步骤）。
+    /// </summary>
+    public bool IsMoveUpBadgeVisible
+    {
+        get => _moveUpBadgeVisible;
+        set => SetAndNotify(ref _moveUpBadgeVisible, value);
+    }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the move-down arrow badge shows on this task's name（需将该任务下移的步骤）。
+    /// </summary>
+    public bool IsMoveDownBadgeVisible
+    {
+        get => _moveDownBadgeVisible;
+        set => SetAndNotify(ref _moveDownBadgeVisible, value);
+    }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the gate badge shows on this task's gear button（下一步需先选中本任务齿轮时）。
+    /// </summary>
+    public bool IsGearBadgeVisible
+    {
+        get => _gearBadgeVisible;
+        set => SetAndNotify(ref _gearBadgeVisible, value);
+    }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the gate badge shows on this task's rename button：
+    /// 重命名按钮仅在鼠标移到任务上时显示，此时名称上的红点让位给按钮。
+    /// </summary>
+    public bool IsRenameBadgeVisible
+    {
+        get => _renameBadgeVisible;
+        set => SetAndNotify(ref _renameBadgeVisible, value);
     }
 
     /// <summary>

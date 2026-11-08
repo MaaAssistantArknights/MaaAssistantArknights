@@ -15,6 +15,8 @@ Uses DirectML to call the GPU for recognition inference acceleration<sup>[PR](ht
 
 Testing has shown that some graphics cards may experience recognition issues when using this feature due to missing functionality or lower performance. MAA has built-in a blacklist for certain GPUs<sup>[PR1](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/9990)[PR2](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/12134)</sup>. If you encounter recognition issues with GPUs not on the blacklist after enabling this feature, please submit an Issue.
 
+In `Settings` - `Performance`, the inference backend can be switched: `Auto` and `DirectML` use the DirectML implementation above (Windows only), while `WebGPU` is an experimental option available on Windows / macOS / Linux. If recognition issues appear after enabling WebGPU, switch back to `Auto` or `DirectML`.
+
 ## One-Time Only
 
 Configuration changes in the main interface and settings are usually saved automatically, but the following will reset after MAA restarts:
@@ -87,8 +89,8 @@ If the interface prompts that your version is too low and the minimum required v
 In `Settings` - `Update Settings`, you can choose the update source:
 
 | Update Source | Description |
-| :------------------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Global Source** (GitHub) | Software version pulled from GitHub; resource version uses [MirrorChyan](https://mirrorchyan.com/en/projects?rid=MAA) for free update detection, manually click `Resource Update` to download from GitHub. |
+| :------------------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Global Source** (GitHub) | Software updates are checked through the MAA API and downloaded from GitHub; resource updates use [MirrorChyan](https://mirrorchyan.com/en/projects?rid=MAA) for free update checks, and you can click `Resource Update` to download them from GitHub manually.<br>After a GitHub Token is entered and validated, both software and resource updates are checked and downloaded through GitHub. |
 | **MirrorChyan** | Enter CDK to enable automatic updates for both software and resources, prioritizing high-speed CDN downloads. More stable and faster. |
 
 You can toggle the following options in update settings:

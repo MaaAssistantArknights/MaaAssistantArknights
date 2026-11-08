@@ -12,3 +12,7 @@
 *.yaml   text eol=lf
 
 *.sh     text eol=lf
+
+# pnnx 产物原样存储
+*.ncnn.param -text
+*.ncnn.bin   binary

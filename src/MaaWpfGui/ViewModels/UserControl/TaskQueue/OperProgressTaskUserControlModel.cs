@@ -151,6 +151,22 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
 
     public void ClearPlan()
     {
+        if (PlanItems.Count == 0)
+        {
+            return;
+        }
+
+        var result = MessageBoxHelper.Show(
+            LocalizationHelper.GetString("TaskQueue.OperProgress.ClearPlansConfirm"),
+            LocalizationHelper.GetString("Common.Warning"),
+            MessageBoxButton.YesNo,
+            MessageBoxImage.Warning);
+
+        if (result != MessageBoxResult.Yes)
+        {
+            return;
+        }
+
         PlanItems.Clear();
     }
 

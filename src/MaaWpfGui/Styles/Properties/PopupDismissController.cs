@@ -79,19 +79,31 @@ internal sealed class PopupDismissController
     // 点外部/失活关闭不回调，下一次打开不受任何限制
     private readonly Action? _onAnchorClickClose;
 
+    // 连击判定与锚点点击判定所用的元素：多个触发元素共用一个弹层时（如列表里的各格子），
+    // 锚点只能取它们的容器，判定若也用容器会把判定窗口内点容器任意位置都当成连击；
+    // 由使用方按当前打开的触发元素提供，返回 null 时回退到锚点
+    private readonly Func<FrameworkElement?>? _repeatClickTarget;
+
     /// <summary>
     /// Initializes a new instance of the <see cref="PopupDismissController"/> class.
     /// </summary>
     /// <param name="popup">受控弹层，需 StaysOpen 保持 true，关闭时机完全由本类接管。</param>
-    /// <param name="anchor">触发控件。</param>
+    /// <param name="anchor">触发控件；多个触发元素共用弹层时传它们的容器，用于窗口失活订阅与卸载解绑。</param>
     /// <param name="close">关闭动作，null 表示直接置 <c>popup.IsOpen = false</c>。</param>
     /// <param name="onAnchorClickClose">因点击锚点而关闭时的回调。</param>
-    public PopupDismissController(Popup popup, FrameworkElement anchor, Action? close = null, Action? onAnchorClickClose = null)
+    /// <param name="repeatClickTarget">提供连击与锚点点击判定所用的元素，null 表示用 <paramref name="anchor"/>。</param>
+    public PopupDismissController(
+        Popup popup,
+        FrameworkElement anchor,
+        Action? close = null,
+        Action? onAnchorClickClose = null,
+        Func<FrameworkElement?>? repeatClickTarget = null)
     {
         _popup = popup;
         _anchor = anchor;
         _close = close ?? (() => popup.IsOpen = false);
         _onAnchorClickClose = onAnchorClickClose;
+        _repeatClickTarget = repeatClickTarget;
         popup.Opened += OnPopupOpened;
         popup.Closed += OnPopupClosed;
         anchor.Unloaded += OnAnchorUnloaded;
@@ -231,10 +243,11 @@ internal sealed class PopupDismissController
 
     private bool IsCursorOnAnchor()
     {
+        var target = _repeatClickTarget?.Invoke() ?? _anchor;
         try
         {
-            var pos = Mouse.GetPosition(_anchor);
-            var size = _anchor.RenderSize;
+            var pos = Mouse.GetPosition(target);
+            var size = target.RenderSize;
             return pos.X >= 0 && pos.Y >= 0 && pos.X <= size.Width && pos.Y <= size.Height;
         }
         catch (InvalidOperationException)

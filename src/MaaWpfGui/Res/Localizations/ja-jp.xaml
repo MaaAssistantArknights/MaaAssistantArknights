@@ -414,6 +414,7 @@
     <system:String x:Key="Asst.Drop.ReportSkippedForPcClient">PC クライアントではカーソルがドロップ品や個数の認識を遮る場合があります。誤ったデータでデータプールを汚染しないよう、{0}への今回のレポートは自動的にスキップしました</system:String>
     <system:String x:Key="Asst.Drop.TotalDrop" xml:space="preserve">ドロップ統計: </system:String>
     <system:String x:Key="Asst.Fight.ActingCommandError">自動指揮のミスが生じました</system:String>
+    <system:String x:Key="Asst.Fight.AnnihilationEntryNotFound">ターミナルのTo-Doリストに殲滅作戦が見つかりません。今週分は完了済みの可能性があります。殲滅作戦をスキップします</system:String>
     <system:String x:Key="Asst.Fight.CurrentSanity" xml:space="preserve">理性: {0}/{1}  </system:String>
     <system:String x:Key="Asst.Fight.ExpiringMedicineUsed">{0}日以内に期限が切れる回復剤を使った</system:String>
     <system:String x:Key="Asst.Fight.MedicineInfo">回復剤：{0}、在庫：{1}</system:String>
@@ -1267,28 +1268,28 @@ DEBUGディレクトリに保存される画像には数量制限があり、超
 • LDPlayer：設定 → その他 → ADBデバッグ → ローカル接続を有効にする</system:String>
     <system:String x:Key="Guide.Demo.BlockedOperation">この操作はガイドの流れの外です。現在のステップに従ってください</system:String>
     <system:String x:Key="Guide.Demo.Gate.AddFight">｢{key=TaskQueue.AddTask}｣ で ｢{key=TaskQueue.Task.Fight}｣ タスクを追加してください</system:String>
-    <system:String x:Key="Guide.Demo.Gate.AddNightTheme">｢{key=TaskQueue.Task.SwitchTheme}｣ タスクの歯車ボタンをオンにし、｢{key=TaskQueue.SwitchTheme.Add}｣ で ｢{key=Guide.Demo.NightTheme}｣ テーマを追加してください</system:String>
+    <system:String x:Key="Guide.Demo.Gate.AddNightTheme">｢{key=TaskQueue.Task.SwitchTheme}｣ タスクの歯車アイコンをクリックし、｢{key=TaskQueue.SwitchTheme.Add}｣ で ｢{key=Guide.Demo.NightTheme}｣ テーマを追加してください</system:String>
     <system:String x:Key="Guide.Demo.Gate.AddSwitchTheme">｢{key=TaskQueue.AddTask}｣ で ｢{key=TaskQueue.Task.SwitchTheme}｣ タスクを追加し、リストの最後に置いてください</system:String>
     <system:String x:Key="Guide.Demo.Gate.CheckWeekDays">週次スケジュールで ｢月曜日｣ と ｢日曜日｣ にチェックを入れてください</system:String>
-    <system:String x:Key="Guide.Demo.Gate.EnableWeekly">殲滅タスクの歯車ボタンをオンにし、｢{key=TaskQueue.AdvancedSettings}｣ の ｢{key=TaskQueue.UseWeeklySchedule}｣ にチェックを入れてください</system:String>
-    <system:String x:Key="Guide.Demo.Gate.RenameFight">追加した ｢{key=TaskQueue.Task.Fight}｣ タスクにカーソルを合わせ、デフォルトと区別できるよう名前を変更してください</system:String>
-    <system:String x:Key="Guide.Demo.Gate.ReorderFight">名前を変更した ｢{key=TaskQueue.Task.Fight}｣ をドラッグし、デフォルトのタスクの上に移動してください</system:String>
-    <system:String x:Key="Guide.Demo.Gate.ReorderTheme">｢{key=TaskQueue.Task.SwitchTheme}｣ タスクをリストの最後へドラッグしてください</system:String>
+    <system:String x:Key="Guide.Demo.Gate.EnableWeekly">殲滅タスクの歯車アイコンをクリックし、｢{key=TaskQueue.AdvancedSettings}｣ の ｢{key=TaskQueue.UseWeeklySchedule}｣ にチェックを入れてください</system:String>
+    <system:String x:Key="Guide.Demo.Gate.RenameFight">追加した ｢{key=TaskQueue.Task.Fight}｣ タスクにマウスを乗せ、名前変更ボタンでデフォルトと違う名前に変更してください</system:String>
+    <system:String x:Key="Guide.Demo.Gate.ReorderFight">名前を変更した ｢{key=TaskQueue.Task.Fight}｣ をドラッグしてデフォルトのタスクの上に移動するか、歯車アイコンを右クリックして ｢{key=TaskQueue.MoveUp}｣ を選んでください</system:String>
+    <system:String x:Key="Guide.Demo.Gate.ReorderTheme">｢{key=TaskQueue.Task.SwitchTheme}｣ タスクをドラッグしてリストの最後に移動するか、歯車アイコンを右クリックして ｢{key=TaskQueue.MoveDown}｣ を選んでください</system:String>
     <system:String x:Key="Guide.Demo.Gate.RestoreFight">リストには ｢{key=TaskQueue.Task.Fight}｣ タスクが必要です。｢{key=TaskQueue.AddTask}｣ で追加し直してください</system:String>
     <system:String x:Key="Guide.Demo.Gate.RestoreStartUp">リストには ｢{key=TaskQueue.Task.StartUp}｣ タスクが必要です。｢{key=TaskQueue.AddTask}｣ で追加し直してください</system:String>
-    <system:String x:Key="Guide.Demo.Gate.SelectStage">歯車ボタンをオンにし、ステージを ｢{key=TaskQueue.Annihilation.Current}｣ に選択してください</system:String>
+    <system:String x:Key="Guide.Demo.Gate.SelectStage">｢{key=TaskQueue.Task.Fight}｣ タスクの歯車アイコンをクリックし、ステージを ｢{key=TaskQueue.Annihilation.Current}｣ に選択してください</system:String>
     <system:String x:Key="Guide.Demo.NightTheme">夜</system:String>
-    <system:String x:Key="Guide.Demo.SettingsPlaceholder">左側のガイド手順に従ってください。このタスクの設定にデモ内容はありません</system:String>
+    <system:String x:Key="Guide.Demo.SettingsPlaceholder">上のヒントに従って操作してください。このタスクの設定にデモ内容はありません</system:String>
     <system:String x:Key="Guide.Demo.Start">デモでは実際にタスクは実行されません</system:String>
     <system:String x:Key="Guide.Demo.TaskAddLimit.Tip">デモリストに追加できるタスクは最大 5 個です。追加する前に一部を削除してください</system:String>
     <system:String x:Key="Guide.Documentation.Path">MAA の公式サイトと完全なドキュメントは ｢{key=Settings.Title} - {key=Settings.About.Title} - {key=About.Website}｣ でご覧いただけます。</system:String>
     <system:String x:Key="Guide.Documentation.Title">📖 公式サイトとドキュメント</system:String>
     <system:String x:Key="Guide.Done">完了</system:String>
-    <system:String x:Key="Guide.GearContextMenu.Tip">歯車を右クリックで操作一覧 ↓</system:String>
+    <system:String x:Key="Guide.GearContextMenu.Tip">歯車アイコンを右クリックでその他の操作 ↓</system:String>
     <system:String x:Key="Guide.GenerateReport">｢{key=Settings.Title} - {key=Settings.IssueReport.Title} - {key=Error.GenerateSupportPayload}｣ を使用してエラーレポートを生成し、青い ｢{key=Error.Issue}｣ リンクをクリックしてフィードバックを送信してください。</system:String>
     <system:String x:Key="Guide.GitHubIssue.Description">MAA Team は、Issue テンプレートの仕様に従って GitHub プラットフォームを通じてユーザーから提出されたフィードバックのみを受け付け、すべてのフィードバックの処理に関する決定権を留保します。</system:String>
     <system:String x:Key="Guide.GitHubIssue.Title">⚠️ フィードバックガイドライン</system:String>
-    <system:String x:Key="Guide.HoverActionButtons">ホバーでコピー/名前変更/削除</system:String>
+    <system:String x:Key="Guide.HoverActionButtons">タスクにマウスを乗せるとコピー/名前変更/削除</system:String>
     <system:String x:Key="Guide.IssueReport.Subtitle">🔧 問題が発生した場合</system:String>
     <system:String x:Key="Guide.LinkStart">← タスクを開始</system:String>
     <system:String x:Key="Guide.Next">次へ</system:String>
@@ -1299,10 +1300,16 @@ DEBUGディレクトリに保存される画像には数量制限があり、超
     <system:String x:Key="Guide.RestartPrompt">設定ガイドはメイン画面に表示されます。今すぐアプリケーションを再起動しますか？</system:String>
     <system:String x:Key="Guide.Settings">設定ガイド</system:String>
     <system:String x:Key="Guide.Skip">スキップ</system:String>
-    <system:String x:Key="Guide.Tip">マウスを乗せるとヒントあり</system:String>
+    <system:String x:Key="Guide.SkipPrompt" xml:space="preserve">｢{key=TaskQueue.TaskSettings}｣ など残りのステップではタスクの基本的な操作を説明します。最後まで進めることをおすすめします。スキップしますか？&#10;後で ｢{key=Settings.Title} - {key=Settings.Ui.Title} - {key=Guide.Title}｣ で{key=Guide.Restart}できます。</system:String>
+    <system:String x:Key="Guide.Tip">? にマウスを乗せると説明</system:String>
     <system:String x:Key="Guide.Title">操作とガイド</system:String>
     <system:String x:Key="Guide.User">使用ガイド</system:String>
     <system:String x:Key="Guide.ViewLog">｢{key=Settings.Title} - {key=Settings.IssueReport.Title} - {key=Error.OpenDebugFolder}｣ にアクセスしてログを確認し、エラーの具体的な原因を把握できます。</system:String>
+    <system:String x:Key="InferenceBackend">推論バックエンド</system:String>
+    <system:String x:Key="InferenceBackendAuto">自動 (推奨)</system:String>
+    <system:String x:Key="InferenceBackendDirectML">DirectML</system:String>
+    <system:String x:Key="InferenceBackendTip" xml:space="preserve">モデル推論の実行バックエンドを選択します。&#10;自動モードでは最も安定したバックエンド（DirectML）が選択されます。WebGPU は現在実験的機能です。</system:String>
+    <system:String x:Key="InferenceBackendWebGpu">WebGPU (実験的)</system:String>
     <system:String x:Key="Infrast.ContinueTraining">訓練完了後に現在スキルの継続特化を試みます</system:String>
     <system:String x:Key="Infrast.Custom.File">基地構成ファイルの指定</system:String>
     <system:String x:Key="Infrast.Custom.FileHasPlanNoPeriod">カスタムインフラストラクチャ設定では、一部のプランにのみ時間帯が設定されている場合があり、予期しない動作が発生する可能性があります。シフト交代時間帯を設定する必要がある場合は、すべてのプランに時間帯が設定されていることを確認してください。設定されていない場合は、すべてのプランを空白のままにしてください。</system:String>
@@ -1742,6 +1749,9 @@ DEBUGディレクトリに保存される画像には数量制限があり、超
     <system:String x:Key="Settings.About.Title">私たちについて</system:String>
     <system:String x:Key="Settings.About.UiPreviewMode">UI プレビュー</system:String>
     <system:String x:Key="Settings.Achievement.Title">実績設定</system:String>
+    <system:String x:Key="Settings.Advanced.Hide">詳細設定を非表示</system:String>
+    <system:String x:Key="Settings.Advanced.Show">詳細設定を表示</system:String>
+    <system:String x:Key="Settings.Advanced.Title">詳細設定</system:String>
     <system:String x:Key="Settings.Background">背景設定</system:String>
     <system:String x:Key="Settings.Background.BlurRadius">背景のぼかし半径</system:String>
     <system:String x:Key="Settings.Background.Image">背景画像</system:String>
@@ -1910,15 +1920,28 @@ MAA は非インストール型のアプリケーションであり、レジス�
 • {key=Settings.Update.Channel.Stable}: バグは少なくなりますが、新機能や新しいテーマのサポートは遅くなります。新機能のサポートには数週間かかる場合があります。</system:String>
     <system:String x:Key="Settings.Update.CheckNow">ソフト更新</system:String>
     <system:String x:Key="Settings.Update.CoreVersion">Core バージョン</system:String>
-    <system:String x:Key="Settings.Update.ForceGithub">GitHub を強制使用</system:String>
-    <system:String x:Key="Settings.Update.ForceGithub.Tip">更新を検出後、Githubから強制的に更新パッケージをダウンロード</system:String>
+    <system:String x:Key="Settings.Update.GitHub.Token">GitHub Token</system:String>
+    <system:String x:Key="Settings.Update.GitHub.Token.Checking">Token を検証中……</system:String>
+    <system:String x:Key="Settings.Update.GitHub.Token.Expired">Token の有効期限が切れています。</system:String>
+    <system:String x:Key="Settings.Update.GitHub.Token.Failed">Token の検証に失敗しました。ネットワーク接続を確認してください。</system:String>
+    <system:String x:Key="Settings.Update.GitHub.Token.Generate">Token を作成</system:String>
+    <system:String x:Key="Settings.Update.GitHub.Token.Invalid">Token が無効です。入力が正しいか確認してください。</system:String>
+    <system:String x:Key="Settings.Update.GitHub.Token.NeverExpires">Token は無期限です。</system:String>
+    <system:String x:Key="Settings.Update.GitHub.Token.RemainingDays">Token の有効期限まで残り {0} 日です。</system:String>
+    <system:String x:Key="Settings.Update.GitHub.Token.Tip" xml:space="preserve">GitHub API への匿名アクセスはレート制限の対象です。未入力の場合、更新確認は MAA Team が提供します。
+独自の {key=Settings.Update.GitHub.Token} を入力して検証に成功すると、専用の枠が使えるほか、ソフトウェアとリソースの更新確認とダウンロードはどちらも GitHub が提供します。
+読み取り専用 Token の使用を推奨します。他の権限は不要です。</system:String>
     <system:String x:Key="Settings.Update.LocalResourcePackageTooOld">リソースパッケージのバージョン（{0}）は現在のバージョン（{1}）と同じか古いため、インポートをスキップしました。</system:String>
     <system:String x:Key="Settings.Update.MaaVersion">Software バージョン</system:String>
-    <system:String x:Key="Settings.Update.MirrorChyan.CdkFetchFailed">CDK 情報の取得に失敗しました。前回正常に取得した結果を表示しています。</system:String>
+    <system:String x:Key="Settings.Update.MirrorChyan.Cdk">{key=Settings.Update.Source.MirrorChyan} CDK</system:String>
+    <system:String x:Key="Settings.Update.MirrorChyan.Cdk.Tip" xml:space="preserve">{key=Settings.Update.Source.MirrorChyan} CDK を入力すると、ソフトウェアとリソースの自動更新が有効になり、ダウンロードは高速 CDN が優先され、より安定かつ高速になります。</system:String>
     <system:String x:Key="Settings.Update.MirrorChyan.CdkRemainingDays">CDK の有効期限は残り {0} 日です。</system:String>
+    <system:String x:Key="Settings.Update.MirrorChyan.Checking">CDK を検証中……</system:String>
+    <system:String x:Key="Settings.Update.MirrorChyan.ExpirationUnknown">CDK の有効期限を取得できませんでした。</system:String>
     <system:String x:Key="Settings.Update.MirrorChyan.ResourceUpdate.Brief.Tip">リソース更新 {0} が検出されました</system:String>
     <system:String x:Key="Settings.Update.MirrorChyan.ResourceUpdate.Tip">リソース更新 {0} が検出されました。｢{key=Settings.Title} - {key=Settings.Update.Title} - {key=Settings.Update.ResourceUpdate}｣ に移動して手動で更新するか、MirrorChyan CDK を入力して自動的に更新してください。</system:String>
     <system:String x:Key="Settings.Update.MirrorChyan.SelectedButNoCdk">｢{key=Settings.Title} - {key=Settings.Update.Title}｣ に移動して MirrorChyan CDK を設定するか、グローバル ソースに切り替えてください。</system:String>
+    <system:String x:Key="Settings.Update.MirrorChyan.ValidationFailed">CDK の検証に失敗しました。ネットワーク接続を確認してください。</system:String>
     <system:String x:Key="Settings.Update.NoNeedToUpdateDebugVersion">現在はデバッグバージョンであり、更新は必要ありません</system:String>
     <system:String x:Key="Settings.Update.ResourceDateTime">リソース日付</system:String>
     <system:String x:Key="Settings.Update.ResourceRepository">リソース倉庫</system:String>
@@ -1941,8 +1964,8 @@ MAA は非インストール型のアプリケーションであり、レジス�
     <system:String x:Key="Settings.Update.Source.MirrorChyan">MirrorChyan</system:String>
     <system:String x:Key="Settings.Update.Source.Tip" xml:space="preserve">
 🌏 {key=Settings.Update.Source.Global}を使用：
-    • {key=Settings.Update.CheckNow}：MAA Team による更新確認で、GitHub から更新パッケージを取得します。中国国内向けに直通ミラーも提供されています（ピーク時は帯域制限の可能性あり）
-    • {key=Settings.Update.ResourceUpdate}：{key=Settings.Update.Source.MirrorChyan} による無料の更新確認が可能。設定画面で ｢{key=Settings.Update.ResourceUpdate}｣ をクリックして GitHub から手動ダウンロード可能
+    • 検証済みの GitHub Token がない場合、{key=Settings.Update.CheckNow}は MAA Team が更新を確認し、GitHub から更新パッケージをダウンロードします。{key=Settings.Update.ResourceUpdate}は {key=Settings.Update.Source.MirrorChyan} が無料で更新を確認し、設定の ｢{key=Settings.Update.ResourceUpdate}｣ をクリックすると GitHub から手動でダウンロードできます
+    • GitHub Token を入力して検証に成功すると、ソフトウェアとリソースの更新確認とダウンロードは、どちらも GitHub が提供します。
 
 🔑 {key=Settings.Update.Source.MirrorChyan}を使用：
     • CDK を入力すると、ソフトウェアとリソースの自動更新が有効になります
@@ -1990,6 +2013,53 @@ MAA は非インストール型のアプリケーションであり、レジス�
     <system:String x:Key="TaskQueue.CustomStageCode">ステージ名を入力する</system:String>
     <system:String x:Key="TaskQueue.CustomStageCode.Tip" xml:space="preserve">(テスト機能)ステージ名と番号（例: 4-10、AP-5、H10-1-Hardなど）
 の両方がサポートされています。ステージの最後に ｢Normal/Hard｣ を入力すると難易度を切り替えできます（10〜14章は標準/厄難、15章以降は通常/険地）</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Chart.Bars">棒グラフ</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Chart.Collapse.Tip">グラフを折りたたむ/展開する</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Chart.Heatmap">ヒートマップ</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Chart.NoBattle">作戦なし</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Chart.OverlayTipFormat">理性剤 {0} · 源石 {1}</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Chart.Rank">ステージ比較</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Chart.Trend">推移</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Dimension.All">全期間</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Dimension.Day">日</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Dimension.Month">月</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Dimension.Week">週</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Dimension.Year">年</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Meta.DurationFormat">平均 {0}/回</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Meta.MedicinesFormat">理性剤 {0}</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Meta.MedicinesFormat.One">理性剤 {0}</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Meta.SanityFormat">理性 {0}</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Meta.SessionsFormat">{0} 回</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Meta.SessionsFormat.One">{0} 回</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Meta.StonesFormat">源石 {0}</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.NoData">戦闘記録はありません</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.OpenButton">戦闘日報</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.PickDate">日付を選択</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Rank.HistoryBestFormat">全期間の最良 {0}：{1} 理性/個（誤差 {2}）、この期間は未周回</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Rank.Open.Tip">各ステージの 1 個あたり理性を比較</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Rank.ScopeFormat">この期間に周回したステージのみ · {0} 以降の全記録で算出</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Rank.SummaryFormat">ステージ順位 {0}/{1} · 誤差 {2}</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Rank.SummaryLowSampleFormat">ステージ順位 {0}/{1} · 誤差 {2} · サンプル少</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Rank.Tip" xml:space="preserve">95% 信頼区間 {0} ~ {1} 理性/個&#10;{3} 戦で {2} 個ドロップ</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Rate.PerBattle">1 戦あたり</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Rate.SanityPerItem">1 個あたり理性</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Retention">保持期間</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Retention.ConfirmPruneMessage" xml:space="preserve">切り替えると {0} から {1} までの {2} 日分の作戦記録が削除されます。この操作は元に戻せません。&#10;続行しますか？</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Retention.Day">過去 1 日</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Retention.Month">過去 1 ヶ月</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Retention.Tip">日報データはゲーム日単位で保持され、期限を過ぎると自動削除されます</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Retention.Unlimited">無制限</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Retention.Week">過去 1 週間</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Retention.Year">過去 1 年</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Stat.DropKinds">ドロップ種類</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Stat.Medicines">理性剤</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Stat.Sanity">理性消費</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Stat.Sessions">回数</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Stat.Stones">源石</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Title">戦闘日報</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Today">今日</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.View.Material">素材別</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.View.Stage">ステージ別</system:String>
     <system:String x:Key="TaskQueue.DepotMaintain.AddPlan">追加</system:String>
     <system:String x:Key="TaskQueue.DepotMaintain.ClearPlans">クリア</system:String>
     <system:String x:Key="TaskQueue.DepotMaintain.ClearPlansConfirm">すべてのプランを削除しますか？</system:String>
@@ -2102,8 +2172,11 @@ MAA は非インストール型のアプリケーションであり、レジス�
     <system:String x:Key="TaskQueue.MainTasksNullFunctionality.Switch">｢{key=Settings.Title} - {key=Settings.Ui.Title} - {key=TaskQueue.MainTasksNullFunctionality}｣ で右クリック効果を切替可能</system:String>
     <system:String x:Key="TaskQueue.MainTasksNullFunctionality.Tip">デフォルト：1回のみ有効、チェック後：1回のみスキップ</system:String>
     <system:String x:Key="TaskQueue.MainViewButtonFeature">スタート画面に表示する便利ボタン</system:String>
+    <system:String x:Key="TaskQueue.MoveDown">下へ移動</system:String>
+    <system:String x:Key="TaskQueue.MoveUp">上へ移動</system:String>
     <system:String x:Key="TaskQueue.MultiTasksShare.Tip">以下のオプションは複数のタスクで共有されます</system:String>
     <system:String x:Key="TaskQueue.NotSwitch">切り替えない</system:String>
+    <system:String x:Key="TaskQueue.OperProgress.ClearPlansConfirm">すべてのオペレーター育成計画をクリアしますか？この操作は元に戻せません。</system:String>
     <system:String x:Key="TaskQueue.OperProgress.Detail">{key=TaskQueue.Task.OperProgress} {0}:{1} {2}</system:String>
     <system:String x:Key="TaskQueue.OperProgress.Elite">昇進段階</system:String>
     <system:String x:Key="TaskQueue.OperProgress.EliteTarget">昇進段階 {0}</system:String>
@@ -2127,6 +2200,7 @@ MAA は非インストール型のアプリケーションであり、レジス�
     <system:String x:Key="TaskQueue.PostAction.ExitArknights">アークナイツを終了する</system:String>
     <system:String x:Key="TaskQueue.PostAction.ExitEmulator">エミュレータを終了する</system:String>
     <system:String x:Key="TaskQueue.PostAction.ExitEmulatorFailed">エミュレータの終了に失敗しました</system:String>
+    <system:String x:Key="TaskQueue.PostAction.ExitPCClient">PC クライアントを終了する</system:String>
     <system:String x:Key="TaskQueue.PostAction.ExitSelf">MAAを終了する</system:String>
     <system:String x:Key="TaskQueue.PostAction.Hibernate">休止状態にする</system:String>
     <system:String x:Key="TaskQueue.PostAction.Hibernate.Prompt">完了しました。休止状態にしようとしています</system:String>
@@ -2452,12 +2526,9 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="Toolbox.MiniGame.Reclamation.Title">生息演算</system:String>
     <system:String x:Key="Toolbox.MiniGame.Reclamation.ToolToCraft.Placeholder">ケミカルライト</system:String>
     <system:String x:Key="Toolbox.MiniGame.Reclamation.ToolToCraft.Tip">支援道具名</system:String>
-    <system:String x:Key="Toolbox.MiniGame.SPA">堅守協定：盟約</system:String>
-    <system:String x:Key="Toolbox.MiniGame.SPA.Tip" xml:space="preserve">イベントメイン画面（｢単独演算｣ がある場所）からタスクを開始
+    <system:String x:Key="Toolbox.MiniGame.SPA">堅守協定</system:String>
+    <system:String x:Key="Toolbox.MiniGame.SPA.Tip" xml:space="preserve">イベントメイン画面（｢高速演算｣（仮訳）がある場所）からタスクを開始
 セーブデータがある場合は、まず手動で破棄する必要があります
- ｢逆境シミュレーション｣ までテスト済み
-より高い難易度をクリア済みで ｢逆境シミュレーション｣ または ｢標準シミュレーション｣ が表示されない場合、\n ｢逆境シミュレーション｣ 難易度を手動で一度選択してください
- ｢標準シミュレーション｣ を手動でクリアすると、より早くスコアを稼げます
 レベル報酬のみ取得可能。｢功績勲章｣ を入手するには全ての ｢主要目標｣ をクリアする必要があります</system:String>
     <system:String x:Key="Toolbox.MiniGame.SecretFront">隠密戦線</system:String>
     <system:String x:Key="Toolbox.MiniGame.SecretFront.Ending">エンディング</system:String>
@@ -2558,6 +2629,7 @@ D:\
     <system:String x:Key="VersionUpdate.PendingFullUpdate.No">今は更新せず、このバージョンを起動します</system:String>
     <system:String x:Key="VersionUpdate.PendingFullUpdate.Title">フルパッケージ更新には手動確認が必要です</system:String>
     <system:String x:Key="VersionUpdate.PendingFullUpdate.Yes">バックアップ済みです。更新を続行します</system:String>
+    <system:String x:Key="VersionUpdate.RateLimited">更新リクエストがレート制限されています。しばらくしてから再試行してください。</system:String>
     <system:String x:Key="VersionUpdate.ResourceBroken">リソースファイルが破損しています。自動修復（完全なパッケージの再ダウンロード）を試すか、今はそのまま続けて、後でローカルの完全パッケージをドラッグして更新してください。\n\n{key=VersionUpdate.FullPackageUpgrade.Tip}</system:String>
     <system:String x:Key="VersionUpdate.ResourceVersion">リソースバーション</system:String>
     <system:String x:Key="VersionUpdate.SecurityWhitelist.Tip">MAA のフォルダーを当該ソフトの許可リストに追加してから、もう一度お試しください。</system:String>

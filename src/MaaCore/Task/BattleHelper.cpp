@@ -448,10 +448,7 @@ bool asst::BattleHelper::deploy_oper(
     }
     bool deploy_with_pause =
         ControlFeat::support(m_inst_helper.ctrler()->support_features(), ControlFeat::SWIPE_WITH_PAUSE);
-    bool depoly_when_pause_not_support =
-        Task.get("BattleDeployWhenPause")->special_params[0] ==
-        0; // Oversea client support, remove when all clients support this feature !!! by status102
-    if (deploy_with_pause && !depoly_when_pause_not_support) {
+    if (deploy_with_pause) {
         pause();
     }
     Point oper_point(oper_rect.x + oper_rect.width / 2, oper_rect.y + oper_rect.height / 2);
@@ -461,8 +458,7 @@ bool asst::BattleHelper::deploy_oper(
         duration,
         SwipeExtraDirection::None,
         swipe_oper_task_ptr->special_params.at(2) / 10.0,
-        swipe_oper_task_ptr->special_params.at(3) / 10.0,
-        deploy_with_pause && depoly_when_pause_not_support);
+        swipe_oper_task_ptr->special_params.at(3) / 10.0);
 
     // 拖动干员朝向
     if (direction != DeployDirection::None) {

@@ -11,6 +11,7 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 #nullable enable
+using MaaWpfGui.Constants.Enums;
 using MaaWpfGui.Models;
 
 namespace MaaWpfGui.Configuration.Global;
@@ -20,7 +21,7 @@ namespace MaaWpfGui.Configuration.Global;
 /// </summary>
 public partial class Performance : NotifyPropertyChangedWithValue
 {
-    public bool UseGpu { get; set; }
+    public bool UseGpu { get; set; } = true;
 
     public string GpuDescription { get; set; } = string.Empty;
 
@@ -29,4 +30,6 @@ public partial class Performance : NotifyPropertyChangedWithValue
     public bool AllowDeprecatedGpu { get; set; }
 
     public bool IgnoreBadModulesAndUseSoftwareRendering { get; set; }
+
+    public InferenceBackend Backend { get; set; } = InferenceBackend.Auto;
 }

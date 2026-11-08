@@ -21,7 +21,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
@@ -194,6 +193,8 @@ public class TaskQueueViewModel : Screen
                 {
                     TaskItemViewModels[i].Index = i;
                 }
+
+                NotifyTaskMoveAvailability();
             }
             else if (e.Action == NotifyCollectionChangedAction.Remove)
             {
@@ -219,6 +220,8 @@ public class TaskQueueViewModel : Screen
                     task ??= TaskItemViewModels.FirstOrDefault(i => i.Index == e.OldStartingIndex - 1);
                     task?.EnableSetting = true;
                 }
+
+                NotifyTaskMoveAvailability();
             }
             else if (e.Action == NotifyCollectionChangedAction.Reset)
             {
@@ -232,6 +235,18 @@ public class TaskQueueViewModel : Screen
                 NotifyOfPropertyChange(nameof(StartUpTaskCount));
             }
         });
+    }
+
+    /// <summary>
+    /// 行数增减后全量补发上移/下移可用性通知：末行判定依赖集合总数，
+    /// Index 不变的行（插入点/删除点之前）不会经 Index 依赖链刷新
+    /// </summary>
+    private void NotifyTaskMoveAvailability()
+    {
+        foreach (var item in TaskItemViewModels)
+        {
+            item.NotifyMoveAvailabilityChanged();
+        }
     }
 
     #region Overlay
@@ -523,6 +538,11 @@ public class TaskQueueViewModel : Screen
         var actions = PostActionSetting;
         _logger.Information("Post actions: " + actions.ActionDescription);
 
+        // 退出类选项的 getter 按当前连接方式过滤，在任何 await 之前取值，避免等待期间切换连接配置后关错客户端或模拟器
+        var exitArknights = actions.ExitArknights;
+        var exitPCClient = actions.ExitPCClient;
+        var exitEmulator = actions.ExitEmulator;
+
         if (actions.SkipOnError && hasErrorTask)
         {
             _logger.Information("Post actions skipped, due to error tasks");
@@ -539,7 +559,7 @@ public class TaskQueueViewModel : Screen
             await Task.Delay(1000);
         }
 
-        if (actions.ExitArknights)
+        if (exitArknights || exitPCClient)
         {
             var clientType = SettingsViewModel.GameSettings.ClientType;
             if (!Instances.AsstProxy.AsstStartCloseDown(clientType))
@@ -550,7 +570,7 @@ public class TaskQueueViewModel : Screen
             await Task.Delay(1000);
         }
 
-        if (actions.ExitEmulator && !SettingsViewModel.ConnectSettings.IsPCConnectConfig)
+        if (exitEmulator)
         {
             DoKillEmulator();
             await Task.Delay(1000);
@@ -892,7 +912,7 @@ public class TaskQueueViewModel : Screen
                 AchievementTrackerHelper.Instance.Unlock(AchievementIds.Time325);
             }
 
-            VersionUpdateSettingsUserControlModel.Instance.RefreshMirrorChyanCdkRemaining();
+            VersionUpdateSettingsUserControlModel.Instance.RefreshUpdateCredentials();
             HandleDatePromptUpdate();
             HandleCheckForUpdates();
 
@@ -1497,10 +1517,9 @@ public class TaskQueueViewModel : Screen
     // 这个函数被列为public可见，意味着他注入对象前被调用
     public void UpdateDatePrompt()
     {
-        Execute.OnUIThread(() =>
-        {
+        Execute.OnUIThread(() => {
             // 复用既有集合以 CollectionChanged 增量更新，避免整表重建导致绑定闪烁
-            var inlines = StagesOfTodayInlines ?? new ObservableCollection<Inline>();
+            var inlines = StagesOfTodayInlines ?? [];
             inlines.Clear();
             inlines.Add(new Run(LocalizationHelper.GetString("TaskQueue.Stage.TodaysStage.Tip") + "\n"));
 
@@ -1524,6 +1543,25 @@ public class TaskQueueViewModel : Screen
     {
         get => _stagesOfTodayInlines;
         private set => SetAndNotify(ref _stagesOfTodayInlines, value);
+    }
+
+    private static Views.Dialogs.DailyReportDialogView? _dailyReportWindow;
+
+    /// <summary>
+    /// 打开作战日报窗口（Command 绑定入口）。
+    /// </summary>
+    public void OpenDailyReport()
+    {
+        if (_dailyReportWindow is null)
+        {
+            _dailyReportWindow = new Views.Dialogs.DailyReportDialogView();
+            _dailyReportWindow.Loaded += (_, _) => MaaWpfGui.Helper.WindowManager.MoveWindowToRootCenter(_dailyReportWindow);
+            _dailyReportWindow.Closed += (_, _) => {
+                _dailyReportWindow = null;
+            };
+        }
+
+        MaaWpfGui.Helper.WindowManager.ShowWindow(_dailyReportWindow);
     }
 
     public enum LogCardSplitMode
@@ -2079,6 +2117,48 @@ public class TaskQueueViewModel : Screen
                 AchievementTrackerHelper.Instance.Unlock(AchievementIds.QueueSimplifier);
             }
         }
+    }
+
+    /// <summary>
+    /// 上移任务一行
+    /// </summary>
+    /// <param name="taskItem">任务项</param>
+    [UsedImplicitly]
+    public void MoveTaskUp(TaskItemViewModel taskItem)
+    {
+        MoveTask(taskItem, -1);
+    }
+
+    /// <summary>
+    /// 下移任务一行
+    /// </summary>
+    /// <param name="taskItem">任务项</param>
+    [UsedImplicitly]
+    public void MoveTaskDown(TaskItemViewModel taskItem)
+    {
+        MoveTask(taskItem, 1);
+    }
+
+    /// <summary>
+    /// 移动任务一行，负值上移、正值下移；配置队列同步与 Index 重算由集合变更处理器完成
+    /// </summary>
+    /// <param name="taskItem">任务项</param>
+    /// <param name="offset">移动偏移</param>
+    private void MoveTask(TaskItemViewModel taskItem, int offset)
+    {
+        if (taskItem == null || !_runningState.GetIdle())
+        {
+            return;
+        }
+
+        var index = taskItem.Index;
+        var newIndex = index + offset;
+        if (index < 0 || index >= TaskItemViewModels.Count || newIndex < 0 || newIndex >= TaskItemViewModels.Count)
+        {
+            return;
+        }
+
+        TaskItemViewModels.Move(index, newIndex);
     }
 
     /// <summary>
