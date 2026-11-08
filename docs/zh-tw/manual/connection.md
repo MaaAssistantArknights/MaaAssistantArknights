@@ -213,7 +213,7 @@ AVD 截圖增強模式在 MaaFramework 中實現，必須選擇 MaaFwAdb 觸控�
 
 ### ModAVD 截圖增強模式
 
-適用於 [ModAVD](https://github.com/ModAVD/ModAVD) 模擬器。MAA 透過 ModAVD 提供的 `modavd_extras` 函式庫直接讀取模擬器畫面，不經過 ADB；觸控不受影響，仍可照常選擇 MaaTouch 等觸控模式。
+適用於 [ModAVD](https://github.com/ModAVD/ModAVD) 模擬器。MAA 透過 ModAVD 提供的 `modavd_extras` 函式庫直接讀取模擬器畫面，不經過 ADB；觸控仍由 MAA 自己的觸控模式負責，請選擇 MaaTouch。
 
 1. `設定` - `連線設定` - `連線類型` 選擇 `ModAVD`，並取消勾選 `自動偵測連線`（自動偵測無法識別 ModAVD）。
 
@@ -221,7 +221,7 @@ AVD 截圖增強模式在 MaaFramework 中實現，必須選擇 MaaFwAdb 觸控�
 
 3. `連線位址` 填寫對應執行個體的 `127.0.0.1:<ADB 連接埠>`，ADB 連接埠 = 控制台連接埠 + 1。預設連接埠下 0 號執行個體為 `127.0.0.1:20001`，之後每號加 10（`127.0.0.1:20011`、`127.0.0.1:20021`……）；也可以填寫 `emulator-<控制台連接埠>`。不需要填寫執行個體編號。`ADB 路徑` 可填寫 ModAVD 根目錄下的 `sdk\platform-tools\adb.exe`。
 
-4. `觸控模式` 照常選擇，例如 MaaTouch。
+4. `觸控模式` 選擇 `MaaTouch`。ModAVD 的 SELinux 為 `Enforcing`（強制）模式，預設的 Minitouch 無法運作。
 
 `ModAVD 根目錄` 留空時，MAA 只使用 ADB 截圖。
 

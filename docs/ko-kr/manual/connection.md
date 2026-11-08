@@ -221,7 +221,7 @@ AVD 스크린샷 향상 모드는 MaaFramework에서 구현되므로, AVD 스크
 
 ### ModAVD 스크린샷 향상 모드
 
-[ModAVD](https://github.com/ModAVD/ModAVD) 에뮬레이터용입니다. MAA는 ModAVD가 제공하는 `modavd_extras` 라이브러리를 통해 ADB를 거치지 않고 에뮬레이터 화면을 직접 가져옵니다. 터치에는 영향이 없으며, MaaTouch 등 터치 수행 방식을 그대로 선택할 수 있습니다.
+[ModAVD](https://github.com/ModAVD/ModAVD) 에뮬레이터용입니다. MAA는 ModAVD가 제공하는 `modavd_extras` 라이브러리를 통해 ADB를 거치지 않고 에뮬레이터 화면을 직접 가져옵니다. 터치는 계속 MAA 자체의 터치 수행 방식이 담당하므로 MaaTouch를 선택하세요.
 
 1. `설정` - `연결 설정` - `연결 프리셋`에서 `ModAVD`를 선택하고 `연결 자동 감지`를 해제합니다(자동 감지는 ModAVD를 인식하지 못합니다).
 
@@ -229,7 +229,7 @@ AVD 스크린샷 향상 모드는 MaaFramework에서 구현되므로, AVD 스크
 
 3. `연결 주소`에는 해당 인스턴스의 `127.0.0.1:<ADB 포트>`를 입력합니다(ADB 포트 = 콘솔 포트 + 1). 기본 포트에서는 0번 인스턴스가 `127.0.0.1:20001`이고, 이후 인스턴스마다 10씩 늘어납니다(`127.0.0.1:20011`, `127.0.0.1:20021`, ...). `emulator-<콘솔 포트>`를 입력해도 됩니다. 인스턴스 번호는 입력할 필요가 없습니다. `ADB 경로`에는 ModAVD 루트 폴더 안의 `sdk\platform-tools\adb.exe`를 지정할 수 있습니다.
 
-4. `터치 수행 방식`은 평소처럼 선택합니다(예: MaaTouch).
+4. `터치 수행 방식`에서 `MaaTouch`를 선택합니다. ModAVD는 SELinux가 `Enforcing` 모드이므로 기본값인 Minitouch는 사용할 수 없습니다.
 
 `ModAVD 루트 폴더`를 비워 두면 MAA는 ADB로만 스크린샷을 가져옵니다.
 
