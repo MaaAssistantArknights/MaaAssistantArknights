@@ -2525,8 +2525,8 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="Toolbox.MiniGame.Reclamation.Title">生息演算</system:String>
     <system:String x:Key="Toolbox.MiniGame.Reclamation.ToolToCraft.Placeholder">螢光棒</system:String>
     <system:String x:Key="Toolbox.MiniGame.Reclamation.ToolToCraft.Tip">支援道具名稱</system:String>
-    <system:String x:Key="Toolbox.MiniGame.SPA">衛戍協議：盟約</system:String>
-    <system:String x:Key="Toolbox.MiniGame.SPA.Tip" xml:space="preserve">在活動主介面（有 ｢獨立模擬｣ 處）開始任務。
+    <system:String x:Key="Toolbox.MiniGame.SPA">衛戍協議</system:String>
+    <system:String x:Key="Toolbox.MiniGame.SPA.Tip" xml:space="preserve">在活動主介面（有 ｢極速模擬｣ 處）開始任務。
 在有存檔時需要先手動放棄
 最高只測試過 ｢險境模擬｣
 如果已通關更高難度導致看不到 ｢險境模擬｣ 或 ｢標準模擬｣，需手動選擇一次 ｢險境模擬｣ 難度

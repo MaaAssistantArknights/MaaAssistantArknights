@@ -2526,8 +2526,8 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="Toolbox.MiniGame.Reclamation.Title">生息演算</system:String>
     <system:String x:Key="Toolbox.MiniGame.Reclamation.ToolToCraft.Placeholder">ケミカルライト</system:String>
     <system:String x:Key="Toolbox.MiniGame.Reclamation.ToolToCraft.Tip">支援道具名</system:String>
-    <system:String x:Key="Toolbox.MiniGame.SPA">堅守協定：盟約</system:String>
-    <system:String x:Key="Toolbox.MiniGame.SPA.Tip" xml:space="preserve">イベントメイン画面（｢単独演算｣ がある場所）からタスクを開始
+    <system:String x:Key="Toolbox.MiniGame.SPA">堅守協定</system:String>
+    <system:String x:Key="Toolbox.MiniGame.SPA.Tip" xml:space="preserve">イベントメイン画面（｢高速演算｣（仮訳）がある場所）からタスクを開始
 セーブデータがある場合は、まず手動で破棄する必要があります
  ｢逆境シミュレーション｣ までテスト済み
 より高い難易度をクリア済みで ｢逆境シミュレーション｣ または ｢標準シミュレーション｣ が表示されない場合、\n ｢逆境シミュレーション｣ 難易度を手動で一度選択してください
