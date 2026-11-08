@@ -37,6 +37,7 @@ using MaaWpfGui.Main;
 using MaaWpfGui.Models;
 using MaaWpfGui.Models.TutorialChallenge;
 using MaaWpfGui.Services;
+using MaaWpfGui.Styles.Properties;
 using MaaWpfGui.Utilities.ValueType;
 using MaaWpfGui.ViewModels.UI;
 using MaaWpfGui.ViewModels.UserControl.Settings;
@@ -45,6 +46,7 @@ using MaaWpfGui.ViewModels.UserControl.Toolbox;
 using MaaWpfGui.Views.Dialogs;
 using Serilog;
 using Stylet;
+using Timer = System.Timers.Timer;
 
 namespace MaaWpfGui.ViewModels.Dialogs;
 
@@ -262,7 +264,8 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
     public ObservableCollection<TutorialChallengeSettingSection> SandboxSettingSections { get; } = [];
 
     /// <summary>
-    /// Gets 或设置 设置页搜索框文本；非空时按分区标题与区内登记文本过滤，未命中分区整体折叠。
+    /// Gets 或设置 设置页搜索框文本。分区过滤归口 <see cref="SearchHighlightBehavior"/>（可视树命中写回
+    /// <see cref="TutorialChallengeSettingSection.IsVisibleInSearch"/>，对齐真实设置页），本属性变化只联动高级分区可见性。
     /// </summary>
     public string SettingsSearchText
     {
@@ -284,15 +287,15 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
         set {
             if (SetAndNotify(ref field, value))
             {
-                foreach (var section in SandboxSettingSections)
-                {
-                    section.AreAdvancedSettingsVisible = value;
-                }
-
-                NotifyOfPropertyChange(nameof(HasVisibleAdvancedSettings));
+                UpdateAdvancedSettingsVisibility();
             }
         }
     }
+
+    /// <summary>
+    /// Gets 高级分区分隔条在内容 Grid 中的行号，即普通分区总数（普通分区恒占前段行，分隔条插在两类分区边界，对齐真实设置页）。
+    /// </summary>
+    public int AdvancedSettingsDividerRow => SandboxSettingSections.Count(section => !section.IsAdvanced);
 
     /// <summary>
     /// Gets a value indicating whether 存在因搜索或高级开关而当前可见的高级分区（控制 ｢高级设置｣ 分隔线显隐）。
@@ -300,9 +303,326 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
     public bool HasVisibleAdvancedSettings => SandboxSettingSections.Any(section => section.IsAdvanced && section.IsVisible);
 
     /// <summary>
+    /// 统一回写各分区的高级可见态：搜索框非空时高级分区强制展开（对齐真实设置页
+    /// <c>showAdvanced = ShowAdvancedSettings || !string.IsNullOrEmpty(SearchText)</c>，搜索命中的高级项不得被折叠藏住），
+    /// 不改动用户的显示偏好本身。
+    /// </summary>
+    private void UpdateAdvancedSettingsVisibility()
+    {
+        var showAdvanced = ShowAdvancedSettings || !string.IsNullOrEmpty(SettingsSearchText);
+        foreach (var section in SandboxSettingSections)
+        {
+            section.AreAdvancedSettingsVisible = showAdvanced;
+        }
+    }
+
+    /// <summary>
     /// 切换高级分区显隐，对齐真实设置页底部按钮行为。
     /// </summary>
     public void ToggleAdvancedSettings() => ShowAdvancedSettings = !ShowAdvancedSettings;
+
+    #region 设置分区导航与滚动视图联动（对齐真实 SettingsViewModel 精简版，无拖拽排序分支）
+
+    private enum NotifyType
+    {
+        None,
+        SelectedIndex,
+        ScrollOffset,
+    }
+
+    private NotifyType _notifySource = NotifyType.None;
+
+    private Timer? _resetNotifyTimer;
+
+    private void ResetNotifySource()
+    {
+        if (_resetNotifyTimer != null)
+        {
+            _resetNotifyTimer.Stop();
+            _resetNotifyTimer.Close();
+        }
+
+        _resetNotifyTimer = new Timer(20);
+        _resetNotifyTimer.Elapsed += (_, _) => {
+            _notifySource = NotifyType.None;
+        };
+        _resetNotifyTimer.AutoReset = false;
+        _resetNotifyTimer.Enabled = true;
+        _resetNotifyTimer.Start();
+    }
+
+    /// <summary>
+    /// Gets or sets the height of scroll viewport.
+    /// </summary>
+    public double ScrollViewportHeight { get; set; }
+
+    /// <summary>
+    /// Gets or sets the extent height of scroll.
+    /// </summary>
+    public double ScrollExtentHeight { get; set; }
+
+    private List<double> _dividerVerticalOffsetList = [];
+
+    /// <summary>
+    /// Gets or sets the list of divider vertical offset.
+    /// </summary>
+    public List<double> DividerVerticalOffsetList
+    {
+        get => _dividerVerticalOffsetList;
+        set {
+            if (_dividerVerticalOffsetList == value)
+            {
+                return;
+            }
+
+            SetAndNotify(ref _dividerVerticalOffsetList, value);
+        }
+    }
+
+    private int _selectedIndex = -1;
+
+    private TutorialChallengeSettingSection? _selectedSetting;
+
+    /// <summary>
+    /// Gets or sets the index selected.
+    /// </summary>
+    public int SelectedIndex
+    {
+        get => _selectedIndex;
+        set {
+            if (_selectedIndex == value)
+            {
+                return;
+            }
+
+            if (value == -1)
+            {
+                _selectedSetting = null;
+                SetAndNotify(ref _selectedIndex, value);
+                return;
+            }
+
+            if (value < 0 || value >= SandboxSettingSections.Count || !SandboxSettingSections[value].IsVisible
+                || value >= DividerVerticalOffsetList.Count || double.IsNaN(DividerVerticalOffsetList[value]))
+            {
+                return;
+            }
+
+            switch (_notifySource)
+            {
+                case NotifyType.None:
+                    _notifySource = NotifyType.SelectedIndex;
+                    SetAndNotify(ref _selectedIndex, value);
+
+                    ScrollAnimationTarget = DividerVerticalOffsetList[value];
+
+                    ResetNotifySource();
+                    break;
+
+                case NotifyType.ScrollOffset:
+                    SetAndNotify(ref _selectedIndex, value);
+                    break;
+
+                case NotifyType.SelectedIndex:
+                    break;
+
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+
+            if (_selectedIndex == value)
+            {
+                _selectedSetting = SandboxSettingSections[value];
+            }
+        }
+    }
+
+    private double _scrollOffset;
+
+    /// <summary>
+    /// Gets or sets the scroll offset.
+    /// </summary>
+    public double ScrollOffset
+    {
+        get => _scrollOffset;
+        set {
+            // 平滑滚动动画落地的回写（ScrollViewerBinding 在动画结束后把目标值路由回绑定源）：
+            // 与动画目标一致说明本次滚动源于导航定位，同步值即可，不反向重算导航高亮——
+            // 目标偏移被 ScrollViewer 钳制时（分节下方内容不足一屏，实际停不到目标），
+            // 回写会命中下方“滚到底选最后一项”的分支，高亮跳离所点击的分节
+            if (Math.Abs(value - ScrollAnimationTarget) < 1)
+            {
+                SetAndNotify(ref _scrollOffset, value);
+                return;
+            }
+
+            switch (_notifySource)
+            {
+                case NotifyType.None:
+                    _notifySource = NotifyType.ScrollOffset;
+                    SetAndNotify(ref _scrollOffset, value);
+
+                    // 设置 ListBox SelectedIndex 为当前 ScrollOffset 索引
+                    var visibleDividers = DividerVerticalOffsetList
+                        .Select((offset, index) => (offset, index))
+                        .Where(item => !double.IsNaN(item.offset) && item.index < SandboxSettingSections.Count && SandboxSettingSections[item.index].IsVisible)
+                        .ToArray();
+                    if (visibleDividers.Length > 0)
+                    {
+                        // 滚动条滚动到底部，返回最后一个 Divider 索引
+                        if (value + ScrollViewportHeight >= ScrollExtentHeight)
+                        {
+                            SelectedIndex = visibleDividers[^1].index;
+                            ResetNotifySource();
+                            break;
+                        }
+
+                        // 根据出当前 ScrollOffset 选出最后一个在可视范围的 Divider 索引
+                        var index = visibleDividers.LastOrDefault(item => value >= item.offset, visibleDividers[0]).index;
+                        SelectedIndex = index;
+                    }
+
+                    ResetNotifySource();
+                    break;
+
+                case NotifyType.SelectedIndex:
+                    SetAndNotify(ref _scrollOffset, value);
+                    break;
+
+                case NotifyType.ScrollOffset:
+                    break;
+
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+    }
+
+    private double _scrollAnimationTarget = double.NaN;
+
+    /// <summary>
+    /// Gets or sets the target offset of the smooth scroll animation,
+    /// which is performed by <see cref="Styles.Properties.ScrollViewerBinding"/> on the UI side.
+    /// </summary>
+    public double ScrollAnimationTarget
+    {
+        get => _scrollAnimationTarget;
+        set => SetAndNotify(ref _scrollAnimationTarget, value);
+    }
+
+    /// <summary>
+    /// 分区可见性或数量变化后请求 View 重测各分区 header 的纵向偏移（<see cref="Styles.Properties.ScrollViewerBinding.RefreshDividerOffsets"/>）。
+    /// </summary>
+    public event EventHandler? RefreshDividerOffsetsRequested;
+
+    private bool _isSettingsLayoutRefreshPending;
+
+    /// <summary>
+    /// 供 View 在分区容器重建完成后告知布局已变，走与可见性变化相同的刷新纠偏流程
+    /// （首次生成容器时左导航尚无选中项，需要以此时已就绪的偏移列表把选中纠偏到首个可见分区）。
+    /// </summary>
+    public void NotifySettingSectionsLayoutChanged() => OnSettingItemValueChanged();
+
+    /// <summary>
+    /// 分区布局待刷新入口：可见性/数量变化后延迟到 Loaded 优先级执行，先请 View 重测偏移，
+    /// 再按可见性纠偏选中项并在选中分区 offset 位移超阈值时重发滚动目标。对齐真实
+    /// <c>SettingsViewModel.OnSettingItemValueChanged</c> 去掉拖拽排序（重建选中/布局后恢复）分支的精简版。
+    /// </summary>
+    private void OnSettingItemValueChanged()
+    {
+        if (_isSettingsLayoutRefreshPending)
+        {
+            return;
+        }
+
+        var oldSelectedOffset = SelectedIndex >= 0 && SelectedIndex < DividerVerticalOffsetList.Count
+            ? DividerVerticalOffsetList[SelectedIndex]
+            : double.NaN;
+
+        _isSettingsLayoutRefreshPending = true;
+        Application.Current.Dispatcher.InvokeAsync(() => {
+            _isSettingsLayoutRefreshPending = false;
+            RefreshDividerOffsetsRequested?.Invoke(this, EventArgs.Empty);
+
+            var isCurrentSelectionInvalid = SelectedIndex < 0 || SelectedIndex >= SandboxSettingSections.Count || !SandboxSettingSections[SelectedIndex].IsVisible;
+
+            // 折叠高级分区时把选中回退到最后一个可见普通分区，并借 ScrollOffset 通知窗口吸收本次索引改写，
+            // 避免把「收起高级」误判成用户点选导航而向不可见分区发起滚动
+            var isCollapsingAdvancedSelection = isCurrentSelectionInvalid
+                && _selectedSetting is { IsAdvanced: true }
+                && string.IsNullOrEmpty(SettingsSearchText);
+            if (isCurrentSelectionInvalid)
+            {
+                var target = isCollapsingAdvancedSelection
+                    ? SandboxSettingSections.LastOrDefault(item => !item.IsAdvanced && item.IsVisible)
+                    : SandboxSettingSections.FirstOrDefault(item => item.IsVisible);
+                _notifySource = isCollapsingAdvancedSelection ? NotifyType.ScrollOffset : NotifyType.None;
+                SelectedIndex = target == null ? -1 : SandboxSettingSections.IndexOf(target);
+                if (isCollapsingAdvancedSelection)
+                {
+                    _notifySource = NotifyType.None;
+                }
+            }
+
+            if (SelectedIndex >= 0 && SelectedIndex < DividerVerticalOffsetList.Count
+                && !double.IsNaN(DividerVerticalOffsetList[SelectedIndex]))
+            {
+                var targetOffset = DividerVerticalOffsetList[SelectedIndex];
+                var offsetShifted = !double.IsNaN(oldSelectedOffset) && Math.Abs(targetOffset - oldSelectedOffset) >= 0.5;
+                if ((isCurrentSelectionInvalid || offsetShifted) && !isCollapsingAdvancedSelection)
+                {
+                    if (Math.Abs(ScrollAnimationTarget - targetOffset) < 0.5)
+                    {
+                        ScrollAnimationTarget = double.NaN;
+                    }
+
+                    ScrollAnimationTarget = targetOffset;
+                }
+            }
+        }, System.Windows.Threading.DispatcherPriority.Loaded);
+    }
+
+    /// <summary>
+    /// 分区项属性变化订阅：IsVisible 变化驱动分隔条显隐与联动偏移重测。
+    /// </summary>
+    private void OnSettingSectionPropertyChanged(object? sender, PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName == nameof(TutorialChallengeSettingSection.IsVisible))
+        {
+            NotifyOfPropertyChange(nameof(HasVisibleAdvancedSettings));
+            OnSettingItemValueChanged();
+        }
+    }
+
+    /// <summary>
+    /// 重建分区顺序与行号：普通分区在前、高级分区在后（与左导航 CollectionViewSource 分组及真实设置页同序），
+    /// 普通分区按序占行 0..N-1，高级分区行号再加 1 跳过分隔条所在行。行号不随可见性变化。
+    /// </summary>
+    private void AssignSectionGridRows()
+    {
+        // OrderBy 为稳定排序；集合顺序须与显示顺序一致，否则左侧 SelectedIndex 无法直接索引本集合
+        var ordered = SandboxSettingSections.OrderBy(section => section.IsAdvanced).ToList();
+        for (var i = 0; i < ordered.Count; i++)
+        {
+            var currentIndex = SandboxSettingSections.IndexOf(ordered[i]);
+            if (currentIndex != i)
+            {
+                SandboxSettingSections.Move(currentIndex, i);
+            }
+        }
+
+        var normalCount = SandboxSettingSections.Count(section => !section.IsAdvanced);
+        var normalIndex = 0;
+        var advancedIndex = 0;
+        foreach (var section in SandboxSettingSections)
+        {
+            section.GridRow = !section.IsAdvanced ? normalIndex++ : normalCount + 1 + advancedIndex++;
+        }
+
+        NotifyOfPropertyChange(nameof(AdvancedSettingsDividerRow));
+    }
+
+    #endregion 设置分区导航与滚动视图联动
 
     /// <summary>
     /// Gets 公招词条候选列表，共用真实面板的实例（全量词条，Display 为显示名、Value 为词条 key）。
@@ -1137,6 +1457,9 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
             BuildSettingsSearchDecoySections();
         }
 
+        AssignSectionGridRows();
+        OnSettingItemValueChanged();
+
         if (IsDragDropUpdateLevel)
         {
             EnsureSandboxUpdatePackages();
@@ -1151,6 +1474,11 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
     /// </summary>
     private void BuildSettingSections()
     {
+        foreach (var section in SandboxSettingSections)
+        {
+            section.PropertyChanged -= OnSettingSectionPropertyChanged;
+        }
+
         SandboxSettingSections.Clear();
         foreach (var kind in _level.SettingSectionKinds ?? [])
         {
@@ -1160,21 +1488,29 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
                     SandboxSettingSections.Add(new TutorialChallengeSettingSection(
                         TutorialChallengeSettingSectionKind.Schedule,
                         "Settings.Schedule.Title",
-                        isAdvanced: false,
-                        searchTextKeys: ["TaskQueue.Schedule.ForceScheduledStart", "TaskQueue.Schedule.ShowWindowBeforeForceScheduledStart", "TaskQueue.Schedule.Timer"]));
+                        isAdvanced: false));
                     break;
                 case TutorialChallengeSettingSectionKind.IssueReport:
                     SandboxSettingSections.Add(new TutorialChallengeSettingSection(
                         TutorialChallengeSettingSectionKind.IssueReport,
                         "Settings.IssueReport.Title",
-                        isAdvanced: false,
-                        searchTextKeys: ["Error.GenerateSupportPayload"]));
+                        isAdvanced: false));
                     break;
                 case TutorialChallengeSettingSectionKind.Decoy:
                     BuildSettingsSearchDecoySections();
                     break;
             }
         }
+
+        foreach (var section in SandboxSettingSections)
+        {
+            // Decoy 分区在 BuildSettingsSearchDecoySections 内已挂载，先退订再挂保证幂等
+            section.PropertyChanged -= OnSettingSectionPropertyChanged;
+            section.PropertyChanged += OnSettingSectionPropertyChanged;
+        }
+
+        AssignSectionGridRows();
+        OnSettingItemValueChanged();
     }
 
     /// <summary>
@@ -1188,6 +1524,7 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
         {
             if (SandboxSettingSections[i].Kind == TutorialChallengeSettingSectionKind.Decoy)
             {
+                SandboxSettingSections[i].PropertyChanged -= OnSettingSectionPropertyChanged;
                 SandboxSettingSections.RemoveAt(i);
             }
         }
@@ -1208,9 +1545,8 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
                 TutorialChallengeSettingSectionKind.Decoy,
                 "TutorialChallenge.Level.SettingsSearch.DecoySection",
                 isAdvanced: false,
-                searchTextKeys: [],
-                searchExtraTexts: items.Select(item => item.Text).ToList(),
                 items: items);
+            section.PropertyChanged += OnSettingSectionPropertyChanged;
             SandboxSettingSections.Add(section);
         }
     }
@@ -1282,25 +1618,15 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
     }
 
     /// <summary>
-    /// 按搜索文本过滤设置分区：分区标题、区内登记文本或字面附加文本命中即保留，未命中分区整体折叠。空搜索时全部恢复。
+    /// 搜索文本变化后收敛高级分区可见性：分区过滤本身归口 <see cref="SearchHighlightBehavior"/>
+    /// （行为层按可视树命中写回各分区 <see cref="TutorialChallengeSettingSection.IsVisibleInSearch"/>，
+    /// 搜索清空时亦由行为层全量恢复，对齐真实设置页），VM 不再写该属性，只负责让高级分区
+    /// 在非空搜索下保持展开、空搜索时回到用户开关态。
     /// </summary>
     private void ApplySettingsSearch()
     {
-        var keyword = SettingsSearchText.Trim();
-        foreach (var section in SandboxSettingSections)
-        {
-            if (keyword.Length == 0)
-            {
-                section.IsVisibleInSearch = true;
-                continue;
-            }
-
-            var hit = section.Display.Contains(keyword, StringComparison.OrdinalIgnoreCase)
-                || section.SearchTextKeys.Any(key => LocalizationHelper.GetString(key).Contains(keyword, StringComparison.OrdinalIgnoreCase))
-                || section.SearchExtraTexts.Any(text => text.Contains(keyword, StringComparison.OrdinalIgnoreCase));
-            section.IsVisibleInSearch = hit;
-        }
-
+        // 搜索非空时高级分区须随搜索态展开（对齐真实语义），否则命中的高级项被折叠看不见
+        UpdateAdvancedSettingsVisibility();
         NotifyOfPropertyChange(nameof(HasVisibleAdvancedSettings));
     }
 
@@ -1893,6 +2219,18 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
         {
             item.PropertyChanged -= OnWeeklyScheduleItemPropertyChanged;
         }
+
+        foreach (var section in SandboxSettingSections)
+        {
+            section.PropertyChanged -= OnSettingSectionPropertyChanged;
+        }
+
+        if (_resetNotifyTimer != null)
+        {
+            _resetNotifyTimer.Stop();
+            _resetNotifyTimer.Close();
+            _resetNotifyTimer = null;
+        }
     }
 
     private void OnLanguageChanged()
@@ -2287,9 +2625,7 @@ public class TutorialChallengeSettingSection(
     TutorialChallengeSettingSectionKind kind,
     string displayKey,
     bool isAdvanced,
-    IReadOnlyList<string> searchTextKeys,
-    IReadOnlyList<string>? searchExtraTexts = null,
-    IReadOnlyList<TutorialChallengeDecoyItem>? items = null) : PropertyChangedBase
+    IReadOnlyList<TutorialChallengeDecoyItem>? items = null) : PropertyChangedBase, ISearchableSettingSection
 {
     /// <summary>
     /// Gets 分区标识（种类名的字符串形式）。
@@ -2312,16 +2648,6 @@ public class TutorialChallengeSettingSection(
     public string Display => LocalizationHelper.GetString(DisplayKey);
 
     /// <summary>
-    /// Gets 区内登记的可搜索文本本地化 key 列表（搜索时逐项取当前语言文本比对）。
-    /// </summary>
-    public IReadOnlyList<string> SearchTextKeys { get; } = searchTextKeys;
-
-    /// <summary>
-    /// Gets 区内登记的可搜索原样文本列表（非本地化 key；供 ｢设置搜索｣ 关卡随机生成的 CheckBox 文本命中搜索）。
-    /// </summary>
-    public IReadOnlyList<string> SearchExtraTexts { get; } = searchExtraTexts ?? [];
-
-    /// <summary>
     /// Gets 本分区持有的干扰 CheckBox 项（仅 <see cref="TutorialChallengeSettingSectionKind.Decoy"/> 分区非空）。
     /// </summary>
     public IReadOnlyList<TutorialChallengeDecoyItem> Items { get; } = items ?? [];
@@ -2330,6 +2656,16 @@ public class TutorialChallengeSettingSection(
     /// Gets a value indicating whether 本分区属于高级分区（导航分组与折叠行为对齐真实设置页）。
     /// </summary>
     public bool IsAdvanced { get; } = isAdvanced;
+
+    /// <summary>
+    /// Gets 或设置 本分区在右侧内容 Grid 中的行号（普通分区按序占前段行，高级分区 +1 跳过分隔条行；
+    /// 由宿主 VM 在构建/重排分区时统一赋值，对齐真实 <c>SettingItemViewModel.GridRow</c> 语义）。
+    /// </summary>
+    public int GridRow
+    {
+        get;
+        set => SetAndNotify(ref field, value);
+    }
 
     /// <summary>
     /// Gets 或设置 a value indicating whether 搜索过滤后本分区仍可见。

@@ -11,6 +11,7 @@
     xmlns:hc="https://handyorg.github.io/handycontrol"
     xmlns:helper="clr-namespace:MaaWpfGui.Helper"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:properties="clr-namespace:MaaWpfGui.Styles.Properties"
     xmlns:s="https://github.com/canton7/Stylet"
     xmlns:taskQueue="clr-namespace:MaaWpfGui.Configuration.Single.MaaTask"
     xmlns:taskQueue_vms="clr-namespace:MaaWpfGui.ViewModels.UserControl.TaskQueue"
@@ -64,6 +65,146 @@
                     </Style>
                 </TextBlock.Style>
             </TextBlock>
+        </DataTemplate>
+        <!--  沙盒设置页分区模板：分区容器（Grid.Row/Visibility）由 code-behind 动态生成并显式套用本模板，对齐真实设置页「分区是内容 Grid 的直接子元素」的结构  -->
+        <DataTemplate x:Key="SandboxSettingSectionTemplate" DataType="{x:Type dialogs_vms:TutorialChallengeSettingSection}">
+            <Expander
+                Background="Transparent"
+                Header="{Binding Display}"
+                IsExpanded="True">
+                <Border
+                    BorderBrush="{DynamicResource BorderBrush}"
+                    BorderThickness="1,0,1,1"
+                    CornerRadius="0,0,4,4">
+                    <Grid>
+                        <!--  定时执行分区：简化照抄真实 TimerSettingsUserControl，单定时项 + 强制定时启动；DataContext 只能挂在内层，外层要读分区 Kind 判显隐  -->
+                        <StackPanel Margin="0,20" HorizontalAlignment="Center">
+                            <StackPanel.Style>
+                                <Style TargetType="StackPanel">
+                                    <Setter Property="Visibility" Value="Collapsed" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Kind}" Value="{x:Static dialogs_vms:TutorialChallengeSettingSectionKind.Schedule}">
+                                            <Setter Property="Visibility" Value="Visible" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </StackPanel.Style>
+                            <StackPanel
+                                HorizontalAlignment="Center"
+                                DataContext="{Binding DataContext.SandboxSchedule, RelativeSource={RelativeSource AncestorType=hc:Window}}"
+                                Orientation="Horizontal">
+                                <StackPanel Margin="10,5" Orientation="Horizontal">
+                                    <CheckBox
+                                        VerticalContentAlignment="Center"
+                                        Content="{DynamicResource TaskQueue.Schedule.ForceScheduledStart}"
+                                        IsChecked="{Binding ForceScheduledStart}" />
+                                    <controls:TooltipBlock TooltipText="{DynamicResource TaskQueue.Schedule.ForceScheduledStart.Tip}" />
+                                </StackPanel>
+                                <StackPanel Margin="10,5" Orientation="Horizontal">
+                                    <CheckBox
+                                        VerticalContentAlignment="Center"
+                                        Content="{DynamicResource TaskQueue.Schedule.ShowWindowBeforeForceScheduledStart}"
+                                        IsChecked="{Binding ShowWindowBeforeForceScheduledStart}"
+                                        Visibility="{c:Binding ForceScheduledStart}" />
+                                    <controls:TooltipBlock
+                                        VerticalAlignment="Center"
+                                        TooltipText="{DynamicResource TaskQueue.Schedule.ShowWindowBeforeForceScheduledStart.Tip}"
+                                        Visibility="{c:Binding ForceScheduledStart}" />
+                                </StackPanel>
+                            </StackPanel>
+                            <ItemsControl DataContext="{Binding DataContext.SandboxSchedule, RelativeSource={RelativeSource AncestorType=hc:Window}}" ItemsSource="{Binding TimerList}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            Orientation="Horizontal">
+                                            <CheckBox
+                                                Margin="10,5"
+                                                IsChecked="{Binding IsEnabled}"
+                                                MouseRightButtonUp="{s:Action ToggleCheckBoxNullOnRightClick,
+                                                                              Target={x:Type helper:CheckBoxHelper}}"
+                                                ToolTip="{DynamicResource TaskQueue.CheckBoxesNotSavedAsNull}">
+                                                <TextBlock><Run Text="{DynamicResource TaskQueue.Schedule.Timer}" /><Run xml:space="preserve" Text=" " /><Run Text="{c:Binding 'Id + 1', Mode=OneWay}" /></TextBlock>
+                                            </CheckBox>
+                                            <StackPanel Orientation="Horizontal">
+                                                <hc:NumericUpDown
+                                                    Width="55"
+                                                    Margin="10,5"
+                                                    InputMethod.IsInputMethodEnabled="False"
+                                                    IsEnabled="{c:Binding 'IsEnabled ?? &quot;True&quot;'}"
+                                                    Maximum="23"
+                                                    Minimum="0"
+                                                    ValueFormat="00"
+                                                    Value="{Binding Hour}" />
+                                                <controls:TextBlock Text=":" />
+                                                <hc:NumericUpDown
+                                                    Width="55"
+                                                    Margin="10,5"
+                                                    InputMethod.IsInputMethodEnabled="False"
+                                                    IsEnabled="{c:Binding 'IsEnabled ?? &quot;True&quot;'}"
+                                                    Maximum="59"
+                                                    Minimum="0"
+                                                    ValueFormat="00"
+                                                    Value="{Binding Minute}" />
+                                            </StackPanel>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </StackPanel>
+
+                        <!--  问题反馈分区：模拟 ｢生成日志压缩包｣ 按钮；外层沿分区 DataContext 判 Kind，内层挂回窗口 VM 读沙盒态  -->
+                        <StackPanel Margin="0,20" HorizontalAlignment="Center">
+                            <StackPanel.Style>
+                                <Style TargetType="StackPanel">
+                                    <Setter Property="Visibility" Value="Collapsed" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Kind}" Value="{x:Static dialogs_vms:TutorialChallengeSettingSectionKind.IssueReport}">
+                                            <Setter Property="Visibility" Value="Visible" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </StackPanel.Style>
+                            <Button
+                                Margin="5,2"
+                                HorizontalAlignment="Left"
+                                Command="{s:Action ExportLogs}"
+                                DataContext="{Binding DataContext, RelativeSource={RelativeSource AncestorType=hc:Window}}"
+                                IsEnabled="{Binding CanExportLogs}">
+                                <Grid>
+                                    <TextBlock Text="{DynamicResource Error.GenerateSupportPayload}" Visibility="{c:Binding !IsExportingLogs}" />
+                                    <TextBlock Text="{DynamicResource TutorialChallenge.Level.ExportLogs.Generating}" Visibility="{c:Binding IsExportingLogs}" />
+                                </Grid>
+                            </Button>
+                        </StackPanel>
+
+                        <!--  ｢设置搜索｣ 关卡干扰分区：随机 CheckBox 群，CheckBox 的 IsChecked 直接写回项实例  -->
+                        <StackPanel Margin="0,20" HorizontalAlignment="Center">
+                            <StackPanel.Style>
+                                <Style TargetType="StackPanel">
+                                    <Setter Property="Visibility" Value="Collapsed" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Kind}" Value="{x:Static dialogs_vms:TutorialChallengeSettingSectionKind.Decoy}">
+                                            <Setter Property="Visibility" Value="Visible" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </StackPanel.Style>
+                            <ItemsControl ItemsSource="{Binding Items}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate DataType="{x:Type dialogs_vms:TutorialChallengeDecoyItem}">
+                                        <CheckBox
+                                            Margin="10,5"
+                                            Content="{Binding Text}"
+                                            IsChecked="{Binding IsChecked}" />
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+            </Expander>
         </DataTemplate>
         <DataTemplate x:Key="DropComboBoxItemTemplate">
             <StackPanel Orientation="Horizontal">
@@ -1437,8 +1578,10 @@
                             hc:BorderElement.CornerRadius="0"
                             BorderThickness="1,0,1,1"
                             DisplayMemberPath="Display"
+                            IsSynchronizedWithCurrentItem="true"
                             ItemsSource="{Binding Source={StaticResource SandboxSettingsNavigation}}"
-                            ScrollViewer.CanContentScroll="False">
+                            ScrollViewer.CanContentScroll="False"
+                            SelectedIndex="{Binding SelectedIndex}">
                             <ListBox.GroupStyle>
                                 <GroupStyle>
                                     <GroupStyle.ContainerStyle>
@@ -1458,7 +1601,7 @@
                                     <GroupStyle.HeaderTemplate>
                                         <DataTemplate>
                                             <Grid Visibility="{c:Binding Name}">
-                                                <hc:Divider Content="{DynamicResource Settings.Advanced.Title}" Visibility="{c:Binding HasVisibleAdvancedSettings, RelativeSource={RelativeSource AncestorType=hc:Window}}" />
+                                                <hc:Divider Content="{DynamicResource Settings.Advanced.Title}" Visibility="{c:Binding DataContext.HasVisibleAdvancedSettings, RelativeSource={RelativeSource AncestorType=hc:Window}}" />
                                             </Grid>
                                         </DataTemplate>
                                     </GroupStyle.HeaderTemplate>
@@ -1497,158 +1640,51 @@
                         </Button>
                     </Grid>
 
-                    <!--  右侧分区内容：分区按导航顺序堆叠，未命中搜索或未展开高级分区整体折叠  -->
+                    <!--
+                        右侧分区内容：结构对齐真实设置页——分区容器是内容 Grid 的直接子元素（由 code-behind 按 SandboxSettingSections 动态生成），
+                        顶部预留高级分隔条行；未命中搜索或未展开高级分区整体折叠
+                    -->
                     <hc:ScrollViewer
+                        x:Name="SandboxSettingsScrollViewer"
                         Grid.Column="1"
                         Margin="20,0,5,5"
                         HorizontalAlignment="Stretch"
+                        properties:ScrollViewerBinding.DividerVerticalOffsetList="{Binding DividerVerticalOffsetList}"
+                        properties:ScrollViewerBinding.ExtentHeight="{Binding ScrollExtentHeight}"
+                        properties:ScrollViewerBinding.SmoothScrollTo="{Binding ScrollAnimationTarget}"
+                        properties:ScrollViewerBinding.VerticalOffset="{Binding ScrollOffset}"
+                        properties:ScrollViewerBinding.ViewportHeight="{Binding ScrollViewportHeight}"
+                        properties:SearchHighlightBehavior.SearchText="{Binding SettingsSearchText}"
+                        properties:SearchHighlightBehavior.SectionFilter="{Binding SandboxSettingSections}"
                         IsInertiaEnabled="True"
                         PanningMode="Both">
-                        <ItemsControl ItemsSource="{Binding SandboxSettingSections}">
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate DataType="{x:Type dialogs_vms:TutorialChallengeSettingSection}">
-                                    <Grid Margin="0,5,0,0" Visibility="{c:Binding IsVisible}">
-                                        <Expander
-                                            Background="Transparent"
-                                            Header="{Binding Display}"
-                                            IsExpanded="True">
-                                            <Border
-                                                BorderBrush="{DynamicResource BorderBrush}"
-                                                BorderThickness="1,0,1,1"
-                                                CornerRadius="0,0,4,4">
-                                                <Grid>
-                                                    <!--  定时执行分区：简化照抄真实 TimerSettingsUserControl，单定时项 + 强制定时启动；DataContext 只能挂在内层，外层要读分区 Kind 判显隐  -->
-                                                    <StackPanel Margin="0,20" HorizontalAlignment="Center">
-                                                        <StackPanel.Style>
-                                                            <Style TargetType="StackPanel">
-                                                                <Setter Property="Visibility" Value="Collapsed" />
-                                                                <Style.Triggers>
-                                                                    <DataTrigger Binding="{Binding Kind}" Value="{x:Static dialogs_vms:TutorialChallengeSettingSectionKind.Schedule}">
-                                                                        <Setter Property="Visibility" Value="Visible" />
-                                                                    </DataTrigger>
-                                                                </Style.Triggers>
-                                                            </Style>
-                                                        </StackPanel.Style>
-                                                        <StackPanel
-                                                            HorizontalAlignment="Center"
-                                                            DataContext="{Binding DataContext.SandboxSchedule, RelativeSource={RelativeSource AncestorType=hc:Window}}"
-                                                            Orientation="Horizontal">
-                                                            <StackPanel Margin="10,5" Orientation="Horizontal">
-                                                                <CheckBox
-                                                                    VerticalContentAlignment="Center"
-                                                                    Content="{DynamicResource TaskQueue.Schedule.ForceScheduledStart}"
-                                                                    IsChecked="{Binding ForceScheduledStart}" />
-                                                                <controls:TooltipBlock TooltipText="{DynamicResource TaskQueue.Schedule.ForceScheduledStart.Tip}" />
-                                                            </StackPanel>
-                                                            <StackPanel Margin="10,5" Orientation="Horizontal">
-                                                                <CheckBox
-                                                                    VerticalContentAlignment="Center"
-                                                                    Content="{DynamicResource TaskQueue.Schedule.ShowWindowBeforeForceScheduledStart}"
-                                                                    IsChecked="{Binding ShowWindowBeforeForceScheduledStart}"
-                                                                    Visibility="{c:Binding ForceScheduledStart}" />
-                                                                <controls:TooltipBlock
-                                                                    VerticalAlignment="Center"
-                                                                    TooltipText="{DynamicResource TaskQueue.Schedule.ShowWindowBeforeForceScheduledStart.Tip}"
-                                                                    Visibility="{c:Binding ForceScheduledStart}" />
-                                                            </StackPanel>
-                                                        </StackPanel>
-                                                        <ItemsControl DataContext="{Binding DataContext.SandboxSchedule, RelativeSource={RelativeSource AncestorType=hc:Window}}" ItemsSource="{Binding TimerList}">
-                                                            <ItemsControl.ItemTemplate>
-                                                                <DataTemplate>
-                                                                    <StackPanel
-                                                                        HorizontalAlignment="Center"
-                                                                        VerticalAlignment="Center"
-                                                                        Orientation="Horizontal">
-                                                                        <CheckBox
-                                                                            Margin="10,5"
-                                                                            IsChecked="{Binding IsEnabled}"
-                                                                            MouseRightButtonUp="{s:Action ToggleCheckBoxNullOnRightClick,
-                                                                                                          Target={x:Type helper:CheckBoxHelper}}"
-                                                                            ToolTip="{DynamicResource TaskQueue.CheckBoxesNotSavedAsNull}">
-                                                                            <TextBlock><Run Text="{DynamicResource TaskQueue.Schedule.Timer}" /><Run xml:space="preserve" Text=" " /><Run Text="{c:Binding 'Id + 1', Mode=OneWay}" /></TextBlock>
-                                                                        </CheckBox>
-                                                                        <StackPanel Orientation="Horizontal">
-                                                                            <hc:NumericUpDown
-                                                                                Width="55"
-                                                                                Margin="10,5"
-                                                                                InputMethod.IsInputMethodEnabled="False"
-                                                                                IsEnabled="{c:Binding 'IsEnabled ?? &quot;True&quot;'}"
-                                                                                Maximum="23"
-                                                                                Minimum="0"
-                                                                                ValueFormat="00"
-                                                                                Value="{Binding Hour}" />
-                                                                            <controls:TextBlock Text=":" />
-                                                                            <hc:NumericUpDown
-                                                                                Width="55"
-                                                                                Margin="10,5"
-                                                                                InputMethod.IsInputMethodEnabled="False"
-                                                                                IsEnabled="{c:Binding 'IsEnabled ?? &quot;True&quot;'}"
-                                                                                Maximum="59"
-                                                                                Minimum="0"
-                                                                                ValueFormat="00"
-                                                                                Value="{Binding Minute}" />
-                                                                        </StackPanel>
-                                                                    </StackPanel>
-                                                                </DataTemplate>
-                                                            </ItemsControl.ItemTemplate>
-                                                        </ItemsControl>
-                                                    </StackPanel>
+                        <Grid x:Name="SandboxSettingsContentGrid">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
 
-                                                    <!--  问题反馈分区：模拟 ｢生成日志压缩包｣ 按钮；外层沿分区 DataContext 判 Kind，内层挂回窗口 VM 读沙盒态  -->
-                                                    <StackPanel Margin="0,20" HorizontalAlignment="Center">
-                                                        <StackPanel.Style>
-                                                            <Style TargetType="StackPanel">
-                                                                <Setter Property="Visibility" Value="Collapsed" />
-                                                                <Style.Triggers>
-                                                                    <DataTrigger Binding="{Binding Kind}" Value="{x:Static dialogs_vms:TutorialChallengeSettingSectionKind.IssueReport}">
-                                                                        <Setter Property="Visibility" Value="Visible" />
-                                                                    </DataTrigger>
-                                                                </Style.Triggers>
-                                                            </Style>
-                                                        </StackPanel.Style>
-                                                        <Button
-                                                            Margin="5,2"
-                                                            HorizontalAlignment="Left"
-                                                            Command="{s:Action ExportLogs}"
-                                                            DataContext="{Binding DataContext, RelativeSource={RelativeSource AncestorType=hc:Window}}"
-                                                            IsEnabled="{Binding CanExportLogs}">
-                                                            <Grid>
-                                                                <TextBlock Text="{DynamicResource Error.GenerateSupportPayload}" Visibility="{c:Binding !IsExportingLogs}" />
-                                                                <TextBlock Text="{DynamicResource TutorialChallenge.Level.ExportLogs.Generating}" Visibility="{c:Binding IsExportingLogs}" />
-                                                            </Grid>
-                                                        </Button>
-                                                    </StackPanel>
-
-                                                    <!--  ｢设置搜索｣ 关卡干扰分区：随机 CheckBox 群，CheckBox 的 IsChecked 直接写回项实例  -->
-                                                    <StackPanel Margin="0,20" HorizontalAlignment="Center">
-                                                        <StackPanel.Style>
-                                                            <Style TargetType="StackPanel">
-                                                                <Setter Property="Visibility" Value="Collapsed" />
-                                                                <Style.Triggers>
-                                                                    <DataTrigger Binding="{Binding Kind}" Value="{x:Static dialogs_vms:TutorialChallengeSettingSectionKind.Decoy}">
-                                                                        <Setter Property="Visibility" Value="Visible" />
-                                                                    </DataTrigger>
-                                                                </Style.Triggers>
-                                                            </Style>
-                                                        </StackPanel.Style>
-                                                        <ItemsControl ItemsSource="{Binding Items}">
-                                                            <ItemsControl.ItemTemplate>
-                                                                <DataTemplate DataType="{x:Type dialogs_vms:TutorialChallengeDecoyItem}">
-                                                                    <CheckBox
-                                                                        Margin="10,5"
-                                                                        Content="{Binding Text}"
-                                                                        IsChecked="{Binding IsChecked}" />
-                                                                </DataTemplate>
-                                                            </ItemsControl.ItemTemplate>
-                                                        </ItemsControl>
-                                                    </StackPanel>
-                                                </Grid>
-                                            </Border>
-                                        </Expander>
-                                    </Grid>
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                        </ItemsControl>
+                            <hc:Divider
+                                x:Name="SandboxAdvancedDivider"
+                                Grid.Row="{Binding AdvancedSettingsDividerRow}"
+                                Margin="0,15,0,10"
+                                Content="{DynamicResource Settings.Advanced.Title}"
+                                Visibility="{c:Binding HasVisibleAdvancedSettings}" />
+                        </Grid>
                     </hc:ScrollViewer>
                 </Grid>
             </TabItem>
