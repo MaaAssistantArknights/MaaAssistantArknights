@@ -45,6 +45,7 @@ using MaaWpfGui.ViewModels.Items;
 using MaaWpfGui.ViewModels.UserControl.Settings;
 using MaaWpfGui.ViewModels.UserControl.TaskQueue;
 using MaaWpfGui.Views.Dialogs;
+using ObservableCollections;
 using Semver;
 using Serilog;
 using Stylet;
@@ -2627,11 +2628,21 @@ public class TaskQueueViewModel : Screen
 
         bool taskRet = true;
 
-        // 直接遍历TaskItemViewModels里面的内容，是排序后的
         int count = 0;
         int participatingChainCount = 0;
         List<int> coreTaskIds = [];
         bool serializeFailed = false;
+
+        // 在集合锁内复制任务引用，保证 Count 和 CopyTo 之间集合不变。
+        // 循环体会读取 CurrentConfig（配置字典锁），后台保存先取字典锁再取队列锁，不能持有队列锁执行循环体。
+        if (tasks is IObservableCollection<BaseTask> observableTasks)
+        {
+            lock (observableTasks.SyncRoot)
+            {
+                tasks = tasks.ToArray();
+            }
+        }
+
         foreach (var item in tasks)
         {
             var index = ConfigFactory.CurrentConfig.TaskQueue.IndexOf(item);
