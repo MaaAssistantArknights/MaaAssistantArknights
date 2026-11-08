@@ -20,15 +20,6 @@ public:
         Mastery,
     };
 
-public:
-    using AbstractTask::AbstractTask;
-    virtual ~OperProgressProcessTask() override = default;
-
-    void set_plan(std::vector<OperProgressTask::ProgressPlan> plan) { m_plan = std::move(plan); }
-
-protected:
-    virtual bool _run() override;
-
 private:
     enum class ResultDetail
     {
@@ -53,6 +44,16 @@ private:
         Skipped, // 跳过本条; 训练室被占用
     };
 
+public:
+    using AbstractTask::AbstractTask;
+    virtual ~OperProgressProcessTask() override = default;
+
+    void set_plan(std::vector<OperProgressTask::ProgressPlan> plan) { m_plan = std::move(plan); }
+
+protected:
+    virtual bool _run() override;
+
+private:
     ResultDetail execute_elite(battle::Role role, const std::string& name, int target);
     void report_elite_result(battle::Role role, std::string_view name, ResultDetail result, int elite);
     ResultDetail execute_skill(int level);
@@ -78,7 +79,7 @@ private:
     ResultDetail synthesize_missing_material(OperProgressAction task_type, int material_index);
     bool record_factory_state();
     bool manufacture_dual_chip(battle::Role role, const std::string& name);
-    bool restore_factory_state();
+    bool restore_factory_state(); // 合成后恢复制造站产品
     bool buy_catalyst(int count);
     std::optional<int> ocr_number(const std::string& task_name);
     std::optional<int> ocr_number(const cv::Mat& image, const std::string& task_name);
@@ -87,11 +88,13 @@ private:
 
     std::vector<OperProgressTask::ProgressPlan> m_plan;
     std::vector<OperProgressTask::ProgressPlan> m_plan_finish;
-    // 首条目标已定位:任务开始时可能停在主页走完整入口链,之后换干员保证不去主页。
-    bool m_entry_completed = false;
+
+    bool m_entry_completed = false; // 首条目标已定位:任务开始时可能停在主页走完整入口链,之后换干员保证不去主页。
     int m_success = 0;
     int m_failed = 0;
     int m_skipped = 0;
     const int TraineeMissingRetryTimes = 1; // 训练室受训干员整列表完整扫寻的轮数,超出后判定干员不在列表中。
+    const int MaxOperatorPages = 20;
+    std::optional<std::string> FactoryLastProduct = std::nullopt; // 制造站的当前产品
 };
 } // namespace asst

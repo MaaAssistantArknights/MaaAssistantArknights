@@ -12,7 +12,6 @@
 #include "Config/TaskData.h"
 #include "Controller/Controller.h"
 #include "MaaUtils/NoWarningCV.hpp"
-#include "Status.h"
 #include "Task/Infrast/InfrastScore.h"
 #include "Task/MiniGame/MaterialSynthesisTaskPlugin.h"
 #include "Task/OperProgress/OperProgressFormation.h"
@@ -31,9 +30,6 @@
 
 namespace asst::oper_progress
 {
-constexpr int MaxOperatorPages = 20;
-// 制造站产线当前产品写入 Status 的键,RestoreFactoryState 读取后恢复原产品。
-constexpr std::string_view FactoryProductStatusKey = "OperProgressFactoryProduct";
 
 // 参照 BattleFormationTask::analyzer_opers：以职业旗标模板定位卡片,
 // 对旗标下方区域 OCR 干员名,并以旗标上方的高亮色块判断选中态。
@@ -209,7 +205,7 @@ asst::OperProgressProcessTask::ResultDetail
 
     std::string previous_last_operator;
     std::string previous_previous_last_operator;
-    for (int page = 0; page < oper_progress::MaxOperatorPages; ++page) {
+    for (int page = 0; page < MaxOperatorPages; ++page) {
         if (need_exit()) {
             return ResultDetail::Interrupt;
         }
@@ -866,7 +862,7 @@ bool asst::OperProgressProcessTask::select_training_trainer(battle::Role role, i
     std::vector<std::string> operator_face_hashes;
     std::unordered_set<std::string> seen_skills;
     bool scan_completed = false;
-    for (int page = 0; page < oper_progress::MaxOperatorPages && !need_exit(); ++page) {
+    for (int page = 0; page < MaxOperatorPages && !need_exit(); ++page) {
         InfrastOperImageAnalyzer analyzer(ctrler()->get_image());
         analyzer.set_facility("Training");
         analyzer.set_to_be_calced(
@@ -942,7 +938,7 @@ bool asst::OperProgressProcessTask::select_training_trainer(battle::Role role, i
     std::vector<std::string> relocate_seen_faces;
     int unchanged_pages = 0;
     bool trainer_selected = false;
-    for (int page = 0; page < oper_progress::MaxOperatorPages && !need_exit(); ++page) {
+    for (int page = 0; page < MaxOperatorPages && !need_exit(); ++page) {
         InfrastOperImageAnalyzer analyzer(ctrler()->get_image());
         analyzer.set_to_be_calced(
             InfrastOperImageAnalyzer::ToBeCalced::FaceHash | InfrastOperImageAnalyzer::ToBeCalced::Selected);
@@ -1096,7 +1092,7 @@ bool asst::OperProgressProcessTask::record_factory_state()
 {
     // 制造站产线当前产品复用基建产品标志模板识别
     // 识别结果写入 Status 供 RestoreFactoryState 恢复；识别失败时不得切换产线。
-    const cv::Mat image = ctrler()->get_image();
+    const cv::Mat& image = ctrler()->get_image();
     BestMatcher analyzer(image);
     analyzer.set_task_info("OperProgress@RecordFactoryState");
     static const std::vector<std::pair<std::string, std::string>> product_flags = {
@@ -1116,7 +1112,7 @@ bool asst::OperProgressProcessTask::record_factory_state()
     const std::string& templ_name = analyzer.get_result().templ_info.name;
     for (const auto& [templ, product] : product_flags) {
         if (templ == templ_name) {
-            status()->set_str(std::string(oper_progress::FactoryProductStatusKey), product);
+            FactoryLastProduct = product;
             LogInfo << __FUNCTION__ << "| factory product recorded" << product;
             return true;
         }
@@ -1220,9 +1216,8 @@ bool asst::OperProgressProcessTask::manufacture_dual_chip(battle::Role role, con
 
 bool asst::OperProgressProcessTask::restore_factory_state()
 {
-    // 读取 record_factory_state 写入的产品名,复用基建换产品链恢复产线；
     // 无记录或记录为芯片时无需恢复。
-    const auto product = status()->get_str(std::string(oper_progress::FactoryProductStatusKey));
+    const auto product = FactoryLastProduct;
     if (!product) {
         LogWarn << __FUNCTION__ << "| no factory product recorded, skip restoring";
         return true;

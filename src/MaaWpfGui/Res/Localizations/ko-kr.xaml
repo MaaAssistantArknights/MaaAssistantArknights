@@ -414,6 +414,7 @@
     <system:String x:Key="Asst.Drop.ReportSkippedForPcClient">PC 클라이언트에서는 커서가 드롭 아이템과 수량 인식을 가릴 수 있습니다. 잘못된 데이터가 데이터 풀을 오염시키지 않도록 {0}에 대한 이번 보고는 자동으로 건너뜁니다</system:String>
     <system:String x:Key="Asst.Drop.TotalDrop" xml:space="preserve">드롭 통계: </system:String>
     <system:String x:Key="Asst.Fight.ActingCommandError">대리 지휘 오류 발생</system:String>
+    <system:String x:Key="Asst.Fight.AnnihilationEntryNotFound">터미널 할 일 목록에서 섬멸 작전을 찾을 수 없습니다. 이번 주 섬멸 작전이 이미 완료되었을 수 있습니다. 섬멸 작전을 건너뜁니다</system:String>
     <system:String x:Key="Asst.Fight.CurrentSanity" xml:space="preserve">이성: {0}/{1}  </system:String>
     <system:String x:Key="Asst.Fight.ExpiringMedicineUsed">{0}일 이내 만료되는 이성 회복제를 사용했습니다</system:String>
     <system:String x:Key="Asst.Fight.MedicineInfo">약품: {0}, 재고: {1}</system:String>
@@ -1265,28 +1266,28 @@ DEBUG 디렉토리에 저장된 이미지는 수량 제한이 있으며 초과 �
 • LDPlayer: 설정 → 기타 → ADB 디버깅 → 로컬 디버깅</system:String>
     <system:String x:Key="Guide.Demo.BlockedOperation">이 조작은 가이드 흐름에 포함되지 않습니다. 현재 단계를 따라 주세요</system:String>
     <system:String x:Key="Guide.Demo.Gate.AddFight">｢{key=TaskQueue.AddTask}｣ 로 ｢{key=TaskQueue.Task.Fight}｣ 작업을 추가하세요</system:String>
-    <system:String x:Key="Guide.Demo.Gate.AddNightTheme">｢{key=TaskQueue.Task.SwitchTheme}｣ 작업의 톱니바퀴 버튼을 켜고 ｢{key=TaskQueue.SwitchTheme.Add}｣ 로 ｢{key=Guide.Demo.NightTheme}｣ 테마를 추가하세요</system:String>
+    <system:String x:Key="Guide.Demo.Gate.AddNightTheme">｢{key=TaskQueue.Task.SwitchTheme}｣ 작업의 톱니바퀴 아이콘을 클릭하고 ｢{key=TaskQueue.SwitchTheme.Add}｣ 로 ｢{key=Guide.Demo.NightTheme}｣ 테마를 추가하세요</system:String>
     <system:String x:Key="Guide.Demo.Gate.AddSwitchTheme">｢{key=TaskQueue.AddTask}｣ 로 ｢{key=TaskQueue.Task.SwitchTheme}｣ 작업을 추가하고 목록 맨 뒤에 두세요</system:String>
     <system:String x:Key="Guide.Demo.Gate.CheckWeekDays">주간 일정에서 ｢월요일｣ 과 ｢일요일｣ 을 체크하세요</system:String>
-    <system:String x:Key="Guide.Demo.Gate.EnableWeekly">섬멸 작업의 톱니바퀴 버튼을 켜고 ｢{key=TaskQueue.AdvancedSettings}｣ 의 ｢{key=TaskQueue.UseWeeklySchedule}｣ 을 체크하세요</system:String>
-    <system:String x:Key="Guide.Demo.Gate.RenameFight">새로 추가한 ｢{key=TaskQueue.Task.Fight}｣ 작업에 커서를 올려 기본 작업과 구분되도록 이름을 변경하세요</system:String>
-    <system:String x:Key="Guide.Demo.Gate.ReorderFight">이름을 변경한 ｢{key=TaskQueue.Task.Fight}｣ 를 드래그하거나 톱니바퀴를 우클릭해 ｢{key=TaskQueue.MoveUp}｣ 으로 기본 작업 위로 옮기세요</system:String>
-    <system:String x:Key="Guide.Demo.Gate.ReorderTheme">｢{key=TaskQueue.Task.SwitchTheme}｣ 작업을 드래그하거나 톱니바퀴를 우클릭해 ｢{key=TaskQueue.MoveDown}｣ 으로 목록 맨 뒤로 옮기세요</system:String>
+    <system:String x:Key="Guide.Demo.Gate.EnableWeekly">섬멸 작업의 톱니바퀴 아이콘을 클릭하고 ｢{key=TaskQueue.AdvancedSettings}｣ 의 ｢{key=TaskQueue.UseWeeklySchedule}｣ 을 체크하세요</system:String>
+    <system:String x:Key="Guide.Demo.Gate.RenameFight">새로 추가한 ｢{key=TaskQueue.Task.Fight}｣ 작업에 마우스를 올리고 이름 변경 버튼을 눌러 기본 작업과 다른 이름으로 바꾸세요</system:String>
+    <system:String x:Key="Guide.Demo.Gate.ReorderFight">이름을 변경한 ｢{key=TaskQueue.Task.Fight}｣ 를 드래그해 기본 작업 위로 옮기거나, 톱니바퀴 아이콘을 우클릭해 ｢{key=TaskQueue.MoveUp}｣ 을 선택하세요</system:String>
+    <system:String x:Key="Guide.Demo.Gate.ReorderTheme">｢{key=TaskQueue.Task.SwitchTheme}｣ 작업을 드래그해 목록 맨 뒤로 옮기거나, 톱니바퀴 아이콘을 우클릭해 ｢{key=TaskQueue.MoveDown}｣ 을 선택하세요</system:String>
     <system:String x:Key="Guide.Demo.Gate.RestoreFight">목록에 ｢{key=TaskQueue.Task.Fight}｣ 작업이 필요합니다. ｢{key=TaskQueue.AddTask}｣ 로 다시 추가하세요</system:String>
     <system:String x:Key="Guide.Demo.Gate.RestoreStartUp">목록에 ｢{key=TaskQueue.Task.StartUp}｣ 작업이 필요합니다. ｢{key=TaskQueue.AddTask}｣ 로 다시 추가하세요</system:String>
-    <system:String x:Key="Guide.Demo.Gate.SelectStage">작업의 톱니바퀴 버튼을 켜고 스테이지를 ｢{key=TaskQueue.Annihilation.Current}｣ 로 선택하세요</system:String>
+    <system:String x:Key="Guide.Demo.Gate.SelectStage">｢{key=TaskQueue.Task.Fight}｣ 작업의 톱니바퀴 아이콘을 클릭하고 스테이지를 ｢{key=TaskQueue.Annihilation.Current}｣ 로 선택하세요</system:String>
     <system:String x:Key="Guide.Demo.NightTheme">야간</system:String>
-    <system:String x:Key="Guide.Demo.SettingsPlaceholder">왼쪽의 가이드 단계를 따라 주세요. 이 작업의 설정에는 데모 콘텐츠가 없습니다</system:String>
+    <system:String x:Key="Guide.Demo.SettingsPlaceholder">위의 안내에 따라 진행해 주세요. 이 작업의 설정에는 데모 콘텐츠가 없습니다</system:String>
     <system:String x:Key="Guide.Demo.Start">데모에서는 실제로 작업이 실행되지 않습니다</system:String>
     <system:String x:Key="Guide.Demo.TaskAddLimit.Tip">데모 목록에는 최대 5개의 작업만 추가할 수 있습니다. 추가 전에 일부를 삭제해 주세요</system:String>
     <system:String x:Key="Guide.Documentation.Path">"{key=Settings.Title} - {key=Settings.About.Title} - {key=About.Website}"에서 MAA의 공식 웹사이트와 전체 문서를 찾을 수 있습니다.</system:String>
     <system:String x:Key="Guide.Documentation.Title">📖 공식 웹사이트 및 문서</system:String>
     <system:String x:Key="Guide.Done">완료</system:String>
-    <system:String x:Key="Guide.GearContextMenu.Tip">기어 우클릭으로 더 많은 작업 ↓</system:String>
+    <system:String x:Key="Guide.GearContextMenu.Tip">톱니바퀴 아이콘을 우클릭하면 더 많은 작업 ↓</system:String>
     <system:String x:Key="Guide.GenerateReport">"{key=Settings.Title} - {key=Settings.IssueReport.Title} - {key=Error.GenerateSupportPayload}"를 사용하여 오류 보고서를 생성하고 파란색 "{key=Error.Issue}" 링크를 클릭하여 피드백을 제출하세요.</system:String>
     <system:String x:Key="Guide.GitHubIssue.Description">MAA Team은 Issue 템플릿 사양에 따라 GitHub 플랫폼을 통해 사용자가 제출한 피드백만 수락하며, 모든 피드백에 대한 처리 결정권을 보유합니다.</system:String>
     <system:String x:Key="Guide.GitHubIssue.Title">⚠️ 피드백 가이드라인</system:String>
-    <system:String x:Key="Guide.HoverActionButtons">마우스 오버하여 복사/이름 변경/삭제</system:String>
+    <system:String x:Key="Guide.HoverActionButtons">작업에 마우스를 올리면 복사/이름 변경/삭제</system:String>
     <system:String x:Key="Guide.IssueReport.Subtitle">🔧 문제가 발생한 경우</system:String>
     <system:String x:Key="Guide.LinkStart">← 연결 및 동작 시작</system:String>
     <system:String x:Key="Guide.Next">다음 단계</system:String>
@@ -1298,10 +1299,15 @@ DEBUG 디렉토리에 저장된 이미지는 수량 제한이 있으며 초과 �
     <system:String x:Key="Guide.Settings">설정 가이드</system:String>
     <system:String x:Key="Guide.Skip">건너뛰기</system:String>
     <system:String x:Key="Guide.SkipPrompt" xml:space="preserve">{key=TaskQueue.TaskSettings} 등 남은 단계에서 주요 작업 방법을 안내합니다. 끝까지 진행하는 것을 권장합니다. 건너뛰시겠습니까?&#10;나중에 "{key=Settings.Title} - {key=Settings.Ui.Title} - {key=Guide.Title}"에서 {key=Guide.Restart} 기능을 사용할 수 있습니다.</system:String>
-    <system:String x:Key="Guide.Tip">마우스를 올리면 팁이 보입니다</system:String>
+    <system:String x:Key="Guide.Tip">?에 마우스를 올리면 설명이 보입니다</system:String>
     <system:String x:Key="Guide.Title">조작 및 가이드</system:String>
     <system:String x:Key="Guide.User">사용 가이드</system:String>
     <system:String x:Key="Guide.ViewLog">"{key=Settings.Title} - {key=Settings.IssueReport.Title} - {key=Error.OpenDebugFolder}"로 이동하여 로그를 확인하고 오류의 구체적인 원인을 파악할 수 있습니다.</system:String>
+    <system:String x:Key="InferenceBackend">추론 백엔드</system:String>
+    <system:String x:Key="InferenceBackendAuto">자동 (권장)</system:String>
+    <system:String x:Key="InferenceBackendDirectML">DirectML</system:String>
+    <system:String x:Key="InferenceBackendTip" xml:space="preserve">모델 추론 실행 백엔드를 선택합니다.&#10;자동 모드는 가장 안정적인 백엔드(DirectML)를 선택하며, WebGPU 지원은 현재 실험적 단계입니다.</system:String>
+    <system:String x:Key="InferenceBackendWebGpu">WebGPU (실험적)</system:String>
     <system:String x:Key="Infrast.ContinueTraining">마스터리 훈련 완료 시 이어서 시도</system:String>
     <system:String x:Key="Infrast.Custom.File">기반시설 구성</system:String>
     <system:String x:Key="Infrast.Custom.FileHasPlanNoPeriod">{key=Infrast.Mode.Custom} 설정 중 일부 계획에만 시간대가 설정되어 있어, 예기치 않은 동작이 발생할 수 있습니다. 교대 시간대를 설정하려면 모든 계획에 시간대를 설정하거나, 그렇지 않으면 모두 비워 두세요.</system:String>
@@ -1741,6 +1747,9 @@ OF-1 스테이지가 개방되지 않은 경우에는 선택하지 마세요.</s
     <system:String x:Key="Settings.About.Title">정보</system:String>
     <system:String x:Key="Settings.About.UiPreviewMode">UI 미리보기</system:String>
     <system:String x:Key="Settings.Achievement.Title">도전과제</system:String>
+    <system:String x:Key="Settings.Advanced.Hide">고급 설정 숨기기</system:String>
+    <system:String x:Key="Settings.Advanced.Show">고급 설정 표시</system:String>
+    <system:String x:Key="Settings.Advanced.Title">고급 설정</system:String>
     <system:String x:Key="Settings.Background">배경 설정</system:String>
     <system:String x:Key="Settings.Background.BlurRadius">배경 흐림 반경</system:String>
     <system:String x:Key="Settings.Background.Image">배경 이미지</system:String>
@@ -2003,6 +2012,53 @@ MAA는 비설치형 응용 프로그램으로, 삭제 시 레지스트리 항목
     <system:String x:Key="TaskQueue.CustomStageCode.Tip" xml:space="preserve">대부분의 기본 스테이지 이름과 원래 스테이지 이름 목록 지원 (예: 4-10, AP-5, H10-1-Hard)
 스테이지 이름 끝에 ｢Normal/Hard｣ 를 입력해 난이도를 전환할 수 있습니다 (10-14장은 표준/재앙, 15장 이후는 일반/험지)
 ｢SSReopen-XX｣ 일회성 프록시 SS 포크의 일반 수준을 입력할 수 있습니다</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Chart.Bars">막대</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Chart.Collapse.Tip">차트 접기/펼치기</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Chart.Heatmap">히트맵</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Chart.NoBattle">작전 없음</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Chart.OverlayTipFormat">이성 회복제 {0} · 순오리지늄 {1}</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Chart.Rank">스테이지 순위</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Chart.Trend">추이</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Dimension.All">전체</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Dimension.Day">일</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Dimension.Month">월</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Dimension.Week">주</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Dimension.Year">년</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Meta.DurationFormat">평균 {0}/전투</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Meta.MedicinesFormat">이성 회복제 {0}</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Meta.MedicinesFormat.One">이성 회복제 {0}</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Meta.SanityFormat">이성 {0}</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Meta.SessionsFormat">{0}회</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Meta.SessionsFormat.One">{0}회</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Meta.StonesFormat">순오리지늄 {0}</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.NoData">작전 기록이 없습니다</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.OpenButton">작전 일보</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.PickDate">날짜 선택</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Rank.HistoryBestFormat">전체 기간 최적 {0}: {1} 이성/개 (오차 {2}), 이 기간에는 미진행</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Rank.Open.Tip">스테이지별 개당 이성 비교</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Rank.ScopeFormat">이 기간에 진행한 스테이지만 표시 · {0}부터의 전체 기록 기준</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Rank.SummaryFormat">스테이지 순위 {0}/{1} · 오차 {2}</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Rank.SummaryLowSampleFormat">스테이지 순위 {0}/{1} · 오차 {2} · 표본 적음</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Rank.Tip" xml:space="preserve">95% 신뢰 구간 {0} ~ {1} 이성/개&#10;{3}회 동안 {2}개 드롭</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Rate.PerBattle">전투당 드롭</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Rate.SanityPerItem">개당 이성</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Retention">보관 기간</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Retention.ConfirmPruneMessage" xml:space="preserve">전환하면 {0}부터 {1}까지 {2}일간의 작전 기록이 삭제되며, 되돌릴 수 없습니다.&#10;계속하시겠습니까?</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Retention.Day">최근 1일</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Retention.Month">최근 1개월</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Retention.Tip">일보 데이터는 게임 일 단위로 보관되며, 기한이 지나면 자동으로 삭제됩니다</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Retention.Unlimited">제한 없음</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Retention.Week">최근 1주</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Retention.Year">최근 1년</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Stat.DropKinds">드롭 종류</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Stat.Medicines">이성 회복제</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Stat.Sanity">이성 소모</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Stat.Sessions">횟수</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Stat.Stones">순오리지늄</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Title">작전 일보</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Today">오늘</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.View.Material">재료별</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.View.Stage">스테이지별</system:String>
     <system:String x:Key="TaskQueue.DepotMaintain.AddPlan">추가</system:String>
     <system:String x:Key="TaskQueue.DepotMaintain.ClearPlans">전체 삭제</system:String>
     <system:String x:Key="TaskQueue.DepotMaintain.ClearPlansConfirm">모든 계획을 삭제하시겠습니까?</system:String>
@@ -2119,6 +2175,7 @@ MAA는 비설치형 응용 프로그램으로, 삭제 시 레지스트리 항목
     <system:String x:Key="TaskQueue.MoveUp">위로 이동</system:String>
     <system:String x:Key="TaskQueue.MultiTasksShare.Tip">다음 옵션은 여러 작업에 적용됩니다</system:String>
     <system:String x:Key="TaskQueue.NotSwitch">미변경</system:String>
+    <system:String x:Key="TaskQueue.OperProgress.ClearPlansConfirm">모든 오퍼레이터 육성 계획을 지우시겠습니까? 이 작업은 되돌릴 수 없습니다.</system:String>
     <system:String x:Key="TaskQueue.OperProgress.Detail">{key=TaskQueue.Task.OperProgress} {0}:{1} {2}</system:String>
     <system:String x:Key="TaskQueue.OperProgress.Elite">정예화</system:String>
     <system:String x:Key="TaskQueue.OperProgress.EliteTarget">정예화 {0}</system:String>
@@ -2468,12 +2525,9 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="Toolbox.MiniGame.Reclamation.Title">생존 연산</system:String>
     <system:String x:Key="Toolbox.MiniGame.Reclamation.ToolToCraft.Placeholder">형광봉</system:String>
     <system:String x:Key="Toolbox.MiniGame.Reclamation.ToolToCraft.Tip">제작할 도구 이름</system:String>
-    <system:String x:Key="Toolbox.MiniGame.SPA">위수 협의: 맹약</system:String>
-    <system:String x:Key="Toolbox.MiniGame.SPA.Tip" xml:space="preserve">이벤트 메인 화면에서 임무 시작 (아래에 ｢독립 시뮬레이션｣)
+    <system:String x:Key="Toolbox.MiniGame.SPA">위수 협의</system:String>
+    <system:String x:Key="Toolbox.MiniGame.SPA.Tip" xml:space="preserve">이벤트 메인 화면에서 임무 시작 (아래에 ｢고속 시뮬레이션｣ (명칭 임시))
 저장 데이터가 있는 경우 먼저 수동으로 포기해야 합니다
-｢험지 시뮬레이션｣까지만 테스트되었습니다
-더 높은 난이도를 클리어하여 ｢험지 시뮬레이션｣ 또는 ｢표준 시뮬레이션｣이 보이지 않는 경우, ｢험지 시뮬레이션｣ 난이도를 수동으로 한 번 선택하세요
-｢표준 시뮬레이션｣ 을 수동으로 클리어하면 점수를 더 빠르게 획득할 수 있습니다
 레벨 보상만 획득 가능하며, 조각 메달을 얻으려면 모든 ｢주요 목표｣를 완료해야 합니다</system:String>
     <system:String x:Key="Toolbox.MiniGame.SecretFront">비밀 전선</system:String>
     <system:String x:Key="Toolbox.MiniGame.SecretFront.Ending">엔딩</system:String>

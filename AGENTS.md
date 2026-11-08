@@ -24,6 +24,7 @@
 - 配置持久化与迁移归口 `ConfigFactory`（全局 `Root.Gui.X`、当前档案 `CurrentConfig.X`，保存自动防抖）；GUI 设置值的读取一律走 `SettingsViewModel.XxxSettings.X`（设置 VM 属性与配置双向同步，static 属性类型名限定），直取 `CurrentConfig` 仅限 `TaskQueue` 任务对象（多任务间切换当前设置需直读配置，其余设置一律走设置 VM）；新任务类型须在 `BaseTask` 注册 `[JsonDerivedType(typeof(XxxTask), typeDiscriminator: nameof(XxxTask))]`；所有设置参数不应当直接存储 json / 字符串格式的 json 值，应当解析为对应的任务对象或配置对象，存储为对应的对象类型。
 - 服务在 Bootstrapper 用 StyletIoC 显式注册，跨对象取用走 `Instances.Xxx` 静态定位器，不做构造函数注入。
 - 回 UI 线程用 Stylet 的 `Execute.OnUIThread`（异步）、`Execute.OnUIThreadAsync`（异步）返回 Task 或 `Execute.OnUIThreadSync`（同步）；纯后台链路 await 加 `ConfigureAwait(false)`，后续要碰 UI 的不加。
+- 自定义浮层（`Popup`）的点外部关闭一律用 `PopupDismissController`（`Styles/Properties/PopupDismissController.cs`，Popup 保持 `StaysOpen="True"`），开合手感与 ComboBox 一致，用法参照 MenuButton、TreeComboBox；禁止用 `StaysOpen="False"` 的失活自动关闭或在窗口上挂 PreviewMouseDown 自行关闭，前者在浮层内按下时会先收起浮层，后者无法阻止关闭浮层的那次点击继续作用到下方元素。多个触发元素共用一个浮层时，锚点传容器，连击判定经 `repeatClickTarget` 指向当前触发元素。
 - 日志用 Serilog `Log.ForContext<T>()`，结构化占位、消息英文；UI 可见日志另走 `Instances.TaskQueueViewModel.AddLog`（Copilot 相关链路用 `Instances.CopilotViewModel.AddLog`）。如有需要，类内声明`private static readonly ILogger _logger = Log.ForContext<T>();`，避免反复 `ForContext`。
 - View 与 VM 命名镜像由 Stylet 按约定解析，放错命名空间运行时找不到 View：`XxxView` 对应 `XxxViewModel`，`XxxUserControl` 对应 `XxxUserControlModel`（VM 类名以 Model 结尾）。
 - TaskQueue 任务对象类的命名参考为 `XxxTask`，VM 为 `XxxTaskViewModel`，View 为 `XxxTaskView`，UserControl 为 `XxxTaskUserControl`；Settings 配置类的命名参考为 `XxxSettings`，配置 VM 为 `XxxSettingsViewModel`，配置 View 为 `XxxSettingsView`。

@@ -344,9 +344,6 @@
     "SSSBattleOperName": {
         "roi": [0, 105, 300, 31]
     },
-    "BattleDeployWhenPause": {
-        "specialParams": [0]
-    },
     "StageDrops-TimesCheck": {
         "text": ["Continuous", "Auto", "Operation"]
     },

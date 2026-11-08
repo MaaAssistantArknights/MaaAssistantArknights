@@ -89,6 +89,8 @@ public class Gui : NotifyPropertyChangedWithValue, IJsonOnDeserialized
     /// </summary>
     public List<SettingKey> SettingOrders { get; set; } = [];
 
+    public bool ShowAdvancedSettings { get; set; }
+
     /// <summary>
     /// 设置页折叠框展开状态。
     /// </summary>
@@ -111,6 +113,16 @@ public class Gui : NotifyPropertyChangedWithValue, IJsonOnDeserialized
     /// 设置指引教程版本号，用户已完成到的教程版本；完成教程时由 DoneGuide 写入 <see cref="CurrentGuideTutorialVersion"/>。
     /// </summary>
     public int GuideTutorialVersion { get; set; } = 1;
+
+    /// <summary>
+    /// 作战日报数据保留档位（全局，data/DailyReport 日文件按此裁剪）。
+    /// </summary>
+    public DailyReportRetention DailyReportRetention { get; set; } = DailyReportRetention.Unlimited;
+
+    /// <summary>
+    /// Gets or sets a value indicating whether 作战日报的图表卡片处于折叠状态。
+    /// </summary>
+    public bool DailyReportChartCollapsed { get; set; } = false;
 
     public Background Background { get; set; } = new();
 

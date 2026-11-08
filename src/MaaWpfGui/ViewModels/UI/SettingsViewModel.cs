@@ -36,6 +36,7 @@ using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
 using MaaWpfGui.Models;
+using MaaWpfGui.Services;
 using MaaWpfGui.Services.HotKeys;
 using MaaWpfGui.States;
 using MaaWpfGui.Utilities;
@@ -229,33 +230,72 @@ public class SettingsViewModel : Screen
 
     private void InitSettings()
     {
-        var keyList = Enum.GetValues<SettingKey>();
-
-        var tempOrderList = new List<SettingItemViewModel?>();
-
-        bool isAdded = false;
-
         // 已删除设置项的死键由 SettingsPageReorgMigrationConverter 在反序列化前的 JsonNode 层剔除
-        var orderList = ConfigFactory.Root.Gui.SettingOrders.ToList();
-        foreach (var key in keyList.Where(k => !orderList.Any(o => o == k)))
+        var orderList = ConfigFactory.Root.Gui.SettingOrders.Concat(Enum.GetValues<SettingKey>()).Distinct();
+
+        // 稳定分组，保留旧配置中两个组各自的自定义顺序。
+        Settings = [.. orderList
+            .Select(key => new SettingItemViewModel(key.ToString(), LocalizationHelper.GetString(key.LocalizationKey()), 0))
+            .OrderBy(item => item.IsAdvanced)];
+        for (int i = 0; i < Settings.Count; i++)
         {
-            isAdded = true;
-            orderList.Add(key);
-        }
-        if (isAdded)
-        {
-            ConfigFactory.Root.Gui.SettingOrders = orderList;
+            Settings[i].Value = i;
+            Settings[i].AreAdvancedSettingsVisible = ShowAdvancedSettings;
+            Settings[i].PropertyChanged += SettingItem_PropertyChanged;
         }
 
-        foreach (var (i, key) in orderList.Select((key, index) => (index, key)))
-        {
-            var item = new SettingItemViewModel(key.ToString(), LocalizationHelper.GetString(key.LocalizationKey()), i);
-            tempOrderList.Add(item);
-        }
-
-        Settings = [.. tempOrderList.OfType<SettingItemViewModel>()];
+        SaveSettingOrder();
+        _selectedSetting = Settings[0];
+        SettingsDropHandler = new SettingsDropHandler(Settings);
         Settings.CollectionChanged += Settings_CollectionChanged;
     }
+
+    public SettingsDropHandler SettingsDropHandler { get; private set; } = null!;
+
+    private bool _showAdvancedSettings = ConfigFactory.Root.Gui.ShowAdvancedSettings;
+
+    public bool ShowAdvancedSettings
+    {
+        get => _showAdvancedSettings;
+        set {
+            if (SetAndNotify(ref _showAdvancedSettings, value))
+            {
+                ConfigFactory.Root.Gui.ShowAdvancedSettings = value;
+                UpdateAdvancedSettingsVisibility();
+            }
+        }
+    }
+
+    [PropertyDependsOn(nameof(Settings))]
+    public int AdvancedSettingsDividerRow => Settings.Count(item => !item.IsAdvanced);
+
+    [PropertyDependsOn(nameof(Settings))]
+    public bool HasVisibleAdvancedSettings => Settings.Any(item => item.IsAdvanced && item.IsVisible);
+
+    [UsedImplicitly]
+    public void ToggleAdvancedSettings() => ShowAdvancedSettings = !ShowAdvancedSettings;
+
+    private void UpdateAdvancedSettingsVisibility()
+    {
+        // 搜索期间临时显示高级分区，不改变用户持久化的显示偏好。
+        var showAdvanced = ShowAdvancedSettings || !string.IsNullOrEmpty(SearchText);
+        foreach (var item in Settings)
+        {
+            item.AreAdvancedSettingsVisible = showAdvanced;
+        }
+    }
+
+    private void SettingItem_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName == nameof(SettingItemViewModel.IsVisible))
+        {
+            NotifyOfPropertyChange(nameof(HasVisibleAdvancedSettings));
+            OnSettingItemValueChanged();
+        }
+    }
+
+    private void SaveSettingOrder() =>
+        ConfigFactory.Root.Gui.SettingOrders = [.. Settings.Select(item => Enum.Parse<SettingKey>(item.Key))];
 
     /// <summary>
     /// 刷新设置菜单项的本地化文本。
@@ -268,9 +308,13 @@ public class SettingsViewModel : Screen
         }
     }
 
+    private bool _isReorderingSettings;
+
     private void Settings_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs? e)
     {
-        ConfigFactory.Root.Gui.SettingOrders = [.. Settings.Select(item => Enum.Parse<SettingKey>(item.Key))];
+        _isReorderingSettings = true;
+        _settingToSelectAfterLayout = _selectedSetting;
+        SaveSettingOrder();
         Execute.OnUIThread(() => {
             // 集合变更后，根据新的顺序更新各 item 的 Value（右边 Grid.Row 绑定依赖此值）
             for (int i = 0; i < Settings.Count; i++)
@@ -287,10 +331,62 @@ public class SettingsViewModel : Screen
         });
     }
 
+    private bool _isSettingsLayoutRefreshPending;
+
     private void OnSettingItemValueChanged()
     {
+        if (_isSettingsLayoutRefreshPending)
+        {
+            return;
+        }
+
+        var oldSelectedOffset = SelectedIndex >= 0 && SelectedIndex < DividerVerticalOffsetList.Count
+            ? DividerVerticalOffsetList[SelectedIndex]
+            : double.NaN;
+
+        _isSettingsLayoutRefreshPending = true;
         Application.Current.Dispatcher.InvokeAsync(() => {
+            _isSettingsLayoutRefreshPending = false;
+            _isReorderingSettings = false;
             RefreshDividerOffsetsRequested?.Invoke(this, EventArgs.Empty);
+
+            var preferred = _settingToSelectAfterLayout;
+            _settingToSelectAfterLayout = null;
+            var shouldSelectPreferred = preferred is { IsVisible: true };
+            var isCurrentSelectionInvalid = SelectedIndex < 0 || SelectedIndex >= Settings.Count || !Settings[SelectedIndex].IsVisible;
+            var isCollapsingAdvancedSelection = false;
+            if (shouldSelectPreferred || isCurrentSelectionInvalid)
+            {
+                isCollapsingAdvancedSelection = !shouldSelectPreferred
+                    && _selectedSetting is { IsAdvanced: true }
+                    && string.IsNullOrEmpty(SearchText);
+                var target = shouldSelectPreferred ? preferred
+                    : isCollapsingAdvancedSelection
+                        ? Settings.LastOrDefault(item => !item.IsAdvanced && item.IsVisible)
+                        : Settings.FirstOrDefault(item => item.IsVisible);
+                _notifySource = isCollapsingAdvancedSelection ? NotifyType.ScrollOffset : NotifyType.None;
+                SelectedIndex = target == null ? -1 : Settings.IndexOf(target);
+                if (isCollapsingAdvancedSelection)
+                {
+                    _notifySource = NotifyType.None;
+                }
+            }
+
+            if (SelectedIndex >= 0 && SelectedIndex < DividerVerticalOffsetList.Count
+                && !double.IsNaN(DividerVerticalOffsetList[SelectedIndex]))
+            {
+                var targetOffset = DividerVerticalOffsetList[SelectedIndex];
+                var offsetShifted = !double.IsNaN(oldSelectedOffset) && Math.Abs(targetOffset - oldSelectedOffset) >= 0.5;
+                if ((shouldSelectPreferred || isCurrentSelectionInvalid || offsetShifted) && !isCollapsingAdvancedSelection)
+                {
+                    if (Math.Abs(ScrollAnimationTarget - targetOffset) < 0.5)
+                    {
+                        ScrollAnimationTarget = double.NaN;
+                    }
+
+                    ScrollAnimationTarget = targetOffset;
+                }
+            }
         }, System.Windows.Threading.DispatcherPriority.Loaded);
     }
 
@@ -306,12 +402,10 @@ public class SettingsViewModel : Screen
         set {
             if (SetAndNotify(ref _searchText, value))
             {
-                SearchRequested?.Invoke(this, value);
+                UpdateAdvancedSettingsVisibility();
             }
         }
     }
-
-    public event EventHandler<string>? SearchRequested;
 
     public ObservableCollection<SettingItemViewModel> Settings
     {
@@ -831,34 +925,35 @@ public class SettingsViewModel : Screen
         or GuideGate.AddFight or GuideGate.AddSwitchTheme;
 
     /// <summary>
-    /// Gets 演示关卡选择下拉框的红点是否显示：下一步为 ｢选择剿灭关卡｣ 时。
+    /// Gets 演示关卡选择下拉框的红点是否显示：下一步为 ｢选择剿灭关卡｣ 且已选中目标任务齿轮时。
     /// </summary>
-    [PropertyDependsOn(nameof(GuideGateStep))]
-    public bool GuideStageBadgeVisible => GuideGateStep == GuideGate.SelectStage;
+    [PropertyDependsOn(nameof(GuideGateStep), nameof(GuideTargetGearSelected))]
+    public bool GuideStageBadgeVisible => GuideGateStep == GuideGate.SelectStage && GuideTargetGearSelected;
 
     /// <summary>
-    /// Gets ｢高级设置｣ 切换按钮的红点是否显示：下一步为周计划相关步骤且尚未切到高级页时。
+    /// Gets ｢高级设置｣ 切换按钮的红点是否显示：下一步为周计划相关步骤、已选中目标任务齿轮且尚未切到高级页时。
     /// </summary>
-    [PropertyDependsOn(nameof(GuideGateStep), nameof(GuideDemoAdvancedSettings))]
-    public bool GuideAdvancedBadgeVisible => GuideGateStep is GuideGate.EnableWeekly or GuideGate.CheckWeekDays && !GuideDemoAdvancedSettings;
+    [PropertyDependsOn(nameof(GuideGateStep), nameof(GuideTargetGearSelected), nameof(GuideDemoAdvancedSettings))]
+    public bool GuideAdvancedBadgeVisible => GuideGateStep is GuideGate.EnableWeekly or GuideGate.CheckWeekDays
+        && GuideTargetGearSelected && !GuideDemoAdvancedSettings;
 
     /// <summary>
-    /// Gets ｢启用周计划｣ 开关的红点是否显示：下一步为 ｢启用周计划｣ 时。
+    /// Gets ｢启用周计划｣ 开关的红点是否显示：下一步为 ｢启用周计划｣ 且已选中目标任务齿轮时。
     /// </summary>
-    [PropertyDependsOn(nameof(GuideGateStep))]
-    public bool GuideWeeklyBadgeVisible => GuideGateStep == GuideGate.EnableWeekly;
+    [PropertyDependsOn(nameof(GuideGateStep), nameof(GuideTargetGearSelected))]
+    public bool GuideWeeklyBadgeVisible => GuideGateStep == GuideGate.EnableWeekly && GuideTargetGearSelected;
 
     /// <summary>
-    /// Gets 周计划星期列表的红点是否显示：下一步为 ｢勾选周一与周日｣ 时。
+    /// Gets 周计划 ｢周一｣ ｢周日｣ 勾选框的红点是否显示：下一步为 ｢勾选周一与周日｣ 且已选中目标任务齿轮时（已勾选的项由模板隐藏红点）。
     /// </summary>
-    [PropertyDependsOn(nameof(GuideGateStep))]
-    public bool GuideWeekDaysBadgeVisible => GuideGateStep == GuideGate.CheckWeekDays;
+    [PropertyDependsOn(nameof(GuideGateStep), nameof(GuideTargetGearSelected))]
+    public bool GuideWeekDaysBadgeVisible => GuideGateStep == GuideGate.CheckWeekDays && GuideTargetGearSelected;
 
     /// <summary>
-    /// Gets ｢添加主题｣ 按钮的红点是否显示：下一步为 ｢添加夜间主题｣ 时。
+    /// Gets ｢添加主题｣ 按钮的红点是否显示：下一步为 ｢添加夜间主题｣ 且已选中目标任务齿轮时。
     /// </summary>
-    [PropertyDependsOn(nameof(GuideGateStep))]
-    public bool GuideThemeAddBadgeVisible => GuideGateStep == GuideGate.AddNightTheme;
+    [PropertyDependsOn(nameof(GuideGateStep), nameof(GuideTargetGearSelected))]
+    public bool GuideThemeAddBadgeVisible => GuideGateStep == GuideGate.AddNightTheme && GuideTargetGearSelected;
 
     /// <summary>
     /// Gets 添加菜单 ｢理智作战｣ 菜单项的红点是否显示：下一步为 ｢添加理智作战｣ 时。
@@ -1311,15 +1406,49 @@ public class SettingsViewModel : Screen
 
         foreach (var task in GuideDemoTasks)
         {
-            task.IsGateBadgeVisible = false;
+            task.IsNameBadgeVisible = false;
+            task.IsMoveUpBadgeVisible = false;
+            task.IsMoveDownBadgeVisible = false;
+            task.IsGearBadgeVisible = false;
+            task.IsRenameBadgeVisible = false;
         }
 
-        var badgeTarget = GuideTargetTask(step);
-
-        if (badgeTarget != null)
+        var target = GuideTargetTask(step);
+        GuideTargetGearSelected = target is { EnableSetting: true };
+        if (target == null)
         {
-            badgeTarget.IsGateBadgeVisible = true;
+            return;
         }
+
+        switch (step)
+        {
+            // 在设置面板内操作的步骤：未选中目标齿轮时红点引导点齿轮，选中后交给面板内的红点
+            case GuideGate.SelectStage or GuideGate.EnableWeekly or GuideGate.CheckWeekDays or GuideGate.AddNightTheme:
+                target.IsGearBadgeVisible = !target.EnableSetting;
+                break;
+            case GuideGate.RenameFight:
+                target.IsNameBadgeVisible = true;
+                target.IsRenameBadgeVisible = true;
+                break;
+            case GuideGate.ReorderFight:
+                target.IsMoveUpBadgeVisible = true;
+                break;
+            case GuideGate.ReorderTheme:
+                target.IsMoveDownBadgeVisible = true;
+                break;
+        }
+    }
+
+    private bool _guideTargetGearSelected;
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the current gate step's target task has its gear selected；
+    /// 设置面板内的红点仅在此时显示，保证同一时刻只有一个红点指向下一步。
+    /// </summary>
+    private bool GuideTargetGearSelected
+    {
+        get => _guideTargetGearSelected;
+        set => SetAndNotify(ref _guideTargetGearSelected, value);
     }
 
     /// <summary>
@@ -1439,8 +1568,12 @@ public class SettingsViewModel : Screen
             return;
         }
 
-        // 红点是 gate 的输出，写回不再作为输入触发重算，否则形成 重算→写红点→再重算 的死循环（栈溢出）
-        if (args.PropertyName == nameof(GuideDemoTaskItem.IsGateBadgeVisible))
+        // 红点与箭头是 gate 的输出，写回不再作为输入触发重算，否则形成 重算→写标记→再重算 的死循环（栈溢出）
+        if (args.PropertyName is nameof(GuideDemoTaskItem.IsNameBadgeVisible)
+            or nameof(GuideDemoTaskItem.IsMoveUpBadgeVisible)
+            or nameof(GuideDemoTaskItem.IsMoveDownBadgeVisible)
+            or nameof(GuideDemoTaskItem.IsGearBadgeVisible)
+            or nameof(GuideDemoTaskItem.IsRenameBadgeVisible))
         {
             return;
         }
@@ -1562,12 +1695,15 @@ public class SettingsViewModel : Screen
                 return;
             }
 
-            _dividerVerticalOffsetList = value;
             SetAndNotify(ref _dividerVerticalOffsetList, value);
         }
     }
 
     private int _selectedIndex;
+
+    private SettingItemViewModel? _selectedSetting;
+
+    private SettingItemViewModel? _settingToSelectAfterLayout;
 
     /// <summary>
     /// Gets or sets the index selected.
@@ -1581,8 +1717,23 @@ public class SettingsViewModel : Screen
                 return;
             }
 
-            if (value < 0 || value >= DividerVerticalOffsetList.Count)
+            if (value == -1)
             {
+                _selectedSetting = null;
+                SetAndNotify(ref _selectedIndex, value);
+                return;
+            }
+
+            if (value < 0 || value >= Settings.Count || !Settings[value].IsVisible
+                || value >= DividerVerticalOffsetList.Count || double.IsNaN(DividerVerticalOffsetList[value]))
+            {
+                return;
+            }
+
+            if (_isReorderingSettings)
+            {
+                SetAndNotify(ref _selectedIndex, value);
+                _selectedSetting = Settings[value];
                 return;
             }
 
@@ -1606,6 +1757,11 @@ public class SettingsViewModel : Screen
 
                 default:
                     throw new ArgumentOutOfRangeException();
+            }
+
+            if (_selectedIndex == value)
+            {
+                _selectedSetting = Settings[value];
             }
         }
     }
@@ -1636,22 +1792,22 @@ public class SettingsViewModel : Screen
                     SetAndNotify(ref _scrollOffset, value);
 
                     // 设置 ListBox SelectedIndex 为当前 ScrollOffset 索引
-                    if (DividerVerticalOffsetList.Count > 0)
+                    var visibleDividers = DividerVerticalOffsetList
+                        .Select((offset, index) => (offset, index))
+                        .Where(item => !double.IsNaN(item.offset) && Settings[item.index].IsVisible)
+                        .ToArray();
+                    if (visibleDividers.Length > 0)
                     {
                         // 滚动条滚动到底部，返回最后一个 Divider 索引
                         if (value + ScrollViewportHeight >= ScrollExtentHeight)
                         {
-                            SelectedIndex = DividerVerticalOffsetList.Count - 1;
+                            SelectedIndex = visibleDividers[^1].index;
                             ResetNotifySource();
                             break;
                         }
 
                         // 根据出当前 ScrollOffset 选出最后一个在可视范围的 Divider 索引
-                        var dividerSelect = DividerVerticalOffsetList.Select((n, i) => (
-                            dividerAppeared: value >= n,
-                            index: i));
-
-                        var index = dividerSelect.LastOrDefault(n => n.dividerAppeared).index;
+                        var index = visibleDividers.LastOrDefault(item => value >= item.offset, visibleDividers[0]).index;
                         SelectedIndex = index;
                     }
 

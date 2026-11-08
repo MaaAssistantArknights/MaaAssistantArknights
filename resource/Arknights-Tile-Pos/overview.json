@@ -19133,6 +19133,222 @@
         "stageId": "act55side_10",
         "width": 50
     },
+    "act55side_ex01#f#-activities/act55side/level_act55side_ex01": {
+        "code": "TL-EX-1",
+        "filename": "act55side_ex01#f#-activities-act55side-level_act55side_ex01.json",
+        "height": 7,
+        "levelId": "activities/act55side/level_act55side_ex01",
+        "name": "致我的陛下……",
+        "stageId": "act55side_ex01#f#",
+        "width": 11
+    },
+    "act55side_ex01-activities/act55side/level_act55side_ex01": {
+        "code": "TL-EX-1",
+        "filename": "act55side_ex01-activities-act55side-level_act55side_ex01.json",
+        "height": 7,
+        "levelId": "activities/act55side/level_act55side_ex01",
+        "name": "致我的陛下……",
+        "stageId": "act55side_ex01",
+        "width": 11
+    },
+    "act55side_ex02#f#-activities/act55side/level_act55side_ex02": {
+        "code": "TL-EX-2",
+        "filename": "act55side_ex02#f#-activities-act55side-level_act55side_ex02.json",
+        "height": 8,
+        "levelId": "activities/act55side/level_act55side_ex02",
+        "name": "致拉·尼·苏沃林",
+        "stageId": "act55side_ex02#f#",
+        "width": 11
+    },
+    "act55side_ex02-activities/act55side/level_act55side_ex02": {
+        "code": "TL-EX-2",
+        "filename": "act55side_ex02-activities-act55side-level_act55side_ex02.json",
+        "height": 8,
+        "levelId": "activities/act55side/level_act55side_ex02",
+        "name": "致拉·尼·苏沃林",
+        "stageId": "act55side_ex02",
+        "width": 11
+    },
+    "act55side_ex03#f#-activities/act55side/level_act55side_ex03": {
+        "code": "TL-EX-3",
+        "filename": "act55side_ex03#f#-activities-act55side-level_act55side_ex03.json",
+        "height": 9,
+        "levelId": "activities/act55side/level_act55side_ex03",
+        "name": "致马特维",
+        "stageId": "act55side_ex03#f#",
+        "width": 11
+    },
+    "act55side_ex03-activities/act55side/level_act55side_ex03": {
+        "code": "TL-EX-3",
+        "filename": "act55side_ex03-activities-act55side-level_act55side_ex03.json",
+        "height": 9,
+        "levelId": "activities/act55side/level_act55side_ex03",
+        "name": "致马特维",
+        "stageId": "act55side_ex03",
+        "width": 11
+    },
+    "act55side_ex04#f#-activities/act55side/level_act55side_ex04": {
+        "code": "TL-EX-4",
+        "filename": "act55side_ex04#f#-activities-act55side-level_act55side_ex04.json",
+        "height": 8,
+        "levelId": "activities/act55side/level_act55side_ex04",
+        "name": "致谢尔戈·卡拉泽",
+        "stageId": "act55side_ex04#f#",
+        "width": 12
+    },
+    "act55side_ex04-activities/act55side/level_act55side_ex04": {
+        "code": "TL-EX-4",
+        "filename": "act55side_ex04-activities-act55side-level_act55side_ex04.json",
+        "height": 8,
+        "levelId": "activities/act55side/level_act55side_ex04",
+        "name": "致谢尔戈·卡拉泽",
+        "stageId": "act55side_ex04",
+        "width": 12
+    },
+    "act55side_ex05#f#-activities/act55side/level_act55side_ex05": {
+        "code": "TL-EX-5",
+        "filename": "act55side_ex05#f#-activities-act55side-level_act55side_ex05.json",
+        "height": 8,
+        "levelId": "activities/act55side/level_act55side_ex05",
+        "name": "致雷尔金",
+        "stageId": "act55side_ex05#f#",
+        "width": 11
+    },
+    "act55side_ex05-activities/act55side/level_act55side_ex05": {
+        "code": "TL-EX-5",
+        "filename": "act55side_ex05-activities-act55side-level_act55side_ex05.json",
+        "height": 8,
+        "levelId": "activities/act55side/level_act55side_ex05",
+        "name": "致雷尔金",
+        "stageId": "act55side_ex05",
+        "width": 11
+    },
+    "act55side_ex06#f#-activities/act55side/level_act55side_ex06": {
+        "code": "TL-EX-6",
+        "filename": "act55side_ex06#f#-activities-act55side-level_act55side_ex06.json",
+        "height": 9,
+        "levelId": "activities/act55side/level_act55side_ex06",
+        "name": "致雷德先生",
+        "stageId": "act55side_ex06#f#",
+        "width": 13
+    },
+    "act55side_ex06-activities/act55side/level_act55side_ex06": {
+        "code": "TL-EX-6",
+        "filename": "act55side_ex06-activities-act55side-level_act55side_ex06.json",
+        "height": 9,
+        "levelId": "activities/act55side/level_act55side_ex06",
+        "name": "致雷德先生",
+        "stageId": "act55side_ex06",
+        "width": 13
+    },
+    "act55side_ex07#f#-activities/act55side/level_act55side_ex07": {
+        "code": "TL-EX-7",
+        "filename": "act55side_ex07#f#-activities-act55side-level_act55side_ex07.json",
+        "height": 8,
+        "levelId": "activities/act55side/level_act55side_ex07",
+        "name": "致瓦伊凡小姑娘",
+        "stageId": "act55side_ex07#f#",
+        "width": 12
+    },
+    "act55side_ex07-activities/act55side/level_act55side_ex07": {
+        "code": "TL-EX-7",
+        "filename": "act55side_ex07-activities-act55side-level_act55side_ex07.json",
+        "height": 8,
+        "levelId": "activities/act55side/level_act55side_ex07",
+        "name": "致瓦伊凡小姑娘",
+        "stageId": "act55side_ex07",
+        "width": 12
+    },
+    "act55side_ex08#f#-activities/act55side/level_act55side_ex08": {
+        "code": "TL-EX-8",
+        "filename": "act55side_ex08#f#-activities-act55side-level_act55side_ex08.json",
+        "height": 8,
+        "levelId": "activities/act55side/level_act55side_ex08",
+        "name": "致……",
+        "stageId": "act55side_ex08#f#",
+        "width": 12
+    },
+    "act55side_ex08-activities/act55side/level_act55side_ex08": {
+        "code": "TL-EX-8",
+        "filename": "act55side_ex08-activities-act55side-level_act55side_ex08.json",
+        "height": 8,
+        "levelId": "activities/act55side/level_act55side_ex08",
+        "name": "致……",
+        "stageId": "act55side_ex08",
+        "width": 12
+    },
+    "act55side_s01#f#-activities/act55side/level_act55side_sub-1-1": {
+        "code": "TL-S-1",
+        "filename": "act55side_s01#f#-activities-act55side-level_act55side_sub-1-1.json",
+        "height": 8,
+        "levelId": "activities/act55side/level_act55side_sub-1-1",
+        "name": "雪辙",
+        "stageId": "act55side_s01#f#",
+        "width": 12
+    },
+    "act55side_s01-activities/act55side/level_act55side_sub-1-1": {
+        "code": "TL-S-1",
+        "filename": "act55side_s01-activities-act55side-level_act55side_sub-1-1.json",
+        "height": 8,
+        "levelId": "activities/act55side/level_act55side_sub-1-1",
+        "name": "雪辙",
+        "stageId": "act55side_s01",
+        "width": 12
+    },
+    "act55side_s02#f#-activities/act55side/level_act55side_sub-1-2": {
+        "code": "TL-S-2",
+        "filename": "act55side_s02#f#-activities-act55side-level_act55side_sub-1-2.json",
+        "height": 8,
+        "levelId": "activities/act55side/level_act55side_sub-1-2",
+        "name": "霜解",
+        "stageId": "act55side_s02#f#",
+        "width": 12
+    },
+    "act55side_s02-activities/act55side/level_act55side_sub-1-2": {
+        "code": "TL-S-2",
+        "filename": "act55side_s02-activities-act55side-level_act55side_sub-1-2.json",
+        "height": 8,
+        "levelId": "activities/act55side/level_act55side_sub-1-2",
+        "name": "霜解",
+        "stageId": "act55side_s02",
+        "width": 12
+    },
+    "act55side_s03#f#-activities/act55side/level_act55side_sub-1-3": {
+        "code": "TL-S-3",
+        "filename": "act55side_s03#f#-activities-act55side-level_act55side_sub-1-3.json",
+        "height": 9,
+        "levelId": "activities/act55side/level_act55side_sub-1-3",
+        "name": "日暖",
+        "stageId": "act55side_s03#f#",
+        "width": 15
+    },
+    "act55side_s03-activities/act55side/level_act55side_sub-1-3": {
+        "code": "TL-S-3",
+        "filename": "act55side_s03-activities-act55side-level_act55side_sub-1-3.json",
+        "height": 9,
+        "levelId": "activities/act55side/level_act55side_sub-1-3",
+        "name": "日暖",
+        "stageId": "act55side_s03",
+        "width": 15
+    },
+    "act55side_s04#f#-activities/act55side/level_act55side_sub-1-4": {
+        "code": "TL-S-4",
+        "filename": "act55side_s04#f#-activities-act55side-level_act55side_sub-1-4.json",
+        "height": 9,
+        "levelId": "activities/act55side/level_act55side_sub-1-4",
+        "name": "汛潮",
+        "stageId": "act55side_s04#f#",
+        "width": 12
+    },
+    "act55side_s04-activities/act55side/level_act55side_sub-1-4": {
+        "code": "TL-S-4",
+        "filename": "act55side_s04-activities-act55side-level_act55side_sub-1-4.json",
+        "height": 9,
+        "levelId": "activities/act55side/level_act55side_sub-1-4",
+        "name": "汛潮",
+        "stageId": "act55side_s04",
+        "width": 12
+    },
     "act55side_tr01-activities/act55side/level_act55side_tr01": {
         "code": "TL-TR-1",
         "filename": "act55side_tr01-activities-act55side-level_act55side_tr01.json",

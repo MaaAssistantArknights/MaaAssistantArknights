@@ -21,7 +21,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
@@ -1520,7 +1519,7 @@ public class TaskQueueViewModel : Screen
     {
         Execute.OnUIThread(() => {
             // 复用既有集合以 CollectionChanged 增量更新，避免整表重建导致绑定闪烁
-            var inlines = StagesOfTodayInlines ?? new ObservableCollection<Inline>();
+            var inlines = StagesOfTodayInlines ?? [];
             inlines.Clear();
             inlines.Add(new Run(LocalizationHelper.GetString("TaskQueue.Stage.TodaysStage.Tip") + "\n"));
 
@@ -1544,6 +1543,25 @@ public class TaskQueueViewModel : Screen
     {
         get => _stagesOfTodayInlines;
         private set => SetAndNotify(ref _stagesOfTodayInlines, value);
+    }
+
+    private static Views.Dialogs.DailyReportDialogView? _dailyReportWindow;
+
+    /// <summary>
+    /// 打开作战日报窗口（Command 绑定入口）。
+    /// </summary>
+    public void OpenDailyReport()
+    {
+        if (_dailyReportWindow is null)
+        {
+            _dailyReportWindow = new Views.Dialogs.DailyReportDialogView();
+            _dailyReportWindow.Loaded += (_, _) => MaaWpfGui.Helper.WindowManager.MoveWindowToRootCenter(_dailyReportWindow);
+            _dailyReportWindow.Closed += (_, _) => {
+                _dailyReportWindow = null;
+            };
+        }
+
+        MaaWpfGui.Helper.WindowManager.ShowWindow(_dailyReportWindow);
     }
 
     public enum LogCardSplitMode

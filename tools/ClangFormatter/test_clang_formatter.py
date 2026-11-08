@@ -30,19 +30,23 @@ class FormatterIgnoreTests(unittest.TestCase):
             ]
             with (
                 patch.object(sys, "argv", args),
-                patch("os.system", return_value=0) as calls,
+                patch("subprocess.run") as calls,
             ):
                 with contextlib.redirect_stdout(io.StringIO()):
                     runpy.run_path(str(SCRIPT), run_name="__main__")
+            for call in calls.call_args_list:
+                self.assertTrue(call.kwargs["check"])
             return [
-                call.args[0].replace(str(root), "ROOT") for call in calls.call_args_list
+                [arg.replace(str(root), "ROOT") for arg in call.args[0]]
+                for call in calls.call_args_list
             ]
 
     def formatted(self, files, ignores, expected, input_name="."):
         commands = self.commands(files, ignores, input_name)
-        self.assertEqual(commands[0], "clang-format --version")
+        self.assertEqual(commands[0], ["clang-format", "--version"])
         expected_commands = [
-            f'clang-format -i -style=file "{Path("ROOT") / name}"' for name in expected
+            ["clang-format", "-i", "-style=file", str(Path("ROOT") / name)]
+            for name in expected
         ]
         self.assertCountEqual(commands[1:], expected_commands)
 

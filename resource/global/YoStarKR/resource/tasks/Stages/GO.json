@@ -1,5 +1,6 @@
 {
     "GO-OpenOcr": {
+        "ocrReplace": [[" ", ""]],
         "text": ["위대한", "서곡의", "의끝"]
     },
     "GOChapterToGO": {

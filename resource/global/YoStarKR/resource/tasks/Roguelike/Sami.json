@@ -4,6 +4,7 @@
     },
     "Sami@Roguelike@CheckCollapsalParadigms": {
         "ocrReplace": [
+            [" ", ""],
             ["^수적붕괴$", "去量化"],
             ["수적붕괴심화", "去量深化"],
             ["실질적붕괴", "实质性坍缩"],
@@ -28,12 +29,16 @@
     },
     "Sami@Roguelike@CheckCollapsalParadigmsOnBanner": {
         "ocrReplace": [
+            [" ", ""],
             ["붕괴패러다임심화", "坍缩范式加深"],
             ["붕괴패러다임약화", "坍缩范式消退"]
         ]
     },
     "Sami@Roguelike@CheckCollapsalParadigmsOnPanel": {
-        "ocrReplace": [["붕괴수치", "当前坍缩值"]]
+        "ocrReplace": [
+            [" ", ""],
+            ["붕괴수치", "当前坍缩值"]
+        ]
     },
     "Sami@Roguelike@CheckCollapsalParadigms_loading": {
         "ocrReplace": [
@@ -46,13 +51,18 @@
         "text": ["탐험", "기록"]
     },
     "Sami@Roguelike@Collapsal": {
+        "ocrReplace": [[" ", ""]],
         "text": ["선택적", "선택적무시", "이미지", "이미지에러"]
     },
     "Sami@Roguelike@CollapsalParadigmTaskBannerCheckConfig": {
-        "ocrReplace": [["붕괴패러다임심화", "坍缩范式加深"]]
+        "ocrReplace": [
+            [" ", ""],
+            ["붕괴패러다임심화", "坍缩范式加深"]
+        ]
     },
     "Sami@Roguelike@ContinueClick": {
         "ocrReplace": [
+            [" ", ""],
             ["여명의.+", "여명의툰드라"],
             ["은빛의호.+", "은빛의호수"]
         ],
@@ -68,6 +78,7 @@
     },
     "Sami@Roguelike@FoldartalGainOcr": {
         "ocrReplace": [
+            [" ", ""],
             ["구성", "_布局_"],
             ["배척", "黜人"],
             ["사냥꾼", "猎手"],
@@ -126,6 +137,7 @@
     "Sami@Roguelike@FoldartalUseOcr": {
         "text": ["구성"],
         "ocrReplace": [
+            [" ", ""],
             ["수렵", "捕猎"],
             ["순시", "巡视"],
             ["둥지", "筑巢"],
@@ -173,6 +185,7 @@
     },
     "Sami@Roguelike@NextLevel": {
         "ocrReplace": [
+            [" ", ""],
             ["여명의.+", "여명의툰드라"],
             ["은빛의호.+", "은빛의호수"]
         ],
@@ -182,6 +195,7 @@
         "text": ["탐험", "기록"]
     },
     "Sami@Roguelike@StageSafeHouseReuse": {
+        "ocrReplace": [[" ", ""]],
         "text": ["안전가옥활용"]
     },
     "Sami@Roguelike@StrategyChange_mode0": {

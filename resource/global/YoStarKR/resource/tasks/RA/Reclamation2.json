@@ -35,6 +35,7 @@
     },
     "Reclamation2ExClickProduct": {
         "ocrReplace": [
+            [" ", ""],
             ["메탈크랩펌프", "메탈 크랩 펌프"],
             ["목재채집허브", "목재 채집 허브"],
             ["석재채집허브", "석재 채집 허브"],
@@ -74,6 +75,7 @@
         "text": ["제작", "하기"]
     },
     "Reclamation2ExManufactureConfirmClickToContinue": {
+        "ocrReplace": [[" ", ""]],
         "text": ["탭하여", "계", "속"]
     },
     "Reclamation2ExReadArchiveConfirm": {
@@ -95,6 +97,7 @@
         "text": ["확인"]
     },
     "Reclamation2ExSkipDaysAward2": {
+        "ocrReplace": [[" ", ""]],
         "text": ["탭하여", "계", "속"]
     },
     "Reclamation2ExSkipDaysBeginNewDay": {
@@ -110,9 +113,11 @@
         "text": ["확인"]
     },
     "Reclamation2ProsperityMaxSkipDayClickContinue": {
+        "ocrReplace": [[" ", ""]],
         "text": ["탭하여", "계", "속"]
     },
     "Reclamation2SkipDayClickContinue": {
+        "ocrReplace": [[" ", ""]],
         "text": ["탭하여", "계", "속"]
     },
     "Reclamation2SkipTimeSkip": {

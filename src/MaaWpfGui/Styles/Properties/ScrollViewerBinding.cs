@@ -381,6 +381,15 @@ public static class ScrollViewerBinding
         scrollViewer.Loaded += (s, se) => {
             SetExtentHeight(scrollViewer, scrollViewer.ExtentHeight);
         };
+
+        scrollViewer.ScrollChanged += (s, se) => {
+            if (!ReferenceEquals(se.OriginalSource, scrollViewer))
+            {
+                return;
+            }
+
+            SetExtentHeight(scrollViewer, se.ExtentHeight);
+        };
     }
 
     #endregion ExtentHeight attached property
@@ -467,13 +476,15 @@ public static class ScrollViewerBinding
 
         var point = new Point(10, scrollViewer.VerticalOffset);
 
+        // 隐藏分区保留索引占位，避免搜索或收起高级分区后导航索引错位。
         var dividerOffsetList = (
             from child in rootGrid.Children.OfType<Grid>()
             orderby Grid.GetRow(child)
             let sectionHeader = FindFirstSectionHeader(child)
             where sectionHeader != null
-            let pos = sectionHeader.TransformToVisual(scrollViewer).Transform(point)
-            select pos.Y).ToList();
+            select child.Visibility == Visibility.Visible
+                ? sectionHeader.TransformToVisual(scrollViewer).Transform(point).Y
+                : double.NaN).ToList();
 
         SetDividerVerticalOffsetList(scrollViewer, dividerOffsetList);
     }
