@@ -2528,9 +2528,6 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="Toolbox.MiniGame.SPA">衛戍協議</system:String>
     <system:String x:Key="Toolbox.MiniGame.SPA.Tip" xml:space="preserve">在活動主介面（有 ｢極速模擬｣ 處）開始任務。
 在有存檔時需要先手動放棄
-最高只測試過 ｢險境模擬｣
-如果已通關更高難度導致看不到 ｢險境模擬｣ 或 ｢標準模擬｣，需手動選擇一次 ｢險境模擬｣ 難度
-手動通關 ｢標準模擬｣ 可以更快刷分。
 只能刷等級獎勵，拿蝕刻章得打完所有的 ｢關鍵目標｣。</system:String>
     <system:String x:Key="Toolbox.MiniGame.SecretFront">隱秘戰線</system:String>
     <system:String x:Key="Toolbox.MiniGame.SecretFront.Ending">結局</system:String>

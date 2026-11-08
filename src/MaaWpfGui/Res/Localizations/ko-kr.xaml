@@ -2528,9 +2528,6 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="Toolbox.MiniGame.SPA">위수 협의</system:String>
     <system:String x:Key="Toolbox.MiniGame.SPA.Tip" xml:space="preserve">이벤트 메인 화면에서 임무 시작 (아래에 ｢고속 시뮬레이션｣ (명칭 임시))
 저장 데이터가 있는 경우 먼저 수동으로 포기해야 합니다
-｢험지 시뮬레이션｣까지만 테스트되었습니다
-더 높은 난이도를 클리어하여 ｢험지 시뮬레이션｣ 또는 ｢표준 시뮬레이션｣이 보이지 않는 경우, ｢험지 시뮬레이션｣ 난이도를 수동으로 한 번 선택하세요
-｢표준 시뮬레이션｣ 을 수동으로 클리어하면 점수를 더 빠르게 획득할 수 있습니다
 레벨 보상만 획득 가능하며, 조각 메달을 얻으려면 모든 ｢주요 목표｣를 완료해야 합니다</system:String>
     <system:String x:Key="Toolbox.MiniGame.SecretFront">비밀 전선</system:String>
     <system:String x:Key="Toolbox.MiniGame.SecretFront.Ending">엔딩</system:String>

@@ -2529,9 +2529,6 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="Toolbox.MiniGame.SPA">堅守協定</system:String>
     <system:String x:Key="Toolbox.MiniGame.SPA.Tip" xml:space="preserve">イベントメイン画面（｢高速演算｣（仮訳）がある場所）からタスクを開始
 セーブデータがある場合は、まず手動で破棄する必要があります
- ｢逆境シミュレーション｣ までテスト済み
-より高い難易度をクリア済みで ｢逆境シミュレーション｣ または ｢標準シミュレーション｣ が表示されない場合、\n ｢逆境シミュレーション｣ 難易度を手動で一度選択してください
- ｢標準シミュレーション｣ を手動でクリアすると、より早くスコアを稼げます
 レベル報酬のみ取得可能。｢功績勲章｣ を入手するには全ての ｢主要目標｣ をクリアする必要があります</system:String>
     <system:String x:Key="Toolbox.MiniGame.SecretFront">隠密戦線</system:String>
     <system:String x:Key="Toolbox.MiniGame.SecretFront.Ending">エンディング</system:String>

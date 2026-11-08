@@ -2528,9 +2528,6 @@ Task flow: Use the Gold from Strategy Business Management to unlock areas, and u
     <system:String x:Key="Toolbox.MiniGame.SPA">Stronghold Protocol</system:String>
     <system:String x:Key="Toolbox.MiniGame.SPA.Tip" xml:space="preserve">Start the task from the main event screen (where ｢Express Simulation｣ (name TBD) is located)
 If there is a saved game, you need to manually abandon it first
-Only tested up to ｢Perilous Simulation｣
-If higher difficulties have been cleared and ｢Perilous Simulation｣ or ｢Standard Simulation｣ is not visible, manually select ｢Perilous Simulation｣ difficulty once
-Completing ｢Standard Simulation｣ manually allows faster score farming
 Only level rewards can be farmed; to get the Engraved Medal, all ｢Key Objectives｣ must be completed</system:String>
     <system:String x:Key="Toolbox.MiniGame.SecretFront">Hidden Front</system:String>
     <system:String x:Key="Toolbox.MiniGame.SecretFront.Ending">Ending</system:String>
