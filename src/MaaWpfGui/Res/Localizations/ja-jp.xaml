@@ -2559,9 +2559,9 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="TutorialChallenge.Level.AddFight.Title">{key=TaskQueue.Task.Fight}</system:String>
     <system:String x:Key="TutorialChallenge.Level.ChipStock.Goal">初級 SoC を各 20 個、中級 SoC を各 32 個まで補充してください。挑戦してみましょう：最少でいくつのタスクで達成できるでしょうか？</system:String>
     <system:String x:Key="TutorialChallenge.Level.ChipStock.Title">チップフルセット</system:String>
-    <system:String x:Key="TutorialChallenge.Level.DailyReconnect.Goal">毎日午前 4 時のゲーム更新後に自動で周回したい。｢{key=Settings.Title} - {key=Settings.Schedule.Title}｣ で 4 時以降のタイマーを設定し、｢{key=TaskQueue.Schedule.ForceScheduledStart}｣ を有効にしてください。</system:String>
+    <system:String x:Key="TutorialChallenge.Level.DailyReconnect.Goal">夜通しローグライクを周回する（例：23:00 から翌 8:00 まで）と、午前 4:00 を跨ぐ際に瞬断で落ちます。キューがその時刻にゲームを自動で再起動し、ローグライクを続きから完了させるようにします。</system:String>
         <system:String x:Key="TutorialChallenge.Level.DailyReconnect.Hint" xml:space="preserve">ゲームの告知は 4:00-4:10 の瞬断メンテ。念のため 4:10 を推奨します。</system:String>
-<system:String x:Key="TutorialChallenge.Level.DailyReconnect.Title">定時周回</system:String>
+<system:String x:Key="TutorialChallenge.Level.DailyReconnect.Title">日またぎ再接続</system:String>
     <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.AdminBlocked">管理者権限で実行中のため、Windows が高権限ウィンドウへのファイルドロップをブロックします。このレベルはドラッグでは達成できません。</system:String>
     <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.AlreadyIdentified">この種類はすでに認識済みです。次をドラッグしましょう。</system:String>
     <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.DropZone.FullPackage">完全アップデートパッケージ</system:String>

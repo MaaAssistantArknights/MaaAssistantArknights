@@ -2558,9 +2558,9 @@ Only level rewards can be farmed; to get the Engraved Medal, all ｢Key Objectiv
     <system:String x:Key="TutorialChallenge.Level.AddFight.Title">{key=TaskQueue.Task.Fight}</system:String>
     <system:String x:Key="TutorialChallenge.Level.ChipStock.Goal">Top up every chip to 20 and every chip pack to 32. Give it a try: what is the minimum number of tasks you need?</system:String>
     <system:String x:Key="TutorialChallenge.Level.ChipStock.Title">Full Chip Stock</system:String>
-    <system:String x:Key="TutorialChallenge.Level.DailyReconnect.Goal">Start farming automatically after the game's 4 AM reset. Set a timer later than 04:00 in {key=Settings.Title} - {key=Settings.Schedule.Title} and enable {key=TaskQueue.Schedule.ForceScheduledStart}.</system:String>
+    <system:String x:Key="TutorialChallenge.Level.DailyReconnect.Goal">Leave Auto I.S. running overnight (e.g. from 23:00 to 08:00 the next day); the game briefly disconnects when crossing 04:00. Make the queue automatically restart the game at that time and finish the run.</system:String>
         <system:String x:Key="TutorialChallenge.Level.DailyReconnect.Hint" xml:space="preserve">The game announces a 04:00-04:10 flash update window; filling in 04:10 is safer.</system:String>
-<system:String x:Key="TutorialChallenge.Level.DailyReconnect.Title">Scheduled Farming</system:String>
+<system:String x:Key="TutorialChallenge.Level.DailyReconnect.Title">Overnight Reconnect</system:String>
     <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.AdminBlocked">Running as administrator: Windows blocks file drops into elevated windows, so this level cannot be completed by dragging.</system:String>
     <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.AlreadyIdentified">This type is already recognized. Drag the next one.</system:String>
     <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.DropZone.FullPackage">Full update package</system:String>
