@@ -880,8 +880,9 @@ C:\leidian\LDPlayer9
     <system:String x:Key="Connection.LdPlayer.ManualSetIndex">｢{key=Connection.LdPlayer.Index}｣ を手動で入力</system:String>
     <system:String x:Key="Connection.LdPlayer.OpenglMissing">選択した LDPlayer パスに ldopengl64.dll が見つかりません。インストールディレクトリを確認してください。</system:String>
     <system:String x:Key="Connection.Lost">接続が切断されました</system:String>
-    <system:String x:Key="Connection.ModAVD.ExtrasNotEnabledMessage">ModAVD スクリーンショットの強化 が有効になっていません。｢{key=Settings.Title} - {key=Settings.Connection.Title} - {key=Connection.Config}｣ で ModAVD ルートフォルダと接続先アドレスを確認してください</system:String>
-    <system:String x:Key="Connection.ModAVD.LibraryMissing">選択したフォルダに extras\modavd_extras.dll が見つかりません。ModAVD のルートフォルダ（ModAVD.exe があるフォルダ）を選択してください。ModAVD が古い場合は先に更新してください。</system:String>
+    <system:String x:Key="Connection.ModAVD.ExtrasNotEnabledMessage">ModAVD スクリーンショットの強化が有効になっていません。｢{key=Settings.Title} - {key=Settings.Connection.Title} - {key=Connection.Config}｣ で ModAVD ルートフォルダと接続先アドレスを確認してください</system:String>
+    <system:String x:Key="Connection.ModAVD.LibraryMissing" xml:space="preserve">選択した ModAVD ルートフォルダに extras\modavd_extras.dll が見つかりませんでした。
+https://github.com/ModAVD/ModAVDExtras/releases から modavd_extras.dll をダウンロードし、ModAVD ルートフォルダ（ModAVD.exe があるフォルダ）の extras フォルダに置いてください。今後の ModAVD のリリースパッケージには同梱されます。</system:String>
     <system:String x:Key="Connection.ModAVD.RootPath">ModAVD ルートフォルダ</system:String>
     <system:String x:Key="Connection.ModAVD.RootPath.Tip" xml:space="preserve">ModAVD ルートフォルダは ModAVD.exe があるフォルダです。MAA はその中の extras\modavd_extras.dll を通じて、ADB を使わずにエミュレータの画面を直接取得します。
 インスタンスは接続先アドレスから判断します（例：127.0.0.1:20001 または emulator-20000。adb ポート = コンソールポート + 1）。インスタンス番号は不要です。

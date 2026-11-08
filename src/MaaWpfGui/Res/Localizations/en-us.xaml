@@ -880,7 +880,8 @@ If the game is launched in portrait mode and then switched to landscape, it may 
     <system:String x:Key="Connection.LdPlayer.OpenglMissing">ldopengl64.dll was not found in the selected LDPlayer path. Please verify the installation directory.</system:String>
     <system:String x:Key="Connection.Lost">Connection lost</system:String>
     <system:String x:Key="Connection.ModAVD.ExtrasNotEnabledMessage">ModAVD screenshot enhancement is not working. Check the ModAVD root and the connection address in ｢{key=Settings.Title} - {key=Settings.Connection.Title} - {key=Connection.Config}｣</system:String>
-    <system:String x:Key="Connection.ModAVD.LibraryMissing">extras\modavd_extras.dll was not found in the selected folder. Please select the ModAVD root (the folder that contains ModAVD.exe); if your ModAVD is too old, update it first.</system:String>
+    <system:String x:Key="Connection.ModAVD.LibraryMissing" xml:space="preserve">extras\modavd_extras.dll was not found under the selected ModAVD root.
+Download modavd_extras.dll from https://github.com/ModAVD/ModAVDExtras/releases and put it in the extras folder of the ModAVD root (the folder that contains ModAVD.exe). Later ModAVD release packages will include it.</system:String>
     <system:String x:Key="Connection.ModAVD.RootPath">ModAVD root</system:String>
     <system:String x:Key="Connection.ModAVD.RootPath.Tip" xml:space="preserve">The ModAVD root is the folder that contains ModAVD.exe. MAA reads the emulator screen directly through extras\modavd_extras.dll in it, without ADB.
 The instance is taken from the connection address, e.g. 127.0.0.1:20001 or emulator-20000 (adb port = console port + 1); no instance index is needed.
