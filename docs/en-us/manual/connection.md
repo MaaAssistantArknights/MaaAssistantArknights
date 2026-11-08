@@ -215,7 +215,7 @@ For the [ModAVD](https://github.com/ModAVD/ModAVD) emulator. MAA reads the emula
 
 1. In `Settings` - `Connection` - `Connection Preset`, select `ModAVD`, and uncheck `Auto detect connection` (auto detection does not recognize ModAVD).
 
-2. Set `ModAVD root` to the ModAVD root folder (the folder that contains `ModAVD.exe`), or click `Select` to browse for it. The folder must contain `extras\modavd_extras.dll`. Later ModAVD release packages will include it; until then, download `modavd_extras.dll` from the [ModAVDExtras releases](https://github.com/ModAVD/ModAVDExtras/releases) and put it in the `extras` folder there.
+2. Set `ModAVD root` to the ModAVD root folder (the folder that contains `ModAVD.exe`), or click `Select` to browse for it. The folder must contain `extras\modavd_extras.dll`. ModAVD release packages include it since 0.39.0; for an older version, update ModAVD first, or download `modavd_extras.dll` from the [ModAVDExtras releases](https://github.com/ModAVD/ModAVDExtras/releases) and put it in the `extras` folder there.
 
 3. Set `Connection address` to `127.0.0.1:<ADB port>` of the instance, where the ADB port is the console port + 1. With the default ports, instance 0 is `127.0.0.1:20001` and each following instance adds 10 (`127.0.0.1:20011`, `127.0.0.1:20021`, ...). `emulator-<console port>` also works. No instance number is needed. For `ADB path`, you can use `sdk\platform-tools\adb.exe` under the ModAVD root.
 

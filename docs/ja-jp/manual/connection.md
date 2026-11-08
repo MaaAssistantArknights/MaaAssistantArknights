@@ -275,7 +275,7 @@ AVD スクリーンショット強化モードは MaaFramework 内で実装さ�
 
 1. `設定` - `接続設定` - `接続構成` で `ModAVD` を選択し、`接続自動認識` のチェックを外します（自動認識は ModAVD に対応していません）。
 
-2. `ModAVD ルートフォルダ` に ModAVD のルートフォルダ（`ModAVD.exe` があるフォルダ）を入力するか、`選択` から指定します。このフォルダに `extras\modavd_extras.dll` が必要です。今後の ModAVD のリリースパッケージには同梱されます。それまでは [ModAVDExtras の Release](https://github.com/ModAVD/ModAVDExtras/releases) から `modavd_extras.dll` をダウンロードし、その中の `extras` フォルダに置いてください。
+2. `ModAVD ルートフォルダ` に ModAVD のルートフォルダ（`ModAVD.exe` があるフォルダ）を入力するか、`選択` から指定します。このフォルダに `extras\modavd_extras.dll` が必要です。ModAVD 0.39.0 以降のリリースパッケージには同梱されています。それより古いバージョンでは、まず ModAVD を更新するか、[ModAVDExtras の Release](https://github.com/ModAVD/ModAVDExtras/releases) から `modavd_extras.dll` をダウンロードし、その中の `extras` フォルダに置いてください。
 
 3. `接続先アドレス` には対象インスタンスの `127.0.0.1:<ADB ポート>` を入力します（ADB ポート = コンソールポート + 1）。既定のポートでは 0 番のインスタンスが `127.0.0.1:20001` で、以降は 1 つごとに 10 ずつ増えます（`127.0.0.1:20011`、`127.0.0.1:20021`……）。`emulator-<コンソールポート>` でも構いません。インスタンス番号の入力は不要です。`ADBパス` には ModAVD ルートフォルダ内の `sdk\platform-tools\adb.exe` を指定できます。
 

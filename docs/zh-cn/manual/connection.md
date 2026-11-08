@@ -217,7 +217,7 @@ AVD 截图增强模式在 MaaFramework 中实现，必须选择 MaaFwAdb 触控�
 
 1. `设置` - `连接设置` - `连接配置` 选择 `ModAVD`，并取消勾选 `自动检测连接`（自动检测不识别 ModAVD）。
 
-2. `ModAVD 根目录` 填写 ModAVD 的根目录（即 `ModAVD.exe` 所在的目录），也可以点击 `选择` 浏览。该目录下需要有 `extras\modavd_extras.dll`：之后的 ModAVD 发布包会自带，在此之前可从 [ModAVDExtras 的 Release](https://github.com/ModAVD/ModAVDExtras/releases) 下载 `modavd_extras.dll`，放入其中的 `extras` 文件夹。
+2. `ModAVD 根目录` 填写 ModAVD 的根目录（即 `ModAVD.exe` 所在的目录），也可以点击 `选择` 浏览。该目录下需要有 `extras\modavd_extras.dll`：ModAVD 0.39.0 起的发布包自带；更早的版本请先更新 ModAVD，或从 [ModAVDExtras 的 Release](https://github.com/ModAVD/ModAVDExtras/releases) 下载 `modavd_extras.dll`，放入其中的 `extras` 文件夹。
 
 3. `连接地址` 填写对应实例的 `127.0.0.1:<ADB 端口>`，ADB 端口 = 控制台端口 + 1。默认端口下 0 号实例为 `127.0.0.1:20001`，之后每号加 10（`127.0.0.1:20011`、`127.0.0.1:20021`……）；也可以填写 `emulator-<控制台端口>`。不需要填写实例编号。`ADB 路径` 可填写 ModAVD 根目录下的 `sdk\platform-tools\adb.exe`。
 

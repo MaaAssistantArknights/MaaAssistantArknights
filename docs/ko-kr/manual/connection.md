@@ -225,7 +225,7 @@ AVD 스크린샷 향상 모드는 MaaFramework에서 구현되므로, AVD 스크
 
 1. `설정` - `연결 설정` - `연결 프리셋`에서 `ModAVD`를 선택하고 `연결 자동 감지`를 해제합니다(자동 감지는 ModAVD를 인식하지 못합니다).
 
-2. `ModAVD 루트 폴더`에 ModAVD 루트 폴더(`ModAVD.exe`가 있는 폴더)를 입력하거나 `선택`을 눌러 지정합니다. 이 폴더에 `extras\modavd_extras.dll`이 있어야 합니다. 이후 ModAVD 릴리스 패키지에는 포함되며, 그 전까지는 [ModAVDExtras 릴리스](https://github.com/ModAVD/ModAVDExtras/releases)에서 `modavd_extras.dll`을 다운로드해 해당 폴더의 `extras` 폴더에 넣으세요.
+2. `ModAVD 루트 폴더`에 ModAVD 루트 폴더(`ModAVD.exe`가 있는 폴더)를 입력하거나 `선택`을 눌러 지정합니다. 이 폴더에 `extras\modavd_extras.dll`이 있어야 합니다. ModAVD 0.39.0부터 릴리스 패키지에 포함되어 있으며, 그 이전 버전이라면 먼저 ModAVD를 업데이트하거나 [ModAVDExtras 릴리스](https://github.com/ModAVD/ModAVDExtras/releases)에서 `modavd_extras.dll`을 다운로드해 해당 폴더의 `extras` 폴더에 넣으세요.
 
 3. `연결 주소`에는 해당 인스턴스의 `127.0.0.1:<ADB 포트>`를 입력합니다(ADB 포트 = 콘솔 포트 + 1). 기본 포트에서는 0번 인스턴스가 `127.0.0.1:20001`이고, 이후 인스턴스마다 10씩 늘어납니다(`127.0.0.1:20011`, `127.0.0.1:20021`, ...). `emulator-<콘솔 포트>`를 입력해도 됩니다. 인스턴스 번호는 입력할 필요가 없습니다. `ADB 경로`에는 ModAVD 루트 폴더 안의 `sdk\platform-tools\adb.exe`를 지정할 수 있습니다.
 

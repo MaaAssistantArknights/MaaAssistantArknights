@@ -881,7 +881,7 @@ C:\leidian\LDPlayer9
     <system:String x:Key="Connection.Lost">連線已中斷</system:String>
     <system:String x:Key="Connection.ModAVD.ExtrasNotEnabledMessage">ModAVD 截圖增強未生效，請在 ｢{key=Settings.Title} - {key=Settings.Connection.Title} - {key=Connection.Config}｣ 檢查 ModAVD 根目錄與連線位址</system:String>
     <system:String x:Key="Connection.ModAVD.LibraryMissing" xml:space="preserve">在所選 ModAVD 根目錄中找不到 extras\modavd_extras.dll。
-可從 https://github.com/ModAVD/ModAVDExtras/releases 下載 modavd_extras.dll，放到 ModAVD 根目錄（ModAVD.exe 所在目錄）的 extras 資料夾中；之後的 ModAVD 發行包會內建。</system:String>
+ModAVD 0.39.0 起的發行包內建這個函式庫，請先更新 ModAVD；也可以從 https://github.com/ModAVD/ModAVDExtras/releases 下載 modavd_extras.dll，放到 ModAVD 根目錄（ModAVD.exe 所在目錄）的 extras 資料夾中。</system:String>
     <system:String x:Key="Connection.ModAVD.RootPath">ModAVD 根目錄</system:String>
     <system:String x:Key="Connection.ModAVD.RootPath.Tip" xml:space="preserve">ModAVD 根目錄即 ModAVD.exe 所在的目錄。MAA 會透過其中的 extras\modavd_extras.dll 直接讀取模擬器畫面，不經過 ADB。
 實例由連線位址決定，例如 127.0.0.1:20001 或 emulator-20000（adb 連接埠 = 控制台連接埠 + 1），不需要填寫實例編號。
