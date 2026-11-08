@@ -391,6 +391,17 @@ void asst::AdbController::init_ld_extras(const AdbCfg& adb_cfg, const std::strin
 #endif
 }
 
+void asst::AdbController::init_modavd_extras(const AdbCfg& adb_cfg, const std::string& address)
+{
+    // ModAVD 的库自己从连接地址推出实例（adb 端口 = 控制台端口 + 1），这里只需要根目录
+    std::filesystem::path modavd_root = utils::path(adb_cfg.extras.get("root", ""));
+    if (modavd_root.empty()) {
+        LogWarn << "ModAVD root is empty, skip ModAvdExtras init";
+        return;
+    }
+    m_modavd_extras.init(modavd_root, address);
+}
+
 void asst::AdbController::close_socket() noexcept
 {
     m_platform_io->close_socket();
@@ -793,6 +804,26 @@ bool asst::AdbController::screencap(cv::Mat& image_payload, bool allow_reconnect
             all_methods_cost.emplace_back(AdbProperty::ScreencapMethod::Encode, "???");
         }
 
+        if (m_modavd_extras.inited()) {
+            start_time = steady_clock::now();
+            if (m_modavd_extras.screencap()) {
+                auto duration = duration_cast<milliseconds>(steady_clock::now() - start_time);
+                if (duration < min_cost) {
+                    fastest_method = AdbProperty::ScreencapMethod::ModAvdExtras;
+                    m_inited = true;
+                    min_cost = duration;
+                }
+                Log.info("ModAvdExtras cost", duration.count(), "ms");
+                all_methods_cost.emplace_back(
+                    AdbProperty::ScreencapMethod::ModAvdExtras,
+                    std::to_string(duration.count()));
+            }
+            else {
+                Log.info("ModAvdExtras is not supported");
+                all_methods_cost.emplace_back(AdbProperty::ScreencapMethod::ModAvdExtras, "???");
+            }
+        }
+
 #if ASST_WITH_EMULATOR_EXTRAS
         if (m_mumu_extras.inited()) {
             start_time = steady_clock::now();
@@ -839,6 +870,7 @@ bool asst::AdbController::screencap(cv::Mat& image_payload, bool allow_reconnect
             { AdbProperty::ScreencapMethod::RawByNc, "RawByNc" },
             { AdbProperty::ScreencapMethod::RawWithGzip, "RawWithGzip" },
             { AdbProperty::ScreencapMethod::Encode, "Encode" },
+            { AdbProperty::ScreencapMethod::ModAvdExtras, "ModAvdExtras" },
 #if ASST_WITH_EMULATOR_EXTRAS
             { AdbProperty::ScreencapMethod::MumuExtras, "MumuExtras" },
             { AdbProperty::ScreencapMethod::LDExtras, "LDExtras" },
@@ -880,6 +912,20 @@ bool asst::AdbController::screencap(cv::Mat& image_payload, bool allow_reconnect
         case AdbProperty::ScreencapMethod::Encode:
             screencap_result = screencap(m_adb.screencap_encode, decode_encode, allow_reconnect);
             break;
+        case AdbProperty::ScreencapMethod::ModAvdExtras: {
+            auto img_opt = m_modavd_extras.screencap();
+            screencap_result = img_opt.has_value() ? ScreencapResult::Success : ScreencapResult::Reprobe;
+
+            if (screencap_result != ScreencapResult::Success && allow_reconnect) {
+                m_modavd_extras.reload();
+                img_opt = m_modavd_extras.screencap();
+                screencap_result = img_opt.has_value() ? ScreencapResult::Success : ScreencapResult::Reprobe;
+            }
+
+            if (screencap_result == ScreencapResult::Success) {
+                image_payload = img_opt.value();
+            }
+        } break;
 #if ASST_WITH_EMULATOR_EXTRAS
         case AdbProperty::ScreencapMethod::MumuExtras: {
             auto img_opt = m_mumu_extras.screencap();
@@ -1386,6 +1432,9 @@ bool asst::AdbController::connect(const std::string& adb_path, const std::string
     }
     else if (config == "LDPlayer") {
         init_ld_extras(adb_cfg, address);
+    }
+    else if (config == "ModAVD") {
+        init_modavd_extras(adb_cfg, address);
     }
     if (need_exit()) {
         return false;
