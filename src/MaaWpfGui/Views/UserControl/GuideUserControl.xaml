@@ -17,6 +17,12 @@
     d:Background="White"
     d:DataContext="{d:DesignInstance ui_vms:SettingsViewModel}"
     mc:Ignorable="d">
+    <UserControl.Resources>
+        <!--  引导强调色：门槛提示与菜单目标标记共用，避免在样式里散落硬编码色值  -->
+        <SolidColorBrush x:Key="GuideAccentBrush" Color="#F3631B" />
+        <SolidColorBrush x:Key="GuideBadgeBackgroundBrush" Color="#33FFB300" />
+        <SolidColorBrush x:Key="GuideBadgeForegroundBrush" Color="#B36B00" />
+    </UserControl.Resources>
     <Grid>
         <GroupBox
             Margin="10"
@@ -44,61 +50,78 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition />
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
-                    <!--  步骤项等分整行宽度，外服长文案用包装 TextBlock 在格内换行（原版 TextBlock 以继承步骤状态前景色）  -->
                     <hc:StepBar
                         Name="GuideStepBar"
                         Grid.ColumnSpan="3"
                         d:StepIndex="5"
-                        StepIndex="{Binding GuideStepIndex}">
+                        PreviewMouseLeftButtonUp="{s:Action NavigateGuideToStepFromBar}"
+                        StepIndex="{Binding GuideStepIndex, Mode=OneWay}"
+                        ToolTip="{DynamicResource Guide.StepBar.Tip}"
+                        ToolTipService.InitialShowDelay="400">
                         <hc:StepBarItem>
                             <TextBlock
+                                Background="Transparent"
+                                Cursor="Hand"
                                 Text="{DynamicResource Settings.Ui.Title}"
                                 TextAlignment="Center"
                                 TextWrapping="Wrap" />
                         </hc:StepBarItem>
                         <hc:StepBarItem>
                             <TextBlock
+                                Background="Transparent"
+                                Cursor="Hand"
                                 Text="{DynamicResource Guide.User}"
                                 TextAlignment="Center"
                                 TextWrapping="Wrap" />
                         </hc:StepBarItem>
                         <hc:StepBarItem>
                             <TextBlock
+                                Background="Transparent"
+                                Cursor="Hand"
                                 Text="{DynamicResource Settings.Game.Title}"
                                 TextAlignment="Center"
                                 TextWrapping="Wrap" />
                         </hc:StepBarItem>
                         <hc:StepBarItem>
                             <TextBlock
+                                Background="Transparent"
+                                Cursor="Hand"
                                 Text="{DynamicResource Settings.Connection.Title}"
                                 TextAlignment="Center"
                                 TextWrapping="Wrap" />
                         </hc:StepBarItem>
                         <hc:StepBarItem>
                             <TextBlock
+                                Background="Transparent"
+                                Cursor="Hand"
                                 Text="{DynamicResource Settings.Performance.Title}"
                                 TextAlignment="Center"
                                 TextWrapping="Wrap" />
                         </hc:StepBarItem>
                         <hc:StepBarItem>
                             <TextBlock
+                                Background="Transparent"
+                                Cursor="Hand"
                                 Text="{DynamicResource TaskQueue.TaskSettings}"
                                 TextAlignment="Center"
                                 TextWrapping="Wrap" />
                         </hc:StepBarItem>
                         <hc:StepBarItem>
                             <TextBlock
+                                Background="Transparent"
+                                Cursor="Hand"
                                 Text="{DynamicResource Settings.Update.Title}"
                                 TextAlignment="Center"
                                 TextWrapping="Wrap" />
                         </hc:StepBarItem>
-                    </hc:StepBar>
+                        </hc:StepBar>
                     <Button
                         Grid.Row="1"
                         MinWidth="100"
@@ -107,8 +130,8 @@
                         hc:IconElement.Geometry="{StaticResource UpGeometry}"
                         hc:IconElement.Width="18"
                         Command="{s:Action PrevGuide}"
-                        CommandParameter="{Binding ElementName=GuideStepBar}"
                         Content="{DynamicResource Guide.Prev}"
+                        IsEnabled="{Binding GuidePrevEnabled}"
                         Style="{StaticResource ButtonDashedPrimary}" />
                     <controls:TextBlock
                         Grid.Row="1"
@@ -118,7 +141,7 @@
                         VerticalAlignment="Center"
                         d:Text="Next gate tip"
                         FontSize="12"
-                        Foreground="{DynamicResource WarningLogBrush}"
+                        Foreground="{DynamicResource GuideAccentBrush}"
                         Text="{Binding GuideNextGateTip}"
                         TextAlignment="Center"
                         TextWrapping="Wrap"
@@ -134,7 +157,6 @@
                             hc:IconElement.Geometry="{StaticResource DownGeometry}"
                             hc:IconElement.Width="18"
                             Command="{s:Action NextGuide}"
-                            CommandParameter="{Binding ElementName=GuideStepBar}"
                             Content="{DynamicResource Guide.Next}"
                             IsEnabled="{c:Binding 'GuideNextGateTip == null'}"
                             Style="{StaticResource ButtonDashedPrimary}"
@@ -151,33 +173,69 @@
                             Style="{StaticResource ButtonDashedPrimary}"
                             Visibility="{c:Binding 'GuideStepIndex >= GuideMaxStep - 1'}" />
                     </Grid>
+                    <!--  数字进度：步骤条只能看出格子位置，补一行 ｢步骤 3 / 7｣ 让新用户对剩余步数有预期  -->
+                    <controls:TextBlock
+                        Grid.Row="2"
+                        Grid.ColumnSpan="3"
+                        Margin="0,4,0,0"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        FontSize="11"
+                        Foreground="{DynamicResource ThirdlyTextBrush}"
+                        TextAlignment="Center">
+                        <Run Text="{DynamicResource Guide.Progress}" /><Run Text=" " /><Run Text="{Binding GuideProgressText, Mode=OneWay}" />
+                    </controls:TextBlock>
                 </Grid>
-                <ScrollViewer Margin="10" VerticalScrollBarVisibility="Auto">
-                    <hc:SimplePanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <ScrollViewer
+                    Margin="10"
+                    VerticalScrollBarVisibility="Auto">
+                    <Grid>
+                    <!--  撑到视口高度：内容比视口矮时遮罩也要压暗整块内容区，否则下方露出未遮罩的空白  -->
+                    <hc:SimplePanel
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center">
                         <hc:TransitioningContentControl
-                            Width="200"
+                            Width="320"
                             d:Visibility="Collapsed"
                             TransitionMode="{Binding GuideTransitionMode}"
                             Visibility="{c:Binding 'GuideStepIndex less= 0'}">
-                            <hc:UniformSpacingPanel
-                                DataContext="{Binding GuiSettings}"
-                                Orientation="Vertical"
-                                Spacing="20">
-                                <ComboBox
-                                    hc:InfoElement.Title="{Binding LanguageInfo}"
-                                    hc:TitleElement.HorizontalAlignment="Center"
-                                    DisplayMemberPath="Display"
-                                    ItemsSource="{Binding LanguageList}"
-                                    SelectedValue="{Binding Language}"
-                                    SelectedValuePath="Value" />
-                                <ComboBox
-                                    hc:InfoElement.Title="{DynamicResource Settings.Theme}"
-                                    hc:TitleElement.HorizontalAlignment="Center"
-                                    DisplayMemberPath="Display"
-                                    ItemsSource="{Binding DarkModeList}"
-                                    SelectedValue="{Binding DarkMode}"
-                                    SelectedValuePath="Value" />
-                            </hc:UniformSpacingPanel>
+                            <!--  首步补一段开场说明：新用户第一次进来只看到两个下拉，不知道该做什么、要做多久  -->
+                            <StackPanel HorizontalAlignment="Center">
+                                <controls:TextBlock
+                                    FontSize="16"
+                                    FontWeight="SemiBold"
+                                    Text="{DynamicResource Guide.Welcome.Title}"
+                                    TextAlignment="Center"
+                                    TextWrapping="Wrap" />
+                                <controls:TextBlock
+                                    Margin="0,6,0,0"
+                                    FontSize="12"
+                                    Foreground="{DynamicResource ThirdlyTextBrush}"
+                                    Text="{DynamicResource Guide.Welcome.Tip}"
+                                    TextAlignment="Center"
+                                    TextWrapping="Wrap" />
+                                <hc:UniformSpacingPanel
+                                    Margin="0,18,0,0"
+                                    HorizontalAlignment="Center"
+                                    DataContext="{Binding GuiSettings}"
+                                    Orientation="Vertical"
+                                    Spacing="20">
+                                    <ComboBox
+                                        hc:InfoElement.Title="{Binding LanguageInfo}"
+                                        hc:TitleElement.HorizontalAlignment="Center"
+                                        DisplayMemberPath="Display"
+                                        ItemsSource="{Binding LanguageList}"
+                                        SelectedValue="{Binding Language}"
+                                        SelectedValuePath="Value" />
+                                    <ComboBox
+                                        hc:InfoElement.Title="{DynamicResource Settings.Theme}"
+                                        hc:TitleElement.HorizontalAlignment="Center"
+                                        DisplayMemberPath="Display"
+                                        ItemsSource="{Binding DarkModeList}"
+                                        SelectedValue="{Binding DarkMode}"
+                                        SelectedValuePath="Value" />
+                                </hc:UniformSpacingPanel>
+                            </StackPanel>
                         </hc:TransitioningContentControl>
 
                         <hc:TransitioningContentControl
@@ -185,6 +243,16 @@
                             TransitionMode="{Binding GuideTransitionMode}"
                             Visibility="{c:Binding 'GuideStepIndex == 2'}">
                             <StackPanel DataContext="{Binding GameSettings}">
+                                <!--  只有一个下拉时新用户不知道选错会怎样，补一句“不确定就默认”的兜底说明  -->
+                                <controls:TextBlock
+                                    MaxWidth="400"
+                                    Margin="0,0,0,8"
+                                    HorizontalAlignment="Center"
+                                    FontSize="12"
+                                    Foreground="{DynamicResource ThirdlyTextBrush}"
+                                    Text="{DynamicResource Guide.Game.ClientType.Tip}"
+                                    TextAlignment="Center"
+                                    TextWrapping="Wrap" />
                                 <ComboBox
                                     Width="200"
                                     HorizontalAlignment="Center"
@@ -234,6 +302,17 @@
                             d:Visibility="Collapsed"
                             TransitionMode="{Binding GuideTransitionMode}"
                             Visibility="{c:Binding 'GuideStepIndex == 5'}">
+                            <!--  本步概览：先说明这一屏在教什么、练习数据不会落盘，再让用户动手  -->
+                            <DockPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <controls:TextBlock
+                                    DockPanel.Dock="Top"
+                                    MaxWidth="520"
+                                    Margin="0,0,0,10"
+                                    FontSize="12"
+                                    Foreground="{DynamicResource ThirdlyTextBrush}"
+                                    Text="{DynamicResource Guide.Demo.Overview}"
+                                    TextAlignment="Center"
+                                    TextWrapping="Wrap" />
                             <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto" />
@@ -253,6 +332,7 @@
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="Auto" />
                                         <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
                                     </Grid.RowDefinitions>
                                     <controls:TextBlock
                                         HorizontalAlignment="Left"
@@ -265,6 +345,15 @@
                                         FontSize="14"
                                         Text="{DynamicResource Guide.GearContextMenu.Tip}"
                                         TextAlignment="Right"
+                                        TextWrapping="Wrap" />
+                                    <!--  复制/删除在指引里恒灰，先用一行说明原因，避免新用户反复点  -->
+                                    <controls:TextBlock
+                                        Grid.Row="2"
+                                        Margin="0,4,0,0"
+                                        FontSize="11"
+                                        Foreground="{DynamicResource ThirdlyTextBrush}"
+                                        Text="{DynamicResource Guide.Demo.LockedOperations}"
+                                        TextAlignment="Left"
                                         TextWrapping="Wrap" />
                                 </Grid>
 
@@ -285,13 +374,13 @@
                                         </Grid.RowDefinitions>
                                         <ItemsControl
                                             Grid.Row="0"
-                                            Width="190"
                                             MinHeight="140"
                                             Margin="0,10,0,8"
-                                            HorizontalAlignment="Center"
+                                            HorizontalAlignment="Stretch"
+                                            Background="Transparent"
                                             dd:DragDrop.DragDropContext="{Binding RelativeSource={RelativeSource Self}}"
-                                            dd:DragDrop.IsDragSource="True"
-                                            dd:DragDrop.IsDropTarget="True"
+                                            dd:DragDrop.IsDragSource="{Binding GuideDemoDragAllowed}"
+                                            dd:DragDrop.IsDropTarget="{Binding GuideDemoDragAllowed}"
                                             ItemsSource="{Binding GuideDemoTasks}">
                                             <ItemsControl.ItemTemplate>
                                                 <DataTemplate>
@@ -299,7 +388,10 @@
                                                         x:Name="GuideDemoItemBorder"
                                                         MinHeight="24.5"
                                                         Background="Transparent"
-                                                        CornerRadius="4">
+                                                        CornerRadius="4"
+                                                        helper:GuideHighlight.IsActive="{c:Binding 'IsMoveUpBadgeVisible or IsMoveDownBadgeVisible'}"
+                                                        helper:GuideHighlight.Placement="Left"
+                                                        helper:GuideHighlight.Text="{Binding GuideNextGateTip, Source={x:Static helper:Instances.SettingsViewModel}}">
                                                         <Grid>
                                                             <Grid.ColumnDefinitions>
                                                                 <ColumnDefinition />
@@ -324,50 +416,6 @@
                                                                 IsHitTestVisible="False"
                                                                 Orientation="Horizontal">
                                                                 <controls:TextBlock Text="{Binding Name}" />
-                                                                <!--  重命名步骤中鼠标移到任务上时，红点让位给随之显示的重命名按钮  -->
-                                                                <Ellipse
-                                                                    Width="7"
-                                                                    Height="7"
-                                                                    Margin="4,-3,0,0"
-                                                                    VerticalAlignment="Top"
-                                                                    Fill="{DynamicResource NewBadgeBrush}">
-                                                                    <Ellipse.Style>
-                                                                        <Style TargetType="Ellipse">
-                                                                            <Setter Property="Visibility" Value="Collapsed" />
-                                                                            <Style.Triggers>
-                                                                                <DataTrigger Binding="{Binding IsNameBadgeVisible}" Value="True">
-                                                                                    <Setter Property="Visibility" Value="Visible" />
-                                                                                </DataTrigger>
-                                                                                <MultiDataTrigger>
-                                                                                    <MultiDataTrigger.Conditions>
-                                                                                        <Condition Binding="{Binding IsRenameBadgeVisible}" Value="True" />
-                                                                                        <Condition Binding="{Binding IsMouseOver, ElementName=GuideDemoItemBorder}" Value="True" />
-                                                                                    </MultiDataTrigger.Conditions>
-                                                                                    <Setter Property="Visibility" Value="Collapsed" />
-                                                                                </MultiDataTrigger>
-                                                                            </Style.Triggers>
-                                                                        </Style>
-                                                                    </Ellipse.Style>
-                                                                </Ellipse>
-                                                                <!--  移动任务顺序的步骤用箭头代替红点，指示移动方向  -->
-                                                                <Path
-                                                                    Width="8"
-                                                                    Height="10"
-                                                                    Margin="4,0,0,0"
-                                                                    VerticalAlignment="Center"
-                                                                    Data="M 4,0 L 8,4.5 L 5.2,4.5 L 5.2,10 L 2.8,10 L 2.8,4.5 L 0,4.5 Z"
-                                                                    Fill="{DynamicResource NewBadgeBrush}"
-                                                                    Stretch="Fill"
-                                                                    Visibility="{c:Binding IsMoveUpBadgeVisible}" />
-                                                                <Path
-                                                                    Width="8"
-                                                                    Height="10"
-                                                                    Margin="4,0,0,0"
-                                                                    VerticalAlignment="Center"
-                                                                    Data="M 4,10 L 8,5.5 L 5.2,5.5 L 5.2,0 L 2.8,0 L 2.8,5.5 L 0,5.5 Z"
-                                                                    Fill="{DynamicResource NewBadgeBrush}"
-                                                                    Stretch="Fill"
-                                                                    Visibility="{c:Binding IsMoveDownBadgeVisible}" />
                                                             </StackPanel>
 
                                                             <!--  Column 1: 悬浮显示的 复制/重命名/删除 与常驻齿轮（右键菜单），交互均落在演示列表  -->
@@ -378,6 +426,10 @@
                                                                             <Setter Property="Visibility" Value="Collapsed" />
                                                                             <Style.Triggers>
                                                                                 <DataTrigger Binding="{Binding IsMouseOver, ElementName=GuideDemoItemBorder}" Value="True">
+                                                                                    <Setter Property="Visibility" Value="Visible" />
+                                                                                </DataTrigger>
+                                                                                <!--  重命名步骤无需悬停，直接显示操作按钮以指明图标位置  -->
+                                                                                <DataTrigger Binding="{Binding IsNameBadgeVisible}" Value="True">
                                                                                     <Setter Property="Visibility" Value="Visible" />
                                                                                 </DataTrigger>
                                                                             </Style.Triggers>
@@ -391,25 +443,17 @@
                                                                         IsEnabled="False"
                                                                         Style="{StaticResource TaskActionButtonStyle}"
                                                                         ToolTip="{DynamicResource Common.Copy}" />
-                                                                    <Grid>
-                                                                        <Button
-                                                                            hc:IconElement.Geometry="{StaticResource RenameTaskGeometry}"
-                                                                            Command="{s:Action RenameGuideDemoTask,
-                                                                                               Target={x:Static helper:Instances.SettingsViewModel}}"
-                                                                            CommandParameter="{Binding}"
-                                                                            IsEnabled="{Binding GuideRenameTaskEnabled, Source={x:Static helper:Instances.SettingsViewModel}}"
-                                                                            Style="{StaticResource TaskActionButtonStyle}"
-                                                                            ToolTip="{DynamicResource TaskQueue.Rename}" />
-                                                                        <Ellipse
-                                                                            Width="7"
-                                                                            Height="7"
-                                                                            Margin="0,1,1,0"
-                                                                            HorizontalAlignment="Right"
-                                                                            VerticalAlignment="Top"
-                                                                            Fill="{DynamicResource NewBadgeBrush}"
-                                                                            IsHitTestVisible="False"
-                                                                            Visibility="{c:Binding IsRenameBadgeVisible}" />
-                                                                    </Grid>
+                                                                    <Button
+                                                                        hc:IconElement.Geometry="{StaticResource RenameTaskGeometry}"
+                                                                        Command="{s:Action RenameGuideDemoTask,
+                                                                                           Target={x:Static helper:Instances.SettingsViewModel}}"
+                                                                        CommandParameter="{Binding}"
+                                                                        helper:GuideHighlight.IsActive="{Binding IsNameBadgeVisible}"
+                                                                        helper:GuideHighlight.Placement="Right"
+                                                                        helper:GuideHighlight.Text="{Binding GuideNextGateTip, Source={x:Static helper:Instances.SettingsViewModel}}"
+                                                                        IsEnabled="{Binding GuideRenameTaskEnabled, Source={x:Static helper:Instances.SettingsViewModel}}"
+                                                                        Style="{StaticResource TaskActionButtonStyle}"
+                                                                        ToolTip="{DynamicResource TaskQueue.Rename}" />
                                                                     <Button
                                                                         hc:IconElement.Geometry="{StaticResource DeleteTaskGeometry}"
                                                                         Command="{s:Action RemoveGuideDemoTask,
@@ -430,6 +474,9 @@
                                                                             Background="Transparent"
                                                                             BorderThickness="0"
                                                                             GroupName="TaskSettings"
+                                                                            helper:GuideHighlight.IsActive="{Binding IsGearBadgeVisible}"
+                                                                            helper:GuideHighlight.Placement="Right"
+                                                                            helper:GuideHighlight.Text="{Binding GuideNextGateTip, Source={x:Static helper:Instances.SettingsViewModel}}"
                                                                             IsChecked="{Binding EnableSetting}"
                                                                             Style="{DynamicResource RadioGroupItemSingle}">
                                                                             <Grid Width="16" Height="16">
@@ -505,15 +552,6 @@
                                                                             </RadioButton.ContextMenu>
                                                                         </RadioButton>
                                                                     </hc:ButtonGroup>
-                                                                    <Ellipse
-                                                                        Width="7"
-                                                                        Height="7"
-                                                                        Margin="0,0,2,0"
-                                                                        HorizontalAlignment="Right"
-                                                                        VerticalAlignment="Top"
-                                                                        Fill="{DynamicResource NewBadgeBrush}"
-                                                                        IsHitTestVisible="False"
-                                                                        Visibility="{c:Binding IsGearBadgeVisible}" />
                                                                 </Grid>
                                                             </StackPanel>
                                                         </Grid>
@@ -540,6 +578,9 @@
                                                     hc:IconElement.Geometry="{StaticResource TaskQueueAddTaskIcon}"
                                                     AutomationProperties.Name="{DynamicResource TaskQueue.AddTask}"
                                                     Foreground="{DynamicResource PrimaryTextBrush}"
+                                                    helper:GuideHighlight.IsActive="{Binding GuideAddTaskBadgeVisible, Source={x:Static helper:Instances.SettingsViewModel}}"
+                                                    helper:GuideHighlight.Placement="Left"
+                                                    helper:GuideHighlight.Text="{Binding GuideNextGateTip, Source={x:Static helper:Instances.SettingsViewModel}}"
                                                     IsEnabled="{Binding GuideAddTaskEnabled, Source={x:Static helper:Instances.SettingsViewModel}}"
                                                     Style="{StaticResource MaaButtonDefaultStyle}"
                                                     ToolTip="{DynamicResource TaskQueue.AddTask}">
@@ -570,14 +611,19 @@
                                                                                 <DataTemplate>
                                                                                     <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
                                                                                         <TextBlock VerticalAlignment="Center" Text="{Binding Display}" />
-                                                                                        <Ellipse
-                                                                                            x:Name="MenuGateBadge"
-                                                                                            Width="7"
-                                                                                            Height="7"
-                                                                                            Margin="4,-3,0,0"
-                                                                                            VerticalAlignment="Top"
-                                                                                            Fill="{DynamicResource NewBadgeBrush}"
-                                                                                            Visibility="Collapsed" />
+                                                                                        <Border
+                                                                                            x:Name="MenuGateHint"
+                                                                                            Margin="8,0,0,0"
+                                                                                            Padding="5,1"
+                                                                                            VerticalAlignment="Center"
+                                                                                            Background="{DynamicResource GuideBadgeBackgroundBrush}"
+                                                                                            CornerRadius="3"
+                                                                                            Visibility="Collapsed">
+                                                                                            <TextBlock
+                                                                                                FontSize="11"
+                                                                                                Foreground="{DynamicResource GuideBadgeForegroundBrush}"
+                                                                                                Text="{DynamicResource Guide.ClickHere}" />
+                                                                                        </Border>
                                                                                     </StackPanel>
                                                                                     <DataTemplate.Triggers>
                                                                                         <MultiDataTrigger>
@@ -585,19 +631,35 @@
                                                                                                 <Condition Binding="{Binding Value.Name}" Value="FightTask" />
                                                                                                 <Condition Binding="{Binding GuideFightMenuBadgeVisible, Source={x:Static helper:Instances.SettingsViewModel}}" Value="True" />
                                                                                             </MultiDataTrigger.Conditions>
-                                                                                            <Setter TargetName="MenuGateBadge" Property="Visibility" Value="Visible" />
+                                                                                            <Setter TargetName="MenuGateHint" Property="Visibility" Value="Visible" />
                                                                                         </MultiDataTrigger>
                                                                                         <MultiDataTrigger>
                                                                                             <MultiDataTrigger.Conditions>
                                                                                                 <Condition Binding="{Binding Value.Name}" Value="SwitchThemeTask" />
                                                                                                 <Condition Binding="{Binding GuideSwitchThemeMenuBadgeVisible, Source={x:Static helper:Instances.SettingsViewModel}}" Value="True" />
                                                                                             </MultiDataTrigger.Conditions>
-                                                                                            <Setter TargetName="MenuGateBadge" Property="Visibility" Value="Visible" />
+                                                                                            <Setter TargetName="MenuGateHint" Property="Visibility" Value="Visible" />
                                                                                         </MultiDataTrigger>
                                                                                     </DataTemplate.Triggers>
                                                                                 </DataTemplate>
                                                                             </Setter.Value>
                                                                         </Setter>
+                                                                        <Style.Triggers>
+                                                                            <MultiDataTrigger>
+                                                                                <MultiDataTrigger.Conditions>
+                                                                                    <Condition Binding="{Binding Value.Name}" Value="FightTask" />
+                                                                                    <Condition Binding="{Binding GuideFightMenuBadgeVisible, Source={x:Static helper:Instances.SettingsViewModel}}" Value="True" />
+                                                                                </MultiDataTrigger.Conditions>
+                                                                                <Setter Property="Background" Value="{DynamicResource GuideBadgeBackgroundBrush}" />
+                                                                            </MultiDataTrigger>
+                                                                            <MultiDataTrigger>
+                                                                                <MultiDataTrigger.Conditions>
+                                                                                    <Condition Binding="{Binding Value.Name}" Value="SwitchThemeTask" />
+                                                                                    <Condition Binding="{Binding GuideSwitchThemeMenuBadgeVisible, Source={x:Static helper:Instances.SettingsViewModel}}" Value="True" />
+                                                                                </MultiDataTrigger.Conditions>
+                                                                                <Setter Property="Background" Value="{DynamicResource GuideBadgeBackgroundBrush}" />
+                                                                            </MultiDataTrigger>
+                                                                        </Style.Triggers>
                                                                     </Style>
                                                                 </Menu.ItemContainerStyle>
                                                                 <Menu.ItemsPanel>
@@ -609,16 +671,6 @@
                                                         </Border>
                                                     </controls:MenuButton.PopupContent>
                                                 </controls:MenuButton>
-                                                <!--  教程要求先添加任务才能进入下一步，未添加时红点引导（与任务队列按钮同视觉）  -->
-                                                <Ellipse
-                                                    Width="7"
-                                                    Height="7"
-                                                    Margin="0,1,1,0"
-                                                    HorizontalAlignment="Right"
-                                                    VerticalAlignment="Top"
-                                                    Fill="{DynamicResource NewBadgeBrush}"
-                                                    IsHitTestVisible="False"
-                                                    Visibility="{c:Binding GuideAddTaskBadgeVisible}" />
                                             </Grid>
                                             <Button
                                                 Grid.Column="1"
@@ -701,19 +753,13 @@
                                             <ComboBox
                                                 Height="30"
                                                 DisplayMemberPath="Display"
+                                                helper:GuideHighlight.IsActive="{c:Binding GuideStageBadgeVisible}"
+                                                helper:GuideHighlight.Placement="Right"
+                                                helper:GuideHighlight.Text="{Binding GuideNextGateTip}"
                                                 IsEnabled="{c:Binding GuideStageEditingAllowed}"
                                                 ItemsSource="{Binding GuideDemoStageList}"
                                                 SelectedValue="{Binding SelectedGuideDemoTask.DemoStage}"
                                                 SelectedValuePath="Value" />
-                                            <Ellipse
-                                                Width="7"
-                                                Height="7"
-                                                Margin="0,-3,-4,0"
-                                                HorizontalAlignment="Right"
-                                                VerticalAlignment="Top"
-                                                Fill="{DynamicResource NewBadgeBrush}"
-                                                IsHitTestVisible="False"
-                                                Visibility="{c:Binding GuideStageBadgeVisible}" />
                                         </Grid>
                                     </StackPanel>
                                     <!--  更换主题：主题名列表（演示）  -->
@@ -762,16 +808,10 @@
                                                                    Target={x:Static helper:Instances.SettingsViewModel}}"
                                                 CommandParameter="{Binding SelectedGuideDemoTask}"
                                                 Content="{DynamicResource TaskQueue.SwitchTheme.Add}"
+                                                helper:GuideHighlight.IsActive="{c:Binding GuideThemeAddBadgeVisible}"
+                                                helper:GuideHighlight.Placement="Right"
+                                                helper:GuideHighlight.Text="{Binding GuideNextGateTip}"
                                                 IsEnabled="{c:Binding GuideThemeEditingAllowed}" />
-                                            <Ellipse
-                                                Width="7"
-                                                Height="7"
-                                                Margin="0,1,1,0"
-                                                HorizontalAlignment="Right"
-                                                VerticalAlignment="Top"
-                                                Fill="{DynamicResource NewBadgeBrush}"
-                                                IsHitTestVisible="False"
-                                                Visibility="{c:Binding GuideThemeAddBadgeVisible}" />
                                         </Grid>
                                     </StackPanel>
                                     <!--  其他任务类型：跟随指引提示  -->
@@ -795,16 +835,11 @@
                                             <StackPanel Orientation="Horizontal">
                                                 <CheckBox
                                                     Content="{DynamicResource TaskQueue.UseWeeklySchedule}"
+                                                    helper:GuideHighlight.IsActive="{c:Binding GuideWeeklyBadgeVisible}"
+                                                    helper:GuideHighlight.Placement="Right"
+                                                    helper:GuideHighlight.Text="{Binding GuideNextGateTip}"
                                                     IsChecked="{Binding SelectedGuideDemoTask.DemoUseWeeklySchedule}"
                                                     IsEnabled="{c:Binding GuideWeeklyEditingAllowed}" />
-                                                <Ellipse
-                                                    Width="7"
-                                                    Height="7"
-                                                    Margin="4,-3,0,0"
-                                                    VerticalAlignment="Top"
-                                                    Fill="{DynamicResource NewBadgeBrush}"
-                                                    IsHitTestVisible="False"
-                                                    Visibility="{c:Binding GuideWeeklyBadgeVisible}" />
                                                 <controls:TooltipBlock VerticalAlignment="Center" TooltipText="{DynamicResource TaskQueue.UseWeeklySchedule.Tip}" />
                                             </StackPanel>
                                         </Grid>
@@ -825,37 +860,22 @@
                                                                 VerticalAlignment="Center"
                                                                 Content="{Binding Display}"
                                                                 IsChecked="{Binding Value}" />
-                                                            <Ellipse
-                                                                x:Name="WeekDayGateBadge"
-                                                                Width="7"
-                                                                Height="7"
-                                                                Margin="4,-3,0,0"
-                                                                VerticalAlignment="Top"
-                                                                Fill="{DynamicResource NewBadgeBrush}"
-                                                                IsHitTestVisible="False"
-                                                                Visibility="Collapsed" />
                                                         </StackPanel>
-                                                        <DataTemplate.Triggers>
-                                                            <MultiDataTrigger>
-                                                                <MultiDataTrigger.Conditions>
-                                                                    <Condition Binding="{Binding DayOfWeek}" Value="{x:Static sys:DayOfWeek.Sunday}" />
-                                                                    <Condition Binding="{Binding Value}" Value="False" />
-                                                                    <Condition Binding="{Binding GuideWeekDaysBadgeVisible, Source={x:Static helper:Instances.SettingsViewModel}}" Value="True" />
-                                                                </MultiDataTrigger.Conditions>
-                                                                <Setter TargetName="WeekDayGateBadge" Property="Visibility" Value="Visible" />
-                                                            </MultiDataTrigger>
-                                                            <MultiDataTrigger>
-                                                                <MultiDataTrigger.Conditions>
-                                                                    <Condition Binding="{Binding DayOfWeek}" Value="{x:Static sys:DayOfWeek.Monday}" />
-                                                                    <Condition Binding="{Binding Value}" Value="False" />
-                                                                    <Condition Binding="{Binding GuideWeekDaysBadgeVisible, Source={x:Static helper:Instances.SettingsViewModel}}" Value="True" />
-                                                                </MultiDataTrigger.Conditions>
-                                                                <Setter TargetName="WeekDayGateBadge" Property="Visibility" Value="Visible" />
-                                                            </MultiDataTrigger>
-                                                        </DataTemplate.Triggers>
                                                     </DataTemplate>
                                                 </ListBox.ItemTemplate>
                                             </ListBox>
+                                            <!--  周计划步骤一次性框住前两项（周日、周一），气泡放在右侧空位  -->
+                                            <Border
+                                                Width="150"
+                                                Height="52"
+                                                Margin="2,2,0,0"
+                                                HorizontalAlignment="Left"
+                                                VerticalAlignment="Top"
+                                                Background="Transparent"
+                                                IsHitTestVisible="False"
+                                                helper:GuideHighlight.IsActive="{c:Binding GuideWeekDaysBadgeVisible}"
+                                                helper:GuideHighlight.Placement="Right"
+                                                helper:GuideHighlight.Text="{Binding GuideNextGateTip}" />
                                         </Grid>
                                     </StackPanel>
                                 </StackPanel>
@@ -878,20 +898,15 @@
                                             hc:VisualElement.HighlightBackground="{DynamicResource RegionBrushOpacity25}"
                                             Background="{DynamicResource RegionBrushOpacity25}"
                                             Content="{DynamicResource TaskQueue.AdvancedSettings}"
+                                            helper:GuideHighlight.IsActive="{c:Binding GuideAdvancedBadgeVisible}"
+                                            helper:GuideHighlight.Placement="Right"
+                                            helper:GuideHighlight.Text="{Binding GuideNextGateTip}"
                                             IsChecked="{c:Binding GuideDemoAdvancedSettings}"
                                             IsEnabled="{c:Binding SelectedGuideDemoTask.IsFightTask}" />
                                     </hc:ButtonGroup>
-                                    <Ellipse
-                                        Width="7"
-                                        Height="7"
-                                        Margin="0,-3,-4,0"
-                                        HorizontalAlignment="Right"
-                                        VerticalAlignment="Top"
-                                        Fill="{DynamicResource NewBadgeBrush}"
-                                        IsHitTestVisible="False"
-                                        Visibility="{c:Binding GuideAdvancedBadgeVisible}" />
                                 </Grid>
                             </Grid>
+                            </DockPanel>
                         </hc:TransitioningContentControl>
 
                         <hc:TransitioningContentControl
@@ -944,6 +959,17 @@
                                 DataContext="{Binding Source={x:Static ui_vms:SettingsViewModel.VersionUpdateSettings}}"
                                 Orientation="Vertical"
                                 Spacing="10">
+                                <!--  UniformSpacingPanel 会把直接子项拉满整行，说明文字需包一层 StackPanel 才能居中  -->
+                                <StackPanel>
+                                    <controls:TextBlock
+                                        MaxWidth="420"
+                                        HorizontalAlignment="Center"
+                                        FontSize="12"
+                                        Foreground="{DynamicResource ThirdlyTextBrush}"
+                                        Text="{DynamicResource Guide.Update.Tip}"
+                                        TextAlignment="Center"
+                                        TextWrapping="Wrap" />
+                                </StackPanel>
                                 <StackPanel>
                                     <StackPanel
                                         Margin="8,0,0,5"
@@ -1076,7 +1102,9 @@
                                     <Grid HorizontalAlignment="Center">
                                         <StackPanel Orientation="Horizontal">
                                             <controls:TextBlock Text="{DynamicResource Guide.Agreement.Prefix}" />
-                                            <Grid>
+                                            <Grid
+                                                helper:GuideHighlight.IsActive="{c:Binding 'GuideStepIndex == 1 and !GuideUserAgreementOpened'}"
+                                                helper:GuideHighlight.Mode="Frame">
                                                 <controls:TextBlock>
                                                     <Hyperlink
                                                         Click="{s:Action OnGuideUserAgreementClick}"
@@ -1086,15 +1114,6 @@
                                                         <TextBlock Style="{StaticResource HyperlinkTextBlockStyle}" Text="{DynamicResource Guide.Agreement.Link}" />
                                                     </Hyperlink>
                                                 </controls:TextBlock>
-                                                <Ellipse
-                                                    Width="7"
-                                                    Height="7"
-                                                    Margin="0,1,-10,0"
-                                                    HorizontalAlignment="Right"
-                                                    VerticalAlignment="Top"
-                                                    Fill="{DynamicResource NewBadgeBrush}"
-                                                    IsHitTestVisible="False"
-                                                    Visibility="{c:Binding 'GuideStepIndex == 1 and !GuideUserAgreementOpened'}" />
                                             </Grid>
                                         </StackPanel>
                                     </Grid>
@@ -1102,6 +1121,8 @@
                             </hc:UniformSpacingPanel>
                         </hc:TransitioningContentControl>
                     </hc:SimplePanel>
+                        <helper:GuideSpotlightOverlay />
+                    </Grid>
                 </ScrollViewer>
             </DockPanel>
         </GroupBox>

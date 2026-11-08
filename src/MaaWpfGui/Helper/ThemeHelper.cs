@@ -11,6 +11,7 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -29,6 +30,11 @@ namespace MaaWpfGui.Helper;
 
 public static class ThemeHelper
 {
+    /// <summary>
+    /// 主题明暗模式切换后触发，供自绘控件刷新配色。
+    /// </summary>
+    public static event EventHandler ThemeChanged;
+
     #region Swith Theme
 
     private static void SystemEvents_UserPreferenceChanged(object sender, UserPreferenceChangedEventArgs e)
@@ -44,6 +50,7 @@ public static class ThemeHelper
 
         // 系统主题切换后，莫奈调色板需要按新的明暗模式重新生成
         ReapplyMonet();
+        ThemeChanged?.Invoke(null, EventArgs.Empty);
     }
 
     public static void SwitchToLightMode()
@@ -53,6 +60,7 @@ public static class ThemeHelper
         ThemeManager.Current.ApplicationTheme = ApplicationTheme.Light;
         Application.Current.Resources["TitleBrush"] = ThemeManager.Current.AccentColor;
         ReapplyMonet();
+        ThemeChanged?.Invoke(null, EventArgs.Empty);
     }
 
     public static void SwitchToDarkMode()
@@ -62,6 +70,7 @@ public static class ThemeHelper
         ThemeManager.Current.ApplicationTheme = ApplicationTheme.Dark;
         Application.Current.Resources["TitleBrush"] = ThemeManager.Current.AccentColor;
         ReapplyMonet();
+        ThemeChanged?.Invoke(null, EventArgs.Empty);
     }
 
     public static void SwitchToSyncWithOsMode()
@@ -78,6 +87,7 @@ public static class ThemeHelper
 
         Application.Current.Resources["TitleBrush"] = ThemeManager.Current.AccentColor;
         ReapplyMonet();
+        ThemeChanged?.Invoke(null, EventArgs.Empty);
     }
 
     #endregion Swith Theme

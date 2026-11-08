@@ -797,16 +797,38 @@ public class SettingsViewModel : Screen
     public int GuideStepIndex
     {
         get; set {
+            value = Math.Clamp(value, 0, GuideMaxStep);
             ConfigFactory.Root.Gui.GuideStep = value;
             SetAndNotify(ref field, value);
         }
-    } = ConfigFactory.Root.Gui.GuideStep;
+    } = Math.Clamp(ConfigFactory.Root.Gui.GuideStep, 0, GuideMaxStep);
+
+    /// <summary>
+    /// 步骤条点击跳转：由 XAML 的 <c>{s:Action}</c> 调用，点中哪一格就跳到哪一步。
+    /// </summary>
+    /// <param name="sender">步骤条控件。</param>
+    /// <param name="e">鼠标事件参数。</param>
+    [UsedImplicitly]
+    public void NavigateGuideToStepFromBar(object? sender, System.Windows.Input.MouseButtonEventArgs e)
+    {
+        if (e.Handled
+            || sender is not System.Windows.Controls.ItemsControl stepBar
+            || e.OriginalSource is not DependencyObject source)
+        {
+            return;
+        }
+
+        if (stepBar.ContainerFromElement(source) is not StepBarItem item)
+        {
+            return;
+        }
+
+        e.Handled = true;
+        NavigateGuideToStep(item.Index - 1);
+    }
 
     // ｢使用指引｣（含用户协议确认）步骤在 StepBar 中的索引，与 GuideUserControl.xaml 步骤区的 Visibility 条件对应
     private const int GuideAgreementStepIndex = 1;
-
-    // ｢性能设置｣ 步骤在 StepBar 中的索引，与 GuideUserControl.xaml 步骤区的 Visibility 条件对应；｢跳过｣ 按钮自该步起显示
-    private const int GuidePerformanceSettingsStepIndex = 4;
 
     // ｢任务设置｣ 步骤在 StepBar 中的索引，与 GuideUserControl.xaml 步骤区的 Visibility 条件对应
     private const int GuideTaskSettingsStepIndex = 5;
@@ -853,10 +875,10 @@ public class SettingsViewModel : Screen
     /// Gets 当前步骤 ｢下一步｣ 前置条件的本地化提示，已满足或无前置条件时为 null（即放行）。
     /// 提示资源 key 在 <see cref="GuideGateStepLocalizationKey"/> 注册，UI 与按钮无需改动。
     /// </summary>
-    [PropertyDependsOn(nameof(GuideStepIndex), nameof(GuideGateStep), nameof(GuideUserAgreementOpened))]
+    [PropertyDependsOn(nameof(GuideStepIndex), nameof(GuideGateStep), nameof(GuideUserAgreementOpened), nameof(GuideAgreementSatisfied))]
     public string? GuideNextGateTip => GuideStepIndex switch
     {
-        GuideAgreementStepIndex when !GuideUserAgreementOpened
+        GuideAgreementStepIndex when !GuideAgreementSatisfied
             => LocalizationHelper.GetString("Guide.Agreement.Tip"),
         GuideTaskSettingsStepIndex when GuideGateStep != GuideGate.None
             => LocalizationHelper.GetString(GuideGateStepLocalizationKey(GuideGateStep)),
@@ -876,6 +898,12 @@ public class SettingsViewModel : Screen
     }
 
     /// <summary>
+    /// Gets 用户协议是否已确认：本会话点击过协议链接，或已越过协议步骤（重启恢复进度时视为已确认）。
+    /// </summary>
+    [PropertyDependsOn(nameof(GuideUserAgreementOpened), nameof(GuideStepIndex))]
+    public bool GuideAgreementSatisfied => GuideUserAgreementOpened || GuideStepIndex > GuideAgreementStepIndex;
+
+    /// <summary>
     /// Gets 是否为本地调试环境：本地 Debug 构建或存在 DEBUG/DEBUG.txt 标记时
     /// （编译期与文件判定，不依赖运行时版本链的求值时序）。
     /// </summary>
@@ -888,10 +916,24 @@ public class SettingsViewModel : Screen
 #endif
 
     /// <summary>
-    /// Gets 设置指引左上角 ｢跳过｣ 按钮是否显示：调试环境恒显示，否则自 ｢性能设置｣ 步起显示。
+    /// Gets 设置指引左上角 ｢跳过｣ 按钮是否显示：须先确认用户协议并到达协议步骤之后。
+    /// </summary>
+    [PropertyDependsOn(nameof(GuideStepIndex), nameof(GuideAgreementSatisfied))]
+    public bool GuideSkipVisible => GuideStepIndex >= GuideAgreementStepIndex && GuideAgreementSatisfied;
+
+    /// <summary>
+    /// Gets ｢上一步｣ 按钮是否可用：首步禁用。
     /// </summary>
     [PropertyDependsOn(nameof(GuideStepIndex))]
-    public bool GuideSkipVisible => IsLocalDebugEnvironment || GuideStepIndex >= GuidePerformanceSettingsStepIndex;
+    public bool GuidePrevEnabled => GuideStepIndex > 0;
+
+    /// <summary>
+    /// Gets 当前进度文字 ｢3 / 7｣ 形式，本地化前缀由 <c>Guide.Progress</c> 提供；
+    /// 步骤条本身只能看出走到哪一格，补一行数字让新用户对剩余步数有预期。
+    /// 完成后 <see cref="GuideStepIndex"/> 为 <see cref="GuideMaxStep"/>，此处钳制到末步，避免出现 ｢8 / 7｣。
+    /// </summary>
+    [PropertyDependsOn(nameof(GuideStepIndex))]
+    public string GuideProgressText => $"{Math.Min(GuideStepIndex + 1, GuideMaxStep)} / {GuideMaxStep}";
 
     // UI 绑定的方法（协议链接点击）
     [UsedImplicitly]
@@ -986,6 +1028,12 @@ public class SettingsViewModel : Screen
     public bool GuideThemeEditingAllowed => GuideGateStep == GuideGate.AddNightTheme;
 
     /// <summary>
+    /// Gets 演示任务列表是否允许拖拽或移动排序：仅在重排教学步骤或教程完成后。
+    /// </summary>
+    [PropertyDependsOn(nameof(GuideGateStep))]
+    public bool GuideDemoDragAllowed => GuideGateStep is GuideGate.None or GuideGate.ReorderFight or GuideGate.ReorderTheme;
+
+    /// <summary>
     /// Gets 演示 ｢添加任务｣ 按钮是否可用：仅在添加类步骤（含补回类），按钮禁用时菜单不可展开。
     /// </summary>
     [PropertyDependsOn(nameof(GuideGateStep))]
@@ -1040,18 +1088,45 @@ public class SettingsViewModel : Screen
 
     // UI 绑定的方法
     [UsedImplicitly]
-    public void NextGuide(StepBar stepBar)
+    public void NextGuide()
     {
-        GuideTransitionMode = "Bottom2Top";
-        stepBar.Next();
+        NavigateGuideToStep(GuideStepIndex + 1);
     }
 
     // UI 绑定的方法
     [UsedImplicitly]
-    public void PrevGuide(StepBar stepBar)
+    public void PrevGuide()
     {
-        GuideTransitionMode = "Top2Bottom";
-        stepBar.Prev();
+        NavigateGuideToStep(GuideStepIndex - 1);
+    }
+
+    /// <summary>
+    /// 跳转到指定引导步骤：向后跳转自由；向前跨越协议页需已确认协议，跳到末步需任务设置 gate 已完成。
+    /// </summary>
+    /// <param name="target">目标步骤索引（0 起，末项为 <see cref="GuideMaxStep"/> - 1）。</param>
+    public void NavigateGuideToStep(int target)
+    {
+        target = Math.Clamp(target, 0, GuideMaxStep - 1);
+        if (target == GuideStepIndex)
+        {
+            return;
+        }
+
+        bool forward = target > GuideStepIndex;
+        if (forward && target > GuideAgreementStepIndex && !GuideAgreementSatisfied)
+        {
+            GrowlHelper.Warning(LocalizationHelper.GetString("Guide.Agreement.Tip"));
+            return;
+        }
+
+        if (forward && target == GuideMaxStep - 1 && GuideGateStep != GuideGate.None)
+        {
+            GrowlHelper.Warning(LocalizationHelper.GetString(GuideGateStepLocalizationKey(GuideGateStep)));
+            return;
+        }
+
+        GuideTransitionMode = forward ? "Bottom2Top" : "Top2Bottom";
+        GuideStepIndex = target;
     }
 
     // UI 绑定的方法：跳过设置指引；调试环境直接结束，其余先弹确认（含重看入口指引）再结束
@@ -1072,36 +1147,53 @@ public class SettingsViewModel : Screen
             }
         }
 
-        DoneGuide();
+        CompleteGuide(false);
     }
 
     // UI 绑定的方法
     [UsedImplicitly]
     public void DoneGuide()
     {
+        CompleteGuide(true);
+    }
+
+    /// <summary>
+    /// 收尾设置指引：隐藏指引界面、写入完成进度与教程版本号。
+    /// </summary>
+    /// <param name="notify">是否提示完成后如何重新打开指引；主动跳过时不再重复引导文案。</param>
+    private void CompleteGuide(bool notify)
+    {
         TaskSettingVisibilities.Guide = false;
         GuideStepIndex = GuideMaxStep;
         ConfigFactory.Root.Gui.GuideTutorialVersion = Gui.CurrentGuideTutorialVersion;
+
+        // 走完教程后界面直接切回主界面，新用户会失去｢之后去哪重看｣的线索，这里补一条指向入口的提示
+        if (notify)
+        {
+            GrowlHelper.Success(LocalizationHelper.GetString("Guide.Done.Tip"));
+        }
     }
 
-    // UI 绑定的方法
+    // UI 绑定的方法：先确认再重置，取消时保持现状不变
     [UsedImplicitly]
     public void RestartGuide()
     {
-        GuideStepIndex = 0;
-        GuideUserAgreementOpened = false;
-        ResetGuideDemoTasks();
-        TaskSettingVisibilities.Guide = true;
         var result = MessageBoxHelper.Show(
             LocalizationHelper.GetString("Guide.RestartPrompt"),
             LocalizationHelper.GetString("Common.Tip"),
             MessageBoxButton.OKCancel,
             MessageBoxImage.Question,
             ok: LocalizationHelper.GetString("Common.Confirm"));
-        if (result == MessageBoxResult.OK)
+        if (result != MessageBoxResult.OK)
         {
-            Bootstrapper.ShutdownAndRestartWithoutArgs();
+            return;
         }
+
+        GuideStepIndex = 0;
+        GuideUserAgreementOpened = false;
+        ResetGuideDemoTasks();
+        TaskSettingVisibilities.Guide = true;
+        Bootstrapper.ShutdownAndRestartWithoutArgs();
     }
 
     /// <summary>
@@ -1175,6 +1267,7 @@ public class SettingsViewModel : Screen
         // 使下方初始选中落位与构造路径一致，不被流程锁拦截；armed 在落位后重新启用
         _guideFlowLockArmed = false;
         _guideLastAllowedGear = null;
+        GuideDemoAdvancedSettings = false;
 
         foreach (var task in GuideDemoTasks)
         {
@@ -1264,6 +1357,13 @@ public class SettingsViewModel : Screen
             return;
         }
 
+        // 流程锁：仅添加夜间主题步骤允许对目标任务操作（按钮已按 gate 禁用，此处拦截旁路调用）
+        if (GuideGateStep != GuideGate.AddNightTheme || taskItem != GuideTargetTask(GuideGateStep))
+        {
+            NotifyGuideOperationBlocked();
+            return;
+        }
+
         // 演示中添加主题直接预填 ｢夜间｣（取当前语言译名），免打字
         themes.Add(new GuideDemoThemeItem(GuideNightThemeName));
     }
@@ -1346,6 +1446,13 @@ public class SettingsViewModel : Screen
             return;
         }
 
+        // 流程锁：仅在重排教学步骤或教程完成后允许移动，避免提前改变列表顺序破坏后续 gate 判定
+        if (!GuideDemoDragAllowed)
+        {
+            NotifyGuideOperationBlocked();
+            return;
+        }
+
         var index = GuideDemoTasks.IndexOf(taskItem);
         var newIndex = index + offset;
         if (index < 0 || newIndex < 0 || newIndex >= GuideDemoTasks.Count)
@@ -1410,7 +1517,6 @@ public class SettingsViewModel : Screen
             task.IsMoveUpBadgeVisible = false;
             task.IsMoveDownBadgeVisible = false;
             task.IsGearBadgeVisible = false;
-            task.IsRenameBadgeVisible = false;
         }
 
         var target = GuideTargetTask(step);
@@ -1428,7 +1534,6 @@ public class SettingsViewModel : Screen
                 break;
             case GuideGate.RenameFight:
                 target.IsNameBadgeVisible = true;
-                target.IsRenameBadgeVisible = true;
                 break;
             case GuideGate.ReorderFight:
                 target.IsMoveUpBadgeVisible = true;
@@ -1572,8 +1677,7 @@ public class SettingsViewModel : Screen
         if (args.PropertyName is nameof(GuideDemoTaskItem.IsNameBadgeVisible)
             or nameof(GuideDemoTaskItem.IsMoveUpBadgeVisible)
             or nameof(GuideDemoTaskItem.IsMoveDownBadgeVisible)
-            or nameof(GuideDemoTaskItem.IsGearBadgeVisible)
-            or nameof(GuideDemoTaskItem.IsRenameBadgeVisible))
+            or nameof(GuideDemoTaskItem.IsGearBadgeVisible))
         {
             return;
         }
