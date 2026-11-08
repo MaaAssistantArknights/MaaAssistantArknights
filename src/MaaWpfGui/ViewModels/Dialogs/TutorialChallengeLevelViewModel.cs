@@ -68,10 +68,10 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
     private string _stagePlanTip = string.Empty;
     private string _dropsItemName = string.Empty;
 
-    // 设置搜索关卡的干扰项常量：5 个分区、每分区 4 项、每分区恰 1 个目标项
-    private const int SettingsSearchSectionCount = 5;
-    private const int SettingsSearchItemsPerSection = 4;
-    private const string SettingsSearchTargetMarker = "MAA";
+    // 设置搜索关卡的干扰项常量：40 个分区、每分区 5 项、每分区恰 1 个目标项
+    private const int SettingsSearchSectionCount = 40;
+    private const int SettingsSearchItemsPerSection = 5;
+    private const string SettingsSearchTargetMarker = "maa";
 
     // 拖拽更新关卡仿真包的识别标记：readme.txt 内容与 version.json 时间戳固定，
     // 清理时按标记校验，只删确实由本关卡写出的文件，避免误删桌面同名真实文件
@@ -756,7 +756,7 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
     public bool IsSettingsSearchLevel => _level.Id == "SettingsSearch";
 
     /// <summary>
-    /// Gets a value indicating whether 全部 ｢MAA｣ 目标干扰项均已勾选（SettingsSearch 关卡的判定源）。
+    /// Gets a value indicating whether 全部含 ｢maa｣ 字样的目标干扰项均已勾选（SettingsSearch 关卡的判定源）。
     /// </summary>
     public bool SandboxDecoyTargetsAllChecked => SandboxSettingSections
         .Where(section => section.Kind == TutorialChallengeSettingSectionKind.Decoy)
@@ -1514,8 +1514,9 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
     }
 
     /// <summary>
-    /// 重建 ｢设置搜索｣ 关卡的干扰分区与 CheckBox 项：5 个分区、每分区 4 项、每分区恰好 1 个目标项
-    /// （文本内嵌 ｢MAA｣ 字样，可经搜索框按字面命中），其余 3 项为不含 ｢MAA｣ 的随机字母。
+    /// 重建 ｢设置搜索｣ 关卡的干扰分区与 CheckBox 项：40 个分区、每分区 5 项、每分区恰好 1 个目标项
+    /// （文本内嵌随机大小写的 ｢maa｣ 字样，可经搜索框按忽略大小写命中），其余 4 项为不含 ｢maa｣ 的
+    /// 随机大小写字母串，分区名同样为随机大小写且不含 ｢maa｣ 的字母串。
     /// 每次进关与重置时重新生成，保证观感随机。
     /// </summary>
     private void BuildSettingsSearchDecoySections()
@@ -1531,7 +1532,7 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
 
         for (var sectionIndex = 0; sectionIndex < SettingsSearchSectionCount; sectionIndex++)
         {
-            // 每分区 4 个槽位随机挑一个放目标项，其余填非目标随机串
+            // 每分区 5 个槽位随机挑一个放目标项，其余填非目标随机串
             var targetSlot = _random.Next(SettingsSearchItemsPerSection);
             var items = new List<TutorialChallengeDecoyItem>(SettingsSearchItemsPerSection);
             for (var slot = 0; slot < SettingsSearchItemsPerSection; slot++)
@@ -1545,7 +1546,8 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
                 TutorialChallengeSettingSectionKind.Decoy,
                 "TutorialChallenge.Level.SettingsSearch.DecoySection",
                 isAdvanced: false,
-                items: items);
+                items: items,
+                displayText: GenerateDecoyItemText());
             section.PropertyChanged += OnSettingSectionPropertyChanged;
             SandboxSettingSections.Add(section);
         }
@@ -1569,23 +1571,16 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
     }
 
     /// <summary>
-    /// 生成一个干扰项显示文本：随机小写字母串（6-8 位），保证不偶然含 ｢MAA｣。
+    /// 生成一个干扰项显示文本：随机大小写字母串（6-8 位），保证不偶然含 ｢maa｣（任意大小写形式）。
     /// </summary>
-    /// <returns>不含目标标记的随机文本。</returns>
+    /// <returns>不含目标标记的随机大小写文本。</returns>
     private string GenerateDecoyItemText()
     {
-        const string letters = "abcdefghijklmnopqrstuvwxyz";
         string text;
         do
         {
             var length = _random.Next(6, 9);
-            var chars = new char[length];
-            for (var i = 0; i < length; i++)
-            {
-                chars[i] = letters[_random.Next(letters.Length)];
-            }
-
-            text = new string(chars);
+            text = GenerateRandomLetters(length);
         }
         while (text.Contains(SettingsSearchTargetMarker, StringComparison.OrdinalIgnoreCase));
 
@@ -1593,29 +1588,56 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
     }
 
     /// <summary>
-    /// 生成一个目标项显示文本：随机前后拼写字母环绕 ｢MAA｣，总长 6-8。
+    /// 生成一个目标项显示文本：随机大小写字母串（总长 6-8），中间嵌入的 ｢maa｣ 三个字母各自随机大小写。
     /// </summary>
-    /// <returns>含 ｢MAA｣ 字样的随机文本。</returns>
+    /// <returns>含随机大小写 ｢maa｣ 字样的随机文本。</returns>
     private string GenerateTargetItemText()
     {
-        const string letters = "abcdefghijklmnopqrstuvwxyz";
         var totalLength = _random.Next(6, 9);
-        var prefixLength = _random.Next(0, totalLength - SettingsSearchTargetMarker.Length + 1);
-        var suffixLength = totalLength - SettingsSearchTargetMarker.Length - prefixLength;
-        var chars = new char[totalLength];
-        for (var i = 0; i < prefixLength; i++)
-        {
-            chars[i] = letters[_random.Next(letters.Length)];
-        }
+        var marker = RandomizeCase(SettingsSearchTargetMarker);
+        var prefixLength = _random.Next(0, totalLength - marker.Length + 1);
+        var suffixLength = totalLength - marker.Length - prefixLength;
+        return GenerateRandomLetters(prefixLength) + marker + GenerateRandomLetters(suffixLength);
+    }
 
-        SettingsSearchTargetMarker.CopyTo(0, chars, prefixLength, SettingsSearchTargetMarker.Length);
-        for (var i = 0; i < suffixLength; i++)
+    /// <summary>
+    /// 生成指定长度的随机大小写字母串（每个字母独立随机大小写）。
+    /// </summary>
+    /// <param name="length">字母个数。</param>
+    /// <returns>随机大小写字母串。</returns>
+    private string GenerateRandomLetters(int length)
+    {
+        var chars = new char[length];
+        for (var i = 0; i < length; i++)
         {
-            chars[prefixLength + SettingsSearchTargetMarker.Length + i] = letters[_random.Next(letters.Length)];
+            chars[i] = RandomCaseChar((char)('a' + _random.Next(26)));
         }
 
         return new string(chars);
     }
+
+    /// <summary>
+    /// 把输入串逐字符随机大小写化（输入应为小写字母串）。
+    /// </summary>
+    /// <param name="text">小写字母串。</param>
+    /// <returns>逐字符随机大小写后的串。</returns>
+    private string RandomizeCase(string text)
+    {
+        var chars = text.ToCharArray();
+        for (var i = 0; i < chars.Length; i++)
+        {
+            chars[i] = RandomCaseChar(chars[i]);
+        }
+
+        return new string(chars);
+    }
+
+    /// <summary>
+    /// 把单个小写字母随机返回大写或小写形式。
+    /// </summary>
+    /// <param name="c">小写字母。</param>
+    /// <returns>随机大小写后的字符。</returns>
+    private char RandomCaseChar(char c) => _random.Next(2) == 0 ? c : char.ToUpperInvariant(c);
 
     /// <summary>
     /// 搜索文本变化后收敛高级分区可见性：分区过滤本身归口 <see cref="SearchHighlightBehavior"/>
@@ -2625,7 +2647,8 @@ public class TutorialChallengeSettingSection(
     TutorialChallengeSettingSectionKind kind,
     string displayKey,
     bool isAdvanced,
-    IReadOnlyList<TutorialChallengeDecoyItem>? items = null) : PropertyChangedBase, ISearchableSettingSection
+    IReadOnlyList<TutorialChallengeDecoyItem>? items = null,
+    string? displayText = null) : PropertyChangedBase, ISearchableSettingSection
 {
     /// <summary>
     /// Gets 分区标识（种类名的字符串形式）。
@@ -2638,14 +2661,15 @@ public class TutorialChallengeSettingSection(
     public TutorialChallengeSettingSectionKind Kind { get; } = kind;
 
     /// <summary>
-    /// Gets 分区标题本地化 key。
+    /// Gets 分区标题本地化 key（构造的 displayText 为空时作为取串来源）。
     /// </summary>
     public string DisplayKey { get; } = displayKey;
 
     /// <summary>
-    /// Gets 分区标题（随语言切换刷新）。
+    /// Gets 分区标题：构造的 displayText 非空时原样显示（干扰分区用随机文本，
+    /// 不随语言切换），否则回退为 <see cref="DisplayKey"/> 的本地化串（随语言切换刷新）。
     /// </summary>
-    public string Display => LocalizationHelper.GetString(DisplayKey);
+    public string Display => displayText ?? LocalizationHelper.GetString(DisplayKey);
 
     /// <summary>
     /// Gets 本分区持有的干扰 CheckBox 项（仅 <see cref="TutorialChallengeSettingSectionKind.Decoy"/> 分区非空）。
@@ -2710,7 +2734,7 @@ public class TutorialChallengeSettingSection(
 /// ｢设置搜索｣ 关卡干扰分区的单个 CheckBox 项。文本为运行时生成的随机串（不本地化），
 /// 勾选变化经 <paramref name="onCheckChanged"/> 回调上报告知宿主 VM 做提示与判定。
 /// </summary>
-/// <param name="text">显示文本（目标项含 ｢MAA｣ 字样）。</param>
+/// <param name="text">显示文本（目标项含随机大小写的 ｢maa｣ 字样）。</param>
 /// <param name="isTarget">是否为关卡要求勾选的目标项。</param>
 /// <param name="onCheckChanged">勾选状态变化后的回调。</param>
 public class TutorialChallengeDecoyItem(string text, bool isTarget, Action<TutorialChallengeDecoyItem> onCheckChanged) : PropertyChangedBase
@@ -2721,7 +2745,7 @@ public class TutorialChallengeDecoyItem(string text, bool isTarget, Action<Tutor
     public string Text { get; } = text;
 
     /// <summary>
-    /// Gets a value indicating whether 本项为关卡目标项（文本内嵌 ｢MAA｣）。
+    /// Gets a value indicating whether 本项为关卡目标项（文本内嵌随机大小写的 ｢maa｣）。
     /// </summary>
     public bool IsTarget { get; } = isTarget;
 

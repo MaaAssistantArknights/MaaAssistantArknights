@@ -2582,7 +2582,7 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="TutorialChallenge.Level.RecruitRobot.Goal">公招刷出 ｢支援机械｣ 词条想留给小车。请在公招任务里开启 ｢{key=Recruit.PreserveTags}｣ 并把 ｢支援机械｣ 加进列表。</system:String>
     <system:String x:Key="TutorialChallenge.Level.RecruitRobot.Title">支援机械</system:String>
     <system:String x:Key="TutorialChallenge.Level.SettingsSearch.DecoySection">杂项</system:String>
-    <system:String x:Key="TutorialChallenge.Level.SettingsSearch.Goal">设置项太多找不到？试着用设置页的搜索框筛出含 ｢MAA｣ 字样的选项，把 5 个目标全部勾选。</system:String>
+    <system:String x:Key="TutorialChallenge.Level.SettingsSearch.Goal">设置项太多找不到？用搜索框筛出所有含 ｢maa｣ 字样的设置项，把目标全部勾选。</system:String>
     <system:String x:Key="TutorialChallenge.Level.SettingsSearch.Title">设置搜索</system:String>
     <system:String x:Key="TutorialChallenge.Level.SettingsSearch.WrongPick">这个不是 MAA 相关设置，再找找看</system:String>
     <system:String x:Key="TutorialChallenge.Level.StagePriority.Goal">希望优先刷 AP-5，AP-5 没开时刷 CE-6，两者都没开就刷 1-7。</system:String>
