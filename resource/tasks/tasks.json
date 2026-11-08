@@ -592,7 +592,7 @@
         "action": "ClickSelf",
         "Doc": "进入资源关卡",
         "templThreshold": 0.65,
-        "roi": [462, 600, 140, 120]
+        "roi": [400, 600, 202, 120]
     },
     "Stage": {
         "Doc": "base_task",
@@ -1685,7 +1685,7 @@
         "template": "StageResource.png",
         "Doc": "看到资源关卡图标说明在终端",
         "templThreshold": 0.65,
-        "roi": [462, 600, 140, 120],
+        "roi": [400, 600, 202, 120],
         "action": "Stop"
     },
     "GoLastBattle": {

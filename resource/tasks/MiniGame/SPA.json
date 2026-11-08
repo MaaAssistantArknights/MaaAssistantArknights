@@ -14,7 +14,8 @@
         "doc": "三期新增极速模拟模式",
         "action": "ClickSelf",
         "roi": [969, 553, 158, 167],
-        "next": ["MiniGame@SPA@ReadyScreen", "#self"]
+        "postDelay": 1000,
+        "next": ["MiniGame@SPA@ReadyScreen", "MiniGame@SPA@Goliath", "#self"]
     },
     "MiniGame@SPA@EnterIndependent": {
         "action": "ClickSelf",
