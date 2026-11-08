@@ -45,7 +45,6 @@ using MaaWpfGui.ViewModels.Items;
 using MaaWpfGui.ViewModels.UserControl.Settings;
 using MaaWpfGui.ViewModels.UserControl.TaskQueue;
 using MaaWpfGui.Views.Dialogs;
-using ObservableCollections;
 using Semver;
 using Serilog;
 using Stylet;
@@ -2635,7 +2634,7 @@ public class TaskQueueViewModel : Screen
 
         // 在集合锁内复制任务引用，保证 Count 和 CopyTo 之间集合不变。
         // 循环体会读取 CurrentConfig（配置字典锁），后台保存先取字典锁再取队列锁，不能持有队列锁执行循环体。
-        if (tasks is IObservableCollection<BaseTask> observableTasks)
+        if (tasks is ObservableCollections.IObservableCollection<BaseTask> observableTasks)
         {
             lock (observableTasks.SyncRoot)
             {
