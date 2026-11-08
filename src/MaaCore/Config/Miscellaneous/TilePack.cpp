@@ -135,18 +135,18 @@ asst::TilePack::result_type asst::TilePack::calc_(const Map::Level& level, doubl
                 if (screen_pos.x < min_x_bound || screen_pos.x > max_x_bound || screen_pos.y < min_y_bound ||
                     screen_pos.y > max_y_bound) {
                     LogInfo << "Tile" << tile.tileKey << "at" << loc << ", screen position:" << screen_pos
-                            << ", map has multi stages";
-                    result.has_multi_stages = true;
+                            << ", map has multi phases";
+                    result.has_multi_phases = true;
                 }
             }
             if (!ret || !ret_side) {
-                Log.info("Tiles calc error!");
+                LogInfo << "Tiles calc error!";
                 return {};
             }
         }
     }
-    auto retreat = Map::TileCalc2::get_retreat_screen_pos(level, result.has_multi_stages);
-    auto skill = Map::TileCalc2::get_skill_screen_pos(level, result.has_multi_stages);
+    auto retreat = Map::TileCalc2::get_retreat_screen_pos(level, result.has_multi_phases);
+    auto skill = Map::TileCalc2::get_skill_screen_pos(level, result.has_multi_phases);
     result.retreat_button = { retreat.x, retreat.y };
     result.skill_button = { skill.x, skill.y };
 
