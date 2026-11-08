@@ -1405,7 +1405,7 @@
     "resource/global/txwy/resource/template/WakeUp/GameStart": "251b4a4f08c0a29bbe8778b4654503a8b7d3f9058e8387afbad92760228d681b",
     "resource/global/txwy/resource/template/WakeUp/StartToWakeUp": "586fc889d03e16e78693c53474cbf2d8b9e906ffe2577f1858e2c7f812893d94",
     "resource/global/txwy/resource/template/WakeUp/NotDownloadVoice": "236552be7147e5fe19b134d4f51e748883b3637f81118f2b32c8f3ddba24cc5a",
-    "resource/global/txwy/resource/template/StageNavigation/Annihilation/StageAnnihilation": "5f21adcbc66e739dfe0a8a23e468f4d5f2f77f9fa5a785239d758563a4432838",
+    "resource/global/txwy/resource/template/StageNavigation/Annihilation/StageAnnihilation": "660ee4706978f374181345a7cd0cbf19cca64e5dcf6fff6bf9ab7c387a25e4f0",
     "resource/global/txwy/resource/template/StageNavigation/Annihilation/AnnihilationConfirm": "89f6c91efa02c1c7c689b75fa5f8ec365962306169176ff584b9ca504471fcba",
     "resource/global/txwy/resource/template/StageNavigation/Annihilation/AnnihilationReturnFlag": "4d0ff310221016d8e7c4d307589e4cf565d82df9893f7ff6b55a7bb4bf85dbd5",
     "resource/global/txwy/resource/template/StageNavigation/Resource/StageLS": "5d071e9bf051c3fe9b45465cb44a12e088e92ce9cef9cff296a84bdc2b40ae79",
@@ -4578,5 +4578,9 @@
     "resource/template/MiniGame/WartimePressCommittee/MiniGame@WartimePressCommittee@NextPage": "57ddbfa084037e255c4911200611c3869102f405f88080cf6eed700656217c60",
     "resource/template/items/autochess_mission_point": "c2e7e783a9ef0dbf687c7660cbc030c5d17f7b09cac33432f781845b0715d10c",
     "resource/template/items/act3autochess_token_chess": "c2e7e783a9ef0dbf687c7660cbc030c5d17f7b09cac33432f781845b0715d10c",
-    "resource/template/avatar/char_618_acrbot": "1c1621e17c8ca3f16a560862abc1b8e0c5d0aa104ac1620e0426d4b3786ad291"
+    "resource/template/avatar/char_618_acrbot": "1c1621e17c8ca3f16a560862abc1b8e0c5d0aa104ac1620e0426d4b3786ad291",
+    "resource/template/MiniGame/SPA/MiniGame@SPA@StartSimulation2": "f66f18c0f5ac1b0b3ed5be0eb8e6c6a3f1338a0bf860a80d624100b049c6da18",
+    "resource/template/MiniGame/SPA/MiniGame@SPA@CustomOpersConfirm": "1b69aadba5b2502ef53d7bc99bbed2d73d796e1124fb17f14720ec812222914c",
+    "resource/template/MiniGame/SPA/MiniGame@SPA@EnterIndependentQuickly": "b41d1f633f822c488f3c7ee19cf0a5a271030d0696e93e97520a842dc79784c8",
+    "resource/template/MiniGame/SPA/MiniGame@SPA@GoliathConfirmSelect2": "bcb3ea17d41947c58762a9dd4f21dc747b5005e4f508f02c1517ae16e774e017"
 }
