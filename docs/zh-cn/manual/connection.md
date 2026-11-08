@@ -211,6 +211,20 @@ AVD 截图增强模式在 MaaFramework 中实现，必须选择 MaaFwAdb 触控�
 
 2. `触控模式` 选择 `MaaFwAdb`。
 
+### ModAVD 截图增强模式
+
+适用于 [ModAVD](https://github.com/ModAVD/ModAVD) 模拟器。MAA 通过 ModAVD 提供的 `modavd_extras` 库直接读取模拟器画面，不经过 ADB；触控不受影响，仍可照常选择 MaaTouch 等触控模式。
+
+1. `设置` - `连接设置` - `连接配置` 选择 `ModAVD`，并取消勾选 `自动检测连接`（自动检测不识别 ModAVD）。
+
+2. `ModAVD 根目录` 填写 ModAVD 的根目录（即 `ModAVD.exe` 所在的目录），也可以点击 `选择` 浏览。该目录下需要有 `extras\modavd_extras.dll`：之后的 ModAVD 发布包会自带，在此之前可从 [ModAVDExtras 的 Release](https://github.com/ModAVD/ModAVDExtras/releases) 下载 `modavd_extras.dll`，放入其中的 `extras` 文件夹。
+
+3. `连接地址` 填写对应实例的 `127.0.0.1:<ADB 端口>`，ADB 端口 = 控制台端口 + 1。默认端口下 0 号实例为 `127.0.0.1:20001`，之后每号加 10（`127.0.0.1:20011`、`127.0.0.1:20021`……）；也可以填写 `emulator-<控制台端口>`。不需要填写实例编号。`ADB 路径` 可填写 ModAVD 根目录下的 `sdk\platform-tools\adb.exe`。
+
+4. `触控模式` 照常选择，例如 MaaTouch。
+
+`ModAVD 根目录` 留空时，MAA 只用 ADB 截图。
+
 ## 触控模式
 
 1. [Minitouch](https://github.com/DeviceFarmer/minitouch)：使用 C 编写的 Android 触控事件器，操作 `evdev` 设备，提供 Socket 接口供外部程序触发触控事件和手势。从 Android 10 开始，Minitouch 在 SELinux 为 `Enforcing` 模式时不再可用。<sup>[源](https://github.com/DeviceFarmer/minitouch?tab=readme-ov-file#for-android-10-and-up)</sup>（默认）

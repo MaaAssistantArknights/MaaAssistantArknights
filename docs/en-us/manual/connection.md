@@ -209,6 +209,20 @@ AVD Screenshot Enhanced Mode is implemented in MaaFramework. Touch mode must be 
 
 2. For `Touch Mode`, select `MaaFwAdb`.
 
+### ModAVD Screenshot Enhanced Mode
+
+For the [ModAVD](https://github.com/ModAVD/ModAVD) emulator. MAA reads the emulator screen directly through the `modavd_extras` library that ModAVD provides, without going through ADB. Touch is not affected: you can still choose MaaTouch or another touch mode as usual.
+
+1. In `Settings` - `Connection` - `Connection Preset`, select `ModAVD`, and uncheck `Auto detect connection` (auto detection does not recognize ModAVD).
+
+2. Set `ModAVD root` to the ModAVD root folder (the folder that contains `ModAVD.exe`), or click `Select` to browse for it. The folder must contain `extras\modavd_extras.dll`. Later ModAVD release packages will include it; until then, download `modavd_extras.dll` from the [ModAVDExtras releases](https://github.com/ModAVD/ModAVDExtras/releases) and put it in the `extras` folder there.
+
+3. Set `Connection address` to `127.0.0.1:<ADB port>` of the instance, where the ADB port is the console port + 1. With the default ports, instance 0 is `127.0.0.1:20001` and each following instance adds 10 (`127.0.0.1:20011`, `127.0.0.1:20021`, ...). `emulator-<console port>` also works. No instance number is needed. For `ADB path`, you can use `sdk\platform-tools\adb.exe` under the ModAVD root.
+
+4. Choose `Touch Mode` as usual, e.g. MaaTouch.
+
+If `ModAVD root` is left empty, MAA takes screenshots through ADB only.
+
 ## Touch Mode
 
 1. [Minitouch](https://github.com/DeviceFarmer/minitouch): An Android touch event handler written in C that operates on `evdev` devices and provides a Socket interface for external programs to trigger touch events and gestures. Starting with Android 10, Minitouch is no longer available when SELinux is in `Enforcing` mode.<sup>[source](https://github.com/DeviceFarmer/minitouch?tab=readme-ov-file#for-android-10-and-up)</sup> (Default)
