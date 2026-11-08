@@ -1,4 +1,4 @@
-## v6.22.0-beta.1
+## v6.22.0-beta.2
 
 ### Highlights
 
@@ -44,6 +44,16 @@ Low-frequency WPF settings are grouped under an "Advanced" section while achieve
 以下是详细内容：
 
 <details open>
+<summary><b>v6.22.0-beta.2 (2026-11-08)</b></summary>
+
+### 修复 | Fix
+
+* 修复资源收集、肉鸽在卫戍协议常驻后无法导航的问题 ([#19179](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/19179)) @Radekyspec
+* 修复卫戍协议点击过快提前进入下一步时卡在策略选择的问题 @ABA2396
+
+</details>
+
+<details>
 <summary><b>v6.22.0-beta.1 (2026-11-08)</b></summary>
 
 ### 新增 | New
