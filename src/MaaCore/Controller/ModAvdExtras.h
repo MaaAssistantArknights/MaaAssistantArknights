@@ -61,7 +61,10 @@ private:
     static constexpr uint32_t kCapScreencap = 1u << 0;
     static constexpr uint32_t kFormatBgr = 2;
 
+    // 截一帧；ret 为库最后一次返回的出错码，kOk 表示失败与库无关
+    std::optional<cv::Mat> capture_frame(int& ret);
     bool load_modavd_library();
+    void unload_modavd_library();
     bool open_instance();
     void close_instance();
 
