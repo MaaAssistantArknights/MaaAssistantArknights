@@ -498,11 +498,16 @@ public class TaskQueueViewModel : Screen
     /// <returns>Task</returns>
     public async Task CheckAfterCompleted(bool hasErrorTask = false)
     {
+        // 在结束脚本让出执行权之前保留本轮策略，其他入口开始新轮次不能重新启用已跳过的动作。
+        var executePostActions = Volatile.Read(ref _postActionsLaunched) == 0;
         RunningState.Instance.LockInterrupt();
         try
         {
             await RunStopScriptOnceAsync();
-            await RunPostActionsCoreAsync(hasErrorTask);
+            if (executePostActions)
+            {
+                await RunPostActionsCoreAsync(hasErrorTask);
+            }
         }
         finally
         {
@@ -940,6 +945,7 @@ public class TaskQueueViewModel : Screen
 
     private async Task StopByRunDurationLimitAsync(int limitMinutes, bool executePostActions)
     {
+        executePostActions &= Volatile.Read(ref _postActionsLaunched) == 0;
         try
         {
             if (_runningState.GetStopping() || _runningState.GetIdle())
@@ -1234,6 +1240,9 @@ public class TaskQueueViewModel : Screen
                 await Stop();
                 SetStopped();
             }
+
+            // 强制定时保留本次启动请求，等待上轮结束脚本或完成后动作释放收尾锁。
+            await _runningState.UntilIdleAsync(confirmTimes: 0);
 
             var mode = SettingsViewModel.GameSettings.ClientType;
             if (!Instances.AsstProxy.AsstAppendCloseDown(mode))
@@ -2531,11 +2540,12 @@ public class TaskQueueViewModel : Screen
     }
 #endif
 
-    public async Task LinkStartWithTasks(IEnumerable<BaseTask> tasks, int? startIndex = null)
+    public async Task LinkStartWithTasks(IEnumerable<BaseTask> tasks, int? startIndex = null, bool executePostActions = true)
     {
-        if (!_runningState.Idle)
+        // Core 空闲后仍可能在执行上轮结束脚本或完成后动作，须等收尾锁释放后才能开始新一轮。
+        if (!_runningState.CanInterrupt())
         {
-            _logger.Information("Not idle, return.");
+            _logger.Information("Run cannot be interrupted, return.");
             return;
         }
 
@@ -2590,6 +2600,11 @@ public class TaskQueueViewModel : Screen
 
         // 所有提前 return 都要放在进入运行态之前，否则会导致无法再次点击开始
         _runningState.BeginRun(RunOwner.TaskQueue);
+        if (!executePostActions)
+        {
+            // 快捷操作不执行完成后动作；提前消耗本轮发射权，同时覆盖自然完成与时长上限停止。
+            Interlocked.Exchange(ref _postActionsLaunched, 1);
+        }
 
         // 虽然更改时已经保存过了，不过保险起见在点击开始之后再次保存任务和基建列表
         // TaskItemSelectionChanged();
