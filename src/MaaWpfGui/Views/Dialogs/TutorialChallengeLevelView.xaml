@@ -1409,8 +1409,11 @@
                 </Grid>
             </TabItem>
 
-            <!--  设置页：结构对齐真实 SettingsView（搜索框 + 分区导航 + 分区内容），数据仅沙盒内  -->
-            <TabItem Header="{DynamicResource Settings.Title}" Style="{StaticResource TabItemInLine}">
+            <!--  设置页：结构对齐真实 SettingsView（搜索框 + 分区导航 + 分区内容），数据仅沙盒内；仅声明了 Settings 场景的关卡显示本页签  -->
+            <TabItem
+                Header="{DynamicResource Settings.Title}"
+                Style="{StaticResource TabItemInLine}"
+                Visibility="{c:Binding ShowSettingsPanel}">
                 <Grid Margin="8,5">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="175" />
@@ -1614,71 +1617,6 @@
                                                                 <TextBlock Text="{DynamicResource TutorialChallenge.Level.ExportLogs.Generating}" Visibility="{c:Binding IsExportingLogs}" />
                                                             </Grid>
                                                         </Button>
-                                                    </StackPanel>
-
-                                                    <!--  启动设置占位分区  -->
-                                                    <StackPanel Margin="0,20" HorizontalAlignment="Center">
-                                                        <StackPanel.Style>
-                                                            <Style TargetType="StackPanel">
-                                                                <Setter Property="Visibility" Value="Collapsed" />
-                                                                <Style.Triggers>
-                                                                    <DataTrigger Binding="{Binding Kind}" Value="{x:Static dialogs_vms:TutorialChallengeSettingSectionKind.Startup}">
-                                                                        <Setter Property="Visibility" Value="Visible" />
-                                                                    </DataTrigger>
-                                                                </Style.Triggers>
-                                                            </Style>
-                                                        </StackPanel.Style>
-                                                        <CheckBox Margin="10,5" Content="{DynamicResource Settings.Startup.RunTaskAfterLaunch}" />
-                                                        <CheckBox Margin="10,5" Content="{DynamicResource Settings.Startup.OpenEmulatorAfterLaunch}" />
-                                                    </StackPanel>
-
-                                                    <!--  界面设置占位分区  -->
-                                                    <StackPanel Margin="0,20" HorizontalAlignment="Center">
-                                                        <StackPanel.Style>
-                                                            <Style TargetType="StackPanel">
-                                                                <Setter Property="Visibility" Value="Collapsed" />
-                                                                <Style.Triggers>
-                                                                    <DataTrigger Binding="{Binding Kind}" Value="{x:Static dialogs_vms:TutorialChallengeSettingSectionKind.Ui}">
-                                                                        <Setter Property="Visibility" Value="Visible" />
-                                                                    </DataTrigger>
-                                                                </Style.Triggers>
-                                                            </Style>
-                                                        </StackPanel.Style>
-                                                        <CheckBox Margin="10,5" Content="{DynamicResource TaskQueue.MainTasksNullFunctionality}" />
-                                                        <CheckBox Margin="10,5" Content="{DynamicResource Settings.TitleBar.HideCloseButton}" />
-                                                    </StackPanel>
-
-                                                    <!--  更新设置占位分区  -->
-                                                    <StackPanel Margin="0,20" HorizontalAlignment="Center">
-                                                        <StackPanel.Style>
-                                                            <Style TargetType="StackPanel">
-                                                                <Setter Property="Visibility" Value="Collapsed" />
-                                                                <Style.Triggers>
-                                                                    <DataTrigger Binding="{Binding Kind}" Value="{x:Static dialogs_vms:TutorialChallengeSettingSectionKind.Update}">
-                                                                        <Setter Property="Visibility" Value="Visible" />
-                                                                    </DataTrigger>
-                                                                </Style.Triggers>
-                                                            </Style>
-                                                        </StackPanel.Style>
-                                                        <CheckBox Margin="10,5" Content="{DynamicResource Settings.Update.AutoCheck}" />
-                                                        <CheckBox Margin="10,5" Content="{DynamicResource Settings.Update.AutoDownload}" />
-                                                        <CheckBox Margin="10,5" Content="{DynamicResource Settings.Update.ResourceUpdate}" />
-                                                    </StackPanel>
-
-                                                    <!--  性能设置占位分区（高级分区示例）  -->
-                                                    <StackPanel Margin="0,20" HorizontalAlignment="Center">
-                                                        <StackPanel.Style>
-                                                            <Style TargetType="StackPanel">
-                                                                <Setter Property="Visibility" Value="Collapsed" />
-                                                                <Style.Triggers>
-                                                                    <DataTrigger Binding="{Binding Kind}" Value="{x:Static dialogs_vms:TutorialChallengeSettingSectionKind.Performance}">
-                                                                        <Setter Property="Visibility" Value="Visible" />
-                                                                    </DataTrigger>
-                                                                </Style.Triggers>
-                                                            </Style>
-                                                        </StackPanel.Style>
-                                                        <CheckBox Margin="10,5" Content="{DynamicResource Settings.Game.BlockSleep}" />
-                                                        <CheckBox Margin="10,5" Content="{DynamicResource Settings.Game.BlockSleepWithScreenOn}" />
                                                     </StackPanel>
 
                                                     <!--  ｢设置搜索｣ 关卡干扰分区：随机 CheckBox 群，CheckBox 的 IsChecked 直接写回项实例  -->

@@ -15,6 +15,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using MaaWpfGui.Configuration.Single.MaaTask;
+using MaaWpfGui.ViewModels.Dialogs;
 using MaaWpfGui.ViewModels.UserControl.TaskQueue;
 
 namespace MaaWpfGui.Models.TutorialChallenge;
@@ -91,7 +92,8 @@ public static class TutorialChallengeLevels
             smartPredicate: (_, vm) => vm.SandboxSchedule.TimerList.Any(timer =>
                 timer.IsEnabled == true && timer.Hour == 4 && timer.Minute == 10),
             smartHintKey: "TutorialChallenge.Level.DailyReconnect.Hint",
-            panelKinds: [TutorialChallengePanelKind.Schedule, TutorialChallengePanelKind.Settings]),
+            panelKinds: [TutorialChallengePanelKind.Schedule, TutorialChallengePanelKind.Settings],
+            settingSectionKinds: [TutorialChallengeSettingSectionKind.Schedule]),
 
         new(
             id: "RecruitRobot",
@@ -105,19 +107,21 @@ public static class TutorialChallengeLevels
             id: "ExportLogs",
             sandboxFactory: () => [new StartUpTask()],
             goalPredicate: (_, vm) => vm.ExportLogsClicked,
-            panelKinds: [TutorialChallengePanelKind.Settings]),
+            panelKinds: [TutorialChallengePanelKind.Settings],
+            settingSectionKinds: [TutorialChallengeSettingSectionKind.IssueReport]),
 
         new(
             id: "SettingsSearch",
             sandboxFactory: () => [new StartUpTask()],
             goalPredicate: (_, vm) => vm.SandboxDecoyTargetsAllChecked,
-            panelKinds: [TutorialChallengePanelKind.Settings]),
+            panelKinds: [TutorialChallengePanelKind.Settings],
+            settingSectionKinds: [TutorialChallengeSettingSectionKind.Decoy]),
 
         new(
             id: "DragDropUpdate",
             sandboxFactory: () => [new StartUpTask()],
             goalPredicate: (_, vm) => vm.DragDropAllPackagesIdentified,
-            panelKinds: [TutorialChallengePanelKind.Settings, TutorialChallengePanelKind.DropZone]),
+            panelKinds: [TutorialChallengePanelKind.DropZone]),
     ];
 
     /// <summary>

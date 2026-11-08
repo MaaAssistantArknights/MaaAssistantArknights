@@ -77,6 +77,7 @@ public class TutorialChallengeLevel
     /// <param name="smartPredicate">可选的更优解判定；达成 <paramref name="goalPredicate"/> 但不满足此项时，提示更优解法。</param>
     /// <param name="smartHintKey">更优解提示的本地化 key；null 时回退 <c>TutorialChallenge.SmartSolutionHint</c>。</param>
     /// <param name="addableTaskTypes">｢+｣ 添加任务菜单列出的任务类型；null 表示按本关首个场景取默认全集（None: Fight；Fight: StartUp+Fight；DepotMaintain: StartUp+DepotMaintain+Fight；Recruit: StartUp+Recruit+Fight）。</param>
+    /// <param name="settingSectionKinds">本关设置页投放的分区种类白名单；null 表示不构建设置分区（配合 <see cref="TutorialChallengePanelKind.Settings"/> 使用，无关分区不出现）。</param>
     public TutorialChallengeLevel(
         string id,
         Func<IList<BaseTask>> sandboxFactory,
@@ -84,7 +85,8 @@ public class TutorialChallengeLevel
         IReadOnlyList<TutorialChallengePanelKind> panelKinds,
         Func<IReadOnlyList<BaseTask>, TutorialChallengeLevelViewModel, bool>? smartPredicate = null,
         string? smartHintKey = null,
-        IReadOnlyList<Type>? addableTaskTypes = null)
+        IReadOnlyList<Type>? addableTaskTypes = null,
+        IReadOnlyList<TutorialChallengeSettingSectionKind>? settingSectionKinds = null)
     {
         Id = id;
         PanelKinds = panelKinds;
@@ -93,6 +95,7 @@ public class TutorialChallengeLevel
         SmartPredicate = smartPredicate;
         SmartHintKey = smartHintKey ?? "TutorialChallenge.SmartSolutionHint";
         AddableTaskTypes = addableTaskTypes ?? DefaultAddableTaskTypes(panelKinds);
+        SettingSectionKinds = settingSectionKinds;
     }
 
     private static IReadOnlyList<Type> DefaultAddableTaskTypes(IReadOnlyList<TutorialChallengePanelKind> panelKinds)
@@ -149,6 +152,11 @@ public class TutorialChallengeLevel
     /// Gets ｢+｣ 添加任务菜单列出的任务类型，按关卡过滤无关任务。
     /// </summary>
     public IReadOnlyList<Type> AddableTaskTypes { get; }
+
+    /// <summary>
+    /// Gets 本关设置页投放的分区种类白名单；null 表示不构建设置分区。
+    /// </summary>
+    public IReadOnlyList<TutorialChallengeSettingSectionKind>? SettingSectionKinds { get; }
 
     /// <summary>
     /// Gets 关卡名本地化 key。

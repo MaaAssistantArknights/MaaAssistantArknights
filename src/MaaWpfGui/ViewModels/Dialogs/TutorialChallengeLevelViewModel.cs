@@ -145,10 +145,6 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
         Instances.StageManager.StageDataChanged += OnStageDataChanged;
         SandboxSchedule = new TutorialChallengeSandboxSchedule(Evaluate);
         BuildSettingSections();
-        if (IsSettingsSearchLevel)
-        {
-            BuildSettingsSearchDecoySections();
-        }
 
         if (IsDragDropUpdateLevel)
         {
@@ -1150,51 +1146,35 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
     }
 
     /// <summary>
-    /// 构建沙盒设置页分区导航。骨架版投放少量真实分区占位，后续关卡提交按关替换分区内容。
-    /// ｢设置搜索｣ 关卡占位分区的 searchTextKeys 一律清空——本关唯一交互是搜 ｢MAA｣ 勾选目标项，
-    /// 任何占位分区命中都会误导玩家勾选非目标项（如 Startup 的 ｢启动 MAA 后...｣ 文案含 ｢MAA｣）。
+    /// 构建沙盒设置页分区导航，按本关 <see cref="TutorialChallengeLevel.SettingSectionKinds"/> 白名单投放分区，
+    /// 未声明则不构建设置分区（此时 <see cref="ShowSettingsPanel"/> 为 false，设置页整页不显示）。
     /// </summary>
     private void BuildSettingSections()
     {
-        // 占位分区 searchTextKeys 在 ｢设置搜索｣ 关卡全部置空（值本身仍列出以便阅读默认数据）
-        var scheduleKeys = IsSettingsSearchLevel ? [] : (string[])["TaskQueue.Schedule.ForceScheduledStart", "TaskQueue.Schedule.ShowWindowBeforeForceScheduledStart", "TaskQueue.Schedule.Timer"];
-        var startupKeys = IsSettingsSearchLevel ? [] : (string[])["Settings.Startup.RunTaskAfterLaunch", "Settings.Startup.OpenEmulatorAfterLaunch"];
-        var uiKeys = IsSettingsSearchLevel ? [] : (string[])["TaskQueue.MainTasksNullFunctionality", "Settings.TitleBar.HideCloseButton"];
-        var updateKeys = IsSettingsSearchLevel ? [] : (string[])["Settings.Update.AutoCheck", "Settings.Update.AutoDownload", "Settings.Update.ResourceUpdate"];
-        var issueReportKeys = IsSettingsSearchLevel ? [] : (string[])["Error.GenerateSupportPayload"];
-        var performanceKeys = IsSettingsSearchLevel ? [] : (string[])["Settings.Game.BlockSleep", "Settings.Game.BlockSleepWithScreenOn"];
-
         SandboxSettingSections.Clear();
-        SandboxSettingSections.Add(new TutorialChallengeSettingSection(
-            TutorialChallengeSettingSectionKind.Schedule,
-            "Settings.Schedule.Title",
-            isAdvanced: false,
-            searchTextKeys: scheduleKeys));
-        SandboxSettingSections.Add(new TutorialChallengeSettingSection(
-            TutorialChallengeSettingSectionKind.Startup,
-            "Settings.Startup.Title",
-            isAdvanced: false,
-            searchTextKeys: startupKeys));
-        SandboxSettingSections.Add(new TutorialChallengeSettingSection(
-            TutorialChallengeSettingSectionKind.Ui,
-            "Settings.Ui.Title",
-            isAdvanced: false,
-            searchTextKeys: uiKeys));
-        SandboxSettingSections.Add(new TutorialChallengeSettingSection(
-            TutorialChallengeSettingSectionKind.Update,
-            "Settings.Update.Title",
-            isAdvanced: false,
-            searchTextKeys: updateKeys));
-        SandboxSettingSections.Add(new TutorialChallengeSettingSection(
-            TutorialChallengeSettingSectionKind.IssueReport,
-            "Settings.IssueReport.Title",
-            isAdvanced: false,
-            searchTextKeys: issueReportKeys));
-        SandboxSettingSections.Add(new TutorialChallengeSettingSection(
-            TutorialChallengeSettingSectionKind.Performance,
-            "Settings.Performance.Title",
-            isAdvanced: true,
-            searchTextKeys: performanceKeys));
+        foreach (var kind in _level.SettingSectionKinds ?? [])
+        {
+            switch (kind)
+            {
+                case TutorialChallengeSettingSectionKind.Schedule:
+                    SandboxSettingSections.Add(new TutorialChallengeSettingSection(
+                        TutorialChallengeSettingSectionKind.Schedule,
+                        "Settings.Schedule.Title",
+                        isAdvanced: false,
+                        searchTextKeys: ["TaskQueue.Schedule.ForceScheduledStart", "TaskQueue.Schedule.ShowWindowBeforeForceScheduledStart", "TaskQueue.Schedule.Timer"]));
+                    break;
+                case TutorialChallengeSettingSectionKind.IssueReport:
+                    SandboxSettingSections.Add(new TutorialChallengeSettingSection(
+                        TutorialChallengeSettingSectionKind.IssueReport,
+                        "Settings.IssueReport.Title",
+                        isAdvanced: false,
+                        searchTextKeys: ["Error.GenerateSupportPayload"]));
+                    break;
+                case TutorialChallengeSettingSectionKind.Decoy:
+                    BuildSettingsSearchDecoySections();
+                    break;
+            }
+        }
     }
 
     /// <summary>
@@ -2289,29 +2269,9 @@ public enum TutorialChallengeSettingSectionKind
     Schedule,
 
     /// <summary>
-    /// 启动设置占位分区。
-    /// </summary>
-    Startup,
-
-    /// <summary>
-    /// 界面设置占位分区。
-    /// </summary>
-    Ui,
-
-    /// <summary>
-    /// 更新设置占位分区。
-    /// </summary>
-    Update,
-
-    /// <summary>
-    /// 问题反馈占位分区。
+    /// 问题反馈分区（沙盒 ｢生成日志压缩包｣ 按钮）。
     /// </summary>
     IssueReport,
-
-    /// <summary>
-    /// 性能设置占位分区（高级分区示例）。
-    /// </summary>
-    Performance,
 
     /// <summary>
     /// 干扰分区（｢设置搜索｣ 关卡的随机 CheckBox 群）。
