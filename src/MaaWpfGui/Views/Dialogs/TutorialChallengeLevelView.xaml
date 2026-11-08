@@ -23,7 +23,10 @@
     MinHeight="560"
     d:DataContext="{d:DesignInstance {x:Type dialogs_vms:TutorialChallengeLevelViewModel}}"
     s:View.ActionTarget="{Binding}"
+    AllowDrop="True"
     Background="{DynamicResource RegionBrush}"
+    PreviewDragOver="{s:Action SandboxPackagePreviewDragOver}"
+    PreviewDrop="{s:Action SandboxPackageDrop}"
     mc:Ignorable="d">
     <hc:Window.Resources>
         <converters:ItemImageConverter x:Key="ItemImageConverter" />
@@ -593,17 +596,14 @@
                                 <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
 
-                            <!--  更新包投放区：仅 ｢拖拽更新｣ 关卡显示，对齐真实主窗口拖入更新包的交互；描边框提示拖入，下方三项识别状态清单  -->
+                            <!--  更新包投放区：仅 ｢拖拽更新｣ 关卡显示，整窗任意位置均可拖入；描边框仅作状态清单展示，下方三项识别状态  -->
                             <Border
                                 Grid.Row="0"
                                 Margin="8,8,8,0"
                                 Padding="10"
-                                AllowDrop="True"
                                 BorderBrush="{DynamicResource BorderBrush}"
                                 BorderThickness="1"
                                 CornerRadius="4"
-                                PreviewDragOver="{s:Action SandboxPackagePreviewDragOver}"
-                                PreviewDrop="{s:Action SandboxPackageDrop}"
                                 Visibility="{c:Binding ShowDropZonePanel}">
                                 <StackPanel>
                                     <controls:TextBlock

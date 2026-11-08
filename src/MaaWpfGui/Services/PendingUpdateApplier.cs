@@ -176,6 +176,14 @@ internal static partial class PendingUpdateApplier
         => OtaPackageNameRegex().IsMatch(fileName);
 
     /// <summary>
+    /// 判定文件名是否匹配完整更新包命名模式（<c>MAA-{version}-win-{arch}.zip</c>），不校验版本与架构。
+    /// </summary>
+    /// <param name="fileName">待判定的文件名（不含目录）。</param>
+    /// <returns>匹配完整更新包命名模式返回 true。</returns>
+    public static bool IsFullPackageFileName(string fileName)
+        => FullPackageNameRegex().IsMatch(fileName);
+
+    /// <summary>
     /// 通过文件名检测拖入的压缩包是完整更新包还是 OTA 更新包，并校验架构与版本方向。
     /// 两种正则都不匹配时返回 <see cref="PackageInspectionStatus.NotMatched"/>（可能是资源包或无关文件）。
     /// </summary>

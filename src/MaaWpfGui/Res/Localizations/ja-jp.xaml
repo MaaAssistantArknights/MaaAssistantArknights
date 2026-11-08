@@ -2565,14 +2565,13 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.AdminBlocked">管理者権限で実行中のため、Windows が高権限ウィンドウへのファイルドロップをブロックします。このレベルはドラッグでは達成できません。</system:String>
     <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.AlreadyIdentified">この種類はすでに認識済みです。次をドラッグしましょう。</system:String>
     <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.DropZone.FullPackage">完全アップデートパッケージ</system:String>
-    <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.DropZone.Hint">ここにアップデートパッケージをドラッグ</system:String>
+    <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.DropZone.Hint">このウィンドウの任意の場所にアップデートパッケージをドラッグ</system:String>
     <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.DropZone.OtaPackage">OTA 差分パッケージ</system:String>
     <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.DropZone.ResourcePackage">リソースアップデートパッケージ</system:String>
-    <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.Goal">デスクトップに 3 つのアップデートパッケージ（MAA-v9.9.9、MAAComponent-OTA、MaaResource-main の 3 つの zip）を配置済みです。すべてウィンドウ右側のドロップエリアにドラッグして更新を完了させましょう。</system:String>
+    <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.Goal">3 種類のアップデートパッケージをこのウィンドウの任意の場所にドラッグして、更新を完了させましょう。パッケージは各自で用意してください：完全パッケージ ｢MAA-vX.Y.Z-win-{arch}.zip｣、OTA 差分パッケージ ｢MAAComponent-OTA-vA_vB-win-{arch}.zip｣、リソースパッケージ（ファイル名ではなく zip の内容で識別）。</system:String>
     <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.Identified.FullPackage">完全アップデートパッケージとして認識しました。実際には登録され、再起動を促します。</system:String>
     <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.Identified.OtaPackage">OTA 差分パッケージとして認識しました。実際には登録され、再起動を促します。</system:String>
     <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.Identified.ResourcePackage">リソースアップデートパッケージとして認識しました。実際にはそのままインポートされ再読み込みされます。</system:String>
-    <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.Rejected">ファイル名はアップデートパッケージに似ていますが、バージョンまたはアーキテクチャが一致せず拒否されました。</system:String>
     <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.Title">ドラッグ更新</system:String>
     <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.Unknown">認識できるアップデートパッケージではありません。</system:String>
     <system:String x:Key="TutorialChallenge.Level.ExportLogs.Generating">生成中…</system:String>

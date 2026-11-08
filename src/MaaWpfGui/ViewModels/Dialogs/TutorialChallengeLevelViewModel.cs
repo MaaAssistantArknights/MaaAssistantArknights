@@ -18,9 +18,7 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.IO;
-using System.IO.Compression;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows;
@@ -40,7 +38,6 @@ using MaaWpfGui.Services;
 using MaaWpfGui.Styles.Properties;
 using MaaWpfGui.Utilities.ValueType;
 using MaaWpfGui.ViewModels.UI;
-using MaaWpfGui.ViewModels.UserControl.Settings;
 using MaaWpfGui.ViewModels.UserControl.TaskQueue;
 using MaaWpfGui.ViewModels.UserControl.Toolbox;
 using MaaWpfGui.Views.Dialogs;
@@ -72,15 +69,6 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
     private const int SettingsSearchSectionCount = 40;
     private const int SettingsSearchItemsPerSection = 5;
     private const string SettingsSearchTargetMarker = "maa";
-
-    // 拖拽更新关卡仿真包的识别标记：readme.txt 内容与 version.json 时间戳固定，
-    // 清理时按标记校验，只删确实由本关卡写出的文件，避免误删桌面同名真实文件
-    private const string SandboxPackageMarker = "MAA tutorial challenge placeholder package";
-    private const string SandboxResourceVersionEntryName = "MaaResource-main/resource/version.json";
-    private const string SandboxResourceLastUpdated = "2026-11-01 00:00:00.000";
-
-    // EnsureSandboxUpdatePackages 实际写出的文件路径，Detach 清理时按此清单删（CoreVersion 中途可能变化，路径不可重建则记录）
-    private readonly List<string> _sandboxPackagePaths = [];
 
     /// <summary>
     /// Initializes a new instance of the <see cref="TutorialChallengeLevelViewModel"/> class.
@@ -148,14 +136,10 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
         SandboxSchedule = new TutorialChallengeSandboxSchedule(Evaluate);
         BuildSettingSections();
 
-        if (IsDragDropUpdateLevel)
+        if (IsDragDropUpdateLevel && Bootstrapper.IsUserAdministrator())
         {
-            EnsureSandboxUpdatePackages();
-            if (Bootstrapper.IsUserAdministrator())
-            {
-                // 管理员权限下 OLE 拖拽本身无法进入（Windows 限制低权限源向高权限进程投递），进关卡即提示本关无法以拖拽完成
-                ShowTutorialGrowl(InfoType.Warning, LocalizationHelper.GetString("TutorialChallenge.Level.DragDropUpdate.AdminBlocked"));
-            }
+            // 管理员权限下 OLE 拖拽本身无法进入（Windows 限制低权限源向高权限进程投递），进关卡即提示本关无法以拖拽完成
+            ShowTutorialGrowl(InfoType.Warning, LocalizationHelper.GetString("TutorialChallenge.Level.DragDropUpdate.AdminBlocked"));
         }
 
         BuildStageListSource();
@@ -770,7 +754,7 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
     public bool ShowDropZonePanel => _level.HasPanel(TutorialChallengePanelKind.DropZone);
 
     /// <summary>
-    /// Gets a value indicating whether 本关为 ｢拖拽更新｣ 关卡（决定是否在桌面预置仿真更新包）。
+    /// Gets a value indicating whether 本关为 ｢拖拽更新｣ 关卡（决定本关是否启用拖入更新包识别与管理员权限拦截提示）。
     /// </summary>
     public bool IsDragDropUpdateLevel => _level.Id == "DragDropUpdate";
 
@@ -823,204 +807,6 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
         FullPackageIdentified && OtaPackageIdentified && ResourcePackageIdentified;
 
     /// <summary>
-    /// 在桌面预置三个仿真更新包（完整包 / OTA 增量包 / 资源包），供 ｢拖拽更新｣ 关卡拖入识别。
-    /// 完整包与 OTA 包仅需文件名匹配真实更新包模式（内容不被解压），资源包需真实 zip 结构
-    /// （<c>MaaResource-main/resource/version.json</c> 含可解析的 <c>last_updated</c>）。
-    /// 桌面已有同名文件时跳过生成并记日志，不覆盖用户文件；IO 失败降级不崩窗口。
-    /// </summary>
-    private void EnsureSandboxUpdatePackages()
-    {
-        try
-        {
-            string desktopDir = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
-            if (string.IsNullOrEmpty(desktopDir))
-            {
-                _logger.Warning("Desktop directory is unavailable, skipping tutorial update package generation");
-                return;
-            }
-
-            string architecture = RuntimeInformation.OSArchitecture.ToString().ToLowerInvariant();
-            string normalizedArchitecture = architecture.StartsWith("arm", StringComparison.OrdinalIgnoreCase)
-                ? "arm64"
-                : "x64";
-
-            // 完整包目标版本高于当前版本即可被 InspectLocalUpdatePackage 判为 FullSupported
-            const string targetVersion = "v9.9.9";
-
-            // OTA 源版本必须与当前版本一致才能判为 OtaSupported，优先沿用 CoreVersion；
-            // 预览态（N/A）或裸 git hash 等不可作 OTA 源版本时用固定占位版本，保证文件名合法可匹配
-            string currentVersion = VersionUpdateSettingsUserControlModel.CoreVersion;
-            string otaSourceVersion = CanUseCoreVersionAsOtaSource(currentVersion) ? currentVersion : "v0.0.0";
-
-            WriteSandboxPackage(
-                Path.Combine(desktopDir, $"MAA-{targetVersion}-win-{normalizedArchitecture}.zip"),
-                static stream => WritePlaceholderEntry(stream, "readme.txt", $"{SandboxPackageMarker} (full)"));
-            WriteSandboxPackage(
-                Path.Combine(desktopDir, $"MAAComponent-OTA-{otaSourceVersion}_{targetVersion}-win-{normalizedArchitecture}.zip"),
-                static stream => WritePlaceholderEntry(stream, "readme.txt", $"{SandboxPackageMarker} (ota)"));
-            WriteSandboxPackage(
-                Path.Combine(desktopDir, "MaaResource-main.zip"),
-                WriteResourcePackageContent);
-        }
-        catch (Exception ex)
-        {
-            _logger.Error(ex, "Failed to prepare tutorial update packages on desktop");
-        }
-    }
-
-    /// <summary>
-    /// 判定 CoreVersion 是否可直接作 OTA 文件名的源版本：须以 ｢v｣ 开头或为 <c>DEBUG_VERSION</c>
-    /// （与 <see cref="PendingUpdateApplier"/> 的 OTA 文件名正则 <c>from</c> 组一致）。
-    /// 预览态的 ｢N/A｣、CMake 本地构建的裸 git hash 均不满足，生成与拖入判定共用本判定。
-    /// </summary>
-    /// <param name="coreVersion">当前 Core 版本串。</param>
-    /// <returns>可作 OTA 源版本返回 true。</returns>
-    private static bool CanUseCoreVersionAsOtaSource(string coreVersion)
-        => coreVersion.StartsWith('v') || coreVersion == "DEBUG_VERSION";
-
-    /// <summary>
-    /// 目标路径不存在时写出一个仿真更新包 zip 并登记路径；已存在同名文件则跳过（视为环境已提供），不覆盖用户文件。
-    /// 已存在文件若带本关 marker（上次进程被杀残留的仿真包）则重新登记路径，Detach 时仍会清理，避免永久残留。
-    /// 写入中途异常时清掉半成品文件，避免残留损坏 zip 使 <c>File.Exists</c> 短路导致永不再生成。
-    /// </summary>
-    /// <param name="packagePath">输出 zip 完整路径。</param>
-    /// <param name="writeContent">向 zip 写入内容的回调。</param>
-    private void WriteSandboxPackage(string packagePath, Action<Stream> writeContent)
-    {
-        if (File.Exists(packagePath))
-        {
-            if (IsSandboxOwnedPackage(packagePath) && !_sandboxPackagePaths.Contains(packagePath))
-            {
-                _sandboxPackagePaths.Add(packagePath);
-            }
-
-            _logger.Information("Tutorial update package already exists, skipping generation: {PackagePath}", packagePath);
-            return;
-        }
-
-        try
-        {
-            using (var stream = File.Create(packagePath))
-            {
-                writeContent(stream);
-            }
-
-            _sandboxPackagePaths.Add(packagePath);
-        }
-        catch (Exception ex)
-        {
-            _logger.Error(ex, "Failed to write tutorial update package: {PackagePath}", packagePath);
-            try
-            {
-                if (File.Exists(packagePath))
-                {
-                    File.Delete(packagePath);
-                }
-            }
-            catch (Exception deleteEx)
-            {
-                _logger.Warning(deleteEx, "Failed to remove incomplete tutorial update package: {PackagePath}", packagePath);
-            }
-        }
-    }
-
-    /// <summary>
-    /// 关卡退出时删除 <see cref="EnsureSandboxUpdatePackages"/> 写出的仿真包，防止桌面同名仿真完整包
-    /// 被拖进真实主窗口注册成 pending update 清场真实安装。仅删带本关卡标记的文件：占位包校验
-    /// readme.txt 标记串，资源包校验 version.json 的固定 <c>last_updated</c>；zip 打不开或内容不符跳过。
-    /// </summary>
-    private void CleanupSandboxUpdatePackages()
-    {
-        foreach (string packagePath in _sandboxPackagePaths)
-        {
-            try
-            {
-                if (!File.Exists(packagePath) || !IsSandboxOwnedPackage(packagePath))
-                {
-                    continue;
-                }
-
-                File.Delete(packagePath);
-                _logger.Information("Removed tutorial sandbox update package: {PackagePath}", packagePath);
-            }
-            catch (Exception ex)
-            {
-                _logger.Warning(ex, "Failed to remove tutorial sandbox update package: {PackagePath}", packagePath);
-            }
-        }
-
-        _sandboxPackagePaths.Clear();
-    }
-
-    /// <summary>
-    /// 校验目标 zip 是否为本关卡写出的仿真包：占位包比对 readme.txt 标记串，资源包比对
-    /// version.json 的固定 <c>last_updated</c>。zip 打不开或内容不符一律视为非本关卡产物。
-    /// </summary>
-    /// <param name="packagePath">待校验的 zip 路径。</param>
-    /// <returns>确认是本关卡写出的仿真包返回 true。</returns>
-    private static bool IsSandboxOwnedPackage(string packagePath)
-    {
-        try
-        {
-            using var archive = ZipFile.OpenRead(packagePath);
-            var readmeEntry = archive.Entries.FirstOrDefault(e =>
-                e.FullName.Equals("readme.txt", StringComparison.OrdinalIgnoreCase));
-            if (readmeEntry != null)
-            {
-                using var readmeStream = readmeEntry.Open();
-                using var readmeReader = new StreamReader(readmeStream);
-                return readmeReader.ReadToEnd().Contains(SandboxPackageMarker, StringComparison.Ordinal);
-            }
-
-            var versionEntry = archive.Entries.FirstOrDefault(e =>
-                e.FullName.Equals(SandboxResourceVersionEntryName, StringComparison.OrdinalIgnoreCase));
-            if (versionEntry != null)
-            {
-                using var versionStream = versionEntry.Open();
-                using var versionReader = new StreamReader(versionStream);
-                return versionReader.ReadToEnd().Contains(SandboxResourceLastUpdated, StringComparison.Ordinal);
-            }
-
-            return false;
-        }
-        catch (Exception ex)
-        {
-            _logger.Warning(ex, "Failed to verify tutorial sandbox package ownership: {PackagePath}", packagePath);
-            return false;
-        }
-    }
-
-    /// <summary>
-    /// 向 zip 写入一个占位文本 entry（完整包 / OTA 包仅需文件名合法，内容不参与判定）。
-    /// </summary>
-    /// <param name="zipStream">目标 zip 的写入流。</param>
-    /// <param name="entryName">entry 名称。</param>
-    /// <param name="content">entry 文本内容。</param>
-    private static void WritePlaceholderEntry(Stream zipStream, string entryName, string content)
-    {
-        using var archive = new ZipArchive(zipStream, ZipArchiveMode.Create);
-        var entry = archive.CreateEntry(entryName);
-        using var entryStream = entry.Open();
-        using var writer = new StreamWriter(entryStream);
-        writer.Write(content);
-    }
-
-    /// <summary>
-    /// 向 zip 写入资源包结构：<c>MaaResource-main/resource/version.json</c>，
-    /// <c>last_updated</c> 字段格式须为 <c>yyyy-MM-dd HH:mm:ss.fff</c> 以便被 <see cref="ResourceUpdater.IsResourcePackage"/> 解析；
-    /// 固定值 <see cref="SandboxResourceLastUpdated"/> 同时用作本关卡产物的清理校验标记。
-    /// </summary>
-    /// <param name="zipStream">目标 zip 的写入流。</param>
-    private static void WriteResourcePackageContent(Stream zipStream)
-    {
-        using var archive = new ZipArchive(zipStream, ZipArchiveMode.Create);
-        var entry = archive.CreateEntry(SandboxResourceVersionEntryName);
-        using var entryStream = entry.Open();
-        using var writer = new StreamWriter(entryStream);
-        writer.Write($"{{\"last_updated\":\"{SandboxResourceLastUpdated}\"}}");
-    }
-
-    /// <summary>
     /// 投放区拖入事件：仅接受 zip 文件，设置复制拖拽效果。对齐真实 <c>RootViewModel.ManualPackagePreviewDragOver</c>。
     /// </summary>
     /// <param name="sender">事件源。</param>
@@ -1037,10 +823,8 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
     }
 
     /// <summary>
-    /// 投放区拖放事件：取首个 zip 文件按真实更新逻辑判定（完整包 / OTA 包走 <see cref="PendingUpdateApplier.InspectLocalUpdatePackage"/>，
-    /// 模式未命中再走 <see cref="ResourceUpdater.IsResourcePackage"/>），识别成功置对应标志并弹窗口内 Growl。
-    /// 不真实执行注册 / 解压 / 导入。预览态 CoreVersion 不可作 OTA 源版本时，OTA 文件名命中即视为识别成功
-    /// （自生成占位包必然因源版本不符被判 <c>OtaRejected</c>）。
+    /// 投放区拖放事件：取首个 zip 文件按文件名 / zip 内容识别类别（教学仿真不校验版本方向），
+    /// 识别成功置对应标志并弹窗口内 Growl。不真实执行注册 / 解压 / 导入。
     /// </summary>
     /// <param name="sender">事件源。</param>
     /// <param name="e">拖拽参数。</param>
@@ -1057,36 +841,25 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
     }
 
     /// <summary>
-    /// 对已落在本机路径的更新包按真实更新逻辑判定并置对应识别标志。<see cref="SandboxPackageDrop"/> 抽出文件路径后调用，
-    /// 亦供调试 / 自动化验证直接喂路径复现投放。
+    /// 对已落在本机路径的更新包按文件名与 zip 内容识别类别并置对应标志。<see cref="SandboxPackageDrop"/> 抽出文件路径后调用，
+    /// 亦供调试 / 自动化验证直接喂路径复现投放。教学仿真下玩家可能持任意版本，故不走 <see cref="PendingUpdateApplier.InspectLocalUpdatePackage"/>
+    /// 的版本方向校验，只按文件名正则识别完整包 / OTA 包，都不命中再走 <see cref="ResourceUpdater.IsResourcePackage"/> 检查 zip 内容。
     /// </summary>
     /// <param name="packagePath">zip 包本地路径。</param>
     /// <returns>识别任务。</returns>
     public async Task SandboxPackageDropFile(string packagePath)
     {
-        string currentVersion = VersionUpdateSettingsUserControlModel.CoreVersion;
-        string architecture = RuntimeInformation.OSArchitecture.ToString().ToLowerInvariant();
-        bool canUseCoreAsSource = CanUseCoreVersionAsOtaSource(currentVersion);
-        var inspection = PendingUpdateApplier.InspectLocalUpdatePackage(packagePath, currentVersion, architecture);
-
-        switch (inspection.Status)
+        string fileName = Path.GetFileName(packagePath);
+        if (PendingUpdateApplier.IsFullPackageFileName(fileName))
         {
-            case PendingUpdateApplier.PackageInspectionStatus.FullSupported:
-                MarkIdentified(FullPackageIdentified, () => FullPackageIdentified = true, "TutorialChallenge.Level.DragDropUpdate.Identified.FullPackage");
-                return;
-            case PendingUpdateApplier.PackageInspectionStatus.OtaSupported:
-                MarkIdentified(OtaPackageIdentified, () => OtaPackageIdentified = true, "TutorialChallenge.Level.DragDropUpdate.Identified.OtaPackage");
-                return;
-            case PendingUpdateApplier.PackageInspectionStatus.OtaRejected
-                when !canUseCoreAsSource && PendingUpdateApplier.IsOtaPackageFileName(Path.GetFileName(packagePath)):
-                // 预览态 CoreVersion 不可作 OTA 源版本，占位包必然被判 Rejected；文件名命中即按识别成功处理，
-                // 教学仿真下不校验升降级方向（真实态走 OtaSupported 才需要方向正确）
-                MarkIdentified(OtaPackageIdentified, () => OtaPackageIdentified = true, "TutorialChallenge.Level.DragDropUpdate.Identified.OtaPackage");
-                return;
-            case PendingUpdateApplier.PackageInspectionStatus.FullRejected:
-            case PendingUpdateApplier.PackageInspectionStatus.OtaRejected:
-                ShowTutorialGrowl(InfoType.Warning, LocalizationHelper.GetString("TutorialChallenge.Level.DragDropUpdate.Rejected"));
-                return;
+            MarkIdentified(FullPackageIdentified, () => FullPackageIdentified = true, "TutorialChallenge.Level.DragDropUpdate.Identified.FullPackage");
+            return;
+        }
+
+        if (PendingUpdateApplier.IsOtaPackageFileName(fileName))
+        {
+            MarkIdentified(OtaPackageIdentified, () => OtaPackageIdentified = true, "TutorialChallenge.Level.DragDropUpdate.Identified.OtaPackage");
+            return;
         }
 
         // zip 扫描开销较高（万级 entry），对齐真实 HandleImportedPackageAsync 放后台线程；后续置标志与 Growl 要碰 UI，不摘上下文
@@ -1459,12 +1232,6 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
 
         AssignSectionGridRows();
         OnSettingItemValueChanged();
-
-        if (IsDragDropUpdateLevel)
-        {
-            EnsureSandboxUpdatePackages();
-        }
-
         BuildSandbox();
     }
 
@@ -2219,18 +1986,12 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
         => _ = Execute.OnUIThreadAsync(BuildStageListSource);
 
     /// <summary>
-    /// 窗口关闭或切换到其他关卡时退订外部事件，否则静态的语言切换事件会一直持有本实例；
-    /// 拖拽更新关卡同时清掉桌面仿真包，防止残留同名包被拖进真实主窗口注册成 pending update。
+    /// 窗口关闭或切换到其他关卡时退订外部事件，否则静态的语言切换事件会一直持有本实例。
     /// </summary>
     public void Detach()
     {
         LocalizationHelper.LanguageChanged -= OnLanguageChanged;
         Instances.StageManager.StageDataChanged -= OnStageDataChanged;
-        if (IsDragDropUpdateLevel)
-        {
-            CleanupSandboxUpdatePackages();
-        }
-
         foreach (var item in SandboxItems)
         {
             item.Task.PropertyChanged -= _taskPropertyChangedHandler;
