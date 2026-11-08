@@ -56,7 +56,8 @@ public static class TutorialChallengeLevels
                 && fight.StagePlan[0] == StageAp5
                 && fight.StagePlan[1] == StageCe6
                 && fight.StagePlan[2] == Stage17),
-            panelKinds: [TutorialChallengePanelKind.Fight]),
+            panelKinds: [TutorialChallengePanelKind.Fight],
+            difficulty: TutorialChallengeDifficulty.Medium),
 
         new(
             id: "TargetDrop",
@@ -85,7 +86,8 @@ public static class TutorialChallengeLevels
             sandboxFactory: () => [new StartUpTask()],
             goalPredicate: (tasks, _) => IsChipStockByAnyPresets(tasks) || IsChipStockByFightTasks(tasks),
             panelKinds: [TutorialChallengePanelKind.DepotMaintain],
-            smartPredicate: (tasks, _) => IsChipStockByPresets(tasks)),
+            smartPredicate: (tasks, _) => IsChipStockByPresets(tasks),
+            difficulty: TutorialChallengeDifficulty.Medium),
 
         new(
             id: "DailyReconnect",
@@ -99,7 +101,8 @@ public static class TutorialChallengeLevels
                 timer.IsEnabled == true && timer.Hour == 4 && timer.Minute == 10),
             smartHintKey: "TutorialChallenge.Level.DailyReconnect.Hint",
             panelKinds: [TutorialChallengePanelKind.Schedule, TutorialChallengePanelKind.Settings],
-            settingSectionKinds: [TutorialChallengeSettingSectionKind.Schedule]),
+            settingSectionKinds: [TutorialChallengeSettingSectionKind.Schedule],
+            difficulty: TutorialChallengeDifficulty.Medium),
 
         new(
             id: "ScheduledStart",
@@ -119,7 +122,8 @@ public static class TutorialChallengeLevels
                         timer.IsEnabled == true && timer.Hour == preset.Hour && timer.Minute == preset.Minute)),
             panelKinds: [TutorialChallengePanelKind.Schedule, TutorialChallengePanelKind.Settings],
             settingSectionKinds: [TutorialChallengeSettingSectionKind.Schedule],
-            sandboxTimerSlots: _timerOnceSlots),
+            sandboxTimerSlots: _timerOnceSlots,
+            difficulty: TutorialChallengeDifficulty.Medium),
 
         new(
             id: "RecruitRobot",
@@ -147,7 +151,8 @@ public static class TutorialChallengeLevels
             id: "DragDropUpdate",
             sandboxFactory: () => [new StartUpTask()],
             goalPredicate: (_, vm) => vm.DragDropAllPackagesIdentified,
-            panelKinds: [TutorialChallengePanelKind.DropZone]),
+            panelKinds: [TutorialChallengePanelKind.DropZone],
+            difficulty: TutorialChallengeDifficulty.High),
     ];
 
     /// <summary>

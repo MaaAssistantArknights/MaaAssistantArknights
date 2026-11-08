@@ -23,7 +23,7 @@ namespace MaaWpfGui.Models.TutorialChallenge;
 
 /// <summary>
 /// 教程关卡进度存档，经 <see cref="JsonDataHelper"/> 存于 data/TutorialChallengeProgress.json，
-/// 记录每关通关标记；牛牛币数由已通关关数推导，不单独落盘。
+/// 记录每关通关标记；牛牛币数由已通关关卡的难度值求和推导，不单独落盘。
 /// </summary>
 public static class TutorialChallengeProgress
 {
@@ -35,9 +35,11 @@ public static class TutorialChallengeProgress
     public static event EventHandler? Changed;
 
     /// <summary>
-    /// Gets 牛牛币当前总数，等于已通关的关卡数。
+    /// Gets 牛牛币当前总数，等于已通关关卡的难度值之和。
     /// </summary>
-    public static int CoinCount => _clearedLevels.Count;
+    public static int CoinCount => TutorialChallengeLevels.All
+        .Where(level => _clearedLevels.Contains(level.Id))
+        .Sum(level => (int)level.Difficulty);
 
     /// <summary>
     /// 判断指定关卡是否已通关。

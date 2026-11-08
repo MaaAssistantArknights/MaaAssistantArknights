@@ -2,6 +2,7 @@
     x:Class="MaaWpfGui.Views.UserControl.Toolbox.TutorialChallengeUserControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:c="clr-namespace:CalcBinding;assembly=CalcBinding"
     xmlns:controls="clr-namespace:MaaWpfGui.Styles.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:hc="https://handyorg.github.io/handycontrol"
@@ -58,6 +59,40 @@
                         Content="{DynamicResource TutorialChallenge.Shop.Title}" />
                 </StackPanel>
             </Grid>
+            <StackPanel Margin="0,0,0,4" Orientation="Horizontal">
+                <hc:ButtonGroup VerticalAlignment="Center">
+                    <RadioButton
+                        MinWidth="44"
+                        Content="{DynamicResource TutorialChallenge.Filter.All}"
+                        IsChecked="{Binding IsStatusAll}" />
+                    <RadioButton
+                        MinWidth="44"
+                        Content="{DynamicResource TutorialChallenge.Filter.Uncompleted}"
+                        IsChecked="{Binding IsStatusUncompleted}" />
+                    <RadioButton
+                        MinWidth="44"
+                        Content="{DynamicResource TutorialChallenge.Filter.Completed}"
+                        IsChecked="{Binding IsStatusCompleted}" />
+                </hc:ButtonGroup>
+                <hc:ButtonGroup Margin="12,0,0,0" VerticalAlignment="Center">
+                    <RadioButton
+                        MinWidth="44"
+                        Content="{DynamicResource TutorialChallenge.Filter.All}"
+                        IsChecked="{Binding IsDifficultyAll}" />
+                    <RadioButton
+                        MinWidth="44"
+                        Content="{DynamicResource TutorialChallenge.Difficulty.Low}"
+                        IsChecked="{Binding IsDifficultyLow}" />
+                    <RadioButton
+                        MinWidth="44"
+                        Content="{DynamicResource TutorialChallenge.Difficulty.Medium}"
+                        IsChecked="{Binding IsDifficultyMedium}" />
+                    <RadioButton
+                        MinWidth="44"
+                        Content="{DynamicResource TutorialChallenge.Difficulty.High}"
+                        IsChecked="{Binding IsDifficultyHigh}" />
+                </hc:ButtonGroup>
+            </StackPanel>
             <ItemsControl ItemsSource="{Binding LevelItems}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate DataType="{x:Type toolbox_vms:TutorialChallengeLevelItem}">
@@ -67,17 +102,34 @@
                             Background="{DynamicResource RegionBrushOpacity25}"
                             BorderBrush="{DynamicResource BorderBrush}"
                             BorderThickness="1"
-                            CornerRadius="4">
+                            CornerRadius="4"
+                            Visibility="{c:Binding IsVisibleInFilter}">
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*" />
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
                                 <StackPanel Grid.Column="0" Margin="0,0,8,0">
-                                    <controls:TextBlock
-                                        HorizontalAlignment="Left"
-                                        Style="{StaticResource TextBlockDefaultBold}"
-                                        Text="{Binding Title}" />
+                                    <StackPanel Orientation="Horizontal">
+                                        <controls:TextBlock
+                                            VerticalAlignment="Center"
+                                            Style="{StaticResource TextBlockDefaultBold}"
+                                            Text="{Binding Title}" />
+                                        <Border
+                                            Margin="8,0,0,0"
+                                            Padding="6,1"
+                                            VerticalAlignment="Center"
+                                            Background="{DynamicResource PrimaryBrush}"
+                                            CornerRadius="4">
+                                            <StackPanel Orientation="Horizontal">
+                                                <controls:TextBlock Foreground="{DynamicResource TextIconBrush}" Text="{Binding DifficultyText}" />
+                                                <controls:TextBlock
+                                                    Margin="4,0,0,0"
+                                                    Foreground="{DynamicResource TextIconBrush}"
+                                                    Text="{Binding CoinRewardText}" />
+                                            </StackPanel>
+                                        </Border>
+                                    </StackPanel>
                                     <controls:TextBlock
                                         Margin="0,2,0,0"
                                         HorizontalAlignment="Left"

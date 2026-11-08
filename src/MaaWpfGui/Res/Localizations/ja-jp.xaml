@@ -2553,7 +2553,13 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="Tray.Use">トレイアイコンを表示</system:String>
     <system:String x:Key="TutorialChallenge.Coin">モーコイン</system:String>
     <system:String x:Key="TutorialChallenge.Completed">クリア済み</system:String>
+    <system:String x:Key="TutorialChallenge.Difficulty.High">上級</system:String>
+    <system:String x:Key="TutorialChallenge.Difficulty.Low">初級</system:String>
+    <system:String x:Key="TutorialChallenge.Difficulty.Medium">中級</system:String>
     <system:String x:Key="TutorialChallenge.Enter">進む</system:String>
+    <system:String x:Key="TutorialChallenge.Filter.All">すべて</system:String>
+    <system:String x:Key="TutorialChallenge.Filter.Completed">クリア済み</system:String>
+    <system:String x:Key="TutorialChallenge.Filter.Uncompleted">未クリア</system:String>
     <system:String x:Key="TutorialChallenge.Introduction">チャレンジの目標に向かって自由に操作し、達成すればクリアになります。操作手順は自由、いつでも閉じてやり直せます。</system:String>
     <system:String x:Key="TutorialChallenge.Level.AddFight.Goal">理性を消費するタスクがほしい。</system:String>
     <system:String x:Key="TutorialChallenge.Level.AddFight.Title">{key=TaskQueue.Task.Fight}</system:String>

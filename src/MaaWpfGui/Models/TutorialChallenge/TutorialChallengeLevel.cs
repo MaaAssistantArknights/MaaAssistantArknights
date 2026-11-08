@@ -63,6 +63,27 @@ public enum TutorialChallengePanelKind
 }
 
 /// <summary>
+/// 教程关卡难度档位，枚举值即通关可获得的牛牛币数。
+/// </summary>
+public enum TutorialChallengeDifficulty
+{
+    /// <summary>
+    /// 低难度，通关得 1 牛牛币。
+    /// </summary>
+    Low = 1,
+
+    /// <summary>
+    /// 中难度，通关得 2 牛牛币。
+    /// </summary>
+    Medium = 2,
+
+    /// <summary>
+    /// 高难度，通关得 3 牛牛币。
+    /// </summary>
+    High = 3,
+}
+
+/// <summary>
 /// 教程关卡定义。判定为终态检测，不追踪操作路径，沙盒队列呈现目标形态即达成。
 /// </summary>
 public class TutorialChallengeLevel
@@ -79,6 +100,7 @@ public class TutorialChallengeLevel
     /// <param name="addableTaskTypes">｢+｣ 添加任务菜单列出的任务类型；null 表示按本关首个场景取默认全集（None: Fight；Fight: StartUp+Fight；DepotMaintain: StartUp+DepotMaintain+Fight；Recruit: StartUp+Recruit+Fight）。</param>
     /// <param name="settingSectionKinds">本关设置页投放的分区种类白名单；null 表示不构建设置分区（配合 <see cref="TutorialChallengePanelKind.Settings"/> 使用，无关分区不出现）。</param>
     /// <param name="sandboxTimerSlots">本关设置页定时分区的初始定时槽；null 表示默认 1 空槽。</param>
+    /// <param name="difficulty">难度档位，枚举值即通关可获得的牛牛币数。</param>
     public TutorialChallengeLevel(
         string id,
         Func<IList<BaseTask>> sandboxFactory,
@@ -88,7 +110,8 @@ public class TutorialChallengeLevel
         string? smartHintKey = null,
         IReadOnlyList<Type>? addableTaskTypes = null,
         IReadOnlyList<TutorialChallengeSettingSectionKind>? settingSectionKinds = null,
-        IReadOnlyList<(bool? IsEnabled, int Hour, int Minute)>? sandboxTimerSlots = null)
+        IReadOnlyList<(bool? IsEnabled, int Hour, int Minute)>? sandboxTimerSlots = null,
+        TutorialChallengeDifficulty difficulty = TutorialChallengeDifficulty.Low)
     {
         Id = id;
         PanelKinds = panelKinds;
@@ -99,6 +122,7 @@ public class TutorialChallengeLevel
         AddableTaskTypes = addableTaskTypes ?? DefaultAddableTaskTypes(panelKinds);
         SettingSectionKinds = settingSectionKinds;
         SandboxTimerSlots = sandboxTimerSlots;
+        Difficulty = difficulty;
     }
 
     private static IReadOnlyList<Type> DefaultAddableTaskTypes(IReadOnlyList<TutorialChallengePanelKind> panelKinds)
@@ -165,6 +189,11 @@ public class TutorialChallengeLevel
     /// Gets 本关设置页定时分区的初始定时槽；null 表示默认 1 空槽。
     /// </summary>
     public IReadOnlyList<(bool? IsEnabled, int Hour, int Minute)>? SandboxTimerSlots { get; }
+
+    /// <summary>
+    /// Gets 难度档位，枚举值即通关可获得的牛牛币数。
+    /// </summary>
+    public TutorialChallengeDifficulty Difficulty { get; }
 
     /// <summary>
     /// Gets 关卡名本地化 key。

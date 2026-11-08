@@ -24,6 +24,7 @@ namespace MaaWpfGui.ViewModels.UserControl.Toolbox;
 public class TutorialChallengeLevelItem(TutorialChallengeLevel level) : PropertyChangedBase
 {
     private bool _isCompleted;
+    private bool _isVisibleInFilter = true;
 
     /// <summary>
     /// Gets 关卡定义。
@@ -41,12 +42,41 @@ public class TutorialChallengeLevelItem(TutorialChallengeLevel level) : Property
     public string Goal => LocalizationHelper.GetString(level.GoalKey);
 
     /// <summary>
+    /// Gets 难度档位。
+    /// </summary>
+    public TutorialChallengeDifficulty Difficulty => level.Difficulty;
+
+    /// <summary>
+    /// Gets 难度档位本地化文本。
+    /// </summary>
+    public string DifficultyText => LocalizationHelper.GetString($"TutorialChallenge.Difficulty.{level.Difficulty}");
+
+    /// <summary>
+    /// Gets 通关可获得的牛牛币数，与难度值一致。
+    /// </summary>
+    public int CoinReward => (int)level.Difficulty;
+
+    /// <summary>
+    /// Gets 通关奖励牛牛币展示文本（带 + 前缀）。
+    /// </summary>
+    public string CoinRewardText => $"+{CoinReward}";
+
+    /// <summary>
     /// Gets a value indicating whether 本关已通关（进度存档已记录）。
     /// </summary>
     public bool IsCompleted
     {
         get => _isCompleted;
         private set => SetAndNotify(ref _isCompleted, value);
+    }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether 本关在当前筛选条件下可见。
+    /// </summary>
+    public bool IsVisibleInFilter
+    {
+        get => _isVisibleInFilter;
+        set => SetAndNotify(ref _isVisibleInFilter, value);
     }
 
     /// <summary>
@@ -61,5 +91,6 @@ public class TutorialChallengeLevelItem(TutorialChallengeLevel level) : Property
     {
         NotifyOfPropertyChange(nameof(Title));
         NotifyOfPropertyChange(nameof(Goal));
+        NotifyOfPropertyChange(nameof(DifficultyText));
     }
 }
