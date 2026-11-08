@@ -2580,6 +2580,8 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="TutorialChallenge.Level.InventoryTarget.Title">{key=TaskQueue.Fight.TargetInventory}</system:String>
     <system:String x:Key="TutorialChallenge.Level.RecruitRobot.Goal">공개모집에서 ｢로봇｣ 태그가 뜨면 로봇을 위해 남겨 두고 싶습니다. 공개모집 작업이 ｢로봇｣ 태그를 남겨 두게 하세요.</system:String>
     <system:String x:Key="TutorialChallenge.Level.RecruitRobot.Title">로봇</system:String>
+    <system:String x:Key="TutorialChallenge.Level.ScheduledStart.Goal">매일 오후 5시에 자동으로 플레이를 시작하고 싶습니다. 17:00 예약 시작을 설정하세요.</system:String>
+    <system:String x:Key="TutorialChallenge.Level.ScheduledStart.Title">예약 시작</system:String>
     <system:String x:Key="TutorialChallenge.Level.SettingsSearch.DecoySection">기타</system:String>
     <system:String x:Key="TutorialChallenge.Level.SettingsSearch.Goal">설정 항목이 너무 많아 못 찾겠다면? 검색 상자로 ｢maa｣가 들어간 설정 항목을 모두 골라 전부 체크하세요.</system:String>
     <system:String x:Key="TutorialChallenge.Level.SettingsSearch.Title">설정 검색</system:String>
@@ -2588,6 +2590,8 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="TutorialChallenge.Level.StagePriority.Title">대체 스테이지 우선순위</system:String>
     <system:String x:Key="TutorialChallenge.Level.TargetDrop.Goal">원암 큐브가 10개 필요합니다. 1-7에서 10개 모아 오려고 합니다.</system:String>
     <system:String x:Key="TutorialChallenge.Level.TargetDrop.Title">{key=TaskQueue.Fight.AssignedMaterial}</system:String>
+    <system:String x:Key="TutorialChallenge.Level.TimerOnce.Goal">게임이 10시부터 16시까지 점검에 들어가 12:00 타이머를 쓸 수 없습니다. 16:00 1회용 타이머를 추가해 보완하고, 기존 타이머는 그대로 두세요.</system:String>
+    <system:String x:Key="TutorialChallenge.Level.TimerOnce.Title">1회용 타이머</system:String>
     <system:String x:Key="TutorialChallenge.NoSimulatedPanel">이 작업 유형에는 시뮬레이션 설정이 없습니다</system:String>
     <system:String x:Key="TutorialChallenge.Reset">초기화</system:String>
     <system:String x:Key="TutorialChallenge.SectionContentPlaceholder">이 섹션에는 시뮬레이션 콘텐츠가 없습니다</system:String>

@@ -2581,6 +2581,8 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="TutorialChallenge.Level.InventoryTarget.Title">{key=TaskQueue.Fight.TargetInventory}</system:String>
     <system:String x:Key="TutorialChallenge.Level.RecruitRobot.Goal">公開求人で ｢ロボット｣ タグが出たらロボット用に取っておきたい。公開求人タスクに ｢ロボット｣ タグを残させましょう。</system:String>
     <system:String x:Key="TutorialChallenge.Level.RecruitRobot.Title">ロボット</system:String>
+    <system:String x:Key="TutorialChallenge.Level.ScheduledStart.Goal">毎日午後 5 時に自動でプレイを開始したい。17:00 のタイマー起動を設定しましょう。</system:String>
+    <system:String x:Key="TutorialChallenge.Level.ScheduledStart.Title">タイマー起動</system:String>
     <system:String x:Key="TutorialChallenge.Level.SettingsSearch.DecoySection">その他</system:String>
     <system:String x:Key="TutorialChallenge.Level.SettingsSearch.Goal">設定項目が多すぎて見つからない？検索ボックスで ｢maa｣ を含む設定項目をすべて絞り込み、対象をすべてチェックしましょう。</system:String>
     <system:String x:Key="TutorialChallenge.Level.SettingsSearch.Title">設定検索</system:String>
@@ -2589,6 +2591,8 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="TutorialChallenge.Level.StagePriority.Title">代替ステージの優先度</system:String>
     <system:String x:Key="TutorialChallenge.Level.TargetDrop.Goal">初級源岩が 10 個ほしい。1-7 で 10 個集めてくる。</system:String>
     <system:String x:Key="TutorialChallenge.Level.TargetDrop.Title">{key=TaskQueue.Fight.AssignedMaterial}</system:String>
+    <system:String x:Key="TutorialChallenge.Level.TimerOnce.Goal">ゲームは 10 時から 16 時までメンテナンスで、12:00 のタイマーは使えません。16:00 の単発タイマーを追加して補い、既存のタイマーはそのままにしましょう。</system:String>
+    <system:String x:Key="TutorialChallenge.Level.TimerOnce.Title">単発タイマー</system:String>
     <system:String x:Key="TutorialChallenge.NoSimulatedPanel">このタスクタイプにはシミュレートされた設定がありません</system:String>
     <system:String x:Key="TutorialChallenge.Reset">リセット</system:String>
     <system:String x:Key="TutorialChallenge.SectionContentPlaceholder">このセクションにはシミュレートされた内容がありません</system:String>

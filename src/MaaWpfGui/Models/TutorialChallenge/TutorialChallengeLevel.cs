@@ -78,6 +78,7 @@ public class TutorialChallengeLevel
     /// <param name="smartHintKey">更优解提示的本地化 key；null 时回退 <c>TutorialChallenge.SmartSolutionHint</c>。</param>
     /// <param name="addableTaskTypes">｢+｣ 添加任务菜单列出的任务类型；null 表示按本关首个场景取默认全集（None: Fight；Fight: StartUp+Fight；DepotMaintain: StartUp+DepotMaintain+Fight；Recruit: StartUp+Recruit+Fight）。</param>
     /// <param name="settingSectionKinds">本关设置页投放的分区种类白名单；null 表示不构建设置分区（配合 <see cref="TutorialChallengePanelKind.Settings"/> 使用，无关分区不出现）。</param>
+    /// <param name="sandboxTimerSlots">本关设置页定时分区的初始定时槽；null 表示默认 1 空槽。</param>
     public TutorialChallengeLevel(
         string id,
         Func<IList<BaseTask>> sandboxFactory,
@@ -86,7 +87,8 @@ public class TutorialChallengeLevel
         Func<IReadOnlyList<BaseTask>, TutorialChallengeLevelViewModel, bool>? smartPredicate = null,
         string? smartHintKey = null,
         IReadOnlyList<Type>? addableTaskTypes = null,
-        IReadOnlyList<TutorialChallengeSettingSectionKind>? settingSectionKinds = null)
+        IReadOnlyList<TutorialChallengeSettingSectionKind>? settingSectionKinds = null,
+        IReadOnlyList<(bool? IsEnabled, int Hour, int Minute)>? sandboxTimerSlots = null)
     {
         Id = id;
         PanelKinds = panelKinds;
@@ -96,6 +98,7 @@ public class TutorialChallengeLevel
         SmartHintKey = smartHintKey ?? "TutorialChallenge.SmartSolutionHint";
         AddableTaskTypes = addableTaskTypes ?? DefaultAddableTaskTypes(panelKinds);
         SettingSectionKinds = settingSectionKinds;
+        SandboxTimerSlots = sandboxTimerSlots;
     }
 
     private static IReadOnlyList<Type> DefaultAddableTaskTypes(IReadOnlyList<TutorialChallengePanelKind> panelKinds)
@@ -157,6 +160,11 @@ public class TutorialChallengeLevel
     /// Gets 本关设置页投放的分区种类白名单；null 表示不构建设置分区。
     /// </summary>
     public IReadOnlyList<TutorialChallengeSettingSectionKind>? SettingSectionKinds { get; }
+
+    /// <summary>
+    /// Gets 本关设置页定时分区的初始定时槽；null 表示默认 1 空槽。
+    /// </summary>
+    public IReadOnlyList<(bool? IsEnabled, int Hour, int Minute)>? SandboxTimerSlots { get; }
 
     /// <summary>
     /// Gets 关卡名本地化 key。

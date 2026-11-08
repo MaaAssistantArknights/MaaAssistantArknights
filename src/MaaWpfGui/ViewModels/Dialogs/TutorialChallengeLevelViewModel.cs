@@ -133,7 +133,7 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
 
         LocalizationHelper.LanguageChanged += OnLanguageChanged;
         Instances.StageManager.StageDataChanged += OnStageDataChanged;
-        SandboxSchedule = new TutorialChallengeSandboxSchedule(Evaluate);
+        SandboxSchedule = new TutorialChallengeSandboxSchedule(Evaluate, _level.SandboxTimerSlots);
         BuildSettingSections();
 
         if (IsDragDropUpdateLevel && Bootstrapper.IsUserAdministrator())
@@ -2273,16 +2273,19 @@ public class TutorialChallengePlanRow(TutorialChallengeLevelViewModel owner, Dep
 }
 
 /// <summary>
-/// 窗口级定时设置沙盒状态。形状对齐真实设置页 ｢定时执行｣ 区，仅保留单定时项与强制定时启动两个教学要素，
+/// 窗口级定时设置沙盒状态。形状对齐真实设置页 ｢定时执行｣ 区，仅保留定时项与强制定时启动两个教学要素，
 /// 每项变更经 <paramref name="evaluate"/> 回调触发关卡判定。
 /// </summary>
 /// <param name="evaluate">状态变更后调用的判定回调。</param>
-public class TutorialChallengeSandboxSchedule(Action evaluate) : PropertyChangedBase
+/// <param name="presetSlots">初始定时槽（三态启用/时/分），null 或空表示默认 1 空槽。</param>
+public class TutorialChallengeSandboxSchedule(Action evaluate, IReadOnlyList<(bool? IsEnabled, int Hour, int Minute)>? presetSlots = null) : PropertyChangedBase
 {
+    private readonly IReadOnlyList<(bool? IsEnabled, int Hour, int Minute)> _presetSlots = presetSlots is { Count: > 0 } ? presetSlots : [(false, 0, 0)];
+
     /// <summary>
-    /// Gets 沙盒定时项列表。骨架版固定单条定时项，对齐真实 ｢定时 N｣ 行的交互（三态勾选 + 时/分）。
+    /// Gets 沙盒定时项列表。按关卡预设槽位构造，对齐真实 ｢定时 N｣ 行的交互（三态勾选 + 时/分）。
     /// </summary>
-    public ObservableCollection<TutorialChallengeSandboxTimerItem> TimerList { get; } = [new TutorialChallengeSandboxTimerItem(0, evaluate)];
+    public ObservableCollection<TutorialChallengeSandboxTimerItem> TimerList { get; } = [.. BuildTimerList(evaluate, presetSlots is { Count: > 0 } ? presetSlots : [(false, 0, 0)])];
 
     /// <summary>
     /// Gets 或设置 a value indicating whether 强制定时启动。
@@ -2313,14 +2316,28 @@ public class TutorialChallengeSandboxSchedule(Action evaluate) : PropertyChanged
     }
 
     /// <summary>
-    /// 回到进关初始状态：清空勾选并只留一条未启用定时项。
+    /// 回到进关初始状态：清空勾选并按预设槽重建定时项。
     /// </summary>
     public void Reset()
     {
         ForceScheduledStart = false;
         ShowWindowBeforeForceScheduledStart = false;
         TimerList.Clear();
-        TimerList.Add(new TutorialChallengeSandboxTimerItem(0, evaluate));
+        foreach (var item in BuildTimerList(evaluate, _presetSlots))
+        {
+            TimerList.Add(item);
+        }
+    }
+
+    private static List<TutorialChallengeSandboxTimerItem> BuildTimerList(Action evaluate, IReadOnlyList<(bool? IsEnabled, int Hour, int Minute)> slots)
+    {
+        var list = new List<TutorialChallengeSandboxTimerItem>(slots.Count);
+        for (var i = 0; i < slots.Count; i++)
+        {
+            list.Add(new TutorialChallengeSandboxTimerItem(i, evaluate, slots[i].IsEnabled, slots[i].Hour, slots[i].Minute));
+        }
+
+        return list;
     }
 }
 
@@ -2329,7 +2346,10 @@ public class TutorialChallengeSandboxSchedule(Action evaluate) : PropertyChanged
 /// </summary>
 /// <param name="id">定时项序号（从 0 起，显示为 ｢定时 N+1｣）。</param>
 /// <param name="evaluate">状态变更后调用的判定回调。</param>
-public class TutorialChallengeSandboxTimerItem(int id, Action evaluate) : PropertyChangedBase
+/// <param name="isEnabled">初始启用态（三态：勾选/未勾/右键 null）。</param>
+/// <param name="hour">初始定时小时（0-23）。</param>
+/// <param name="minute">初始定时分钟（0-59）。</param>
+public class TutorialChallengeSandboxTimerItem(int id, Action evaluate, bool? isEnabled = false, int hour = 0, int minute = 0) : PropertyChangedBase
 {
     /// <summary>
     /// Gets 定时项序号。
@@ -2348,7 +2368,7 @@ public class TutorialChallengeSandboxTimerItem(int id, Action evaluate) : Proper
                 evaluate();
             }
         }
-    } = false;
+    } = isEnabled;
 
     /// <summary>
     /// Gets 或设置 定时小时（0-23）。
@@ -2362,7 +2382,7 @@ public class TutorialChallengeSandboxTimerItem(int id, Action evaluate) : Proper
                 evaluate();
             }
         }
-    }
+    } = hour;
 
     /// <summary>
     /// Gets 或设置 定时分钟（0-59）。
@@ -2376,7 +2396,7 @@ public class TutorialChallengeSandboxTimerItem(int id, Action evaluate) : Proper
                 evaluate();
             }
         }
-    }
+    } = minute;
 }
 
 /// <summary>

@@ -31,6 +31,11 @@ public static class TutorialChallengeLevels
     private const string Stage17 = "1-7"; // 固源岩产地
     private const string ItemRock = "30012"; // 固源岩
 
+    // TimerOnce 关卡的沙盒定时槽预置：4 个启用定时（6:00/12:00/18:00/0:00）+ 1 个空槽供玩家填仅一次定时；
+    // 判定时要求前 4 项时刻未被改动，判定与预置共用本表防止两处失配
+    private static readonly (bool? IsEnabled, int Hour, int Minute)[] _timerOnceSlots =
+        [(true, 6, 0), (true, 12, 0), (true, 18, 0), (true, 0, 0), (false, 0, 0)];
+
     /// <summary>
     /// Gets 全部关卡，顺序即清单页建议学习路径，关卡间无解锁依赖。
     /// </summary>
@@ -95,6 +100,26 @@ public static class TutorialChallengeLevels
             smartHintKey: "TutorialChallenge.Level.DailyReconnect.Hint",
             panelKinds: [TutorialChallengePanelKind.Schedule, TutorialChallengePanelKind.Settings],
             settingSectionKinds: [TutorialChallengeSettingSectionKind.Schedule]),
+
+        new(
+            id: "ScheduledStart",
+            sandboxFactory: () => [new StartUpTask()],
+            goalPredicate: (_, vm) => vm.SandboxSchedule.TimerList.Any(timer =>
+                timer.IsEnabled == true && timer.Hour == 17 && timer.Minute == 0),
+            panelKinds: [TutorialChallengePanelKind.Schedule, TutorialChallengePanelKind.Settings],
+            settingSectionKinds: [TutorialChallengeSettingSectionKind.Schedule]),
+
+        new(
+            id: "TimerOnce",
+            sandboxFactory: () => [new StartUpTask()],
+            goalPredicate: (_, vm) =>
+                vm.SandboxSchedule.TimerList.Any(timer => timer.IsEnabled == null && timer.Hour == 16 && timer.Minute == 0)
+                && _timerOnceSlots.Take(4).All(preset =>
+                    vm.SandboxSchedule.TimerList.Any(timer =>
+                        timer.IsEnabled == true && timer.Hour == preset.Hour && timer.Minute == preset.Minute)),
+            panelKinds: [TutorialChallengePanelKind.Schedule, TutorialChallengePanelKind.Settings],
+            settingSectionKinds: [TutorialChallengeSettingSectionKind.Schedule],
+            sandboxTimerSlots: _timerOnceSlots),
 
         new(
             id: "RecruitRobot",
