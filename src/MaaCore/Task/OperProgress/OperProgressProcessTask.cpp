@@ -124,17 +124,6 @@ bool asst::OperProgressProcessTask::_run()
     bool training_room_busy = false;
     for (size_t index = 0; index < m_plan.size() && !need_exit(); ++index) {
         const auto& target = m_plan[index];
-        bool ready = true;
-        const auto restore_after_failure = [&](ResultDetail result) {
-            if (is_material_shortage(result)) {
-                ready = restore_operator_files();
-                if (need_exit()) {
-                    result = ResultDetail::Interrupt;
-                }
-            }
-            return result;
-        };
-
         if (training_room_busy && !target.elite && !target.skill_level && target.skill_mastery) {
             continue; // 训练室已占用且无其他目标, 跳过仅专精计划
         }
@@ -154,18 +143,17 @@ bool asst::OperProgressProcessTask::_run()
         }
         if (target.elite) {
             int current_level = -1;
-            const auto elite_ret =
-                restore_after_failure(execute_elite(target.role, target.name, *target.elite, current_level));
+            const auto elite_ret = execute_elite(target.role, target.name, *target.elite, current_level);
             report_elite_result(target.role, target.name, elite_ret, *target.elite, current_level);
-            if (!ready || need_exit()) {
+            if (need_exit() || (is_material_shortage(elite_ret) && !restore_operator_files())) {
                 continue;
             }
         }
         if (target.skill_level) {
             int current_level = -1;
-            const auto main_ret = restore_after_failure(execute_skill(*target.skill_level, current_level));
+            const auto main_ret = execute_skill(*target.skill_level, current_level);
             report_skill_result(target.role, target.name, main_ret, *target.skill_level, current_level);
-            if (!ready || need_exit()) {
+            if (need_exit() || (is_material_shortage(main_ret) && !restore_operator_files())) {
                 continue;
             }
         }
@@ -176,15 +164,14 @@ bool asst::OperProgressProcessTask::_run()
                     continue;
                 }
                 int training_level = -1;
-                const auto skill_ret =
-                    restore_after_failure(execute_mastery(target.role, target.name, i + 1, arr[i], training_level));
+                const auto skill_ret = execute_mastery(target.role, target.name, i + 1, arr[i], training_level);
                 std::array<int, 3> skill_levels { 0, 0, 0 };
                 if (skill_ret == ResultDetail::AlreadySatisfied || skill_ret == ResultDetail::Completed ||
                     skill_ret == ResultDetail::PrerequisiteTraining || skill_ret == ResultDetail::TrainingRoomBusy) {
                     skill_levels[i] = training_level;
                 }
                 report_skill_result(target.role, target.name, skill_ret, skill_levels, i + 1, training_level, arr[i]);
-                if (!ready || need_exit()) {
+                if (need_exit() || (is_material_shortage(skill_ret) && !restore_operator_files())) {
                     break;
                 }
                 if (skill_ret == ResultDetail::TrainingRoomBusy || skill_ret == ResultDetail::PrerequisiteTraining ||

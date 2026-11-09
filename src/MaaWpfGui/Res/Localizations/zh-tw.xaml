@@ -2179,6 +2179,7 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
     <system:String x:Key="TaskQueue.OperProgress.Detail">{key=TaskQueue.Task.OperProgress} {0}:{1} {2}</system:String>
     <system:String x:Key="TaskQueue.OperProgress.Elite">精英化</system:String>
     <system:String x:Key="TaskQueue.OperProgress.EliteTarget">精英化 {0}</system:String>
+    <system:String x:Key="TaskQueue.OperProgress.LevelRange" xml:space="preserve"> {0}→{1}</system:String>
     <system:String x:Key="TaskQueue.OperProgress.Mastery1">專精 1</system:String>
     <system:String x:Key="TaskQueue.OperProgress.Mastery2">專精 2</system:String>
     <system:String x:Key="TaskQueue.OperProgress.Mastery3">專精 3</system:String>
@@ -2186,9 +2187,11 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
     <system:String x:Key="TaskQueue.OperProgress.MasteryTarget">技能 {0} 專精 {1}</system:String>
     <system:String x:Key="TaskQueue.OperProgress.MaterialDemandSummary" xml:space="preserve">本輪材料需求（暫無庫存資料）：&#10;{0}</system:String>
     <system:String x:Key="TaskQueue.OperProgress.MaterialDetail">{0}：庫存 {1}，需求 {2}</system:String>
+    <system:String x:Key="TaskQueue.OperProgress.MaterialInventoryOutdated">培養時缺料，但庫存記錄已足夠，庫存可能已過時，請重新辨識倉庫。</system:String>
     <system:String x:Key="TaskQueue.OperProgress.MaterialRequired">{0}：需求合計 {1}</system:String>
     <system:String x:Key="TaskQueue.OperProgress.MaterialSummary" xml:space="preserve">本輪缺少材料：&#10;{0}</system:String>
     <system:String x:Key="TaskQueue.OperProgress.MaterialSummaryItem">{0}：還需 {1}（需求合計 {2}，庫存 {3}）</system:String>
+    <system:String x:Key="TaskQueue.OperProgress.MaterialSummaryWithSyncTime" xml:space="preserve">本輪缺少材料（庫存更新於 {0}）：&#10;{1}</system:String>
     <system:String x:Key="TaskQueue.OperProgress.NotSet">---</system:String>
     <system:String x:Key="TaskQueue.OperProgress.OnlineEditor">在明日方舟工具箱中線上編輯計畫</system:String>
     <system:String x:Key="TaskQueue.OperProgress.ParseClipboard">從剪貼簿讀取</system:String>

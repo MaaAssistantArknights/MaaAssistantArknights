@@ -2178,6 +2178,7 @@ Do not adjust the proxy multiplier setting in the game</system:String>
     <system:String x:Key="TaskQueue.OperProgress.Detail">{key=TaskQueue.Task.OperProgress} {0}:{1} {2}</system:String>
     <system:String x:Key="TaskQueue.OperProgress.Elite">Elite</system:String>
     <system:String x:Key="TaskQueue.OperProgress.EliteTarget">Elite {0}</system:String>
+    <system:String x:Key="TaskQueue.OperProgress.LevelRange" xml:space="preserve"> {0}→{1}</system:String>
     <system:String x:Key="TaskQueue.OperProgress.Mastery1">Mastery 1</system:String>
     <system:String x:Key="TaskQueue.OperProgress.Mastery2">Mastery 2</system:String>
     <system:String x:Key="TaskQueue.OperProgress.Mastery3">Mastery 3</system:String>
@@ -2185,9 +2186,11 @@ Do not adjust the proxy multiplier setting in the game</system:String>
     <system:String x:Key="TaskQueue.OperProgress.MasteryTarget">Skill {0}, mastery {1}</system:String>
     <system:String x:Key="TaskQueue.OperProgress.MaterialDemandSummary" xml:space="preserve">Materials required this run (no depot data):&#10;{0}</system:String>
     <system:String x:Key="TaskQueue.OperProgress.MaterialDetail">{0}: stock {1}, required {2}</system:String>
+    <system:String x:Key="TaskQueue.OperProgress.MaterialInventoryOutdated">Training reported missing materials, but the depot records show enough stock. The records may be outdated; scan the depot again.</system:String>
     <system:String x:Key="TaskQueue.OperProgress.MaterialRequired">{0}: total required {1}</system:String>
     <system:String x:Key="TaskQueue.OperProgress.MaterialSummary" xml:space="preserve">Materials missing this run:&#10;{0}</system:String>
     <system:String x:Key="TaskQueue.OperProgress.MaterialSummaryItem">{0}: need {1} more (total required {2}, stock {3})</system:String>
+    <system:String x:Key="TaskQueue.OperProgress.MaterialSummaryWithSyncTime" xml:space="preserve">Materials missing this run (depot updated {0}):&#10;{1}</system:String>
     <system:String x:Key="TaskQueue.OperProgress.NotSet">---</system:String>
     <system:String x:Key="TaskQueue.OperProgress.OnlineEditor">Edit the plan online with Arknights Toolbox</system:String>
     <system:String x:Key="TaskQueue.OperProgress.ParseClipboard">Read from Clipboard</system:String>

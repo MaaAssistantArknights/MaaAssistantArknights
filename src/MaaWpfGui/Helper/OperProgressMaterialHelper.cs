@@ -71,7 +71,7 @@ public static class OperProgressMaterialHelper
             _ => null,
         };
         int start = step == "skill_level" ? 1 : 0;
-        if (levels is null || current < start || target <= current || target - start > levels.Length)
+        if (levels is null || current < start || target < start || target - start > levels.Length)
         {
             return null;
         }

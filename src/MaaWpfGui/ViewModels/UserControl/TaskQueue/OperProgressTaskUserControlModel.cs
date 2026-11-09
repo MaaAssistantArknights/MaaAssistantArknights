@@ -17,7 +17,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
-using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows;
@@ -43,9 +42,6 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
 {
     private static readonly ILogger _logger = Log.ForContext<OperProgressTaskUserControlModel>();
 
-    private static readonly Dictionary<string, OperProgressMaterialHelper.OperatorCost> _materialCosts =
-        OperProgressMaterialHelper.Load(Path.Combine(PathsHelper.ResourceDir, "oper_progress.json"));
-
     static OperProgressTaskUserControlModel() => Instance = new();
 
     public OperProgressTaskUserControlModel()
@@ -67,7 +63,7 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
 
     private readonly HashSet<OperProgressPlanItemViewModel> _subscribedPlanItems = [];
 
-    private readonly Dictionary<int, MaterialReport> _materialReports = [];
+    private readonly Dictionary<int, Dictionary<(OperatorRole Role, string Name, string Step, int SkillIndex), MaterialRequirement[]>> _materialReports = [];
 
     private void RefreshPlanItems(OperProgressTask task)
     {
@@ -211,21 +207,23 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
                 return;
             }
         }
-        DataHelper.CharacterInfo? FindOper(OperatorRole role, string name)
+    }
+
+    private static DataHelper.CharacterInfo? FindOper(OperatorRole role, string name)
+    {
+        if (string.IsNullOrEmpty(name))
         {
-            if (string.IsNullOrEmpty(name))
-            {
-                return null;
-            }
-            if (role != OperatorRole.Unknown)
-            {
-                return DataHelper.Operators.Values.FirstOrDefault(oper => oper.Role == role && NameMatch(oper, name));
-            }
-            else
-            {
-                return DataHelper.Operators.Values.FirstOrDefault(oper => NameMatch(oper, name));
-            }
+            return null;
         }
+        if (role != OperatorRole.Unknown)
+        {
+            return DataHelper.Operators.Values.FirstOrDefault(oper => oper.Role == role && NameMatch(oper, name));
+        }
+        else
+        {
+            return DataHelper.Operators.Values.FirstOrDefault(oper => NameMatch(oper, name));
+        }
+
         bool NameMatch(DataHelper.CharacterInfo oper, string name) => oper.Name == name ||
             (!oper.NameEnUnavailable && oper.NameEn == name) ||
             (!oper.NameTwUnavailable && oper.NameTw == name) ||
@@ -424,7 +422,7 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
                         task.Plans = [.. list];
                     }
                     var status = msg.Details?["result"]?.ToString() ?? string.Empty;
-                    RecordMaterials(msg.TaskId, callback, status, msg.Details?.Value<string>("result_detail"));
+                    RecordMaterials(msg.TaskId, callback);
                     var operName = DataHelper.GetLocalizedCharacterName(callback.Name) ?? callback.Name;
                     Instances.TaskQueueViewModel.AddLog(
                         LocalizationHelper.GetStringFormat(
@@ -465,54 +463,57 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
 
         string? step = json?.Value<string>("step");
         int skillIndex = json?.Value<int?>("skill_index") ?? 0;
+        int current = json?.Value<int?>("current") ?? -1;
+        int target = json?.Value<int?>("target") ?? -1;
         MaterialRequirement[]? materials = null;
         if (json?.Value<string>("result") == "Failed" && json.Value<string>("result_detail") is "ResourceInsufficient" or "FormulaLocked" or "ChipNotCraftable")
         {
-            var character = DataHelper.GetCharacterByNameOrAlias(name);
-            if (character is not null)
-            {
-                string? id = DataHelper.GetCanonicalOperId(character.Id);
-
-                // 升变共享精英化和普通技能等级，但各职业的专精消耗不同。
-                if (step == "skill_mastery")
-                {
-                    id = DataHelper.Operators.Values.FirstOrDefault(oper => oper.Role == role && DataHelper.GetCanonicalOperId(oper.Id) == id)?.Id;
-                }
-                if (id is not null)
-                {
-                    materials = OperProgressMaterialHelper.Calculate(_materialCosts, id, step,
-                        json.Value<int?>("current") ?? -1, json.Value<int?>("target") ?? -1, skillIndex)
-                        ?.Select(m => new MaterialRequirement(m.Key, m.Value)).ToArray();
-                }
-            }
+            materials = GetMaterialRequirements(role, name, step, current, target, skillIndex)
+                ?.Select(m => new MaterialRequirement(m.Key, m.Value)).ToArray();
         }
         return new ProgressCallback(role, name, elite, mainSkillLevel, skillMastery,
-            step, skillIndex, materials);
+            step, skillIndex, current, target, materials);
+    }
+
+    /// <summary>按职业与名字匹配形态，计算当前进度至计划目标的材料需求。</summary>
+    /// <param name="role">干员职业。</param>
+    /// <param name="name">任意已适配语言的干员名字。</param>
+    /// <param name="step">培养步骤。</param>
+    /// <param name="current">已达到的等级。</param>
+    /// <param name="target">目标等级。</param>
+    /// <param name="skillIndex">专精技能序号，1–3。</param>
+    /// <returns>物品需求合计，无法计算时为 null。</returns>
+    public static Dictionary<string, int>? GetMaterialRequirements(OperatorRole role, string name, string? step, int current, int target, int skillIndex)
+    {
+        var character = FindOper(role, name);
+        if (character is null)
+        {
+            return null;
+        }
+
+        // 升变共享精英化和普通技能等级，但各职业的专精消耗不同。
+        var id = step == "skill_mastery" ? character.Id : DataHelper.GetCanonicalOperId(character.Id);
+        return OperProgressMaterialHelper.Calculate(DataHelper.OperProgressCosts, id, step, current, target, skillIndex);
     }
 
     private record ProgressCallback(OperatorRole Role, string Name, int? Elite, int? MainSkillLevel, SkillMastery? SkillMastery,
-        string? Step, int SkillIndex, MaterialRequirement[]? Materials);
+        string? Step, int SkillIndex, int Current, int Target, MaterialRequirement[]? Materials);
 
     private record ProgressSummary(int Success, int Failed, int Skipped);
 
     private record MaterialRequirement(string Id, int Required);
 
-    private sealed class MaterialReport
+    private void RecordMaterials(int taskId, ProgressCallback callback)
     {
-        public Dictionary<(OperatorRole Role, string Name, string Step, int SkillIndex), MaterialRequirement[]> Steps { get; } = [];
-    }
-
-    private void RecordMaterials(int taskId, ProgressCallback callback, string result, string? resultDetail)
-    {
+        if (callback.Materials is null)
+        {
+            return;
+        }
         if (!_materialReports.TryGetValue(taskId, out var report))
         {
             _materialReports[taskId] = report = new();
         }
-        if (callback.Materials is not null && result != "Success" && resultDetail is "ResourceInsufficient" or "FormulaLocked" or "ChipNotCraftable" &&
-            (callback.Step is "elite" or "skill_level" || (callback.Step == "skill_mastery" && callback.SkillIndex is >= 1 and <= 3)))
-        {
-            report.Steps[(callback.Role, callback.Name, callback.Step, callback.SkillIndex)] = callback.Materials;
-        }
+        report[(callback.Role, callback.Name, callback.Step!, callback.SkillIndex)] = callback.Materials;
     }
 
     private void LogMaterialSummary(int taskId)
@@ -522,7 +523,7 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
             return;
         }
         var depot = Instances.ToolboxViewModel?.GetDepotSnapshot();
-        var lines = report.Steps.Values.SelectMany(m => m).GroupBy(m => m.Id)
+        var lines = report.Values.SelectMany(m => m).GroupBy(m => m.Id)
             .Select(g => (Id: g.Key, Required: g.Sum(m => (long)m.Required), Owned: depot?.GetValueOrDefault(g.Key)))
             .Where(m => m.Owned is null || m.Required > m.Owned)
             .Select(m => m.Owned is int owned
@@ -532,9 +533,17 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
                     ItemListHelper.GetItemName(m.Id) ?? m.Id, m.Required)).ToArray();
         if (lines.Length > 0)
         {
-            Instances.TaskQueueViewModel.AddLog(
-                LocalizationHelper.GetStringFormat(depot is null ? "TaskQueue.OperProgress.MaterialDemandSummary" : "TaskQueue.OperProgress.MaterialSummary",
-                    string.Join(Environment.NewLine, lines)), UiLogColor.Warning);
+            var summary = LocalizationHelper.GetStringFormat(depot is null ? "TaskQueue.OperProgress.MaterialDemandSummary" : "TaskQueue.OperProgress.MaterialSummary",
+                string.Join(Environment.NewLine, lines));
+            if (depot is not null && Instances.ToolboxViewModel?.LastDepotSyncTimeText is { Length: > 0 } syncTime)
+            {
+                summary = LocalizationHelper.GetStringFormat("TaskQueue.OperProgress.MaterialSummaryWithSyncTime", syncTime, string.Join(Environment.NewLine, lines));
+            }
+            Instances.TaskQueueViewModel.AddLog(summary, UiLogColor.Warning);
+        }
+        else if (depot is not null)
+        {
+            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("TaskQueue.OperProgress.MaterialInventoryOutdated"), UiLogColor.Warning);
         }
     }
 
@@ -572,6 +581,10 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
                 "skill_mastery" => LocalizationHelper.GetStringFormat("TaskQueue.OperProgress.MasteryStep", callback.SkillIndex),
                 _ => callback.Step,
             });
+            if (callback.Current >= 0 && callback.Target >= callback.Current)
+            {
+                str.Append(LocalizationHelper.GetStringFormat("TaskQueue.OperProgress.LevelRange", callback.Current, callback.Target));
+            }
         }
         var depot = Instances.ToolboxViewModel?.GetDepotSnapshot();
         foreach (var material in callback.Materials ?? [])

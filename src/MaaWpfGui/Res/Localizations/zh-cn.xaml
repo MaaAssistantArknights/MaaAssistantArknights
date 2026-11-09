@@ -2179,6 +2179,7 @@ DEBUG 目录下保存的图片有数量限制，超出后会自动清理旧图�
     <system:String x:Key="TaskQueue.OperProgress.Detail">{key=TaskQueue.Task.OperProgress} {0}:{1} {2}</system:String>
     <system:String x:Key="TaskQueue.OperProgress.Elite">精英化</system:String>
     <system:String x:Key="TaskQueue.OperProgress.EliteTarget">精英化 {0}</system:String>
+    <system:String x:Key="TaskQueue.OperProgress.LevelRange" xml:space="preserve"> {0}→{1}</system:String>
     <system:String x:Key="TaskQueue.OperProgress.Mastery1">专精 1</system:String>
     <system:String x:Key="TaskQueue.OperProgress.Mastery2">专精 2</system:String>
     <system:String x:Key="TaskQueue.OperProgress.Mastery3">专精 3</system:String>
@@ -2186,9 +2187,11 @@ DEBUG 目录下保存的图片有数量限制，超出后会自动清理旧图�
     <system:String x:Key="TaskQueue.OperProgress.MasteryTarget">技能 {0} 专精 {1}</system:String>
     <system:String x:Key="TaskQueue.OperProgress.MaterialDemandSummary" xml:space="preserve">本轮材料需求（暂无库存数据）：&#10;{0}</system:String>
     <system:String x:Key="TaskQueue.OperProgress.MaterialDetail">{0}：库存 {1}，需求 {2}</system:String>
+    <system:String x:Key="TaskQueue.OperProgress.MaterialInventoryOutdated">培养时缺料，但库存记录已足够，库存可能已过时，请重新识别仓库。</system:String>
     <system:String x:Key="TaskQueue.OperProgress.MaterialRequired">{0}：需求合计 {1}</system:String>
     <system:String x:Key="TaskQueue.OperProgress.MaterialSummary" xml:space="preserve">本轮缺少材料：&#10;{0}</system:String>
     <system:String x:Key="TaskQueue.OperProgress.MaterialSummaryItem">{0}：还需 {1}（需求合计 {2}，库存 {3}）</system:String>
+    <system:String x:Key="TaskQueue.OperProgress.MaterialSummaryWithSyncTime" xml:space="preserve">本轮缺少材料（库存更新于 {0}）：&#10;{1}</system:String>
     <system:String x:Key="TaskQueue.OperProgress.NotSet">---</system:String>
     <system:String x:Key="TaskQueue.OperProgress.OnlineEditor">在明日方舟工具箱中在线编辑计划</system:String>
     <system:String x:Key="TaskQueue.OperProgress.ParseClipboard">从剪贴板读取</system:String>

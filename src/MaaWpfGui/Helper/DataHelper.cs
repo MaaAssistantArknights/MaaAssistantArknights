@@ -63,6 +63,8 @@ public static class DataHelper
 
     public static List<MapInfo> MapData { get; private set; } = [];
 
+    public static Dictionary<string, OperProgressMaterialHelper.OperatorCost> OperProgressCosts { get; private set; } = [];
+
     static DataHelper()
     {
         InitRecruitTag();
@@ -72,6 +74,7 @@ public static class DataHelper
     public static void Reload()
     {
         LoadBattleData();
+        OperProgressCosts = OperProgressMaterialHelper.Load(Path.Combine(PathsHelper.ResourceDir, "oper_progress.json"));
         LoadMapData();
     }
 
