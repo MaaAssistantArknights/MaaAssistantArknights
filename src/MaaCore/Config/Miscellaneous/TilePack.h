@@ -61,7 +61,7 @@ public:
         std::unordered_map<Point, TileInfo> side_tile_info;
         Point retreat_button;
         Point skill_button;
-        bool has_multi_stages = false;
+        bool has_multi_phases = false;
     };
 
 public:

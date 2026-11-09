@@ -39,6 +39,10 @@
     "EnterChapterDifficultyNormal": {
         "text": ["進入", "作戰"]
     },
+    "ClickedCorrectStage": {
+        "doc": "新 OCR 会把左侧 OPERATION 装饰标签与关卡码合并成一个词条，且标签前几个字母常识别错误（BATION/BRATION/SPFRATION），OPERATION 替换规则随之失效；关卡码右侧另有美术角标点。roi 缩窄到只框关卡码本身（繁中服实测量取），标签与角标均落在 roi 外",
+        "roi": [922, 81, 83, 32]
+    },
     "CharsNameOcrReplace": {
         "Doc": "干员名 OCR 纠错，数据体在 tasks/hotfix/ocr_replace.json（CharsNameOcrReplaceHotfix），随资源更新分发",
         "baseTask": "CharsNameOcrReplaceHotfix"

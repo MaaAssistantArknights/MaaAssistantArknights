@@ -2527,6 +2527,7 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="Toolbox.MiniGame.Reclamation.ToolToCraft.Tip">支援道具名称</system:String>
     <system:String x:Key="Toolbox.MiniGame.SPA">卫戍协议</system:String>
     <system:String x:Key="Toolbox.MiniGame.SPA.Tip" xml:space="preserve">在活动主界面（有 ｢极速模拟｣ 处）开始任务
+需要使用默认皮肤
 在有存档时需要先手动放弃
 只能刷等级奖励，拿蚀刻章得打完所有的 ｢关键目标｣</system:String>
     <system:String x:Key="Toolbox.MiniGame.SecretFront">隐秘战线</system:String>
