@@ -1696,10 +1696,7 @@ bool update_oper_progress_data(const fs::path& input_dir, const fs::path& output
         if (!is_playable_oper_profession(data.get("profession", std::string()))) {
             continue;
         }
-        const auto& rarity = data.at("rarity");
-        const int rarity_index = rarity.is_string()
-                                     ? std::stoi(rarity.as_string().substr(std::string_view("TIER_").size())) - 1
-                                     : rarity.as_integer();
+        const int rarity_index = data.at("rarity").as_integer();
         json::array elite;
         const auto& phases = data.at("phases").as_array();
         for (size_t i = 1; i < phases.size(); ++i) {
