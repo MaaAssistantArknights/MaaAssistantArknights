@@ -2527,6 +2527,7 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="Toolbox.MiniGame.Reclamation.ToolToCraft.Tip">支援道具名稱</system:String>
     <system:String x:Key="Toolbox.MiniGame.SPA">衛戍協議</system:String>
     <system:String x:Key="Toolbox.MiniGame.SPA.Tip" xml:space="preserve">在活動主介面（有 ｢極速模擬｣ 處）開始任務。
+需要使用預設皮膚
 在有存檔時需要先手動放棄
 只能刷等級獎勵，拿蝕刻章得打完所有的 ｢關鍵目標｣。</system:String>
     <system:String x:Key="Toolbox.MiniGame.SecretFront">隱秘戰線</system:String>

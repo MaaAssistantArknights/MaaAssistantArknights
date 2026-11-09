@@ -2528,6 +2528,7 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="Toolbox.MiniGame.Reclamation.ToolToCraft.Tip">支援道具名</system:String>
     <system:String x:Key="Toolbox.MiniGame.SPA">堅守協定</system:String>
     <system:String x:Key="Toolbox.MiniGame.SPA.Tip" xml:space="preserve">イベントメイン画面（｢高速演算｣（仮訳）がある場所）からタスクを開始
+デフォルトのスキンを使用する必要があります
 セーブデータがある場合は、まず手動で破棄する必要があります
 レベル報酬のみ取得可能。｢功績勲章｣ を入手するには全ての ｢主要目標｣ をクリアする必要があります</system:String>
     <system:String x:Key="Toolbox.MiniGame.SecretFront">隠密戦線</system:String>
