@@ -2483,7 +2483,7 @@ public class TaskQueueViewModel : Screen
 
         using var log = new LogScope(_logger);
         await TaskQueueSerializingLock.WaitAsync();
-        await LinkStartWithTasks(ConfigFactory.CurrentConfig.TaskQueue);
+        await LinkStartWithTasks(ConfigFactory.CurrentConfig.TaskQueue.ToArray());
         TaskQueueSerializingLock.Release();
     }
 
