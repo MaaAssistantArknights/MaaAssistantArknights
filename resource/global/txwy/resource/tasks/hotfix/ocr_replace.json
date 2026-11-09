@@ -863,7 +863,8 @@
             ["維伊", "维伊"],
             ["戰術錨點", "战术锚点"],
             ["裂響", "裂响"],
-            ["GALLU.*", "GALLUS²"]
+            ["GALLU.*", "GALLUS²"],
+            ["^子$", "孑"]
         ]
     },
     "BattleStageNameHotfix": {
