@@ -1,4 +1,4 @@
-## v6.22.0-beta.3
+## v6.22.0-beta.4
 
 ### Highlights
 
@@ -44,6 +44,16 @@ Low-frequency WPF settings are grouped under an "Advanced" section while achieve
 以下是详细内容：
 
 <details open>
+<summary><b>v6.22.0-beta.4 (2026-11-09)</b></summary>
+
+### 修复 | Fix
+
+* macOS 发布构建补入 Dawn 框架并修正框架路径，WebGPU 推理后端可用 @hguandl
+* 繁中服更新剿灭图标模板 ([#19190](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/19190)) @Daydreamer114
+
+</details>
+
+<details>
 <summary><b>v6.22.0-beta.3 (2026-11-09)</b></summary>
 
 ### 修复 | Fix
