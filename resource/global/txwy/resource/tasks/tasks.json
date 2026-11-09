@@ -422,8 +422,5 @@
     },
     "OperProgress@OperBoxSortTabs": {
         "text": ["等級", "稀有度", "獲取時間"]
-    },
-    "OperProgress@MaterialPopup": {
-        "text": ["庫存", "獲得方式"]
     }
 }

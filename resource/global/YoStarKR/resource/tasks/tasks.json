@@ -584,8 +584,5 @@
     },
     "OperProgress@OperBoxSortTabs": {
         "text": ["레벨", "레어도", "획득 시간"]
-    },
-    "OperProgress@MaterialPopup": {
-        "text": ["획득 방법", "보유"]
     }
 }

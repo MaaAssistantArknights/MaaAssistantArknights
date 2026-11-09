@@ -17,6 +17,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows;
@@ -41,6 +42,9 @@ namespace MaaWpfGui.ViewModels.UserControl.TaskQueue;
 public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgressTaskUserControlModel.ISerialize
 {
     private static readonly ILogger _logger = Log.ForContext<OperProgressTaskUserControlModel>();
+
+    private static readonly Dictionary<string, OperProgressMaterialHelper.OperatorCost> _materialCosts =
+        OperProgressMaterialHelper.Load(Path.Combine(PathsHelper.ResourceDir, "oper_progress.json"));
 
     static OperProgressTaskUserControlModel() => Instance = new();
 
@@ -459,25 +463,43 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
             skillMastery = SkillMastery.Of(list[0], list[1], list[2]);
         }
 
-        var materials = json?["materials"]?.ToObject<MaterialRequirement[]>() ?? [];
+        string? step = json?.Value<string>("step");
+        int skillIndex = json?.Value<int?>("skill_index") ?? 0;
+        MaterialRequirement[]? materials = null;
+        if (json?.Value<string>("result") == "Failed" && json.Value<string>("result_detail") is "ResourceInsufficient" or "FormulaLocked" or "ChipNotCraftable")
+        {
+            var character = DataHelper.GetCharacterByNameOrAlias(name);
+            if (character is not null)
+            {
+                string? id = DataHelper.GetCanonicalOperId(character.Id);
+
+                // 升变共享精英化和普通技能等级，但各职业的专精消耗不同。
+                if (step == "skill_mastery")
+                {
+                    id = DataHelper.Operators.Values.FirstOrDefault(oper => oper.Role == role && DataHelper.GetCanonicalOperId(oper.Id) == id)?.Id;
+                }
+                if (id is not null)
+                {
+                    materials = OperProgressMaterialHelper.Calculate(_materialCosts, id, step,
+                        json.Value<int?>("current") ?? -1, json.Value<int?>("target") ?? -1, skillIndex)
+                        ?.Select(m => new MaterialRequirement(m.Key, m.Value)).ToArray();
+                }
+            }
+        }
         return new ProgressCallback(role, name, elite, mainSkillLevel, skillMastery,
-            json?.Value<string>("step"), json?.Value<int?>("skill_index") ?? 0,
-            [.. materials.Where(m => !string.IsNullOrEmpty(m.Id) && m.Owned >= 0 && m.Required > m.Owned)]);
+            step, skillIndex, materials);
     }
 
     private record ProgressCallback(OperatorRole Role, string Name, int? Elite, int? MainSkillLevel, SkillMastery? SkillMastery,
-        string? Step, int SkillIndex, MaterialRequirement[] Materials);
+        string? Step, int SkillIndex, MaterialRequirement[]? Materials);
 
     private record ProgressSummary(int Success, int Failed, int Skipped);
 
-    private record MaterialRequirement(string Id, int Required, int Owned);
+    private record MaterialRequirement(string Id, int Required);
 
     private sealed class MaterialReport
     {
         public Dictionary<(OperatorRole Role, string Name, string Step, int SkillIndex), MaterialRequirement[]> Steps { get; } = [];
-
-        // 需求按步骤覆盖，持有数始终取本轮最后一次现场观测。
-        public Dictionary<string, int> LastOwned { get; } = [];
     }
 
     private void RecordMaterials(int taskId, ProgressCallback callback, string result, string? resultDetail)
@@ -486,14 +508,10 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
         {
             _materialReports[taskId] = report = new();
         }
-        if (result != "Success" && resultDetail is "ResourceInsufficient" or "FormulaLocked" or "ChipNotCraftable" &&
+        if (callback.Materials is not null && result != "Success" && resultDetail is "ResourceInsufficient" or "FormulaLocked" or "ChipNotCraftable" &&
             (callback.Step is "elite" or "skill_level" || (callback.Step == "skill_mastery" && callback.SkillIndex is >= 1 and <= 3)))
         {
             report.Steps[(callback.Role, callback.Name, callback.Step, callback.SkillIndex)] = callback.Materials;
-            foreach (var material in callback.Materials)
-            {
-                report.LastOwned[material.Id] = material.Owned;
-            }
         }
     }
 
@@ -503,15 +521,20 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
         {
             return;
         }
+        var depot = Instances.ToolboxViewModel?.GetDepotSnapshot();
         var lines = report.Steps.Values.SelectMany(m => m).GroupBy(m => m.Id)
-            .Select(g => (Id: g.Key, Required: g.Sum(m => (long)m.Required), Owned: report.LastOwned[g.Key]))
-            .Where(m => m.Required > m.Owned)
-            .Select(m => LocalizationHelper.GetStringFormat("TaskQueue.OperProgress.MaterialSummaryItem",
-                ItemListHelper.GetItemName(m.Id) ?? m.Id, m.Required - m.Owned, m.Required, m.Owned)).ToArray();
+            .Select(g => (Id: g.Key, Required: g.Sum(m => (long)m.Required), Owned: depot?.GetValueOrDefault(g.Key)))
+            .Where(m => m.Owned is null || m.Required > m.Owned)
+            .Select(m => m.Owned is int owned
+                ? LocalizationHelper.GetStringFormat("TaskQueue.OperProgress.MaterialSummaryItem",
+                    ItemListHelper.GetItemName(m.Id) ?? m.Id, m.Required - owned, m.Required, owned)
+                : LocalizationHelper.GetStringFormat("TaskQueue.OperProgress.MaterialRequired",
+                    ItemListHelper.GetItemName(m.Id) ?? m.Id, m.Required)).ToArray();
         if (lines.Length > 0)
         {
             Instances.TaskQueueViewModel.AddLog(
-                LocalizationHelper.GetStringFormat("TaskQueue.OperProgress.MaterialSummary", string.Join(Environment.NewLine, lines)), UiLogColor.Warning);
+                LocalizationHelper.GetStringFormat(depot is null ? "TaskQueue.OperProgress.MaterialDemandSummary" : "TaskQueue.OperProgress.MaterialSummary",
+                    string.Join(Environment.NewLine, lines)), UiLogColor.Warning);
         }
     }
 
@@ -550,11 +573,15 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
                 _ => callback.Step,
             });
         }
-        foreach (var material in callback.Materials)
+        var depot = Instances.ToolboxViewModel?.GetDepotSnapshot();
+        foreach (var material in callback.Materials ?? [])
         {
             str.AppendLine();
-            str.Append(LocalizationHelper.GetStringFormat("TaskQueue.OperProgress.MaterialDetail",
-                ItemListHelper.GetItemName(material.Id) ?? material.Id, material.Owned, material.Required));
+            str.Append(depot is null
+                ? LocalizationHelper.GetStringFormat("TaskQueue.OperProgress.MaterialRequired",
+                    ItemListHelper.GetItemName(material.Id) ?? material.Id, material.Required)
+                : LocalizationHelper.GetStringFormat("TaskQueue.OperProgress.MaterialDetail",
+                    ItemListHelper.GetItemName(material.Id) ?? material.Id, depot.GetValueOrDefault(material.Id), material.Required));
         }
         return str.ToString();
     }

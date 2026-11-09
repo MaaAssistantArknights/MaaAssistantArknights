@@ -496,11 +496,5 @@
     },
     "OperProgress@OperBoxSortTabs": {
         "text": ["Level", "Rarity", "Acquisition Date"]
-    },
-    "OperProgress@MaterialPopup": {
-        "text": ["How to Obtain", "Remaining"]
-    },
-    "OperProgress@LmdOwned": {
-        "roi": [720, 294, 96, 48]
     }
 }

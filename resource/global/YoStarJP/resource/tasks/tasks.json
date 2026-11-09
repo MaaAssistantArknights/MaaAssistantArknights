@@ -386,8 +386,5 @@
     },
     "OperProgress@OperBoxSortTabs": {
         "text": ["レベル", "レア度", "入手時間"]
-    },
-    "OperProgress@MaterialPopup": {
-        "text": ["在庫", "入手手段"]
     }
 }
