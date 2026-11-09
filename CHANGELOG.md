@@ -1,4 +1,4 @@
-## v6.22.0-beta.4
+## v6.22.0
 
 ### Highlights
 
@@ -44,73 +44,44 @@ Low-frequency WPF settings are grouped under an "Advanced" section while achieve
 以下是详细内容：
 
 <details open>
-<summary><b>v6.22.0-beta.4 (2026-11-09)</b></summary>
-
-### 修复 | Fix
-
-* macOS 发布构建补入 Dawn 框架并修正框架路径，WebGPU 推理后端可用 @hguandl
-* 繁中服更新剿灭图标模板 ([#19190](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/19190)) @Daydreamer114
-
-</details>
-
-<details>
-<summary><b>v6.22.0-beta.3 (2026-11-09)</b></summary>
-
-### 修复 | Fix
-
-* 关卡名确认失败的问题修复扩展至全客户端 ([#19188](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/19188)) @Daydreamer114
-* YostarJP 放宽遥（ハルカ）干员名 OCR 替换规则 @Manicsteiner
-* 修复 macOS 图形界面版打包缺少 Dawn 框架、无法使用 WebGPU 推理后端的问题 @hguandl
-
-</details>
-
-<details>
-<summary><b>v6.22.0-beta.2 (2026-11-08)</b></summary>
-
-### 修复 | Fix
-
-* 修复资源收集、肉鸽在卫戍协议常驻后无法导航的问题 ([#19179](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/19179)) @Radekyspec
-* 修复卫戍协议点击过快提前进入下一步时卡在策略选择的问题 @ABA2396
-
-</details>
-
-<details>
-<summary><b>v6.22.0-beta.1 (2026-11-08)</b></summary>
+<summary><b>v6.22.0 (2026-11-09)</b></summary>
 
 ### 新增 | New
 
 * 任务队列新增 ｢作战日报｣，按日历与柱状图汇总每日作战场次、理智、掉落与源石消耗 ([#18918](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18918)) @ABA2396
-* 适配卫戍协议三期 @ABA2396
-* 新增推理后端选择，可在 ONNX Runtime（默认）与实验性 WebGPU 之间切换，WebGPU 推理会话在资源加载后预热 @SherkeyXD
+* 适配卫戍协议三期，刷取需使用默认皮肤 @ABA2396
+* 新增推理后端选择，可在 ONNX Runtime（默认）与实验性 WebGPU 之间切换，WebGPU 推理会话在资源加载后预热 @SherkeyXD @hguandl
 
 ### 改进 | Improved
 
 * OCR 引擎升级至 PP-OCRv6（中英繁日统一多语言模型）与 PP-OCRv5（韩文），并接入 v6 ASCII 专用识别模型 ([#18246](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18246), [#18812](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/18812)) @SherkeyXD @Plumess
 * WPF 设置页分 ｢常规设置｣ 与 ｢高级设置｣ 两区，低频项收纳至 ｢高级设置｣ ([#19095](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/19095)) @MistEO @ABA2396
-* 设置指引导航移至顶部横排并优化红点指引与长文案适配；允许跳过的起始步骤改为 ｢连接设置｣ ([#19134](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/19134)) @ABA2396
+* 设置指引导航移至顶部横排并优化红点指引与长文案适配 ([#19134](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/19134)) @ABA2396
 * 部署操作统一在控制器支持暂停时先暂停再部署，移除原外服的单独开关 ([#19135](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/19135)) @momomochi987
 * 干员培养清空计划增加二次确认 ([#19140](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/19140)) @Appler-D
 * 库存保持计划列表支持滚轮边缘接力 ([#19137](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/19137)) @Appler-D
-* 海外源 GitHub Token 输入框新增 TooltipBlock 提示 @ABA2396
 * 剿灭入口找不到、拜访好友失败等静默略过时在界面日志显示提示 ([#19098](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/19098)) @momomochi987
 * 优化全屏下设置指引提示位置 @ABA2396
 
 ### 修复 | Fix
 
+* 修复资源收集、肉鸽在卫戍协议常驻后无法导航的问题 ([#19179](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/19179)) @Radekyspec
+* 修复“狂躁铁皮”被识别为干员的问题 @ABA2396
+* 修复从指定任务开始执行时，其余任务状态可能未被标记为跳过的问题 @status102
 * 修复库存保持 EN 长文案导致提示按钮被裁掉不可达的问题 ([#19169](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/19169)) @ABA2396
 * 修复肉鸽确认放弃时序，确认后再记录日志和成就 ([#19130](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/19130)) @zhulongqihan @ZiyinLin
 * 修复代理失败超限后未退出结算页直接结束任务的问题 ([#19131](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/19131)) @zhulongqihan
 * 修复黑流树海开局奖励选卡未生效时卡死的问题，未生效时自动重试 @ZiyinLin
 * 修复已是日间主题但识别不到入口时无限循环更换主题的问题；返回后找不到入口改为正常结束 ([#19111](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/19111)) @momomochi987
-* 繁中服修复关卡详情页关卡名确认失败的问题 ([#19155](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/19155)) @Daydreamer114
+* 修复干员 ｢孑｣ OCR 替换规则（国服、繁中服）([#19193](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/19193)) @Saratoga-Official
 * 繁中服剿灭入口更新模板，基建弹窗补充繁中文字 ([#19097](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/19097)) @momomochi987
-* 修复干员 ｢孑｣ OCR 替换规则 @Saratoga-Official
+* 繁中服更新剿灭图标模板 ([#19190](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/19190)) @Daydreamer114
 * 修复环圣骏堡电车 OCR @Daydreamer114
-* 修复战时新闻委员会基尔萨宁乡土报相关 OCR 误识别 ([#19119](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/19119)) @hanyuwei70
+* 修复战时新闻委员会基尔萨宁乡土报相关 OCR 误识别 ([#19119](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/19119)) @hanyuwei707
+* YostarJP 放宽遥（ハルカ）干员名 OCR 替换规则 @Manicsteiner
 * YostarJP 放宽魔王（シヴィライト・エテルナ）干员名 OCR 替换规则 ([#19167](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/19167)) @amasoiD
 * YostarJP 修复生息演算 3、肉鸽基础任务与 ocrReplace ([#19108](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/19108)) @Manicsteiner
 * YostarKR 适配新 OCR 模型 ([#19159](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/19159)) @HX3N
-* 修复未知 DLL 检测拦截 WebGPU 后端依赖的 dxcompiler.dll 与 dxil.dll 的问题 @ABA2396
 
 ### 文档 | Docs
 
@@ -118,11 +89,12 @@ Low-frequency WPF settings are grouped under an "Advanced" section while achieve
 
 ### 其他 | Other
 
+* 模板优化脚本改用参数列表调用子进程，消除文件名 shell 命令注入 @ABA2396
 * Android ncnn OCR 适配 PP-OCRv6，对齐 FastDeploy 行为；OcrPackNcnn 文本行裁切与 rec 分批补边逐项对齐 ([#19117](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/19117)) @Aliothmoon
 * 干员养成改用内部存储代替 Status 通信 @status102
 * 移除部分过早的配置迁移器（FightTaskStageResetMode 系列） @status102
 * 修复 clang-formatter 路径解析与失败状态丢失的问题，补集成测试 ([#19129](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/19129)) @zhulongqihan
-* 修复 WebGPU 推理会话初始化问题 @SherkeyXD
+* TilePack 内部字段 has_multi_stages 更名为 has_multi_phases @status102
 * 更新 MaaDeps @SherkeyXD
 * 修复 smoke-testing 工作流问题 @SherkeyXD
 
