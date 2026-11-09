@@ -462,8 +462,6 @@ public static class DataHelper
         "char_512_aprot",  // 暮落
         "char_513_apionr", // 郁金香
         "char_514_rdfend", // 预备干员-重装
-
-        // 因为 core 是通过名字来判断的，所以下面干员中如果有和上面重名的不会用到，不过也加上了
         "char_600_cpione", // 预备干员-先锋 4★
         "char_601_cguard", // 预备干员-近卫 4★
         "char_602_cdfend", // 预备干员-重装 4★
@@ -482,6 +480,7 @@ public static class DataHelper
         "char_615_acspec", // Misery 6★
         "char_616_pithst", // 盟约·辅助干员
         "char_617_sharp2", // 领主·Sharp
+        "char_618_acrbot", // “狂躁铁皮”
     ];
 
     /// <summary>
