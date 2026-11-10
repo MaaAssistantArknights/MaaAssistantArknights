@@ -21,7 +21,7 @@ static char* translate_utf8_path(const char* utf8_win_path)
     if (!utf8_win_path) {
         return NULL;
     }
-    int len = MultiByteToWideChar(CP_UTF8, 0, utf8_win_path, -1, NULL, 0);
+    int len = MultiByteToWideChar(CP_UTF8, MB_ERR_INVALID_CHARS, utf8_win_path, -1, NULL, 0);
     if (len <= 0) {
         return NULL;
     }
@@ -29,7 +29,7 @@ static char* translate_utf8_path(const char* utf8_win_path)
     if (!wpath) {
         return NULL;
     }
-    if (MultiByteToWideChar(CP_UTF8, 0, utf8_win_path, -1, wpath, len) != len) {
+    if (MultiByteToWideChar(CP_UTF8, MB_ERR_INVALID_CHARS, utf8_win_path, -1, wpath, len) != len) {
         free(wpath);
         return NULL;
     }
