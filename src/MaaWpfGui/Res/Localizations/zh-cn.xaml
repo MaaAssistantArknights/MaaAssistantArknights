@@ -2571,14 +2571,15 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.AlreadyIdentified">这个类别已经识别过了，拖下一个吧。</system:String>
     <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.DropZone.FullPackage">完整更新包</system:String>
     <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.DropZone.Hint">把更新包拖进本窗口任意位置</system:String>
-    <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.DropZone.OtaPackage">OTA 增量包</system:String>
+    <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.DropZone.OtaPackage">OTA 增量包（可选）</system:String>
     <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.DropZone.ResourcePackage">资源更新包</system:String>
-    <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.Goal">把三种更新包拖进本窗口任意位置，完成更新。包要自备：完整包 ｢MAA-vX.Y.Z-win-{arch}.zip｣、OTA 增量包 ｢MAAComponent-OTA-vA_vB-win-{arch}.zip｣、资源包（识别 zip 内容，不看文件名）。</system:String>
+    <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.Goal">自行寻找三种更新包拖进本窗口任意位置。完整包文件名格式 ｢MAA-vX.Y.Z-win-{arch}.zip｣，X.Y.Z 必须等于当前版本；OTA 增量包文件名格式 ｢MAAComponent-OTA-vA_vB-win-{arch}.zip｣，vB 必须等于当前版本；资源包不限文件名，zip 内资源版本必须等于当前版本。</system:String>
     <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.Identified.FullPackage">识别为完整更新包，真实场景将注册并提示重启。</system:String>
     <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.Identified.OtaPackage">识别为 OTA 增量包，真实场景将注册并提示重启。</system:String>
     <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.Identified.ResourcePackage">识别为资源更新包，真实场景将直接导入并重载。</system:String>
     <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.Title">拖拽更新</system:String>
     <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.Unknown">不是可识别的更新包。</system:String>
+    <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.WrongVersion">版本不匹配：更新包必须升级到你当前这个版本。</system:String>
     <system:String x:Key="TutorialChallenge.Level.ExportLogs.Generating">生成中…</system:String>
     <system:String x:Key="TutorialChallenge.Level.ExportLogs.Goal">遇到 bug 要反馈？生成一份错误报告。</system:String>
     <system:String x:Key="TutorialChallenge.Level.ExportLogs.Title">导出日志</system:String>

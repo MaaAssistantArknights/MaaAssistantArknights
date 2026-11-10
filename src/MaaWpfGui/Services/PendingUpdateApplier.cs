@@ -184,6 +184,28 @@ internal static partial class PendingUpdateApplier
         => FullPackageNameRegex().IsMatch(fileName);
 
     /// <summary>
+    /// 匹配完整更新包文件名并提取版本与架构，供调用方自行校验版本方向（同版本识别等不走升级方向校验的场景）。
+    /// </summary>
+    /// <param name="fileName">待匹配的文件名（不含目录）。</param>
+    /// <returns>匹配成功时返回 (Version, Arch)，不匹配返回 null。</returns>
+    public static (string Version, string Arch)? MatchFullPackageFileName(string fileName)
+    {
+        var m = FullPackageNameRegex().Match(fileName);
+        return m.Success ? (m.Groups["version"].Value, m.Groups["arch"].Value) : null;
+    }
+
+    /// <summary>
+    /// 匹配 OTA 更新包文件名并提取源版本、目标版本与架构，供调用方自行校验版本方向。
+    /// </summary>
+    /// <param name="fileName">待匹配的文件名（不含目录）。</param>
+    /// <returns>匹配成功时返回 (From, To, Arch)，不匹配返回 null。</returns>
+    public static (string From, string To, string Arch)? MatchOtaPackageFileName(string fileName)
+    {
+        var m = OtaPackageNameRegex().Match(fileName);
+        return m.Success ? (m.Groups["from"].Value, m.Groups["to"].Value, m.Groups["arch"].Value) : null;
+    }
+
+    /// <summary>
     /// 通过文件名检测拖入的压缩包是完整更新包还是 OTA 更新包，并校验架构与版本方向。
     /// 两种正则都不匹配时返回 <see cref="PackageInspectionStatus.NotMatched"/>（可能是资源包或无关文件）。
     /// </summary>

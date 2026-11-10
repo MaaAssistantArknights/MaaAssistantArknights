@@ -2572,14 +2572,15 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.AlreadyIdentified">この種類はすでに認識済みです。次をドラッグしましょう。</system:String>
     <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.DropZone.FullPackage">完全アップデートパッケージ</system:String>
     <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.DropZone.Hint">このウィンドウの任意の場所にアップデートパッケージをドラッグ</system:String>
-    <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.DropZone.OtaPackage">OTA 差分パッケージ</system:String>
+    <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.DropZone.OtaPackage">OTA 差分パッケージ（任意）</system:String>
     <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.DropZone.ResourcePackage">リソースアップデートパッケージ</system:String>
-    <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.Goal">3 種類のアップデートパッケージをこのウィンドウの任意の場所にドラッグして、更新を完了させましょう。パッケージは各自で用意してください：完全パッケージ ｢MAA-vX.Y.Z-win-{arch}.zip｣、OTA 差分パッケージ ｢MAAComponent-OTA-vA_vB-win-{arch}.zip｣、リソースパッケージ（ファイル名ではなく zip の内容で識別）。</system:String>
+    <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.Goal">3 種類のアップデートパッケージを自分で探してこのウィンドウの任意の場所にドラッグしてください。完全パッケージのファイル名は ｢MAA-vX.Y.Z-win-{arch}.zip｣ で、X.Y.Z は現在のバージョンと一致する必要があります。OTA 差分パッケージのファイル名は ｢MAAComponent-OTA-vA_vB-win-{arch}.zip｣ で、vB は現在のバージョンと一致する必要があります。リソースパッケージはファイル名不問ですが、zip 内のリソースバージョンが現在のバージョンと一致する必要があります。</system:String>
     <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.Identified.FullPackage">完全アップデートパッケージとして認識しました。実際には登録され、再起動を促します。</system:String>
     <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.Identified.OtaPackage">OTA 差分パッケージとして認識しました。実際には登録され、再起動を促します。</system:String>
     <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.Identified.ResourcePackage">リソースアップデートパッケージとして認識しました。実際にはそのままインポートされ再読み込みされます。</system:String>
     <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.Title">ドラッグ更新</system:String>
     <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.Unknown">認識できるアップデートパッケージではありません。</system:String>
+    <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.WrongVersion">バージョン不一致：更新パッケージは現在のバージョンを対象にしている必要があります。</system:String>
     <system:String x:Key="TutorialChallenge.Level.ExportLogs.Generating">生成中…</system:String>
     <system:String x:Key="TutorialChallenge.Level.ExportLogs.Goal">バグを報告したい？エラーレポートを 1 件生成しましょう。</system:String>
     <system:String x:Key="TutorialChallenge.Level.ExportLogs.Title">ログのエクスポート</system:String>

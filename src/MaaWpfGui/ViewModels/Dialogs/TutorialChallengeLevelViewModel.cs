@@ -19,6 +19,7 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows;
@@ -807,10 +808,11 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
     }
 
     /// <summary>
-    /// Gets a value indicating whether 三类更新包（完整包 / OTA 增量包 / 资源包）均已识别（DragDropUpdate 关卡的判定源）。
+    /// Gets a value indicating whether 完整包与资源包均已识别（DragDropUpdate 关卡的判定源）。
+    /// OTA 增量包为可选额外识别，不计入通关判定。
     /// </summary>
     public bool DragDropAllPackagesIdentified =>
-        FullPackageIdentified && OtaPackageIdentified && ResourcePackageIdentified;
+        FullPackageIdentified && ResourcePackageIdentified;
 
     /// <summary>
     /// 投放区拖入事件：仅接受 zip 文件，设置复制拖拽效果。对齐真实 <c>RootViewModel.ManualPackagePreviewDragOver</c>。
@@ -848,35 +850,59 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
 
     /// <summary>
     /// 对已落在本机路径的更新包按文件名与 zip 内容识别类别并置对应标志。<see cref="SandboxPackageDrop"/> 抽出文件路径后调用，
-    /// 亦供调试 / 自动化验证直接喂路径复现投放。教学仿真下玩家可能持任意版本，故不走 <see cref="PendingUpdateApplier.InspectLocalUpdatePackage"/>
-    /// 的版本方向校验，只按文件名正则识别完整包 / OTA 包，都不命中再走 <see cref="ResourceUpdater.IsResourcePackage"/> 检查 zip 内容。
+    /// 亦供调试 / 自动化验证直接喂路径复现投放。完整包 / OTA 包要求文件名中的版本号等于当前 CoreVersion 且架构匹配，
+    /// 资源包要求 zip 内资源版本时间戳等于当前本地资源版本，不匹配时提示版本不匹配或无法识别。
     /// </summary>
     /// <param name="packagePath">zip 包本地路径。</param>
     /// <returns>识别任务。</returns>
     public async Task SandboxPackageDropFile(string packagePath)
     {
         string fileName = Path.GetFileName(packagePath);
-        if (PendingUpdateApplier.IsFullPackageFileName(fileName))
+        string currentVersion = VersionUpdateSettingsUserControlModel.CoreVersion;
+        string normalizedArch = RuntimeInformation.OSArchitecture.ToString().StartsWith("arm", StringComparison.OrdinalIgnoreCase)
+            ? "arm64" : "x64";
+
+        if (PendingUpdateApplier.MatchFullPackageFileName(fileName) is { } full)
         {
-            MarkIdentified(FullPackageIdentified, () => FullPackageIdentified = true, "TutorialChallenge.Level.DragDropUpdate.Identified.FullPackage");
+            if (full.Version.Equals(currentVersion, StringComparison.OrdinalIgnoreCase)
+                && full.Arch.Equals(normalizedArch, StringComparison.OrdinalIgnoreCase))
+            {
+                MarkIdentified(FullPackageIdentified, () => FullPackageIdentified = true, "TutorialChallenge.Level.DragDropUpdate.Identified.FullPackage");
+            }
+            else
+            {
+                ShowTutorialGrowl(InfoType.Warning, LocalizationHelper.GetString("TutorialChallenge.Level.DragDropUpdate.WrongVersion"));
+            }
+
             return;
         }
 
-        if (PendingUpdateApplier.IsOtaPackageFileName(fileName))
+        if (PendingUpdateApplier.MatchOtaPackageFileName(fileName) is { } ota)
         {
-            MarkIdentified(OtaPackageIdentified, () => OtaPackageIdentified = true, "TutorialChallenge.Level.DragDropUpdate.Identified.OtaPackage");
+            if (ota.To.Equals(currentVersion, StringComparison.OrdinalIgnoreCase)
+                && ota.Arch.Equals(normalizedArch, StringComparison.OrdinalIgnoreCase))
+            {
+                MarkIdentified(OtaPackageIdentified, () => OtaPackageIdentified = true, "TutorialChallenge.Level.DragDropUpdate.Identified.OtaPackage");
+            }
+            else
+            {
+                ShowTutorialGrowl(InfoType.Warning, LocalizationHelper.GetString("TutorialChallenge.Level.DragDropUpdate.WrongVersion"));
+            }
+
             return;
         }
 
         // zip 扫描开销较高（万级 entry），对齐真实 HandleImportedPackageAsync 放后台线程；后续置标志与 Growl 要碰 UI，不摘上下文
-        bool isResourcePackage = await Task.Run(() => ResourceUpdater.IsResourcePackage(packagePath, out _));
-        if (isResourcePackage)
+        DateTimeOffset dt = DateTimeOffset.MinValue;
+        bool isResourcePackage = await Task.Run(() => ResourceUpdater.IsResourcePackage(packagePath, out dt));
+        if (isResourcePackage && dt == VersionUpdateSettingsUserControlModel.Instance.ResourceDateTime)
         {
             MarkIdentified(ResourcePackageIdentified, () => ResourcePackageIdentified = true, "TutorialChallenge.Level.DragDropUpdate.Identified.ResourcePackage");
             return;
         }
 
-        ShowTutorialGrowl(InfoType.Warning, LocalizationHelper.GetString("TutorialChallenge.Level.DragDropUpdate.Unknown"));
+        ShowTutorialGrowl(InfoType.Warning, LocalizationHelper.GetString(
+            isResourcePackage ? "TutorialChallenge.Level.DragDropUpdate.WrongVersion" : "TutorialChallenge.Level.DragDropUpdate.Unknown"));
     }
 
     /// <summary>
