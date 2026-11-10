@@ -1421,5 +1421,39 @@
             </Grid>
         </DockPanel>
     </GroupBox>
+
+    <!--  跳过确认浮层：避免依赖系统弹窗，保证各主题下都有明确的确认/取消按钮  -->
+    <Border Background="#99000000" Visibility="{c:Binding GuideSkipConfirmVisible}">
+        <Border
+            Width="440"
+            Padding="24"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Background="{DynamicResource RegionBrush}"
+            BorderBrush="{DynamicResource BorderBrush}"
+            BorderThickness="1"
+            CornerRadius="8">
+            <StackPanel>
+                <controls:TextBlock
+                    Foreground="{DynamicResource PrimaryTextBrush}"
+                    Text="{DynamicResource Guide.SkipPrompt}"
+                    TextWrapping="Wrap" />
+                <StackPanel
+                    Margin="0,18,0,0"
+                    HorizontalAlignment="Right"
+                    Orientation="Horizontal">
+                    <Button
+                        Padding="14,4"
+                        Command="{s:Action CancelSkipGuide}"
+                        Content="{DynamicResource Common.Cancel}" />
+                    <Button
+                        Margin="8,0,0,0"
+                        Padding="14,4"
+                        Command="{s:Action ConfirmSkipGuide}"
+                        Content="{DynamicResource Common.Confirm}" />
+                </StackPanel>
+            </StackPanel>
+        </Border>
+    </Border>
 </Grid>
 </UserControl>

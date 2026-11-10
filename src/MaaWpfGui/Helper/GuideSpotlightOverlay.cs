@@ -62,6 +62,13 @@ public sealed class GuideSpotlightOverlay : FrameworkElement
 
     private bool _invalidateQueued;
 
+    // 上一次已排重绘的目标快照：拖拽等高频布局变化时目标没动就跳过整窗重绘，避免卡顿
+    private FrameworkElement? _lastLayoutTarget;
+    private Rect _lastLayoutHole;
+    private string _lastLayoutText = string.Empty;
+    private GuideHighlight.GuideHighlightPlacement _lastLayoutPlacement;
+    private GuideHighlight.GuideHighlightMode _lastLayoutMode;
+
     /// <summary>
     /// Initializes a new instance of the <see cref="GuideSpotlightOverlay"/> class.
     /// </summary>
@@ -535,6 +542,7 @@ public sealed class GuideSpotlightOverlay : FrameworkElement
         Current = this;
         ThemeHelper.ThemeChanged -= OnThemeChanged;
         ThemeHelper.ThemeChanged += OnThemeChanged;
+        _lastLayoutTarget = null;
         GuideHighlight.NotifyOverlayReady(this);
         InvalidateVisual();
     }
@@ -569,6 +577,29 @@ public sealed class GuideSpotlightOverlay : FrameworkElement
         {
             return;
         }
+
+        // 拖拽任务列表会持续触发布局；目标未移动时跳过整窗重绘，避免遮罩全屏重绘导致卡顿
+        var bounds = new Rect(0, 0, ActualWidth, ActualHeight);
+        if (!TryResolveTarget(bounds, out var target, out var hole))
+        {
+            _lastLayoutTarget = null;
+            return;
+        }
+
+        var text = GuideHighlight.GetText(target) ?? string.Empty;
+        var placement = GuideHighlight.GetPlacement(target);
+        var mode = GuideHighlight.GetMode(target);
+        if (ReferenceEquals(target, _lastLayoutTarget) && hole.Equals(_lastLayoutHole) && text == _lastLayoutText &&
+            placement == _lastLayoutPlacement && mode == _lastLayoutMode)
+        {
+            return;
+        }
+
+        _lastLayoutTarget = target;
+        _lastLayoutHole = hole;
+        _lastLayoutText = text;
+        _lastLayoutPlacement = placement;
+        _lastLayoutMode = mode;
 
         _invalidateQueued = true;
         Dispatcher.BeginInvoke(

@@ -1129,25 +1129,43 @@ public class SettingsViewModel : Screen
         GuideStepIndex = target;
     }
 
-    // UI 绑定的方法：跳过设置指引；调试环境直接结束，其余先弹确认（含重看入口指引）再结束
+    private bool _guideSkipConfirmVisible;
+
+    /// <summary>
+    /// Gets a value indicating whether the in-guide skip confirmation is shown.
+    /// </summary>
+    public bool GuideSkipConfirmVisible
+    {
+        get => _guideSkipConfirmVisible;
+        private set => SetAndNotify(ref _guideSkipConfirmVisible, value);
+    }
+
+    // UI 绑定的方法：跳过设置指引；调试环境直接结束，其余先显示页内确认再结束
     [UsedImplicitly]
     public void SkipGuide()
     {
         if (!IsLocalDebugEnvironment)
         {
-            var result = MessageBoxHelper.Show(
-                LocalizationHelper.GetString("Guide.SkipPrompt"),
-                LocalizationHelper.GetString("Common.Tip"),
-                MessageBoxButton.OKCancel,
-                MessageBoxImage.Question,
-                ok: LocalizationHelper.GetString("Guide.Skip"));
-            if (result != MessageBoxResult.OK)
-            {
-                return;
-            }
+            GuideSkipConfirmVisible = true;
+            return;
         }
 
         CompleteGuide(false);
+    }
+
+    // UI 绑定的方法：确认跳过设置指引
+    [UsedImplicitly]
+    public void ConfirmSkipGuide()
+    {
+        GuideSkipConfirmVisible = false;
+        CompleteGuide(false);
+    }
+
+    // UI 绑定的方法：取消跳过设置指引
+    [UsedImplicitly]
+    public void CancelSkipGuide()
+    {
+        GuideSkipConfirmVisible = false;
     }
 
     // UI 绑定的方法
@@ -1163,6 +1181,7 @@ public class SettingsViewModel : Screen
     /// <param name="notify">是否提示完成后如何重新打开指引；主动跳过时不再重复引导文案。</param>
     private void CompleteGuide(bool notify)
     {
+        GuideSkipConfirmVisible = false;
         TaskSettingVisibilities.Guide = false;
         GuideStepIndex = GuideMaxStep;
         ConfigFactory.Root.Gui.GuideTutorialVersion = Gui.CurrentGuideTutorialVersion;
