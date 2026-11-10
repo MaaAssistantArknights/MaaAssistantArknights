@@ -102,7 +102,7 @@ constexpr int MaxCandidates = 3000;
 std::vector<std::string> load_keys(const std::filesystem::path& path)
 {
     std::vector<std::string> keys;
-    std::ifstream ifs(platform::path_to_utf8_string(path), std::ios::binary);
+    std::ifstream ifs(path, std::ios::binary);
     if (!ifs) {
         return keys;
     }
@@ -260,7 +260,7 @@ void fill_rec_input(const cv::Mat& crop, std::vector<float>& dst, int bucket_wid
 
 std::shared_ptr<ov::Model> read_static_model(ov::Core& core, const std::filesystem::path& path, const ov::Shape& target)
 {
-    std::shared_ptr<ov::Model> model = core.read_model(platform::path_to_utf8_string(path));
+    std::shared_ptr<ov::Model> model = core.read_model(path);
     const auto input = model->input();
     if (input.get_partial_shape().is_static() && input.get_shape() == target) {
         return model;
@@ -411,7 +411,7 @@ bool OcrPack::load(const std::filesystem::path& path)
         // FNV-1a over the file contents catches same-size replacements whose
         // timestamp did not change (e.g. resource archives extracted in place).
         std::uint64_t hash = 1'469'598'103'934'665'603ULL;
-        std::ifstream ifs(platform::path_to_utf8_string(p), std::ios::binary);
+        std::ifstream ifs(p, std::ios::binary);
         std::array<char, 64 * 1024> buffer {};
         while (ifs) {
             ifs.read(buffer.data(), static_cast<std::streamsize>(buffer.size()));
