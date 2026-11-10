@@ -2580,6 +2580,7 @@ Only level rewards can be farmed; to get the Engraved Medal, all ｢Key Objectiv
     <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.Title">Drag &amp; Drop Update</system:String>
     <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.Unknown">Not a recognizable update package.</system:String>
     <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.WrongVersion">Version mismatch: the package must target your current MAA version.</system:String>
+    <system:String x:Key="TutorialChallenge.Level.ExportLogs.EmptyPackageNote">（Tutorial demo: the archive is empty）</system:String>
     <system:String x:Key="TutorialChallenge.Level.ExportLogs.Generating">Generating…</system:String>
     <system:String x:Key="TutorialChallenge.Level.ExportLogs.Goal">Hit a bug and want to report it? Generate an error report.</system:String>
     <system:String x:Key="TutorialChallenge.Level.ExportLogs.Title">Export Logs</system:String>

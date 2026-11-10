@@ -2580,6 +2580,7 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.Title">拖拽更新</system:String>
     <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.Unknown">不是可识别的更新包。</system:String>
     <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.WrongVersion">版本不匹配：更新包必须升级到你当前这个版本。</system:String>
+    <system:String x:Key="TutorialChallenge.Level.ExportLogs.EmptyPackageNote">（教学演示，压缩包为空）</system:String>
     <system:String x:Key="TutorialChallenge.Level.ExportLogs.Generating">生成中…</system:String>
     <system:String x:Key="TutorialChallenge.Level.ExportLogs.Goal">遇到 bug 要反馈？生成一份错误报告。</system:String>
     <system:String x:Key="TutorialChallenge.Level.ExportLogs.Title">导出日志</system:String>

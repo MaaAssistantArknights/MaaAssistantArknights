@@ -18,6 +18,7 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text.Json;
@@ -1566,7 +1567,7 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
     public bool CanExportLogs => !IsExportingLogs;
 
     /// <summary>
-    /// 沙盒内模拟 ｢生成日志压缩包｣：短暂延迟后弹成功 Growl（token 限定在关卡窗口内），并记录点击态供关卡判定。
+    /// 生成空 report_*.zip 到 reports 目录（对齐真实 GenerateSupportPayload 命名），提示真实文案并追加教学演示说明，完成后打开 reports 文件夹。
     /// </summary>
     /// <returns>Task</returns>
     public async Task ExportLogs()
@@ -1579,10 +1580,23 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
         IsExportingLogs = true;
         try
         {
-            // 模拟真实导出耗时；结束后回到 UI 线程弹 Growl 与置判定态，不加 ConfigureAwait(false)
-            await Task.Delay(1500);
-            var msg = LocalizationHelper.GetString("Error.GenerateSupportPayloadSuccessful");
+            // 模拟真实导出耗时；空 zip 生成 + 目录创建为轻 IO，放后台线程对齐真实路径
+            string fullZipPath = await Task.Run(() =>
+            {
+                Directory.CreateDirectory(PathsHelper.ReportsDir);
+                string path = Path.Combine(PathsHelper.ReportsDir, $"report_{DateTimeOffset.Now:MM-dd_HH-mm-ss}.zip");
+                using (var fs = new FileStream(path, FileMode.Create))
+                using (var archive = new ZipArchive(fs, ZipArchiveMode.Create))
+                {
+                    // 空 zip：教学演示用
+                }
+
+                return path;
+            });
+
+            var msg = $"{LocalizationHelper.GetString("Error.GenerateSupportPayloadSuccessful")}\n{fullZipPath}\n{LocalizationHelper.GetString("TutorialChallenge.Level.ExportLogs.EmptyPackageNote")}";
             GrowlHelper.Show(InfoType.Success, msg, () => Growl.Success(msg, "TutorialChallenge"));
+            IssueReportUserControlModel.Instance.OpenReportsFolder();
             ExportLogsClicked = true;
             Evaluate();
         }

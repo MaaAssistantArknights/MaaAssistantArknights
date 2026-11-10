@@ -2580,6 +2580,7 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.Title">드래그 업데이트</system:String>
     <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.Unknown">인식할 수 있는 업데이트 패키지가 아닙니다.</system:String>
     <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.WrongVersion">버전 불일치: 업데이트 패키지는 현재 버전을 대상으로 해야 합니다.</system:String>
+    <system:String x:Key="TutorialChallenge.Level.ExportLogs.EmptyPackageNote">（튜토리얼 데모: 압축 파일이 비어 있습니다）</system:String>
     <system:String x:Key="TutorialChallenge.Level.ExportLogs.Generating">생성 중…</system:String>
     <system:String x:Key="TutorialChallenge.Level.ExportLogs.Goal">버그를 제보하고 싶다면? 오류 보고서를 하나 생성하세요.</system:String>
     <system:String x:Key="TutorialChallenge.Level.ExportLogs.Title">로그 내보내기</system:String>
