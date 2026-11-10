@@ -52,7 +52,7 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
     /// </summary>
     public List<DailyReportAccount> DailyReportAccounts
     {
-        get => ConfigFactory.Root.Gui.DailyReportAccounts;
+        get => ConfigFactory.Root.Gui.DailyReportAccounts ?? [];
         set
         {
             ConfigFactory.Root.Gui.DailyReportAccounts = value;

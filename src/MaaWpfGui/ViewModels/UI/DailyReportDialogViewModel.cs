@@ -148,7 +148,6 @@ public class DailyReportDialogViewModel : PropertyChangedBase
         SettingsViewModel.GuiSettings.DailyReportAccountId = account.Id;
         NewAccountName = string.Empty;
         LoadHistory();
-        ViewingAccount = ViewingAccounts.First(a => a.Value == account.Id);
         RefreshAll();
     }
 
@@ -514,9 +513,7 @@ public class DailyReportDialogViewModel : PropertyChangedBase
             from.ToDateTime(TimeOnly.MinValue),
             to.ToDateTime(TimeOnly.MinValue),
             CalendarMaxDate,
-            DailyReportStore.LoadRange(DateOnly.MinValue, DateOnly.MaxValue)
-                .Where(d => d.Data.Sessions.Any(MatchesViewingAccount))
-                .Select(d => d.Day.ToDateTime(TimeOnly.MinValue)).ToHashSet());
+            _recordedDays);
     }
 
     /// <summary>
@@ -698,6 +695,9 @@ public class DailyReportDialogViewModel : PropertyChangedBase
     // 最早一条记录所在的游戏日，没有记录时为 null
     private DateOnly? _historyStart;
 
+    // 与历史排名同批加载，打开日历时不再反序列化全部历史文件。
+    private HashSet<DateTime> _recordedDays = [];
+
     /// <summary>
     /// 读取全部历史记录并按关卡分组，供单件理智排名使用。
     /// </summary>
@@ -705,7 +705,9 @@ public class DailyReportDialogViewModel : PropertyChangedBase
     {
         var days = DailyReportStore.LoadRange(DateOnly.MinValue, DateOnly.MaxValue);
         RefreshAccountOptions(days.SelectMany(d => d.Data.Sessions));
-        _historyStart = days.Where(d => d.Data.Sessions.Any(MatchesViewingAccount)).Select(d => (DateOnly?)d.Day).Min();
+        var matchingDays = days.Where(d => d.Data.Sessions.Any(MatchesViewingAccount)).ToList();
+        _recordedDays = matchingDays.Select(d => d.Day.ToDateTime(TimeOnly.MinValue)).ToHashSet();
+        _historyStart = matchingDays.Select(d => (DateOnly?)d.Day).Min();
         _history = days
             .SelectMany(d => d.Data.Sessions)
             .Where(s => s.Times > 0 && MatchesViewingAccount(s))
