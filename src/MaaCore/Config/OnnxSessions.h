@@ -32,6 +32,47 @@ public:
     // 模型路径变化会被挂起，待引用归零时才销毁旧会话、由下次 acquire 按新路径重建。
     Ort::Session& acquire(const std::string& name);
     void release(const std::string& name);
+
+    // RAII 版本：持有期间会话不会被加速器回退销毁，析构时自动 release。
+    class SessionLease
+    {
+    public:
+        SessionLease(OnnxSessions* owner, std::string name, Ort::Session& session) noexcept :
+            m_owner(owner),
+            m_name(std::move(name)),
+            m_session(&session)
+        {
+        }
+
+        SessionLease(SessionLease&& other) noexcept :
+            m_owner(other.m_owner),
+            m_name(std::move(other.m_name)),
+            m_session(other.m_session)
+        {
+            other.m_owner = nullptr;
+            other.m_session = nullptr;
+        }
+
+        SessionLease(const SessionLease&) = delete;
+        SessionLease& operator=(const SessionLease&) = delete;
+        SessionLease& operator=(SessionLease&&) = delete;
+
+        ~SessionLease()
+        {
+            if (m_owner != nullptr) {
+                m_owner->release(m_name);
+            }
+        }
+
+        [[nodiscard]] Ort::Session& session() const noexcept { return *m_session; }
+
+    private:
+        OnnxSessions* m_owner = nullptr;
+        std::string m_name;
+        Ort::Session* m_session = nullptr;
+    };
+
+    SessionLease acquire_lease(const std::string& name);
     bool use_cpu();
     bool use_gpu(GpuDeviceSelector selector);
 

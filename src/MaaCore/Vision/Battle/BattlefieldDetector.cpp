@@ -53,7 +53,8 @@ std::vector<BattlefieldDetector::OperatorResult> BattlefieldDetector::operator_a
         input_shape.data(),
         input_shape.size());
 
-    auto& session = OnnxSessions::get_instance().get("operators_det");
+    auto lease = OnnxSessions::get_instance().acquire_lease("operators_det");
+    auto& session = lease.session();
 
     Ort::AllocatorWithDefaultOptions allocator;
     std::string input_name = session.GetInputNameAllocated(0, allocator).get();

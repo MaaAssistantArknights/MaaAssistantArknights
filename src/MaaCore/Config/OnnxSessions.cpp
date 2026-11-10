@@ -234,6 +234,14 @@ void asst::OnnxSessions::fallback_to_cpu_locked(const std::string& name)
 
 Ort::Session& asst::OnnxSessions::get_or_create(const std::string& name)
 {
+    // NPU 已禁用时不能让缓存的 NPU 会话继续参与推理：先退役，再按 CPU 重建。
+    if (npu_unavailable() && m_npu_sessions.contains(name)) {
+        if (auto iter = m_sessions.find(name); iter != m_sessions.end()) {
+            retire_session_locked(iter->first, std::move(iter->second), m_session_users.contains(iter->first));
+            m_sessions.erase(iter);
+        }
+    }
+
     if (m_sessions.contains(name)) {
         return *m_sessions.at(name);
     }
@@ -261,6 +269,8 @@ Ort::Session& asst::OnnxSessions::get_or_create(const std::string& name)
         npu_guard = std::unique_lock<std::timed_mutex>(openvino_npu_mutex(), std::defer_lock);
         if (!npu_guard.try_lock_for(std::chrono::seconds(60))) {
             LogError << __FUNCTION__ << "timed out waiting for NPU lock; falling back to CPU mode";
+            // 锁被卡死的 NPU 工作占用：本进程不再使用 NPU，CPU 会话后续也不再等待该锁。
+            mark_npu_unavailable("NPU lock timeout during session creation");
             fallback_to_cpu_locked(name);
             return *m_sessions.at(name);
         }
@@ -297,6 +307,12 @@ Ort::Session& asst::OnnxSessions::acquire(const std::string& name)
     Ort::Session& session = get_or_create(name);
     ++m_session_users[name];
     return session;
+}
+
+asst::OnnxSessions::SessionLease asst::OnnxSessions::acquire_lease(const std::string& name)
+{
+    Ort::Session& session = acquire(name);
+    return SessionLease(this, name, session);
 }
 
 void asst::OnnxSessions::release(const std::string& name)

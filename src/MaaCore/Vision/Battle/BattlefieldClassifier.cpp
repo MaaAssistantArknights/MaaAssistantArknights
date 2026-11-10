@@ -79,7 +79,8 @@ BattlefieldClassifier::SkillReadyResult BattlefieldClassifier::skill_ready_analy
     auto memory_info = Ort::MemoryInfo::CreateCpu(OrtDeviceAllocator, OrtMemTypeCPU);
     constexpr int64_t batch_size = 1;
 
-    auto& session = OnnxSessions::get_instance().get("skill_ready_cls");
+    auto lease = OnnxSessions::get_instance().acquire_lease("skill_ready_cls");
+    auto& session = lease.session();
 
     std::array<int64_t, 4> input_shape { batch_size, cropped_image.channels(), cropped_image.rows, cropped_image.cols };
 
@@ -253,7 +254,8 @@ BattlefieldClassifier::DeployDirectionResult BattlefieldClassifier::deploy_direc
         output_shape.data(),
         output_shape.size());
 
-    auto& session = OnnxSessions::get_instance().get("deploy_direction_cls");
+    auto lease = OnnxSessions::get_instance().acquire_lease("deploy_direction_cls");
+    auto& session = lease.session();
     // 这俩是 hardcode 在模型里的
     constexpr const char* input_names[] = { "input" };   // session.GetInputName()
     constexpr const char* output_names[] = { "output" }; // session.GetOutputName()

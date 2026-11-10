@@ -353,6 +353,8 @@ struct OcrPack::Impl
     ov::CompiledModel ov_det_model;
     ov::InferRequest ov_det_req;
     bool ov_det_ready = false;
+    // NPU 锁等待超时：让 recognize() 放弃 OpenVINO 结果并回退 FastDeploy CPU
+    bool ov_lock_timeout = false;
 
     struct RecBucket
     {
@@ -541,15 +543,21 @@ OcrPack::ResultsVec OcrPack::recognize(const cv::Mat& image, bool without_det, c
 
 #ifdef MAA_WITH_OPENVINO
     if (m_ov_active) {
+        m_impl->ov_lock_timeout = false;
         try {
-            return recognize_openvino(image, without_det, base_roi);
+            ResultsVec results = recognize_openvino(image, without_det, base_roi);
+            if (!m_impl->ov_lock_timeout) {
+                return results;
+            }
+            LogWarn << __FUNCTION__ << "OpenVINO NPU lock timed out; falling back to FastDeploy CPU";
         }
         catch (const std::exception& e) {
             LogError << __FUNCTION__ << "OpenVINO OCR failed:" << e.what() << "falling back to FastDeploy CPU";
-            abandon_openvino_objects();
-            if (!create_pipeline(true)) {
-                return {};
-            }
+        }
+
+        abandon_openvino_objects();
+        if (!create_pipeline(true)) {
+            return {};
         }
     }
 #endif
@@ -1086,6 +1094,7 @@ OcrPack::ResultsVec
         try {
             const auto npu_lock = acquire_ocr_npu_lock(m_impl->ov_device);
             if (npu_lock.timed_out) {
+                m_impl->ov_lock_timeout = true;
                 m_impl->ov_failed_buckets.insert(width);
                 return false;
             }
@@ -1120,6 +1129,7 @@ OcrPack::ResultsVec
         {
             const auto npu_lock = acquire_ocr_npu_lock(m_impl->ov_device);
             if (npu_lock.timed_out) {
+                m_impl->ov_lock_timeout = true;
                 out_score = 0.0F;
                 return {};
             }
@@ -1222,6 +1232,7 @@ OcrPack::ResultsVec
             {
                 const auto npu_lock = acquire_ocr_npu_lock(m_impl->ov_device);
                 if (npu_lock.timed_out) {
+                    m_impl->ov_lock_timeout = true;
                     return {};
                 }
                 m_impl->ov_det_req.set_input_tensor(det_tensor);
