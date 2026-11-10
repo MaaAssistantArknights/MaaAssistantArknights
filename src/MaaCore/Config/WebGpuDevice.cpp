@@ -5,6 +5,7 @@
 #include <iterator>
 #include <memory>
 #include <mutex>
+#include <string_view>
 #include <vector>
 
 #include "Utils/Logger.hpp"
@@ -87,6 +88,8 @@ std::shared_ptr<DawnContext> create_context(const GpuDeviceSelector& selector, i
     }
 #elif defined(__APPLE__)
     adapter_options.backendType = wgpu::BackendType::Metal;
+#elif defined(__linux__)
+    adapter_options.backendType = wgpu::BackendType::Vulkan;
 #endif
 
     auto adapters = context->instance.EnumerateAdapters(&adapter_options);
@@ -105,16 +108,32 @@ std::shared_ptr<DawnContext> create_context(const GpuDeviceSelector& selector, i
     }
 
     WGPUAdapter adapter = adapters.at(index).Get();
+    wgpu::AdapterInfo adapter_info {};
+    if (wgpu::Adapter(adapter).GetInfo(&adapter_info) == wgpu::Status::Success) {
+        LogInfo << "WebGPU adapter" << index << std::string_view(adapter_info.description) << "vendor"
+                << std::format("{:#06x}", adapter_info.vendorID) << "device"
+                << std::format("{:#06x}", adapter_info.deviceID);
+    }
 
     // ORT 自建 device 时会按 adapter 请求一批特性和 limits（WebGpuContext::Initialize），
     // 但 device 由调用方提供时它不会补回来，所以这里照做，免得它的内核
     // （subgroups / subgroup matrix / f16 / timestamp query 等）编译不起来
     WGPUSupportedFeatures supported_features {};
     ::wgpuAdapterGetFeatures(adapter, &supported_features);
-    const std::vector<WGPUFeatureName> features(
+    std::vector<WGPUFeatureName> features(
         supported_features.features,
         supported_features.features + supported_features.featureCount);
     ::wgpuSupportedFeaturesFreeMembers(supported_features);
+
+#ifdef __linux__
+    // Vulkan exposes mutually exclusive fence types. ORT does not import
+    // shared fences, so leave them out of its compute device.
+    std::erase_if(features, [](WGPUFeatureName feature) {
+        return feature == WGPUFeatureName_SharedFenceVkSemaphoreOpaqueFD ||
+               feature == WGPUFeatureName_SharedFenceSyncFD ||
+               feature == WGPUFeatureName_SharedFenceVkSemaphoreZirconHandle;
+    });
+#endif
 
     WGPULimits adapter_limits {};
     const bool has_limits = ::wgpuAdapterGetLimits(adapter, &adapter_limits) == WGPUStatus_Success;
@@ -180,6 +199,33 @@ std::optional<std::unordered_map<std::string, std::string>>
     make_webgpu_provider_options(const GpuDeviceSelector& selector)
 {
 #ifdef ASST_HAS_WEBGPU_DAWN
+    const OrtApi* api = OrtGetApiBase()->GetApi(ORT_API_VERSION);
+    if (api == nullptr) {
+        LogError << "failed to get the onnxruntime C API";
+        return std::nullopt;
+    }
+
+    char** providers = nullptr;
+    int provider_count = 0;
+    if (OrtStatus* status = api->GetAvailableProviders(&providers, &provider_count)) {
+        LogError << "failed to query onnxruntime execution providers:" << api->GetErrorMessage(status);
+        api->ReleaseStatus(status);
+        return std::nullopt;
+    }
+
+    bool has_webgpu = false;
+    for (int index = 0; index < provider_count; ++index) {
+        if (std::string_view(providers[index]) == "WebGpuExecutionProvider") {
+            has_webgpu = true;
+            break;
+        }
+    }
+    api->ReleaseStatus(api->ReleaseAvailableProviders(providers, provider_count));
+    if (!has_webgpu) {
+        LogWarn << "WebGPU execution provider is unavailable";
+        return std::nullopt;
+    }
+
     const auto device_id = selector.resolve_device_id();
     if (!device_id) {
         return std::nullopt;
