@@ -320,7 +320,7 @@
                     VerticalAlignment="Center"
                     Background="{DynamicResource PrimaryBrush}"
                     CornerRadius="4"
-                    Visibility="{c:Binding IsCompleted}">
+                    Visibility="{c:Binding IsCompleted, FalseToVisibility=Hidden}">
                     <controls:TextBlock Foreground="{DynamicResource TextIconBrush}" Text="{DynamicResource TutorialChallenge.Completed}" />
                 </Border>
                 <Button
