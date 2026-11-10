@@ -1405,7 +1405,7 @@
     "resource/global/txwy/resource/template/WakeUp/GameStart": "251b4a4f08c0a29bbe8778b4654503a8b7d3f9058e8387afbad92760228d681b",
     "resource/global/txwy/resource/template/WakeUp/StartToWakeUp": "586fc889d03e16e78693c53474cbf2d8b9e906ffe2577f1858e2c7f812893d94",
     "resource/global/txwy/resource/template/WakeUp/NotDownloadVoice": "236552be7147e5fe19b134d4f51e748883b3637f81118f2b32c8f3ddba24cc5a",
-    "resource/global/txwy/resource/template/StageNavigation/Annihilation/StageAnnihilation": "c8d89eed5d0405f58b782c75f4b1c5e3254aa873c01e65601d865553a1dd5964",
+    "resource/global/txwy/resource/template/StageNavigation/Annihilation/StageAnnihilation": "c572f5a992ddb9fe795685504567732c1441a556ce42770770619a26d607055d",
     "resource/global/txwy/resource/template/StageNavigation/Annihilation/AnnihilationConfirm": "89f6c91efa02c1c7c689b75fa5f8ec365962306169176ff584b9ca504471fcba",
     "resource/global/txwy/resource/template/StageNavigation/Annihilation/AnnihilationReturnFlag": "4d0ff310221016d8e7c4d307589e4cf565d82df9893f7ff6b55a7bb4bf85dbd5",
     "resource/global/txwy/resource/template/StageNavigation/Resource/StageLS": "5d071e9bf051c3fe9b45465cb44a12e088e92ce9cef9cff296a84bdc2b40ae79",
@@ -4582,5 +4582,6 @@
     "resource/template/MiniGame/SPA/MiniGame@SPA@StartSimulation2": "f66f18c0f5ac1b0b3ed5be0eb8e6c6a3f1338a0bf860a80d624100b049c6da18",
     "resource/template/MiniGame/SPA/MiniGame@SPA@CustomOpersConfirm": "1b69aadba5b2502ef53d7bc99bbed2d73d796e1124fb17f14720ec812222914c",
     "resource/template/MiniGame/SPA/MiniGame@SPA@EnterIndependentQuickly": "b41d1f633f822c488f3c7ee19cf0a5a271030d0696e93e97520a842dc79784c8",
-    "resource/template/MiniGame/SPA/MiniGame@SPA@GoliathConfirmSelect2": "bcb3ea17d41947c58762a9dd4f21dc747b5005e4f508f02c1517ae16e774e017"
+    "resource/template/MiniGame/SPA/MiniGame@SPA@GoliathConfirmSelect2": "bcb3ea17d41947c58762a9dd4f21dc747b5005e4f508f02c1517ae16e774e017",
+    "resource/global/YoStarKR/resource/template/Roguelike/Phantom/Phantom@Roguelike@GamePass4": "604886044925dc2a91ef9015f86ee826c289a9308d42a6c62a8e8e0ebd7cb5b2"
 }
