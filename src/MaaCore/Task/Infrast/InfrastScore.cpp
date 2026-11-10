@@ -959,9 +959,10 @@ double office_score(const ScoreOper& oper)
         else if (icon == "bskill_hire_skgoat4") { // 永不停歇·β：水灯心
             score += 0.45;
         }
-        else if (icon == "bskill_hire_skgoat") { // 准时下班：地灵
-                                                 // -0.001 使之低于其它 45% 人脉联络速度技能（珊比、遥等）
-                                                 // 避免同分时因 opers 数组顺序靠前而被优先选中
+        else if (icon == "bskill_hire_skgoat") { 
+            // 准时下班：地灵
+            // -0.001 使之低于其它 45% 人脉联络速度技能（珊比、遥等）
+            // 避免同分时因 opers 数组顺序靠前而被优先选中
             score += 0.449;
         }
 
