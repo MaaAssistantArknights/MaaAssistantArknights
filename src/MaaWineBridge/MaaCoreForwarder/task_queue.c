@@ -33,11 +33,21 @@ struct _TaskQueue
 static Task* task_new(TaskFunc function, void* arg)
 {
     Task* task = calloc(1, sizeof(Task));
+    if (!task) {
+        return NULL;
+    }
     task->function = function;
     task->arg = arg;
-    pthread_mutex_init(&task->mutex, NULL);
-    pthread_cond_init(&task->cond_done, NULL);
-    task->done = 0;
+    // 失败清理只能销毁已初始化的同步对象，否则是 UB。
+    if (pthread_mutex_init(&task->mutex, NULL) != 0) {
+        free(task);
+        return NULL;
+    }
+    if (pthread_cond_init(&task->cond_done, NULL) != 0) {
+        pthread_mutex_destroy(&task->mutex);
+        free(task);
+        return NULL;
+    }
     atomic_init(&task->ref_count, 1);
     return task;
 }
@@ -56,13 +66,21 @@ void task_release(Task* task)
     }
 }
 
-void task_invoke(Task* task)
+// 回调返回后，在锁内向等待方发布完成状态。
+static void task_complete(Task* task)
 {
     pthread_mutex_lock(&task->mutex);
-    task->function(task->arg);
     task->done = 1;
     pthread_cond_signal(&task->cond_done);
     pthread_mutex_unlock(&task->mutex);
+}
+
+void task_invoke(Task* task)
+{
+    if (task->function) {
+        task->function(task->arg);
+    }
+    task_complete(task);
 }
 
 void task_wait(Task* task)
@@ -76,33 +94,63 @@ void task_wait(Task* task)
 
 TaskQueue* task_queue_new(TaskQueueWorkerFactory worker_factory)
 {
-    TaskQueue* queue = calloc(1, sizeof(TaskQueue));
-    queue->head = 0;
-    queue->tail = 0;
-    queue->stop = 0;
-    queue->worker_factory = worker_factory;
-    TaskQueueWorker* worker = worker_factory(queue);
-    if (!worker) {
-        free(queue);
+    if (!worker_factory) {
         return NULL;
     }
-    queue->workers[queue->worker_count++] = worker;
 
-    pthread_mutex_init(&queue->mutex, NULL);
-    pthread_cond_init(&queue->cond_not_empty, NULL);
-    pthread_cond_init(&queue->cond_not_full, NULL);
+    TaskQueue* queue = calloc(1, sizeof(TaskQueue));
+    if (!queue) {
+        return NULL;
+    }
+    queue->worker_factory = worker_factory;
+
+    // worker 启动后立刻开始消费，同步对象必须先初始化。
+    if (pthread_mutex_init(&queue->mutex, NULL) != 0) {
+        goto fail_queue;
+    }
+    if (pthread_cond_init(&queue->cond_not_empty, NULL) != 0) {
+        goto fail_mutex;
+    }
+    if (pthread_cond_init(&queue->cond_not_full, NULL) != 0) {
+        goto fail_not_empty;
+    }
+
+    TaskQueueWorker* worker = worker_factory(queue);
+    if (!worker) {
+        goto fail_not_full;
+    }
+    queue->workers[queue->worker_count++] = worker;
     return queue;
+
+fail_not_full:
+    pthread_cond_destroy(&queue->cond_not_full);
+fail_not_empty:
+    pthread_cond_destroy(&queue->cond_not_empty);
+fail_mutex:
+    pthread_mutex_destroy(&queue->mutex);
+fail_queue:
+    free(queue);
+    return NULL;
 }
 
 void task_queue_free(TaskQueue* queue)
 {
+    if (!queue) {
+        return;
+    }
+
     pthread_mutex_lock(&queue->mutex);
     queue->stop = 1;
     pthread_cond_broadcast(&queue->cond_not_empty);
+    pthread_cond_broadcast(&queue->cond_not_full);
     pthread_mutex_unlock(&queue->mutex);
 
+    // 先等待 worker 退出，再销毁其访问的队列同步对象。
     for (int i = 0; i < queue->worker_count; i++) {
         TaskQueueWorker* worker = queue->workers[i];
+        if (!worker) {
+            continue;
+        }
         worker->join(worker);
         worker->release(worker);
         queue->workers[i] = NULL;
@@ -116,39 +164,39 @@ void task_queue_free(TaskQueue* queue)
 
 Task* task_queue_push(TaskQueue* queue, TaskFunc function, void* arg)
 {
-    if (queue->stop) {
+    if (!queue) {
         return NULL;
     }
+
     pthread_mutex_lock(&queue->mutex);
     // TODO: add worker if queue is full
-    while ((queue->tail + 1) % MAX_TASKS == queue->head) {
+    while (!queue->stop && (queue->tail + 1) % MAX_TASKS == queue->head) {
         pthread_cond_wait(&queue->cond_not_full, &queue->mutex);
     }
-    Task* task = task_new(function, arg);
 
-    queue->tasks[queue->tail] = task;
-    queue->tail = (queue->tail + 1) % MAX_TASKS;
-
-    pthread_cond_signal(&queue->cond_not_empty);
+    Task* task = NULL;
+    if (!queue->stop && (task = task_new(function, arg)) != NULL) {
+        // 队列与调用方各持一个引用；先 addref 再入队，避免 worker 先释放最后一个引用。
+        task_addref(task);
+        queue->tasks[queue->tail] = task;
+        queue->tail = (queue->tail + 1) % MAX_TASKS;
+        pthread_cond_signal(&queue->cond_not_empty);
+    }
     pthread_mutex_unlock(&queue->mutex);
-    task_addref(task);
-    // 1 reference for the queue, 1 for the caller
     return task;
 }
 
 Task* task_queue_pop(TaskQueue* queue)
 {
-    if (queue->stop) {
+    if (!queue) {
         return NULL;
     }
 
     pthread_mutex_lock(&queue->mutex);
-
     while (queue->head == queue->tail && !queue->stop) {
         pthread_cond_wait(&queue->cond_not_empty, &queue->mutex);
     }
-
-    if (queue->stop) {
+    if (queue->head == queue->tail) {
         pthread_mutex_unlock(&queue->mutex);
         return NULL;
     }
