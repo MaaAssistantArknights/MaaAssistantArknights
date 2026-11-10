@@ -330,14 +330,18 @@
             </StackPanel>
         </Grid>
 
-        <!--  双页签布局对齐真实主窗口（TabControlInLine）：任务队列页为既有操作场，设置页为沙盒设置骨架  -->
+        <!--  双页签布局对齐真实主窗口（TabControlInLine）：任务队列页为既有操作场，设置页为沙盒设置骨架；两页皆无时整控隐藏（如拖拽更新关只留投放区）  -->
         <TabControl
             Grid.Row="1"
             Background="{DynamicResource RegionBrushOpacity25}"
             BorderThickness="0,1,0,0"
             SelectedIndex="{Binding SelectedTab}"
-            Style="{StaticResource TabControlInLine}">
-            <TabItem Header="{DynamicResource TaskQueue.Farming}" Style="{StaticResource TabItemInLine}">
+            Style="{StaticResource TabControlInLine}"
+            Visibility="{c:Binding 'ShowTaskQueuePanel or ShowSettingsPanel'}">
+            <TabItem
+                Header="{DynamicResource TaskQueue.Farming}"
+                Style="{StaticResource TabItemInLine}"
+                Visibility="{c:Binding ShowTaskQueuePanel}">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="230" />
@@ -649,56 +653,12 @@
                         CornerRadius="4">
                         <Grid>
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto" />
                                 <RowDefinition Height="*" />
                                 <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
 
-                            <!--  更新包投放区：仅 ｢拖拽更新｣ 关卡显示，整窗任意位置均可拖入；描边框仅作状态清单展示，下方三项识别状态  -->
-                            <Border
-                                Grid.Row="0"
-                                Margin="8,8,8,0"
-                                Padding="10"
-                                BorderBrush="{DynamicResource BorderBrush}"
-                                BorderThickness="1"
-                                CornerRadius="4"
-                                Visibility="{c:Binding ShowDropZonePanel}">
-                                <StackPanel>
-                                    <controls:TextBlock
-                                        HorizontalAlignment="Center"
-                                        Foreground="{DynamicResource SecondaryTextBrush}"
-                                        Text="{DynamicResource TutorialChallenge.Level.DragDropUpdate.DropZone.Hint}"
-                                        TextAlignment="Center"
-                                        TextWrapping="Wrap" />
-                                    <!--  三项识别状态清单：识别成功后勾选，未识别为灰色未勾态；只读展示，不可交互  -->
-                                    <StackPanel Margin="0,8,0,0">
-                                        <CheckBox
-                                            Margin="0,2"
-                                            Focusable="False"
-                                            IsChecked="{Binding FullPackageIdentified, Mode=OneWay}"
-                                            IsHitTestVisible="False">
-                                            <controls:TextBlock Text="{DynamicResource TutorialChallenge.Level.DragDropUpdate.DropZone.FullPackage}" />
-                                        </CheckBox>
-                                        <CheckBox
-                                            Margin="0,2"
-                                            Focusable="False"
-                                            IsChecked="{Binding OtaPackageIdentified, Mode=OneWay}"
-                                            IsHitTestVisible="False">
-                                            <controls:TextBlock Text="{DynamicResource TutorialChallenge.Level.DragDropUpdate.DropZone.OtaPackage}" />
-                                        </CheckBox>
-                                        <CheckBox
-                                            Margin="0,2"
-                                            Focusable="False"
-                                            IsChecked="{Binding ResourcePackageIdentified, Mode=OneWay}"
-                                            IsHitTestVisible="False">
-                                            <controls:TextBlock Text="{DynamicResource TutorialChallenge.Level.DragDropUpdate.DropZone.ResourcePackage}" />
-                                        </CheckBox>
-                                    </StackPanel>
-                                </StackPanel>
-                            </Border>
-
                             <hc:ScrollViewer
-                                Grid.Row="1"
+                                Grid.Row="0"
                                 Margin="8,8,8,0"
                                 IsInertiaEnabled="True"
                                 PanningMode="Both">
@@ -1704,7 +1664,7 @@
                         properties:SearchHighlightBehavior.SectionFilter="{Binding SandboxSettingSections}"
                         IsInertiaEnabled="True"
                         PanningMode="Both">
-                        <!-- RowDefinitions 由 code-behind 按分区数动态生成（RebuildSettingSectionGrids） -->
+                        <!--  RowDefinitions 由 code-behind 按分区数动态生成（RebuildSettingSectionGrids）  -->
                         <Grid x:Name="SandboxSettingsContentGrid">
                             <hc:Divider
                                 x:Name="SandboxAdvancedDivider"
@@ -1717,6 +1677,49 @@
                 </Grid>
             </TabItem>
         </TabControl>
+
+        <!--  更新包投放区：仅 ｢拖拽更新｣ 关卡显示，整窗任意位置均可拖入；独立于 TabControl（该关无任务/设置页），描边框仅作状态清单展示，下方三项识别状态  -->
+        <Border
+            Grid.Row="1"
+            Margin="8,8,8,0"
+            Padding="10"
+            BorderBrush="{DynamicResource BorderBrush}"
+            BorderThickness="1"
+            CornerRadius="4"
+            Visibility="{c:Binding ShowDropZonePanel}">
+            <StackPanel>
+                <controls:TextBlock
+                    HorizontalAlignment="Center"
+                    Foreground="{DynamicResource SecondaryTextBrush}"
+                    Text="{DynamicResource TutorialChallenge.Level.DragDropUpdate.DropZone.Hint}"
+                    TextAlignment="Center"
+                    TextWrapping="Wrap" />
+                <!--  三项识别状态清单：识别成功后勾选，未识别为灰色未勾态；只读展示，不可交互  -->
+                <StackPanel Margin="0,8,0,0">
+                    <CheckBox
+                        Margin="0,2"
+                        Focusable="False"
+                        IsChecked="{Binding FullPackageIdentified, Mode=OneWay}"
+                        IsHitTestVisible="False">
+                        <controls:TextBlock Text="{DynamicResource TutorialChallenge.Level.DragDropUpdate.DropZone.FullPackage}" />
+                    </CheckBox>
+                    <CheckBox
+                        Margin="0,2"
+                        Focusable="False"
+                        IsChecked="{Binding OtaPackageIdentified, Mode=OneWay}"
+                        IsHitTestVisible="False">
+                        <controls:TextBlock Text="{DynamicResource TutorialChallenge.Level.DragDropUpdate.DropZone.OtaPackage}" />
+                    </CheckBox>
+                    <CheckBox
+                        Margin="0,2"
+                        Focusable="False"
+                        IsChecked="{Binding ResourcePackageIdentified, Mode=OneWay}"
+                        IsHitTestVisible="False">
+                        <controls:TextBlock Text="{DynamicResource TutorialChallenge.Level.DragDropUpdate.DropZone.ResourcePackage}" />
+                    </CheckBox>
+                </StackPanel>
+            </StackPanel>
+        </Border>
 
         <ScrollViewer
             Grid.Row="1"

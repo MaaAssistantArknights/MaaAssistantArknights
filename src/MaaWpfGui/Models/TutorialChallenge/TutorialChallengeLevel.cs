@@ -47,11 +47,6 @@ public enum TutorialChallengePanelKind
     Recruit,
 
     /// <summary>
-    /// 设置页 ｢定时执行｣ 场景（沙盒定时项与强制定时启动）。
-    /// </summary>
-    Schedule,
-
-    /// <summary>
     /// 设置页骨架场景（导航、搜索、分区折叠；具体内容随关卡投放）。
     /// </summary>
     Settings,

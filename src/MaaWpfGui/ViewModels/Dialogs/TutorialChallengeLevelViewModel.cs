@@ -727,9 +727,13 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
     public bool ShowRecruitPanel => _level.HasPanel(TutorialChallengePanelKind.Recruit) && SelectedRecruitTask != null;
 
     /// <summary>
-    /// Gets a value indicating whether 本关开放 ｢定时执行｣ 设置场景。
+    /// Gets a value indicating whether 任务队列页是否显示：本关声明了任一真任务面板（None/Fight/DepotMaintain/Recruit）时显示。
+    /// `Schedule` 已由 settingSectionKinds 接管定时分区，不算任务面板。
     /// </summary>
-    public bool ShowSchedulePanel => _level.HasPanel(TutorialChallengePanelKind.Schedule);
+    public bool ShowTaskQueuePanel => PanelKinds.Any(kind => kind is TutorialChallengePanelKind.None
+        or TutorialChallengePanelKind.Fight
+        or TutorialChallengePanelKind.DepotMaintain
+        or TutorialChallengePanelKind.Recruit);
 
     /// <summary>
     /// Gets a value indicating whether 本关开放设置页场景。

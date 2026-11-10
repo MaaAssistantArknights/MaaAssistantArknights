@@ -94,7 +94,7 @@ public static class TutorialChallengeLevels
             sandboxFactory: () => [new StartUpTask()],
             goalPredicate: (_, vm) => vm.SandboxSchedule.TimerList.Any(timer =>
                 timer.IsEnabled == true && timer.Hour == 17 && timer.Minute == 0),
-            panelKinds: [TutorialChallengePanelKind.Schedule, TutorialChallengePanelKind.Settings],
+            panelKinds: [TutorialChallengePanelKind.Settings],
             settingSectionKinds: [TutorialChallengeSettingSectionKind.Schedule]),
 
         new(
@@ -108,7 +108,7 @@ public static class TutorialChallengeLevels
             smartPredicate: (_, vm) => vm.SandboxSchedule.TimerList.Any(timer =>
                 timer.IsEnabled == true && timer.Hour == 4 && timer.Minute == 10),
             smartHintKey: "TutorialChallenge.Level.DailyReconnect.Hint",
-            panelKinds: [TutorialChallengePanelKind.Schedule, TutorialChallengePanelKind.Settings],
+            panelKinds: [TutorialChallengePanelKind.None, TutorialChallengePanelKind.Settings],
             settingSectionKinds: [TutorialChallengeSettingSectionKind.Schedule],
             difficulty: TutorialChallengeDifficulty.Medium),
 
@@ -120,7 +120,7 @@ public static class TutorialChallengeLevels
                 && _timerOnceSlots.Take(4).All(preset =>
                     vm.SandboxSchedule.TimerList.Any(timer =>
                         timer.IsEnabled == true && timer.Hour == preset.Hour && timer.Minute == preset.Minute)),
-            panelKinds: [TutorialChallengePanelKind.Schedule, TutorialChallengePanelKind.Settings],
+            panelKinds: [TutorialChallengePanelKind.Settings],
             settingSectionKinds: [TutorialChallengeSettingSectionKind.Schedule],
             sandboxTimerSlots: _timerOnceSlots,
             difficulty: TutorialChallengeDifficulty.Medium),
