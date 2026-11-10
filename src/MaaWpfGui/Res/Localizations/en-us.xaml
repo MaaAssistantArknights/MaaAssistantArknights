@@ -1257,6 +1257,7 @@ Cache files (such as maps, operator avatars, etc.) need to be regenerated after 
     <system:String x:Key="Game.Role.Support">Supporter</system:String>
     <system:String x:Key="Game.Role.Tank">Defender</system:String>
     <system:String x:Key="Game.Role.Warrior">Guard</system:String>
+    <system:String x:Key="Guide.Agreement.Confirm">I have read and agree</system:String>
     <system:String x:Key="Guide.Agreement.Link">User Agreement</system:String>
     <system:String x:Key="Guide.Agreement.Prefix">By using MAA you agree to the</system:String>
     <system:String x:Key="Guide.Agreement.Tip">Please read and click the ｢{key=Guide.Agreement.Link}｣ to view the full agreement before continuing.</system:String>

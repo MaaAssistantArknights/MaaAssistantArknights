@@ -582,6 +582,13 @@
                                                     </Hyperlink>
                                                 </controls:TextBlock>
                                             </Grid>
+                                            <Button
+                                                Margin="12,0,0,0"
+                                                Padding="12,4"
+                                                VerticalAlignment="Center"
+                                                Command="{s:Action OnGuideUserAgreementClick}"
+                                                Content="{DynamicResource Guide.Agreement.Confirm}"
+                                                Visibility="{c:Binding '!GuideUserAgreementOpened'}" />
                                         </StackPanel>
                                     </Border>
                                 </StackPanel>

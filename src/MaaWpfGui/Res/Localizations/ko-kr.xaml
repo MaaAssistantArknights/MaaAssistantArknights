@@ -1258,6 +1258,7 @@ DEBUG 디렉토리에 저장된 이미지는 수량 제한이 있으며 초과 �
     <system:String x:Key="Game.Role.Support">서포터</system:String>
     <system:String x:Key="Game.Role.Tank">디펜더</system:String>
     <system:String x:Key="Game.Role.Warrior">가드</system:String>
+    <system:String x:Key="Guide.Agreement.Confirm">내용을 확인하고 동의합니다</system:String>
     <system:String x:Key="Guide.Agreement.Link">이용약관</system:String>
     <system:String x:Key="Guide.Agreement.Prefix">MAA를 사용하면 다음에 동의하는 것으로 간주됩니다:</system:String>
     <system:String x:Key="Guide.Agreement.Tip">｢{key=Guide.Agreement.Link}｣을 클릭하여 전체 약관을 확인한 후 다음 단계로 진행하세요</system:String>

@@ -1258,6 +1258,7 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
     <system:String x:Key="Game.Role.Support">輔助</system:String>
     <system:String x:Key="Game.Role.Tank">重裝</system:String>
     <system:String x:Key="Game.Role.Warrior">近衛</system:String>
+    <system:String x:Key="Guide.Agreement.Confirm">我已閱讀並同意</system:String>
     <system:String x:Key="Guide.Agreement.Link">使用者協議</system:String>
     <system:String x:Key="Guide.Agreement.Prefix">使用 MAA 即表示您同意遵守</system:String>
     <system:String x:Key="Guide.Agreement.Tip">請先閱讀並點擊 ｢{key=Guide.Agreement.Link}｣ 查看完整協議內容，再進入下一步</system:String>

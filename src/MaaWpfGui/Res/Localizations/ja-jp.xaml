@@ -1260,6 +1260,7 @@ DEBUGディレクトリに保存される画像には数量制限があり、超
     <system:String x:Key="Game.Role.Support">補助</system:String>
     <system:String x:Key="Game.Role.Tank">重装</system:String>
     <system:String x:Key="Game.Role.Warrior">前衛</system:String>
+    <system:String x:Key="Guide.Agreement.Confirm">内容を確認し同意します</system:String>
     <system:String x:Key="Guide.Agreement.Link">利用規約</system:String>
     <system:String x:Key="Guide.Agreement.Prefix">MAA を使用すると、以下に同意したものとみなされます:</system:String>
     <system:String x:Key="Guide.Agreement.Tip">｢{key=Guide.Agreement.Link}｣ をクリックして完全な規約を確認してから、次のステップに進んでください</system:String>
