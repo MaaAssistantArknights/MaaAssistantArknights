@@ -1704,26 +1704,8 @@
                         properties:SearchHighlightBehavior.SectionFilter="{Binding SandboxSettingSections}"
                         IsInertiaEnabled="True"
                         PanningMode="Both">
+                        <!-- RowDefinitions 由 code-behind 按分区数动态生成（RebuildSettingSectionGrids） -->
                         <Grid x:Name="SandboxSettingsContentGrid">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                            </Grid.RowDefinitions>
-
                             <hc:Divider
                                 x:Name="SandboxAdvancedDivider"
                                 Grid.Row="{Binding AdvancedSettingsDividerRow}"

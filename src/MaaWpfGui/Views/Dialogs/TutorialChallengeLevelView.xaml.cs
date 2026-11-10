@@ -104,16 +104,25 @@ public partial class TutorialChallengeLevelView
     /// 行号与折叠显隐由绑定跟随分区模型，容器内 ContentPresenter 套用窗口资源里的分区模板。
     /// 结构与真实设置页同构——分区是内容 Grid 的直接子元素，ScrollViewerBinding 才能逐分区量出
     /// header 偏移供左侧导航联动；高级分隔条行由 <see cref="SandboxAdvancedDivider"/> 占位。
+    /// RowDefinitions 按分区数动态补齐（分区数 + 分隔条行），XAML 不预设固定行数。
     /// </summary>
     /// <param name="viewModel">当前关卡 VM，null 时清空分区子元素。</param>
     private void RebuildSettingSectionGrids(TutorialChallengeLevelViewModel? viewModel)
     {
         SandboxSettingsContentGrid.Children.Clear();
         SandboxSettingsContentGrid.Children.Add(SandboxAdvancedDivider);
+        SandboxSettingsContentGrid.RowDefinitions.Clear();
 
         if (viewModel == null)
         {
             return;
+        }
+
+        // +1 给高级分隔条所在行；分区行号见 AssignSectionGridRows
+        var rowCount = System.Math.Max(viewModel.SandboxSettingSections.Count + 1, 1);
+        for (var i = 0; i < rowCount; i++)
+        {
+            SandboxSettingsContentGrid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
         }
 
         var sectionTemplate = (DataTemplate)FindResource("SandboxSettingSectionTemplate");
