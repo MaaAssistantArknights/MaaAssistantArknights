@@ -115,20 +115,27 @@
                                             VerticalAlignment="Center"
                                             Style="{StaticResource TextBlockDefaultBold}"
                                             Text="{Binding Title}" />
-                                        <Border
-                                            Margin="8,0,0,0"
-                                            Padding="6,1"
+                                        <ItemsControl
+                                            Margin="6,0,0,0"
                                             VerticalAlignment="Center"
-                                            Background="{DynamicResource PrimaryBrush}"
-                                            CornerRadius="4">
-                                            <StackPanel Orientation="Horizontal">
-                                                <controls:TextBlock Foreground="{DynamicResource TextIconBrush}" Text="{Binding DifficultyText}" />
-                                                <controls:TextBlock
-                                                    Margin="4,0,0,0"
-                                                    Foreground="{DynamicResource TextIconBrush}"
-                                                    Text="{Binding CoinRewardText}" />
-                                            </StackPanel>
-                                        </Border>
+                                            ItemsSource="{Binding CoinRewardIcons}">
+                                            <ItemsControl.ItemsPanel>
+                                                <ItemsPanelTemplate>
+                                                    <StackPanel Orientation="Horizontal" />
+                                                </ItemsPanelTemplate>
+                                            </ItemsControl.ItemsPanel>
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate>
+                                                    <Path
+                                                        Width="12"
+                                                        Height="12"
+                                                        Margin="1,0"
+                                                        Data="{DynamicResource HangoverGeometry}"
+                                                        Fill="{DynamicResource AchievementBrush.FeatureExploration}"
+                                                        Stretch="Uniform" />
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
                                     </StackPanel>
                                     <controls:TextBlock
                                         Margin="0,2,0,0"

@@ -12,6 +12,8 @@
 // </copyright>
 
 #nullable enable
+using System.Collections.Generic;
+using System.Linq;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Models.TutorialChallenge;
 using Stylet;
@@ -52,14 +54,9 @@ public class TutorialChallengeLevelItem(TutorialChallengeLevel level) : Property
     public string DifficultyText => LocalizationHelper.GetString($"TutorialChallenge.Difficulty.{level.Difficulty}");
 
     /// <summary>
-    /// Gets 通关可获得的牛牛币数，与难度值一致。
+    /// Gets 通关奖励牛牛币图标的占位集合，长度即难度值（1-3），仅用于 ItemsControl 平铺渲染 N 个图标。
     /// </summary>
-    public int CoinReward => (int)level.Difficulty;
-
-    /// <summary>
-    /// Gets 通关奖励牛牛币展示文本（带 + 前缀）。
-    /// </summary>
-    public string CoinRewardText => $"+{CoinReward}";
+    public IReadOnlyList<int> CoinRewardIcons => Enumerable.Range(0, (int)level.Difficulty).ToArray();
 
     /// <summary>
     /// Gets a value indicating whether 本关已通关（进度存档已记录）。
