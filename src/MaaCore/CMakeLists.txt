@@ -49,7 +49,9 @@ endif()
 
 if(WIN32)
     target_link_libraries(MaaCore ws2_32 dxgi)
+endif()
 
+if(WIN32 OR APPLE)
     # ORT 的 WebGPU EP 在 deviceId > 0 时要求调用方自带 Dawn 的 instance/device，MaaDeps 里带了 Dawn；
     # 缺失时只是不能选 WebGPU 后端，不影响其它后端
     find_package(Dawn CONFIG QUIET)
