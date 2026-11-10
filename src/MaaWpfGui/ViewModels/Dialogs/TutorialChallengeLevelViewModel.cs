@@ -38,6 +38,7 @@ using MaaWpfGui.Services;
 using MaaWpfGui.Styles.Properties;
 using MaaWpfGui.Utilities.ValueType;
 using MaaWpfGui.ViewModels.UI;
+using MaaWpfGui.ViewModels.UserControl.Settings;
 using MaaWpfGui.ViewModels.UserControl.TaskQueue;
 using MaaWpfGui.ViewModels.UserControl.Toolbox;
 using MaaWpfGui.Views.Dialogs;
@@ -133,6 +134,7 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
 
         LocalizationHelper.LanguageChanged += OnLanguageChanged;
         Instances.StageManager.StageDataChanged += OnStageDataChanged;
+        IssueReportUserControlModel.Instance.PropertyChanged += OnIssueReportPropertyChanged;
         SandboxSchedule = new TutorialChallengeSandboxSchedule(Evaluate, _level.SandboxTimerSlots);
         BuildSettingSections();
 
@@ -1561,6 +1563,37 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
     }
 
     /// <summary>
+    /// 打开 debug 目录（转发真实设置页方法，沙盒与真实共用行为）。
+    /// </summary>
+    public void OpenDebugFolder() => IssueReportUserControlModel.Instance.OpenDebugFolder();
+
+    /// <summary>
+    /// 打开 reports 目录（转发真实设置页方法，沙盒与真实共用行为）。
+    /// </summary>
+    public void OpenReportsFolder() => IssueReportUserControlModel.Instance.OpenReportsFolder();
+
+    /// <summary>
+    /// 清理图片缓存（转发真实设置页方法，沙盒与真实共用行为）。
+    /// </summary>
+    /// <returns>清理任务。</returns>
+    public Task ClearImageCache() => IssueReportUserControlModel.Instance.ClearImageCache();
+
+    /// <summary>
+    /// 记录用户点开 issue 反馈页（转发真实设置页方法，解锁对应成就）。
+    /// </summary>
+    public void SetAcknowledgedNightlyWarning() => IssueReportUserControlModel.Instance.SetAcknowledgedNightlyWarning();
+
+    /// <summary>
+    /// Gets a value indicating whether 沙盒生成日志按钮当前可点（转发真实设置页属性）。
+    /// </summary>
+    public bool CanGenerateSupportPayload => IssueReportUserControlModel.Instance.CanGenerateSupportPayload;
+
+    /// <summary>
+    /// Gets a value indicating whether 沙盒清理图片缓存按钮当前可点（转发真实设置页属性）。
+    /// </summary>
+    public bool CanClearImageCache => IssueReportUserControlModel.Instance.CanClearImageCache;
+
+    /// <summary>
     /// 折叠所有计划行。
     /// </summary>
     public void CollapseAll()
@@ -1985,6 +2018,20 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
     private void OnStageDataChanged(object? sender, EventArgs e)
         => _ = Execute.OnUIThreadAsync(BuildStageListSource);
 
+    // 转发属性经静态 Instance 绑定，真实侧状态变化须转成本实例的通知 UI 才刷新
+    private void OnIssueReportPropertyChanged(object? sender, PropertyChangedEventArgs e)
+    {
+        switch (e.PropertyName)
+        {
+            case nameof(IssueReportUserControlModel.CanClearImageCache):
+                NotifyOfPropertyChange(nameof(CanClearImageCache));
+                break;
+            case nameof(IssueReportUserControlModel.CanGenerateSupportPayload):
+                NotifyOfPropertyChange(nameof(CanGenerateSupportPayload));
+                break;
+        }
+    }
+
     /// <summary>
     /// 窗口关闭或切换到其他关卡时退订外部事件，否则静态的语言切换事件会一直持有本实例。
     /// </summary>
@@ -1992,6 +2039,7 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
     {
         LocalizationHelper.LanguageChanged -= OnLanguageChanged;
         Instances.StageManager.StageDataChanged -= OnStageDataChanged;
+        IssueReportUserControlModel.Instance.PropertyChanged -= OnIssueReportPropertyChanged;
         foreach (var item in SandboxItems)
         {
             item.Task.PropertyChanged -= _taskPropertyChangedHandler;
