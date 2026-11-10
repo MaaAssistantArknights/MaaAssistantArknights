@@ -26,21 +26,27 @@ namespace MaaWpfGui.Helper;
 /// </summary>
 public sealed class GuideSpotlightOverlay : FrameworkElement
 {
-    // 遮罩压暗：浅色主题压黑 40%，深色主题压白 30%
-    private static readonly Brush DimBrushLight = CreateBrush(0x66, 0x00, 0x00, 0x00);
-    private static readonly Brush DimBrushDark = CreateBrush(0x4D, 0xFF, 0xFF, 0xFF);
-    private static readonly Brush HoleBorder = CreateBrush(0xE6, 0xFF, 0x8F, 0x00);
+    // 遮罩压暗：深色主题使用纯净半透明黑（约 55% 暗），消除发白起雾感；浅色主题使用轻柔暗化（约 30% 黑）
+    private static readonly Brush DimBrushDark = CreateBrush(0x8C, 0x00, 0x00, 0x00);
+    private static readonly Brush DimBrushLight = CreateBrush(0x4D, 0x00, 0x00, 0x00);
 
-    // 气泡文字：深色底板用亮橙，白色底板用深橙，保证两种主题下的对比度
-    private static readonly Brush CalloutTextDark = CreateBrush(0xFF, 0xFF, 0xB7, 0x4D);
-    private static readonly Brush CalloutTextLight = CreateBrush(0xFF, 0xC4, 0x3E, 0x00);
+    // 挖孔高亮边框：内圈亮橙 + 外圈柔和扩散光晕
+    private static readonly Brush HoleBorder = CreateBrush(0xFF, 0xF3, 0x63, 0x1B);
+    private static readonly Pen HolePen = CreatePen(HoleBorder, 1.5);
+    private static readonly Pen HoleGlowPen = CreatePen(CreateBrush(0x30, 0xF3, 0x63, 0x1B), 5);
 
-    // 气泡底板不透明：气泡会压在遮罩与底层控件之上，半透明会让文字与背景混叠、读不清
-    private static readonly Brush CalloutBackdropDark = CreateBrush(0xFF, 0x26, 0x26, 0x26);
-    private static readonly Brush CalloutBackdropLight = CreateBrush(0xFF, 0xFF, 0xFF, 0xFF);
-    private static readonly Pen CalloutBorderDark = CreatePen(CreateBrush(0x80, 0xFF, 0x8F, 0x00), 1);
-    private static readonly Pen CalloutBorderLight = CreatePen(CreateBrush(0x80, 0xC4, 0x3E, 0x00), 1);
-    private static readonly Pen HolePen = CreatePen(HoleBorder, 2);
+    // 气泡文字：深色模式纯净高对比白，浅色模式深炭灰，阅读极度舒适清晰
+    private static readonly Brush CalloutTextDark = CreateBrush(0xFF, 0xFA, 0xFA, 0xFC);
+    private static readonly Brush CalloutTextLight = CreateBrush(0xFF, 0x1C, 0x1C, 0x1E);
+
+    // 气泡底板与阴影：深色为精致悬浮暗卡片（#1C2028），浅色为纯净白底，四周带 1px 优雅描边与轻量柔和阴影
+    private static readonly Brush CalloutBackdropDark = CreateBrush(0xF8, 0x1C, 0x20, 0x28);
+    private static readonly Brush CalloutBackdropLight = CreateBrush(0xFA, 0xFF, 0xFF, 0xFF);
+    private static readonly Brush CalloutShadowDark = CreateBrush(0x55, 0x00, 0x00, 0x00);
+    private static readonly Brush CalloutShadowLight = CreateBrush(0x20, 0x00, 0x00, 0x00);
+
+    private static readonly Pen CalloutBorderDark = CreatePen(CreateBrush(0x60, 0xF3, 0x63, 0x1B), 1);
+    private static readonly Pen CalloutBorderLight = CreatePen(CreateBrush(0x60, 0xF3, 0x63, 0x1B), 1);
 
     /// <summary>
     /// 提示文字字体：跟随系统 UI 字体，避免硬编码单一字体在日 / 韩界面下缺字形。
@@ -64,7 +70,7 @@ public sealed class GuideSpotlightOverlay : FrameworkElement
         _bubbleTypeface = new Typeface(
             SystemFonts.MessageFontFamily,
             FontStyles.Normal,
-            FontWeights.Normal,
+            FontWeights.Medium,
             FontStretches.Normal);
         IsHitTestVisible = false;
         Focusable = false;
@@ -131,17 +137,24 @@ public sealed class GuideSpotlightOverlay : FrameworkElement
 
         if (GuideHighlight.GetMode(target) == GuideHighlight.GuideHighlightMode.Frame)
         {
+            drawingContext.DrawRoundedRectangle(null, HoleGlowPen, hole, 6, 6);
             drawingContext.DrawRoundedRectangle(null, HolePen, hole, 6, 6);
             return;
         }
 
+        // 底部采用与外框严格同弧度的圆角（4px），顶部平角贴合分割线硬过渡
         var mask = new GeometryGroup { FillRule = FillRule.EvenOdd };
-        mask.Children.Add(new RectangleGeometry(bounds));
-        mask.Children.Add(new RectangleGeometry(hole, 6, 6));
+        mask.Children.Add(CreateContentBoundsGeometry(bounds, 4.0));
+        mask.Children.Add(new RectangleGeometry(hole, 8, 8));
         mask.Freeze();
-        Brush dimBrush = ThemeHelper.IsDarkMode() ? DimBrushDark : DimBrushLight;
+
+        bool isDark = ThemeHelper.IsDarkMode();
+        Brush dimBrush = isDark ? DimBrushDark : DimBrushLight;
+
+        // 硬过渡：采用纯色压暗画刷，配合顶部 1px 分割线形成干净利落的硬质分界，不再使用模糊渐变
         drawingContext.DrawGeometry(dimBrush, null, mask);
-        drawingContext.DrawRoundedRectangle(null, HolePen, hole, 6, 6);
+        drawingContext.DrawRoundedRectangle(null, HoleGlowPen, hole, 8, 8);
+        drawingContext.DrawRoundedRectangle(null, HolePen, hole, 8, 8);
 
         string text = GuideHighlight.GetText(target);
         if (text.Length > 0)
@@ -226,8 +239,8 @@ public sealed class GuideSpotlightOverlay : FrameworkElement
 
         FormattedText textFormat = _calloutTextFormat!;
 
-        const double padding = 10;
-        const double gap = 10;
+        const double padding = 12;
+        const double gap = 12;
         const double margin = 8;
         double width = textFormat.Width + (padding * 2);
         double height = textFormat.Height + (padding * 2);
@@ -237,13 +250,123 @@ public sealed class GuideSpotlightOverlay : FrameworkElement
         // 两者不等时（短文本 / 单行）文字会在气泡里整体偏移，这里把居中原点对齐到气泡内容区。
         textFormat.MaxTextWidth = width - (padding * 2) + 0.01;
 
+        // 1. 柔和环境光阴影
+        Rect shadowRect = new Rect(area.X, area.Y + 2, area.Width, area.Height);
         drawingContext.DrawRoundedRectangle(
-            isDark ? CalloutBackdropDark : CalloutBackdropLight,
-            isDark ? CalloutBorderDark : CalloutBorderLight,
+            isDark ? CalloutShadowDark : CalloutShadowLight,
+            null,
+            shadowRect,
+            8,
+            8);
+
+        // 2. 气泡卡片主体与小三角形指针
+        Brush backdrop = isDark ? CalloutBackdropDark : CalloutBackdropLight;
+        Pen borderPen = isDark ? CalloutBorderDark : CalloutBorderLight;
+
+        drawingContext.DrawRoundedRectangle(
+            backdrop,
+            borderPen,
             area,
-            6,
-            6);
+            8,
+            8);
+
+        DrawCaret(drawingContext, hole, area, backdrop, borderPen);
+
+        // 3. 提示文字
         drawingContext.DrawText(textFormat, new Point(area.X + padding, area.Y + padding));
+    }
+
+    private static void DrawCaret(
+        DrawingContext drawingContext,
+        Rect hole,
+        Rect area,
+        Brush fill,
+        Pen stroke)
+    {
+        Point p1, p2, p3;
+        const double caretSize = 5.0;
+
+        // 依据气泡相对于挖孔的实际几何方位决定指针方向与附着边，避免请求方位与实际回退方位脱节
+        if (area.Left >= hole.Right - 5)
+        {
+            // 气泡在挖孔右侧：指针在气泡左边缘，朝左指向挖孔
+            double y = Math.Clamp(hole.Top + (hole.Height / 2), area.Top + 8, area.Bottom - 8);
+            p1 = new Point(area.Left, y - caretSize);
+            p2 = new Point(area.Left - caretSize, y);
+            p3 = new Point(area.Left, y + caretSize);
+        }
+        else if (area.Right <= hole.Left + 5)
+        {
+            // 气泡在挖孔左侧：指针在气泡右边缘，朝右指向挖孔
+            double y = Math.Clamp(hole.Top + (hole.Height / 2), area.Top + 8, area.Bottom - 8);
+            p1 = new Point(area.Right, y - caretSize);
+            p2 = new Point(area.Right + caretSize, y);
+            p3 = new Point(area.Right, y + caretSize);
+        }
+        else if (area.Top >= hole.Bottom - 5)
+        {
+            // 气泡在挖孔下方：指针在气泡上边缘，朝上指向挖孔
+            double x = Math.Clamp(hole.Left + (hole.Width / 2), area.Left + 8, area.Right - 8);
+            p1 = new Point(x - caretSize, area.Top);
+            p2 = new Point(x, area.Top - caretSize);
+            p3 = new Point(x + caretSize, area.Top);
+        }
+        else
+        {
+            // 气泡在挖孔上方：指针在气泡下边缘，朝下指向挖孔
+            double x = Math.Clamp(hole.Left + (hole.Width / 2), area.Left + 8, area.Right - 8);
+            p1 = new Point(x - caretSize, area.Bottom);
+            p2 = new Point(x, area.Bottom + caretSize);
+            p3 = new Point(x + caretSize, area.Bottom);
+        }
+
+        var caretGeom = new StreamGeometry();
+        using (var ctx = caretGeom.Open())
+        {
+            ctx.BeginFigure(p1, true, false);
+            ctx.LineTo(p2, true, true);
+            ctx.LineTo(p3, true, true);
+        }
+
+        caretGeom.Freeze();
+        drawingContext.DrawGeometry(fill, stroke, caretGeom);
+
+        // 用底板色消除小三角形与气泡卡片接缝处的描边，使其融为一体
+        var seamPen = new Pen(fill, stroke.Thickness + 0.5);
+        seamPen.Freeze();
+        drawingContext.DrawLine(seamPen, p1, p3);
+    }
+
+    /// <summary>
+    /// 生成遮罩外边框几何体：顶部为平角（贴合分割线），底部采用与外层 GroupBox 框线严格一致的圆角，
+    /// 确保遮罩下边缘与外框完美吻合，消除未遮罩缝隙与直角毛刺。
+    /// </summary>
+    private static Geometry CreateContentBoundsGeometry(Rect bounds, double bottomRadius)
+    {
+        if (bottomRadius <= 0)
+        {
+            return new RectangleGeometry(bounds);
+        }
+
+        double r = Math.Min(bottomRadius, Math.Min(bounds.Width / 2, bounds.Height / 2));
+        var geom = new PathGeometry();
+        var fig = new PathFigure
+        {
+            StartPoint = new Point(bounds.Left, bounds.Top),
+            IsClosed = true,
+            IsFilled = true,
+        };
+
+        fig.Segments.Add(new LineSegment(new Point(bounds.Right, bounds.Top), false));
+        fig.Segments.Add(new LineSegment(new Point(bounds.Right, bounds.Bottom - r), false));
+        fig.Segments.Add(new ArcSegment(new Point(bounds.Right - r, bounds.Bottom), new Size(r, r), 0, false, SweepDirection.Clockwise, false));
+        fig.Segments.Add(new LineSegment(new Point(bounds.Left + r, bounds.Bottom), false));
+        fig.Segments.Add(new ArcSegment(new Point(bounds.Left, bounds.Bottom - r), new Size(r, r), 0, false, SweepDirection.Clockwise, false));
+        fig.Segments.Add(new LineSegment(new Point(bounds.Left, bounds.Top), false));
+
+        geom.Figures.Add(fig);
+        geom.Freeze();
+        return geom;
     }
 
     /// <summary>
