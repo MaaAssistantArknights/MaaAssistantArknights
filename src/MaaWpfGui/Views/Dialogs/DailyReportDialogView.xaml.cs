@@ -12,6 +12,7 @@
 // </copyright>
 
 using System;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -40,6 +41,8 @@ public partial class DailyReportDialogView
         DailyReportDialogViewModel.Instance.ResetWindowLifetimeState();
         DailyReportDialogViewModel.Instance.LoadHistory();
         DailyReportDialogViewModel.Instance.RefreshAll();
+        ViewModel.PropertyChanged += OnViewModelPropertyChanged;
+        Closed += (_, _) => ViewModel.PropertyChanged -= OnViewModelPropertyChanged;
 
         // 浮层开合与 ComboBox 一致：点外部或窗口失活关闭，关闭浮层的那一击不作用于其他元素；
         // 锚点取按关卡列表，用于窗口失活订阅与卸载时解绑；连击判定只认当前打开的掉落格，
@@ -61,6 +64,15 @@ public partial class DailyReportDialogView
     private readonly PopupDismissController _calendarDismiss;
 
     private static DailyReportDialogViewModel ViewModel => DailyReportDialogViewModel.Instance;
+
+    private void OnViewModelPropertyChanged(object sender, PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName == nameof(DailyReportDialogViewModel.ViewingAccount))
+        {
+            DropRatePopup.IsOpen = false;
+            DropRatePopup.DataContext = null;
+        }
+    }
 
     // 打开日历时同步语言、选取粒度、可选上限、当前时段与日期格状态，期间置位以屏蔽这些赋值触发的跳转
     private bool _syncingCalendar;

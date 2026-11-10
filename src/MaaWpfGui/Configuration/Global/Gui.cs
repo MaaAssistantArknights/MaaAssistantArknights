@@ -120,6 +120,16 @@ public class Gui : NotifyPropertyChangedWithValue, IJsonOnDeserialized
     public DailyReportRetention DailyReportRetention { get; set; } = DailyReportRetention.Unlimited;
 
     /// <summary>
+    /// Gets or sets 作战日报的手动账号列表，同一配置和模拟器也可选择不同账号。
+    /// </summary>
+    public List<DailyReportAccount> DailyReportAccounts { get; set; } = [];
+
+    /// <summary>
+    /// Gets or sets 后续作战记录的账号标识，null 表示未分配。
+    /// </summary>
+    public string? DailyReportAccountId { get; set; }
+
+    /// <summary>
     /// Gets or sets a value indicating whether 作战日报的图表卡片处于折叠状态。
     /// </summary>
     public bool DailyReportChartCollapsed { get; set; } = false;

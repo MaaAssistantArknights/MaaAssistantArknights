@@ -18,6 +18,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using MaaWpfGui.Configuration.Factory;
+using MaaWpfGui.Configuration.Global;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
@@ -45,6 +46,37 @@ public class GuiSettingsUserControlModel : PropertyChangedBase
     }
 
     public static GuiSettingsUserControlModel Instance { get; }
+
+    /// <summary>
+    /// Gets or sets 作战日报账号；替换列表经配置工厂持久化。
+    /// </summary>
+    public List<DailyReportAccount> DailyReportAccounts
+    {
+        get => ConfigFactory.Root.Gui.DailyReportAccounts;
+        set
+        {
+            ConfigFactory.Root.Gui.DailyReportAccounts = value;
+            NotifyOfPropertyChange();
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets 后续作战使用的日报账号，不影响已开始的作战记录。
+    /// </summary>
+    public string? DailyReportAccountId
+    {
+        get => ConfigFactory.Root.Gui.DailyReportAccountId;
+        set
+        {
+            if (ConfigFactory.Root.Gui.DailyReportAccountId == value)
+            {
+                return;
+            }
+
+            ConfigFactory.Root.Gui.DailyReportAccountId = value;
+            NotifyOfPropertyChange();
+        }
+    }
 
     /// <summary>
     /// Gets or sets the language list.

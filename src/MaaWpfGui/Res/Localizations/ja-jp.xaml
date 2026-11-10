@@ -2013,6 +2013,14 @@ MAA は非インストール型のアプリケーションであり、レジス�
     <system:String x:Key="TaskQueue.CustomStageCode">ステージ名を入力する</system:String>
     <system:String x:Key="TaskQueue.CustomStageCode.Tip" xml:space="preserve">(テスト機能)ステージ名と番号（例: 4-10、AP-5、H10-1-Hardなど）
 の両方がサポートされています。ステージの最後に ｢Normal/Hard｣ を入力すると難易度を切り替えできます（10〜14章は標準/厄難、15章以降は通常/険地）</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Account.Add">追加</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Account.All">すべてのアカウント</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Account.Archived">過去のアカウント</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Account.Manual.Tip">ゲームのアカウントを手動で切り替えた後は、記録先を選んでからタスクを開始してください。過去の記録は未割り当てのままです。</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Account.NewName">新しいアカウント名</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Account.Recording">記録アカウント</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Account.Unassigned">未割り当て</system:String>
+    <system:String x:Key="TaskQueue.DailyReport.Account.Viewing">表示アカウント</system:String>
     <system:String x:Key="TaskQueue.DailyReport.Chart.Bars">棒グラフ</system:String>
     <system:String x:Key="TaskQueue.DailyReport.Chart.Collapse.Tip">グラフを折りたたむ/展開する</system:String>
     <system:String x:Key="TaskQueue.DailyReport.Chart.Heatmap">ヒートマップ</system:String>

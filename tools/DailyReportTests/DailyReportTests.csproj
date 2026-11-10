@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
+    <PackageReference Include="Serilog" Version="4.3.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="../../src/MaaWpfGui/Helper/DailyReportCollector.cs" Link="Production/DailyReportCollector.cs" />
+    <Compile Include="../../src/MaaWpfGui/Helper/DailyReportStore.cs" Link="Production/DailyReportStore.cs" />
+    <Compile Include="../../src/MaaWpfGui/Models/DailyReport/CombatSession.cs" Link="Production/CombatSession.cs" />
+    <Compile Include="../../src/MaaWpfGui/Models/DailyReport/DailyReportDayData.cs" Link="Production/DailyReportDayData.cs" />
+    <Compile Include="../../src/MaaWpfGui/Models/AsstSubTaskMsg.cs" Link="Production/AsstSubTaskMsg.cs" />
+    <Compile Include="../../src/MaaWpfGui/Configuration/Global/DailyReportAccount.cs" Link="Production/DailyReportAccount.cs" />
+    <Compile Include="../../src/MaaWpfGui/Constants/Enums/DailyReportRetention.cs" Link="Production/DailyReportRetention.cs" />
+    <Compile Include="../../src/MaaWpfGui/Constants/Enums/TaskItemStatus.cs" Link="Production/TaskItemStatus.cs" />
+  </ItemGroup>
+</Project>

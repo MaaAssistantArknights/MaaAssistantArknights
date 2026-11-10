@@ -79,6 +79,11 @@ public static class DailyReportStore
             {
                 session.Drops ??= [];
                 session.Stage ??= string.Empty;
+                if (string.IsNullOrWhiteSpace(session.AccountId))
+                {
+                    session.AccountId = null;
+                    session.AccountName = null;
+                }
             }
 
             return data;

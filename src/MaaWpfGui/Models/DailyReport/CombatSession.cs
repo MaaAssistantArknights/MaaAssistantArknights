@@ -25,6 +25,18 @@ namespace MaaWpfGui.Models.DailyReport;
 public class CombatSession
 {
     /// <summary>
+    /// Gets or sets 作战开始时选择的日报账号；旧记录和未选择账号的记录为 null。
+    /// </summary>
+    [JsonProperty("accountId", NullValueHandling = NullValueHandling.Ignore)]
+    public string? AccountId { get; set; }
+
+    /// <summary>
+    /// Gets or sets 作战开始时的账号显示名称，用于配置丢失后的历史展示。
+    /// </summary>
+    [JsonProperty("accountName", NullValueHandling = NullValueHandling.Ignore)]
+    public string? AccountName { get; set; }
+
+    /// <summary>
     /// Gets or sets 关卡编号，如 1-7、PR-A-1。
     /// </summary>
     [JsonProperty("stage")]

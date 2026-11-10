@@ -17,15 +17,19 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using MaaWpfGui.Configuration.Factory;
+using MaaWpfGui.Configuration.Global;
 using MaaWpfGui.Constants.Enums;
 using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Models.DailyReport;
+using MaaWpfGui.States;
+using MaaWpfGui.Utilities;
 using MaaWpfGui.Utilities.ValueType;
 using MaaWpfGui.ViewModels.Items;
 using Stylet;
@@ -42,6 +46,7 @@ public class DailyReportDialogViewModel : PropertyChangedBase
     /// </summary>
     protected DailyReportDialogViewModel()
     {
+        PropertyDependsOnUtility.InitializePropertyDependencies(this);
         _anchor = DateOnly.FromDateTime(DateTime.UtcNow.ToYjDate());
         RetentionOptions = new(
             (DailyReportRetention.Day, "TaskQueue.DailyReport.Retention.Day"),
@@ -51,9 +56,171 @@ public class DailyReportDialogViewModel : PropertyChangedBase
             (DailyReportRetention.Unlimited, "TaskQueue.DailyReport.Retention.Unlimited"));
 
         LocalizationHelper.LanguageChanged += RefreshLocalization;
+        RunningState.Instance.StateChanged += (_, _) => Execute.OnUIThread(() => _ = RefreshAccountAvailabilityAsync());
     }
 
     public static DailyReportDialogViewModel Instance { get; } = new();
+
+    public ObservableCollection<GenericCombinedData<string?>> RecordingAccounts { get; } = [];
+
+    public ObservableCollection<GenericCombinedData<string?>> ViewingAccounts { get; } = [];
+
+    private GenericCombinedData<string?>? _recordingAccount;
+    private GenericCombinedData<string?>? _viewingAccount;
+    private bool _refreshingAccounts;
+    private bool _accountsInitialized;
+    private bool _waitingForAccountAvailability;
+
+    /// <summary>
+    /// Gets or sets 后续作战使用的手动账号标签；查看历史的筛选不会修改此设置。
+    /// </summary>
+    public GenericCombinedData<string?>? RecordingAccount
+    {
+        get => _recordingAccount;
+        set
+        {
+            if (_refreshingAccounts || value is null)
+            {
+                return;
+            }
+
+            if (!CanChangeAccount)
+            {
+                NotifyOfPropertyChange();
+                return;
+            }
+
+            if (SetAndNotify(ref _recordingAccount, value))
+            {
+                SettingsViewModel.GuiSettings.DailyReportAccountId = value.Value;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets 查看范围；null 值为全部账号，空字符串为未分配，其余为账号标识。
+    /// </summary>
+    public GenericCombinedData<string?>? ViewingAccount
+    {
+        get => _viewingAccount;
+        set
+        {
+            if (!_refreshingAccounts && value is not null && SetAndNotify(ref _viewingAccount, value))
+            {
+                IsCalendarOpen = false;
+                LoadHistory();
+                SelectItem(null, null);
+                RefreshAll();
+            }
+        }
+    }
+
+    public string NewAccountName
+    {
+        get;
+        set => SetAndNotify(ref field, value);
+    } = string.Empty;
+
+    public bool CanChangeAccount => RunningState.Instance.CanInterrupt();
+
+    [PropertyDependsOn(nameof(NewAccountName), nameof(CanChangeAccount))]
+    public bool CanAddAccount => CanChangeAccount && NewAccountName.Trim().Length is > 0 and <= 64;
+
+    /// <summary>
+    /// 新建手动账号标签；名称已存在时选择原标签，避免将同一标签拆成多个标识。
+    /// </summary>
+    public void AddAccount()
+    {
+        if (!CanAddAccount)
+        {
+            return;
+        }
+
+        var name = NewAccountName.Trim();
+        var accounts = SettingsViewModel.GuiSettings.DailyReportAccounts;
+        var account = accounts.FirstOrDefault(a => string.Equals(a.Name, name, StringComparison.OrdinalIgnoreCase));
+        if (account is null)
+        {
+            account = new DailyReportAccount { Name = name };
+            SettingsViewModel.GuiSettings.DailyReportAccounts = [.. accounts, account];
+        }
+
+        SettingsViewModel.GuiSettings.DailyReportAccountId = account.Id;
+        NewAccountName = string.Empty;
+        LoadHistory();
+        ViewingAccount = ViewingAccounts.First(a => a.Value == account.Id);
+        RefreshAll();
+    }
+
+    private async Task RefreshAccountAvailabilityAsync()
+    {
+        NotifyOfPropertyChange(nameof(CanChangeAccount));
+        NotifyOfPropertyChange(nameof(CanAddAccount));
+        if (!RunningState.Instance.GetIdle() || CanChangeAccount || _waitingForAccountAvailability)
+        {
+            return;
+        }
+
+        // 队列空闲时结束后脚本仍可能持有中断锁；解锁本身没有 StateChanged 广播。
+        _waitingForAccountAvailability = true;
+        try
+        {
+            await RunningState.Instance.UntilIdleAsync(confirmTimes: 0);
+        }
+        finally
+        {
+            _waitingForAccountAvailability = false;
+            NotifyOfPropertyChange(nameof(CanChangeAccount));
+            NotifyOfPropertyChange(nameof(CanAddAccount));
+        }
+    }
+
+    private bool MatchesViewingAccount(CombatSession session) => _viewingAccount?.Value switch
+    {
+        null => true,
+        "" => string.IsNullOrEmpty(session.AccountId),
+        var id => session.AccountId == id,
+    };
+
+    private void RefreshAccountOptions(IEnumerable<CombatSession> sessions)
+    {
+        var configured = SettingsViewModel.GuiSettings.DailyReportAccounts;
+        var knownAccounts = configured.Select(a => (a.Id, a.Name))
+            .Concat(sessions.Where(s => !string.IsNullOrEmpty(s.AccountId)).Select(s => (Id: s.AccountId!, Name: s.AccountName ?? string.Empty)))
+            .Where(a => !string.IsNullOrEmpty(a.Id))
+            .DistinctBy(a => a.Id)
+            .ToList();
+        var recordingId = SettingsViewModel.GuiSettings.DailyReportAccountId;
+        var viewingId = _accountsInitialized ? _viewingAccount?.Value : recordingId;
+        _refreshingAccounts = true;
+        try
+        {
+            RecordingAccounts.Clear();
+            ViewingAccounts.Clear();
+            RecordingAccounts.Add(new(LocalizationHelper.GetString("TaskQueue.DailyReport.Account.Unassigned"), null));
+            ViewingAccounts.Add(new(LocalizationHelper.GetString("TaskQueue.DailyReport.Account.All"), null));
+            ViewingAccounts.Add(new(LocalizationHelper.GetString("TaskQueue.DailyReport.Account.Unassigned"), string.Empty));
+            foreach (var (id, name) in knownAccounts)
+            {
+                var display = string.IsNullOrEmpty(name) ? LocalizationHelper.GetString("TaskQueue.DailyReport.Account.Archived") : name;
+                ViewingAccounts.Add(new(display, id));
+                if (configured.Any(a => a.Id == id))
+                {
+                    RecordingAccounts.Add(new(display, id));
+                }
+            }
+
+            _recordingAccount = RecordingAccounts.FirstOrDefault(a => a.Value == recordingId) ?? RecordingAccounts[0];
+            _viewingAccount = ViewingAccounts.FirstOrDefault(a => a.Value == viewingId) ?? ViewingAccounts[0];
+            _accountsInitialized = true;
+            NotifyOfPropertyChange(nameof(RecordingAccount));
+            NotifyOfPropertyChange(nameof(ViewingAccount));
+        }
+        finally
+        {
+            _refreshingAccounts = false;
+        }
+    }
 
     /// <summary>
     /// 查看维度。
@@ -347,7 +514,9 @@ public class DailyReportDialogViewModel : PropertyChangedBase
             from.ToDateTime(TimeOnly.MinValue),
             to.ToDateTime(TimeOnly.MinValue),
             CalendarMaxDate,
-            DailyReportStore.ListDays().Select(d => d.ToDateTime(TimeOnly.MinValue)).ToHashSet());
+            DailyReportStore.LoadRange(DateOnly.MinValue, DateOnly.MaxValue)
+                .Where(d => d.Data.Sessions.Any(MatchesViewingAccount))
+                .Select(d => d.Day.ToDateTime(TimeOnly.MinValue)).ToHashSet());
     }
 
     /// <summary>
@@ -368,6 +537,7 @@ public class DailyReportDialogViewModel : PropertyChangedBase
     public void RefreshLocalization()
     {
         RetentionOptions.RefreshLocalization();
+        LoadHistory();
         RefreshAll();
     }
 
@@ -482,6 +652,7 @@ public class DailyReportDialogViewModel : PropertyChangedBase
     {
         _chartExpandedOnce = false;
         IsCalendarOpen = false;
+        _ = RefreshAccountAvailabilityAsync();
         NotifyOfPropertyChange(nameof(IsChartCollapsed));
     }
 
@@ -533,10 +704,11 @@ public class DailyReportDialogViewModel : PropertyChangedBase
     public void LoadHistory()
     {
         var days = DailyReportStore.LoadRange(DateOnly.MinValue, DateOnly.MaxValue);
-        _historyStart = days.Count > 0 ? days.Min(d => d.Day) : null;
+        RefreshAccountOptions(days.SelectMany(d => d.Data.Sessions));
+        _historyStart = days.Where(d => d.Data.Sessions.Any(MatchesViewingAccount)).Select(d => (DateOnly?)d.Day).Min();
         _history = days
             .SelectMany(d => d.Data.Sessions)
-            .Where(s => s.Times > 0)
+            .Where(s => s.Times > 0 && MatchesViewingAccount(s))
             .GroupBy(s => s.Stage)
             .ToDictionary(g => g.Key, g => (g.Sum(s => s.Sanity), g.ToList()));
     }
@@ -799,6 +971,7 @@ public class DailyReportDialogViewModel : PropertyChangedBase
 
         _sessions = DailyReportStore.LoadRange(from, to)
             .SelectMany(d => d.Data.Sessions.Select(s => (d.Day, Session: s)))
+            .Where(s => MatchesViewingAccount(s.Session))
             .ToList();
         var sessions = _sessions.Select(s => s.Session).ToList();
 

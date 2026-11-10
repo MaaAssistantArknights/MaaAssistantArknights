@@ -20,6 +20,7 @@ using MaaWpfGui.Extensions;
 using MaaWpfGui.Main;
 using MaaWpfGui.Models;
 using MaaWpfGui.Models.DailyReport;
+using MaaWpfGui.ViewModels.UI;
 using Newtonsoft.Json.Linq;
 
 namespace MaaWpfGui.Helper;
@@ -87,7 +88,14 @@ public static class DailyReportCollector
                     // 只采集 Fight 链；仓库识别等其余链不产生作战记录
                     if (Instances.AsstProxy.TasksStatus.TryGetValue(taskId, out var info) && info.Type == AsstProxy.TaskType.Fight)
                     {
-                        _pendingSessions[taskId] = new CombatSession { StartTime = DateTimeOffset.UtcNow };
+                        var account = SettingsViewModel.GuiSettings.DailyReportAccounts
+                            .FirstOrDefault(a => a.Id == SettingsViewModel.GuiSettings.DailyReportAccountId);
+                        _pendingSessions[taskId] = new CombatSession
+                        {
+                            StartTime = DateTimeOffset.UtcNow,
+                            AccountId = account?.Id,
+                            AccountName = account?.Name,
+                        };
                     }
 
                     break;
@@ -233,6 +241,9 @@ public static class DailyReportCollector
     private static CombatSession StartNextStageSession(int taskId)
     {
         var now = DateTimeOffset.UtcNow;
+
+        // 一条任务链拆成多个关卡时仍沿用启动时的账号，不重新读取后续任务的选择。
+        var previous = _pendingSessions[taskId];
         var hasRound = _pendingRounds.Remove(taskId, out var round);
         var hasConsumables = _pendingConsumables.Remove(taskId, out var consumables);
         FinalizeSession(taskId, now);
@@ -247,7 +258,12 @@ public static class DailyReportCollector
             _pendingConsumables[taskId] = consumables;
         }
 
-        var next = new CombatSession { StartTime = now };
+        var next = new CombatSession
+        {
+            StartTime = now,
+            AccountId = previous.AccountId,
+            AccountName = previous.AccountName,
+        };
         _pendingSessions[taskId] = next;
         return next;
     }
