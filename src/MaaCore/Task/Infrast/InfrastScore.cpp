@@ -956,7 +956,7 @@ double office_score(const ScoreOper& oper)
         else if (icon == "bskill_hire_skgoat3") { // 永不停歇·α：水灯心
             score += 0.3;
         }
-           else if (icon == "bskill_hire_skgoat4") { // 永不停歇·β：水灯心
+        else if (icon == "bskill_hire_skgoat4") { // 永不停歇·β：水灯心
             score += 0.45;
         }
         else if (icon == "bskill_hire_skgoat") { // 准时下班：地灵
