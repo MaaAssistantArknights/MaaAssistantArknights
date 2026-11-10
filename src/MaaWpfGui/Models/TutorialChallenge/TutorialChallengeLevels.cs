@@ -90,6 +90,14 @@ public static class TutorialChallengeLevels
             difficulty: TutorialChallengeDifficulty.Medium),
 
         new(
+            id: "ScheduledStart",
+            sandboxFactory: () => [new StartUpTask()],
+            goalPredicate: (_, vm) => vm.SandboxSchedule.TimerList.Any(timer =>
+                timer.IsEnabled == true && timer.Hour == 17 && timer.Minute == 0),
+            panelKinds: [TutorialChallengePanelKind.Schedule, TutorialChallengePanelKind.Settings],
+            settingSectionKinds: [TutorialChallengeSettingSectionKind.Schedule]),
+
+        new(
             id: "DailyReconnect",
             sandboxFactory: () => [new StartUpTask { IsEnable = false }, new RoguelikeTask()],
             goalPredicate: (tasks, vm) => tasks.OfType<StartUpTask>().Any(t => t.IsEnable == true)
@@ -103,14 +111,6 @@ public static class TutorialChallengeLevels
             panelKinds: [TutorialChallengePanelKind.Schedule, TutorialChallengePanelKind.Settings],
             settingSectionKinds: [TutorialChallengeSettingSectionKind.Schedule],
             difficulty: TutorialChallengeDifficulty.Medium),
-
-        new(
-            id: "ScheduledStart",
-            sandboxFactory: () => [new StartUpTask()],
-            goalPredicate: (_, vm) => vm.SandboxSchedule.TimerList.Any(timer =>
-                timer.IsEnabled == true && timer.Hour == 17 && timer.Minute == 0),
-            panelKinds: [TutorialChallengePanelKind.Schedule, TutorialChallengePanelKind.Settings],
-            settingSectionKinds: [TutorialChallengeSettingSectionKind.Schedule]),
 
         new(
             id: "TimerOnce",

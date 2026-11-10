@@ -2565,7 +2565,7 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="TutorialChallenge.Level.ChipStock.Goal">칩은 각 20개, 칩셋은 각 32개까지 채우세요. 도전해 보세요: 최소 몇 개의 작업으로 해낼 수 있을까요?</system:String>
     <system:String x:Key="TutorialChallenge.Level.ChipStock.Title">칩 풀세트</system:String>
     <system:String x:Key="TutorialChallenge.Level.DailyReconnect.Goal">밤새 통합 전략을 돌리다 보면(예: 23:00부터 다음 날 08:00까지) 새벽 4시를 넘길 때 순단으로 끊깁니다. 큐가 해당 시각에 게임을 자동으로 재시작해 통합 전략을 이어서 끝내도록 합니다.</system:String>
-        <system:String x:Key="TutorialChallenge.Level.DailyReconnect.Hint" xml:space="preserve">게임 공지상 4:00-4:10 순단 점검이 있으므로, 안전하게 4:10을 권장합니다.</system:String>
+        <system:String x:Key="TutorialChallenge.Level.DailyReconnect.Hint" xml:space="preserve">게임 공지에 4:00-4:10 순단 점검이 있다고 했으므로, 안전하게 4:10을 권장합니다.</system:String>
 <system:String x:Key="TutorialChallenge.Level.DailyReconnect.Title">자정 넘김 재접속</system:String>
     <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.AdminBlocked">관리자 권한으로 실행 중이므로 Windows에서 높은 권한 창으로의 파일 드롭을 차단합니다. 이 레벨은 드래그로 완료할 수 없습니다.</system:String>
     <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.AlreadyIdentified">이 유형은 이미 인식했습니다. 다음 것을 끌어다 놓으세요.</system:String>
