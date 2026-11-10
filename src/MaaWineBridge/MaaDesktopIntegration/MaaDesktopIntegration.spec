@@ -9,6 +9,7 @@
 @ cdecl notify_notification_close(ptr ptr) maa_wine_bridge_notify_notification_close
 @ cdecl notify_notification_get_activation_token(ptr) maa_wine_bridge_notify_notification_get_activation_token
 @ cdecl notify_notification_get_closed_reason(ptr) maa_wine_bridge_notify_notification_get_closed_reason
+@ cdecl notify_notification_set_app_icon(ptr str) maa_wine_bridge_notify_notification_set_app_icon
 @ cdecl notify_notification_set_app_name(ptr str) maa_wine_bridge_notify_notification_set_app_name
 @ cdecl notify_notification_set_category(ptr str) maa_wine_bridge_notify_notification_set_category
 @ cdecl notify_notification_set_hint(ptr str ptr) maa_wine_bridge_notify_notification_set_hint
