@@ -191,6 +191,28 @@ AsstBool __stdcall WineShimAsstBackToHome(AsstHandle handle)
     return dl_AsstBackToHome(handle);
 }
 
+// Linux 核心无 Win32 窗口绑定；保留失败存根以避免 EntryPointNotFoundException。
+AsstBool __stdcall WineShimAsstAttachWindow(
+    AsstHandle handle,
+    void* hwnd,
+    uint64_t screencap_method,
+    uint64_t mouse_method,
+    uint64_t keyboard_method)
+{
+    return 0;
+}
+
+AsstAsyncCallId __stdcall WineShimAsstAsyncAttachWindow(
+    AsstHandle handle,
+    void* hwnd,
+    uint64_t screencap_method,
+    uint64_t mouse_method,
+    uint64_t keyboard_method,
+    AsstBool block)
+{
+    return 0;
+}
+
 AsstAsyncCallId __stdcall WineShimAsstAsyncConnect(
     AsstHandle handle,
     const char* adb_path,
