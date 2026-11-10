@@ -1747,7 +1747,12 @@ CPU で OCR を行います。値はパースに参加しません。リソー�
 ::: field GpuOCR  
 @type string  
 @optional  
-GPU で OCR を行います。値は GPU デバイスの序数（整数）で、Windows では DirectML、それ以外のプラットフォームでは CPU にフォールバックします。バックエンドを明示的に指定することもできます：`webgpu:<デバイス序数>`（実験的、Windows / macOS / Linux）、`directml:<デバイス序数>`（Windows のみ）。Windows では DirectML で `luid:<16 進数 LUID>` も指定できます。リソースロード後の切り替えは非対応。列挙値：2。  
+GPU/NPU で OCR を行い、ONNX 推論セッションにも使用します。値は GPU デバイスの序数（整数）で、Windows では DirectML、それ以外のプラットフォームでは CPU にフォールバックします。バックエンドを明示的に指定することもできます：`webgpu:<デバイス序数>`（実験的、Windows / macOS / Linux）、`directml:<デバイス序数>`（Windows のみ）、`openvino:cpu` / `openvino:npu` / `openvino:hybrid`（実験的、Intel CPU / NPU。hybrid は OCR を OpenVINO CPU、ONNX セッションを NPU で実行し、NPU は全体を加速しません）。Windows では DirectML で `luid:<16 進数 LUID>` も指定できます。リソースロード後の切り替えは非対応。列挙値：2。  
+:::  
+::: field OpenVINOProbe  
+@type string  
+@optional  
+OpenVINO デバイスが利用可能かを問い合わせます。値は `cpu` または `npu` で、問い合わせのみを行い、現在の推論バックエンドは変更しません。列挙値：3。  
 :::  
 ::::
 

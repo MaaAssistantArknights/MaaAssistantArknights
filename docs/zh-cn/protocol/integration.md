@@ -1747,7 +1747,12 @@ AsstBool ASSTAPI AsstSetStaticOption(AsstStaticOptionKey key, const char* value)
 ::: field GpuOCR  
 @type string  
 @optional  
-使用 GPU 进行 OCR。值为 GPU 设备序号（整数），Windows 上使用 DirectML，其他平台回退 CPU；也可显式指定后端：`webgpu:<设备序号>`（实验性，Windows / macOS / Linux）、`directml:<设备序号>`（仅 Windows）。Windows 上 DirectML 还支持 `luid:<十六进制 LUID>`。资源加载后不支持切换。枚举值：2。  
+使用 GPU/NPU 进行 OCR，并同时用于 ONNX 推理会话。值为 GPU 设备序号（整数），Windows 上使用 DirectML，其他平台回退 CPU；也可显式指定后端：`webgpu:<设备序号>`（实验性，Windows / macOS / Linux）、`directml:<设备序号>`（仅 Windows）、`openvino:cpu` / `openvino:npu` / `openvino:hybrid`（实验性，Intel CPU / NPU；hybrid 表示 OCR 使用 OpenVINO CPU、ONNX 会话使用 NPU，NPU 并非全链路加速）。Windows 上 DirectML 还支持 `luid:<十六进制 LUID>`。资源加载后不支持切换。枚举值：2。  
+:::  
+::: field OpenVINOProbe  
+@type string  
+@optional  
+查询 OpenVINO 设备是否可用，值为 `cpu` 或 `npu`。仅查询，不改变当前推理后端。枚举值：3。  
 :::  
 ::::
 

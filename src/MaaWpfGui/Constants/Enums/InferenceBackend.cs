@@ -31,4 +31,53 @@ public enum InferenceBackend
     /// Google Dawn WebGPU 后端（实验性）。
     /// </summary>
     WebGPU = 2,
+
+    /// <summary>
+    /// Intel OpenVINO 后端，使用 CPU 设备。
+    /// </summary>
+    OpenVINOCpu = 3,
+
+    /// <summary>
+    /// Intel OpenVINO 后端，使用 NPU 设备。
+    /// </summary>
+    OpenVINONpu = 4,
+
+    /// <summary>
+    /// Intel OpenVINO 混合后端：OCR 使用 CPU，ONNX 会话使用 NPU。
+    /// NPU 只加速 ONNX 会话，并非全链路加速。
+    /// </summary>
+    OpenVINOHybrid = 5,
+}
+
+/// <summary>
+/// 推理后端的一级分类，用于两级下拉布局。
+/// </summary>
+public enum BackendFamily
+{
+    /// <summary>自动选择。</summary>
+    Auto = 0,
+
+    /// <summary>Microsoft DirectML。</summary>
+    DirectML = 1,
+
+    /// <summary>Google Dawn WebGPU（实验性）。</summary>
+    WebGPU = 2,
+
+    /// <summary>Intel OpenVINO（实验性），设备由二级下拉选择。</summary>
+    OpenVINO = 3,
+}
+
+/// <summary>
+/// OpenVINO 的设备选择（二级下拉）。
+/// </summary>
+public enum OpenVinoDeviceChoice
+{
+    /// <summary>OCR 与 ONNX 会话均使用 CPU。</summary>
+    CPU = 0,
+
+    /// <summary>OCR 与 ONNX 会话均使用 NPU。</summary>
+    NPU = 1,
+
+    /// <summary>OCR 使用 CPU，ONNX 会话使用 NPU。</summary>
+    Hybrid = 2,
 }

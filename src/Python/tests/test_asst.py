@@ -4,6 +4,7 @@ from types import SimpleNamespace
 from unittest.mock import patch
 
 from asst.asst import Asst
+from asst.utils import StaticOptionType
 
 
 class GetImageTest(unittest.TestCase):
@@ -45,6 +46,11 @@ class GetImageTest(unittest.TestCase):
     def test_empty_image_returns_none(self):
         self.result_size = 0
         self.assertIsNone(self.instance.get_image(len(self.payload)))
+
+
+class StaticOptionTypeTest(unittest.TestCase):
+    def test_openvino_probe_value(self):
+        self.assertEqual(StaticOptionType.openvino_probe, 3)
 
 
 if __name__ == "__main__":

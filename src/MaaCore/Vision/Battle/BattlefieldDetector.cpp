@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <array>
 #include <cmath>
+#include <mutex>
 
 #include "MaaUtils/NoWarningCV.hpp"
 
@@ -61,6 +62,11 @@ std::vector<BattlefieldDetector::OperatorResult> BattlefieldDetector::operator_a
     std::vector output_names = { output_name.c_str() };
 
     Ort::RunOptions run_options;
+    auto npu_lock = OnnxSessions::acquire_npu_inference_lock();
+    if (npu_lock.timed_out) {
+        LogError << __FUNCTION__ << "| timed out waiting for NPU lock";
+        return {};
+    }
     auto output_tensors = session.Run(
         run_options,
         input_names.data(),

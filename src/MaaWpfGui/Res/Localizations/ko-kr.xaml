@@ -1,4 +1,4 @@
-<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:system="clr-namespace:System;assembly=mscorlib">
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:system="clr-namespace:System;assembly=mscorlib">
 
     <system:String x:Key="About.Github">소스 코드: GitHub</system:String>
     <system:String x:Key="About.QqChannel">QQ 채널</system:String>
@@ -1304,9 +1304,17 @@ DEBUG 디렉토리에 저장된 이미지는 수량 제한이 있으며 초과 �
     <system:String x:Key="Guide.User">사용 가이드</system:String>
     <system:String x:Key="Guide.ViewLog">"{key=Settings.Title} - {key=Settings.IssueReport.Title} - {key=Error.OpenDebugFolder}"로 이동하여 로그를 확인하고 오류의 구체적인 원인을 파악할 수 있습니다.</system:String>
     <system:String x:Key="InferenceBackend">추론 백엔드</system:String>
+    <system:String x:Key="InferenceBackend.OpenVino">OpenVINO (실험적)</system:String>
+    <system:String x:Key="InferenceBackend.OpenVinoDevice">OpenVINO 장치</system:String>
+    <system:String x:Key="InferenceBackend.OpenVinoDevice.Cpu">CPU</system:String>
+    <system:String x:Key="InferenceBackend.OpenVinoDevice.Hybrid">Hybrid (CPU+NPU)</system:String>
+    <system:String x:Key="InferenceBackend.OpenVinoDevice.Npu">NPU</system:String>
+    <system:String x:Key="InferenceBackend.OpenVinoHybrid.Warning">OpenVINO Hybrid는 실험적 기능입니다. OCR은 OpenVINO CPU에서 실행되고 NPU는 ONNX 세션만 가속합니다(전체 파이프라인 NPU 가속이 아님). 정상 동작하는 Intel NPU 드라이버가 필요하며, 일부 모델이나 드라이버 버전은 호환되지 않아 충돌하거나 CPU로 자동 폴백될 수 있습니다. 먼저 소규모 작업으로 검증하세요.</system:String>
+    <system:String x:Key="InferenceBackend.OpenVinoNpu.Warning">OpenVINO NPU는 실험적 기능입니다. 정상 동작하는 Intel NPU 드라이버가 필요하며, 일부 모델이나 드라이버 버전은 호환되지 않아 충돌하거나 CPU로 자동 폴백될 수 있습니다. 먼저 소규모 작업으로 검증하세요.</system:String>
+    <system:String x:Key="InferenceBackend.Unavailable.Warning">선택한 OpenVINO 백엔드를 이 빌드나 장치에서 사용할 수 없어 사용 가능한 추론 백엔드로 폴백했습니다.</system:String>
     <system:String x:Key="InferenceBackendAuto">자동 (권장)</system:String>
     <system:String x:Key="InferenceBackendDirectML">DirectML</system:String>
-    <system:String x:Key="InferenceBackendTip" xml:space="preserve">모델 추론 실행 백엔드를 선택합니다.&#10;자동 모드는 가장 안정적인 백엔드(DirectML)를 선택하며, WebGPU 지원은 현재 실험적 단계입니다.</system:String>
+    <system:String x:Key="InferenceBackendTip" xml:space="preserve">모델 추론 실행 백엔드를 선택합니다.&#10;자동 모드는 가장 안정적인 백엔드(DirectML)를 선택하며, WebGPU 지원은 현재 실험적 단계입니다. OpenVINO는 Intel CPU/NPU용이며 해당 드라이버와 런타임이 필요합니다.</system:String>
     <system:String x:Key="InferenceBackendWebGpu">WebGPU (실험적)</system:String>
     <system:String x:Key="Infrast.ContinueTraining">마스터리 훈련 완료 시 이어서 시도</system:String>
     <system:String x:Key="Infrast.Custom.File">기반시설 구성</system:String>
