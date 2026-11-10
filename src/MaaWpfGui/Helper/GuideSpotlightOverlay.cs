@@ -156,7 +156,7 @@ public sealed class GuideSpotlightOverlay : FrameworkElement
         drawingContext.DrawRoundedRectangle(null, HoleGlowPen, hole, 8, 8);
         drawingContext.DrawRoundedRectangle(null, HolePen, hole, 8, 8);
 
-        string text = GuideHighlight.GetText(target);
+        string text = GuideHighlight.GetText(target) ?? string.Empty;
         if (text.Length > 0)
         {
             DrawCallout(drawingContext, hole, bounds, text, GuideHighlight.GetPlacement(target));
