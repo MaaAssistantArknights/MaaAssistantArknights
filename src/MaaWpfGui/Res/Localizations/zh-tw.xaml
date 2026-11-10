@@ -2596,7 +2596,7 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="TutorialChallenge.Level.StagePriority.Title">備選關卡優先級</system:String>
     <system:String x:Key="TutorialChallenge.Level.TargetDrop.Goal">想要 10 個固源岩，準備去 1-7 刷 10 個回來。</system:String>
     <system:String x:Key="TutorialChallenge.Level.TargetDrop.Title">{key=TaskQueue.Fight.AssignedMaterial}</system:String>
-    <system:String x:Key="TutorialChallenge.Level.TimerOnce.Goal">遊戲 10-16 點維護更新，12:00 的定時落在維護裡用不上。加一條 16:00 的僅一次定時頂上，別動原本的定時。</system:String>
+    <system:String x:Key="TutorialChallenge.Level.TimerOnce.Goal">假設遊戲 10-16 點維護更新，12:00 的定時落在維護裡無法執行。額外添加一條 16:00 的定時——或許勾選框還有別的狀態能用。</system:String>
     <system:String x:Key="TutorialChallenge.Level.TimerOnce.Title">僅一次定時</system:String>
     <system:String x:Key="TutorialChallenge.NoSimulatedPanel">該任務類型暫無模擬設定</system:String>
     <system:String x:Key="TutorialChallenge.Reset">重置</system:String>

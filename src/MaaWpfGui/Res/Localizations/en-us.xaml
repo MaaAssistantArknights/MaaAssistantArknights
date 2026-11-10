@@ -2596,7 +2596,7 @@ Only level rewards can be farmed; to get the Engraved Medal, all ｢Key Objectiv
     <system:String x:Key="TutorialChallenge.Level.StagePriority.Title">Candidate Stage Priority</system:String>
     <system:String x:Key="TutorialChallenge.Level.TargetDrop.Goal">Want 10 Orirock Cubes — heading to 1-7 to farm 10.</system:String>
     <system:String x:Key="TutorialChallenge.Level.TargetDrop.Title">Specified Drops</system:String>
-    <system:String x:Key="TutorialChallenge.Level.TimerOnce.Goal">The game goes into maintenance from 10:00 to 16:00, so the 12:00 timer won't fire. Add a one-time 16:00 timer to cover it, and leave the existing timers untouched.</system:String>
+    <system:String x:Key="TutorialChallenge.Level.TimerOnce.Goal">Suppose the game is under maintenance from 10:00 to 16:00, so the 12:00 timer can't run. Add another timer at 16:00 — maybe the checkbox has another state you can use.</system:String>
     <system:String x:Key="TutorialChallenge.Level.TimerOnce.Title">One-Time Timer</system:String>
     <system:String x:Key="TutorialChallenge.NoSimulatedPanel">This task type has no simulated settings</system:String>
     <system:String x:Key="TutorialChallenge.Reset">Reset</system:String>

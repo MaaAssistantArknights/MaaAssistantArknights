@@ -2596,7 +2596,7 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="TutorialChallenge.Level.StagePriority.Title">대체 스테이지 우선순위</system:String>
     <system:String x:Key="TutorialChallenge.Level.TargetDrop.Goal">원암 큐브가 10개 필요합니다. 1-7에서 10개 모아 오려고 합니다.</system:String>
     <system:String x:Key="TutorialChallenge.Level.TargetDrop.Title">{key=TaskQueue.Fight.AssignedMaterial}</system:String>
-    <system:String x:Key="TutorialChallenge.Level.TimerOnce.Goal">게임이 10시부터 16시까지 점검에 들어가 12:00 타이머를 쓸 수 없습니다. 16:00 1회용 타이머를 추가해 보완하고, 기존 타이머는 그대로 두세요.</system:String>
+    <system:String x:Key="TutorialChallenge.Level.TimerOnce.Goal">게임이 10시부터 16시까지 점검에 들어가 12:00 타이머를 실행할 수 없다고 가정해 봅시다. 16:00 타이머를 하나 더 추가하세요——어쩌면 체크박스에 다른 상태가 있을지도 모릅니다.</system:String>
     <system:String x:Key="TutorialChallenge.Level.TimerOnce.Title">1회용 타이머</system:String>
     <system:String x:Key="TutorialChallenge.NoSimulatedPanel">이 작업 유형에는 시뮬레이션 설정이 없습니다</system:String>
     <system:String x:Key="TutorialChallenge.Reset">초기화</system:String>
