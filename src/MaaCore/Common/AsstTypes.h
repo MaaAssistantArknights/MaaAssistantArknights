@@ -37,6 +37,8 @@ enum class StaticOptionKey
     GpuOCR = 2, // use GPU to OCR. value is a device id integer (DirectML on Windows, CPU elsewhere), or
                 // "webgpu:<id>" / "directml:<id>"; "luid:<hex>" is also accepted for DirectML on Windows.
                 // It does not support switching after the resource is loaded.
+    AutoSwitchTheme = 3, // whether the theme fallback is allowed to change the user's in-game theme on
+                         // recognition failure. value is "1" (default) or "0".
 };
 
 enum class InstanceOptionKey
@@ -753,6 +755,7 @@ struct TaskInfo : public TaskPipelineInfo
     bool cache = false;                     // 是否使用缓存区域
     std::vector<int> special_params;        // 某些任务会用到的特殊参数
     std::string input_text;                 // 输入任务的文字，目前希望仅针对 Input 任务有效， algorithm 为 JustReturn
+    std::string enabled_if;                 // 运行时开关名；非空且对应开关为假时，该任务视为不匹配（见 Common/RuntimeFlags.h）
 };
 
 using TaskPtr = std::shared_ptr<TaskInfo>;

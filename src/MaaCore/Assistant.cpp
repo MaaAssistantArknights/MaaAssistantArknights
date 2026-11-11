@@ -6,6 +6,7 @@
 #include <ranges>
 #include <string_view>
 
+#include "Common/RuntimeFlags.h"
 #include "Config/GeneralConfig.h"
 #include "Config/GpuDeviceSelector.h"
 #include "Config/Miscellaneous/OcrPack.h"
@@ -111,6 +112,15 @@ bool ::AsstExtAPI::set_static_option(StaticOptionKey key, const std::string& val
         WordOcr::get_instance().use_gpu(*selector);
         CharOcr::get_instance().use_gpu(*selector);
         return true;
+    } break;
+    case StaticOptionKey::AutoSwitchTheme: {
+        // 仅接受 "0"/"1"，其它值视为非法，保持原值不变
+        if (value == "0" || value == "1") {
+            flags::auto_switch_theme.store(value == "1", std::memory_order_relaxed);
+            return true;
+        }
+        Log.error(__FUNCTION__, "| invalid AutoSwitchTheme value:", value);
+        return false;
     } break;
     default:
         Log.error(__FUNCTION__, "| unknown key:", static_cast<int>(key));

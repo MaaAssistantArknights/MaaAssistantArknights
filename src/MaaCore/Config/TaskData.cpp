@@ -534,6 +534,7 @@ asst::TaskPtr asst::TaskData::generate_task_info(const std::string& name)
     ASST_TASKDATA_GET_VALUE_OR("highResolutionSwipeFix", high_resolution_swipe_fix);
     ASST_TASKDATA_GET_VALUE_OR("specialParams", special_params);
     ASST_TASKDATA_GET_VALUE_OR("inputText", input_text);
+    ASST_TASKDATA_GET_VALUE_OR("enabledIf", enabled_if);
 
     // 展开五个任务列表中的虚任务
     ASST_TASKDATA_GET_VALUE_OR_LAZY("next", next, false);

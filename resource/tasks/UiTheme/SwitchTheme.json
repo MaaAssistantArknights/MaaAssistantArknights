@@ -4,6 +4,7 @@
         "template": ["SwitchTheme@ToggleSettingsMenu.png", "SwitchTheme@ToggleSettingsMenu-v2.png"],
         "roi": [227, 327, 159, 152],
         "postDelay": 1000,
+        "enabledIf": "auto_switch_theme",
         "next": ["SwitchTheme@ChangeTheme", "SwitchTheme@ToggleSettingsMenu"]
     },
     "SwitchTheme@ChangeTheme": {

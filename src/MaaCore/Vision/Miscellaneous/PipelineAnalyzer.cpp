@@ -3,6 +3,7 @@
 #include <boost/regex.hpp>
 #include <utility>
 
+#include "Common/RuntimeFlags.h"
 #include "Config/TaskData.h"
 #include "Status.h"
 #include "Utils/Logger.hpp"
@@ -22,6 +23,12 @@ PipelineAnalyzer::ResultOpt PipelineAnalyzer::analyze() const
 #ifdef ASST_DEBUG
             throw std::runtime_error("Invalid task: " + task_name);
 #endif
+            continue;
+        }
+
+        // 运行时开关：条件不满足时视为该任务不匹配，交给后续候选；全部落空则链表失败。
+        if (!task_ptr->enabled_if.empty() && !flags::enabled(task_ptr->enabled_if)) {
+            Log.info(__FUNCTION__, "| skipped by flag", task_name, task_ptr->enabled_if);
             continue;
         }
 
