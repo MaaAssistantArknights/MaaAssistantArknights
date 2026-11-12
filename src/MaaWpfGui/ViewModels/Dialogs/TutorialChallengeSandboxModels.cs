@@ -15,10 +15,14 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using MaaWpfGui.Configuration.Global;
 using MaaWpfGui.Configuration.Single.MaaTask;
+using MaaWpfGui.Helper;
+using MaaWpfGui.ViewModels.UI;
 using MaaWpfGui.ViewModels.UserControl.Settings;
 using MaaWpfGui.ViewModels.UserControl.TaskQueue;
+using ObservableCollections;
 
 #pragma warning disable SA1402, SA1649 // 关卡沙盒 Model 小类集中放本文件
 namespace MaaWpfGui.ViewModels.Dialogs;
@@ -139,11 +143,21 @@ public sealed class SandboxRecruitTaskModel(TutorialChallengeLevelViewModel owne
 }
 
 /// <summary>
-/// 库存保持任务的沙盒 Model：复用真实任务控件，任务读写数据源指向关卡 VM 的沙盒任务集合。
+/// 库存保持任务的沙盒 Model：复用真实任务控件，任务读写数据源指向关卡 VM 的沙盒任务集合，
+/// 库存显示读自建伪造库存，不暴露真实账号仓库识别数据。
 /// </summary>
 /// <param name="owner">所属关卡 VM。</param>
 public sealed class SandboxDepotMaintainTaskModel(TutorialChallengeLevelViewModel owner) : DepotMaintainTaskUserControlModel(attachGlobalEvents: false)
 {
+    /// <summary>
+    /// 伪造库存数据：物品范围取库存保持静态预设展开的全部掉落物（芯片全套关的计划物品均在其列），
+    /// 数值随机 0–29，进关构造与关卡重置时重新生成。
+    /// </summary>
+    private readonly ObservableList<ToolboxViewModel.DepotResultDate> _fakeDepotResult = GenerateFakeDepot();
+
+    /// <inheritdoc/> 库存显示不读真实仓库识别缓存，指向伪造库存
+    protected override ObservableList<ToolboxViewModel.DepotResultDate>? DepotResultSource => _fakeDepotResult;
+
     /// <inheritdoc/>
     protected override IList<BaseTask> TaskConfigQueue => owner.SandboxTasks;
 
@@ -179,6 +193,29 @@ public sealed class SandboxDepotMaintainTaskModel(TutorialChallengeLevelViewMode
     /// 关卡关闭时释放对静态实例与关卡 VM 的订阅。
     /// </summary>
     public void Detach() => DetachGlobalStateForwarding();
+
+    /// <summary>
+    /// 重新生成伪造库存（关卡重置时调用），并刷新计划摘要的库存显示。
+    /// </summary>
+    public void RegenerateFakeDepot()
+    {
+        _fakeDepotResult.Clear();
+        _fakeDepotResult.AddRange(GenerateFakeDepot());
+        NotifyOfPropertyChange(nameof(PlanInfo));
+    }
+
+    /// <summary>
+    /// 按库存保持静态预设的物品范围生成一组伪造库存，数量随机 0–29。
+    /// </summary>
+    /// <returns>伪造库存条目集合。</returns>
+    private static ObservableList<ToolboxViewModel.DepotResultDate> GenerateFakeDepot() => [.. PresetData.Values
+        .SelectMany(stages => stages.SelectMany(stage => stage.Drops))
+        .Distinct()
+        .Select(id => new ToolboxViewModel.DepotResultDate {
+            Id = id,
+            Name = ItemListHelper.GetItemName(id),
+            Count = Random.Shared.Next(0, 30),
+        })];
 }
 
 /// <summary>

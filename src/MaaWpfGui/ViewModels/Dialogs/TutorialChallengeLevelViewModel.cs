@@ -1028,6 +1028,7 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
         SettingsSearchText = string.Empty;
         ShowAdvancedSettings = false;
         SandboxSchedule.Reset();
+        SandboxDepotMaintainTaskModel.RegenerateFakeDepot();
         if (IsSettingsSearchLevel)
         {
             BuildSettingsSearchDecoySections();

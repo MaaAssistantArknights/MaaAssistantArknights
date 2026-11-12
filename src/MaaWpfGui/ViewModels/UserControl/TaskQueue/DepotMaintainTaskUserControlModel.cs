@@ -76,9 +76,9 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
         if (attachGlobalEvents)
         {
             // 仓库数据变化时刷新计划显示（当前库存数量）
-            if (Instances.ToolboxViewModel is { } toolbox)
+            if (DepotResultSource is { } depotResult)
             {
-                toolbox.DepotResult.CollectionChanged += (in NotifyCollectionChangedEventArgs<ToolboxViewModel.DepotResultDate> _) => {
+                depotResult.CollectionChanged += (in NotifyCollectionChangedEventArgs<ToolboxViewModel.DepotResultDate> _) => {
                     NotifyOfPropertyChange(nameof(PlanInfo));
                 };
             }
@@ -538,16 +538,22 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
     public string PlanInfo => string.Join("\n", PlanList.Select((t, i) => $"{i + 1}: {StageListSource.FirstOrDefault(i => i.Value == t.Stage)?.Display ?? t.Stage} - {t.DropName} {GetInventoryCountDisplay(t.DropId)}/{t.DropCount.FormatNumber(false)}"));
 
     /// <summary>
+    /// Gets 库存显示数据源（仓库识别缓存）。默认取全局仓库识别结果；
+    /// 短生命周期派生 Model（如教程沙盒）可覆写指向自建集合，隔离真实账号仓库数据。
+    /// </summary>
+    protected virtual ObservableList<ToolboxViewModel.DepotResultDate>? DepotResultSource => Instances.ToolboxViewModel?.DepotResult;
+
+    /// <summary>
     /// 获取指定掉落物当前库存数量，无数据时返回 "--"。
     /// </summary>
-    private static string GetCurrentInventoryCount(string dropId)
+    private string GetCurrentInventoryCount(string dropId)
     {
         if (string.IsNullOrEmpty(dropId))
         {
             return "--";
         }
 
-        var depot = Instances.ToolboxViewModel?.DepotResult;
+        var depot = DepotResultSource;
         if (depot == null || depot.Count == 0)
         {
             return "--";
@@ -568,7 +574,7 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
             return raw;
         }
 
-        var depot = Instances.ToolboxViewModel?.DepotResult;
+        var depot = DepotResultSource;
         if (depot == null || depot.Count == 0)
         {
             return raw;
