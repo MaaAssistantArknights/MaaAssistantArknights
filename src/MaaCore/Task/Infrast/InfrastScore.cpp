@@ -332,6 +332,15 @@ CombinationScore score_trade(const std::vector<const ScoreOper*>& opers, const S
     if (has_skill(all, "bskill_tra_share1")) { // 代为说项：火哨
         base += (context.level - 1) * 0.15;
     }
+    // 冻河按同房间实际在岗队友数加成，微调使同档优先级低于自持 40% 及跨设施联动干员。
+    const int tocka_peers = std::max(0, std::min(context.level, static_cast<int>(opers.size())) - 1);
+    const bool has_tocka_share = has_skill(all, "bskill_tra_share4") || has_skill(all, "bskill_tra_share5");
+    if (has_skill(all, "bskill_tra_share4")) { // “无用的人脉”：冻河
+        base += tocka_peers * 0.15;
+    }
+    else if (has_skill(all, "bskill_tra_share5")) { // “真有用？”：冻河
+        base += tocka_peers * 0.2;
+    }
 
     // 拉普兰德与德克萨斯
     const bool texas = has_skill(all, "bskill_tra_texas1") || has_skill(all, "bskill_tra_texas2"); // 德克萨斯
@@ -452,6 +461,10 @@ CombinationScore score_trade(const std::vector<const ScoreOper*>& opers, const S
     if (!has_skill(all, "bskill_tra_against") && !has_skill(all, "bskill_tra_against2") &&
         !has_skill(all, "bskill_tra_vodfox") && is_money && has_skill(all, "bskill_tra_closure")) {
         base = (1 + base) * 1.804 - 1;
+    }
+
+    if (has_tocka_share && tocka_peers > 0 && base > 0) {
+        base -= 0.0001;
     }
 
     if (has_skill(all, "bskill_tra_spd&wt1")) { // 天真的谈判者：U-Official
@@ -1733,6 +1746,9 @@ ScoreResult select_dorm(const std::vector<ScoreOper>& opers, const ScoreContext&
             }
             else if (icon == "bskill_dorm_unfull") { // 倾谈者：波卜
                 score += 0.2;
+            }
+            else if (icon == "bskill_dorm_unfull2") { // 微小的帮助：冻河
+                score += 0.1;
             }
         }
         return score;
