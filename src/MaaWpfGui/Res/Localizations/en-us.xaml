@@ -2569,7 +2569,6 @@ Only level rewards can be farmed; to get the Engraved Medal, all ｢Key Objectiv
     <system:String x:Key="TutorialChallenge.Filter.All">All</system:String>
     <system:String x:Key="TutorialChallenge.Filter.Completed">Completed</system:String>
     <system:String x:Key="TutorialChallenge.Filter.Uncompleted">Uncleared</system:String>
-    <system:String x:Key="TutorialChallenge.Introduction">Work toward each goal freely; meet the goal to clear the level. There are no required steps, and you can close and retry anytime.</system:String>
     <system:String x:Key="TutorialChallenge.Level.AddFight.Goal">Need a task to burn my Sanity.</system:String>
     <system:String x:Key="TutorialChallenge.Level.AddFight.Title">{key=TaskQueue.Task.Fight}</system:String>
     <system:String x:Key="TutorialChallenge.Level.ChipStock.Goal">Top up every chip to 20 and every chip pack to 32. Give it a try: what is the minimum number of tasks you need?</system:String>

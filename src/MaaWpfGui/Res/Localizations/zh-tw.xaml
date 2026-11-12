@@ -2569,7 +2569,6 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="TutorialChallenge.Filter.All">全部</system:String>
     <system:String x:Key="TutorialChallenge.Filter.Completed">已通關</system:String>
     <system:String x:Key="TutorialChallenge.Filter.Uncompleted">未通關</system:String>
-    <system:String x:Key="TutorialChallenge.Introduction">按關卡目標自由操作，達成即通關；不限操作步驟，隨時可關閉重來。</system:String>
     <system:String x:Key="TutorialChallenge.Level.AddFight.Goal">需要個任務幫我消耗理智。</system:String>
     <system:String x:Key="TutorialChallenge.Level.AddFight.Title">{key=TaskQueue.Task.Fight}</system:String>
     <system:String x:Key="TutorialChallenge.Level.ChipStock.Goal">晶片每種補到 20 個、晶片組每種補到 32 個。試試看，最少用幾個任務能辦到？</system:String>

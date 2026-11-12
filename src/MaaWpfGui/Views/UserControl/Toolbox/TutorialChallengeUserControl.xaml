@@ -12,54 +12,17 @@
     d:DataContext="{x:Static toolbox_vms:TutorialChallengeUserControlModel.Instance}"
     s:View.ActionTarget="{Binding}"
     mc:Ignorable="d">
-    <hc:ScrollViewer IsInertiaEnabled="True" PanningMode="Both">
-        <StackPanel Margin="10">
-            <Grid Margin="0,0,0,8">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
-                <controls:TextBlock
-                    VerticalAlignment="Center"
-                    Text="{DynamicResource TutorialChallenge.Introduction}"
-                    TextWrapping="Wrap" />
-                <StackPanel
-                    Grid.Column="1"
-                    Margin="10,0,0,0"
-                    VerticalAlignment="Center"
-                    Orientation="Horizontal">
-                    <Border
-                        Padding="8,2"
-                        Background="{DynamicResource RegionBrushOpacity75}"
-                        CornerRadius="4">
-                        <controls:TextBlock Text="{Binding ProgressText, Mode=OneWay}" />
-                    </Border>
-                    <StackPanel
-                        Margin="8,0,0,0"
-                        VerticalAlignment="Center"
-                        Background="Transparent"
-                        Orientation="Horizontal"
-                        ToolTip="{DynamicResource TutorialChallenge.Coin}">
-                        <!--  牛牛币图标暂用成就牛牛奖章，后续换专属资源  -->
-                        <Path
-                            Width="16"
-                            Height="16"
-                            VerticalAlignment="Center"
-                            Data="{DynamicResource HangoverGeometry}"
-                            Fill="{DynamicResource AchievementBrush.FeatureExploration}"
-                            Stretch="Uniform" />
-                        <controls:TextBlock
-                            Margin="4,0,0,0"
-                            VerticalAlignment="Center"
-                            Text="{Binding CoinCount, Mode=OneWay}" />
-                    </StackPanel>
-                    <Button
-                        Margin="8,0,0,0"
-                        Command="{s:Action OpenShop}"
-                        Content="{DynamicResource TutorialChallenge.Shop.Title}" />
-                </StackPanel>
-            </Grid>
-            <StackPanel Margin="0,0,0,4" Orientation="Horizontal">
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid Margin="0,0,0,8">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <StackPanel Orientation="Horizontal">
                 <hc:ButtonGroup VerticalAlignment="Center">
                     <RadioButton
                         MinWidth="44"
@@ -93,6 +56,47 @@
                         IsChecked="{Binding IsDifficultyHigh}" />
                 </hc:ButtonGroup>
             </StackPanel>
+            <StackPanel
+                Grid.Column="1"
+                Margin="12,0,0,0"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Center"
+                Orientation="Horizontal">
+                <Border
+                    Padding="8,2"
+                    Background="{DynamicResource RegionBrushOpacity75}"
+                    CornerRadius="4">
+                    <controls:TextBlock Text="{Binding ProgressText, Mode=OneWay}" />
+                </Border>
+                <StackPanel
+                    Margin="8,0,0,0"
+                    VerticalAlignment="Center"
+                    Background="Transparent"
+                    Orientation="Horizontal"
+                    ToolTip="{DynamicResource TutorialChallenge.Coin}">
+                    <!--  牛牛币图标暂用成就牛牛奖章，后续换专属资源  -->
+                    <Path
+                        Width="16"
+                        Height="16"
+                        VerticalAlignment="Center"
+                        Data="{DynamicResource HangoverGeometry}"
+                        Fill="{DynamicResource AchievementBrush.FeatureExploration}"
+                        Stretch="Uniform" />
+                    <controls:TextBlock
+                        Margin="4,0,0,0"
+                        VerticalAlignment="Center"
+                        Text="{Binding CoinCount, Mode=OneWay}" />
+                </StackPanel>
+                <Button
+                    Margin="8,0,0,0"
+                    Command="{s:Action OpenShop}"
+                    Content="{DynamicResource TutorialChallenge.Shop.Title}" />
+            </StackPanel>
+        </Grid>
+        <hc:ScrollViewer
+            Grid.Row="1"
+            IsInertiaEnabled="True"
+            PanningMode="Both">
             <ItemsControl ItemsSource="{Binding LevelItems}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate DataType="{x:Type toolbox_vms:TutorialChallengeLevelItem}">
@@ -181,6 +185,6 @@
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
-        </StackPanel>
-    </hc:ScrollViewer>
+        </hc:ScrollViewer>
+    </Grid>
 </UserControl>
