@@ -298,7 +298,7 @@
         "text": [],
         "ocrReplaceDoc": "和 ClickStageName 同步",
         "ocrReplace": [
-            ["OPERATION", ""],
+            ["(O|D)PERATION", ""],
             ["-\\]", "-1"],
             [" ", ""],
             ["s", "S"],
