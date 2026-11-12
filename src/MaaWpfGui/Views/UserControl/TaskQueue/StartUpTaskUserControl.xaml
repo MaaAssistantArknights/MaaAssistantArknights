@@ -22,8 +22,8 @@
     s:View.ActionTarget="{Binding}"
     mc:Ignorable="d">
     <StackPanel>
-        <StackPanel d:Visibility="Visible" Visibility="{c:Binding 'ConnectConfig != enums:ConnectConfig.PC', Source={x:Static settings_vms:ConnectSettingsUserControlModel.Instance}}">
-            <StackPanel d:Visibility="Visible" Visibility="{c:Binding 'ClientType == enums:ClientType.Official or ClientType == enums:ClientType.Bilibili or ClientType == enums:ClientType.Txwy or ClientType == enums:ClientType.KR', Source={x:Static settings_vms:GameSettingsUserControlModel.Instance}}">
+        <StackPanel d:Visibility="Visible" Visibility="{c:Binding IsNotPcConnectConfig}">
+            <StackPanel d:Visibility="Visible" Visibility="{c:Binding IsOfficialLikeClient}">
                 <StackPanel
                     Margin="0,5"
                     HorizontalAlignment="Left"
@@ -39,8 +39,7 @@
                     <TextBox
                         Grid.Column="0"
                         hc:BorderElement.CornerRadius="4,0,0,4"
-                        IsReadOnly="{c:Binding !Run.Idle,
-                                               Source={x:Static helper:Instances.SettingsViewModel}}"
+                        IsReadOnly="{c:Binding !IsQueueIdle}"
                         Text="{Binding AccountName, UpdateSourceTrigger=PropertyChanged}" />
                     <Button
                         Grid.Column="1"
@@ -68,8 +67,7 @@
             d:Visibility="Visible"
             Content="{DynamicResource Connection.LaunchClient}"
             IsChecked="{Binding StartGame, Source={x:Static settings_vms:GameSettingsUserControlModel.Instance}}"
-            Visibility="{c:Binding 'ConnectConfig != enums:ConnectConfig.PC',
-                                   Source={x:Static settings_vms:ConnectSettingsUserControlModel.Instance}}" />
+            Visibility="{c:Binding IsNotPcConnectConfig}" />
         <hc:ComboBox
             Margin="0,5"
             hc:InfoElement.Title="{DynamicResource Settings.Game.ClientType}"
