@@ -68,9 +68,10 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
     private string _stagePlanTip = string.Empty;
     private string _dropsItemName = string.Empty;
 
-    // 设置搜索关卡的干扰项常量：40 个分区、每分区 5 项、每分区恰 1 个目标项
+    // 设置搜索关卡的干扰项常量：40 个分区、每分区 5 项、随机 5 个分区各含 1 个目标项
     private const int SettingsSearchSectionCount = 40;
     private const int SettingsSearchItemsPerSection = 5;
+    private const int SettingsSearchTargetSectionCount = 5;
     private const string SettingsSearchTargetMarker = "maa";
 
     /// <summary>
@@ -1320,9 +1321,10 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
     }
 
     /// <summary>
-    /// 重建 ｢设置搜索｣ 关卡的干扰分区与 CheckBox 项：40 个分区、每分区 5 项、每分区恰好 1 个目标项
-    /// （文本内嵌随机大小写的 ｢maa｣ 字样，可经搜索框按忽略大小写命中），其余 4 项为不含 ｢maa｣ 的
-    /// 随机大小写字母串，分区名同样为随机大小写且不含 ｢maa｣ 的字母串。
+    /// 重建 ｢设置搜索｣ 关卡的干扰分区与 CheckBox 项：40 个分区、每分区 5 项、随机 5 个分区各含 1 个
+    /// 目标项（共 5 个含 ｢maa｣ 字样的设置项，文本内嵌随机大小写的 ｢maa｣，可经搜索框按忽略大小写
+    /// 命中），其余各项为不含 ｢maa｣ 的随机大小写字母串，分区名同样为随机大小写且不含 ｢maa｣ 的
+    /// 字母串。
     /// 每次进关与重置时重新生成，保证观感随机。
     /// </summary>
     private void BuildSettingsSearchDecoySections()
@@ -1336,10 +1338,16 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
             }
         }
 
+        // 先随机抽 5 个分区索引放目标项（每个分区至多 1 个），其余分区全为干扰项
+        var targetSections = Enumerable.Range(0, SettingsSearchSectionCount)
+            .OrderBy(_ => _random.Next())
+            .Take(SettingsSearchTargetSectionCount)
+            .ToHashSet();
+
         for (var sectionIndex = 0; sectionIndex < SettingsSearchSectionCount; sectionIndex++)
         {
-            // 每分区 5 个槽位随机挑一个放目标项，其余填非目标随机串
-            var targetSlot = _random.Next(SettingsSearchItemsPerSection);
+            // 命中分区在 5 个槽位中随机挑一个放目标项，未命中分区（targetSlot 为 -1）全填非目标随机串
+            var targetSlot = targetSections.Contains(sectionIndex) ? _random.Next(SettingsSearchItemsPerSection) : -1;
             var items = new List<TutorialChallengeDecoyItem>(SettingsSearchItemsPerSection);
             for (var slot = 0; slot < SettingsSearchItemsPerSection; slot++)
             {
