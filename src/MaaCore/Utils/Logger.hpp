@@ -1154,29 +1154,30 @@ private:
     template <typename... args_t>
     auto stream(level lv, args_t&&... args)
     {
+        std::unique_lock lock { m_trace_mutex };
         rotate();
         if (lv.is_enabled()) {
 #ifdef ASST_DEBUG
             return LogStream(
-                std::unique_lock { m_trace_mutex },
+                std::move(lock),
                 ostreams { console_ostream(std::cout), m_of },
                 lv,
                 m_scopes.next(),
                 std::forward<args_t>(args)...);
 #else
-            return LogStream(std::unique_lock { m_trace_mutex }, m_of, lv, std::forward<args_t>(args)...);
+            return LogStream(std::move(lock), m_of, lv, std::forward<args_t>(args)...);
 #endif
         }
         else {
 #ifdef ASST_DEBUG
             return LogStream(
-                std::unique_lock { m_trace_mutex },
+                std::move(lock),
                 ostreams { console_ostream(std::cout), null_stream },
                 lv,
                 m_scopes.next(),
                 std::forward<args_t>(args)...);
 #else
-            return LogStream(std::unique_lock { m_trace_mutex }, null_stream, lv, std::forward<args_t>(args)...);
+            return LogStream(std::move(lock), null_stream, lv, std::forward<args_t>(args)...);
 #endif
         }
     }
