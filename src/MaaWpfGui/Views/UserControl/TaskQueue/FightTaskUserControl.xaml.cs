@@ -13,7 +13,7 @@
 
 using System.Windows;
 using System.Windows.Input;
-using MaaWpfGui.ViewModels.UI;
+using MaaWpfGui.ViewModels.UserControl.TaskQueue;
 
 namespace MaaWpfGui.Views.UserControl.TaskQueue;
 
@@ -32,7 +32,10 @@ public partial class FightTaskUserControl : System.Windows.Controls.UserControl
 
     private void DragHandle_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
-        TaskQueueViewModel.FightTask.IsStageItemDragging = true;
+        if (DataContext is FightTaskUserControlModel model)
+        {
+            model.IsStageItemDragging = true;
+        }
 
         // 拖拽松开时可能不经过 Button，在 Window 层兜底恢复
         var window = Window.GetWindow(this);
@@ -41,12 +44,19 @@ public partial class FightTaskUserControl : System.Windows.Controls.UserControl
 
     private void DragHandle_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
     {
-        TaskQueueViewModel.FightTask.IsStageItemDragging = false;
+        if (DataContext is FightTaskUserControlModel model)
+        {
+            model.IsStageItemDragging = false;
+        }
     }
 
     private void Window_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
     {
-        TaskQueueViewModel.FightTask.IsStageItemDragging = false;
+        if (DataContext is FightTaskUserControlModel model)
+        {
+            model.IsStageItemDragging = false;
+        }
+
         if (sender is Window window)
         {
             window.PreviewMouseLeftButtonUp -= Window_PreviewMouseLeftButtonUp;

@@ -1,4 +1,4 @@
-<UserControl
+﻿<UserControl
     x:Class="MaaWpfGui.Views.UserControl.TaskQueue.FightTaskUserControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -348,12 +348,13 @@
                                     Margin="-10,0,0,0">
                                     <!--  当 CustomStageCode 为 false 时显示 ComboBox  -->
                                     <ComboBox
-                                        ItemsSource="{Binding StageListSource, Source={x:Static ui_vms:TaskQueueViewModel.FightTask}}"
+                                        ItemsSource="{Binding DataContext.StageListSource, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}"
                                         ScrollViewer.CanContentScroll="False"
                                         SelectedValue="{Binding Stage}"
                                         SelectedValuePath="Value"
-                                        Visibility="{c:Binding !CustomStageCode,
-                                                               Source={x:Static ui_vms:TaskQueueViewModel.FightTask}}">
+                                        Visibility="{c:Binding '!DataContext.CustomStageCode',
+                                                               RelativeSource={RelativeSource Mode=FindAncestor,
+                                                                                              AncestorType={x:Type UserControl}}}">
 
                                         <ComboBox.ItemContainerStyle>
                                             <Style BasedOn="{StaticResource ComboBoxItemBaseStyle}" TargetType="ComboBoxItem">
@@ -392,13 +393,15 @@
                                     <TextBox
                                         Height="30"
                                         hc:InfoElement.Placeholder="{DynamicResource TaskQueue.Stage.Label.Default}"
-                                        IsEnabled="{c:Binding !IsStageItemDragging,
-                                                              Source={x:Static ui_vms:TaskQueueViewModel.FightTask}}"
+                                        IsEnabled="{c:Binding '!DataContext.IsStageItemDragging',
+                                                              RelativeSource={RelativeSource Mode=FindAncestor,
+                                                                                             AncestorType={x:Type UserControl}}}"
                                         Opacity="{c:Binding 'IsOpen ? 1 : 0.5'}"
                                         Text="{Binding Stage, UpdateSourceTrigger=PropertyChanged}"
                                         ToolTip="{DynamicResource TaskQueue.CustomStageCode.Tip}"
-                                        Visibility="{c:Binding CustomStageCode,
-                                                               Source={x:Static ui_vms:TaskQueueViewModel.FightTask}}" />
+                                        Visibility="{c:Binding 'DataContext.CustomStageCode',
+                                                               RelativeSource={RelativeSource Mode=FindAncestor,
+                                                                                              AncestorType={x:Type UserControl}}}" />
                                 </Grid>
 
                                 <Border Grid.Column="1">

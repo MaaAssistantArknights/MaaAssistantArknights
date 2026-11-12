@@ -14,7 +14,8 @@
 namespace MaaWpfGui.Views.UserControl.TutorialChallenge;
 
 /// <summary>
-/// TutorialChallengeTaskQueueUserControl.xaml 的交互逻辑
+/// TutorialChallengeTaskQueueUserControl.xaml 的交互逻辑。右列任务设置面板复用真实任务控件，
+/// 其交互（拖拽手柄、预设下拉等）由真实控件自身的 code-behind 处理。
 /// </summary>
 public partial class TutorialChallengeTaskQueueUserControl : System.Windows.Controls.UserControl
 {
@@ -24,44 +25,5 @@ public partial class TutorialChallengeTaskQueueUserControl : System.Windows.Cont
     public TutorialChallengeTaskQueueUserControl()
     {
         InitializeComponent();
-    }
-
-    private void DragHandle_PreviewMouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
-    {
-        if (DataContext is ViewModels.Dialogs.TutorialChallengeLevelViewModel viewModel)
-        {
-            viewModel.IsStageItemDragging = true;
-        }
-
-        // 拖拽松开时鼠标未必还在拖拽手柄上，在窗口层恢复
-        if (System.Windows.Window.GetWindow(this) is { } window)
-        {
-            window.PreviewMouseLeftButtonUp -= Window_PreviewMouseLeftButtonUp;
-            window.PreviewMouseLeftButtonUp += Window_PreviewMouseLeftButtonUp;
-        }
-    }
-
-    /// <summary>
-    /// SplitButton 左半边没有独立动作，点击时同样展开下拉。
-    /// </summary>
-    private void PresetSplitButton_Click(object sender, System.Windows.RoutedEventArgs e)
-    {
-        if (sender is HandyControl.Controls.SplitButton splitButton)
-        {
-            splitButton.IsDropDownOpen = true;
-        }
-    }
-
-    private void Window_PreviewMouseLeftButtonUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
-    {
-        if (DataContext is ViewModels.Dialogs.TutorialChallengeLevelViewModel viewModel)
-        {
-            viewModel.IsStageItemDragging = false;
-        }
-
-        if (sender is System.Windows.Window window)
-        {
-            window.PreviewMouseLeftButtonUp -= Window_PreviewMouseLeftButtonUp;
-        }
     }
 }

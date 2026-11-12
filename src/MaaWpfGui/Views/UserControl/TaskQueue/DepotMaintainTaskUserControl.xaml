@@ -1,4 +1,4 @@
-<UserControl
+﻿<UserControl
     x:Class="MaaWpfGui.Views.UserControl.TaskQueue.DepotMaintainTaskUserControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -76,7 +76,7 @@
                                     Visibility="{c:Binding 'ActivityPresetList.Count > 0'}" />
                                 <Menu
                                     ItemContainerStyle="{StaticResource PresetMenuItemStyle}"
-                                    ItemsSource="{Binding PresetList, Source={x:Static taskQueue_vms:DepotMaintainTaskUserControlModel.Instance}}"
+                                    ItemsSource="{x:Static taskQueue_vms:DepotMaintainTaskUserControlModel.PresetList}"
                                     MenuItem.Click="{s:Action PresetMenuClick}">
                                     <Menu.ItemsPanel>
                                         <ItemsPanelTemplate>
@@ -93,7 +93,7 @@
                                         Text="{DynamicResource TaskQueue.DepotMaintain.PresetCurrentActivity}" />
                                     <Menu
                                         ItemContainerStyle="{StaticResource PresetMenuItemStyle}"
-                                        ItemsSource="{Binding ActivityPresetList, Source={x:Static taskQueue_vms:DepotMaintainTaskUserControlModel.Instance}}"
+                                        ItemsSource="{Binding DataContext.ActivityPresetList, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}"
                                         MenuItem.Click="{s:Action PresetMenuClick}">
                                         <Menu.ItemsPanel>
                                             <ItemsPanelTemplate>
@@ -168,8 +168,7 @@
                                         hc:IconElement.Width="15"
                                         BorderBrush="Transparent"
                                         BorderThickness="0"
-                                        Command="{s:Action RemovePlan,
-                                                           Target={x:Static taskQueue_vms:DepotMaintainTaskUserControlModel.Instance}}"
+                                        Command="{s:Action RemovePlan}"
                                         CommandParameter="{Binding}"
                                         ToolTip="{DynamicResource Common.Delete}">
                                         <Button.Style>
@@ -194,12 +193,13 @@
                                     <Grid Height="30">
                                         <!--  当 IsStageManually 为 false 时显示 ComboBox  -->
                                         <ComboBox
-                                            ItemsSource="{Binding StageListSource, Source={x:Static ui_vms:TaskQueueViewModel.DepotMaintainTask}}"
+                                            ItemsSource="{Binding DataContext.StageListSource, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}"
                                             ScrollViewer.CanContentScroll="False"
                                             SelectedValue="{Binding Stage}"
                                             SelectedValuePath="Value"
-                                            Visibility="{c:Binding !IsStageManually,
-                                                                   Source={x:Static ui_vms:TaskQueueViewModel.DepotMaintainTask}}">
+                                            Visibility="{c:Binding '!DataContext.IsStageManually',
+                                                                   RelativeSource={RelativeSource Mode=FindAncestor,
+                                                                                                  AncestorType={x:Type UserControl}}}">
 
                                             <ComboBox.ItemContainerStyle>
                                                 <Style BasedOn="{StaticResource ComboBoxItemBaseStyle}" TargetType="ComboBoxItem">
@@ -242,8 +242,9 @@
                                                                   Source={x:Static ui_vms:TaskQueueViewModel.FightTask}}"
                                             Text="{Binding Stage, UpdateSourceTrigger=PropertyChanged}"
                                             ToolTip="{DynamicResource TaskQueue.CustomStageCode.Tip}"
-                                            Visibility="{c:Binding IsStageManually,
-                                                                   Source={x:Static ui_vms:TaskQueueViewModel.DepotMaintainTask}}" />
+                                            Visibility="{c:Binding 'DataContext.IsStageManually',
+                                                                   RelativeSource={RelativeSource Mode=FindAncestor,
+                                                                                                  AncestorType={x:Type UserControl}}}" />
                                     </Grid>
 
                                     <!--  指定材料 + 目标库存（同一行，独立 Grid）  -->
@@ -322,7 +323,7 @@
                                     </Grid>
 
                                     <!--  使用药剂  -->
-                                    <Grid Margin="0,6,0,0" Visibility="{c:Binding UseMedicine, Source={x:Static ui_vms:TaskQueueViewModel.DepotMaintainTask}}">
+                                    <Grid Margin="0,6,0,0" Visibility="{c:Binding 'DataContext.UseMedicine', RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="*" />
                                             <ColumnDefinition Width="Auto" />
@@ -350,7 +351,7 @@
                                     </Grid>
 
                                     <!--  使用源石  -->
-                                    <Grid Margin="0,6,0,0" Visibility="{c:Binding UseStone, Source={x:Static ui_vms:TaskQueueViewModel.DepotMaintainTask}}">
+                                    <Grid Margin="0,6,0,0" Visibility="{c:Binding 'DataContext.UseStone', RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="*" />
                                             <ColumnDefinition Width="Auto" />

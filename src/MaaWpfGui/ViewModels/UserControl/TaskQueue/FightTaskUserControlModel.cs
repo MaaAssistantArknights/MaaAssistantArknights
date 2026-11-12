@@ -63,28 +63,43 @@ public partial class FightTaskUserControlModel : TaskSettingsViewModel, FightTas
     }
 
     public FightTaskUserControlModel()
+        : this(attachGlobalEvents: true)
+    {
+    }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="FightTaskUserControlModel"/> class.
+    /// </summary>
+    /// <param name="attachGlobalEvents">是否订阅全局事件（core 任务回调、仓库识别、语言切换）。
+    /// 默认单例构造传 true；短生命周期派生 Model（如教程沙盒）传 false 以隔离真实任务事件与静态引用。</param>
+    protected FightTaskUserControlModel(bool attachGlobalEvents)
     {
         _runningState = RunningState.Instance;
-        _runningState.StateChanged += OnRunningStateChanged;
-        Instances.AsstProxy.OnTaskStatusChanged += OnTaskStatusChanged;
-        Instances.AsstProxy.AsstSubTaskMsgEvent += ProcSubTaskMsg;
 
-        if (Instances.ToolboxViewModel is { } toolboxViewModel)
+        if (attachGlobalEvents)
         {
-            toolboxViewModel.DepotResult.CollectionChanged += OnDepotResultCollectionChanged;
+            _runningState.StateChanged += OnRunningStateChanged;
+            Instances.AsstProxy.OnTaskStatusChanged += OnTaskStatusChanged;
+            Instances.AsstProxy.AsstSubTaskMsgEvent += ProcSubTaskMsg;
+
+            if (Instances.ToolboxViewModel is { } toolboxViewModel)
+            {
+                toolboxViewModel.DepotResult.CollectionChanged += OnDepotResultCollectionChanged;
+            }
+
+            // 本类型为 Instance 单例，构造仅执行一次，订阅后无需取消订阅
+            LocalizationHelper.LanguageChanged += RefreshLocalization;
         }
 
         foreach (var i in WeeklyScheduleSource)
         {
             i.PropertyChanged += (_, __) => SaveWeeklySchedule();
         }
-        var item = new StagePlanItem();
+
+        var item = new StagePlanItem(this);
         item.PropertyChanged += (_, __) => SaveStagePlan();
         StagePlan.Add(item);
         InitDrops();
-
-        // 本类型为 Instance 单例，构造仅执行一次，订阅后无需取消订阅
-        LocalizationHelper.LanguageChanged += RefreshLocalization;
     }
 
     private void RefreshLocalization()
@@ -212,9 +227,9 @@ public partial class FightTaskUserControlModel : TaskSettingsViewModel, FightTas
     public static FightTaskUserControlModel Instance { get; }
 
     /// <summary>
-    /// Gets or sets a value indicating whether 关卡规划项正在被拖拽。
+    /// Gets or sets a value indicating whether 关卡规划项正在被拖拽。子类可覆写为自有数据源。
     /// </summary>
-    public bool IsStageItemDragging { get => field; set => SetAndNotify(ref field, value); }
+    public virtual bool IsStageItemDragging { get => field; set => SetAndNotify(ref field, value); }
 
     /// <summary>
     /// Gets or private sets a value indicating whether 关卡列表。
@@ -247,7 +262,7 @@ public partial class FightTaskUserControlModel : TaskSettingsViewModel, FightTas
     [UsedImplicitly]
     public void AddStageToPlan()
     {
-        var item = new StagePlanItem();
+        var item = new StagePlanItem(this);
         item.PropertyChanged += (_, __) => SaveStagePlan();
         StagePlan.Add(item);
     }
@@ -1043,7 +1058,7 @@ public partial class FightTaskUserControlModel : TaskSettingsViewModel, FightTas
                 var list = StagePlan;
                 if (list.Count == 0)
                 {
-                    var item = new StagePlanItem();
+                    var item = new StagePlanItem(this);
                     item.PropertyChanged += (_, __) => SaveStagePlan();
                     StagePlan.Add(item);
                 }
@@ -1394,7 +1409,7 @@ public partial class FightTaskUserControlModel : TaskSettingsViewModel, FightTas
         {
             return;
         }
-        using var refresh = new UiRefreshingScope();
+        using var refresh = new UiRefreshingScope(this);
         if (!UseAlternateStage && fight.StagePlan.Count == 0)
         {
             fight.StagePlan.Add(string.Empty);
@@ -1407,7 +1422,11 @@ public partial class FightTaskUserControlModel : TaskSettingsViewModel, FightTas
         Refresh();
     }
 
-    private bool? SetFightParams()
+    /// <summary>
+    /// 任务参数变化后按当前任务重新序列化并下发 core。子类可覆写拦截（如教程沙盒不向 core 下发）。
+    /// </summary>
+    /// <returns>序列化结果，未触发时为 null。</returns>
+    protected virtual bool? SetFightParams()
     {
         if (IsRefreshingUI || TaskSettingVisibilityInfo.CurrentTask is not FightTask fight)
         {
@@ -1457,7 +1476,7 @@ public partial class FightTaskUserControlModel : TaskSettingsViewModel, FightTas
                 ActivityInfo = LocalizationHelper.GetString("TaskQueue.Fight.NoActivity");
                 ActivityExpireIn2Days = false;
             }
-            using (var refresh = new UiRefreshingScope())
+            using (var refresh = new UiRefreshingScope(this))
             {
                 RefreshStageList();
                 foreach (var task in ConfigFactory.CurrentConfig.TaskQueue.OfType<FightTask>().Where(i => !i.IsStageManually))
@@ -1500,7 +1519,7 @@ public partial class FightTaskUserControlModel : TaskSettingsViewModel, FightTas
 
     private void RefreshStageList()
     {
-        if (TaskSettingVisibilityInfo.CurrentTask is not FightTask current)
+        if (GetCurrentTaskConfigOrNull<FightTask>() is not { } current)
         {
             return;
         }
@@ -1532,12 +1551,13 @@ public partial class FightTaskUserControlModel : TaskSettingsViewModel, FightTas
 
     private void RefreshCurrentStagePlan()
     {
-        if (TaskSettingVisibilityInfo.CurrentTask is not FightTask current)
+        if (GetCurrentTaskConfigOrNull<FightTask>() is not { } current)
         {
             return;
         }
+
         var plan = current.StagePlan.ToList();
-        var list = plan.Select((i, index) => new StagePlanItem(i)).ToList();
+        var list = plan.Select(i => new StagePlanItem(this, i)).ToList();
         foreach (var item in list)
         {
             item.PropertyChanged += (_, __) => SaveStagePlan();
@@ -1638,14 +1658,14 @@ public partial class FightTaskUserControlModel : TaskSettingsViewModel, FightTas
         public bool IsOutdated { get; set; } = false;
     }
 
-    public class StagePlanItem(string stage = "") : PropertyChangedBase
+    public class StagePlanItem(FightTaskUserControlModel owner, string stage = "") : PropertyChangedBase
     {
         public string Stage
         {
             get => field;
             set {
                 value ??= string.Empty;
-                if (TaskSettingVisibilityInfo.CurrentTask is FightTask task && task.UseOptionalStage)
+                if (owner.GetCurrentTaskConfigOrNull<FightTask>() is { UseOptionalStage: true })
                 {
                     // 从后往前删
                     if (value.Length != 3)
@@ -1660,7 +1680,7 @@ public partial class FightTaskUserControlModel : TaskSettingsViewModel, FightTas
                 }
 
                 IsOpen = Instances.StageManager.GetStageList().FirstOrDefault(p => p.Value == value)?.IsStageOpen(Instances.TaskQueueViewModel.CurDayOfWeek) ?? true;
-                Instance.SetFightParams();
+                owner.SetFightParams();
             }
         } = stage;
 
@@ -1797,11 +1817,13 @@ public partial class FightTaskUserControlModel : TaskSettingsViewModel, FightTas
     private struct UiRefreshingScope : IDisposable
     {
         private static int _depth = 0;
+        private readonly FightTaskUserControlModel _owner;
 
-        public UiRefreshingScope()
+        public UiRefreshingScope(FightTaskUserControlModel owner)
         {
+            _owner = owner;
             ++_depth;
-            Instance.IsRefreshingUI = true;
+            _owner.IsRefreshingUI = true;
         }
 
         readonly void IDisposable.Dispose()
@@ -1809,7 +1831,7 @@ public partial class FightTaskUserControlModel : TaskSettingsViewModel, FightTas
             --_depth;
             if (_depth == 0)
             {
-                Instance.IsRefreshingUI = false;
+                _owner.IsRefreshingUI = false;
             }
         }
     }

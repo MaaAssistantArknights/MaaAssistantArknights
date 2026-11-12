@@ -32,8 +32,17 @@ public abstract class TaskSettingsViewModel : PropertyChangedBase
     {
         PropertyDependsOnUtility.InitializePropertyDependencies(this);
 
-        // 本类型子类均为与应用同生命周期的 Instance 单例，转发订阅后无需取消订阅
+        // 默认子类均为与应用同生命周期的 Instance 单例，转发订阅后无需取消订阅；
+        // 短生命周期子类（如教程沙盒 Model）丢弃前须调用 DetachTaskSettingVisibilityForwarding 退订
         TaskSettingVisibilityInfo.Instance.PropertyChanged += ForwardTaskSettingVisibilityChanged;
+    }
+
+    /// <summary>
+    /// 退订全局任务设置可见性变化的转发订阅，供短生命周期子类在丢弃前释放对静态实例的引用。
+    /// </summary>
+    protected void DetachTaskSettingVisibilityForwarding()
+    {
+        TaskSettingVisibilityInfo.Instance.PropertyChanged -= ForwardTaskSettingVisibilityChanged;
     }
 
     protected bool IsRefreshingUI { get; set; } = false; // 需手动赋值
@@ -115,6 +124,21 @@ public abstract class TaskSettingsViewModel : PropertyChangedBase
             return null;
         }
         return ConfigFactory.CurrentConfig.TaskQueue[index.Value] is T t ? t : null;
+    }
+
+    /// <summary>
+    /// 取 <see cref="TaskConfigQueue"/>[<see cref="TaskConfigIndex"/>] 处的目标类型任务，
+    /// 索引越界或类型不符时返回 null（区别于 <see cref="GetTaskConfig{T}"/> 的临时对象兜底，
+    /// 供 ｢当前任务不是目标类型时整体不刷新｣ 的判定场景使用）。
+    /// </summary>
+    /// <typeparam name="T">任务类型。</typeparam>
+    /// <returns>当前任务实例，非目标类型时为 null。</returns>
+    protected T? GetCurrentTaskConfigOrNull<T>()
+        where T : BaseTask
+    {
+        var queue = TaskConfigQueue;
+        var index = TaskConfigIndex;
+        return index >= 0 && index < queue.Count && queue[index] is T t ? t : null;
     }
 
     /// <summary>

@@ -60,22 +60,36 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
     }
 
     public DepotMaintainTaskUserControlModel()
+        : this(attachGlobalEvents: true)
+    {
+    }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="DepotMaintainTaskUserControlModel"/> class.
+    /// </summary>
+    /// <param name="attachGlobalEvents">是否订阅全局事件（core 任务回调、仓库识别、关卡数据变化）。
+    /// 默认单例构造传 true；短生命周期派生 Model（如教程沙盒）传 false 以隔离真实任务事件与静态引用。</param>
+    protected DepotMaintainTaskUserControlModel(bool attachGlobalEvents)
     {
         PlanList.CollectionChanged += PlanList_CollectionChanged;
 
-        // 仓库数据变化时刷新计划显示（当前库存数量）
-        if (Instances.ToolboxViewModel is { } toolbox)
+        if (attachGlobalEvents)
         {
-            toolbox.DepotResult.CollectionChanged += (in NotifyCollectionChangedEventArgs<ToolboxViewModel.DepotResultDate> _) => {
-                NotifyOfPropertyChange(nameof(PlanInfo));
-            };
+            // 仓库数据变化时刷新计划显示（当前库存数量）
+            if (Instances.ToolboxViewModel is { } toolbox)
+            {
+                toolbox.DepotResult.CollectionChanged += (in NotifyCollectionChangedEventArgs<ToolboxViewModel.DepotResultDate> _) => {
+                    NotifyOfPropertyChange(nameof(PlanInfo));
+                };
+            }
+
+            // 任务开始时用最新库存重算该 plan 的缺口；任务正常结束但未达标时记录临期药耗尽证明
+            Instances.AsstProxy.OnTaskStatusChanged += OnTaskStatusChanged;
+
+            // 关卡数据（本地缓存或 OTA）重载后刷新活动预设列表；触发可能在非 UI 线程，异步投递回 UI 线程
+            Instances.StageManager.StageDataChanged += (_, _) => _ = Execute.OnUIThreadAsync(RefreshActivityPresetList);
         }
 
-        // 任务开始时用最新库存重算该 plan 的缺口；任务正常结束但未达标时记录临期药耗尽证明
-        Instances.AsstProxy.OnTaskStatusChanged += OnTaskStatusChanged;
-
-        // 关卡数据（本地缓存或 OTA）重载后刷新活动预设列表；触发可能在非 UI 线程，异步投递回 UI 线程
-        Instances.StageManager.StageDataChanged += (_, _) => _ = Execute.OnUIThreadAsync(RefreshActivityPresetList);
         RefreshActivityPresetList();
 
         // 语言切换时由 FightSettings.RebuildDropsList 显式调用 OnLanguageChanged
@@ -647,12 +661,12 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
 
     private void RefreshStageList()
     {
-        if (TaskSettingVisibilityInfo.CurrentTask is not DepotMaintainTask current)
+        if (GetCurrentTaskConfigOrNull<DepotMaintainTask>() is not { } current)
         {
             return;
         }
 
-        using var refresh = new UiRefreshingScope();
+        using var refresh = new UiRefreshingScope(this);
         var stageList = Instances.StageManager.GetStageList().Where(i => i.Value != AnnihilationName).ToList();
         var listCurrent = current.PlanList.ToList();
 
@@ -687,7 +701,7 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
             return;
         }
 
-        using var refresh = new UiRefreshingScope();
+        using var refresh = new UiRefreshingScope(this);
         var list = new List<DepotPlanItemViewModel>();
         int index = 0;
         foreach (var plan in task.PlanList)
@@ -936,11 +950,13 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
     private struct UiRefreshingScope : IDisposable
     {
         private static int _depth = 0;
+        private readonly DepotMaintainTaskUserControlModel _owner;
 
-        public UiRefreshingScope()
+        public UiRefreshingScope(DepotMaintainTaskUserControlModel owner)
         {
+            _owner = owner;
             ++_depth;
-            Instance.IsRefreshingUI = true;
+            _owner.IsRefreshingUI = true;
         }
 
         readonly void IDisposable.Dispose()
@@ -948,7 +964,7 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
             --_depth;
             if (_depth == 0)
             {
-                Instance.IsRefreshingUI = false;
+                _owner.IsRefreshingUI = false;
             }
         }
     }

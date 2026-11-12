@@ -8,10 +8,10 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:dialogs_vms="clr-namespace:MaaWpfGui.ViewModels.Dialogs"
     xmlns:hc="https://handyorg.github.io/handycontrol"
-    xmlns:helper="clr-namespace:MaaWpfGui.Helper"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:properties="clr-namespace:MaaWpfGui.Styles.Properties"
     xmlns:s="https://github.com/canton7/Stylet"
+    xmlns:settings="clr-namespace:MaaWpfGui.Views.UserControl.Settings"
     d:DataContext="{d:DesignInstance {x:Type dialogs_vms:TutorialChallengeLevelViewModel}}"
     mc:Ignorable="d">
     <UserControl.Resources>
@@ -31,7 +31,7 @@
                     BorderThickness="1,0,1,1"
                     CornerRadius="0,0,4,4">
                     <Grid>
-                        <!--  定时执行分区：简化照抄真实 TimerSettingsUserControl，单定时项 + 强制定时启动；DataContext 只能挂在内层，外层要读分区 Kind 判显隐  -->
+                        <!--  定时执行分区：复用真实 TimerSettingsUserControl，DataContext 挂回窗口 VM 的沙盒 Timer Model；外层沿分区 DataContext 判 Kind 显隐  -->
                         <StackPanel Margin="0,20" HorizontalAlignment="Center">
                             <StackPanel.Style>
                                 <Style TargetType="StackPanel">
@@ -43,69 +43,7 @@
                                     </Style.Triggers>
                                 </Style>
                             </StackPanel.Style>
-                            <StackPanel
-                                HorizontalAlignment="Center"
-                                DataContext="{Binding DataContext.SandboxSchedule, RelativeSource={RelativeSource AncestorType=hc:Window}}"
-                                Orientation="Horizontal">
-                                <StackPanel Margin="10,5" Orientation="Horizontal">
-                                    <CheckBox
-                                        VerticalContentAlignment="Center"
-                                        Content="{DynamicResource TaskQueue.Schedule.ForceScheduledStart}"
-                                        IsChecked="{Binding ForceScheduledStart}" />
-                                    <controls:TooltipBlock TooltipText="{DynamicResource TaskQueue.Schedule.ForceScheduledStart.Tip}" />
-                                </StackPanel>
-                                <StackPanel Margin="10,5" Orientation="Horizontal">
-                                    <CheckBox
-                                        VerticalContentAlignment="Center"
-                                        Content="{DynamicResource TaskQueue.Schedule.ShowWindowBeforeForceScheduledStart}"
-                                        IsChecked="{Binding ShowWindowBeforeForceScheduledStart}"
-                                        Visibility="{c:Binding ForceScheduledStart}" />
-                                    <controls:TooltipBlock
-                                        VerticalAlignment="Center"
-                                        TooltipText="{DynamicResource TaskQueue.Schedule.ShowWindowBeforeForceScheduledStart.Tip}"
-                                        Visibility="{c:Binding ForceScheduledStart}" />
-                                </StackPanel>
-                            </StackPanel>
-                            <ItemsControl DataContext="{Binding DataContext.SandboxSchedule, RelativeSource={RelativeSource AncestorType=hc:Window}}" ItemsSource="{Binding TimerList}">
-                                <ItemsControl.ItemTemplate>
-                                    <DataTemplate>
-                                        <StackPanel
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center"
-                                            Orientation="Horizontal">
-                                            <CheckBox
-                                                Margin="10,5"
-                                                IsChecked="{Binding IsEnabled}"
-                                                MouseRightButtonUp="{s:Action ToggleCheckBoxNullOnRightClick,
-                                                                              Target={x:Type helper:CheckBoxHelper}}"
-                                                ToolTip="{DynamicResource TaskQueue.CheckBoxesNotSavedAsNull}">
-                                                <TextBlock><Run Text="{DynamicResource TaskQueue.Schedule.Timer}" /><Run xml:space="preserve" Text=" " /><Run Text="{c:Binding 'Id + 1', Mode=OneWay}" /></TextBlock>
-                                            </CheckBox>
-                                            <StackPanel Orientation="Horizontal">
-                                                <hc:NumericUpDown
-                                                    Width="55"
-                                                    Margin="10,5"
-                                                    InputMethod.IsInputMethodEnabled="False"
-                                                    IsEnabled="{c:Binding 'IsEnabled ?? &quot;True&quot;'}"
-                                                    Maximum="23"
-                                                    Minimum="0"
-                                                    ValueFormat="00"
-                                                    Value="{Binding Hour}" />
-                                                <controls:TextBlock Text=":" />
-                                                <hc:NumericUpDown
-                                                    Width="55"
-                                                    Margin="10,5"
-                                                    InputMethod.IsInputMethodEnabled="False"
-                                                    IsEnabled="{c:Binding 'IsEnabled ?? &quot;True&quot;'}"
-                                                    Maximum="59"
-                                                    Minimum="0"
-                                                    ValueFormat="00"
-                                                    Value="{Binding Minute}" />
-                                            </StackPanel>
-                                        </StackPanel>
-                                    </DataTemplate>
-                                </ItemsControl.ItemTemplate>
-                            </ItemsControl>
+                            <settings:TimerSettingsUserControl DataContext="{Binding DataContext.SandboxTimerSettingsModel, RelativeSource={RelativeSource AncestorType=hc:Window}}" />
                         </StackPanel>
 
                         <!--  问题反馈分区：结构照抄真实 IssueReportUserControl（去掉更新提示态与 reports 按钮）；外层沿分区 DataContext 判 Kind，内层 Grid 挂回窗口 VM 读沙盒态。生成按钮保留沙盒 ExportLogs 动作与 ｢生成中…｣ 文案切换，Enable 用沙盒 CanExportLogs  -->
