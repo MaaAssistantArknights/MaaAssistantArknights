@@ -410,6 +410,13 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
     {
         get => _scrollOffset;
         set {
+            // 模板卸载/绑定断开时附加属性回落 NaN 默认值，可能经绑定链路回写到此；NaN/无穷不是
+            // 有效滚动位置，滞留会反复触发无效的导航联动，直接忽略
+            if (double.IsNaN(value) || double.IsInfinity(value))
+            {
+                return;
+            }
+
             // 平滑滚动动画落地的回写（ScrollViewerBinding 在动画结束后把目标值路由回绑定源）：
             // 与动画目标一致说明本次滚动源于导航定位，同步值即可，不反向重算导航高亮——
             // 目标偏移被 ScrollViewer 钳制时（分节下方内容不足一屏，实际停不到目标），

@@ -84,8 +84,15 @@ public static class ScrollViewerBinding
             return;
         }
 
+        // 绑定断开/模板卸载时属性回落 NaN 默认值，属 ｢无值｣ 哨兵而非滚动目标，跳过；
+        // 无穷偏移同样会被 ScrollToVerticalOffset 拒绝（ArgumentOutOfRangeException），一并拦下
+        if (e.NewValue is not double target || double.IsNaN(target) || double.IsInfinity(target))
+        {
+            return;
+        }
+
         BindVerticalOffset(scrollViewer);
-        scrollViewer.ScrollToVerticalOffset((double)e.NewValue);
+        scrollViewer.ScrollToVerticalOffset(target);
     }
 
     private static void BindVerticalOffset(ScrollViewer scrollViewer)
