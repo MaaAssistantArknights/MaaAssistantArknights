@@ -1472,6 +1472,9 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
         }
 
         TutorialChallengeProgress.MarkCleared(_level.Id);
+
+        // 通关数同步到模拟空间奖章组，达到档位目标的成就经进度检查自动解锁（重玩已通关关卡时数值不变，幂等）
+        AchievementTrackerHelper.Instance.SetProgressToGroup(AchievementIds.SimulationSpaceGroup, TutorialChallengeProgress.ClearedCount);
     }
 
     private void OnStageDataChanged(object? sender, EventArgs e)

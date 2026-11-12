@@ -266,6 +266,16 @@
     <system:String x:Key="Achievement.ScheduleMaster2.Conditions">Use {key=Settings.Schedule.Title} 100 times</system:String>
     <system:String x:Key="Achievement.ScheduleMaster2.Description">You are familiar with PRTS's automated deployment.</system:String>
     <system:String x:Key="Achievement.ScheduleMaster2.Title">Universal Automation Solution 0.3.2.9f2</system:String>
+    <system:String x:Key="Achievement.SimulationSpaceMedal.Description">"You have completed a great number of Simulation Space stages. Thank you for your passion for industrial knowledge."</system:String>
+    <system:String x:Key="Achievement.SimulationSpaceMedal1.Conditions">Complete 5 stages in {key=Toolbox.TutorialChallenge.Title}</system:String>
+    <system:String x:Key="Achievement.SimulationSpaceMedal1.Description">{key=Achievement.SimulationSpaceMedal.Description}</system:String>
+    <system:String x:Key="Achievement.SimulationSpaceMedal1.Title">Simulation Space Medal I</system:String>
+    <system:String x:Key="Achievement.SimulationSpaceMedal2.Conditions">Complete 10 stages in {key=Toolbox.TutorialChallenge.Title}</system:String>
+    <system:String x:Key="Achievement.SimulationSpaceMedal2.Description">{key=Achievement.SimulationSpaceMedal.Description}</system:String>
+    <system:String x:Key="Achievement.SimulationSpaceMedal2.Title">Simulation Space Medal II</system:String>
+    <system:String x:Key="Achievement.SimulationSpaceMedal3.Conditions">Complete 20 stages in {key=Toolbox.TutorialChallenge.Title}</system:String>
+    <system:String x:Key="Achievement.SimulationSpaceMedal3.Description">{key=Achievement.SimulationSpaceMedal.Description}</system:String>
+    <system:String x:Key="Achievement.SimulationSpaceMedal3.Title">Simulation Space Medal III</system:String>
     <system:String x:Key="Achievement.SlackingOff.Conditions">Launch {key=Toolbox.MiniGame.Title} once</system:String>
     <system:String x:Key="Achievement.SlackingOff.Description">Done with serious business, time to play something else.</system:String>
     <system:String x:Key="Achievement.SlackingOff.Title">Slacking Off</system:String>

@@ -266,6 +266,16 @@
     <system:String x:Key="Achievement.ScheduleMaster2.Conditions">{key=Settings.Schedule.Title} 100 次</system:String>
     <system:String x:Key="Achievement.ScheduleMaster2.Description">您已熟知 PRTS 的自動化部署。</system:String>
     <system:String x:Key="Achievement.ScheduleMaster2.Title">泛用型自動化解決方案 0.3.2.9f2</system:String>
+    <system:String x:Key="Achievement.SimulationSpaceMedal.Description">“您完成了大量模擬空間，感謝您對工業知識的熱情。”</system:String>
+    <system:String x:Key="Achievement.SimulationSpaceMedal1.Conditions">通關 5 個{key=Toolbox.TutorialChallenge.Title}關卡</system:String>
+    <system:String x:Key="Achievement.SimulationSpaceMedal1.Description">{key=Achievement.SimulationSpaceMedal.Description}</system:String>
+    <system:String x:Key="Achievement.SimulationSpaceMedal1.Title">模擬空間獎章 I</system:String>
+    <system:String x:Key="Achievement.SimulationSpaceMedal2.Conditions">通關 10 個{key=Toolbox.TutorialChallenge.Title}關卡</system:String>
+    <system:String x:Key="Achievement.SimulationSpaceMedal2.Description">{key=Achievement.SimulationSpaceMedal.Description}</system:String>
+    <system:String x:Key="Achievement.SimulationSpaceMedal2.Title">模擬空間獎章 II</system:String>
+    <system:String x:Key="Achievement.SimulationSpaceMedal3.Conditions">通關 20 個{key=Toolbox.TutorialChallenge.Title}關卡</system:String>
+    <system:String x:Key="Achievement.SimulationSpaceMedal3.Description">{key=Achievement.SimulationSpaceMedal.Description}</system:String>
+    <system:String x:Key="Achievement.SimulationSpaceMedal3.Title">模擬空間獎章 III</system:String>
     <system:String x:Key="Achievement.SlackingOff.Conditions">啟動一次{key=Toolbox.MiniGame.Title}</system:String>
     <system:String x:Key="Achievement.SlackingOff.Description">正事做累了，玩點別的。</system:String>
     <system:String x:Key="Achievement.SlackingOff.Title">不務正業</system:String>

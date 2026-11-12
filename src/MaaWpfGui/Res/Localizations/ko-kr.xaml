@@ -266,6 +266,16 @@
     <system:String x:Key="Achievement.ScheduleMaster2.Conditions">｢{key=Settings.Schedule.Title}｣ 기능을 100회 사용</system:String>
     <system:String x:Key="Achievement.ScheduleMaster2.Description">이 정도면 PRTS보다 제가 더 유능하죠?</system:String>
     <system:String x:Key="Achievement.ScheduleMaster2.Title">범용 자동화 솔루션 0.3.2.9f2</system:String>
+    <system:String x:Key="Achievement.SimulationSpaceMedal.Description">'많은 시뮬레이션 스페이스를 완료하셨습니다. 산업 지식에 대한 열정에 감사합니다.'</system:String>
+    <system:String x:Key="Achievement.SimulationSpaceMedal1.Conditions">{key=Toolbox.TutorialChallenge.Title} 5개 클리어</system:String>
+    <system:String x:Key="Achievement.SimulationSpaceMedal1.Description">{key=Achievement.SimulationSpaceMedal.Description}</system:String>
+    <system:String x:Key="Achievement.SimulationSpaceMedal1.Title">시뮬레이션 스페이스 메달 I</system:String>
+    <system:String x:Key="Achievement.SimulationSpaceMedal2.Conditions">{key=Toolbox.TutorialChallenge.Title} 10개 클리어</system:String>
+    <system:String x:Key="Achievement.SimulationSpaceMedal2.Description">{key=Achievement.SimulationSpaceMedal.Description}</system:String>
+    <system:String x:Key="Achievement.SimulationSpaceMedal2.Title">시뮬레이션 스페이스 메달 II</system:String>
+    <system:String x:Key="Achievement.SimulationSpaceMedal3.Conditions">{key=Toolbox.TutorialChallenge.Title} 20개 클리어</system:String>
+    <system:String x:Key="Achievement.SimulationSpaceMedal3.Description">{key=Achievement.SimulationSpaceMedal.Description}</system:String>
+    <system:String x:Key="Achievement.SimulationSpaceMedal3.Title">시뮬레이션 스페이스 메달 III</system:String>
     <system:String x:Key="Achievement.SlackingOff.Conditions">{key=Toolbox.MiniGame.Title} 1회 실행</system:String>
     <system:String x:Key="Achievement.SlackingOff.Description">업무 효율을 위해서 가끔은 쉬어줘야죠.</system:String>
     <system:String x:Key="Achievement.SlackingOff.Title">월급 루팡</system:String>

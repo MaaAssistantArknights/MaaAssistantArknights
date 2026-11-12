@@ -49,6 +49,11 @@ public static class TutorialChallengeProgress
     public static bool IsCleared(string levelId) => _clearedLevels.Contains(levelId);
 
     /// <summary>
+    /// Gets 已通关关卡数（模拟空间奖章成就的进度源）。
+    /// </summary>
+    public static int ClearedCount => _clearedLevels.Count;
+
+    /// <summary>
     /// 加载进度文件；文件缺失或损坏按空进度处理。
     /// </summary>
     public static void Load()

@@ -266,6 +266,16 @@
     <system:String x:Key="Achievement.ScheduleMaster2.Conditions">スケジュール実行を 100 回実行する</system:String>
     <system:String x:Key="Achievement.ScheduleMaster2.Description">PRTSの自動化デプロイを熟知しました。</system:String>
     <system:String x:Key="Achievement.ScheduleMaster2.Title">汎用型自動化解決策0.3.2.9f2</system:String>
+    <system:String x:Key="Achievement.SimulationSpaceMedal.Description">「多くの模擬空間をクリアしました。工業知識への情熱に感謝します。」</system:String>
+    <system:String x:Key="Achievement.SimulationSpaceMedal1.Conditions">{key=Toolbox.TutorialChallenge.Title}を 5 ステージクリアする</system:String>
+    <system:String x:Key="Achievement.SimulationSpaceMedal1.Description">{key=Achievement.SimulationSpaceMedal.Description}</system:String>
+    <system:String x:Key="Achievement.SimulationSpaceMedal1.Title">模擬空間メダル I</system:String>
+    <system:String x:Key="Achievement.SimulationSpaceMedal2.Conditions">{key=Toolbox.TutorialChallenge.Title}を 10 ステージクリアする</system:String>
+    <system:String x:Key="Achievement.SimulationSpaceMedal2.Description">{key=Achievement.SimulationSpaceMedal.Description}</system:String>
+    <system:String x:Key="Achievement.SimulationSpaceMedal2.Title">模擬空間メダル II</system:String>
+    <system:String x:Key="Achievement.SimulationSpaceMedal3.Conditions">{key=Toolbox.TutorialChallenge.Title}を 20 ステージクリアする</system:String>
+    <system:String x:Key="Achievement.SimulationSpaceMedal3.Description">{key=Achievement.SimulationSpaceMedal.Description}</system:String>
+    <system:String x:Key="Achievement.SimulationSpaceMedal3.Title">模擬空間メダル III</system:String>
     <system:String x:Key="Achievement.SlackingOff.Conditions">{key=Toolbox.MiniGame.Title}を1回起動する</system:String>
     <system:String x:Key="Achievement.SlackingOff.Description">本業に疲れたら、ちょっと別の遊びを。</system:String>
     <system:String x:Key="Achievement.SlackingOff.Title">本業を怠る</system:String>
