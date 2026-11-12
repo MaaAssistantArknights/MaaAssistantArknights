@@ -1286,7 +1286,14 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
             });
 
             var msg = $"{LocalizationHelper.GetString("Error.GenerateSupportPayloadSuccessful")}\n{fullZipPath}\n{LocalizationHelper.GetString("TutorialChallenge.Level.ExportLogs.EmptyPackageNote")}";
-            GrowlHelper.Show(InfoType.Success, msg, () => Growl.Success(msg, "TutorialChallenge"));
+
+            // 成功提示含完整 zip 路径，需时间看清，常驻不自动消失
+            var growlInfo = new GrowlInfo {
+                Message = msg,
+                StaysOpen = true,
+                Token = "TutorialChallenge",
+            };
+            GrowlHelper.Show(InfoType.Success, msg, () => Growl.Success(growlInfo));
             IssueReportUserControlModel.Instance.OpenReportsFolder();
             ExportLogsClicked = true;
             Evaluate();

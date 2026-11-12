@@ -1461,21 +1461,7 @@ public partial class FightTaskUserControlModel : TaskSettingsViewModel, FightTas
             using var log = new LogScope(_logger);
             var stageList = Instances.StageManager.GetStageList();
             await TaskQueueViewModel.TaskQueueSerializingLock.WaitAsync();
-            var time = DateTimeOffset.Now;
-            var activityList = Instances.StageManager.ActivityList.Where(ss => ss.Value.Info.StartTimeUtc <= time && time <= ss.Value.Info.ExpireTimeUtc);
-            if (activityList.Any())
-            {
-                var activity = activityList.First();
-                var timeLeft = activity.Value.Info.ExpireTimeUtc - time;
-                var day = timeLeft.Days > 0 ? $"{timeLeft.Days}+" : LocalizationHelper.GetString("TaskQueue.Stage.Label.LessThanOneDay");
-                ActivityExpireIn2Days = timeLeft.Days < 2;
-                ActivityInfo = $"｢{activity.Value.Info.StageName}｣ {LocalizationHelper.GetString("TaskQueue.Stage.Label.DaysLeftOpen")}{day}";
-            }
-            else
-            {
-                ActivityInfo = LocalizationHelper.GetString("TaskQueue.Fight.NoActivity");
-                ActivityExpireIn2Days = false;
-            }
+            RefreshActivityInfo();
             using (var refresh = new UiRefreshingScope(this))
             {
                 RefreshStageList();
@@ -1515,6 +1501,29 @@ public partial class FightTaskUserControlModel : TaskSettingsViewModel, FightTas
                 }
             }
         });
+    }
+
+    /// <summary>
+    /// 按当前时间从全局活动表刷新理智面板的活动信息行（活动名与剩余天数，无进行中活动时回落到暂无活动文案）。
+    /// 数据源为全局共享只读活动表，不触碰任务队列，教程沙盒 Model 也可在构造时直接调用。
+    /// </summary>
+    protected void RefreshActivityInfo()
+    {
+        var time = DateTimeOffset.Now;
+        var activityList = Instances.StageManager.ActivityList.Where(ss => ss.Value.Info.StartTimeUtc <= time && time <= ss.Value.Info.ExpireTimeUtc);
+        if (activityList.Any())
+        {
+            var activity = activityList.First();
+            var timeLeft = activity.Value.Info.ExpireTimeUtc - time;
+            var day = timeLeft.Days > 0 ? $"{timeLeft.Days}+" : LocalizationHelper.GetString("TaskQueue.Stage.Label.LessThanOneDay");
+            ActivityExpireIn2Days = timeLeft.Days < 2;
+            ActivityInfo = $"｢{activity.Value.Info.StageName}｣ {LocalizationHelper.GetString("TaskQueue.Stage.Label.DaysLeftOpen")}{day}";
+        }
+        else
+        {
+            ActivityInfo = LocalizationHelper.GetString("TaskQueue.Fight.NoActivity");
+            ActivityExpireIn2Days = false;
+        }
     }
 
     private void RefreshStageList()

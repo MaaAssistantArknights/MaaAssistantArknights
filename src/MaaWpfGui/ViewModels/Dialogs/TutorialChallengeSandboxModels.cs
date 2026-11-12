@@ -27,17 +27,30 @@ namespace MaaWpfGui.ViewModels.Dialogs;
 /// 理智作战任务的沙盒 Model：复用真实任务控件的全部行为，任务读写数据源指向关卡 VM 的沙盒任务集合，
 /// core 下发被拦截（沙盒不产生真实 core 任务），拖拽态与高级设置开关转发关卡 VM。
 /// </summary>
-/// <param name="owner">所属关卡 VM。</param>
-public sealed class SandboxFightTaskModel(TutorialChallengeLevelViewModel owner) : FightTaskUserControlModel(attachGlobalEvents: false)
+public sealed class SandboxFightTaskModel : FightTaskUserControlModel
 {
-    /// <inheritdoc/>
-    protected override IList<BaseTask> TaskConfigQueue => owner.SandboxTasks;
+    private readonly TutorialChallengeLevelViewModel _owner;
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="SandboxFightTaskModel"/> class.
+    /// 构造时即填充活动信息行——沙盒不走真实 Model 的刷新链路（UpdateStageList 会锁真实任务序列化锁），直接调只读活动表的刷新。
+    /// </summary>
+    /// <param name="owner">所属关卡 VM。</param>
+    public SandboxFightTaskModel(TutorialChallengeLevelViewModel owner)
+        : base(attachGlobalEvents: false)
+    {
+        _owner = owner;
+        RefreshActivityInfo();
+    }
 
     /// <inheritdoc/>
-    protected override int TaskConfigIndex => owner.SelectedItem is { } item ? owner.SandboxItems.IndexOf(item) : -1;
+    protected override IList<BaseTask> TaskConfigQueue => _owner.SandboxTasks;
+
+    /// <inheritdoc/>
+    protected override int TaskConfigIndex => _owner.SelectedItem is { } item ? _owner.SandboxItems.IndexOf(item) : -1;
 
     /// <inheritdoc/> 弹窗自有开关，不联动主窗口
-    public override bool EnableAdvancedSettings => owner.EnableAdvancedSettings;
+    public override bool EnableAdvancedSettings => _owner.EnableAdvancedSettings;
 
     /// <inheritdoc/> 沙盒任务永不运行
     public override bool IsCurrentTaskRunning => false;
@@ -45,8 +58,8 @@ public sealed class SandboxFightTaskModel(TutorialChallengeLevelViewModel owner)
     /// <inheritdoc/> 转发关卡 VM 的拖拽态（教程侧拖拽逻辑写在关卡 VM 上）
     public override bool IsStageItemDragging
     {
-        get => owner.IsStageItemDragging;
-        set => owner.IsStageItemDragging = value;
+        get => _owner.IsStageItemDragging;
+        set => _owner.IsStageItemDragging = value;
     }
 
     /// <inheritdoc/> 沙盒任务不序列化下发 core

@@ -365,19 +365,19 @@
                         -->
                         <Grid
                             Width="220"
-                            HorizontalAlignment="Left"
+                            HorizontalAlignment="Center"
                             Visibility="{c:Binding ShowFightPanel}">
                             <taskQueueViews:FightTaskUserControl DataContext="{Binding SandboxFightTaskModel}" />
                         </Grid>
                         <Grid
                             Width="220"
-                            HorizontalAlignment="Left"
+                            HorizontalAlignment="Center"
                             Visibility="{c:Binding ShowDepotMaintainPanel}">
                             <taskQueueViews:DepotMaintainTaskUserControl DataContext="{Binding SandboxDepotMaintainTaskModel}" />
                         </Grid>
                         <Grid
                             Width="220"
-                            HorizontalAlignment="Left"
+                            HorizontalAlignment="Center"
                             Visibility="{c:Binding ShowRecruitPanel}">
                             <taskQueueViews:RecruitTaskUserControl DataContext="{Binding SandboxRecruitTaskModel}" />
                         </Grid>
