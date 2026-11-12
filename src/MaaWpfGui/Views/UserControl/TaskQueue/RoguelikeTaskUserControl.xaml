@@ -28,8 +28,7 @@
         <StackPanel
             d:Visibility="Visible"
             IsEnabled="{Binding Run.Idle, Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingDataContext}}"
-            Visibility="{c:Binding !EnableAdvancedSettings,
-                                   Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}">
+            Visibility="{c:Binding !EnableAdvancedSettings}">
             <hc:ComboBox
                 Margin="0,3"
                 hc:InfoElement.Title="{DynamicResource Roguelike.Theme}"
@@ -248,8 +247,7 @@
         <StackPanel
             d:Visibility="Visible"
             IsEnabled="{Binding Run.Idle, Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingDataContext}}"
-            Visibility="{c:Binding EnableAdvancedSettings,
-                                   Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}">
+            Visibility="{c:Binding EnableAdvancedSettings}">
             <hc:NumericUpDown
                 Margin="0,5"
                 hc:InfoElement.Title="{DynamicResource Roguelike.StartTimesLimit}"

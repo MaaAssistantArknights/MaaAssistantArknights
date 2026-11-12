@@ -23,7 +23,7 @@
         <converters:SubtractConverter x:Key="SubtractConverter" />
     </UserControl.Resources>
     <Grid>
-        <StackPanel Visibility="{c:Binding !EnableAdvancedSettings, Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}">
+        <StackPanel Visibility="{c:Binding !EnableAdvancedSettings}">
             <Viewbox
                 Margin="0,0,0,5"
                 HorizontalAlignment="Left"
@@ -388,8 +388,7 @@
         <StackPanel
             HorizontalAlignment="Left"
             d:Visibility="Collapsed"
-            Visibility="{c:Binding EnableAdvancedSettings,
-                                   Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}">
+            Visibility="{c:Binding EnableAdvancedSettings}">
             <hc:Divider Content="{DynamicResource TaskQueue.DepotMaintain.GroupTaskBehavior}" />
             <StackPanel Margin="0,6,0,0" Orientation="Horizontal">
                 <CheckBox MaxWidth="200" IsChecked="{Binding UpdateDepot}">
