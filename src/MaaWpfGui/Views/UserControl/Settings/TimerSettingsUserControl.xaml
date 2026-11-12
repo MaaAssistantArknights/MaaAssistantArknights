@@ -160,7 +160,7 @@
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
                             Focusable="False"
-                            IsEnabled="{Binding Run.Idle, Source={x:Static helper:Instances.SettingsViewModel}}"
+                            IsEnabled="{Binding DataContext.IsQueueIdle, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}"
                             ItemsSource="{Binding ConfigurationList, Source={x:Static helper:Instances.SettingsViewModel}}"
                             SelectedValue="{Binding Config}"
                             SelectedValuePath="Value"

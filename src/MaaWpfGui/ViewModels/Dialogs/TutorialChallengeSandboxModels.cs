@@ -55,6 +55,12 @@ public sealed class SandboxFightTaskModel : FightTaskUserControlModel
     /// <inheritdoc/> 沙盒任务永不运行
     public override bool IsCurrentTaskRunning => false;
 
+    /// <inheritdoc/> 沙盒队列恒空闲，不受真实队列运行态联动
+    public override bool IsQueueIdle => true;
+
+    /// <inheritdoc/> 沙盒面板不联动真实理智面板的拖拽禁用
+    public override bool IsFightStageItemDragging => false;
+
     /// <inheritdoc/> 转发关卡 VM 的拖拽态（教程侧拖拽逻辑写在关卡 VM 上）
     public override bool IsStageItemDragging
     {
@@ -86,7 +92,7 @@ public sealed class SandboxFightTaskModel : FightTaskUserControlModel
     /// <summary>
     /// 关卡关闭时释放对静态实例与关卡 VM 的订阅。
     /// </summary>
-    public void Detach() => DetachTaskSettingVisibilityForwarding();
+    public void Detach() => DetachGlobalStateForwarding();
 }
 
 /// <summary>
@@ -107,6 +113,12 @@ public sealed class SandboxRecruitTaskModel(TutorialChallengeLevelViewModel owne
     /// <inheritdoc/> 沙盒任务永不运行
     public override bool IsCurrentTaskRunning => false;
 
+    /// <inheritdoc/> 沙盒队列恒空闲，不受真实队列运行态联动
+    public override bool IsQueueIdle => true;
+
+    /// <inheritdoc/> 沙盒面板不联动真实理智面板的拖拽禁用
+    public override bool IsFightStageItemDragging => false;
+
     /// <summary>
     /// 关卡 VM 侧状态变化时转发为本 Model 的绑定通知。
     /// </summary>
@@ -121,9 +133,9 @@ public sealed class SandboxRecruitTaskModel(TutorialChallengeLevelViewModel owne
     }
 
     /// <summary>
-    /// 关卡关闭时释放对静态实例的订阅。
+    /// 关卡关闭时释放对静态实例与关卡 VM 的订阅。
     /// </summary>
-    public void Detach() => DetachTaskSettingVisibilityForwarding();
+    public void Detach() => DetachGlobalStateForwarding();
 }
 
 /// <summary>
@@ -144,6 +156,12 @@ public sealed class SandboxDepotMaintainTaskModel(TutorialChallengeLevelViewMode
     /// <inheritdoc/> 沙盒任务永不运行
     public override bool IsCurrentTaskRunning => false;
 
+    /// <inheritdoc/> 沙盒队列恒空闲，不受真实队列运行态联动
+    public override bool IsQueueIdle => true;
+
+    /// <inheritdoc/> 沙盒面板不联动真实理智面板的拖拽禁用
+    public override bool IsFightStageItemDragging => false;
+
     /// <summary>
     /// 关卡 VM 侧状态变化时转发为本 Model 的绑定通知。
     /// </summary>
@@ -158,9 +176,9 @@ public sealed class SandboxDepotMaintainTaskModel(TutorialChallengeLevelViewMode
     }
 
     /// <summary>
-    /// 关卡关闭时释放对静态实例的订阅。
+    /// 关卡关闭时释放对静态实例与关卡 VM 的订阅。
     /// </summary>
-    public void Detach() => DetachTaskSettingVisibilityForwarding();
+    public void Detach() => DetachGlobalStateForwarding();
 }
 
 /// <summary>
@@ -172,6 +190,9 @@ public sealed class SandboxTimerSettingsModel(TutorialChallengeSandboxSchedule s
 {
     /// <inheritdoc/>
     protected override TimerSettings TimerSettingsSource => schedule.Settings;
+
+    /// <inheritdoc/> 沙盒队列恒空闲，定时配置项不受真实队列运行态禁用
+    public override bool IsQueueIdle => true;
 
     /// <inheritdoc/> 沙盒不注册真实计划任务
     protected override void SyncScheduledWakeUpRegistrations()

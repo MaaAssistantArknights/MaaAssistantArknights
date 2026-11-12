@@ -238,8 +238,7 @@
                                         <TextBox
                                             Height="30"
                                             hc:InfoElement.Placeholder="{DynamicResource TaskQueue.Stage.Label.Default}"
-                                            IsEnabled="{c:Binding !IsStageItemDragging,
-                                                                  Source={x:Static ui_vms:TaskQueueViewModel.FightTask}}"
+                                            IsEnabled="{c:Binding !IsFightStageItemDragging}"
                                             Text="{Binding Stage, UpdateSourceTrigger=PropertyChanged}"
                                             ToolTip="{DynamicResource TaskQueue.CustomStageCode.Tip}"
                                             Visibility="{c:Binding 'DataContext.IsStageManually',

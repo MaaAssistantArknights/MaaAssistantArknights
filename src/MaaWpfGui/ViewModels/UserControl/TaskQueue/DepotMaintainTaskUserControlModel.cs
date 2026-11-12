@@ -86,6 +86,9 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
             // 任务开始时用最新库存重算该 plan 的缺口；任务正常结束但未达标时记录临期药耗尽证明
             Instances.AsstProxy.OnTaskStatusChanged += OnTaskStatusChanged;
 
+            // 理智面板拖拽关卡规划项时联动禁用手输关卡框；本类型为 Instance 单例，订阅后无需取消订阅
+            FightTaskUserControlModel.Instance.PropertyChanged += ForwardFightStageItemDraggingChanged;
+
             // 关卡数据（本地缓存或 OTA）重载后刷新活动预设列表；触发可能在非 UI 线程，异步投递回 UI 线程
             Instances.StageManager.StageDataChanged += (_, _) => _ = Execute.OnUIThreadAsync(RefreshActivityPresetList);
         }

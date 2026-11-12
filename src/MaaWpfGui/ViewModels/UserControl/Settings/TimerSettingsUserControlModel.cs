@@ -20,6 +20,7 @@ using System.Windows.Documents;
 using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Configuration.Global;
 using MaaWpfGui.Helper;
+using MaaWpfGui.States;
 using MaaWpfGui.Utilities;
 using MaaWpfGui.ViewModels.UI;
 using Stylet;
@@ -61,6 +62,9 @@ public class TimerSettingsUserControlModel : PropertyChangedBase
 
             // 启动对账：按当前开关与定时项状态全量重建计划任务
             Task.Run(() => ScheduledWakeUpRegistrar.SyncAll(out _));
+
+            // 本类型为 Instance 单例，转发队列运行态通知后无需取消订阅
+            RunControlState.Instance.PropertyChanged += ForwardQueueRunStateChanged;
         }
     }
 
@@ -70,6 +74,25 @@ public class TimerSettingsUserControlModel : PropertyChangedBase
     /// 定时设置的读写数据源。默认为全局持久化配置，子类可覆写为自有定时状态（如教程沙盒）。
     /// </summary>
     protected virtual TimerSettings TimerSettingsSource => ConfigFactory.Root.Timers;
+
+    /// <summary>
+    /// 任务队列是否空闲（定时配置项可编辑）。默认转发全局运行控制状态，子类可覆写为自有状态（如沙盒恒空闲）。
+    /// </summary>
+    public virtual bool IsQueueIdle => RunControlState.Instance.Idle;
+
+    /// <summary>
+    /// 将全局队列运行态的变更转发为本 Model 的 <see cref="IsQueueIdle"/> 通知，
+    /// 使定时控件 XAML 经 DataContext 绑定转发属性时仍能收到变更通知。
+    /// </summary>
+    /// <param name="sender">事件发送者。</param>
+    /// <param name="e">属性变更参数。</param>
+    private void ForwardQueueRunStateChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName == nameof(RunControlState.Idle))
+        {
+            NotifyOfPropertyChange(nameof(IsQueueIdle));
+        }
+    }
 
     /// <summary>
     /// Gets or sets a value indicating whether to force scheduled start.

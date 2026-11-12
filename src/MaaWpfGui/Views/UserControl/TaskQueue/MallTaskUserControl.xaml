@@ -30,8 +30,7 @@
                 Visibility="{c:Binding CreditVisitFriendsEnabled}">
                 <controls:TextBlock
                     Margin="2.5,0,7.5,0"
-                    Opacity="{c:Binding 'Run.Idle and Run.Inited ? 1 : 0.5',
-                                        Source={x:Static helper:Instances.TaskQueueViewModel}}"
+                    Opacity="{c:Binding 'IsQueueIdle ? 1 : 0.5'}"
                     Text="└" />
                 <CheckBox
                     Block.TextAlignment="Left"
@@ -61,8 +60,7 @@
                 Visibility="{c:Binding CreditFightTaskEnabled}">
                 <controls:TextBlock
                     Margin="2.5,0,7.5,0"
-                    Opacity="{c:Binding 'Run.Idle and Run.Inited ? 1 : 0.5',
-                                        Source={x:Static helper:Instances.TaskQueueViewModel}}"
+                    Opacity="{c:Binding 'IsQueueIdle ? 1 : 0.5'}"
                     Text="├" />
                 <CheckBox
                     Block.TextAlignment="Left"
@@ -76,10 +74,9 @@
                 Visibility="{c:Binding CreditFightTaskEnabled}">
                 <controls:TextBlock
                     Margin="2.5,0,7.5,0"
-                    Opacity="{c:Binding 'Run.Idle and Run.Inited ? 1 : 0.5',
-                                        Source={x:Static helper:Instances.TaskQueueViewModel}}"
+                    Opacity="{c:Binding 'IsQueueIdle ? 1 : 0.5'}"
                     Text="└" />
-                <controls:TextBlock Opacity="{c:Binding 'Run.Idle and Run.Inited ? 1 : 0.5', Source={x:Static helper:Instances.TaskQueueViewModel}}" Text="{DynamicResource Copilot.UseFormation}" />
+                <controls:TextBlock Opacity="{c:Binding 'IsQueueIdle ? 1 : 0.5'}" Text="{DynamicResource Copilot.UseFormation}" />
                 <ComboBox
                     Margin="6,0,0,0"
                     HorizontalAlignment="Left"
@@ -104,7 +101,7 @@
                 BorderBrush="{DynamicResource BorderBrush}"
                 BorderThickness="1"
                 CornerRadius="4">
-                <StackPanel Opacity="{c:Binding 'Run.Idle and Run.Inited ? 1 : 0.5', Source={x:Static helper:Instances.TaskQueueViewModel}}">
+                <StackPanel Opacity="{c:Binding 'IsQueueIdle ? 1 : 0.5'}">
                     <controls:TextBlock
                         Margin="6,8"
                         HorizontalAlignment="Stretch"
