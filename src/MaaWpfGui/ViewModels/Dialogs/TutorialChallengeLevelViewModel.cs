@@ -65,10 +65,10 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
     private bool _isCompleted;
     private TutorialChallengeSandboxItem? _selectedItem;
 
-    // 设置搜索关卡的干扰项常量：40 个分区、每分区 5 项、随机 5 个分区各含 1 个目标项
+    // 设置搜索关卡的干扰项常量：40 个分区、每分区 5 项、随机 2 个分区各含 1 个目标项
     private const int SettingsSearchSectionCount = 40;
     private const int SettingsSearchItemsPerSection = 5;
-    private const int SettingsSearchTargetSectionCount = 5;
+    private const int SettingsSearchTargetSectionCount = 2;
     private const string SettingsSearchTargetMarker = "maa";
 
     /// <summary>
@@ -1084,8 +1084,8 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
     }
 
     /// <summary>
-    /// 重建 ｢设置搜索｣ 关卡的干扰分区与 CheckBox 项：40 个分区、每分区 5 项、随机 5 个分区各含 1 个
-    /// 目标项（共 5 个含 ｢maa｣ 字样的设置项，文本内嵌随机大小写的 ｢maa｣，可经搜索框按忽略大小写
+    /// 重建 ｢设置搜索｣ 关卡的干扰分区与 CheckBox 项：40 个分区、每分区 5 项、随机 2 个分区各含 1 个
+    /// 目标项（共 2 个含 ｢maa｣ 字样的设置项，文本内嵌随机大小写的 ｢maa｣，可经搜索框按忽略大小写
     /// 命中），其余各项为不含 ｢maa｣ 的随机大小写字母串，分区名同样为随机大小写且不含 ｢maa｣ 的
     /// 字母串。
     /// 每次进关与重置时重新生成，保证观感随机。
@@ -1101,7 +1101,7 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
             }
         }
 
-        // 先随机抽 5 个分区索引放目标项（每个分区至多 1 个），其余分区全为干扰项
+        // 先随机抽 2 个分区索引放目标项（每个分区至多 1 个），其余分区全为干扰项
         var targetSections = Enumerable.Range(0, SettingsSearchSectionCount)
             .OrderBy(_ => _random.Next())
             .Take(SettingsSearchTargetSectionCount)
