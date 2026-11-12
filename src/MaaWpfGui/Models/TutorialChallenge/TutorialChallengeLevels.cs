@@ -103,7 +103,7 @@ public static class TutorialChallengeLevels
             goalPredicate: (tasks, vm) => tasks.OfType<StartUpTask>().Any(t => t.IsEnable == true)
                 && tasks.SkipWhile(t => t is not StartUpTask).Skip(1).Any(t => t.IsEnable == true)
                 && vm.SandboxSchedule.TimerList.Count(timer => timer.IsEnabled == true) == 1
-                && vm.SandboxSchedule.TimerList.Any(timer => timer.IsEnabled == true && (timer.Hour > 4 || (timer.Hour == 4 && timer.Minute > 0)))
+                && vm.SandboxSchedule.TimerList.Any(timer => timer.IsEnabled == true && timer.Hour >= 4)
                 && vm.SandboxSchedule.ForceScheduledStart,
             smartPredicate: (_, vm) => vm.SandboxSchedule.TimerList.Any(timer =>
                 timer.IsEnabled == true && timer.Hour == 4 && timer.Minute == 10),
