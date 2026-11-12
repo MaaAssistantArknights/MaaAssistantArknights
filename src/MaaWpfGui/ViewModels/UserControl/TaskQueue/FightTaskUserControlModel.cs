@@ -690,6 +690,17 @@ public partial class FightTaskUserControlModel : TaskSettingsViewModel, FightTas
     }
 
     /// <summary>
+    /// 获取仓库库存快照（物品 ID 到数量的映射），供目标库存模式的界面显示（当前库存、实际刷取数量）。
+    /// 默认读全局仓库识别缓存；短生命周期派生 Model（如教程沙盒）可覆写指向伪造库存，隔离真实账号仓库数据。
+    /// 任务执行链路（append 序列化的运行时捕获、开始时缺口重算、临期药耗尽证明）不经本方法，恒读真实识别数据。
+    /// </summary>
+    /// <returns>itemId 到数量的映射；没有任何库存数据时为 null。</returns>
+    protected virtual Dictionary<string, int>? GetDepotSnapshot()
+    {
+        return Instances.ToolboxViewModel?.GetDepotSnapshot();
+    }
+
+    /// <summary>
     /// 获取指定掉落目标显示的库存数量。任务开始后，该显示值会被冻结。
     /// </summary>
     private int? GetSpecifiedDropsInventoryCount(FightTask fight, int? taskId = null)
@@ -704,7 +715,7 @@ public partial class FightTaskUserControlModel : TaskSettingsViewModel, FightTas
             return runtimeState.StartInventory;
         }
 
-        var currentInventoryCounts = Instances.ToolboxViewModel?.GetDepotSnapshot();
+        var currentInventoryCounts = GetDepotSnapshot();
         if (currentInventoryCounts == null)
         {
             return null;

@@ -45,6 +45,7 @@ using MaaWpfGui.ViewModels.UserControl.Settings;
 using MaaWpfGui.ViewModels.UserControl.TaskQueue;
 using MaaWpfGui.ViewModels.UserControl.Toolbox;
 using MaaWpfGui.Views.Dialogs;
+using ObservableCollections;
 using Serilog;
 using Stylet;
 
@@ -147,6 +148,12 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
     /// Gets 公招沙盒 Model（右列面板复用真实 RecruitTaskUserControl）。
     /// </summary>
     public SandboxRecruitTaskModel SandboxRecruitTaskModel { get; }
+
+    /// <summary>
+    /// Gets 沙盒共享的伪造库存：物品范围取库存保持静态预设展开的全部掉落物，数值随机 0–29，
+    /// 进关构造与关卡重置时重新生成；DepotMaintain 沙盒面板的库存显示与 Fight 沙盒面板的目标库存显示同源于此，同物品数字一致。
+    /// </summary>
+    public ObservableList<ToolboxViewModel.DepotResultDate> FakeDepotResult { get; } = SandboxDepotMaintainTaskModel.GenerateFakeDepot();
 
     /// <summary>
     /// Gets 库存保持沙盒 Model（右列面板复用真实 DepotMaintainTaskUserControl）。
@@ -1430,6 +1437,16 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
         NotifyOfPropertyChange(nameof(ShowFightPanel));
         NotifyOfPropertyChange(nameof(ShowDepotMaintainPanel));
         NotifyOfPropertyChange(nameof(ShowRecruitPanel));
+    }
+
+    /// <summary>
+    /// 获取共享伪造库存的快照（过滤无效数量，口径同 ToolboxViewModel.GetDepotSnapshot），供 Fight 沙盒面板的目标库存显示。
+    /// </summary>
+    /// <returns>itemId 到数量的映射；集合为空时为 null。</returns>
+    internal Dictionary<string, int>? GetFakeDepotSnapshot()
+    {
+        var snapshot = FakeDepotResult.Where(item => item.Count >= 0).ToDictionary(item => item.Id, item => item.Count);
+        return snapshot.Count > 0 ? snapshot : null;
     }
 
     /// <summary>

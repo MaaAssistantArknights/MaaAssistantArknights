@@ -75,6 +75,9 @@ public sealed class SandboxFightTaskModel : FightTaskUserControlModel
     /// <inheritdoc/> 沙盒任务不序列化下发 core
     protected override bool? SetFightParams() => null;
 
+    /// <inheritdoc/> 库存显示不读真实仓库识别缓存，指向与库存保持沙盒面板共享的关卡 VM 伪造库存
+    protected override Dictionary<string, int>? GetDepotSnapshot() => _owner.GetFakeDepotSnapshot();
+
     /// <summary>
     /// 关卡 VM 侧状态（高级设置开关、拖拽态）变化时转发为本 Model 的绑定通知。
     /// </summary>
@@ -144,19 +147,13 @@ public sealed class SandboxRecruitTaskModel(TutorialChallengeLevelViewModel owne
 
 /// <summary>
 /// 库存保持任务的沙盒 Model：复用真实任务控件，任务读写数据源指向关卡 VM 的沙盒任务集合，
-/// 库存显示读自建伪造库存，不暴露真实账号仓库识别数据。
+/// 库存显示读关卡 VM 的共享伪造库存（与 Fight 沙盒面板同源），不暴露真实账号仓库识别数据。
 /// </summary>
 /// <param name="owner">所属关卡 VM。</param>
 public sealed class SandboxDepotMaintainTaskModel(TutorialChallengeLevelViewModel owner) : DepotMaintainTaskUserControlModel(attachGlobalEvents: false)
 {
-    /// <summary>
-    /// 伪造库存数据：物品范围取库存保持静态预设展开的全部掉落物（芯片全套关的计划物品均在其列），
-    /// 数值随机 0–29，进关构造与关卡重置时重新生成。
-    /// </summary>
-    private readonly ObservableList<ToolboxViewModel.DepotResultDate> _fakeDepotResult = GenerateFakeDepot();
-
-    /// <inheritdoc/> 库存显示不读真实仓库识别缓存，指向伪造库存
-    protected override ObservableList<ToolboxViewModel.DepotResultDate>? DepotResultSource => _fakeDepotResult;
+    /// <inheritdoc/> 库存显示不读真实仓库识别缓存，指向关卡 VM 的共享伪造库存
+    protected override ObservableList<ToolboxViewModel.DepotResultDate>? DepotResultSource => owner.FakeDepotResult;
 
     /// <inheritdoc/>
     protected override IList<BaseTask> TaskConfigQueue => owner.SandboxTasks;
@@ -195,12 +192,12 @@ public sealed class SandboxDepotMaintainTaskModel(TutorialChallengeLevelViewMode
     public void Detach() => DetachGlobalStateForwarding();
 
     /// <summary>
-    /// 重新生成伪造库存（关卡重置时调用），并刷新计划摘要的库存显示。
+    /// 重新生成关卡 VM 的共享伪造库存（关卡重置时调用，Fight 沙盒面板的目标库存显示同源随之变化），并刷新计划摘要的库存显示。
     /// </summary>
     public void RegenerateFakeDepot()
     {
-        _fakeDepotResult.Clear();
-        _fakeDepotResult.AddRange(GenerateFakeDepot());
+        owner.FakeDepotResult.Clear();
+        owner.FakeDepotResult.AddRange(GenerateFakeDepot());
         NotifyOfPropertyChange(nameof(PlanInfo));
     }
 
@@ -208,7 +205,7 @@ public sealed class SandboxDepotMaintainTaskModel(TutorialChallengeLevelViewMode
     /// 按库存保持静态预设的物品范围生成一组伪造库存，数量随机 0–29。
     /// </summary>
     /// <returns>伪造库存条目集合。</returns>
-    private static ObservableList<ToolboxViewModel.DepotResultDate> GenerateFakeDepot() => [.. PresetData.Values
+    internal static ObservableList<ToolboxViewModel.DepotResultDate> GenerateFakeDepot() => [.. PresetData.Values
         .SelectMany(stages => stages.SelectMany(stage => stage.Drops))
         .Distinct()
         .Select(id => new ToolboxViewModel.DepotResultDate {
