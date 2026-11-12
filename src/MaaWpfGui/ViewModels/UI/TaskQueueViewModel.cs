@@ -2107,7 +2107,7 @@ public class TaskQueueViewModel : Screen
             MessageBoxButton.YesNo,
             MessageBoxImage.Question);
 
-        if (result == MessageBoxResult.Yes)
+        if (result == MessageBoxResult.Yes && _runningState.GetIdle())
         {
             var index = taskItem.Index;
             if (index < ConfigFactory.CurrentConfig.TaskQueue.Count)
@@ -2269,7 +2269,7 @@ public class TaskQueueViewModel : Screen
                 "Clear tasks warning!",
                 MessageBoxButton.YesNo,
                 MessageBoxImage.Warning);
-            if (result == MessageBoxResult.Yes)
+            if (result == MessageBoxResult.Yes && _runningState.GetIdle())
             {
                 TaskItemViewModels.Clear();
             }
