@@ -449,6 +449,10 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
             {
                 emulators.RemoveAll(emulator => emulator.EmulatorName != ConnectConfig.MuMuArm);
             }
+            else if (ConnectConfig == ConnectConfig.ModAVD && emulators.Any(emulator => emulator.EmulatorName == ConnectConfig.ModAVD))
+            {
+                emulators.RemoveAll(emulator => emulator.EmulatorName != ConnectConfig.ModAVD);
+            }
         }
         catch (Exception e)
         {
@@ -505,6 +509,21 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
             }
 
             ConnectAddress = selectedEmulator.Address;
+            return true;
+        }
+
+        // ModAVD registers its instances only with its own adb server, so `adb devices` does not list them;
+        // the address comes from the emulator command line. Never select an unrelated device.
+        if (selectedEmulator?.EmulatorName == ConnectConfig.ModAVD && !string.IsNullOrEmpty(selectedEmulator.Address))
+        {
+            ConnectAddress = selectedEmulator.Address;
+            var root = selectedEmulator.RootPath;
+            if (!string.IsNullOrEmpty(root) && root != _extras.ModAvd.RootPath &&
+                File.Exists(Path.Combine(root, "extras", "modavd_extras.dll")))
+            {
+                _extras.ModAvd.RootPath = root;
+            }
+
             return true;
         }
 
