@@ -2105,9 +2105,10 @@
         "next": ["SignInEventReturn"]
     },
     "SignInEventClaim": {
-        "doc": "OCR 卡片 LOGIN 标签定位未领的签到卡，点最左上可领的一天",
+        "doc": "OCR 卡片 LOGIN 标签定位未领的签到卡，点最左上可领的一天；ocrReplace 纠正两位数天数遮挡的误读",
         "algorithm": "OcrDetect",
         "text": ["LOGIN"],
+        "ocrReplace": [["^LOGI*N?$", "LOGIN"]],
         "isAscii": true,
         "fullMatch": true,
         "orderBy": "Horizontal",
