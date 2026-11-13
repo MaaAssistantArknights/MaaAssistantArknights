@@ -107,7 +107,7 @@ public static class TutorialChallengeLevels
                 && vm.SandboxSchedule.ForceScheduledStart,
             smartPredicate: (_, vm) => vm.SandboxSchedule.TimerList.Any(timer =>
                 timer.IsEnabled == true && timer.Hour == 4 && timer.Minute == 10),
-            smartHintKey: "TutorialChallenge.Level.DailyReconnect.Hint",
+            smartHintKey: "TutorialChallenge.Level.DailyReconnect.Tip",
             panelKinds: [TutorialChallengePanelKind.None, TutorialChallengePanelKind.Settings],
             settingSectionKinds: [TutorialChallengeSettingSectionKind.Schedule],
             difficulty: TutorialChallengeDifficulty.Medium),

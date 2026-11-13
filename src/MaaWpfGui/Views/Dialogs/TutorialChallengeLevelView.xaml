@@ -129,7 +129,7 @@
                 <controls:TextBlock
                     HorizontalAlignment="Center"
                     Foreground="{DynamicResource SecondaryTextBrush}"
-                    Text="{DynamicResource TutorialChallenge.Level.DragDropUpdate.DropZone.Hint}"
+                    Text="{DynamicResource TutorialChallenge.Level.DragDropUpdate.DropZone.Tip}"
                     TextAlignment="Center"
                     TextWrapping="Wrap" />
                 <!--  三项识别状态清单：识别成功后勾选，未识别为灰色未勾态；只读展示，不可交互  -->

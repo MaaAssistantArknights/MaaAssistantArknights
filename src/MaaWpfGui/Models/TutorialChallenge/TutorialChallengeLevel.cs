@@ -52,7 +52,7 @@ public enum TutorialChallengePanelKind
     Settings,
 
     /// <summary>
-    /// 拖拽投放区场景（预留，供拖拽教学关卡使用）。
+    /// 拖拽投放区场景（拖入更新包识别类别，供 ｢拖拽更新｣ 关卡使用）。
     /// </summary>
     DropZone,
 }

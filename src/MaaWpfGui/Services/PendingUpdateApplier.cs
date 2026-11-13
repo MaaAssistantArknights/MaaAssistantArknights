@@ -168,22 +168,6 @@ internal static partial class PendingUpdateApplier
     }
 
     /// <summary>
-    /// 判定文件名是否匹配 OTA 更新包命名模式（<c>MAAComponent-OTA-{from}_{to}-win-{arch}.zip</c>），不校验版本与架构。
-    /// </summary>
-    /// <param name="fileName">待判定的文件名（不含目录）。</param>
-    /// <returns>匹配 OTA 更新包命名模式返回 true。</returns>
-    public static bool IsOtaPackageFileName(string fileName)
-        => OtaPackageNameRegex().IsMatch(fileName);
-
-    /// <summary>
-    /// 判定文件名是否匹配完整更新包命名模式（<c>MAA-{version}-win-{arch}.zip</c>），不校验版本与架构。
-    /// </summary>
-    /// <param name="fileName">待判定的文件名（不含目录）。</param>
-    /// <returns>匹配完整更新包命名模式返回 true。</returns>
-    public static bool IsFullPackageFileName(string fileName)
-        => FullPackageNameRegex().IsMatch(fileName);
-
-    /// <summary>
     /// 匹配完整更新包文件名并提取版本与架构，供调用方自行校验版本方向（同版本识别等不走升级方向校验的场景）。
     /// </summary>
     /// <param name="fileName">待匹配的文件名（不含目录）。</param>

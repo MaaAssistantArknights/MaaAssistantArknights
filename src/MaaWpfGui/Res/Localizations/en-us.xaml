@@ -2574,14 +2574,14 @@ Only level rewards can be farmed; to get the Engraved Medal, all ｢Key Objectiv
     <system:String x:Key="TutorialChallenge.Level.ChipStock.Goal">Top up every chip to 20 and every chip pack to 32. Give it a try: what is the minimum number of tasks you need?</system:String>
     <system:String x:Key="TutorialChallenge.Level.ChipStock.Title">Full Chip Stock</system:String>
     <system:String x:Key="TutorialChallenge.Level.DailyReconnect.Goal">Leave Auto I.S. running overnight (e.g. from 23:00 to 08:00 the next day); the game briefly disconnects when crossing 04:00. Make the queue automatically restart the game at that time and finish the run.</system:String>
-        <system:String x:Key="TutorialChallenge.Level.DailyReconnect.Hint" xml:space="preserve">The game announced a 04:00-04:10 flash update window; filling in 04:10 is safer.</system:String>
-<system:String x:Key="TutorialChallenge.Level.DailyReconnect.Title">Overnight Reconnect</system:String>
+    <system:String x:Key="TutorialChallenge.Level.DailyReconnect.Tip">The game announced a 04:00-04:10 flash update window; filling in 04:10 is safer.</system:String>
+    <system:String x:Key="TutorialChallenge.Level.DailyReconnect.Title">Overnight Reconnect</system:String>
     <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.AdminBlocked">Running as administrator: Windows blocks file drops into elevated windows, so this level cannot be completed by dragging.</system:String>
     <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.AlreadyIdentified">This type is already recognized. Drag the next one.</system:String>
     <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.DropZone.FullPackage">Full update package</system:String>
-    <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.DropZone.Hint">Drag update packages anywhere into this window</system:String>
     <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.DropZone.OtaPackage">OTA delta package (optional)</system:String>
     <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.DropZone.ResourcePackage">Resource update package</system:String>
+    <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.DropZone.Tip">Drag update packages anywhere into this window</system:String>
     <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.Goal">Find three kinds of update packages and drag them anywhere into this window. Full package file name: "MAA-vX.Y.Z-win-{arch}.zip", where X.Y.Z must equal your current version. OTA delta package file name: "MAAComponent-OTA-vA_vB-win-{arch}.zip", where vB must equal your current version. Resource package has no file name requirement, but its resource version must equal your current version. The main window itself also accepts dragged update packages, but Windows blocks file drops when running as administrator.</system:String>
     <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.Identified.FullPackage">Recognized as a full update package. In real usage it would be registered and prompt a restart.</system:String>
     <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.Identified.OtaPackage">Recognized as an OTA delta package. In real usage it would be registered and prompt a restart.</system:String>
@@ -2589,7 +2589,7 @@ Only level rewards can be farmed; to get the Engraved Medal, all ｢Key Objectiv
     <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.Title">Drag &amp; Drop Update</system:String>
     <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.Unknown">Not a recognizable update package.</system:String>
     <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.WrongVersion">Version mismatch: the package must target your current MAA version.</system:String>
-    <system:String x:Key="TutorialChallenge.Level.ExportLogs.EmptyPackageNote">（Tutorial demo: the archive is empty）</system:String>
+    <system:String x:Key="TutorialChallenge.Level.ExportLogs.EmptyPackageNote">(Tutorial demo: the archive is empty)</system:String>
     <system:String x:Key="TutorialChallenge.Level.ExportLogs.Generating">Generating…</system:String>
     <system:String x:Key="TutorialChallenge.Level.ExportLogs.Goal">Hit a bug and want to report it? Generate an error report.</system:String>
     <system:String x:Key="TutorialChallenge.Level.ExportLogs.Title">Export Logs</system:String>
@@ -2611,7 +2611,6 @@ Only level rewards can be farmed; to get the Engraved Medal, all ｢Key Objectiv
     <system:String x:Key="TutorialChallenge.Level.TimerOnce.Title">One-Time Timer</system:String>
     <system:String x:Key="TutorialChallenge.NoSimulatedPanel">This task type has no simulated settings</system:String>
     <system:String x:Key="TutorialChallenge.Reset">Reset</system:String>
-    <system:String x:Key="TutorialChallenge.SectionContentPlaceholder">No simulated content in this section</system:String>
     <system:String x:Key="TutorialChallenge.SelectTaskHint">Toggle a task's gear button to view its settings</system:String>
     <system:String x:Key="TutorialChallenge.Shop.Placeholder">Nothing here yet — still deciding what to stock</system:String>
     <system:String x:Key="TutorialChallenge.Shop.Title">{key=TutorialChallenge.Coin} Shop</system:String>
