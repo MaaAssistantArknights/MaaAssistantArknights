@@ -525,7 +525,7 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
             var isCurrentSelectionInvalid = SelectedIndex < 0 || SelectedIndex >= SandboxSettingSections.Count || !SandboxSettingSections[SelectedIndex].IsVisible;
 
             // 折叠高级分区时把选中回退到最后一个可见普通分区，并借 ScrollOffset 通知窗口吸收本次索引改写，
-            // 避免把「收起高级」误判成用户点选导航而向不可见分区发起滚动
+            // 避免把 ｢收起高级｣ 误判成用户点选导航而向不可见分区发起滚动
             var isCollapsingAdvancedSelection = isCurrentSelectionInvalid
                 && _selectedSetting is { IsAdvanced: true }
                 && string.IsNullOrEmpty(SettingsSearchText);
@@ -1329,9 +1329,10 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
     public Task ClearImageCache() => IssueReportUserControlModel.Instance.ClearImageCache();
 
     /// <summary>
-    /// 记录用户点开 issue 反馈页（转发真实设置页方法，解锁对应成就）。
+    /// 记录用户点开 issue 反馈页（仅解锁对应成就；不转发真实设置页方法，避免沙盒交互把
+    /// ｢已确认 nightly 警告｣ 持久化为真实配置，导致主窗口的 nightly 警告不再弹出）。
     /// </summary>
-    public void SetAcknowledgedNightlyWarning() => IssueReportUserControlModel.Instance.SetAcknowledgedNightlyWarning();
+    public void SetAcknowledgedNightlyWarning() => AchievementTrackerHelper.Instance.Unlock(AchievementIds.ProblemFeedback);
 
     /// <summary>
     /// Gets a value indicating whether 沙盒生成日志按钮当前可点（转发真实设置页属性）。
@@ -1552,6 +1553,7 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
         SandboxFightTaskModel.Detach();
         SandboxRecruitTaskModel.Detach();
         SandboxDepotMaintainTaskModel.Detach();
+        SandboxTimerSettingsModel.Detach();
 
         if (_resetNotifyTimer != null)
         {

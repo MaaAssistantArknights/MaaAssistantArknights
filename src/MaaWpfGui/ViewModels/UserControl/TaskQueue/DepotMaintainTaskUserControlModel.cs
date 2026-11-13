@@ -953,25 +953,26 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
         }
     }
 
+    // UI 刷新嵌套深度按实例计数：真实与沙盒实例各自独立，跨实例嵌套刷新时互不影响对方的 IsRefreshingUI 生命周期
+    private int _uiRefreshDepth;
+
     /// <summary>
     /// UI 刷新作用域，防止刷新期间 ComboBox 等控件的绑定回写覆盖配置。
     /// </summary>
     private struct UiRefreshingScope : IDisposable
     {
-        private static int _depth = 0;
         private readonly DepotMaintainTaskUserControlModel _owner;
 
         public UiRefreshingScope(DepotMaintainTaskUserControlModel owner)
         {
             _owner = owner;
-            ++_depth;
+            ++_owner._uiRefreshDepth;
             _owner.IsRefreshingUI = true;
         }
 
         readonly void IDisposable.Dispose()
         {
-            --_depth;
-            if (_depth == 0)
+            if (--_owner._uiRefreshDepth == 0)
             {
                 _owner.IsRefreshingUI = false;
             }

@@ -568,7 +568,8 @@ public partial class FightTaskUserControlModel : TaskSettingsViewModel, FightTas
     {
         get => GetTaskConfig<FightTask>().IsInventoryTarget;
         set {
-            if (!_runningState.Idle)
+            // 走 IsQueueIdle 而非直读 RunningState：沙盒覆写恒空闲，主窗口挂机时沙盒内仍可切换模式
+            if (!IsQueueIdle)
             {
                 return;
             }
@@ -583,7 +584,7 @@ public partial class FightTaskUserControlModel : TaskSettingsViewModel, FightTas
         }
     }
 
-    public bool IsSpecifiedInventoryLocked => UseInventoryTarget && !_runningState.Idle;
+    public bool IsSpecifiedInventoryLocked => UseInventoryTarget && !IsQueueIdle;
 
     public bool UseDropQuantityMode
     {
@@ -620,8 +621,10 @@ public partial class FightTaskUserControlModel : TaskSettingsViewModel, FightTas
 
     /// <summary>
     /// 获取当前选中作战任务绑定的第一个 core task id。
+    /// 短生命周期派生 Model（如教程沙盒）可覆写返回 null，使库存显示不命中真实任务的运行时库存缓存，恒走快照数据源。
     /// </summary>
-    private static int? GetCurrentFightTaskId()
+    /// <returns>绑定的第一个 core task id；当前任务非作战任务或未绑定 core 任务时为 null。</returns>
+    protected virtual int? GetCurrentFightTaskId()
     {
         if (TaskSettingVisibilityInfo.CurrentTask is not FightTask fight)
         {
@@ -1834,22 +1837,23 @@ public partial class FightTaskUserControlModel : TaskSettingsViewModel, FightTas
         }
     }
 
+    // UI 刷新嵌套深度按实例计数：真实与沙盒实例各自独立，跨实例嵌套刷新时互不影响对方的 IsRefreshingUI 生命周期
+    private int _uiRefreshDepth;
+
     private struct UiRefreshingScope : IDisposable
     {
-        private static int _depth = 0;
         private readonly FightTaskUserControlModel _owner;
 
         public UiRefreshingScope(FightTaskUserControlModel owner)
         {
             _owner = owner;
-            ++_depth;
+            ++_owner._uiRefreshDepth;
             _owner.IsRefreshingUI = true;
         }
 
         readonly void IDisposable.Dispose()
         {
-            --_depth;
-            if (_depth == 0)
+            if (--_owner._uiRefreshDepth == 0)
             {
                 _owner.IsRefreshingUI = false;
             }

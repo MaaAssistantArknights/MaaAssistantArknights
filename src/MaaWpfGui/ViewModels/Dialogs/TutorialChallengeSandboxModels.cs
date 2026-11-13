@@ -19,6 +19,7 @@ using System.Linq;
 using MaaWpfGui.Configuration.Global;
 using MaaWpfGui.Configuration.Single.MaaTask;
 using MaaWpfGui.Helper;
+using MaaWpfGui.Utilities;
 using MaaWpfGui.ViewModels.UI;
 using MaaWpfGui.ViewModels.UserControl.Settings;
 using MaaWpfGui.ViewModels.UserControl.TaskQueue;
@@ -78,6 +79,9 @@ public sealed class SandboxFightTaskModel : FightTaskUserControlModel
     /// <inheritdoc/> 库存显示不读真实仓库识别缓存，指向与库存保持沙盒面板共享的关卡 VM 伪造库存
     protected override Dictionary<string, int>? GetDepotSnapshot() => _owner.GetFakeDepotSnapshot();
 
+    /// <inheritdoc/> 沙盒无真实 core 任务，不命中任何任务的运行时库存缓存，库存显示恒走伪造库存快照
+    protected override int? GetCurrentFightTaskId() => null;
+
     /// <summary>
     /// 关卡 VM 侧状态（高级设置开关、拖拽态）变化时转发为本 Model 的绑定通知。
     /// </summary>
@@ -97,9 +101,13 @@ public sealed class SandboxFightTaskModel : FightTaskUserControlModel
     }
 
     /// <summary>
-    /// 关卡关闭时释放对静态实例与关卡 VM 的订阅。
+    /// 关卡关闭时释放对静态实例与关卡 VM 的订阅，并清理跨实例属性依赖注册（否则实例被静态表强引用持有，泄漏整棵 Model+VM 树）。
     /// </summary>
-    public void Detach() => DetachGlobalStateForwarding();
+    public void Detach()
+    {
+        DetachGlobalStateForwarding();
+        PropertyDependsOnUtility.UnInitializePropertyDependencies(this);
+    }
 }
 
 /// <summary>
@@ -140,9 +148,13 @@ public sealed class SandboxRecruitTaskModel(TutorialChallengeLevelViewModel owne
     }
 
     /// <summary>
-    /// 关卡关闭时释放对静态实例与关卡 VM 的订阅。
+    /// 关卡关闭时释放对静态实例与关卡 VM 的订阅，并清理跨实例属性依赖注册（否则实例被静态表强引用持有，泄漏整棵 Model+VM 树）。
     /// </summary>
-    public void Detach() => DetachGlobalStateForwarding();
+    public void Detach()
+    {
+        DetachGlobalStateForwarding();
+        PropertyDependsOnUtility.UnInitializePropertyDependencies(this);
+    }
 }
 
 /// <summary>
@@ -187,9 +199,13 @@ public sealed class SandboxDepotMaintainTaskModel(TutorialChallengeLevelViewMode
     }
 
     /// <summary>
-    /// 关卡关闭时释放对静态实例与关卡 VM 的订阅。
+    /// 关卡关闭时释放对静态实例与关卡 VM 的订阅，并清理跨实例属性依赖注册（否则实例被静态表强引用持有，泄漏整棵 Model+VM 树）。
     /// </summary>
-    public void Detach() => DetachGlobalStateForwarding();
+    public void Detach()
+    {
+        DetachGlobalStateForwarding();
+        PropertyDependsOnUtility.UnInitializePropertyDependencies(this);
+    }
 
     /// <summary>
     /// 重新生成关卡 VM 的共享伪造库存（关卡重置时调用，Fight 沙盒面板的目标库存显示同源随之变化），并刷新计划摘要的库存显示。
@@ -230,6 +246,14 @@ public sealed class SandboxTimerSettingsModel(TutorialChallengeSandboxSchedule s
 
     /// <inheritdoc/> 沙盒不注册真实计划任务
     protected override void SyncScheduledWakeUpRegistrations()
+    {
+    }
+
+    /// <summary>
+    /// 关卡关闭时的清理挂钩，与其他沙盒 Model 的 <c>Detach</c> 语义对齐。
+    /// 定时设置 Model 不继承 <see cref="TaskSettingsViewModel"/>、构造不注册属性依赖与全局转发，当前无待清理项。
+    /// </summary>
+    public void Detach()
     {
     }
 }
