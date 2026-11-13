@@ -939,6 +939,7 @@ Note:
     <system:String x:Key="Connection.TouchMode.MaaFwAdb">MaaFwAdb (Experimental)</system:String>
     <system:String x:Key="Connection.TouchMode.MaaTouch">MaaTouch (Experimental)</system:String>
     <system:String x:Key="Connection.TouchMode.MiniTouch">Minitouch (Default)</system:String>
+    <system:String x:Key="Connection.TouchMode.ModAvdExtras">ModAVD Touch (Experimental)</system:String>
     <system:String x:Key="Connection.TouchMode.MumuExtras">MuMu Touch (Experimental)</system:String>
     <system:String x:Key="Connection.TouchMode.Tip" xml:space="preserve">ADB Input is only for physical devices running an older OS version. Do not use it if other modes work.&#10;ADB Input swipes tend to drift, so swipe speed is set very slow and swipe distances differ from other modes; it cannot be used in scenarios requiring precise coordinate control.&#10;&#10;MaaFwAdb does not support extra swipe, so pages that rely on extra swipe to prevent overshooting will overshoot in this mode.&#10;An extra swipe is a short "brake" swipe appended perpendicular to the end of the main swipe (tracing an L-shaped 90° turn) to counteract list inertia.</system:String>
     <system:String x:Key="Connection.TryToReconnectByAdb">Attempting to reconnect</system:String>

@@ -818,12 +818,14 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
     /// <summary>
     /// Gets the list of touch modes.
     /// MuMu 触控选项仅在 MuMu 截图增强启用时动态加入列表。
+    /// ModAVD 触控常驻：非 ModAVD 连接或库不支持时 Core 自动降级为 MaaTouch。
     /// </summary>
     public LocalizedObservableList<TouchMode> TouchModeList { get; } = new(
         (TouchMode.MiniTouch, "Connection.TouchMode.MiniTouch"),
         (TouchMode.MaaTouch, "Connection.TouchMode.MaaTouch"),
         (TouchMode.Adb, "Connection.TouchMode.AdbInput"),
-        (TouchMode.MaaFwAdb, "Connection.TouchMode.MaaFwAdb"));
+        (TouchMode.MaaFwAdb, "Connection.TouchMode.MaaFwAdb"),
+        (TouchMode.ModAvdExtras, "Connection.TouchMode.ModAvdExtras"));
 
     public bool IsAdbTouchMode() => TouchMode == TouchMode.Adb;
 

@@ -19,6 +19,7 @@ enum class ControllerType
     Win32,
 #endif
     MaaFwAdb,
+    ModAvd,
 #if ASST_WITH_EMULATOR_EXTRAS
     Mumu,
 #endif

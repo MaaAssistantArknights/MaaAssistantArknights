@@ -7,6 +7,7 @@
 #include <functional>
 #include <optional>
 #include <string>
+#include <utility>
 
 #include "MaaUtils/NoWarningCVMat.hpp"
 #include "Utils/LibraryHolder.hpp"
@@ -36,6 +37,15 @@ public:
 
     std::optional<cv::Mat> screencap();
 
+    // 宿主侧点击（库的接口版本 2 起）：经模拟器控制台发到虚拟触屏，坐标为显示像素
+    bool touch_available() const { return touch_available_; }
+
+    std::optional<std::pair<int, int>> display_size();
+    bool touch_down(int contact, int x, int y);
+    bool touch_move(int contact, int x, int y);
+    bool touch_up(int contact);
+    bool touch_release_all();
+
 private:
     using Library = LibraryHolder<ModAvdExtras>;
 
@@ -64,6 +74,8 @@ private:
     // modavd_extras.h 里的常量
     static constexpr int kOk = 0;
     static constexpr uint32_t kCapScreencap = 1u << 0;
+    static constexpr uint32_t kCapTouch = 1u << 1;
+    static constexpr uint32_t kTouchApiVersion = 2;
     static constexpr uint32_t kFormatBgr = 2;
 
     // 截一帧；ret 为库最后一次返回的出错码，kOk 表示失败与库无关
@@ -80,6 +92,8 @@ private:
     void* handle_ = nullptr;
     bool library_loaded_ = false;
     bool inited_ = false;
+    bool touch_available_ = false;
+    uint32_t api_version_ = 0;
 
 private:
     inline static const std::string kApiVersionFuncName = "modavd_api_version";
@@ -88,6 +102,10 @@ private:
     inline static const std::string kCapabilitiesFuncName = "modavd_capabilities";
     inline static const std::string kCaptureFuncName = "modavd_capture";
     inline static const std::string kStrErrorFuncName = "modavd_strerror";
+    inline static const std::string kTouchDownFuncName = "modavd_touch_down";
+    inline static const std::string kTouchMoveFuncName = "modavd_touch_move";
+    inline static const std::string kTouchUpFuncName = "modavd_touch_up";
+    inline static const std::string kTouchReleaseAllFuncName = "modavd_touch_release_all";
 
     std::function<uint32_t()> api_version_func_;
     std::function<int(const OpenParams*, void**)> open_func_;
@@ -95,5 +113,9 @@ private:
     std::function<uint32_t(void*)> capabilities_func_;
     std::function<int(void*, int, uint32_t, uint32_t, void*, size_t, FrameInfo*)> capture_func_;
     std::function<const char*(int)> strerror_func_;
+    std::function<int(void*, int, int, int, int, int)> touch_down_func_;
+    std::function<int(void*, int, int, int, int, int)> touch_move_func_;
+    std::function<int(void*, int, int)> touch_up_func_;
+    std::function<int(void*)> touch_release_all_func_;
 };
 } // namespace asst
