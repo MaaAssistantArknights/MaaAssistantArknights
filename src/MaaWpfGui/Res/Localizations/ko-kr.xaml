@@ -2249,6 +2249,9 @@ MAA는 비설치형 응용 프로그램으로, 삭제 시 레지스트리 항목
     <system:String x:Key="TaskQueue.Schedule.Timer">타이머</system:String>
     <system:String x:Key="TaskQueue.Schedule.TimerCustomConfig">커스텀 구성 옵션</system:String>
     <system:String x:Key="TaskQueue.Schedule.TimerCustomConfig.Tip">예약 시작 2분 전에 MAA를 재실행하고 설정을 전환합니다</system:String>
+    <system:String x:Key="TaskQueue.SeasonalTask.Skipped">위수 협의 라운드 수 미설정, 시즌 작업 스킵</system:String>
+    <system:String x:Key="TaskQueue.SeasonalTask.SpaRounds">위수 협의 라운드 수</system:String>
+    <system:String x:Key="TaskQueue.SeasonalTask.SpaRounds.Tip" xml:space="preserve">대전 시작부터 메인 화면 복귀까지를 1라운드로 계산하며, 설정한 라운드 수를 채우면 자동으로 종료합니다.&#10;0으로 설정하면 작업을 건너뜁니다.</system:String>
     <system:String x:Key="TaskQueue.SelectAll">모두 선택</system:String>
     <system:String x:Key="TaskQueue.Stage.1-7">1-7</system:String>
     <system:String x:Key="TaskQueue.Stage.AP-5">AP-5 (구매증명서)</system:String>
@@ -2319,6 +2322,7 @@ MAA는 비설치형 응용 프로그램으로, 삭제 시 레지스트리 항목
     <system:String x:Key="TaskQueue.Task.Recruit">{key=TaskQueue.Task.Recruiting}</system:String>
     <system:String x:Key="TaskQueue.Task.Recruiting">공개모집</system:String>
     <system:String x:Key="TaskQueue.Task.Roguelike">{key=TaskQueue.Task.AutoRoguelike}</system:String>
+    <system:String x:Key="TaskQueue.Task.SeasonalTask">시즌 작업</system:String>
     <system:String x:Key="TaskQueue.Task.StartUp">{key=TaskQueue.Task.WakeUp}</system:String>
     <system:String x:Key="TaskQueue.Task.SwitchTheme">테마 변경</system:String>
     <system:String x:Key="TaskQueue.Task.UserDataUpdate">사용자 데이터 업데이트</system:String>

@@ -2250,6 +2250,9 @@ MAA は非インストール型のアプリケーションであり、レジス�
     <system:String x:Key="TaskQueue.Schedule.Timer">タイマー</system:String>
     <system:String x:Key="TaskQueue.Schedule.TimerCustomConfig">カスタム構成オプション</system:String>
     <system:String x:Key="TaskQueue.Schedule.TimerCustomConfig.Tip">起動時刻の2分前にMAAを再起動して設定を切り替えます</system:String>
+    <system:String x:Key="TaskQueue.SeasonalTask.Skipped">堅守協定の周回数が未設定のため、シーズンタスクをスキップします。</system:String>
+    <system:String x:Key="TaskQueue.SeasonalTask.SpaRounds">堅守協定の周回数</system:String>
+    <system:String x:Key="TaskQueue.SeasonalTask.SpaRounds.Tip" xml:space="preserve">対戦開始からメイン画面に戻るまでを 1 周回と数え、設定した周回数に達すると自動的に終了します。&#10;0 に設定するとタスクをスキップします。</system:String>
     <system:String x:Key="TaskQueue.SelectAll">全て選択</system:String>
     <system:String x:Key="TaskQueue.Stage.1-7">1-7</system:String>
     <system:String x:Key="TaskQueue.Stage.AP-5">購買資格証-5(AP-5)</system:String>
@@ -2320,6 +2323,7 @@ MAA は非インストール型のアプリケーションであり、レジス�
     <system:String x:Key="TaskQueue.Task.Recruit">{key=TaskQueue.Task.Recruiting}</system:String>
     <system:String x:Key="TaskQueue.Task.Recruiting">公開求人</system:String>
     <system:String x:Key="TaskQueue.Task.Roguelike">{key=TaskQueue.Task.AutoRoguelike}</system:String>
+    <system:String x:Key="TaskQueue.Task.SeasonalTask">シーズンタスク</system:String>
     <system:String x:Key="TaskQueue.Task.StartUp">{key=TaskQueue.Task.WakeUp}</system:String>
     <system:String x:Key="TaskQueue.Task.SwitchTheme">テーマ変更</system:String>
     <system:String x:Key="TaskQueue.Task.UserDataUpdate">ユーザーデータ更新</system:String>

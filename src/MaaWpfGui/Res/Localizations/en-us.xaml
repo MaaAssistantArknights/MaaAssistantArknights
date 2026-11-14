@@ -2248,6 +2248,9 @@ Right-clicking other options will check/uncheck this option simultaneously</syst
     <system:String x:Key="TaskQueue.Schedule.Timer">Timer</system:String>
     <system:String x:Key="TaskQueue.Schedule.TimerCustomConfig">Custom config</system:String>
     <system:String x:Key="TaskQueue.Schedule.TimerCustomConfig.Tip">Restart MAA and switch the configuration two minutes before the scheduled start</system:String>
+    <system:String x:Key="TaskQueue.SeasonalTask.Skipped">No Stronghold Protocol rounds set, skipping seasonal task.</system:String>
+    <system:String x:Key="TaskQueue.SeasonalTask.SpaRounds">Stronghold Protocol rounds</system:String>
+    <system:String x:Key="TaskQueue.SeasonalTask.SpaRounds.Tip" xml:space="preserve">One round counts from entering a match to returning to the main screen; the task ends automatically once the set number of rounds is reached.&#10;Set to 0 to skip this task.</system:String>
     <system:String x:Key="TaskQueue.SelectAll">Select All</system:String>
     <system:String x:Key="TaskQueue.Stage.1-7">1-7</system:String>
     <system:String x:Key="TaskQueue.Stage.AP-5">AP-5</system:String>
@@ -2318,6 +2321,7 @@ Right-clicking other options will check/uncheck this option simultaneously</syst
     <system:String x:Key="TaskQueue.Task.Recruit">{key=TaskQueue.Task.Recruiting}</system:String>
     <system:String x:Key="TaskQueue.Task.Recruiting">Auto Recruit</system:String>
     <system:String x:Key="TaskQueue.Task.Roguelike">{key=TaskQueue.Task.AutoRoguelike}</system:String>
+    <system:String x:Key="TaskQueue.Task.SeasonalTask">Seasonal Task</system:String>
     <system:String x:Key="TaskQueue.Task.StartUp">{key=TaskQueue.Task.WakeUp}</system:String>
     <system:String x:Key="TaskQueue.Task.SwitchTheme">Switch Theme</system:String>
     <system:String x:Key="TaskQueue.Task.UserDataUpdate">Update Doctor Data</system:String>

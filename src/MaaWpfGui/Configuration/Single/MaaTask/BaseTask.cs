@@ -36,6 +36,7 @@ namespace MaaWpfGui.Configuration.Single.MaaTask;
 [JsonDerivedType(typeof(UserDataUpdateTask), typeDiscriminator: nameof(UserDataUpdateTask))]
 [JsonDerivedType(typeof(DepotMaintainTask), typeDiscriminator: nameof(DepotMaintainTask))]
 [JsonDerivedType(typeof(SwitchThemeTask), typeDiscriminator: nameof(SwitchThemeTask))]
+[JsonDerivedType(typeof(SeasonalTask), typeDiscriminator: nameof(SeasonalTask))]
 [JsonDerivedType(typeof(CustomTask), typeDiscriminator: nameof(CustomTask))]
 public class BaseTask : NotifyPropertyChangedWithValue
 {

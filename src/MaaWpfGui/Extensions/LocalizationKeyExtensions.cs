@@ -70,6 +70,7 @@ public static class LocalizationKeyExtensions
         TaskType.UserDataUpdate => "TaskQueue.Task.UserDataUpdate",
         TaskType.DepotMaintain => "TaskQueue.Task.DepotMaintain",
         TaskType.SwitchTheme => "TaskQueue.Task.SwitchTheme",
+        TaskType.SeasonalTask => "TaskQueue.Task.SeasonalTask",
         TaskType.MiniGame => "Toolbox.MiniGame.Title",
         TaskType.Custom => "TaskQueue.Task.Custom",
         TaskType.RecruitCalc => "Recruit.Recognition.Title",

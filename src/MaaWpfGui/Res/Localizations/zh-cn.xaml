@@ -2249,6 +2249,9 @@ DEBUG 目录下保存的图片有数量限制，超出后会自动清理旧图�
     <system:String x:Key="TaskQueue.Schedule.Timer">定时</system:String>
     <system:String x:Key="TaskQueue.Schedule.TimerCustomConfig">自定义配置选择</system:String>
     <system:String x:Key="TaskQueue.Schedule.TimerCustomConfig.Tip">定时启动前两分钟重启 MAA 并切换配置</system:String>
+    <system:String x:Key="TaskQueue.SeasonalTask.Skipped">未设置卫戍协议轮数，跳过赛季任务。</system:String>
+    <system:String x:Key="TaskQueue.SeasonalTask.SpaRounds">卫戍协议轮数</system:String>
+    <system:String x:Key="TaskQueue.SeasonalTask.SpaRounds.Tip" xml:space="preserve">从进入对局到返回主界面记为一轮，打满设定轮数后自动结束。&#10;设为 0 时跳过本任务。</system:String>
     <system:String x:Key="TaskQueue.SelectAll">全选</system:String>
     <system:String x:Key="TaskQueue.Stage.1-7">1-7</system:String>
     <system:String x:Key="TaskQueue.Stage.AP-5">红票-5</system:String>
@@ -2319,6 +2322,7 @@ DEBUG 目录下保存的图片有数量限制，超出后会自动清理旧图�
     <system:String x:Key="TaskQueue.Task.Recruit">{key=TaskQueue.Task.Recruiting}</system:String>
     <system:String x:Key="TaskQueue.Task.Recruiting">自动公招</system:String>
     <system:String x:Key="TaskQueue.Task.Roguelike">{key=TaskQueue.Task.AutoRoguelike}</system:String>
+    <system:String x:Key="TaskQueue.Task.SeasonalTask">赛季任务</system:String>
     <system:String x:Key="TaskQueue.Task.StartUp">{key=TaskQueue.Task.WakeUp}</system:String>
     <system:String x:Key="TaskQueue.Task.SwitchTheme">更换主题</system:String>
     <system:String x:Key="TaskQueue.Task.UserDataUpdate">更新数据</system:String>

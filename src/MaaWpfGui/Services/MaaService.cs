@@ -192,4 +192,9 @@ public enum AsstTaskType : byte
     /// 干员培养
     /// </summary>
     OperProgress,
+
+    /// <summary>
+    /// 赛季任务
+    /// </summary>
+    SeasonalTask,
 }

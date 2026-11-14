@@ -60,6 +60,8 @@ public class TaskSettingVisibilityInfo : PropertyChangedBase
 
     public bool SwitchTheme { get => field; set => SetAndNotify(ref field, value); }
 
+    public bool Seasonal { get => field; set => SetAndNotify(ref field, value); }
+
     public bool Custom { get => field; set => SetAndNotify(ref field, value); }
 
     public bool PostAction { get => field; set => SetAndNotify(ref field, value); }
@@ -160,6 +162,7 @@ public class TaskSettingVisibilityInfo : PropertyChangedBase
             UserDataUpdateTask => UserDataUpdate = enable,
             DepotMaintainTask => DepotMaintain = enable,
             SwitchThemeTask => SwitchTheme = enable,
+            SeasonalTask => Seasonal = enable,
             CustomTask => Custom = enable,
             _ => throw new NotImplementedException(),
         };
@@ -170,7 +173,7 @@ public class TaskSettingVisibilityInfo : PropertyChangedBase
     private void UpdateAdvancedSettingsVisibility(BaseTask task)
     {
         AdvancedSettingsVisibility = task switch {
-            AwardTask or StartUpTask or UserDataUpdateTask or OperProgressTask or SwitchThemeTask => false,
+            AwardTask or StartUpTask or UserDataUpdateTask or OperProgressTask or SwitchThemeTask or SeasonalTask => false,
             _ => true,
         };
     }
@@ -188,6 +191,7 @@ public class TaskSettingVisibilityInfo : PropertyChangedBase
         UserDataUpdate = false;
         DepotMaintain = false;
         SwitchTheme = false;
+        Seasonal = false;
         Custom = false;
     }
 

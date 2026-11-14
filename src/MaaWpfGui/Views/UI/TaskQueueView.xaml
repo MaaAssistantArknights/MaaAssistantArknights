@@ -683,6 +683,12 @@
                                 Visibility="{c:Binding DataContext.TaskSettingVisibilities.SwitchTheme,
                                                        RelativeSource={RelativeSource Mode=FindAncestor,
                                                                                       AncestorType={x:Type UserControl}}}" />
+                            <taskQueue:SeasonalTaskUserControl
+                                DataContext="{Binding SeasonalTask}"
+                                IsEnabled="{Binding DataContext.Run.Idle, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}"
+                                Visibility="{c:Binding DataContext.TaskSettingVisibilities.Seasonal,
+                                                       RelativeSource={RelativeSource Mode=FindAncestor,
+                                                                                      AncestorType={x:Type UserControl}}}" />
                             <taskQueue:CustomTaskUserControl DataContext="{Binding CustomTask}" Visibility="{c:Binding DataContext.TaskSettingVisibilities.Custom, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}" />
                             <taskQueue:PostActionUserControl DataContext="{Binding PostActionSetting}" Visibility="{c:Binding DataContext.TaskSettingVisibilities.PostAction, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}" />
                         </hc:SimpleStackPanel>

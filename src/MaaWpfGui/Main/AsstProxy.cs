@@ -3747,6 +3747,9 @@ public class AsstProxy
         /// <summary>更换主题</summary>
         SwitchTheme,
 
+        /// <summary>赛季任务</summary>
+        SeasonalTask,
+
         /// <summary>小游戏</summary>
         MiniGame,
 
