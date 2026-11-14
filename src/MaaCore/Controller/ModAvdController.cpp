@@ -133,8 +133,9 @@ bool ModAvdController::swipe(
         return x >= 0 && x < m_width && y >= 0 && y < m_height;
     };
 
-    // 库没有按键，暂停用 adb 发 ESC（和 minitouch 一样异步），要先有 press_esc 命令
-    bool need_pause = with_pause && m_swipe_with_pause_enabled && !m_adb.press_esc.empty();
+    // 暂停发 ESC：库能发按键就直接发；不能就用 adb（和 minitouch 一样异步），要先有 press_esc 命令
+    const bool key_by_lib = use_modavd_key();
+    bool need_pause = with_pause && m_swipe_with_pause_enabled && (key_by_lib || !m_adb.press_esc.empty());
     std::future<void> pause_future;
 
     auto pause_check = [&opt](int cur_x, int cur_y, int start_x, int start_y) {
@@ -161,7 +162,12 @@ bool ModAvdController::swipe(
                 pause_check,
                 [&]() {
                     need_pause = false;
-                    pause_future = std::async(std::launch::async, [this]() { press_esc(); });
+                    if (key_by_lib) {
+                        press_esc();
+                    }
+                    else {
+                        pause_future = std::async(std::launch::async, [this]() { press_esc(); });
+                    }
                 });
         }
         return interpolate_swipe(
@@ -216,16 +222,49 @@ bool ModAvdController::inject_input_event(const InputEvent& event)
     // 库每次调用即时生效，没有 minitouch 的批量提交语义
     case InputEvent::Type::COMMIT:
         return true;
-    // 库没有按键：按键要用 press_esc() 这类 adb 的接口
+    // 按键要模拟器的控制台收按键；收不了时没有别的通道能分开发按下和抬起
     case InputEvent::Type::KEY_DOWN:
+        if (!use_modavd_key()) {
+            LogError << "ModAVD extras input has no key events on this emulator" << VAR(event.keycode);
+            return false;
+        }
+        return m_modavd_extras.key_down(event.keycode);
     case InputEvent::Type::KEY_UP:
-        LogError << "ModAVD extras input has no key events" << VAR(event.keycode);
-        return false;
+        if (!use_modavd_key()) {
+            LogError << "ModAVD extras input has no key events on this emulator" << VAR(event.keycode);
+            return false;
+        }
+        return m_modavd_extras.key_up(event.keycode);
     case InputEvent::Type::UNKNOWN:
     default:
         LogError << "unknown input event type";
         return false;
     }
+}
+
+bool ModAvdController::input(const std::string& text)
+{
+    // 库没把文字发出去（没有编辑框可交而文字又不是 ASCII，或库太旧）时什么都没打，改用 adb
+    if (m_modavd_input_ready && m_modavd_extras.text_available() && m_modavd_extras.input_text(text)) {
+        return true;
+    }
+    return MaatouchController::input(text);
+}
+
+bool ModAvdController::press_esc()
+{
+    constexpr int EscKeyCode = 111;
+    if (use_modavd_key()) {
+        const bool down = m_modavd_extras.key_down(EscKeyCode);
+        // 按下发出去了就一定抬起，免得键一直按着
+        if (down && m_modavd_extras.key_up(EscKeyCode)) {
+            return true;
+        }
+        if (down) {
+            return false;
+        }
+    }
+    return MaatouchController::press_esc();
 }
 
 ControlFeat::Feat ModAvdController::support_features() const noexcept
@@ -234,9 +273,9 @@ ControlFeat::Feat ModAvdController::support_features() const noexcept
         return MaatouchController::support_features();
     }
 
-    // 坐标就是显示像素，不需要按 max_x/max_y 换算；暂停靠 adb 的 press_esc
+    // 坐标就是显示像素，不需要按 max_x/max_y 换算；暂停靠库的按键或 adb 的 press_esc
     auto feat = ControlFeat::PRECISE_SWIPE;
-    if (m_swipe_with_pause_enabled && !m_adb.press_esc.empty()) {
+    if (m_swipe_with_pause_enabled && (use_modavd_key() || !m_adb.press_esc.empty())) {
         feat |= ControlFeat::SWIPE_WITH_PAUSE;
     }
     return feat;

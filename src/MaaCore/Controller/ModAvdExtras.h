@@ -46,6 +46,16 @@ public:
     bool touch_up(int contact);
     bool touch_release_all();
 
+    // 按键和输入文字（库的接口版本 3 起），同样经模拟器控制台。
+    // 按键要模拟器的控制台有 event key（比 ModAVD 0.40 新的模拟器），发的是键盘上的真实按键；
+    // 文字在编辑框有焦点时经 ModAVD 的宿主输入法原样交给它（任意语言），否则 ASCII 走键盘。
+    // 返回 false 时什么都没发出去，调用方改用 adb
+    bool key_available() const { return key_available_; }
+    bool text_available() const { return text_available_; }
+    bool key_down(int android_keycode);
+    bool key_up(int android_keycode);
+    bool input_text(const std::string& text);
+
 private:
     using Library = LibraryHolder<ModAvdExtras>;
 
@@ -75,7 +85,10 @@ private:
     static constexpr int kOk = 0;
     static constexpr uint32_t kCapScreencap = 1u << 0;
     static constexpr uint32_t kCapTouch = 1u << 1;
+    static constexpr uint32_t kCapKey = 1u << 2;
+    static constexpr uint32_t kCapText = 1u << 3;
     static constexpr uint32_t kTouchApiVersion = 2;
+    static constexpr uint32_t kKeyTextApiVersion = 3;
     static constexpr uint32_t kFormatBgr = 2;
 
     // 截一帧；ret 为库最后一次返回的出错码，kOk 表示失败与库无关
@@ -93,6 +106,8 @@ private:
     bool library_loaded_ = false;
     bool inited_ = false;
     bool touch_available_ = false;
+    bool key_available_ = false;
+    bool text_available_ = false;
     uint32_t api_version_ = 0;
 
 private:
@@ -106,6 +121,8 @@ private:
     inline static const std::string kTouchMoveFuncName = "modavd_touch_move";
     inline static const std::string kTouchUpFuncName = "modavd_touch_up";
     inline static const std::string kTouchReleaseAllFuncName = "modavd_touch_release_all";
+    inline static const std::string kKeyFuncName = "modavd_key";
+    inline static const std::string kInputTextFuncName = "modavd_input_text";
 
     std::function<uint32_t()> api_version_func_;
     std::function<int(const OpenParams*, void**)> open_func_;
@@ -117,5 +134,7 @@ private:
     std::function<int(void*, int, int, int, int, int)> touch_move_func_;
     std::function<int(void*, int, int)> touch_up_func_;
     std::function<int(void*)> touch_release_all_func_;
+    std::function<int(void*, int, int, int)> key_func_;
+    std::function<int(void*, const char*)> input_text_func_;
 };
 } // namespace asst

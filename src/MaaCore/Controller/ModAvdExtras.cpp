@@ -143,6 +143,9 @@ bool ModAvdExtras::load_modavd_library()
     touch_move_func_ = Library::get_function<int(void*, int, int, int, int, int)>(kTouchMoveFuncName);
     touch_up_func_ = Library::get_function<int(void*, int, int)>(kTouchUpFuncName);
     touch_release_all_func_ = Library::get_function<int(void*)>(kTouchReleaseAllFuncName);
+    // 按键、文字同样版本 1 起就导出，版本 3 起才能用
+    key_func_ = Library::get_function<int(void*, int, int, int)>(kKeyFuncName);
+    input_text_func_ = Library::get_function<int(void*, const char*)>(kInputTextFuncName);
 
     if (!api_version_func_ || !open_func_ || !close_func_ || !capabilities_func_ || !capture_func_) {
         LogError << "ModAVD extras library is missing functions";
@@ -175,7 +178,11 @@ void ModAvdExtras::unload_modavd_library()
     touch_move_func_ = nullptr;
     touch_up_func_ = nullptr;
     touch_release_all_func_ = nullptr;
+    key_func_ = nullptr;
+    input_text_func_ = nullptr;
     touch_available_ = false;
+    key_available_ = false;
+    text_available_ = false;
     api_version_ = 0;
 
     if (library_loaded_) {
@@ -213,7 +220,10 @@ bool ModAvdExtras::open_instance()
     handle_ = handle;
     touch_available_ = api_version_ >= kTouchApiVersion && (caps & kCapTouch) && touch_down_func_ && touch_move_func_ &&
                        touch_up_func_ && touch_release_all_func_;
-    LogInfo << "Opened ModAVD instance" << VAR(adb_address_) << VAR(touch_available_);
+    key_available_ = api_version_ >= kKeyTextApiVersion && (caps & kCapKey) && key_func_;
+    text_available_ = api_version_ >= kKeyTextApiVersion && (caps & kCapText) && input_text_func_;
+    LogInfo << "Opened ModAVD instance" << VAR(adb_address_) << VAR(touch_available_) << VAR(key_available_)
+            << VAR(text_available_);
     return true;
 }
 
@@ -225,6 +235,8 @@ void ModAvdExtras::close_instance()
     }
     handle_ = nullptr;
     touch_available_ = false;
+    key_available_ = false;
+    text_available_ = false;
 }
 
 std::optional<std::pair<int, int>> ModAvdExtras::display_size()
@@ -289,6 +301,45 @@ bool ModAvdExtras::touch_release_all()
     if (ret != kOk) {
         LogWarn << "ModAvdExtras touch_release_all failed" << VAR(ret)
                 << VAR(strerror_func_ ? strerror_func_(ret) : "");
+    }
+    return ret == kOk;
+}
+
+bool ModAvdExtras::key_down(int android_keycode)
+{
+    if (!key_available_ || !handle_) {
+        return false;
+    }
+    int ret = key_func_(handle_, 0, android_keycode, 1);
+    if (ret != kOk) {
+        LogWarn << "ModAvdExtras key_down failed" << VAR(ret) << VAR(strerror_func_ ? strerror_func_(ret) : "")
+                << VAR(android_keycode);
+    }
+    return ret == kOk;
+}
+
+bool ModAvdExtras::key_up(int android_keycode)
+{
+    if (!key_available_ || !handle_) {
+        return false;
+    }
+    int ret = key_func_(handle_, 0, android_keycode, 0);
+    if (ret != kOk) {
+        LogWarn << "ModAvdExtras key_up failed" << VAR(ret) << VAR(strerror_func_ ? strerror_func_(ret) : "")
+                << VAR(android_keycode);
+    }
+    return ret == kOk;
+}
+
+bool ModAvdExtras::input_text(const std::string& text)
+{
+    if (!text_available_ || !handle_) {
+        return false;
+    }
+    int ret = input_text_func_(handle_, text.c_str());
+    if (ret != kOk) {
+        // 没有可交文字的编辑框而文字又不是 ASCII 时库返回不支持，什么都没打出去
+        LogWarn << "ModAvdExtras input_text failed" << VAR(ret) << VAR(strerror_func_ ? strerror_func_(ret) : "");
     }
     return ret == kOk;
 }

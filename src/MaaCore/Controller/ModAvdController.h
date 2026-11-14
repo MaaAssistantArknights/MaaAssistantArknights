@@ -8,7 +8,8 @@ namespace asst
 // 客体里不用起 MaaTouch。结构参照 MumuController。
 // 继承 MaatouchController 是为了现成的降级链：库太旧、连接配置不是 ModAVD、显示尺寸对不上时，
 // 所有操作落回 MaaTouch（ModAVD 的 SELinux 是 Enforcing，minitouch 用不了）。
-// 按键、输入文字和单独的 ESC 照旧走 adb（AdbController），滑动途中的暂停也用 adb 发 ESC。
+// 按键和输入文字库能做就走库（库的接口版本 3 起；按键还要模拟器的控制台有 event key），
+// 库做不了或没发出去时照旧走 adb（AdbController）；滑动途中的暂停同理。
 class ModAvdController : public MaatouchController
 {
 public:
@@ -36,6 +37,10 @@ public:
 
     virtual bool inject_input_event(const InputEvent& event) override;
 
+    virtual bool input(const std::string& text) override;
+
+    virtual bool press_esc() override;
+
     virtual ControlFeat::Feat support_features() const noexcept override;
 
     ModAvdController& operator=(const ModAvdController&) = delete;
@@ -49,5 +54,8 @@ protected:
 private:
     // 宿主侧点击是否就绪；未就绪时全部操作降级到 MaaTouch
     bool m_modavd_input_ready = false;
+
+    // 库能发按键：点击就绪，且这台模拟器的控制台收按键
+    bool use_modavd_key() const noexcept { return m_modavd_input_ready && m_modavd_extras.key_available(); }
 };
 } // namespace asst
