@@ -377,13 +377,13 @@
         "action": "ClickSelf",
         "roi": [720, 413, 249, 168],
         "postDelay": 1000,
-        "next": ["Roguelike@MissionFailedFlag2", "Roguelike@StartExplore", "Roguelike@StartExploreCD"]
+        "next": ["Roguelike@MissionFailedFlag2", "Roguelike@StartExplore-Entry", "Roguelike@StartExploreCD"]
     },
     "Roguelike@Begin": {
         "algorithm": "JustReturn",
         "next": [
             "Roguelike@ChooseDifficulty",
-            "Roguelike@StartExplore",
+            "Roguelike@StartExplore-Entry",
             "Roguelike@Stages#next",
             "Roguelike@GetDrops#next",
             "Roguelike@NextLevel",
@@ -423,7 +423,7 @@
         "template": "empty.png",
         "action": "ClickSelf",
         "roi": [1064, 294, 216, 170],
-        "next": ["Roguelike@StartExplore"]
+        "next": ["Roguelike@StartExplore-Entry"]
     },
     "Roguelike@ChooseDifficultyConfirm": {
         "algorithm": "OcrDetect",
@@ -511,7 +511,7 @@
         "postDelay": 1500,
         "next": [
             "Roguelike@MissionFailedFlag2",
-            "Roguelike@StartExplore",
+            "Roguelike@StartExplore-Entry",
             "Roguelike@Stages#next",
             "Roguelike@GamePass",
             "Roguelike@TodoEnter",
@@ -526,7 +526,7 @@
         "doc": "因为是从肉鸽失败界面进入，删除了对下个stage的判断",
         "baseTask": "Roguelike@ClickToStartPoint",
         "next": [
-            "Roguelike@StartExplore",
+            "Roguelike@StartExplore-Entry",
             "Roguelike@StartExploreCD",
             "Roguelike@StartUpThemes#next",
             "Roguelike@ClickToStartPointAfterFailed"
@@ -586,7 +586,7 @@
         "template": "Roguelike@DeepExplorationEnd.png",
         "action": "ClickSelf",
         "roi": [600, 620, 90, 90],
-        "next": ["Roguelike@StartExplore", "Roguelike@StartUpThemes#next"]
+        "next": ["Roguelike@StartExplore-Entry", "Roguelike@StartUpThemes#next"]
     },
     "Roguelike@DeepExplorationNotUnlockedComplain": {
         "Doc": "base_task 深入调查没解锁",
@@ -910,7 +910,7 @@
         "template": "empty.png"
     },
     "Roguelike@MainThemes": {
-        "next": ["Roguelike", "Roguelike@ChooseDifficulty", "Roguelike@StartExplore", "Roguelike@Abandon"]
+        "next": ["Roguelike", "Roguelike@ChooseDifficulty", "Roguelike@StartExplore-Entry", "Roguelike@Abandon"]
     },
     "Roguelike@MissionCompletedFlag": {
         "baseTask": "Roguelike@ExitThenAbandon",
@@ -949,7 +949,7 @@
         "template": "Return.png",
         "maxTimes": 10,
         "postDelay": 300,
-        "next": ["Roguelike@StartExplore", "#self"]
+        "next": ["Roguelike@StartExplore-Entry", "#self"]
     },
     "Roguelike@MonthlySquadCommsCompleted": {
         "Doc": "base_task 月度小队通信已获取",
@@ -981,6 +981,15 @@
         "roi": [390, 300, 500, 50],
         "specificRect": [650, 460, 310, 70],
         "next": ["Roguelike@StartAction"]
+    },
+    "Roguelike@NormalAction": {
+        "Doc": "常规行动入口，开局时点击，月度小队和深入调查除外",
+        "template": "Roguelike@NormalAction.png",
+        "action": "ClickSelf",
+        "roi": [782, 630, 271, 85],
+        "maskRange": [1, 255],
+        "postDelay": 500,
+        "next": []
     },
     "Roguelike@OptionChoose1-1": {
         "algorithm": "JustReturn",
@@ -1704,12 +1713,36 @@
         "exceededNext": [],
         "next": ["#self", "Roguelike@StartExplore#next"]
     },
+    "Roguelike@StartExplore-Entry": {
+        "Doc": "开局前通过子任务选择模式，解析时展开模式分支，选择失败时停止开局",
+        "baseTask": "Roguelike@StartExplore",
+        "template": "empty.png",
+        "action": "DoNothing",
+        "postDelay": 0,
+        "sub": ["Roguelike@StartExplore-SelectMode#next"],
+        "next": ["Roguelike@StartExplore"]
+    },
+    "Roguelike@StartExplore-SelectMode": {
+        "baseTask": "Roguelike@StartExplore-SelectMode-Normal"
+    },
+    "Roguelike@StartExplore-SelectMode-Normal": {
+        "algorithm": "JustReturn",
+        "next": ["Roguelike@NormalAction"]
+    },
+    "Roguelike@StartExplore-SelectMode-MonthlySquad": {
+        "algorithm": "JustReturn",
+        "next": ["Roguelike@MonthlySquad"]
+    },
+    "Roguelike@StartExplore-SelectMode-DeepExploration": {
+        "algorithm": "JustReturn",
+        "next": ["Roguelike@DeepExploration"]
+    },
     "Roguelike@StartExploreCD": {
         "algorithm": "OcrDetect",
         "text": ["等待重返城堡入口", "等待重返陆地", "等待科考队重建", "正在清理思绪", "正在打扫园", "初始化"],
         "roi": [1026, 470, 254, 248],
         "postDelay": 1000,
-        "next": ["Roguelike@StartExplore", "Roguelike@StartExploreCD"]
+        "next": ["Roguelike@StartExplore-Entry", "Roguelike@StartExploreCD"]
     },
     "Roguelike@StartExploreWithSeed-BackToMainPage": {
         "Doc": "识别到 ‘停用参数’ 就行了，不做难度解锁的检查了",
@@ -1718,7 +1751,7 @@
         "action": "ClickRect",
         "roi": [631, 209, 118, 49],
         "specificRect": [600, 5, 300, 70],
-        "next": ["Roguelike@StartExplore", "Roguelike@StartExploreWithSeed-BackToMainPage"]
+        "next": ["Roguelike@StartExplore-Entry", "Roguelike@StartExploreWithSeed-BackToMainPage"]
     },
     "Roguelike@StartExploreWithSeed-ClickInputBox": {
         "algorithm": "OcrDetect",

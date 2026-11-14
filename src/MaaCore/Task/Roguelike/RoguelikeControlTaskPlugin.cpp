@@ -41,6 +41,7 @@ void asst::RoguelikeControlTaskPlugin::exit_then_stop(bool abandon) const
 {
     ProcessTask(*this, { m_config->get_theme() + "@Roguelike@ExitThenAbandon" })
         .set_times_limit("Roguelike@Abandon", abandon ? INT_MAX : 0)
+        .set_times_limit("Roguelike@StartExplore-Entry", 0)
         .set_times_limit("Roguelike@StartExplore", 0)
         .run();
 }

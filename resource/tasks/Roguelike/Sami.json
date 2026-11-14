@@ -119,7 +119,7 @@
         "next": [
             "Sami@Roguelike@MissionCompletedFlag",
             "Sami@Roguelike@MissionFailedFlag2",
-            "Sami@Roguelike@StartExplore",
+            "Sami@Roguelike@StartExplore-Entry",
             "Sami@Roguelike@Stages#next",
             "Sami@Roguelike@GamePass",
             "Sami@Roguelike@TodoEnter",
@@ -1308,6 +1308,14 @@
     "Sami@Roguelike@StartExplore-EnterCheck": {
         "template": "Sami@Roguelike@StartExplore.png",
         "roi": [958, 530, 322, 189]
+    },
+    "Sami@Roguelike@StartExplore-Entry": {
+        "baseTask": "Sami@Roguelike@StartExplore",
+        "template": "Sami@Roguelike@StartExplore.png",
+        "action": "DoNothing",
+        "postDelay": 0,
+        "sub": ["Sami@Roguelike@StartExplore-SelectMode#next"],
+        "next": ["Sami@Roguelike@StartExplore"]
     },
     "Sami@Roguelike@StrategyChange_mode0": {
         "text": ["_aggressive", "_pragmatic", "_default", "_SKIP_"],

@@ -80,7 +80,7 @@
         "next": [
             "JieGarden@Roguelike@MissionCompletedFlag",
             "JieGarden@Roguelike@MissionFailedFlag2",
-            "JieGarden@Roguelike@StartExplore",
+            "JieGarden@Roguelike@StartExplore-Entry",
             "JieGarden@Roguelike@Stages#next",
             "JieGarden@Roguelike@GamePass",
             "JieGarden@Roguelike@TodoEnter",
@@ -1288,6 +1288,14 @@
     "JieGarden@Roguelike@StartExplore-EnterCheck": {
         "template": "JieGarden@Roguelike@StartExplore.png",
         "roi": [1014, 481, 266, 219]
+    },
+    "JieGarden@Roguelike@StartExplore-Entry": {
+        "baseTask": "JieGarden@Roguelike@StartExplore",
+        "template": "JieGarden@Roguelike@StartExplore.png",
+        "action": "DoNothing",
+        "postDelay": 0,
+        "sub": ["JieGarden@Roguelike@StartExplore-SelectMode#next"],
+        "next": ["JieGarden@Roguelike@StartExplore"]
     },
     "JieGarden@Roguelike@StartExploreWithSeed-Open": {
         "roi": [870, 567, 95, 33]
