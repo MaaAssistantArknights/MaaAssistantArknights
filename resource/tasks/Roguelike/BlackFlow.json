@@ -840,6 +840,7 @@
         "Doc": "选卡后每隔一个 taskDelay 观察确认按钮，连续约 2 秒未出现则重新选卡，最多选四次。每次选卡清零观察与确认次数；下一张卡和新一局分别由 LastRewardNext、Squad-EnterPoint 清零选卡次数。",
         "maxTimes": 4,
         "next": [
+            "BlackFlow@Roguelike@LastReward-EnterPoint@(BlackFlow@Roguelike@CloseCollection)",
             "BlackFlow@Roguelike@LastRewardConfirm",
             "BlackFlow@Roguelike@LastRewardSelectObserve",
             "BlackFlow@Roguelike@AbandonConfirm#next"
@@ -1900,12 +1901,12 @@
     "BlackFlow@Roguelike@SquadConfirm": {
         "Doc": [
             "开局分队确认，之后可能出现藏品弹窗、干员选择或招募界面。",
-            "点击后每隔一个 taskDelay=500ms 观察确认栏是否依旧存在；任一观察点未识别到即离开分队页，确认栏持续存在四次=2000ms 才允许再次点击。",
+            "点击后每隔一个 taskDelay=500ms 观察确认栏是否依旧存在；任一观察点未识别到即离开分队页，确认栏持续存在四次=2000ms（+400ms postDelay，正常路径下确保选择支援页页面稳定）才允许再次点击。",
             "确认栏要先点选卡片才出现，支援页、职业页刚进入时没有，所以观察沿用同一模板不会把后续页面当成分队页。",
             "Confirm 的 maxTimes 只统计真实点击；每次点击将 Observe 的两次执行计数恢复为零。四次点击仍未离开分队页时进入 RecoveryFailed 并停在当前画面。"
         ],
         "template": "BlackFlow@Roguelike@LastRewardConfirm.png",
-        "postDelay": 0,
+        "postDelay": 400,
         "maxTimes": 4,
         "next": [
             "BlackFlow@Roguelike@SquadConfirmRewardPopup",
