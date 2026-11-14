@@ -209,6 +209,20 @@ AVD Screenshot Enhanced Mode is implemented in MaaFramework. Touch mode must be 
 
 2. For `Touch Mode`, select `MaaFwAdb`.
 
+### ModAVD Screenshot Enhanced Mode
+
+For the [ModAVD](https://github.com/ModAVD/ModAVD) emulator. MAA reads the emulator screen directly through the `modavd_extras` library that ModAVD provides, without going through ADB. For touch, choose `ModAVD Touch`, which uses the same library to touch from the emulator side, or MaaTouch.
+
+1. In `Settings` - `Connection` - `Connection Preset`, select `ModAVD`, and uncheck `Auto detect connection` (auto detection does not recognize ModAVD).
+
+2. Set `ModAVD root` to the ModAVD root folder (the folder that contains `ModAVD.exe`), or click `Select` to browse for it. The folder must contain `extras\modavd_extras.dll`. ModAVD release packages include it since 0.39.0; for an older version, update ModAVD first, or download `modavd_extras.dll` from the [ModAVDExtras releases](https://github.com/ModAVD/ModAVDExtras/releases) and put it in the `extras` folder there.
+
+3. Set `Connection address` to `127.0.0.1:<ADB port>` of the instance, where the ADB port is the console port + 1. With the default ports, instance 0 is `127.0.0.1:20001` and each following instance adds 10 (`127.0.0.1:20011`, `127.0.0.1:20021`, ...). `emulator-<console port>` also works. No instance number is needed. For `ADB path`, you can use `sdk\platform-tools\adb.exe` under the ModAVD root.
+
+4. For `Touch Mode`, select `ModAVD Touch` or `MaaTouch`. ModAVD runs SELinux in `Enforcing` mode, so the default Minitouch does not work.
+
+If `ModAVD root` is left empty, MAA takes screenshots through ADB only.
+
 ## Touch Mode
 
 1. [Minitouch](https://github.com/DeviceFarmer/minitouch): An Android touch event handler written in C that operates on `evdev` devices and provides a Socket interface for external programs to trigger touch events and gestures. Starting with Android 10, Minitouch is no longer available when SELinux is in `Enforcing` mode.<sup>[source](https://github.com/DeviceFarmer/minitouch?tab=readme-ov-file#for-android-10-and-up)</sup> (Default)
@@ -216,6 +230,7 @@ AVD Screenshot Enhanced Mode is implemented in MaaFramework. Touch mode must be 
 3. ADB Input: Directly calls ADB to use Android's `input` command for touch operations. Only for physical devices running an older OS version; do not use it if other modes work. ADB Input swipes tend to drift — to avoid this, swipe speed is set very slow and swipe distances differ from other modes, so it cannot be used in scenarios requiring precise coordinate control. (Deprecated)
 4. [MaaFwAdb](https://maafw.com/): Delegates screenshot and touch commands to MaaFramework's control unit. Extra swipe is not supported: an extra swipe is a short "brake" swipe appended perpendicular to the end of the main swipe (tracing an L-shaped 90° turn), used to counteract list inertia, so pages that rely on it to prevent overshooting will overshoot in this mode. (Experimental)
 5. MuMu Touch Enhancement: Calls the touch interface of MuMu's external renderer process. Only appears in the touch mode dropdown after `Enable MuMu's screenshot enhancement mode` is checked, and automatically falls back to Minitouch when unavailable (experimental). Requires the official MuMu V6.3.2 or above; the Arknights-specific and Global editions are not supported yet. Supports operation in the MuMu "App Keep-Alive" (background keep-alive) scenario.
+6. ModAVD Touch: Sends touches through the emulator console to the emulator's own virtual touch screen, using the `modavd_extras` library that comes with ModAVD, so nothing like MaaTouch runs in the guest. Only for the `ModAVD` connection config; falls back to MaaTouch when the library does not support it or is unavailable (experimental).
 
 ## ADB Lite
 

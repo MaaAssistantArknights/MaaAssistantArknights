@@ -41,4 +41,9 @@ public enum TouchMode
     /// MuMu external renderer IPC 触控，仅截图增强启用时可选。
     /// </summary>
     MumuExtras,
+
+    /// <summary>
+    /// ModAVD 宿主侧触控（modavd_extras 库），不可用时 Core 自动降级为 MaaTouch。
+    /// </summary>
+    ModAvdExtras,
 }

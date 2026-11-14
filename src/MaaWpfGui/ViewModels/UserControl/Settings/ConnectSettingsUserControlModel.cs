@@ -101,6 +101,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
         (ConnectConfig.LDPlayer, "Connection.Config.LDPlayer"),
         (ConnectConfig.Androws, "Connection.Config.Androws"),
         (ConnectConfig.AVD, "Connection.Config.AVD"),
+        (ConnectConfig.ModAVD, "Connection.Config.ModAVD"),
         (ConnectConfig.Nox, "Connection.Config.Nox"),
         (ConnectConfig.XYAZ, "Connection.Config.XYAZ"),
         (ConnectConfig.PC, "Connection.Config.PC"),
@@ -261,6 +262,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
         ConnectConfig.LDPlayer => _extras.LdPlayer,
         ConnectConfig.MuMuEmulator12 => _extras.Mumu12,
         ConnectConfig.PC => _extras.Win32,
+        ConnectConfig.ModAVD => _extras.ModAvd,
         _ => null,
     };
 
@@ -273,6 +275,8 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
         public MuMu12Extra Mumu12 { get; set; } = new();
 
         public Models.EmulatorConnectionExtra.Win32Extra Win32 { get; set; } = new();
+
+        public ModAvdExtra ModAvd { get; set; } = new();
 
         public Bluestacks BluestacksExtra { get; set; } = new();
 
@@ -392,6 +396,9 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
             { "XYAZ", ["127.0.0.1:21503"] },
             { "Androws", ["127.0.0.1:5555"] },
             { "WSA", ["127.0.0.1:58526"] },
+
+            // ModAVD 默认端口段：控制台 20000 + 10 × 编号，adb = 控制台 + 1
+            { "ModAVD", ["127.0.0.1:20001", "127.0.0.1:20011", "127.0.0.1:20021"] },
         };
 
     /// <summary>
@@ -441,6 +448,10 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
             if (ConnectConfig == ConnectConfig.MuMuArm)
             {
                 emulators.RemoveAll(emulator => emulator.EmulatorName != ConnectConfig.MuMuArm);
+            }
+            else if (ConnectConfig == ConnectConfig.ModAVD && emulators.Any(emulator => emulator.EmulatorName == ConnectConfig.ModAVD))
+            {
+                emulators.RemoveAll(emulator => emulator.EmulatorName != ConnectConfig.ModAVD);
             }
         }
         catch (Exception e)
@@ -498,6 +509,21 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
             }
 
             ConnectAddress = selectedEmulator.Address;
+            return true;
+        }
+
+        // ModAVD registers its instances only with its own adb server, so `adb devices` does not list them;
+        // the address comes from the emulator command line. Never select an unrelated device.
+        if (selectedEmulator?.EmulatorName == ConnectConfig.ModAVD && !string.IsNullOrEmpty(selectedEmulator.Address))
+        {
+            ConnectAddress = selectedEmulator.Address;
+            var root = selectedEmulator.RootPath;
+            if (!string.IsNullOrEmpty(root) && root != _extras.ModAvd.RootPath &&
+                File.Exists(Path.Combine(root, "extras", "modavd_extras.dll")))
+            {
+                _extras.ModAvd.RootPath = root;
+            }
+
             return true;
         }
 
@@ -692,6 +718,15 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
                 }
 
                 break;
+
+            case ConnectConfig.ModAVD:
+                if (ExtraConfig is ModAvdExtra { RootPath: not "" } && ScreencapMethod != "ModAvdExtras")
+                {
+                    TestLinkInfo = $"{LocalizationHelper.GetString("Connection.ModAVD.ExtrasNotEnabledMessage")}\n{ScreencapTestCost}";
+                    return;
+                }
+
+                break;
         }
 
         TestLinkInfo = ScreencapTestCost;
@@ -802,12 +837,14 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
     /// <summary>
     /// Gets the list of touch modes.
     /// MuMu 触控选项仅在 MuMu 截图增强启用时动态加入列表。
+    /// ModAVD 触控常驻：非 ModAVD 连接或库不支持时 Core 自动降级为 MaaTouch。
     /// </summary>
     public LocalizedObservableList<TouchMode> TouchModeList { get; } = new(
         (TouchMode.MiniTouch, "Connection.TouchMode.MiniTouch"),
         (TouchMode.MaaTouch, "Connection.TouchMode.MaaTouch"),
         (TouchMode.Adb, "Connection.TouchMode.AdbInput"),
-        (TouchMode.MaaFwAdb, "Connection.TouchMode.MaaFwAdb"));
+        (TouchMode.MaaFwAdb, "Connection.TouchMode.MaaFwAdb"),
+        (TouchMode.ModAvdExtras, "Connection.TouchMode.ModAvdExtras"));
 
     public bool IsAdbTouchMode() => TouchMode == TouchMode.Adb;
 

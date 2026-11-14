@@ -836,6 +836,7 @@ MAA를 독립된 새 폴더에 압축 해제하거나, MAA에 속하지 않는 D
     <system:String x:Key="Connection.Config.General">일반 모드</system:String>
     <system:String x:Key="Connection.Config.GeneralWithoutScreencapErr">일반 모드 (예외 출력 차단)</system:String>
     <system:String x:Key="Connection.Config.LDPlayer">LD Player</system:String>
+    <system:String x:Key="Connection.Config.ModAVD">ModAVD</system:String>
     <system:String x:Key="Connection.Config.MuMu">MuMu Player</system:String>
     <system:String x:Key="Connection.Config.MuMuArm">MuMu 에뮬레이터 (Windows ARM)</system:String>
     <system:String x:Key="Connection.Config.Nox">Nox</system:String>
@@ -879,6 +880,13 @@ C:\leidian\LDPlayer9
     <system:String x:Key="Connection.LdPlayer.ManualSetIndex">｢{key=Connection.LdPlayer.Index}｣ 수동 입력</system:String>
     <system:String x:Key="Connection.LdPlayer.OpenglMissing">선택한 LDPlayer 경로에서 ldopengl64.dll을 찾을 수 없습니다. 설치 디렉터리를 확인하세요.</system:String>
     <system:String x:Key="Connection.Lost">연결이 끊어졌습니다</system:String>
+    <system:String x:Key="Connection.ModAVD.ExtrasNotEnabledMessage">ModAVD 스크린샷 강화 기능이 활성화되지 않았습니다. ｢{key=Settings.Title} - {key=Settings.Connection.Title} - {key=Connection.Config}｣에서 ModAVD 루트 폴더와 연결 주소를 확인하세요</system:String>
+    <system:String x:Key="Connection.ModAVD.LibraryMissing" xml:space="preserve">선택한 ModAVD 루트 폴더에서 extras\modavd_extras.dll을 찾을 수 없습니다.
+ModAVD 0.39.0부터 릴리스 패키지에 이 라이브러리가 포함되어 있으니 먼저 ModAVD를 업데이트하세요. 또는 https://github.com/ModAVD/ModAVDExtras/releases 에서 modavd_extras.dll을 다운로드해 ModAVD 루트 폴더(ModAVD.exe가 있는 폴더)의 extras 폴더에 넣으세요.</system:String>
+    <system:String x:Key="Connection.ModAVD.RootPath">ModAVD 루트 폴더</system:String>
+    <system:String x:Key="Connection.ModAVD.RootPath.Tip" xml:space="preserve">ModAVD 루트 폴더는 ModAVD.exe가 있는 폴더입니다. MAA는 그 안의 extras\modavd_extras.dll을 통해 ADB를 거치지 않고 에뮬레이터 화면을 직접 가져옵니다.
+인스턴스는 연결 주소로 정해집니다(예: 127.0.0.1:20001 또는 emulator-20000, adb 포트 = 콘솔 포트 + 1). 인스턴스 번호는 필요 없습니다.
+비워 두면 ADB로만 스크린샷을 가져옵니다. 터치는 아래에서 선택한 터치 모드를 그대로 사용합니다.</system:String>
     <system:String x:Key="Connection.MuMu.BridgeConnection">MuMu 네트워크 브리지 모드</system:String>
     <system:String x:Key="Connection.MuMu.BridgeConnection.Tip">무슨 역할을 하는지 잘 모른다면 이 옵션을 활성화하지 마세요</system:String>
     <system:String x:Key="Connection.MuMu.EmulatorPath">MuMu 에뮬레이터 경로</system:String>
@@ -932,6 +940,7 @@ C:\Program Files\Netease\MuMuPlayer으로 입력해야 합니다.
     <system:String x:Key="Connection.TouchMode.MaaFwAdb">MaaFwAdb (실험적)</system:String>
     <system:String x:Key="Connection.TouchMode.MaaTouch">MaaTouch (실험적)</system:String>
     <system:String x:Key="Connection.TouchMode.MiniTouch">Minitouch (기본값)</system:String>
+    <system:String x:Key="Connection.TouchMode.ModAvdExtras">ModAVD 터치 (실험적)</system:String>
     <system:String x:Key="Connection.TouchMode.MumuExtras">MuMu 터치 (실험적)</system:String>
     <system:String x:Key="Connection.TouchMode.Tip" xml:space="preserve">ADB Input는 OS 버전이 낮은 물리적 기기 전용입니다. 다른 모드를 사용할 수 있다면 ADB Input를 선택하지 마세요.&#10;ADB Input 스와이프는 오프셋이 발생하기 쉬워 스와이프 속도가 매우 느리게 설정되고 스와이프 거리도 다른 모드와 다릅니다. 정확한 좌표 제어가 필요한 상황에서는 사용할 수 없습니다.&#10;&#10;MaaFwAdb는 추가 스와이프를 지원하지 않아, 추가 스와이프로 드래그 과다를 방지하는 페이지는 이 모드에서 과다하게 드래그됩니다.&#10;추가 스와이프는 메인 스와이프가 끝난 후 수직 방향으로 짧게 덧붙이는 ｢브레이크｣ 스와이프(궤적이 90° 꺾이는 L자 형태)로, 목록 관성을 상쇄하는 데 사용됩니다.</system:String>
     <system:String x:Key="Connection.TryToReconnectByAdb">재접속을 시도하고 있습니다</system:String>

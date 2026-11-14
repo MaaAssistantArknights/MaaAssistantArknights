@@ -269,6 +269,20 @@ AVD スクリーンショット強化モードは MaaFramework 内で実装さ�
 
 2. `タッチモード` で `MaaFwAdb` を選択します。
 
+### ModAVD スクリーンショット強化モード
+
+[ModAVD](https://github.com/ModAVD/ModAVD) エミュレーター向けです。MAA は ModAVD が提供する `modavd_extras` ライブラリを通じて、ADB を使わずにエミュレーターの画面を直接取得します。タッチは同じライブラリでエミュレーター側から直接操作する `ModAVD タッチ`、または MaaTouch を選択してください。
+
+1. `設定` - `接続設定` - `接続構成` で `ModAVD` を選択し、`接続自動認識` のチェックを外します（自動認識は ModAVD に対応していません）。
+
+2. `ModAVD ルートフォルダ` に ModAVD のルートフォルダ（`ModAVD.exe` があるフォルダ）を入力するか、`選択` から指定します。このフォルダに `extras\modavd_extras.dll` が必要です。ModAVD 0.39.0 以降のリリースパッケージには同梱されています。それより古いバージョンでは、まず ModAVD を更新するか、[ModAVDExtras の Release](https://github.com/ModAVD/ModAVDExtras/releases) から `modavd_extras.dll` をダウンロードし、その中の `extras` フォルダに置いてください。
+
+3. `接続先アドレス` には対象インスタンスの `127.0.0.1:<ADB ポート>` を入力します（ADB ポート = コンソールポート + 1）。既定のポートでは 0 番のインスタンスが `127.0.0.1:20001` で、以降は 1 つごとに 10 ずつ増えます（`127.0.0.1:20011`、`127.0.0.1:20021`……）。`emulator-<コンソールポート>` でも構いません。インスタンス番号の入力は不要です。`ADBパス` には ModAVD ルートフォルダ内の `sdk\platform-tools\adb.exe` を指定できます。
+
+4. `タッチモード` で `ModAVD タッチ` または `MaaTouch` を選択します。ModAVD は SELinux が `Enforcing` モードのため、標準の Minitouch は使用できません。
+
+`ModAVD ルートフォルダ` が空欄の場合、MAA は ADB でのみスクリーンショットを取得します。
+
 ## タッチモード
 
 1. [Minitouch](https://github.com/DeviceFarmer/minitouch)：Android タッチイベントを操作するための C 言語で書かれたツールで、`evdev` デバイスを操作し、外部プログラムがタッチイベントとジェスチャーをトリガーできる Socket インターフェースを提供します。Android 10 以降、SELinux が `Enforcing` モードの場合、Minitouch は使用できなくなりました。<sup>[出典](https://github.com/DeviceFarmer/minitouch?tab=readme-ov-file#for-android-10-and-up)</sup>(標準)
@@ -276,6 +290,7 @@ AVD スクリーンショット強化モードは MaaFramework 内で実装さ�
 3. ADB Input：直接 ADB を呼び出して、Android の `input` コマンドを使用してタッチ操作を行います。OS バージョンが古い物理デバイス専用で、他のモードが使える場合は選択しないでください。ADB Input のスワイプはズレやすいため、スワイプ速度が非常に遅く設定され、スワイプ距離も他のモードと異なります。正確な座標制御が必要な場面では使用できません。(非推奨)
 4. [MaaFwAdb](https://maafw.com/)：MaaFramework の制御ユニットのスクリーンショットとタッチ機能を呼び出します。追加スワイプ非対応：追加スワイプとは、メインスワイプの終了後に垂直方向へ少し追加分の｢ブレーキ｣スワイプを行うもので（軌跡は 90° に曲がる L 字型）、リストの慣性を打ち消すために使用され、追加スワイプでドラッグの暴走を防いでいるページはこのモードで暴走します。(実験機能)
 5. MuMu タッチ強化：MuMu の外部レンダラープロセスのタッチインターフェースを呼び出します。`MuMu のスクリーンショット拡張モードを有効にする` をチェックした後にのみタッチモードのドロップダウンに表示され、利用できない場合は自動的に Minitouch にフォールバックします（実験機能）。公式版 MuMu V6.3.2 以降が必要で、Arknights Edition とグローバル版は未対応です。MuMu のバックグラウンド常駐（バックグラウンド放置）シーンでの操作に対応します。
+6. ModAVD タッチ：ModAVD に同梱の `modavd_extras` ライブラリを使い、エミュレーターのコンソール経由でエミュレーター自身の仮想タッチスクリーンにタッチを送ります。ゲスト側で MaaTouch を動かす必要はありません。`ModAVD` 接続設定でのみ使え、ライブラリが対応していないか使えない場合は自動的に MaaTouch にフォールバックします（実験機能）。
 
 ## ADB Lite
 

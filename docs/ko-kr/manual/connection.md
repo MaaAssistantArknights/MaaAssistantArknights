@@ -219,6 +219,20 @@ AVD 스크린샷 향상 모드는 MaaFramework에서 구현되므로, AVD 스크
 
 2. `터치 수행 방식`에서 `MaaFwAdb`를 선택합니다.
 
+### ModAVD 스크린샷 향상 모드
+
+[ModAVD](https://github.com/ModAVD/ModAVD) 에뮬레이터용입니다. MAA는 ModAVD가 제공하는 `modavd_extras` 라이브러리를 통해 ADB를 거치지 않고 에뮬레이터 화면을 직접 가져옵니다. 터치는 같은 라이브러리로 에뮬레이터 쪽에서 직접 조작하는 `ModAVD 터치`나 MaaTouch를 선택하세요.
+
+1. `설정` - `연결 설정` - `연결 프리셋`에서 `ModAVD`를 선택하고 `연결 자동 감지`를 해제합니다(자동 감지는 ModAVD를 인식하지 못합니다).
+
+2. `ModAVD 루트 폴더`에 ModAVD 루트 폴더(`ModAVD.exe`가 있는 폴더)를 입력하거나 `선택`을 눌러 지정합니다. 이 폴더에 `extras\modavd_extras.dll`이 있어야 합니다. ModAVD 0.39.0부터 릴리스 패키지에 포함되어 있으며, 그 이전 버전이라면 먼저 ModAVD를 업데이트하거나 [ModAVDExtras 릴리스](https://github.com/ModAVD/ModAVDExtras/releases)에서 `modavd_extras.dll`을 다운로드해 해당 폴더의 `extras` 폴더에 넣으세요.
+
+3. `연결 주소`에는 해당 인스턴스의 `127.0.0.1:<ADB 포트>`를 입력합니다(ADB 포트 = 콘솔 포트 + 1). 기본 포트에서는 0번 인스턴스가 `127.0.0.1:20001`이고, 이후 인스턴스마다 10씩 늘어납니다(`127.0.0.1:20011`, `127.0.0.1:20021`, ...). `emulator-<콘솔 포트>`를 입력해도 됩니다. 인스턴스 번호는 입력할 필요가 없습니다. `ADB 경로`에는 ModAVD 루트 폴더 안의 `sdk\platform-tools\adb.exe`를 지정할 수 있습니다.
+
+4. `터치 수행 방식`에서 `ModAVD 터치` 또는 `MaaTouch`를 선택합니다. ModAVD는 SELinux가 `Enforcing` 모드이므로 기본값인 Minitouch는 사용할 수 없습니다.
+
+`ModAVD 루트 폴더`를 비워 두면 MAA는 ADB로만 스크린샷을 가져옵니다.
+
 ## 터치 모드
 
 1. [Minitouch](https://github.com/DeviceFarmer/minitouch): C로 작성된 Android 터치 이벤트 핸들러로, 외부 프로그램이 터치 이벤트와 제스처를 트리거할 수 있는 소켓 인터페이스를 제공합니다. Android 10부터는 SELinux가 `Enforcing` 모드일 때 Minitouch가 더 이상 사용되지 않습니다. (기본값)
@@ -226,6 +240,7 @@ AVD 스크린샷 향상 모드는 MaaFramework에서 구현되므로, AVD 스크
 3. ADB Input: ADB 명령어를 직접 호출하여 터치 작업을 수행합니다. OS 버전이 낮은 물리적 기기 전용이며, 다른 모드를 사용할 수 있다면 선택하지 마세요. ADB Input 스와이프는 오프셋이 발생하기 쉬워, 이 문제를 방지하기 위해 스와이프 속도가 매우 느리게 설정되고 스와이프 거리도 다른 모드와 다릅니다. 정확한 좌표 제어가 필요한 상황에서는 사용할 수 없습니다. (비권장)
 4. [MaaFwAdb](https://maafw.com/): MaaFramework 제어 유닛의 스크린샷 및 터치 기능을 호출합니다. 추가 스와이프 미지원: 추가 스와이프는 메인 스와이프가 끝난 후 수직 방향으로 짧게 덧붙이는 ｢브레이크｣ 스와이프(궤적이 90° 꺾이는 L자 형태)로, 목록 관성을 상쇄하는 데 사용되며, 추가 스와이프로 드래그 과다를 방지하는 페이지는 이 모드에서 과다하게 드래그됩니다. (실험적)
 5. MuMu 터치 강화: MuMu의 외부 렌더러 프로세스의 터치 인터페이스를 호출합니다. `MuMu 스크린샷 강화 기능 활성화`를 체크해야 터치 모드 드롭다운에 표시되며, 사용할 수 없으면 자동으로 Minitouch로 대체됩니다(실험적). 공식 MuMu V6.3.2 이상이 필요하며, Arknights Edition과 글로벌 버전은 지원되지 않습니다. MuMu ｢앱 유지｣(백그라운드 대기) 시나리오에서의 조작을 지원합니다.
+6. ModAVD 터치: ModAVD에 포함된 `modavd_extras` 라이브러리로 에뮬레이터 콘솔을 거쳐 에뮬레이터 자체의 가상 터치스크린에 터치를 보냅니다. 게스트에서 MaaTouch를 실행할 필요가 없습니다. `ModAVD` 연결 설정에서만 사용할 수 있으며, 라이브러리가 지원하지 않거나 사용할 수 없으면 자동으로 MaaTouch로 대체됩니다(실험적).
 
 ## ADB Lite
 

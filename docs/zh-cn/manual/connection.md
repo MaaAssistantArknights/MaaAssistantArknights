@@ -211,6 +211,20 @@ AVD 截图增强模式在 MaaFramework 中实现，必须选择 MaaFwAdb 触控�
 
 2. `触控模式` 选择 `MaaFwAdb`。
 
+### ModAVD 截图增强模式
+
+适用于 [ModAVD](https://github.com/ModAVD/ModAVD) 模拟器。MAA 通过 ModAVD 提供的 `modavd_extras` 库直接读取模拟器画面，不经过 ADB；触控可以选 `ModAVD 触控`，同样由这个库从模拟器这边直接点击，也可以用 MaaTouch。
+
+1. `设置` - `连接设置` - `连接配置` 选择 `ModAVD`，并取消勾选 `自动检测连接`（自动检测不识别 ModAVD）。
+
+2. `ModAVD 根目录` 填写 ModAVD 的根目录（即 `ModAVD.exe` 所在的目录），也可以点击 `选择` 浏览。该目录下需要有 `extras\modavd_extras.dll`：ModAVD 0.39.0 起的发布包自带；更早的版本请先更新 ModAVD，或从 [ModAVDExtras 的 Release](https://github.com/ModAVD/ModAVDExtras/releases) 下载 `modavd_extras.dll`，放入其中的 `extras` 文件夹。
+
+3. `连接地址` 填写对应实例的 `127.0.0.1:<ADB 端口>`，ADB 端口 = 控制台端口 + 1。默认端口下 0 号实例为 `127.0.0.1:20001`，之后每号加 10（`127.0.0.1:20011`、`127.0.0.1:20021`……）；也可以填写 `emulator-<控制台端口>`。不需要填写实例编号。`ADB 路径` 可填写 ModAVD 根目录下的 `sdk\platform-tools\adb.exe`。
+
+4. `触控模式` 选择 `ModAVD 触控`，或者 `MaaTouch`。ModAVD 的 SELinux 为 `Enforcing` 模式，默认的 Minitouch 无法使用。
+
+`ModAVD 根目录` 留空时，MAA 只用 ADB 截图。
+
 ## 触控模式
 
 1. [Minitouch](https://github.com/DeviceFarmer/minitouch)：使用 C 编写的 Android 触控事件器，操作 `evdev` 设备，提供 Socket 接口供外部程序触发触控事件和手势。从 Android 10 开始，Minitouch 在 SELinux 为 `Enforcing` 模式时不再可用。<sup>[源](https://github.com/DeviceFarmer/minitouch?tab=readme-ov-file#for-android-10-and-up)</sup>（默认）
@@ -218,6 +232,7 @@ AVD 截图增强模式在 MaaFramework 中实现，必须选择 MaaFwAdb 触控�
 3. ADB Input：直接调用 ADB 使用安卓的 `input` 命令进行触控操作，仅用于兼容系统版本过低的实体机设备，能用其他模式时不要选择。ADB Input 的滑动容易拖飞，为避免此问题，滑动速度会设置得非常慢，且滑动距离与其他模式不同，在需要精确控制坐标的场景下无法使用。（不推荐使用）
 4. [MaaFwAdb](https://maafw.com/)：调用 MaaFramework 控制单元的截图和触控功能。不支持额外滑动：额外滑动是主滑动结束后沿垂直方向追加一小段的 ｢刹车｣ 滑动（轨迹类似拐 90° 的 L 形），用于抵消列表惯性，依赖额外滑动防止拖飞的页面在该模式下会拖飞。（实验功能）
 5. MuMu 触控增强：调用 MuMu 模拟器外部渲染进程的触控接口，需勾选 `启用 MuMu 截图增强` 后才会出现在触控模式下拉框中，不可用时自动回退为 Minitouch（实验功能）。需官方版 MuMu V6.3.2 及以上，方舟专版与国际版暂不支持。支持 MuMu ｢应用保活｣ （后台挂机）场景下操作。
+6. ModAVD 触控：通过 ModAVD 自带的 `modavd_extras` 库，经模拟器控制台把触控发到模拟器自己的虚拟触屏，客体里不用运行 MaaTouch。仅 `ModAVD` 连接配置可用，库不支持或不可用时自动回退为 MaaTouch（实验功能）。
 
 ## ADB Lite
 
