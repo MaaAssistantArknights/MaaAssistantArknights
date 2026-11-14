@@ -1,5 +1,8 @@
 #include "RoguelikeRecruitTaskPlugin.h"
 
+#include <limits>
+
+#include "Config/Miscellaneous/BattleDataConfig.h"
 #include "Config/TaskData.h"
 #include "Controller/Controller.h"
 #include "Task/ProcessTask.h"
@@ -147,6 +150,23 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
 
     // 编队信息 (已有角色)
     const auto& chars_map = m_config->status().opers;
+
+    // 月度小队要求使用三技能时，得先把目标干员精二；这期间招别人会把晋升要用的希望花掉，
+    // 所以目标精二前只招不消耗希望的干员（三星及以下），目标自己不受限制。
+    // 该判定独立于下面的开局/完备度放宽逻辑，放宽后仍然只留希望。
+    const auto& monthly_squad_task = m_config->get_monthly_squad_task();
+    const std::string monthly_squad_oper =
+        monthly_squad_task.has_value() ? monthly_squad_task->oper_name : std::string {};
+    const auto monthly_oper_iter = chars_map.find(monthly_squad_oper);
+    const bool reserve_hope_for_monthly =
+        monthly_squad_task.has_value() && monthly_squad_task->type == MonthlySquadTaskType::UseOperatorSkill &&
+        monthly_squad_task->skill == MonthlySquadSkill::Skill3 && !monthly_squad_oper.empty() &&
+        monthly_squad_task->completed_count < monthly_squad_task->required_count &&
+        monthly_oper_iter != chars_map.cend() && monthly_oper_iter->second.elite < 2;
+    if (reserve_hope_for_monthly) {
+        LogInfo << __FUNCTION__ << "| reserve hope for monthly squad oper:" << monthly_squad_oper
+                << "elite:" << monthly_oper_iter->second.elite;
+    }
 
     if (!m_starts_complete) {
         for (const auto& oper : chars_map) {
@@ -355,6 +375,26 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
                         }
                     }
                 }
+            }
+
+            const auto owned_oper = chars_map.find(oper_info.name);
+            if (reserve_hope_for_monthly && oper_info.name == monthly_squad_oper && owned_oper != chars_map.cend() &&
+                owned_oper->second.elite < 2 && oper_info.elite == 2 && !recruit_info.is_alternate) {
+                priority = std::numeric_limits<int>::max();
+                LogInfo << __FUNCTION__ << "prioritize monthly squad skill-3 operator promotion:" << oper_info.name;
+            }
+            // 留希望给上面那次晋升：目标干员以外、会消耗希望的干员一律不招
+            if (reserve_hope_for_monthly && oper_info.name != monthly_squad_oper &&
+                !is_zero_hope_oper(oper_info.name)) {
+                Log.trace(
+                    __FUNCTION__,
+                    "| reserve hope for monthly squad oper:",
+                    monthly_squad_oper,
+                    "skip:",
+                    oper_info.name,
+                    "priority was:",
+                    priority);
+                priority = 0;
             }
 
             // 优先级为0，可能练度不够被忽略
@@ -685,6 +725,14 @@ bool asst::RoguelikeRecruitTaskPlugin::recruit_own_char(const std::string& name)
     LogTraceFunction;
 
     return recruit_appointed_char(name);
+}
+
+bool asst::RoguelikeRecruitTaskPlugin::is_zero_hope_oper(const std::string& name)
+{
+    // 三星及以下（含预备干员）招募不消耗希望；干员数据查不到时按消耗希望处理，宁可少招
+    const battle::Role role = BattleData.get_first_role(name);
+    const int rarity = BattleData.get_rarity(role, name);
+    return rarity > 0 && rarity <= 3;
 }
 
 void asst::RoguelikeRecruitTaskPlugin::select_oper(const battle::roguelike::Recruitment& oper)
