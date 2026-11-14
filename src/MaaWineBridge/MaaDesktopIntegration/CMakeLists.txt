@@ -6,7 +6,7 @@ find_package(PkgConfig REQUIRED)
 
 pkg_check_modules(GLIB REQUIRED IMPORTED_TARGET glib-2.0)
 pkg_check_modules(GDK_PIXBUF REQUIRED IMPORTED_TARGET gdk-pixbuf-2.0)
-pkg_check_modules(LIBNOTIFY REQUIRED IMPORTED_TARGET libnotify)
+pkg_check_modules(LIBNOTIFY REQUIRED IMPORTED_TARGET libnotify>=0.8.4)
 
 add_library(MaaDesktopIntegration_SPEC IMPORTED STATIC)
 set_target_properties(MaaDesktopIntegration_SPEC PROPERTIES IMPORTED_LOCATION "${CMAKE_CURRENT_SOURCE_DIR}/MaaDesktopIntegration.spec")

@@ -98,6 +98,13 @@ gint __cdecl maa_wine_bridge_notify_notification_get_closed_reason(
     return notify_notification_get_closed_reason(notification);
 }
 
+void __cdecl maa_wine_bridge_notify_notification_set_app_icon(
+    NotifyNotification* notification,
+    const char* app_icon)
+{
+    notify_notification_set_app_icon(notification, app_icon);
+}
+
 void __cdecl maa_wine_bridge_notify_notification_set_app_name(
     NotifyNotification* notification,
     const char* app_name)

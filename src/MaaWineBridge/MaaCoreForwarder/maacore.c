@@ -1,6 +1,7 @@
 #include "dl_maacore.h"
 
 #include <pthread.h>
+#include <stdio.h>
 #include <stdlib.h>
 
 // clang-format off
@@ -17,9 +18,21 @@
 
 static char* translate_utf8_path(const char* utf8_win_path)
 {
-    int len = MultiByteToWideChar(CP_UTF8, 0, utf8_win_path, -1, NULL, 0);
-    wchar_t* wpath = malloc(len * sizeof(wchar_t));
-    MultiByteToWideChar(CP_UTF8, 0, utf8_win_path, -1, wpath, len);
+    if (!utf8_win_path) {
+        return NULL;
+    }
+    int len = MultiByteToWideChar(CP_UTF8, MB_ERR_INVALID_CHARS, utf8_win_path, -1, NULL, 0);
+    if (len <= 0) {
+        return NULL;
+    }
+    wchar_t* wpath = malloc((size_t)len * sizeof(wchar_t));
+    if (!wpath) {
+        return NULL;
+    }
+    if (MultiByteToWideChar(CP_UTF8, MB_ERR_INVALID_CHARS, utf8_win_path, -1, wpath, len) != len) {
+        free(wpath);
+        return NULL;
+    }
     char* unix_path = wine_get_unix_file_name(wpath);
     free(wpath);
     return unix_path;
@@ -28,6 +41,17 @@ static char* translate_utf8_path(const char* utf8_win_path)
 static int win32_free(void* ptr)
 {
     return HeapFree(GetProcessHeap(), 0, ptr);
+}
+
+// AsstLog 使用 Logger 的短等级标签；核心未加载时退回 stderr。
+static void log_warn(const char* message)
+{
+    if (dl_AsstLog) {
+        dl_AsstLog("WRN", message);
+    }
+    else {
+        fprintf(stderr, "MaaWineBridge: %s\n", message);
+    }
 }
 
 typedef void(
@@ -46,13 +70,14 @@ typedef struct
     AsstMsgId msg;
     const char* details_json;
     void* custom_arg;
-    TaskQueue* queue;
 } CallbackInvocation;
 
 static CallbackState* cb_state_new()
 {
-    CallbackState* fwd_state = malloc(sizeof(CallbackState));
-    memset(fwd_state, 0, sizeof(CallbackState));
+    CallbackState* fwd_state = calloc(1, sizeof(CallbackState));
+    if (!fwd_state) {
+        return NULL;
+    }
     TaskQueue* queue = task_queue_new(task_queue_worker_wine_new);
     if (!queue) {
         free(fwd_state);
@@ -64,17 +89,22 @@ static CallbackState* cb_state_new()
 
 static void cb_state_free(CallbackState* fwd_state)
 {
+    if (!fwd_state) {
+        return;
+    }
     task_queue_free(fwd_state->queue);
     free(fwd_state);
 }
 
 static void invoke_helper(void* arg)
 {
-    // called in win32 thread
     CallbackInvocation* invocation = arg;
-    invocation->x64abi_callback(invocation->msg, invocation->details_json, invocation->custom_arg);
+    if (invocation->x64abi_callback) {
+        invocation->x64abi_callback(invocation->msg, invocation->details_json, invocation->custom_arg);
+    }
 }
 
+// details_json 仅在回调期间有效，必须等待 Wine worker 执行完再返回。
 static void UnixCallbackShim(AsstMsgId msg, const char* details_json, void* custom_arg)
 {
     CallbackState* state = (CallbackState*)custom_arg;
@@ -85,8 +115,14 @@ static void UnixCallbackShim(AsstMsgId msg, const char* details_json, void* cust
         .custom_arg = state->custom_arg,
     };
     Task* task = task_queue_push(state->queue, invoke_helper, &invocation);
-    task_wait(task);
-    task_release(task);
+    if (task) {
+        task_wait(task);
+        task_release(task);
+    }
+    else {
+        log_warn("callback dropped: could not queue callback");
+    }
+    // MaaCore 保证 Destroyed 是最后回调且消息线程已 join，可在此释放 state。
     if (msg == AsstMsg_Destroyed) {
         cb_state_free(state);
     }
@@ -95,6 +131,9 @@ static void UnixCallbackShim(AsstMsgId msg, const char* details_json, void* cust
 AsstBool __stdcall WineShimAsstSetUserDir(const char* path)
 {
     char* unix_path = translate_utf8_path(path);
+    if (!unix_path) {
+        return 0;
+    }
     AsstBool result = dl_AsstSetUserDir(unix_path);
     win32_free(unix_path);
     return result;
@@ -103,6 +142,9 @@ AsstBool __stdcall WineShimAsstSetUserDir(const char* path)
 AsstBool __stdcall WineShimAsstLoadResource(const char* path)
 {
     char* unix_path = translate_utf8_path(path);
+    if (!unix_path) {
+        return 0;
+    }
     AsstBool result = dl_AsstLoadResource(unix_path);
     win32_free(unix_path);
     return result;
@@ -121,18 +163,21 @@ AsstHandle __stdcall WineShimAsstCreate()
 AsstHandle __stdcall WineShimAsstCreateEx(AsstApiCallbackMsAbi callback, void* custom_arg)
 {
     CallbackState* fwd_state = cb_state_new();
-    fwd_state->x64abi_callback = callback;
-    fwd_state->custom_arg = custom_arg;
     if (!fwd_state) {
         return NULL;
     }
-    // callback needs to be called in a wine thread
+    fwd_state->x64abi_callback = callback;
+    fwd_state->custom_arg = custom_arg;
     AsstHandle result = dl_AsstCreateEx(UnixCallbackShim, fwd_state);
+    if (!result) {
+        cb_state_free(fwd_state);
+    }
     return result;
 }
 
 void __stdcall WineShimAsstDestroy(AsstHandle handle)
 {
+    // 同步销毁会 join 正在等待本次回调的消息线程，所以在回调内销毁同一实例会死锁。
     dl_AsstDestroy(handle);
 }
 
@@ -150,9 +195,15 @@ AsstBool __stdcall WineShimAsstConnect(
     const char* address,
     const char* config)
 {
+    if (!address) {
+        return 0;
+    }
     char* unix_adb_path = translate_utf8_path(adb_path);
+    if (!unix_adb_path) {
+        return 0;
+    }
     AsstBool result = dl_AsstConnect(handle, unix_adb_path, address, config);
-    HeapFree(GetProcessHeap(), 0, unix_adb_path);
+    win32_free(unix_adb_path);
     return result;
 }
 
@@ -191,6 +242,28 @@ AsstBool __stdcall WineShimAsstBackToHome(AsstHandle handle)
     return dl_AsstBackToHome(handle);
 }
 
+// Linux 核心无 Win32 窗口绑定；保留失败存根以避免 EntryPointNotFoundException。
+AsstBool __stdcall WineShimAsstAttachWindow(
+    AsstHandle handle,
+    void* hwnd,
+    uint64_t screencap_method,
+    uint64_t mouse_method,
+    uint64_t keyboard_method)
+{
+    return 0;
+}
+
+AsstAsyncCallId __stdcall WineShimAsstAsyncAttachWindow(
+    AsstHandle handle,
+    void* hwnd,
+    uint64_t screencap_method,
+    uint64_t mouse_method,
+    uint64_t keyboard_method,
+    AsstBool block)
+{
+    return 0;
+}
+
 AsstAsyncCallId __stdcall WineShimAsstAsyncConnect(
     AsstHandle handle,
     const char* adb_path,
@@ -198,9 +271,15 @@ AsstAsyncCallId __stdcall WineShimAsstAsyncConnect(
     const char* config,
     AsstBool block)
 {
+    if (!adb_path || !address) {
+        return 0;
+    }
     char* unix_adb_path;
     if (strchr(adb_path, '/') != NULL || strchr(adb_path, '\\') != NULL) {
         unix_adb_path = translate_utf8_path(adb_path);
+        if (!unix_adb_path) {
+            return 0;
+        }
     }
     else {
         unix_adb_path = (char*)adb_path;

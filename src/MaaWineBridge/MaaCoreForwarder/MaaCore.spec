@@ -17,17 +17,19 @@
 @ stdcall AsstRunning(ptr) WineShimAsstRunning
 @ stdcall AsstConnected(ptr) WineShimAsstConnected
 @ stdcall AsstBackToHome(ptr) WineShimAsstBackToHome
+@ stdcall AsstAttachWindow(ptr ptr int64 int64 int64) WineShimAsstAttachWindow
+@ stdcall AsstAsyncAttachWindow(ptr ptr int64 int64 int64 long) WineShimAsstAsyncAttachWindow
 
 @ stdcall AsstAsyncConnect(ptr ptr ptr ptr long) WineShimAsstAsyncConnect
 @ stdcall AsstSetConnectionExtras(ptr ptr) WineShimAsstSetConnectionExtras
 @ stdcall AsstAsyncClick(ptr long long long) WineShimAsstAsyncClick
 @ stdcall AsstAsyncScreencap(ptr long) WineShimAsstAsyncScreencap
 
-@ stdcall AsstGetImage(ptr ptr long) WineShimAsstGetImage
-@ stdcall AsstGetImageBgr(ptr ptr long) WineShimAsstGetImageBgr
-@ stdcall AsstGetUUID(ptr ptr long) WineShimAsstGetUUID
-@ stdcall AsstGetTasksList(ptr ptr long) WineShimAsstGetTasksList
-@ stdcall AsstGetNullSize() WineShimAsstGetNullSize
+@ stdcall -ret64 AsstGetImage(ptr ptr int64) WineShimAsstGetImage
+@ stdcall -ret64 AsstGetImageBgr(ptr ptr int64) WineShimAsstGetImageBgr
+@ stdcall -ret64 AsstGetUUID(ptr ptr int64) WineShimAsstGetUUID
+@ stdcall -ret64 AsstGetTasksList(ptr ptr int64) WineShimAsstGetTasksList
+@ stdcall -ret64 AsstGetNullSize() WineShimAsstGetNullSize
 
 @ stdcall AsstGetVersion() WineShimAsstGetVersion
 @ stdcall AsstLog(ptr ptr) WineShimAsstLog
