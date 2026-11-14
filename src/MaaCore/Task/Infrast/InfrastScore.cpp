@@ -140,8 +140,14 @@ CombinationScore score_trade(const std::vector<const ScoreOper*>& opers, const S
                     base += 0.05;
                 }
             }
-            else if (icon == "bskill_tra_share3") { // 勤俭经营·β：吉星
+            else if (icon == "bskill_tra_share3" || icon == "bskill_tra_share5") { // 勤俭经营·β：吉星、冻河2
                 base += 0.2 * (context.level - 1);
+            }
+            else if (icon == "bskill_tra_share1" ||icon == "bskill_tra_share4") { // 冻河0、火哨
+                base += 0.15 * (context.level - 1);
+            }
+            else if (icon == "bskill_tra_share2") { // 勤俭经营·α：吉星
+                base += 0.1 * (context.level - 1);
             }
             else if (icon == "bskill_tra_spd&cost") { // 交际：古米、空爆、月见夜
                 base += 0.3;
@@ -165,10 +171,7 @@ CombinationScore score_trade(const std::vector<const ScoreOper*>& opers, const S
                     base -= 0.15;
                     storage += 6;
                 }
-            }
-            else if (icon == "bskill_tra_share2") { // 勤俭经营·α：吉星
-                base += 0.1 * (context.level - 1);
-            }
+            }            
             else if (icon == "bskill_tra_spd_bd2") { // 怅惘和声：黑键
                 base += 0.005 * context.dormitory_capacity;
                 // 迷迭香或絮雨已入驻时，补入对应的感知信息收益
@@ -328,10 +331,6 @@ CombinationScore score_trade(const std::vector<const ScoreOper*>& opers, const S
     }
 
     // 应用全局性技能效果
-
-    if (has_skill(all, "bskill_tra_share1")) { // 代为说项：火哨
-        base += (context.level - 1) * 0.15;
-    }
 
     // 拉普兰德与德克萨斯
     const bool texas = has_skill(all, "bskill_tra_texas1") || has_skill(all, "bskill_tra_texas2"); // 德克萨斯
