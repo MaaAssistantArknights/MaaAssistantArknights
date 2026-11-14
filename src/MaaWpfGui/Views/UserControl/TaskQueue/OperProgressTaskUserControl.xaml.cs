@@ -11,9 +11,21 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
+using System.Windows;
+
 namespace MaaWpfGui.Views.UserControl.TaskQueue;
 
 public partial class OperProgressTaskUserControl : System.Windows.Controls.UserControl
 {
     public OperProgressTaskUserControl() => InitializeComponent();
+
+    /// <summary>
+    /// Opens the "Read from..." dropdown when the main SplitButton area is clicked.
+    /// HandyControl only anchors the dropdown to the narrow arrow, so without this
+    /// the main button area appears dead.
+    /// </summary>
+    private void OpenImportMenu(object sender, RoutedEventArgs e)
+    {
+        ReadFromSplitButton.IsDropDownOpen = true;
+    }
 }

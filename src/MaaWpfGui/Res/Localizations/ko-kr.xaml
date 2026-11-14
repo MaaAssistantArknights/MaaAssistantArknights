@@ -2179,14 +2179,16 @@ MAA는 비설치형 응용 프로그램으로, 삭제 시 레지스트리 항목
     <system:String x:Key="TaskQueue.OperProgress.Detail">{key=TaskQueue.Task.OperProgress} {0}:{1} {2}</system:String>
     <system:String x:Key="TaskQueue.OperProgress.Elite">정예화</system:String>
     <system:String x:Key="TaskQueue.OperProgress.EliteTarget">정예화 {0}</system:String>
+    <system:String x:Key="TaskQueue.OperProgress.ImportOperBox">오퍼레이터 데이터 / 툴박스</system:String>
     <system:String x:Key="TaskQueue.OperProgress.Mastery1">마스터리 1</system:String>
     <system:String x:Key="TaskQueue.OperProgress.Mastery2">마스터리 2</system:String>
     <system:String x:Key="TaskQueue.OperProgress.Mastery3">마스터리 3</system:String>
     <system:String x:Key="TaskQueue.OperProgress.MasteryTarget">스킬 {0}, 마스터리 {1}</system:String>
     <system:String x:Key="TaskQueue.OperProgress.NotSet">---</system:String>
     <system:String x:Key="TaskQueue.OperProgress.OnlineEditor">명일방주 공구 상자에서 온라인 편집</system:String>
-    <system:String x:Key="TaskQueue.OperProgress.ParseClipboard">클립보드에서 읽기</system:String>
+    <system:String x:Key="TaskQueue.OperProgress.ParseClipboard">클립보드에서</system:String>
     <system:String x:Key="TaskQueue.OperProgress.ParseFailed">파싱 실패</system:String>
+    <system:String x:Key="TaskQueue.OperProgress.ReadFrom">가져오기...</system:String>
     <system:String x:Key="TaskQueue.OperProgress.SkillLevelTarget">스킬 레벨 {0}</system:String>
     <system:String x:Key="TaskQueue.OperProgress.SkillNumber">스킬 {0}</system:String>
     <system:String x:Key="TaskQueue.OperProgress.SkillUpgrade">스킬 레벨업</system:String>
