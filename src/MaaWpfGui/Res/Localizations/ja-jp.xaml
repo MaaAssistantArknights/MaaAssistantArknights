@@ -381,6 +381,12 @@
     <system:String x:Key="Asst.Connection.ScreencapFailed">スクリーンキャプチャに失敗しました。繰り返し発生する場合は、エミュレータの再起動または変更をお試しください！</system:String>
     <system:String x:Key="Asst.Connection.TouchModeNotAvailable">タッチモードは利用できません。｢{key=Settings.Title} - {key=Settings.Connection.Title}｣ に入って、他のタッチモードに変更してください。</system:String>
     <system:String x:Key="Asst.Connection.TryToReconnect">エミュレータが切断、再接続を行います</system:String>
+    <system:String x:Key="Asst.Copilot.AutoRestart.Enabled">自動再開を有効にしました。全 {0} 回の実行で、それぞれ最大 {1} 回再開します。</system:String>
+    <system:String x:Key="Asst.Copilot.AutoRestart.LimitReached">実行 {0}/{1}：{2}が続き、自動再開の上限（{3}/{4}）に達したため停止しました。</system:String>
+    <system:String x:Key="Asst.Copilot.AutoRestart.Reason.BattleFailed">戦闘失敗</system:String>
+    <system:String x:Key="Asst.Copilot.AutoRestart.Reason.EnemyLeak">敵の通過</system:String>
+    <system:String x:Key="Asst.Copilot.AutoRestart.Recovered">実行 {0}/{1}：自動再開に成功し、実行を続行します。</system:String>
+    <system:String x:Key="Asst.Copilot.AutoRestart.Restarting">実行 {0}/{1}：{2}を検出しました。現在のステージを自動再開します（{3}/{4}）。</system:String>
     <system:String x:Key="Asst.Copilot.BattleFormation">編成開始</system:String>
     <system:String x:Key="Asst.Copilot.BattleFormationParseFailed">フォーメーション解析に失敗しました</system:String>
     <system:String x:Key="Asst.Copilot.BattleFormationSelected" xml:space="preserve">{key=Game.Operator}を選択: </system:String>
@@ -964,6 +970,9 @@ C:\Program Files\Netease\MuMuPlayer を入力してください。
     <system:String x:Key="Copilot.AddTrust">信頼度低の{key=Game.Operator}追加</system:String>
     <system:String x:Key="Copilot.AddUserAdditional">カスタム{key=Game.Operator}追加</system:String>
     <system:String x:Key="Copilot.AddUserAdditional.Tip">横の設定ボタンをクリックして編集ウィンドウを開き、｢{key=Copilot.UserAdditional.Add}｣ をクリックして1件ずつ追加し、各列に{key=Game.Operator}名・スキル・操作を入力します</system:String>
+    <system:String x:Key="Copilot.AutoRestart">自動再開</system:String>
+    <system:String x:Key="Copilot.AutoRestartTimes">最大回数</system:String>
+    <system:String x:Key="Copilot.AutoRestartTip" xml:space="preserve">一部のイベントステージは敵を通すことを前提としている場合があります。&#10;敵を通した場合は、非★3の結果を避けるためリザルト前に戦闘を中止します。&#10;1 回の実行につき最大再開回数は1～999回に設定できます。</system:String>
     <system:String x:Key="Copilot.AutoSquad">自動編成</system:String>
     <system:String x:Key="Copilot.AutoSquad.Tip">自動編成では、一時的に ｢戦術要員｣ {key=Game.Operator}を認識できません</system:String>
     <system:String x:Key="Copilot.ClearTask" xml:space="preserve">左クリックですべてのタスクをクリア

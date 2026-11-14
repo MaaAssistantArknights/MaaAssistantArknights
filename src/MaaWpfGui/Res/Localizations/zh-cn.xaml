@@ -382,6 +382,12 @@
     <system:String x:Key="Asst.Connection.ScreencapFailed">截图失败，如反复出现请尝试重启或更换模拟器！</system:String>
     <system:String x:Key="Asst.Connection.TouchModeNotAvailable">触控模式不可用。请进入 ｢{key=Settings.Title} - {key=Settings.Connection.Title}｣ 切换其他触控模式。</system:String>
     <system:String x:Key="Asst.Connection.TryToReconnect">模拟器断开，正在尝试重连</system:String>
+    <system:String x:Key="Asst.Copilot.AutoRestart.Enabled">自动重开已启用：共 {0} 轮执行，每轮最多重开 {1} 次</system:String>
+    <system:String x:Key="Asst.Copilot.AutoRestart.LimitReached">执行 {0}/{1}：因持续{2}达到自动重开上限（{3}/{4}），已停止当前任务</system:String>
+    <system:String x:Key="Asst.Copilot.AutoRestart.Reason.BattleFailed">战斗失败</system:String>
+    <system:String x:Key="Asst.Copilot.AutoRestart.Reason.EnemyLeak">漏怪</system:String>
+    <system:String x:Key="Asst.Copilot.AutoRestart.Recovered">执行 {0}/{1}：自动重开成功，已恢复运行</system:String>
+    <system:String x:Key="Asst.Copilot.AutoRestart.Restarting">执行 {0}/{1}：检测到{2}，正在自动重开当前关卡（{3}/{4}）</system:String>
     <system:String x:Key="Asst.Copilot.BattleFormation">开始编队</system:String>
     <system:String x:Key="Asst.Copilot.BattleFormationParseFailed">编队解析失败</system:String>
     <system:String x:Key="Asst.Copilot.BattleFormationSelected" xml:space="preserve">选择{key=Game.Operator}: </system:String>
@@ -962,6 +968,9 @@ C:\Program Files\Netease\MuMuPlayer。
     <system:String x:Key="Copilot.AddTrust">补充低信赖{key=Game.Operator}</system:String>
     <system:String x:Key="Copilot.AddUserAdditional">追加自定{key=Game.Operator}</system:String>
     <system:String x:Key="Copilot.AddUserAdditional.Tip">点击旁边的设置按钮打开编辑窗口，点击 ｢{key=Copilot.UserAdditional.Add}｣ 逐条添加，按列填写{key=Game.Operator}名、技能与操作</system:String>
+    <system:String x:Key="Copilot.AutoRestart">自动重开</system:String>
+    <system:String x:Key="Copilot.AutoRestartTimes">最大次数</system:String>
+    <system:String x:Key="Copilot.AutoRestartTip" xml:space="preserve">部分活动作业可能依赖放生。&#10;漏怪后会在结算前退出，避免以非三星结果结算。&#10;每次执行最多可重开 1 至 999 次。</system:String>
     <system:String x:Key="Copilot.AutoSquad">自动编队</system:String>
     <system:String x:Key="Copilot.AutoSquad.Tip">自动编队可能无法识别带有 ｢特别关注｣ 标记的{key=Game.Operator}</system:String>
     <system:String x:Key="Copilot.ClearTask" xml:space="preserve">左键清除所有任务
