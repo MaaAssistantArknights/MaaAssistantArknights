@@ -101,6 +101,26 @@ public class AsstRecruitTask : AsstBaseTask
     public List<string> PreserveTags { get; set; } = [];
 
     /// <summary>
+    /// Gets or sets 优先选择未拥有/未满潜干员的模式。0：不启用；1：保持当前星级；2：直接优先。
+    /// </summary>
+    public int OperPriorityMode { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether 优先未拥有/未满潜时允许招募小车和 2 星干员。
+    /// </summary>
+    public bool OperPriorityAllowLowStar { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether 自动确认为小车/2 星干员选中的招募。
+    /// </summary>
+    public bool OperPriorityLowStarConfirm { get; set; }
+
+    /// <summary>
+    /// Gets or sets 干员识别数据文件路径，仅在 <see cref="OperPriorityMode"/> 非 0 时有效。
+    /// </summary>
+    public string OperBoxDataPath { get; set; } = string.Empty;
+
+    /// <summary>
     /// Gets or sets 3 星招募时间
     /// </summary>
     public int ChooseLevel3Time { get; set; }
@@ -176,6 +196,14 @@ public class AsstRecruitTask : AsstBaseTask
         if (UseExpedited)
         {
             param["expedite_times"] = ExpeditedTimes;
+        }
+
+        if (OperPriorityMode != 0)
+        {
+            param["oper_priority_mode"] = OperPriorityMode;
+            param["oper_priority_allow_low_star"] = OperPriorityAllowLowStar;
+            param["oper_priority_low_star_confirm"] = OperPriorityLowStarConfirm;
+            param["operbox_data_path"] = OperBoxDataPath;
         }
 
         if (ReportToPenguin)
