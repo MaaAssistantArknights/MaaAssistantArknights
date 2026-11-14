@@ -459,6 +459,8 @@
     <system:String x:Key="Asst.Infrast.TrainingTimeLeft">剩餘時間</system:String>
     <system:String x:Key="Asst.InitializationError">初始化錯誤！</system:String>
     <system:String x:Key="Asst.Mall.CreditFullOnlyBuyDiscount">博士！\n只購買折扣商品讓信用點數溢出了！\n小心信用點數浪費哦！\n剩餘信用點數：</system:String>
+    <system:String x:Key="Asst.Mall.MonthlyCardExpiring.Content">月卡剩餘 {0} 天，記得及時續費</system:String>
+    <system:String x:Key="Asst.Mall.MonthlyCardExpiring.Title">月卡即將到期</system:String>
     <system:String x:Key="Asst.Reclamation.AlgorithmBadge">繁榮證章</system:String>
     <system:String x:Key="Asst.Reclamation.AlgorithmConstructionPoint">建造點數</system:String>
     <system:String x:Key="Asst.Reclamation.AlgorithmDoneSmeltGold">鍛造赤金</system:String>
@@ -1416,6 +1418,13 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
     <system:String x:Key="Mall.ForceShoppingIfCreditFull">信用溢出時無視黑名單</system:String>
     <system:String x:Key="Mall.HighPriority">優先購買（子字串即可，分號分隔）</system:String>
     <system:String x:Key="Mall.HighPriorityDefault">招聘許可</system:String>
+    <system:String x:Key="Mall.MonthlyCardRemind">月卡到期提醒</system:String>
+    <system:String x:Key="Mall.MonthlyCardRemind.Tip">執行信用購物任務時順路進入採購中心組合包頁識別月卡剩餘天數，臨近到期時彈通知提醒（進入提醒窗口後每天檢查並提醒一次，其餘時間自動跳過檢查）。僅簡體中文客戶端（官服/B服）生效</system:String>
+    <system:String x:Key="Mall.MonthlyCardRemindDays.Label">剩餘天數不高於</system:String>
+    <system:String x:Key="Mall.MonthlyCardRemindDays.Option1">1 天</system:String>
+    <system:String x:Key="Mall.MonthlyCardRemindDays.Option3">3 天</system:String>
+    <system:String x:Key="Mall.MonthlyCardRemindDays.Option5">5 天</system:String>
+    <system:String x:Key="Mall.MonthlyCardRemindDays.Option7">7 天</system:String>
     <system:String x:Key="Mall.OnlyBuyDiscount">只購買打折的信用商品</system:String>
     <system:String x:Key="Mall.OnlyBuyDiscount.Tip">⚠ 可能會導致信用點數溢出！仍然會購買未打折的商品！</system:String>
     <system:String x:Key="Mall.OnlyOnceADay">一日只執行一次</system:String>

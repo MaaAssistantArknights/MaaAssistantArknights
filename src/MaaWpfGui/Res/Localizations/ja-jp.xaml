@@ -459,6 +459,8 @@
     <system:String x:Key="Asst.Infrast.TrainingTimeLeft">残り時間</system:String>
     <system:String x:Key="Asst.InitializationError">初期化エラー！</system:String>
     <system:String x:Key="Asst.Mall.CreditFullOnlyBuyDiscount">ドクター！ \n割引アイテムのみの購入がFPのオーバーフローを引き起こしました！ \nFPの浪費に注意してください！ \n残りのFP：</system:String>
+    <system:String x:Key="Asst.Mall.MonthlyCardExpiring.Content">月パスの残り日数は {0} 日です。更新をお忘れなく</system:String>
+    <system:String x:Key="Asst.Mall.MonthlyCardExpiring.Title">月パスの期限が近づいています</system:String>
     <system:String x:Key="Asst.Reclamation.AlgorithmBadge">繁栄のバッジ</system:String>
     <system:String x:Key="Asst.Reclamation.AlgorithmConstructionPoint">ビルドポイント</system:String>
     <system:String x:Key="Asst.Reclamation.AlgorithmDoneSmeltGold">鍛造レッドゴールド</system:String>
@@ -1418,6 +1420,13 @@ DEBUGディレクトリに保存される画像には数量制限があり、超
     <system:String x:Key="Mall.ForceShoppingIfCreditFull">FPがあふれた際はブラックリストを無視する</system:String>
     <system:String x:Key="Mall.HighPriority">優先購入（セミコロンで区切）</system:String>
     <system:String x:Key="Mall.HighPriorityDefault">求人票</system:String>
+    <system:String x:Key="Mall.MonthlyCardRemind">月パス期限リマインダー</system:String>
+    <system:String x:Key="Mall.MonthlyCardRemind.Tip">クレジット購入タスク実行時に購買センターのパックページで月パスの残り日数を確認し、期限が近づいたら通知します（リマインド期間中は毎日1回チェック・通知し、それ以外は自動スキップ）。簡体字クライアント（公式/B服）のみ有効</system:String>
+    <system:String x:Key="Mall.MonthlyCardRemindDays.Label">残り日数が以下なら通知</system:String>
+    <system:String x:Key="Mall.MonthlyCardRemindDays.Option1">1 日</system:String>
+    <system:String x:Key="Mall.MonthlyCardRemindDays.Option3">3 日</system:String>
+    <system:String x:Key="Mall.MonthlyCardRemindDays.Option5">5 日</system:String>
+    <system:String x:Key="Mall.MonthlyCardRemindDays.Option7">7 日</system:String>
     <system:String x:Key="Mall.OnlyBuyDiscount">割引されたFPアイテムのみ購入します</system:String>
     <system:String x:Key="Mall.OnlyBuyDiscount.Tip">⚠ 注意: FPのオーバーフローのリスクがあります！ホワイトリストに登録されたアイテムは通常価格で購入される可能性があります！</system:String>
     <system:String x:Key="Mall.OnlyOnceADay">一日一回だけ</system:String>

@@ -459,6 +459,8 @@
     <system:String x:Key="Asst.Infrast.TrainingTimeLeft">Remaining Time</system:String>
     <system:String x:Key="Asst.InitializationError">Initialization error!</system:String>
     <system:String x:Key="Asst.Mall.CreditFullOnlyBuyDiscount">Doctor! \nPurchasing only discounted items has caused an overflow in credits! \nBe cautious of wasting credits!\nRemaining credits:&#160;</system:String>
+    <system:String x:Key="Asst.Mall.MonthlyCardExpiring.Content">Monthly card has {0} day(s) left. Remember to renew it.</system:String>
+    <system:String x:Key="Asst.Mall.MonthlyCardExpiring.Title">Monthly card expiring</system:String>
     <system:String x:Key="Asst.Reclamation.AlgorithmBadge">Algorithm Badge</system:String>
     <system:String x:Key="Asst.Reclamation.AlgorithmConstructionPoint">Algorithm Construction Point</system:String>
     <system:String x:Key="Asst.Reclamation.AlgorithmDoneSmeltGold">Forging Red Gold</system:String>
@@ -1415,6 +1417,13 @@ Please do not check it when the stage OF-1 is not unlocked.</system:String>
     <system:String x:Key="Mall.ForceShoppingIfCreditFull">Ignore blacklist if credits overflow</system:String>
     <system:String x:Key="Mall.HighPriority">Whitelist (split by semicolon)</system:String>
     <system:String x:Key="Mall.HighPriorityDefault">Recruitment Permit</system:String>
+    <system:String x:Key="Mall.MonthlyCardRemind">Monthly card expiry reminder</system:String>
+    <system:String x:Key="Mall.MonthlyCardRemind.Tip">Checks monthly card days left on the store bundles page when the credit shopping task runs and notifies when close to expiry (once a day once inside the reminder window; checks are skipped otherwise). Simplified-Chinese clients (Official/Bilibili) only</system:String>
+    <system:String x:Key="Mall.MonthlyCardRemindDays.Label">Remind when days left is no more than</system:String>
+    <system:String x:Key="Mall.MonthlyCardRemindDays.Option1">1 day</system:String>
+    <system:String x:Key="Mall.MonthlyCardRemindDays.Option3">3 days</system:String>
+    <system:String x:Key="Mall.MonthlyCardRemindDays.Option5">5 days</system:String>
+    <system:String x:Key="Mall.MonthlyCardRemindDays.Option7">7 days</system:String>
     <system:String x:Key="Mall.OnlyBuyDiscount">Only purchase discounted credit items</system:String>
     <system:String x:Key="Mall.OnlyBuyDiscount.Tip">⚠ Caution: Risk of credits overflow! Purchases of whitelisted items at regular prices will still occur!</system:String>
     <system:String x:Key="Mall.OnlyOnceADay">Only once a day</system:String>

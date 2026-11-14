@@ -24,5 +24,6 @@ private:
     std::shared_ptr<CreditShoppingTask> m_shopping_first_task_ptr = nullptr;
     std::shared_ptr<CreditShoppingTask> m_shopping_task_ptr = nullptr;
     std::shared_ptr<CreditShoppingTask> m_shopping_force_task_ptr = nullptr;
+    std::shared_ptr<ProcessTask> m_monthly_card_task_ptr = nullptr;
 };
 }

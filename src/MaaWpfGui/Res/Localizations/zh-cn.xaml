@@ -460,6 +460,8 @@
     <system:String x:Key="Asst.Infrast.TrainingTimeLeft">剩余时间</system:String>
     <system:String x:Key="Asst.InitializationError">初始化错误！</system:String>
     <system:String x:Key="Asst.Mall.CreditFullOnlyBuyDiscount">博士！ \n只购买折扣商品让信用点数溢出了！\n小心信用点数浪费哦！\n剩余信用点数：</system:String>
+    <system:String x:Key="Asst.Mall.MonthlyCardExpiring.Content">月卡剩余 {0} 天，记得及时续费</system:String>
+    <system:String x:Key="Asst.Mall.MonthlyCardExpiring.Title">月卡即将到期</system:String>
     <system:String x:Key="Asst.Reclamation.AlgorithmBadge">繁荣证章</system:String>
     <system:String x:Key="Asst.Reclamation.AlgorithmConstructionPoint">建造点数</system:String>
     <system:String x:Key="Asst.Reclamation.AlgorithmDoneSmeltGold">锻造赤金</system:String>
@@ -1416,6 +1418,13 @@ DEBUG 目录下保存的图片有数量限制，超出后会自动清理旧图�
     <system:String x:Key="Mall.ForceShoppingIfCreditFull">信用溢出时无视黑名单</system:String>
     <system:String x:Key="Mall.HighPriority">优先购买 子串即可 分号分隔</system:String>
     <system:String x:Key="Mall.HighPriorityDefault">招聘许可</system:String>
+    <system:String x:Key="Mall.MonthlyCardRemind">月卡到期提醒</system:String>
+    <system:String x:Key="Mall.MonthlyCardRemind.Tip">运行信用购物任务时顺路进入采购中心组合包页识别月卡剩余天数，临近到期时弹通知提醒（进入提醒窗口后每天检查并提醒一次，其余时间自动跳过检查）。仅简中客户端（官服/B服）生效</system:String>
+    <system:String x:Key="Mall.MonthlyCardRemindDays.Label">剩余天数不高于</system:String>
+    <system:String x:Key="Mall.MonthlyCardRemindDays.Option1">1 天</system:String>
+    <system:String x:Key="Mall.MonthlyCardRemindDays.Option3">3 天</system:String>
+    <system:String x:Key="Mall.MonthlyCardRemindDays.Option5">5 天</system:String>
+    <system:String x:Key="Mall.MonthlyCardRemindDays.Option7">7 天</system:String>
     <system:String x:Key="Mall.OnlyBuyDiscount">只购买打折的信用商品</system:String>
     <system:String x:Key="Mall.OnlyBuyDiscount.Tip">⚠ 注意：可能会导致信用点数溢出！仍然会购买未打折的白名单物品！</system:String>
     <system:String x:Key="Mall.OnlyOnceADay">一日只执行一次</system:String>
