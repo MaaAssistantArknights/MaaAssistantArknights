@@ -93,13 +93,10 @@ jobs:
     if: github.repository_owner == 'MaaAssistantArknights'
     runs-on: ubuntu-latest
     steps:
-      - name: Clone arknights-toolbox-update for Taiwan
-        uses: actions/checkout@v7
-        with:
-          show-progress: false
-          repository: arkntools/arknights-data-tw-for-maa
-          ref: main
-          path: ./excel
+      # actions/checkout only supports GitHub repositories; the Taiwan data repo lives on GitLab
+      - name: Clone arknights-data-tw for Taiwan
+        run: |
+          git clone --depth 1 -b main https://gitlab.com/arkntools/arknights-data-tw.git ./excel
 
       - name: Download stages.json from Penguin Stats
         run: |

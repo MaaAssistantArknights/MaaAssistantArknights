@@ -75,11 +75,11 @@ pids+=($!)
 
 # Clone and checkout the Taiwan repository
 {
-    echo -e "\narknights-toolbox-update - Taiwan"
+    echo -e "\narknights-data-tw - Taiwan"
     mkdir -p Overseas/tw/gamedata/excel
     cd Overseas/tw/gamedata/excel
     git clone --filter=blob:none --no-checkout --depth 1 -b main \
-        "https://github.com/arkntools/arknights-data-tw-for-maa" .
+        "https://gitlab.com/arkntools/arknights-data-tw" .
     git checkout
 } &
 pids+=($!)

@@ -65,9 +65,9 @@ $jobs += Start-Job -ScriptBlock {
 
 # Job for cloning and checking out the Taiwan repository
 $jobs += Start-Job -ScriptBlock {
-    Write-Host "`narknights-toolbox-update - Taiwan"
+    Write-Host "`narknights-data-tw - Taiwan"
     git clone --filter=blob:none --no-checkout --depth 1 -b main `
-        "https://github.com/arkntools/arknights-data-tw-for-maa" Overseas/tw/gamedata/excel
+        "https://gitlab.com/arkntools/arknights-data-tw" Overseas/tw/gamedata/excel
     Set-Location Overseas/tw/gamedata/excel
     git checkout
     Set-Location ..
