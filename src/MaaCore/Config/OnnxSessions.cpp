@@ -252,8 +252,7 @@ Ort::Session& asst::OnnxSessions::get_or_create(const std::string& name)
     }
 
     LogInfo << __FUNCTION__ << "lazy load" << name;
-    if (npu_unavailable() && gpu_enabled && m_gpu_selector &&
-        m_gpu_selector->backend() == InferenceBackend::OpenVINO &&
+    if (npu_unavailable() && gpu_enabled && m_gpu_selector && m_gpu_selector->backend() == InferenceBackend::OpenVINO &&
         m_gpu_selector->openvino_device() == OpenVINODevice::NPU) {
         LogError << __FUNCTION__ << "| NPU disabled after a driver stall; switching ONNX sessions to CPU";
         fallback_to_cpu_locked(name);

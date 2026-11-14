@@ -121,7 +121,7 @@ private:
     std::unordered_map<std::string, std::filesystem::path> m_model_paths;
     std::unordered_map<std::string, std::size_t> m_session_users;
     std::unordered_set<std::string> m_pending_reload; // 持有期间路径变化、待归零后销毁的会话
-    std::unordered_set<std::string> m_npu_sessions; // 创建于 OpenVINO NPU 的会话名
+    std::unordered_set<std::string> m_npu_sessions;   // 创建于 OpenVINO NPU 的会话名
     // 已移出缓存但调用方仍持有引用的会话；同名会话归零释放时一并销毁。
     std::unordered_multimap<std::string, std::shared_ptr<Ort::Session>> m_retired_sessions;
     std::optional<GpuDeviceSelector> m_gpu_selector;
