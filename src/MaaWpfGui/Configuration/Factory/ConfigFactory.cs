@@ -346,6 +346,8 @@ public static class ConfigFactory
         });
     }
 
+    internal static bool SaveNow() => Save();
+
     private static bool Save(string? file = null, Root? root = null)
     {
         if (Main.Bootstrapper.IsDemoMode)
