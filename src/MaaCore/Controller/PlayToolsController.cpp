@@ -59,16 +59,6 @@ const std::string& asst::PlayToolsController::get_uuid() const
     return uuid;
 }
 
-size_t asst::PlayToolsController::get_pipe_data_size() const noexcept
-{
-    return size_t();
-}
-
-size_t asst::PlayToolsController::get_version() const noexcept
-{
-    return size_t();
-}
-
 bool asst::PlayToolsController::screencap(cv::Mat& image_payload, bool allow_reconnect)
 {
     LogTraceFunction;

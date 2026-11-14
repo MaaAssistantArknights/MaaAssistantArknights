@@ -47,10 +47,6 @@ public:
 
     virtual const std::string& get_uuid() const = 0;
 
-    virtual size_t get_pipe_data_size() const noexcept = 0;
-
-    virtual size_t get_version() const noexcept = 0;
-
     virtual bool screencap(cv::Mat& image_payload, bool allow_reconnect = false) = 0;
 
     // 预览只需要画面，不需要识别前的输入操作；无此区别的控制器沿用普通截图。
