@@ -200,6 +200,7 @@ bool update_battle_chars_info(
     const fs::path& overseas_dir,
     const fs::path& output_dir,
     const fs::path& avatar_dir = fs::path());
+bool update_oper_progress_data(const fs::path& input_dir, const fs::path& output_dir);
 bool update_oper_avatars(const fs::path& avatar_dir, const std::set<std::string>& oper_ids, const fs::path& output_dir);
 bool update_oper_avatars_from_battle_data(const fs::path& input_dir, const fs::path& output_dir);
 bool update_recruitment_data(const fs::path& input_dir, const fs::path& output, bool is_base);
@@ -353,6 +354,13 @@ bool run_parallel_tasks(
         }
         else {
             std::cout << ">Done battle chars" << '\n';
+        }
+        if (!update_oper_progress_data(official_data_dir / "gamedata" / "excel", resource_dir)) {
+            std::cerr << "update_oper_progress_data failed" << '\n';
+            error_occurred.store(true);
+        }
+        else {
+            std::cout << ">Done oper_progress.json" << '\n';
         }
     });
 
@@ -1658,6 +1666,66 @@ bool update_battle_chars_info(
     ofs << result.format() << '\n';
     ofs.close();
 
+    return true;
+}
+
+bool update_oper_progress_data(const fs::path& input_dir, const fs::path& output_dir)
+{
+    auto chars_opt = json::open(input_dir / "character_table.json");
+    auto patch_opt = json::open(input_dir / "char_patch_table.json");
+    auto const_opt = json::open(input_dir / "gamedata_const.json");
+    if (!chars_opt || !patch_opt || !const_opt) {
+        return false;
+    }
+
+    auto& chars = chars_opt->as_object();
+    // 升变形态与本体共用精英化和技能等级，专精材料则各自独立。
+    for (const auto& [id, data] : (*patch_opt)["patchChars"].as_object()) {
+        chars.emplace(id, data);
+    }
+    const auto materials = [](const json::array& costs) {
+        json::object result;
+        for (const auto& cost : costs) {
+            const auto& id = cost.at("id").as_string();
+            result[id] = result.get(id, 0) + cost.at("count").as_integer();
+        }
+        return result;
+    };
+    json::value result = json::object();
+    for (const auto& [id, data] : chars) {
+        if (!is_playable_oper_profession(data.get("profession", std::string()))) {
+            continue;
+        }
+        const int rarity_index = data.at("rarity").as_integer();
+        json::array elite;
+        const auto& phases = data.at("phases").as_array();
+        for (size_t i = 1; i < phases.size(); ++i) {
+            auto cost = materials(phases[i].at("evolveCost").as_array());
+            const int gold = (*const_opt)["evolveGoldCost"][rarity_index][i - 1].as_integer();
+            if (gold > 0) {
+                cost["4001"] = gold;
+            }
+            elite.emplace_back(std::move(cost));
+        }
+        json::array skill;
+        for (const auto& level : data.at("allSkillLvlup").as_array()) {
+            skill.emplace_back(materials(level.at("lvlUpCost").as_array()));
+        }
+        json::array mastery;
+        for (const auto& skill_data : data.at("skills").as_array()) {
+            json::array levels;
+            for (const auto& level : skill_data.at("levelUpCostCond").as_array()) {
+                levels.emplace_back(materials(level.at("levelUpCost").as_array()));
+            }
+            mastery.emplace_back(std::move(levels));
+        }
+        result[id] = json::object { { "elite", std::move(elite) },
+                                    { "skill", std::move(skill) },
+                                    { "mastery", std::move(mastery) } };
+    }
+    std::ofstream ofs(output_dir / "oper_progress.json", std::ios::out);
+    ofs << result.format() << '\n';
+    ofs.close();
     return true;
 }
 

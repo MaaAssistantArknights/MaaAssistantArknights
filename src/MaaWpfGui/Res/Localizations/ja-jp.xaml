@@ -2180,10 +2180,19 @@ MAA は非インストール型のアプリケーションであり、レジス�
     <system:String x:Key="TaskQueue.OperProgress.Detail">{key=TaskQueue.Task.OperProgress} {0}:{1} {2}</system:String>
     <system:String x:Key="TaskQueue.OperProgress.Elite">昇進段階</system:String>
     <system:String x:Key="TaskQueue.OperProgress.EliteTarget">昇進段階 {0}</system:String>
+    <system:String x:Key="TaskQueue.OperProgress.LevelRange" xml:space="preserve"> {0}→{1}</system:String>
     <system:String x:Key="TaskQueue.OperProgress.Mastery1">特化 1</system:String>
     <system:String x:Key="TaskQueue.OperProgress.Mastery2">特化 2</system:String>
     <system:String x:Key="TaskQueue.OperProgress.Mastery3">特化 3</system:String>
+    <system:String x:Key="TaskQueue.OperProgress.MasteryStep">スキル {0} 特化</system:String>
     <system:String x:Key="TaskQueue.OperProgress.MasteryTarget">スキル {0} 特化 {1}</system:String>
+    <system:String x:Key="TaskQueue.OperProgress.MaterialDemandSummary" xml:space="preserve">今回必要な素材（倉庫データなし）：&#10;{0}</system:String>
+    <system:String x:Key="TaskQueue.OperProgress.MaterialDetail">{0}：在庫 {1}、必要数 {2}</system:String>
+    <system:String x:Key="TaskQueue.OperProgress.MaterialInventoryOutdated">育成時に素材不足が発生しましたが、倉庫の記録では足りています。記録が古い可能性があるため、倉庫を再認識してください。</system:String>
+    <system:String x:Key="TaskQueue.OperProgress.MaterialRequired">{0}：必要数合計 {1}</system:String>
+    <system:String x:Key="TaskQueue.OperProgress.MaterialSummary" xml:space="preserve">今回不足した素材：&#10;{0}</system:String>
+    <system:String x:Key="TaskQueue.OperProgress.MaterialSummaryItem">{0}：あと {1}（必要数合計 {2}、在庫 {3}）</system:String>
+    <system:String x:Key="TaskQueue.OperProgress.MaterialSummaryWithSyncTime" xml:space="preserve">今回不足した素材（倉庫更新日時 {0}）：&#10;{1}</system:String>
     <system:String x:Key="TaskQueue.OperProgress.NotSet">---</system:String>
     <system:String x:Key="TaskQueue.OperProgress.OnlineEditor">アークナイツツールボックスでオンライン編集</system:String>
     <system:String x:Key="TaskQueue.OperProgress.ParseClipboard">クリップボードから読み取り</system:String>

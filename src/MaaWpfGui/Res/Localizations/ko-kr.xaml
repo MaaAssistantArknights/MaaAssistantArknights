@@ -2179,10 +2179,19 @@ MAA는 비설치형 응용 프로그램으로, 삭제 시 레지스트리 항목
     <system:String x:Key="TaskQueue.OperProgress.Detail">{key=TaskQueue.Task.OperProgress} {0}:{1} {2}</system:String>
     <system:String x:Key="TaskQueue.OperProgress.Elite">정예화</system:String>
     <system:String x:Key="TaskQueue.OperProgress.EliteTarget">정예화 {0}</system:String>
+    <system:String x:Key="TaskQueue.OperProgress.LevelRange" xml:space="preserve"> {0}→{1}</system:String>
     <system:String x:Key="TaskQueue.OperProgress.Mastery1">마스터리 1</system:String>
     <system:String x:Key="TaskQueue.OperProgress.Mastery2">마스터리 2</system:String>
     <system:String x:Key="TaskQueue.OperProgress.Mastery3">마스터리 3</system:String>
+    <system:String x:Key="TaskQueue.OperProgress.MasteryStep">스킬 {0} 마스터리</system:String>
     <system:String x:Key="TaskQueue.OperProgress.MasteryTarget">스킬 {0}, 마스터리 {1}</system:String>
+    <system:String x:Key="TaskQueue.OperProgress.MaterialDemandSummary" xml:space="preserve">이번 실행에 필요한 재료 (창고 데이터 없음):&#10;{0}</system:String>
+    <system:String x:Key="TaskQueue.OperProgress.MaterialDetail">{0}: 재고 {1}, 필요 {2}</system:String>
+    <system:String x:Key="TaskQueue.OperProgress.MaterialInventoryOutdated">육성 중 재료 부족이 발생했지만 창고 기록에는 재고가 충분합니다. 기록이 오래되었을 수 있으니 창고를 다시 인식해 주세요.</system:String>
+    <system:String x:Key="TaskQueue.OperProgress.MaterialRequired">{0}: 총 필요량 {1}</system:String>
+    <system:String x:Key="TaskQueue.OperProgress.MaterialSummary" xml:space="preserve">이번 실행의 부족한 재료:&#10;{0}</system:String>
+    <system:String x:Key="TaskQueue.OperProgress.MaterialSummaryItem">{0}: 추가로 {1} 필요 (총 필요량 {2}, 재고 {3})</system:String>
+    <system:String x:Key="TaskQueue.OperProgress.MaterialSummaryWithSyncTime" xml:space="preserve">이번 실행의 부족한 재료 (창고 갱신: {0}):&#10;{1}</system:String>
     <system:String x:Key="TaskQueue.OperProgress.NotSet">---</system:String>
     <system:String x:Key="TaskQueue.OperProgress.OnlineEditor">명일방주 공구 상자에서 온라인 편집</system:String>
     <system:String x:Key="TaskQueue.OperProgress.ParseClipboard">클립보드에서 읽기</system:String>
