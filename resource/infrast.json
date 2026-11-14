@@ -4689,19 +4689,19 @@
             },
             "bskill_tra_share4": {
                 "desc": ["进驻贸易站时，贸易站内除自身以外每名处于工作状态的干员+15%订单获取效率"],
-                "name": ["“无用的人脉”"],
                 "efficient": {
                     "all": 30
                 },
+                "name": ["“无用的人脉”"],
                 "operatorIds": ["char_4244_tocka"],
                 "template": "Bskill_tra_share4.png"
             },
             "bskill_tra_share5": {
                 "desc": ["进驻贸易站时，贸易站内除自身以外每名处于工作状态的干员+20%订单获取效率"],
-                "name": ["“真有用？”"],
                 "efficient": {
                     "all": 40
                 },
+                "name": ["“真有用？”"],
                 "operatorIds": ["char_4244_tocka"],
                 "template": "Bskill_tra_share5.png"
             },
