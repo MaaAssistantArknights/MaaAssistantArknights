@@ -1258,12 +1258,14 @@ DEBUG 디렉토리에 저장된 이미지는 수량 제한이 있으며 초과 �
     <system:String x:Key="Game.Role.Support">서포터</system:String>
     <system:String x:Key="Game.Role.Tank">디펜더</system:String>
     <system:String x:Key="Game.Role.Warrior">가드</system:String>
+    <system:String x:Key="Guide.Agreement.Confirm">내용을 확인하고 동의합니다</system:String>
     <system:String x:Key="Guide.Agreement.Link">이용약관</system:String>
     <system:String x:Key="Guide.Agreement.Prefix">MAA를 사용하면 다음에 동의하는 것으로 간주됩니다:</system:String>
     <system:String x:Key="Guide.Agreement.Tip">｢{key=Guide.Agreement.Link}｣을 클릭하여 전체 약관을 확인한 후 다음 단계로 진행하세요</system:String>
     <system:String x:Key="Guide.Clarification" xml:space="preserve">ADB가 활성화되어 있는지 확인하세요:
 • BlueStacks: 설정 → 고급 기능 설정 → ADB → 활성화
 • LDPlayer: 설정 → 기타 → ADB 디버깅 → 로컬 디버깅</system:String>
+    <system:String x:Key="Guide.ClickHere">여기를 클릭</system:String>
     <system:String x:Key="Guide.Demo.BlockedOperation">이 조작은 가이드 흐름에 포함되지 않습니다. 현재 단계를 따라 주세요</system:String>
     <system:String x:Key="Guide.Demo.Gate.AddFight">｢{key=TaskQueue.AddTask}｣ 로 ｢{key=TaskQueue.Task.Fight}｣ 작업을 추가하세요</system:String>
     <system:String x:Key="Guide.Demo.Gate.AddNightTheme">｢{key=TaskQueue.Task.SwitchTheme}｣ 작업의 톱니바퀴 아이콘을 클릭하고 ｢{key=TaskQueue.SwitchTheme.Add}｣ 로 ｢{key=Guide.Demo.NightTheme}｣ 테마를 추가하세요</system:String>
@@ -1276,33 +1278,42 @@ DEBUG 디렉토리에 저장된 이미지는 수량 제한이 있으며 초과 �
     <system:String x:Key="Guide.Demo.Gate.RestoreFight">목록에 ｢{key=TaskQueue.Task.Fight}｣ 작업이 필요합니다. ｢{key=TaskQueue.AddTask}｣ 로 다시 추가하세요</system:String>
     <system:String x:Key="Guide.Demo.Gate.RestoreStartUp">목록에 ｢{key=TaskQueue.Task.StartUp}｣ 작업이 필요합니다. ｢{key=TaskQueue.AddTask}｣ 로 다시 추가하세요</system:String>
     <system:String x:Key="Guide.Demo.Gate.SelectStage">｢{key=TaskQueue.Task.Fight}｣ 작업의 톱니바퀴 아이콘을 클릭하고 스테이지를 ｢{key=TaskQueue.Annihilation.Current}｣ 로 선택하세요</system:String>
+    <system:String x:Key="Guide.Demo.LockedOperations">｢복사｣ ｢삭제｣ 는 가이드에서 사용할 수 없습니다</system:String>
     <system:String x:Key="Guide.Demo.NightTheme">야간</system:String>
+    <system:String x:Key="Guide.Demo.Overview">이 화면에서는 데모 데이터로 작업 큐의 기본 조작을 연습합니다: 작업 추가, 스테이지 변경, 이름 변경, 드래그로 순서 변경, 주간 스케줄, 테마. 변경 사항은 데모에만 남고 실제 작업 큐에는 영향을 주지 않습니다.</system:String>
     <system:String x:Key="Guide.Demo.SettingsPlaceholder">위의 안내에 따라 진행해 주세요. 이 작업의 설정에는 데모 콘텐츠가 없습니다</system:String>
     <system:String x:Key="Guide.Demo.Start">데모에서는 실제로 작업이 실행되지 않습니다</system:String>
-    <system:String x:Key="Guide.Demo.TaskAddLimit.Tip">데모 목록에는 최대 5개의 작업만 추가할 수 있습니다. 추가 전에 일부를 삭제해 주세요</system:String>
+    <system:String x:Key="Guide.Demo.TaskAddLimit.Tip">데모 목록에는 최대 5개의 작업만 추가할 수 있습니다. 더 이상 추가할 수 없습니다</system:String>
     <system:String x:Key="Guide.Documentation.Path">"{key=Settings.Title} - {key=Settings.About.Title} - {key=About.Website}"에서 MAA의 공식 웹사이트와 전체 문서를 찾을 수 있습니다.</system:String>
     <system:String x:Key="Guide.Documentation.Title">📖 공식 웹사이트 및 문서</system:String>
     <system:String x:Key="Guide.Done">완료</system:String>
+    <system:String x:Key="Guide.Done.Tip">설정 가이드가 완료되었습니다. 나중에 "{key=Settings.Title} - {key=Settings.Ui.Title} - {key=Guide.Title}"에서 {key=Guide.Restart} 기능을 사용할 수 있습니다.</system:String>
+    <system:String x:Key="Guide.Game.ClientType.Tip">플레이하는 클라이언트 버전을 선택하세요. 잘 모르겠다면 기본값을 유지하면 되고, 나중에 "{key=Settings.Title} - {key=Settings.Game.Title}"에서 변경할 수 있습니다.</system:String>
     <system:String x:Key="Guide.GearContextMenu.Tip">톱니바퀴 아이콘을 우클릭하면 더 많은 작업 ↓</system:String>
     <system:String x:Key="Guide.GenerateReport">"{key=Settings.Title} - {key=Settings.IssueReport.Title} - {key=Error.GenerateSupportPayload}"를 사용하여 오류 보고서를 생성하고 파란색 "{key=Error.Issue}" 링크를 클릭하여 피드백을 제출하세요.</system:String>
     <system:String x:Key="Guide.GitHubIssue.Description">MAA Team은 Issue 템플릿 사양에 따라 GitHub 플랫폼을 통해 사용자가 제출한 피드백만 수락하며, 모든 피드백에 대한 처리 결정권을 보유합니다.</system:String>
     <system:String x:Key="Guide.GitHubIssue.Title">⚠️ 피드백 가이드라인</system:String>
-    <system:String x:Key="Guide.HoverActionButtons">작업에 마우스를 올리면 복사/이름 변경/삭제</system:String>
+    <system:String x:Key="Guide.HoverActionButtons">작업에 마우스를 올리면 이름 변경 버튼이 표시됩니다</system:String>
     <system:String x:Key="Guide.IssueReport.Subtitle">🔧 문제가 발생한 경우</system:String>
     <system:String x:Key="Guide.LinkStart">← 연결 및 동작 시작</system:String>
     <system:String x:Key="Guide.Next">다음 단계</system:String>
     <system:String x:Key="Guide.OpenSource.Description">오픈소스 프로젝트로서 사용자는 AGPL-3.0 라이선스에 따라 GitHub 플랫폼에서 MAA 개발에 참여할 수 있습니다. MAA Team은 문제 보고 대신 더 가치 있는 코드 기여를 권장합니다.</system:String>
     <system:String x:Key="Guide.OpenSource.Title">💡 오픈소스 참여</system:String>
     <system:String x:Key="Guide.Prev">이전 단계</system:String>
+    <system:String x:Key="Guide.Progress">단계</system:String>
     <system:String x:Key="Guide.Restart">설정 가이드 다시 보기</system:String>
     <system:String x:Key="Guide.RestartPrompt">설정 가이드는 기본 인터페이스에 표시됩니다. 지금 애플리케이션을 다시 시작하시겠습니까?</system:String>
     <system:String x:Key="Guide.Settings">설정 가이드</system:String>
     <system:String x:Key="Guide.Skip">건너뛰기</system:String>
     <system:String x:Key="Guide.SkipPrompt" xml:space="preserve">{key=TaskQueue.TaskSettings} 등 남은 단계에서 주요 작업 방법을 안내합니다. 끝까지 진행하는 것을 권장합니다. 건너뛰시겠습니까?&#10;나중에 "{key=Settings.Title} - {key=Settings.Ui.Title} - {key=Guide.Title}"에서 {key=Guide.Restart} 기능을 사용할 수 있습니다.</system:String>
+    <system:String x:Key="Guide.StepBar.Tip">단계 제목을 클릭하면 해당 단계로 바로 이동합니다</system:String>
     <system:String x:Key="Guide.Tip">?에 마우스를 올리면 설명이 보입니다</system:String>
     <system:String x:Key="Guide.Title">조작 및 가이드</system:String>
+    <system:String x:Key="Guide.Update.Tip">MAA가 새 버전을 받아오는 방식을 정합니다. 잘 모르겠다면 기본값을 유지하면 되고, 나중에 "{key=Settings.Title} - {key=Settings.Update.Title}"에서 변경할 수 있습니다.</system:String>
     <system:String x:Key="Guide.User">사용 가이드</system:String>
     <system:String x:Key="Guide.ViewLog">"{key=Settings.Title} - {key=Settings.IssueReport.Title} - {key=Error.OpenDebugFolder}"로 이동하여 로그를 확인하고 오류의 구체적인 원인을 파악할 수 있습니다.</system:String>
+    <system:String x:Key="Guide.Welcome.Tip">다음 몇 단계에서 기본 설정을 진행합니다. 모두 데모이며 작업은 실제로 실행되지 않고, "{key=Guide.Agreement.Link}" 을 확인한 뒤에는 언제든지 건너뛸 수 있습니다.</system:String>
+    <system:String x:Key="Guide.Welcome.Title">MAA에 오신 것을 환영합니다</system:String>
     <system:String x:Key="InferenceBackend">추론 백엔드</system:String>
     <system:String x:Key="InferenceBackendAuto">자동 (권장)</system:String>
     <system:String x:Key="InferenceBackendDirectML">DirectML</system:String>

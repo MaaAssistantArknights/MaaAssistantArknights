@@ -1258,12 +1258,14 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
     <system:String x:Key="Game.Role.Support">輔助</system:String>
     <system:String x:Key="Game.Role.Tank">重裝</system:String>
     <system:String x:Key="Game.Role.Warrior">近衛</system:String>
+    <system:String x:Key="Guide.Agreement.Confirm">我已閱讀並同意</system:String>
     <system:String x:Key="Guide.Agreement.Link">使用者協議</system:String>
     <system:String x:Key="Guide.Agreement.Prefix">使用 MAA 即表示您同意遵守</system:String>
     <system:String x:Key="Guide.Agreement.Tip">請先閱讀並點擊 ｢{key=Guide.Agreement.Link}｣ 查看完整協議內容，再進入下一步</system:String>
     <system:String x:Key="Guide.Clarification" xml:space="preserve">請確保 ADB 已啟用：
 • BlueStacks：設定 → 進階 → Android 調試橋 (ADB) → 啟用
 • 雷電模擬器：設定 → 其他 → ADB 偵錯 → 開啟本機連接</system:String>
+    <system:String x:Key="Guide.ClickHere">點擊這裡</system:String>
     <system:String x:Key="Guide.Demo.BlockedOperation">示範流程不支援此操作，請依引導完成目前步驟</system:String>
     <system:String x:Key="Guide.Demo.Gate.AddFight">透過 ｢{key=TaskQueue.AddTask}｣ 新增一個 ｢{key=TaskQueue.Task.Fight}｣ 任務</system:String>
     <system:String x:Key="Guide.Demo.Gate.AddNightTheme">點擊 ｢{key=TaskQueue.Task.SwitchTheme}｣ 任務的齒輪圖示，再點擊 ｢{key=TaskQueue.SwitchTheme.Add}｣ 加入 ｢{key=Guide.Demo.NightTheme}｣ 主題</system:String>
@@ -1276,33 +1278,42 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
     <system:String x:Key="Guide.Demo.Gate.RestoreFight">列表需包含 ｢{key=TaskQueue.Task.Fight}｣ 任務，請透過 ｢{key=TaskQueue.AddTask}｣ 重新新增</system:String>
     <system:String x:Key="Guide.Demo.Gate.RestoreStartUp">列表需包含 ｢{key=TaskQueue.Task.StartUp}｣ 任務，請透過 ｢{key=TaskQueue.AddTask}｣ 重新新增</system:String>
     <system:String x:Key="Guide.Demo.Gate.SelectStage">點擊 ｢{key=TaskQueue.Task.Fight}｣ 任務的齒輪圖示，將關卡選為 ｢{key=TaskQueue.Annihilation.Current}｣</system:String>
+    <system:String x:Key="Guide.Demo.LockedOperations">｢複製｣ ｢刪除｣ 在指引中不可用</system:String>
     <system:String x:Key="Guide.Demo.NightTheme">夜間</system:String>
+    <system:String x:Key="Guide.Demo.Overview">這一屏用示範資料練習任務佇列的常用操作：新增任務、改關卡、改名、拖曳排序、週計畫與主題。變更只留在示範裡，不影響你的真實任務佇列。</system:String>
     <system:String x:Key="Guide.Demo.SettingsPlaceholder">請依上方提示操作，此任務的設定暫無示範內容</system:String>
     <system:String x:Key="Guide.Demo.Start">示範中不會真的執行任務</system:String>
-    <system:String x:Key="Guide.Demo.TaskAddLimit.Tip">示範列表最多容納 5 個任務，可先刪除部分後再新增</system:String>
+    <system:String x:Key="Guide.Demo.TaskAddLimit.Tip">示範列表最多容納 5 個任務，無法繼續新增</system:String>
     <system:String x:Key="Guide.Documentation.Path">您可以在 ｢{key=Settings.Title} - {key=Settings.About.Title} - {key=About.Website}｣ 找到 MAA 的官方網站和完整文件。</system:String>
     <system:String x:Key="Guide.Documentation.Title">📖 官網與文件</system:String>
     <system:String x:Key="Guide.Done">完成</system:String>
+    <system:String x:Key="Guide.Done.Tip">設定指引已完成。之後可在 ｢{key=Settings.Title} - {key=Settings.Ui.Title} - {key=Guide.Title}｣ 中{key=Guide.Restart}。</system:String>
+    <system:String x:Key="Guide.Game.ClientType.Tip">選你正在玩的客戶端版本；不確定就保持預設，之後可在 ｢{key=Settings.Title} - {key=Settings.Game.Title}｣ 中修改。</system:String>
     <system:String x:Key="Guide.GearContextMenu.Tip">右鍵點擊齒輪圖示，查看更多操作 ↓</system:String>
     <system:String x:Key="Guide.GenerateReport">請使用 ｢{key=Settings.Title} - {key=Settings.IssueReport.Title} - {key=Error.GenerateSupportPayload}｣ 產生錯誤報告，並點擊藍色的 ｢{key=Error.Issue}｣ 連結提交回饋。</system:String>
     <system:String x:Key="Guide.GitHubIssue.Description">MAA Team 僅受理使用者透過 GitHub 平台依照 Issue 範本規範提交的回饋，並保留對所有回饋的處理決定權。</system:String>
     <system:String x:Key="Guide.GitHubIssue.Title">⚠️ 回饋規範</system:String>
-    <system:String x:Key="Guide.HoverActionButtons">滑鼠移到任務上，可複製/重新命名/刪除</system:String>
+    <system:String x:Key="Guide.HoverActionButtons">滑鼠移到任務上，可看到重新命名按鈕</system:String>
     <system:String x:Key="Guide.IssueReport.Subtitle">🔧 遇到問題時</system:String>
     <system:String x:Key="Guide.LinkStart">← 開始任務</system:String>
     <system:String x:Key="Guide.Next">下一步</system:String>
     <system:String x:Key="Guide.OpenSource.Description">作為開源專案，使用者可依據 AGPL-3.0 許可證在 GitHub 平台參與 MAA 的開發。MAA Team 鼓勵使用者透過更有價值的程式碼貢獻代替問題回饋。</system:String>
     <system:String x:Key="Guide.OpenSource.Title">💡 參與開源</system:String>
     <system:String x:Key="Guide.Prev">上一步</system:String>
+    <system:String x:Key="Guide.Progress">步驟</system:String>
     <system:String x:Key="Guide.Restart">重看設定指引</system:String>
     <system:String x:Key="Guide.RestartPrompt">設定指引將在主介面顯示，是否立即重新啟動應用程式？</system:String>
     <system:String x:Key="Guide.Settings">設定指引</system:String>
     <system:String x:Key="Guide.Skip">跳過</system:String>
     <system:String x:Key="Guide.SkipPrompt" xml:space="preserve">｢{key=TaskQueue.TaskSettings}｣ 等剩餘步驟演示了任務佇列的常用操作，建議完整走完。確定跳過嗎？&#10;之後可在 ｢{key=Settings.Title} - {key=Settings.Ui.Title} - {key=Guide.Title}｣ 中{key=Guide.Restart}。</system:String>
+    <system:String x:Key="Guide.StepBar.Tip">點擊任一步驟標題可直接跳轉</system:String>
     <system:String x:Key="Guide.Tip">滑鼠移到 ? 上可查看說明</system:String>
     <system:String x:Key="Guide.Title">操作與指引</system:String>
+    <system:String x:Key="Guide.Update.Tip">這裡決定 MAA 從哪裡取得新版本；不確定就保持預設，之後可在 ｢{key=Settings.Title} - {key=Settings.Update.Title}｣ 中修改。</system:String>
     <system:String x:Key="Guide.User">使用指引</system:String>
     <system:String x:Key="Guide.ViewLog">您可以前往 ｢{key=Settings.Title} - {key=Settings.IssueReport.Title} - {key=Error.OpenDebugFolder}｣ 查看日誌，了解錯誤發生的具體原因。</system:String>
+    <system:String x:Key="Guide.Welcome.Tip">接下來幾步會帶你完成基礎設定，全程只是示範，不會真的執行任務；確認 ｢{key=Guide.Agreement.Link}｣ 後也可以隨時跳過。</system:String>
+    <system:String x:Key="Guide.Welcome.Title">歡迎使用 MAA</system:String>
     <system:String x:Key="InferenceBackend">推論後端</system:String>
     <system:String x:Key="InferenceBackendAuto">自動 (推薦)</system:String>
     <system:String x:Key="InferenceBackendDirectML">DirectML</system:String>

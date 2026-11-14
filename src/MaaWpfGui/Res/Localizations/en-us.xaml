@@ -1257,12 +1257,14 @@ Cache files (such as maps, operator avatars, etc.) need to be regenerated after 
     <system:String x:Key="Game.Role.Support">Supporter</system:String>
     <system:String x:Key="Game.Role.Tank">Defender</system:String>
     <system:String x:Key="Game.Role.Warrior">Guard</system:String>
+    <system:String x:Key="Guide.Agreement.Confirm">I have read and agree</system:String>
     <system:String x:Key="Guide.Agreement.Link">User Agreement</system:String>
     <system:String x:Key="Guide.Agreement.Prefix">By using MAA you agree to the</system:String>
     <system:String x:Key="Guide.Agreement.Tip">Please read and click the ｢{key=Guide.Agreement.Link}｣ to view the full agreement before continuing.</system:String>
     <system:String x:Key="Guide.Clarification" xml:space="preserve">Make sure ADB is enabled:
 • BlueStacks: Settings → Advanced → Android Debug Bridge → Enable
 • LDPlayer: Settings → Others → ADB debugging → Enable local connection</system:String>
+    <system:String x:Key="Guide.ClickHere">Click here</system:String>
     <system:String x:Key="Guide.Demo.BlockedOperation">This operation is not part of the guided demo. Follow the current step.</system:String>
     <system:String x:Key="Guide.Demo.Gate.AddFight">Add a ｢{key=TaskQueue.Task.Fight}｣ task with ｢{key=TaskQueue.AddTask}｣.</system:String>
     <system:String x:Key="Guide.Demo.Gate.AddNightTheme">Click the gear icon of the ｢{key=TaskQueue.Task.SwitchTheme}｣ task, then click ｢{key=TaskQueue.SwitchTheme.Add}｣ to add the ｢{key=Guide.Demo.NightTheme}｣ theme.</system:String>
@@ -1275,33 +1277,42 @@ Cache files (such as maps, operator avatars, etc.) need to be regenerated after 
     <system:String x:Key="Guide.Demo.Gate.RestoreFight">The list needs a ｢{key=TaskQueue.Task.Fight}｣ task. Add it back with ｢{key=TaskQueue.AddTask}｣.</system:String>
     <system:String x:Key="Guide.Demo.Gate.RestoreStartUp">The list needs a ｢{key=TaskQueue.Task.StartUp}｣ task. Add it back with ｢{key=TaskQueue.AddTask}｣.</system:String>
     <system:String x:Key="Guide.Demo.Gate.SelectStage">Click the gear icon of the ｢{key=TaskQueue.Task.Fight}｣ task and set the stage to ｢{key=TaskQueue.Annihilation.Current}｣.</system:String>
+    <system:String x:Key="Guide.Demo.LockedOperations">Copy and Delete are unavailable in this guide.</system:String>
     <system:String x:Key="Guide.Demo.NightTheme">Night</system:String>
+    <system:String x:Key="Guide.Demo.Overview">This screen practices the common task queue operations on demo data: adding tasks, changing stages, renaming, drag-to-reorder, weekly schedule and themes. Changes stay in the demo and never touch your real task queue.</system:String>
     <system:String x:Key="Guide.Demo.SettingsPlaceholder">Follow the tip above. This task's settings have no demo content.</system:String>
     <system:String x:Key="Guide.Demo.Start">Tasks won't actually run in the demo.</system:String>
-    <system:String x:Key="Guide.Demo.TaskAddLimit.Tip">The demo list holds up to 5 tasks. Remove some before adding more.</system:String>
+    <system:String x:Key="Guide.Demo.TaskAddLimit.Tip">The demo list holds up to 5 tasks. You cannot add more.</system:String>
     <system:String x:Key="Guide.Documentation.Path">You can find MAA's official website and complete documentation at "{key=Settings.Title} - {key=Settings.About.Title} - {key=About.Website}".</system:String>
     <system:String x:Key="Guide.Documentation.Title">📖 Website &amp; Documentation</system:String>
     <system:String x:Key="Guide.Done">Done</system:String>
+    <system:String x:Key="Guide.Done.Tip">Settings guide completed. You can revisit it later under "{key=Settings.Title} - {key=Settings.Ui.Title} - {key=Guide.Title}".</system:String>
+    <system:String x:Key="Guide.Game.ClientType.Tip">Pick the client version you play. If unsure, keep the default; you can change it later under "{key=Settings.Title} - {key=Settings.Game.Title}".</system:String>
     <system:String x:Key="Guide.GearContextMenu.Tip">Right-click the gear icon for more options ↓</system:String>
     <system:String x:Key="Guide.GenerateReport">Please use "{key=Settings.Title} - {key=Settings.IssueReport.Title} - {key=Error.GenerateSupportPayload}" to generate an error report, and click the blue "{key=Error.Issue}" link to submit feedback.</system:String>
     <system:String x:Key="Guide.GitHubIssue.Description">MAA Team only accepts feedback submitted by users through GitHub platform following the Issue template specifications, and reserves the right to decide on all feedback.</system:String>
     <system:String x:Key="Guide.GitHubIssue.Title">⚠️ Feedback Guidelines</system:String>
-    <system:String x:Key="Guide.HoverActionButtons">Move the mouse over a task to copy, rename or delete it</system:String>
+    <system:String x:Key="Guide.HoverActionButtons">Move the mouse over a task to see the rename button</system:String>
     <system:String x:Key="Guide.IssueReport.Subtitle">🔧 When You Encounter Problems</system:String>
     <system:String x:Key="Guide.LinkStart">← Start Tasks</system:String>
     <system:String x:Key="Guide.Next">Next</system:String>
     <system:String x:Key="Guide.OpenSource.Description">As an open source project, users can participate in MAA's development on GitHub platform under the AGPL-3.0 license. MAA Team encourages users to contribute valuable code instead of just reporting issues.</system:String>
     <system:String x:Key="Guide.OpenSource.Title">💡 Participate in Open Source</system:String>
     <system:String x:Key="Guide.Prev">Prev</system:String>
+    <system:String x:Key="Guide.Progress">Step</system:String>
     <system:String x:Key="Guide.Restart">Restart Settings Guide</system:String>
     <system:String x:Key="Guide.RestartPrompt">The settings guide will be displayed on the main interface. Restart the application now?</system:String>
     <system:String x:Key="Guide.Settings">Settings Guide</system:String>
     <system:String x:Key="Guide.Skip">Skip</system:String>
     <system:String x:Key="Guide.SkipPrompt" xml:space="preserve">The remaining steps, such as "{key=TaskQueue.TaskSettings}", demonstrate common task queue operations. Completing the guide is recommended. Skip anyway?&#10;You can revisit it later via "{key=Guide.Restart}" under "{key=Settings.Title} - {key=Settings.Ui.Title} - {key=Guide.Title}".</system:String>
+    <system:String x:Key="Guide.StepBar.Tip">Click a step title to jump straight to it.</system:String>
     <system:String x:Key="Guide.Tip">Point at ? to see details</system:String>
     <system:String x:Key="Guide.Title">Operations and Guide</system:String>
+    <system:String x:Key="Guide.Update.Tip">These options decide where MAA gets updates. If unsure, keep the default; you can change them later under "{key=Settings.Title} - {key=Settings.Update.Title}".</system:String>
     <system:String x:Key="Guide.User">User Guide</system:String>
     <system:String x:Key="Guide.ViewLog">You can go to "{key=Settings.Title} - {key=Settings.IssueReport.Title} - {key=Error.OpenDebugFolder}" to view logs and understand the specific cause of the error.</system:String>
+    <system:String x:Key="Guide.Welcome.Tip">The next few steps set up the basics. Everything here is a demo and no task will actually run; after confirming the "{key=Guide.Agreement.Link}" you can skip at any time.</system:String>
+    <system:String x:Key="Guide.Welcome.Title">Welcome to MAA</system:String>
     <system:String x:Key="InferenceBackend">Inference Backend</system:String>
     <system:String x:Key="InferenceBackendAuto">Auto (Recommended)</system:String>
     <system:String x:Key="InferenceBackendDirectML">DirectML</system:String>
