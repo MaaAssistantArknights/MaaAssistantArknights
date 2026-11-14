@@ -39,6 +39,11 @@ public class InfrastTask : BaseTask, IJsonOnDeserialized
     public InfrastMode Mode { get; set; } = InfrastMode.Normal;
 
     /// <summary>
+    /// Gets or sets a value indicating whether 队列轮换后仍整理宿舍并补满信赖位。
+    /// </summary>
+    public bool RotationDormTrustEnabled { get; set; } = false;
+
+    /// <summary>
     /// Gets or sets 基建无人机用法
     /// </summary>
     public string UsesOfDrones { get; set; } = "Money";

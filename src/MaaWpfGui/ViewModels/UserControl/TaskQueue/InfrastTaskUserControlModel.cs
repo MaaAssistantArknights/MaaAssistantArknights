@@ -283,6 +283,15 @@ public class InfrastTaskUserControlModel : TaskSettingsViewModel, InfrastTaskUse
         set => SetTaskConfig<InfrastTask>(t => t.UsesOfDrones == value, t => t.UsesOfDrones = value);
     }
 
+    /// <summary>
+    /// Gets or sets a value indicating whether 队列轮换后仍整理宿舍并补满信赖位。
+    /// </summary>
+    public bool RotationDormTrustEnabled
+    {
+        get => GetTaskConfig<InfrastTask>().RotationDormTrustEnabled;
+        set => SetTaskConfig<InfrastTask>(t => t.RotationDormTrustEnabled == value, t => t.RotationDormTrustEnabled = value);
+    }
+
     public bool ReceptionMessageBoardReceive
     {
         get => GetTaskConfig<InfrastTask>().ReceptionMessageBoard;
@@ -794,11 +803,22 @@ public class InfrastTaskUserControlModel : TaskSettingsViewModel, InfrastTaskUse
                 }
             }
 
-            return taskId switch {
-                int id when id > 0 => (Instances.AsstProxy.AsstSetTaskParamsEncoded(id, task), [id]),
-                null => FromSingle(Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Infrast, task)),
-                _ => (null, []),
-            };
+            if (taskId is int id)
+            {
+                return id > 0 ? (Instances.AsstProxy.AsstSetTaskParamsEncoded(id, task), [id]) : (null, []);
+            }
+
+            List<int> taskIds = [];
+            foreach (var executionTask in task.BuildExecutionTasks(infrast.RotationDormTrustEnabled))
+            {
+                var (success, appendedId) = Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.Infrast, executionTask);
+                if (success is not true || appendedId <= 0)
+                {
+                    return (false, taskIds);
+                }
+                taskIds.Add(appendedId);
+            }
+            return (true, taskIds);
         }
     }
 }
