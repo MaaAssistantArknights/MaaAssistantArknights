@@ -2227,7 +2227,8 @@ Right-clicking other options will check/uncheck this option simultaneously</syst
     <system:String x:Key="TaskQueue.RunDurationLimit.ExecutePostActions">Run actions in ｢{key=TaskQueue.PostAction.Settings}｣ after stopping</system:String>
     <system:String x:Key="TaskQueue.RunDurationLimit.Minutes">Run duration limit (min)</system:String>
     <system:String x:Key="TaskQueue.RunDurationLimit.Reached">Run duration limit ({0} min) reached, stopping tasks</system:String>
-    <system:String x:Key="TaskQueue.RunDurationLimit.Tip" xml:space="preserve">Timed from ｢{key=TaskQueue.LinkStart}｣. A manual stop is triggered once the limit is reached.
+    <system:String x:Key="TaskQueue.RunDurationLimit.Tip" xml:space="preserve">Timing starts after ｢{key=TaskQueue.LinkStart}｣ or ｢{key=Toolbox.MiniGame.Reclamation.Title}｣ successfully starts a task.
+A manual stop is triggered once the limit is reached.
 {key=TaskQueue.CheckBoxesNotSavedAsNull}.</system:String>
     <system:String x:Key="TaskQueue.RunFromHere">Run from Here</system:String>
     <system:String x:Key="TaskQueue.RunOnce">Run Once</system:String>

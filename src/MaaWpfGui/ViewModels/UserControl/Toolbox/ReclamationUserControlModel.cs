@@ -12,6 +12,7 @@
 // </copyright>
 
 #nullable enable
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using MaaWpfGui.Configuration.Factory;
@@ -228,7 +229,23 @@ public class ReclamationUserControlModel : PropertyChangedBase
             ClearStore = ReclamationClearStore,
         };
 
-        return Instances.AsstProxy.AsstReclamation(task) && Instances.AsstProxy.AsstStart();
+        if (!Instances.AsstProxy.AsstReclamation(task))
+        {
+            return false;
+        }
+
+        var started = false;
+        // 远程入口在后台线程运行；启动与时限登记须和 UI 线程上的完成回调串行。
+        Execute.OnUIThreadSync(() => {
+            started = Instances.AsstProxy.AsstStart();
+            if (started)
+            {
+                Instances.TaskQueueViewModel.RoguelikeInCombatAndShowWait = false;
+                Instances.AsstProxy.StartTaskTime = DateTimeOffset.Now;
+                Instances.TaskQueueViewModel.SetRunDeadlineFromSettings();
+            }
+        });
+        return started;
     }
 
     /// <summary>
