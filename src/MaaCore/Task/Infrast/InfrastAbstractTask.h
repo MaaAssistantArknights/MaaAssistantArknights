@@ -1,4 +1,5 @@
 #pragma once
+#include <optional>
 #include <set>
 
 #include "Common/AsstInfrastDef.h"
@@ -169,6 +170,8 @@ protected:
     bool stationed_in_production_facility(const infrast::Oper& oper) const;
     /// @brief 读干员驻扎栏并剔除非 B/F/数字字符，返回剩余编号串（空 = 未进驻或识别失败）
     static std::string read_facility_number(const infrast::Oper& oper);
+    // 从首页置顶的已选干员姓名区域识别名单；任一姓名识别失败时不返回部分名单。
+    std::optional<json::array> recognize_selected_operators(const cv::Mat& image) const;
     // 点击干员选择页面的“确认”按钮
     virtual bool click_confirm_button();
 
