@@ -1438,6 +1438,44 @@ Tag 等級（大於等於 3）對應的期望招募時限（單位：分鐘）�
 
 </details>
 
+- `OperProgress`
+  幹員培養
+
+:::: field-group  
+::: field enable  
+@type boolean  
+@default true  
+@optional  
+是否啟用本任務。  
+:::  
+::: field plans  
+@type array<object>  
+@required  
+`name` 使用簡體中文幹員名，與用戶端語言無關。  
+培養計畫陣列。每項必填 `name`（幹員名）；`role`（職業）可省略，但多職業幹員必須指定，取值為 `Pioneer`, `Warrior`, `Tank`, `Sniper`, `Caster`, `Medic`, `Support`, `Special`。可選目標：`elite` 為 1–2，`skill_level` 為 2–7，`skill_mastery` 為三個技能的目標專精等級陣列（各 0–3，0 表示略過）。省略的目標不執行。  
+:::
+
+::: field buy_materials_with_green_tickets  
+@type boolean  
+@default false  
+@optional  
+是否在合成後仍缺料時，用綠票從已解鎖的商店二層補購藍色材料。兌換數量取缺口、剩餘庫存和餘額可負擔數量的最小值；餘額不足一次兌換或無法確認購買資訊時不兌換。  
+:::  
+::: field buy_materials_with_parametric_models  
+@type boolean  
+@default false  
+@optional  
+是否允許用尋訪參數模型補購素材。綠票優先，兩種憑證開關獨立。  
+:::  
+::: field material_purchase_sources  
+@type array<string>  
+@optional  
+補料前先嘗試合成。補料來源依優先順序排列：`GreenTickets`（綠票）、`AdvancedVoucher`（高級材料提貨券）、`PremiumVoucher`（特級材料提貨券）、`ParametricModels`（尋訪參數模型）。僅嘗試列出的來源，空陣列關閉補料；提供此參數時覆蓋兩個舊兌換開關。來源不可用或僅部分補齊時，依剩餘缺口繼續嘗試下一項，直到補齊或來源用盡；辨識失敗或結果不確定時停止補料。結束後恢復原頁。  
+:::  
+::::
+
+兌換成功後透過 `SubTaskExtraInfo` 回報 `what: "GreenTicketPurchased"` / `"ParametricPurchased"`，`details` 包含 `material`（材料名）、`material_id`、`count`（實際獲得的材料數量）及 `cost`（實際消耗的對應憑證數量）。
+
 - `Reclamation`  
   生息演算
 

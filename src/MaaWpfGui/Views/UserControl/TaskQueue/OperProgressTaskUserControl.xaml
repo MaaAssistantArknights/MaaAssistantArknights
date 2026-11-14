@@ -481,5 +481,62 @@
                 </ListBox.ItemTemplate>
             </ListBox>
         </StackPanel>
+        <!--  高级设置  -->
+        <StackPanel Visibility="{c:Binding EnableAdvancedSettings, Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}">
+            <CheckBox Margin="0,0,0,5" IsChecked="{Binding AutoReplenishMaterials}">
+                <controls:TextBlock Text="{DynamicResource TaskQueue.OperProgress.AutoReplenishMaterials}" TextWrapping="Wrap" />
+            </CheckBox>
+            <StackPanel Visibility="{c:Binding AutoReplenishMaterials}">
+                <ListBox
+                    Margin="20,3,0,12"
+                    Padding="0,4"
+                    dd:DragDrop.DragDropContext="{Binding RelativeSource={RelativeSource Self}}"
+                    dd:DragDrop.IsDragSource="True"
+                    dd:DragDrop.IsDropTarget="True"
+                    BorderThickness="1"
+                    FontFamily="Microsoft YaHei, Global User Interface"
+                    FontSize="12"
+                    ItemsSource="{Binding MaterialPurchaseSources}"
+                    PreviewMouseWheel="{s:Action RouteMouseWheelToParent,
+                                                 Target={x:Type helper:MouseWheelHelper}}"
+                    ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                    Style="{DynamicResource NoSelectedHighlightListBoxStyle}"
+                    ToolTip="{DynamicResource TaskQueue.OperProgress.MaterialPurchase.Priority.Tip}">
+                    <ListBox.ItemContainerStyle>
+                        <Style BasedOn="{StaticResource NoSelectedHighlightListBoxItemStyle}" TargetType="ListBoxItem">
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                            <Setter Property="Padding" Value="8,0" />
+                            <Setter Property="MinHeight" Value="30" />
+                        </Style>
+                    </ListBox.ItemContainerStyle>
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Margin="0,3">
+                                <Grid.ColumnDefinitions>
+
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="12" />
+                                </Grid.ColumnDefinitions>
+                                <CheckBox
+                                    Grid.Column="0"
+                                    VerticalAlignment="Center"
+                                    IsChecked="{Binding IsEnabled}">
+                                    <TextBlock Text="{Binding Name}" TextWrapping="Wrap" />
+                                </CheckBox>
+                                <TextBlock
+                                    Grid.Column="1"
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Center"
+                                    FontFamily="Segoe UI Symbol"
+                                    FontSize="14"
+                                    Foreground="{DynamicResource SecondaryTextBrush}"
+                                    Opacity="0.65"
+                                    Text="⠿" />
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </StackPanel>
+        </StackPanel>
     </StackPanel>
 </UserControl>

@@ -2,6 +2,7 @@
 
 #include "Task/AbstractTaskPlugin.h"
 
+#include <functional>
 #include <optional>
 #include <string>
 #include <unordered_set>
@@ -17,6 +18,15 @@ public:
     virtual ~MaterialSynthesisTaskPlugin() override = default;
 
     virtual bool verify(AsstMsg msg, const json::value& details) const override;
+
+    void set_purchasable_material(std::function<bool(const std::string&)> predicate)
+    {
+        m_purchasable_material = std::move(predicate);
+    }
+
+    const auto& get_material_shortfall() const noexcept { return m_material_shortfall; }
+
+    const auto& get_material_shortfall_context() const noexcept { return m_material_shortfall_context; }
 
 protected:
     virtual bool _run() override;
@@ -48,11 +58,14 @@ private:
     bool run_task(const std::string& task_name, int retry_times = 3);
     bool detect_task(const std::string& task_name);
     bool return_to_workshop();
-    std::optional<int> read_number(const std::string& task_name);
     std::optional<std::string> recognize_material();
     void report_status(std::string what, json::value details = json::object());
     void report_result(Result result);
 
     static std::string_view result_name(Result result);
+
+    std::function<bool(const std::string&)> m_purchasable_material;
+    std::optional<std::pair<std::string, int>> m_material_shortfall;
+    std::string m_material_shortfall_context;
 };
 } // namespace asst

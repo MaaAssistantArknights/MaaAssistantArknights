@@ -122,6 +122,14 @@ public static class ConfigFactory
                 parsed.Configurations.Add(parsed.Current, new SpecificConfig());
             }
 
+            foreach (var task in parsed.Configurations.SelectMany(config => config.Value.TaskQueue).OfType<OperProgressTask>())
+            {
+                if (task.MaterialPurchaseSources is { } sources)
+                {
+                    task.MaterialPurchaseSources = MaterialPurchaseSourceOption.Normalize(sources);
+                }
+            }
+
             parsed.PropertyChanged += Handler.OnPropertyChangedFactory("Root.");
             parsed.EventBinding("Root.");
             parsed.Configurations.CollectionChanged += (in NotifyCollectionChangedEventArgs<KeyValuePair<string, SpecificConfig>> args) => {

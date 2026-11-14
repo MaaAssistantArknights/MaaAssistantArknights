@@ -15,8 +15,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using MaaWpfGui.Configuration.Single.MaaTask;
+using MaaWpfGui.Helper;
 using MaaWpfGui.Services;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace MaaWpfGui.Models.AsstTasks;
@@ -25,8 +25,11 @@ public class AsstOperProgressTask : AsstBaseTask
 {
     public override AsstTaskType TaskType => AsstTaskType.OperProgress;
 
-    [JsonProperty("plans")]
     public List<OperProgressTask.Plan> Plans { get; set; } = [];
+
+    public bool AutoReplenishMaterials { get; set; }
+
+    public List<MaterialPurchaseSourceOption> MaterialPurchaseSources { get; set; } = [];
 
     public override (AsstTaskType TaskType, JObject Params) Serialize()
     {
@@ -53,6 +56,9 @@ public class AsstOperProgressTask : AsstBaseTask
         }
         var jObject = new JObject {
             ["plans"] = list,
+            ["material_purchase_sources"] = new JArray(MaterialPurchaseSourceOption.Normalize(MaterialPurchaseSources)
+                .Where(source => AutoReplenishMaterials && source.IsEnabled)
+                .Select(source => source.Source.ToString())),
         };
         return (TaskType, jObject);
     }

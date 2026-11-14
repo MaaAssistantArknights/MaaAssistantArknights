@@ -1,7 +1,11 @@
 #pragma once
-#include "Task/AbstractTask.h"
 
+#include "Task/AbstractTask.h"
+#include "Task/OperProgress/MaterialReplenishTask.h"
+
+#include <functional>
 #include <optional>
+#include <unordered_set>
 #include <variant>
 
 #include "Common/AsstBattleDef.h"
@@ -50,11 +54,16 @@ public:
 
     void set_plan(std::vector<OperProgressTask::ProgressPlan> plan) { m_plan = std::move(plan); }
 
+    void set_material_purchase_options(MaterialPurchaseOptions options) { m_purchase_options = std::move(options); }
+
 protected:
     virtual bool _run() override;
 
 private:
     ResultDetail execute_elite(battle::Role role, const std::string& name, int target);
+    ResultDetail execute_with_material_purchase(
+        const std::function<ResultDetail()>& recover,
+        const std::function<ResultDetail()>& execute);
     void report_elite_result(battle::Role role, std::string_view name, ResultDetail result, int elite);
     ResultDetail execute_skill(int level);
     void report_skill_result(battle::Role role, std::string_view name, ResultDetail result, int level);
@@ -90,6 +99,13 @@ private:
     std::vector<OperProgressTask::ProgressPlan> m_plan_finish;
 
     bool m_entry_completed = false; // 首条目标已定位:任务开始时可能停在主页走完整入口链,之后换干员保证不去主页。
+    MaterialPurchaseOptions m_purchase_options;
+    std::unordered_set<std::string> m_exhausted_materials;
+    // 商店补料后无法恢复培养页面时，停止当前干员的后续动作。
+    bool m_material_recovery_failed = false;
+    std::optional<std::pair<std::string, int>> m_material_shortfall;
+    std::string m_material_shortfall_context;
+    std::string m_step_context;
     int m_success = 0;
     int m_failed = 0;
     int m_skipped = 0;

@@ -91,6 +91,10 @@ bool asst::OperProgressTask::set_params(const json::value& params)
         LogError << __FUNCTION__ << "task is running, cannot set params";
         return false;
     }
+    const auto purchase_options = MaterialPurchaseOptions::parse(params);
+    if (!purchase_options) {
+        return false;
+    }
 
     const auto& plans = params.find<std::vector<ProgressPlan>>("plans");
     if (!plans) {
@@ -128,5 +132,6 @@ bool asst::OperProgressTask::set_params(const json::value& params)
     }
 
     m_process_task_ptr->set_plan(std::move(validated_plans));
+    m_process_task_ptr->set_material_purchase_options(*purchase_options);
     return true;
 }

@@ -422,5 +422,17 @@
     },
     "OperProgress@OperBoxSortTabs": {
         "text": ["等級", "稀有度", "獲取時間"]
+    },
+    "Parametric@Store@Select": {
+        "text": ["尋訪參數模型"]
+    },
+    "MaterialPurchase@DepotConsumables": {
+        "text": ["消耗物品"]
+    },
+    "MaterialPurchase@VoucherDetail": {
+        "text": ["使用"]
+    },
+    "MaterialPurchase@VoucherSelect": {
+        "text": ["請點擊選擇需要的材料"]
     }
 }
