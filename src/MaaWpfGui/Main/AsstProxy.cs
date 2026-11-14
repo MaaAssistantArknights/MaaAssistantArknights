@@ -2103,8 +2103,8 @@ public class AsstProxy
                                         if (mall.IsMonthlyCardRemindAvailable(daysLeft))
                                         {
                                             mall.MonthlyCardLastRemindTime = DateTime.UtcNow.ToYjDate().ToFormattedString();
-                                            var title = LocalizationHelper.GetString("MonthlyCardExpiringTitle");
-                                            var content = LocalizationHelper.GetStringFormat("MonthlyCardExpiringContent", daysLeft);
+                                            var title = LocalizationHelper.GetString("Asst.Mall.MonthlyCardExpiring.Title");
+                                            var content = LocalizationHelper.GetStringFormat("Asst.Mall.MonthlyCardExpiring.Content", daysLeft);
 
                                             // 只经 Notify 发布：display 写任务日志，Publish 内部再弹 toast/外部推送（同 CheckEncounter-Uncollected 模式，勿再 AddLog 重复）
                                             Instances.NotificationService.Notify(NotificationSource.TaskQueue, new(NotificationKind.TaskComplete, title, content),

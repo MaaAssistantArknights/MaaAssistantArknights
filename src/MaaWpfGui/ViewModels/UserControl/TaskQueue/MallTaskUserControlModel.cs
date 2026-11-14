@@ -156,7 +156,7 @@ public class MallTaskUserControlModel : TaskSettingsViewModel, MallTaskUserContr
     }
 
     public static LocalizedObservableList<int> MonthlyCardRemindDaysList { get; } =
-        new((7, "MonthlyCardRemindDaysOption7"), (5, "MonthlyCardRemindDaysOption5"), (3, "MonthlyCardRemindDaysOption3"), (1, "MonthlyCardRemindDaysOption1"));
+        new((7, "Mall.MonthlyCardRemindDays.Option7"), (5, "Mall.MonthlyCardRemindDays.Option5"), (3, "Mall.MonthlyCardRemindDays.Option3"), (1, "Mall.MonthlyCardRemindDays.Option1"));
 
     /// <summary>
     /// Gets or sets the priority item list of credit shop.

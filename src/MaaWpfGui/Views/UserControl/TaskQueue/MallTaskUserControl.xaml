@@ -103,10 +103,10 @@
                     IsChecked="{Binding MonthlyCardRemind}">
                     <controls:TextBlock
                         Block.TextAlignment="Left"
-                        Text="{DynamicResource MonthlyCardRemind}"
+                        Text="{DynamicResource Mall.MonthlyCardRemind}"
                         TextWrapping="Wrap" />
                 </CheckBox>
-                <controls:TooltipBlock TooltipText="{DynamicResource MonthlyCardRemindTip}" />
+                <controls:TooltipBlock TooltipText="{DynamicResource Mall.MonthlyCardRemind.Tip}" />
             </StackPanel>
             <StackPanel
                 Margin="0,0,0,5"
@@ -121,7 +121,7 @@
                     VerticalAlignment="Center"
                     Opacity="{c:Binding 'Run.Idle and Run.Inited ? 1 : 0.5',
                                         Source={x:Static helper:Instances.TaskQueueViewModel}}"
-                    Text="{DynamicResource MonthlyCardRemindDaysLabel}" />
+                    Text="{DynamicResource Mall.MonthlyCardRemindDays.Label}" />
                 <ComboBox
                     Margin="6,0,0,0"
                     HorizontalAlignment="Left"
