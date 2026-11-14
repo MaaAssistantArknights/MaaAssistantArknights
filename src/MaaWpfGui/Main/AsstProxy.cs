@@ -26,6 +26,7 @@ using System.Net.Http;
 using System.Net.Sockets;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls.Primitives;
@@ -632,6 +633,11 @@ public class AsstProxy
             return;
         }
 
+        if (PerformanceUserControlModel.IsOpenVino(SettingsViewModel.PerformanceSettings.ActiveBackend))
+        {
+            return;
+        }
+
         if (GpuOption.GetCurrent() is not GpuOption.EnableOption x)
         {
             return;
@@ -674,6 +680,64 @@ public class AsstProxy
         }
     }
 
+    public static bool OpenVinoCpuAvailable { get; private set; }
+
+    public static bool OpenVinoNpuAvailable { get; private set; }
+
+    public static bool OpenVinoProbed { get; private set; }
+
+    public static event Action? OpenVinoAvailabilityChanged;
+
+    private static int _openVinoProbeState;
+
+    private void ProbeOpenVino()
+    {
+        if (Interlocked.CompareExchange(ref _openVinoProbeState, 1, 0) != 0)
+        {
+            return;
+        }
+
+        try
+        {
+            // Probe both devices in parallel with one shared deadline. Waiting
+            // independently keeps one faulting probe from discarding the other
+            // probe's successful result without doubling the startup delay.
+            var cpuTask = Task.Run(() => AsstSetStaticOption(AsstStaticOptionKey.OpenVINOProbe, "cpu"));
+            var npuTask = Task.Run(() => AsstSetStaticOption(AsstStaticOptionKey.OpenVINOProbe, "npu"));
+            var deadline = DateTime.UtcNow.AddSeconds(6);
+
+            void WaitProbe(Task task, string device)
+            {
+                var remaining = deadline - DateTime.UtcNow;
+                try
+                {
+                    task.Wait(remaining > TimeSpan.Zero ? remaining : TimeSpan.Zero);
+                }
+                catch (AggregateException ex)
+                {
+                    _logger.Warning(ex, "OpenVINO {Device} probe failed", device);
+                }
+            }
+
+            WaitProbe(cpuTask, "CPU");
+            WaitProbe(npuTask, "NPU");
+
+            OpenVinoCpuAvailable = cpuTask.IsCompletedSuccessfully && cpuTask.Result;
+            OpenVinoNpuAvailable = npuTask.IsCompletedSuccessfully && npuTask.Result;
+        }
+        catch (Exception ex)
+        {
+            _logger.Warning(ex, "OpenVINO capability probe failed");
+        }
+
+        OpenVinoProbed = true;
+        _logger.Information(
+            "OpenVINO availability: CPU={Cpu}, NPU={Npu}",
+            OpenVinoCpuAvailable,
+            OpenVinoNpuAvailable);
+        Execute.OnUIThread(() => OpenVinoAvailabilityChanged?.Invoke());
+    }
+
     /// <summary>
     /// 初始化。
     /// </summary>
@@ -687,17 +751,74 @@ public class AsstProxy
             return;
         }
 
-        if (GpuOption.GetCurrent() is GpuOption.EnableOption x)
+        var backend = SettingsViewModel.PerformanceSettings.ActiveBackend;
+        bool isOpenVino = PerformanceUserControlModel.IsOpenVino(backend);
+
+        // Only block startup on the OpenVINO probe when that backend is selected;
+        // otherwise probe in the background so a slow device cannot delay loading.
+        if (isOpenVino)
+        {
+            ProbeOpenVino();
+        }
+        else
+        {
+            _ = Task.Run(ProbeOpenVino);
+        }
+
+        if (isOpenVino)
+        {
+            // Hybrid 同时需要 OpenVINO CPU（OCR）与 NPU（ONNX）。
+            // 首选后端不可用时回退到仍可用的 OpenVINO 模式，而不是直接丢弃加速。
+            var fallback = PerformanceUserControlModel.GetAvailableFallback(
+                backend,
+                OpenVinoCpuAvailable,
+                OpenVinoNpuAvailable);
+            if (fallback != backend)
+            {
+                var warning = LocalizationHelper.GetString("InferenceBackend.Unavailable.Warning");
+                _logger.Warning(
+                    "Saved OpenVINO backend {Backend} is unavailable; falling back to {Fallback}. {Warning}",
+                    backend,
+                    fallback,
+                    warning);
+                Instances.TaskQueueViewModel.AddLog(warning, UiLogColor.Warning);
+                SettingsViewModel.PerformanceSettings.SetBackendWithoutRestart(fallback);
+                backend = fallback;
+            }
+        }
+
+        string? selector = backend switch
+        {
+            InferenceBackend.OpenVINOCpu => "openvino:cpu",
+            InferenceBackend.OpenVINONpu => "openvino:npu",
+            InferenceBackend.OpenVINOHybrid => "openvino:hybrid",
+            _ => null,
+        };
+
+        if (selector is null && GpuOption.GetCurrent() is GpuOption.EnableOption x)
         {
             LogGpuStatus();
-            var backend = ConfigFactory.Root.Gui.Performance.Backend;
-            var selector = backend switch
+            selector = backend switch
             {
                 InferenceBackend.WebGPU => $"webgpu:{x.DeviceSelector}",
                 InferenceBackend.DirectML => $"directml:{x.DeviceSelector}",
                 _ => x.DeviceSelector,
             };
-            AsstSetStaticOption(AsstStaticOptionKey.GpuOCR, selector);
+        }
+
+        if (selector is not null && !AsstSetStaticOption(AsstStaticOptionKey.GpuOCR, selector))
+        {
+            _logger.Warning("Failed to apply inference device selector {Selector}", selector);
+        }
+
+        if (backend is InferenceBackend.OpenVINONpu or InferenceBackend.OpenVINOHybrid)
+        {
+            var warning = LocalizationHelper.GetString(
+                backend == InferenceBackend.OpenVINOHybrid
+                    ? "InferenceBackend.OpenVinoHybrid.Warning"
+                    : "InferenceBackend.OpenVinoNpu.Warning");
+            _logger.Warning("OpenVINO NPU backend is experimental: {Warning}", warning);
+            Instances.TaskQueueViewModel.AddLog(warning, UiLogColor.Warning);
         }
 
         // 上次更新失败的持久标志存在时跳过资源加载（安装可能处于半更新状态），视同资源损坏走修复流程；
@@ -4234,6 +4355,11 @@ public enum AsstStaticOptionKey
     /// 用GPU进行OCR
     /// </summary>
     GpuOCR,
+
+    /// <summary>
+    /// 查询 OpenVINO 设备是否可用，值为 "cpu" 或 "npu"
+    /// </summary>
+    OpenVINOProbe,
 }
 
 public enum InstanceOptionKey

@@ -1748,7 +1748,12 @@ Use the CPU for OCR. The value is not parsed. Switching after resources are load
 ::: field GpuOCR  
 @type string  
 @optional  
-Use the GPU for OCR. The value is the GPU device index (integer), which selects DirectML on Windows and falls back to CPU elsewhere; an explicit backend may also be given: `webgpu:<device index>` (experimental, Windows / macOS / Linux) or `directml:<device index>` (Windows only). On Windows, DirectML also accepts `luid:<hexadecimal LUID>`. Switching after resources are loaded is not supported. Enum value: 2.  
+Use the GPU/NPU for OCR and for ONNX inference sessions. The value is the GPU device index (integer), which selects DirectML on Windows and falls back to CPU elsewhere; an explicit backend may also be given: `webgpu:<device index>` (experimental, Windows / macOS / Linux), `directml:<device index>` (Windows only), or `openvino:cpu` / `openvino:npu` / `openvino:hybrid` (experimental, Intel CPU / NPU; hybrid runs OCR on OpenVINO CPU and ONNX sessions on NPU, so NPU is not used for the whole pipeline). On Windows, DirectML also accepts `luid:<hexadecimal LUID>`. Switching after resources are loaded is not supported. Enum value: 2.  
+:::  
+::: field OpenVINOProbe  
+@type string  
+@optional  
+Queries whether an OpenVINO device is available. The value is `cpu` or `npu`; this is a capability check only and does not change the active inference backend. Enum value: 3.  
 :::  
 ::::
 

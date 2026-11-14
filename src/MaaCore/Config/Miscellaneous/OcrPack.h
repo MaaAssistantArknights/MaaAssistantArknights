@@ -5,6 +5,7 @@
 #include "Config/GpuDeviceSelector.h"
 
 #include <memory>
+#include <mutex>
 #include <optional>
 #include <utility>
 #include <vector>
@@ -29,11 +30,22 @@ public:
 
     void use_cpu()
     {
+        const std::lock_guard lock(m_recognize_mutex);
         m_gpu_selector = std::nullopt;
         m_gpu_active = false;
+#ifdef MAA_WITH_OPENVINO
+        release_openvino();
+#endif
     }
 
-    void use_gpu(GpuDeviceSelector selector) { m_gpu_selector = std::move(selector); }
+    void use_gpu(GpuDeviceSelector selector)
+    {
+        const std::lock_guard lock(m_recognize_mutex);
+        m_gpu_selector = std::move(selector);
+#ifdef MAA_WITH_OPENVINO
+        release_openvino();
+#endif
+    }
 
     ResultsVec recognize(const cv::Mat& image, bool without_det = false, const std::optional<Rect>& base_roi = {});
 
@@ -46,10 +58,19 @@ protected:
     bool create_pipeline(bool force_cpu);
     bool warmup();
 
+#ifdef MAA_WITH_OPENVINO
+    bool create_openvino_pipeline();
+    ResultsVec recognize_openvino(const cv::Mat& image, bool without_det, const std::optional<Rect>& base_roi);
+    void release_openvino();
+    void abandon_openvino_objects();
+    bool m_ov_active = false;
+#endif
+
     struct Impl;
     std::unique_ptr<Impl> m_impl;
     std::optional<GpuDeviceSelector> m_gpu_selector = std::nullopt;
     bool m_gpu_active = false;
+    std::mutex m_recognize_mutex;
 };
 
 class WordOcr final : public MAA_NS::SingletonHolder<WordOcr>, public OcrPack

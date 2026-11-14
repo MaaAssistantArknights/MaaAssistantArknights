@@ -372,7 +372,7 @@ user_resource = true # ユーザーカスタムのリソースを読み込むか
 ```toml
 [static_options]
 cpu_ocr = false # CPU OCR を使用するかどうか。デフォルトでは CPU OCR を使用します
-gpu_ocr = 1 # GPU OCR 使用時の GPU ID。`webgpu:` を付けると実験的な WebGPU バックエンド（Windows / macOS / Linux）、`directml:` を付けると DirectML（Windows のみ）を強制します。この値が空の場合、CPU OCR が使用されます
+gpu_ocr = 1 # GPU OCR で使用する GPU ID。`webgpu:` を付けると実験的な WebGPU バックエンド（Windows / macOS / Linux）、`directml:` を付けると DirectML（Windows のみ）、`openvino:cpu` / `openvino:npu` / `openvino:hybrid` を指定すると実験的な OpenVINO バックエンド（CPU / NPU / Hybrid：OCR は CPU、ONNX は NPU）を使用します。空の場合は CPU OCR を使用します
 ```
 
 ### インスタンスオプション

@@ -4,8 +4,10 @@
 #include <array>
 #include <cmath>
 #include <fstream>
+#include <mutex>
 #include <numeric>
 #include <stdexcept>
+#include <vector>
 
 #include <nlohmann/json.hpp>
 #include <opencv2/imgproc.hpp>
@@ -20,6 +22,7 @@
 
 #include "Config/OnnxSessions.h"
 #include "MaaUtils/ImageIo.h"
+#include "Utils/Logger.hpp"
 
 namespace asst::blackflow::perception
 {
@@ -241,6 +244,19 @@ struct EdgeDetector::Impl
         if (crops.empty()) {
             return {};
         }
+        if (crops.size() > 1 && OnnxSessions::npu_inference_enabled()) {
+            // The NPU session is compiled with a static batch of one.
+            std::vector<float> results;
+            results.reserve(crops.size());
+            for (const auto& crop : crops) {
+                auto single = run(std::vector<cv::Mat> { crop });
+                if (single.size() != 1) {
+                    throw std::runtime_error("CorridorNet returned an invalid batch result");
+                }
+                results.push_back(single.front());
+            }
+            return results;
+        }
         const std::size_t plane = static_cast<std::size_t>(input_height * input_width);
         std::vector<float> input(crops.size() * static_cast<std::size_t>(input_channels) * plane);
         for (std::size_t batch = 0; batch < crops.size(); ++batch) {
@@ -274,6 +290,11 @@ struct EdgeDetector::Impl
             Ort::Value::CreateTensor<float>(memory, input.data(), input.size(), shape.data(), shape.size());
         const std::array<const char*, 1> input_names { input_name.c_str() };
         const std::array<const char*, 1> output_names { output_name.c_str() };
+        auto npu_lock = OnnxSessions::acquire_npu_inference_lock();
+        if (npu_lock.timed_out) {
+            LogError << __FUNCTION__ << "| timed out waiting for NPU lock";
+            return std::vector<float>(crops.size(), -1.0e9F);
+        }
         auto outputs =
             session->Run(Ort::RunOptions { nullptr }, input_names.data(), &tensor, 1, output_names.data(), 1);
         if (outputs.size() != 1 || !outputs.front().IsTensor()) {

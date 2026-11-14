@@ -2,6 +2,7 @@
 
 #include "MaaUtils/NoWarningCV.hpp"
 #include <meojson/json.hpp>
+#include <mutex>
 #include <new>
 #include <ranges>
 #include <string_view>
@@ -88,19 +89,24 @@ void best_effort(Function&& function) noexcept
 
 bool ::AsstExtAPI::set_static_option(StaticOptionKey key, const std::string& value)
 {
-    Log.info(__FUNCTION__, "| key", static_cast<int>(key), "value", value);
+    LogInfo << __FUNCTION__ << "| key" << static_cast<int>(key) << "value" << value;
+
+    // 串行化完整的后端切换，避免 ONNX 与两个 OCR 实例停留在不同后端。
+    static std::mutex backend_switch_mutex;
 
     switch (key) {
     case StaticOptionKey::CpuOCR: {
+        const std::lock_guard backend_lock(backend_switch_mutex);
+        // CpuOCR 只切换 OCR 实例；ONNX 会话保持已配置的加速后端。
         WordOcr::get_instance().use_cpu();
         CharOcr::get_instance().use_cpu();
-        OnnxSessions::get_instance().use_cpu();
         return true;
     } break;
     case StaticOptionKey::GpuOCR: {
+        const std::lock_guard backend_lock(backend_switch_mutex);
         const auto selector = GpuDeviceSelector::parse(value);
         if (!selector) {
-            Log.error(__FUNCTION__, "| invalid GPU selector:", value);
+            LogError << __FUNCTION__ << "| invalid GPU selector:" << value;
             return false;
         }
 
@@ -111,6 +117,16 @@ bool ::AsstExtAPI::set_static_option(StaticOptionKey key, const std::string& val
         WordOcr::get_instance().use_gpu(*selector);
         CharOcr::get_instance().use_gpu(*selector);
         return true;
+    } break;
+    case StaticOptionKey::OpenVINOProbe: {
+        if (value == "npu") {
+            return OnnxSessions::probe_openvino(OpenVINODevice::NPU);
+        }
+        if (value == "cpu") {
+            return OnnxSessions::probe_openvino(OpenVINODevice::CPU);
+        }
+        LogError << __FUNCTION__ << "| invalid OpenVINO probe device:" << value;
+        return false;
     } break;
     default:
         Log.error(__FUNCTION__, "| unknown key:", static_cast<int>(key));

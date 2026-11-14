@@ -370,7 +370,7 @@ user_resource = true # 是否載入使用者自訂的資源
 ```toml
 [static_options]
 cpu_ocr = false # 是否使用 CPU OCR，預設使用 CPU OCR
-gpu_ocr = 1 # 使用 GPU OCR 時使用的 GPU ID，可加 `webgpu:` 前綴指定實驗性 WebGPU 後端（Windows / macOS / Linux），加 `directml:` 前綴強制 DirectML（僅 Windows）；如果這個值被留空，那麼將會使用 CPU OCR
+gpu_ocr = 1 # 使用 GPU OCR 時使用的 GPU ID，可加 `webgpu:` 前綴指定實驗性 WebGPU 後端（Windows / macOS / Linux），加 `directml:` 前綴強制 DirectML（僅 Windows），加 `openvino:cpu` / `openvino:npu` / `openvino:hybrid` 指定實驗性 OpenVINO 後端（CPU / NPU / Hybrid：OCR 用 CPU、ONNX 用 NPU）；如果這個值被留空，那麼將會使用 CPU OCR
 ```
 
 ### 實例選項

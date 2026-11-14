@@ -2,17 +2,29 @@
 
 #include <charconv>
 #include <cstdint>
+#include <mutex>
 #include <optional>
 #include <string_view>
 #include <system_error>
 
 namespace asst
 {
+// Serializes all inference that can reach an Intel NPU: the OpenVINO NPU
+// plugin is not safe when native OCR and ORT sessions issue requests together.
+std::timed_mutex& openvino_npu_mutex();
+
 enum class InferenceBackend
 {
     Auto = 0,
     DirectML = 1,
     WebGPU = 2,
+    OpenVINO = 3,
+};
+
+enum class OpenVINODevice
+{
+    CPU = 0,
+    NPU = 1,
 };
 
 class GpuDeviceSelector
@@ -21,10 +33,45 @@ public:
     static constexpr std::string_view LuidPrefix = "luid:";
     static constexpr std::string_view WebGpuPrefix = "webgpu:";
     static constexpr std::string_view DirectMlPrefix = "directml:";
+    static constexpr std::string_view OpenVinoPrefix = "openvino:";
 
     static std::optional<GpuDeviceSelector> parse(std::string_view value)
     {
         GpuDeviceSelector result;
+
+        if (value.starts_with(OpenVinoPrefix)) {
+            value.remove_prefix(OpenVinoPrefix.size());
+            const auto delimiter = value.find_first_of(".:");
+            const auto device_name = value.substr(0, delimiter);
+
+            if (device_name == "cpu") {
+                result.m_openvino_device = OpenVINODevice::CPU;
+            }
+            else if (device_name == "npu") {
+                result.m_openvino_device = OpenVINODevice::NPU;
+            }
+            else if (device_name == "hybrid") {
+                // OCR keeps running on OpenVINO CPU; only ONNX sessions use the NPU.
+                result.m_openvino_device = OpenVINODevice::NPU;
+                result.m_openvino_hybrid = true;
+            }
+            else {
+                return std::nullopt;
+            }
+
+            if (delimiter != std::string_view::npos) {
+                const auto id_text = value.substr(delimiter + 1);
+                int device_id = 0;
+                const auto [ptr, ec] = std::from_chars(id_text.data(), id_text.data() + id_text.size(), device_id);
+                if (id_text.empty() || ec != std::errc {} || ptr != id_text.data() + id_text.size() || device_id < 0) {
+                    return std::nullopt;
+                }
+                result.m_device_id = device_id;
+            }
+
+            result.m_backend = InferenceBackend::OpenVINO;
+            return result;
+        }
 
         if (value.starts_with(WebGpuPrefix)) {
             result.m_backend = InferenceBackend::WebGPU;
@@ -77,6 +124,17 @@ public:
 
     [[nodiscard]] InferenceBackend backend() const noexcept { return m_backend; }
 
+    // Only meaningful when backend() == InferenceBackend::OpenVINO.
+    [[nodiscard]] OpenVINODevice openvino_device() const noexcept { return m_openvino_device; }
+
+    // Hybrid runs OCR on OpenVINO CPU while ONNX sessions use the NPU.
+    [[nodiscard]] bool openvino_hybrid() const noexcept { return m_openvino_hybrid; }
+
+    [[nodiscard]] OpenVINODevice openvino_ocr_device() const noexcept
+    {
+        return m_openvino_hybrid ? OpenVINODevice::CPU : m_openvino_device;
+    }
+
     [[nodiscard]] std::optional<int> resolve_device_id() const;
 
     bool operator==(const GpuDeviceSelector&) const = default;
@@ -85,5 +143,7 @@ private:
     int m_device_id = 0;
     std::optional<uint64_t> m_adapter_luid;
     InferenceBackend m_backend = InferenceBackend::Auto;
+    OpenVINODevice m_openvino_device = OpenVINODevice::CPU;
+    bool m_openvino_hybrid = false;
 };
 } // namespace asst

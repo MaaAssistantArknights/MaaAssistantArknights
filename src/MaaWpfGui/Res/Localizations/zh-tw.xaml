@@ -1304,9 +1304,17 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
     <system:String x:Key="Guide.User">使用指引</system:String>
     <system:String x:Key="Guide.ViewLog">您可以前往 ｢{key=Settings.Title} - {key=Settings.IssueReport.Title} - {key=Error.OpenDebugFolder}｣ 查看日誌，了解錯誤發生的具體原因。</system:String>
     <system:String x:Key="InferenceBackend">推論後端</system:String>
+    <system:String x:Key="InferenceBackend.OpenVino">OpenVINO（實驗性）</system:String>
+    <system:String x:Key="InferenceBackend.OpenVinoDevice">OpenVINO 裝置</system:String>
+    <system:String x:Key="InferenceBackend.OpenVinoDevice.Cpu">CPU</system:String>
+    <system:String x:Key="InferenceBackend.OpenVinoDevice.Hybrid">Hybrid（CPU+NPU）</system:String>
+    <system:String x:Key="InferenceBackend.OpenVinoDevice.Npu">NPU</system:String>
+    <system:String x:Key="InferenceBackend.OpenVinoHybrid.Warning">OpenVINO Hybrid 為實驗性後端：OCR 使用 OpenVINO CPU，NPU 僅加速 ONNX 工作階段（Only ONNX），並非全鏈路 NPU 加速。需要可用的 Intel NPU 驅動；部分模型或驅動版本可能不相容，可能當機或自動回退到 CPU。建議先小規模驗證任務。</system:String>
+    <system:String x:Key="InferenceBackend.OpenVinoNpu.Warning">OpenVINO NPU 為實驗性後端：需要可用的 Intel NPU 驅動；部分模型或驅動版本可能不相容，可能崩潰或自動回退到 CPU。建議先小規模驗證任務。</system:String>
+    <system:String x:Key="InferenceBackend.Unavailable.Warning">所選的 OpenVINO 後端在目前建置或裝置上不可用，已回退到可用的推理後端。</system:String>
     <system:String x:Key="InferenceBackendAuto">自動 (推薦)</system:String>
     <system:String x:Key="InferenceBackendDirectML">DirectML</system:String>
-    <system:String x:Key="InferenceBackendTip" xml:space="preserve">選擇模型推論計算後端。&#10;自動模式會選擇最成熟穩定的後端（DirectML）；WebGPU 仍處於實驗階段。</system:String>
+    <system:String x:Key="InferenceBackendTip" xml:space="preserve">選擇模型推論計算後端。&#10;自動模式會選擇最成熟穩定的後端（DirectML）；WebGPU 仍處於實驗階段。OpenVINO 使用 Intel CPU/NPU，需要對應的驅動與執行環境。</system:String>
     <system:String x:Key="InferenceBackendWebGpu">WebGPU (實驗性)</system:String>
     <system:String x:Key="Infrast.ContinueTraining">訓練完成後繼續嘗試專精目前技能</system:String>
     <system:String x:Key="Infrast.Custom.File">自訂基建排班檔案</system:String>
