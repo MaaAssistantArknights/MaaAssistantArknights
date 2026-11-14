@@ -143,7 +143,7 @@ CombinationScore score_trade(const std::vector<const ScoreOper*>& opers, const S
             else if (icon == "bskill_tra_share3" || icon == "bskill_tra_share5") { // 勤俭经营·β：吉星、冻河2
                 base += 0.2 * (context.level - 1);
             }
-            else if (icon == "bskill_tra_share1" ||icon == "bskill_tra_share4") { // 冻河0、火哨
+            else if (icon == "bskill_tra_share1" || icon == "bskill_tra_share4") { // 冻河0、火哨
                 base += 0.15 * (context.level - 1);
             }
             else if (icon == "bskill_tra_share2") { // 勤俭经营·α：吉星
@@ -171,7 +171,7 @@ CombinationScore score_trade(const std::vector<const ScoreOper*>& opers, const S
                     base -= 0.15;
                     storage += 6;
                 }
-            }            
+            }
             else if (icon == "bskill_tra_spd_bd2") { // 怅惘和声：黑键
                 base += 0.005 * context.dormitory_capacity;
                 // 迷迭香或絮雨已入驻时，补入对应的感知信息收益
@@ -958,7 +958,7 @@ double office_score(const ScoreOper& oper)
         else if (icon == "bskill_hire_skgoat4") { // 永不停歇·β：水灯心
             score += 0.45;
         }
-        else if (icon == "bskill_hire_skgoat") { 
+        else if (icon == "bskill_hire_skgoat") {
             // 准时下班：地灵
             // -0.001 使之低于其它 45% 人脉联络速度技能（珊比、遥等）
             // 避免同分时因 opers 数组顺序靠前而被优先选中
