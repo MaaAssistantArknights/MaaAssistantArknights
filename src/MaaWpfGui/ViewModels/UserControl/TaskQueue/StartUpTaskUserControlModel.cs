@@ -21,7 +21,9 @@ using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
 using MaaWpfGui.Models;
 using MaaWpfGui.Models.AsstTasks;
+using MaaWpfGui.Utilities;
 using MaaWpfGui.ViewModels.UI;
+using MaaWpfGui.ViewModels.UserControl.Settings;
 using static MaaWpfGui.Main.AsstProxy;
 
 namespace MaaWpfGui.ViewModels.UserControl.TaskQueue;
@@ -35,6 +37,20 @@ public class StartUpTaskUserControlModel : TaskSettingsViewModel, StartUpTaskUse
     }
 
     public static StartUpTaskUserControlModel Instance { get; }
+
+    /// <summary>
+    /// Gets a value indicating whether 当前连接配置非 PC 端（启动客户端开关与账号切换分区仅对非 PC 配置显示）。
+    /// 默认转发真实连接设置，通知由跨实例属性依赖机制接管；沙盒子类可覆写为固定演示值。
+    /// </summary>
+    [PropertyDependsOn(typeof(ConnectSettingsUserControlModel), nameof(ConnectSettingsUserControlModel.ConnectConfig))]
+    public virtual bool IsNotPcConnectConfig => ConnectSettingsUserControlModel.Instance.ConnectConfig != ConnectConfig.PC;
+
+    /// <summary>
+    /// Gets a value indicating whether 当前客户端为国服系（官服/B 服/台服/韩服，账号相关设置仅对这些客户端显示）。
+    /// 默认转发真实游戏设置，通知由跨实例属性依赖机制接管；沙盒子类可覆写为固定演示值。
+    /// </summary>
+    [PropertyDependsOn(typeof(GameSettingsUserControlModel), nameof(GameSettingsUserControlModel.ClientType))]
+    public virtual bool IsOfficialLikeClient => GameSettingsUserControlModel.Instance.ClientType is ClientType.Official or ClientType.Bilibili or ClientType.Txwy or ClientType.KR;
 
     public string AccountName
     {

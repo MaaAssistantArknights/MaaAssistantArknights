@@ -266,6 +266,16 @@
     <system:String x:Key="Achievement.ScheduleMaster2.Conditions">Use {key=Settings.Schedule.Title} 100 times</system:String>
     <system:String x:Key="Achievement.ScheduleMaster2.Description">You are familiar with PRTS's automated deployment.</system:String>
     <system:String x:Key="Achievement.ScheduleMaster2.Title">Universal Automation Solution 0.3.2.9f2</system:String>
+    <system:String x:Key="Achievement.SimulationSpaceMedal.Description">"You have completed a great number of Simulation Space stages. Thank you for your passion for industrial knowledge."</system:String>
+    <system:String x:Key="Achievement.SimulationSpaceMedal1.Conditions">Complete 5 stages in {key=Toolbox.TutorialChallenge.Title}</system:String>
+    <system:String x:Key="Achievement.SimulationSpaceMedal1.Description">{key=Achievement.SimulationSpaceMedal.Description}</system:String>
+    <system:String x:Key="Achievement.SimulationSpaceMedal1.Title">Simulation Space Medal I</system:String>
+    <system:String x:Key="Achievement.SimulationSpaceMedal2.Conditions">Complete 10 stages in {key=Toolbox.TutorialChallenge.Title}</system:String>
+    <system:String x:Key="Achievement.SimulationSpaceMedal2.Description">{key=Achievement.SimulationSpaceMedal.Description}</system:String>
+    <system:String x:Key="Achievement.SimulationSpaceMedal2.Title">Simulation Space Medal II</system:String>
+    <system:String x:Key="Achievement.SimulationSpaceMedal3.Conditions">Complete 20 stages in {key=Toolbox.TutorialChallenge.Title}</system:String>
+    <system:String x:Key="Achievement.SimulationSpaceMedal3.Description">{key=Achievement.SimulationSpaceMedal.Description}</system:String>
+    <system:String x:Key="Achievement.SimulationSpaceMedal3.Title">Simulation Space Medal III</system:String>
     <system:String x:Key="Achievement.SlackingOff.Conditions">Launch {key=Toolbox.MiniGame.Title} once</system:String>
     <system:String x:Key="Achievement.SlackingOff.Description">Done with serious business, time to play something else.</system:String>
     <system:String x:Key="Achievement.SlackingOff.Title">Slacking Off</system:String>
@@ -2541,6 +2551,7 @@ Only level rewards can be farmed; to get the Engraved Medal, all ｢Key Objectiv
     <system:String x:Key="Toolbox.MiniGame.TL.WartimePressCommittee.Tip" xml:space="preserve">Please start from the event newspaper selection screen where the paper name is visible.</system:String>
     <system:String x:Key="Toolbox.MiniGame.Title">Useful Tasks</system:String>
     <system:String x:Key="Toolbox.Title">Toolbox</system:String>
+    <system:String x:Key="Toolbox.TutorialChallenge.Title">Tutorial Challenges</system:String>
     <system:String x:Key="Tray.Exit">Exit</system:String>
     <system:String x:Key="Tray.ForceShow">Force display of MAA</system:String>
     <system:String x:Key="Tray.Hide">Disable Tray Icon</system:String>
@@ -2549,6 +2560,61 @@ Only level rewards can be farmed; to get the Engraved Medal, all ｢Key Objectiv
     <system:String x:Key="Tray.SwitchLanguage">Switch Language 🌐</system:String>
     <system:String x:Key="Tray.Title">Tray</system:String>
     <system:String x:Key="Tray.Use">Display Tray Icon</system:String>
+    <system:String x:Key="TutorialChallenge.Coin">Moo Coin</system:String>
+    <system:String x:Key="TutorialChallenge.Completed">Completed</system:String>
+    <system:String x:Key="TutorialChallenge.Difficulty.High">High</system:String>
+    <system:String x:Key="TutorialChallenge.Difficulty.Low">Low</system:String>
+    <system:String x:Key="TutorialChallenge.Difficulty.Medium">Medium</system:String>
+    <system:String x:Key="TutorialChallenge.Enter">Enter</system:String>
+    <system:String x:Key="TutorialChallenge.Filter.All">All</system:String>
+    <system:String x:Key="TutorialChallenge.Filter.Completed">Completed</system:String>
+    <system:String x:Key="TutorialChallenge.Filter.Uncompleted">Uncleared</system:String>
+    <system:String x:Key="TutorialChallenge.Level.AddFight.Goal">Need a task to burn my Sanity.</system:String>
+    <system:String x:Key="TutorialChallenge.Level.AddFight.Title">{key=TaskQueue.Task.Fight}</system:String>
+    <system:String x:Key="TutorialChallenge.Level.ChipStock.Goal">Top up every chip to 20 and every chip pack to 32. Give it a try: what is the minimum number of tasks you need?</system:String>
+    <system:String x:Key="TutorialChallenge.Level.ChipStock.Title">Full Chip Stock</system:String>
+    <system:String x:Key="TutorialChallenge.Level.DailyReconnect.Goal">Leave Auto I.S. running overnight (e.g. from 23:00 to 08:00 the next day); the game briefly disconnects when crossing 04:00. Make the queue automatically restart the game at that time and finish the run.</system:String>
+    <system:String x:Key="TutorialChallenge.Level.DailyReconnect.Tip">The game announced a 04:00-04:10 flash update window; filling in 04:10 is safer.</system:String>
+    <system:String x:Key="TutorialChallenge.Level.DailyReconnect.Title">Overnight Reconnect</system:String>
+    <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.AdminBlocked">Running as administrator: Windows blocks file drops into elevated windows, so this level cannot be completed by dragging.</system:String>
+    <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.AlreadyIdentified">This type is already recognized. Drag the next one.</system:String>
+    <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.DropZone.FullPackage">Full update package</system:String>
+    <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.DropZone.OtaPackage">OTA delta package (optional)</system:String>
+    <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.DropZone.ResourcePackage">Resource update package</system:String>
+    <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.DropZone.Tip">Drag update packages anywhere into this window</system:String>
+    <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.Goal">Find three kinds of update packages and drag them anywhere into this window. Full package file name: "MAA-vX.Y.Z-win-{arch}.zip", where X.Y.Z must equal your current version. OTA delta package file name: "MAAComponent-OTA-vA_vB-win-{arch}.zip", where vB must equal your current version. Resource package has no file name requirement, but its resource version must equal your current version. The main window itself also accepts dragged update packages, but Windows blocks file drops when running as administrator.</system:String>
+    <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.Identified.FullPackage">Recognized as a full update package. In real usage it would be registered and prompt a restart.</system:String>
+    <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.Identified.OtaPackage">Recognized as an OTA delta package. In real usage it would be registered and prompt a restart.</system:String>
+    <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.Identified.ResourcePackage">Recognized as a resource update package. In real usage it would be imported and reloaded directly.</system:String>
+    <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.Title">Drag &amp; Drop Update</system:String>
+    <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.Unknown">Not a recognizable update package.</system:String>
+    <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.WrongVersion">Version mismatch: the package must target your current MAA version.</system:String>
+    <system:String x:Key="TutorialChallenge.Level.ExportLogs.EmptyPackageNote">(Tutorial demo: the archive is empty)</system:String>
+    <system:String x:Key="TutorialChallenge.Level.ExportLogs.Generating">Generating…</system:String>
+    <system:String x:Key="TutorialChallenge.Level.ExportLogs.Goal">Hit a bug and want to report it? Generate an error report.</system:String>
+    <system:String x:Key="TutorialChallenge.Level.ExportLogs.Title">Export Logs</system:String>
+    <system:String x:Key="TutorialChallenge.Level.InventoryTarget.Goal">Getting ready to craft Orundum. Head to 1-7 and stock Orirock Cubes up to 100.</system:String>
+    <system:String x:Key="TutorialChallenge.Level.InventoryTarget.Title">Inventory Target</system:String>
+    <system:String x:Key="TutorialChallenge.Level.RecruitRobot.Goal">Spotted the Robot tag in recruitment and want to save it for a Robot? Have the recruit task keep Robot tags.</system:String>
+    <system:String x:Key="TutorialChallenge.Level.RecruitRobot.Title">Robot Tag</system:String>
+    <system:String x:Key="TutorialChallenge.Level.ScheduledStart.Goal">Want the game to start automatically every day at 5 PM. Set up a 17:00 scheduled start.</system:String>
+    <system:String x:Key="TutorialChallenge.Level.ScheduledStart.Title">Scheduled Start</system:String>
+    <system:String x:Key="TutorialChallenge.Level.SettingsSearch.DecoySection">Misc</system:String>
+    <system:String x:Key="TutorialChallenge.Level.SettingsSearch.Goal">Too many settings to find? Use the search box to filter every setting item containing "maa" and check them all.</system:String>
+    <system:String x:Key="TutorialChallenge.Level.SettingsSearch.Title">Settings Search</system:String>
+    <system:String x:Key="TutorialChallenge.Level.SettingsSearch.WrongPick">That's not an MAA-related setting. Keep looking.</system:String>
+    <system:String x:Key="TutorialChallenge.Level.StagePriority.Goal">I want to farm AP-5 first, then CE-6 when AP-5 is closed, and 1-7 when both are closed.</system:String>
+    <system:String x:Key="TutorialChallenge.Level.StagePriority.Title">Candidate Stage Priority</system:String>
+    <system:String x:Key="TutorialChallenge.Level.TargetDrop.Goal">Want 10 Orirock Cubes — heading to 1-7 to farm 10.</system:String>
+    <system:String x:Key="TutorialChallenge.Level.TargetDrop.Title">Specified Drops</system:String>
+    <system:String x:Key="TutorialChallenge.Level.TimerOnce.Goal">Suppose the game is under maintenance from 10:00 to 16:00, so the 12:00 timer can't run. Add another timer at 16:00 — maybe the checkbox has another state you can use.</system:String>
+    <system:String x:Key="TutorialChallenge.Level.TimerOnce.Title">One-Time Timer</system:String>
+    <system:String x:Key="TutorialChallenge.NoSimulatedPanel">This task type has no simulated settings</system:String>
+    <system:String x:Key="TutorialChallenge.Reset">Reset</system:String>
+    <system:String x:Key="TutorialChallenge.SelectTaskHint">Toggle a task's gear button to view its settings</system:String>
+    <system:String x:Key="TutorialChallenge.Shop.Placeholder">Nothing here yet — still deciding what to stock</system:String>
+    <system:String x:Key="TutorialChallenge.Shop.Title">{key=TutorialChallenge.Coin} Shop</system:String>
+    <system:String x:Key="TutorialChallenge.SmartSolutionHint">There is an easier way: use a single {key=TaskQueue.Task.DepotMaintain} task and import the {key=TaskQueue.DepotMaintain.PresetChip1} and {key=TaskQueue.DepotMaintain.PresetChip2} presets to cover all targets.</system:String>
     <system:String x:Key="VersionUpdate.Api.UpdateFailed">Hot update data retrieval failed</system:String>
     <system:String x:Key="VersionUpdate.Api.UpdateSuccess">Hot update data retrieval successful</system:String>
     <system:String x:Key="VersionUpdate.CheckNetworking">Please check your network connection or proxy.</system:String>

@@ -27,14 +27,13 @@
     <StackPanel>
         <StackPanel
             d:Visibility="Visible"
-            IsEnabled="{Binding Run.Idle, Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingDataContext}}"
-            Visibility="{c:Binding !EnableAdvancedSettings,
-                                   Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}">
+            IsEnabled="{Binding IsQueueIdle}"
+            Visibility="{c:Binding !EnableAdvancedSettings}">
             <hc:ComboBox
                 Margin="0,3"
                 hc:InfoElement.Title="{DynamicResource Roguelike.Theme}"
                 DisplayMemberPath="Display"
-                IsHitTestVisible="{Binding Run.Idle, Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingDataContext}}"
+                IsHitTestVisible="{Binding IsQueueIdle}"
                 ItemsSource="{Binding RoguelikeThemeList}"
                 SelectedValue="{Binding RoguelikeTheme}"
                 SelectedValuePath="Value" />
@@ -49,7 +48,7 @@
                 </StackPanel>
                 <hc:ComboBox
                     DisplayMemberPath="Display"
-                    IsHitTestVisible="{Binding Path=Run.Idle, Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingDataContext}}"
+                    IsHitTestVisible="{Binding IsQueueIdle}"
                     ItemsSource="{Binding RoguelikeDifficultyList}"
                     ScrollViewer.CanContentScroll="False"
                     SelectedValue="{Binding RoguelikeDifficulty}"
@@ -59,7 +58,7 @@
                 Margin="0,3"
                 hc:InfoElement.Title="{DynamicResource Roguelike.Strategy}"
                 DisplayMemberPath="Display"
-                IsHitTestVisible="{Binding Path=Run.Idle, Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingDataContext}}"
+                IsHitTestVisible="{Binding IsQueueIdle}"
                 IsSynchronizedWithCurrentItem="True"
                 ItemsSource="{Binding RoguelikeModeList}"
                 SelectedValue="{Binding RoguelikeMode}"
@@ -69,7 +68,7 @@
                 d:Visibility="Visible"
                 hc:InfoElement.Title="{DynamicResource Roguelike.CollectibleMode.Squad}"
                 DisplayMemberPath="Display"
-                IsHitTestVisible="{Binding Run.Idle, Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingDataContext}}"
+                IsHitTestVisible="{Binding IsQueueIdle}"
                 IsSynchronizedWithCurrentItem="True"
                 ItemsSource="{Binding RoguelikeSquadList}"
                 MaxDropDownHeight="800"
@@ -85,7 +84,7 @@
                 <hc:ComboBox
                     DisplayMemberPath="Display"
                     IsEnabled="{c:Binding '!RoguelikeBlackFlowExpFlightActive'}"
-                    IsHitTestVisible="{Binding Run.Idle, Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingDataContext}}"
+                    IsHitTestVisible="{Binding IsQueueIdle}"
                     ItemsSource="{Binding RoguelikeSquadList}"
                     MaxDropDownHeight="800"
                     SelectedValue="{Binding RoguelikeSquad}"
@@ -99,7 +98,7 @@
                 <hc:ComboBox
                     DisplayMemberPath="Display"
                     IsEnabled="{c:Binding '!RoguelikeBlackFlowExpFlightActive'}"
-                    IsHitTestVisible="{Binding Run.Idle, Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingDataContext}}"
+                    IsHitTestVisible="{Binding IsQueueIdle}"
                     ItemsSource="{Binding RoguelikeRolesList}"
                     SelectedValue="{Binding RoguelikeRoles}"
                     SelectedValuePath="Value" />
@@ -109,7 +108,7 @@
                 d:Visibility="Visible"
                 hc:InfoElement.Title="{DynamicResource Roguelike.FindPlaytimeTarget}"
                 DisplayMemberPath="Display"
-                IsHitTestVisible="{Binding Run.Idle, Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingDataContext}}"
+                IsHitTestVisible="{Binding IsQueueIdle}"
                 ItemsSource="{Binding RoguelikeFindPlaytimeTargetList}"
                 SelectedValue="{Binding RoguelikeFindPlaytimeTarget}"
                 SelectedValuePath="Value"
@@ -247,9 +246,8 @@
 
         <StackPanel
             d:Visibility="Visible"
-            IsEnabled="{Binding Run.Idle, Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingDataContext}}"
-            Visibility="{c:Binding EnableAdvancedSettings,
-                                   Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}">
+            IsEnabled="{Binding IsQueueIdle}"
+            Visibility="{c:Binding EnableAdvancedSettings}">
             <hc:NumericUpDown
                 Margin="0,5"
                 hc:InfoElement.Title="{DynamicResource Roguelike.StartTimesLimit}"
@@ -381,8 +379,7 @@
             </StackPanel>
             <hc:TextBox
                 d:Visibility="Visible"
-                IsReadOnly="{c:Binding !Run.Idle,
-                                       Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingDataContext}}"
+                IsReadOnly="{c:Binding !IsQueueIdle}"
                 Style="{StaticResource TextBoxExtend}"
                 Text="{Binding Roguelike3FirstFloorFoldartals}"
                 Visibility="{c:Binding 'Roguelike3FirstFloorFoldartal and RoguelikeMode == task:RoguelikeMode.Collectible and RoguelikeTheme == task:RoguelikeTheme.Sami',
@@ -401,8 +398,7 @@
             </StackPanel>
 
             <TextBox
-                IsReadOnly="{c:Binding !Run.Idle,
-                                       Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingDataContext}}"
+                IsReadOnly="{c:Binding !IsQueueIdle}"
                 Text="{Binding Roguelike3NewSquad2StartingFoldartals}"
                 Visibility="{c:Binding 'Roguelike3NewSquad2StartingFoldartal and RoguelikeSquadIsFoldartal'}" />
 
@@ -426,8 +422,7 @@
                 </StackPanel>
                 <hc:TextBox
                     Grid.Row="1"
-                    IsReadOnly="{c:Binding !Run.Idle,
-                                           Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingDataContext}}"
+                    IsReadOnly="{c:Binding !IsQueueIdle}"
                     Text="{Binding RoguelikeExpectedCollapsalParadigms}" />
             </Grid>
 
@@ -598,7 +593,7 @@
                     <hc:ComboBox
                         DisplayMemberPath="Display"
                         IsEnabled="{c:Binding '!RoguelikeBlackFlowFastFlight'}"
-                        IsHitTestVisible="{Binding Run.Idle, Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingDataContext}}"
+                        IsHitTestVisible="{Binding IsQueueIdle}"
                         ItemsSource="{Binding RoguelikeBlackFlowEndingList}"
                         SelectedValue="{Binding RoguelikeBlackFlowEnding}"
                         SelectedValuePath="Value" />
@@ -609,7 +604,7 @@
                     Margin="0,5"
                     hc:InfoElement.Title="{DynamicResource Roguelike.BlackFlow.StartAnimal1}"
                     DisplayMemberPath="Display"
-                    IsHitTestVisible="{Binding Run.Idle, Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingDataContext}}"
+                    IsHitTestVisible="{Binding IsQueueIdle}"
                     ItemsSource="{Binding RoguelikeBlackFlowStartAnimal1List}"
                     SelectedValue="{Binding RoguelikeBlackFlowStartAnimal1}"
                     SelectedValuePath="Value">
@@ -626,7 +621,7 @@
                     Margin="0,5"
                     hc:InfoElement.Title="{DynamicResource Roguelike.BlackFlow.StartAnimal2}"
                     DisplayMemberPath="Display"
-                    IsHitTestVisible="{Binding Run.Idle, Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingDataContext}}"
+                    IsHitTestVisible="{Binding IsQueueIdle}"
                     ItemsSource="{Binding RoguelikeBlackFlowStartAnimal2List}"
                     SelectedValue="{Binding RoguelikeBlackFlowStartAnimal2}"
                     SelectedValuePath="Value">

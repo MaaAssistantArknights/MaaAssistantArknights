@@ -20,6 +20,7 @@ using System.Windows.Documents;
 using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Configuration.Global;
 using MaaWpfGui.Helper;
+using MaaWpfGui.States;
 using MaaWpfGui.Utilities;
 using MaaWpfGui.ViewModels.UI;
 using Stylet;
@@ -38,97 +39,157 @@ public class TimerSettingsUserControlModel : PropertyChangedBase
     }
 
     public TimerSettingsUserControlModel()
+        : this(attachGlobalEvents: true)
     {
-        // 订阅现有定时器，并在列表增删时重新订阅，用于触发 ｢时间管理大师｣ 成就
-        SubscribeTimerChanges();
-        TimerList.CollectionChanged += (_, _) =>
-        {
-            SubscribeTimerChanges();
-            ScheduledWakeUpRegistrar.SyncAllDebounced();
-        };
+    }
 
-        // 启动对账：按当前开关与定时项状态全量重建计划任务
-        Task.Run(() => ScheduledWakeUpRegistrar.SyncAll(out _));
+    /// <summary>
+    /// Initializes a new instance of the <see cref="TimerSettingsUserControlModel"/> class.
+    /// </summary>
+    /// <param name="attachGlobalEvents">是否订阅全局定时状态（成就检查与计划任务同步）。默认单例构造传 true；
+    /// 短生命周期派生 Model（如教程沙盒）传 false 以隔离真实定时器的计划任务注册。</param>
+    protected TimerSettingsUserControlModel(bool attachGlobalEvents)
+    {
+        if (attachGlobalEvents)
+        {
+            // 订阅现有定时器，并在列表增删时重新订阅，用于触发 ｢时间管理大师｣ 成就
+            SubscribeTimerChanges();
+            TimerList.CollectionChanged += (_, _) =>
+            {
+                SubscribeTimerChanges();
+                ScheduledWakeUpRegistrar.SyncAllDebounced();
+            };
+
+            // 启动对账：按当前开关与定时项状态全量重建计划任务
+            Task.Run(() => ScheduledWakeUpRegistrar.SyncAll(out _));
+
+            // 本类型为 Instance 单例，转发队列运行态通知后无需取消订阅
+            RunControlState.Instance.PropertyChanged += ForwardQueueRunStateChanged;
+        }
     }
 
     public static TimerSettingsUserControlModel Instance { get; }
+
+    /// <summary>
+    /// 定时设置的读写数据源。默认为全局持久化配置，子类可覆写为自有定时状态（如教程沙盒）。
+    /// </summary>
+    protected virtual TimerSettings TimerSettingsSource => ConfigFactory.Root.Timers;
+
+    /// <summary>
+    /// 任务队列是否空闲（定时配置项可编辑）。默认转发全局运行控制状态，子类可覆写为自有状态（如沙盒恒空闲）。
+    /// </summary>
+    public virtual bool IsQueueIdle => RunControlState.Instance.Idle;
+
+    /// <summary>
+    /// 将全局队列运行态的变更转发为本 Model 的 <see cref="IsQueueIdle"/> 通知，
+    /// 使定时控件 XAML 经 DataContext 绑定转发属性时仍能收到变更通知。
+    /// </summary>
+    /// <param name="sender">事件发送者。</param>
+    /// <param name="e">属性变更参数。</param>
+    private void ForwardQueueRunStateChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName == nameof(RunControlState.Idle))
+        {
+            NotifyOfPropertyChange(nameof(IsQueueIdle));
+        }
+    }
 
     /// <summary>
     /// Gets or sets a value indicating whether to force scheduled start.
     /// </summary>
     public bool ForceScheduledStart
     {
-        get; set {
-            ConfigFactory.Root.Timers.ForceScheduledStart = value;
-            SetAndNotify(ref field, value);
+        get => TimerSettingsSource.ForceScheduledStart;
+        set
+        {
+            TimerSettingsSource.ForceScheduledStart = value;
+            NotifyOfPropertyChange();
         }
-    } = ConfigFactory.Root.Timers.ForceScheduledStart;
+    }
 
     /// <summary>
     /// Gets or sets a value indicating whether show window before force scheduled start.
     /// </summary>
     public bool ShowWindowBeforeForceScheduledStart
     {
-        get; set {
-            ConfigFactory.Root.Timers.ShowWindowBeforeForceScheduledStart = value;
-            SetAndNotify(ref field, value);
+        get => TimerSettingsSource.ShowWindowBeforeForceScheduledStart;
+        set
+        {
+            TimerSettingsSource.ShowWindowBeforeForceScheduledStart = value;
+            NotifyOfPropertyChange();
         }
-    } = ConfigFactory.Root.Timers.ShowWindowBeforeForceScheduledStart;
+    }
 
     /// <summary>
     /// Gets or sets a value indicating whether to use custom config.
     /// </summary>
     public bool CustomConfig
     {
-        get; set {
-            ConfigFactory.Root.Timers.CustomConfig = value;
-            SetAndNotify(ref field, value);
+        get => TimerSettingsSource.CustomConfig;
+        set
+        {
+            TimerSettingsSource.CustomConfig = value;
+            NotifyOfPropertyChange();
         }
-    } = ConfigFactory.Root.Timers.CustomConfig;
+    }
 
-    public ObservableCollection<Timer> TimerList => ConfigFactory.Root.Timers.List;
+    public ObservableCollection<Timer> TimerList => TimerSettingsSource.List;
 
     public ExternalNotificationSettingsUserControlModel ExternalNotificationSettings => SettingsViewModel.ExternalNotificationSettings;
 
     public bool NotifyBeforeScheduledStart
     {
-        get; set {
-            ConfigFactory.Root.Timers.NotifyBeforeScheduledStart = value;
-            SetAndNotify(ref field, value);
+        get => TimerSettingsSource.NotifyBeforeScheduledStart;
+        set
+        {
+            TimerSettingsSource.NotifyBeforeScheduledStart = value;
+            NotifyOfPropertyChange();
         }
-    } = ConfigFactory.Root.Timers.NotifyBeforeScheduledStart;
+    }
 
     public int ScheduledStartNotificationMinutes
     {
-        get; set {
+        get => Math.Clamp(TimerSettingsSource.ScheduledStartNotificationMinutes, 1, 1439);
+        set
+        {
             value = Math.Clamp(value, 1, 1439);
-            ConfigFactory.Root.Timers.ScheduledStartNotificationMinutes = value;
-            SetAndNotify(ref field, value);
+            TimerSettingsSource.ScheduledStartNotificationMinutes = value;
+            NotifyOfPropertyChange();
         }
-    } = Math.Clamp(ConfigFactory.Root.Timers.ScheduledStartNotificationMinutes, 1, 1439);
+    }
 
     /// <summary>
     /// Gets or sets a value indicating whether to wake the computer before scheduled timers.
     /// </summary>
     public bool ScheduledWakeUp
     {
-        get; set {
-            ConfigFactory.Root.Timers.ScheduledWakeUp = value;
-            SetAndNotify(ref field, value);
+        get => TimerSettingsSource.ScheduledWakeUp;
+        set
+        {
+            TimerSettingsSource.ScheduledWakeUp = value;
+            NotifyOfPropertyChange();
 
-            // COM 注册较慢，放后台线程执行，完成后按结果提示
-            Task.Run(() =>
-            {
-                if (ScheduledWakeUpRegistrar.SyncAll(out var error))
-                {
-                    return;
-                }
-
-                Execute.OnUIThread(() =>
-                    MessageBoxHelper.Show(error, LocalizationHelper.GetString("Common.Warning"), icon: MessageBoxImage.Warning));
-            });
+            SyncScheduledWakeUpRegistrations();
         }
-    } = ConfigFactory.Root.Timers.ScheduledWakeUp;
+    }
+
+    /// <summary>
+    /// 定时唤醒开关变更后的联动。默认后台同步重建计划任务注册并按结果提示，子类可覆写为空操作（如教程沙盒不碰真实计划任务）。
+    /// </summary>
+    protected virtual void SyncScheduledWakeUpRegistrations()
+    {
+        // COM 注册较慢，放后台线程执行，完成后按结果提示
+        Task.Run(() =>
+        {
+            if (ScheduledWakeUpRegistrar.SyncAll(out var error))
+            {
+                return;
+            }
+
+            Execute.OnUIThread(() =>
+                MessageBoxHelper.Show(error, LocalizationHelper.GetString("Common.Warning"), icon: MessageBoxImage.Warning));
+        });
+    }
 
     /// <summary>
     /// 订阅所有定时器的启用状态变化，用于触发 ｢时间管理大师｣ 成就检查。

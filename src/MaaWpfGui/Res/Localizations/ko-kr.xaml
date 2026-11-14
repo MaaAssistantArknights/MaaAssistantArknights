@@ -266,6 +266,16 @@
     <system:String x:Key="Achievement.ScheduleMaster2.Conditions">｢{key=Settings.Schedule.Title}｣ 기능을 100회 사용</system:String>
     <system:String x:Key="Achievement.ScheduleMaster2.Description">이 정도면 PRTS보다 제가 더 유능하죠?</system:String>
     <system:String x:Key="Achievement.ScheduleMaster2.Title">범용 자동화 솔루션 0.3.2.9f2</system:String>
+    <system:String x:Key="Achievement.SimulationSpaceMedal.Description">'많은 시뮬레이션 스페이스를 완료하셨습니다. 산업 지식에 대한 열정에 감사합니다.'</system:String>
+    <system:String x:Key="Achievement.SimulationSpaceMedal1.Conditions">{key=Toolbox.TutorialChallenge.Title} 5개 클리어</system:String>
+    <system:String x:Key="Achievement.SimulationSpaceMedal1.Description">{key=Achievement.SimulationSpaceMedal.Description}</system:String>
+    <system:String x:Key="Achievement.SimulationSpaceMedal1.Title">시뮬레이션 스페이스 메달 I</system:String>
+    <system:String x:Key="Achievement.SimulationSpaceMedal2.Conditions">{key=Toolbox.TutorialChallenge.Title} 10개 클리어</system:String>
+    <system:String x:Key="Achievement.SimulationSpaceMedal2.Description">{key=Achievement.SimulationSpaceMedal.Description}</system:String>
+    <system:String x:Key="Achievement.SimulationSpaceMedal2.Title">시뮬레이션 스페이스 메달 II</system:String>
+    <system:String x:Key="Achievement.SimulationSpaceMedal3.Conditions">{key=Toolbox.TutorialChallenge.Title} 20개 클리어</system:String>
+    <system:String x:Key="Achievement.SimulationSpaceMedal3.Description">{key=Achievement.SimulationSpaceMedal.Description}</system:String>
+    <system:String x:Key="Achievement.SimulationSpaceMedal3.Title">시뮬레이션 스페이스 메달 III</system:String>
     <system:String x:Key="Achievement.SlackingOff.Conditions">{key=Toolbox.MiniGame.Title} 1회 실행</system:String>
     <system:String x:Key="Achievement.SlackingOff.Description">업무 효율을 위해서 가끔은 쉬어줘야죠.</system:String>
     <system:String x:Key="Achievement.SlackingOff.Title">월급 루팡</system:String>
@@ -2541,6 +2551,7 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="Toolbox.MiniGame.TL.WartimePressCommittee.Tip" xml:space="preserve">이벤트 신문 선택 화면이 표시된 상태에서 시작하세요</system:String>
     <system:String x:Key="Toolbox.MiniGame.Title">편의 기능</system:String>
     <system:String x:Key="Toolbox.Title">툴박스</system:String>
+    <system:String x:Key="Toolbox.TutorialChallenge.Title">튜토리얼 챌린지</system:String>
     <system:String x:Key="Tray.Exit">종료</system:String>
     <system:String x:Key="Tray.ForceShow">MAA 강제 표시</system:String>
     <system:String x:Key="Tray.Hide">트레이 아이콘 숨기기</system:String>
@@ -2549,6 +2560,61 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="Tray.SwitchLanguage">언어 전환 🌐</system:String>
     <system:String x:Key="Tray.Title">트레이</system:String>
     <system:String x:Key="Tray.Use">트레이 아이콘 표시</system:String>
+    <system:String x:Key="TutorialChallenge.Coin">무 코인</system:String>
+    <system:String x:Key="TutorialChallenge.Completed">클리어</system:String>
+    <system:String x:Key="TutorialChallenge.Difficulty.High">상</system:String>
+    <system:String x:Key="TutorialChallenge.Difficulty.Low">하</system:String>
+    <system:String x:Key="TutorialChallenge.Difficulty.Medium">중</system:String>
+    <system:String x:Key="TutorialChallenge.Enter">들어가기</system:String>
+    <system:String x:Key="TutorialChallenge.Filter.All">전체</system:String>
+    <system:String x:Key="TutorialChallenge.Filter.Completed">클리어</system:String>
+    <system:String x:Key="TutorialChallenge.Filter.Uncompleted">미클리어</system:String>
+    <system:String x:Key="TutorialChallenge.Level.AddFight.Goal">이성을 소모할 작업이 필요합니다.</system:String>
+    <system:String x:Key="TutorialChallenge.Level.AddFight.Title">{key=TaskQueue.Task.Fight}</system:String>
+    <system:String x:Key="TutorialChallenge.Level.ChipStock.Goal">칩은 각 20개, 칩셋은 각 32개까지 채우세요. 도전해 보세요: 최소 몇 개의 작업으로 해낼 수 있을까요?</system:String>
+    <system:String x:Key="TutorialChallenge.Level.ChipStock.Title">칩 풀세트</system:String>
+    <system:String x:Key="TutorialChallenge.Level.DailyReconnect.Goal">밤새 통합 전략을 돌리다 보면(예: 23:00부터 다음 날 08:00까지) 새벽 4시를 넘길 때 순단으로 끊깁니다. 큐가 해당 시각에 게임을 자동으로 재시작해 통합 전략을 이어서 끝내도록 합니다.</system:String>
+    <system:String x:Key="TutorialChallenge.Level.DailyReconnect.Tip">게임 공지에 4:00-4:10 순단 점검이 있다고 했으므로, 안전하게 4:10을 권장합니다.</system:String>
+    <system:String x:Key="TutorialChallenge.Level.DailyReconnect.Title">자정 넘김 재접속</system:String>
+    <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.AdminBlocked">관리자 권한으로 실행 중이므로 Windows에서 높은 권한 창으로의 파일 드롭을 차단합니다. 이 레벨은 드래그로 완료할 수 없습니다.</system:String>
+    <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.AlreadyIdentified">이 유형은 이미 인식했습니다. 다음 것을 끌어다 놓으세요.</system:String>
+    <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.DropZone.FullPackage">전체 업데이트 패키지</system:String>
+    <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.DropZone.OtaPackage">OTA 델타 패키지 (선택)</system:String>
+    <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.DropZone.ResourcePackage">리소스 업데이트 패키지</system:String>
+    <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.DropZone.Tip">이 창의 아무 곳에나 업데이트 패키지를 끌어다 놓으세요</system:String>
+    <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.Goal">세 종류의 업데이트 패키지를 직접 찾아 이 창의 아무 곳에나 끌어다 놓으세요. 전체 패키지 파일 이름은 ｢MAA-vX.Y.Z-win-{arch}.zip｣이며 X.Y.Z는 현재 버전과 같아야 합니다. OTA 델타 패키지 파일 이름은 ｢MAAComponent-OTA-vA_vB-win-{arch}.zip｣이며 vB는 현재 버전과 같아야 합니다. 리소스 패키지는 파일 이름 제한이 없지만 zip 내 리소스 버전이 현재 버전과 같아야 합니다. 메인 창에도 업데이트 패키지를 끌어다 놓아 업데이트할 수 있지만, 관리자 권한으로 실행 중에는 Windows에서 드롭을 차단합니다.</system:String>
+    <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.Identified.FullPackage">전체 업데이트 패키지로 인식했습니다. 실제로는 등록 후 재시작을 안내합니다.</system:String>
+    <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.Identified.OtaPackage">OTA 델타 패키지로 인식했습니다. 실제로는 등록 후 재시작을 안내합니다.</system:String>
+    <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.Identified.ResourcePackage">리소스 업데이트 패키지로 인식했습니다. 실제로는 바로 가져와 다시 로드합니다.</system:String>
+    <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.Title">드래그 업데이트</system:String>
+    <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.Unknown">인식할 수 있는 업데이트 패키지가 아닙니다.</system:String>
+    <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.WrongVersion">버전 불일치: 업데이트 패키지는 현재 버전을 대상으로 해야 합니다.</system:String>
+    <system:String x:Key="TutorialChallenge.Level.ExportLogs.EmptyPackageNote">(튜토리얼 데모: 압축 파일이 비어 있습니다)</system:String>
+    <system:String x:Key="TutorialChallenge.Level.ExportLogs.Generating">생성 중…</system:String>
+    <system:String x:Key="TutorialChallenge.Level.ExportLogs.Goal">버그를 제보하고 싶다면? 오류 보고서를 하나 생성하세요.</system:String>
+    <system:String x:Key="TutorialChallenge.Level.ExportLogs.Title">로그 내보내기</system:String>
+    <system:String x:Key="TutorialChallenge.Level.InventoryTarget.Goal">합성옥 준비용으로 1-7에서 원암 큐브 재고를 100개까지 채우고 싶습니다.</system:String>
+    <system:String x:Key="TutorialChallenge.Level.InventoryTarget.Title">{key=TaskQueue.Fight.TargetInventory}</system:String>
+    <system:String x:Key="TutorialChallenge.Level.RecruitRobot.Goal">공개모집에서 ｢로봇｣ 태그가 뜨면 로봇을 위해 남겨 두고 싶습니다. 공개모집 작업이 ｢로봇｣ 태그를 남겨 두게 하세요.</system:String>
+    <system:String x:Key="TutorialChallenge.Level.RecruitRobot.Title">로봇</system:String>
+    <system:String x:Key="TutorialChallenge.Level.ScheduledStart.Goal">매일 오후 5시에 자동으로 플레이를 시작하고 싶습니다. 17:00 예약 시작을 설정하세요.</system:String>
+    <system:String x:Key="TutorialChallenge.Level.ScheduledStart.Title">예약 시작</system:String>
+    <system:String x:Key="TutorialChallenge.Level.SettingsSearch.DecoySection">기타</system:String>
+    <system:String x:Key="TutorialChallenge.Level.SettingsSearch.Goal">설정 항목이 너무 많아 못 찾겠다면? 검색 상자로 ｢maa｣가 들어간 설정 항목을 모두 골라 전부 체크하세요.</system:String>
+    <system:String x:Key="TutorialChallenge.Level.SettingsSearch.Title">설정 검색</system:String>
+    <system:String x:Key="TutorialChallenge.Level.SettingsSearch.WrongPick">MAA 관련 설정이 아닙니다. 다시 찾아 보세요.</system:String>
+    <system:String x:Key="TutorialChallenge.Level.StagePriority.Goal">AP-5를 우선해서 돌고 싶습니다. AP-5가 닫혀 있으면 CE-6, 둘 다 닫혀 있으면 1-7로 하고 싶습니다.</system:String>
+    <system:String x:Key="TutorialChallenge.Level.StagePriority.Title">대체 스테이지 우선순위</system:String>
+    <system:String x:Key="TutorialChallenge.Level.TargetDrop.Goal">원암 큐브가 10개 필요합니다. 1-7에서 10개 모아 오려고 합니다.</system:String>
+    <system:String x:Key="TutorialChallenge.Level.TargetDrop.Title">{key=TaskQueue.Fight.AssignedMaterial}</system:String>
+    <system:String x:Key="TutorialChallenge.Level.TimerOnce.Goal">게임이 10시부터 16시까지 점검에 들어가 12:00 타이머를 실행할 수 없다고 가정해 봅시다. 16:00 타이머를 하나 더 추가하세요——어쩌면 체크박스에 다른 상태가 있을지도 모릅니다.</system:String>
+    <system:String x:Key="TutorialChallenge.Level.TimerOnce.Title">1회용 타이머</system:String>
+    <system:String x:Key="TutorialChallenge.NoSimulatedPanel">이 작업 유형에는 시뮬레이션 설정이 없습니다</system:String>
+    <system:String x:Key="TutorialChallenge.Reset">초기화</system:String>
+    <system:String x:Key="TutorialChallenge.SelectTaskHint">작업의 톱니바퀴 버튼을 켜면 설정을 볼 수 있습니다</system:String>
+    <system:String x:Key="TutorialChallenge.Shop.Placeholder">무엇을 넣을지 아직 미정</system:String>
+    <system:String x:Key="TutorialChallenge.Shop.Title">{key=TutorialChallenge.Coin} 상점</system:String>
+    <system:String x:Key="TutorialChallenge.SmartSolutionHint">더 손쉬운 방법도 있습니다. ｢{key=TaskQueue.Task.DepotMaintain}｣ 작업 하나에 ｢{key=TaskQueue.DepotMaintain.PresetChip1}｣과 ｢{key=TaskQueue.DepotMaintain.PresetChip2}｣ 프리셋을 가져오면 모든 목표를 채울 수 있습니다.</system:String>
     <system:String x:Key="VersionUpdate.Api.UpdateFailed">핫 업데이트 데이터를 가져오지 못했습니다</system:String>
     <system:String x:Key="VersionUpdate.Api.UpdateSuccess">핫 업데이트 데이터를 성공적으로 가져왔습니다</system:String>
     <system:String x:Key="VersionUpdate.CheckNetworking">네트워크 연결이나 프록시를 확인해 주세요.</system:String>

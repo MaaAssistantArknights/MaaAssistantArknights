@@ -375,6 +375,11 @@ public class PostActionSetting : PropertyChangedBase
 
     public static PostActionSetting Instance { get; } = new();
 
+    /// <summary>
+    /// 任务设置面板当前是否显示高级设置区，转发全局 TaskSettingVisibilityInfo 的同名开关。
+    /// </summary>
+    public bool EnableAdvancedSettings => TaskSettingVisibilityInfo.Instance.EnableAdvancedSettings;
+
     private string _actionTitle = LocalizationHelper.GetString("TaskQueue.PostAction");
 
     public string ActionTitle
@@ -579,6 +584,14 @@ public class PostActionSetting : PropertyChangedBase
 
     private PostActionSetting()
     {
+        // 本类型为 Instance 单例，构造仅执行一次，转发订阅后无需取消订阅
+        TaskSettingVisibilityInfo.Instance.PropertyChanged += (_, e) => {
+            if (e.PropertyName == nameof(EnableAdvancedSettings))
+            {
+                NotifyOfPropertyChange(nameof(EnableAdvancedSettings));
+            }
+        };
+
         ConnectSettingsUserControlModel.Instance.PropertyChanged += (_, e) => {
             if (e.PropertyName is nameof(ConnectSettingsUserControlModel.ConnectConfig) or nameof(ConnectSettingsUserControlModel.IsPCConnectConfig))
             {

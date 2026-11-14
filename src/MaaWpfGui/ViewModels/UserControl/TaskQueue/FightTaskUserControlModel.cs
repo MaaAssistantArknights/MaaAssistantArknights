@@ -63,28 +63,43 @@ public partial class FightTaskUserControlModel : TaskSettingsViewModel, FightTas
     }
 
     public FightTaskUserControlModel()
+        : this(attachGlobalEvents: true)
+    {
+    }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="FightTaskUserControlModel"/> class.
+    /// </summary>
+    /// <param name="attachGlobalEvents">是否订阅全局事件（core 任务回调、仓库识别、语言切换）。
+    /// 默认单例构造传 true；短生命周期派生 Model（如教程沙盒）传 false 以隔离真实任务事件与静态引用。</param>
+    protected FightTaskUserControlModel(bool attachGlobalEvents)
     {
         _runningState = RunningState.Instance;
-        _runningState.StateChanged += OnRunningStateChanged;
-        Instances.AsstProxy.OnTaskStatusChanged += OnTaskStatusChanged;
-        Instances.AsstProxy.AsstSubTaskMsgEvent += ProcSubTaskMsg;
 
-        if (Instances.ToolboxViewModel is { } toolboxViewModel)
+        if (attachGlobalEvents)
         {
-            toolboxViewModel.DepotResult.CollectionChanged += OnDepotResultCollectionChanged;
+            _runningState.StateChanged += OnRunningStateChanged;
+            Instances.AsstProxy.OnTaskStatusChanged += OnTaskStatusChanged;
+            Instances.AsstProxy.AsstSubTaskMsgEvent += ProcSubTaskMsg;
+
+            if (Instances.ToolboxViewModel is { } toolboxViewModel)
+            {
+                toolboxViewModel.DepotResult.CollectionChanged += OnDepotResultCollectionChanged;
+            }
+
+            // 本类型为 Instance 单例，构造仅执行一次，订阅后无需取消订阅
+            LocalizationHelper.LanguageChanged += RefreshLocalization;
         }
 
         foreach (var i in WeeklyScheduleSource)
         {
             i.PropertyChanged += (_, __) => SaveWeeklySchedule();
         }
-        var item = new StagePlanItem();
+
+        var item = new StagePlanItem(this);
         item.PropertyChanged += (_, __) => SaveStagePlan();
         StagePlan.Add(item);
         InitDrops();
-
-        // 本类型为 Instance 单例，构造仅执行一次，订阅后无需取消订阅
-        LocalizationHelper.LanguageChanged += RefreshLocalization;
     }
 
     private void RefreshLocalization()
@@ -212,9 +227,9 @@ public partial class FightTaskUserControlModel : TaskSettingsViewModel, FightTas
     public static FightTaskUserControlModel Instance { get; }
 
     /// <summary>
-    /// Gets or sets a value indicating whether 关卡规划项正在被拖拽。
+    /// Gets or sets a value indicating whether 关卡规划项正在被拖拽。子类可覆写为自有数据源。
     /// </summary>
-    public bool IsStageItemDragging { get => field; set => SetAndNotify(ref field, value); }
+    public virtual bool IsStageItemDragging { get => field; set => SetAndNotify(ref field, value); }
 
     /// <summary>
     /// Gets or private sets a value indicating whether 关卡列表。
@@ -247,7 +262,7 @@ public partial class FightTaskUserControlModel : TaskSettingsViewModel, FightTas
     [UsedImplicitly]
     public void AddStageToPlan()
     {
-        var item = new StagePlanItem();
+        var item = new StagePlanItem(this);
         item.PropertyChanged += (_, __) => SaveStagePlan();
         StagePlan.Add(item);
     }
@@ -553,7 +568,8 @@ public partial class FightTaskUserControlModel : TaskSettingsViewModel, FightTas
     {
         get => GetTaskConfig<FightTask>().IsInventoryTarget;
         set {
-            if (!_runningState.Idle)
+            // 走 IsQueueIdle 而非直读 RunningState：沙盒覆写恒空闲，主窗口挂机时沙盒内仍可切换模式
+            if (!IsQueueIdle)
             {
                 return;
             }
@@ -568,7 +584,7 @@ public partial class FightTaskUserControlModel : TaskSettingsViewModel, FightTas
         }
     }
 
-    public bool IsSpecifiedInventoryLocked => UseInventoryTarget && !_runningState.Idle;
+    public bool IsSpecifiedInventoryLocked => UseInventoryTarget && !IsQueueIdle;
 
     public bool UseDropQuantityMode
     {
@@ -605,8 +621,10 @@ public partial class FightTaskUserControlModel : TaskSettingsViewModel, FightTas
 
     /// <summary>
     /// 获取当前选中作战任务绑定的第一个 core task id。
+    /// 短生命周期派生 Model（如教程沙盒）可覆写返回 null，使库存显示不命中真实任务的运行时库存缓存，恒走快照数据源。
     /// </summary>
-    private static int? GetCurrentFightTaskId()
+    /// <returns>绑定的第一个 core task id；当前任务非作战任务或未绑定 core 任务时为 null。</returns>
+    protected virtual int? GetCurrentFightTaskId()
     {
         if (TaskSettingVisibilityInfo.CurrentTask is not FightTask fight)
         {
@@ -675,6 +693,17 @@ public partial class FightTaskUserControlModel : TaskSettingsViewModel, FightTas
     }
 
     /// <summary>
+    /// 获取仓库库存快照（物品 ID 到数量的映射），供目标库存模式的界面显示（当前库存、实际刷取数量）。
+    /// 默认读全局仓库识别缓存；短生命周期派生 Model（如教程沙盒）可覆写指向伪造库存，隔离真实账号仓库数据。
+    /// 任务执行链路（append 序列化的运行时捕获、开始时缺口重算、临期药耗尽证明）不经本方法，恒读真实识别数据。
+    /// </summary>
+    /// <returns>itemId 到数量的映射；没有任何库存数据时为 null。</returns>
+    protected virtual Dictionary<string, int>? GetDepotSnapshot()
+    {
+        return Instances.ToolboxViewModel?.GetDepotSnapshot();
+    }
+
+    /// <summary>
     /// 获取指定掉落目标显示的库存数量。任务开始后，该显示值会被冻结。
     /// </summary>
     private int? GetSpecifiedDropsInventoryCount(FightTask fight, int? taskId = null)
@@ -689,7 +718,7 @@ public partial class FightTaskUserControlModel : TaskSettingsViewModel, FightTas
             return runtimeState.StartInventory;
         }
 
-        var currentInventoryCounts = Instances.ToolboxViewModel?.GetDepotSnapshot();
+        var currentInventoryCounts = GetDepotSnapshot();
         if (currentInventoryCounts == null)
         {
             return null;
@@ -1043,7 +1072,7 @@ public partial class FightTaskUserControlModel : TaskSettingsViewModel, FightTas
                 var list = StagePlan;
                 if (list.Count == 0)
                 {
-                    var item = new StagePlanItem();
+                    var item = new StagePlanItem(this);
                     item.PropertyChanged += (_, __) => SaveStagePlan();
                     StagePlan.Add(item);
                 }
@@ -1394,7 +1423,7 @@ public partial class FightTaskUserControlModel : TaskSettingsViewModel, FightTas
         {
             return;
         }
-        using var refresh = new UiRefreshingScope();
+        using var refresh = new UiRefreshingScope(this);
         if (!UseAlternateStage && fight.StagePlan.Count == 0)
         {
             fight.StagePlan.Add(string.Empty);
@@ -1407,7 +1436,11 @@ public partial class FightTaskUserControlModel : TaskSettingsViewModel, FightTas
         Refresh();
     }
 
-    private bool? SetFightParams()
+    /// <summary>
+    /// 任务参数变化后按当前任务重新序列化并下发 core。子类可覆写拦截（如教程沙盒不向 core 下发）。
+    /// </summary>
+    /// <returns>序列化结果，未触发时为 null。</returns>
+    protected virtual bool? SetFightParams()
     {
         if (IsRefreshingUI || TaskSettingVisibilityInfo.CurrentTask is not FightTask fight)
         {
@@ -1442,22 +1475,8 @@ public partial class FightTaskUserControlModel : TaskSettingsViewModel, FightTas
             using var log = new LogScope(_logger);
             var stageList = Instances.StageManager.GetStageList();
             await TaskQueueViewModel.TaskQueueSerializingLock.WaitAsync();
-            var time = DateTimeOffset.Now;
-            var activityList = Instances.StageManager.ActivityList.Where(ss => ss.Value.Info.StartTimeUtc <= time && time <= ss.Value.Info.ExpireTimeUtc);
-            if (activityList.Any())
-            {
-                var activity = activityList.First();
-                var timeLeft = activity.Value.Info.ExpireTimeUtc - time;
-                var day = timeLeft.Days > 0 ? $"{timeLeft.Days}+" : LocalizationHelper.GetString("TaskQueue.Stage.Label.LessThanOneDay");
-                ActivityExpireIn2Days = timeLeft.Days < 2;
-                ActivityInfo = $"｢{activity.Value.Info.StageName}｣ {LocalizationHelper.GetString("TaskQueue.Stage.Label.DaysLeftOpen")}{day}";
-            }
-            else
-            {
-                ActivityInfo = LocalizationHelper.GetString("TaskQueue.Fight.NoActivity");
-                ActivityExpireIn2Days = false;
-            }
-            using (var refresh = new UiRefreshingScope())
+            RefreshActivityInfo();
+            using (var refresh = new UiRefreshingScope(this))
             {
                 RefreshStageList();
                 foreach (var task in ConfigFactory.CurrentConfig.TaskQueue.OfType<FightTask>().Where(i => !i.IsStageManually))
@@ -1498,9 +1517,32 @@ public partial class FightTaskUserControlModel : TaskSettingsViewModel, FightTas
         });
     }
 
+    /// <summary>
+    /// 按当前时间从全局活动表刷新理智面板的活动信息行（活动名与剩余天数，无进行中活动时回落到暂无活动文案）。
+    /// 数据源为全局共享只读活动表，不触碰任务队列，教程沙盒 Model 也可在构造时直接调用。
+    /// </summary>
+    protected void RefreshActivityInfo()
+    {
+        var time = DateTimeOffset.Now;
+        var activityList = Instances.StageManager.ActivityList.Where(ss => ss.Value.Info.StartTimeUtc <= time && time <= ss.Value.Info.ExpireTimeUtc);
+        if (activityList.Any())
+        {
+            var activity = activityList.First();
+            var timeLeft = activity.Value.Info.ExpireTimeUtc - time;
+            var day = timeLeft.Days > 0 ? $"{timeLeft.Days}+" : LocalizationHelper.GetString("TaskQueue.Stage.Label.LessThanOneDay");
+            ActivityExpireIn2Days = timeLeft.Days < 2;
+            ActivityInfo = $"｢{activity.Value.Info.StageName}｣ {LocalizationHelper.GetString("TaskQueue.Stage.Label.DaysLeftOpen")}{day}";
+        }
+        else
+        {
+            ActivityInfo = LocalizationHelper.GetString("TaskQueue.Fight.NoActivity");
+            ActivityExpireIn2Days = false;
+        }
+    }
+
     private void RefreshStageList()
     {
-        if (TaskSettingVisibilityInfo.CurrentTask is not FightTask current)
+        if (GetCurrentTaskConfigOrNull<FightTask>() is not { } current)
         {
             return;
         }
@@ -1532,12 +1574,13 @@ public partial class FightTaskUserControlModel : TaskSettingsViewModel, FightTas
 
     private void RefreshCurrentStagePlan()
     {
-        if (TaskSettingVisibilityInfo.CurrentTask is not FightTask current)
+        if (GetCurrentTaskConfigOrNull<FightTask>() is not { } current)
         {
             return;
         }
+
         var plan = current.StagePlan.ToList();
-        var list = plan.Select((i, index) => new StagePlanItem(i)).ToList();
+        var list = plan.Select(i => new StagePlanItem(this, i)).ToList();
         foreach (var item in list)
         {
             item.PropertyChanged += (_, __) => SaveStagePlan();
@@ -1638,14 +1681,14 @@ public partial class FightTaskUserControlModel : TaskSettingsViewModel, FightTas
         public bool IsOutdated { get; set; } = false;
     }
 
-    public class StagePlanItem(string stage = "") : PropertyChangedBase
+    public class StagePlanItem(FightTaskUserControlModel owner, string stage = "") : PropertyChangedBase
     {
         public string Stage
         {
             get => field;
             set {
                 value ??= string.Empty;
-                if (TaskSettingVisibilityInfo.CurrentTask is FightTask task && task.UseOptionalStage)
+                if (owner.GetCurrentTaskConfigOrNull<FightTask>() is { UseOptionalStage: true })
                 {
                     // 从后往前删
                     if (value.Length != 3)
@@ -1660,7 +1703,7 @@ public partial class FightTaskUserControlModel : TaskSettingsViewModel, FightTas
                 }
 
                 IsOpen = Instances.StageManager.GetStageList().FirstOrDefault(p => p.Value == value)?.IsStageOpen(Instances.TaskQueueViewModel.CurDayOfWeek) ?? true;
-                Instance.SetFightParams();
+                owner.SetFightParams();
             }
         } = stage;
 
@@ -1794,22 +1837,25 @@ public partial class FightTaskUserControlModel : TaskSettingsViewModel, FightTas
         }
     }
 
+    // UI 刷新嵌套深度按实例计数：真实与沙盒实例各自独立，跨实例嵌套刷新时互不影响对方的 IsRefreshingUI 生命周期
+    private int _uiRefreshDepth;
+
     private struct UiRefreshingScope : IDisposable
     {
-        private static int _depth = 0;
+        private readonly FightTaskUserControlModel _owner;
 
-        public UiRefreshingScope()
+        public UiRefreshingScope(FightTaskUserControlModel owner)
         {
-            ++_depth;
-            Instance.IsRefreshingUI = true;
+            _owner = owner;
+            ++_owner._uiRefreshDepth;
+            _owner.IsRefreshingUI = true;
         }
 
         readonly void IDisposable.Dispose()
         {
-            --_depth;
-            if (_depth == 0)
+            if (--_owner._uiRefreshDepth == 0)
             {
-                Instance.IsRefreshingUI = false;
+                _owner.IsRefreshingUI = false;
             }
         }
     }

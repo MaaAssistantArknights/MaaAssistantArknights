@@ -266,6 +266,16 @@
     <system:String x:Key="Achievement.ScheduleMaster2.Conditions">スケジュール実行を 100 回実行する</system:String>
     <system:String x:Key="Achievement.ScheduleMaster2.Description">PRTSの自動化デプロイを熟知しました。</system:String>
     <system:String x:Key="Achievement.ScheduleMaster2.Title">汎用型自動化解決策0.3.2.9f2</system:String>
+    <system:String x:Key="Achievement.SimulationSpaceMedal.Description">｢多くの模擬空間をクリアしました。工業知識への情熱に感謝します。｣</system:String>
+    <system:String x:Key="Achievement.SimulationSpaceMedal1.Conditions">{key=Toolbox.TutorialChallenge.Title}を 5 ステージクリアする</system:String>
+    <system:String x:Key="Achievement.SimulationSpaceMedal1.Description">{key=Achievement.SimulationSpaceMedal.Description}</system:String>
+    <system:String x:Key="Achievement.SimulationSpaceMedal1.Title">模擬空間メダル I</system:String>
+    <system:String x:Key="Achievement.SimulationSpaceMedal2.Conditions">{key=Toolbox.TutorialChallenge.Title}を 10 ステージクリアする</system:String>
+    <system:String x:Key="Achievement.SimulationSpaceMedal2.Description">{key=Achievement.SimulationSpaceMedal.Description}</system:String>
+    <system:String x:Key="Achievement.SimulationSpaceMedal2.Title">模擬空間メダル II</system:String>
+    <system:String x:Key="Achievement.SimulationSpaceMedal3.Conditions">{key=Toolbox.TutorialChallenge.Title}を 20 ステージクリアする</system:String>
+    <system:String x:Key="Achievement.SimulationSpaceMedal3.Description">{key=Achievement.SimulationSpaceMedal.Description}</system:String>
+    <system:String x:Key="Achievement.SimulationSpaceMedal3.Title">模擬空間メダル III</system:String>
     <system:String x:Key="Achievement.SlackingOff.Conditions">{key=Toolbox.MiniGame.Title}を1回起動する</system:String>
     <system:String x:Key="Achievement.SlackingOff.Description">本業に疲れたら、ちょっと別の遊びを。</system:String>
     <system:String x:Key="Achievement.SlackingOff.Title">本業を怠る</system:String>
@@ -2542,6 +2552,7 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="Toolbox.MiniGame.TL.WartimePressCommittee.Tip" xml:space="preserve">イベントの新聞選択画面が表示されている状態から開始してください。</system:String>
     <system:String x:Key="Toolbox.MiniGame.Title">便利機能</system:String>
     <system:String x:Key="Toolbox.Title">ツールボックス</system:String>
+    <system:String x:Key="Toolbox.TutorialChallenge.Title">チュートリアルチャレンジ</system:String>
     <system:String x:Key="Tray.Exit">終了</system:String>
     <system:String x:Key="Tray.ForceShow">MAAの強制表示</system:String>
     <system:String x:Key="Tray.Hide">トレイアイコンを隠す</system:String>
@@ -2550,6 +2561,61 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="Tray.SwitchLanguage">言語を切り替える 🌐</system:String>
     <system:String x:Key="Tray.Title">トレイ</system:String>
     <system:String x:Key="Tray.Use">トレイアイコンを表示</system:String>
+    <system:String x:Key="TutorialChallenge.Coin">モーコイン</system:String>
+    <system:String x:Key="TutorialChallenge.Completed">クリア済み</system:String>
+    <system:String x:Key="TutorialChallenge.Difficulty.High">上級</system:String>
+    <system:String x:Key="TutorialChallenge.Difficulty.Low">初級</system:String>
+    <system:String x:Key="TutorialChallenge.Difficulty.Medium">中級</system:String>
+    <system:String x:Key="TutorialChallenge.Enter">進む</system:String>
+    <system:String x:Key="TutorialChallenge.Filter.All">すべて</system:String>
+    <system:String x:Key="TutorialChallenge.Filter.Completed">クリア済み</system:String>
+    <system:String x:Key="TutorialChallenge.Filter.Uncompleted">未クリア</system:String>
+    <system:String x:Key="TutorialChallenge.Level.AddFight.Goal">理性を消費するタスクがほしい。</system:String>
+    <system:String x:Key="TutorialChallenge.Level.AddFight.Title">{key=TaskQueue.Task.Fight}</system:String>
+    <system:String x:Key="TutorialChallenge.Level.ChipStock.Goal">初級 SoC を各 20 個、中級 SoC を各 32 個まで補充してください。挑戦してみましょう：最少でいくつのタスクで達成できるでしょうか？</system:String>
+    <system:String x:Key="TutorialChallenge.Level.ChipStock.Title">チップフルセット</system:String>
+    <system:String x:Key="TutorialChallenge.Level.DailyReconnect.Goal">夜通しローグライクを周回する（例：23:00 から翌 8:00 まで）と、午前 4:00 を跨ぐ際に瞬断で落ちます。キューがその時刻にゲームを自動で再起動し、ローグライクを続きから完了させるようにします。</system:String>
+    <system:String x:Key="TutorialChallenge.Level.DailyReconnect.Tip">ゲームの告知に 4:00-4:10 の瞬断メンテとありました。念のため 4:10 を推奨します。</system:String>
+    <system:String x:Key="TutorialChallenge.Level.DailyReconnect.Title">日またぎ再接続</system:String>
+    <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.AdminBlocked">管理者権限で実行中のため、Windows が高権限ウィンドウへのファイルドロップをブロックします。このレベルはドラッグでは達成できません。</system:String>
+    <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.AlreadyIdentified">この種類はすでに認識済みです。次をドラッグしましょう。</system:String>
+    <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.DropZone.FullPackage">完全アップデートパッケージ</system:String>
+    <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.DropZone.OtaPackage">OTA 差分パッケージ（任意）</system:String>
+    <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.DropZone.ResourcePackage">リソースアップデートパッケージ</system:String>
+    <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.DropZone.Tip">このウィンドウの任意の場所にアップデートパッケージをドラッグ</system:String>
+    <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.Goal">3 種類のアップデートパッケージを自分で探してこのウィンドウの任意の場所にドラッグしてください。完全パッケージのファイル名は ｢MAA-vX.Y.Z-win-{arch}.zip｣ で、X.Y.Z は現在のバージョンと一致する必要があります。OTA 差分パッケージのファイル名は ｢MAAComponent-OTA-vA_vB-win-{arch}.zip｣ で、vB は現在のバージョンと一致する必要があります。リソースパッケージはファイル名不問ですが、zip 内のリソースバージョンが現在のバージョンと一致する必要があります。メインウィンドウ自体にもアップデートパッケージをドラッグできますが、管理者権限で実行中は Windows がドロップをブロックします。</system:String>
+    <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.Identified.FullPackage">完全アップデートパッケージとして認識しました。実際には登録され、再起動を促します。</system:String>
+    <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.Identified.OtaPackage">OTA 差分パッケージとして認識しました。実際には登録され、再起動を促します。</system:String>
+    <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.Identified.ResourcePackage">リソースアップデートパッケージとして認識しました。実際にはそのままインポートされ再読み込みされます。</system:String>
+    <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.Title">ドラッグ更新</system:String>
+    <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.Unknown">認識できるアップデートパッケージではありません。</system:String>
+    <system:String x:Key="TutorialChallenge.Level.DragDropUpdate.WrongVersion">バージョン不一致：更新パッケージは現在のバージョンを対象にしている必要があります。</system:String>
+    <system:String x:Key="TutorialChallenge.Level.ExportLogs.EmptyPackageNote">(チュートリアルのため、中身は空です)</system:String>
+    <system:String x:Key="TutorialChallenge.Level.ExportLogs.Generating">生成中…</system:String>
+    <system:String x:Key="TutorialChallenge.Level.ExportLogs.Goal">バグを報告したい？エラーレポートを 1 件生成しましょう。</system:String>
+    <system:String x:Key="TutorialChallenge.Level.ExportLogs.Title">ログのエクスポート</system:String>
+    <system:String x:Key="TutorialChallenge.Level.InventoryTarget.Goal">合成玉用に 1-7 で初級源岩の在庫を 100 個まで補充したい。</system:String>
+    <system:String x:Key="TutorialChallenge.Level.InventoryTarget.Title">{key=TaskQueue.Fight.TargetInventory}</system:String>
+    <system:String x:Key="TutorialChallenge.Level.RecruitRobot.Goal">公開求人で ｢ロボット｣ タグが出たらロボット用に取っておきたい。公開求人タスクに ｢ロボット｣ タグを残させましょう。</system:String>
+    <system:String x:Key="TutorialChallenge.Level.RecruitRobot.Title">ロボット</system:String>
+    <system:String x:Key="TutorialChallenge.Level.ScheduledStart.Goal">毎日午後 5 時に自動でプレイを開始したい。17:00 のタイマー起動を設定しましょう。</system:String>
+    <system:String x:Key="TutorialChallenge.Level.ScheduledStart.Title">タイマー起動</system:String>
+    <system:String x:Key="TutorialChallenge.Level.SettingsSearch.DecoySection">その他</system:String>
+    <system:String x:Key="TutorialChallenge.Level.SettingsSearch.Goal">設定項目が多すぎて見つからない？検索ボックスで ｢maa｣ を含む設定項目をすべて絞り込み、対象をすべてチェックしましょう。</system:String>
+    <system:String x:Key="TutorialChallenge.Level.SettingsSearch.Title">設定検索</system:String>
+    <system:String x:Key="TutorialChallenge.Level.SettingsSearch.WrongPick">これは MAA 関連の設定ではありません。もう一度探してみましょう。</system:String>
+    <system:String x:Key="TutorialChallenge.Level.StagePriority.Goal">AP-5 を優先して周回したい。AP-5 が未開放の時は CE-6、両方とも未開放なら 1-7 にしたい。</system:String>
+    <system:String x:Key="TutorialChallenge.Level.StagePriority.Title">代替ステージの優先度</system:String>
+    <system:String x:Key="TutorialChallenge.Level.TargetDrop.Goal">初級源岩が 10 個ほしい。1-7 で 10 個集めてくる。</system:String>
+    <system:String x:Key="TutorialChallenge.Level.TargetDrop.Title">{key=TaskQueue.Fight.AssignedMaterial}</system:String>
+    <system:String x:Key="TutorialChallenge.Level.TimerOnce.Goal">ゲームが 10 時から 16 時までメンテナンスに入り、12:00 のタイマーは実行できないとします。16:00 のタイマーを追加しましょう——もしかするとチェックボックスには別の状態があるかもしれません。</system:String>
+    <system:String x:Key="TutorialChallenge.Level.TimerOnce.Title">単発タイマー</system:String>
+    <system:String x:Key="TutorialChallenge.NoSimulatedPanel">このタスクタイプにはシミュレートされた設定がありません</system:String>
+    <system:String x:Key="TutorialChallenge.Reset">リセット</system:String>
+    <system:String x:Key="TutorialChallenge.SelectTaskHint">タスクの歯車ボタンをオンにすると設定を確認できます</system:String>
+    <system:String x:Key="TutorialChallenge.Shop.Placeholder">何を置くかはまだ未定</system:String>
+    <system:String x:Key="TutorialChallenge.Shop.Title">{key=TutorialChallenge.Coin}ショップ</system:String>
+    <system:String x:Key="TutorialChallenge.SmartSolutionHint">もっと楽な解き方もあります。｢{key=TaskQueue.Task.DepotMaintain}｣ タスクを 1 つ使い、｢{key=TaskQueue.DepotMaintain.PresetChip1}｣ と ｢{key=TaskQueue.DepotMaintain.PresetChip2}｣ のプリセットをインポートするだけで、すべての目標を満たせます。</system:String>
     <system:String x:Key="VersionUpdate.Api.UpdateFailed">ホットアップデートデータの取得に失敗しました</system:String>
     <system:String x:Key="VersionUpdate.Api.UpdateSuccess">ホットアップデートデータの取得に成功しました</system:String>
     <system:String x:Key="VersionUpdate.CheckNetworking">ネットワークの接続状況とプロクシの設定を確認してください。</system:String>
