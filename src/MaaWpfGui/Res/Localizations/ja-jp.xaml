@@ -1983,6 +1983,11 @@ MAA は非インストール型のアプリケーションであり、レジス�
     <system:String x:Key="Settings.Update.StartupCheck">起動時の更新チェック</system:String>
     <system:String x:Key="Settings.Update.Title">アップデート設定</system:String>
     <system:String x:Key="Settings.Update.UiVersion">UI バージョン</system:String>
+    <system:String x:Key="Skin.Nailong.Badge">今日は腹を抱えて笑おう</system:String>
+    <system:String x:Key="Skin.Nailong.Credit">Naiwa pixel animation · Maple498 / nai-wa-codex-pet · CC BY 4.0 · Unmodified · https://github.com/Maple498/nai-wa-codex-pet · https://creativecommons.org/licenses/by/4.0/</system:String>
+    <system:String x:Key="Skin.Nailong.Laugh">アハハ</system:String>
+    <system:String x:Key="Skin.Nailong.Sanity">理性 -1</system:String>
+    <system:String x:Key="Skin.Nailong.Tagline">理性は休憩。奶龙は出勤。</system:String>
     <system:String x:Key="TaskQueue.AdbReplacementTips">タスクが応答なしになる場合は、｢{key=Settings.Title} - {key=Settings.Connection.Title} - {key=Connection.ForcedReplaceAdb}｣、もしくは ADB Input タッチモード をチェックしてください（お勧めしない）。</system:String>
     <system:String x:Key="TaskQueue.AddTask">新しいタスクを追加</system:String>
     <system:String x:Key="TaskQueue.AdvancedSettings">高度な設定</system:String>

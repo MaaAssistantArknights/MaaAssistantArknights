@@ -1,0 +1,38 @@
+Naiwa Codex Pet pixel animation
+Author: Maple498 / nai-wa-codex-pet contributors
+Source: https://github.com/Maple498/nai-wa-codex-pet
+Original file: assets/hover-belly-laugh.gif
+Asset license: Creative Commons Attribution 4.0 International (CC BY 4.0)
+https://creativecommons.org/licenses/by/4.0/
+
+The animation is redistributed unchanged as NaiwaLaugh.gif.
+The source repository grants rights to its pixel redraw and animation only,
+not to the underlying internet character or any third-party rights.
+MAA is not an official Nailong collaboration.
+
+Upstream asset license notice (verbatim):
+
+# 图像资产授权与权利说明
+
+## 本项目制作的图像资产
+
+`spritesheet.webp` 以及 `assets/` 目录中由本项目制作的像素动画和预览文件，采用 **Creative Commons Attribution 4.0 International（CC BY 4.0）** 授权。
+
+协议中文摘要：<https://creativecommons.org/licenses/by/4.0/deed.zh-hans>
+
+在遵守署名条件的前提下，你可以复制、分发、展示、修改并再创作这些资产，也可以用于商业用途。使用修改版本时应注明做过修改。
+
+建议署名：
+
+```text
+“奶蛙 Codex Pet”像素动画，来源于本项目，采用 CC BY 4.0 授权；如有修改请注明。
+```
+
+## 网络流行形象原型
+
+“奶蛙”的网络流行形象原型不属于本项目所能确认或授予的权利范围。本项目仅就维护者实际创作的像素重绘、动画编排、透明图集制作和预览文件授予上述许可，不对原型是否属于公共领域、是否存在第三方权利或具体使用是否需要额外许可作保证。
+
+CC BY 4.0 本身也不保证已经覆盖所有可能相关的形象权、隐私权、人格权、商标权或其他第三方权利。使用者应根据自己的发布地区和用途自行判断。
+
+如有明确权利主张，请通过 GitHub Issue 联系维护者。
+
