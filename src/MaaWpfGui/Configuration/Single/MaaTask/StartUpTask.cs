@@ -11,6 +11,7 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 #nullable enable
+using System;
 using System.Text.Json.Serialization;
 using static MaaWpfGui.Main.AsstProxy;
 
@@ -27,9 +28,15 @@ public class StartUpTask : BaseTask, IJsonOnDeserialized
     /// </summary>
     public bool? AccountSwitchEnabled { get; set; }
 
+    /// <summary>
+    /// Gets or sets 启动导航连续识别失败的超时秒数。
+    /// </summary>
+    public int StartupTimeout { get; set; } = 120;
+
     public void OnDeserialized()
     {
         // v6.14.0-b2 新增一次性配置迁移：旧配置没有这个字段（json 中不存在，反序列化后为 null），此时按是否已有账号名决定初始值
         AccountSwitchEnabled ??= !string.IsNullOrEmpty(AccountName);
+        StartupTimeout = Math.Clamp(StartupTimeout, 10, 600);
     }
 }

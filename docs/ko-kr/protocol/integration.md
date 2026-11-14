@@ -70,6 +70,14 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
 @optional  
 클라이언트 자동 실행 여부  
 :::  
+::: field startup_timeout  
+@type number  
+@default 120  
+@optional  
+시작 및 계정 전환 과정의 각 단계에서 화면을 연속으로 인식하지 못할 때 기다리는 최대 시간(초)입니다. `10`부터 `600`까지의 정수여야 하며, 잘못된 형식이나 범위를 벗어난 값이면 작업 파라미터 설정이 실패합니다.
+<br>
+실제 경과 시간으로 계산합니다. 인식에 성공하면 즉시 다음 단계로 진행하고, 다음 인식 단계에서 시간을 새로 계산합니다. 인식된 로딩 또는 업데이트 화면은 연속 인식 실패에 해당하지 않습니다. 고정 대기 시간이나 전체 시작 과정의 제한 시간이 아닙니다. 제한 시간이 지나면 기존의 실패 또는 재시작 처리가 적용되며, 다른 작업의 재시도 설정에는 영향을 주지 않습니다.  
+:::  
 ::: field account_name  
 @type string  
 @optional  
@@ -93,6 +101,7 @@ Bilibili 서버: `张三`인 경우 `张三`, `张`, `三` 입력 가능
    "enable": true,
    "client_type": "Official",
    "start_game_enabled": true,
+   "startup_timeout": 120,
    "account_name": "123****4567"
 }
 ```

@@ -70,6 +70,14 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
 @optional  
 クライアントを自動的に起動するかどうか。  
 :::  
+::: field startup_timeout  
+@type number  
+@default 120  
+@optional  
+起動時およびアカウント切替時の画面遷移で、各ステップにおいて画面を連続して認識できない場合の最大待機時間（秒）。`10` から `600` までの整数を指定します。型が不正な場合や範囲外の場合、タスクのパラメータ設定は失敗します。
+<br>
+実際の経過時間で計測します。認識に成功すると直ちに次へ進み、次の認識ステップで計測をやり直します。認識済みの読み込み画面や更新画面は連続した認識失敗には含まれません。固定の待機時間でも、起動処理全体の制限時間でもありません。タイムアウト後は従来のエラー処理または再起動処理が適用され、ほかのタスクの再試行設定には影響しません。  
+:::  
 ::: field account_name  
 @type string  
 @optional  
@@ -93,6 +101,7 @@ Bilibili：`张三`、入力可能：`张三`、`张`、`三`
    "enable": true,
    "client_type": "Official",
    "start_game_enabled": true,
+   "startup_timeout": 120,
    "account_name": "123****4567"
 }
 ```

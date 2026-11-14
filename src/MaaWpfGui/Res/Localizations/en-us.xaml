@@ -926,6 +926,10 @@ Note:
     <system:String x:Key="Connection.SelectEmulator">Select Emulator</system:String>
     <system:String x:Key="Connection.SelectEmulatorPath">Select Emulator Path</system:String>
     <system:String x:Key="Connection.SelectItem">Select Item</system:String>
+    <system:String x:Key="Connection.StartupTimeout">Startup recognition timeout (s)</system:String>
+    <system:String x:Key="Connection.StartupTimeout.Tip" xml:space="preserve">Maximum time to wait when a step cannot recognize the screen during startup or account switching.
+Continue immediately after recognition succeeds; recognized loading or update screens do not count toward this timeout.
+Default: 120 seconds. Range: 10–600 seconds.</system:String>
     <system:String x:Key="Connection.TouchMode">Touch Mode</system:String>
     <system:String x:Key="Connection.TouchMode.AdbInput">ADB Input (Deprecated)</system:String>
     <system:String x:Key="Connection.TouchMode.MaaFwAdb">MaaFwAdb (Experimental)</system:String>

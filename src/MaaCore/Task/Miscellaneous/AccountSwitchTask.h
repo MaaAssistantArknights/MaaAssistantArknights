@@ -1,6 +1,7 @@
 #pragma once
 #include "Task/AbstractTask.h"
 
+#include <chrono>
 #include <vector>
 
 namespace asst
@@ -14,6 +15,8 @@ public:
     void set_account(std::string account) { m_account = std::move(account); }
 
     void set_client_type(std::string client_type) { m_client_type = std::move(client_type); }
+
+    void set_recognition_timeout(std::chrono::milliseconds timeout) { m_recognition_timeout = timeout; }
 
 private:
     virtual bool _run() override;
@@ -35,6 +38,7 @@ private:
     std::string m_account;
     std::string m_target_account;
     std::string m_client_type; // 客户端类型
+    std::chrono::milliseconds m_recognition_timeout { 0 };
     const std::vector<std::string> SupportedClientType = { "Official",
                                                            "Bilibili",
                                                            "txwy",

@@ -70,6 +70,14 @@ Options: `Official` | `Bilibili` | `txwy` | `YoStarEN` | `YoStarJP` | `YoStarKR`
 @optional  
 Whether to launch client automatically.  
 :::  
+::: field startup_timeout  
+@type number  
+@default 120  
+@optional  
+Maximum time in seconds spent continuously failing to recognize the screen at each step of startup navigation and account-switch navigation. Must be an integer from `10` to `600`; an invalid type or out-of-range value causes task parameter configuration to fail.
+<br>
+Uses elapsed time. Recognition success advances immediately, and the next recognition step gets a new timeout. Recognized loading or update screens are not continuous recognition failures. This is neither a fixed delay nor a time limit for the entire startup process. Existing failure or restart handling applies on timeout; retry settings for other tasks are unaffected.  
+:::  
 ::: field account_name  
 @type string  
 @optional  
@@ -93,6 +101,7 @@ Traditional Chinese server: Email-based, e.g. `ab****01@gmail.com`. Entering the
    "enable": true,
    "client_type": "Official",
    "start_game_enabled": true,
+   "startup_timeout": 120,
    "account_name": "123****4567"
 }
 ```
