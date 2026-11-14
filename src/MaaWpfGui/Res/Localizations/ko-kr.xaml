@@ -2384,6 +2384,19 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="Toolbox.MiniGame.EventShop.FurniturePart">가구 부품</system:String>
     <system:String x:Key="Toolbox.MiniGame.EventShop.Lmd">용문폐</system:String>
     <system:String x:Key="Toolbox.MiniGame.EventShop.Other">기타 사용자 지정 상품</system:String>
+    <system:String x:Key="Toolbox.MiniGame.InfrastPresetImport">게임 내 기반시설 프리셋 가져오기</system:String>
+    <system:String x:Key="Toolbox.MiniGame.InfrastPresetImport.Client">현재 프리셋 편집은 중국 공식 및 Bilibili 클라이언트를 지원합니다.</system:String>
+    <system:String x:Key="Toolbox.MiniGame.InfrastPresetImport.Completed">가져오기 완료: 저장된 명단 {2}개를 확인했습니다.</system:String>
+    <system:String x:Key="Toolbox.MiniGame.InfrastPresetImport.Confirm" xml:space="preserve">{0}&#10;&#10;{1}개 방에 {2}개 명단을 기록하여 해당 프리셋을 덮어씁니다.&#10;먼저 기반시설 또는 배치 개요를 여세요. 프리셋만 저장하며 교대는 실행하지 않습니다.&#10;근무 시간, 생산품 및 드론 설정은 저장 대상이 아닙니다.</system:String>
+    <system:String x:Key="Toolbox.MiniGame.InfrastPresetImport.Core">가져오기를 시작할 수 없습니다. 이 기능이 포함된 전체 디버그 빌드를 사용하세요.</system:String>
+    <system:String x:Key="Toolbox.MiniGame.InfrastPresetImport.Editing">편집 중: {0} · 대열 {1}</system:String>
+    <system:String x:Key="Toolbox.MiniGame.InfrastPresetImport.Failed">{0} · 대열 {1}에서 중단, 확인 {2}개. 게임 화면을 확인하세요. 저장한 대열은 유지됩니다. 현재 대열은 생성 또는 저장되었으나 미확인 상태일 수 있습니다.</system:String>
+    <system:String x:Key="Toolbox.MiniGame.InfrastPresetImport.Invalid">지원하지 않는 근무표입니다. 정확히 세 교대조와 고정 오퍼레이터 명단이 필요합니다. 중복, 정원, 자동 충원 및 동적 그룹을 확인하세요.</system:String>
+    <system:String x:Key="Toolbox.MiniGame.InfrastPresetImport.IoError">근무표를 읽을 수 없습니다. 경로와 권한을 확인하세요.</system:String>
+    <system:String x:Key="Toolbox.MiniGame.InfrastPresetImport.Mapping">{0} → 게임 내 대열 {1}</system:String>
+    <system:String x:Key="Toolbox.MiniGame.InfrastPresetImport.Skipped">유지 / 프리셋 미지원:</system:String>
+    <system:String x:Key="Toolbox.MiniGame.InfrastPresetImport.Tip">세 교대조를 각 방의 게임 내 프리셋 대열 1, 2, 3에 저장합니다. 먼저 기반시설, 배치 개요 또는 프리셋 화면을 여세요. 저장한 명단을 다시 열어 확인합니다.</system:String>
+    <system:String x:Key="Toolbox.MiniGame.InfrastPresetImport.Verified">저장 및 재확인 완료: {0} · 대열 {1} (확인 {2}개)</system:String>
     <system:String x:Key="Toolbox.MiniGame.InteractiveExhibition">기상 순회전 - 미수록 기상 찾기</system:String>
     <system:String x:Key="Toolbox.MiniGame.InteractiveExhibition.Tip" xml:space="preserve">선택한 맵의 고급 구역 초원 오른쪽 아래에서 작업을 시작합니다.&#10;초원을 왔다 갔다 하며 미수록 생물을 찾고, 발견하면 자동으로 중지됩니다.&#10;생물은 초원에서만 만날 수 있습니다.</system:String>
     <system:String x:Key="Toolbox.MiniGame.InteractiveExhibition.UncollectedNotification.Content">MAA가 자동 탐색을 중지했습니다. 게임으로 돌아가 전투를 수동으로 완료하세요.</system:String>

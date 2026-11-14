@@ -19,6 +19,7 @@
 #include "Task/Interface/CustomTask.h"
 #include "Task/Interface/DepotTask.h"
 #include "Task/Interface/FightTask.h"
+#include "Task/Interface/InfrastPresetImportTask.h"
 #include "Task/Interface/InfrastTask.h"
 #include "Task/Interface/MallTask.h"
 #include "Task/Interface/OperBoxTask.h"
@@ -336,6 +337,7 @@ asst::Assistant::TaskId asst::Assistant::append_task(const std::string& type, co
     ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(AwardTask)
     ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(MallTask)
     ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(InfrastTask)
+    ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(InfrastPresetImportTask)
     ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(OperProgressTask)
     ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(RecruitTask)
     ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(RoguelikeTask)

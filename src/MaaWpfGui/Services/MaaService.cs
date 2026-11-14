@@ -192,4 +192,9 @@ public enum AsstTaskType : byte
     /// 干员培养
     /// </summary>
     OperProgress,
+
+    /// <summary>
+    /// 编辑游戏内基建预设队列。
+    /// </summary>
+    InfrastPresetImport,
 }

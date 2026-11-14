@@ -2384,6 +2384,19 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="Toolbox.MiniGame.EventShop.FurniturePart">傢俱零件</system:String>
     <system:String x:Key="Toolbox.MiniGame.EventShop.Lmd">龍門幣</system:String>
     <system:String x:Key="Toolbox.MiniGame.EventShop.Other">其他自訂商品</system:String>
+    <system:String x:Key="Toolbox.MiniGame.InfrastPresetImport">匯入遊戲內預設隊列</system:String>
+    <system:String x:Key="Toolbox.MiniGame.InfrastPresetImport.Client">目前預設編輯辨識支援官服和 B 服。</system:String>
+    <system:String x:Key="Toolbox.MiniGame.InfrastPresetImport.Completed">匯入完成，已儲存並核對 {2} 個預設名單。</system:String>
+    <system:String x:Key="Toolbox.MiniGame.InfrastPresetImport.Confirm" xml:space="preserve">{0}&#10;&#10;將寫入 {1} 個房間、{2} 個預設名單，覆蓋對應隊列原有名單。&#10;請先進入基建主畫面或進駐總覽。匯入僅儲存預設，不執行換班。&#10;班次時間、產品與無人機設定不寫入遊戲預設。</system:String>
+    <system:String x:Key="Toolbox.MiniGame.InfrastPresetImport.Core">預設匯入任務無法啟動，請使用包含此功能的完整偵錯版。</system:String>
+    <system:String x:Key="Toolbox.MiniGame.InfrastPresetImport.Editing">正在編輯 {0} · 隊列 {1}</system:String>
+    <system:String x:Key="Toolbox.MiniGame.InfrastPresetImport.Failed">匯入中斷於 {0} · 隊列 {1}，已核對 {2} 隊。請檢查遊戲畫面；已儲存的隊列保留，目前隊列可能已建立或儲存但尚未核對。</system:String>
+    <system:String x:Key="Toolbox.MiniGame.InfrastPresetImport.Invalid">排班檔案無法匯入。需要恰好三個班次及明確幹員名單；請檢查重複幹員、人數上限、自動補人及動態編組。</system:String>
+    <system:String x:Key="Toolbox.MiniGame.InfrastPresetImport.IoError">無法讀取排班檔案，請檢查路徑及權限。</system:String>
+    <system:String x:Key="Toolbox.MiniGame.InfrastPresetImport.Mapping">{0} → 遊戲隊列 {1}</system:String>
+    <system:String x:Key="Toolbox.MiniGame.InfrastPresetImport.Skipped">保留原樣／無預設功能：</system:String>
+    <system:String x:Key="Toolbox.MiniGame.InfrastPresetImport.Tip">將三個班次依次儲存至遊戲內各房間的預設隊列 1、2、3。請先進入基建主畫面、進駐總覽或預設隊列視窗。儲存後會重新開啟名單核對。</system:String>
+    <system:String x:Key="Toolbox.MiniGame.InfrastPresetImport.Verified">已儲存並重新核對：{0} · 隊列 {1}（累計 {2} 隊）</system:String>
     <system:String x:Key="Toolbox.MiniGame.InteractiveExhibition">奇象巡展-找未收錄生物</system:String>
     <system:String x:Key="Toolbox.MiniGame.InteractiveExhibition.Tip" xml:space="preserve">在所選地圖的高級區草地右下角開始任務。&#10;在草地來回走動尋找未收錄生物，找到後自動停止。&#10;只有草地能遇到生物。</system:String>
     <system:String x:Key="Toolbox.MiniGame.InteractiveExhibition.UncollectedNotification.Content">MAA 已停止自動探索，請返回遊戲完成戰鬥。</system:String>

@@ -1,0 +1,39 @@
+{
+    "InfrastPresetImportBegin": {
+        "algorithm": "JustReturn",
+        "next": ["InfrastPresetImportDialog", "InfrastPresetImportEdit", "InfrastPresetImportOverview"]
+    },
+    "InfrastPresetImportOverview": {
+        "baseTask": "InfrastEnterRotation",
+        "template": "InfrastOverviewEnter.png",
+        "next": ["InfrastPresetImportEdit"]
+    },
+    "InfrastPresetImportEdit": {
+        "algorithm": "OcrDetect",
+        "text": ["编辑队列"],
+        "roi": [440, 195, 160, 65],
+        "action": "ClickSelf",
+        "postDelay": 800,
+        "next": ["InfrastPresetImportDialog"]
+    },
+    "InfrastPresetImportDialog": {
+        "algorithm": "OcrDetect",
+        "text": ["预设队列"],
+        "roi": [255, 300, 310, 40]
+    },
+    "InfrastPresetImportConfirm": {
+        "algorithm": "OcrDetect",
+        "text": ["确认"],
+        "fullMatch": true,
+        "roi": [930, 630, 330, 90],
+        "action": "ClickSelf",
+        "postDelay": 800,
+        "next": ["InfrastPresetImportDialog"]
+    },
+    "InfrastPresetImportBack": {
+        "baseTask": "Infrast@ReturnButton",
+        "template": "Return.png",
+        "postDelay": 800,
+        "next": ["InfrastPresetImportDialog"]
+    }
+}
