@@ -35,8 +35,10 @@ inline flow::FlowGraph
     for (size_t i = 0; i < left_count; ++i) {
         for (size_t j : adjacency[i]) {
             // 明日方舟 7 年了，一共 425 个干员，不知道能不能等到有 1024 个干员的那一天
-            // 目前的位数需求是 21 (保全派驻) * log2(425) = 21 * 9 = 189 < 256
-            flow::Int256 cost = flow::Int256(static_cast<int64_t>(j)) << (10 * (left_count - i - 1));
+            // 目前最多 22 组，候选费用占 22 * 10 = 220 位，加上组序号后单边费用小于 2^225 < 2^255。
+            flow::Int256 cost = flow::Int256(static_cast<int64_t>(j + 1)) << (10 * (left_count - i - 1));
+            // 组序号占用更高位，部分匹配时优先保留靠前的组。
+            cost += flow::Int256(static_cast<int64_t>(i)) << (10 * left_count);
             fg.add_edge(static_cast<int>(i + 1), static_cast<int>(left_count + j + 1), 1, cost);
         }
     }
