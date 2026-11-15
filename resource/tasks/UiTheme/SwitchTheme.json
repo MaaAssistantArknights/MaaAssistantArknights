@@ -13,6 +13,7 @@
     },
     "SwitchTheme@SelectLightTheme": {
         "action": "ClickSelf",
+        "rectMove": [130, 45, 60, 20],
         "roi": [0, 99, 430, 180],
         "maxTimes": 10,
         "exceededNext": ["SwitchTheme@CancelThemeChange"],
