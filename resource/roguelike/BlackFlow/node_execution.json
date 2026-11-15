@@ -80,7 +80,7 @@
             "node_types": ["shop"],
             "rank": 1,
             "alias": "BlackFlow@Roguelike@NodeDispatchAction",
-            "task": "BlackFlow@Roguelike@Page-Shop",
+            "task": "BlackFlow@Roguelike@Page-ShopInvestment",
             "completion_task": "BlackFlow@Roguelike@LegacyCompletion-NodePage"
         },
         {

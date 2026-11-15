@@ -1557,6 +1557,10 @@
         "algorithm": "JustReturn",
         "next": ["BlackFlow@Roguelike@StageTraderLeave"]
     },
+    "BlackFlow@Roguelike@Page-ShopInvestment": {
+        "algorithm": "JustReturn",
+        "next": ["BlackFlow@Roguelike@StageTraderInvestSystem", "BlackFlow@Roguelike@StageTraderLeave"]
+    },
     "BlackFlow@Roguelike@RecoverMap": {
         "baseTask": "BlackFlow@Roguelike@RecoverMap-Exit",
         "template": "Roguelike@ExitThenAbandon.png",
