@@ -23,12 +23,24 @@
     d:DesignWidth="800"
     mc:Ignorable="d">
     <Grid>
-        <userControl:GuideUserControl
-            x:Name="Guide"
-            VerticalAlignment="Stretch"
-            s:View.ActionTarget="{Binding DataContext, RelativeSource={RelativeSource Self}}"
-            DataContext="{Binding TaskSettingDataContext}"
-            Visibility="{c:Binding TaskSettingVisibilities.Guide}" />
+        <ContentControl VerticalAlignment="Stretch" Visibility="{c:Binding TaskSettingVisibilities.Guide}">
+            <ContentControl.Style>
+                <Style TargetType="ContentControl">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding TaskSettingVisibilities.Guide}" Value="True">
+                            <Setter Property="Content" Value="{Binding TaskSettingDataContext}" />
+                            <Setter Property="ContentTemplate">
+                                <Setter.Value>
+                                    <DataTemplate>
+                                        <userControl:GuideUserControl s:View.ActionTarget="{Binding DataContext, RelativeSource={RelativeSource Self}}" />
+                                    </DataTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </ContentControl.Style>
+        </ContentControl>
         <Grid Margin="20" Visibility="{c:Binding !TaskSettingVisibilities.Guide}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
