@@ -1,0 +1,181 @@
+{
+    "RelaunchAnchor@RA@Common-Confirm": {
+        "text": ["確定"]
+    },
+    "RelaunchAnchor@RA@Common-OpenConstruction": {
+        "text": ["開啟建設"]
+    },
+    "RelaunchAnchor@RA@Common-StartConstruction": {
+        "text": ["開始建設"]
+    },
+    "RelaunchAnchor@RA@RA1-ChooseStrategy": {
+        "text": ["精耕細作"]
+    },
+    "RelaunchAnchor@RA@RA1-ConfirmSelection": {
+        "text": ["確定", "選擇"]
+    },
+    "RelaunchAnchor@RA@RA1-SkipPlot": {
+        "text": ["SKIP"]
+    },
+    "RelaunchAnchor@RA@RA1-SkipPlotConfirm": {
+        "text": ["是否跳過劇情"]
+    },
+    "RelaunchAnchor@RA@RA1-DeployGatheringBasePrompt": {
+        "text": ["請部署", "羅德島", "採集基站"]
+    },
+    "RelaunchAnchor@RA@RA1-DeployOperatorDirection": {
+        "text": ["迷迭香"]
+    },
+    "RelaunchAnchor@RA@RA1-DeliverWood5": {
+        "text": ["木材"]
+    },
+    "RelaunchAnchor@RA@RA1-DeliverWood": {
+        "text": ["交付木材8+"]
+    },
+    "RelaunchAnchor@RA@RA1-Infrastructure": {
+        "text": ["基礎設施"]
+    },
+    "RelaunchAnchor@RA@RA1-CommunicationStation": {
+        "text": ["通訊基地台"],
+        "roi": [370, 159, 136, 34]
+    },
+    "RelaunchAnchor@RA@RA1-StartBuildingStation": {
+        "text": ["開始建造"]
+    },
+    "RelaunchAnchor@RA@RA1-BlankContinue": {
+        "ocrReplace": [["空百", "空白"]],
+        "text": ["點擊", "空白", "繼續"]
+    },
+    "RelaunchAnchor@RA@RA1-ExitConstruction": {
+        "text": ["建造"]
+    },
+    "RelaunchAnchor@RA@RA1-CraftOwnCommStation1": {
+        "text": ["製作並擁有", "通訊基地台"]
+    },
+    "RelaunchAnchor@RA@RA1-CraftOwnCommStation": {
+        "text": ["製作並擁有", "通訊基地台"]
+    },
+    "RelaunchAnchor@RA@RA1-DeliverStone10": {
+        "text": ["石材"]
+    },
+    "RelaunchAnchor@RA@RA1-DeliverStone": {
+        "text": ["交付石材"]
+    },
+    "RelaunchAnchor@RA@RA1-SettleNow": {
+        "text": ["立即結算"]
+    },
+    "RelaunchAnchor@RA@RA1-ContinueAfterSettlement": {
+        "text": ["點擊繼續"]
+    },
+    "RelaunchAnchor@RA@RA1-FinishConstruction": {
+        "text": ["完成建設"]
+    },
+    "RelaunchAnchor@RA@RA4-ChooseStrategy": {
+        "text": ["籌劃", "經營"]
+    },
+    "RelaunchAnchor@RA@RA4-Choose": {
+        "text": ["幹員", "招募"]
+    },
+    "RelaunchAnchor@RA@RA4-ExamineEWExistence2": {
+        "text": ["編入", "幹員"]
+    },
+    "RelaunchAnchor@RA@RA4-AddHelp": {
+        "text": ["選擇", "助戰"]
+    },
+    "RelaunchAnchor@RA@RA4-EW-Common": {
+        "text": ["維什", "戴爾"]
+    },
+    "RelaunchAnchor@RA@RA4-EW-ConfirmHelp": {
+        "text": ["招募", "助戰"]
+    },
+    "RelaunchAnchor@RA@RA4-ExamineEWExistence": {
+        "text": ["維什", "戴爾"]
+    },
+    "RelaunchAnchor@RA@RA4-ConfirmTeam": {
+        "text": ["確定招募"]
+    },
+    "RelaunchAnchor@RA@RA4-ConfirmTeam2": {
+        "text": ["確定"]
+    },
+    "RelaunchAnchor@RA@RA4-WaitName": {
+        "text": ["RA", "-4", "相助"]
+    },
+    "RelaunchAnchor@RA@RA4-UseRedGold": {
+        "text": ["粗製", "赤金"]
+    },
+    "RelaunchAnchor@RA@RA4-Mission": {
+        "text": ["全新", "區域"]
+    },
+    "RelaunchAnchor@RA@RA4-ClickMission": {
+        "text": ["全新", "區域"]
+    },
+    "RelaunchAnchor@RA@RA4-Mission2": {
+        "text": ["清澈", "水域"]
+    },
+    "RelaunchAnchor@RA@RA4-ClickMission2": {
+        "text": ["發現", "清澈", "水"]
+    },
+    "RelaunchAnchor@RA@RA4-Mission3": {
+        "text": ["領袖", "敵人"]
+    },
+    "RelaunchAnchor@RA@RA4-ClickMission3": {
+        "text": ["累計", "擊敗", "領袖", "敵人"]
+    },
+    "RelaunchAnchor@RA@RA4-ExitSettleNow": {
+        "text": ["確定", "終止"]
+    },
+    "RelaunchAnchor@RA@RA15-ChooseStrategy": {
+        "text": ["籌劃", "經營"]
+    },
+    "RelaunchAnchor@RA@RA15-ConfirmSelection": {
+        "text": ["確定", "選擇"]
+    },
+    "RelaunchAnchor@RA@RA15-Choose": {
+        "text": ["幹員", "招募"]
+    },
+    "RelaunchAnchor@RA@RA15-ChooseExamine": {
+        "text": ["快捷", "編隊"]
+    },
+    "RelaunchAnchor@RA@RA15-ExamineCXExistence": {
+        "text": ["聖聆", "初雪"]
+    },
+    "RelaunchAnchor@RA@RA15-ClearChosen": {
+        "text": ["快捷", "編隊"]
+    },
+    "RelaunchAnchor@RA@RA15-ClearChosen-2": {
+        "text": ["清空"]
+    },
+    "RelaunchAnchor@RA@RA15-ClearChosen-3": {
+        "text": ["清空"]
+    },
+    "RelaunchAnchor@RA@RA15-ConfirmChoose": {
+        "text": ["確定"]
+    },
+    "RelaunchAnchor@RA@RA15-AddHelp": {
+        "text": ["選擇", "助戰"]
+    },
+    "RelaunchAnchor@RA@RA15-CX-Common": {
+        "text": ["聖聆", "初雪"]
+    },
+    "RelaunchAnchor@RA@RA15-CX-ConfirmHelp": {
+        "text": ["招募助戰"]
+    },
+    "RelaunchAnchor@RA@RA15-ConfirmTeam": {
+        "text": ["確定招募"]
+    },
+    "RelaunchAnchor@RA@RA15-ConfirmTeam2": {
+        "text": ["確定"]
+    },
+    "RelaunchAnchor@RA@RA15-AlignMapCheck": {
+        "text": ["請部署", "羅德島", "採集", "基站"]
+    },
+    "RelaunchAnchor@RA@RA15-Kill60": {
+        "text": ["擊敗"]
+    },
+    "RelaunchAnchor@RA@RA15-Deliver": {
+        "text": ["擊敗"]
+    },
+    "RelaunchAnchor@RA@RA15-End2": {
+        "text": ["確定"]
+    }
+}
