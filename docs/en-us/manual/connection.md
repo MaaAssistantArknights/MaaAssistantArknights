@@ -213,7 +213,7 @@ AVD Screenshot Enhanced Mode is implemented in MaaFramework. Touch mode must be 
 
 For the [ModAVD](https://github.com/ModAVD/ModAVD) emulator. MAA reads the emulator screen directly through the `modavd_extras` library that ModAVD provides, without going through ADB. For touch, choose `ModAVD Touch`, which uses the same library to touch from the emulator side, or MaaTouch.
 
-1. In `Settings` - `Connection` - `Connection Preset`, select `ModAVD`, and uncheck `Auto detect connection` (auto detection does not recognize ModAVD).
+1. In `Settings` - `Connection` - `Connection Preset`, select `ModAVD`, or use `Auto detect connection` to detect a running ModAVD instance.
 
 2. Set `ModAVD root` to the ModAVD root folder (the folder that contains `ModAVD.exe`), or click `Select` to browse for it. The folder must contain `extras\modavd_extras.dll`. ModAVD release packages include it since 0.39.0; for an older version, update ModAVD first, or download `modavd_extras.dll` from the [ModAVDExtras releases](https://github.com/ModAVD/ModAVDExtras/releases) and put it in the `extras` folder there.
 

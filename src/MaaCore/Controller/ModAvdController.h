@@ -49,6 +49,8 @@ public:
 protected:
     virtual std::optional<std::string> reconnect(const std::string& cmd, int64_t timeout, bool recv_by_socket) override;
 
+    virtual void on_display_rotated() override;
+
     virtual void clear_info() noexcept override;
 
 private:

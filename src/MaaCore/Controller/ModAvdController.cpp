@@ -291,6 +291,14 @@ std::optional<std::string> ModAvdController::reconnect(const std::string& cmd, i
     return AdbController::reconnect(cmd, timeout, recv_by_socket);
 }
 
+void ModAvdController::on_display_rotated()
+{
+    // 原生触控使用显示像素，无需重启未创建的 MaaTouch；降级后仍由基类更新映射。
+    if (!m_modavd_input_ready) {
+        MaatouchController::on_display_rotated();
+    }
+}
+
 void ModAvdController::clear_info() noexcept
 {
     MaatouchController::clear_info();

@@ -215,7 +215,7 @@ AVD 截图增强模式在 MaaFramework 中实现，必须选择 MaaFwAdb 触控�
 
 适用于 [ModAVD](https://github.com/ModAVD/ModAVD) 模拟器。MAA 通过 ModAVD 提供的 `modavd_extras` 库直接读取模拟器画面，不经过 ADB；触控可以选 `ModAVD 触控`，同样由这个库从模拟器这边直接点击，也可以用 MaaTouch。
 
-1. `设置` - `连接设置` - `连接配置` 选择 `ModAVD`，并取消勾选 `自动检测连接`（自动检测不识别 ModAVD）。
+1. `设置` - `连接设置` - `连接配置` 选择 `ModAVD`，也可通过 `自动检测连接` 识别正在运行的 ModAVD 实例。
 
 2. `ModAVD 根目录` 填写 ModAVD 的根目录（即 `ModAVD.exe` 所在的目录），也可以点击 `选择` 浏览。该目录下需要有 `extras\modavd_extras.dll`：ModAVD 0.39.0 起的发布包自带；更早的版本请先更新 ModAVD，或从 [ModAVDExtras 的 Release](https://github.com/ModAVD/ModAVDExtras/releases) 下载 `modavd_extras.dll`，放入其中的 `extras` 文件夹。
 

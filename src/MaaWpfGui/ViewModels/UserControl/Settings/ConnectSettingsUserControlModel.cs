@@ -512,8 +512,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
             return true;
         }
 
-        // ModAVD registers its instances only with its own adb server, so `adb devices` does not list them;
-        // the address comes from the emulator command line. Never select an unrelated device.
+        // Use the selected ModAVD process's endpoint instead of an unrelated device from `adb devices`.
         if (selectedEmulator?.EmulatorName == ConnectConfig.ModAVD && !string.IsNullOrEmpty(selectedEmulator.Address))
         {
             ConnectAddress = selectedEmulator.Address;

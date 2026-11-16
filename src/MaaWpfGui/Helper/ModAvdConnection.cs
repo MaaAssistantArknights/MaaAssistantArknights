@@ -22,8 +22,7 @@ namespace MaaWpfGui.Helper;
 
 /// <summary>
 /// Finds a running ModAVD instance from its emulator process.
-/// ModAVD registers its instances only with its own adb server, never the default one on port 5037,
-/// so they do not show up in `adb devices`; the adb port is read from the process command line instead.
+/// Reads the instance's adb port from its command line, independently of which adb server it registers with.
 /// </summary>
 internal static class ModAvdConnection
 {

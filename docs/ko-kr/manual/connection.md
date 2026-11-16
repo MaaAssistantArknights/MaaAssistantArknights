@@ -223,7 +223,7 @@ AVD 스크린샷 향상 모드는 MaaFramework에서 구현되므로, AVD 스크
 
 [ModAVD](https://github.com/ModAVD/ModAVD) 에뮬레이터용입니다. MAA는 ModAVD가 제공하는 `modavd_extras` 라이브러리를 통해 ADB를 거치지 않고 에뮬레이터 화면을 직접 가져옵니다. 터치는 같은 라이브러리로 에뮬레이터 쪽에서 직접 조작하는 `ModAVD 터치`나 MaaTouch를 선택하세요.
 
-1. `설정` - `연결 설정` - `연결 프리셋`에서 `ModAVD`를 선택하고 `연결 자동 감지`를 해제합니다(자동 감지는 ModAVD를 인식하지 못합니다).
+1. `설정` - `연결 설정` - `연결 프리셋`에서 `ModAVD`를 선택하거나 `연결 자동 감지`로 실행 중인 ModAVD 인스턴스를 감지합니다.
 
 2. `ModAVD 루트 폴더`에 ModAVD 루트 폴더(`ModAVD.exe`가 있는 폴더)를 입력하거나 `선택`을 눌러 지정합니다. 이 폴더에 `extras\modavd_extras.dll`이 있어야 합니다. ModAVD 0.39.0부터 릴리스 패키지에 포함되어 있으며, 그 이전 버전이라면 먼저 ModAVD를 업데이트하거나 [ModAVDExtras 릴리스](https://github.com/ModAVD/ModAVDExtras/releases)에서 `modavd_extras.dll`을 다운로드해 해당 폴더의 `extras` 폴더에 넣으세요.
 
