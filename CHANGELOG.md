@@ -1,4 +1,4 @@
-## v6.22.0
+## v6.22.1-beta.1
 
 ### Highlights
 
@@ -14,9 +14,9 @@
 
 卫戍协议三期活动已适配，可使用 ｢小工具-牛杂｣ 中的 ｢卫戍协议｣ 刷取等级奖励。
 
-#### 设置页结构调整
+#### 新增 ModAVD 模拟器连接支持
 
-WPF 设置页分 ｢常规设置｣ 与 ｢高级设置｣ 两区，低频项收纳到 ｢高级设置｣。
+新增 ｢ModAVD｣ 连接配置，通过 ModAVD 的 modavd_extras 库直接读取模拟器画面并触控，不经过 ADB，支持自动检测运行中的实例；需 ModAVD 0.39.0 及以上版本。
 
 <details>
 <summary><b>English</b></summary>
@@ -33,9 +33,9 @@ The task queue gains a "Combat Daily Report" entry that summarizes daily battle 
 
 Stronghold Protocol Season 3 is now supported — use "Stronghold Protocol" under Toolbox - Useful Tasks to farm level rewards.
 
-#### Settings Reorganization: Low-Frequency Items Grouped Under "Advanced"
+#### New ModAVD Emulator Connection Support
 
-Low-frequency WPF settings are grouped under an "Advanced" section while achievements stay in the regular area.
+A new "ModAVD" connection profile reads the emulator screen and sends touch input directly through ModAVD's modavd_extras library, bypassing ADB; running instances are auto-detected. Requires ModAVD 0.39.0 or later.
 
 </details>
 
@@ -44,6 +44,43 @@ Low-frequency WPF settings are grouped under an "Advanced" section while achieve
 以下是详细内容：
 
 <details open>
+<summary><b>v6.22.1-beta.1 (2026-11-17)</b></summary>
+
+### 新增 | New
+
+* 新增 ModAVD 模拟器连接支持，经 modavd_extras 库直接读取画面与触控，不经过 ADB，支持自动检测实例 ([#19178](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/19178)) @qiyinxi
+* YostarEN/JP/KR 新增 Thunder in the Azure Dream 活动关卡导航 ([#19285](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/19285), [#19276](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/19276), [#19280](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/19280)) @Daydreamer114 @Manicsteiner
+
+### 改进 | Improved
+
+* WebGPU 推理后端扩展支持 macOS（Metal 后端）([#19222](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/19222)) @hguandl
+
+### 修复 | Fix
+
+* 修复任务运行中仍可删除或清空任务列表的问题 @ZiyinLin
+* 修复多线程日志轮转竞态导致的闪退 ([#19240](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/19240)) @Daydreamer114
+* 修复黑流树海刷等级时投资未生效的问题，开局分队确认后增加延迟以提高稳定性 ([#19266](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/19266), [#19257](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/19257)) @ZiyinLin
+* 修复肉鸽直达三层在关闭投资时第二层未一同直达的问题 ([#19243](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/19243)) @youzibigg
+* 修复更换主题时 ｢银凇｣ 被误识别为 ｢银松｣ 的问题 ([#19255](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/19255)) @moranfanhua
+* 修复切换主题界面主题卡片顶端无法点击的问题 @status102
+* 修复关卡名 OCR 误识别（Operation、末尾 \*），缩小自动战斗关卡名复核区域以提高准确度 @status102
+* 修复基建办公室优先选择地灵的问题 ([#19218](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/19218)) @chanshengbinying
+* 修复干员 ｢冻河｣ 贸易站技能未计入效率与组合评分的问题 @Lancarus
+* 修复干员 ｢锏｣ OCR 替换规则与非 720P 分辨率下 ｢司霆惊蛰｣ 识别错误 @Saratoga-Official
+* 繁中服修复限时签到第 10 天未领取的问题 @momomochi987
+* 繁中服更新生息演算重启锚点 ([#19283](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/19283)) @momomochi987
+* YostarEN/KR 修复 Thunder in the Azure Dream OCR 替换规则 ([#19287](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/19287)) @Daydreamer114 @HX3N
+* YostarJP 修复公招 ｢招聘许可不足｣ 模板字体差异 ([#19252](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/19252)) @amasoiD
+* YostarJP 重新裁剪 ControlCenter 模板 ([#19128](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/19128)) @5cd8
+* YostarKR 补充傀影与朽血肉鸽缺失模板 @HX3N
+
+### 其他 | Other
+
+* 台服资源数据源迁移至 GitLab @ABA2396
+
+</details>
+
+<details>
 <summary><b>v6.22.0 (2026-11-09)</b></summary>
 
 ### 新增 | New
