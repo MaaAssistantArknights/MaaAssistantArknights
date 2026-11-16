@@ -14,6 +14,7 @@
 #include "Config/GeneralConfig.h"
 #include "InstHelper.h"
 #include "LDExtras.h"
+#include "ModAvdExtras.h"
 #include "MumuExtras.h"
 #include "Utils/StringMisc.hpp"
 
@@ -163,6 +164,7 @@ protected:
     void set_mumu_package(const std::string& client_type);
     void init_ld_extras(const AdbCfg& adb_cfg, const std::string& address);
     static std::optional<int> get_ld_index(const std::string& address);
+    void init_modavd_extras(const AdbCfg& adb_cfg, const std::string& address);
 
     // 转换 data 中的 CRLF 为 LF：有些模拟器自带的 adb，exec-out 输出的 \n 会被替换成 \r\n，
     // 导致解码错误，所以这里转一下回来（点名批评 mumu 和雷电）
@@ -222,6 +224,7 @@ protected:
             RawByNc,
             RawWithGzip,
             Encode,
+            ModAvdExtras,
 #if ASST_WITH_EMULATOR_EXTRAS
             MumuExtras,
             LDExtras,
@@ -248,6 +251,9 @@ protected:
     int m_screencap_times = 0;                                   // 截图次数
     std::chrono::steady_clock::time_point m_last_fps_check_time; // 上次帧率检测时间
     std::future<void> m_fps_future;                              // 异步帧率检测任务
+
+    // 不依赖 3rdparty/EmulatorExtras，三个平台都有
+    ModAvdExtras m_modavd_extras;
 
 #if ASST_WITH_EMULATOR_EXTRAS
     MumuExtras m_mumu_extras;

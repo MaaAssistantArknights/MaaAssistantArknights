@@ -32,13 +32,18 @@ public class WinAdapter
 {
     private static readonly ILogger _logger = Log.ForContext<WinAdapter>();
 
-    public sealed class DetectedEmulatorInfo(ConnectConfig emulatorName, string? adbPath, string? address = null)
+    public sealed class DetectedEmulatorInfo(ConnectConfig emulatorName, string? adbPath, string? address = null, string? rootPath = null)
     {
         public ConnectConfig EmulatorName { get; } = emulatorName;
 
         public string? AdbPath { get; } = adbPath;
 
         public string? Address { get; } = address;
+
+        /// <summary>
+        /// Gets the ModAVD root directory (ModAVD only).
+        /// </summary>
+        public string? RootPath { get; } = rootPath;
 
         public string SelectionDisplayText => (string.IsNullOrEmpty(AdbPath)
             ? EmulatorName.ToString()
@@ -90,6 +95,17 @@ public class WinAdapter
         var detectedEmulators = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
         foreach (var process in allProcess)
         {
+            if (ModAvdConnection.IsEmulatorProcessName(process.ProcessName))
+            {
+                var modAvd = GetModAvdInfo(process);
+                if (modAvd != null && detectedEmulators.Add($"{ConnectConfig.ModAVD}\n{modAvd.AdbPath}\n{modAvd.Address}"))
+                {
+                    emulators.Add(modAvd);
+                }
+
+                continue;
+            }
+
             if (!_emulatorIdDict.TryGetValue(process.ProcessName, out var emulatorId))
             {
                 continue;
@@ -118,6 +134,45 @@ public class WinAdapter
 
     private static string? GetMuMuArmAddress(int processId, string? processPath)
     {
+        var commandLine = GetCommandLine(processId);
+        return commandLine == null ? null : MuMuArmConnection.GetAddress(processPath, commandLine);
+    }
+
+    /// <summary>
+    /// Gets a running ModAVD instance: the emulator process of a ModAVD root, with the adb port from its command line.
+    /// </summary>
+    /// <param name="process">A qemu-system-x86_64 process.</param>
+    /// <returns>The instance, or null when the process is not a ModAVD instance or cannot be read.</returns>
+    private static DetectedEmulatorInfo? GetModAvdInfo(Process process)
+    {
+        string? processPath;
+        try
+        {
+            processPath = process.MainModule?.FileName;
+        }
+        catch (Exception e)
+        {
+            _logger.Warning(e, "Failed to read the path of emulator process {ProcessId}", process.Id);
+            return null;
+        }
+
+        var root = ModAvdConnection.GetRoot(processPath);
+        if (root == null)
+        {
+            return null;
+        }
+
+        var address = ModAvdConnection.GetAddress(GetCommandLine(process.Id));
+        if (address == null)
+        {
+            return null;
+        }
+
+        return new(ConnectConfig.ModAVD, ModAvdConnection.GetAdbPath(root), address, root);
+    }
+
+    private static string? GetCommandLine(int processId)
+    {
         try
         {
             using var searcher = new ManagementObjectSearcher($"SELECT CommandLine FROM Win32_Process WHERE ProcessId = {processId}");
@@ -126,13 +181,13 @@ public class WinAdapter
             {
                 using (result)
                 {
-                    return MuMuArmConnection.GetAddress(processPath, result["CommandLine"] as string);
+                    return result["CommandLine"] as string;
                 }
             }
         }
         catch (Exception e)
         {
-            _logger.Warning(e, "Failed to read MuMu ARM process command line for {ProcessId}", processId);
+            _logger.Warning(e, "Failed to read the command line of process {ProcessId}", processId);
         }
 
         return null;

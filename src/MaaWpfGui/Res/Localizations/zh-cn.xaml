@@ -836,6 +836,7 @@
     <system:String x:Key="Connection.Config.General">通用模式</system:String>
     <system:String x:Key="Connection.Config.GeneralWithoutScreencapErr">通用模式（屏蔽异常输出）</system:String>
     <system:String x:Key="Connection.Config.LDPlayer">雷电模拟器</system:String>
+    <system:String x:Key="Connection.Config.ModAVD">ModAVD</system:String>
     <system:String x:Key="Connection.Config.MuMu">MuMu 模拟器</system:String>
     <system:String x:Key="Connection.Config.MuMuArm">MuMu 模拟器（Windows ARM）</system:String>
     <system:String x:Key="Connection.Config.Nox">夜神模拟器</system:String>
@@ -878,6 +879,13 @@ C:\leidian\LDPlayer9
     <system:String x:Key="Connection.LdPlayer.ManualSetIndex">手动填写 ｢{key=Connection.LdPlayer.Index}｣</system:String>
     <system:String x:Key="Connection.LdPlayer.OpenglMissing">在所选 LDPlayer 路径中未找到 ldopengl64.dll，请确认安装目录。</system:String>
     <system:String x:Key="Connection.Lost">连接已断开</system:String>
+    <system:String x:Key="Connection.ModAVD.ExtrasNotEnabledMessage">ModAVD 截图增强未生效，请在 ｢{key=Settings.Title} - {key=Settings.Connection.Title} - {key=Connection.Config}｣ 检查 ModAVD 根目录和连接地址</system:String>
+    <system:String x:Key="Connection.ModAVD.LibraryMissing" xml:space="preserve">在所选 ModAVD 根目录中未找到 extras\modavd_extras.dll。
+ModAVD 0.39.0 起的发布包自带这个库，请先更新 ModAVD；也可以从 https://github.com/ModAVD/ModAVDExtras/releases 下载 modavd_extras.dll，放到 ModAVD 根目录（ModAVD.exe 所在目录）的 extras 文件夹中。</system:String>
+    <system:String x:Key="Connection.ModAVD.RootPath">ModAVD 根目录</system:String>
+    <system:String x:Key="Connection.ModAVD.RootPath.Tip" xml:space="preserve">ModAVD 根目录即 ModAVD.exe 所在的目录。MAA 会通过其中的 extras\modavd_extras.dll 直接读取模拟器画面，不经过 ADB。
+实例由连接地址确定，例如 127.0.0.1:20001 或 emulator-20000（adb 端口 = 控制台端口 + 1），不需要填写实例编号。
+留空则只用 ADB 截图；触控照常使用下方选择的触控模式。</system:String>
     <system:String x:Key="Connection.MuMu.BridgeConnection">MuMu 网络桥接模式</system:String>
     <system:String x:Key="Connection.MuMu.BridgeConnection.Tip">除非你知道自己在做什么，否则不要启用此选项</system:String>
     <system:String x:Key="Connection.MuMu.EmulatorPath">MuMu 安装路径</system:String>
@@ -932,6 +940,7 @@ C:\Program Files\Netease\MuMuPlayer。
     <system:String x:Key="Connection.TouchMode.MaaFwAdb">MaaFwAdb（实验功能）</system:String>
     <system:String x:Key="Connection.TouchMode.MaaTouch">MaaTouch（实验功能）</system:String>
     <system:String x:Key="Connection.TouchMode.MiniTouch">Minitouch（默认）</system:String>
+    <system:String x:Key="Connection.TouchMode.ModAvdExtras">ModAVD 触控（实验功能）</system:String>
     <system:String x:Key="Connection.TouchMode.MumuExtras">MuMu 触控增强（实验功能）</system:String>
     <system:String x:Key="Connection.TouchMode.Tip" xml:space="preserve">ADB Input 仅用于兼容系统版本过低的实体机设备，能用其他模式时不要选择。&#10;ADB Input 的滑动容易拖飞，为此滑动速度会设置得非常慢，且滑动距离与其他模式不同，需要精确控制坐标的场景下无法使用。&#10;&#10;MaaFwAdb 不支持额外滑动，依赖额外滑动防止拖飞的页面在该模式下会拖飞。&#10;额外滑动是主滑动结束后沿垂直方向追加一小段的 ｢刹车｣ 滑动（轨迹类似拐 90° 的 L 形），用于抵消列表惯性。</system:String>
     <system:String x:Key="Connection.TryToReconnectByAdb">正在尝试重连</system:String>
