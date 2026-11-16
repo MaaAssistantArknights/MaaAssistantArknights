@@ -2506,7 +2506,7 @@
     "resource/template/Battle/Series/FightSeries-List-Exceeded": "5e4dd8aa1b33a96b50c88082a0064b33b590a5fa30454ae8eac66ff04a306af9",
     "resource/template/Battle/Series/FightSeries-Icon": "59d7f08f29e150a68e37c22c5d85745bff2353796fa951df3f928103c9bfb0fd",
     "resource/template/Battle/Series/FightSeries-Indicator": "da886599de8604596aed0ad9e2b7824ed868c54fb2d2359705242f2a3bcb40ec",
-    "resource/template/UiTheme/SwitchTheme/SwitchTheme@SelectLightTheme": "8fb11654d16f68ed05076aba2486b1413d1f3550997fffc08b13459e6c887505",
+    "resource/template/UiTheme/SwitchTheme/SwitchTheme@SelectLightTheme": "318e252649b18320d6e386d930f9bb79da3bd4500583114497bc99c50af8d75b",
     "resource/template/UiTheme/SwitchTheme/SwitchTheme@ConfirmThemeChange": "3f93dfbda19cfdb1139cbfd2103fb6fe9aff3c311af5647435ab1aea658ec899",
     "resource/template/UiTheme/SwitchTheme/SwitchTheme@ChangeTheme": "874346e8502a00c4fd14cfbbee66de4107f84ec0592de9c85d67943e11f28820",
     "resource/template/UiTheme/SwitchTheme/SwitchTheme@CancelThemeChange": "655d031a3df980ea6552a8866996f2e70afbe292ed8b61546fc31e0d09defd5e",
@@ -4583,5 +4583,6 @@
     "resource/template/MiniGame/SPA/MiniGame@SPA@CustomOpersConfirm": "1b69aadba5b2502ef53d7bc99bbed2d73d796e1124fb17f14720ec812222914c",
     "resource/template/MiniGame/SPA/MiniGame@SPA@EnterIndependentQuickly": "b41d1f633f822c488f3c7ee19cf0a5a271030d0696e93e97520a842dc79784c8",
     "resource/template/MiniGame/SPA/MiniGame@SPA@GoliathConfirmSelect2": "bcb3ea17d41947c58762a9dd4f21dc747b5005e4f508f02c1517ae16e774e017",
-    "resource/global/YoStarKR/resource/template/Roguelike/Phantom/Phantom@Roguelike@GamePass4": "604886044925dc2a91ef9015f86ee826c289a9308d42a6c62a8e8e0ebd7cb5b2"
+    "resource/global/YoStarKR/resource/template/Roguelike/Phantom/Phantom@Roguelike@GamePass4": "604886044925dc2a91ef9015f86ee826c289a9308d42a6c62a8e8e0ebd7cb5b2",
+    "resource/global/YoStarJP/resource/template/Recruit/RecruitNoPermit": "f848a42fa7480a062a4f77004bbfb3da563ce43e1cc4c07037b16b23434fe614"
 }
