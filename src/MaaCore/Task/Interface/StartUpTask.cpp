@@ -44,10 +44,7 @@ bool asst::StartUpTask::run()
         return false;
     }
 
-    if (m_account_switch_task_ptr->run()) {
-        if (!m_start_up_task_ptr->run()) {
-            return false;
-        }
+    if (m_account_switch_task_ptr->run() && m_start_up_task_ptr->run()) {
         return true;
     }
 
@@ -65,16 +62,11 @@ bool asst::StartUpTask::run()
             continue;
         }
 
-        if (!m_account_switch_task_ptr->run()) {
-            Log.warn(__FUNCTION__, "| Account switch failed after restart, retrying game restart");
-            continue;
-        }
-
         Log.info(__FUNCTION__, "| Game restarted, retrying login navigation");
-        if (m_start_up_task_ptr->run()) {
+        if (m_account_switch_task_ptr->run() && m_start_up_task_ptr->run()) {
             return true;
         }
-        Log.warn(__FUNCTION__, "| Login navigation failed again, restarting game");
+        Log.warn(__FUNCTION__, "| Login failed again, restarting game");
     }
 
     return false;

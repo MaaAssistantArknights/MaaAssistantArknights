@@ -43,10 +43,6 @@ public: // ControllerAPI 接口
 
     virtual const std::string& get_uuid() const override;
 
-    virtual size_t get_pipe_data_size() const noexcept override { return 0; }
-
-    virtual size_t get_version() const noexcept override { return 0; }
-
     virtual bool screencap(cv::Mat& image_payload, bool allow_reconnect = false) override;
     virtual bool screencap_for_preview(cv::Mat& image_payload, bool allow_reconnect = false) override;
 
