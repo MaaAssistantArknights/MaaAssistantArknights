@@ -1381,6 +1381,14 @@
         "sortId": 40003,
         "usage": "A batch headhunting permit issued by the Rhodes Island HR Department; Can be used at a certain time to recruit talented Operators, 10 rolls at once."
     },
+    "LINKAGE_TKT_GACHA_10_7401": {
+        "classifyType": "NORMAL",
+        "description": "In order to ensure the available talent pool can be scaled upwards to satisfy the Doctor's emergency preparation request, this batch of headhunting items carries specificity, time-sensitivity, and of course, a degree of risk.",
+        "icon": "LINKAGE_TKT_GACHA_10_7401.png",
+        "name": "Song of the Bow, Leap to the Sky Headhunting Permit",
+        "sortId": 40003,
+        "usage": "A batch headhunting permit issued by the Rhodes Island HR Department; Can be used at a certain time to recruit talented Operators, 10 rolls at once."
+    },
     "LMTGS_COIN_1401": {
         "classifyType": "NORMAL",
         "description": "A long-term, stable relationship with the headhunting agency can effectively control our expenditures. However, we hope that this method will not be required every time.",

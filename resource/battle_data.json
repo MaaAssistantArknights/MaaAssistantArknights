@@ -575,8 +575,7 @@
         },
         "char_1048_orchd2": {
             "name": "焰狐龙梓兰",
-            "name_en": "焰狐龙梓兰",
-            "name_en_unavailable": true,
+            "name_en": "Violet Mizutsune Orchid",
             "name_jp": "焔狐竜オーキッド",
             "name_kr": "염호룡 오키드",
             "name_tw": "焰狐龙梓兰",
@@ -590,8 +589,7 @@
         },
         "char_1049_catap2": {
             "name": "雷狼龙S空爆",
-            "name_en": "雷狼龙S空爆",
-            "name_en_unavailable": true,
+            "name_en": "Zinogre S Catapult",
             "name_jp": "ジンオウSカタパルト",
             "name_kr": "진오우S 캐터펄트",
             "name_tw": "雷狼龙S空爆",
@@ -4796,8 +4794,7 @@
         },
         "char_4215_buddy": {
             "name": "罗德岛隐秘队",
-            "name_en": "罗德岛隐秘队",
-            "name_en_unavailable": true,
+            "name_en": "Rhodes Island Recon",
             "name_jp": "ロドス隠密隊",
             "name_kr": "로도스 아일랜드 그림자 부대",
             "name_tw": "罗德岛隐秘队",
@@ -7076,8 +7073,7 @@
         },
         "token_10063_buddy_bddg": {
             "name": "牙猎犬",
-            "name_en": "牙猎犬",
-            "name_en_unavailable": true,
+            "name_en": "Canyne",
             "name_jp": "ガルク",
             "name_kr": "가루크",
             "name_tw": "牙猎犬",
@@ -14044,8 +14040,7 @@
         },
         "trap_273_pycgp": {
             "name": "不完全充能反击",
-            "name_en": "不完全充能反击",
-            "name_en_unavailable": true,
+            "name_en": "Not-Fully-Charged Counterattack",
             "name_jp": "試作版カウンターチャージ",
             "name_kr": "시험판 카운터 차지",
             "name_tw": "不完全充能反击",
@@ -14059,8 +14054,7 @@
         },
         "trap_274_pyctrn": {
             "name": "泡影流大冲击",
-            "name_en": "泡影流大冲击",
-            "name_en_unavailable": true,
+            "name_en": "Houei-Style Assault",
             "name_jp": "ホウエイ流衝撃波",
             "name_kr": "호우에이류 대충격",
             "name_tw": "泡影流大冲击",
@@ -14074,8 +14068,7 @@
         },
         "trap_275_pycfly": {
             "name": "翔虫闪击",
-            "name_en": "翔虫闪击",
-            "name_en_unavailable": true,
+            "name_en": "Wirebug Blitz",
             "name_jp": "翔蟲閃撃",
             "name_kr": "밧줄벌레 습격",
             "name_tw": "翔虫闪击",
@@ -14089,8 +14082,7 @@
         },
         "trap_276_pycstp": {
             "name": "束缚铁虫丝",
-            "name_en": "束缚铁虫丝",
-            "name_en_unavailable": true,
+            "name_en": "Ironsilk Binding",
             "name_jp": "束縛鉄蟲糸",
             "name_kr": "속박 벌레철사",
             "name_tw": "束缚铁虫丝",
@@ -14104,8 +14096,7 @@
         },
         "trap_277_pycblk": {
             "name": "盘踞岩峰",
-            "name_en": "盘踞岩峰",
-            "name_en_unavailable": true,
+            "name_en": "Entrenched Rock",
             "name_jp": "そびえ立つ岩峰",
             "name_kr": "바위 봉우리",
             "name_tw": "盘踞岩峰",
@@ -14145,8 +14136,7 @@
         },
         "trap_280_pycfbd": {
             "name": "风化的碎屑",
-            "name_en": "风化的碎屑",
-            "name_en_unavailable": true,
+            "name_en": "Weathered Fragments",
             "name_jp": "風化した砕屑",
             "name_kr": "풍화된 조각",
             "name_tw": "风化的碎屑",
@@ -14160,8 +14150,7 @@
         },
         "trap_281_ctlrol": {
             "name": "御龙：反壳龟",
-            "name_en": "御龙：反壳龟",
-            "name_en_unavailable": true,
+            "name_en": "Wyvern Riding: Flipshell Tortoise",
             "name_jp": "操竜：サカサガメ",
             "name_kr": "용 조종: 반각귀",
             "name_tw": "御龙：反壳龟",
@@ -14175,8 +14164,7 @@
         },
         "trap_282_ctlspy": {
             "name": "御龙：影丝蛛",
-            "name_en": "御龙：影丝蛛",
-            "name_en_unavailable": true,
+            "name_en": "Wyvern Riding: Gloomweaver",
             "name_jp": "操竜：カゲグモ",
             "name_kr": "용 조종: 영사주",
             "name_tw": "御龙：影丝蛛",
@@ -14190,8 +14178,7 @@
         },
         "trap_283_ctlblk": {
             "name": "御龙：岩甲兽",
-            "name_en": "御龙：岩甲兽",
-            "name_en_unavailable": true,
+            "name_en": "Wyvern Riding: Rocksheller",
             "name_jp": "操竜：イワヨロイ",
             "name_kr": "용 조종: 암갑수",
             "name_tw": "御龙：岩甲兽",
@@ -14205,8 +14192,7 @@
         },
         "trap_284_ctlzog": {
             "name": "御龙：雷狼龙",
-            "name_en": "御龙：雷狼龙",
-            "name_en_unavailable": true,
+            "name_en": "Wyvern Riding: Zinogre",
             "name_jp": "操竜：ジンオウガ",
             "name_kr": "용 조종: 진오우거",
             "name_tw": "御龙：雷狼龙",
