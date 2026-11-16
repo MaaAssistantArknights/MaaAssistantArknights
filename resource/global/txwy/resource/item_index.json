@@ -3381,6 +3381,14 @@
         "sortId": -10000,
         "usage": "形藝特輯專用特輯收藏貼，可用於版面編輯。"
     },
+    "itempack_stickers_sand2": {
+        "classifyType": "NONE",
+        "description": "做好駛向新航路的準備。",
+        "icon": "itempack_stickers_sand2.png",
+        "name": "貼紙包/重啟錨點",
+        "sortId": -10000,
+        "usage": "形藝特輯專用特輯收藏貼，可用於版面編輯。"
+    },
     "main16_spitem_1": {
         "classifyType": "NORMAL",
         "description": "從前，人們說苦難自它的出現萌生；如今，人們說悲劇從它的消失肇始。",
