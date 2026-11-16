@@ -863,7 +863,7 @@ Mode.
 <br>
 `20001` - Playtime node farming; enter the hollow on the first layer and restart if the required node cannot be found; only available in the JieGarden theme, requires `find_playTime_target`.
 <br>
-`20002` - Repeated copper recasting on playtime nodes (also called meter rewind); reuses the playtime-first routing of 20001, takes over after the Stage Encounter recognizes the event 掷地有声 (Resounding) upon entering a playtime node, and bets on Heng/Li coppers in a 5:1 cycle; gives up the run and stops the task after `coppers_recast_count` + `coppers_recast_relic_count` castings; only available in the JieGarden theme.
+`20002` - Repeated copper recasting on playtime nodes (also called meter rewind); reuses the playtime-first routing of 20001, takes over after the Stage Encounter recognizes the event 掷地有声 (Resounding) upon entering a playtime node, and bets on Heng/Li coppers in a 5:1 cycle; returns to the roguelike home page and stops the task after `coppers_recast_count` + `coppers_recast_relic_count` castings (the run is kept, so a later run continues it); only available in the JieGarden theme.
 <br>
 `30001` - Swaddled baby animal farming; only available in the BlackFlow theme.
 <br>
@@ -1137,7 +1137,7 @@ Target playtime node of the playtime node farming mode. `1` - Ling (掷地有声
 @type number
 @default 1
 @optional
-Number of coin-farming castings of the copper recasting mode (mode 20002), i.e. betting Heng coppers for Originium Ingots; range 1~999. Every 6th casting bets a Li copper for candles instead, which keeps the candle reserve stable over long runs. Only used when the theme is JieGarden and the mode is 20002.  
+Number of coin-farming castings of the copper recasting mode (mode 20002), i.e. betting Heng coppers for Originium Ingots; range 0~999, where 0 means relic castings only. Every 6th casting bets a Li copper for candles instead, which keeps the candle reserve stable over long runs. Only used when the theme is JieGarden and the mode is 20002.  
 :::  
 ::: field coppers_recast_relic_count  
 @type number
