@@ -1675,7 +1675,7 @@
             "JieGarden@Roguelike@CoppersRecast-ConfirmWide",
             "JieGarden@Roguelike@CoppersRecast-ConfirmText",
             "JieGarden@Roguelike@CoppersRecast-Accept",
-            "JieGarden@Roguelike@CoppersRecast-Leave",
+            "JieGarden@Roguelike@CoppersRecast-LeaveEnd",
             "JieGarden@Roguelike@CoppersRecast-FailDetect",
             "JieGarden@Roguelike@CoppersRecast-Tick",
             "JieGarden@Roguelike@CoppersRecast-TickOCR",
@@ -1765,11 +1765,11 @@
         "onErrorNext": ["JieGarden@Roguelike@CoppersRecast-WaitPick"]
     },
     "JieGarden@Roguelike@CoppersRecast-WaitPick": {
-        "Doc": "等确认按钮出现。最多 10 次（约 10 秒），还认不出就回主路由，不盲点。",
+        "Doc": "等确认按钮出现。这是纯等待（不点任何东西），一轮里会来回走两三轮，所以把间隔压到 0.5 秒、次数压到 2 次：以前 1 秒 × 3 次，一轮白等 4~6 秒。还认不出就回主路由，不盲点。",
         "algorithm": "JustReturn",
         "action": "DoNothing",
-        "postDelay": 1000,
-        "maxTimes": 3,
+        "postDelay": 500,
+        "maxTimes": 2,
         "next": ["JieGarden@Roguelike@CoppersRecast-AfterPick"],
         "exceededNext": ["JieGarden@Roguelike@CoppersRecast-Step"]
     },
@@ -1783,7 +1783,7 @@
         "next": ["JieGarden@Roguelike@CoppersRecast-FailTick"]
     },
     "JieGarden@Roguelike@CoppersRecast-FailTick": {
-        "Doc": "炸火页的对勾，点掉后进 FailStep（下一轮会重新投）。",
+        "Doc": "炸火页的对勾，点掉后收链（-RoundFail），由插件决定补投烛火。",
         "algorithm": "MatchTemplate",
         "template": "JieGarden@Roguelike@StageEncounterDrawCopperResult.png",
         "roi": [562, 568, 154, 152],
@@ -1791,9 +1791,9 @@
         "action": "ClickSelf",
         "postDelay": 900,
         "maxTimes": 10,
-        "next": ["#self", "JieGarden@Roguelike@CoppersRecast-FailStep"],
-        "exceededNext": ["JieGarden@Roguelike@CoppersRecast-FailStep"],
-        "onErrorNext": ["JieGarden@Roguelike@CoppersRecast-FailStep"]
+        "next": ["#self", "JieGarden@Roguelike@CoppersRecast-RoundFail"],
+        "exceededNext": ["JieGarden@Roguelike@CoppersRecast-RoundFail"],
+        "onErrorNext": ["JieGarden@Roguelike@CoppersRecast-RoundFail"]
     },
     "JieGarden@Roguelike@CoppersRecast-FailStep": {
         "Doc": "炸火后的路由器 = Step 去掉炸火判定，避免在同一屏反复认 ｢什么都没有发生｣。同样以 DialogueSkip 收尾结束本轮。",
@@ -1930,14 +1930,26 @@
         "onErrorNext": ["JieGarden@Roguelike@CoppersRecast-Step"]
     },
     "JieGarden@Roguelike@CoppersRecast-DialogueSkip": {
-        "Doc": "没有奖励时的剧情推进：点一下屏幕中间再回主路由，给奖励界面留出出现的时间；8 次还等不到就收本轮。收本轮后由插件用 Panel / InEvent 探针决定是继续投还是收工。",
+        "Doc": "没有奖励时的剧情推进：点一下屏幕中间再回对话小路由，给奖励界面留出出现的时间；8 次还等不到就收本轮。收本轮后由插件用 Panel / InEvent 探针决定是继续投还是收工。next 以前指向 -Step 主路由，每推进一句都要把 14 个候选全扫一遍（实测 8 句要 45 秒），改指小路由后只扫 5 个。",
         "algorithm": "JustReturn",
         "action": "ClickRect",
         "specificRect": [640, 360, 1, 1],
-        "postDelay": 1600,
+        "postDelay": 900,
         "maxTimes": 8,
-        "next": ["JieGarden@Roguelike@CoppersRecast-Step"],
+        "next": ["JieGarden@Roguelike@CoppersRecast-DialogueLoop"],
         "exceededNext": ["JieGarden@Roguelike@CoppersRecast-RoundEnd"]
+    },
+    "JieGarden@Roguelike@CoppersRecast-DialogueLoop": {
+        "Doc": "对话推进专用小路由：只认得可能出现在两句对话之间的界面（奖励 / 炸火横条 / 结果页对勾 / 确认条 / 继续推进），避免每点一下都去跑一遍主路由。真机上主路由一次要 3~9 秒，这里只要 1 秒出头。认不出来就继续推进对话，8 次后照旧收本轮。",
+        "algorithm": "JustReturn",
+        "next": [
+            "JieGarden@Roguelike@CoppersRecast-Reward",
+            "JieGarden@Roguelike@CoppersRecast-FailDetect",
+            "JieGarden@Roguelike@CoppersRecast-Tick",
+            "JieGarden@Roguelike@CoppersRecast-ConfirmText",
+            "JieGarden@Roguelike@CoppersRecast-DialogueSkip"
+        ],
+        "onErrorNext": ["JieGarden@Roguelike@CoppersRecast-DialogueSkip"]
     },
     "JieGarden@Roguelike@CoppersRecast-Pick": {
         "Doc": "本轮投哪种钱（默认衡如常）。插件按 5 衡 1 厉的轮次把基准任务换成 PickLi。",
@@ -1981,6 +1993,129 @@
     "JieGarden@Roguelike@CoppersRecast-RoundEnd": {
         "Doc": "本轮结束：一条 -Round 任务链恰好完成一次投币，走到这里就收链，把控制权还给插件去编排下一轮（换衡/厉与奖励配置）。",
         "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "next": [],
+        "onErrorNext": []
+    },
+    "JieGarden@Roguelike@CoppersRecast-RoundFail": {
+        "Doc": "炸火收场的终点：点掉结果页对勾就收链，把控制权还给插件。插件据此判定这一投没成——投厉失败就补一次「厉如锋 + 要酒一壶」把烛火拿回来。",
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "next": [],
+        "onErrorNext": []
+    },
+    "JieGarden@Roguelike@CoppersRecast-LeaveEnd": {
+        "Doc": "炸火后没给重投机会时点「离开」并收尾：点完离开、处理掉确认弹窗就收链，剩下的交给路由重新找常乐节点。",
+        "algorithm": "OcrDetect",
+        "text": ["离开"],
+        "ocrReplace": [
+            ["[\\s\\u3000]+", ""]
+        ],
+        "roi": [730, 140, 470, 320],
+        "action": "ClickSelf",
+        "postDelay": 2200,
+        "maxTimes": 3,
+        "next": ["JieGarden@Roguelike@CoppersRecast-ConfirmEnd", "JieGarden@Roguelike@CoppersRecast-LeaveDone"],
+        "exceededNext": ["JieGarden@Roguelike@CoppersRecast-LeaveDone"],
+        "onErrorNext": ["JieGarden@Roguelike@CoppersRecast-LeaveDone"]
+    },
+    "JieGarden@Roguelike@CoppersRecast-ConfirmEnd": {
+        "Doc": "离开节点时的「确定这样做」确认按钮：点掉直接收链（-LeaveDone），不再回主路由。",
+        "algorithm": "MatchTemplate",
+        "template": "JieGarden@Roguelike@CoppersRecastConfirm-NoRetain.png",
+        "roi": [794, 559, 381, 147],
+        "templThreshold": 0.8,
+        "action": "ClickSelf",
+        "postDelay": 2200,
+        "maxTimes": 10,
+        "next": ["#self", "JieGarden@Roguelike@CoppersRecast-LeaveDone"],
+        "exceededNext": ["JieGarden@Roguelike@CoppersRecast-LeaveDone"],
+        "onErrorNext": ["JieGarden@Roguelike@CoppersRecast-LeaveDone"]
+    },
+    "JieGarden@Roguelike@CoppersRecast-LeaveDone": {
+        "Doc": "离开节点后的收链占位：等画面过渡完就结束本轮，不再盲点。",
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "postDelay": 2500,
+        "next": [],
+        "onErrorNext": []
+    },
+    "JieGarden@Roguelike@CoppersRecast-RetryPanel": {
+        "Doc": "重投探针：只有炸火后游戏给机会才会出现「来就来」。只认不点，由插件判断界面是「给重投」还是「请离开」。",
+        "algorithm": "OcrDetect",
+        "text": ["来就来"],
+        "ocrReplace": [
+            ["[\\s\\u3000]+", ""]
+        ],
+        "roi": [560, 60, 720, 640],
+        "action": "DoNothing",
+        "next": [],
+        "onErrorNext": []
+    },
+    "JieGarden@Roguelike@CoppersRecast-ProbeMiss": {
+        "Doc": "探针落空时的占位任务：永远命中、什么都不做。ProcessTask 的识别列表里只要有任务名不存在，会直接报 UnknownTask 并回调 SubTaskError，客户端会当成一次任务失败；把本任务排在探针最后，落空也走成功分支，靠 get_last_task_name() 判断真正命中的是不是探针。",
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "next": [],
+        "onErrorNext": []
+    },
+    "JieGarden@Roguelike@CoppersRecast-NodeScan": {
+        "Doc": "只认常乐节点的轻量地图扫描：模板只留常乐，roi 与 JieGarden@RoguelikeRoutingNodeAnalyze_BoskyPassage 一致。投币循环每次回到节点地图都要重新扫一遍，全量 12 个模板实测 7 秒，这里单模板约 0.6 秒；扫不到常乐时由插件退回全量扫描。",
+        "template": ["JieGarden@RoguelikeMapNode-Playtime.png"],
+        "roi": [0, 60, 1280, 575],
+        "postDelay": 0
+    },
+    "JieGarden@Roguelike@ProbeFallback": {
+        "Doc": "占位任务：给「检查类」ProcessTask 当兜底（永远命中、什么都不做）。检查没命中是常态，但 ProcessTask 找不到任何任务时会回调 SubTaskError，客户端每条都会记一次任务失败，攒够几条就弹「任务失败」成就。末尾挂上它，检查落空也走成功分支。",
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "next": [],
+        "onErrorNext": []
+    },
+    "JieGarden@Roguelike@PlaytimeDetailLing": {
+        "Doc": "点开常乐节点后右侧详情面板里写着「可以押上源石锭和令掷币取乐」，据此判定这是令的常乐（能投钱）。只认不点。",
+        "algorithm": "OcrDetect",
+        "text": ["令掷币", "和令掷"],
+        "ocrReplace": [
+            ["[\\s\\u3000]+", ""]
+        ],
+        "roi": [820, 190, 440, 280],
+        "action": "DoNothing",
+        "next": [],
+        "onErrorNext": []
+    },
+    "JieGarden@Roguelike@PlaytimeDetailShu": {
+        "Doc": "同上，识别「和黍掷币取乐」——黍的常乐，不是投币目标。只认不点。",
+        "algorithm": "OcrDetect",
+        "text": ["黍掷币", "和黍掷"],
+        "ocrReplace": [
+            ["[\\s\\u3000]+", ""]
+        ],
+        "roi": [820, 190, 440, 280],
+        "action": "DoNothing",
+        "next": [],
+        "onErrorNext": []
+    },
+    "JieGarden@Roguelike@PlaytimeDetailNian": {
+        "Doc": "同上，识别「和年掷币取乐」——年的常乐，不是投币目标。只认不点。",
+        "algorithm": "OcrDetect",
+        "text": ["年掷币", "和年掷"],
+        "ocrReplace": [
+            ["[\\s\\u3000]+", ""]
+        ],
+        "roi": [820, 190, 440, 280],
+        "action": "DoNothing",
+        "next": [],
+        "onErrorNext": []
+    },
+    "JieGarden@Roguelike@PlaytimePanelPresent": {
+        "Doc": "详情面板是否还开着：面板正文里有「押上源石锭…掷币取乐」，地图上的节点铭牌没有。只认不点。（面板会盖住右边几列节点，没关掉的话下一次点击会打在面板上白点）",
+        "algorithm": "OcrDetect",
+        "text": ["押上源石锭", "掷币取乐"],
+        "ocrReplace": [
+            ["[\\s\\u3000]+", ""]
+        ],
+        "roi": [820, 190, 440, 280],
         "action": "DoNothing",
         "next": [],
         "onErrorNext": []

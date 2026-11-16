@@ -42,8 +42,16 @@ private:
         Relic,  // 要兵器一对，换 6 件收藏品
     };
 
+    // 一轮的结局
+    enum class RoundOutcome
+    {
+        Ok,     // 投成了，走到 RoundEnd
+        Failed, // 炸火收场，走到 RoundFail / LeaveDone
+        Broken, // 认不出界面，整条链没能正常收尾
+    };
+
     // 跑完一整轮：投币 → 结果对勾 → 领奖 → 收藏品弹窗 → 回面板
-    bool run_once(RecastType type, RecastReward reward);
+    RoundOutcome run_once(RecastType type, RecastReward reward);
 
     // 等到「还能再投一次」的界面出现（钱卡面板或进节点选项）。
     // 中间如果只是剧情对话就点一下推进；既没有面板也没有事件横幅就认为已经离开这个节点。
@@ -55,5 +63,10 @@ private:
     int m_recast_count = 0; // 刷钱次数
     int m_relic_count = 0;  // 换藏品次数
     int m_finished = 0;     // 已完成的投币次数，跨常乐节点累计
+
+    // 投厉炸火（没换到烛火）后置位：下一次必须先补一口烛火再回到原节奏。
+    // 补的这一次不计数，因为它是重投，不是计划内的那一投。
+    bool m_need_candle = false;
+    int m_candle_retries = 0; // 连续补烛火失败次数，防止界面卡死时无限烧钱
 };
 }
