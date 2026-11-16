@@ -43,7 +43,8 @@
         "text": ["開始建造"]
     },
     "RelaunchAnchor@RA@RA1-BlankContinue": {
-        "text": ["點擊空白處繼續"]
+        "ocrReplace": [["空百", "空白"]],
+        "text": ["點擊", "空白", "繼續"]
     },
     "RelaunchAnchor@RA@RA1-ExitConstruction": {
         "text": ["建造"]
