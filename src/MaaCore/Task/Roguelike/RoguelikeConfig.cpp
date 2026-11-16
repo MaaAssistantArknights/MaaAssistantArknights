@@ -209,7 +209,9 @@ bool asst::RoguelikeConfig::verify_and_load_params(const json::value& params)
     if (m_mode == RoguelikeMode::CoppersRecast) {
         m_coppers_recast_count = params.get("coppers_recast_count", 1);
         m_coppers_recast_relic_count = params.get("coppers_recast_relic_count", 0);
-        if (m_coppers_recast_count < 1 || m_coppers_recast_count > 999) {
+        // 0 是合法的：只换藏品、不刷钱。以前下限是 1，导致「只想拿藏品」的配置
+        // 必然先跑一轮衡如常，玩家看到的就是「该投厉如锋却在点衡如常」。
+        if (m_coppers_recast_count < 0 || m_coppers_recast_count > 999) {
             LogError << __FUNCTION__ << "| Invalid coppers_recast_count:" << m_coppers_recast_count;
             return false;
         }

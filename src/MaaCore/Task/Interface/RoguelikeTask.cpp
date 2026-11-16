@@ -242,6 +242,14 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
         // 换一条不点放弃的入口链，优先续玩已有进度，只有完全没有进行中的探索时才开新局
         m_roguelike_task_ptr->set_tasks({ theme + "@Roguelike@Begin-CoppersRecast" });
 
+        // 从主界面「⟳ → 终端 → 换主题」这条路进来时，链尾是
+        // IntegratedStrategies → PreSelectTheme → SelectTheme → FromIntegratedStrategies → @Begin，
+        // 会绕过上面那条入口链直接跑到常规 @Begin；而 @Begin 在主题页第一个能命中的就是 @Abandon
+        // （实测红叉 0.98998），它被下面限成 0 次 → 「认到放弃 → 次数用尽 → 整条 Roguelike 链判定完成」，
+        // 人就停在主题页不动了（2026-11-07 19:07 实机日志）。把 @Begin 指到不点放弃的入口链，
+        // 回主题页时会走 CoppersRecast-Resume：红叉只用来判定，实际点右下角「继续探索」续玩本局。
+        Task.set_task_base(theme + "@Roguelike@Begin", theme + "@Roguelike@Begin-CoppersRecast");
+
         // 兜底：把这个主题下「放弃探索」的两步都封死。
         // 「放弃探索」的红叉图标在地图、结算、选干员等好几个界面都长一样，
         // 资源链里任何一处误判都会把玩家推进了很多层的那一局直接毁掉；
