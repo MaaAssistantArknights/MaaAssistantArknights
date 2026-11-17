@@ -287,6 +287,7 @@
         "text": ["출석", "로그인"]
     },
     "SignInEventInPopup": {
+        "ocrReplace": [[" ", ""]],
         "text": ["종료시간"]
     },
     "SignInEventEarnRewards": {
