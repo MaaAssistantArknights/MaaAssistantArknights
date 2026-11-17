@@ -315,7 +315,7 @@ jobs:
         uses: robinraju/release-downloader@v1
         with:
           repository: MaaXYZ/MaaFramework
-          latest: true
+          tag: v5.15.0 # v5.16+ 控制单元依赖 MaaFramework 自带的 libMaaUtils
           fileName: '*linux-${{ matrix.arch }}*.zip'
           extract: true
           out-file-path: MaaFramework-temp
@@ -450,7 +450,7 @@ jobs:
         uses: robinraju/release-downloader@v1
         with:
           repository: MaaXYZ/MaaFramework
-          latest: true
+          tag: v5.15.0 # v5.16+ 控制单元依赖 MaaFramework 自带的 libMaaUtils
           fileName: "*android-${{ matrix.arch == 'arm64' && 'aarch64' || 'x86_64' }}*.zip"
           extract: true
           out-file-path: MaaFramework-temp
@@ -518,7 +518,7 @@ jobs:
         uses: robinraju/release-downloader@v1
         with:
           repository: MaaXYZ/MaaFramework
-          latest: true
+          tag: v5.15.0 # v5.16+ 控制单元依赖 MaaFramework 自带的 libMaaUtils
           fileName: ${{ matrix.arch == 'x86_64' && '*macos-x86_64*.zip' || '*macos-aarch64*.zip' }}
           extract: true
           out-file-path: MaaFramework-temp
