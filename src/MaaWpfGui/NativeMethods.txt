@@ -27,6 +27,13 @@ IsIconic
 IsWindow
 IsWindowVisible
 GetWindowRect
+GetClientRect
+GetDpiForWindow
+GetMenu
+AdjustWindowRectExForDpi
+SetThreadDpiAwarenessContext
+MonitorFromWindow
+GetMonitorInfo
 GetSystemMetrics
 SetWindowPos
 ShowWindow

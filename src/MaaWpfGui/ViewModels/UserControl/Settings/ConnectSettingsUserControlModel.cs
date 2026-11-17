@@ -50,6 +50,7 @@ namespace MaaWpfGui.ViewModels.UserControl.Settings;
 public class ConnectSettingsUserControlModel : PropertyChangedBase
 {
     private readonly RunningState _runningState = RunningState.Instance;
+    private readonly GameWindowSizeController _gameWindowSizeController = new();
 
     static ConnectSettingsUserControlModel()
     {
@@ -996,6 +997,62 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
     public bool AdbReplaced { get; set; } = ConfigFactory.CurrentConfig.Gui.ConnectSettings.AdbReplaced;
 
     #region AttachWindow (Win32窗口绑定) 配置
+
+    public bool IsGameWindowResized => _gameWindowSizeController.CanRestore;
+
+    /// <summary>
+    /// Toggles the game window between a standard client size and its retained original bounds.
+    /// </summary>
+    /// <returns>A task representing the resize or restoration.</returns>
+    [UsedImplicitly]
+    public async Task ToggleGameWindowSize()
+    {
+        if (!_runningState.CanInterrupt() || !IsPCConnectConfig)
+        {
+            return;
+        }
+
+        var hwnd = IntPtr.Zero;
+        if (!IsGameWindowResized)
+        {
+            hwnd = Instances.AsstProxy.FindGameWindowForResize(out var error);
+            if (hwnd == IntPtr.Zero)
+            {
+                TestLinkInfo = error;
+                return;
+            }
+        }
+
+        _runningState.SetIdle(false);
+        try
+        {
+            TestLinkInfo = LocalizationHelper.GetString("Connection.WindowResize.Working");
+            var result = await Task.Run(() => {
+                GameAudioMuteManager.Restore();
+                return _gameWindowSizeController.CanRestore ? _gameWindowSizeController.Restore() : _gameWindowSizeController.Resize(hwnd);
+            });
+            Instances.AsstProxy.Connected = false;
+            TestLinkInfo = result.Status switch {
+                GameWindowSizeController.Status.Resized => LocalizationHelper.GetStringFormat("Connection.WindowResize.Success", result.Width, result.Height),
+                GameWindowSizeController.Status.Restored => LocalizationHelper.GetStringFormat("Connection.WindowResize.Restored", result.Width, result.Height),
+                GameWindowSizeController.Status.WindowedModeRequired => LocalizationHelper.GetString("Connection.WindowResize.WindowedModeRequired"),
+                GameWindowSizeController.Status.DisplayTooSmall => LocalizationHelper.GetString("Connection.WindowResize.DisplayTooSmall"),
+                GameWindowSizeController.Status.WindowClosed => LocalizationHelper.GetString("Connection.WindowResize.WindowClosed"),
+                _ => LocalizationHelper.GetString("Connection.WindowResize.Failed"),
+            };
+            _logger.Information("Game window size toggle completed: {Status}, {Width}x{Height}, error: {Error}", result.Status, result.Width, result.Height, result.Error);
+        }
+        catch (Exception ex)
+        {
+            _logger.Error(ex, "Failed to toggle game window size");
+            TestLinkInfo = LocalizationHelper.GetString("Connection.WindowResize.Failed");
+        }
+        finally
+        {
+            NotifyOfPropertyChange(nameof(IsGameWindowResized));
+            _runningState.SetIdle(true);
+        }
+    }
 
     /// <summary>
     /// Gets a value indicating whether to show the window restore button (PC 端 + *WithWindowPos 输入方式).

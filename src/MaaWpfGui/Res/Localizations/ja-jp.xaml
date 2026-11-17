@@ -950,6 +950,17 @@ C:\Program Files\Netease\MuMuPlayer を入力してください。
     <system:String x:Key="Connection.TryToStartPcClient">PC クライアントを起動しようとしています</system:String>
     <system:String x:Key="Connection.UnzipFailed.Message">ファイルの解凍に失敗しました。予期せぬエラーが発生しました。詳細な情報はログをご確認ください。</system:String>
     <system:String x:Key="Connection.WindowMinimize">ウィンドウ最小化</system:String>
+    <system:String x:Key="Connection.WindowResize">サイズ調整</system:String>
+    <system:String x:Key="Connection.WindowResize.DisplayTooSmall">モニターの作業領域に、ウィンドウ枠を含む 1280×720 のゲーム画面が収まりません。</system:String>
+    <system:String x:Key="Connection.WindowResize.Failed">ウィンドウの調整または復元に失敗しました。ゲームの状態と管理者権限を確認し、復元ボタンが表示されている場合は再試行してください。</system:String>
+    <system:String x:Key="Connection.WindowResize.MultipleWindows">同名のゲームウィンドウが複数見つかりました。余分なウィンドウを閉じてください。</system:String>
+    <system:String x:Key="Connection.WindowResize.Restore">サイズ復元</system:String>
+    <system:String x:Key="Connection.WindowResize.Restored">ゲーム画面：{0}×{1}</system:String>
+    <system:String x:Key="Connection.WindowResize.Success">ゲーム画面：{0}×{1}</system:String>
+    <system:String x:Key="Connection.WindowResize.Tip">通常のゲームウィンドウのクライアント領域を、現在のモニターに収まる 1600×900 または 1280×720 に調整します。もう一度押すと元のサイズと位置に戻します。</system:String>
+    <system:String x:Key="Connection.WindowResize.WindowClosed">元のゲームウィンドウは閉じられました。現在のゲームウィンドウを再度調整してください。</system:String>
+    <system:String x:Key="Connection.WindowResize.WindowedModeRequired">ゲームを通常のウィンドウ表示に切り替え、最小化または最大化を解除してください。</system:String>
+    <system:String x:Key="Connection.WindowResize.Working">ゲームウィンドウを調整中…</system:String>
     <system:String x:Key="Connection.WindowRestore">ウィンドウ復元</system:String>
     <system:String x:Key="Copilot.Action.BulletTime">バレットタイム突入</system:String>
     <system:String x:Key="Copilot.Action.CheckIfStartOver">再開確認</system:String>

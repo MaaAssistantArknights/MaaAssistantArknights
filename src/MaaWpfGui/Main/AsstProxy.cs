@@ -3320,6 +3320,23 @@ public class AsstProxy
     }
 
     /// <summary>
+    /// Finds the selected PC client without requiring a successful Core connection.
+    /// </summary>
+    /// <param name="error">The localized reason why a unique window could not be selected.</param>
+    /// <returns>The game window handle, or zero when no unique window was found.</returns>
+    public IntPtr FindGameWindowForResize(out string error)
+    {
+        string name = SettingsViewModel.GameSettings.ClientType.ToGameWindowName();
+        var windows = FindWindowsByName(name);
+        error = windows.Count switch {
+            0 => LocalizationHelper.GetStringFormat("Asst.Connection.AttachWindow.NotFound", name),
+            > 1 => LocalizationHelper.GetString("Connection.WindowResize.MultipleWindows"),
+            _ => string.Empty,
+        };
+        return windows.Count == 1 ? windows[0] : IntPtr.Zero;
+    }
+
+    /// <summary>
     /// 将连接时绑定的明日方舟窗口从最小化恢复，并移动到主屏幕中央。
     /// </summary>
     public void RestoreGameWindowPosition()

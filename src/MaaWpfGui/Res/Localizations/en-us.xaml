@@ -947,6 +947,17 @@ Note:
     <system:String x:Key="Connection.TryToStartPcClient">Trying to start the PC client</system:String>
     <system:String x:Key="Connection.UnzipFailed.Message">Unable to unzip the file, an unexpected error occurred. Please check the logs for more information.</system:String>
     <system:String x:Key="Connection.WindowMinimize">Minimize window</system:String>
+    <system:String x:Key="Connection.WindowResize">Resize window</system:String>
+    <system:String x:Key="Connection.WindowResize.DisplayTooSmall">The monitor work area cannot fit a 1280×720 game image with window borders.</system:String>
+    <system:String x:Key="Connection.WindowResize.Failed">Could not resize or restore the window. Check the game state and administrator privileges; retry restoration if the button still shows Restore size.</system:String>
+    <system:String x:Key="Connection.WindowResize.MultipleWindows">Multiple game windows with the same title were found. Close the extra windows first.</system:String>
+    <system:String x:Key="Connection.WindowResize.Restore">Restore size</system:String>
+    <system:String x:Key="Connection.WindowResize.Restored">Game client area: {0}×{1}</system:String>
+    <system:String x:Key="Connection.WindowResize.Success">Game client area: {0}×{1}</system:String>
+    <system:String x:Key="Connection.WindowResize.Tip">Set a normal game window to a 1600×900 or 1280×720 client area that fits the current monitor; click again to restore its original size and position.</system:String>
+    <system:String x:Key="Connection.WindowResize.WindowClosed">The original game window has closed. Resize the current game window again.</system:String>
+    <system:String x:Key="Connection.WindowResize.WindowedModeRequired">Switch the game to a normal window and restore it from minimized or maximized mode first.</system:String>
+    <system:String x:Key="Connection.WindowResize.Working">Adjusting the game window…</system:String>
     <system:String x:Key="Connection.WindowRestore">Window restore</system:String>
     <system:String x:Key="Copilot.Action.BulletTime">Enter Bullet Time</system:String>
     <system:String x:Key="Copilot.Action.CheckIfStartOver">Check If Restart</system:String>
