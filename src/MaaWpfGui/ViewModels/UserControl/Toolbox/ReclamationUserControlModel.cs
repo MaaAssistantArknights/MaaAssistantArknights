@@ -60,8 +60,7 @@ public class ReclamationUserControlModel : PropertyChangedBase
         (Theme.Fire, "Toolbox.MiniGame.Reclamation.Theme.Fire")
             .WithSecondaryKey("Toolbox.MiniGame.Reclamation.ClosedStage"),
         (Theme.Tales, "Toolbox.MiniGame.Reclamation.Theme.Tales"),
-        (Theme.RelaunchAnchor, "Toolbox.MiniGame.Reclamation.Theme.RelaunchAnchor")
-            .WithSecondaryKey("Common.NotAdapted", () => SettingsViewModel.GameSettings.ClientType is ClientType.Txwy));
+        (Theme.RelaunchAnchor, "Toolbox.MiniGame.Reclamation.Theme.RelaunchAnchor"));
 
     /// <summary>
     /// Gets or sets 生息演算主题["Tales"].

@@ -1196,7 +1196,21 @@
             ["Supply Vehicle Curved Track", "补给车转角轨道"],
             ["Provision Supply Station", "食品供给站"],
             ["Stone Processor", "石料加工厂"],
-            ["Metalfowl Cleaner", "清杂机械羽兽"]
+            ["Metalfowl Cleaner", "清杂机械羽兽"],
+            ["Wyvern Riding Zinogre", "御龙：雷狼龙"],
+            ["Wyvern Riding Rocksheller", "御龙：岩甲兽"],
+            ["Wyvern Riding Flipshell Tortoise", "御龙：反壳龟"],
+            ["Weathered Fragments", "风化的碎屑"],
+            ["Houei-Style Assault", "泡影流大冲击"],
+            ["Rhodes Island Recon", "罗德岛隐秘队"],
+            ["Entrenched Rock", "盘踞岩峰"],
+            ["Wyvern Riding Gloomweaver", "御龙：影丝蛛"],
+            ["Wirebug Blitz", "翔虫闪击"],
+            ["Canyne", "牙猎犬"],
+            ["Ironsilk Binding", "束缚铁虫丝"],
+            ["Violet Mizutsune Orchid", "焰狐龙梓兰"],
+            ["Zinogre S Catapult", "雷狼龙S空爆"],
+            ["Not-Fully-Charged Counterattack", "不完全充能反击"]
         ]
     },
     "BattleStageNameHotfix": {

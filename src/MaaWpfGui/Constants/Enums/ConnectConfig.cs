@@ -32,4 +32,5 @@ public enum ConnectConfig
     SecondResolution,
     GeneralWithoutScreencapErr,
     MuMuArm,
+    ModAVD,
 }

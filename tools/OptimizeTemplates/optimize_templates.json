@@ -1104,9 +1104,9 @@
     "resource/global/YoStarJP/resource/template/InfrastPic/Facilities/Training": "09907dc5c7b25a35e88727e9c8230e7c6b0f36d71f1ddabacf242fb59729cc5b",
     "resource/global/YoStarJP/resource/template/InfrastPic/Facilities/DormMini": "120f417eceaea048ebafed001ecdbd80d1db695392315dcde805e284f5331bf8",
     "resource/global/YoStarJP/resource/template/InfrastPic/Facilities/Office": "6c33d7e6074799fed7074310141b19ff0500707090ae2245b9b48af40a49ff9c",
-    "resource/global/YoStarJP/resource/template/InfrastPic/Facilities/ControlCenter": "7d88d89d111a03c291c19876631282e44a7cdb1b179a653127ab0ec20fe15792",
+    "resource/global/YoStarJP/resource/template/InfrastPic/Facilities/ControlCenter": "0767be208a7f57518fc23ce9e24985d6d854ed7776bd9bd6d64e1e94ec55125e",
     "resource/global/YoStarJP/resource/template/InfrastPic/Facilities/InfrastProcessing": "f51e6f13d2f61815333730826c6f9e279f0163465f6221a31ffd1fb59f23e7af",
-    "resource/global/YoStarJP/resource/template/InfrastPic/Facilities/ControlCenterMini": "3d0492c51f2c78269901b15aff5b196f68c57a46838c301b94050579ad6598c6",
+    "resource/global/YoStarJP/resource/template/InfrastPic/Facilities/ControlCenterMini": "fbc2caaeea96ca98c89d1c50ed5777b9bb3ec1fbce662c30b64aa080d74d1846",
     "resource/global/YoStarJP/resource/template/InfrastPic/Facilities/Dorm": "b022f97820a1f2dd999d6df7a46c9a7057dcf0bec0526663a17671c33d9bee2f",
     "resource/global/YoStarJP/resource/template/InfrastPic/Clue/ClueVacancyNo6": "105ec87093b117ae2e1dcb047445090eccad9ff00298b608c8d7e14085a8b185",
     "resource/global/YoStarJP/resource/template/InfrastPic/Clue/ClueVacancyNo3": "e15512cd0bd511ecad6e5abf460d37895987a828efe677e6eb5aace37286f037",
@@ -1405,7 +1405,7 @@
     "resource/global/txwy/resource/template/WakeUp/GameStart": "251b4a4f08c0a29bbe8778b4654503a8b7d3f9058e8387afbad92760228d681b",
     "resource/global/txwy/resource/template/WakeUp/StartToWakeUp": "586fc889d03e16e78693c53474cbf2d8b9e906ffe2577f1858e2c7f812893d94",
     "resource/global/txwy/resource/template/WakeUp/NotDownloadVoice": "236552be7147e5fe19b134d4f51e748883b3637f81118f2b32c8f3ddba24cc5a",
-    "resource/global/txwy/resource/template/StageNavigation/Annihilation/StageAnnihilation": "c8d89eed5d0405f58b782c75f4b1c5e3254aa873c01e65601d865553a1dd5964",
+    "resource/global/txwy/resource/template/StageNavigation/Annihilation/StageAnnihilation": "c572f5a992ddb9fe795685504567732c1441a556ce42770770619a26d607055d",
     "resource/global/txwy/resource/template/StageNavigation/Annihilation/AnnihilationConfirm": "89f6c91efa02c1c7c689b75fa5f8ec365962306169176ff584b9ca504471fcba",
     "resource/global/txwy/resource/template/StageNavigation/Annihilation/AnnihilationReturnFlag": "4d0ff310221016d8e7c4d307589e4cf565d82df9893f7ff6b55a7bb4bf85dbd5",
     "resource/global/txwy/resource/template/StageNavigation/Resource/StageLS": "5d071e9bf051c3fe9b45465cb44a12e088e92ce9cef9cff296a84bdc2b40ae79",
@@ -2506,7 +2506,7 @@
     "resource/template/Battle/Series/FightSeries-List-Exceeded": "5e4dd8aa1b33a96b50c88082a0064b33b590a5fa30454ae8eac66ff04a306af9",
     "resource/template/Battle/Series/FightSeries-Icon": "59d7f08f29e150a68e37c22c5d85745bff2353796fa951df3f928103c9bfb0fd",
     "resource/template/Battle/Series/FightSeries-Indicator": "da886599de8604596aed0ad9e2b7824ed868c54fb2d2359705242f2a3bcb40ec",
-    "resource/template/UiTheme/SwitchTheme/SwitchTheme@SelectLightTheme": "8fb11654d16f68ed05076aba2486b1413d1f3550997fffc08b13459e6c887505",
+    "resource/template/UiTheme/SwitchTheme/SwitchTheme@SelectLightTheme": "318e252649b18320d6e386d930f9bb79da3bd4500583114497bc99c50af8d75b",
     "resource/template/UiTheme/SwitchTheme/SwitchTheme@ConfirmThemeChange": "3f93dfbda19cfdb1139cbfd2103fb6fe9aff3c311af5647435ab1aea658ec899",
     "resource/template/UiTheme/SwitchTheme/SwitchTheme@ChangeTheme": "874346e8502a00c4fd14cfbbee66de4107f84ec0592de9c85d67943e11f28820",
     "resource/template/UiTheme/SwitchTheme/SwitchTheme@CancelThemeChange": "655d031a3df980ea6552a8866996f2e70afbe292ed8b61546fc31e0d09defd5e",
@@ -4582,5 +4582,7 @@
     "resource/template/MiniGame/SPA/MiniGame@SPA@StartSimulation2": "f66f18c0f5ac1b0b3ed5be0eb8e6c6a3f1338a0bf860a80d624100b049c6da18",
     "resource/template/MiniGame/SPA/MiniGame@SPA@CustomOpersConfirm": "1b69aadba5b2502ef53d7bc99bbed2d73d796e1124fb17f14720ec812222914c",
     "resource/template/MiniGame/SPA/MiniGame@SPA@EnterIndependentQuickly": "b41d1f633f822c488f3c7ee19cf0a5a271030d0696e93e97520a842dc79784c8",
-    "resource/template/MiniGame/SPA/MiniGame@SPA@GoliathConfirmSelect2": "bcb3ea17d41947c58762a9dd4f21dc747b5005e4f508f02c1517ae16e774e017"
+    "resource/template/MiniGame/SPA/MiniGame@SPA@GoliathConfirmSelect2": "bcb3ea17d41947c58762a9dd4f21dc747b5005e4f508f02c1517ae16e774e017",
+    "resource/global/YoStarKR/resource/template/Roguelike/Phantom/Phantom@Roguelike@GamePass4": "604886044925dc2a91ef9015f86ee826c289a9308d42a6c62a8e8e0ebd7cb5b2",
+    "resource/global/YoStarJP/resource/template/Recruit/RecruitNoPermit": "f848a42fa7480a062a4f77004bbfb3da563ce43e1cc4c07037b16b23434fe614"
 }

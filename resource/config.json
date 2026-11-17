@@ -167,6 +167,10 @@
         {
             "configName": "AVD",
             "baseConfig": "General"
+        },
+        {
+            "configName": "ModAVD",
+            "baseConfig": "General"
         }
     ]
 }

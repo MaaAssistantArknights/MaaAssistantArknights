@@ -26,6 +26,7 @@ public static class TouchModeExtensions
             TouchMode.Adb => "adb",
             TouchMode.MaaFwAdb => "MaaFwAdb",
             TouchMode.MumuExtras => "MumuExtras",
+            TouchMode.ModAvdExtras => "ModAvdExtras",
             _ => throw new ArgumentOutOfRangeException(nameof(touchMode), touchMode, null),
         };
     }

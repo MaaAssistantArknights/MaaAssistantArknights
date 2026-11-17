@@ -269,6 +269,38 @@
                                 </StackPanel>
                             </StackPanel>
                         </DataTemplate>
+                        <DataTemplate DataType="{x:Type extra:ModAvdExtra}">
+                            <StackPanel
+                                Margin="5"
+                                HorizontalAlignment="Center"
+                                d:DataContext="{d:DesignInstance {x:Type extra:ModAvdExtra}}"
+                                s:View.ActionTarget="{Binding}"
+                                Orientation="Horizontal">
+                                <controls:TooltipBlock Visibility="Hidden" />
+                                <Grid Width="420">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <hc:TextBox
+                                        Height="30"
+                                        hc:BorderElement.CornerRadius="4,0,0,4"
+                                        hc:TitleElement.Title="{DynamicResource Connection.ModAVD.RootPath}"
+                                        hc:TitleElement.TitlePlacement="Left"
+                                        Text="{Binding RootPath}" />
+                                    <Button
+                                        Grid.Column="1"
+                                        Width="60"
+                                        Height="30"
+                                        HorizontalAlignment="Right"
+                                        hc:BorderElement.CornerRadius="0,4,4,0"
+                                        BorderThickness="0,1,1,1"
+                                        Command="{s:Action SelectRootPath}"
+                                        Content="{DynamicResource Common.Select}" />
+                                </Grid>
+                                <controls:TooltipBlock TooltipText="{DynamicResource Connection.ModAVD.RootPath.Tip}" />
+                            </StackPanel>
+                        </DataTemplate>
                         <DataTemplate DataType="{x:Type extra:Win32Extra}">
                             <StackPanel d:DataContext="{d:DesignInstance {x:Type extra:Win32Extra}}">
                                 <StackPanel

@@ -596,9 +596,9 @@
     <system:String x:Key="Asst.Roguelike.BlackFlow.ScrapTradeAbortedInventoryIncomplete">秘境行商持有物清點失敗，停止交易並離店</system:String>
     <system:String x:Key="Asst.Roguelike.BlackFlow.ScrapTradeAbortedMarketUnavailable">秘境行商的物品資料不可用，跳過交易並離店</system:String>
     <system:String x:Key="Asst.Roguelike.BlackFlow.ScrapTradeAbortedPageSwitchFailed">秘境行商買入與出售頁面切換失敗，停止交易並離店</system:String>
-    <system:String x:Key="Asst.Roguelike.BlackFlow.ScrapTradeAbortedSaleFailed">秘境行商出售「{0}」未得到確認，停止交易並離店</system:String>
+    <system:String x:Key="Asst.Roguelike.BlackFlow.ScrapTradeAbortedSaleFailed">秘境行商出售 ｢{0}｣ 未得到確認，停止交易並離店</system:String>
     <system:String x:Key="Asst.Roguelike.BlackFlow.ScrapTradeAbortedSaleSearchFailed">秘境行商出售列表查找失敗，停止交易並離店</system:String>
-    <system:String x:Key="Asst.Roguelike.BlackFlow.ScrapTradeAbortedSellBackSearchFailed">秘境行商未能找到要賣回的「{0}」，停止交易並離店</system:String>
+    <system:String x:Key="Asst.Roguelike.BlackFlow.ScrapTradeAbortedSellBackSearchFailed">秘境行商未能找到要賣回的 ｢{0}｣ ，停止交易並離店</system:String>
     <system:String x:Key="Asst.Roguelike.BlackFlow.ScrapTradeAbortedUnknown">秘境行商交易出現異常，停止交易並離店</system:String>
     <system:String x:Key="Asst.Roguelike.BlackFlow.StartRunCompleted">開局目標已滿足，已退出並保留這一局</system:String>
     <system:String x:Key="Asst.Roguelike.BlackFlow.StartRunPrepared">開局準備已完成</system:String>
@@ -836,6 +836,7 @@
     <system:String x:Key="Connection.Config.General">通用模式</system:String>
     <system:String x:Key="Connection.Config.GeneralWithoutScreencapErr">通用模式（阻擋異常輸出）</system:String>
     <system:String x:Key="Connection.Config.LDPlayer">雷電模擬器</system:String>
+    <system:String x:Key="Connection.Config.ModAVD">ModAVD</system:String>
     <system:String x:Key="Connection.Config.MuMu">MuMu 模擬器</system:String>
     <system:String x:Key="Connection.Config.MuMuArm">MuMu 模擬器（Windows ARM）</system:String>
     <system:String x:Key="Connection.Config.Nox">夜神模擬器</system:String>
@@ -878,6 +879,13 @@ C:\leidian\LDPlayer9
     <system:String x:Key="Connection.LdPlayer.ManualSetIndex">手動填寫 ｢{key=Connection.LdPlayer.Index}｣</system:String>
     <system:String x:Key="Connection.LdPlayer.OpenglMissing">在所選 LDPlayer 路徑中未找到 ldopengl64.dll，請確認安裝目錄。</system:String>
     <system:String x:Key="Connection.Lost">連線已中斷</system:String>
+    <system:String x:Key="Connection.ModAVD.ExtrasNotEnabledMessage">ModAVD 截圖增強未生效，請在 ｢{key=Settings.Title} - {key=Settings.Connection.Title} - {key=Connection.Config}｣ 檢查 ModAVD 根目錄與連線位址</system:String>
+    <system:String x:Key="Connection.ModAVD.LibraryMissing" xml:space="preserve">在所選 ModAVD 根目錄中找不到 extras\modavd_extras.dll。
+ModAVD 0.39.0 起的發行包內建這個函式庫，請先更新 ModAVD；也可以從 https://github.com/ModAVD/ModAVDExtras/releases 下載 modavd_extras.dll，放到 ModAVD 根目錄（ModAVD.exe 所在目錄）的 extras 資料夾中。</system:String>
+    <system:String x:Key="Connection.ModAVD.RootPath">ModAVD 根目錄</system:String>
+    <system:String x:Key="Connection.ModAVD.RootPath.Tip" xml:space="preserve">ModAVD 根目錄即 ModAVD.exe 所在的目錄。MAA 會透過其中的 extras\modavd_extras.dll 直接讀取模擬器畫面，不經過 ADB。
+實例由連線位址決定，例如 127.0.0.1:20001 或 emulator-20000（adb 連接埠 = 控制台連接埠 + 1），不需要填寫實例編號。
+留空則只使用 ADB 截圖；觸控照常使用下方選擇的觸控模式。</system:String>
     <system:String x:Key="Connection.MuMu.BridgeConnection">MuMu 網路橋接模式</system:String>
     <system:String x:Key="Connection.MuMu.BridgeConnection.Tip">除非您知道自己在做什麼，否則不要啟用此選項</system:String>
     <system:String x:Key="Connection.MuMu.EmulatorPath">MuMu 模擬器路徑</system:String>
@@ -932,6 +940,7 @@ C:\Program Files\Netease\MuMuPlayer
     <system:String x:Key="Connection.TouchMode.MaaFwAdb">MaaFwAdb（實驗功能）</system:String>
     <system:String x:Key="Connection.TouchMode.MaaTouch">MaaTouch（實驗功能）</system:String>
     <system:String x:Key="Connection.TouchMode.MiniTouch">Minitouch（預設）</system:String>
+    <system:String x:Key="Connection.TouchMode.ModAvdExtras">ModAVD 觸控（實驗功能）</system:String>
     <system:String x:Key="Connection.TouchMode.MumuExtras">MuMu 觸控增強（實驗功能）</system:String>
     <system:String x:Key="Connection.TouchMode.Tip" xml:space="preserve">ADB Input 僅用於相容系統版本過低的實體機裝置，能用其他模式時不要選擇。&#10;ADB Input 的滑動容易拖飛，為此滑動速度會設定得非常慢，且滑動距離與其他模式不同，需要精確控制座標的場景下無法使用。&#10;&#10;MaaFwAdb 不支援額外滑動，依賴額外滑動防止拖飛的頁面在該模式下會拖飛。&#10;額外滑動是主滑動結束後沿垂直方向追加一小段的 ｢剎車｣ 滑動（軌跡類似拐 90° 的 L 形），用於抵消列表慣性。</system:String>
     <system:String x:Key="Connection.TryToReconnectByAdb">正在嘗試重連</system:String>
@@ -2468,46 +2477,64 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="Toolbox.MiniGame.Reclamation.Mode.RA1">RA-1</system:String>
     <system:String x:Key="Toolbox.MiniGame.Reclamation.Mode.RA15">RA-15</system:String>
     <system:String x:Key="Toolbox.MiniGame.Reclamation.Mode.RA4">RA-4</system:String>
-    <system:String x:Key="Toolbox.MiniGame.Reclamation.RelaunchAnchor.RA1" xml:space="preserve">收益參考：每把約 159 代幣 + 統籌點數，單輪耗時約 2 分 10 秒
+    <system:String x:Key="Toolbox.MiniGame.Reclamation.RelaunchAnchor.RA1" xml:space="preserve">收益參考：每輪可獲得約 159 代幣及統籌點數，耗時 2 分 10 秒左右。
 
 幹員要求：無
 
-前置條件：主線已通關 RA-1
+前置條件：主線進度需已通關 RA-1 。
 
-在大地圖開啟 RA-1，右下角出現 ｢開啟建設｣ 時啟動任務即可自動循環
+啟動方式：
+在大地圖開啟 RA-1，待右下角出現 ｢開啟建設｣ 後，即可啟動任務進行自動循環。
 
-注意：如果已解鎖開局額外攜帶物品的相關科技，請將基地內會導致開局額外攜帶物品的設施拆除，如食品供給站、飲品供給站、獸欄等
+注意事項：
+如果已解鎖開局額外攜帶物品的相關科技，請拆除基地內會導致開局額外攜帶物品的設施，例如食品供給站、飲品供給站、獸欄等。
 
-任務流程：自動執行精耕細作、建設、交付資源、結算循環</system:String>
-    <system:String x:Key="Toolbox.MiniGame.Reclamation.RelaunchAnchor.RA15" xml:space="preserve">收益參考：每把約 500 代幣 + 統籌點數，單輪耗時約 3 分鐘
+任務流程：
+自動執行精耕細作、建設、交付資源及結算，並持續循環。</system:String>
+    <system:String x:Key="Toolbox.MiniGame.Reclamation.RelaunchAnchor.RA15" xml:space="preserve">收益參考：每輪可獲得約 500 代幣及統籌點數，耗時 3 分鐘左右。
 
 幹員要求：聖聆初雪（可借助戰）
 
 前置條件：
-1. 主線已通關 RA-15
-2. 如果自己有聖聆初雪，請手動開啟 RA-15 並配隊一次。選擇五先鋒（無練度要求）+ 聖聆初雪，且初雪位於最後一位，儲存配隊後退出關卡
-3. 如果使用助戰聖聆初雪，請確認聖聆初雪位於術士助戰首頁（考慮摯友）
+1. 主線進度需已通關 RA-15。
+2. 使用自有聖聆初雪：
+• 手動進入 RA-15 並編入隊伍，選擇 5 名先鋒幹員（無練度要求），第六位選擇聖聆初雪。
+• 儲存配隊後退出關卡。
+3. 使用助戰聖聆初雪：
+• 確保聖聆初雪出現在術士助戰首頁（可考慮使用摯友）。
 
-在大地圖開啟 RA-15，右下角出現 ｢開啟建設｣ 時啟動任務即可自動循環
+啟動方式：
+在大地圖開啟 RA-15，待右下角出現 ｢開啟建設｣ 後，即可啟動任務進行自動循環。
 
-注意： 如果已解鎖開局額外攜帶物品的相關科技，請將基地內會導致開局額外攜帶物品的設施拆除，如食品供給站、飲品供給站、獸欄等
+注意事項：
+如果已解鎖開局額外攜帶物品的相關科技，請拆除基地內會導致開局額外攜帶物品的設施，例如食品供給站、飲品供給站、獸欄等。
 
-任務流程： 自動借助戰執行 60 殺任務</system:String>
-    <system:String x:Key="Toolbox.MiniGame.Reclamation.RelaunchAnchor.RA4" xml:space="preserve">收益參考：每把約 417 代幣 + 統籌點數，單輪耗時約 1 分 40 秒
+任務流程：
+自動使用聖聆初雪執行 60 殺任務。</system:String>
+    <system:String x:Key="Toolbox.MiniGame.Reclamation.RelaunchAnchor.RA4" xml:space="preserve">收益參考：每輪可獲得約 417 代幣及統籌點數，耗時 1 分 40 秒左右。
 
 幹員要求：維什戴爾（可借助戰）
 
 前置條件：
-1. 推進主線至 RA-4 已通關狀態
-2. 解鎖策略籌劃經營
-3. 如果自己有維什戴爾，請手動開啟關卡並配隊一次，保證為任意 5 個費用比維什戴爾低的幹員 + 維什戴爾，且維什戴爾位於六號位即最後一個選的人，然後確認招募，放棄本次建設並在開始建設處開始
-4. 如果使用助戰維什戴爾，請保證維什戴爾在狙擊助戰首頁（考慮摯友），請手動開啟關卡編入任意 5 個費用比維什戴爾低的幹員，六號位選擇維什戴爾助戰後確認招募，放棄本次建設並在開始建設處開始（保證隊伍前五位有人且六號位為空）
+1. 主線進度需已通關 RA-4 。
+2. 解鎖 ｢籌劃經營｣ 戰術傾向。
+3. 使用自有維什戴爾：
+• 手動進入關卡並編入隊伍，前五位選擇任意 5 名部署費用低於維什戴爾的幹員，第六位（最後一位）選擇維什戴爾。
+• 確認招募後，放棄本次建設，並從 ｢開始建設｣ 處重新開始。
+4. 使用助戰維什戴爾：
+• 確保維什戴爾出現在狙擊助戰首頁（可考慮使用摯友）。
+• 手動進入關卡並編入任意 5 名部署費用低於維什戴爾的幹員，第六位選擇維什戴爾助戰。
+• 確認招募後，放棄本次建設，並從 ｢開始建設｣ 處重新開始。
+• 重新開始時，確保隊伍前五位皆有幹員，第六位為空。
 
-在大地圖開啟 RA-4，右下角出現 ｢開啟建設｣ 時啟動任務即可自動循環
+啟動方式：
+在大地圖開啟 RA-4，待右下角出現 ｢開啟建設｣ 後，即可啟動任務進行自動循環。
 
-注意：如果已解鎖開局額外攜帶物品的相關科技，請將基地內會導致開局額外攜帶物品的設施拆除，如食品供給站、飲品供給站、獸欄等
+注意事項：
+如果已解鎖開局額外攜帶物品的相關科技，請拆除基地內會導致開局額外攜帶物品的設施，例如食品供給站、飲品供給站、獸欄等。
 
-任務流程：使用籌劃經營策略給予的赤金解鎖區域，使用維什戴爾完成擊殺 boss 任務</system:String>
+任務流程：
+使用 ｢籌劃經營｣ 戰術傾向提供的赤金解鎖區域，再使用維什戴爾完成擊殺 Boss 的任務。</system:String>
     <system:String x:Key="Toolbox.MiniGame.Reclamation.TalesInSave.Tip" xml:space="preserve">有存檔時透過製造刷點數：
   1. 要求為結算後的第一天，且後續三天沒有敵襲進入駐紮地。
   2. 必須在進入大地圖後的介面開始（能看到駐紮地的介面）。
@@ -2588,7 +2615,7 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="VersionUpdate.NewVersionDetectFailed.Title">檢查更新失敗</system:String>
     <system:String x:Key="VersionUpdate.NewVersionDownloadCompleted.Description">是否立即更新 MAA？（將重新啟動程式）</system:String>
     <system:String x:Key="VersionUpdate.NewVersionDownloadCompleted.Title">新版本下載完成</system:String>
-    <system:String x:Key="VersionUpdate.NewVersionDownloadFailed.Description">請嘗試手動下載後，將壓縮檔放到目錄下 _(:з」∠)_</system:String>
+    <system:String x:Key="VersionUpdate.NewVersionDownloadFailed.Description">請嘗試手動下載後，將壓縮檔放到目錄下 _(:з｣ ∠)_</system:String>
     <system:String x:Key="VersionUpdate.NewVersionDownloadFailed.Title">新版本下載失敗</system:String>
     <system:String x:Key="VersionUpdate.NewVersionDownloadPreparing">正在準備下載更新檔案……</system:String>
     <system:String x:Key="VersionUpdate.NewVersionDownloadRetrying">更新檔案下載失敗，將在 {0} 秒後重試（第 {1}/{2} 次下載失敗）。</system:String>

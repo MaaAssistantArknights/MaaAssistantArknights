@@ -299,6 +299,30 @@
                             </StackPanel>
                         </StackPanel>
                     </DataTemplate>
+                    <DataTemplate DataType="{x:Type extra:ModAvdExtra}">
+                        <Grid
+                            Margin="0,5"
+                            d:DataContext="{d:DesignInstance {x:Type extra:ModAvdExtra}}"
+                            s:View.ActionTarget="{Binding}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <hc:TextBox
+                                Grid.Column="0"
+                                hc:BorderElement.CornerRadius="4,0,0,4"
+                                hc:InfoElement.Title="{DynamicResource Connection.ModAVD.RootPath}"
+                                Text="{Binding RootPath}" />
+                            <Button
+                                Grid.Column="1"
+                                Width="60"
+                                VerticalAlignment="Bottom"
+                                hc:BorderElement.CornerRadius="0,4,4,0"
+                                BorderThickness="0,1,1,1"
+                                Command="{s:Action SelectRootPath}"
+                                Content="{DynamicResource Common.Select}" />
+                        </Grid>
+                    </DataTemplate>
                     <DataTemplate DataType="{x:Type extra:Win32Extra}">
                         <StackPanel d:DataContext="{d:DesignInstance {x:Type extra:Win32Extra}}">
                             <hc:ComboBox

@@ -2113,7 +2113,7 @@
         {
             "id": "burn",
             "description": "尽快抵达第三层，到达即重开",
-            "modules": ["common_navigation", "burn_route"],
+            "modules": ["common_navigation", "mechanic_flight", "burn_route"],
             "terminal_rules": [
                 {
                     "id": "burn_third_floor_reached",

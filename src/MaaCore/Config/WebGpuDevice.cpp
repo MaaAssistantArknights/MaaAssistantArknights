@@ -17,8 +17,10 @@
 #include <onnxruntime/core/session/onnxruntime_c_api.h>
 #endif
 
-#if defined(ASST_WITH_WEBGPU) && defined(_WIN32)
+#ifdef ASST_WITH_WEBGPU
+#ifdef _WIN32
 #include <dawn/native/D3DBackend.h>
+#endif // _WIN32
 #include <dawn/native/DawnNative.h>
 #define ASST_HAS_WEBGPU_DAWN 1
 #endif
@@ -75,6 +77,7 @@ std::shared_ptr<DawnContext> create_context(const GpuDeviceSelector& selector, i
     wgpu::RequestAdapterOptions adapter_options {};
     adapter_options.powerPreference = wgpu::PowerPreference::HighPerformance;
 
+#ifdef _WIN32
     dawn::native::d3d::RequestAdapterOptionsLUID luid_options;
     if (selector.uses_adapter_luid()) {
         const uint64_t luid = *selector.adapter_luid();
@@ -82,6 +85,9 @@ std::shared_ptr<DawnContext> create_context(const GpuDeviceSelector& selector, i
         luid_options.adapterLUID.HighPart = static_cast<LONG>(luid >> 32);
         adapter_options.nextInChain = &luid_options;
     }
+#elif defined(__APPLE__)
+    adapter_options.backendType = wgpu::BackendType::Metal;
+#endif
 
     auto adapters = context->instance.EnumerateAdapters(&adapter_options);
     if (adapters.empty()) {

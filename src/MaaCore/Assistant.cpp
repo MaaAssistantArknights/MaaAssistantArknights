@@ -197,6 +197,10 @@ bool asst::Assistant::set_instance_option(InstanceOptionKey key, const std::stri
             m_ctrler->set_touch_mode(TouchMode::MaaFwAdb);
             return true;
         }
+        else if (constexpr std::string_view ModAvdExtras = "ModAvdExtras"; value == ModAvdExtras) {
+            m_ctrler->set_touch_mode(TouchMode::ModAvdExtras);
+            return true;
+        }
 #if ASST_WITH_EMULATOR_EXTRAS
         else if (constexpr std::string_view MumuExtras = "MumuExtras"; value == MumuExtras) {
             m_ctrler->set_touch_mode(TouchMode::MumuExtras);
