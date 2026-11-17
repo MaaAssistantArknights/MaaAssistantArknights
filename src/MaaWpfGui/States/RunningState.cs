@@ -260,6 +260,7 @@ public class RunningState
 
     private bool _idle = true;
     private readonly SemaphoreSlim _runAdmission = new(1, 1);
+    private int _idleOperationActive;
     private RunOwner _runOwner;
 
     /// <summary>
@@ -274,7 +275,7 @@ public class RunningState
                 return;
             }
 
-            var oldState = new StateSnapshot(_idle, _inited, _stopping, _runOwner);
+            var oldState = new StateSnapshot(Idle, _inited, _stopping, _runOwner);
             _runOwner = value;
             RaiseStateChanged(oldState);
         }
@@ -331,13 +332,17 @@ public class RunningState
         if (!GetIdle() || IsInterruptLocked())
         {
             _runAdmission.Release();
+            SignalCanInterrupt();
             return null;
         }
 
         var lease = new IdleOperationLease(this);
         try
         {
-            SetIdle(false);
+            var oldState = new StateSnapshot(Idle, _inited, _stopping, _runOwner);
+            Volatile.Write(ref _idleOperationActive, 1);
+            SleepManagement.BlockSleep();
+            RaiseStateChanged(oldState);
             return lease;
         }
         catch
@@ -361,7 +366,16 @@ public class RunningState
 
             try
             {
-                owner.SetIdle(true);
+                var oldState = new StateSnapshot(owner.Idle, owner._inited, owner._stopping, owner._runOwner);
+                Volatile.Write(ref owner._idleOperationActive, 0);
+                if (owner.Idle)
+                {
+                    // A stop during standalone work has no task callback to clear this flag.
+                    owner._stopping = false;
+                    SleepManagement.AllowSleep();
+                }
+
+                owner.RaiseStateChanged(oldState);
             }
             finally
             {
@@ -373,14 +387,14 @@ public class RunningState
 
     public bool Idle
     {
-        get => _idle;
+        get => _idle && Volatile.Read(ref _idleOperationActive) == 0;
         set {
             if (_idle == value)
             {
                 return;
             }
 
-            var oldState = new StateSnapshot(_idle, _inited, _stopping, _runOwner);
+            var oldState = new StateSnapshot(Idle, _inited, _stopping, _runOwner);
             _idle = value;
             if (value)
             {
@@ -391,7 +405,10 @@ public class RunningState
                 _stopping = false;
                 StopTimeoutTimer();
                 ClearRunDeadline();
-                SleepManagement.AllowSleep();
+                if (Idle)
+                {
+                    SleepManagement.AllowSleep();
+                }
             }
             else
             {
@@ -431,6 +448,23 @@ public class RunningState
     {
         var newValue = Interlocked.Increment(ref _interruptLockDepth);
         _logger.Information("InterruptLock: depth={Depth} (called from {Caller})", newValue, caller);
+    }
+
+    /// <summary>
+    /// Protects a transition into completion actions before publishing the idle state.
+    /// </summary>
+    /// <returns>An idempotent scope that releases its interrupt lock.</returns>
+    public IDisposable AcquireInterruptLock()
+    {
+        LockInterrupt();
+        return new InterruptLease(this);
+    }
+
+    private sealed class InterruptLease(RunningState state) : IDisposable
+    {
+        private RunningState? _state = state;
+
+        public void Dispose() => Interlocked.Exchange(ref _state, null)?.UnlockInterrupt();
     }
 
     /// <summary>
@@ -489,7 +523,7 @@ public class RunningState
         set {
             if (_inited != value)
             {
-                var oldState = new StateSnapshot(_idle, _inited, _stopping, _runOwner);
+                var oldState = new StateSnapshot(Idle, _inited, _stopping, _runOwner);
                 _inited = value;
                 RaiseStateChanged(oldState);
             }
@@ -512,7 +546,7 @@ public class RunningState
         set {
             if (_stopping != value)
             {
-                var oldState = new StateSnapshot(_idle, _inited, _stopping, _runOwner);
+                var oldState = new StateSnapshot(Idle, _inited, _stopping, _runOwner);
                 _stopping = value;
                 RaiseStateChanged(oldState);
             }
@@ -531,7 +565,7 @@ public class RunningState
 
     private void RaiseStateChanged(StateSnapshot oldState)
     {
-        StateChanged?.Invoke(this, new(oldState, _idle, _inited, _stopping, _runOwner));
+        StateChanged?.Invoke(this, new(oldState, Idle, _inited, _stopping, _runOwner));
         SignalCanInterrupt();
     }
 

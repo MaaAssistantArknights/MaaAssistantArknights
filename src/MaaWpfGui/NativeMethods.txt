@@ -36,6 +36,7 @@ GetMenu
 AdjustWindowRectExForDpi
 SetThreadDpiAwarenessContext
 MonitorFromWindow
+MonitorFromRect
 GetMonitorInfo
 GetSystemMetrics
 SetWindowPos

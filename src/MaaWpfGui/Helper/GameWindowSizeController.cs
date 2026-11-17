@@ -14,8 +14,10 @@
 #nullable enable
 using System;
 using System.Diagnostics;
+using System.IO;
 using System.Runtime.InteropServices;
 using System.Threading;
+using MaaWpfGui.Configuration.Global;
 using Serilog;
 using Windows.Win32;
 using Windows.Win32.Foundation;
@@ -25,17 +27,38 @@ using Windows.Win32.UI.WindowsAndMessaging;
 
 namespace MaaWpfGui.Helper;
 
-internal sealed class GameWindowSizeController
+internal sealed class GameWindowSizeController : IDisposable
 {
     private static readonly ILogger _logger = Log.ForContext<GameWindowSizeController>();
 
     // WinUser.h defines the per-monitor V2 context as the pseudo-handle -4.
     private static readonly DPI_AWARENESS_CONTEXT _perMonitorAwareV2 = (DPI_AWARENESS_CONTEXT)new IntPtr(-4);
     private SavedWindow? _original;
+    private GameWindowRestoreState? _restoreState;
+    private readonly string? _executablePath;
+    private readonly Action<GameWindowRestoreState?>? _stateChanged;
+
+    public GameWindowSizeController()
+    {
+    }
+
+    public GameWindowSizeController(GameWindowRestoreState? restoreState, Action<GameWindowRestoreState?> stateChanged)
+    {
+        _restoreState = IsValidRestoreState(restoreState) ? restoreState : null;
+        _stateChanged = stateChanged;
+    }
+
+    public GameWindowSizeController(GameWindowRestoreState? restoreState, Action<GameWindowRestoreState?> stateChanged, string executablePath)
+        : this(restoreState, stateChanged)
+    {
+        _executablePath = NormalizeExecutablePath(executablePath) ?? throw new ArgumentException("An absolute executable path is required.", nameof(executablePath));
+    }
 
     internal enum Status
     {
         Resized,
+        AlreadyStandard,
+        InstallationChanged,
         Restored,
         WindowedModeRequired,
         DisplayTooSmall,
@@ -47,7 +70,68 @@ internal sealed class GameWindowSizeController
 
     private sealed record SavedWindow(HWND Handle, uint ProcessId, RECT Bounds, RECT Client, string IdentityProperty);
 
-    public bool CanRestore => _original is not null;
+    public bool CanRestore => _restoreState is not null;
+
+    public GameWindowRestoreState? RestoreState => _restoreState;
+
+    internal static bool IsValidRestoreState(GameWindowRestoreState? state) =>
+        state is { ClientWidth: > 0 and <= 32767, ClientHeight: > 0 and <= 32767, Left: >= -1_000_000 and <= 1_000_000, Top: >= -1_000_000 and <= 1_000_000 };
+
+    internal static string? NormalizeExecutablePath(string? executablePath)
+    {
+        if (string.IsNullOrWhiteSpace(executablePath) || !Path.IsPathFullyQualified(executablePath))
+        {
+            return null;
+        }
+
+        try
+        {
+            // Normalize Windows path spelling without binding records to a transient PID.
+            var path = executablePath.StartsWith(@"\\?\UNC\", StringComparison.OrdinalIgnoreCase)
+                ? @"\\" + executablePath[8..]
+                : executablePath.StartsWith(@"\\?\", StringComparison.Ordinal) ? executablePath[4..] : executablePath;
+            return Path.GetFullPath(path).ToUpperInvariant();
+        }
+        catch (Exception ex) when (ex is ArgumentException or NotSupportedException or PathTooLongException)
+        {
+            return null;
+        }
+    }
+
+    internal static bool IsSameInstallation(GameWindowRestoreState state, string? executablePath)
+    {
+        var savedPath = NormalizeExecutablePath(state.ExecutablePath);
+        return savedPath is not null && savedPath == NormalizeExecutablePath(executablePath);
+    }
+
+    internal static bool TryGetExecutablePath(IntPtr handle, uint expectedProcessId, out string? executablePath)
+    {
+        executablePath = null;
+        try
+        {
+            using var process = Process.GetProcessById((int)expectedProcessId);
+            var path = process.MainModule?.FileName;
+            _ = PInvoke.GetWindowThreadProcessId((HWND)handle, out var processId);
+            if (processId != expectedProcessId || !PInvoke.IsWindow((HWND)handle) || string.IsNullOrWhiteSpace(path) || !Path.IsPathFullyQualified(path))
+            {
+                return false;
+            }
+
+            executablePath = path;
+            return true;
+        }
+        catch (Exception ex)
+        {
+            _logger.Debug(ex, "Unable to read game installation path for process {ProcessId}", expectedProcessId);
+            return false;
+        }
+    }
+
+    private void SetRestoreState(GameWindowRestoreState? state)
+    {
+        _restoreState = state;
+        _stateChanged?.Invoke(state);
+    }
 
     internal static bool IsGameProcessWindow(IntPtr handle)
     {
@@ -69,9 +153,9 @@ internal sealed class GameWindowSizeController
         }
     }
 
-    public unsafe Result Resize(IntPtr handle)
+    public unsafe Result Resize(IntPtr handle, uint expectedProcessId, bool allow720p)
     {
-        if (_original is not null)
+        if (CanRestore)
         {
             return new(Status.Failed);
         }
@@ -85,7 +169,8 @@ internal sealed class GameWindowSizeController
         try
         {
             var hwnd = (HWND)handle;
-            if (!PInvoke.IsWindow(hwnd))
+            _ = PInvoke.GetWindowThreadProcessId(hwnd, out var processId);
+            if (!PInvoke.IsWindow(hwnd) || processId == 0 || processId != expectedProcessId)
             {
                 return new(Status.WindowClosed);
             }
@@ -109,7 +194,8 @@ internal sealed class GameWindowSizeController
             var width = 0;
             var height = 0;
             RECT target = default;
-            foreach (var size in new[] { (Width: 1920, Height: 1080), (Width: 1280, Height: 720) })
+            var sizes = allow720p ? new[] { (Width: 1920, Height: 1080), (Width: 1280, Height: 720) } : new[] { (Width: 1920, Height: 1080) };
+            foreach (var size in sizes)
             {
                 target = new RECT { right = size.Width, bottom = size.Height };
                 if (!PInvoke.AdjustWindowRectExForDpi(ref target, style, hasMenu, exStyle, dpi))
@@ -127,11 +213,17 @@ internal sealed class GameWindowSizeController
 
             if (width == 0)
             {
-                return new(Status.DisplayTooSmall);
+                return new(Status.DisplayTooSmall, allow720p ? 1280 : 1920, allow720p ? 720 : 1080);
             }
 
-            _ = PInvoke.GetWindowThreadProcessId(hwnd, out var processId);
-            if (processId == 0)
+            if (client.right - client.left == width && client.bottom - client.top == height)
+            {
+                // No original size can be inferred when this process never adjusted the window.
+                return new(Status.AlreadyStandard, width, height);
+            }
+
+            _ = PInvoke.GetWindowThreadProcessId(hwnd, out var currentProcessId);
+            if (currentProcessId != expectedProcessId)
             {
                 return new(Status.WindowClosed);
             }
@@ -148,6 +240,13 @@ internal sealed class GameWindowSizeController
 
             _original = new(hwnd, processId, bounds, client, identityProperty);
             AppDomain.CurrentDomain.ProcessExit += OnProcessExit;
+            var originalState = new GameWindowRestoreState {
+                ExecutablePath = _executablePath ?? string.Empty,
+                Left = bounds.left,
+                Top = bounds.top,
+                ClientWidth = client.right - client.left,
+                ClientHeight = client.bottom - client.top,
+            };
             var outerWidth = target.right - target.left;
             var outerHeight = target.bottom - target.top;
             var error = 0;
@@ -159,6 +258,7 @@ internal sealed class GameWindowSizeController
                 target.bottom = target.top + outerHeight;
                 if (MoveAndVerify(_original, target, width, height, out error))
                 {
+                    SetRestoreState(originalState);
                     _logger.Information("Resized game window {Hwnd} to client size {Width}x{Height}", handle, width, height);
                     return new(Status.Resized, width, height, WindowChanged: GeometryChanged(hwnd, _original.Bounds, _original.Client));
                 }
@@ -177,10 +277,12 @@ internal sealed class GameWindowSizeController
                 }
             }
 
-            // Keep the snapshot if rollback fails so that the restore button remains available.
+            // A failed adjustment never creates persistent history; the UI guides manual recovery.
             var saved = _original;
-            _ = RestoreCore();
-            return new(Status.Failed, Error: error, WindowChanged: saved is not null && GeometryChanged(saved.Handle, saved.Bounds, saved.Client));
+            _ = RestoreCore(clearRestoreState: false);
+            var changed = saved is not null && GeometryChanged(saved.Handle, saved.Bounds, saved.Client);
+            ClearWindowBinding();
+            return new(Status.Failed, Error: error, WindowChanged: changed);
         }
         finally
         {
@@ -188,7 +290,7 @@ internal sealed class GameWindowSizeController
         }
     }
 
-    public Result Restore()
+    public unsafe Result Restore(IntPtr handle, uint expectedProcessId)
     {
         var previousContext = PInvoke.SetThreadDpiAwarenessContext(_perMonitorAwareV2);
         if (previousContext.IsNull)
@@ -198,6 +300,72 @@ internal sealed class GameWindowSizeController
 
         try
         {
+            var state = _restoreState;
+            if (!IsValidRestoreState(state))
+            {
+                return new(Status.WindowClosed);
+            }
+
+            var hwnd = (HWND)handle;
+            _ = PInvoke.GetWindowThreadProcessId(hwnd, out var processId);
+            if (!PInvoke.IsWindow(hwnd) || processId == 0 || processId != expectedProcessId)
+            {
+                return new(Status.WindowClosed);
+            }
+
+            if (_executablePath is not null && !IsSameInstallation(state!, _executablePath))
+            {
+                return new(Status.InstallationChanged);
+            }
+
+            var style = (WINDOW_STYLE)(uint)PInvoke.GetWindowLong(hwnd, WINDOW_LONG_PTR_INDEX.GWL_STYLE);
+            if ((style & WINDOW_STYLE.WS_CAPTION) != WINDOW_STYLE.WS_CAPTION)
+            {
+                return new(Status.WindowedModeRequired);
+            }
+
+            var client = new RECT { right = state!.ClientWidth, bottom = state.ClientHeight };
+            var bounds = client;
+            var exStyle = (WINDOW_EX_STYLE)(uint)PInvoke.GetWindowLong(hwnd, WINDOW_LONG_PTR_INDEX.GWL_EXSTYLE);
+            if (!PInvoke.AdjustWindowRectExForDpi(ref bounds, style & ~(WINDOW_STYLE.WS_MINIMIZE | WINDOW_STYLE.WS_MAXIMIZE), !PInvoke.GetMenu(hwnd).IsNull, exStyle, PInvoke.GetDpiForWindow(hwnd)))
+            {
+                return new(Status.Failed, Error: Marshal.GetLastWin32Error());
+            }
+
+            var outerWidth = bounds.right - bounds.left;
+            var outerHeight = bounds.bottom - bounds.top;
+            bounds = new RECT { left = state.Left, top = state.Top, right = state.Left + outerWidth, bottom = state.Top + outerHeight };
+            var monitor = new MONITORINFO { cbSize = (uint)Marshal.SizeOf<MONITORINFO>() };
+            if (!PInvoke.GetMonitorInfo(PInvoke.MonitorFromRect(in bounds, MONITOR_FROM_FLAGS.MONITOR_DEFAULTTONEAREST), ref monitor))
+            {
+                return new(Status.Failed, Error: Marshal.GetLastWin32Error());
+            }
+
+            bounds.left = Math.Clamp(bounds.left, monitor.rcWork.left, Math.Max(monitor.rcWork.left, monitor.rcWork.right - outerWidth));
+            bounds.top = Math.Clamp(bounds.top, monitor.rcWork.top, Math.Max(monitor.rcWork.top, monitor.rcWork.bottom - outerHeight));
+            bounds.right = bounds.left + outerWidth;
+            bounds.bottom = bounds.top + outerHeight;
+
+            // A persisted size is data, never permission to reuse an old HWND or PID.
+            // Bind only the current uniquely selected game window for this operation.
+            ClearWindowBinding();
+            _ = PInvoke.GetWindowThreadProcessId(hwnd, out var currentProcessId);
+            if (currentProcessId != expectedProcessId)
+            {
+                return new(Status.WindowClosed);
+            }
+
+            var identityProperty = $"MAA.WindowSize.{Guid.NewGuid():N}";
+            fixed (char* propertyName = identityProperty)
+            {
+                if (!PInvoke.SetProp(hwnd, propertyName, (HANDLE)new IntPtr(1)))
+                {
+                    return new(Status.Failed, Error: Marshal.GetLastWin32Error());
+                }
+            }
+
+            _original = new(hwnd, processId, bounds, client, identityProperty);
+            AppDomain.CurrentDomain.ProcessExit += OnProcessExit;
             return RestoreCore();
         }
         finally
@@ -206,12 +374,12 @@ internal sealed class GameWindowSizeController
         }
     }
 
-    private Result RestoreCore()
+    private Result RestoreCore(bool clearRestoreState = true)
     {
         var saved = _original;
         if (saved is null || !IsSameWindow(saved))
         {
-            ClearSnapshot();
+            ClearWindowBinding();
             return new(Status.WindowClosed);
         }
 
@@ -235,14 +403,21 @@ internal sealed class GameWindowSizeController
             return new(Status.Failed, Error: error, WindowChanged: GeometryChanged(saved.Handle, beforeBounds, beforeClient));
         }
 
-        ClearSnapshot();
+        ClearWindowBinding();
+        if (clearRestoreState)
+        {
+            SetRestoreState(null);
+        }
         return new(Status.Restored, width, height, WindowChanged: GeometryChanged(saved.Handle, beforeBounds, beforeClient));
     }
 
-    private void OnProcessExit(object? sender, EventArgs args) => ClearSnapshot();
+    public void Dispose() => ClearWindowBinding();
 
-    private unsafe void ClearSnapshot()
+    private void OnProcessExit(object? sender, EventArgs args) => ClearWindowBinding();
+
+    private unsafe void ClearWindowBinding()
     {
+        // Release runtime identity only; persisted geometry is cleared after a successful restore.
         if (_original is { } saved && IsSameWindow(saved))
         {
             fixed (char* propertyName = saved.IdentityProperty)

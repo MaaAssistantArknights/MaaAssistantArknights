@@ -385,12 +385,13 @@ public class ToolboxViewModel : Screen
             return;
         }
 
-        string errMsg = string.Empty;
-        RecruitInfo = LocalizationHelper.GetString("Connection.Connecting");
         if (!_runningState.BeginRun(RunOwner.Toolbox))
         {
             return;
         }
+
+        string errMsg = string.Empty;
+        RecruitInfo = LocalizationHelper.GetString("Connection.Connecting");
         var recruitCaught = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
         if (!recruitCaught)
         {

@@ -1598,125 +1598,131 @@ public class AsstProxy
                 }
 
             case AsstMsg.AllTasksCompleted:
-                var taskList = details["finished_tasks"]?.ToObject<AsstTaskId[]>();
-
-                // 完成判定按发起归属而非 _tasksStatus 条目类型推断：条目 Type 与队列任务脱节
-                // （更新数据/仓库维护展开的链不在白名单、copilot 启动失败残留条目误判轮次归属）。
-                // 归属快照须在 SetIdle(true) 清零之前取得
-                var runOwner = _runningState.Owner;
-                if (runOwner == RunOwner.Copilot)
                 {
-                    if (SettingsViewModel.GameSettings.CopilotWithScript)
+                    // This is a reference-counted interrupt guard, not a blocking mutex.
+                    // CheckAfterCompleted takes its own guard synchronously before its first await;
+                    // protect that handoff so idle notifications cannot admit a resize in between.
+                    using var completionLock = _runningState.AcquireInterruptLock();
+                    var taskList = details["finished_tasks"]?.ToObject<AsstTaskId[]>();
+
+                    // 完成判定按发起归属而非 _tasksStatus 条目类型推断：条目 Type 与队列任务脱节
+                    // （更新数据/仓库维护展开的链不在白名单、copilot 启动失败残留条目误判轮次归属）。
+                    // 归属快照须在 SetIdle(true) 清零之前取得
+                    var runOwner = _runningState.Owner;
+                    if (runOwner == RunOwner.Copilot)
                     {
-                        // 与手动停止入口共享发射权（copilot 日志走下方 AddLog，不进任务日志）
-                        _ = Instances.TaskQueueViewModel.RunStopScriptOnceAsync(showLog: false);
-                        if (!string.IsNullOrWhiteSpace(SettingsViewModel.GameSettings.EndsWithScript))
+                        if (SettingsViewModel.GameSettings.CopilotWithScript)
                         {
-                            Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString(GameSettingsUserControlModel.EndWithScriptKey));
-                        }
-                    }
-                }
-
-                bool buyWine = _tasksStatus.Any(t => t.Value.Type == TaskType.Mall) && Instances.SettingsViewModel.DidYouBuyWine();
-
-                // 失败名单复用 ｢出错时跳过完成后动作｣ 的记录（TaskChainError 时点快照，自带任务名与多链后缀），
-                // 同样覆盖 RemoteControlService 等绕过 LinkStartWithTasks 的启动入口；名单在下一轮开始时才清空，此处仍可读
-                var failedTaskNames = Instances.TaskQueueViewModel.TaskItemViewModels.Where(i => i.StatusDisplay == TaskItemStatus.Error).Select(i => i.Name).ToArray();
-                bool hasTaskErrors = failedTaskNames.Length > 0;
-                _tasksStatus.Clear();
-                _taskChainStartTimes.Clear();
-
-                Instances.TaskQueueViewModel.ResetAllTemporaryVariable();
-                _runningState.SetIdle(true);
-
-                if (runOwner == RunOwner.TaskQueue && taskList?.Length > 0)
-                {
-                    var dateTimeNow = DateTimeOffset.Now;
-                    var diffTaskTime = (dateTimeNow - StartTaskTime).ToString(@"h\h\ m\m\ s\s");
-
-                    var allTaskCompleteTitle = hasTaskErrors ?
-                        LocalizationHelper.GetStringFormat("Asst.TaskQueue.CompletedWithErrors", string.Join(", ", failedTaskNames), diffTaskTime) :
-                        LocalizationHelper.GetStringFormat("Asst.TaskQueue.AllTasksComplete", diffTaskTime);
-                    var sanityReport = string.Empty;
-
-                    var configurationPreset = ConfigFactory.Root.Current;
-
-                    var allTaskCompleteMessage = LocalizationHelper.GetString("Asst.TaskQueue.AllTaskCompleteContent");
-                    allTaskCompleteMessage = allTaskCompleteMessage
-                        .Replace("{DateTime}", dateTimeNow.ToString("yyyy-MM-dd HH:mm:ss"))
-                        .Replace("{Preset}", configurationPreset)
-                        .Replace("{TimeDiff}", diffTaskTime);
-
-                    var allTaskCompleteLog = allTaskCompleteTitle;
-
-                    if (FightSetting.SanityReport is not null)
-                    {
-                        var recoveryTime = FightSetting.SanityReport.ReportTime.AddMinutes(FightSetting.SanityReport.SanityCurrent < FightSetting.SanityReport.SanityMax ? (FightSetting.SanityReport.SanityMax - FightSetting.SanityReport.SanityCurrent) * 6 : 0);
-                        sanityReport = LocalizationHelper.GetString("Asst.Fight.SanityReport").Replace("{DateTime}", recoveryTime.ToString("yyyy-MM-dd HH:mm")).Replace("{TimeDiff}", (recoveryTime - DateTimeOffset.Now).ToString(@"h\h\ m\m"));
-
-                        allTaskCompleteLog = allTaskCompleteLog + Environment.NewLine + sanityReport;
-                        if (_sanityRecoveryTimer is not null)
-                        {
-                            DisposeTimer();
-                        }
-
-                        var interval = recoveryTime - DateTimeOffset.Now.AddMinutes(6);
-                        if (interval > TimeSpan.Zero)
-                        {
-                            _sanityRecoveryTimer = new DispatcherTimer {
-                                Interval = interval,
-                            };
-                            _sanityRecoveryTimer.Tick += OnSanityRecoveryTimer;
-                            _sanityRecoveryTimer.Start();
+                            // 与手动停止入口共享发射权（copilot 日志走下方 AddLog，不进任务日志）
+                            _ = Instances.TaskQueueViewModel.RunStopScriptOnceAsync(showLog: false);
+                            if (!string.IsNullOrWhiteSpace(SettingsViewModel.GameSettings.EndsWithScript))
+                            {
+                                Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString(GameSettingsUserControlModel.EndWithScriptKey));
+                            }
                         }
                     }
 
-                    // 出错时保留完成上下文（时间/配置等）再附错误清单，避免通知正文只剩清单
-                    var allTaskCompleteContent = hasTaskErrors
-                        ? allTaskCompleteMessage + Environment.NewLine + BuildTaskErrorSummaryLog(failedTaskNames)
-                        : allTaskCompleteMessage;
-                    var notificationContent = string.IsNullOrEmpty(sanityReport)
-                        ? allTaskCompleteContent
-                        : allTaskCompleteContent + Environment.NewLine + sanityReport;
-                    AddTaskCompletionLog(allTaskCompleteLog, hasTaskErrors,
-                        new(NotificationKind.TaskComplete, allTaskCompleteTitle, notificationContent));
+                    bool buyWine = _tasksStatus.Any(t => t.Value.Type == TaskType.Mall) && Instances.SettingsViewModel.DidYouBuyWine();
 
-                    if (DateTime.UtcNow.ToYjDate().IsAprilFoolsDay())
+                    // 失败名单复用 ｢出错时跳过完成后动作｣ 的记录（TaskChainError 时点快照，自带任务名与多链后缀），
+                    // 同样覆盖 RemoteControlService 等绕过 LinkStartWithTasks 的启动入口；名单在下一轮开始时才清空，此处仍可读
+                    var failedTaskNames = Instances.TaskQueueViewModel.TaskItemViewModels.Where(i => i.StatusDisplay == TaskItemStatus.Error).Select(i => i.Name).ToArray();
+                    bool hasTaskErrors = failedTaskNames.Length > 0;
+                    _tasksStatus.Clear();
+                    _taskChainStartTimes.Clear();
+
+                    Instances.TaskQueueViewModel.ResetAllTemporaryVariable();
+                    _runningState.SetIdle(true);
+
+                    if (runOwner == RunOwner.TaskQueue && taskList?.Length > 0)
                     {
-                        if (Application.Current.MainWindow?.DataContext is RootViewModel rvm)
+                        var dateTimeNow = DateTimeOffset.Now;
+                        var diffTaskTime = (dateTimeNow - StartTaskTime).ToString(@"h\h\ m\m\ s\s");
+
+                        var allTaskCompleteTitle = hasTaskErrors ?
+                            LocalizationHelper.GetStringFormat("Asst.TaskQueue.CompletedWithErrors", string.Join(", ", failedTaskNames), diffTaskTime) :
+                            LocalizationHelper.GetStringFormat("Asst.TaskQueue.AllTasksComplete", diffTaskTime);
+                        var sanityReport = string.Empty;
+
+                        var configurationPreset = ConfigFactory.Root.Current;
+
+                        var allTaskCompleteMessage = LocalizationHelper.GetString("Asst.TaskQueue.AllTaskCompleteContent");
+                        allTaskCompleteMessage = allTaskCompleteMessage
+                            .Replace("{DateTime}", dateTimeNow.ToString("yyyy-MM-dd HH:mm:ss"))
+                            .Replace("{Preset}", configurationPreset)
+                            .Replace("{TimeDiff}", diffTaskTime);
+
+                        var allTaskCompleteLog = allTaskCompleteTitle;
+
+                        if (FightSetting.SanityReport is not null)
                         {
-                            rvm.GifVisibility = true;
-                            rvm.ChangeGif();
+                            var recoveryTime = FightSetting.SanityReport.ReportTime.AddMinutes(FightSetting.SanityReport.SanityCurrent < FightSetting.SanityReport.SanityMax ? (FightSetting.SanityReport.SanityMax - FightSetting.SanityReport.SanityCurrent) * 6 : 0);
+                            sanityReport = LocalizationHelper.GetString("Asst.Fight.SanityReport").Replace("{DateTime}", recoveryTime.ToString("yyyy-MM-dd HH:mm")).Replace("{TimeDiff}", (recoveryTime - DateTimeOffset.Now).ToString(@"h\h\ m\m"));
+
+                            allTaskCompleteLog = allTaskCompleteLog + Environment.NewLine + sanityReport;
+                            if (_sanityRecoveryTimer is not null)
+                            {
+                                DisposeTimer();
+                            }
+
+                            var interval = recoveryTime - DateTimeOffset.Now.AddMinutes(6);
+                            if (interval > TimeSpan.Zero)
+                            {
+                                _sanityRecoveryTimer = new DispatcherTimer {
+                                    Interval = interval,
+                                };
+                                _sanityRecoveryTimer.Tick += OnSanityRecoveryTimer;
+                                _sanityRecoveryTimer.Start();
+                            }
+                        }
+
+                        // 出错时保留完成上下文（时间/配置等）再附错误清单，避免通知正文只剩清单
+                        var allTaskCompleteContent = hasTaskErrors
+                            ? allTaskCompleteMessage + Environment.NewLine + BuildTaskErrorSummaryLog(failedTaskNames)
+                            : allTaskCompleteMessage;
+                        var notificationContent = string.IsNullOrEmpty(sanityReport)
+                            ? allTaskCompleteContent
+                            : allTaskCompleteContent + Environment.NewLine + sanityReport;
+                        AddTaskCompletionLog(allTaskCompleteLog, hasTaskErrors,
+                            new(NotificationKind.TaskComplete, allTaskCompleteTitle, notificationContent));
+
+                        if (DateTime.UtcNow.ToYjDate().IsAprilFoolsDay())
+                        {
+                            if (Application.Current.MainWindow?.DataContext is RootViewModel rvm)
+                            {
+                                rvm.GifVisibility = true;
+                                rvm.ChangeGif();
+                            }
+                        }
+
+                        // Instances.TaskQueueViewModel.CheckAndShutdown();
+                        _ = Instances.TaskQueueViewModel.CheckAfterCompleted(hasTaskErrors);
+
+                        if (Instances.OverlayViewModel.IsCreated)
+                        {
+                            AchievementTrackerHelper.Instance.Unlock(AchievementIds.LogSupervisor);
                         }
                     }
-
-                    // Instances.TaskQueueViewModel.CheckAndShutdown();
-                    _ = Instances.TaskQueueViewModel.CheckAfterCompleted(hasTaskErrors);
-
-                    if (Instances.OverlayViewModel.IsCreated)
+                    else if (runOwner == RunOwner.Copilot)
                     {
-                        AchievementTrackerHelper.Instance.Unlock(AchievementIds.LogSupervisor);
+                        var message = LocalizationHelper.GetString("Asst.TaskQueue.CompleteTask") + LocalizationHelper.GetString(TaskChainLocalizationKey(taskChain));
+                        Instances.NotificationService.Notify(NotificationSource.Copilot, new(NotificationKind.TaskComplete, message, message));
                     }
-                }
-                else if (runOwner == RunOwner.Copilot)
-                {
-                    var message = LocalizationHelper.GetString("Asst.TaskQueue.CompleteTask") + LocalizationHelper.GetString(TaskChainLocalizationKey(taskChain));
-                    Instances.NotificationService.Notify(NotificationSource.Copilot, new(NotificationKind.TaskComplete, message, message));
-                }
 
-                if (buyWine)
-                {
-                    Instances.SettingsViewModel.LastBuyWineTime = DateTimeOffset.UtcNow.ToYjDateTime();
+                    if (buyWine)
+                    {
+                        Instances.SettingsViewModel.LastBuyWineTime = DateTimeOffset.UtcNow.ToYjDateTime();
 
-                    // 非阻塞 Dialog：喝醉提示，用户点确认后再切换到 Pallas 语言
-                    SettingsViewModel.ShowEasterEggDialog(
-                        LocalizationHelper.GetString("EasterEgg.Burping"),
-                        LocalizationHelper.GetString("EasterEgg.DrunkAndStaggering"),
-                        LocalizationHelper.GetString("Common.Ok"),
-                        () => Instances.SettingsViewModel.GetDrunk());
+                        // 非阻塞 Dialog：喝醉提示，用户点确认后再切换到 Pallas 语言
+                        SettingsViewModel.ShowEasterEggDialog(
+                            LocalizationHelper.GetString("EasterEgg.Burping"),
+                            LocalizationHelper.GetString("EasterEgg.DrunkAndStaggering"),
+                            LocalizationHelper.GetString("Common.Ok"),
+                            () => Instances.SettingsViewModel.GetDrunk());
+                    }
+
+                    break;
                 }
-
-                break;
 
             case AsstMsg.InternalError:
                 break;
@@ -3326,9 +3332,13 @@ public class AsstProxy
     /// Finds the selected PC client without requiring a successful Core connection.
     /// </summary>
     /// <param name="error">The localized reason why a unique window could not be selected.</param>
+    /// <param name="processId">The process identity to revalidate after leaving the UI thread.</param>
+    /// <param name="executablePath">The actual selected process executable used to isolate installation records.</param>
     /// <returns>The game window handle, or zero when no unique window was found.</returns>
-    public IntPtr FindGameWindowForResize(out string error)
+    public IntPtr FindGameWindowForResize(out string error, out uint processId, out string? executablePath)
     {
+        processId = 0;
+        executablePath = null;
         string name = SettingsViewModel.GameSettings.ClientType.ToGameWindowName();
         var windows = FindWindowsByName(name).Where(GameWindowSizeController.IsGameProcessWindow).ToList();
         error = windows.Count switch {
@@ -3336,7 +3346,25 @@ public class AsstProxy
             > 1 => LocalizationHelper.GetString("Connection.WindowResize.MultipleWindows"),
             _ => string.Empty,
         };
-        return windows.Count == 1 ? windows[0] : IntPtr.Zero;
+        if (windows.Count != 1)
+        {
+            return IntPtr.Zero;
+        }
+
+        _ = PInvoke.GetWindowThreadProcessId((HWND)windows[0], out processId);
+        if (processId == 0)
+        {
+            error = LocalizationHelper.GetString("Connection.WindowResize.WindowClosed");
+            return IntPtr.Zero;
+        }
+
+        if (!GameWindowSizeController.TryGetExecutablePath(windows[0], processId, out executablePath))
+        {
+            error = LocalizationHelper.GetString("Connection.WindowResize.InstallationPathUnavailable");
+            return IntPtr.Zero;
+        }
+
+        return windows[0];
     }
 
     /// <summary>

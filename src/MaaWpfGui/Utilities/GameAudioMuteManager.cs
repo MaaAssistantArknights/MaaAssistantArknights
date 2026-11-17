@@ -14,6 +14,7 @@
 #nullable enable
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using Serilog;
@@ -32,6 +33,7 @@ internal static class GameAudioMuteManager
     private static readonly List<AudioSessionMuteState> _mutedSessions = [];
     private static readonly HashSet<string> _mutedSessionIds = new(StringComparer.Ordinal);
     private static IntPtr _windowHwnd;
+    private static uint _windowProcessId;
     private static uint _processId;
     private static bool _restoreMinimized;
     private static WINDOWPLACEMENT? _windowPlacement;
@@ -125,50 +127,94 @@ internal static class GameAudioMuteManager
     /// Restores audio immediately and the window after Core stops moving it.
     /// </summary>
     /// <param name="isCoreRunning">Returns whether Core is still running tasks.</param>
-    /// <returns>A task representing the delayed window restoration.</returns>
-    public static async Task RestoreWhenCoreIdleAsync(Func<bool> isCoreRunning)
+    /// <param name="timeout">Maximum caller wait; defaults to one minute. Pending window cleanup continues after timeout.</param>
+    /// <returns>Whether this cleanup completed within the caller wait and was not superseded.</returns>
+    public static async Task<bool> RestoreWhenCoreIdleAsync(Func<bool> isCoreRunning, TimeSpan? timeout = null)
     {
         long version;
         lock (_syncRoot)
         {
-            if (_windowHwnd == IntPtr.Zero && _mutedSessions.Count == 0)
-            {
-                return;
-            }
-
             version = ++_version;
 
             // Restore audio before completion actions can close the game process.
             RestoreAudioCore();
-            if (_windowHwnd == IntPtr.Zero)
-            {
-                return;
-            }
         }
 
-        const int MaxAttempts = 1200;
+        return await RestoreWindowWhenCoreIdleAsync(isCoreRunning, version, timeout ?? TimeSpan.FromMinutes(1)).ConfigureAwait(false);
+    }
+
+    private static async Task<bool> RestoreWindowWhenCoreIdleAsync(Func<bool> isCoreRunning, long version, TimeSpan? timeout)
+    {
+        var elapsed = Stopwatch.StartNew();
         try
         {
-            for (var attempt = 0; attempt < MaxAttempts && isCoreRunning(); attempt++)
+            while (true)
             {
-                await Task.Delay(50).ConfigureAwait(false);
-            }
+                lock (_syncRoot)
+                {
+                    // A new capture, task, explicit restore or manual cleanup owns the newer version.
+                    if (version != _version)
+                    {
+                        return false;
+                    }
 
-            // Core sets its running flag before its Win32 controller finishes restoring the window.
-            await Task.Delay(100).ConfigureAwait(false);
+                    if (timeout is null && !IsCapturedWindow())
+                    {
+                        return false;
+                    }
+
+                    if (timeout is { } maxWait && elapsed.Elapsed >= maxWait)
+                    {
+                        _logger.Warning("Core did not become idle before window restoration timed out");
+                        if (IsCapturedWindow())
+                        {
+                            // Keep one waiter for this version. Its result cannot overwrite newer operations.
+                            _ = RestoreWindowWhenCoreIdleAsync(isCoreRunning, version, timeout: null);
+                        }
+
+                        return false;
+                    }
+                }
+
+                if (isCoreRunning())
+                {
+                    await Task.Delay(50).ConfigureAwait(false);
+                    continue;
+                }
+
+                // Core clears its running flag before its Win32 controller finishes restoration.
+                await Task.Delay(100).ConfigureAwait(false);
+                lock (_syncRoot)
+                {
+                    if (version != _version)
+                    {
+                        return false;
+                    }
+
+                    if (!isCoreRunning())
+                    {
+                        RestoreWindowCore();
+                        return true;
+                    }
+                }
+            }
         }
         catch (Exception ex)
         {
             _logger.Debug(ex, "Failed while waiting for Core to finish restoring the game window");
+            return false;
+        }
+    }
+
+    private static bool IsCapturedWindow()
+    {
+        if (_windowHwnd == IntPtr.Zero || !PInvoke.IsWindow((HWND)_windowHwnd))
+        {
+            return false;
         }
 
-        lock (_syncRoot)
-        {
-            if (version == _version)
-            {
-                RestoreWindowCore();
-            }
-        }
+        _ = PInvoke.GetWindowThreadProcessId((HWND)_windowHwnd, out var processId);
+        return processId != 0 && processId == _windowProcessId;
     }
 
     private static void MuteNewSessionsCore()
@@ -221,6 +267,7 @@ internal static class GameAudioMuteManager
 
     private static void CaptureWindowPlacementCore(IntPtr hwnd)
     {
+        _ = PInvoke.GetWindowThreadProcessId((HWND)hwnd, out _windowProcessId);
         _restoreMinimized = PInvoke.IsIconic((HWND)hwnd);
         _windowPlacement = null;
         var placement = new WINDOWPLACEMENT { length = (uint)Marshal.SizeOf<WINDOWPLACEMENT>(), };
@@ -388,11 +435,11 @@ internal static class GameAudioMuteManager
         }
 
         var restored = false;
-        if (_windowPlacement is { } placement)
+        if (IsCapturedWindow() && _windowPlacement is { } placement)
         {
             restored = PInvoke.SetWindowPlacement((HWND)_windowHwnd, in placement);
         }
-        else if (_restoreMinimized)
+        else if (IsCapturedWindow() && _restoreMinimized)
         {
             restored = PInvoke.ShowWindow((HWND)_windowHwnd, SHOW_WINDOW_CMD.SW_MINIMIZE);
         }
@@ -410,6 +457,7 @@ internal static class GameAudioMuteManager
         }
 
         _windowHwnd = IntPtr.Zero;
+        _windowProcessId = 0;
         _processId = 0;
         _restoreMinimized = false;
         _windowPlacement = null;
