@@ -927,7 +927,7 @@ bool asst::OperProgressProcessTask::select_training_trainer(battle::Role role, i
         }
         else {
             scan_unchanged_pages = 0;
-            if (new_opers == 0) {
+            if (page != 0 && new_opers == 0) {
                 scan_completed = true;
                 break;
             }
@@ -967,7 +967,7 @@ bool asst::OperProgressProcessTask::select_training_trainer(battle::Role role, i
     LogInfo << __FUNCTION__ << "| trainer best score" << selection.score;
 
     // 评分需要扫描完整列表；复位到第一页后同时校验心情、技能集合与头像哈希重新定位目标再点击，
-    // 不做"往回滑 N 页"的盲点击，避免滑动距离对不上或头像哈希碰撞误选其他干员。
+    // 不做 ｢往回滑 N 页｣ 的盲点击，避免滑动距离对不上或头像哈希碰撞误选其他干员。
     reset_trainer_list_page();
 
     std::vector<infrast::ScoreOper> relocate_seen_opers;
