@@ -2040,6 +2040,7 @@ public class AsstProxy
                     {
                         case "StartButton2":
                         case "AnnihilationConfirm":
+                            FightSetting.UpdateLastRunTime(details["taskid"]?.ToObject<AsstTaskId>() ?? 0);
                             StringBuilder missionStartLogBuilder = new();
                             if (FightSetting.FightReport is null)
                             {

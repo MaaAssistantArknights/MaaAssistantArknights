@@ -374,6 +374,38 @@ public partial class FightTaskUserControlModel : TaskSettingsViewModel, FightTas
     }
 
     /// <summary>
+    /// 判断一日只执行一次的作战任务当日是否尚未执行。
+    /// </summary>
+    /// <param name="fight">作战任务配置。</param>
+    /// <returns>当日尚未执行时返回 <c>true</c>。</returns>
+    private static bool IsOnceADayAvailable(FightTask fight)
+    {
+        return !fight.OnceADay ||
+               fight.LastTime is not { } lastTime ||
+               DateTimeOffset.UtcNow.ToYjDateTime().Date > lastTime.ToYjDateTime().Date;
+    }
+
+    /// <summary>
+    /// 记录作战任务当日已执行，供一日只执行一次判定。
+    /// </summary>
+    /// <param name="taskId">core 任务 id。</param>
+    public static void UpdateLastRunTime(int taskId)
+    {
+        if (GetFightTaskByTaskId(taskId) is not { } fight)
+        {
+            return;
+        }
+
+        var now = DateTimeOffset.UtcNow;
+        if (fight.LastTime is { } lastTime && lastTime.ToYjDateTime().Date == now.ToYjDateTime().Date)
+        {
+            return;
+        }
+
+        fight.LastTime = now;
+    }
+
+    /// <summary>
     /// Gets or sets a value indicating whether 使用理智药。
     /// </summary>
     public bool? UseMedicine
@@ -1168,6 +1200,15 @@ public partial class FightTaskUserControlModel : TaskSettingsViewModel, FightTas
         }
     }
 
+    /// <summary>
+    /// Gets or sets a value indicating whether 一日只执行一次。
+    /// </summary>
+    public bool OnceADay
+    {
+        get => GetTaskConfig<FightTask>().OnceADay;
+        set => SetTaskConfig<FightTask>(t => t.OnceADay == value, t => t.OnceADay = value);
+    }
+
     public ObservableCollection<WeeklyScheduleItem> WeeklyScheduleSource { get; set; } = [.. Enum.GetValues<DayOfWeek>().Select(i => new WeeklyScheduleItem(i))];
 
     private static string ToUpperAndCheckStage(string value)
@@ -1682,6 +1723,12 @@ public partial class FightTaskUserControlModel : TaskSettingsViewModel, FightTas
             if (fight.UseWeeklySchedule && fight.WeeklySchedule.TryGetValue(Instances.TaskQueueViewModel.CurDayOfWeek, out var isEnabled) && !isEnabled)
             {
                 Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("TaskQueue.Fight.SkippedWeeklySchedule"), UiLogColor.Info);
+                return (null, []);
+            }
+
+            if (taskId is null && !IsOnceADayAvailable(fight))
+            {
+                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("TaskQueue.Fight.SkippedOnceADay"), UiLogColor.Info);
                 return (null, []);
             }
 

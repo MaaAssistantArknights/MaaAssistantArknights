@@ -151,6 +151,16 @@ public class FightTask : BaseTask, IJsonOnDeserialized
     [JsonPredict(nameof(UseWeeklySchedule))]
     public Dictionary<DayOfWeek, bool> WeeklySchedule { get; set; } = Enum.GetValues<DayOfWeek>().ToDictionary(i => i, _ => true);
 
+    /// <summary>
+    /// Gets or sets a value indicating whether 一日只执行一次
+    /// </summary>
+    public bool OnceADay { get; set; }
+
+    /// <summary>
+    /// Gets or sets 上次执行时间
+    /// </summary>
+    public DateTimeOffset? LastTime { get; set; }
+
     public void OnDeserialized()
     {
         if (UseStoneAllowSave == false)
