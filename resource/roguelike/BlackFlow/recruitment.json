@@ -24,7 +24,7 @@
                     "is_key": true,
                     "is_start": true,
                     "recruit_priority": 998,
-                    "promote_priority": 1000
+                    "promote_priority": 1002
                 }
             ]
         },
@@ -152,7 +152,7 @@
                     "is_key": true,
                     "is_start": true,
                     "recruit_priority": 997,
-                    "promote_priority": 1000
+                    "promote_priority": 1002
                 },
                 {
                     "name": "予愿安洁莉娜",
@@ -319,7 +319,7 @@
                     "is_key": true,
                     "is_start": true,
                     "recruit_priority": 870,
-                    "promote_priority": 1000,
+                    "promote_priority": 1001,
                     "recruit_priority_offsets": [
                         {
                             "groups": ["凯尔希", "近卫", "召唤"],
@@ -821,6 +821,13 @@
                             "offset": -80
                         }
                     ]
+                },
+                {
+                    "role": "WARRIOR",
+                    "name": "阿米娅",
+                    "skill": 1,
+                    "recruit_priority": 500,
+                    "promote_priority": 500
                 },
                 {
                     "name": "陈"
@@ -2548,13 +2555,22 @@
             "name": "术师",
             "opers": [
                 {
+                    "name": "圣聆初雪",
+                    "skill": 2,
+                    "skill_usage": 0,
+                    "is_key": true,
+                    "is_start": true,
+                    "recruit_priority": 890,
+                    "promote_priority": 940
+                },
+                {
                     "name": "荒芜拉普兰德",
                     "skill": 3,
                     "alternate_skill": 2,
                     "is_key": true,
                     "is_start": true,
-                    "recruit_priority": 890,
-                    "promote_priority": 940,
+                    "recruit_priority": 875,
+                    "promote_priority": 960,
                     "recruit_priority_offsets": [
                         {
                             "groups": ["术师"],
@@ -2568,15 +2584,6 @@
                             "offset": 300
                         }
                     ]
-                },
-                {
-                    "name": "圣聆初雪",
-                    "skill": 2,
-                    "skill_usage": 0,
-                    "is_key": true,
-                    "is_start": true,
-                    "recruit_priority": 875,
-                    "promote_priority": 950
                 },
                 {
                     "name": "澄闪",
@@ -2649,6 +2656,10 @@
                             "offset": -120
                         }
                     ]
+                },
+                {
+                    "role": "CASTER",
+                    "name": "阿米娅"
                 },
                 {
                     "name": "夕"
@@ -3256,9 +3267,6 @@
                     "name": "锏"
                 },
                 {
-                    "name": "归溟幽灵鲨"
-                },
-                {
                     "name": "米格鲁"
                 },
                 {
@@ -3311,6 +3319,9 @@
                 },
                 {
                     "name": "青枳"
+                },
+                {
+                    "name": "归溟幽灵鲨"
                 },
                 {
                     "name": "芳汀"
@@ -3575,6 +3586,9 @@
                     "name": "仇白"
                 },
                 {
+                    "name": "罗小黑"
+                },
+                {
                     "name": "晓歌"
                 },
                 {
@@ -3670,6 +3684,9 @@
                     "name": "仇白"
                 },
                 {
+                    "name": "罗小黑"
+                },
+                {
                     "name": "棘刺"
                 },
                 {
@@ -3733,6 +3750,10 @@
                 },
                 {
                     "name": "凯尔希"
+                },
+                {
+                    "role": "MEDIC",
+                    "name": "阿米娅"
                 },
                 {
                     "name": "Touch"
@@ -3840,10 +3861,6 @@
                 },
                 {
                     "name": "濯尘芙蓉"
-                },
-                {
-                    "role": "MEDIC",
-                    "name": "阿米娅"
                 },
                 {
                     "name": "月禾"
@@ -3955,10 +3972,10 @@
                     "name": "新约能天使"
                 },
                 {
-                    "name": "荒芜拉普兰德"
+                    "name": "圣聆初雪"
                 },
                 {
-                    "name": "圣聆初雪"
+                    "name": "荒芜拉普兰德"
                 },
                 {
                     "name": "冻河"
@@ -3974,6 +3991,15 @@
                 },
                 {
                     "name": "逻各斯"
+                },
+                {
+                    "role": "MEDIC",
+                    "name": "阿米娅",
+                    "skill": 1,
+                    "is_key": true,
+                    "is_start": true,
+                    "recruit_priority": 750,
+                    "promote_priority": 500
                 },
                 {
                     "name": "艾拉"
@@ -4024,6 +4050,13 @@
                 },
                 {
                     "name": "令"
+                },
+                {
+                    "role": "CASTER",
+                    "name": "阿米娅",
+                    "skill": 2,
+                    "recruit_priority": 620,
+                    "promote_priority": 500
                 },
                 {
                     "name": "望"
@@ -4169,15 +4202,6 @@
                     "skill": 2
                 },
                 {
-                    "role": "CASTER",
-                    "name": "阿米娅",
-                    "skill": 2
-                },
-                {
-                    "role": "MEDIC",
-                    "name": "阿米娅"
-                },
-                {
                     "name": "至简",
                     "skill": 2
                 },
@@ -4270,9 +4294,23 @@
                     ]
                 },
                 {
+                    "name": "水月",
+                    "skill": 1,
+                    "recruit_priority": 550,
+                    "promote_priority": 640,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": ["凯尔希", "近卫", "重装", "情报官", "挡人先锋"],
+                            "is_less": true,
+                            "threshold": 1,
+                            "offset": -600
+                        }
+                    ]
+                },
+                {
                     "name": "归溟幽灵鲨",
                     "skill": 2,
-                    "recruit_priority": 570,
+                    "recruit_priority": 500,
                     "promote_priority": 601,
                     "recruit_priority_offsets": [
                         {
@@ -4290,21 +4328,21 @@
                     ]
                 },
                 {
+                    "name": "国度",
+                    "skill": 2,
+                    "recruit_priority": 450,
+                    "promote_priority": 450
+                },
+                {
                     "name": "伊桑",
                     "skill": 2,
                     "is_key": true,
                     "is_start": true,
                     "recruit_priority": 405,
-                    "promote_priority": 405
-                },
-                {
-                    "name": "水月",
-                    "skill": 1,
-                    "recruit_priority": 395,
-                    "promote_priority": 440,
+                    "promote_priority": 405,
                     "recruit_priority_offsets": [
                         {
-                            "groups": ["凯尔希", "近卫", "重装", "情报官", "挡人先锋"],
+                            "groups": ["凯尔希", "近卫", "重装"],
                             "is_less": true,
                             "threshold": 1,
                             "offset": -600
@@ -4378,9 +4416,6 @@
                     "name": "极境"
                 },
                 {
-                    "name": "归溟幽灵鲨"
-                },
-                {
                     "name": "万顷"
                 },
                 {
@@ -4394,6 +4429,9 @@
                 },
                 {
                     "name": "傀影"
+                },
+                {
+                    "name": "归溟幽灵鲨"
                 },
                 {
                     "name": "红"
@@ -4558,6 +4596,10 @@
             "name": "其他地面",
             "doc": "未出现的地面干员、特殊地面干员将默认分到该组,主要是挡1干员",
             "opers": [
+                {
+                    "role": "WARRIOR",
+                    "name": "阿米娅"
+                },
                 {
                     "name": "芳汀",
                     "skill": 2,
@@ -4781,11 +4823,6 @@
                     "name": "棋子"
                 },
                 {
-                    "role": "WARRIOR",
-                    "name": "阿米娅",
-                    "skill": 1
-                },
-                {
                     "name": "左乐",
                     "skill": 3,
                     "alternate_skill": 2,
@@ -4835,6 +4872,7 @@
                 {
                     "name": "望",
                     "skill": 3,
+                    "alternate_skill": 2,
                     "recruit_priority": 600,
                     "promote_priority": 600
                 },
@@ -4866,6 +4904,7 @@
                 {
                     "name": "死芒",
                     "skill": 3,
+                    "alternate_skill": 1,
                     "recruit_priority": 400,
                     "promote_priority": 600
                 },
@@ -4897,18 +4936,6 @@
                             "doc": "回费干员≤0时，优先级+150"
                         }
                     ]
-                },
-                {
-                    "name": "谬因",
-                    "skill": 2,
-                    "recruit_priority": 301,
-                    "promote_priority": 301
-                },
-                {
-                    "name": "伊芙利特",
-                    "skill": 2,
-                    "recruit_priority": 300,
-                    "promote_priority": 300
                 },
                 {
                     "name": "阿",
@@ -4973,6 +5000,14 @@
                     "skill": 1,
                     "recruit_priority": 5,
                     "promote_priority": 200
+                },
+                {
+                    "name": "谬因",
+                    "skill": 2
+                },
+                {
+                    "name": "伊芙利特",
+                    "skill": 2
                 },
                 {
                     "name": "送葬人"
