@@ -28,6 +28,9 @@ IsWindow
 IsWindowVisible
 GetWindowRect
 GetClientRect
+SetProp
+GetProp
+RemoveProp
 GetDpiForWindow
 GetMenu
 AdjustWindowRectExForDpi

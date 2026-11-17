@@ -954,7 +954,7 @@ Note:
     <system:String x:Key="Connection.WindowResize.Restore">Restore size</system:String>
     <system:String x:Key="Connection.WindowResize.Restored">Game client area: {0}×{1}</system:String>
     <system:String x:Key="Connection.WindowResize.Success">Game client area: {0}×{1}</system:String>
-    <system:String x:Key="Connection.WindowResize.Tip">Set a normal game window to a 1600×900 or 1280×720 client area that fits the current monitor; click again to restore its original size and position.</system:String>
+    <system:String x:Key="Connection.WindowResize.Tip">Set a normal game window to a 1920×1080 or 1280×720 client area that fits the current monitor; click again to restore its original size and position.</system:String>
     <system:String x:Key="Connection.WindowResize.WindowClosed">The original game window has closed. Resize the current game window again.</system:String>
     <system:String x:Key="Connection.WindowResize.WindowedModeRequired">Switch the game to a normal window and restore it from minimized or maximized mode first.</system:String>
     <system:String x:Key="Connection.WindowResize.Working">Adjusting the game window…</system:String>

@@ -957,7 +957,7 @@ C:\Program Files\Netease\MuMuPlayer を入力してください。
     <system:String x:Key="Connection.WindowResize.Restore">サイズ復元</system:String>
     <system:String x:Key="Connection.WindowResize.Restored">ゲーム画面：{0}×{1}</system:String>
     <system:String x:Key="Connection.WindowResize.Success">ゲーム画面：{0}×{1}</system:String>
-    <system:String x:Key="Connection.WindowResize.Tip">通常のゲームウィンドウのクライアント領域を、現在のモニターに収まる 1600×900 または 1280×720 に調整します。もう一度押すと元のサイズと位置に戻します。</system:String>
+    <system:String x:Key="Connection.WindowResize.Tip">通常のゲームウィンドウのクライアント領域を、現在のモニターに収まる 1920×1080 または 1280×720 に調整します。もう一度押すと元のサイズと位置に戻します。</system:String>
     <system:String x:Key="Connection.WindowResize.WindowClosed">元のゲームウィンドウは閉じられました。現在のゲームウィンドウを再度調整してください。</system:String>
     <system:String x:Key="Connection.WindowResize.WindowedModeRequired">ゲームを通常のウィンドウ表示に切り替え、最小化または最大化を解除してください。</system:String>
     <system:String x:Key="Connection.WindowResize.Working">ゲームウィンドウを調整中…</system:String>

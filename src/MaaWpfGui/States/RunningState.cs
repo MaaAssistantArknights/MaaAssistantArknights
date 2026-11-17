@@ -259,6 +259,7 @@ public class RunningState
     }
 
     private bool _idle = true;
+    private readonly SemaphoreSlim _runAdmission = new(1, 1);
     private RunOwner _runOwner;
 
     /// <summary>
@@ -284,21 +285,90 @@ public class RunningState
     /// </summary>
     /// <param name="owner">发起运行的入口归属。</param>
     /// <param name="caller">调用方名称。</param>
-    public void BeginRun(RunOwner owner, [CallerMemberName] string caller = "")
+    /// <returns>Whether the run was admitted; false while an exclusive idle operation owns the state.</returns>
+    public bool BeginRun(RunOwner owner, [CallerMemberName] string caller = "")
     {
-        _logger.Information("BeginRun: owner={Owner} (called from {Caller})", owner, caller);
-        if (_idle)
+        if (!_runAdmission.Wait(0))
         {
-            // 空闲起点直接写字段，归属与离开空闲合并为一次广播；避免先经 Owner setter 单独
-            // 广播出 ｢空闲但已有归属｣ 的中间快照
-            _runOwner = owner;
-        }
-        else
-        {
-            Owner = owner;
+            _logger.Information("Run admission blocked by an idle operation (called from {Caller})", caller);
+            return false;
         }
 
-        SetIdle(false);
+        try
+        {
+            _logger.Information("BeginRun: owner={Owner} (called from {Caller})", owner, caller);
+            if (_idle)
+            {
+                // 空闲起点直接写字段，归属与离开空闲合并为一次广播；避免先经 Owner setter 单独
+                // 广播出 ｢空闲但已有归属｣ 的中间快照
+                _runOwner = owner;
+            }
+            else
+            {
+                Owner = owner;
+            }
+
+            SetIdle(false);
+            return true;
+        }
+        finally
+        {
+            _runAdmission.Release();
+        }
+    }
+
+    /// <summary>
+    /// Reserves an idle interval against task starts without blocking the calling thread.
+    /// </summary>
+    /// <returns>An owned lease that restores idle state, or null if the state cannot be reserved.</returns>
+    public IDisposable? TryBeginIdleOperation()
+    {
+        if (!_runAdmission.Wait(0))
+        {
+            return null;
+        }
+
+        if (!GetIdle() || IsInterruptLocked())
+        {
+            _runAdmission.Release();
+            return null;
+        }
+
+        var lease = new IdleOperationLease(this);
+        try
+        {
+            SetIdle(false);
+            return lease;
+        }
+        catch
+        {
+            lease.Dispose();
+            throw;
+        }
+    }
+
+    private sealed class IdleOperationLease(RunningState state) : IDisposable
+    {
+        private RunningState? _state = state;
+
+        public void Dispose()
+        {
+            var owner = Interlocked.Exchange(ref _state, null);
+            if (owner is null)
+            {
+                return;
+            }
+
+            try
+            {
+                owner.SetIdle(true);
+            }
+            finally
+            {
+                owner._runAdmission.Release();
+                owner.SignalCanInterrupt();
+            }
+        }
     }
 
     public bool Idle
@@ -396,7 +466,7 @@ public class RunningState
     /// 中断锁定期间（关机/休眠倒计时、结束后脚本、退出游戏、杀模拟器等）不属于可安全打断的状态。
     /// </summary>
     /// <returns>空闲且中断未锁定返回 <see langword="true"/>，否则返回 <see langword="false"/>。</returns>
-    public bool CanInterrupt() => GetIdle() && !IsInterruptLocked();
+    public bool CanInterrupt() => GetIdle() && !IsInterruptLocked() && _runAdmission.CurrentCount != 0;
 
     // 等待可打断的广播信号；状态跃迁或中断锁归零且恰好可打断时置位换新，等待方被即时唤醒
     private TaskCompletionSource _canInterruptSignal = new(TaskCreationOptions.RunContinuationsAsynchronously);

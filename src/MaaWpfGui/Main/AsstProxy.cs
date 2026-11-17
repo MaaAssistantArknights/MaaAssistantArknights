@@ -806,7 +806,10 @@ public class AsstProxy
                 if (runDirectly)
                 {
                     // 如果是直接运行模式，就先让按钮显示为运行
-                    _runningState.BeginRun(RunOwner.TaskQueue);
+                    if (!_runningState.BeginRun(RunOwner.TaskQueue))
+                    {
+                        return;
+                    }
                 }
 
                 await Task.Run(() => SettingsViewModel.StartSettings.TryToStartConnectionTarget(true));
@@ -3327,7 +3330,7 @@ public class AsstProxy
     public IntPtr FindGameWindowForResize(out string error)
     {
         string name = SettingsViewModel.GameSettings.ClientType.ToGameWindowName();
-        var windows = FindWindowsByName(name);
+        var windows = FindWindowsByName(name).Where(GameWindowSizeController.IsGameProcessWindow).ToList();
         error = windows.Count switch {
             0 => LocalizationHelper.GetStringFormat("Asst.Connection.AttachWindow.NotFound", name),
             > 1 => LocalizationHelper.GetString("Connection.WindowResize.MultipleWindows"),

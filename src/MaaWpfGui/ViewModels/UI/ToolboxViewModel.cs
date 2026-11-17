@@ -387,7 +387,10 @@ public class ToolboxViewModel : Screen
 
         string errMsg = string.Empty;
         RecruitInfo = LocalizationHelper.GetString("Connection.Connecting");
-        _runningState.BeginRun(RunOwner.Toolbox);
+        if (!_runningState.BeginRun(RunOwner.Toolbox))
+        {
+            return;
+        }
         var recruitCaught = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
         if (!recruitCaught)
         {
@@ -1223,7 +1226,10 @@ public class ToolboxViewModel : Screen
             return;
         }
 
-        _runningState.BeginRun(RunOwner.Toolbox);
+        if (!_runningState.BeginRun(RunOwner.Toolbox))
+        {
+            return;
+        }
         string errMsg = string.Empty;
         DepotInfo = LocalizationHelper.GetString("Connection.Connecting");
         bool caught = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
@@ -1433,8 +1439,7 @@ public class ToolboxViewModel : Screen
             .. Equips?.Where(e => e.Level > 0).Select(e => $"{_modTypeDisplay.GetValueOrDefault(e.Type, e.Type)}{e.Level}") ?? [],
         ];
 
-        private static readonly Dictionary<string, string> _modTypeDisplay = new()
-        {
+        private static readonly Dictionary<string, string> _modTypeDisplay = new() {
             ["A"] = "α",
             ["B"] = "β",
             ["X"] = "χ",
@@ -1602,8 +1607,7 @@ public class ToolboxViewModel : Screen
         _operBoxAvatarWarmUpCts?.Cancel();
         var token = (_operBoxAvatarWarmUpCts = new CancellationTokenSource()).Token;
         _ = Task.Run(
-            () =>
-            {
+            () => {
                 foreach (var id in haveIds)
                 {
                     if (token.IsCancellationRequested)
@@ -2079,7 +2083,10 @@ public class ToolboxViewModel : Screen
             return;
         }
 
-        _runningState.BeginRun(RunOwner.Toolbox);
+        if (!_runningState.BeginRun(RunOwner.Toolbox))
+        {
+            return;
+        }
         if (useYituliuApi)
         {
             await StartOperBoxFromYituliuApiAsync();
@@ -2418,7 +2425,10 @@ public class ToolboxViewModel : Screen
             return;
         }
 
-        _runningState.BeginRun(RunOwner.Toolbox);
+        if (!_runningState.BeginRun(RunOwner.Toolbox))
+        {
+            return;
+        }
 
         string errMsg = string.Empty;
         GachaInfo = LocalizationHelper.GetString("Connection.Connecting");
@@ -2722,7 +2732,11 @@ public class ToolboxViewModel : Screen
             // 如果没任务在运行，需要先连接，并标记是由 Peep() 方法启动的 Peep
             if (_runningState.GetIdle())
             {
-                _runningState.BeginRun(RunOwner.Toolbox);
+                if (!_runningState.BeginRun(RunOwner.Toolbox))
+                {
+                    Peeping = false;
+                    return;
+                }
                 string errMsg = string.Empty;
                 bool caught = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
                 if (!caught)
@@ -3556,7 +3570,10 @@ public class ToolboxViewModel : Screen
 
         Instances.TaskQueueViewModel.ClearLog();
 
-        _runningState.BeginRun(RunOwner.MiniGame);
+        if (!_runningState.BeginRun(RunOwner.MiniGame))
+        {
+            return;
+        }
 
         string errMsg = string.Empty;
         var caught = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));

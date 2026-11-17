@@ -998,7 +998,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
 
     #region AttachWindow (Win32窗口绑定) 配置
 
-    public bool IsGameWindowResized => _gameWindowSizeController.CanRestore;
+    public bool IsGameWindowResized { get; private set => SetAndNotify(ref field, value); }
 
     /// <summary>
     /// Toggles the game window between a standard client size and its retained original bounds.
@@ -1007,31 +1007,48 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
     [UsedImplicitly]
     public async Task ToggleGameWindowSize()
     {
-        if (!_runningState.CanInterrupt() || !IsPCConnectConfig)
+        if (!IsPCConnectConfig)
         {
             return;
         }
 
-        var hwnd = IntPtr.Zero;
-        if (!IsGameWindowResized)
+        using var operation = _runningState.TryBeginIdleOperation();
+        if (operation is null)
         {
-            hwnd = Instances.AsstProxy.FindGameWindowForResize(out var error);
-            if (hwnd == IntPtr.Zero)
-            {
-                TestLinkInfo = error;
-                return;
-            }
+            return;
         }
 
-        _runningState.SetIdle(false);
         try
         {
+            var hwnd = IntPtr.Zero;
+            if (!IsGameWindowResized)
+            {
+                hwnd = Instances.AsstProxy.FindGameWindowForResize(out var error);
+                if (hwnd == IntPtr.Zero)
+                {
+                    TestLinkInfo = error;
+                    return;
+                }
+            }
+
             TestLinkInfo = LocalizationHelper.GetString("Connection.WindowResize.Working");
+
+            // Use the task queue's deferred cleanup so Core cannot restore over the manual size.
+            await GameAudioMuteManager.RestoreWhenCoreIdleAsync(Instances.AsstProxy.AsstRunning);
+            if (Instances.AsstProxy.AsstRunning())
+            {
+                TestLinkInfo = LocalizationHelper.GetString("Connection.WindowResize.Failed");
+                return;
+            }
+
             var result = await Task.Run(() => {
-                GameAudioMuteManager.Restore();
                 return _gameWindowSizeController.CanRestore ? _gameWindowSizeController.Restore() : _gameWindowSizeController.Resize(hwnd);
             });
-            Instances.AsstProxy.Connected = false;
+            if (result.WindowChanged)
+            {
+                Instances.AsstProxy.Connected = false;
+            }
+
             TestLinkInfo = result.Status switch {
                 GameWindowSizeController.Status.Resized => LocalizationHelper.GetStringFormat("Connection.WindowResize.Success", result.Width, result.Height),
                 GameWindowSizeController.Status.Restored => LocalizationHelper.GetStringFormat("Connection.WindowResize.Restored", result.Width, result.Height),
@@ -1049,8 +1066,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
         }
         finally
         {
-            NotifyOfPropertyChange(nameof(IsGameWindowResized));
-            _runningState.SetIdle(true);
+            IsGameWindowResized = _gameWindowSizeController.CanRestore;
         }
     }
 

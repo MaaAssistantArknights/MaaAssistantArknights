@@ -2589,7 +2589,10 @@ public class TaskQueueViewModel : Screen
         ResetTaskItemStatuses();
 
         // 所有提前 return 都要放在进入运行态之前，否则会导致无法再次点击开始
-        _runningState.BeginRun(RunOwner.TaskQueue);
+        if (!_runningState.BeginRun(RunOwner.TaskQueue))
+        {
+            return;
+        }
 
         // 虽然更改时已经保存过了，不过保险起见在点击开始之后再次保存任务和基建列表
         // TaskItemSelectionChanged();

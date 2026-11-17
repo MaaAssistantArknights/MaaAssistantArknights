@@ -13,6 +13,7 @@
 
 #nullable enable
 using System;
+using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Threading;
 using Serilog;
@@ -42,13 +43,33 @@ internal sealed class GameWindowSizeController
         Failed,
     }
 
-    internal readonly record struct Result(Status Status, int Width = 0, int Height = 0, int Error = 0);
+    internal readonly record struct Result(Status Status, int Width = 0, int Height = 0, int Error = 0, bool WindowChanged = false);
 
-    private sealed record SavedWindow(HWND Handle, uint ProcessId, RECT Bounds, RECT Client);
+    private sealed record SavedWindow(HWND Handle, uint ProcessId, RECT Bounds, RECT Client, string IdentityProperty);
 
     public bool CanRestore => _original is not null;
 
-    public Result Resize(IntPtr handle)
+    internal static bool IsGameProcessWindow(IntPtr handle)
+    {
+        _ = PInvoke.GetWindowThreadProcessId((HWND)handle, out var processId);
+        if (processId == 0)
+        {
+            return false;
+        }
+
+        try
+        {
+            using var process = Process.GetProcessById((int)processId);
+            return string.Equals(process.ProcessName, "Arknights", StringComparison.OrdinalIgnoreCase);
+        }
+        catch (Exception ex)
+        {
+            _logger.Debug(ex, "Unable to verify game window process {ProcessId}", processId);
+            return false;
+        }
+    }
+
+    public unsafe Result Resize(IntPtr handle)
     {
         if (_original is not null)
         {
@@ -88,7 +109,7 @@ internal sealed class GameWindowSizeController
             var width = 0;
             var height = 0;
             RECT target = default;
-            foreach (var size in new[] { (Width: 1600, Height: 900), (Width: 1280, Height: 720) })
+            foreach (var size in new[] { (Width: 1920, Height: 1080), (Width: 1280, Height: 720) })
             {
                 target = new RECT { right = size.Width, bottom = size.Height };
                 if (!PInvoke.AdjustWindowRectExForDpi(ref target, style, hasMenu, exStyle, dpi))
@@ -115,7 +136,18 @@ internal sealed class GameWindowSizeController
                 return new(Status.WindowClosed);
             }
 
-            _original = new(hwnd, processId, bounds, client);
+            // Window properties belong to the window lifetime, unlike a reusable HWND/PID pair.
+            var identityProperty = $"MAA.WindowSize.{Guid.NewGuid():N}";
+            fixed (char* propertyName = identityProperty)
+            {
+                if (!PInvoke.SetProp(hwnd, propertyName, (HANDLE)new IntPtr(1)))
+                {
+                    return new(Status.Failed, Error: Marshal.GetLastWin32Error());
+                }
+            }
+
+            _original = new(hwnd, processId, bounds, client, identityProperty);
+            AppDomain.CurrentDomain.ProcessExit += OnProcessExit;
             var outerWidth = target.right - target.left;
             var outerHeight = target.bottom - target.top;
             var error = 0;
@@ -128,7 +160,7 @@ internal sealed class GameWindowSizeController
                 if (MoveAndVerify(_original, target, width, height, out error))
                 {
                     _logger.Information("Resized game window {Hwnd} to client size {Width}x{Height}", handle, width, height);
-                    return new(Status.Resized, width, height);
+                    return new(Status.Resized, width, height, WindowChanged: GeometryChanged(hwnd, _original.Bounds, _original.Client));
                 }
 
                 // Read back the actual non-client dimensions instead of assuming a fixed title-bar height.
@@ -146,8 +178,9 @@ internal sealed class GameWindowSizeController
             }
 
             // Keep the snapshot if rollback fails so that the restore button remains available.
+            var saved = _original;
             _ = RestoreCore();
-            return new(Status.Failed, Error: error);
+            return new(Status.Failed, Error: error, WindowChanged: saved is not null && GeometryChanged(saved.Handle, saved.Bounds, saved.Client));
         }
         finally
         {
@@ -178,12 +211,17 @@ internal sealed class GameWindowSizeController
         var saved = _original;
         if (saved is null || !IsSameWindow(saved))
         {
-            _original = null;
+            ClearSnapshot();
             return new(Status.WindowClosed);
         }
 
         var width = saved.Client.right - saved.Client.left;
         var height = saved.Client.bottom - saved.Client.top;
+        if (!PInvoke.GetWindowRect(saved.Handle, out var beforeBounds) || !PInvoke.GetClientRect(saved.Handle, out var beforeClient))
+        {
+            return new(Status.Failed, Error: Marshal.GetLastWin32Error());
+        }
+
         var style = (WINDOW_STYLE)(uint)PInvoke.GetWindowLong(saved.Handle, WINDOW_LONG_PTR_INDEX.GWL_STYLE);
         if ((PInvoke.IsIconic(saved.Handle) || (style & WINDOW_STYLE.WS_MAXIMIZE) != 0) &&
             !PInvoke.ShowWindowAsync(saved.Handle, SHOW_WINDOW_CMD.SW_SHOWNOACTIVATE))
@@ -194,17 +232,41 @@ internal sealed class GameWindowSizeController
         if (!MoveAndVerify(saved, saved.Bounds, width, height, out var error))
         {
             _logger.Warning("Failed to restore game window {Hwnd}, error: {Error}", saved.Handle, error);
-            return new(Status.Failed, Error: error);
+            return new(Status.Failed, Error: error, WindowChanged: GeometryChanged(saved.Handle, beforeBounds, beforeClient));
+        }
+
+        ClearSnapshot();
+        return new(Status.Restored, width, height, WindowChanged: GeometryChanged(saved.Handle, beforeBounds, beforeClient));
+    }
+
+    private void OnProcessExit(object? sender, EventArgs args) => ClearSnapshot();
+
+    private unsafe void ClearSnapshot()
+    {
+        if (_original is { } saved && IsSameWindow(saved))
+        {
+            fixed (char* propertyName = saved.IdentityProperty)
+            {
+                _ = PInvoke.RemoveProp(saved.Handle, propertyName);
+            }
         }
 
         _original = null;
-        return new(Status.Restored, width, height);
+        AppDomain.CurrentDomain.ProcessExit -= OnProcessExit;
     }
 
-    private static bool IsSameWindow(SavedWindow saved)
+    private static bool GeometryChanged(HWND hwnd, RECT bounds, RECT client) =>
+        !PInvoke.GetWindowRect(hwnd, out var actualBounds) || !PInvoke.GetClientRect(hwnd, out var actualClient) ||
+        actualBounds.left != bounds.left || actualBounds.top != bounds.top || actualBounds.right != bounds.right || actualBounds.bottom != bounds.bottom ||
+        actualClient.right != client.right || actualClient.bottom != client.bottom;
+
+    private static unsafe bool IsSameWindow(SavedWindow saved)
     {
         _ = PInvoke.GetWindowThreadProcessId(saved.Handle, out var processId);
-        return PInvoke.IsWindow(saved.Handle) && processId == saved.ProcessId;
+        fixed (char* propertyName = saved.IdentityProperty)
+        {
+            return PInvoke.IsWindow(saved.Handle) && processId == saved.ProcessId && PInvoke.GetProp(saved.Handle, propertyName) == (HANDLE)new IntPtr(1);
+        }
     }
 
     private static bool MoveAndVerify(SavedWindow saved, RECT bounds, int clientWidth, int clientHeight, out int error)

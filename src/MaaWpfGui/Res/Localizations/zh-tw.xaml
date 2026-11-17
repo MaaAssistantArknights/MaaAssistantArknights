@@ -955,7 +955,7 @@ C:\Program Files\Netease\MuMuPlayer
     <system:String x:Key="Connection.WindowResize.Restore">還原大小</system:String>
     <system:String x:Key="Connection.WindowResize.Restored">遊戲用戶區：{0}×{1}</system:String>
     <system:String x:Key="Connection.WindowResize.Success">遊戲用戶區：{0}×{1}</system:String>
-    <system:String x:Key="Connection.WindowResize.Tip">將一般遊戲視窗調整為適合目前螢幕的 1600×900 或 1280×720 用戶區；再次點擊還原原來的大小與位置。</system:String>
+    <system:String x:Key="Connection.WindowResize.Tip">將一般遊戲視窗調整為適合目前螢幕的 1920×1080 或 1280×720 用戶區；再次點擊還原原來的大小與位置。</system:String>
     <system:String x:Key="Connection.WindowResize.WindowClosed">原來的遊戲視窗已關閉，請重新調整目前的遊戲視窗。</system:String>
     <system:String x:Key="Connection.WindowResize.WindowedModeRequired">請先將遊戲切換為一般視窗模式，並取消最小化或最大化。</system:String>
     <system:String x:Key="Connection.WindowResize.Working">正在調整遊戲視窗…</system:String>
