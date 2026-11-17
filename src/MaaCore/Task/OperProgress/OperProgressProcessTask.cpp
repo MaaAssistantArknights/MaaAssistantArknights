@@ -4,7 +4,6 @@
 #include <optional>
 #include <ranges>
 #include <tuple>
-#include <unordered_set>
 
 #include "Config/GeneralConfig.h"
 #include "Config/Miscellaneous/BattleDataConfig.h"
@@ -21,6 +20,7 @@
 #include "Vision/BestMatcher.h"
 #include "Vision/Hasher.h"
 #include "Vision/Infrast/InfrastOperImageAnalyzer.h"
+#include "Vision/Matcher.h"
 #include "Vision/MultiMatcher.h"
 #include "Vision/Oper/OperBoxImageAnalyzer.h"
 #include "Vision/Oper/OperFilesImageAnalyzer.h"
@@ -852,15 +852,33 @@ bool asst::OperProgressProcessTask::select_training_trainer(battle::Role role, i
 {
     LogTraceFunction;
 
-    // 协助者面板与其他基建设施共用干员列表页。
-    // 选人流程对齐办公室/加工站等设施：切换职业标签复位列表 → 全量扫描评分 → 复位后重新定位目标并点击。
+    // 协助者面板与其他基建设施共用干员列表页：先恢复 ｢全部｣ 筛选与 ｢工作状态｣ 排序，再回到第一页。
+    // 按工作状态排序时，空闲的训练技能干员排在前段，其他设施在班干员排在无技能干员之后，不会误拆其他设施。
+    ProcessTask(*this, { "InfrastCloseQuickFormationExpandRole", "Stop" }).run();
+    constexpr int FilterProbeRetryTimes = 3;
+    constexpr int FilterProbeRetryDelayMs = 200;
+    for (int attempt = 0; attempt < FilterProbeRetryTimes && !need_exit(); ++attempt) {
+        Matcher filter_analyzer(ctrler()->get_image());
+        filter_analyzer.set_task_info("InfrastFilterMenuNotStationedSelected");
+        if (filter_analyzer.analyze()) {
+            ProcessTask cancel_filter(*this, { "InfrastFilterMenuAllButton", "InfrastFilterMenuCancelNotStationed" });
+            if (!cancel_filter.run() || cancel_filter.get_last_task_name() != "Stop") {
+                LogWarn << __FUNCTION__ << "| failed to clear NotStationed filter";
+                return false;
+            }
+            break;
+        }
+        sleep(FilterProbeRetryDelayMs);
+    }
+    ProcessTask(*this, { "InfrastOperListTabWorkStatusUnClicked", "Stop" }).run();
     reset_trainer_list_page();
 
-    // 全量扫描：逐页收集技能、心情与头像哈希；本页没有再识别到新的技能图标（技能图标池未增长）
-    // 即判定已到列表末尾,与其他基建选人逻辑一致,立即停止翻页。
+    // 逐页按头像哈希去重收集干员：本页不再出现新的训练技能干员即视为扫完空闲技能区；
+    // 整页无新头像时（已滑到列表末尾或单次滑动未生效），连续两页无变化再结束。
+    const int face_hash_threshold = Task.get("InfrastOperFace")->special_params[0];
     std::vector<infrast::ScoreOper> score_operators;
     std::vector<std::string> operator_face_hashes;
-    std::unordered_set<std::string> seen_skills;
+    int scan_unchanged_pages = 0;
     bool scan_completed = false;
     for (int page = 0; page < MaxOperatorPages && !need_exit(); ++page) {
         InfrastOperImageAnalyzer analyzer(ctrler()->get_image());
@@ -873,12 +891,21 @@ bool asst::OperProgressProcessTask::select_training_trainer(battle::Role role, i
             return false;
         }
 
-        size_t new_skills = 0;
+        size_t new_faces = 0;
+        size_t new_opers = 0;
         for (const auto& oper : analyzer.get_result()) {
-            for (const auto& skill : oper.skills) {
-                if (seen_skills.emplace(skill.id).second) {
-                    ++new_skills;
+            if (!oper.face_hash.empty()) {
+                const bool seen = std::ranges::any_of(operator_face_hashes, [&](const std::string& hash) {
+                    return !hash.empty() && Hasher::hamming(hash, oper.face_hash) < face_hash_threshold;
+                });
+                if (seen) {
+                    continue;
                 }
+                ++new_faces;
+            }
+
+            if (!oper.skills.empty()) {
+                ++new_opers;
             }
 
             infrast::ScoreOper score_oper;
@@ -892,9 +919,18 @@ bool asst::OperProgressProcessTask::select_training_trainer(battle::Role role, i
             operator_face_hashes.emplace_back(oper.face_hash);
         }
 
-        if (page != 0 && new_skills == 0) {
-            scan_completed = true;
-            break;
+        if (new_faces == 0) {
+            if (page != 0 && ++scan_unchanged_pages >= 2) {
+                scan_completed = true;
+                break;
+            }
+        }
+        else {
+            scan_unchanged_pages = 0;
+            if (new_opers == 0) {
+                scan_completed = true;
+                break;
+            }
         }
         // 训练室选人页与其他基建设施共用横向列表识别和翻页协议。
         run_task("InfrastOperListSlowlySwipeToTheRight");
@@ -934,7 +970,6 @@ bool asst::OperProgressProcessTask::select_training_trainer(battle::Role role, i
     // 不做"往回滑 N 页"的盲点击,避免快速滑动距离与实际页面数对不上。
     reset_trainer_list_page();
 
-    const int face_hash_threshold = Task.get("InfrastOperFace")->special_params[0];
     std::vector<std::string> relocate_seen_faces;
     int unchanged_pages = 0;
     bool trainer_selected = false;
