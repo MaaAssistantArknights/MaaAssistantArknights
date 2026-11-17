@@ -4,6 +4,7 @@
 #include <optional>
 #include <ranges>
 #include <tuple>
+#include <unordered_set>
 
 #include "Config/GeneralConfig.h"
 #include "Config/Miscellaneous/BattleDataConfig.h"
@@ -20,7 +21,6 @@
 #include "Vision/BestMatcher.h"
 #include "Vision/Hasher.h"
 #include "Vision/Infrast/InfrastOperImageAnalyzer.h"
-#include "Vision/Matcher.h"
 #include "Vision/MultiMatcher.h"
 #include "Vision/Oper/OperBoxImageAnalyzer.h"
 #include "Vision/Oper/OperFilesImageAnalyzer.h"
@@ -852,32 +852,24 @@ bool asst::OperProgressProcessTask::select_training_trainer(battle::Role role, i
 {
     LogTraceFunction;
 
-    // 协助者面板与其他基建设施共用干员列表页：先恢复 ｢全部｣ 筛选与 ｢工作状态｣ 排序，再回到第一页。
-    // 按工作状态排序时，空闲的训练技能干员排在前段，其他设施在班干员排在无技能干员之后，不会误拆其他设施。
-    ProcessTask(*this, { "InfrastCloseQuickFormationExpandRole", "Stop" }).run();
-    constexpr int FilterProbeRetryTimes = 3;
-    constexpr int FilterProbeRetryDelayMs = 200;
-    for (int attempt = 0; attempt < FilterProbeRetryTimes && !need_exit(); ++attempt) {
-        Matcher filter_analyzer(ctrler()->get_image());
-        filter_analyzer.set_task_info("InfrastFilterMenuNotStationedSelected");
-        if (filter_analyzer.analyze()) {
-            ProcessTask cancel_filter(*this, { "InfrastFilterMenuAllButton", "InfrastFilterMenuCancelNotStationed" });
-            if (!cancel_filter.run() || cancel_filter.get_last_task_name() != "Stop") {
-                LogWarn << __FUNCTION__ << "| failed to clear NotStationed filter";
-                return false;
-            }
-            break;
-        }
-        sleep(FilterProbeRetryDelayMs);
-    }
-    ProcessTask(*this, { "InfrastOperListTabWorkStatusUnClicked", "Stop" }).run();
+    // 协助者面板与其他基建设施共用干员列表页。
+    // 选人流程对齐办公室/加工站等设施：切换职业标签复位列表 → 全量扫描评分 → 复位后重新定位目标并点击。
     reset_trainer_list_page();
 
-    // 逐页按头像哈希去重收集干员：本页不再出现新的训练技能干员即视为扫完空闲技能区；
-    // 整页无新头像时（已滑到列表末尾或单次滑动未生效），连续两页无变化再结束。
+    // 逐页按技能集合与头像哈希去重收集干员：本页不再出现新的训练技能干员即视为扫完空闲技能区；
+    // 整页无新干员时（已滑到列表末尾或单次滑动未生效），连续两页无变化再结束。
+    constexpr double TrainingMinMood = 16.0;
     const int face_hash_threshold = Task.get("InfrastOperFace")->special_params[0];
+    auto has_same_skills = [](const infrast::Oper& oper, const std::unordered_set<std::string>& skill_ids) {
+        if (oper.skills.size() != skill_ids.size()) {
+            return false;
+        }
+        return std::ranges::all_of(oper.skills, [&](const infrast::Skill& skill) {
+            return skill_ids.contains(skill.id);
+        });
+    };
+
     std::vector<infrast::ScoreOper> score_operators;
-    std::vector<std::string> operator_face_hashes;
     int scan_unchanged_pages = 0;
     bool scan_completed = false;
     for (int page = 0; page < MaxOperatorPages && !need_exit(); ++page) {
@@ -894,11 +886,28 @@ bool asst::OperProgressProcessTask::select_training_trainer(battle::Role role, i
         size_t new_faces = 0;
         size_t new_opers = 0;
         for (const auto& oper : analyzer.get_result()) {
-            if (!oper.face_hash.empty()) {
-                const bool seen = std::ranges::any_of(operator_face_hashes, [&](const std::string& hash) {
-                    return !hash.empty() && Hasher::hamming(hash, oper.face_hash) < face_hash_threshold;
+            infrast::ScoreOper score_oper;
+            for (const auto& skill : oper.skills) {
+                score_oper.skills.emplace(skill.id);
+            }
+            score_oper.operator_id = oper.operator_id;
+            score_oper.mood_ratio = oper.mood_ratio;
+            score_oper.face_hash = oper.face_hash;
+
+            if (!score_oper.face_hash.empty()) {
+                auto cached = std::ranges::find_if(score_operators, [&](const infrast::ScoreOper& existing) {
+                    return existing.skills == score_oper.skills && !existing.face_hash.empty() &&
+                           Hasher::hamming(existing.face_hash, score_oper.face_hash) < face_hash_threshold;
                 });
-                if (seen) {
+                if (cached != score_operators.end()) {
+                    if (cached->mood_ratio * 24.0 < TrainingMinMood &&
+                        score_oper.mood_ratio * 24.0 >= TrainingMinMood) {
+                        *cached = std::move(score_oper);
+                        ++new_faces;
+                        if (!oper.skills.empty()) {
+                            ++new_opers;
+                        }
+                    }
                     continue;
                 }
                 ++new_faces;
@@ -907,16 +916,7 @@ bool asst::OperProgressProcessTask::select_training_trainer(battle::Role role, i
             if (!oper.skills.empty()) {
                 ++new_opers;
             }
-
-            infrast::ScoreOper score_oper;
-            for (const auto& skill : oper.skills) {
-                score_oper.skills.emplace(skill.id);
-            }
-            score_oper.operator_id = oper.operator_id;
-            score_oper.mood_ratio = oper.mood_ratio;
-            score_oper.face_hash = oper.face_hash;
             score_operators.emplace_back(std::move(score_oper));
-            operator_face_hashes.emplace_back(oper.face_hash);
         }
 
         if (new_faces == 0) {
@@ -954,28 +954,30 @@ bool asst::OperProgressProcessTask::select_training_trainer(battle::Role role, i
     context.training_level = std::clamp(training_level, 1, 3);
     context.slots = 1;
     const auto selection = infrast::select_training(score_operators, context);
-    if (selection.indices.empty() || selection.indices.front() >= operator_face_hashes.size()) {
+    if (selection.indices.empty() || selection.indices.front() >= score_operators.size()) {
         LogWarn << __FUNCTION__ << "| no eligible trainer, best score" << selection.score;
         return false;
     }
 
-    const std::string& trainer_face_hash = operator_face_hashes.at(selection.indices.front());
-    if (trainer_face_hash.empty()) {
+    const infrast::ScoreOper& target_trainer = score_operators.at(selection.indices.front());
+    if (target_trainer.face_hash.empty()) {
         LogWarn << __FUNCTION__ << "| trainer face hash is empty";
         return false;
     }
     LogInfo << __FUNCTION__ << "| trainer best score" << selection.score;
 
-    // 评分需要扫描完整列表；与加工站一样,复位到第一页后重新逐页定位目标再点击,
-    // 不做"往回滑 N 页"的盲点击,避免快速滑动距离与实际页面数对不上。
+    // 评分需要扫描完整列表；复位到第一页后同时校验心情、技能集合与头像哈希重新定位目标再点击，
+    // 不做"往回滑 N 页"的盲点击，避免滑动距离对不上或头像哈希碰撞误选其他干员。
     reset_trainer_list_page();
 
-    std::vector<std::string> relocate_seen_faces;
+    std::vector<infrast::ScoreOper> relocate_seen_opers;
     int unchanged_pages = 0;
     bool trainer_selected = false;
     for (int page = 0; page < MaxOperatorPages && !need_exit(); ++page) {
         InfrastOperImageAnalyzer analyzer(ctrler()->get_image());
+        analyzer.set_facility("Training");
         analyzer.set_to_be_calced(
+            InfrastOperImageAnalyzer::ToBeCalced::Mood | InfrastOperImageAnalyzer::ToBeCalced::Skill |
             InfrastOperImageAnalyzer::ToBeCalced::FaceHash | InfrastOperImageAnalyzer::ToBeCalced::Selected);
         if (!analyzer.analyze()) {
             return false;
@@ -987,14 +989,21 @@ bool asst::OperProgressProcessTask::select_training_trainer(battle::Role role, i
             if (oper.face_hash.empty()) {
                 continue;
             }
-            const bool seen = std::ranges::any_of(relocate_seen_faces, [&](const std::string& hash) {
-                return Hasher::hamming(hash, oper.face_hash) < face_hash_threshold;
+            const bool seen = std::ranges::any_of(relocate_seen_opers, [&](const infrast::ScoreOper& seen_oper) {
+                return has_same_skills(oper, seen_oper.skills) &&
+                       Hasher::hamming(seen_oper.face_hash, oper.face_hash) < face_hash_threshold;
             });
             if (!seen) {
-                relocate_seen_faces.emplace_back(oper.face_hash);
+                infrast::ScoreOper seen_oper;
+                for (const auto& skill : oper.skills) {
+                    seen_oper.skills.emplace(skill.id);
+                }
+                seen_oper.face_hash = oper.face_hash;
+                relocate_seen_opers.emplace_back(std::move(seen_oper));
                 ++new_faces;
             }
-            if (Hasher::hamming(oper.face_hash, trainer_face_hash) >= face_hash_threshold) {
+            if (oper.mood_ratio * 24.0 < TrainingMinMood || !has_same_skills(oper, target_trainer.skills) ||
+                Hasher::hamming(oper.face_hash, target_trainer.face_hash) >= face_hash_threshold) {
                 continue;
             }
             LogInfo << __FUNCTION__ << "| trainer located on page" << page;
