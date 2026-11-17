@@ -2131,6 +2131,7 @@ MAA は非インストール型のアプリケーションであり、レジス�
     <system:String x:Key="TaskQueue.Fight.InventoryUpdate.Tip">在庫データは ｢{key=Toolbox.Title}-{key=Depot.Title}｣ で更新できます</system:String>
     <system:String x:Key="TaskQueue.Fight.MedicineExpireDays.Tip">ゲーム内で ｢N日｣ 未満と表示される回復剤のみ使用し、｢N日｣ 以上は使用しません。</system:String>
     <system:String x:Key="TaskQueue.Fight.NoActivity">活動なし</system:String>
+    <system:String x:Key="TaskQueue.Fight.OnceADay">一日一回だけ</system:String>
     <system:String x:Key="TaskQueue.Fight.PerformBattles">周回数指定</system:String>
     <system:String x:Key="TaskQueue.Fight.PermanentStageBlocksStages">選択されたステージ ｢{0}｣ は常設ステージまたは現在/最後のため、後続のステージは選択されません</system:String>
     <system:String x:Key="TaskQueue.Fight.Quantity">ドロップ数</system:String>
@@ -2149,6 +2150,7 @@ MAA は非インストール型のアプリケーションであり、レジス�
 ゲーム内で代理乗数の設定を調整しません。</system:String>
     <system:String x:Key="TaskQueue.Fight.SkippedEmptyStagePlan">ステージ計画が空です</system:String>
     <system:String x:Key="TaskQueue.Fight.SkippedNoOpenStage">計画内に本日開放中のステージがありません</system:String>
+    <system:String x:Key="TaskQueue.Fight.SkippedOnceADay">本日はすでに一度実行済みです</system:String>
     <system:String x:Key="TaskQueue.Fight.SkippedWeeklySchedule">週次スケジュールで今日が未選択</system:String>
     <system:String x:Key="TaskQueue.Fight.SpecifiedDrops.Tip" xml:space="preserve">実際に入るステージは、引き続き下の ｢{key=TaskQueue.Fight.StageSelect}｣ / ｢{key=TaskQueue.Fight.CandidateStages}｣ で決まります。
 • {key=TaskQueue.Fight.Quantity}: この理性作戦タスク中で、その素材のドロップ数が設定値に達するまで周回します。

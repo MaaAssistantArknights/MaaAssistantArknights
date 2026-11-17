@@ -2130,6 +2130,7 @@ DEBUG 目录下保存的图片有数量限制，超出后会自动清理旧图�
     <system:String x:Key="TaskQueue.Fight.InventoryUpdate.Tip">可通过 ｢{key=Toolbox.Title}-{key=Depot.Title}｣ 更新库存数据</system:String>
     <system:String x:Key="TaskQueue.Fight.MedicineExpireDays.Tip">只吃游戏内显示不足 N 天的理智药，显示 ｢N 天｣ 及以上的不吃。</system:String>
     <system:String x:Key="TaskQueue.Fight.NoActivity">暂无活动</system:String>
+    <system:String x:Key="TaskQueue.Fight.OnceADay">一日只执行一次</system:String>
     <system:String x:Key="TaskQueue.Fight.PerformBattles">指定次数</system:String>
     <system:String x:Key="TaskQueue.Fight.PermanentStageBlocksStages">当前选中的关卡 ｢{0}｣ 为常驻关卡或当前/上次，其后的关卡不会被选中执行</system:String>
     <system:String x:Key="TaskQueue.Fight.Quantity">刷取数量</system:String>
@@ -2148,6 +2149,7 @@ DEBUG 目录下保存的图片有数量限制，超出后会自动清理旧图�
 不调整游戏内代理倍率设定</system:String>
     <system:String x:Key="TaskQueue.Fight.SkippedEmptyStagePlan">关卡计划为空</system:String>
     <system:String x:Key="TaskQueue.Fight.SkippedNoOpenStage">关卡计划内没有当日开放的关卡</system:String>
+    <system:String x:Key="TaskQueue.Fight.SkippedOnceADay">今日已执行过一次</system:String>
     <system:String x:Key="TaskQueue.Fight.SkippedWeeklySchedule">周计划今日未勾选</system:String>
     <system:String x:Key="TaskQueue.Fight.SpecifiedDrops.Tip" xml:space="preserve">进入的关卡仍由下方 ｢{key=TaskQueue.Fight.StageSelect}｣ / ｢{key=TaskQueue.Fight.CandidateStages}｣ 决定。
 • {key=TaskQueue.Fight.Quantity}：以当前理智作战任务中该材料的掉落数量为目标，达到设定数量后停止。

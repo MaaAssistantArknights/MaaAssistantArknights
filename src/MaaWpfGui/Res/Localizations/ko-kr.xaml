@@ -2130,6 +2130,7 @@ MAA는 비설치형 응용 프로그램으로, 삭제 시 레지스트리 항목
     <system:String x:Key="TaskQueue.Fight.InventoryUpdate.Tip">재고 데이터는  ｢{key=Toolbox.Title}-{key=Depot.Title}｣ 을 통해 업데이트 가능</system:String>
     <system:String x:Key="TaskQueue.Fight.MedicineExpireDays.Tip">게임 내에서 N일 미만으로 표시되는 이성 회복제만 사용하며, ｢N일｣ 이상은 사용하지 않습니다.</system:String>
     <system:String x:Key="TaskQueue.Fight.NoActivity">활동 없음</system:String>
+    <system:String x:Key="TaskQueue.Fight.OnceADay">하루에 한 번만 실행</system:String>
     <system:String x:Key="TaskQueue.Fight.PerformBattles">횟수 제한</system:String>
     <system:String x:Key="TaskQueue.Fight.PermanentStageBlocksStages">선택된 스테이지 ｢{0}｣ 는 상설 스테이지 또는 현재/마지막이므로 이후 스테이지는 선택되지 않습니다</system:String>
     <system:String x:Key="TaskQueue.Fight.Quantity">드롭 수</system:String>
@@ -2148,6 +2149,7 @@ MAA는 비설치형 응용 프로그램으로, 삭제 시 레지스트리 항목
 연속 대리 지휘 횟수를 조정하지 않습니다.</system:String>
     <system:String x:Key="TaskQueue.Fight.SkippedEmptyStagePlan">스테이지 계획이 비어 있습니다</system:String>
     <system:String x:Key="TaskQueue.Fight.SkippedNoOpenStage">계획에 오늘 개방된 스테이지가 없습니다</system:String>
+    <system:String x:Key="TaskQueue.Fight.SkippedOnceADay">오늘 이미 한 번 실행했습니다</system:String>
     <system:String x:Key="TaskQueue.Fight.SkippedWeeklySchedule">주간 일정에서 오늘이 선택되지 않음</system:String>
     <system:String x:Key="TaskQueue.Fight.SpecifiedDrops.Tip" xml:space="preserve">실제로 진입하는 스테이지는 아래의 ｢{key=TaskQueue.Fight.StageSelect}｣ / ｢{key=TaskQueue.Fight.CandidateStages}｣ 설정으로 계속 결정됩니다.
 • {key=TaskQueue.Fight.Quantity}: 현재 전투 작업에서 해당 재료의 드롭 수를 목표로 삼아, 설정한 수량에 도달하면 멈춥니다.

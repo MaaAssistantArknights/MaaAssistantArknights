@@ -2129,6 +2129,7 @@ Enter ｢SSReopen-XX｣ once to clear all normal stages with Auto-Deploy in SS r
     <system:String x:Key="TaskQueue.Fight.InventoryUpdate.Tip">Inventory data can be updated via  ｢{key=Toolbox.Title}-{key=Depot.Title}｣</system:String>
     <system:String x:Key="TaskQueue.Fight.MedicineExpireDays.Tip">Only uses medicine displayed as less than "N days" in-game; anything displayed as "N days" or more will not be used.</system:String>
     <system:String x:Key="TaskQueue.Fight.NoActivity">No activity</system:String>
+    <system:String x:Key="TaskQueue.Fight.OnceADay">Only Once a Day</system:String>
     <system:String x:Key="TaskQueue.Fight.PerformBattles">Perform Battles</system:String>
     <system:String x:Key="TaskQueue.Fight.PermanentStageBlocksStages">The selected stage ｢{0}｣ is a permanent stage or Current/Last; subsequent stages will not be selected</system:String>
     <system:String x:Key="TaskQueue.Fight.Quantity">Farm</system:String>
@@ -2147,6 +2148,7 @@ If the number of battles is not enough to complete the set multiplier (such as o
 Do not adjust the proxy multiplier setting in the game</system:String>
     <system:String x:Key="TaskQueue.Fight.SkippedEmptyStagePlan">Stage plan is empty</system:String>
     <system:String x:Key="TaskQueue.Fight.SkippedNoOpenStage">No stage in the plan is open today</system:String>
+    <system:String x:Key="TaskQueue.Fight.SkippedOnceADay">Already run once today</system:String>
     <system:String x:Key="TaskQueue.Fight.SkippedWeeklySchedule">Weekly schedule is not enabled for today</system:String>
     <system:String x:Key="TaskQueue.Fight.SpecifiedDrops.Tip" xml:space="preserve">The stage entered is still determined by the options below: ｢{key=TaskQueue.Fight.StageSelect}｣ / ｢{key=TaskQueue.Fight.CandidateStages}｣.
 • {key=TaskQueue.Fight.Quantity}: uses the selected material's drop count in this combat task as the target, and stops when the set amount is reached.
