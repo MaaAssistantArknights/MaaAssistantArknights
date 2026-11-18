@@ -60,7 +60,7 @@ public:
     /// <summary>
     /// 在 <c>image</c> 中匹配 <c>option_templ</c> 所对应的事件选项。
     /// </summary>
-    /// <param name="theme">集成战略主题；目前适配萨米、界园和黑流树海主题。</param>
+    /// <param name="theme">集成战略主题，须为 supports_theme 支持的主题。</param>
     /// <param name="image">目标图像。</param>
     /// <param name="option_templ">要匹配的事件选项的模版。</param>
     /// <returns>
