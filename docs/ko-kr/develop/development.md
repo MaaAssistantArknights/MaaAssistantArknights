@@ -13,6 +13,12 @@ icon: iconoir:developer
 [DeepWiki에 문의하여](https://deepwiki.com/MaaAssistantArknights/MaaAssistantArknights) MAA 프로젝트의 전체적인 아키텍처를 개략적으로 이해할 수 있습니다.  
 :::
 
+::: caution  
+Pull request 의 cover letter 또는 commit message 에 AI 가 생성한 것으로 명백히 드러나는 텍스트를 사용하면 해당 pull eequest 가 무시되거나 바로 닫힐 수 있습니다.
+
+저희는 중국어 또는 영어로 작성된 PR 만 접수하므로, AI 생성 특성의 예시는 중국어 또는 영어 문서를 참조해 주시기 바랍니다.
+:::
+
 ## 프로그래밍을 잘 모르지만, json 파일과 docs 문서를 수정하고싶어요. 어떻게 해야하나요?
 
 [웹 기반 PR 가이드](./pr-tutorial.md)를 참고하세요! (GitHub.com 웹사이트에서만 가능합니다)

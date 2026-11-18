@@ -13,6 +13,12 @@ icon: iconoir:developer
 [DeepWiki に質問して](https://deepwiki.com/MaaAssistantArknights/MaaAssistantArknights)、MAA プロジェクトの全体的なアーキテクチャを概要的に理解することができます。  
 :::
 
+::: caution  
+Pull request の cover letter や commit message に、明らかに AI 生成の特徴を持つテキストを使用すると、pull request が無視されるか、あるいは即座にクローズされる可能性があります。
+
+Pull request は中国語または英語のみ受け付けておりますので、AI 生成の特徴の例については、中国語または英語のドキュメントをご参照ください。
+:::
+
 ## プログラミングの仕方がわからないので、JSONファイルやドキュメントなどを少し変更したいのですが、どうすればいいですか？
 
 [｢パラスちゃん｣ も理解できるGitHubのPull Requestの使用ガイド](./pr-tutorial.md)へようこそ（純WebサイトのPRチュートリアル）

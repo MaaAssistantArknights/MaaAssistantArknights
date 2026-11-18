@@ -13,6 +13,20 @@ This page mainly describes the PR workflow and MAA's file formatting requirement
 You can [Ask DeepWiki](https://deepwiki.com/MaaAssistantArknights/MaaAssistantArknights) to learn about the overall architecture of the MAA project.  
 :::
 
+::: caution  
+Using text with obvious AI-generated characteristics in the cover letter or commit message of a pull request may result in the pull request being ignored or closed outright.
+
+"AI-generated characteristics" include, but not limited to:
+
+- Not … but …
+- Listing unimportant specific numbers
+- Very short, consecutive sentences
+- Overly colloquial expressions
+- Inappropriate terminology translations
+- `Co-Authored-By` and similar tags
+
+:::
+
 ## I don't know programming but just want to modify some JSON files/documents, how can I do it?
 
 Welcome to the [Web-based PR Tutorial](./pr-tutorial.md) that anyone can understand (purely web-based on GitHub.com)
