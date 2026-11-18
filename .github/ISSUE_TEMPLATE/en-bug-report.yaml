@@ -19,6 +19,8 @@ body:
           required: false
         - label: I have reviewed the [FAQs](https://docs.maa.plus/en-us/manual/faq.html), [Announcement](/MaaAssistantArknights/MaaAssistantArknights/issues/7732), [Open Issues](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues), [Closed Issues](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues?q=is%3Aissue%20state%3Aclosed) to ensure that my issue has not been mentioned.
           required: true
+        - label: I confirm that the vast majority of this issue is written by human and does not contain AI-generated so-called *root cause analysis* or *solution*
+          required: true
   - type: textarea
     id: describe
     attributes:

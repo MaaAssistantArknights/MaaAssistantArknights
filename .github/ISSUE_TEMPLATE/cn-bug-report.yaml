@@ -17,6 +17,8 @@ body:
           required: false
         - label: 我已检查了 [常见问题](https://docs.maa.plus/zh-cn/manual/faq.html), [公告](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/7732), [活跃议题](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues), [已关闭议题](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues?q=is%3Aissue%20state%3Aclosed) 确认我的问题未被提及
           required: false
+        - label: 我确认此 issue 中的大部分内容是由人类编写，不包含由 AI 生成的所谓「根因分析」以及「解决方案」
+          required: false
   - type: textarea
     id: describe
     attributes:

@@ -19,6 +19,8 @@ body:
           required: false
         - label: I have reviewed the [FAQs](https://docs.maa.plus/en-us/manual/faq.html), [Announcement](/MaaAssistantArknights/MaaAssistantArknights/issues/7732), [Open Issues](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues), [Closed Issues](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues?q=is%3Aissue%20state%3Aclosed) to ensure that my feature/suggestion has not been mentioned.
           required: true
+        - label: I acknowledge that suggestions containing text with obvious AI-generated characteristics may result in the suggestion being ignored or closed outright
+          required: true
   - type: textarea
     id: describe
     attributes:
