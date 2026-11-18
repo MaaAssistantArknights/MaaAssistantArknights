@@ -595,10 +595,9 @@
         "template": "empty.png",
         "roi": [884, 40, 388, 595],
         "specificRect": [884, 0, 388, 40],
-        "specificRect_Doc": "用于裁剪选项标题，y 坐标由标题栏的匹配结果提供。"
+        "specificRect_Doc": "供 RoguelikeEncounterOptionAnalyzer 截取单个事件选项，y 坐标由分析器按识别结果覆盖。"
     },
     "Mizuki@RoguelikeEncounterOptionAnalyzer-OptionHeaderBar": {
-        "template": "Mizuki@RoguelikeEncounterOptionAnalyzer-OptionHeaderBar.png",
         "roi": [1168, 40, 32, 595]
     },
     "Mizuki@RoguelikeEncounterOptionAnalyzer-OptionHeaderBar-Enabled": {
