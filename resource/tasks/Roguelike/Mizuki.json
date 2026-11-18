@@ -591,6 +591,44 @@
     "Mizuki@Roguelike@WaitForStartButtonClicked": {
         "template": "Roguelike@QuickFormation.png"
     },
+    "Mizuki@RoguelikeEncounter-ClickOption": {
+        "baseTask": "JieGarden@RoguelikeEncounter-ClickOption"
+    },
+    "Mizuki@RoguelikeEncounter-InitialMoveUp": {
+        "baseTask": "JieGarden@RoguelikeEncounter-InitialMoveUp"
+    },
+    "Mizuki@RoguelikeEncounter-MoveDown": {
+        "baseTask": "JieGarden@RoguelikeEncounter-MoveDown"
+    },
+    "Mizuki@RoguelikeEncounter-MoveUp": {
+        "baseTask": "JieGarden@RoguelikeEncounter-MoveUp"
+    },
+    "Mizuki@RoguelikeEncounterOptionAnalyzer-Option": {
+        "template": "empty.png",
+        "roi": [884, 40, 388, 595],
+        "specificRect": [884, 0, 388, 40],
+        "specificRect_Doc": "用于裁剪选项标题，y 坐标由标题栏的匹配结果提供。"
+    },
+    "Mizuki@RoguelikeEncounterOptionAnalyzer-OptionHeaderBar": {
+        "template": "Mizuki@RoguelikeEncounterOptionAnalyzer-OptionHeaderBar.png",
+        "roi": [1168, 40, 32, 595]
+    },
+    "Mizuki@RoguelikeEncounterOptionAnalyzer-OptionHeaderBar-Enabled": {
+        "template": "Mizuki@RoguelikeEncounterOptionAnalyzer-OptionHeaderBar.png",
+        "roi": [0, 0, 32, 40],
+        "method": "HSVCount",
+        "colorScales": [
+            [
+                [0, 0, 50],
+                [179, 255, 255]
+            ]
+        ]
+    },
+    "Mizuki@RoguelikeEncounterOptionAnalyzer-OptionHeaderBar-Text": {
+        "algorithm": "OcrDetect",
+        "roi": [0, 0, 388, 40],
+        "text": []
+    },
     "Mizuki@RoguelikeSettlementConfirm": {
         "template": "RoguelikeSettlementConfirm.png"
     }
