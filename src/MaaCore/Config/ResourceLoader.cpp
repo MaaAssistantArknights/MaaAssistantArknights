@@ -14,6 +14,7 @@
 #include "Miscellaneous/ItemConfig.h"
 #include "Miscellaneous/OcrConfig.h"
 #include "Miscellaneous/OcrPack.h"
+#include "Miscellaneous/ReclamationToolConfig.h"
 #include "Miscellaneous/RecruitConfig.h"
 #include "Miscellaneous/StageDropsConfig.h"
 #include "Miscellaneous/TilePack.h"
@@ -161,6 +162,12 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
         !load_with_custom.template operator()<RecruitConfig>("recruitment.json"_p, "RecruitConfig") ||
         !load_with_custom.template operator()<BattleDataConfig>("battle_data.json"_p, "BattleDataConfig") ||
         !load_with_custom.template operator()<OcrConfig>("ocr_config.json"_p, "OcrConfig")) {
+        return false;
+    }
+
+    const auto craft_names = "reclamation/Tales/craft_names.json"_p;
+    if (std::filesystem::exists(path / craft_names) &&
+        !load_with_custom.template operator()<ReclamationToolConfig>(craft_names, "ReclamationToolConfig")) {
         return false;
     }
 

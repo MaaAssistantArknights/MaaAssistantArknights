@@ -1,5 +1,6 @@
 #include "ReclamationCraftTaskPlugin.h"
 
+#include "Config/Miscellaneous/ReclamationToolConfig.h"
 #include "Config/TaskData.h"
 #include "Controller/Controller.h"
 #include "Task/ProcessTask.h"
@@ -18,8 +19,8 @@ bool asst::ReclamationCraftTaskPlugin::load_params(const json::value& params)
     }
 
     // 根据 params 设置插件专用参数
-    auto tools_to_craft_opt = params.find<json::array>("tools_to_craft");
-    for (auto& tool : tools_to_craft_opt.value()) {
+    m_tools_to_craft.clear();
+    for (const auto& tool : params.get("tools_to_craft", json::array {})) {
         if (std::string tool_str = tool.as_string(); !tool_str.empty()) {
             m_tools_to_craft.emplace_back(tool_str);
         }
@@ -56,14 +57,15 @@ bool asst::ReclamationCraftTaskPlugin::_run()
     LogTraceFunction;
 
     const std::string& theme = m_config->get_theme();
+    const std::string select_prefix = inst_string() + "@" + theme + "@RA@PIS-";
     for (const std::string& tool_to_craft : m_tools_to_craft) {
-        // 将要组装的道具设置为 tool
-        Task.get<OcrTaskInfo>(theme + "@RA@PIS-ClickTool")->text = { tool_to_craft };
+        Task.get<OcrTaskInfo>(select_prefix + "ClickTool")->text =
+            ReclamationToolConfig::get_instance().names_for(tool_to_craft);
 
         bool insufficient_materials = false;
         for (int batch = 0; !need_exit() && !insufficient_materials && batch < m_num_craft_batches; ++batch) {
             // Step 1: 选择要组装的道具, 若没有找到则在组装台界面向下滑动屏幕后再次检测, 直到识别到要组装的道具后点击
-            ProcessTask(*this, { theme + "@RA@PIS-SelectTool" }).run();
+            ProcessTask(*this, { select_prefix + "SelectTool" }).run();
             sleep(500);
 
             int craft_amount = 0;
