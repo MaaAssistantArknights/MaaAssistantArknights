@@ -397,12 +397,6 @@ int asst::DepotImageAnalyzer::match_quantity(const ItemInfo& item)
     // minus 2 to trim white pixels
     Rect ocr_roi { item.rect.x + mask_rect.x, item.rect.y + mask_rect.y, mask_rect.width - 2, mask_rect.height - 2 };
 
-    cv::Mat ocr_img = m_image_resized.clone();
-    cv::subtract(
-        m_image_resized(make_rect<cv::Rect>(item.rect)),
-        item_templ * 0.41,
-        ocr_img(make_rect<cv::Rect>(item.rect)));
-
     RegionOCRer analyzer(m_image_resized);
     analyzer.set_task_info("NumberOcrReplace");
     analyzer.set_roi(ocr_roi);

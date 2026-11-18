@@ -14,6 +14,7 @@ using namespace asst;
 
 PipelineAnalyzer::ResultOpt PipelineAnalyzer::analyze() const
 {
+    OCRer::RawCache frame_cache;
     for (const std::string& task_name : m_tasks_name) {
         const auto& task_ptr = Task.get(task_name);
         // 可能有配置错误，导致不存在对应的任务
@@ -38,7 +39,7 @@ PipelineAnalyzer::ResultOpt PipelineAnalyzer::analyze() const
             }
             break;
         case AlgorithmType::OcrDetect:
-            if (auto ocr_opt = ocr(task_ptr)) {
+            if (auto ocr_opt = ocr(task_ptr, frame_cache)) {
                 Log.trace(__FUNCTION__, "| OcrDetect", task_ptr->name, *ocr_opt);
                 return Result { .task_ptr = task_ptr, .result = ocr_opt->front(), .rect = ocr_opt->front().rect };
             }
@@ -87,7 +88,8 @@ Matcher::ResultOpt PipelineAnalyzer::match(const std::shared_ptr<TaskInfo>& task
     return result_opt;
 }
 
-OCRer::ResultsVecOpt PipelineAnalyzer::ocr(const std::shared_ptr<TaskInfo>& task_ptr) const
+OCRer::ResultsVecOpt
+    PipelineAnalyzer::ocr(const std::shared_ptr<TaskInfo>& task_ptr, OCRer::RawCache& frame_cache) const
 {
     const auto ocr_task_ptr = std::dynamic_pointer_cast<OcrTaskInfo>(task_ptr);
 
@@ -108,7 +110,7 @@ OCRer::ResultsVecOpt PipelineAnalyzer::ocr(const std::shared_ptr<TaskInfo>& task
             analyzer.set_roi(*cache_opt);
             analyzer.set_without_det(true);
         }
-        auto result_opt = analyzer.analyze();
+        auto result_opt = analyzer.analyze(&frame_cache);
         if (!result_opt) {
             return std::nullopt;
         }
