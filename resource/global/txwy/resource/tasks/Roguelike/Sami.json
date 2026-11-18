@@ -147,7 +147,7 @@
     "Sami@Roguelike@StrategyChange_mode0": {
         "ocrReplace": [
             ["初霜湖澤", "_aggressive"],
-            ["密靜林地", "_aggressive"],
+            ["密[靜静]林地", "_aggressive"],
             [".*明凍(土|士)", "_pragmatic"],
             ["積冰岩骸", "_pragmatic"],
             ["無瑕花.*", "_default"],
@@ -158,7 +158,7 @@
     "Sami@Roguelike@StrategyChange_mode1": {
         "ocrReplace": [
             ["初霜湖澤", "_default"],
-            ["密靜林地", "_exit"],
+            ["密[靜静]林地", "_exit"],
             [".*明凍(土|士)", "_exit"],
             ["積冰岩骸", "_exit"],
             ["無瑕花.*", "_exit"],
@@ -169,7 +169,7 @@
     "Sami@Roguelike@StrategyChange_mode4": {
         "ocrReplace": [
             ["初霜湖澤", "_default"],
-            ["密靜林地", "_default"],
+            ["密[靜静]林地", "_default"],
             [".*明凍(土|士)", "_exit"],
             ["積冰岩骸", "_exit"],
             ["無瑕花.*", "_exit"],
@@ -180,7 +180,7 @@
     "Sami@Roguelike@StrategyChange_mode5": {
         "ocrReplace": [
             ["初霜湖澤", "_collapsal_paradigms"],
-            ["密靜林地", "_collapsal_paradigms"],
+            ["密[靜静]林地", "_collapsal_paradigms"],
             [".*明凍(土|士)", "_SKIP_"],
             ["積冰岩骸", "_SKIP_"],
             ["無瑕花.*", "_SKIP_"],
@@ -191,7 +191,7 @@
     "Sami@Roguelike@StrategyChange_mode6": {
         "ocrReplace": [
             ["初霜湖澤", "_aggressive"],
-            ["密靜林地", "_aggressive"],
+            ["密[靜静]林地", "_aggressive"],
             [".*明凍(土|士)", "_pragmatic"],
             ["積冰岩骸", "_pragmatic"],
             ["無瑕花.*", "_default"],
@@ -202,7 +202,7 @@
     "Sami@Roguelike@StrategyChange_mode7": {
         "ocrReplace": [
             ["初霜湖澤", "_aggressive"],
-            ["密靜林地", "_aggressive"],
+            ["密[靜静]林地", "_aggressive"],
             [".*明凍(土|士)", "_pragmatic"],
             ["積冰岩骸", "_pragmatic"],
             ["無瑕花.*", "_default"],
