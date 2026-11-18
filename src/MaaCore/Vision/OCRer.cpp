@@ -40,17 +40,27 @@ OCRer::ResultsVecOpt OCRer::analyze_masked(const cv::Mat& mask, const Rect& mask
 
 OCRer::ResultsVecOpt OCRer::analyze_roi(const cv::Mat& image_roi, RawCache* frame_cache) const
 {
+    const RawCache::Entry* cached = nullptr;
+    if (frame_cache) {
+        auto it = std::ranges::find_if(frame_cache->entries, [&](const RawCache::Entry& entry) {
+            return entry.roi == m_roi && entry.use_char_model == m_params.use_char_model &&
+                   entry.without_det == m_params.without_det;
+        });
+        if (it != frame_cache->entries.end()) {
+            cached = &*it;
+        }
+    }
+
     ResultsVec raw_results;
-    if (frame_cache && !frame_cache->results.empty() && frame_cache->roi == m_roi &&
-        frame_cache->use_char_model == m_params.use_char_model && frame_cache->without_det == m_params.without_det) {
-        raw_results = frame_cache->results;
+    if (cached) {
+        raw_results = cached->results;
     }
     else {
         OcrPack& model =
             m_params.use_char_model ? static_cast<OcrPack&>(CharOcr::get_instance()) : WordOcr::get_instance();
         raw_results = model.recognize(image_roi, m_params.without_det, m_roi);
         if (frame_cache) {
-            *frame_cache = { m_roi, m_params.use_char_model, m_params.without_det, raw_results };
+            frame_cache->entries.push_back({ m_roi, m_params.use_char_model, m_params.without_det, raw_results });
         }
     }
 

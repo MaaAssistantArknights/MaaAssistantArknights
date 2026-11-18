@@ -14,13 +14,18 @@ public:
     using ResultsVec = OcrPack::ResultsVec;
     using ResultsVecOpt = std::optional<ResultsVec>;
 
-    // 仅在同一帧的一次候选遍历中复用，保存过滤前的结果。
+    // 仅在同一帧的一次候选遍历中复用，按 ROI 与模型配置保存过滤前的结果（空结果同样有效）。
     struct RawCache
     {
-        Rect roi;
-        bool use_char_model = false;
-        bool without_det = false;
-        ResultsVec results;
+        struct Entry
+        {
+            Rect roi;
+            bool use_char_model = false;
+            bool without_det = false;
+            ResultsVec results;
+        };
+
+        std::vector<Entry> entries;
     };
 
 public:
