@@ -2040,7 +2040,6 @@ public class AsstProxy
                     {
                         case "StartButton2":
                         case "AnnihilationConfirm":
-                            FightSetting.UpdateLastRunTime(details["taskid"]?.ToObject<AsstTaskId>() ?? 0);
                             StringBuilder missionStartLogBuilder = new();
                             if (FightSetting.FightReport is null)
                             {
@@ -2243,6 +2242,16 @@ public class AsstProxy
                 AsstTaskId taskId = details["taskid"]?.ToObject<AsstTaskId>() ?? 0;
                 switch (taskChain)
                 {
+                    case "Fight":
+                        {
+                            if (taskName is "StartButton2" or "AnnihilationConfirm")
+                            {
+                                FightSetting.UpdateLastRunTime(taskId);
+                            }
+
+                            break;
+                        }
+
                     case "Infrast":
                         {
                             switch (taskName)
