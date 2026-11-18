@@ -363,18 +363,6 @@
     "Phantom@Roguelike@WaitForStartButtonClicked": {
         "template": "Roguelike@QuickFormation.png"
     },
-    "Phantom@RoguelikeEncounter-ClickOption": {
-        "baseTask": "JieGarden@RoguelikeEncounter-ClickOption"
-    },
-    "Phantom@RoguelikeEncounter-InitialMoveUp": {
-        "baseTask": "JieGarden@RoguelikeEncounter-InitialMoveUp"
-    },
-    "Phantom@RoguelikeEncounter-MoveDown": {
-        "baseTask": "JieGarden@RoguelikeEncounter-MoveDown"
-    },
-    "Phantom@RoguelikeEncounter-MoveUp": {
-        "baseTask": "JieGarden@RoguelikeEncounter-MoveUp"
-    },
     "Phantom@RoguelikeEncounterOptionAnalyzer-Option": {
         "template": "empty.png",
         "roi": [875, 40, 323, 595],

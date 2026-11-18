@@ -1851,6 +1851,34 @@
         "roi": [817, 0, 402, 146],
         "next": ["Roguelike@WaitForStartButtonClicked"]
     },
+    "RoguelikeEncounter-ClickOption": {
+        "doc": "点击选项右侧位置以选择事件选项；插件观察确认出现后点击确认，连续无变化满3秒才重点击",
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [1175, 0, 100, 43]
+    },
+    "RoguelikeEncounter-InitialMoveUp": {
+        "doc": "事件选项列表的默认视图可能位于列表中间；为了从上到下依次检视所有选项，需要先向下滑动屏幕，使视图移动到列表顶部",
+        "baseTask": "RoguelikeEncounter-MoveUp"
+    },
+    "RoguelikeEncounter-MoveDown": {
+        "doc": "向上滑动屏幕，使事件选项列表视图向下移动",
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "specificRect": [750, 500, 1, 1],
+        "rectMove": [750, 200, 1, 1],
+        "specialParams": [150, 0, 20, 0],
+        "postDelay": 500
+    },
+    "RoguelikeEncounter-MoveUp": {
+        "doc": "向下滑动屏幕，使事件选项列表视图向上移动",
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "specificRect": [750, 200, 1, 1],
+        "rectMove": [750, 500, 1, 1],
+        "specialParams": [150, 0, 20, 0],
+        "postDelay": 500
+    },
     "StartExplore@Roguelike@ChooseOperConfirm": {
         "template": "Roguelike@ChooseOperConfirm.png",
         "next": [

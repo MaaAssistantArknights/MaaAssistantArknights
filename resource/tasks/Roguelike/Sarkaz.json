@@ -1171,18 +1171,6 @@
     "Sarkaz@Roguelike@WaitForStartButtonClicked": {
         "template": "Roguelike@QuickFormation.png"
     },
-    "Sarkaz@RoguelikeEncounter-ClickOption": {
-        "baseTask": "JieGarden@RoguelikeEncounter-ClickOption"
-    },
-    "Sarkaz@RoguelikeEncounter-InitialMoveUp": {
-        "baseTask": "JieGarden@RoguelikeEncounter-InitialMoveUp"
-    },
-    "Sarkaz@RoguelikeEncounter-MoveDown": {
-        "baseTask": "JieGarden@RoguelikeEncounter-MoveDown"
-    },
-    "Sarkaz@RoguelikeEncounter-MoveUp": {
-        "baseTask": "JieGarden@RoguelikeEncounter-MoveUp"
-    },
     "Sarkaz@RoguelikeEncounterOptionAnalyzer-Option": {
         "template": "empty.png",
         "roi": [884, 40, 388, 595],
