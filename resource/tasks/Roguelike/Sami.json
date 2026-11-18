@@ -1435,10 +1435,9 @@
         "template": "Sami@RoguelikeEncounterOptionAnalyzer-OptionHeaderBar.png",
         "roi": [0, 0, 35, 43],
         "method": "HSVCount",
-        "templThreshold": 0.65,
         "colorScales": [
             [
-                [80, 28, 22],
+                [80, 28, 40],
                 [130, 255, 255]
             ]
         ]
