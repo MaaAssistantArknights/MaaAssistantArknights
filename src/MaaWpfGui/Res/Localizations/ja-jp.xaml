@@ -2536,10 +2536,30 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="Toolbox.MiniGame.Reclamation.ToolToCraft.Placeholder">ケミカルライト</system:String>
     <system:String x:Key="Toolbox.MiniGame.Reclamation.ToolToCraft.Tip">支援道具名</system:String>
     <system:String x:Key="Toolbox.MiniGame.SPA">堅守協定</system:String>
-    <system:String x:Key="Toolbox.MiniGame.SPA.Tip" xml:space="preserve">イベントメイン画面（｢高速演算｣（仮訳）がある場所）からタスクを開始
+    <system:String x:Key="Toolbox.MiniGame.SPA.Colorful">カラーバッジ</system:String>
+    <system:String x:Key="Toolbox.MiniGame.SPA.Goal">目標</system:String>
+    <system:String x:Key="Toolbox.MiniGame.SPA.Goal.Medal">戦略バッジ</system:String>
+    <system:String x:Key="Toolbox.MiniGame.SPA.Goal.Task1">炎 / レイサニア / 奥義 100</system:String>
+    <system:String x:Key="Toolbox.MiniGame.SPA.Goal.Task2">エーギル / カジミエシュ / 突撃 100</system:String>
+    <system:String x:Key="Toolbox.MiniGame.SPA.Goal.Task3">シラクサ / サルゴン / 狙撃 100</system:String>
+    <system:String x:Key="Toolbox.MiniGame.SPA.Goal.Task4">ヴィクトリア / シェラグ / 敏捷 100</system:String>
+    <system:String x:Key="Toolbox.MiniGame.SPA.Goal.Task5">ウルサス / イベリア / 集合 100</system:String>
+    <system:String x:Key="Toolbox.MiniGame.SPA.Goal.Task6">奇跡 / 先見 / 投資家 50</system:String>
+    <system:String x:Key="Toolbox.MiniGame.SPA.Goal.Task7">迅速 / 不屈 / 堅守 / 支援 50</system:String>
+    <system:String x:Key="Toolbox.MiniGame.SPA.LowProfile">低レアモード</system:String>
+    <system:String x:Key="Toolbox.MiniGame.SPA.MaxRuns">最大クリア回数</system:String>
+    <system:String x:Key="Toolbox.MiniGame.SPA.Mode">モード</system:String>
+    <system:String x:Key="Toolbox.MiniGame.SPA.Mode.Badge">バッジの周回</system:String>
+    <system:String x:Key="Toolbox.MiniGame.SPA.Mode.Level">レベルの周回</system:String>
+    <system:String x:Key="Toolbox.MiniGame.SPA.SimMode">対局モード</system:String>
+    <system:String x:Key="Toolbox.MiniGame.SPA.SimMode.Quick">高速シミュレーション</system:String>
+    <system:String x:Key="Toolbox.MiniGame.SPA.SimMode.Standard">標準シミュレーション</system:String>
+    <system:String x:Key="Toolbox.MiniGame.SPA.Tip" xml:space="preserve">イベントメイン画面（｢個人演算｣ / ｢独立演算｣ がある場所）からタスクを開始。対局モードは上の選択肢で決まります
+ゲーム画面は必ず 1920×1080（1080p）に設定してください
+ゲーム内のキー／ボタン表示（ショートカットヒント）を必ずオフにしてください（PC 版の G キーなどのヒントがボタン文字に重なり、認識に失敗します）
 デフォルトのスキンを使用する必要があります
 セーブデータがある場合は、まず手動で破棄する必要があります
-レベル報酬のみ取得可能。｢功績勲章｣ を入手するには全ての ｢主要目標｣ をクリアする必要があります</system:String>
+戦略バッジまたは指定の ｢主要目標｣ の周回に対応。高速／標準シミュレーション両方に対応</system:String>
     <system:String x:Key="Toolbox.MiniGame.SecretFront">隠密戦線</system:String>
     <system:String x:Key="Toolbox.MiniGame.SecretFront.Ending">エンディング</system:String>
     <system:String x:Key="Toolbox.MiniGame.SecretFront.Event">シリーズ事件の優先順位</system:String>

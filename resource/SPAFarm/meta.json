@@ -1,0 +1,125 @@
+{
+ "constData": {
+  "shopRefreshPrice": 1,
+  "maxDeckChessCnt": 10,
+  "maxDeckEquipmentChessCnt": 5,
+  "maxBattleChessCnt": 8,
+  "fallbackBondId": "emptyShip",
+  "storeCntMax": 6,
+  "costPlayerHpLimit": 10,
+  "borrowCount": 30,
+  "milestoneId": "act3autochess_token_chess",
+  "dailyMissionParam": 0,
+  "dailyMissionName": null,
+  "dailyMissionRule": null,
+  "milestoneTrackId": null,
+  "escapedBattleTemplateMapSinglePlayer": "Activities/ACT3AUTOCHESS/level_act3autochess_escaped_single",
+  "escapedBattleTemplateMapMultiPlayer": "Activities/ACT3AUTOCHESS/level_act3autochess_escaped_multi",
+  "webBusType": "ak_act3autochess",
+  "webUpdateLogBusType": "ak_act3autochess_updatelog",
+  "itemMaxCount": 6250,
+  "diyCharLimitForLevels": {
+   "5": 2,
+   "6": 2
+  },
+  "permShopLogoId": "logo_season_shop",
+  "contentUpdateTime": 1794124800,
+  "systemCustomChar": [
+   "char_609_acguad",
+   "char_612_accast",
+   "char_613_acmedc",
+   "char_611_acnipe",
+   "char_608_acpion",
+   "char_614_acsupo",
+   "char_615_acspec",
+   "char_610_acfend",
+   "char_617_sharp2"
+  ],
+  "bossIconId": "autochess_icon_boss",
+  "modeWarningDiff": 3,
+  "perfectBattleVoiceRound": 3,
+  "loseHpVoiceRound": 3,
+  "bondVoiceLayers": [
+   100,
+   300,
+   500
+  ],
+  "shopTagWarmUpId": "warmup_4"
+ },
+ "counts": {
+  "bonds": 26,
+  "chess": 286,
+  "items": 116,
+  "stages": 10,
+  "diySlots": 12
+ },
+ "dataVersion": "Stream://torappu-data/v079/rel79.0\nChange:127796 on 2026/11/05\nVersionControl:79.2.0",
+ "diySlots": [
+  {
+   "chessId": "chess_char_5_diy1_a",
+   "goldenChessId": "chess_char_5_diy1_b",
+   "tier": 5
+  },
+  {
+   "chessId": "chess_char_5_diy2_a",
+   "goldenChessId": "chess_char_5_diy2_b",
+   "tier": 5
+  },
+  {
+   "chessId": "chess_char_5_diy3_a",
+   "goldenChessId": "chess_char_5_diy3_b",
+   "tier": 5
+  },
+  {
+   "chessId": "chess_char_5_diy4_a",
+   "goldenChessId": "chess_char_5_diy4_b",
+   "tier": 5
+  },
+  {
+   "chessId": "chess_char_5_diy5_a",
+   "goldenChessId": "chess_char_5_diy5_b",
+   "tier": 5
+  },
+  {
+   "chessId": "chess_char_5_diy6_a",
+   "goldenChessId": "chess_char_5_diy6_b",
+   "tier": 5
+  },
+  {
+   "chessId": "chess_char_6_diy1_a",
+   "goldenChessId": "chess_char_6_diy1_b",
+   "tier": 6
+  },
+  {
+   "chessId": "chess_char_6_diy2_a",
+   "goldenChessId": "chess_char_6_diy2_b",
+   "tier": 6
+  },
+  {
+   "chessId": "chess_char_6_diy3_a",
+   "goldenChessId": "chess_char_6_diy3_b",
+   "tier": 6
+  },
+  {
+   "chessId": "chess_char_6_diy4_a",
+   "goldenChessId": "chess_char_6_diy4_b",
+   "tier": 6
+  },
+  {
+   "chessId": "chess_char_6_diy5_a",
+   "goldenChessId": "chess_char_6_diy5_b",
+   "tier": 6
+  },
+  {
+   "chessId": "chess_char_6_diy6_a",
+   "goldenChessId": "chess_char_6_diy6_b",
+   "tier": 6
+  }
+ ],
+ "endTime": 4092580799,
+ "name": "卫戍协议:规程",
+ "season": "act3autochess",
+ "source": "https://torappu.prts.wiki/gamedata/latest/",
+ "startTime": 1794124800,
+ "version": "V3_1"
+}

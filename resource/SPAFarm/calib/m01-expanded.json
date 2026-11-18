@@ -1,0 +1,92 @@
+{
+ "stage": "act3autochess_m01",
+ "camera": "expanded",
+ "size": [
+  1920,
+  1080
+ ],
+ "anchors": [
+  [
+   4,
+   6,
+   722,
+   667
+  ],
+  [
+   9,
+   6,
+   1318,
+   667
+  ],
+  [
+   4,
+   5,
+   735,
+   570
+  ],
+  [
+   9,
+   5,
+   1305,
+   570
+  ],
+  [
+   2.5,
+   4.5,
+   560,
+   525
+  ],
+  [
+   10.5,
+   4.5,
+   1485,
+   515
+  ],
+  [
+   10.5,
+   1.5,
+   1425,
+   240
+  ],
+  [
+   12.5,
+   1.5,
+   1640,
+   232
+  ]
+ ],
+ "markerNote": "蓝点/红门线框颜色质心与像素数：#01 #03 #04 #05 #06 #09 #10 七张地图实测的中位数，供运行时自动校准",
+ "markerRef": {
+  "E": [
+   557.2,
+   505.2
+  ],
+  "S1": [
+   1452.5,
+   261.5
+  ],
+  "S2": [
+   1487.4,
+   485.2
+  ]
+ },
+ "appliesTo": "all",
+ "verifiedInGame": [
+  "act3autochess_m01",
+  "act3autochess_m02",
+  "act3autochess_m03",
+  "act3autochess_m04",
+  "act3autochess_m05",
+  "act3autochess_m06",
+  "act3autochess_m09",
+  "act3autochess_m10",
+  "act3autochess_m11",
+  "act3autochess_m12"
+ ],
+ "scopeNote": "游戏内镜头与地图无关：2026-11-09 在 MuMu 1920×1080 上对 10 张地图逐一实机核对（规程等级13），自动校准后缩放 0.981–1.011、平移 2–28px。运行时由 tools/markers.mjs 的 classifyCamera 校验。",
+ "markerRefN": {
+  "E": 2568,
+  "S1": 552,
+  "S2": 2084
+ }
+}

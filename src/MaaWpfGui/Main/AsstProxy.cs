@@ -2365,6 +2365,22 @@ public class AsstProxy
         string what = details["what"]?.ToString() ?? string.Empty;
         switch (what)
         {
+            // 卫戍协议刷刻章插件（SPAFarmTaskPlugin）的进度上报。
+            // 插件通过 SubTaskExtraInfo 发送，details.message 为可直接展示的文本。
+            case "SPAFarmStatus":
+            case "SPAFarmMatchResult":
+            case "SPAFarmMedalEarned":
+            case "SPAFarmTaskCompleted":
+                {
+                    string spaMessage = subTaskDetails?["message"]?.ToString() ?? string.Empty;
+                    if (!string.IsNullOrEmpty(spaMessage))
+                    {
+                        Instances.TaskQueueViewModel.AddLog(spaMessage);
+                    }
+
+                    break;
+                }
+
             case "StageDrops":
                 {
                     string allDrops = string.Empty;
@@ -2977,6 +2993,19 @@ public class AsstProxy
             case var materialSynthesisWhat when materialSynthesisWhat.StartsWith("MaterialSynthesis", StringComparison.Ordinal):
                 ProcMaterialSynthesisMsg(what, subTaskDetails);
                 break;
+
+            case "SPAFarmLog":
+                {
+                    var message = (string?)subTaskDetails?["message"] ?? string.Empty;
+                    var level = (string?)subTaskDetails?["level"] ?? "info";
+                    var color = level switch {
+                        "error" => UiLogColor.Error,
+                        "warn" => UiLogColor.Warning,
+                        _ => UiLogColor.Info,
+                    };
+                    Instances.TaskQueueViewModel.AddLog(message, color);
+                    break;
+                }
 
             case "PixelPaintProgress":
                 {
@@ -4001,6 +4030,33 @@ public class AsstProxy
                         color = g.Color,
                         points = g.Points,
                     }).ToList(),
+                },
+            }),
+        };
+        var (type, param) = task.Serialize();
+        return AsstAppendTaskWithEncoding(TaskType.MiniGame, type, param) && AsstStart();
+    }
+
+    /// <summary>
+    /// 卫戍协议刷角标（牛杂）。整段极速模拟流程由 SPAFarmTaskPlugin 接管。
+    /// </summary>
+    /// <param name="lowProfile">低配模式（不需要自选编队）。</param>
+    /// <param name="targetClears">单个策略需要通关的次数，3 = 金色角标，6 = 彩色角标。</param>
+    /// <param name="maxRuns">最多通关局数。</param>
+    /// <param name="goal">目标："medal" 刷策略徽章，"task-1".."task-7" 对应七条任务线。</param>
+    /// <param name="mode">对局模式："quick" 极速模拟，"standard" 标准模拟（medal 目标由插件强制 quick）。</param>
+    /// <returns>是否成功启动。</returns>
+    public bool AsstSPAFarm(bool lowProfile, int targetClears, int maxRuns, string goal = "medal", string mode = "quick")
+    {
+        var task = new AsstCustomTask {
+            CustomTasks = ["MiniGame@SPA@BadgeFarm"],
+            Params = JObject.FromObject(new {
+                spa_farm = new {
+                    low_profile = lowProfile,
+                    target_clears = targetClears,
+                    max_runs = maxRuns,
+                    goal,
+                    mode,
                 },
             }),
         };

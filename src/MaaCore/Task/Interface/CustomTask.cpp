@@ -5,6 +5,7 @@
 #include "Task/MiniGame/EventShopTaskPlugin.h"
 #include "Task/MiniGame/MaterialSynthesisTaskPlugin.h"
 #include "Task/MiniGame/PixelPaintTaskPlugin.h"
+#include "Task/MiniGame/SPAFarmTaskPlugin.h"
 #include "Task/MiniGame/SecretFrontTaskPlugin.h"
 #include "Task/Miscellaneous/ScreenshotTaskPlugin.h"
 #include "Task/ProcessTask.h"
@@ -52,6 +53,9 @@ bool asst::CustomTask::set_params(const json::value& params)
         }
         else if (parse_and_register_event_shop(task_name, params)) {
             LogInfo << "Parsed and registered EventShop task:" << task_name;
+        }
+        else if (parse_and_register_spa_farm(task_name, params)) {
+            LogInfo << "Parsed and registered SPA farm task:" << task_name;
         }
 
         if (Task.get(resolved_task) == nullptr) {
@@ -282,5 +286,49 @@ bool asst::CustomTask::parse_and_register_secretfront(const std::string& task_na
 
     resolved_task = "MiniGame@SecretFront@Begin";
 
+    return true;
+}
+
+bool asst::CustomTask::parse_and_register_spa_farm(const std::string& task_name, const json::value& params)
+{
+    // 卫戍协议极速模拟刷策略角标：整段流程由插件接管，资源里只保留一个 JustReturn 入口
+    if (task_name != "MiniGame@SPA@BadgeFarm") {
+        return false;
+    }
+
+    auto plugin_ptr = m_custom_task_ptr->register_plugin<SPAFarmTaskPlugin>();
+    if (!plugin_ptr) {
+        LogError << __FUNCTION__ << "| failed to register SPAFarmTaskPlugin";
+        return false;
+    }
+
+    if (auto params_opt = params.find<json::object>("params"); params_opt) {
+        if (auto spa_opt = params_opt->find<json::object>("spa_farm"); spa_opt) {
+            // GUI 传 low_profile / target_clears / max_runs
+            // 插件收 profile / target / runs
+            json::value p = json::object {};
+            p["profile"] = spa_opt->get("low_profile", false) ? std::string("low") : std::string("full");
+            p["target"] = spa_opt->get("target_clears", 3);
+            p["runs"] = spa_opt->get("max_runs", 20);
+            if (auto goal_opt = spa_opt->find<std::string>("goal")) {
+                p["goal"] = *goal_opt;
+            }
+            if (auto mode_opt = spa_opt->find<std::string>("mode")) {
+                p["mode"] = *mode_opt;
+            }
+            if (auto cam_opt = spa_opt->find<std::string>("camera")) {
+                p["camera"] = *cam_opt;
+            }
+            if (auto att_opt = spa_opt->find<int>("attempts")) {
+                p["attempts"] = *att_opt;
+            }
+            plugin_ptr->set_params(p);
+        }
+    }
+
+    if (!m_custom_task_ptr->override_next("MiniGame@SPA@BadgeFarm", {})) {
+        LogError << __FUNCTION__ << "| failed to override next for MiniGame@SPA@BadgeFarm";
+        return false;
+    }
     return true;
 }

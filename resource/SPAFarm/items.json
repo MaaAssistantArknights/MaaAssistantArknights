@@ -1,0 +1,1162 @@
+[
+ {
+  "chessId": "chess_item_1_01_e_a",
+  "golden": false,
+  "itemType": "EQUIP",
+  "name": "维式重锤",
+  "desc": "攻击力+15%",
+  "price": 1,
+  "giveBondId": "victoriaShip",
+  "canGiveBond": false
+ },
+ {
+  "chessId": "chess_item_1_01_e_b",
+  "golden": true,
+  "itemType": "EQUIP",
+  "name": "维式重锤",
+  "desc": "攻击力+25%",
+  "price": 5,
+  "giveBondId": "victoriaShip",
+  "canGiveBond": false
+ },
+ {
+  "chessId": "chess_item_1_02_e_a",
+  "golden": false,
+  "itemType": "EQUIP",
+  "name": "坚守盾牌",
+  "desc": "防御力+20%",
+  "price": 1,
+  "giveBondId": "steadShip",
+  "canGiveBond": false
+ },
+ {
+  "chessId": "chess_item_1_02_e_b",
+  "golden": true,
+  "itemType": "EQUIP",
+  "name": "坚守盾牌",
+  "desc": "防御力+35%",
+  "price": 5,
+  "giveBondId": "steadShip",
+  "canGiveBond": false
+ },
+ {
+  "chessId": "chess_item_1_03_e_a",
+  "golden": false,
+  "itemType": "EQUIP",
+  "name": "盟约之币",
+  "desc": "装备时销毁，并获得1资金",
+  "price": 1,
+  "giveBondId": null,
+  "canGiveBond": false
+ },
+ {
+  "chessId": "chess_item_1_03_e_b",
+  "golden": true,
+  "itemType": "EQUIP",
+  "name": "盟约之币",
+  "desc": "装备时销毁，并获得2资金",
+  "price": 5,
+  "giveBondId": null,
+  "canGiveBond": false
+ },
+ {
+  "chessId": "chess_item_1_04_e_a",
+  "golden": false,
+  "itemType": "EQUIP",
+  "name": "随身身份牌",
+  "desc": "装备时销毁，并使携带者所属盟约层数+3（无需激活盟约）",
+  "price": 1,
+  "giveBondId": null,
+  "canGiveBond": false
+ },
+ {
+  "chessId": "chess_item_1_04_e_b",
+  "golden": true,
+  "itemType": "EQUIP",
+  "name": "随身身份牌",
+  "desc": "装备时销毁，并使携带者所属盟约层数+6（无需激活盟约）",
+  "price": 5,
+  "giveBondId": null,
+  "canGiveBond": false
+ },
+ {
+  "chessId": "chess_item_1_05_e_a",
+  "golden": false,
+  "itemType": "EQUIP",
+  "name": "源石溶剂",
+  "desc": "携带者每秒流失60点生命值，攻击力+40%",
+  "price": 1,
+  "giveBondId": null,
+  "canGiveBond": false
+ },
+ {
+  "chessId": "chess_item_1_05_e_b",
+  "golden": true,
+  "itemType": "EQUIP",
+  "name": "源石溶剂",
+  "desc": "携带者每秒流失60点生命值，攻击力+60%",
+  "price": 5,
+  "giveBondId": null,
+  "canGiveBond": false
+ },
+ {
+  "chessId": "chess_item_1_06_e_a",
+  "golden": false,
+  "itemType": "EQUIP",
+  "name": "虹彩活血饮料",
+  "desc": "携带者无法被治疗，每秒回复75点生命值",
+  "price": 1,
+  "giveBondId": null,
+  "canGiveBond": false
+ },
+ {
+  "chessId": "chess_item_1_06_e_b",
+  "golden": true,
+  "itemType": "EQUIP",
+  "name": "虹彩活血饮料",
+  "desc": "携带者无法被治疗，每秒回复150点生命值",
+  "price": 5,
+  "giveBondId": null,
+  "canGiveBond": false
+ },
+ {
+  "chessId": "chess_item_1_07_e_a",
+  "golden": false,
+  "itemType": "EQUIP",
+  "name": "雪祀之衣",
+  "desc": "生命上限+15%，使携带者更不容易受到攻击且阻挡数-1",
+  "price": 1,
+  "giveBondId": null,
+  "canGiveBond": false
+ },
+ {
+  "chessId": "chess_item_1_07_e_b",
+  "golden": true,
+  "itemType": "EQUIP",
+  "name": "雪祀之衣",
+  "desc": "生命上限+25%，使携带者更不容易受到攻击且阻挡数-1",
+  "price": 5,
+  "giveBondId": null,
+  "canGiveBond": false
+ },
+ {
+  "chessId": "chess_item_2_01_e_a",
+  "golden": false,
+  "itemType": "EQUIP",
+  "name": "不屈弹射器",
+  "desc": "再部署时间-30%，生命上限-30%",
+  "price": 1,
+  "giveBondId": "indomShip",
+  "canGiveBond": false
+ },
+ {
+  "chessId": "chess_item_2_01_e_b",
+  "golden": true,
+  "itemType": "EQUIP",
+  "name": "不屈弹射器",
+  "desc": "再部署时间-50%，生命上限-30%",
+  "price": 5,
+  "giveBondId": "indomShip",
+  "canGiveBond": false
+ },
+ {
+  "chessId": "chess_item_2_02_e_a",
+  "golden": false,
+  "itemType": "EQUIP",
+  "name": "紧急调度券",
+  "desc": "装备时销毁，随机获取当前调度中心内的1名干员（调度中心中对应干员消失）",
+  "price": 2,
+  "giveBondId": null,
+  "canGiveBond": false
+ },
+ {
+  "chessId": "chess_item_2_02_e_b",
+  "golden": true,
+  "itemType": "EQUIP",
+  "name": "紧急调度券",
+  "desc": "装备时销毁，随机获取当前调度中心内的2名干员（调度中心中对应干员消失）",
+  "price": 5,
+  "giveBondId": null,
+  "canGiveBond": false
+ },
+ {
+  "chessId": "chess_item_2_03_e_a",
+  "golden": false,
+  "itemType": "EQUIP",
+  "name": "战栗维式重锤",
+  "desc": "攻击力+20%；若携带者是地面干员则攻击时有10%概率使目标战栗2秒",
+  "price": 2,
+  "giveBondId": "victoriaShip",
+  "canGiveBond": false
+ },
+ {
+  "chessId": "chess_item_2_03_e_b",
+  "golden": true,
+  "itemType": "EQUIP",
+  "name": "战栗维式重锤",
+  "desc": "攻击力+35%；若携带者是地面干员则攻击时有10%概率使目标战栗2秒",
+  "price": 5,
+  "giveBondId": "victoriaShip",
+  "canGiveBond": false
+ },
+ {
+  "chessId": "chess_item_2_04_e_a",
+  "golden": false,
+  "itemType": "EQUIP",
+  "name": "萨尔贡浓茶",
+  "desc": "技力自然回复速度+0.15/秒",
+  "price": 2,
+  "giveBondId": "sargonShip",
+  "canGiveBond": false
+ },
+ {
+  "chessId": "chess_item_2_04_e_b",
+  "golden": true,
+  "itemType": "EQUIP",
+  "name": "萨尔贡浓茶",
+  "desc": "技力自然回复速度+0.25/秒",
+  "price": 5,
+  "giveBondId": "sargonShip",
+  "canGiveBond": false
+ },
+ {
+  "chessId": "chess_item_2_05_e_a",
+  "golden": false,
+  "itemType": "EQUIP",
+  "name": "精打细算玩偶",
+  "desc": "装备时销毁，之后每回合开始时额外获得1资金",
+  "price": 3,
+  "giveBondId": null,
+  "canGiveBond": false
+ },
+ {
+  "chessId": "chess_item_2_05_e_b",
+  "golden": true,
+  "itemType": "EQUIP",
+  "name": "精打细算玩偶",
+  "desc": "装备时销毁，之后每回合开始时额外获得2资金",
+  "price": 5,
+  "giveBondId": null,
+  "canGiveBond": false
+ },
+ {
+  "chessId": "chess_item_2_06_e_a",
+  "golden": false,
+  "itemType": "EQUIP",
+  "name": "简易通讯机",
+  "desc": "装备时销毁，随机获得1名拥有该干员第一盟约的干员",
+  "price": 2,
+  "giveBondId": null,
+  "canGiveBond": false
+ },
+ {
+  "chessId": "chess_item_2_06_e_b",
+  "golden": true,
+  "itemType": "EQUIP",
+  "name": "简易通讯机",
+  "desc": "装备时销毁，随机获得2名拥有该干员第一盟约的干员",
+  "price": 5,
+  "giveBondId": null,
+  "canGiveBond": false
+ },
+ {
+  "chessId": "chess_item_2_07_e_a",
+  "golden": false,
+  "itemType": "EQUIP",
+  "name": "见钱眼开玩偶",
+  "desc": "装备时销毁，下回合额外获得2资金",
+  "price": 1,
+  "giveBondId": null,
+  "canGiveBond": false
+ },
+ {
+  "chessId": "chess_item_2_07_e_b",
+  "golden": true,
+  "itemType": "EQUIP",
+  "name": "见钱眼开玩偶",
+  "desc": "装备时销毁，下回合额外获得4资金",
+  "price": 5,
+  "giveBondId": null,
+  "canGiveBond": false
+ },
+ {
+  "chessId": "chess_item_2_08_e_a",
+  "golden": false,
+  "itemType": "EQUIP",
+  "name": "卫戍推荐信",
+  "desc": "休整期结束时，使携带者所属的已激活盟约层数+1",
+  "price": 2,
+  "giveBondId": null,
+  "canGiveBond": false
+ },
+ {
+  "chessId": "chess_item_2_08_e_b",
+  "golden": true,
+  "itemType": "EQUIP",
+  "name": "卫戍推荐信",
+  "desc": "休整期结束时，使携带者所属的已激活盟约层数+2",
+  "price": 5,
+  "giveBondId": null,
+  "canGiveBond": false
+ },
+ {
+  "chessId": "chess_item_2_09_e_a",
+  "golden": false,
+  "itemType": "EQUIP",
+  "name": "聚合急救箱",
+  "desc": "攻击范围内每个友方干员首次生命值低于50%时，立刻治疗其35%最大生命值",
+  "price": 2,
+  "giveBondId": "docShip",
+  "canGiveBond": false
+ },
+ {
+  "chessId": "chess_item_2_09_e_b",
+  "golden": true,
+  "itemType": "EQUIP",
+  "name": "聚合急救箱",
+  "desc": "攻击范围内每个友方干员首次生命值低于50%时，立刻治疗其50%最大生命值",
+  "price": 5,
+  "giveBondId": "docShip",
+  "canGiveBond": false
+ },
+ {
+  "chessId": "chess_item_2_10_e_a",
+  "golden": false,
+  "itemType": "EQUIP",
+  "name": "灵巧涡轮手套",
+  "desc": "部署后每秒攻击速度+2（最多叠加20次），受到伤害时失去该效果",
+  "price": 2,
+  "giveBondId": "skillfulShip",
+  "canGiveBond": false
+ },
+ {
+  "chessId": "chess_item_2_10_e_b",
+  "golden": true,
+  "itemType": "EQUIP",
+  "name": "灵巧涡轮手套",
+  "desc": "部署后每秒攻击速度+3（最多叠加20次），受到伤害时失去该效果",
+  "price": 5,
+  "giveBondId": "skillfulShip",
+  "canGiveBond": false
+ },
+ {
+  "chessId": "chess_item_3_01_e_a",
+  "golden": false,
+  "itemType": "EQUIP",
+  "name": "叙拉古正装",
+  "desc": "攻击速度+15，携带者部署方向左右两侧的我方干员攻击速度+10",
+  "price": 2,
+  "giveBondId": "siracusaShip",
+  "canGiveBond": false
+ },
+ {
+  "chessId": "chess_item_3_01_e_b",
+  "golden": true,
+  "itemType": "EQUIP",
+  "name": "叙拉古正装",
+  "desc": "攻击速度+25，携带者部署方向左右两侧的我方干员攻击速度+15",
+  "price": 5,
+  "giveBondId": "siracusaShip",
+  "canGiveBond": false
+ },
+ {
+  "chessId": "chess_item_3_02_e_a",
+  "golden": false,
+  "itemType": "EQUIP",
+  "name": "精准狙击镜",
+  "desc": "攻击距离自身3格及以上的目标时，伤害提高30%",
+  "price": 2,
+  "giveBondId": "preciShip",
+  "canGiveBond": false
+ },
+ {
+  "chessId": "chess_item_3_02_e_b",
+  "golden": true,
+  "itemType": "EQUIP",
+  "name": "精准狙击镜",
+  "desc": "攻击距离自身3格及以上的目标时，伤害提高50%",
+  "price": 5,
+  "giveBondId": "preciShip",
+  "canGiveBond": false
+ },
+ {
+  "chessId": "chess_item_3_03_e_a",
+  "golden": false,
+  "itemType": "EQUIP",
+  "name": "炎国短刀",
+  "desc": "每开启一次技能，获得5%的攻击力加成（最多叠加10次）",
+  "price": 2,
+  "giveBondId": "yanShip",
+  "canGiveBond": false
+ },
+ {
+  "chessId": "chess_item_3_03_e_b",
+  "golden": true,
+  "itemType": "EQUIP",
+  "name": "炎国短刀",
+  "desc": "每开启一次技能，获得8%的攻击力加成（最多叠加10次）",
+  "price": 5,
+  "giveBondId": "yanShip",
+  "canGiveBond": false
+ },
+ {
+  "chessId": "chess_item_3_04_e_a",
+  "golden": false,
+  "itemType": "EQUIP",
+  "name": "迅捷作战粮",
+  "desc": "部署时，获得3点技力；每有一个同盟约的其他干员，额外获得3点技力",
+  "price": 2,
+  "giveBondId": "swiftShip",
+  "canGiveBond": false
+ },
+ {
+  "chessId": "chess_item_3_04_e_b",
+  "golden": true,
+  "itemType": "EQUIP",
+  "name": "迅捷作战粮",
+  "desc": "部署时，获得6点技力；每有一个同盟约的其他干员，额外获得6点技力",
+  "price": 5,
+  "giveBondId": "swiftShip",
+  "canGiveBond": false
+ },
+ {
+  "chessId": "chess_item_3_05_e_a",
+  "golden": false,
+  "itemType": "EQUIP",
+  "name": "歌利亚头盔",
+  "desc": "生命上限+25%；部署时若身前一格没有其他干员，生命上限额外+15%",
+  "price": 2,
+  "giveBondId": null,
+  "canGiveBond": false
+ },
+ {
+  "chessId": "chess_item_3_05_e_b",
+  "golden": true,
+  "itemType": "EQUIP",
+  "name": "歌利亚头盔",
+  "desc": "生命上限+45%；部署时若身前一格没有其他干员，生命上限额外+25%",
+  "price": 5,
+  "giveBondId": null,
+  "canGiveBond": false
+ },
+ {
+  "chessId": "chess_item_3_06_e_a",
+  "golden": false,
+  "itemType": "EQUIP",
+  "name": "阿戈尔重刃",
+  "desc": "攻击力+40%，攻击速度-10",
+  "price": 2,
+  "giveBondId": "egirShip",
+  "canGiveBond": false
+ },
+ {
+  "chessId": "chess_item_3_06_e_b",
+  "golden": true,
+  "itemType": "EQUIP",
+  "name": "阿戈尔重刃",
+  "desc": "攻击力+60%，攻击速度-10",
+  "price": 5,
+  "giveBondId": "egirShip",
+  "canGiveBond": false
+ },
+ {
+  "chessId": "chess_item_3_07_e_a",
+  "golden": false,
+  "itemType": "EQUIP",
+  "name": "奥术法阵",
+  "desc": "法术抗性+20，攻击使目标失去特殊能力5秒",
+  "price": 1,
+  "giveBondId": "arcaneShip",
+  "canGiveBond": false
+ },
+ {
+  "chessId": "chess_item_3_07_e_b",
+  "golden": true,
+  "itemType": "EQUIP",
+  "name": "奥术法阵",
+  "desc": "法术抗性+30，攻击使目标失去特殊能力5秒",
+  "price": 5,
+  "giveBondId": "arcaneShip",
+  "canGiveBond": false
+ },
+ {
+  "chessId": "chess_item_3_08_e_a",
+  "golden": false,
+  "itemType": "EQUIP",
+  "name": "坚固维式重锤",
+  "desc": "攻击力+25%；首次受到致命伤害时生命值不低于1，持续8秒",
+  "price": 2,
+  "giveBondId": "victoriaShip",
+  "canGiveBond": false
+ },
+ {
+  "chessId": "chess_item_3_08_e_b",
+  "golden": true,
+  "itemType": "EQUIP",
+  "name": "坚固维式重锤",
+  "desc": "攻击力+45%；首次受到致命伤害时生命值不低于1，持续8秒",
+  "price": 5,
+  "giveBondId": "victoriaShip",
+  "canGiveBond": false
+ },
+ {
+  "chessId": "chess_item_3_09_e_a",
+  "golden": false,
+  "itemType": "EQUIP",
+  "name": "加速维式重锤",
+  "desc": "攻击力+25%；攻击速度+30",
+  "price": 2,
+  "giveBondId": "victoriaShip",
+  "canGiveBond": false
+ },
+ {
+  "chessId": "chess_item_3_09_e_b",
+  "golden": true,
+  "itemType": "EQUIP",
+  "name": "加速维式重锤",
+  "desc": "攻击力+45%；攻击速度+30",
+  "price": 5,
+  "giveBondId": "victoriaShip",
+  "canGiveBond": false
+ },
+ {
+  "chessId": "chess_item_3_10_e_a",
+  "golden": false,
+  "itemType": "EQUIP",
+  "name": "突袭手雷",
+  "desc": "每次部署后的10秒内，攻击时使目标晕眩2秒",
+  "price": 1,
+  "giveBondId": "raidShip",
+  "canGiveBond": false
+ },
+ {
+  "chessId": "chess_item_3_10_e_b",
+  "golden": true,
+  "itemType": "EQUIP",
+  "name": "突袭手雷",
+  "desc": "每次部署后的15秒内，攻击时使目标晕眩2秒",
+  "price": 5,
+  "giveBondId": "raidShip",
+  "canGiveBond": false
+ },
+ {
+  "chessId": "chess_item_3_11_e_a",
+  "golden": false,
+  "itemType": "EQUIP",
+  "name": "驮兽储蓄罐",
+  "desc": "装备时销毁，并随机获得1~6资金",
+  "price": 3,
+  "giveBondId": null,
+  "canGiveBond": false
+ },
+ {
+  "chessId": "chess_item_3_11_e_b",
+  "golden": true,
+  "itemType": "EQUIP",
+  "name": "驮兽储蓄罐",
+  "desc": "装备时销毁，并随机获得2~12资金",
+  "price": 5,
+  "giveBondId": null,
+  "canGiveBond": false
+ },
+ {
+  "chessId": "chess_item_3_12_e_a",
+  "golden": false,
+  "itemType": "EQUIP",
+  "name": "乌萨斯呼吸器",
+  "desc": "阻挡数+1，攻击力+20%，每次再部署时上述加成效果叠加（最多叠加2次）",
+  "price": 2,
+  "giveBondId": "ursusShip",
+  "canGiveBond": false
+ },
+ {
+  "chessId": "chess_item_3_12_e_b",
+  "golden": true,
+  "itemType": "EQUIP",
+  "name": "乌萨斯呼吸器",
+  "desc": "阻挡数+1，攻击力+30%，每次再部署时上述加成效果叠加（最多叠加3次）",
+  "price": 5,
+  "giveBondId": "ursusShip",
+  "canGiveBond": false
+ },
+ {
+  "chessId": "chess_item_3_13_e_a",
+  "golden": false,
+  "itemType": "EQUIP",
+  "name": "多功能补剂",
+  "desc": "携带者每次造成伤害时，自身所属已激活盟约临时层数+1（每场战斗最多叠加12层）",
+  "price": 2,
+  "giveBondId": null,
+  "canGiveBond": false
+ },
+ {
+  "chessId": "chess_item_3_13_e_b",
+  "golden": true,
+  "itemType": "EQUIP",
+  "name": "多功能补剂",
+  "desc": "携带者每次造成伤害时，自身所属已激活盟约临时层数+2（每场战斗最多叠加24层）",
+  "price": 5,
+  "giveBondId": null,
+  "canGiveBond": false
+ },
+ {
+  "chessId": "chess_item_3_14_e_a",
+  "golden": false,
+  "itemType": "EQUIP",
+  "name": "伊比利亚骨刺刀",
+  "desc": "携带者每次造成伤害时，额外造成1次相当于自身攻击力25%的法术伤害",
+  "price": 2,
+  "giveBondId": "iberiaShip",
+  "canGiveBond": false
+ },
+ {
+  "chessId": "chess_item_3_14_e_b",
+  "golden": true,
+  "itemType": "EQUIP",
+  "name": "伊比利亚骨刺刀",
+  "desc": "携带者每次造成伤害时，额外造成2次相当于自身攻击力25%的法术伤害",
+  "price": 5,
+  "giveBondId": "iberiaShip",
+  "canGiveBond": false
+ },
+ {
+  "chessId": "chess_item_3_15_e_a",
+  "golden": false,
+  "itemType": "EQUIP",
+  "name": "定期存折",
+  "desc": "装备时销毁，获得{showtag_value_1}资金（持有时每回合+1）",
+  "price": 2,
+  "giveBondId": null,
+  "canGiveBond": false
+ },
+ {
+  "chessId": "chess_item_3_16_e_a",
+  "golden": false,
+  "itemType": "EQUIP",
+  "name": "不退者之盾",
+  "desc": "免疫晕眩、冻结等特殊状态，若与“不退者力场”同时持有则组合为“不退者卫护系统”",
+  "price": 2,
+  "giveBondId": null,
+  "canGiveBond": false
+ },
+ {
+  "chessId": "chess_item_4_01_e_a",
+  "golden": false,
+  "itemType": "EQUIP",
+  "name": "寻呼模块",
+  "desc": "装备时销毁，在调度中心出现至多3名拥有该干员第一盟约的干员，免费获取其中1名（不高于当前调度中心等级）",
+  "price": 4,
+  "giveBondId": null,
+  "canGiveBond": false
+ },
+ {
+  "chessId": "chess_item_4_02_e_a",
+  "golden": false,
+  "itemType": "EQUIP",
+  "name": "蜂鸣器",
+  "desc": "更容易受到攻击，生命上限+40%",
+  "price": 1,
+  "giveBondId": null,
+  "canGiveBond": false
+ },
+ {
+  "chessId": "chess_item_4_02_e_b",
+  "golden": true,
+  "itemType": "EQUIP",
+  "name": "蜂鸣器",
+  "desc": "更容易受到攻击，生命上限+60%",
+  "price": 5,
+  "giveBondId": null,
+  "canGiveBond": false
+ },
+ {
+  "chessId": "chess_item_4_03_e_a",
+  "golden": false,
+  "itemType": "EQUIP",
+  "name": "伪装服",
+  "desc": "首次受到伤害后获得隐匿，持续15秒",
+  "price": 1,
+  "giveBondId": null,
+  "canGiveBond": false
+ },
+ {
+  "chessId": "chess_item_4_03_e_b",
+  "golden": true,
+  "itemType": "EQUIP",
+  "name": "伪装服",
+  "desc": "首次受到伤害后获得隐匿，持续25秒",
+  "price": 5,
+  "giveBondId": null,
+  "canGiveBond": false
+ },
+ {
+  "chessId": "chess_item_4_04_e_a",
+  "golden": false,
+  "itemType": "EQUIP",
+  "name": "卡西米尔竞技旗",
+  "desc": "部署后15秒内造成的伤害提升至135%，随后逐渐衰减",
+  "price": 2,
+  "giveBondId": "kazimierzShip",
+  "canGiveBond": false
+ },
+ {
+  "chessId": "chess_item_4_04_e_b",
+  "golden": true,
+  "itemType": "EQUIP",
+  "name": "卡西米尔竞技旗",
+  "desc": "部署后15秒内造成的伤害提升至160%，随后逐渐衰减",
+  "price": 5,
+  "giveBondId": "kazimierzShip",
+  "canGiveBond": false
+ },
+ {
+  "chessId": "chess_item_4_05_e_a",
+  "golden": false,
+  "itemType": "EQUIP",
+  "name": "灼燃维式重锤",
+  "desc": "攻击力+30%；造成法术伤害时附带相当于10%伤害的灼燃损伤",
+  "price": 2,
+  "giveBondId": "victoriaShip",
+  "canGiveBond": false
+ },
+ {
+  "chessId": "chess_item_4_05_e_b",
+  "golden": true,
+  "itemType": "EQUIP",
+  "name": "灼燃维式重锤",
+  "desc": "攻击力+50%；造成法术伤害时附带相当于10%伤害的灼燃损伤",
+  "price": 5,
+  "giveBondId": "victoriaShip",
+  "canGiveBond": false
+ },
+ {
+  "chessId": "chess_item_4_07_e_a",
+  "golden": false,
+  "itemType": "EQUIP",
+  "name": "护盾无人机",
+  "desc": "治疗时有10%概率使目标获得1层护盾（最多1层）",
+  "price": 2,
+  "giveBondId": null,
+  "canGiveBond": false
+ },
+ {
+  "chessId": "chess_item_4_07_e_b",
+  "golden": true,
+  "itemType": "EQUIP",
+  "name": "护盾无人机",
+  "desc": "治疗时有15%概率使目标获得1层护盾（最多1层）",
+  "price": 5,
+  "giveBondId": null,
+  "canGiveBond": false
+ },
+ {
+  "chessId": "chess_item_4_08_e_a",
+  "golden": false,
+  "itemType": "EQUIP",
+  "name": "M3茧甲",
+  "desc": "战斗阶段被击倒时立刻复活（一场战斗仅1次）",
+  "price": 2,
+  "giveBondId": null,
+  "canGiveBond": false
+ },
+ {
+  "chessId": "chess_item_4_08_e_b",
+  "golden": true,
+  "itemType": "EQUIP",
+  "name": "M3茧甲",
+  "desc": "战斗阶段被击倒时立刻复活（一场战斗仅2次）",
+  "price": 5,
+  "giveBondId": null,
+  "canGiveBond": false
+ },
+ {
+  "chessId": "chess_item_4_09_e_a",
+  "golden": false,
+  "itemType": "EQUIP",
+  "name": "莱塔尼亚小鼓",
+  "desc": "携带者攻击范围内每次有单位被击倒时回复2技力",
+  "price": 2,
+  "giveBondId": "lethaniaShip",
+  "canGiveBond": false
+ },
+ {
+  "chessId": "chess_item_4_09_e_b",
+  "golden": true,
+  "itemType": "EQUIP",
+  "name": "莱塔尼亚小鼓",
+  "desc": "携带者攻击范围内每次有单位被击倒时回复4技力",
+  "price": 5,
+  "giveBondId": "lethaniaShip",
+  "canGiveBond": false
+ },
+ {
+  "chessId": "chess_item_4_10_e_a",
+  "golden": false,
+  "itemType": "EQUIP",
+  "name": "谢拉格不融冰",
+  "desc": "造成伤害时有12%概率对目标施加1.5秒的寒冷",
+  "price": 2,
+  "giveBondId": "kjeragShip",
+  "canGiveBond": false
+ },
+ {
+  "chessId": "chess_item_4_10_e_b",
+  "golden": true,
+  "itemType": "EQUIP",
+  "name": "谢拉格不融冰",
+  "desc": "造成伤害时有20%概率对目标施加1.5秒的寒冷",
+  "price": 5,
+  "giveBondId": "kjeragShip",
+  "canGiveBond": false
+ },
+ {
+  "chessId": "chess_item_4_11_e_a",
+  "golden": false,
+  "itemType": "EQUIP",
+  "name": "可靠怀表",
+  "desc": "携带者技能开启所需技力-20%，但技能期间攻击速度-25%",
+  "price": 2,
+  "giveBondId": null,
+  "canGiveBond": false
+ },
+ {
+  "chessId": "chess_item_4_11_e_b",
+  "golden": true,
+  "itemType": "EQUIP",
+  "name": "可靠怀表",
+  "desc": "携带者技能开启所需技力-40%，但技能期间攻击速度-25%",
+  "price": 5,
+  "giveBondId": null,
+  "canGiveBond": false
+ },
+ {
+  "chessId": "chess_item_4_12_e_a",
+  "golden": false,
+  "itemType": "EQUIP",
+  "name": "驱逐者警棍",
+  "desc": "携带者对受到晕眩、冻结、恐惧等异常效果影响的敌人造成的伤害提升30%，若与“驱逐者瓦斯”同时持有则组合为“驱逐者防暴装备”",
+  "price": 2,
+  "giveBondId": null,
+  "canGiveBond": false
+ },
+ {
+  "chessId": "chess_item_4_13_e_a",
+  "golden": false,
+  "itemType": "EQUIP",
+  "name": "动能单手弩",
+  "desc": "造成伤害时有30%概率使该次攻击力提升至130%；若与“动能加速器”同时持有则组合为“动能轰击弩”",
+  "price": 2,
+  "giveBondId": null,
+  "canGiveBond": false
+ },
+ {
+  "chessId": "chess_item_4_14_e_a",
+  "golden": false,
+  "itemType": "EQUIP",
+  "name": "汲取者之喙",
+  "desc": "每次造成伤害时回复相当于造成伤害5%的生命值；若与“汲取者之心”同时持有则组合为“汲取者之镰”",
+  "price": 2,
+  "giveBondId": null,
+  "canGiveBond": false
+ },
+ {
+  "chessId": "chess_item_4_15_e_a",
+  "golden": false,
+  "itemType": "EQUIP",
+  "name": "一次性促销券",
+  "desc": "装备时销毁，在调度中心出现3件装备，免费获取其中1件（不高于当前调度中心等级）",
+  "price": 2,
+  "giveBondId": null,
+  "canGiveBond": false
+ },
+ {
+  "chessId": "chess_item_4_15_e_b",
+  "golden": true,
+  "itemType": "EQUIP",
+  "name": "一次性促销券",
+  "desc": "装备时销毁，在调度中心出现6件装备，免费获取其中2件（不高于当前调度中心等级）",
+  "price": 5,
+  "giveBondId": null,
+  "canGiveBond": false
+ },
+ {
+  "chessId": "chess_item_5_01_e_a",
+  "golden": false,
+  "itemType": "EQUIP",
+  "name": "双模机械臂",
+  "desc": "攻击力+30%，自身造成物理和法术伤害时，伤害类型转化为弱点伤害",
+  "price": 3,
+  "giveBondId": null,
+  "canGiveBond": false
+ },
+ {
+  "chessId": "chess_item_5_01_e_b",
+  "golden": true,
+  "itemType": "EQUIP",
+  "name": "双模机械臂",
+  "desc": "攻击力+50%，自身造成物理和法术伤害时，伤害类型转化为弱点伤害",
+  "price": 5,
+  "giveBondId": null,
+  "canGiveBond": false
+ },
+ {
+  "chessId": "chess_item_5_02_e_a",
+  "golden": false,
+  "itemType": "EQUIP",
+  "name": "信标",
+  "desc": "装备时目标干员和本装备销毁，在调度中心出现2名与目标干员同等阶的干员，免费获取其中1名\n若在同盟模拟中且存在其他队友，下个休整期向相应盟约人数最多的队友发送1个原干员\n相应盟约人数相同则随机发送\n无法装备给自编干员",
+  "price": 3,
+  "giveBondId": null,
+  "canGiveBond": false
+ },
+ {
+  "chessId": "chess_item_5_03_e_a",
+  "golden": false,
+  "itemType": "EQUIP",
+  "name": "拟态物质",
+  "desc": "装备时销毁，若已拥有至少2名该初始干员，则再获得1名该初始干员；否则随机获得1名同阶干员",
+  "price": 4,
+  "giveBondId": null,
+  "canGiveBond": false
+ },
+ {
+  "chessId": "chess_item_5_04_e_a",
+  "golden": false,
+  "itemType": "EQUIP",
+  "name": "博士投影",
+  "desc": "装备后下个回合开始时销毁，并使该干员晋升为精锐干员",
+  "price": 5,
+  "giveBondId": null,
+  "canGiveBond": false
+ },
+ {
+  "chessId": "chess_item_5_04_e_b",
+  "golden": true,
+  "itemType": "EQUIP",
+  "name": "博士投影",
+  "desc": "装备时销毁，立即使该干员晋升为精锐干员",
+  "price": 5,
+  "giveBondId": null,
+  "canGiveBond": false
+ },
+ {
+  "chessId": "chess_item_5_05_e_a",
+  "golden": false,
+  "itemType": "EQUIP",
+  "name": "天马之盔",
+  "desc": "生命上限+60%，若与“天马之枪”同时持有则组合为“天马之耀”",
+  "price": 3,
+  "giveBondId": null,
+  "canGiveBond": false
+ },
+ {
+  "chessId": "chess_item_5_06_e_a",
+  "golden": false,
+  "itemType": "EQUIP",
+  "name": "投机骰子",
+  "desc": "装备时销毁，从3个指令中选择1个替换当前指令",
+  "price": 3,
+  "giveBondId": null,
+  "canGiveBond": false
+ },
+ {
+  "chessId": "chess_item_5_07_e_a",
+  "golden": false,
+  "itemType": "EQUIP",
+  "name": "电流维式重锤",
+  "desc": "攻击力+30%；造成伤害时有5%概率使目标获得1层麻痹，且对麻痹的敌人造成伤害时无视其30%防御和法术抗性",
+  "price": 2,
+  "giveBondId": "victoriaShip",
+  "canGiveBond": false
+ },
+ {
+  "chessId": "chess_item_5_07_e_b",
+  "golden": true,
+  "itemType": "EQUIP",
+  "name": "电流维式重锤",
+  "desc": "攻击力+50%；造成伤害时有5%概率使目标获得1层麻痹，且对麻痹的敌人造成伤害时无视其30%防御和法术抗性",
+  "price": 5,
+  "giveBondId": "victoriaShip",
+  "canGiveBond": false
+ },
+ {
+  "chessId": "chess_item_5_08_e_a",
+  "golden": false,
+  "itemType": "EQUIP",
+  "name": "佣兵名牌",
+  "desc": "每有一种激活的盟约，使携带者攻击力+6%、生命上限+6%（最多叠加8次）",
+  "price": 2,
+  "giveBondId": null,
+  "canGiveBond": false
+ },
+ {
+  "chessId": "chess_item_5_08_e_b",
+  "golden": true,
+  "itemType": "EQUIP",
+  "name": "佣兵名牌",
+  "desc": "每有一种激活的盟约，使携带者攻击力+12%、生命上限+12%（最多叠加8次）",
+  "price": 5,
+  "giveBondId": null,
+  "canGiveBond": false
+ },
+ {
+  "chessId": "chess_item_5_09_e_a",
+  "golden": false,
+  "itemType": "EQUIP",
+  "name": "人事部记录",
+  "desc": "装备时销毁，立刻特殊刷新1次调度中心，优先出现拥有该干员第一盟约的干员（不高于当前调度中心等级）",
+  "price": 3,
+  "giveBondId": null,
+  "canGiveBond": false
+ },
+ {
+  "chessId": "chess_item_5_10_e_a",
+  "golden": false,
+  "itemType": "EQUIP",
+  "name": "瓶装烈性反应",
+  "desc": "携带者对处于元素爆发状态的敌人造成的伤害额外增加30%",
+  "price": 2,
+  "giveBondId": null,
+  "canGiveBond": false
+ },
+ {
+  "chessId": "chess_item_5_10_e_b",
+  "golden": true,
+  "itemType": "EQUIP",
+  "name": "瓶装烈性反应",
+  "desc": "携带者对处于元素爆发状态的敌人造成的伤害额外增加50%",
+  "price": 5,
+  "giveBondId": null,
+  "canGiveBond": false
+ },
+ {
+  "chessId": "chess_item_5_11_e_a",
+  "golden": false,
+  "itemType": "EQUIP",
+  "name": "不退者力场",
+  "desc": "阻挡数+2，每阻挡一个单位自身生命上限和防御力提升20%，若与“不退者之盾”同时持有则组合为“不退者卫护系统”",
+  "price": 3,
+  "giveBondId": null,
+  "canGiveBond": false
+ },
+ {
+  "chessId": "chess_item_5_12_e_a",
+  "golden": false,
+  "itemType": "EQUIP",
+  "name": "驱逐者瓦斯",
+  "desc": "携带者攻击范围内的敌人受到的晕眩、冻结、恐惧等异常状态影响时间提高100%，若与“驱逐者警棍”同时持有则组合为“驱逐者防暴装备”",
+  "price": 3,
+  "giveBondId": null,
+  "canGiveBond": false
+ },
+ {
+  "chessId": "chess_item_6_01_e_a",
+  "golden": false,
+  "itemType": "EQUIP",
+  "name": "天马之枪",
+  "desc": "攻击力+50%，若与“天马之盔”同时持有则组合为“天马之耀”",
+  "price": 3,
+  "giveBondId": null,
+  "canGiveBond": false
+ },
+ {
+  "chessId": "chess_item_6_02_e_a",
+  "golden": false,
+  "itemType": "EQUIP",
+  "name": "人事部文档",
+  "desc": "装备时销毁，最大可部署人数变为9",
+  "price": 4,
+  "giveBondId": null,
+  "canGiveBond": false
+ },
+ {
+  "chessId": "chess_item_6_03_e_a",
+  "golden": false,
+  "itemType": "EQUIP",
+  "name": "变形同构体",
+  "desc": "携带者获得额外盟约（由另一件携带装备而定）\n具体对应关系可在模拟中查看本装备天赋栏",
+  "price": 3,
+  "giveBondId": null,
+  "canGiveBond": true
+ },
+ {
+  "chessId": "chess_item_6_05_e_a",
+  "golden": true,
+  "itemType": "EQUIP",
+  "name": "驱逐者防暴装备",
+  "desc": "携带者攻击范围内的敌人受到的晕眩、冻结、恐惧等异常状态影响时间提高100%，且对受这类异常状态影响的敌人造成伤害提升30%；携带者处于技能期间时，每次施加这类异常状态时有50%概率将其传递给附近另一名敌人",
+  "price": 6,
+  "giveBondId": null,
+  "canGiveBond": false
+ },
+ {
+  "chessId": "chess_item_6_06_e_a",
+  "golden": true,
+  "itemType": "EQUIP",
+  "name": "不退者卫护系统",
+  "desc": "免疫晕眩、冻结等特殊状态，阻挡数+2，每阻挡一个单位自身生命上限和防御力提升20%；携带者开启技能时对自身周围范围内敌人产生一次诱导，持续3秒",
+  "price": 6,
+  "giveBondId": null,
+  "canGiveBond": false
+ },
+ {
+  "chessId": "chess_item_6_07_e_a",
+  "golden": false,
+  "itemType": "EQUIP",
+  "name": "动能加速器",
+  "desc": "每次攻击或治疗时攻击速度+2（最高60层）；若与“动能单手弩”同时持有则组合为“动能轰击弩”",
+  "price": 3,
+  "giveBondId": null,
+  "canGiveBond": false
+ },
+ {
+  "chessId": "chess_item_6_08_e_a",
+  "golden": true,
+  "itemType": "EQUIP",
+  "name": "动能轰击弩",
+  "desc": "造成伤害时有30%概率使攻击力提升至130%；每次攻击后攻击速度+2（最高60层），攻击速度叠加达到上限后每次攻击时有30%概率对攻击范围内随机敌人造成自身攻击力100%的范围物理伤害",
+  "price": 6,
+  "giveBondId": null,
+  "canGiveBond": false
+ },
+ {
+  "chessId": "chess_item_6_09_e_a",
+  "golden": false,
+  "itemType": "EQUIP",
+  "name": "汲取者之心",
+  "desc": "攻击力+30%，攻击速度+30，每秒流失1%最大生命值（不会降至0）；若与“汲取者之喙”同时持有则组合为“汲取者之镰”",
+  "price": 3,
+  "giveBondId": null,
+  "canGiveBond": false
+ },
+ {
+  "chessId": "chess_item_6_10_e_a",
+  "golden": true,
+  "itemType": "EQUIP",
+  "name": "汲取者之镰",
+  "desc": "攻击力+30%，攻击速度+30，每秒流失1%最大生命值（不会降至0），每次造成伤害时回复相当于造成伤害5%的生命值；携带者处于技能期间时上述效果翻倍且自身无法被治疗",
+  "price": 6,
+  "giveBondId": null,
+  "canGiveBond": false
+ },
+ {
+  "chessId": "chess_item_6_11_e_a",
+  "golden": false,
+  "itemType": "EQUIP",
+  "name": "终极维式重锤",
+  "desc": "携带者获得当前场上所有维式重锤特殊效果，且每有一种带有特殊效果的维式重锤自身攻击力额外+20%",
+  "price": 3,
+  "giveBondId": "victoriaShip",
+  "canGiveBond": false
+ },
+ {
+  "chessId": "chess_item_6_12_e_a",
+  "golden": true,
+  "itemType": "EQUIP",
+  "name": "天马之耀",
+  "desc": "生命上限+60%，每秒恢复8%最大生命值；攻击力+50%，造成伤害时额外造成攻击力30%真实伤害",
+  "price": 6,
+  "giveBondId": null,
+  "canGiveBond": false
+ }
+]

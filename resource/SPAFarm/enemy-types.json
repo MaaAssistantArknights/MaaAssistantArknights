@@ -1,0 +1,1786 @@
+[
+ {
+  "code": "CRITIC",
+  "name": "致命",
+  "showEnemy": {
+   "enemyId": "enemy_9040_accrit",
+   "name": "假想敌：丛生",
+   "level": "ELITE",
+   "description": "参照被源石寄生的活体植物而设计的假想敌。一旦天灾云对环境造成这种程度的改变，想要复原就可谓难如登天，因此我们必须在情况失控之前做好最坏打算。",
+   "abilities": [
+    "对每个目标首次造成的伤害提升，并使其一段时间内无法被治疗"
+   ]
+  },
+  "variants": [
+   {
+    "enemyId": "enemy_1406_chghmr",
+    "name": "战线推进者",
+    "level": "ELITE",
+    "description": "负责推进己方战线的重武装人员。一般由暴脾气的老兵担任，他们会把在上司那里受的气撒在自己面前的任何东西上。",
+    "abilities": [
+     "每次被阻挡后，首次攻击的攻击力大幅提升"
+    ],
+    "weight": 10,
+    "firstHalf": false,
+    "attachedNormal": [
+     "enemy_1403_gunsho"
+    ],
+    "attachedElite": [
+     "enemy_1404_msnip"
+    ]
+   },
+   {
+    "enemyId": "enemy_1375_ltnclr",
+    "name": "残党乐团管乐家",
+    "level": "NORMAL",
+    "description": "希望在君王乐团中担任领奏的管乐家。他力图攀上领奏之位，如今乐团却不知何在，他因此愤恨不已。",
+    "abilities": [
+     "未被阻挡时，攻击力不断增长，下一次攻击后攻击力复原",
+     "在沉郁变奏下，攻击力大幅度提升，且攻击会晕眩目标"
+    ],
+    "weight": 10,
+    "firstHalf": true,
+    "attachedNormal": [
+     "enemy_1373_ltnhor"
+    ],
+    "attachedElite": [
+     "enemy_1376_ltndru"
+    ]
+   },
+   {
+    "enemyId": "enemy_1375_ltnclr_2",
+    "name": "巫王乐团管乐家",
+    "level": "NORMAL",
+    "description": "曾经在君王乐团中担任领奏的管乐家。他长期身居领奏之位，如今乐团却早已不在，他因此怒不可遏。",
+    "abilities": [
+     "未被阻挡时，攻击力不断增长，下一次攻击后攻击力复原",
+     "在沉郁变奏下，攻击力大幅度提升，且攻击会晕眩目标"
+    ],
+    "weight": 10,
+    "firstHalf": false,
+    "attachedNormal": [
+     "enemy_1373_ltnhor_2"
+    ],
+    "attachedElite": [
+     "enemy_1376_ltndru_2"
+    ]
+   },
+   {
+    "enemyId": "enemy_1388_wingnt",
+    "name": "“投石机”",
+    "level": "ELITE",
+    "description": "访问团中的专业投弹手，能够双手投掷百公斤重的榴弹。访问团里其他人都知道，和这帮人打雪仗，自己只会连人带雪球一起被砸飞出去。",
+    "abilities": [
+     "可以抛出巨大雪球造成十字溅射伤害",
+     "抛出雪球后只能进行近战攻击"
+    ],
+    "weight": 10,
+    "firstHalf": true,
+    "attachedNormal": [
+     "enemy_1381_winman"
+    ],
+    "attachedElite": [
+     "enemy_1385_winbom"
+    ]
+   },
+   {
+    "enemyId": "enemy_1388_wingnt_2",
+    "name": "“榴弹炮”",
+    "level": "ELITE",
+    "description": "访问团中的投弹手精英，听说他们掷出的榴弹威力和城防炮相近。访问团没有人会不自量力挑战他们，于是这帮猛汉扛着“精雕细琢”的大雪球游走在雪地间，等待着不知内情的“挑战者”自投罗网。",
+    "abilities": [
+     "可以抛出巨大雪球造成十字溅射伤害",
+     "抛出雪球后只能进行近战攻击"
+    ],
+    "weight": 10,
+    "firstHalf": false,
+    "attachedNormal": [
+     "enemy_1381_winman_2"
+    ],
+    "attachedElite": [
+     "enemy_1385_winbom_2"
+    ]
+   },
+   {
+    "enemyId": "enemy_1191_krgrg",
+    "name": "冰原卫法者",
+    "level": "ELITE",
+    "description": "严酷环境下诞生的特殊战士。在使用法术战斗的同时，会将自身作为武器的一部分，倒下的时候才是他们最危险的时候。",
+    "abilities": [
+     "被击倒时对周围所有单位造成法术伤害且施加寒冷",
+     "失衡移动时损失生命。"
+    ],
+    "weight": 10,
+    "firstHalf": true,
+    "attachedNormal": [
+     "enemy_1064_snsbr"
+    ],
+    "attachedElite": [
+     "enemy_1067_snslime_2"
+    ]
+   },
+   {
+    "enemyId": "enemy_1191_krgrg_2",
+    "name": "冰原御法者",
+    "level": "ELITE",
+    "description": "严酷环境下诞生的特殊战士。随着对法术的理解不断深入，愈发理解如何发挥自身的价值，倒下时将造成巨大的威胁。",
+    "abilities": [
+     "被击倒时对周围所有单位造成法术伤害且施加寒冷",
+     "失衡移动时损失生命。"
+    ],
+    "weight": 10,
+    "firstHalf": false,
+    "attachedNormal": [
+     "enemy_1064_snsbr"
+    ],
+    "attachedElite": [
+     "enemy_1067_snslime_2"
+    ]
+   },
+   {
+    "enemyId": "enemy_1219_mtrbty",
+    "name": "寻路者信使",
+    "level": "ELITE",
+    "description": "在寻路者队伍中主动肩负起信使职责的战士。身手矫健，行动敏捷，基于工作中累积的经验，擅长通过封锁敌人行动的方式进行作战。",
+    "abilities": [
+     "携带弹药时使用远程攻击并使目标无法攻击或治疗一段时间，弹药上限：1",
+     "对“冰淇淋机”造成额外法术伤害"
+    ],
+    "weight": 10,
+    "firstHalf": false,
+    "attachedNormal": [
+     "enemy_1213_mtrsnp"
+    ],
+    "attachedElite": [
+     "enemy_1216_cansld"
+    ]
+   },
+   {
+    "enemyId": "enemy_1409_bdguad_2",
+    "name": "马特奥的近卫",
+    "level": "ELITE",
+    "description": "马特奥的贴身近卫。一部分联合政府的军头培植了这样的人，这让他们觉得自己是同僚中的佼佼者。",
+    "abilities": [
+     "与我方处于同一直线上时进行直击：向目标方向发射2枚爆破弹",
+     "未被阻挡时受到的物理和法术伤害降低"
+    ],
+    "weight": 10,
+    "firstHalf": false,
+    "attachedNormal": [
+     "enemy_1405_boomer_2"
+    ],
+    "attachedElite": [
+     "enemy_1403_gunsho_2"
+    ]
+   },
+   {
+    "enemyId": "enemy_1431_lrmzrd",
+    "name": "注能魂灵法骸",
+    "level": "ELITE",
+    "description": "因死魂灵的意志而诞生的魂灵法骸，记忆中无数英雄的战斗技巧皆加诸其身。英雄尽死，只余早已模糊的背影。",
+    "abilities": [
+     "可以拾取并最多同时保有三个魂灵涡流",
+     "保有魂灵涡流时，会消耗魂灵涡流召唤一个绕自身旋转的魂灵残片，对碰撞到的我方单位造成高额法术伤害。"
+    ],
+    "weight": 10,
+    "firstHalf": true,
+    "attachedNormal": [
+     "enemy_1428_lrsoul"
+    ],
+    "attachedElite": [
+     "enemy_1429_lrwzrd"
+    ]
+   },
+   {
+    "enemyId": "enemy_1431_lrmzrd_2",
+    "name": "粹影魂灵法骸",
+    "level": "ELITE",
+    "description": "因死魂灵的意志而诞生的高级魂灵法骸，记忆中无数英雄的战斗技巧皆加诸其身。英雄尽死，那些背影却因反复回忆而愈加清晰。",
+    "abilities": [
+     "可以拾取并最多同时保有三个魂灵涡流",
+     "保有魂灵涡流时，会消耗魂灵涡流召唤一个绕自身旋转的魂灵残片，对碰撞到的我方单位造成高额法术伤害。"
+    ],
+    "weight": 10,
+    "firstHalf": false,
+    "attachedNormal": [
+     "enemy_1428_lrsoul"
+    ],
+    "attachedElite": [
+     "enemy_1429_lrwzrd_2"
+    ]
+   },
+   {
+    "enemyId": "enemy_9040_accrit",
+    "name": "假想敌：丛生",
+    "level": "ELITE",
+    "description": "参照被源石寄生的活体植物而设计的假想敌。一旦天灾云对环境造成这种程度的改变，想要复原就可谓难如登天，因此我们必须在情况失控之前做好最坏打算。",
+    "abilities": [
+     "对每个目标首次造成的伤害提升，并使其一段时间内无法被治疗"
+    ],
+    "weight": 10,
+    "firstHalf": false,
+    "attachedNormal": [
+     "enemy_1309_mhboar_2"
+    ],
+    "attachedElite": [
+     "enemy_10163_mnctur_2"
+    ]
+   }
+  ]
+ },
+ {
+  "code": "DOT",
+  "name": "持续",
+  "showEnemy": {
+   "enemyId": "enemy_9006_actoxi",
+   "name": "假想敌：蚀裂",
+   "level": "ELITE",
+   "description": "参照源石的侵蚀性质而设计的假想敌。自然界中的源石侵蚀其他物质，一如矿石病患者体内，源石侵蚀机体组织。与源石共存的可能性究竟是否存在？我们希望在模拟的战斗中找到答案。",
+   "abilities": [
+    "被击倒后，向击倒自身的目标发射一团毒雾，持续对周围造成法术伤害"
+   ]
+  },
+  "variants": [
+   {
+    "enemyId": "enemy_1234_dsubrl",
+    "name": "深溟巢涌者",
+    "level": "ELITE",
+    "description": "少见的恐鱼，哪怕在没有溟痕的地区也能操纵空气中及地面上的微小生物侵蚀周遭，仿佛搅动着溟痕本身，因而得名。",
+    "abilities": [
+     "持续对周围造成法术伤害和神经损伤",
+     "抵抗且免疫停顿"
+    ],
+    "weight": 10,
+    "firstHalf": true,
+    "attachedNormal": [
+     "enemy_1433_dsbasi"
+    ],
+    "attachedElite": [
+     "enemy_1433_dsbasi_2"
+    ]
+   },
+   {
+    "enemyId": "enemy_1272_nhtank",
+    "name": "萨卡兹枯朽战车",
+    "level": "ELITE",
+    "description": "食腐者大军军事装备之一，为大军行进扫清地面上的阻碍。即便在攻战上它的能力不容小觑，污染仍旧是它的主要职责。",
+    "abilities": [
+     "只攻击地面单位",
+     "近战攻击造成更高伤害",
+     "数次攻击后，下次攻击释放污染秽蚀"
+    ],
+    "weight": 10,
+    "firstHalf": true,
+    "attachedNormal": [
+     "enemy_1267_nhpbr"
+    ],
+    "attachedElite": [
+     "enemy_1267_nhpbr_2"
+    ]
+   },
+   {
+    "enemyId": "enemy_1270_nhstlk",
+    "name": "逐腐兽",
+    "level": "ELITE",
+    "description": "食腐者之王的源石技艺造物，拥有较快的速度，无法理解何为治愈。制造死亡为它们生命的全部，因此当治愈的力量出现时，它们的能力将在目标身上失去效果。",
+    "abilities": [
+     "攻击使目标在一段时间内持续受到法术伤害，目标接受治疗时解除此效果"
+    ],
+    "weight": 10,
+    "firstHalf": true,
+    "attachedNormal": [
+     "enemy_1267_nhpbr"
+    ],
+    "attachedElite": [
+     "enemy_1267_nhpbr_2"
+    ]
+   },
+   {
+    "enemyId": "enemy_1234_dsubrl_2",
+    "name": "富营养的巢涌者",
+    "level": "ELITE",
+    "description": "极少见的特殊个体，拥有极强的破坏力、极远的传播范围，且无法通过常规手段进行有效干预。需要审判官们额外留意。",
+    "abilities": [
+     "持续对周围造成法术伤害和神经损伤",
+     "抵抗且免疫停顿"
+    ],
+    "weight": 10,
+    "firstHalf": false,
+    "attachedNormal": [
+     "enemy_1433_dsbasi_2"
+    ],
+    "attachedElite": [
+     "enemy_1433_dsbasi_2"
+    ]
+   },
+   {
+    "enemyId": "enemy_10122_uacann_2",
+    "name": "集团军重型火炮",
+    "level": "NORMAL",
+    "description": "乌萨斯集团军生产的重型火炮，于五年前的圣骏堡大阅兵首次亮相。据传闻，它发射一颗炮弹就能让整个街区陷入火海，但具体的装备数量至今依然是个谜。",
+    "abilities": [
+     "攻击会留下燃烧区域",
+     "受到指挥官指令时优先攻击<矿工游击队>"
+    ],
+    "weight": 10,
+    "firstHalf": false,
+    "attachedNormal": [
+     "enemy_1267_nhpbr_2"
+    ],
+    "attachedElite": [
+     "enemy_1267_nhpbr_2"
+    ]
+   },
+   {
+    "enemyId": "enemy_1272_nhtank_2",
+    "name": "尖端萨卡兹枯朽战车",
+    "level": "ELITE",
+    "description": "食腐者大军军事高级装备之一，为大军行进扫清地面上的阻碍，距离越近，它的攻击力越高。即便在攻战上它的能力不容小觑，污染仍旧是它的主要职责。",
+    "abilities": [
+     "只攻击地面单位",
+     "近战攻击造成更高伤害",
+     "数次攻击后，下次攻击释放污染秽蚀"
+    ],
+    "weight": 10,
+    "firstHalf": false,
+    "attachedNormal": [
+     "enemy_1267_nhpbr_2"
+    ],
+    "attachedElite": [
+     "enemy_1270_nhstlk_2"
+    ]
+   },
+   {
+    "enemyId": "enemy_9006_actoxi",
+    "name": "假想敌：蚀裂",
+    "level": "ELITE",
+    "description": "参照源石的侵蚀性质而设计的假想敌。自然界中的源石侵蚀其他物质，一如矿石病患者体内，源石侵蚀机体组织。与源石共存的可能性究竟是否存在？我们希望在模拟的战斗中找到答案。",
+    "abilities": [
+     "被击倒后，向击倒自身的目标发射一团毒雾，持续对周围造成法术伤害"
+    ],
+    "weight": 15,
+    "firstHalf": false,
+    "attachedNormal": [
+     "enemy_1267_nhpbr_2"
+    ],
+    "attachedElite": [
+     "enemy_1270_nhstlk_2"
+    ]
+   },
+   {
+    "enemyId": "enemy_1270_nhstlk_2",
+    "name": "疯狂的逐腐兽",
+    "level": "ELITE",
+    "description": "食腐者之王的源石技艺造物，即使停下行动，也无法理解何为治愈。制造死亡为它们生命的全部，思考不被死亡容纳，它们不会停下。",
+    "abilities": [
+     "攻击使目标在一段时间内持续受到法术伤害，目标接受治疗时解除此效果"
+    ],
+    "weight": 8,
+    "firstHalf": false,
+    "attachedNormal": [
+     "enemy_1267_nhpbr"
+    ],
+    "attachedElite": [
+     "enemy_1267_nhpbr_2"
+    ]
+   }
+  ]
+ },
+ {
+  "code": "ELEMENT",
+  "name": "元素",
+  "showEnemy": {
+   "enemyId": "enemy_9007_acelem",
+   "name": "假想敌：淤困",
+   "level": "ELITE",
+   "description": "参照源石的流体形态而设计的假想敌。无人知晓源石为何以此种形式呈现，但这极有可能是下一次源石灾害爆发的前兆。必须在模拟的战斗中找到方法，来消灭它、控制它，或是利用它。",
+   "abilities": [
+    "自身不容易受到攻击",
+    "被阻挡时会对目标进行寄生，寄生目标持续受到法术伤害，且受到的元素损伤增加",
+    "寄生目标元素损伤爆发时对周围四格其他我方单位造成大量相同类型的元素损伤"
+   ]
+  },
+  "variants": [
+   {
+    "enemyId": "enemy_1161_tidmag",
+    "name": "控潮术师",
+    "level": "NORMAL",
+    "description": "经过专业培训的术师，日常工作是为多索雷斯海滩模拟潮汐，擅长使用模拟潮水侵蚀效果的源石技艺。",
+    "abilities": [
+     "攻击时对目标及其周围四格内的所有我方单位造成伤害，额外造成侵蚀损伤"
+    ],
+    "weight": 10,
+    "firstHalf": true,
+    "attachedNormal": [
+     "enemy_1158_divman"
+    ],
+    "attachedElite": [
+     "enemy_1160_hvyslr"
+    ]
+   },
+   {
+    "enemyId": "enemy_1305_mhslim_2",
+    "name": "炽焰源石虫",
+    "level": "NORMAL",
+    "description": "野生的被感染生物，在感染的最后阶段，它们变得更加火热，体液如岩浆般滚烫，直至将身躯熔化。等到冷却之后，会留下一滩美丽的花纹。",
+    "abilities": [
+     "攻击造成灼燃损伤"
+    ],
+    "weight": 10,
+    "firstHalf": true,
+    "attachedNormal": [
+     "enemy_1305_mhslim"
+    ],
+    "attachedElite": [
+     "enemy_1305_mhslim_2"
+    ]
+   },
+   {
+    "enemyId": "enemy_2025_syufo",
+    "name": "掠海漂移体",
+    "level": "ELITE",
+    "description": "一种已初步适应天空环境的恐鱼，能够在不受阻碍的情况下一直在海面上滑行。这一分支持续进化后，或许能够衍生出永久居住在天空的后代。",
+    "abilities": [
+     "近地悬浮",
+     "攻击额外造成侵蚀损伤"
+    ],
+    "weight": 10,
+    "firstHalf": false,
+    "attachedNormal": [
+     "enemy_2021_syfish"
+    ],
+    "attachedElite": [
+     "enemy_2021_syfish"
+    ]
+   },
+   {
+    "enemyId": "enemy_1161_tidmag_2",
+    "name": "领潮员",
+    "level": "NORMAL",
+    "description": "控潮术师中的精英，负责引领并监督控潮术师工作，非常擅长使用模拟潮水侵蚀效果的源石技艺。",
+    "abilities": [
+     "攻击时对目标及其周围四格内的所有我方单位造成伤害，额外造成侵蚀损伤"
+    ],
+    "weight": 10,
+    "firstHalf": false,
+    "attachedNormal": [
+     "enemy_1158_divman"
+    ],
+    "attachedElite": [
+     "enemy_1160_hvyslr_2"
+    ]
+   },
+   {
+    "enemyId": "enemy_1439_dslntf",
+    "name": "元核孽生者",
+    "level": "ELITE",
+    "description": "本是为了特殊器官而分化的细胞，意外发育成了独立个体，代谢废物分泌形成神经毒素，在海嗣群落中发挥的作用尚不明确。",
+    "abilities": [
+     "受到伤害时进入临战状态：移动速度大幅度提升，持续对周围造成神经损伤",
+     "被<赘生甲壳>阻挡时将其摧毁，每次摧毁时流失一定比例生命值"
+    ],
+    "weight": 10,
+    "firstHalf": false,
+    "attachedNormal": [
+     "enemy_1148_dssbr"
+    ],
+    "attachedElite": [
+     "enemy_1148_dssbr_2"
+    ]
+   },
+   {
+    "enemyId": "enemy_1275_dwlock_2",
+    "name": "萨卡兹王庭军精锐术师",
+    "level": "ELITE",
+    "description": "萨卡兹王庭精锐军术师，萨卡兹的巫术在战场上常常要比许多机械军事设备更加难以应对。除却纪律性，在近几年的训练中，他们也表现出了极强的专业性。",
+    "abilities": [
+     "攻击额外造成凋亡损伤",
+     "会锁定我方单位持续造成法术伤害，并在释放完成时造成群体凋亡损伤"
+    ],
+    "weight": 10,
+    "firstHalf": false,
+    "attachedNormal": [
+     "enemy_1229_darmy"
+    ],
+    "attachedElite": [
+     "enemy_1229_darmy_2"
+    ]
+   },
+   {
+    "enemyId": "enemy_9007_acelem",
+    "name": "假想敌：淤困",
+    "level": "ELITE",
+    "description": "参照源石的流体形态而设计的假想敌。无人知晓源石为何以此种形式呈现，但这极有可能是下一次源石灾害爆发的前兆。必须在模拟的战斗中找到方法，来消灭它、控制它，或是利用它。",
+    "abilities": [
+     "自身不容易受到攻击",
+     "被阻挡时会对目标进行寄生，寄生目标持续受到法术伤害，且受到的元素损伤增加",
+     "寄生目标元素损伤爆发时对周围四格其他我方单位造成大量相同类型的元素损伤"
+    ],
+    "weight": 10,
+    "firstHalf": false,
+    "attachedNormal": [
+     "enemy_1229_darmy"
+    ],
+    "attachedElite": [
+     "enemy_1229_darmy_2"
+    ]
+   },
+   {
+    "enemyId": "enemy_10067_ftsjc",
+    "name": "灼藤",
+    "level": "ELITE",
+    "description": "热情的精怪，胸中火烧，肖似一扇奇异的拱门。柔美的花朵与藤蔓攀附其上，但它们只是装饰，只是装饰。",
+    "abilities": [
+     "攻击额外造成灼燃损伤",
+     "首次攻击前，攻击力不断提升且首次攻击对目标和周围造成法术伤害和灼燃损伤"
+    ],
+    "weight": 8,
+    "firstHalf": false,
+    "attachedNormal": [
+     "enemy_10065_ftzlc"
+    ],
+    "attachedElite": [
+     "enemy_10067_ftsjc"
+    ]
+   }
+  ]
+ },
+ {
+  "code": "FLY",
+  "name": "飞行",
+  "showEnemy": {
+   "enemyId": "enemy_9009_acfort",
+   "name": "假想敌：黑云",
+   "level": "ELITE",
+   "description": "参照源石尘降前出现的天灾云而设计的假想敌。天灾是文明长久的敌人，天灾云之下的源石聚合体是死亡的象征。必须在模拟的战斗中找到应对天灾的更多方法。",
+   "abilities": [
+    "周期性束缚并吞噬数个非精英领袖飞行敌人，并回复等量弹药",
+    "一次性消耗所有弹药对目标造成大量物理伤害"
+   ]
+  },
+  "variants": [
+   {
+    "enemyId": "enemy_1041_lazerd",
+    "name": "法术大师A1",
+    "level": "NORMAL",
+    "description": "敌方人员操纵的无人机，飞行速度非常快，由某法术教育竞赛用无人机产品改装而来。其模块化设计使其能装备法术武器进行远程法术攻击，需要特别小心。根据资料判断，其法术武器也有助其阻挡更多法术伤害。",
+    "abilities": [
+     "飞行单位"
+    ],
+    "weight": 10,
+    "firstHalf": true,
+    "attachedNormal": [
+     "enemy_10083_hlbird"
+    ],
+    "attachedElite": [
+     "enemy_1005_yokai_2"
+    ]
+   },
+   {
+    "enemyId": "enemy_1355_mrfly",
+    "name": "护障",
+    "level": "NORMAL",
+    "description": "敌方人员操纵的无人机，可以干扰源石技艺。主要起支援作用，没有直接的攻击能力。",
+    "abilities": [
+     "飞行单位",
+     "为周围敌军持续提供法术抗性加成"
+    ],
+    "weight": 10,
+    "firstHalf": true,
+    "attachedNormal": [
+     "enemy_1005_yokai"
+    ],
+    "attachedElite": [
+     "enemy_1005_yokai_2"
+    ]
+   },
+   {
+    "enemyId": "enemy_1017_defdrn",
+    "name": "御4",
+    "level": "NORMAL",
+    "description": "敌方人员操纵的无人机，型号标记为御4。虽然本身不具有攻击能力，却能对敌方人员进行支援，需要注意。",
+    "abilities": [
+     "飞行单位",
+     "为周围敌军持续提供防御力加成"
+    ],
+    "weight": 10,
+    "firstHalf": true,
+    "attachedNormal": [
+     "enemy_1005_yokai"
+    ],
+    "attachedElite": [
+     "enemy_1005_yokai_2"
+    ]
+   },
+   {
+    "enemyId": "enemy_10084_hlegle",
+    "name": "“萨科塔之眼”",
+    "level": "NORMAL",
+    "description": "长出光环并畸变的羽兽，被“律法”判定为萨科塔。它们多数时间都茫然地栖息在大教堂的屋顶，不知道自己该看向何处。",
+    "abilities": [
+     "飞行单位",
+     "生命值首次降至一半以下时，在数秒内陷入恐惧",
+     "攻击时尝试夺走目标1发弹药，若无法夺走弹药则造成高额物理伤害"
+    ],
+    "weight": 10,
+    "firstHalf": true,
+    "attachedNormal": [
+     "enemy_10083_hlbird"
+    ],
+    "attachedElite": [
+     "enemy_1005_yokai_2"
+    ]
+   },
+   {
+    "enemyId": "enemy_1407_hummbd",
+    "name": "远眺",
+    "level": "NORMAL",
+    "description": "联合政府军队统一配发的无人机。设计初衷是用来侦察，由于电路问题侦察功能极不稳定，不得已加装了攻击模块。",
+    "abilities": [
+     "飞行单位",
+     "被击倒时使周围的我方单位暴露8秒",
+     "暴露状态下的我方无法通过封阻物避开敌方视线，且受到的伤害提升"
+    ],
+    "weight": 10,
+    "firstHalf": true,
+    "attachedNormal": [
+     "enemy_1005_yokai"
+    ],
+    "attachedElite": [
+     "enemy_1005_yokai_2"
+    ]
+   },
+   {
+    "enemyId": "enemy_1005_yokai_3",
+    "name": "威龙",
+    "level": "ELITE",
+    "description": "敌方人员操纵的无人机，某太空游戏的粉丝制作的外观，因此被称为威龙。装备有高射速的小型速射铳和远程操控施术单元，可能是由附近隐蔽的术师远程操作。优秀的隐蔽和攻击性能让他会对作战人员构成较大威胁。",
+    "abilities": [
+     "飞行单位"
+    ],
+    "weight": 10,
+    "firstHalf": false,
+    "attachedNormal": [
+     "enemy_1005_yokai"
+    ],
+    "attachedElite": [
+     "enemy_1005_yokai_2"
+    ]
+   },
+   {
+    "enemyId": "enemy_1112_emppnt",
+    "name": "帝国炮火先兆者",
+    "level": "ELITE",
+    "description": "乌萨斯军炮兵术师操作的无人机，装甲厚重，材质坚实。正是他们引导了乌萨斯炮兵猛烈的炮火袭击。",
+    "abilities": [
+     "飞行单位"
+    ],
+    "weight": 10,
+    "firstHalf": false,
+    "attachedNormal": [
+     "enemy_1005_yokai"
+    ],
+    "attachedElite": [
+     "enemy_1005_yokai_2"
+    ]
+   },
+   {
+    "enemyId": "enemy_1041_lazerd_2",
+    "name": "法术大师A2",
+    "level": "ELITE",
+    "description": "敌方人员操纵的无人机，去掉部分飞行辅助模块，牺牲了飞行速度以换取装备更大型法术武器的空间。能进行远程法术攻击，需要特别小心。根据资料判断，其法术武器也有助其阻挡更多法术伤害。",
+    "abilities": [
+     "飞行单位"
+    ],
+    "weight": 10,
+    "firstHalf": false,
+    "attachedNormal": [
+     "enemy_1005_yokai_2"
+    ],
+    "attachedElite": [
+     "enemy_1042_frostd"
+    ]
+   },
+   {
+    "enemyId": "enemy_9009_acfort",
+    "name": "假想敌：黑云",
+    "level": "ELITE",
+    "description": "参照源石尘降前出现的天灾云而设计的假想敌。天灾是文明长久的敌人，天灾云之下的源石聚合体是死亡的象征。必须在模拟的战斗中找到应对天灾的更多方法。",
+    "abilities": [
+     "周期性束缚并吞噬数个非精英领袖飞行敌人，并回复等量弹药",
+     "一次性消耗所有弹药对目标造成大量物理伤害"
+    ],
+    "weight": 10,
+    "firstHalf": false,
+    "attachedNormal": [
+     "enemy_1005_yokai_2"
+    ],
+    "attachedElite": [
+     "enemy_1005_yokai_3"
+    ]
+   },
+   {
+    "enemyId": "enemy_1355_mrfly_2",
+    "name": "护障·P",
+    "level": "NORMAL",
+    "description": "敌方人员操纵的无人机，可以干扰源石技艺，效能比普通型号更高。主要起支援作用，没有直接的攻击能力。",
+    "abilities": [
+     "飞行单位",
+     "为周围敌军持续提供法术抗性加成"
+    ],
+    "weight": 8,
+    "firstHalf": true,
+    "attachedNormal": [
+     "enemy_1005_yokai"
+    ],
+    "attachedElite": [
+     "enemy_1017_defdrn"
+    ]
+   }
+  ]
+ },
+ {
+  "code": "INVISIBLE",
+  "name": "隐匿",
+  "showEnemy": {
+   "enemyId": "enemy_9008_acbunn",
+   "name": "假想敌：骨刺",
+   "level": "ELITE",
+   "description": "参照源石晶簇的结构而设计的假想敌。金属机械的构造使误差与瑕疵难以避免，但至少晶簇那危险而尖锐的印象得以保留。必须在模拟的战斗中克服深层的恐惧本能。",
+   "abilities": [
+    "隐匿",
+    "隐匿状态下同时攻击数个目标"
+   ]
+  },
+  "variants": [
+   {
+    "enemyId": "enemy_1299_ymkilr",
+    "name": "山海众头目",
+    "level": "ELITE",
+    "description": "隐于队伍之中的山海众头目。神出鬼没，残忍果决，“信仰”之下，究竟是迷狂的妄念，还是可笑的私欲？",
+    "abilities": [
+     "隐匿",
+     "隐匿效果失效后的下一次攻击造成更高伤害"
+    ],
+    "weight": 10,
+    "firstHalf": true,
+    "attachedNormal": [
+     "enemy_1043_zomsbr"
+    ],
+    "attachedElite": [
+     "enemy_1019_jshoot"
+    ]
+   },
+   {
+    "enemyId": "enemy_10034_cnvsax",
+    "name": "节日爵士乐手",
+    "level": "ELITE",
+    "description": "穿上节日装扮、在街头演奏音乐的乐手，乐器还用不顺手，乐声也混乱不堪——还好是狂欢节。",
+    "abilities": [
+     "隐匿，平时不攻击，失去隐匿时反击",
+     "技能期间持续造成法术伤害和灼燃损伤",
+     "狂欢时刻失去隐匿"
+    ],
+    "weight": 10,
+    "firstHalf": true,
+    "attachedNormal": [
+     "enemy_1043_zomsbr"
+    ],
+    "attachedElite": [
+     "enemy_1019_jshoot"
+    ]
+   },
+   {
+    "enemyId": "enemy_10042_prtrop_2",
+    "name": "扶桥老手",
+    "level": "NORMAL",
+    "description": "用于连接两艘盐船的悬索桥携带方便、搭建快捷，但它的结构稳定性实在太差，以至于需要一直有人扶着——扶桥老手在长期的扶桥生涯中练就了一双稳健的手，却依然没想出怎么解决悬索桥的结构缺陷。",
+    "abilities": [
+     "隐匿",
+     "可以架设可通行的悬索桥"
+    ],
+    "weight": 10,
+    "firstHalf": true,
+    "attachedNormal": [
+     "enemy_10043_sailor"
+    ],
+    "attachedElite": [
+     "enemy_10042_prtrop"
+    ]
+   },
+   {
+    "enemyId": "enemy_1389_winbab_2",
+    "name": "访问团强攻冠军",
+    "level": "NORMAL",
+    "description": "“击倒守卫供暖器的人”成了访问团来到这里后最常训练的科目，那么出现冠军似乎也并不奇怪。",
+    "abilities": [
+     "隐匿",
+     "优先攻击“紧急供暖器”右侧的目标"
+    ],
+    "weight": 10,
+    "firstHalf": false,
+    "attachedNormal": [
+     "enemy_1381_winman"
+    ],
+    "attachedElite": [
+     "enemy_1019_jshoot_2"
+    ]
+   },
+   {
+    "enemyId": "enemy_1299_ymkilr_2",
+    "name": "山海众秘使",
+    "level": "ELITE",
+    "description": "似乎身负神秘任务的山海众头目。神出鬼没，心狠手辣，对手下的牺牲也不以为意。他们的信仰在迷雾之中，他们究竟所图为何？",
+    "abilities": [
+     "隐匿",
+     "隐匿效果失效后的下一次攻击造成更高伤害"
+    ],
+    "weight": 10,
+    "firstHalf": false,
+    "attachedNormal": [
+     "enemy_1422_lrsldr_2"
+    ],
+    "attachedElite": [
+     "enemy_1019_jshoot_2"
+    ]
+   },
+   {
+    "enemyId": "enemy_1404_msnip",
+    "name": "重弩突袭者",
+    "level": "NORMAL",
+    "description": "配发了量产型动能增强弩的狙击手。武器采购价格很高，但物有所值，充能后可对目标造成长时间的眩晕。",
+    "abilities": [
+     "隐匿",
+     "与我方处于同一直线上时进行直击：向目标方向发射1支造成法术伤害的弩箭并使目标晕眩"
+    ],
+    "weight": 10,
+    "firstHalf": false,
+    "attachedNormal": [
+     "enemy_1009_lurker"
+    ],
+    "attachedElite": [
+     "enemy_1019_jshoot_2"
+    ]
+   },
+   {
+    "enemyId": "enemy_9008_acbunn",
+    "name": "假想敌：骨刺",
+    "level": "ELITE",
+    "description": "参照源石晶簇的结构而设计的假想敌。金属机械的构造使误差与瑕疵难以避免，但至少晶簇那危险而尖锐的印象得以保留。必须在模拟的战斗中克服深层的恐惧本能。",
+    "abilities": [
+     "隐匿",
+     "隐匿状态下同时攻击数个目标"
+    ],
+    "weight": 10,
+    "firstHalf": false,
+    "attachedNormal": [
+     "enemy_10031_cnvsld"
+    ],
+    "attachedElite": [
+     "enemy_1019_jshoot_2"
+    ]
+   },
+   {
+    "enemyId": "enemy_1283_sgkill",
+    "name": "家族灭迹人",
+    "level": "ELITE",
+    "description": "忠于家族的强大杀手，于阴影中来去，留下的只有死亡。人人都知晓他的称号，却从未有人谈论他。",
+    "abilities": [
+     "清算时刻状态下，自身获得额外增强",
+     "隐匿"
+    ],
+    "weight": 8,
+    "firstHalf": false,
+    "attachedNormal": [
+     "enemy_10031_cnvsld"
+    ],
+    "attachedElite": [
+     "enemy_1019_jshoot_2"
+    ]
+   },
+   {
+    "enemyId": "enemy_9034_acblk",
+    "name": "假想敌：影役",
+    "level": "ELITE",
+    "description": "参照源石的污染力量而设计的假想敌。源石带来的危机潜藏在各个角落，任何时候都不能掉以轻心，必须在污染临近之前予以识别和处理。",
+    "abilities": [
+     "隐匿",
+     "周围一定范围内所有干员的阻挡数-1；该效果不可叠加"
+    ],
+    "weight": 10,
+    "firstHalf": false,
+    "attachedNormal": [
+     "enemy_1009_lurker"
+    ],
+    "attachedElite": [
+     "enemy_1019_jshoot_2"
+    ]
+   }
+  ]
+ },
+ {
+  "code": "REBORN",
+  "name": "复苏",
+  "showEnemy": {
+   "enemyId": "enemy_9030_acpara",
+   "name": "萨卡兹子裔寄生者",
+   "level": "ELITE",
+   "description": "受到血魔大君活体血液赐福的萨卡兹王庭军特种术师。他们代表着大君的意志，扩散着恶意的赐福，将活体血液的能量播撒到目所能及之处。",
+   "abilities": [
+    "周围一定范围内的敌人被击倒时，召唤一个<大君之赐>"
+   ]
+  },
+  "variants": [
+   {
+    "enemyId": "enemy_1226_dklord",
+    "name": "萨卡兹子裔集恨者",
+    "level": "ELITE",
+    "description": "受到血魔大君赐福的萨卡兹王庭军战士。战场上阵亡同胞们的恨意积聚在他们体内，令他们渴望着撕碎萨卡兹的敌人。",
+    "abilities": [
+     "场上每有一个重生造物时攻击力提升",
+     "首次倒下后重生为<大君之赐>"
+    ],
+    "weight": 10,
+    "firstHalf": true,
+    "attachedNormal": [
+     "enemy_1222_dpvt"
+    ],
+    "attachedElite": [
+     "enemy_1224_dsuply"
+    ]
+   },
+   {
+    "enemyId": "enemy_1226_dklord_2",
+    "name": "萨卡兹子裔集怒者",
+    "level": "ELITE",
+    "description": "受到血魔大君赐福的萨卡兹王庭军精锐战士。战场上阵亡同胞们的怒火积聚在他们体内，令他们渴望着撕碎所有萨卡兹的敌人。",
+    "abilities": [
+     "场上每有一个重生造物时攻击力提升",
+     "首次倒下后重生为<慷慨之赐>"
+    ],
+    "weight": 10,
+    "firstHalf": false,
+    "attachedNormal": [
+     "enemy_1222_dpvt_2"
+    ],
+    "attachedElite": [
+     "enemy_1224_dsuply_2"
+    ]
+   },
+   {
+    "enemyId": "enemy_1362_dfat",
+    "name": "萨卡兹子裔责罚者",
+    "level": "ELITE",
+    "description": "受到血魔大君赐福的萨卡兹王庭军开路者，据说曾触犯王庭之内的禁忌。但血魔大君并没有责罚他们，作为回报，这些战士将本该落于自己身上的痛苦施加于敌人。",
+    "abilities": [
+     "能在数次攻击后晕眩周围所有我方单位",
+     "首次倒下后重生为<大君之赐>"
+    ],
+    "weight": 10,
+    "firstHalf": true,
+    "attachedNormal": [
+     "enemy_1222_dpvt"
+    ],
+    "attachedElite": [
+     "enemy_1361_dthrow"
+    ]
+   },
+   {
+    "enemyId": "enemy_1362_dfat_2",
+    "name": "萨卡兹子裔惩戒者",
+    "level": "ELITE",
+    "description": "受到血魔大君赐福的萨卡兹王庭军精锐开路者，据说曾忤逆鲜血之主的意志。但血魔大君并没有惩戒他们，作为回报，这些战士将自己心中的懊悔化为无尽的杀戮，用鲜血洗去罪责。",
+    "abilities": [
+     "能在数次攻击后晕眩周围所有我方单位",
+     "首次倒下后重生为<慷慨之赐>"
+    ],
+    "weight": 10,
+    "firstHalf": false,
+    "attachedNormal": [
+     "enemy_1222_dpvt_2"
+    ],
+    "attachedElite": [
+     "enemy_1361_dthrow_2"
+    ]
+   },
+   {
+    "enemyId": "enemy_1225_dkmage",
+    "name": "萨卡兹子裔链术师",
+    "level": "ELITE",
+    "description": "受到血魔大君赐福的萨卡兹王庭军术师。经过王庭的训练，他们的法术在战场上会带来大范围的威胁。",
+    "abilities": [
+     "攻击造成凋亡损伤，且会在4个敌人间跳跃，每次跳跃伤害降低",
+     "首次倒下后重生为<大君之赐>"
+    ],
+    "weight": 10,
+    "firstHalf": true,
+    "attachedNormal": [
+     "enemy_1223_dmech"
+    ],
+    "attachedElite": [
+     "enemy_1224_dsuply"
+    ]
+   },
+   {
+    "enemyId": "enemy_1225_dkmage_2",
+    "name": "萨卡兹子裔链术师组长",
+    "level": "ELITE",
+    "description": "受到血魔大君赐福的萨卡兹王庭军术师组长，比一般的术师更有经验。经过王庭的训练，他们的法术在战场上会带来大范围的威胁。",
+    "abilities": [
+     "攻击造成凋亡损伤，且会在4个敌人间跳跃，每次跳跃伤害降低",
+     "首次倒下后重生为<慷慨之赐>"
+    ],
+    "weight": 10,
+    "firstHalf": false,
+    "attachedNormal": [
+     "enemy_1223_dmech_2"
+    ],
+    "attachedElite": [
+     "enemy_1224_dsuply_2"
+    ]
+   },
+   {
+    "enemyId": "enemy_1437_dsfull",
+    "name": "蕴核饲育者",
+    "level": "NORMAL",
+    "description": "已分化生长出多种器官的复杂海嗣，推测是海嗣群落中的饲育者，孕育的核心藏在体内。",
+    "abilities": [
+     "被击倒时随机释放一只<诡核集养者>、<单核掠食者>或<微核沉积者>，该敌人移动速度较大幅度提升"
+    ],
+    "weight": 10,
+    "firstHalf": true,
+    "attachedNormal": [
+     "enemy_1433_dsbasi"
+    ],
+    "attachedElite": [
+     "enemy_1436_dsdivi"
+    ]
+   },
+   {
+    "enemyId": "enemy_1437_dsfull_2",
+    "name": "异光体饲育者",
+    "level": "NORMAL",
+    "description": "孕育无数子代的复杂海嗣，分化的器官发育成了怪诞的形状，核心隐藏在体内更深处，孕育的海嗣也更加危险。",
+    "abilities": [
+     "被击倒时随机释放一只<异光体集养者>、<异光体掠食者>或<微核沉积者>，该敌人移动速度较大幅度提升"
+    ],
+    "weight": 10,
+    "firstHalf": false,
+    "attachedNormal": [
+     "enemy_1433_dsbasi_2"
+    ],
+    "attachedElite": [
+     "enemy_1436_dsdivi_2"
+    ]
+   },
+   {
+    "enemyId": "enemy_1104_lfkght_3",
+    "name": "“左手”泰特斯·白杨",
+    "level": "ELITE",
+    "description": "他的傲慢如日中天，正如他恐怖的实力与冷酷的战法，以及排队到了隔壁赛区的粉丝人数！“左手”泰特斯·白杨！削弱斗志，击垮精神，睥睨跪倒投降的敌人，这是他唯一认可的胜利！",
+    "abilities": [
+     "使场上攻击力最高的我方单位攻击力大幅降低，持续一定时间",
+     "重生"
+    ],
+    "weight": 10,
+    "firstHalf": false,
+    "attachedNormal": [
+     "enemy_1104_lfkght"
+    ],
+    "attachedElite": [
+     "enemy_1103_wdkght_2"
+    ]
+   },
+   {
+    "enemyId": "enemy_1133_harchn",
+    "name": "变异巨岩蛛",
+    "level": "ELITE",
+    "description": "一只畸变感染的巨岩蛛。巨岩蛛是岩蛛在萨尔贡地区独有的亚种，拥有巨大的球腹用于储存能量。",
+    "abilities": [
+     "周期性分裂一个<畸变赘生物>",
+     "死亡时分裂四个<畸变赘生物>"
+    ],
+    "weight": 10,
+    "firstHalf": true,
+    "attachedNormal": [
+     "enemy_1131_sbeast"
+    ],
+    "attachedElite": [
+     "enemy_1132_sarchn"
+    ]
+   },
+   {
+    "enemyId": "enemy_1133_harchn_2",
+    "name": "变异巨岩蛛α",
+    "level": "ELITE",
+    "description": "一只畸变感染的、变异严重的巨岩蛛。巨岩蛛是岩蛛在萨尔贡地区独有的亚种，拥有巨大的球腹用于储存能量。",
+    "abilities": [
+     "周期性分裂一个<畸变恶性瘤>",
+     "死亡时分裂四个<畸变恶性瘤>"
+    ],
+    "weight": 10,
+    "firstHalf": false,
+    "attachedNormal": [
+     "enemy_1131_sbeast_2"
+    ],
+    "attachedElite": [
+     "enemy_1132_sarchn_2"
+    ]
+   },
+   {
+    "enemyId": "enemy_9030_acpara",
+    "name": "萨卡兹子裔寄生者",
+    "level": "ELITE",
+    "description": "受到血魔大君活体血液赐福的萨卡兹王庭军特种术师。他们代表着大君的意志，扩散着恶意的赐福，将活体血液的能量播撒到目所能及之处。",
+    "abilities": [
+     "周围一定范围内的敌人被击倒时，召唤一个<大君之赐>"
+    ],
+    "weight": 10,
+    "firstHalf": false,
+    "attachedNormal": [
+     "enemy_1360_dfello"
+    ],
+    "attachedElite": [
+     "enemy_1363_spnshd_2"
+    ]
+   }
+  ]
+ },
+ {
+  "code": "REFLECTION",
+  "name": "折射",
+  "showEnemy": {
+   "enemyId": "enemy_9011_acrefr",
+   "name": "假想敌：镜膜",
+   "level": "ELITE",
+   "description": "参照被源石占据的机械而设计的假想敌。我们曾在罗德岛本舰与这样的机械造物交战，源石夺走了我们的造物，赋予它们更危险的能力。必须在模拟的战斗中找到破解这一困境的更多办法。",
+   "abilities": [
+    "折射",
+    "折射生效时自身生命值大幅提升"
+   ]
+  },
+  "variants": [
+   {
+    "enemyId": "enemy_1174_duholy",
+    "name": "深池伙友卫队",
+    "level": "ELITE",
+    "description": "深池部队中精锐行动队里的一员，该行动队的建立模仿了古老的米诺斯军制。卫队所持盾牌凝聚了多国科技的精华，在行军过程中为搭档提供掩护，并为周围全部己方人员抵御伤害。",
+    "abilities": [
+     "容易受到我方单位攻击",
+     "<深池伙友影刃>位于附近时，激活力场使周围我方攻击速度下降",
+     "折射"
+    ],
+    "weight": 10,
+    "firstHalf": true,
+    "attachedNormal": [
+     "enemy_1166_dusbr"
+    ],
+    "attachedElite": [
+     "enemy_1170_dushld"
+    ]
+   },
+   {
+    "enemyId": "enemy_1168_dumage",
+    "name": "深池暗影术师",
+    "level": "NORMAL",
+    "description": "深池部队中的术师。源石技艺并无特色，但开创性地制造出了能量产的抵抗源石技艺的特殊面罩，因而在队伍中的地位不低。",
+    "abilities": [
+     "折射"
+    ],
+    "weight": 10,
+    "firstHalf": true,
+    "attachedNormal": [
+     "enemy_1165_duhond"
+    ],
+    "attachedElite": [
+     "enemy_1169_duphlx"
+    ]
+   },
+   {
+    "enemyId": "enemy_1170_dushld",
+    "name": "深池重甲卫士",
+    "level": "ELITE",
+    "description": "深池部队中的重甲卫士。身上装甲技术来自维多利亚，军靴设计来自莱塔尼亚，盾牌材料则与卡西米尔呼啸护卫品牌的最新专利有着八成相像。",
+    "abilities": [
+     "折射"
+    ],
+    "weight": 10,
+    "firstHalf": true,
+    "attachedNormal": [
+     "enemy_1166_dusbr"
+    ],
+    "attachedElite": [
+     "enemy_1169_duphlx"
+    ]
+   },
+   {
+    "enemyId": "enemy_1174_duholy_2",
+    "name": "深池伙友卫队精英",
+    "level": "ELITE",
+    "description": "深池部队中精锐行动队里的一员，比普通行动队成员拥有更强的作战能力。卫队所持盾牌凝聚了多国科技的精华，在行军过程中为搭档提供掩护，并为周围全部己方人员抵御伤害。",
+    "abilities": [
+     "容易受到我方单位攻击",
+     "<深池伙友影刃精英>位于附近时，激活力场使周围我方攻击速度下降",
+     "折射"
+    ],
+    "weight": 10,
+    "firstHalf": false,
+    "attachedNormal": [
+     "enemy_1166_dusbr_2"
+    ],
+    "attachedElite": [
+     "enemy_1170_dushld_2"
+    ]
+   },
+   {
+    "enemyId": "enemy_1170_dushld_2",
+    "name": "深池重甲卫士队长",
+    "level": "ELITE",
+    "description": "深池部队中的重甲卫士队长，全身装备更加考究。身上装甲技术来自维多利亚，军靴设计来自莱塔尼亚，盾牌材料则与卡西米尔呼啸护卫品牌的最新专利有着八成相像。",
+    "abilities": [
+     "折射"
+    ],
+    "weight": 10,
+    "firstHalf": false,
+    "attachedNormal": [
+     "enemy_1166_dusbr_2"
+    ],
+    "attachedElite": [
+     "enemy_1169_duphlx_2"
+    ]
+   },
+   {
+    "enemyId": "enemy_1172_dugago",
+    "name": "守墓石像",
+    "level": "ELITE",
+    "description": "深池部队中的特殊法术造物。创造者为头领蔓德拉。据蔓德拉所说，她在郊外的坟墓里学习源石技艺，守墓石像是最初的同伴。石像外形有过多次更迭，最新造型仿自某支血脉古老的萨卡兹。",
+    "abilities": [
+     "首次被击倒时暂时变为防御力极高的石像，一段时间后重生为空中单位",
+     "折射"
+    ],
+    "weight": 10,
+    "firstHalf": false,
+    "attachedNormal": [
+     "enemy_1166_dusbr_2"
+    ],
+    "attachedElite": [
+     "enemy_1169_duphlx_2"
+    ]
+   },
+   {
+    "enemyId": "enemy_9011_acrefr",
+    "name": "假想敌：镜膜",
+    "level": "ELITE",
+    "description": "参照被源石占据的机械而设计的假想敌。我们曾在罗德岛本舰与这样的机械造物交战，源石夺走了我们的造物，赋予它们更危险的能力。必须在模拟的战斗中找到破解这一困境的更多办法。",
+    "abilities": [
+     "折射",
+     "折射生效时自身生命值大幅提升"
+    ],
+    "weight": 10,
+    "firstHalf": false,
+    "attachedNormal": [
+     "enemy_1166_dusbr_2"
+    ],
+    "attachedElite": [
+     "enemy_1170_dushld_2"
+    ]
+   },
+   {
+    "enemyId": "enemy_1175_dushdo_2",
+    "name": "深池伙友影刃精英",
+    "level": "ELITE",
+    "description": "深池部队中精锐行动队里的一员，比普通行动队成员拥有更强的作战能力。影刃与搭档一起行动时，拥有超强的隐匿能力，进攻也更为迅猛。",
+    "abilities": [
+     "隐匿",
+     "<深池伙友卫队精英>位于附近时，攻击速度大幅提升"
+    ],
+    "weight": 8,
+    "firstHalf": false,
+    "attachedNormal": [
+     "enemy_1165_duhond"
+    ],
+    "attachedElite": [
+     "enemy_1174_duholy_2"
+    ]
+   },
+   {
+    "enemyId": "enemy_9039_acrefm",
+    "name": "假想敌：镜眼",
+    "level": "ELITE",
+    "description": "参照被源石占据的镜面机械而设计的假想敌。人们往往忽略了视觉干扰在战场上的巨大作用，即便是非致命性武器，也值得我们全力研究对抗策略。",
+    "abilities": [
+     "折射",
+     "受到法术伤害时降低伤害来源的攻击速度，持续一段时间"
+    ],
+    "weight": 10,
+    "firstHalf": false,
+    "attachedNormal": [
+     "enemy_9031_acrefd"
+    ],
+    "attachedElite": [
+     "enemy_1169_duphlx_2"
+    ]
+   }
+  ]
+ },
+ {
+  "code": "SPECIAL",
+  "name": "特殊",
+  "showEnemy": {
+   "enemyId": "enemy_1425_lrcmra",
+   "name": "孽罪奇美拉",
+   "level": "ELITE",
+   "description": "赦罪师制造的扭曲造物，融合了多种萨卡兹部族血脉的生物兵器，它的身上极易沾染源石粉尘，在巨翼的扇动下，这些粉尘会弥散到一切它所踏足的地方。",
+   "abilities": [
+    "受源石污染区或活性源石风暴影响后会在自身周围持续生成源石污染区，并且攻击转为造成法术伤害"
+   ]
+  },
+  "variants": [
+   {
+    "enemyId": "enemy_1010_demon_2",
+    "name": "萨卡兹大剑组长",
+    "level": "ELITE",
+    "description": "萨卡兹雇佣兵，比一般萨卡兹大剑手更具威胁。体内源石可能更进一步强化了他的体能，使他可以自如运用更大的武器，且更难以被击倒。",
+    "abilities": [],
+    "weight": 10,
+    "firstHalf": true,
+    "attachedNormal": [
+     "enemy_1071_dftman"
+    ],
+    "attachedElite": [
+     "enemy_1010_demon"
+    ]
+   },
+   {
+    "enemyId": "enemy_1045_hammer",
+    "name": "粉碎攻坚手",
+    "level": "ELITE",
+    "description": "整合运动的高级精英单位，穿着沉重的防爆护具。虽然其攻击速度缓慢，但是他们装备的重型钝器产生的破坏力极大，且我方单位会在遭受其若干次攻击后被晕眩。请务必小心。",
+    "abilities": [
+     "攻击2次后，下一次攻击会晕眩目标"
+    ],
+    "weight": 10,
+    "firstHalf": true,
+    "attachedNormal": [
+     "enemy_1043_zomsbr"
+    ],
+    "attachedElite": [
+     "enemy_1046_agent"
+    ]
+   },
+   {
+    "enemyId": "enemy_1118_lidbox_2",
+    "name": "拳师囚犯",
+    "level": "ELITE",
+    "description": "对自己的双拳十分自信的囚犯。对自己的双拳和锁链的运用都已相当精妙，不容小觑。",
+    "abilities": [
+     "初始为禁锢状态，禁锢状态下攻击速度降低",
+     "攻击数次后解放，解放后攻击力提升并无视目标一定的防御力"
+    ],
+    "weight": 10,
+    "firstHalf": true,
+    "attachedNormal": [
+     "enemy_1116_liprr"
+    ],
+    "attachedElite": [
+     "enemy_1116_liprr_2"
+    ]
+   },
+   {
+    "enemyId": "enemy_1325_cbgpro_2",
+    "name": "高级军用猎狗",
+    "level": "NORMAL",
+    "description": "经过严格选种后培育出的高级军用猎狗。眼中只有猎物，不死不休。",
+    "abilities": [],
+    "weight": 10,
+    "firstHalf": true,
+    "attachedNormal": [
+     "enemy_1000_gopro_2"
+    ],
+    "attachedElite": [
+     "enemy_1325_cbgpro"
+    ]
+   },
+   {
+    "enemyId": "enemy_1121_lifbos",
+    "name": "重犯",
+    "level": "ELITE",
+    "description": "囚犯和狱警都相当惧怕的凶恶囚犯。在长时间的监狱生活中学会了忍耐，对普通的攻击和挑衅都不屑一顾。然而，一旦让他愤怒起来，会产生十分严重的后果。",
+    "abilities": [
+     "初始为禁锢状态，禁锢状态下攻击速度降低但防御力提升",
+     "攻击数次后解放，解放后攻击力提升",
+     "第一次解放时同时解放全场敌人"
+    ],
+    "weight": 10,
+    "firstHalf": true,
+    "attachedNormal": [
+     "enemy_1116_liprr"
+    ],
+    "attachedElite": [
+     "enemy_1116_liprr_2"
+    ]
+   },
+   {
+    "enemyId": "enemy_1006_shield_3",
+    "name": "重装五十夫长",
+    "level": "ELITE",
+    "description": "整合运动的近身作战人员，比重装防御组长更具威胁。装备有沉重的全套防具，通常都伴随大量配合进攻的人员，极难被击溃，需要特别注意。",
+    "abilities": [],
+    "weight": 10,
+    "firstHalf": false,
+    "attachedNormal": [
+     "enemy_1043_zomsbr"
+    ],
+    "attachedElite": [
+     "enemy_1402_tgshd_2"
+    ]
+   },
+   {
+    "enemyId": "enemy_1329_cbshld",
+    "name": "弧光镜卫",
+    "level": "NORMAL",
+    "description": "拥有极高防御能力的实验部队士兵，使用最新研发的合金。然而，由于合金的稳定性问题尚未解决，比起耐久，更擅长应付短时间内的高压环境。",
+    "abilities": [
+     "初始护甲与法抗较高，但每次受到伤害后降低"
+    ],
+    "weight": 10,
+    "firstHalf": false,
+    "attachedNormal": [
+     "enemy_1251_lysyta"
+    ],
+    "attachedElite": [
+     "enemy_1249_lysdb_2"
+    ]
+   },
+   {
+    "enemyId": "enemy_1045_hammer_2",
+    "name": "粉碎攻坚组长",
+    "level": "ELITE",
+    "description": "整合运动的高级精英单位，穿着沉重的防爆护具，比一般的粉碎攻坚手更具威胁。虽然其攻击速度缓慢，但是他们装备的重型钝器产生的破坏力极大，且我方单位会在遭受其若干次攻击后被晕眩。请务必小心。",
+    "abilities": [
+     "攻击2次后，下一次攻击会晕眩目标"
+    ],
+    "weight": 10,
+    "firstHalf": false,
+    "attachedNormal": [
+     "enemy_1061_zomshd"
+    ],
+    "attachedElite": [
+     "enemy_1061_zomshd"
+    ]
+   },
+   {
+    "enemyId": "enemy_1387_winshd",
+    "name": "访问团持盾者",
+    "level": "ELITE",
+    "description": "访问团中坚实的防御者，盾牌与凝结的冰晶合而为一，成为雪地上难以逾越的高墙。",
+    "abilities": [
+     "在<封冻>的区域内防御力与法抗逐渐升高，进入\"紧急供暖器\"生效范围内防御力与法抗逐渐降低"
+    ],
+    "weight": 10,
+    "firstHalf": false,
+    "attachedNormal": [
+     "enemy_1381_winman"
+    ],
+    "attachedElite": [
+     "enemy_1381_winman_2"
+    ]
+   },
+   {
+    "enemyId": "enemy_1121_lifbos_2",
+    "name": "传奇重犯",
+    "level": "ELITE",
+    "description": "战斗力仅次于安东尼的存在。在长时间的监狱生活中学会了忍耐，对普通的攻击和挑衅都不屑一顾。然而，一旦让他愤怒起来，会产生十分严重的后果。",
+    "abilities": [
+     "初始为禁锢状态，禁锢状态下攻击速度降低但防御力提升",
+     "攻击数次后解放，解放后攻击力提升",
+     "第一次解放时同时解放全场敌人"
+    ],
+    "weight": 10,
+    "firstHalf": false,
+    "attachedNormal": [
+     "enemy_1116_liprr_2"
+    ],
+    "attachedElite": [
+     "enemy_1119_vofsd"
+    ]
+   },
+   {
+    "enemyId": "enemy_1320_wdrrl_2",
+    "name": "萨卡兹悖谬暴虐兵长",
+    "level": "ELITE",
+    "description": "变形者集群与军事委员会合作的产物，能充分利用源石技艺完成肉体的自我改造。对于肉体变形的精妙操控让他们的大脑免于受到损伤，他们也更习惯于利用恐怖肉体的压迫感在作战中取得优势。",
+    "abilities": [
+     "只能被阻挡数大于等于3的单位阻挡",
+     "首次攻击时造成溅射伤害"
+    ],
+    "weight": 10,
+    "firstHalf": false,
+    "attachedNormal": [
+     "enemy_1422_lrsldr_2"
+    ],
+    "attachedElite": [
+     "enemy_1010_demon"
+    ]
+   },
+   {
+    "enemyId": "enemy_10124_uashld_2",
+    "name": "集团军中坚盾卫",
+    "level": "ELITE",
+    "description": "乌萨斯集团军的中坚盾卫，负责守卫整支军队的中央指挥部。敌人也许能侥幸突破至此，但绝跨不过这最后一道防线。",
+    "abilities": [
+     "容易受到我方单位的攻击，能和3名<矿工游击队>交战",
+     "受到指挥官指令时受到伤害降低"
+    ],
+    "weight": 10,
+    "firstHalf": false,
+    "attachedNormal": [
+     "enemy_1043_zomsbr"
+    ],
+    "attachedElite": [
+     "enemy_1061_zomshd"
+    ]
+   },
+   {
+    "enemyId": "enemy_1328_cbjedi",
+    "name": "弧光锋卫",
+    "level": "ELITE",
+    "description": "拥有极高杀伤力的实验部队士兵，配备了先端武器。但是，由于装备缺乏稳定性，也让他们有了极大的弱点。",
+    "abilities": [
+     "失衡移动时正比于距离损失生命"
+    ],
+    "weight": 10,
+    "firstHalf": true,
+    "attachedNormal": [
+     "enemy_1251_lysyta"
+    ],
+    "attachedElite": [
+     "enemy_1249_lysdb_2"
+    ]
+   },
+   {
+    "enemyId": "enemy_1254_lypa_2",
+    "name": "测试用动力装甲",
+    "level": "ELITE",
+    "description": "无人操控的动力装甲。仿佛拥有自主意识一般，就连经验丰富的工程师也很难凭肉眼分辨是否有人操控。",
+    "abilities": [],
+    "weight": 10,
+    "firstHalf": false,
+    "attachedNormal": [
+     "enemy_1251_lysyta"
+    ],
+    "attachedElite": [
+     "enemy_1249_lysdb_2"
+    ]
+   },
+   {
+    "enemyId": "enemy_1425_lrcmra_2",
+    "name": "渎罪奇美拉",
+    "level": "ELITE",
+    "description": "赦罪师精心制造的扭曲造物，融合了多种萨卡兹部族纯净血脉的生物兵器，它的身上极易沾染源石粉尘，在巨翼的扇动下，这些粉尘会弥散到一切它所踏足的地方，宣泄它无尽的怒火。",
+    "abilities": [
+     "受源石污染区或活性源石风暴影响后会在自身周围持续生成源石污染区，并且攻击转为造成法术伤害"
+    ],
+    "weight": 10,
+    "firstHalf": false,
+    "attachedNormal": [
+     "enemy_1422_lrsldr_2"
+    ],
+    "attachedElite": [
+     "enemy_1010_demon"
+    ]
+   },
+   {
+    "enemyId": "enemy_1329_cbshld_2",
+    "name": "弧光镜卫长",
+    "level": "NORMAL",
+    "description": "拥有极高防御能力的实验部队士兵，使用最新研发的合金。即使丢下装备也依然能够站在战场的第一线，顶住敌人的进攻。",
+    "abilities": [
+     "初始护甲与法抗较高，但每次受到伤害后降低"
+    ],
+    "weight": 10,
+    "firstHalf": false,
+    "attachedNormal": [
+     "enemy_1251_lysyta_2"
+    ],
+    "attachedElite": [
+     "enemy_1252_lysytb_2"
+    ]
+   },
+   {
+    "enemyId": "enemy_1072_dlancer",
+    "name": "萨卡兹穿刺手",
+    "level": "ELITE",
+    "description": "萨卡兹雇佣兵。经过特殊训练，能够手持长枪发起冲锋，速度越快，对防线造成的冲击也越大。",
+    "abilities": [
+     "移动时逐渐加速，被阻挡后的首次攻击造成基于移动速度的额外伤害。"
+    ],
+    "weight": 10,
+    "firstHalf": false,
+    "attachedNormal": [
+     "enemy_1071_dftman"
+    ],
+    "attachedElite": [
+     "enemy_1010_demon_2"
+    ]
+   }
+  ]
+ },
+ {
+  "code": "TIMES",
+  "name": "频次",
+  "showEnemy": {
+   "enemyId": "enemy_9010_acpupp",
+   "name": "假想敌：再生",
+   "level": "ELITE",
+   "description": "参照从源石中诞生的怪物而设计的假想敌。我们曾在罗德岛本舰与这样的敌人交战，它们不断地再生、爬起，借逝去者的外形施以杀戮。必须在模拟的战斗中找到更多的应对措施。",
+   "abilities": [
+    "被击倒后进入再生状态并使周围一定距离内其他敌人获得可以抵挡物理及法术伤害的护盾，护盾受到一定次数攻击后被击破",
+    "再生状态需要数次伤害击倒，一段时间后重生"
+   ]
+  },
+  "variants": [
+   {
+    "enemyId": "enemy_1195_sfyin_2",
+    "name": "明鉴",
+    "level": "NORMAL",
+    "description": "受岁相感染而生的器伥。千刀磨砻，方得一印，此类器伥性情怯懦，但又急于证明自己，常有出格举动。",
+    "abilities": [
+     "被击倒后生成2个<红木瑞印>"
+    ],
+    "weight": 10,
+    "firstHalf": true,
+    "attachedNormal": [
+     "enemy_1195_sfyin"
+    ],
+    "attachedElite": [
+     "enemy_1197_sfshu"
+    ]
+   },
+   {
+    "enemyId": "enemy_1288_duskls_2",
+    "name": "深池逐火精锐战士",
+    "level": "NORMAL",
+    "description": "附着了领袖火焰的深池部队精锐战士。更加执着地追逐着领袖的火焰，被法术操纵着不断站起。",
+    "abilities": [
+     "位于燃烧的芦苇丛附近时攻击额外造成灼燃损伤",
+     "被击倒时暂时变为隐匿、需要5次伤害击倒的<暴怒的余烬>，一段时间后重生"
+    ],
+    "weight": 10,
+    "firstHalf": true,
+    "attachedNormal": [
+     "enemy_1288_duskls"
+    ],
+    "attachedElite": [
+     "enemy_1288_duskls"
+    ]
+   },
+   {
+    "enemyId": "enemy_1197_sfshu",
+    "name": "俗心",
+    "level": "NORMAL",
+    "description": "受岁相感染而生的器伥。世态离奇，但图一乐，此类器伥异常活跃，喜欢与其他器伥厮混。",
+    "abilities": [
+     "被击倒后生成3个<小说卷轴>"
+    ],
+    "weight": 10,
+    "firstHalf": true,
+    "attachedNormal": [
+     "enemy_1195_sfyin"
+    ],
+    "attachedElite": [
+     "enemy_1197_sfshu"
+    ]
+   },
+   {
+    "enemyId": "enemy_1292_duskld",
+    "name": "深池逐火护卫",
+    "level": "ELITE",
+    "description": "附着了领袖火焰的深池部队防御者。他们已经死亡，但灌注法术的武装还在支撑着他们为自己的野心战斗。",
+    "abilities": [
+     "位于燃烧的芦苇丛附近时攻击额外造成灼燃损伤且受到的物理与法术伤害降低",
+     "被击倒时暂时变为隐匿、需要10次伤害击倒的<贪欲的火灰>，一段时间后重生"
+    ],
+    "weight": 10,
+    "firstHalf": false,
+    "attachedNormal": [
+     "enemy_1288_duskls"
+    ],
+    "attachedElite": [
+     "enemy_1288_duskls_2"
+    ]
+   },
+   {
+    "enemyId": "enemy_1207_sfji",
+    "name": "沉沙",
+    "level": "ELITE",
+    "description": "受岁相感染而生的器伥。兵戈旧梦，折戟沉沙，此类器伥怨念深沉，无从消释，破坏性极强。",
+    "abilities": [
+     "攻击消耗断刃使攻击力提升",
+     "被击倒时未消耗的断刃会生成<铜矛头>（至少1个）。"
+    ],
+    "weight": 10,
+    "firstHalf": false,
+    "attachedNormal": [
+     "enemy_1195_sfyin"
+    ],
+    "attachedElite": [
+     "enemy_1197_sfshu"
+    ]
+   },
+   {
+    "enemyId": "enemy_1199_sfjin",
+    "name": "身观",
+    "level": "ELITE",
+    "description": "受岁相感染而生的器伥。妍媸善恶，自入自眼，此类器伥能够映照对方心中的隐秘，相比其他器伥，更易激起敌人怒火。",
+    "abilities": [
+     "更容易被我方攻击",
+     "被击倒后生成1个<青铜镜>"
+    ],
+    "weight": 10,
+    "firstHalf": false,
+    "attachedNormal": [
+     "enemy_1195_sfyin"
+    ],
+    "attachedElite": [
+     "enemy_1197_sfshu"
+    ]
+   },
+   {
+    "enemyId": "enemy_9010_acpupp",
+    "name": "假想敌：再生",
+    "level": "ELITE",
+    "description": "参照从源石中诞生的怪物而设计的假想敌。我们曾在罗德岛本舰与这样的敌人交战，它们不断地再生、爬起，借逝去者的外形施以杀戮。必须在模拟的战斗中找到更多的应对措施。",
+    "abilities": [
+     "被击倒后进入再生状态并使周围一定距离内其他敌人获得可以抵挡物理及法术伤害的护盾，护盾受到一定次数攻击后被击破",
+     "再生状态需要数次伤害击倒，一段时间后重生"
+    ],
+    "weight": 10,
+    "firstHalf": false,
+    "attachedNormal": [
+     "enemy_1197_sfshu"
+    ],
+    "attachedElite": [
+     "enemy_1197_sfshu_2"
+    ]
+   },
+   {
+    "enemyId": "enemy_1197_sfshu_2",
+    "name": "雅气",
+    "level": "NORMAL",
+    "description": "受岁相感染而生的器伥。山川风物，浩然自在，此类器伥性情雅淡，为其他器伥所喜。",
+    "abilities": [
+     "被击倒后生成3个<诗画卷轴>"
+    ],
+    "weight": 8,
+    "firstHalf": true,
+    "attachedNormal": [
+     "enemy_1195_sfyin"
+    ],
+    "attachedElite": [
+     "enemy_1197_sfshu_2"
+    ]
+   }
+  ]
+ }
+]

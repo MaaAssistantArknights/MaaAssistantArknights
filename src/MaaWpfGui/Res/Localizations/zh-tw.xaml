@@ -2553,10 +2553,30 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="Toolbox.MiniGame.Reclamation.ToolToCraft.Placeholder">螢光棒</system:String>
     <system:String x:Key="Toolbox.MiniGame.Reclamation.ToolToCraft.Tip">支援道具名稱</system:String>
     <system:String x:Key="Toolbox.MiniGame.SPA">衛戍協議</system:String>
-    <system:String x:Key="Toolbox.MiniGame.SPA.Tip" xml:space="preserve">在活動主介面（有 ｢極速模擬｣ 處）開始任務。
+    <system:String x:Key="Toolbox.MiniGame.SPA.Colorful">彩色角標</system:String>
+    <system:String x:Key="Toolbox.MiniGame.SPA.Goal">目標</system:String>
+    <system:String x:Key="Toolbox.MiniGame.SPA.Goal.Medal">刷策略徽章</system:String>
+    <system:String x:Key="Toolbox.MiniGame.SPA.Goal.Task1">炎 / 萊塔尼亞 / 奧術 100 層</system:String>
+    <system:String x:Key="Toolbox.MiniGame.SPA.Goal.Task2">阿戈爾 / 卡西米爾 / 突襲 100 層</system:String>
+    <system:String x:Key="Toolbox.MiniGame.SPA.Goal.Task3">敘拉古 / 薩爾貢 / 精準 100 層</system:String>
+    <system:String x:Key="Toolbox.MiniGame.SPA.Goal.Task4">維多利亞 / 謝拉格 / 靈巧 100 層</system:String>
+    <system:String x:Key="Toolbox.MiniGame.SPA.Goal.Task5">烏薩斯 / 伊比利亞 / 聚合 100 層</system:String>
+    <system:String x:Key="Toolbox.MiniGame.SPA.Goal.Task6">奇蹟 / 遠見 / 投資人 50 層</system:String>
+    <system:String x:Key="Toolbox.MiniGame.SPA.Goal.Task7">迅捷 / 不屈 / 堅守 / 助力 50 層</system:String>
+    <system:String x:Key="Toolbox.MiniGame.SPA.LowProfile">低配模式</system:String>
+    <system:String x:Key="Toolbox.MiniGame.SPA.MaxRuns">最多通關局數</system:String>
+    <system:String x:Key="Toolbox.MiniGame.SPA.Mode">模式</system:String>
+    <system:String x:Key="Toolbox.MiniGame.SPA.Mode.Badge">刷角標</system:String>
+    <system:String x:Key="Toolbox.MiniGame.SPA.Mode.Level">刷等級</system:String>
+    <system:String x:Key="Toolbox.MiniGame.SPA.SimMode">對局模式</system:String>
+    <system:String x:Key="Toolbox.MiniGame.SPA.SimMode.Quick">極速模擬</system:String>
+    <system:String x:Key="Toolbox.MiniGame.SPA.SimMode.Standard">標準模擬</system:String>
+    <system:String x:Key="Toolbox.MiniGame.SPA.Tip" xml:space="preserve">在活動主介面（有 ｢個人模擬｣ / ｢獨立模擬｣ 處）開始任務；對局模式由上方選項決定
+必須使用 1920×1080（1080p）解析度
+必須關閉遊戲內的按鍵提示顯示（PC 端 G 鍵等提示會遮擋按鈕文字，導致辨識失敗）
 需要使用預設皮膚
 在有存檔時需要先手動放棄
-只能刷等級獎勵，拿蝕刻章得打完所有的 ｢關鍵目標｣。</system:String>
+支援刷策略徽章或指定 ｢關鍵目標｣，極速/標準模擬均可</system:String>
     <system:String x:Key="Toolbox.MiniGame.SecretFront">隱秘戰線</system:String>
     <system:String x:Key="Toolbox.MiniGame.SecretFront.Ending">結局</system:String>
     <system:String x:Key="Toolbox.MiniGame.SecretFront.Event">優先系列事件</system:String>

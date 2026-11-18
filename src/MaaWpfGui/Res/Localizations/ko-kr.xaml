@@ -2535,10 +2535,30 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="Toolbox.MiniGame.Reclamation.ToolToCraft.Placeholder">형광봉</system:String>
     <system:String x:Key="Toolbox.MiniGame.Reclamation.ToolToCraft.Tip">제작할 도구 이름</system:String>
     <system:String x:Key="Toolbox.MiniGame.SPA">위수 협의</system:String>
-    <system:String x:Key="Toolbox.MiniGame.SPA.Tip" xml:space="preserve">이벤트 메인 화면에서 임무 시작 (아래에 ｢고속 시뮬레이션｣ (명칭 임시))
+    <system:String x:Key="Toolbox.MiniGame.SPA.Colorful">컬러 배지</system:String>
+    <system:String x:Key="Toolbox.MiniGame.SPA.Goal">목표</system:String>
+    <system:String x:Key="Toolbox.MiniGame.SPA.Goal.Medal">전략 배지</system:String>
+    <system:String x:Key="Toolbox.MiniGame.SPA.Goal.Task1">옌 / 라이타니엔 / 비술 100</system:String>
+    <system:String x:Key="Toolbox.MiniGame.SPA.Goal.Task2">에기르 / 카시미에시 / 돌격 100</system:String>
+    <system:String x:Key="Toolbox.MiniGame.SPA.Goal.Task3">시라쿠사 / 사르곤 / 정밀 100</system:String>
+    <system:String x:Key="Toolbox.MiniGame.SPA.Goal.Task4">빅토리아 / 셰라그 / 민첩 100</system:String>
+    <system:String x:Key="Toolbox.MiniGame.SPA.Goal.Task5">우르수스 / 이베리아 / 집합 100</system:String>
+    <system:String x:Key="Toolbox.MiniGame.SPA.Goal.Task6">기적 / 선견 / 투자자 50</system:String>
+    <system:String x:Key="Toolbox.MiniGame.SPA.Goal.Task7">신속 / 불굴 / 수호 / 지원 50</system:String>
+    <system:String x:Key="Toolbox.MiniGame.SPA.LowProfile">저등급 모드</system:String>
+    <system:String x:Key="Toolbox.MiniGame.SPA.MaxRuns">최대 클리어 횟수</system:String>
+    <system:String x:Key="Toolbox.MiniGame.SPA.Mode">모드</system:String>
+    <system:String x:Key="Toolbox.MiniGame.SPA.Mode.Badge">배지 파밍</system:String>
+    <system:String x:Key="Toolbox.MiniGame.SPA.Mode.Level">레벨 파밍</system:String>
+    <system:String x:Key="Toolbox.MiniGame.SPA.SimMode">대전 모드</system:String>
+    <system:String x:Key="Toolbox.MiniGame.SPA.SimMode.Quick">고속 시뮬레이션</system:String>
+    <system:String x:Key="Toolbox.MiniGame.SPA.SimMode.Standard">표준 시뮬레이션</system:String>
+    <system:String x:Key="Toolbox.MiniGame.SPA.Tip" xml:space="preserve">이벤트 메인 화면(｢개인 시뮬레이션｣ / ｢독립 시뮬레이션｣이 있는 곳)에서 임무 시작. 대전 모드는 위 옵션으로 결정됩니다
+게임 해상도는 반드시 1920×1080(1080p)로 설정하세요
+게임 내 키/버튼 힌트 표시를 반드시 끄세요 (PC 버전의 G 키 등 힌트가 버튼 문자를 가려 인식에 실패합니다)
 기본 스킨을 사용해야 합니다
 저장 데이터가 있는 경우 먼저 수동으로 포기해야 합니다
-레벨 보상만 획득 가능하며, 조각 메달을 얻으려면 모든 ｢주요 목표｣를 완료해야 합니다</system:String>
+전략 배지 또는 지정 ｢주요 목표｣ 획득 지원. 고속/표준 시뮬레이션 모두 지원</system:String>
     <system:String x:Key="Toolbox.MiniGame.SecretFront">비밀 전선</system:String>
     <system:String x:Key="Toolbox.MiniGame.SecretFront.Ending">엔딩</system:String>
     <system:String x:Key="Toolbox.MiniGame.SecretFront.Event">우선 시리즈 사건</system:String>

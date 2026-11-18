@@ -1360,6 +1360,61 @@
                                 <toolbox:ReclamationUserControl DataContext="{x:Static toolbox_vms:ReclamationUserControlModel.Instance}" />
                             </Grid>
 
+                            <!--  卫戍协议  -->
+                            <Grid Grid.Row="0" Visibility="{c:Binding 'SelectedMiniGameItem.IsSPA'}">
+                                <StackPanel>
+                                    <ComboBox
+                                        Margin="0"
+                                        hc:TitleElement.Title="{DynamicResource Toolbox.MiniGame.SPA.Mode}"
+                                        DisplayMemberPath="Display"
+                                        ItemsSource="{Binding SPAModeList}"
+                                        SelectedValue="{Binding SPAMode}"
+                                        SelectedValuePath="Value" />
+                                    <ComboBox
+                                        Margin="0,10,0,0"
+                                        hc:TitleElement.Title="{DynamicResource Toolbox.MiniGame.SPA.Goal}"
+                                        DisplayMemberPath="Display"
+                                        ItemsSource="{Binding SPAGoalList}"
+                                        SelectedValue="{Binding SPAGoal}"
+                                        SelectedValuePath="Value"
+                                        Visibility="{c:Binding IsSPABadgeMode}" />
+                                    <ComboBox
+                                        Margin="0,10,0,0"
+                                        hc:TitleElement.Title="{DynamicResource Toolbox.MiniGame.SPA.SimMode}"
+                                        DisplayMemberPath="Display"
+                                        IsEnabled="{c:Binding CanChooseSPASimMode}"
+                                        ItemsSource="{Binding SPASimModeList}"
+                                        SelectedValue="{Binding SPASimMode}"
+                                        SelectedValuePath="Value"
+                                        Visibility="{c:Binding IsSPABadgeMode}" />
+                                    <CheckBox
+                                        Margin="0,10,0,0"
+                                        Content="{DynamicResource Toolbox.MiniGame.SPA.LowProfile}"
+                                        IsChecked="{Binding SPALowProfile}"
+                                        Visibility="{c:Binding IsSPABadgeMode}" />
+                                    <CheckBox
+                                        Margin="0,8,0,0"
+                                        Content="{DynamicResource Toolbox.MiniGame.SPA.Colorful}"
+                                        IsChecked="{Binding SPAColorfulBadge}"
+                                        Visibility="{c:Binding IsSPABadgeMode}" />
+                                    <StackPanel
+                                        Margin="0,10,0,0"
+                                        Orientation="Horizontal"
+                                        Visibility="{c:Binding IsSPABadgeMode}">
+                                        <controls:TextBlock
+                                            VerticalAlignment="Center"
+                                            Text="{DynamicResource Toolbox.MiniGame.SPA.MaxRuns}" />
+                                        <hc:NumericUpDown
+                                            Width="90"
+                                            Margin="8,0,0,0"
+                                            InputMethod.IsInputMethodEnabled="False"
+                                            Maximum="999"
+                                            Minimum="1"
+                                            Value="{Binding SPAMaxRuns}" />
+                                    </StackPanel>
+                                </StackPanel>
+                            </Grid>
+
                             <!--  隐秘战线  -->
                             <Grid Grid.Row="0" Visibility="{c:Binding 'SelectedMiniGameItem.IsSecretFront'}">
                                 <Grid.RowDefinitions>

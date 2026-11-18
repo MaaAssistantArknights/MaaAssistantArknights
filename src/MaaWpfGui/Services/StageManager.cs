@@ -340,6 +340,7 @@ public class StageManager
         {
             // 常驻活动
             new() { Display = LocalizationHelper.GetString("Toolbox.MiniGame.SecretFront"), DisplayKey = "Toolbox.MiniGame.SecretFront", Value = "MiniGame@SecretFront", TipKey = "Toolbox.MiniGame.SecretFront.Tip" },
+            new() { Display = LocalizationHelper.GetString("Toolbox.MiniGame.SPA"), DisplayKey = "Toolbox.MiniGame.SPA", Value = "MiniGame@SPA@Begin", TipKey = "Toolbox.MiniGame.SPA.Tip" },
             new() { Display = LocalizationHelper.GetString("Toolbox.MiniGame.Reclamation.Title"), DisplayKey = "Toolbox.MiniGame.Reclamation.Title", Value = "Reclamation", CategoryKey = "Toolbox.MiniGame.Category.Permanent" },
 
             // 撒尿牛丸

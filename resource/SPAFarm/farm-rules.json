@@ -1,0 +1,471 @@
+{
+  "modeId": "mode_single_funny",
+  "strategies": [
+    {
+      "id": "band_amiya",
+      "name": "阿米娅",
+      "type": "GENERAL",
+      "available": true
+    },
+    {
+      "id": "band_sarkazb",
+      "name": "歌利亚",
+      "type": "GENERAL",
+      "available": true
+    },
+    {
+      "id": "band_emperor",
+      "name": "大帝",
+      "type": "GENERAL",
+      "available": true
+    },
+    {
+      "id": "band_qalaisa",
+      "name": "卡莱莎",
+      "type": "GENERAL",
+      "available": true
+    },
+    {
+      "id": "band_ioleta",
+      "name": "伊奥莱塔·罗素",
+      "type": "GENERAL",
+      "available": true
+    },
+    {
+      "id": "band_survive",
+      "name": "百炼嘉维尔",
+      "type": "GENERAL",
+      "available": true
+    },
+    {
+      "id": "band_price",
+      "name": "天空盒",
+      "type": "GENERAL",
+      "available": true
+    },
+    {
+      "id": "band_transfer",
+      "name": "风丸",
+      "type": "GENERAL",
+      "available": true
+    },
+    {
+      "id": "band_dance",
+      "name": "妮芙",
+      "type": "GENERAL",
+      "available": false
+    },
+    {
+      "id": "band_copy",
+      "name": "夕",
+      "type": "GENERAL",
+      "available": true
+    },
+    {
+      "id": "band_jenga",
+      "name": "但书",
+      "type": "GENERAL",
+      "available": false
+    },
+    {
+      "id": "band_evolve",
+      "name": "大嘴莫布",
+      "type": "GENERAL",
+      "available": true
+    },
+    {
+      "id": "band_jesica",
+      "name": "杰西卡",
+      "type": "GENERAL",
+      "available": false
+    },
+    {
+      "id": "band_takecare",
+      "name": "华法琳",
+      "type": "GENERAL",
+      "available": true
+    },
+    {
+      "id": "band_shield",
+      "name": "桑葚",
+      "type": "GENERAL",
+      "available": true
+    },
+    {
+      "id": "band_smith",
+      "name": "奥达",
+      "type": "GENERAL",
+      "available": false
+    },
+    {
+      "id": "band_weakness",
+      "name": "陈",
+      "type": "GENERAL",
+      "available": true
+    },
+    {
+      "id": "band_lmlee",
+      "name": "老鲤",
+      "type": "GENERAL",
+      "available": true
+    },
+    {
+      "id": "band_fang",
+      "name": "芬",
+      "type": "GENERAL",
+      "available": false
+    },
+    {
+      "id": "band_amedic",
+      "name": "Touch",
+      "type": "GENERAL",
+      "available": true
+    },
+    {
+      "id": "band_mech",
+      "name": "森蚺",
+      "type": "GENERAL",
+      "available": false
+    },
+    {
+      "id": "band_treasure",
+      "name": "寻宝人",
+      "type": "GENERAL",
+      "available": false
+    },
+    {
+      "id": "band_upgrade",
+      "name": "缪尔赛思",
+      "type": "GENERAL",
+      "available": true
+    },
+    {
+      "id": "band_breakaway",
+      "name": "Misery",
+      "type": "GENERAL",
+      "available": false
+    },
+    {
+      "id": "band_damaztic",
+      "name": "“变形者集群”",
+      "type": "GENERAL",
+      "available": false
+    },
+    {
+      "id": "band_fund",
+      "name": "小贾斯汀",
+      "type": "GENERAL",
+      "available": true
+    },
+    {
+      "id": "band_gain",
+      "name": "铃兰",
+      "type": "GENERAL",
+      "available": true
+    },
+    {
+      "id": "band_prepfin",
+      "name": "苏苏洛",
+      "type": "GENERAL",
+      "available": true
+    },
+    {
+      "id": "band_mess",
+      "name": "昆图斯",
+      "type": "GENERAL",
+      "available": false
+    },
+    {
+      "id": "band_protect",
+      "name": "信仰搅拌机",
+      "type": "GENERAL",
+      "available": false
+    },
+    {
+      "id": "band_random",
+      "name": "“追随者们”",
+      "type": "GENERAL",
+      "available": false
+    },
+    {
+      "id": "band_cannot",
+      "name": "坎诺特",
+      "type": "GENERAL",
+      "available": true
+    },
+    {
+      "id": "band_ducklord",
+      "name": "鸭爵",
+      "type": "GENERAL",
+      "available": false
+    },
+    {
+      "id": "band_rich",
+      "name": "琳琅诗怀雅",
+      "type": "GENERAL",
+      "available": false
+    },
+    {
+      "id": "band_substitute",
+      "name": "巫恋",
+      "type": "GENERAL",
+      "available": false
+    },
+    {
+      "id": "band_sell",
+      "name": "三船光平",
+      "type": "GENERAL",
+      "available": false
+    },
+    {
+      "id": "band_support",
+      "name": "雅拉",
+      "type": "GENERAL",
+      "available": false
+    },
+    {
+      "id": "band_high",
+      "name": "渡桥",
+      "type": "GENERAL",
+      "available": false
+    },
+    {
+      "id": "band_equipment",
+      "name": "Mechanist",
+      "type": "GENERAL",
+      "available": false
+    },
+    {
+      "id": "band_pudd",
+      "name": "布丁",
+      "type": "GENERAL",
+      "available": false
+    },
+    {
+      "id": "band_closeout",
+      "name": "拜松",
+      "type": "GENERAL",
+      "available": false
+    },
+    {
+      "id": "band_pith",
+      "name": "Pith",
+      "type": "GENERAL",
+      "available": true
+    },
+    {
+      "id": "band_limit",
+      "name": "坚雷",
+      "type": "GENERAL",
+      "available": false
+    },
+    {
+      "id": "band_bonus",
+      "name": "复奏",
+      "type": "GENERAL",
+      "available": false
+    },
+    {
+      "id": "band_yan2",
+      "name": "望",
+      "type": "BONDRELEVANT",
+      "available": false
+    },
+    {
+      "id": "band_yan",
+      "name": "杜遥夜",
+      "type": "BONDRELEVANT",
+      "available": true
+    },
+    {
+      "id": "band_sargon",
+      "name": "娜仁图亚",
+      "type": "BONDRELEVANT",
+      "available": false
+    },
+    {
+      "id": "band_pepe",
+      "name": "佩佩",
+      "type": "BONDRELEVANT",
+      "available": true
+    },
+    {
+      "id": "band_victoria",
+      "name": "洛洛",
+      "type": "BONDRELEVANT",
+      "available": false
+    },
+    {
+      "id": "band_harold",
+      "name": "哈洛德",
+      "type": "BONDRELEVANT",
+      "available": true
+    },
+    {
+      "id": "band_egir",
+      "name": "歌蕾蒂娅",
+      "type": "BONDRELEVANT",
+      "available": false
+    },
+    {
+      "id": "band_clementia",
+      "name": "克莱门莎",
+      "type": "BONDRELEVANT",
+      "available": true
+    },
+    {
+      "id": "band_kazimier",
+      "name": "焰尾",
+      "type": "BONDRELEVANT",
+      "available": false
+    },
+    {
+      "id": "band_mlynar",
+      "name": "玛恩纳",
+      "type": "BONDRELEVANT",
+      "available": true
+    },
+    {
+      "id": "band_kjerag2",
+      "name": "耶拉",
+      "type": "BONDRELEVANT",
+      "available": false
+    },
+    {
+      "id": "band_kjerag",
+      "name": "休露丝",
+      "type": "BONDRELEVANT",
+      "available": true
+    },
+    {
+      "id": "band_siracusa",
+      "name": "裁度",
+      "type": "BONDRELEVANT",
+      "available": false
+    },
+    {
+      "id": "band_bond",
+      "name": "贾维",
+      "type": "BONDRELEVANT",
+      "available": true
+    },
+    {
+      "id": "band_lethania",
+      "name": "车尔尼",
+      "type": "BONDRELEVANT",
+      "available": true
+    },
+    {
+      "id": "band_ursus",
+      "name": "怒潮凛冬",
+      "type": "BONDRELEVANT",
+      "available": true
+    },
+    {
+      "id": "band_iberia",
+      "name": "引星棘刺",
+      "type": "BONDRELEVANT",
+      "available": true
+    }
+  ],
+  "turns": {
+    "1": {
+      "round": 1,
+      "normalPhaseTime": 300,
+      "isBossTurn": false,
+      "bossTurnHpReduceTime": 0
+    },
+    "2": {
+      "round": 2,
+      "normalPhaseTime": 300,
+      "isBossTurn": false,
+      "bossTurnHpReduceTime": 0
+    },
+    "3": {
+      "round": 3,
+      "normalPhaseTime": 300,
+      "isBossTurn": false,
+      "bossTurnHpReduceTime": 0
+    },
+    "4": {
+      "round": 4,
+      "normalPhaseTime": 300,
+      "isBossTurn": false,
+      "bossTurnHpReduceTime": 0
+    },
+    "5": {
+      "round": 5,
+      "normalPhaseTime": 300,
+      "isBossTurn": false,
+      "bossTurnHpReduceTime": 0
+    },
+    "6": {
+      "round": 6,
+      "normalPhaseTime": 300,
+      "isBossTurn": false,
+      "bossTurnHpReduceTime": 0
+    },
+    "7": {
+      "round": 7,
+      "normalPhaseTime": 300,
+      "isBossTurn": false,
+      "bossTurnHpReduceTime": 0
+    },
+    "8": {
+      "round": 8,
+      "normalPhaseTime": 300,
+      "isBossTurn": false,
+      "bossTurnHpReduceTime": 0
+    },
+    "9": {
+      "round": 9,
+      "normalPhaseTime": 300,
+      "isBossTurn": true,
+      "bossTurnHpReduceTime": 150
+    }
+  },
+  "shop": {
+    "1": {
+      "shopLevel": 1,
+      "initialUpgradePrice": 1,
+      "charChessCount": 3,
+      "itemCount": 1,
+      "levelTagBgColor": "#434343"
+    },
+    "2": {
+      "shopLevel": 2,
+      "initialUpgradePrice": 1,
+      "charChessCount": 4,
+      "itemCount": 1,
+      "levelTagBgColor": "#626654"
+    },
+    "3": {
+      "shopLevel": 3,
+      "initialUpgradePrice": 5,
+      "charChessCount": 4,
+      "itemCount": 1,
+      "levelTagBgColor": "#445760"
+    },
+    "4": {
+      "shopLevel": 4,
+      "initialUpgradePrice": 8,
+      "charChessCount": 4,
+      "itemCount": 1,
+      "levelTagBgColor": "#615B74"
+    },
+    "5": {
+      "shopLevel": 5,
+      "initialUpgradePrice": 10,
+      "charChessCount": 4,
+      "itemCount": 1,
+      "levelTagBgColor": "#6C5E41"
+    },
+    "6": {
+      "shopLevel": 6,
+      "initialUpgradePrice": 11,
+      "charChessCount": 5,
+      "itemCount": 1,
+      "levelTagBgColor": "#5d341e"
+    }
+  }
+}

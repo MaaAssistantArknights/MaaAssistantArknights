@@ -2535,10 +2535,30 @@ Task flow: Use the Gold from Strategy Business Management to unlock areas, and u
     <system:String x:Key="Toolbox.MiniGame.Reclamation.ToolToCraft.Placeholder">Glow Stick</system:String>
     <system:String x:Key="Toolbox.MiniGame.Reclamation.ToolToCraft.Tip">Support prop name</system:String>
     <system:String x:Key="Toolbox.MiniGame.SPA">Stronghold Protocol</system:String>
-    <system:String x:Key="Toolbox.MiniGame.SPA.Tip" xml:space="preserve">Start the task from the main event screen (where ｢Express Simulation｣ (name TBD) is located)
+    <system:String x:Key="Toolbox.MiniGame.SPA.Colorful">Colorful badge</system:String>
+    <system:String x:Key="Toolbox.MiniGame.SPA.Goal">Goal</system:String>
+    <system:String x:Key="Toolbox.MiniGame.SPA.Goal.Medal">Strategy badge</system:String>
+    <system:String x:Key="Toolbox.MiniGame.SPA.Goal.Task1">Yan / Leithanien / Arcane 100</system:String>
+    <system:String x:Key="Toolbox.MiniGame.SPA.Goal.Task2">Aegir / Kazimierz / Assault 100</system:String>
+    <system:String x:Key="Toolbox.MiniGame.SPA.Goal.Task3">Siracusa / Sargon / Marksman 100</system:String>
+    <system:String x:Key="Toolbox.MiniGame.SPA.Goal.Task4">Victoria / Kjerag / Agile 100</system:String>
+    <system:String x:Key="Toolbox.MiniGame.SPA.Goal.Task5">Ursus / Iberia / Amalgam 100</system:String>
+    <system:String x:Key="Toolbox.MiniGame.SPA.Goal.Task6">Miracle / Foresight / Investor 50</system:String>
+    <system:String x:Key="Toolbox.MiniGame.SPA.Goal.Task7">Swift / Unyielding / Hold / Support 50</system:String>
+    <system:String x:Key="Toolbox.MiniGame.SPA.LowProfile">Low-rarity mode</system:String>
+    <system:String x:Key="Toolbox.MiniGame.SPA.MaxRuns">Max cleared runs</system:String>
+    <system:String x:Key="Toolbox.MiniGame.SPA.Mode">Mode</system:String>
+    <system:String x:Key="Toolbox.MiniGame.SPA.Mode.Badge">Badge farm</system:String>
+    <system:String x:Key="Toolbox.MiniGame.SPA.Mode.Level">Level farm</system:String>
+    <system:String x:Key="Toolbox.MiniGame.SPA.SimMode">Simulation mode</system:String>
+    <system:String x:Key="Toolbox.MiniGame.SPA.SimMode.Quick">Quick simulation</system:String>
+    <system:String x:Key="Toolbox.MiniGame.SPA.SimMode.Standard">Standard simulation</system:String>
+    <system:String x:Key="Toolbox.MiniGame.SPA.Tip" xml:space="preserve">Start from the main event screen (where ｢Personal Simulation｣ / ｢Independent Simulation｣ is located); the simulation mode is chosen above
+The game must run at 1920×1080 (1080p)
+Disable in-game key/button hints (on PC, hints such as the G key overlay button text and break recognition)
 Default outfits must be used
 If there is a saved game, you need to manually abandon it first
-Only level rewards can be farmed; to get the Engraved Medal, all ｢Key Objectives｣ must be completed</system:String>
+Supports farming strategy badges or specific ｢Key Objectives｣; both quick and standard simulation are supported</system:String>
     <system:String x:Key="Toolbox.MiniGame.SecretFront">Hidden Front</system:String>
     <system:String x:Key="Toolbox.MiniGame.SecretFront.Ending">Ending</system:String>
     <system:String x:Key="Toolbox.MiniGame.SecretFront.Event">Priority for Series of Events</system:String>
