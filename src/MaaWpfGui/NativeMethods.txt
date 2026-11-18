@@ -50,6 +50,7 @@ SetWindowLong
 // Game audio mute
 GetWindowPlacement
 SetWindowPlacement
+SendMessageTimeout
 MMDeviceEnumerator
 IMMDeviceEnumerator
 IAudioSessionManager2

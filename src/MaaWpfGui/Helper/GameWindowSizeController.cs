@@ -397,7 +397,46 @@ internal sealed class GameWindowSizeController : IDisposable
             return new(Status.Failed, Error: Marshal.GetLastWin32Error());
         }
 
-        if (!MoveAndVerify(saved, saved.Bounds, width, height, out var error))
+        var target = saved.Bounds;
+        var restored = false;
+        var error = 0;
+        for (var attempt = 0; attempt < 3; ++attempt)
+        {
+            if (MoveAndVerify(saved, target, width, height, out error))
+            {
+                restored = true;
+                break;
+            }
+
+            // Moving onto another DPI may change the actual frame. Correct from readback, as Resize does.
+            if (!IsSameWindow(saved) || !PInvoke.GetWindowRect(saved.Handle, out var actualBounds) || !PInvoke.GetClientRect(saved.Handle, out var actualClient))
+            {
+                break;
+            }
+
+            var outerWidth = actualBounds.right - actualBounds.left + width - (actualClient.right - actualClient.left);
+            var outerHeight = actualBounds.bottom - actualBounds.top + height - (actualClient.bottom - actualClient.top);
+            var corrected = new RECT { left = target.left, top = target.top, right = target.left + outerWidth, bottom = target.top + outerHeight };
+            var monitor = new MONITORINFO { cbSize = (uint)Marshal.SizeOf<MONITORINFO>() };
+            if (!PInvoke.GetMonitorInfo(PInvoke.MonitorFromRect(in target, MONITOR_FROM_FLAGS.MONITOR_DEFAULTTONEAREST), ref monitor))
+            {
+                error = Marshal.GetLastWin32Error();
+                break;
+            }
+
+            corrected.left = Math.Clamp(corrected.left, monitor.rcWork.left, Math.Max(monitor.rcWork.left, monitor.rcWork.right - outerWidth));
+            corrected.top = Math.Clamp(corrected.top, monitor.rcWork.top, Math.Max(monitor.rcWork.top, monitor.rcWork.bottom - outerHeight));
+            corrected.right = corrected.left + outerWidth;
+            corrected.bottom = corrected.top + outerHeight;
+            if (corrected.left == target.left && corrected.top == target.top && corrected.right == target.right && corrected.bottom == target.bottom)
+            {
+                break;
+            }
+
+            target = corrected;
+        }
+
+        if (!restored)
         {
             _logger.Warning("Failed to restore game window {Hwnd}, error: {Error}", saved.Handle, error);
             return new(Status.Failed, Error: error, WindowChanged: GeometryChanged(saved.Handle, beforeBounds, beforeClient));

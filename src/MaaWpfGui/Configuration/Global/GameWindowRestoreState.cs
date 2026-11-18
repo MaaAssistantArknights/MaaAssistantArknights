@@ -11,9 +11,11 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
+using MaaWpfGui.Models;
+
 namespace MaaWpfGui.Configuration.Global;
 
-public sealed class GameWindowRestoreState
+public sealed class GameWindowRestoreState : NotifyPropertyChangedWithValue
 {
     public string ExecutablePath { get; set; } = string.Empty;
 
