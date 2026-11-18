@@ -591,18 +591,6 @@
     "Mizuki@Roguelike@WaitForStartButtonClicked": {
         "template": "Roguelike@QuickFormation.png"
     },
-    "Mizuki@RoguelikeEncounter-ClickOption": {
-        "baseTask": "JieGarden@RoguelikeEncounter-ClickOption"
-    },
-    "Mizuki@RoguelikeEncounter-InitialMoveUp": {
-        "baseTask": "JieGarden@RoguelikeEncounter-InitialMoveUp"
-    },
-    "Mizuki@RoguelikeEncounter-MoveDown": {
-        "baseTask": "JieGarden@RoguelikeEncounter-MoveDown"
-    },
-    "Mizuki@RoguelikeEncounter-MoveUp": {
-        "baseTask": "JieGarden@RoguelikeEncounter-MoveUp"
-    },
     "Mizuki@RoguelikeEncounterOptionAnalyzer-Option": {
         "template": "empty.png",
         "roi": [884, 40, 388, 595],
