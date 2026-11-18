@@ -1171,5 +1171,43 @@
     "Sarkaz@Roguelike@WaitForStartButtonClicked": {
         "template": "Roguelike@QuickFormation.png"
     },
+    "Sarkaz@RoguelikeEncounter-ClickOption": {
+        "baseTask": "JieGarden@RoguelikeEncounter-ClickOption"
+    },
+    "Sarkaz@RoguelikeEncounter-InitialMoveUp": {
+        "baseTask": "JieGarden@RoguelikeEncounter-InitialMoveUp"
+    },
+    "Sarkaz@RoguelikeEncounter-MoveDown": {
+        "baseTask": "JieGarden@RoguelikeEncounter-MoveDown"
+    },
+    "Sarkaz@RoguelikeEncounter-MoveUp": {
+        "baseTask": "JieGarden@RoguelikeEncounter-MoveUp"
+    },
+    "Sarkaz@RoguelikeEncounterOptionAnalyzer-Option": {
+        "template": "empty.png",
+        "roi": [884, 40, 388, 595],
+        "specificRect": [884, 0, 388, 45],
+        "specificRect_Doc": "用于裁剪选项标题，y 坐标由标题栏的匹配结果提供。"
+    },
+    "Sarkaz@RoguelikeEncounterOptionAnalyzer-OptionHeaderBar": {
+        "template": "Sarkaz@RoguelikeEncounterOptionAnalyzer-OptionHeaderBar.png",
+        "roi": [1181, 40, 67, 595]
+    },
+    "Sarkaz@RoguelikeEncounterOptionAnalyzer-OptionHeaderBar-Enabled": {
+        "template": "Sarkaz@RoguelikeEncounterOptionAnalyzer-OptionHeaderBar.png",
+        "roi": [0, 0, 67, 45],
+        "method": "HSVCount",
+        "colorScales": [
+            [
+                [0, 0, 20],
+                [179, 255, 255]
+            ]
+        ]
+    },
+    "Sarkaz@RoguelikeEncounterOptionAnalyzer-OptionHeaderBar-Text": {
+        "algorithm": "OcrDetect",
+        "roi": [0, 0, 388, 45],
+        "text": []
+    },
     "Sarkaz@RoguelikeSettlementConfirm": {}
 }
