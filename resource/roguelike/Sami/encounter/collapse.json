@@ -40,6 +40,7 @@
             "name": "低地市集",
             "option_num": 3,
             "choose": 3,
+            "fallback_choices": [[4, 3]],
             "choices": [
                 {
                     "name": "选择碎草药",
