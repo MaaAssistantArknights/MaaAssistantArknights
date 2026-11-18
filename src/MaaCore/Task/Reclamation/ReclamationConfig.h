@@ -1,5 +1,10 @@
 #pragma once
+#include <memory>
+#include <mutex>
+#include <string>
+#include <string_view>
 #include <variant>
+#include <vector>
 
 #include <meojson/json.hpp>
 
@@ -38,8 +43,23 @@ enum class ReclamationDifficulty // 对应 Roguelike Difficulty
 class ReclamationConfig
 {
 public:
-    ReclamationConfig() = default;
-    ~ReclamationConfig() = default;
+    enum class IncrementMode
+    {
+        Click = 0,
+        Hold = 1,
+    };
+
+    struct Params
+    {
+        std::string theme = std::string(ReclamationTheme::Tales);
+        ReclamationMode mode = TalesMode::ProsperityInSave;
+        bool clear_store = false;
+        std::vector<std::string> tools_to_craft;
+        int num_craft_batches = 16;
+        IncrementMode increment_mode = IncrementMode::Click;
+    };
+
+    [[nodiscard]] std::shared_ptr<const Params> get_params() const;
 
     bool verify_and_load_params(const json::value& params);
 
@@ -54,23 +74,11 @@ public:
                difficulty == ReclamationDifficulty::Challenge;
     }
 
-    // ———————— 通用参数 ——————————————————————————————————————————————————————————————————
-public:
-    [[nodiscard]] const std::string& get_theme() const { return m_theme; }
-
-    [[nodiscard]] const ReclamationMode& get_mode() const { return m_mode; }
-
     [[nodiscard]] ReclamationDifficulty get_difficulty() const { return m_difficulty; }
 
 private:
-    std::string m_theme = std::string(ReclamationTheme::Tales);            // 主题
-    ReclamationMode m_mode = TalesMode::ProsperityInSave;                  // 策略
-    ReclamationDifficulty m_difficulty = ReclamationDifficulty::Challenge; // 难度模式
-
-    // 以下注释列出了插件专用参数, 以便于快速检阅。这些参数的具体声明与使用请参考各插件。
-    // ———————— ReclamationCraftTaskPlugin 专用参数 ———————————————————————————————————————
-    // std::vector<std::string> m_tools_to_craft = { "荧光棒" }; // 要组装的支援道具
-    // int m_num_craft_batches = 16;                            // 支援道具组装批次数, 每批组装 99 个
-    // IncrementMode m_increment_mode = IncrementMode::Click;   // 点击加号按钮增加组装数量的方式
+    mutable std::mutex m_mutex;
+    std::shared_ptr<const Params> m_params = std::make_shared<Params>();
+    ReclamationDifficulty m_difficulty = ReclamationDifficulty::Challenge;
 };
 } // namespace asst

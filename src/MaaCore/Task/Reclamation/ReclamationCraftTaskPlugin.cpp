@@ -8,34 +8,10 @@
 #include "Vision/Matcher.h"
 #include "Vision/RegionOCRer.h"
 
-bool asst::ReclamationCraftTaskPlugin::load_params(const json::value& params)
+bool asst::ReclamationCraftTaskPlugin::load_params(const ReclamationConfig::Params& params)
 {
-    LogTraceFunction;
-
-    // 仅在沙洲遗闻有存档模式下启用
-    const auto* tales_mode = std::get_if<TalesMode>(&m_config->get_mode());
-    if (!tales_mode || *tales_mode != TalesMode::ProsperityInSave) {
-        return false;
-    }
-
-    // 根据 params 设置插件专用参数
-    m_tools_to_craft.clear();
-    for (const auto& tool : params.get("tools_to_craft", json::array {})) {
-        if (std::string tool_str = tool.as_string(); !tool_str.empty()) {
-            m_tools_to_craft.emplace_back(tool_str);
-        }
-    }
-    m_num_craft_batches =
-        params.get("num_craft_batches", 16); // 默认值 16 以组装 <荧光棒> 消耗至少 3000 木头为准计算得出
-    const int increment_mode_int = params.get("increment_mode", static_cast<int>(IncrementMode::Click));
-    const auto increment_mode = static_cast<IncrementMode>(increment_mode_int);
-    if (increment_mode != IncrementMode::Click && increment_mode != IncrementMode::Hold) {
-        Log.error(__FUNCTION__, "| unknown increment mode: ", increment_mode_int);
-        return false;
-    }
-    m_increment_mode = increment_mode;
-
-    return true;
+    m_craft_task_name = params.theme + "@RA@PIS-CraftTool";
+    return params.mode == ReclamationMode { TalesMode::ProsperityInSave };
 }
 
 bool asst::ReclamationCraftTaskPlugin::verify(const AsstMsg msg, const json::value& details) const
@@ -45,25 +21,23 @@ bool asst::ReclamationCraftTaskPlugin::verify(const AsstMsg msg, const json::val
     }
 
     const std::string& task_name = details.get("details", "task", "");
-    if (task_name == m_config->get_theme() + "@RA@PIS-CraftTool") {
-        return true;
-    }
-
-    return false;
+    return task_name == m_craft_task_name;
 }
 
 bool asst::ReclamationCraftTaskPlugin::_run()
 {
     LogTraceFunction;
 
-    const std::string& theme = m_config->get_theme();
+    // 同一次进入组装台的所有批次使用同一份配置。
+    const auto params = m_config->get_params();
+    const auto& theme = params->theme;
     const std::string select_prefix = inst_string() + "@" + theme + "@RA@PIS-";
-    for (const std::string& tool_to_craft : m_tools_to_craft) {
+    for (const std::string& tool_to_craft : params->tools_to_craft) {
         Task.get<OcrTaskInfo>(select_prefix + "ClickTool")->text =
             ReclamationToolConfig::get_instance().names_for(tool_to_craft);
 
         bool insufficient_materials = false;
-        for (int batch = 0; !need_exit() && !insufficient_materials && batch < m_num_craft_batches; ++batch) {
+        for (int batch = 0; !need_exit() && !insufficient_materials && batch < params->num_craft_batches; ++batch) {
             // Step 1: 选择要组装的道具, 若没有找到则在组装台界面向下滑动屏幕后再次检测, 直到识别到要组装的道具后点击
             ProcessTask(*this, { select_prefix + "SelectTool" }).run();
             sleep(500);
@@ -71,11 +45,11 @@ bool asst::ReclamationCraftTaskPlugin::_run()
             int craft_amount = 0;
             while (!need_exit() && !insufficient_materials && craft_amount < 99) {
                 // Step 2: 识别加号按钮后点击 99 次增加组装数量
-                increase_craft_amount(99 - craft_amount);
+                increase_craft_amount(*params, 99 - craft_amount);
                 sleep(500);
 
                 // Step 3: 识别组装数量
-                if (!calc_craft_amount(craft_amount)) {
+                if (!calc_craft_amount(theme, craft_amount)) {
                     break;
                 }
 
@@ -84,7 +58,7 @@ bool asst::ReclamationCraftTaskPlugin::_run()
                     int old_craft_amount = craft_amount;
                     ProcessTask(*this, { theme + "@RA@IncreaseCraftAmount" }).run();
                     sleep(500);
-                    if (!calc_craft_amount(craft_amount) || craft_amount <= old_craft_amount) {
+                    if (!calc_craft_amount(theme, craft_amount) || craft_amount <= old_craft_amount) {
                         insufficient_materials = true;
                     }
                     else {
@@ -108,11 +82,11 @@ bool asst::ReclamationCraftTaskPlugin::_run()
     return true;
 }
 
-void asst::ReclamationCraftTaskPlugin::increase_craft_amount(const int& amount)
+void asst::ReclamationCraftTaskPlugin::increase_craft_amount(const ReclamationConfig::Params& params, int amount)
 {
     LogTraceFunction;
 
-    const std::string& theme = m_config->get_theme();
+    const auto& theme = params.theme;
 
     // InputEvent touch_down_event;
     // touch_down_event.type = InputEvent::Type::TOUCH_DOWN;
@@ -122,8 +96,8 @@ void asst::ReclamationCraftTaskPlugin::increase_craft_amount(const int& amount)
     add_button_analyzer.set_task_info(theme + "@RA@IncreaseCraftAmount");
     Rect add_button_rect;
 
-    switch (m_increment_mode) {
-    case IncrementMode::Click:
+    switch (params.increment_mode) {
+    case ReclamationConfig::IncrementMode::Click:
         for (int i = 0; !need_exit() && i < amount; ++i) {
             ProcessTask(*this, { theme + "@RA@IncreaseCraftAmount" }).run();
         }
@@ -142,7 +116,7 @@ void asst::ReclamationCraftTaskPlugin::increase_craft_amount(const int& amount)
     //         }
     //     }
     //     break;
-    case IncrementMode::Hold:
+    case ReclamationConfig::IncrementMode::Hold:
         add_button_analyzer.set_image(ctrler()->get_image());
         if (!add_button_analyzer.analyze()) {
             Log.error(__FUNCTION__, "| cannot recongnise the add button");
@@ -152,16 +126,14 @@ void asst::ReclamationCraftTaskPlugin::increase_craft_amount(const int& amount)
         ctrler()->swipe(add_button_rect, add_button_rect, 10 * 1000 * amount / 100 + 1000);
         break;
     default:
-        Log.error(__FUNCTION__, "| unknown increment mode: ", static_cast<int>(m_increment_mode));
+        Log.error(__FUNCTION__, "| unknown increment mode: ", static_cast<int>(params.increment_mode));
         break;
     }
 }
 
-bool asst::ReclamationCraftTaskPlugin::calc_craft_amount(int& value)
+bool asst::ReclamationCraftTaskPlugin::calc_craft_amount(const std::string& theme, int& value)
 {
     LogTraceFunction;
-
-    const std::string& theme = m_config->get_theme();
 
     RegionOCRer craft_amount_analyzer(ctrler()->get_image());
     craft_amount_analyzer.set_task_info(theme + "@RA@PIS-CraftAmountOcr");

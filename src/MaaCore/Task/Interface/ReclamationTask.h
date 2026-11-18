@@ -14,6 +14,7 @@ public:
     ReclamationTask(const AsstCallback& callback, Assistant* inst);
     virtual ~ReclamationTask() override = default;
 
+    virtual bool run() override;
     virtual bool set_params(const json::value& params) override;
 
 private:

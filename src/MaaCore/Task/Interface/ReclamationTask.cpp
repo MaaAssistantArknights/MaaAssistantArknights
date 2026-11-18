@@ -29,17 +29,22 @@ bool asst::ReclamationTask::set_params(const json::value& params)
 {
     LogTraceFunction;
 
-    if (!m_config_ptr->verify_and_load_params(params)) {
-        return false;
-    }
+    return m_config_ptr->verify_and_load_params(params);
+}
 
-    const std::string& theme = m_config_ptr->get_theme();
-    const auto& mode = m_config_ptr->get_mode();
+bool asst::ReclamationTask::run()
+{
+    LogTraceFunction;
+
+    // 在工作线程选择任务入口，避免更新参数时改写正在执行的 ProcessTask。
+    const auto params = m_config_ptr->get_params();
+    const auto& theme = params->theme;
+    const auto& mode = params->mode;
 
     if (theme == ReclamationTheme::Fire) {
         Log.info(__FUNCTION__, "Reclamation Algorithm theme", theme, "is no longer available");
         m_reclamation_task_ptr->set_tasks({ "Stop" });
-        return true;
+        return InterfaceTask::run();
     }
 
     m_reclamation_task_ptr->set_times_limit("RA@Store@EnterStore", INT_MAX);
@@ -70,7 +75,7 @@ bool asst::ReclamationTask::set_params(const json::value& params)
         switch (*tales_mode) {
         case TalesMode::ProsperityNoSave:
             m_reclamation_task_ptr->set_tasks({ theme + "@RA@ProsperityNoSave" });
-            if (!params.get("clear_store", false)) {
+            if (!params->clear_store) {
                 m_reclamation_task_ptr->set_times_limit("RA@Store@EnterStore", 0);
             }
             break;
@@ -82,13 +87,10 @@ bool asst::ReclamationTask::set_params(const json::value& params)
         }
     }
 
-    // 各生息演算插件根据 params 设置插件专用参数, 停用不应被启用的插件
-    for (const TaskPluginPtr& plugin : m_reclamation_task_ptr->get_plugins()) {
-        if (const auto& reclamation_task_plugin = std::dynamic_pointer_cast<AbstractReclamationTaskPlugin>(plugin);
-            reclamation_task_plugin != nullptr) {
-            reclamation_task_plugin->set_enable(reclamation_task_plugin->load_params(params));
+    for (const auto& plugin : m_reclamation_task_ptr->get_plugins()) {
+        if (const auto reclamation_plugin = std::dynamic_pointer_cast<AbstractReclamationTaskPlugin>(plugin)) {
+            reclamation_plugin->set_enable(reclamation_plugin->load_params(*params));
         }
     }
-
-    return true;
+    return InterfaceTask::run();
 }
