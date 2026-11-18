@@ -987,6 +987,8 @@ public class RoguelikeTaskUserControlModel : TaskSettingsViewModel, RoguelikeTas
             SetTaskConfig<RoguelikeTask>(t => t.BlackFlowStartAnimal1 == value, t => t.BlackFlowStartAnimal1 = value);
             UpdateBlackFlowSerpentOptions();
             OnPropertyChanged(nameof(RoguelikeBlackFlowHasSerpent));
+            OnPropertyChanged(nameof(RoguelikeBlackFlowStartRunOddsText));
+            OnPropertyChanged(nameof(RoguelikeBlackFlowStartRunOddsVisible));
         }
     }
 
@@ -997,6 +999,8 @@ public class RoguelikeTaskUserControlModel : TaskSettingsViewModel, RoguelikeTas
             SetTaskConfig<RoguelikeTask>(t => t.BlackFlowStartAnimal2 == value, t => t.BlackFlowStartAnimal2 = value);
             UpdateBlackFlowSerpentOptions();
             OnPropertyChanged(nameof(RoguelikeBlackFlowHasSerpent));
+            OnPropertyChanged(nameof(RoguelikeBlackFlowStartRunOddsText));
+            OnPropertyChanged(nameof(RoguelikeBlackFlowStartRunOddsVisible));
         }
     }
 
@@ -1006,6 +1010,35 @@ public class RoguelikeTaskUserControlModel : TaskSettingsViewModel, RoguelikeTas
     public bool RoguelikeBlackFlowHasSerpent =>
         RoguelikeBlackFlowStartAnimal1 == RoguelikeBlackFlowStartAnimal.FeatheredSerpent ||
         RoguelikeBlackFlowStartAnimal2 == RoguelikeBlackFlowStartAnimal.FeatheredSerpent;
+
+    /// <summary>
+    /// Gets 当前刷开局目标组合的单局命中率估算，供设置界面提示；未选择目标时为空字符串。
+    /// </summary>
+    public string RoguelikeBlackFlowStartRunOddsText
+    {
+        get
+        {
+            var estimate = BlackFlowStartRunOdds.Estimate(RoguelikeBlackFlowStartAnimal1, RoguelikeBlackFlowStartAnimal2);
+            if (estimate is null)
+            {
+                return string.Empty;
+            }
+
+            (double probability, int liveTrials) = estimate.Value;
+            string percent = (probability * 100).ToString("F1");
+            string expectedRuns = probability > 0 ? (1 / probability).ToString("F1") : "-";
+            return LocalizationHelper.GetStringFormat(
+                "Asst.Roguelike.BlackFlow.StartRunOdds",
+                percent,
+                expectedRuns,
+                liveTrials);
+        }
+    }
+
+    /// <summary>
+    /// Gets a value indicating whether 命中率提示需要显示；未选择刷开局目标时隐藏。
+    /// </summary>
+    public bool RoguelikeBlackFlowStartRunOddsVisible => RoguelikeBlackFlowStartRunOddsText.Length > 0;
 
     /// <summary>
     /// 刷开局奖励下拉框的选项。框内标签只显示名字，效果放在下拉项的悬浮提示里。
@@ -1602,9 +1635,19 @@ public class RoguelikeTaskUserControlModel : TaskSettingsViewModel, RoguelikeTas
                 {
                     var outcome = LocalizeBlackFlowStrategyOutcome(subTaskDetails?["outcome"]?.ToString());
                     var reason = LocalizeBlackFlowTerminationReason(subTaskDetails?["termination_reason"]?.ToString());
+                    bool succeeded = subTaskDetails?["succeeded"]?.Value<bool>() == true;
                     Instances.TaskQueueViewModel.AddLog(
                         LocalizationHelper.GetStringFormat("Asst.Roguelike.BlackFlow.StrategyResult", outcome, reason),
-                        subTaskDetails?["succeeded"]?.Value<bool>() == true ? UiLogColor.Info : UiLogColor.Warning);
+                        succeeded ? UiLogColor.Info : UiLogColor.Warning);
+
+                    // 刷开局每局结算后累计实测样本，让设置界面的命中率估算随运行收敛。
+                    if (subTaskDetails?["profile"]?.ToString() == "start_run_animals")
+                    {
+                        BlackFlowStartRunOdds.Record(RoguelikeBlackFlowStartAnimal1, RoguelikeBlackFlowStartAnimal2, succeeded);
+                        OnPropertyChanged(nameof(RoguelikeBlackFlowStartRunOddsText));
+                        OnPropertyChanged(nameof(RoguelikeBlackFlowStartRunOddsVisible));
+                    }
+
                     break;
                 }
             case "BoskyPassageNode":

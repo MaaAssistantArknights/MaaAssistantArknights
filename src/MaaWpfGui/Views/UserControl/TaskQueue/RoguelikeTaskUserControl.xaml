@@ -639,6 +639,11 @@
                         </Style>
                     </hc:ComboBox.ItemContainerStyle>
                 </hc:ComboBox>
+                <controls:TextBlock
+                    Margin="8,0,0,5"
+                    Foreground="{DynamicResource InfoBrush}"
+                    Text="{Binding RoguelikeBlackFlowStartRunOddsText}"
+                    Visibility="{c:Binding RoguelikeBlackFlowStartRunOddsVisible}" />
                 <StackPanel Margin="0,5,0,5" Orientation="Horizontal">
                     <controls:TextBlock Margin="8,0,0,0" Text="{DynamicResource Roguelike.BlackFlow.StartRewards}" />
                     <controls:TooltipBlock TooltipText="{DynamicResource Roguelike.BlackFlow.StartRewards.Tip}" />
