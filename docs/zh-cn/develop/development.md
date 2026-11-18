@@ -17,6 +17,7 @@ icon: iconoir:developer
 在 Pull Request 的 cover letter 或 commit message 中使用具有明显 AI 生成特征的文本可能会导致该 Pull Request 被忽略或直接关闭。
 
 「AI 生成特征」包括但不限于：
+
 - 不是……而是……
 - 列出不重要的具体数字
 - 连续的极短句子
