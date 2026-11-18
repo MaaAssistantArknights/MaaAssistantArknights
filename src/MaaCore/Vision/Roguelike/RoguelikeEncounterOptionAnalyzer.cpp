@@ -10,7 +10,7 @@
 bool asst::RoguelikeEncounterOptionAnalyzer::supports_theme(std::string_view theme)
 {
     return theme == RoguelikeTheme::Phantom || theme == RoguelikeTheme::Mizuki || theme == RoguelikeTheme::Sami ||
-           theme == RoguelikeTheme::JieGarden || theme == RoguelikeTheme::BlackFlow;
+           theme == RoguelikeTheme::Sarkaz || theme == RoguelikeTheme::JieGarden || theme == RoguelikeTheme::BlackFlow;
 }
 
 bool asst::RoguelikeEncounterOptionAnalyzer::analyze()
