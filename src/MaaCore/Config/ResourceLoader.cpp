@@ -103,18 +103,19 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
 
     // ==================== 辅助 lambda：资源加载与错误处理 ====================
 
+    bool inherits_resources = false;
     // 加载资源并尝试加载对应的 _custom.json
     // 注意：custom 文件始终位于资源根目录（path），这是历史设计，勿修改
     auto load_with_custom = [&]<typename T>(const std::filesystem::path& filename, const char* res_name) -> bool {
         auto full_path = path / filename;
-        if (!load_resource<T>(full_path)) {
+        if (!load_resource<T>(full_path, inherits_resources)) {
             Log.error(res_name, " load failed, path:", full_path);
             return false;
         }
         auto custom_path = path / (full_path.stem().string() + "_custom.json");
         if (std::filesystem::exists(custom_path)) {
             Log.info("Loading custom file for ", res_name, ", path:", custom_path);
-            if (!load_resource<T>(custom_path)) {
+            if (!load_resource<T>(custom_path, inherits_resources)) {
                 Log.error(res_name, " load failed, path:", custom_path);
                 return false;
             }
@@ -129,7 +130,7 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
                                const char* res_name) -> bool {
         auto full_path = path / filename;
         auto full_templ_dir = path / templ_dir;
-        if (!load_resource_with_templ<T>(full_path, full_templ_dir)) {
+        if (!load_resource_with_templ<T>(full_path, full_templ_dir, inherits_resources)) {
             Log.error(res_name, "load failed, path:", full_path, ", templ dir:", full_templ_dir);
             return false;
         }
@@ -162,12 +163,6 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
         !load_with_custom.template operator()<RecruitConfig>("recruitment.json"_p, "RecruitConfig") ||
         !load_with_custom.template operator()<BattleDataConfig>("battle_data.json"_p, "BattleDataConfig") ||
         !load_with_custom.template operator()<OcrConfig>("ocr_config.json"_p, "OcrConfig")) {
-        return false;
-    }
-
-    const auto craft_names = "reclamation/Tales/craft_names.json"_p;
-    if (std::filesystem::exists(path / craft_names) &&
-        !load_with_custom.template operator()<ReclamationToolConfig>(craft_names, "ReclamationToolConfig")) {
         return false;
     }
 
@@ -367,6 +362,10 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
         return false;
     }
 
+    // A standalone resource set starts a new catalog. Partial loads inherit lower layers.
+    if (!ReclamationToolConfig::get_instance().load_layer(path, inherits_resources)) {
+        return false;
+    }
     m_uuid = MaaNS::make_uuid();
     m_loaded = true;
     Log.info(__FUNCTION__, "ret", m_loaded);
