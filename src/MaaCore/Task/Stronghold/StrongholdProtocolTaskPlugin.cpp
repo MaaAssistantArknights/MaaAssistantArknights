@@ -989,6 +989,16 @@ std::vector<StrongholdProtocolTaskPlugin::ShopCard>
     const auto is_oper_name = [](const std::string& text) {
         return oper_priority(text) >= 0 || is_dps_oper(text) || is_healer(text) || is_safe_oper(text);
     };
+    const auto parse_cost = [](std::string_view text) -> std::optional<int> {
+        if (text == "o" || text == "O") {
+            return 0;
+        }
+        unsigned value = 0;
+        if (text.size() <= 2 && utils::chars_to_number<unsigned, true>(text, value)) {
+            return static_cast<int>(value);
+        }
+        return std::nullopt;
+    };
     const auto tier_roi = task_roi("StrongholdProtocol@Roi@ShopTierY");
     const auto cost_roi = task_roi("StrongholdProtocol@Roi@ShopCostY");
     auto card_xs = results_opt ? detect_shop_card_x(*results_opt, cost_roi, tier_roi) : std::vector<int> {};
@@ -1045,11 +1055,11 @@ std::vector<StrongholdProtocolTaskPlugin::ShopCard>
                     card.tier = roman.at(upper);
                     continue;
                 }
-                int cost = 0;
-                if (cy >= cost_lo && cy <= cost_hi && std::abs(cx - x) <= cost_reread.width / 2 &&
-                    tr.text.size() <= 2 && utils::chars_to_number<int, true>(tr.text, cost) && cost >= 0) {
-                    card.cost = cost;
-                    continue;
+                if (cy >= cost_lo && cy <= cost_hi && std::abs(cx - x) <= cost_reread.width / 2) {
+                    if (const auto cost = parse_cost(tr.text)) {
+                        card.cost = *cost;
+                        continue;
+                    }
                 }
                 if (cy >= empty_lo && cy <= empty_hi && tr.text.find("NO INFO") != std::string::npos) {
                     card.empty = true;
@@ -1070,9 +1080,8 @@ std::vector<StrongholdProtocolTaskPlugin::ShopCard>
             RegionOCRer cost(image);
             cost.set_roi(card_rect(cost_reread, x));
             if (const auto result = cost.analyze()) {
-                int value = 0;
-                if (result->text.size() <= 2 && utils::chars_to_number<int, true>(result->text, value) && value >= 0) {
-                    card.cost = value;
+                if (const auto value = parse_cost(result->text)) {
+                    card.cost = *value;
                 }
             }
         }
