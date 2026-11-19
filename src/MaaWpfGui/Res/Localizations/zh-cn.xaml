@@ -2537,6 +2537,31 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="Toolbox.MiniGame.SecretFront.Event2">游侠</system:String>
     <system:String x:Key="Toolbox.MiniGame.SecretFront.Event3">诡影迷踪</system:String>
     <system:String x:Key="Toolbox.MiniGame.SecretFront.Tip" xml:space="preserve">在选小队界面开始，如有存档须手动删除。&#10;第一次打自己看完把教程关了。&#10;推荐勾选游戏内 ｢继承上一支队伍发回的数据｣</system:String>
+    <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol">{key=Toolbox.MiniGame.SPA}</system:String>
+    <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Cleared">本局通关</system:String>
+    <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.ClosedTheme">活动未开放</system:String>
+    <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Covenant.Tip">该赛季未开放，无法使用</system:String>
+    <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Failed">本局失败</system:String>
+    <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Mode">模式</system:String>
+    <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Mode.Badge">刷角标（完整通关）</system:String>
+    <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Mode.Score">刷分（放生速通）</system:String>
+    <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.RoundLog">第 {0} 回合，资金 {1}</system:String>
+    <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Runs">通关局数</system:String>
+    <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.SettlementLog">{0}，已通关 {1}/{2}</system:String>
+    <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Target">角标目标</system:String>
+    <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Target.Color">彩色角标（通关 6 次）</system:String>
+    <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Target.Gold">金色角标（通关 3 次）</system:String>
+    <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Theme">卫戍协议主题</system:String>
+    <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Theme.Covenant">盟约</system:String>
+    <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Theme.Regulation">规程</system:String>
+    <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Tip.Badge" xml:space="preserve">在活动主界面（有 ｢极速模拟｣ 处）开始任务
+需要使用活动默认皮肤
+在有存档时需要先手动放弃
+完整打完每局并自动选择未达标的策略，推荐自选编队编入赤刃明霄陈</system:String>
+    <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Tip.Score" xml:space="preserve">在活动主界面（有 ｢极速模拟｣ 处）开始任务
+需要使用活动默认皮肤
+在有存档时需要先手动放弃
+不干预对局，快速过回合刷等级奖励</system:String>
     <system:String x:Key="Toolbox.MiniGame.TL.WartimePressCommittee">战时新闻委员会</system:String>
     <system:String x:Key="Toolbox.MiniGame.TL.WartimePressCommittee.Tip" xml:space="preserve">请从活动报纸选择界面（可见报纸名称与 ｢开始组版｣ 按钮）的状态开始。</system:String>
     <system:String x:Key="Toolbox.MiniGame.Title">牛杂</system:String>

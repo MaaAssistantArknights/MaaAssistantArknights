@@ -1,4 +1,4 @@
-<UserControl
+﻿<UserControl
     x:Class="MaaWpfGui.Views.UI.ToolboxView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -1451,6 +1451,43 @@
                                     Style="{StaticResource TextBoxExtend}"
                                     Text="{Binding EventShopBlackList, UpdateSourceTrigger=PropertyChanged}"
                                     Visibility="{c:Binding EventShopBlackListOther}" />
+                            </StackPanel>
+
+                            <!--  卫戍协议极速模拟  -->
+                            <StackPanel
+                                Grid.Row="0"
+                                Margin="0,10,0,0"
+                                Visibility="{c:Binding 'SelectedMiniGameItem.IsStrongholdProtocol'}">
+                                <ComboBox
+                                    hc:TitleElement.Title="{DynamicResource Toolbox.MiniGame.StrongholdProtocol.Theme}"
+                                    DisplayMemberPath="Display"
+                                    ItemsSource="{Binding StrongholdProtocolSeasonList}"
+                                    SelectedValue="{Binding StrongholdProtocolSeason}"
+                                    SelectedValuePath="Value"
+                                    Visibility="{c:Binding IsStrongholdProtocolBadgeMode}" />
+                                <ComboBox
+                                    Margin="0,10,0,0"
+                                    hc:TitleElement.Title="{DynamicResource Toolbox.MiniGame.StrongholdProtocol.Mode}"
+                                    DisplayMemberPath="Display"
+                                    ItemsSource="{Binding StrongholdProtocolModeList}"
+                                    SelectedValue="{Binding StrongholdProtocolMode}"
+                                    SelectedValuePath="Value"
+                                    Visibility="{c:Binding '!IsStrongholdProtocolCovenant'}" />
+                                <ComboBox
+                                    Margin="0,10,0,0"
+                                    hc:TitleElement.Title="{DynamicResource Toolbox.MiniGame.StrongholdProtocol.Target}"
+                                    DisplayMemberPath="Display"
+                                    ItemsSource="{Binding StrongholdProtocolTargetList}"
+                                    SelectedValue="{Binding StrongholdProtocolTarget}"
+                                    SelectedValuePath="Value"
+                                    Visibility="{c:Binding IsStrongholdProtocolParamsVisible}" />
+                                <hc:NumericUpDown
+                                    Margin="0,10,0,0"
+                                    hc:InfoElement.Title="{DynamicResource Toolbox.MiniGame.StrongholdProtocol.Runs}"
+                                    Maximum="999"
+                                    Minimum="1"
+                                    Visibility="{c:Binding IsStrongholdProtocolParamsVisible}"
+                                    Value="{Binding StrongholdProtocolRuns}" />
                             </StackPanel>
 
                             <Viewbox

@@ -2537,6 +2537,31 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="Toolbox.MiniGame.SecretFront.Event2">레인저</system:String>
     <system:String x:Key="Toolbox.MiniGame.SecretFront.Event3">수상한 그림자</system:String>
     <system:String x:Key="Toolbox.MiniGame.SecretFront.Tip">소대 선택 화면에서 시작합니다. 기존 세이브 데이터가 있으면 수동으로 삭제해야 합니다.\n게임 내  ｢이전 소대의 데이터 전승받기｣  옵션을 체크하는 것을 권장합니다.</system:String>
+    <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol">{key=Toolbox.MiniGame.SPA}</system:String>
+    <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Cleared">이번 판 클리어</system:String>
+    <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.ClosedTheme">미개방</system:String>
+    <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Covenant.Tip">이 시즌은 미개방으로 사용할 수 없습니다</system:String>
+    <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Failed">이번 판 실패</system:String>
+    <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Mode">모드</system:String>
+    <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Mode.Badge">배지 파밍 (완전 클리어)</system:String>
+    <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Mode.Score">점수 파밍 (방치 속행)</system:String>
+    <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.RoundLog">라운드 {0}, 자금 {1}</system:String>
+    <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Runs">클리어 횟수</system:String>
+    <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.SettlementLog">{0}, 클리어 {1}/{2}</system:String>
+    <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Target">배지 목표</system:String>
+    <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Target.Color">색상 배지 (6회 클리어)</system:String>
+    <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Target.Gold">금색 배지 (3회 클리어)</system:String>
+    <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Theme">위수 협의 테마</system:String>
+    <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Theme.Covenant">동맹 (명칭 임시)</system:String>
+    <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Theme.Regulation">규정 (명칭 임시)</system:String>
+    <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Tip.Badge" xml:space="preserve">이벤트 메인 화면에서 임무 시작 (아래에 ｢고속 시뮬레이션｣ (명칭 임시))
+기본 스킨을 사용해야 합니다
+저장 데이터가 있는 경우 먼저 수동으로 포기해야 합니다
+매 판을 끝까지 플레이하며 미달성 전략을 자동 선택합니다. 사용자 지정 편성에 첸 더 던스트릭 (명칭 임시) 편성을 권장합니다</system:String>
+    <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Tip.Score" xml:space="preserve">이벤트 메인 화면에서 임무 시작 (아래에 ｢고속 시뮬레이션｣ (명칭 임시))
+기본 이벤트 스킨을 사용해야 합니다
+저장 데이터가 있는 경우 먼저 수동으로 포기해야 합니다
+판에 개입하지 않고 빠르게 라운드를 넘겨 레벨 보상을 획득합니다</system:String>
     <system:String x:Key="Toolbox.MiniGame.TL.WartimePressCommittee">전시 신문 위원회</system:String>
     <system:String x:Key="Toolbox.MiniGame.TL.WartimePressCommittee.Tip" xml:space="preserve">이벤트 신문 선택 화면이 표시된 상태에서 시작하세요</system:String>
     <system:String x:Key="Toolbox.MiniGame.Title">편의 기능</system:String>

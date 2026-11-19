@@ -67,6 +67,7 @@ public static class LocalizationKeyExtensions
         TaskType.OperBox => "TaskQueue.Task.OperBox",
         TaskType.Gacha => "TaskQueue.Task.Gacha",
         TaskType.Reclamation => "Toolbox.MiniGame.Reclamation.Title",
+        TaskType.StrongholdProtocol => "Toolbox.MiniGame.StrongholdProtocol",
         TaskType.UserDataUpdate => "TaskQueue.Task.UserDataUpdate",
         TaskType.DepotMaintain => "TaskQueue.Task.DepotMaintain",
         TaskType.SwitchTheme => "TaskQueue.Task.SwitchTheme",

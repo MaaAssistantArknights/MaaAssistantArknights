@@ -31,6 +31,7 @@
 #include "Roguelike/RoguelikeStageEncounterConfig.h"
 #include "Roguelike/Sami/RoguelikeCollapsalParadigmConfig.h"
 #include "Roguelike/Sami/RoguelikeFoldartalConfig.h"
+#include "StrongholdProtocol/StrongholdProtocolConfig.h"
 #include "TaskData.h"
 #include "TemplResource.h"
 #include "Utils/Logger.hpp"
@@ -258,6 +259,17 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
                 "RoguelikeMapConfig")) {
             return false;
         }
+    }
+
+    // Stronghold Protocol Config（卫戍协议极速模拟购买权重与部署格位，按赛季子目录分层，
+    // 当前赛季 regulation；新赛季加子目录叠加，界面与格位随期走资源不发版）
+    if (!load_with_custom.template operator()<StrongholdProtocolConfig>(
+            "stronghold_protocol"_p / "regulation"_p / "purchase.json"_p,
+            "StrongholdProtocolConfig") ||
+        !load_with_custom.template operator()<StrongholdProtocolConfig>(
+            "stronghold_protocol"_p / "regulation"_p / "tiles.json"_p,
+            "StrongholdProtocolConfig")) {
+        return false;
     }
 
     // BlackFlow high-level route policy. Page tasks and visual resources are loaded separately.

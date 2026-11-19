@@ -35,6 +35,7 @@ using System.Windows.Threading;
 using HandyControl.Data;
 using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Configuration.Single.MaaTask;
+using MaaWpfGui.Configuration.Single.Settings;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Constants.Enums;
 using MaaWpfGui.Extensions;
@@ -2990,6 +2991,31 @@ public class AsstProxy
                     UiLogColor.Info);
                 break;
 
+            case "StrongholdRound":
+                // 回合准备开始：当前回合号与资金
+                Instances.TaskQueueViewModel.AddLog(
+                    LocalizationHelper.GetStringFormat(
+                        "Toolbox.MiniGame.StrongholdProtocol.RoundLog",
+                        (int)(subTaskDetails?["round"] ?? 0),
+                        (int)(subTaskDetails?["funds"] ?? -1)),
+                    UiLogColor.Trace);
+                break;
+
+            case "StrongholdSettlement":
+                {
+                    bool cleared = subTaskDetails?["cleared"]?.ToObject<bool>() ?? false;
+                    Instances.TaskQueueViewModel.AddLog(
+                        LocalizationHelper.GetStringFormat(
+                            "Toolbox.MiniGame.StrongholdProtocol.SettlementLog",
+                            LocalizationHelper.GetString(cleared
+                                ? "Toolbox.MiniGame.StrongholdProtocol.Cleared"
+                                : "Toolbox.MiniGame.StrongholdProtocol.Failed"),
+                            (int)(subTaskDetails?["progress"] ?? 0),
+                            (int)(subTaskDetails?["total"] ?? 0)),
+                        cleared ? UiLogColor.Success : UiLogColor.Warning);
+                    break;
+                }
+
             case "AutoRaisePotentialProgress":
                 {
                     int current = (int)(subTaskDetails?["current"] ?? 0);
@@ -3738,6 +3764,9 @@ public class AsstProxy
         /// <summary>生息演算</summary>
         Reclamation,
 
+        /// <summary>卫戍协议</summary>
+        StrongholdProtocol,
+
         /// <summary>更新用户数据</summary>
         UserDataUpdate,
 
@@ -3959,6 +3988,38 @@ public class AsstProxy
     {
         var (isSuccess, _) = AsstAppendTaskWithEncoding(TaskType.Reclamation, task);
         return isSuccess;
+    }
+
+    /// <summary>
+    /// 卫戍协议极速模拟（牛杂）。badge = 刷角标（StrongholdProtocol 独立任务，插件入口完整通关），score = 放生速通（沿用 MiniGame@SPA 挂机链刷分，走 CustomTask）。
+    /// </summary>
+    /// <param name="mode">badge / score。</param>
+    /// <param name="season">卫戍协议赛季主题（仅 badge）。</param>
+    /// <param name="target">角标目标通关次数（3 金 / 6 彩，仅 badge）。</param>
+    /// <param name="runs">目标通关局数。</param>
+    /// <param name="attempts">总局数上限，0 不限（仅 badge）。</param>
+    /// <returns>是否成功启动。</returns>
+    public bool AsstStrongholdProtocol(string mode, StrongholdProtocolSeason season, int target, int runs, int attempts = 0)
+    {
+        if (mode == "score")
+        {
+            var scoreTask = new AsstCustomTask {
+                CustomTasks = ["MiniGame@SPA@Begin"],
+            };
+
+            var (type, param) = scoreTask.Serialize();
+            return AsstAppendTaskWithEncoding(TaskType.MiniGame, type, param) && AsstStart();
+        }
+
+        var task = new AsstStrongholdProtocolTask {
+            Season = season,
+            Target = target,
+            Runs = runs,
+            Attempts = attempts,
+        };
+
+        var (isSuccess, _) = AsstAppendTaskWithEncoding(TaskType.StrongholdProtocol, task);
+        return isSuccess && AsstStart();
     }
 
     /// <summary>
