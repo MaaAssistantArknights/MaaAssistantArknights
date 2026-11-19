@@ -91,7 +91,13 @@ private:
     bool pick_bounty();
     // 模板命中后直接点击其矩形；不借 ProcessTask，避免任务 next 链把流程带走
     bool click_template(const std::string& task_name);
-    bool pick_strategy();
+    enum class StrategyResult
+    {
+        Selected,
+        AllCompleted,
+        IncompleteScan,
+    };
+    StrategyResult pick_strategy();
     bool pick_squad(BoardState& board);
     bool prep_phase(BoardState& board);
     bool handle_settlement(BoardState& board);

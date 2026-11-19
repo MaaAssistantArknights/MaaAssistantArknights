@@ -114,13 +114,20 @@ bool StrongholdProtocolTaskPlugin::_run()
             // 活动主界面：走 @Nav 链导航到策略选择页（链停在策略页，不代选策略）
             ProcessTask(*this, { "StrongholdProtocol@Nav" }).run();
             break;
-        case Scene::StrategySelect:
-            if (!pick_strategy()) {
-                LogWarn << "no eligible strategy found, task finished";
+        case Scene::StrategySelect: {
+            const auto result = pick_strategy();
+            if (need_exit() || result == StrategyResult::IncompleteScan) {
+                return false;
+            }
+            if (result == StrategyResult::AllCompleted) {
+                auto info = basic_info_with_what("StrongholdStrategiesCompleted");
+                info["details"]["target"] = m_target;
+                callback(AsstMsg::SubTaskExtraInfo, info);
                 return true;
             }
             progressed = true;
             break;
+        }
         case Scene::BountySelect:
             pick_bounty();
             break;
@@ -269,8 +276,8 @@ StrongholdProtocolTaskPlugin::UnknownScreen
     };
     screen.in_garrison = std::ranges::any_of(keywords("StrongholdProtocol@Keywords@Garrison"), contains);
     // 重连入口也显示当前回合，旁边的 ｢放弃模拟｣ 能区分入口和战斗画面。
-    screen.in_battle = !contains("断线重连+放弃模拟") &&
-                       std::ranges::any_of(keywords("StrongholdProtocol@Keywords@Battle"), contains);
+    screen.in_battle =
+        !contains("断线重连+放弃模拟") && std::ranges::any_of(keywords("StrongholdProtocol@Keywords@Battle"), contains);
     if (!screen.in_garrison || screen.in_battle) {
         return screen;
     }
@@ -511,17 +518,76 @@ bool StrongholdProtocolTaskPlugin::has_chinese(const std::string& text)
 
 // ---------------- 局外：选策略 / 自选编队 ----------------
 
-bool StrongholdProtocolTaskPlugin::pick_strategy()
+StrongholdProtocolTaskPlugin::StrategyResult StrongholdProtocolTaskPlugin::pick_strategy()
 {
     LogTraceFunction;
 
-    // 点击任意网格让布局左移到固定布局（选策略界面有倒计时，节奏尽量收紧）
-    ProcessTask(*this, { "StrongholdProtocol@StrategyGridProbe" }).run();
+    constexpr int track_top = 111, track_bottom = 689;
+    auto scrollbar = [](const cv::Mat& image) -> std::optional<cv::Rect> {
+        // 打开详情后网格和滚动条一起左移。窄条内只有滑块会形成两侧留空的灰白色长条。
+        for (const int x : { 956, 1220 }) {
+            const cv::Rect strip(x - 7, track_top - 6, 15, track_bottom - track_top + 13);
+            if ((strip & cv::Rect(0, 0, image.cols, image.rows)) != strip) {
+                continue;
+            }
+            cv::Mat hsv, mask;
+            cv::cvtColor(image(strip), hsv, cv::COLOR_BGR2HSV);
+            cv::inRange(hsv, cv::Scalar(0, 0, 100), cv::Scalar(180, 32, 255), mask);
+            std::vector<std::vector<cv::Point>> contours;
+            cv::findContours(mask, contours, cv::RETR_EXTERNAL, cv::CHAIN_APPROX_SIMPLE);
+            for (const auto& contour : contours) {
+                const auto rect = cv::boundingRect(contour);
+                if (rect.height >= 48 && rect.width >= 5 && rect.width <= 10 &&
+                    std::abs(rect.x + rect.width / 2 - 7) <= 1 && cv::contourArea(contour) > rect.area() * 0.7) {
+                    return rect + strip.tl();
+                }
+            }
+        }
+        return std::nullopt;
+    };
 
-    // 策略格识别：列心恒定（滚动只改变行 y），行由证据聚类得出，不依赖固定网格布局。
-    // 证据两类：素描立绘/头像的亮像素块；卡角标记块（NEW/金章/彩章/红三角按色相段检出，
-    // 按各自相对卡心的偏移归算）。行内证据吸附列心、行 y 取中位即得卡心。暗立绘卡可能
-    // 漏检，靠滚动翻页覆盖。
+    if (!ProcessTask(*this, { "StrongholdProtocol@StrategyGridProbe" }).run()) {
+        return StrategyResult::IncompleteScan;
+    }
+
+    auto detect_card_frames = [](const cv::Mat& img, const cv::Rect& thumb, bool& verified) {
+        // 已知网格位置时按四列卡框核对，暗色立绘和无角标策略也有左边框。
+        constexpr int view_top = 93, view_bottom = 708;
+        cv::Mat gray;
+        cv::cvtColor(img, gray, cv::COLOR_BGR2GRAY);
+        std::vector<Point> cells;
+        for (int offset : { 566, 426, 286, 146 }) {
+            const int left = thumb.x + thumb.width / 2 - offset;
+            const auto band = gray.rowRange(view_top, view_bottom);
+            cv::Mat edge, background;
+            cv::reduce(band.colRange(left, left + 4), edge, 1, cv::REDUCE_AVG, CV_32F);
+            cv::reduce(band.colRange(left - 4, left - 1), background, 1, cv::REDUCE_AVG, CV_32F);
+            cv::Mat mask = edge - background > 10;
+            cv::morphologyEx(mask, mask, cv::MORPH_CLOSE, cv::getStructuringElement(cv::MORPH_RECT, { 1, 5 }));
+            std::vector<std::vector<cv::Point>> borders;
+            cv::findContours(mask, borders, cv::RETR_EXTERNAL, cv::CHAIN_APPROX_SIMPLE);
+            for (const auto& border : borders) {
+                const auto rect = cv::boundingRect(border);
+                if (rect.y == 0 || rect.br().y == band.rows) {
+                    // 相邻页有重叠，裁断的卡留给显示全卡的一页。首尾再有裁断则无法核全。
+                    if (rect.height >= 30 && ((rect.y == 0 && thumb.y <= track_top + 2) ||
+                                              (rect.br().y == band.rows && thumb.br().y >= track_bottom - 2))) {
+                        verified = false;
+                    }
+                    continue;
+                }
+                if (rect.height >= 108 && rect.height <= 136) {
+                    cells.emplace_back(left + 64, view_top + rect.br().y - 65);
+                }
+                else if (rect.height >= 30) {
+                    verified = false;
+                }
+            }
+        }
+        return cells;
+    };
+
+    // 按立绘和角标定位可选卡，即使卡框或滑块识别不全也能继续选策略。
     auto detect_grid_cells = [](const cv::Mat& img) {
         // 两种布局固定列心的并集（720p，全屏坐标）
         static constexpr int kCols[] = { 453, 593, 722, 733, 862, 873, 1002, 1142 };
@@ -655,29 +721,108 @@ bool StrongholdProtocolTaskPlugin::pick_strategy()
 
     const Rect title_band = task_roi("StrongholdProtocol@Roi@StrategyPanelTitle");
     const Rect name_band = task_roi("StrongholdProtocol@Roi@StrategyPanelName");
+    const auto scroll_task = Task.get("StrongholdProtocol@StrategyListScroll");
+    auto scroll = [&](bool toward_top) {
+        if (need_exit() || !scroll_task || scroll_task->special_params.size() < 4) {
+            return false;
+        }
+        const auto& params = scroll_task->special_params;
+        const auto& from = scroll_task->specific_rect;
+        const auto& to = scroll_task->rect_move;
+        return ctrler()->swipe(
+                   toward_top ? to : from,
+                   toward_top ? from : to,
+                   params[0],
+                   to_swipe_extra_direction(params[1]),
+                   params[2] / 10.0,
+                   params[3] / 10.0,
+                   false,
+                   scroll_task->high_resolution_swipe_fix) &&
+               sleep(scroll_task->post_delay);
+    };
+
+    constexpr int max_pages = 8;
+    auto image = ctrler()->get_image();
+    auto thumb = scrollbar(image);
+    for (int page = 0; thumb && thumb->y > track_top + 2 && page < max_pages; ++page) {
+        const int previous_top = thumb->y;
+        const bool swiped = scroll(true);
+        image = ctrler()->get_image();
+        thumb = scrollbar(image);
+        if (!swiped || !thumb || thumb->y >= previous_top) {
+            LogWarn << "could not return to the start of the strategy list";
+            break;
+        }
+    }
+    bool verified = thumb && std::abs(thumb->y - track_top) <= 2;
     std::vector<std::string> tried;
-    for (int page = 0; page < 8 && !need_exit(); ++page) {
-        const auto image = ctrler()->get_image();
-        const auto cells = detect_grid_cells(image);
+    for (int page = 0; page < max_pages && !need_exit(); ++page) {
+        if (image.cols < 1280 || image.rows < 720) {
+            LogWarn << "strategy screenshot unavailable";
+            return StrategyResult::IncompleteScan;
+        }
+        auto cells = detect_grid_cells(image);
+        if (thumb) {
+            auto frames = detect_card_frames(image, *thumb, verified);
+            verified &= !frames.empty();
+            // 保留未能核对卡框的立绘候选。裁切到视窗边缘的卡由相邻页覆盖，侧栏不属于网格。
+            const int bar_x = thumb->x + thumb->width / 2;
+            std::erase_if(cells, [&](const Point& pt) {
+                return pt.x < bar_x - 550 || pt.x > bar_x ||
+                       (!frames.empty() && ((pt.y < 150 && thumb->y > track_top + 2) ||
+                                            (pt.y > 650 && thumb->br().y < track_bottom - 2))) ||
+                       std::ranges::any_of(frames, [&](const Point& frame) {
+                           return std::abs(pt.x - frame.x) < 25 && std::abs(pt.y - frame.y) < 45;
+                       });
+            });
+            cells.insert(cells.end(), frames.begin(), frames.end());
+            std::ranges::sort(cells, [](const Point& a, const Point& b) { return a.y != b.y ? a.y < b.y : a.x < b.x; });
+        }
         if (cells.empty()) {
             // 一格都找不到是识别异常（区别于全达标），存图留证
             save_img(utils::path("debug") / utils::path("stronghold"));
             LogWarn << "strategy grid not detected, page" << page;
+            return StrategyResult::IncompleteScan;
         }
+        int grid_offset = 0;
         for (const auto& pt : cells) {
-            // 已通过（角标）：该格右上区有金/青色块 → 跳过
-            if (has_color_badge(image, pt.x, pt.y) || (m_target <= 3 && has_gold_badge(image, pt.x, pt.y))) {
+            if (need_exit()) {
+                return StrategyResult::IncompleteScan;
+            }
+            // 选中卡的青色边框也会进入彩标搜索区，再核对角标内部。
+            const Rect badge_center { pt.x + 32, pt.y - 60, 26, 28 };
+            if ((has_color_badge(image, pt.x, pt.y) &&
+                 color_ratio(image, badge_center, cyan_lower_h, cyan_upper_h, cyan_lower_s, color_lower_v) > 0.15) ||
+                (m_target <= 3 && has_gold_badge(image, pt.x, pt.y))) {
                 continue;
             }
 
-            ctrler()->click(pt);
-            sleep(400);
+            // 点击可能留在上一张卡的详情。面板读数可用于挑选，只有当前卡的角标能独立证明它已达标。
+            verified = false;
+            if (!ctrler()->click(Point { pt.x + grid_offset, pt.y }) || !sleep(400)) {
+                return StrategyResult::IncompleteScan;
+            }
 
             // 右侧面板读取：策略名 + 已通过次数；面板有切换动画，读不到名字重试
             std::string strategy_name;
             int passed = 0;
-            for (int attempt = 0; attempt < 3; ++attempt) {
-                OCRer ocr(ctrler()->get_image());
+            for (int attempt = 0; attempt < 3 && !need_exit(); ++attempt) {
+                const auto panel = ctrler()->get_image();
+                if (thumb) {
+                    if (const auto panel_thumb = scrollbar(panel)) {
+                        const int next_offset = panel_thumb->x - thumb->x;
+                        // 再点已选中的卡会收起详情，按网格的新位置重新点同一张卡。
+                        if (next_offset > grid_offset + 100) {
+                            grid_offset = next_offset;
+                            if (!ctrler()->click(Point { pt.x + grid_offset, pt.y }) || !sleep(400)) {
+                                return StrategyResult::IncompleteScan;
+                            }
+                            continue;
+                        }
+                        grid_offset = next_offset;
+                    }
+                }
+                OCRer ocr(panel);
                 ocr.set_task_info("StrongholdProtocol@StrategyPanel");
                 auto results = ocr.analyze();
                 if (!results || results->empty()) {
@@ -758,36 +903,75 @@ bool StrongholdProtocolTaskPlugin::pick_strategy()
                 continue;
             }
 
-            LogInfo << "select strategy:" << strategy_name << "passed" << passed << "target" << m_target;
-            json::value info = basic_info_with_what("StrongholdStrategy");
-            info["details"]["name"] = strategy_name;
-            info["details"]["passed"] = passed;
-            info["details"]["target"] = m_target;
-            callback(AsstMsg::SubTaskExtraInfo, info);
-            m_current_strategy = strategy_name;
-            // 直接点确认按钮（click_template 单击即返回，不走 nav 链避免被 LoopWaitStart 挂住）
-            click_template("StrongholdProtocol@SPRConfirmSelect");
-            // 确认生效则离开策略界面（Goliath 模板消失）；仍在界面说明点击无效，
-            // 靠 tried 记录跳过该策略继续遍历，避免对同一确认按钮死磕到倒计时耗尽
-            sleep(1500);
-            Matcher still_here(ctrler()->get_image());
-            still_here.set_task_info("StrongholdProtocol@Goliath");
-            if (!still_here.analyze()) {
-                return true;
+            Matcher confirm(ctrler()->get_image());
+            confirm.set_task_info("StrongholdProtocol@SPRConfirmSelect");
+            const auto button = confirm.analyze();
+            if (need_exit() || !button || !ctrler()->click(button->rect)) {
+                LogWarn << "strategy confirmation unavailable:" << strategy_name;
+                continue;
             }
-            LogWarn << "strategy confirm had no effect, skip:" << strategy_name;
-            m_current_strategy.clear();
-            continue;
+            // 歌利亚卡片滚出屏幕后也会失配。确认时检查实际进入的后续场景。
+            Scene scene = Scene::Unknown;
+            for (int attempt = 0; attempt < 3; ++attempt) {
+                if (!sleep(attempt == 0 ? 1500 : 300)) {
+                    return StrategyResult::IncompleteScan;
+                }
+                UnknownScreen screen;
+                scene = detect_scene(ctrler()->get_image(), screen);
+                if ((scene == Scene::CustomSquad || scene == Scene::BountySelect || scene == Scene::ConfirmInfo ||
+                     scene == Scene::RoundPrepare) &&
+                    !need_exit()) {
+                    m_current_strategy = strategy_name;
+                    LogInfo << "select strategy:" << strategy_name << "passed" << passed << "target" << m_target;
+                    auto info = basic_info_with_what("StrongholdStrategy");
+                    info["details"]["name"] = strategy_name;
+                    info["details"]["passed"] = passed;
+                    info["details"]["target"] = m_target;
+                    callback(AsstMsg::SubTaskExtraInfo, info);
+                    return StrategyResult::Selected;
+                }
+            }
+            LogWarn << "strategy confirmation did not reach the next scene:" << strategy_name;
+            if (scene != Scene::StrategySelect) {
+                return StrategyResult::IncompleteScan;
+            }
         }
-        // 本页无可用策略：上滚一步继续查找（extra 水平补偿段消除竖直松手惯性）
-        ProcessTask(*this, { "StrongholdProtocol@StrategyListScroll" }).run();
-        const auto after = ctrler()->get_image();
-        const auto shift = measure_grid_shift(image, after);
-        if (shift && std::abs(*shift) < 13) {
-            break; // 列表不再移动 = 已到底
+        if (thumb && std::abs(thumb->br().y - track_bottom) <= 2) {
+            if (!verified) {
+                LogWarn << "reached the end of the strategy list with unverified cards";
+            }
+            return verified && !need_exit() ? StrategyResult::AllCompleted : StrategyResult::IncompleteScan;
         }
+        if (page + 1 == max_pages || !scroll(false)) {
+            break;
+        }
+        auto after = ctrler()->get_image();
+        auto next_thumb = scrollbar(after);
+        if (thumb && next_thumb) {
+            const int advance = next_thumb->y - thumb->y;
+            if (advance <= 0) {
+                LogWarn << "strategy list did not advance" << advance;
+                return StrategyResult::IncompleteScan;
+            }
+            // 滑块移动一个自身高度约等于翻过一屏，保留足够重叠让裁断的卡至少完整显示一次。
+            verified &= advance * 3 <= thumb->height * 2 && std::abs(next_thumb->height - thumb->height) <= 2;
+        }
+        else {
+            verified = false;
+            if (after.size() != image.size()) {
+                return StrategyResult::IncompleteScan;
+            }
+            const auto shift = measure_grid_shift(image, after);
+            if (shift && *shift <= 0) {
+                LogWarn << "strategy list did not advance" << *shift;
+                return StrategyResult::IncompleteScan;
+            }
+        }
+        image = std::move(after);
+        thumb = next_thumb;
     }
-    return false;
+    LogWarn << "strategy list scan stopped before the end";
+    return StrategyResult::IncompleteScan;
 }
 
 bool StrongholdProtocolTaskPlugin::pick_squad(BoardState& board)
@@ -1100,7 +1284,8 @@ std::vector<StrongholdProtocolTaskPlugin::ShopCard>
                  << "empty" << card.empty << "name" << card.name;
     }
     // 普通商店的费用徽章可能只读出一小段像 0 的笔画；混有付费卡时，单独的 0 需要补读。
-    if (std::ranges::any_of(cards, [](const ShopCard& c) { return !c.empty && c.cost > 0; }) && !promotion_reward(cards)) {
+    if (std::ranges::any_of(cards, [](const ShopCard& c) { return !c.empty && c.cost > 0; }) &&
+        !promotion_reward(cards)) {
         for (auto& card : cards) {
             if (card.is_oper && card.cost == 0) {
                 const int cost = read_badge(card.x);
