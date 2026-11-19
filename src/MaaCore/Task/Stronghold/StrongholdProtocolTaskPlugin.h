@@ -116,7 +116,7 @@ private:
     ShopInfo read_shop(const cv::Mat& image);
     std::vector<ShopCard> read_shop_cards(const cv::Mat& image) const;
     static std::optional<ShopCard> promotion_reward(const std::vector<ShopCard>& cards);
-    bool buy_oper(const ShopCard& card, const cv::Mat& before, cv::Mat& after, std::vector<ShopCard>& cards_after);
+    bool buy_oper(ShopCard& card, const cv::Mat& before, cv::Mat& after, std::vector<ShopCard>& cards_after);
     bool buy_and_deploy(BoardState& board, ShopCard card);
 
     // 触控原语：游戏要求先在干员头像上 press-and-hold 进入拖拽预览再滑动，

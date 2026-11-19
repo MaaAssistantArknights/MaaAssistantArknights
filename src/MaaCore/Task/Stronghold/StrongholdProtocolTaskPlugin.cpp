@@ -1,5 +1,6 @@
 #include "StrongholdProtocolTaskPlugin.h"
 
+#include "Config/Miscellaneous/BattleDataConfig.h"
 #include "Config/Miscellaneous/OcrConfig.h"
 #include "Config/StrongholdProtocol/StrongholdProtocolConfig.h"
 #include "Config/TaskData.h"
@@ -1125,7 +1126,7 @@ std::optional<StrongholdProtocolTaskPlugin::ShopCard>
 }
 
 bool StrongholdProtocolTaskPlugin::buy_oper(
-    const ShopCard& card,
+    ShopCard& card,
     const cv::Mat& before,
     cv::Mat& after,
     std::vector<ShopCard>& cards_after)
@@ -1150,6 +1151,19 @@ bool StrongholdProtocolTaskPlugin::buy_oper(
         trait.set_task_info("StrongholdProtocol@ShopTraitOcr");
         if (trait.analyze()) {
             saw_trait = true;
+            if (card.name.empty()) {
+                // 购买详情只展示选中的干员，未列入购买权重表的干员也能用正式名字记账。
+                OCRer name(img);
+                name.set_task_info("StrongholdProtocol@DragNameOcr");
+                if (const auto rows = name.analyze()) {
+                    for (const auto& row : *rows) {
+                        if (BattleData.find_first_oper(battle::Role::Unknown, row.text, true)) {
+                            card.name = row.text;
+                            break;
+                        }
+                    }
+                }
+            }
             break;
         }
     }
