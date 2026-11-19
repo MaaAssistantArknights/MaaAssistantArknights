@@ -1755,6 +1755,14 @@ std::optional<Point> StrongholdProtocolTaskPlugin::deploy_from_bench(
     }
     const auto before_deploy = ctrler()->get_image();
     const auto slots0 = slots_left(before_deploy);
+    const auto& tiles = StrongholdProtocol.get_tiles();
+    // 所有候选格都已放置不可替换的高阶干员，且游戏确认满员时，拖起干员也没有可选格。
+    if (slots0 == 0 && board.promotion_tiles.empty() &&
+        board.occ.size() == tiles.path.size() + tiles.safe.size() + tiles.rest.size() &&
+        std::ranges::all_of(board.occ, [](const auto& entry) { return entry.second.second >= 5; })) {
+        LogTrace << "bench deployment skipped: all tiles occupied by high-tier operators";
+        return std::nullopt;
+    }
 
     // 进入拖拽预览：按下备战席小人并 hold，游戏此时把可部署格整格填绿
     // grab 机制：原地 down+hold 只会弹详情面板；须按住后快速连续 move 才抓起小人
@@ -1774,7 +1782,6 @@ std::optional<Point> StrongholdProtocolTaskPlugin::deploy_from_bench(
         emit_input(InputEvent::Type::WAIT_MS, probe, 30);
     }
     // 拿起后拖到 lift 悬停点：远离全部格表格，触点不遮挡候选格的绿高亮
-    const auto& tiles = StrongholdProtocol.get_tiles();
     const Point lp = tiles.lift;
     const int lift_ms = std::max(150, static_cast<int>(Point::distance(probe, lp)) / 2);
     for (int i = 1; i <= 8; ++i) {
