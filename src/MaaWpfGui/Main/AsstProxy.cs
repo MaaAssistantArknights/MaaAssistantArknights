@@ -2991,14 +2991,15 @@ public class AsstProxy
                     UiLogColor.Info);
                 break;
 
-            case "StrongholdRound":
-                // 回合准备开始：当前回合号与资金
+            case "StrongholdStrategy":
+                // 选定策略：策略名与当前通过次数/目标
                 Instances.TaskQueueViewModel.AddLog(
                     LocalizationHelper.GetStringFormat(
-                        "Toolbox.MiniGame.StrongholdProtocol.RoundLog",
-                        (int)(subTaskDetails?["round"] ?? 0),
-                        (int)(subTaskDetails?["funds"] ?? -1)),
-                    UiLogColor.Trace);
+                        "Toolbox.MiniGame.StrongholdProtocol.StrategyLog",
+                        subTaskDetails?["name"]?.ToString() ?? string.Empty,
+                        (int)(subTaskDetails?["passed"] ?? 0),
+                        (int)(subTaskDetails?["target"] ?? 0)),
+                    UiLogColor.Info);
                 break;
 
             case "StrongholdSettlement":

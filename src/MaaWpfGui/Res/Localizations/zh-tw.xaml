@@ -2545,9 +2545,9 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Mode">模式</system:String>
     <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Mode.Badge">刷角標（完整通關）</system:String>
     <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Mode.Score">刷分（放生速通）</system:String>
-    <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.RoundLog">第 {0} 回合，資金 {1}</system:String>
     <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Runs">通關局數</system:String>
     <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.SettlementLog">{0}，已通關 {1}/{2}</system:String>
+    <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.StrategyLog">{0}：通過 {1}/{2}</system:String>
     <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Target">角標目標</system:String>
     <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Target.Color">彩色角標（通關 6 次）</system:String>
     <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Target.Gold">金色角標（通關 3 次）</system:String>

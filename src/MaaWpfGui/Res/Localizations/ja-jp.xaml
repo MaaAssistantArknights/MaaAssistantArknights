@@ -2546,9 +2546,9 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Mode">モード</system:String>
     <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Mode.Badge">バッジ収集（完全攻略）</system:String>
     <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Mode.Score">スコア稼ぎ（放置速攻略）</system:String>
-    <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.RoundLog">ラウンド {0}、資金 {1}</system:String>
     <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Runs">クリア回数</system:String>
     <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.SettlementLog">{0}、クリア {1}/{2}</system:String>
+    <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.StrategyLog">{0}：クリア {1}/{2}</system:String>
     <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Target">バッジ目標</system:String>
     <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Target.Color">彩色バッジ（6 回クリア）</system:String>
     <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Target.Gold">金色バッジ（3 回クリア）</system:String>

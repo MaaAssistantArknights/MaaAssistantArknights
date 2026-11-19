@@ -2545,9 +2545,9 @@ Only level rewards can be farmed; to get the Engraved Medal, all ｢Key Objectiv
     <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Mode">Mode</system:String>
     <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Mode.Badge">Farm badges (full clear)</system:String>
     <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Mode.Score">Farm score (idle rush)</system:String>
-    <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.RoundLog">Round {0}, funds {1}</system:String>
     <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Runs">Clears</system:String>
     <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.SettlementLog">{0}, cleared {1}/{2}</system:String>
+    <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.StrategyLog">{0}: passed {1}/{2}</system:String>
     <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Target">Badge goal</system:String>
     <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Target.Color">Colored badge (6 clears)</system:String>
     <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Target.Gold">Gold badge (3 clears)</system:String>

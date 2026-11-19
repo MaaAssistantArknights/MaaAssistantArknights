@@ -302,11 +302,11 @@
         "roi": [380, 80, 835, 640]
     },
     "StrongholdProtocol@Roi@BenchScan": {
-        "doc": "备战席扫描区（代码 detect_bench_opers 读此 roi 限定小人检测范围）",
+        "doc": "备战席等阶方牌扫描带；方牌只存在于这一窄带（y 380-415），加宽会引入立绘深色块误检",
         "algorithm": "OcrDetect",
         "text": [],
         "action": "DoNothing",
-        "roi": [120, 380, 930, 130]
+        "roi": [120, 380, 930, 35]
     },
     "StrongholdProtocol@Roi@GoldBadgeOffset": {
         "doc": "金角标相对格心的偏移矩形（x,y,w,h）",

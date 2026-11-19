@@ -159,7 +159,7 @@ bool StrongholdProtocolTaskPlugin::_run()
                 ctrler()->click(*screen.generic_button);
             }
             // 点掉弹窗/过场后短等即重判场景（回合尽快开始）；战斗中无进展可等，慢轮询
-            sleep(screen.in_battle ? 2000 : 500);
+            sleep(screen.in_battle ? 800 : 500);
             break;
         }
         }
@@ -736,6 +736,11 @@ bool StrongholdProtocolTaskPlugin::pick_strategy()
             }
 
             LogInfo << "select strategy:" << strategy_name << "passed" << passed << "target" << m_target;
+            json::value info = basic_info_with_what("StrongholdStrategy");
+            info["details"]["name"] = strategy_name;
+            info["details"]["passed"] = passed;
+            info["details"]["target"] = m_target;
+            callback(AsstMsg::SubTaskExtraInfo, info);
             m_current_strategy = strategy_name;
             // 直接点确认按钮（click_template 单击即返回，不走 nav 链避免被 LoopWaitStart 挂住）
             click_template("StrongholdProtocol@SPRConfirmSelect");
@@ -1229,10 +1234,6 @@ bool StrongholdProtocolTaskPlugin::prep_phase(BoardState& board)
     }
 
     LogInfo << "round" << round << "gold" << shop.gold.value_or(-1) << "maxed" << shop.maxed;
-    json::value info = basic_info_with_what("StrongholdRound");
-    info["details"]["round"] = round;
-    info["details"]["funds"] = shop.gold.value_or(-1);
-    callback(AsstMsg::SubTaskExtraInfo, info);
 
     if (board.round_done < 0 && round == 1) {
         // 第 1 回合：买 2 个干员（最多 1 个医疗），其余的钱留给升级
@@ -1657,6 +1658,10 @@ std::optional<Point> StrongholdProtocolTaskPlugin::deploy_from_bench(
     const auto pick_in = [&](const std::vector<std::pair<std::string, std::vector<Point>>>& groups) {
         for (const auto& [group_name, points] : groups) {
             for (size_t i = 0; i < points.size(); ++i) {
+                // 医疗不放堵口位（path[0]）：零输出会把怪卡住直到回合倒计时耗尽
+                if (group_name == "path" && i == 0 && is_healer(name)) {
+                    continue;
+                }
                 const std::string key = group_name + std::to_string(i);
                 if (!board.occ.contains(key) && tile_green(points[i])) {
                     target_key = key;
@@ -1830,9 +1835,9 @@ std::optional<int> StrongholdProtocolTaskPlugin::slots_left(const cv::Mat& image
 
 std::optional<Point> StrongholdProtocolTaskPlugin::new_bench_slot(const cv::Mat& before, const cv::Mat& after) const
 {
-    // 定位备战席上新到的干员：板凳区灰度 absdiff 阈值 40，闭运算把同一小人的碎片连成块。
-    // 换人时差分里同时有 ｢离开｣ 与 ｢新到｣ 两块，after 里能检出等阶方牌的才是新到的，此时返回方牌按压点；
-    // 方牌检不出（买入动画中常见）时退回面积最大块的质心
+    // 定位备战席上新到的干员：扫描带（头顶方牌带）内差分有变化的就是方牌，变化块左上角加
+    // Roi@BenchPressOffset 偏移即按压点。换人时差分里同时有离开的旧位与新到的方牌，
+    // after 图该块位置不深色的（已变回背景）是离开的旧位，跳过
     const cv::Rect scan = make_rect<cv::Rect>(task_roi("StrongholdProtocol@Roi@BenchScan")) &
                           cv::Rect(0, 0, std::min(before.cols, after.cols), std::min(before.rows, after.rows));
     if (scan.empty()) {
@@ -1861,25 +1866,27 @@ std::optional<Point> StrongholdProtocolTaskPlugin::new_bench_slot(const cv::Mat&
         return stats.at<int>(k, cv::CC_STAT_AREA);
     };
     std::ranges::sort(blobs, std::greater {}, area);
-    const auto blob_center = [&](int k) {
-        return Point(
-            scan.x + static_cast<int>(centroids.at<double>(k, 0)),
-            scan.y + static_cast<int>(centroids.at<double>(k, 1)));
-    };
-    const auto opers_after = detect_bench_opers(after);
+    const Rect press = task_roi("StrongholdProtocol@Roi@BenchPressOffset");
     for (int k : blobs) {
-        // 小人待机动画等零碎变化远小于新到的小人，只看与最大块同量级的块
+        // 小人待机动画等零碎变化远小于新到的方牌，只看与最大块同量级的块
         if (area(k) * 3 < area(blobs.front())) {
             break;
         }
-        const Point center = blob_center(k);
-        const auto nearest =
-            std::ranges::min_element(opers_after, {}, [&center](const Point& p) { return std::abs(p.x - center.x); });
-        if (nearest != opers_after.end() && std::abs(nearest->x - center.x) < 40) {
-            return *nearest;
+        const cv::Rect box(
+            scan.x + stats.at<int>(k, cv::CC_STAT_LEFT),
+            scan.y + stats.at<int>(k, cv::CC_STAT_TOP),
+            stats.at<int>(k, cv::CC_STAT_WIDTH),
+            stats.at<int>(k, cv::CC_STAT_HEIGHT));
+        cv::Mat g;
+        cv::cvtColor(after(box), g, cv::COLOR_BGR2GRAY);
+        if (cv::mean(g)[0] > 90) {
+            continue;
         }
+        const Point pt(box.x + press.x, box.y + press.y);
+        LogTrace << "new bench slot box" << box.x << box.y << box.width << box.height << "press" << pt.x << pt.y;
+        return pt;
     }
-    return blob_center(blobs.front());
+    return std::nullopt;
 }
 
 // 检测休整界面备战席上的小人：每个小人头顶一块深色圆角等阶方牌（内有浅色罗马数字）。
@@ -1926,7 +1933,10 @@ std::vector<Point> StrongholdProtocolTaskPlugin::detect_bench_opers(const cv::Ma
             continue;
         }
         // 按压点：方牌左上角加 Roi@BenchPressOffset 偏移落到小人躯干（加回扫描区偏移）
-        opers.emplace_back(scan_cv.x + rc.x + press.x, scan_cv.y + rc.y + press.y);
+        const Point pt(scan_cv.x + rc.x + press.x, scan_cv.y + rc.y + press.y);
+        LogTrace << "bench tile" << (scan_cv.x + rc.x) << (scan_cv.y + rc.y) << rc.width << rc.height << "press" << pt.x
+                 << pt.y;
+        opers.emplace_back(pt);
     }
     // 按 x 从右往左排（小人从台面右端起占）
     std::ranges::sort(opers, [](const Point& a, const Point& b) { return a.x > b.x; });

@@ -2545,9 +2545,9 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Mode">모드</system:String>
     <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Mode.Badge">배지 파밍 (완전 클리어)</system:String>
     <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Mode.Score">점수 파밍 (방치 속행)</system:String>
-    <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.RoundLog">라운드 {0}, 자금 {1}</system:String>
     <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Runs">클리어 횟수</system:String>
     <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.SettlementLog">{0}, 클리어 {1}/{2}</system:String>
+    <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.StrategyLog">{0}: 클리어 {1}/{2}</system:String>
     <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Target">배지 목표</system:String>
     <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Target.Color">색상 배지 (6회 클리어)</system:String>
     <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Target.Gold">금색 배지 (3회 클리어)</system:String>
