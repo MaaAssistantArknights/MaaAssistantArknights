@@ -932,19 +932,8 @@ StrongholdProtocolTaskPlugin::ShopInfo StrongholdProtocolTaskPlugin::read_shop(c
 }
 
 // 商店 4 个卡槽中心 x（由卡牌费用徽章/名字行的 OCR 位置聚类得到，不写死）
-static std::vector<int> detect_shop_card_x(const std::vector<TextRect>& ocr_results)
+static std::vector<int> detect_shop_card_x(const std::vector<TextRect>& ocr_results, const auto& is_oper_name)
 {
-    // 收集落在卡牌区内、像费用数字（≤2 位）或干员名（含中文）的文本块中心 x
-    auto text_has_cjk = [](const std::string& text) {
-        // UTF-8 中文三字节前缀 0xE4-0xE9，与 StrongholdProtocolTaskPlugin::has_chinese 同判定
-        for (size_t i = 0; i + 2 < text.size(); ++i) {
-            const unsigned char c = static_cast<unsigned char>(text[i]);
-            if (c >= 0xE4 && c <= 0xE9) {
-                return true;
-            }
-        }
-        return false;
-    };
     const auto name_roi = task_roi("StrongholdProtocol@Roi@ShopNameY");
     const auto cost_roi = task_roi("StrongholdProtocol@Roi@ShopCostY");
     const int name_lo = name_roi.y, name_hi = name_roi.y + name_roi.height;
@@ -962,7 +951,7 @@ static std::vector<int> detect_shop_card_x(const std::vector<TextRect>& ocr_resu
         if (in_cost && (!digits || tr.text.size() > 2)) {
             continue;
         }
-        if (in_name && !text_has_cjk(tr.text)) {
+        if (in_name && !is_oper_name(tr.text)) {
             continue;
         }
         xs.emplace_back(cx);
@@ -988,7 +977,10 @@ std::vector<StrongholdProtocolTaskPlugin::ShopCard>
     ocr.set_task_info("StrongholdProtocol@ShopCardsOcr");
     auto results_opt = ocr.analyze();
 
-    auto card_xs = results_opt ? detect_shop_card_x(*results_opt) : std::vector<int> {};
+    const auto is_oper_name = [](const std::string& text) {
+        return oper_priority(text) >= 0 || is_dps_oper(text) || is_healer(text) || is_safe_oper(text);
+    };
+    auto card_xs = results_opt ? detect_shop_card_x(*results_opt, is_oper_name) : std::vector<int> {};
     // 按钮右侧一段内的文字（按钮费用等）不算卡牌（按钮中心右侧 150px@1080p 之外才算）
     if (m_upgrade_x) {
         const int span = task_roi("StrongholdProtocol@Roi@ShopUpgradeButtonSpan").width;
@@ -1059,9 +1051,8 @@ std::vector<StrongholdProtocolTaskPlugin::ShopCard>
                     card.is_oper = true;
                     continue;
                 }
-                if (cy >= name_lo2 && cy <= name_hi2 && !tr.text.empty() &&
-                    (has_chinese(tr.text) || std::isalpha(static_cast<unsigned char>(tr.text[0])))) {
-                    card.name = tr.text; // 名字行取最下方一条
+                if (cy >= name_lo2 && cy <= name_hi2 && card.name.empty() && is_oper_name(tr.text)) {
+                    card.name = tr.text;
                     LogTrace << "shop name matched" << tr.text << "card" << x;
                 }
             }
