@@ -108,9 +108,8 @@ private:
     std::optional<int> read_gold(const cv::Mat& image);
     ShopInfo read_shop(const cv::Mat& image);
     std::vector<ShopCard> read_shop_cards(const cv::Mat& image) const;
-    bool buy_oper(const ShopCard& card);
+    bool buy_oper(const ShopCard& card, const cv::Mat& before);
     bool buy_and_deploy(BoardState& board, const ShopCard& card);
-    void refresh_shop();
 
     // 触控原语：游戏要求先在干员头像上 press-and-hold 进入拖拽预览再滑动，
     // swipe 快速位移来不及触发 grab；用 inject_input_event 手动 down→hold→move→hold→up

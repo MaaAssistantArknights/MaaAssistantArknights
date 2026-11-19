@@ -1088,9 +1088,9 @@ std::vector<StrongholdProtocolTaskPlugin::ShopCard>
     return cards;
 }
 
-bool StrongholdProtocolTaskPlugin::buy_oper(const ShopCard& card)
+bool StrongholdProtocolTaskPlugin::buy_oper(const ShopCard& card, const cv::Mat& before)
 {
-    const auto gold0 = read_gold(ctrler()->get_image());
+    const auto gold0 = card.cost == 0 ? std::nullopt : read_gold(before);
     const int card_y = task_roi("StrongholdProtocol@Roi@ShopCardY").y;
     ctrler()->click(Point(card.x, card_y));
 
@@ -1138,12 +1138,12 @@ bool StrongholdProtocolTaskPlugin::buy_oper(const ShopCard& card)
             failed = true;
             break;
         }
+        if (card.cost == 0) {
+            break; // 免费晋升赠送不走资金比对
+        }
         gold1 = read_number(img, "StrongholdProtocol@ShopGoldOcr");
         if (gold0 && gold1 && *gold1 < *gold0) {
             break; // 降价即成交
-        }
-        if (card.cost == 0) {
-            break; // 免费晋升赠送不走资金比对
         }
     }
     if (failed || (card.cost != 0 && gold0 && gold1 && *gold1 >= *gold0)) {
@@ -1170,7 +1170,7 @@ bool StrongholdProtocolTaskPlugin::buy_oper(const ShopCard& card)
 bool StrongholdProtocolTaskPlugin::buy_and_deploy(BoardState& board, const ShopCard& card)
 {
     const auto before = ctrler()->get_image();
-    if (!buy_oper(card)) {
+    if (!buy_oper(card, before)) {
         LogWarn << "buy failed:" << card.name << "cost" << card.cost;
         if (card.cost == 0) {
             board.pending_deploy = true; // 0 费复核判失败时也可能其实买到了，回合末扫一遍备战席兜底
@@ -1178,7 +1178,9 @@ bool StrongholdProtocolTaskPlugin::buy_and_deploy(BoardState& board, const ShopC
         return false;
     }
     LogInfo << "bought:" << card.name << "cost" << card.cost << "tier" << card.tier;
-    sleep(600); // 等买入动画落到备战席再截图
+    if (card.cost != 0) {
+        sleep(600); // 免费卡复核卡槽时已经等过买入动画
+    }
     const auto after = ctrler()->get_image();
 
     // 当场没部署上的买入干员记下名字与等阶，回合末重扫部署时按名字恢复等阶
@@ -1202,12 +1204,6 @@ bool StrongholdProtocolTaskPlugin::buy_and_deploy(BoardState& board, const ShopC
         board.pending_deploy = true;
     }
     return true;
-}
-
-void StrongholdProtocolTaskPlugin::refresh_shop()
-{
-    ProcessTask(*this, { "StrongholdProtocol@RefreshClick" }).run();
-    sleep(800); // 刷新有补货动画，等动画落定再让调用方读卡
 }
 
 // ---------------- 局内：回合准备主流程 ----------------
@@ -1257,8 +1253,6 @@ bool StrongholdProtocolTaskPlugin::prep_phase(BoardState& board)
         // 能升级就升级（同一轮可多次升级，最多连点 8 轮），成功判定：资金减少 / 费用变化 /
         // 按钮位移 / 满级。升级按钮走 OCR 任务（文字 ｢升级｣），商店满级后文字变 ｢满级｣ 即不再命中自动停
         for (int i = 0; i < 8 && !need_exit(); ++i) {
-            image = ctrler()->get_image();
-            shop = read_shop(image);
             if (shop.maxed || (shop.gold && shop.upgrade_cost && *shop.gold < *shop.upgrade_cost)) {
                 break;
             }
@@ -1266,28 +1260,23 @@ bool StrongholdProtocolTaskPlugin::prep_phase(BoardState& board)
             // 扣费与按钮位移有动画，等落定再读，否则判定不中会误认为升级失败提前退出
             ProcessTask(*this, { "StrongholdProtocol@UpgradeClick" }).run();
             ProcessTask(*this, { "StrongholdProtocol@UpgradeClick" }).run();
-            sleep(250);
-            auto after = read_shop(ctrler()->get_image());
-            auto upgraded_of = [&](const ShopInfo& a) {
-                // 按钮随商店等级移动，位移超过 OCR 抖动即视为升级生效
-                return a.maxed || (shop.upgrade_x && a.upgrade_x && std::abs(*a.upgrade_x - *shop.upgrade_x) > 10) ||
-                       (shop.gold && a.gold && *a.gold < *shop.gold) ||
-                       (shop.upgrade_cost && a.upgrade_cost && *a.upgrade_cost != *shop.upgrade_cost);
-            };
-            if (!upgraded_of(after)) {
-                // 扣费与按钮位移有动画，首读未中再等一拍复读，仍不中才算失败
+            const ShopInfo before = shop;
+            const auto check_upgrade = [&] {
                 sleep(250);
-                after = read_shop(ctrler()->get_image());
-            }
-            const bool upgraded = upgraded_of(after);
-            if (!upgraded) {
+                image = ctrler()->get_image();
+                shop = read_shop(image);
+                // 按钮随商店等级移动，位移超过 OCR 抖动即视为升级生效
+                return shop.maxed ||
+                       (before.upgrade_x && shop.upgrade_x && std::abs(*shop.upgrade_x - *before.upgrade_x) > 10) ||
+                       (before.gold && shop.gold && *shop.gold < *before.gold) ||
+                       (before.upgrade_cost && shop.upgrade_cost && *shop.upgrade_cost != *before.upgrade_cost);
+            };
+            if (!check_upgrade() && !check_upgrade()) {
                 break;
             }
-            LogInfo << "shop upgraded, gold" << shop.gold.value_or(-1) << "->" << after.gold.value_or(-1);
+            LogInfo << "shop upgraded, gold" << before.gold.value_or(-1) << "->" << shop.gold.value_or(-1);
         }
-        image = ctrler()->get_image();
-        shop = read_shop(image);
-        if (!shop.maxed) {
+        if (!shop.maxed && shop.gold != 0) {
             // 剩余资金买干员（资金不跨回合，不买装备）
             for (const auto& card : read_shop_cards(image)) {
                 image = ctrler()->get_image();
@@ -1403,7 +1392,7 @@ bool StrongholdProtocolTaskPlugin::prep_phase(BoardState& board)
             if (gold && *gold < 4) {
                 break;
             }
-            refresh_shop();
+            ProcessTask(*this, { "StrongholdProtocol@RefreshClick" }).run();
         }
     }
 
