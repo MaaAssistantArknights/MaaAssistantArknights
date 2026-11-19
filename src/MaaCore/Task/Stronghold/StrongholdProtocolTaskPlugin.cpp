@@ -1642,11 +1642,9 @@ std::optional<Point> StrongholdProtocolTaskPlugin::deploy_from_bench(
     std::pair<std::string, int> swap_old; // 非空 name 表示本次放置是换下 occ 记录的旧干员
     const auto pick_in = [&](const std::vector<std::pair<std::string, std::vector<Point>>>& groups) {
         for (const auto& [group_name, points] : groups) {
-            for (size_t i = 0; i < points.size(); ++i) {
-                // 医疗不放堵口位（path[0]）：零输出会把怪卡住直到回合倒计时耗尽
-                if (group_name == "path" && i == 0 && is_healer(name)) {
-                    continue;
-                }
+            // 医疗占住首个堵口位会让战斗一直拖到回合倒计时结束。
+            const size_t first = group_name == "path" && is_healer(name) ? 1 : 0;
+            for (size_t i = first; i < points.size(); ++i) {
                 const std::string key = group_name + std::to_string(i);
                 if (!board.occ.contains(key) && tile_green(points[i])) {
                     target_key = key;
@@ -1655,7 +1653,7 @@ std::optional<Point> StrongholdProtocolTaskPlugin::deploy_from_bench(
                 }
             }
             std::optional<std::pair<int, size_t>> best; // (价值, 组内序号)，同价值取靠前的格
-            for (size_t i = 0; i < points.size(); ++i) {
+            for (size_t i = first; i < points.size(); ++i) {
                 const auto it = board.occ.find(group_name + std::to_string(i));
                 if (it == board.occ.end() || it->second.second >= 5 || it->second.first == "?") {
                     continue;
