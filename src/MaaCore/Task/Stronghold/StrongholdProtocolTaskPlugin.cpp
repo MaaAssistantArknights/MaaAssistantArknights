@@ -1908,18 +1908,15 @@ std::vector<Point> StrongholdProtocolTaskPlugin::detect_bench_opers(const cv::Ma
         if (ar < 0.8 || ar > 1.8) {
             continue;
         }
-        // 牌面整体须是深色（排除亮块边框），内部须有浅色罗马数字笔画（~150-190 非纯白）
+        // 彩色数字会抬高牌面均值。用外轮廓包围的面积区分圆角方牌和台面接缝。
+        if (cv::contourArea(c) < rc.area() * 0.75) {
+            continue;
+        }
+        // 避开彩色边框，只检查牌内的数字笔画。
         const cv::Rect inner(rc.x + 4, rc.y + 4, rc.width - 8, rc.height - 8);
-        if (inner.width <= 0 || inner.height <= 0) {
-            continue;
-        }
-        const cv::Mat inner_gray = gray(inner);
-        if (cv::mean(inner_gray)[0] > 90) {
-            continue;
-        }
-        cv::Mat white;
-        cv::threshold(inner_gray, white, 140, 255, cv::THRESH_BINARY);
-        if (cv::countNonZero(white) < inner.area() * 0.03) {
+        cv::Mat strokes;
+        cv::threshold(gray(inner), strokes, 140, 255, cv::THRESH_BINARY);
+        if (cv::countNonZero(strokes) < inner.area() * 0.03) {
             continue;
         }
         // 按压点：方牌左上角加 Roi@BenchPressOffset 偏移落到小人躯干（加回扫描区偏移）
