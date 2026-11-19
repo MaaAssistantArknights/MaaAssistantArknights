@@ -68,19 +68,17 @@ private:
         std::map<std::string, std::pair<std::string, int>> occ; // 格位键（组名+序号）-> (干员名, 等阶)
     };
 
-    Scene detect_scene();
-
     // 未识别场景时的全屏文字扫描结果
     struct UnknownScreen
     {
-        bool in_garrison = false;           // 画面上有卫戍协议界面关键词
-        bool in_battle = false;             // 战斗回合中（含领袖回合），不做通用点击
-        std::optional<Rect> generic_button; // 可点的通用按钮（继续/确认/领取等）
+        bool in_garrison = false;               // 画面上有卫戍协议界面关键词
+        bool in_battle = false;                 // 战斗回合中（含领袖回合），不做通用点击
+        std::optional<TextRect> generic_button; // 可点的通用按钮（继续/确认/领取等）
     };
 
-    UnknownScreen scan_unknown_screen();
-    // 悬赏决策页判定：悬赏决策标题 + 悬赏·开头卡片
-    bool is_bounty_select(const cv::Mat& image) const;
+    Scene detect_scene(const cv::Mat& image, UnknownScreen& screen);
+    static UnknownScreen scan_unknown_screen(const std::vector<TextRect>& text);
+    static bool is_bounty_select(const std::vector<TextRect>& text);
     // 悬赏决策：默认选中间一项，避免个别目标奖励/难度失衡
     bool pick_bounty();
     // 模板命中后直接点击其矩形；不借 ProcessTask，避免任务 next 链把流程带走

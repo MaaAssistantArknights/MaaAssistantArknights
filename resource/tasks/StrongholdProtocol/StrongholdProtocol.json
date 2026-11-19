@@ -54,6 +54,7 @@
     "StrongholdProtocol@CustomOpersConfirm": {
         "doc": "自选编队页命中即停，由插件接管选人",
         "template": "MiniGame@SPA@CustomOpersConfirm.png",
+        "roi": [946, 572, 271, 148],
         "action": "DoNothing",
         "next": []
     },

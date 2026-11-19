@@ -1,5 +1,6 @@
 #include "StrongholdProtocolTaskPlugin.h"
 
+#include "Config/Miscellaneous/OcrConfig.h"
 #include "Config/StrongholdProtocol/StrongholdProtocolConfig.h"
 #include "Config/TaskData.h"
 #include "Controller/Controller.h"
@@ -93,7 +94,14 @@ bool StrongholdProtocolTaskPlugin::_run()
         }
 
         bool progressed = false;
-        const Scene scene = detect_scene();
+        auto image = ctrler()->get_image();
+        UnknownScreen screen;
+        Scene scene = detect_scene(image, screen);
+        if (scene == Scene::Unknown && screen.generic_button) {
+            // 过场中按钮和坐标都可能变化，点击前用新画面重新判定场景。
+            image = ctrler()->get_image();
+            scene = detect_scene(image, screen);
+        }
         if (scene != Scene::Unknown) {
             last_in_garrison = std::chrono::steady_clock::now();
         }
@@ -137,15 +145,13 @@ bool StrongholdProtocolTaskPlugin::_run()
         default: {
             // 停在选择朝向界面（朝向拖拽没生效）：按最近部署的格子补设朝向
             if (m_last_tile) {
-                OCRer facing(ctrler()->get_image());
+                OCRer facing(image);
                 facing.set_task_info("StrongholdProtocol@FacingCancelOcr");
                 if (auto r = facing.analyze(); r && !r->empty()) {
                     set_facing(*m_last_tile);
                     break;
                 }
             }
-            // 战斗回合、过场与零散弹窗都落在这里：全屏扫一次文字判定去向
-            const auto screen = scan_unknown_screen();
             if (screen.in_garrison || screen.in_battle) {
                 last_in_garrison = std::chrono::steady_clock::now();
             }
@@ -157,11 +163,12 @@ bool StrongholdProtocolTaskPlugin::_run()
             }
             if (screen.generic_button) {
                 // 仍在卫戍协议内且不在战斗中：点通用按钮推进（继续/确认/领取等）
-                ctrler()->click(*screen.generic_button);
+                LogInfo << __FUNCTION__ << "generic click:" << screen.generic_button->text;
+                ctrler()->click(screen.generic_button->rect);
             }
             // 点掉弹窗/过场后短等即重判场景（回合尽快开始）；战斗中无进展可等，慢轮询
             sleep(screen.in_battle ? 800 : 500);
-            break;
+            continue;
         }
         }
         if (progressed) {
@@ -172,9 +179,9 @@ bool StrongholdProtocolTaskPlugin::_run()
     return true;
 }
 
-StrongholdProtocolTaskPlugin::Scene StrongholdProtocolTaskPlugin::detect_scene()
+StrongholdProtocolTaskPlugin::Scene
+    StrongholdProtocolTaskPlugin::detect_scene(const cv::Mat& image, UnknownScreen& screen)
 {
-    const auto image = ctrler()->get_image();
     auto match = [&image](const std::string& task_name) {
         Matcher matcher(image);
         matcher.set_task_info(task_name);
@@ -191,8 +198,11 @@ StrongholdProtocolTaskPlugin::Scene StrongholdProtocolTaskPlugin::detect_scene()
     if (match("StrongholdProtocol@ReturnHome")) {
         return Scene::Settlement;
     }
-    // 悬赏决策页（三选一）在编队页之前判定，两者都含多个中文名
-    if (is_bounty_select(image)) {
+    // 悬赏判定和未知场景共用同一份全屏文字，保留各行原文供词表匹配。
+    OCRer ocr(image);
+    ocr.set_task_info("StrongholdProtocol@ScreenTextOcr");
+    const auto text = ocr.analyze().value_or(std::vector<TextRect> {});
+    if (is_bounty_select(text)) {
         return Scene::BountySelect;
     }
     // 自选编队页：CustomOpersConfirm 模板命中即编队页（准备就绪按钮常亮可点，选人并非前置条件）
@@ -216,27 +226,25 @@ StrongholdProtocolTaskPlugin::Scene StrongholdProtocolTaskPlugin::detect_scene()
     if (match("StrongholdProtocol@Nav@EnterQuickly")) {
         return Scene::Navigate;
     }
+    screen = scan_unknown_screen(text);
     return Scene::Unknown;
 }
 
-StrongholdProtocolTaskPlugin::UnknownScreen StrongholdProtocolTaskPlugin::scan_unknown_screen()
+StrongholdProtocolTaskPlugin::UnknownScreen
+    StrongholdProtocolTaskPlugin::scan_unknown_screen(const std::vector<TextRect>& text)
 {
-    // 全屏 OCR 一次，按 Keywords@* 任务的词表判定是否仍在卫戍协议内、是否战斗中、有无通用按钮
     UnknownScreen screen;
-    OCRer ocr(ctrler()->get_image());
-    ocr.set_task_info("StrongholdProtocol@ScreenTextOcr");
-    const auto results = ocr.analyze();
-    if (!results || results->empty()) {
+    if (text.empty()) {
         return screen;
     }
-    const auto upper = [](std::string text) {
-        std::ranges::transform(text, text.begin(), [](char ch) {
+    const auto upper = [](std::string word) {
+        std::ranges::transform(word, word.begin(), [](char ch) {
             return static_cast<char>(std::toupper(static_cast<unsigned char>(ch)));
         });
-        return text;
+        return word;
     };
     std::string all_text;
-    for (const auto& tr : *results) {
+    for (const auto& tr : text) {
         all_text += upper(tr.text);
     }
     const auto keywords = [](const std::string& task_name) {
@@ -263,35 +271,43 @@ StrongholdProtocolTaskPlugin::UnknownScreen StrongholdProtocolTaskPlugin::scan_u
     // 只在仍处于卫戍协议界面且不在战斗中时做通用点击，不在界面外乱点
     const auto generic = keywords("StrongholdProtocol@Keywords@Generic");
     const auto exclude = keywords("StrongholdProtocol@Keywords@GenericExclude");
-    for (const auto& tr : *results) {
+    for (const auto& tr : text) {
         const auto hit = [&tr](const std::string& k) {
             return tr.text.find(k) != std::string::npos;
         };
         if (std::ranges::any_of(generic, hit) && std::ranges::none_of(exclude, hit)) {
-            LogInfo << __FUNCTION__ << "generic click:" << tr.text;
-            screen.generic_button = tr.rect;
+            screen.generic_button = tr;
             break;
         }
     }
     return screen;
 }
 
-bool StrongholdProtocolTaskPlugin::is_bounty_select(const cv::Mat& image) const
+bool StrongholdProtocolTaskPlugin::is_bounty_select(const std::vector<TextRect>& text)
 {
-    // 悬赏决策页特征：顶部 ｢悬赏决策｣ 标题 + 三张 ｢悬赏·xxx｣ 卡片
-    OCRer ocr(image);
-    ocr.set_task_info("StrongholdProtocol@BountyTitle");
-    auto results = ocr.analyze();
-    if (!results || results->empty()) {
+    const auto task = Task.get<OcrTaskInfo>("StrongholdProtocol@BountyTitle");
+    if (!task || text.size() < 2) {
         return false;
     }
-    int bounty_cards = 0;
-    for (const auto& tr : *results) {
-        if (tr.text.find("悬赏") != std::string::npos) {
-            ++bounty_cards;
+    const auto& config = OcrConfig::get_instance();
+    auto keywords = task->text;
+    for (auto& keyword : keywords) {
+        keyword = config.process_equivalence_class(keyword);
+    }
+    int matches = 0;
+    for (const auto& row : text) {
+        if (!task->roi.empty() && !task->roi.include(row.rect)) {
+            continue;
+        }
+        const auto line = config.process_equivalence_class(row.text);
+        const bool matched = std::ranges::any_of(keywords, [&](const std::string& keyword) {
+            return task->full_match ? line == keyword : line.find(keyword) != std::string::npos;
+        });
+        if (matched && ++matches == 2) {
+            return true; // 标题和一张卡，或两张卡
         }
     }
-    return bounty_cards >= 2; // 标题 + 至少一张卡，或两张卡
+    return false;
 }
 
 bool StrongholdProtocolTaskPlugin::pick_bounty()
