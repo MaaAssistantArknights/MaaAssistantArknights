@@ -1342,7 +1342,7 @@ bool StrongholdProtocolTaskPlugin::buy_oper(
                 name.set_task_info("StrongholdProtocol@DragNameOcr");
                 if (const auto rows = name.analyze()) {
                     for (const auto& row : *rows) {
-                        if (BattleData.find_first_oper(battle::Role::Unknown, row.text, true)) {
+                        if (BattleData.get_all_oper_names().contains(row.text)) {
                             card.name = row.text;
                             break;
                         }
@@ -1847,16 +1847,18 @@ std::optional<Point> StrongholdProtocolTaskPlugin::deploy_from_bench(
         LogWarn << "deploy preview not entered (grab missed):" << name;
         return std::nullopt;
     }
-    // 装备判定：面板没有 ｢特质/天赋｣ 标签、或名字以引号开头（召唤物/装备名）的当装备放回
+    // 部分召唤物也有 ｢天赋｣ 标签，须按面板名称核对，同时保留与召唤物同名的干员。
     const bool has_oper_tab = std::ranges::any_of(trait_tabs, [](const std::string& t) {
         return t.find("特质") != std::string::npos || t.find("天赋") != std::string::npos;
     });
     const bool quoted_name =
         name.starts_with("“") || name.starts_with("「") || name.starts_with("\"") || name.starts_with("『");
-    if (!has_oper_tab || quoted_name) {
+    const bool summon = !drag_name.empty() && !BattleData.get_all_oper_names().contains(drag_name) &&
+                        BattleData.find_first_oper(battle::Role::Drone, drag_name);
+    if (!has_oper_tab || quoted_name || summon) {
         emit_input(InputEvent::Type::TOUCH_UP, lp);
         sleep(800);
-        LogInfo << "picked up equipment, returned:" << name;
+        LogInfo << "picked up equipment or summon, returned:" << name;
         return std::nullopt;
     }
     // 面板黄框色判 V/VI（判定区 Roi@DragTierFrame，金框占比 > 0.08）
