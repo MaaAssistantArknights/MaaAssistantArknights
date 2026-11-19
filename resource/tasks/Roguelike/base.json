@@ -1427,7 +1427,7 @@
         "algorithm": "JustReturn",
         "action": "ClickRect",
         "specificRect": [0, 405, 725, 225],
-        "next": ["Roguelike@StageEncounterOptions#next", "Roguelike@NextLevel", "Roguelike@NextLevel#next"]
+        "next": ["Roguelike@StageEncounterJudgeOption"]
     },
     "Roguelike@StageTrader": {
         "Doc": "base_task",
