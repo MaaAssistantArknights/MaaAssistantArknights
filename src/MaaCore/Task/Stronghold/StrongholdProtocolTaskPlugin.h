@@ -117,8 +117,12 @@ private:
     void drag_to(const Point& from, const Point& to, int hold_ms, int move_ms);
     // 部署（固定格位布局）：拿起复核（面板名字/等阶/装备）→ lift 悬停 → 固定格表选格 →
     // 拖放 → 朝向确认 → 换人时卖掉顶下的低星、高星标记待重排
-    std::optional<Point>
-        deploy_from_bench(BoardState& board, const Point& bench, const std::string& name_hint = "", int tier_hint = 0);
+    std::optional<Point> deploy_from_bench(
+        BoardState& board,
+        const Point& bench,
+        const std::string& name_hint = "",
+        int tier_hint = 0,
+        const cv::Mat& before_purchase = {});
     void deploy_bench(BoardState& board);
     bool set_facing(const Point& tile);
     void handle_popups();

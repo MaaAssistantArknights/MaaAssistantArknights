@@ -1199,7 +1199,7 @@ bool StrongholdProtocolTaskPlugin::buy_and_deploy(BoardState& board, const ShopC
         board.pending_deploy = true;
         return true;
     }
-    if (!deploy_from_bench(board, *slot, card.name, tier_hint)) {
+    if (!deploy_from_bench(board, *slot, card.name, tier_hint, before)) {
         remember();
         board.pending_deploy = true;
     }
@@ -1481,14 +1481,14 @@ std::optional<Point> StrongholdProtocolTaskPlugin::deploy_from_bench(
     BoardState& board,
     const Point& bench,
     const std::string& name_hint,
-    int tier_hint)
+    int tier_hint,
+    const cv::Mat& before_purchase)
 {
     std::string name = name_hint; // 拖拽面板读到的名字更可信，复核时覆盖
     int tier = tier_hint;
     if (oper_priority(name) >= 0) {
         tier = std::max(tier, 5); // 优先干员都是 V/VI，不当作低星卖掉
     }
-    // 放置前基线：意外交换检测（slots 差分）与换下者定位（板凳差分）都用它
     const auto before_deploy = ctrler()->get_image();
     const auto slots0 = slots_left(before_deploy);
 
@@ -1743,8 +1743,10 @@ std::optional<Point> StrongholdProtocolTaskPlugin::deploy_from_bench(
         board.pending_deploy = true;
         bool sold = false;
         if (swap_old.second < 5) {
-            if (auto out = new_bench_slot(before_deploy, after_deploy)) {
-                const auto gold0 = read_number(ctrler()->get_image(), "StrongholdProtocol@ShopGoldOcr");
+            // 换下的干员可能回到刚买入者腾出的原位，购买前的截图保留了该位置的背景。
+            const auto& baseline = before_purchase.empty() ? before_deploy : before_purchase;
+            if (auto out = new_bench_slot(baseline, after_deploy)) {
+                const auto gold0 = read_number(after_deploy, "StrongholdProtocol@ShopGoldOcr");
                 const Rect sell = task_roi("StrongholdProtocol@Roi@ShopSell");
                 drag_to(*out, Point(sell.x + sell.width / 2, sell.y + sell.height / 2), 400, 250);
                 sleep(1000);
