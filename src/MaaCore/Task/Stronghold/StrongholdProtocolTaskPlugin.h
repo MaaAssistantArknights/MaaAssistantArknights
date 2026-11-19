@@ -86,7 +86,6 @@ private:
     bool pick_strategy();
     bool pick_squad(BoardState& board);
     bool prep_phase(BoardState& board);
-    // 返回本次调用是否计入了一局（结算页没离开时重复进入只计一次）
     bool handle_settlement(BoardState& board);
 
     // 商店读取与操作

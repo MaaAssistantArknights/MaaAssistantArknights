@@ -140,7 +140,10 @@ bool StrongholdProtocolTaskPlugin::_run()
             handle_popups();
             break;
         case Scene::Settlement:
-            progressed = handle_settlement(board);
+            progressed = !m_settlement_counted;
+            if (!handle_settlement(board)) {
+                return false;
+            }
             break;
         default: {
             // 停在选择朝向界面（朝向拖拽没生效）：按最近部署的格子补设朝向
@@ -1928,13 +1931,38 @@ bool StrongholdProtocolTaskPlugin::handle_settlement(BoardState& board)
     LogTraceFunction;
 
     // 点 ｢返回主页｣ 后页面没离开时会再次进入本函数，同一次结算只计一局
-    const bool count_this = !m_settlement_counted;
-    if (count_this) {
+    if (!m_settlement_counted) {
+        cv::Mat image;
+        std::optional<bool> outcome;
+        for (int i = 0; i < 5 && !need_exit(); ++i) {
+            if (i > 0) {
+                sleep(250);
+            }
+            image = ctrler()->get_image();
+            OCRer result(image);
+            result.set_task_info("StrongholdProtocol@SettlementResultOcr");
+            if (auto rows = result.analyze(); rows && !rows->empty()) {
+                const auto& title = rows->front().text;
+                if (title == "模拟完成" || title == "模拟中断") {
+                    outcome = title == "模拟完成";
+                    break;
+                }
+            }
+        }
+        if (!outcome.has_value()) {
+            if (!need_exit()) {
+                utils::save_debug_image(
+                    image,
+                    utils::path("debug/stronghold"),
+                    true,
+                    "unreadable settlement",
+                    "settlement");
+                LogError << __FUNCTION__ << "settlement title unreadable";
+            }
+            return false;
+        }
+        const bool cleared = *outcome;
         m_settlement_counted = true;
-        // ｢模拟完成｣ 出现在结算页则为通关
-        OCRer result(ctrler()->get_image());
-        result.set_task_info("StrongholdProtocol@SettlementResultOcr");
-        const bool cleared = result.analyze().has_value();
         ++m_attempted;
         if (cleared) {
             ++m_cleared;
@@ -1964,6 +1992,6 @@ bool StrongholdProtocolTaskPlugin::handle_settlement(BoardState& board)
     board = BoardState {};
     m_current_strategy.clear();
     m_upgrade_x.reset();
-    return count_this;
+    return true;
 }
 } // namespace asst

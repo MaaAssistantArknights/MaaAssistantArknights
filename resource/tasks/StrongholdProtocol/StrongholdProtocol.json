@@ -168,10 +168,11 @@
         "roi": [200, 0, 933, 547]
     },
     "StrongholdProtocol@SettlementResultOcr": {
-        "doc": "结算页 ｢模拟完成｣，命中即本局通关，roi 待实测校准",
+        "doc": "结算页左侧的胜负标题，出字动画中可能只显示前三个字",
         "algorithm": "OcrDetect",
-        "text": ["模拟完成"],
-        "roi": [400, 200, 480, 200]
+        "text": ["模拟完成", "模拟中断"],
+        "ocrReplace": [["^模拟完$", "模拟完成"]],
+        "roi": [65, 156, 450, 160]
     },
     "StrongholdProtocol@DragTraitOcr": {
         "doc": "按住拖拽干员时左侧面板的特质/天赋标签（拿起与装备判定，1080p 0,520,700,80 等比）",
