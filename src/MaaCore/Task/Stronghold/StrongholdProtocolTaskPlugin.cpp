@@ -1029,6 +1029,12 @@ std::vector<StrongholdProtocolTaskPlugin::ShopCard>
     const auto card_rect = [](const Rect& r, int card_x) {
         return Rect { card_x + r.x, r.y, r.width, r.height };
     };
+    const auto read_badge = [&](int x) {
+        RegionOCRer cost(image);
+        cost.set_roi(card_rect(cost_reread, x));
+        const auto result = cost.analyze();
+        return result ? parse_cost(result->text).value_or(-1) : -1;
+    };
     const int tier_lo = tier_roi.y, tier_hi = tier_roi.y + tier_roi.height;
     const int cost_lo = cost_roi.y, cost_hi = cost_roi.y + cost_roi.height;
     const int empty_lo = empty_roi.y, empty_hi = empty_roi.y + empty_roi.height;
@@ -1078,14 +1084,7 @@ std::vector<StrongholdProtocolTaskPlugin::ShopCard>
             }
         }
         if (card.cost < 0 && !card.empty) {
-            // 费用数字常被漏检，用徽章区域重读
-            RegionOCRer cost(image);
-            cost.set_roi(card_rect(cost_reread, x));
-            if (const auto result = cost.analyze()) {
-                if (const auto value = parse_cost(result->text)) {
-                    card.cost = *value;
-                }
-            }
+            card.cost = read_badge(x);
         }
         // 等阶未识别时按卡牌左上金框色判 V/VI
         if (card.tier == 0 &&
@@ -1098,6 +1097,16 @@ std::vector<StrongholdProtocolTaskPlugin::ShopCard>
         cards.emplace_back(card);
         LogTrace << "shop card x" << x << "cost" << card.cost << "tier" << card.tier << "oper" << card.is_oper
                  << "empty" << card.empty << "name" << card.name;
+    }
+    // 普通商店的费用徽章可能只读出一小段像 0 的笔画；混有付费卡时，单独的 0 需要补读。
+    if (std::ranges::any_of(cards, [](const ShopCard& c) { return !c.empty && c.cost > 0; }) && !promotion_reward(cards)) {
+        for (auto& card : cards) {
+            if (card.is_oper && card.cost == 0) {
+                const int cost = read_badge(card.x);
+                card.cost = cost > 0 ? cost : -1;
+                LogTrace << "rechecked isolated zero cost" << card.x << "cost" << card.cost;
+            }
+        }
     }
     return cards;
 }
