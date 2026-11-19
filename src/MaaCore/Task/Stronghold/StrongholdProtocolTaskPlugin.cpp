@@ -953,8 +953,28 @@ StrongholdProtocolTaskPlugin::StrategyResult StrongholdProtocolTaskPlugin::pick_
                 LogWarn << "strategy list did not advance" << advance;
                 return StrategyResult::IncompleteScan;
             }
-            // 滑块移动一个自身高度约等于翻过一屏，保留足够重叠让裁断的卡至少完整显示一次。
-            verified &= advance * 3 <= thumb->height * 2 && std::abs(next_thumb->height - thumb->height) <= 2;
+            if (verified) {
+                // 滑块先到位时卡片可能还停在原页。用上一页底部一张卡高的内容确认两页确实重叠。
+                constexpr int view_top = 93, view_height = 615, overlap_height = 136, grid_width = 546;
+                const int previous_left = thumb->x + thumb->width / 2 - 566;
+                const int next_left = next_thumb->x + next_thumb->width / 2 - 566;
+                const int last_y = view_height - overlap_height;
+                const int min_shift = std::max(1, advance * (track_bottom - track_top) / thumb->height - 4);
+                const int max_shift = std::min(last_y, advance * view_height / thumb->height + 4);
+                verified = std::abs(next_thumb->height - thumb->height) <= 2 && min_shift <= max_shift;
+                if (verified) {
+                    const cv::Mat strip = image(cv::Rect(previous_left, view_top + last_y, grid_width, overlap_height));
+                    const cv::Mat grid = after(cv::Rect(next_left, view_top, grid_width, view_height));
+                    cv::Mat scores;
+                    cv::matchTemplate(grid, strip, scores, cv::TM_CCOEFF_NORMED);
+                    double moved = 0;
+                    cv::minMaxLoc(scores.rowRange(last_y - max_shift, last_y - min_shift + 1), nullptr, &moved);
+                    verified = moved >= 0.8 && moved > scores.at<float>(last_y, 0) + 0.001;
+                }
+                if (!verified) {
+                    LogWarn << "strategy list page overlap unconfirmed" << advance;
+                }
+            }
         }
         else {
             verified = false;
