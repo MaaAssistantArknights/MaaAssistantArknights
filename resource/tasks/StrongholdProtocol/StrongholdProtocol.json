@@ -88,6 +88,7 @@
     },
     "StrongholdProtocol@SquadOpers": {
         "doc": "自选编队界面干员名区（1080p 560,80,1160,880 等比），供插件 pick_squad 按权重选人",
+        "baseTask": "CharsNameOcrReplace",
         "algorithm": "OcrDetect",
         "text": [],
         "roi": [373, 53, 773, 587]
@@ -136,6 +137,7 @@
     },
     "StrongholdProtocol@ShopCardsOcr": {
         "doc": "商店卡牌区多行文本（费用/等阶/盟约标签/干员名，1080p 180,770,1520,290 等比）",
+        "baseTask": "CharsNameOcrReplace",
         "algorithm": "OcrDetect",
         "text": [],
         "roi": [120, 513, 1013, 193]
@@ -178,6 +180,7 @@
     },
     "StrongholdProtocol@DragNameOcr": {
         "doc": "按住拖拽时左侧面板的干员名与 LV 等级行（1080p 0,262,330,120 等比）",
+        "baseTask": "CharsNameOcrReplace",
         "algorithm": "OcrDetect",
         "text": [],
         "roi": [0, 175, 220, 80]

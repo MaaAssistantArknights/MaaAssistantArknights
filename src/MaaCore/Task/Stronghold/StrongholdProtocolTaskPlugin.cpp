@@ -44,67 +44,6 @@ static Rect task_roi(const std::string& task_name)
     return Rect { 0, 0, 1280, 720 };
 }
 
-// UTF-8 解码为码点序列，供按字比较 OCR 文本；非法字节按单字节透传
-static std::u32string to_codepoints(const std::string& text)
-{
-    std::u32string out;
-    for (size_t i = 0; i < text.size();) {
-        const auto lead = static_cast<unsigned char>(text[i]);
-        const size_t len = lead < 0x80           ? 1
-                           : (lead >> 5) == 0x6  ? 2
-                           : (lead >> 4) == 0xE  ? 3
-                           : (lead >> 3) == 0x1E ? 4
-                                                 : 1;
-        if (len == 1 || i + len > text.size()) {
-            out.push_back(lead);
-            ++i;
-            continue;
-        }
-        char32_t cp = lead & (0xFF >> (len + 1));
-        for (size_t k = 1; k < len; ++k) {
-            cp = (cp << 6) | (static_cast<unsigned char>(text[i + k]) & 0x3F);
-        }
-        out.push_back(cp);
-        i += len;
-    }
-    return out;
-}
-
-// 匹配字数（同 difflib.SequenceMatcher 的 Ratcliff/Obershelp）：取最长公共子串，再对其左右两侧递归
-static size_t matching_chars(std::u32string_view a, std::u32string_view b)
-{
-    size_t best_len = 0, best_i = 0, best_j = 0;
-    for (size_t i = 0; i < a.size(); ++i) {
-        for (size_t j = 0; j < b.size(); ++j) {
-            size_t k = 0;
-            while (i + k < a.size() && j + k < b.size() && a[i + k] == b[j + k]) {
-                ++k;
-            }
-            if (k > best_len) {
-                best_len = k;
-                best_i = i;
-                best_j = j;
-            }
-        }
-    }
-    if (best_len == 0) {
-        return 0;
-    }
-    return best_len + matching_chars(a.substr(0, best_i), b.substr(0, best_j)) +
-           matching_chars(a.substr(best_i + best_len), b.substr(best_j + best_len));
-}
-
-// 相似度 2M/T（同 difflib.SequenceMatcher.ratio）
-static double similarity_ratio(const std::string& a, const std::string& b)
-{
-    const auto ca = to_codepoints(a);
-    const auto cb = to_codepoints(b);
-    if (ca.empty() && cb.empty()) {
-        return 1.0;
-    }
-    return 2.0 * static_cast<double>(matching_chars(ca, cb)) / static_cast<double>(ca.size() + cb.size());
-}
-
 bool StrongholdProtocolTaskPlugin::verify(AsstMsg msg, const json::value& details) const
 {
     if (msg != AsstMsg::SubTaskStart || details.get("subtask", std::string()) != "ProcessTask") {
@@ -412,14 +351,8 @@ bool StrongholdProtocolTaskPlugin::click_template(const std::string& task_name)
 
 bool StrongholdProtocolTaskPlugin::name_match(const std::string& name, const std::string& key)
 {
-    if (name.empty()) {
-        return false;
-    }
-    // 单字名（UTF-8 三字节）只做精确或两字以内的短名匹配，减少长名里同字误命中
-    if (key.size() == 3) {
-        return name == key || (name.size() <= 6 && name.find(key) != std::string::npos);
-    }
-    return name.find(key) != std::string::npos;
+    // 干员名全等匹配；OCR 错字由 CharsNameOcrReplace 纠错表在识别层规整
+    return !name.empty() && name == key;
 }
 
 int StrongholdProtocolTaskPlugin::oper_priority(const std::string& name)
@@ -443,7 +376,7 @@ bool StrongholdProtocolTaskPlugin::is_safe_oper(const std::string& name)
 bool StrongholdProtocolTaskPlugin::is_healer(const std::string& name)
 {
     return std::ranges::any_of(StrongholdProtocol.get_healers(), [&](const std::string& h) {
-        return name.find(h) != std::string::npos || (name.size() >= 6 && h.find(name) != std::string::npos);
+        return name_match(name, h);
     });
 }
 
@@ -453,11 +386,7 @@ bool StrongholdProtocolTaskPlugin::is_dps_oper(const std::string& name)
     if (name.empty()) {
         return false;
     }
-    return std::ranges::any_of(StrongholdProtocol.get_dps(), [&](const std::string& d) {
-        // 子串互含之外，再按相似度 ≥ 0.6 兜底 OCR 错字
-        return name.find(d) != std::string::npos || d.find(name) != std::string::npos ||
-               similarity_ratio(d, name) >= 0.6;
-    });
+    return std::ranges::any_of(StrongholdProtocol.get_dps(), [&](const std::string& d) { return name_match(name, d); });
 }
 
 int StrongholdProtocolTaskPlugin::oper_rank(const std::string& name, int tier)
@@ -894,6 +823,10 @@ bool StrongholdProtocolTaskPlugin::pick_squad(BoardState& board)
             if (chosen >= 2 || is_banned(tr)) {
                 continue;
             }
+            // OCR 会把同一干员读出重复条目（名字与名牌双行），重复点击会 toggle 取消已选
+            if (std::ranges::find(picked, tr.text) != picked.end()) {
+                continue;
+            }
             ctrler()->click(Point(
                 tr.rect.x + tr.rect.width / 2,
                 tr.rect.y + tr.rect.height / 2 + task_roi("StrongholdProtocol@Roi@SquadNameOffset").y));
@@ -1096,6 +1029,7 @@ std::vector<StrongholdProtocolTaskPlugin::ShopCard>
                 if (std::abs(cx - x) > 60) {
                     continue;
                 }
+                LogTrace << "shop tr card" << x << "text" << tr.text << "cx" << cx << "cy" << cy;
                 std::string upper;
                 std::ranges::transform(tr.text, std::back_inserter(upper), [](char c) {
                     return c == '1' || c == 'L' || c == 'l'
@@ -1125,11 +1059,7 @@ std::vector<StrongholdProtocolTaskPlugin::ShopCard>
                 if (cy >= name_lo2 && cy <= name_hi2 && !tr.text.empty() &&
                     (has_chinese(tr.text) || std::isalpha(static_cast<unsigned char>(tr.text[0])))) {
                     card.name = tr.text; // 名字行取最下方一条
-                    // OCR 偶发卡名尾部 ASCII 标点（如 角峰：），剔除尾部可打印 ASCII 非字母
-                    while (!card.name.empty() && card.name.back() < 0x80 &&
-                           !std::isalnum(static_cast<unsigned char>(card.name.back()))) {
-                        card.name.pop_back();
-                    }
+                    LogTrace << "shop name matched" << tr.text << "card" << x;
                 }
             }
         }
@@ -1278,6 +1208,7 @@ bool StrongholdProtocolTaskPlugin::buy_and_deploy(BoardState& board, const ShopC
 void StrongholdProtocolTaskPlugin::refresh_shop()
 {
     ProcessTask(*this, { "StrongholdProtocol@RefreshClick" }).run();
+    sleep(800); // 刷新有补货动画，等动画落定再让调用方读卡
 }
 
 // ---------------- 局内：回合准备主流程 ----------------
@@ -1328,17 +1259,19 @@ bool StrongholdProtocolTaskPlugin::prep_phase(BoardState& board)
     }
 
     if (!shop.maxed) {
-        // 能升级就升级（最多连点 4 轮），成功判定：资金减少 / 费用变化 / 按钮位移 / 满级。
-        // 升级按钮走 OCR 任务（文字 ｢升级｣），商店满级后文字变 ｢满级｣ 即不再命中自动停
-        for (int i = 0; i < 4 && !need_exit(); ++i) {
+        // 能升级就升级（同一轮可多次升级，最多连点 8 轮），成功判定：资金减少 / 费用变化 /
+        // 按钮位移 / 满级。升级按钮走 OCR 任务（文字 ｢升级｣），商店满级后文字变 ｢满级｣ 即不再命中自动停
+        for (int i = 0; i < 8 && !need_exit(); ++i) {
             image = ctrler()->get_image();
             shop = read_shop(image);
             if (shop.maxed || (shop.gold && shop.upgrade_cost && *shop.gold < *shop.upgrade_cost)) {
                 break;
             }
-            // 点 ｢升级｣ 后按钮变 ｢确认升级｣，需二次点击；text 子串命中，同一任务连点两次
+            // 点 ｢升级｣ 后按钮变 ｢确认升级｣，需二次点击；text 子串命中，同一任务连点两次；
+            // 扣费与按钮位移有动画，等落定再读，否则判定不中会误认为升级失败提前退出
             ProcessTask(*this, { "StrongholdProtocol@UpgradeClick" }).run();
             ProcessTask(*this, { "StrongholdProtocol@UpgradeClick" }).run();
+            sleep(500);
             auto after = read_shop(ctrler()->get_image());
             // 按钮随商店等级移动，位移超过 OCR 抖动即视为升级生效
             const bool button_moved =
@@ -1430,8 +1363,7 @@ bool StrongholdProtocolTaskPlugin::prep_phase(BoardState& board)
                             continue;
                         }
                         const bool owned = !card.name.empty() && std::ranges::any_of(board.owned, [&](const auto& kv) {
-                            return !kv.first.empty() && (card.name.find(kv.first) != std::string::npos ||
-                                                         kv.first.find(card.name) != std::string::npos);
+                            return !kv.first.empty() && kv.first == card.name;
                         });
                         if (owned) {
                             pick = &card;
@@ -1585,12 +1517,12 @@ std::optional<Point> StrongholdProtocolTaskPlugin::deploy_from_bench(
         emit_input(
             InputEvent::Type::TOUCH_MOVE,
             Point { bench.x + (probe.x - bench.x) * i / grab_steps, bench.y + (probe.y - bench.y) * i / grab_steps });
-        emit_input(InputEvent::Type::WAIT_MS, probe, 60);
+        emit_input(InputEvent::Type::WAIT_MS, probe, 30);
     }
     // 拿起后拖到 lift 悬停点：远离全部格表格，触点不遮挡候选格的绿高亮
     const auto& tiles = StrongholdProtocol.get_tiles();
     const Point lp = tiles.lift;
-    const int lift_ms = std::max(300, static_cast<int>(Point::distance(probe, lp)));
+    const int lift_ms = std::max(150, static_cast<int>(Point::distance(probe, lp)) / 2);
     for (int i = 1; i <= 8; ++i) {
         emit_input(
             InputEvent::Type::TOUCH_MOVE,
@@ -1678,7 +1610,7 @@ std::optional<Point> StrongholdProtocolTaskPlugin::deploy_from_bench(
     }
     // 回合末重扫部署时按名字找回买入或换下时记录的等阶（面板黄框漏判时兜底）
     const auto same_oper = [](const std::string& a, const std::string& b) {
-        return !a.empty() && !b.empty() && (a.find(b) != std::string::npos || b.find(a) != std::string::npos);
+        return !a.empty() && a == b;
     };
     std::string known_name;
     if (const auto it =
@@ -1820,7 +1752,7 @@ std::optional<Point> StrongholdProtocolTaskPlugin::deploy_from_bench(
             if (auto out = new_bench_slot(before_deploy, after_deploy)) {
                 const auto gold0 = read_number(ctrler()->get_image(), "StrongholdProtocol@ShopGoldOcr");
                 const Rect sell = task_roi("StrongholdProtocol@Roi@ShopSell");
-                drag_to(*out, Point(sell.x + sell.width / 2, sell.y + sell.height / 2), 400, 500);
+                drag_to(*out, Point(sell.x + sell.width / 2, sell.y + sell.height / 2), 400, 250);
                 sleep(1000);
                 const auto gold1 = read_number(ctrler()->get_image(), "StrongholdProtocol@ShopGoldOcr");
                 sold = gold0 && gold1 && *gold1 > *gold0;
@@ -1867,7 +1799,7 @@ bool StrongholdProtocolTaskPlugin::set_facing(const Point& tile)
     // 朝向拖拽：向右拖一段距离后松手；轮询 ｢点击取消｣ 消失即生效（≤2s/次）
     for (int attempt = 0; attempt < 3; ++attempt) {
         const int dist = task_roi("StrongholdProtocol@Roi@FacingDragDist").width + 40 * attempt;
-        drag_to(tile, Point(tile.x + dist, tile.y), 300, 400);
+        drag_to(tile, Point(tile.x + dist, tile.y), 300, 200);
         for (int i = 0; i < 10 && !need_exit(); ++i) {
             sleep(200);
             OCRer facing(ctrler()->get_image());
