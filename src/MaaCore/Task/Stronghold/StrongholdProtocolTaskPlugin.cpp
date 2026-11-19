@@ -780,16 +780,13 @@ bool StrongholdProtocolTaskPlugin::pick_squad(BoardState& board)
     std::vector<Rect> banned_marks; // ｢本局禁用｣ 标记位置，被禁干员名字紧邻其上方
     if (results_opt) {
         for (const auto& tr : *results_opt) {
-            if (!has_chinese(tr.text)) {
-                continue;
-            }
             if (tr.text.find("禁用") != std::string::npos) {
                 banned_marks.emplace_back(tr.rect);
                 continue;
             }
-            // 过滤界面说明文字，只留干员名
-            if (tr.text.find("盟约") != std::string::npos || tr.text.find("阵容") != std::string::npos ||
-                tr.text.find("确定") != std::string::npos || tr.text.find("编队") != std::string::npos) {
+            // 只选名单内干员（权重表全等命中）；被 ban 的名牌有遮挡读不全，
+            // 名单不中自然出局，界面说明文字与 OCR 噪声同理
+            if (oper_priority(tr.text) < 0) {
                 continue;
             }
             names.emplace_back(tr);
