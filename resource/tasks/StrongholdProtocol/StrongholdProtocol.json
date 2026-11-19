@@ -125,7 +125,7 @@
         "ocrReplace": [["[^\\d]", ""]]
     },
     "StrongholdProtocol@ShopUpgradeCostOcr": {
-        "doc": "升级按钮上的费用数字：按钮随商店等级移动，代码按 ｢升级｣ 文字位置以 Roi@ShopUpgradeCost 覆盖 roi，定位失败时用本 roi 兜底；也复用于卡牌费用补读（代码 set_roi 覆盖）",
+        "doc": "升级按钮上的费用数字：按钮随商店等级移动，代码按 ｢升级｣ 文字位置以 Roi@ShopUpgradeCost 覆盖 roi，定位失败时用本 roi 兜底",
         "baseTask": "NumberOcrReplace",
         "roi": [0, 513, 160, 120],
         "ocrReplace": [["[^\\d]", ""]]
@@ -370,7 +370,7 @@
         "algorithm": "OcrDetect",
         "text": [],
         "action": "DoNothing",
-        "roi": [-20, 515, 40, 41]
+        "roi": [-11, 520, 23, 23]
     },
     "StrongholdProtocol@Roi@GrabProbeTarget": {
         "doc": "拿起干员时朝此点挪动 1/4 段触发抓取（取 roi.x/y；代码 deploy_from_bench）",
@@ -419,14 +419,14 @@
         "algorithm": "OcrDetect",
         "text": [],
         "action": "DoNothing",
-        "roi": [0, 515, 1, 33]
+        "roi": [0, 527, 1, 8]
     },
     "StrongholdProtocol@Roi@ShopTierY": {
-        "doc": "商店卡牌左上罗马数字等阶牌 y 区间",
+        "doc": "y 区间限定左上等阶数字的中心，x 是从等阶数字中心到费用徽章中心的水平偏移",
         "algorithm": "OcrDetect",
         "text": [],
         "action": "DoNothing",
-        "roi": [0, 528, 1, 34]
+        "roi": [58, 537, 1, 9]
     },
     "StrongholdProtocol@Roi@ShopPactY": {
         "doc": "商店卡牌盟约标签 y 区间",

@@ -948,43 +948,32 @@ StrongholdProtocolTaskPlugin::ShopInfo StrongholdProtocolTaskPlugin::read_shop(c
     return info;
 }
 
-// 商店 4 个卡槽中心 x（由卡牌费用徽章/名字行的 OCR 位置聚类得到，不写死）
-static std::vector<int> detect_shop_card_x(const std::vector<TextRect>& ocr_results, const auto& is_oper_name)
+static std::vector<int>
+    detect_shop_card_x(const std::vector<TextRect>& ocr_results, const Rect& cost_band, const Rect& tier_band)
 {
-    const auto name_roi = task_roi("StrongholdProtocol@Roi@ShopNameY");
-    const auto cost_roi = task_roi("StrongholdProtocol@Roi@ShopCostY");
-    const int name_lo = name_roi.y, name_hi = name_roi.y + name_roi.height;
-    const int cost_lo = cost_roi.y, cost_hi = cost_roi.y + cost_roi.height;
-    std::vector<int> xs;
+    // 费用徽章在卡槽正中，等阶框与它的间距固定。左对齐的名字会随字数改变中心位置。
+    std::vector<int> centers;
     for (const auto& tr : ocr_results) {
         const int cx = tr.rect.x + tr.rect.width / 2;
         const int cy = tr.rect.y + tr.rect.height / 2;
-        const bool in_name = cy >= name_lo && cy <= name_hi;
-        const bool in_cost = cy >= cost_lo && cy <= cost_hi;
-        if (!in_name && !in_cost) {
-            continue;
+        if (cy >= cost_band.y && cy <= cost_band.y + cost_band.height) {
+            centers.emplace_back(cx);
         }
-        const bool digits = std::ranges::all_of(tr.text, [](char c) { return c >= '0' && c <= '9'; });
-        if (in_cost && (!digits || tr.text.size() > 2)) {
-            continue;
+        else if (cy >= tier_band.y && cy <= tier_band.y + tier_band.height) {
+            centers.emplace_back(cx + tier_band.x);
         }
-        if (in_name && !is_oper_name(tr.text)) {
-            continue;
-        }
-        xs.emplace_back(cx);
     }
-    // 按 x 排序后 1D 聚类：相邻差 < 60px 归一簇，簇心即一个卡槽中心
-    std::ranges::sort(xs);
-    std::vector<int> centers;
-    for (int x : xs) {
-        if (centers.empty() || x - centers.back() > 60) {
-            centers.emplace_back(x);
+    std::ranges::sort(centers);
+    std::vector<int> slots;
+    for (int x : centers) {
+        if (slots.empty() || x - slots.back() > 12) {
+            slots.emplace_back(x);
         }
         else {
-            centers.back() = (centers.back() + x) / 2;
+            slots.back() = (slots.back() + x) / 2;
         }
     }
-    return centers;
+    return slots;
 }
 
 std::vector<StrongholdProtocolTaskPlugin::ShopCard>
@@ -997,7 +986,9 @@ std::vector<StrongholdProtocolTaskPlugin::ShopCard>
     const auto is_oper_name = [](const std::string& text) {
         return oper_priority(text) >= 0 || is_dps_oper(text) || is_healer(text) || is_safe_oper(text);
     };
-    auto card_xs = results_opt ? detect_shop_card_x(*results_opt, is_oper_name) : std::vector<int> {};
+    const auto tier_roi = task_roi("StrongholdProtocol@Roi@ShopTierY");
+    const auto cost_roi = task_roi("StrongholdProtocol@Roi@ShopCostY");
+    auto card_xs = results_opt ? detect_shop_card_x(*results_opt, cost_roi, tier_roi) : std::vector<int> {};
     // 按钮右侧一段内的文字（按钮费用等）不算卡牌（按钮中心右侧 150px@1080p 之外才算）
     if (m_upgrade_x) {
         const int span = task_roi("StrongholdProtocol@Roi@ShopUpgradeButtonSpan").width;
@@ -1014,8 +1005,6 @@ std::vector<StrongholdProtocolTaskPlugin::ShopCard>
     auto center_y = [](const Rect& r) {
         return r.y + r.height / 2;
     };
-    const auto tier_roi = task_roi("StrongholdProtocol@Roi@ShopTierY");
-    const auto cost_roi2 = task_roi("StrongholdProtocol@Roi@ShopCostY");
     const auto empty_roi = task_roi("StrongholdProtocol@Roi@ShopEmptyY");
     const auto pact_roi = task_roi("StrongholdProtocol@Roi@ShopPactY");
     const auto name_roi2 = task_roi("StrongholdProtocol@Roi@ShopNameY");
@@ -1026,7 +1015,7 @@ std::vector<StrongholdProtocolTaskPlugin::ShopCard>
         return Rect { card_x + r.x, r.y, r.width, r.height };
     };
     const int tier_lo = tier_roi.y, tier_hi = tier_roi.y + tier_roi.height;
-    const int cost_lo = cost_roi2.y, cost_hi = cost_roi2.y + cost_roi2.height;
+    const int cost_lo = cost_roi.y, cost_hi = cost_roi.y + cost_roi.height;
     const int empty_lo = empty_roi.y, empty_hi = empty_roi.y + empty_roi.height;
     const int pact_lo = pact_roi.y, pact_hi = pact_roi.y + pact_roi.height;
     const int name_lo2 = name_roi2.y, name_hi2 = name_roi2.y + name_roi2.height;
@@ -1053,11 +1042,10 @@ std::vector<StrongholdProtocolTaskPlugin::ShopCard>
                     card.tier = roman.at(upper);
                     continue;
                 }
-                // cost 徽章：全数字且 >0（回合计数等杂散 ｢0｣ 不得算费用）
-                if (cy >= cost_lo && cy <= cost_hi && !tr.text.empty() &&
-                    std::ranges::all_of(tr.text, [](char c) { return c >= '0' && c <= '9'; }) &&
-                    std::abs(cx - x) < 50 && std::stoi(tr.text) > 0) {
-                    card.cost = std::stoi(tr.text);
+                int cost = 0;
+                if (cy >= cost_lo && cy <= cost_hi && std::abs(cx - x) <= cost_reread.width / 2 &&
+                    tr.text.size() <= 2 && utils::chars_to_number<int, true>(tr.text, cost) && cost >= 0) {
+                    card.cost = cost;
                     continue;
                 }
                 if (cy >= empty_lo && cy <= empty_hi && tr.text.find("NO INFO") != std::string::npos) {
@@ -1077,12 +1065,12 @@ std::vector<StrongholdProtocolTaskPlugin::ShopCard>
         if (card.cost < 0 && !card.empty) {
             // 费用数字常被漏检，用徽章区域重读
             RegionOCRer cost(image);
-            cost.set_task_info("StrongholdProtocol@ShopUpgradeCostOcr");
             cost.set_roi(card_rect(cost_reread, x));
-            cost.set_use_raw(false);
-            int value = 0;
-            if (cost.analyze() && utils::chars_to_number(cost.get_result().text, value)) {
-                card.cost = value;
+            if (const auto result = cost.analyze()) {
+                int value = 0;
+                if (result->text.size() <= 2 && utils::chars_to_number<int, true>(result->text, value) && value >= 0) {
+                    card.cost = value;
+                }
             }
         }
         // 等阶未识别时按卡牌左上金框色判 V/VI
