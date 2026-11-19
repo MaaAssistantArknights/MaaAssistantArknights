@@ -128,8 +128,7 @@ private:
 
     std::optional<int> slots_left(const cv::Mat& image) const;
     std::optional<Point> new_bench_slot(const cv::Mat& before, const cv::Mat& after) const;
-    // 休整界面备战席小人定位：按头顶深色等阶方牌检测，返回每个小人的按压点（牌心 x, 牌心 y + Roi@BenchPressOffset）
-    // 备战席分上下两种台面布局（人数少时靠上 y≈390-510，满员沉底 y≈540-680），固定 y 不可靠
+    // 备战席小人定位：按头顶深色等阶方牌检测，按压点为方牌左上角加 Roi@BenchPressOffset 偏移
     static std::vector<Point> detect_bench_opers(const cv::Mat& image);
 
     // 优先级干员判定（权重表在 stronghold_protocol 资源目录的 purchase.json）

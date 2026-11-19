@@ -158,7 +158,8 @@ bool StrongholdProtocolTaskPlugin::_run()
                 // 仍在卫戍协议内且不在战斗中：点通用按钮推进（继续/确认/领取等）
                 ctrler()->click(*screen.generic_button);
             }
-            sleep(2000);
+            // 点掉弹窗/过场后短等即重判场景（回合尽快开始）；战斗中无进展可等，慢轮询
+            sleep(screen.in_battle ? 2000 : 500);
             break;
         }
         }
@@ -1268,14 +1269,20 @@ bool StrongholdProtocolTaskPlugin::prep_phase(BoardState& board)
             // 扣费与按钮位移有动画，等落定再读，否则判定不中会误认为升级失败提前退出
             ProcessTask(*this, { "StrongholdProtocol@UpgradeClick" }).run();
             ProcessTask(*this, { "StrongholdProtocol@UpgradeClick" }).run();
-            sleep(500);
+            sleep(250);
             auto after = read_shop(ctrler()->get_image());
-            // 按钮随商店等级移动，位移超过 OCR 抖动即视为升级生效
-            const bool button_moved =
-                shop.upgrade_x && after.upgrade_x && std::abs(*after.upgrade_x - *shop.upgrade_x) > 10;
-            const bool upgraded =
-                after.maxed || button_moved || (shop.gold && after.gold && *after.gold < *shop.gold) ||
-                (shop.upgrade_cost && after.upgrade_cost && *after.upgrade_cost != *shop.upgrade_cost);
+            auto upgraded_of = [&](const ShopInfo& a) {
+                // 按钮随商店等级移动，位移超过 OCR 抖动即视为升级生效
+                return a.maxed || (shop.upgrade_x && a.upgrade_x && std::abs(*a.upgrade_x - *shop.upgrade_x) > 10) ||
+                       (shop.gold && a.gold && *a.gold < *shop.gold) ||
+                       (shop.upgrade_cost && a.upgrade_cost && *a.upgrade_cost != *shop.upgrade_cost);
+            };
+            if (!upgraded_of(after)) {
+                // 扣费与按钮位移有动画，首读未中再等一拍复读，仍不中才算失败
+                sleep(250);
+                after = read_shop(ctrler()->get_image());
+            }
+            const bool upgraded = upgraded_of(after);
             if (!upgraded) {
                 break;
             }
@@ -1526,7 +1533,7 @@ std::optional<Point> StrongholdProtocolTaskPlugin::deploy_from_bench(
             Point { probe.x + (lp.x - probe.x) * i / 8, probe.y + (lp.y - probe.y) * i / 8 });
         emit_input(InputEvent::Type::WAIT_MS, lp, std::max(16, lift_ms / 8));
     }
-    emit_input(InputEvent::Type::WAIT_MS, lp, 800); // 等拖拽预览与镜头过渡渲染完成
+    // 拖拽预览与面板在抓取激活时就开始渲染，拖动过程中已完成，到悬停点直接截图复核
     const auto preview = ctrler()->get_image();
 
     // 拿起复核：左侧面板出现特质/技能等标签、读到干员名，或可部署格高亮，才认为抓到了东西
@@ -1700,7 +1707,7 @@ std::optional<Point> StrongholdProtocolTaskPlugin::deploy_from_bench(
             Point { lp.x + (target_pt.x - lp.x) * i / steps, lp.y + (target_pt.y - lp.y) * i / steps });
         emit_input(InputEvent::Type::WAIT_MS, target_pt, per);
     }
-    emit_input(InputEvent::Type::WAIT_MS, target_pt, 300); // 终点按住确认落格
+    emit_input(InputEvent::Type::WAIT_MS, target_pt, 150); // 终点按住让触点停稳再松手
     emit_input(InputEvent::Type::TOUCH_UP, target_pt);
 
     // 放置成功会停在 ｢选择朝向｣ 界面（出现 ｢点击取消｣），轮询 ≤2s
@@ -1880,7 +1887,7 @@ std::optional<Point> StrongholdProtocolTaskPlugin::new_bench_slot(const cv::Mat&
 std::vector<Point> StrongholdProtocolTaskPlugin::detect_bench_opers(const cv::Mat& image)
 {
     const Rect scan = task_roi("StrongholdProtocol@Roi@BenchScan");
-    const int press_dy = task_roi("StrongholdProtocol@Roi@BenchPressOffset").y;
+    const Rect press = task_roi("StrongholdProtocol@Roi@BenchPressOffset");
     const cv::Rect scan_cv = make_rect<cv::Rect>(scan) & cv::Rect(0, 0, image.cols, image.rows);
     const cv::Mat sub = image(scan_cv);
 
@@ -1918,8 +1925,8 @@ std::vector<Point> StrongholdProtocolTaskPlugin::detect_bench_opers(const cv::Ma
         if (cv::countNonZero(white) < inner.area() * 0.03) {
             continue;
         }
-        // 按压点：牌心 x 对齐小人中心，y 加 Roi@BenchPressOffset 落到躯干（加回扫描区偏移）
-        opers.emplace_back(scan_cv.x + rc.x + rc.width / 2, scan_cv.y + rc.y + rc.height / 2 + press_dy);
+        // 按压点：方牌左上角加 Roi@BenchPressOffset 偏移落到小人躯干（加回扫描区偏移）
+        opers.emplace_back(scan_cv.x + rc.x + press.x, scan_cv.y + rc.y + press.y);
     }
     // 按 x 从右往左排（小人从台面右端起占）
     std::ranges::sort(opers, [](const Point& a, const Point& b) { return a.x > b.x; });

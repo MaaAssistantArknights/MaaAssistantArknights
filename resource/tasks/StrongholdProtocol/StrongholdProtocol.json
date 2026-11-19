@@ -379,11 +379,11 @@
         "roi": [640, 300, 1, 1]
     },
     "StrongholdProtocol@Roi@BenchPressOffset": {
-        "doc": "备战席等阶方牌中心到小人躯干按压点的竖直偏移（取 roi.y；代码 detect_bench_opers）",
+        "doc": "备战席等阶方牌左上角到小人躯干按压点的偏移（取 roi.x/y；代码 detect_bench_opers）",
         "algorithm": "OcrDetect",
         "text": [],
         "action": "DoNothing",
-        "roi": [0, 55, 1, 1]
+        "roi": [50, 110, 1, 1]
     },
     "StrongholdProtocol@Roi@ShopUpgradeCost": {
         "doc": "升级费用徽章读取区：x 为相对升级按钮文字中心的偏移，y/w/h 为绝对值（偏移 ±22、y 带 780-822，1080p 等比；代码 read_shop）",
