@@ -658,6 +658,7 @@
             "Sarkaz@Roguelike@StageEmergencyOpsEnter",
             "Sarkaz@Roguelike@StageCombatOpsEnter",
             "Sarkaz@Roguelike@CloseEvent",
+            "Sarkaz@Roguelike@CloseEvent@(Sarkaz@Roguelike@CloseCollectionClose)",
             "Sarkaz@Roguelike@StageEncounterOptionUnknown"
         ]
     },

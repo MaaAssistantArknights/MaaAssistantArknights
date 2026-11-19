@@ -751,6 +751,7 @@
             "Sami@Roguelike@StageEmergencyOpsEnter",
             "Sami@Roguelike@StageCombatOpsEnter",
             "Sami@Roguelike@CloseEvent",
+            "Sami@Roguelike@CloseEvent@(Sami@Roguelike@CloseCollectionClose)",
             "Sami@Roguelike@StageEncounterOptionUnknown"
         ]
     },

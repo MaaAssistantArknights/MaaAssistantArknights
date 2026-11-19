@@ -401,6 +401,7 @@
             "Mizuki@Roguelike@StageEmergencyOpsEnter",
             "Mizuki@Roguelike@StageCombatOpsEnter",
             "Mizuki@Roguelike@CloseEvent",
+            "Mizuki@Roguelike@CloseEvent@(Mizuki@Roguelike@CloseCollectionClose)",
             "Mizuki@Roguelike@StageEncounterOptionUnknown"
         ]
     },
