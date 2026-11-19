@@ -267,7 +267,9 @@ StrongholdProtocolTaskPlugin::UnknownScreen
         return true;
     };
     screen.in_garrison = std::ranges::any_of(keywords("StrongholdProtocol@Keywords@Garrison"), contains);
-    screen.in_battle = std::ranges::any_of(keywords("StrongholdProtocol@Keywords@Battle"), contains);
+    // 重连入口也显示当前回合，旁边的 ｢放弃模拟｣ 能区分入口和战斗画面。
+    screen.in_battle = !contains("断线重连+放弃模拟") &&
+                       std::ranges::any_of(keywords("StrongholdProtocol@Keywords@Battle"), contains);
     if (!screen.in_garrison || screen.in_battle) {
         return screen;
     }
