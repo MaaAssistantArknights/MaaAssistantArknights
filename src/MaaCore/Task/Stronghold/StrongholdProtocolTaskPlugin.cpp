@@ -5,6 +5,7 @@
 #include "Controller/Controller.h"
 #include "Controller/ControllerAPI.h"
 #include "Task/ProcessTask.h"
+#include "Utils/DebugImageHelper.hpp"
 #include "Utils/Logger.hpp"
 #include "Utils/StringMisc.hpp"
 #include "Vision/Matcher.h"
@@ -1826,57 +1827,50 @@ std::optional<int> StrongholdProtocolTaskPlugin::slots_left(const cv::Mat& image
 
 std::optional<Point> StrongholdProtocolTaskPlugin::new_bench_slot(const cv::Mat& before, const cv::Mat& after) const
 {
-    // 定位备战席上新到的干员：扫描带（头顶方牌带）内差分有变化的就是方牌，变化块左上角加
-    // Roi@BenchPressOffset 偏移即按压点。换人时差分里同时有离开的旧位与新到的方牌，
-    // after 图该块位置不深色的（已变回背景）是离开的旧位，跳过
     const cv::Rect scan = make_rect<cv::Rect>(task_roi("StrongholdProtocol@Roi@BenchScan")) &
                           cv::Rect(0, 0, std::min(before.cols, after.cols), std::min(before.rows, after.rows));
     if (scan.empty()) {
         return std::nullopt;
     }
-    cv::Mat diff;
-    cv::absdiff(before(scan), after(scan), diff);
-    cv::Mat gray;
-    cv::cvtColor(diff, gray, cv::COLOR_BGR2GRAY);
-    cv::Mat mask;
-    cv::threshold(gray, mask, 40, 255, cv::THRESH_BINARY);
-    // 1080p 基准为 15x15，等比到 720p 取 10x10
+    // 深色方牌出现时背景变暗，离开时背景变亮。
+    cv::Mat before_gray, after_gray, mask;
+    cv::cvtColor(before(scan), before_gray, cv::COLOR_BGR2GRAY);
+    cv::cvtColor(after(scan), after_gray, cv::COLOR_BGR2GRAY);
+    cv::subtract(before_gray, after_gray, mask);
+    cv::threshold(mask, mask, 40, 255, cv::THRESH_BINARY);
+    // 等阶数字的笔画会在方牌内留下差分空洞。
     cv::morphologyEx(mask, mask, cv::MORPH_CLOSE, cv::getStructuringElement(cv::MORPH_RECT, { 10, 10 }));
-    cv::Mat labels;
-    cv::Mat stats;
-    cv::Mat centroids;
-    const int count = cv::connectedComponentsWithStats(mask, labels, stats, centroids);
-    if (count <= 1) {
-        return std::nullopt;
-    }
-    std::vector<int> blobs;
-    for (int k = 1; k < count; ++k) {
-        blobs.emplace_back(k);
-    }
-    const auto area = [&stats](int k) {
-        return stats.at<int>(k, cv::CC_STAT_AREA);
-    };
-    std::ranges::sort(blobs, std::greater {}, area);
-    const Rect press = task_roi("StrongholdProtocol@Roi@BenchPressOffset");
-    for (int k : blobs) {
-        // 小人待机动画等零碎变化远小于新到的方牌，只看与最大块同量级的块
-        if (area(k) * 3 < area(blobs.front())) {
-            break;
+
+    cv::Rect square;
+    std::vector<int> previous(mask.cols + 1), current(mask.cols + 1);
+    for (int y = 0; y < mask.rows; ++y) {
+        const auto* pixels = mask.ptr<uchar>(y);
+        for (int x = 0; x < mask.cols; ++x) {
+            // 以当前像素为右下角的正方形能扩展多少，取决于左、上、左上三个相邻正方形的最短边。
+            const int side = pixels[x] ? 1 + std::min({ current[x], previous[x + 1], previous[x] }) : 0;
+            current[x + 1] = side;
+            if (side > square.width) {
+                square = { x + 1 - side, y + 1 - side, side, side };
+            }
         }
-        const cv::Rect box(
-            scan.x + stats.at<int>(k, cv::CC_STAT_LEFT),
-            scan.y + stats.at<int>(k, cv::CC_STAT_TOP),
-            stats.at<int>(k, cv::CC_STAT_WIDTH),
-            stats.at<int>(k, cv::CC_STAT_HEIGHT));
-        cv::Mat g;
-        cv::cvtColor(after(box), g, cv::COLOR_BGR2GRAY);
-        if (cv::mean(g)[0] > 90) {
-            continue;
-        }
-        const Point pt(box.x + press.x, box.y + press.y);
-        LogTrace << "new bench slot box" << box.x << box.y << box.width << box.height << "press" << pt.x << pt.y;
+        previous.swap(current);
+    }
+    if (square.width >= 20) {
+        const Rect press = task_roi("StrongholdProtocol@Roi@BenchPressOffset");
+        const Point pt(scan.x + square.x + press.x, scan.y + square.y + press.y);
+        LogTrace << "new bench slot square" << scan.x + square.x << scan.y + square.y << "side" << square.width
+                 << "press" << pt.x << pt.y;
         return pt;
     }
+
+    cv::Mat diff_vis;
+    cv::cvtColor(mask, diff_vis, cv::COLOR_GRAY2BGR);
+    if (!square.empty()) {
+        cv::rectangle(diff_vis, square, { 0, 255, 255 });
+    }
+    cv::Mat trip;
+    cv::vconcat(std::vector<cv::Mat> { before(scan), after(scan), diff_vis }, trip);
+    utils::save_debug_image(trip, utils::path("debug/stronghold"), true, "bench diff miss", "bench_diff_miss");
     return std::nullopt;
 }
 
