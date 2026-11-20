@@ -262,7 +262,6 @@ private:
     static bool has_color_badge(const cv::Mat& image, int cx, int cy);
     static double
         color_ratio(const cv::Mat& image, const Rect& roi, int lower_h, int upper_h, int lower_s, int lower_v);
-    static bool has_chinese(const std::string& text);
     // 策略列表滚动位移测量（模板匹配；位移过小视为已到底）
     static std::optional<int> measure_grid_shift(const cv::Mat& before, const cv::Mat& after);
 
@@ -272,6 +271,7 @@ private:
     int m_cleared = 0;
     int m_attempted = 0;
     std::string m_current_strategy;
+    bool m_deferred_opening = false;
     bool m_bench_shop_unconfirmed = false; // 点选备战席后，商店恢复前不能按原布局操作。
     std::optional<Point> m_last_tile;      // 最近部署的格子，朝向设置卡住时补设用
     bool m_settlement_counted = false;     // 当前结算页已计数，离开结算页后复位

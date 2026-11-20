@@ -102,23 +102,59 @@
         "baseTask": "StrongholdProtocol@ConfirmInfo",
         "text": ["选择策略"]
     },
-    "StrongholdProtocol@StrategyPanel": {
-        "doc": "策略详情面板中的策略名和已通过次数",
+    "StrongholdProtocol@StrategyName": {
+        "doc": "详情面板 TEAM ID 下方的策略名，回调保留游戏内名称。",
         "algorithm": "OcrDetect",
         "text": [],
-        "roi": [960, 100, 320, 433]
+        "orderBy": "Score",
+        "roi": [982, 363, 295, 43]
+    },
+    "StrongholdProtocol@StrategyDeferredOpening": {
+        "doc": "延迟发放开局奖励的策略卡名称，只识别已选定策略的详情面板。",
+        "baseTask": "StrongholdProtocol@StrategyName",
+        "text": ["老鲤"],
+        "fullMatch": true
+    },
+    "StrongholdProtocol@StrategyPassed": {
+        "doc": "详情面板右上角的通过次数。将含通过标记的行归一为 # 加次数。数字另成一框时保留该框数字。",
+        "algorithm": "OcrDetect",
+        "text": [],
+        "ocrReplace": [
+            ["①", "1"],
+            ["②", "2"],
+            ["③", "3"],
+            ["④", "4"],
+            ["⑤", "5"],
+            ["⑥", "6"],
+            ["⑦", "7"],
+            ["⑧", "8"],
+            ["⑨", "9"],
+            ["^.*通过", "#"],
+            ["[^#0-9]", ""]
+        ],
+        "roi": [977, 104, 300, 53]
     },
     "StrongholdProtocol@SquadOpersV": {
-        "doc": "自选编队上排 V 阶干员姓名和本局禁用标记",
+        "doc": "自选编队上排 V 阶干员姓名",
         "baseTask": "CharsNameOcrReplace",
         "algorithm": "OcrDetect",
         "text": [],
-        "roi": [373, 253, 825, 94]
+        "roi": [373, 253, 825, 51]
     },
     "StrongholdProtocol@SquadOpersVI": {
-        "doc": "自选编队下排 VI 阶干员姓名和本局禁用标记",
+        "doc": "自选编队下排 VI 阶干员姓名",
         "baseTask": "StrongholdProtocol@SquadOpersV",
-        "roi": [373, 507, 825, 94]
+        "roi": [373, 507, 825, 51]
+    },
+    "StrongholdProtocol@SquadDisabledV": {
+        "doc": "上排干员名牌下方的禁用标记，按横坐标与干员对应。",
+        "algorithm": "OcrDetect",
+        "text": ["禁用"],
+        "roi": [373, 304, 825, 43]
+    },
+    "StrongholdProtocol@SquadDisabledVI": {
+        "baseTask": "StrongholdProtocol@SquadDisabledV",
+        "roi": [373, 558, 825, 43]
     },
     "StrongholdProtocol@SquadCountV": {
         "doc": "自选编队上排已选人数，只读取分子",
@@ -171,16 +207,30 @@
     "StrongholdProtocol@ShopBottomOcr": {
         "doc": "商店按钮随等级横移，确认文字比普通升级按钮低一行",
         "algorithm": "OcrDetect",
-        "text": ["升级", "确认升级", "已满级", "满级"],
+        "text": ["upgrade", "confirm", "maxed"],
+        "ocrReplace": [
+            ["^升级$", "upgrade"],
+            ["^确认升级$", "confirm"],
+            ["^(?:已)?满级$", "maxed"]
+        ],
         "fullMatch": true,
         "roi": [0, 636, 507, 66]
     },
     "StrongholdProtocol@ShopCardsOcr": {
-        "doc": "商店卡牌的费用、盟约标签和干员名",
-        "baseTask": "CharsNameOcrReplace",
+        "doc": "卡牌费用、空位和盟约标签共用一次 OCR，插件按文字所在行取值。国服盟约标签至少含一个汉字。",
         "algorithm": "OcrDetect",
         "text": [],
-        "roi": [120, 513, 1013, 193]
+        "ocrReplace": [
+            ["^[oO]$", "0"],
+            ["^.*NO INFO.*$", "empty"],
+            ["^.*[一-鿿].*$", "pact"]
+        ],
+        "roi": [120, 513, 1013, 153]
+    },
+    "StrongholdProtocol@ShopCardNamesOcr": {
+        "doc": "商店卡牌底部的干员名，使用各服干员名纠错表。",
+        "baseTask": "CharsNameOcrReplace",
+        "roi": [120, 666, 1013, 44]
     },
     "StrongholdProtocol@ShopNoFundsOcr": {
         "doc": "资金不足提示",
@@ -210,8 +260,12 @@
     "StrongholdProtocol@SettlementResultOcr": {
         "doc": "结算页左侧的胜负标题，出字动画中可能只显示前三个字",
         "algorithm": "OcrDetect",
-        "text": ["模拟完成", "模拟中断"],
-        "ocrReplace": [["^模拟完$", "模拟完成"]],
+        "text": ["cleared", "interrupted"],
+        "fullMatch": true,
+        "ocrReplace": [
+            ["^模拟完$|^.*模拟完成.*$", "cleared"],
+            ["^.*模拟中断.*$", "interrupted"]
+        ],
         "roi": [65, 156, 450, 160]
     },
     "StrongholdProtocol@ShopExpanded": {
@@ -374,14 +428,24 @@
     "StrongholdProtocol@UpgradeConfirmClick": {
         "baseTask": "StrongholdProtocol@ShopBottomOcr",
         "action": "ClickSelf",
-        "text": ["确认升级"],
+        "text": ["confirm"],
         "cache": false
     },
     "StrongholdProtocol@ShopLevelOcr": {
-        "doc": "升级按钮上方的商店等级，x 相对按钮中心，按等级从低到高排列",
+        "doc": "升级按钮上方的商店等级，横坐标相对按钮中心。识别结果为实际等级。",
         "algorithm": "OcrDetect",
-        "text": ["I", "II", "III", "IV", "V", "VI"],
+        "text": ["1", "2", "3", "4", "5", "6"],
+        "ocrReplace": [
+            ["^[0-9]+$", ""],
+            ["^I$", "1"],
+            ["^II$", "2"],
+            ["^III$", "3"],
+            ["^IV$", "4"],
+            ["^V$", "5"],
+            ["^VI$", "6"]
+        ],
         "fullMatch": true,
+        "orderBy": "Score",
         "roi": [-46, 578, 92, 54]
     },
     "StrongholdProtocol@StrategyListScroll": {
@@ -444,20 +508,6 @@
         "action": "DoNothing",
         "roi": [1080, 480, 200, 240]
     },
-    "StrongholdProtocol@Roi@StrategyPanelTitle": {
-        "doc": "策略详情面板中已通过次数所在行的纵向范围",
-        "algorithm": "OcrDetect",
-        "text": [],
-        "action": "DoNothing",
-        "roi": [960, 100, 320, 133]
-    },
-    "StrongholdProtocol@Roi@StrategyPanelName": {
-        "doc": "策略详情面板中策略名所在行的纵向范围",
-        "algorithm": "OcrDetect",
-        "text": [],
-        "action": "DoNothing",
-        "roi": [960, 347, 320, 86]
-    },
     "StrongholdProtocol@Roi@StrategyGridStrip": {
         "doc": "滚动前截取这段横带，在滚动后的策略网格中匹配图像以测量位移",
         "algorithm": "OcrDetect",
@@ -485,6 +535,7 @@
         "algorithm": "OcrDetect",
         "text": [],
         "action": "DoNothing",
+        "ocrReplace": [["^[oO]$", "0"]],
         "roi": [-11, 520, 23, 23]
     },
     "StrongholdProtocol@Roi@BenchPressOffset": {

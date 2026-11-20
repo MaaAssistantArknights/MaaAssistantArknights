@@ -350,19 +350,40 @@ std::optional<int> StrongholdProtocolTaskPlugin::measure_grid_shift(const cv::Ma
     return strip_cv.y - (grid_cv.y + max_loc.y);
 }
 
-bool StrongholdProtocolTaskPlugin::has_chinese(const std::string& text)
-{
-    // UTF-8 汉字大多落在 E4..E9 开头的三字节序列，按首字节粗判足够过滤英文/数字
-    for (size_t i = 0; i + 1 < text.size(); ++i) {
-        const unsigned char c = static_cast<unsigned char>(text[i]);
-        if (c >= 0xE4 && c <= 0xE9) {
-            return true;
-        }
-    }
-    return false;
-}
-
 // ---------------- 局外：选策略 / 自选编队 ----------------
+
+static std::optional<int> read_strategy_passed(const cv::Mat& panel)
+{
+    OCRer count(panel);
+    count.set_task_info("StrongholdProtocol@StrategyPassed");
+    const auto rows = count.analyze();
+    if (!rows) {
+        return 0;
+    }
+
+    // 标记和数字可能分框，文字顺序随客户端而异。区域中只能有一个标记和一个次数。
+    bool marked = false;
+    std::optional<int> passed;
+    for (const auto& row : *rows) {
+        std::string_view digits = row.text;
+        if (digits.starts_with('#')) {
+            if (marked) {
+                return std::nullopt;
+            }
+            marked = true;
+            digits.remove_prefix(1);
+        }
+        if (digits.empty()) {
+            continue;
+        }
+        int value = 0;
+        if (passed || digits.size() > 2 || !utils::chars_to_number<int, true>(digits, value)) {
+            return std::nullopt;
+        }
+        passed = value;
+    }
+    return marked ? passed : std::nullopt;
+}
 
 StrongholdProtocolTaskPlugin::StrategyResult StrongholdProtocolTaskPlugin::pick_strategy(Scene& next_scene)
 {
@@ -612,8 +633,6 @@ StrongholdProtocolTaskPlugin::StrategyResult StrongholdProtocolTaskPlugin::pick_
         return cells;
     };
 
-    const Rect title_band = task_roi("StrongholdProtocol@Roi@StrategyPanelTitle");
-    const Rect name_band = task_roi("StrongholdProtocol@Roi@StrategyPanelName");
     const auto scroll_task = Task.get("StrongholdProtocol@StrategyListScroll");
     auto scroll = [&](bool toward_top) {
         if (need_exit() || !scroll_task || scroll_task->special_params.size() < 4) {
@@ -692,8 +711,9 @@ StrongholdProtocolTaskPlugin::StrategyResult StrongholdProtocolTaskPlugin::pick_
                 return StrategyResult::IncompleteScan;
             }
 
-            // 右侧面板读取：策略名 + 已通过次数；面板有切换动画，读不到名字重试
+            // 详情切换有动画，姓名和通过次数要在同一帧读清。
             std::string strategy_name;
+            cv::Mat selected_panel;
             int passed = 0;
             for (int attempt = 0; attempt < 3 && !need_exit(); ++attempt) {
                 const auto panel = ctrler()->get_image();
@@ -711,72 +731,15 @@ StrongholdProtocolTaskPlugin::StrategyResult StrongholdProtocolTaskPlugin::pick_
                         grid_offset = next_offset;
                     }
                 }
-                OCRer ocr(panel);
-                ocr.set_task_info("StrongholdProtocol@StrategyPanel");
-                auto results = ocr.analyze();
-                if (!results || results->empty()) {
-                    sleep(300);
-                    continue;
-                }
-                // 已通过次数在面板标题区（Roi@StrategyPanelTitle 的 y 区间）；｢通过｣ 与次数可能被拆成两行。
-                // 无 ｢通过｣ 行即未打过（0 次），有 ｢通过｣ 但读不到数字按 1 次
-                passed = 0;
-                std::vector<const TextRect*> title_rows;
-                for (const auto& tr : *results) {
-                    if (tr.rect.y >= title_band.y && tr.rect.y < title_band.y + title_band.height) {
-                        title_rows.emplace_back(&tr);
+                OCRer name(panel);
+                name.set_task_info("StrongholdProtocol@StrategyName");
+                if (const auto rows = name.analyze(); rows && !rows->front().text.empty()) {
+                    if (const auto count = read_strategy_passed(panel)) {
+                        strategy_name = rows->front().text;
+                        selected_panel = panel;
+                        passed = *count;
+                        break;
                     }
-                }
-                auto normalize_digits = [](std::string text) {
-                    // ① 等带圈数字会被 OCR 混入，按 UTF-8 字节序列整体替换为 ASCII 数字
-                    static constexpr std::pair<std::string_view, char> special[] = {
-                        { "\xE2\x91\xA0", '1' }, { "\xE2\x91\xA1", '2' }, { "\xE2\x91\xA2", '3' },
-                        { "\xE2\x91\xA3", '4' }, { "\xE2\x91\xA4", '5' }, { "\xE2\x91\xA5", '6' },
-                        { "\xE2\x91\xA6", '7' }, { "\xE2\x91\xA7", '8' }, { "\xE2\x91\xA8", '9' },
-                    };
-                    for (auto [from, to] : special) {
-                        for (size_t pos = text.find(from); pos != std::string::npos; pos = text.find(from)) {
-                            text.replace(pos, from.size(), 1, to);
-                        }
-                    }
-                    std::string digits;
-                    for (char c : text) {
-                        if (c >= '0' && c <= '9') {
-                            digits += c;
-                        }
-                    }
-                    return digits;
-                };
-                for (size_t i = 0; i < title_rows.size(); ++i) {
-                    const auto& text = title_rows[i]->text;
-                    if (text.find("通过") == std::string::npos) {
-                        continue;
-                    }
-                    std::string digits = normalize_digits(text.substr(text.find("通过") + 6));
-                    if (digits.empty() && i + 1 < title_rows.size()) {
-                        digits = normalize_digits(title_rows[i + 1]->text);
-                    }
-                    // 次数至多两位，截断防 OCR 粘连导致 stoi 溢出
-                    passed = digits.empty() ? 1 : std::stoi(digits.substr(0, 2));
-                    break;
-                }
-                // 策略名在面板中下部（Roi@StrategyPanelName 的 y 区间），排除说明行（生命值/通过/方括号）
-                for (const auto& tr : *results) {
-                    if (tr.rect.y < name_band.y || tr.rect.y > name_band.y + name_band.height) {
-                        continue;
-                    }
-                    if (!has_chinese(tr.text)) {
-                        continue;
-                    }
-                    if (tr.text.find("生命") != std::string::npos || tr.text.find("通过") != std::string::npos ||
-                        tr.text.find("【") != std::string::npos) {
-                        continue;
-                    }
-                    strategy_name = tr.text;
-                    break;
-                }
-                if (!strategy_name.empty()) {
-                    break;
                 }
                 sleep(300);
             }
@@ -792,6 +755,9 @@ StrongholdProtocolTaskPlugin::StrategyResult StrongholdProtocolTaskPlugin::pick_
                 continue;
             }
 
+            OCRer deferred(selected_panel);
+            deferred.set_task_info("StrongholdProtocol@StrategyDeferredOpening");
+            const bool deferred_opening = deferred.analyze().has_value();
             Matcher confirm(ctrler()->get_image());
             confirm.set_task_info("StrongholdProtocol@SPRConfirmSelect");
             const auto button = confirm.analyze();
@@ -811,6 +777,7 @@ StrongholdProtocolTaskPlugin::StrategyResult StrongholdProtocolTaskPlugin::pick_
                     !need_exit()) {
                     next_scene = scene;
                     m_current_strategy = strategy_name;
+                    m_deferred_opening = deferred_opening;
                     LogInfo << "select strategy:" << strategy_name << "passed" << passed << "target" << m_target;
                     auto info = basic_info_with_what("StrongholdStrategy");
                     info["details"]["name"] = strategy_name;
@@ -903,6 +870,9 @@ bool StrongholdProtocolTaskPlugin::pick_squad(BoardState& board)
         if (!text) {
             continue;
         }
+        OCRer disabled(image);
+        disabled.set_task_info("StrongholdProtocol@SquadDisabled" + row);
+        const auto marks = disabled.analyze();
         std::vector<TextRect> names;
         for (const auto& tr : *text) {
             if (!BattleData.get_all_oper_names().contains(tr.text) || StrongholdProtocol.is_substitute(tr.text) ||
@@ -910,10 +880,10 @@ bool StrongholdProtocolTaskPlugin::pick_squad(BoardState& board)
                 continue;
             }
             const int x = tr.rect.x + tr.rect.width / 2;
-            const bool banned = std::ranges::any_of(*text, [&](const TextRect& mark) {
-                return mark.text.find("禁用") != std::string::npos && mark.rect.y > tr.rect.y &&
-                       mark.rect.y - tr.rect.y < 80 && std::abs(x - mark.rect.x - mark.rect.width / 2) < 60;
-            });
+            const bool banned = marks && std::ranges::any_of(*marks, [&](const TextRect& mark) {
+                                    return mark.rect.y > tr.rect.y && mark.rect.y - tr.rect.y < 80 &&
+                                           std::abs(x - mark.rect.x - mark.rect.width / 2) < 60;
+                                });
             if (!banned) {
                 names.emplace_back(tr);
             }
@@ -1039,7 +1009,7 @@ StrongholdProtocolTaskPlugin::ShopInfo StrongholdProtocolTaskPlugin::read_shop(c
         const auto& button = results->front();
         info.upgrade_x = button.rect.x + button.rect.width / 2;
         for (const auto& tr : *results) {
-            if (tr.text.find("满级") != std::string::npos) {
+            if (tr.text == "maxed") {
                 info.maxed = true;
                 info.upgrade_x = tr.rect.x + tr.rect.width / 2;
                 board.maxed_shop_x = info.upgrade_x;
@@ -1121,13 +1091,15 @@ std::vector<StrongholdProtocolTaskPlugin::ShopCard>
 {
     OCRer ocr(image);
     ocr.set_task_info("StrongholdProtocol@ShopCardsOcr");
-    auto results_opt = ocr.analyze();
+    auto results = ocr.analyze().value_or(OCRer::ResultsVec {});
+    OCRer names(image);
+    names.set_task_info("StrongholdProtocol@ShopCardNamesOcr");
+    if (auto rows = names.analyze()) {
+        results.insert(results.end(), std::make_move_iterator(rows->begin()), std::make_move_iterator(rows->end()));
+    }
 
     const auto& oper_names = BattleData.get_all_oper_names();
     const auto parse_cost = [](std::string_view text) -> std::optional<int> {
-        if (text == "o" || text == "O") {
-            return 0;
-        }
         unsigned value = 0;
         if (text.size() <= 2 && utils::chars_to_number<unsigned, true>(text, value)) {
             return static_cast<int>(value);
@@ -1135,7 +1107,7 @@ std::vector<StrongholdProtocolTaskPlugin::ShopCard>
         return std::nullopt;
     };
     const auto frame_task = Task.get("StrongholdProtocol@Roi@ShopTierFrame");
-    if (!results_opt || !frame_task || frame_task->special_params.size() != 3) {
+    if (results.empty() || !frame_task || frame_task->special_params.size() != 3) {
         return {};
     }
     const auto& tier_frame = frame_task->roi;
@@ -1162,6 +1134,7 @@ std::vector<StrongholdProtocolTaskPlugin::ShopCard>
             return -1;
         }
         RegionOCRer cost(image);
+        cost.set_task_info("StrongholdProtocol@Roi@ShopCostReread");
         cost.set_roi(card_rect(cost_reread, x));
         const auto result = cost.analyze();
         return result ? parse_cost(result->text).value_or(-1) : -1;
@@ -1174,7 +1147,7 @@ std::vector<StrongholdProtocolTaskPlugin::ShopCard>
         card_xs.emplace_back(frame.x - tier_frame.x);
     }
     // 费用徽章在卡槽中央，可补全等阶方牌被遮住的卡位。
-    for (const auto& row : *results_opt) {
+    for (const auto& row : results) {
         const int x = center(row.rect);
         const int y = center_y(row.rect);
         if (y >= cost_lo && y <= cost_hi &&
@@ -1192,7 +1165,7 @@ std::vector<StrongholdProtocolTaskPlugin::ShopCard>
             if (!old.is_oper || old.cost <= 0 || old.name_left < 0 || old.name.empty()) {
                 continue;
             }
-            for (const auto& tr : *results_opt) {
+            for (const auto& tr : results) {
                 const int dx = tr.rect.x - old.name_left;
                 const int cy = center_y(tr.rect);
                 if (tr.text != old.name || std::abs(dx) > name_distance || cy < name_lo2 || cy > name_hi2) {
@@ -1217,7 +1190,7 @@ std::vector<StrongholdProtocolTaskPlugin::ShopCard>
     for (int x : card_xs) {
         ShopCard card;
         card.x = x;
-        for (const auto& tr : *results_opt) {
+        for (const auto& tr : results) {
             const int cx = center(tr.rect);
             const int cy = center_y(tr.rect);
             if (std::abs(cx - x) > text_distance) {
@@ -1230,11 +1203,11 @@ std::vector<StrongholdProtocolTaskPlugin::ShopCard>
                     continue;
                 }
             }
-            if (cy >= empty_lo && cy <= empty_hi && tr.text.find("NO INFO") != std::string::npos) {
+            if (cy >= empty_lo && cy <= empty_hi && tr.text == "empty") {
                 card.empty = true;
                 continue;
             }
-            if (cy >= pact_lo && cy <= pact_hi && has_chinese(tr.text)) {
+            if (cy >= pact_lo && cy <= pact_hi && tr.text == "pact") {
                 card.is_oper = true;
                 continue;
             }
@@ -1857,8 +1830,7 @@ bool StrongholdProtocolTaskPlugin::prep_phase(BoardState& board)
     LogInfo << "round" << round << "gold" << shop.gold.value_or(-1) << "maxed" << shop.maxed;
 
     std::vector<OpeningOper> opening;
-    const bool deferred_opening = m_current_strategy == "老鲤";
-    if (deferred_opening && round == 3 && board.round_done < 3) {
+    if (m_deferred_opening && round == 3 && board.round_done < 3) {
         // 老鲤在第 3 回合休整时发放暂存资金，并将两名赠送干员直接放入备战席。
         board.unread_opening_gifts = 2;
     }
@@ -1877,7 +1849,7 @@ bool StrongholdProtocolTaskPlugin::prep_phase(BoardState& board)
     if (m_bench_shop_unconfirmed) {
         return false;
     }
-    if (!deferred_opening && board.round_done < 0 && round == 1) {
+    if (!m_deferred_opening && board.round_done < 0 && round == 1) {
         int remaining = 2;
         int budget = shop.gold.value_or(-1);
         std::vector<int> failed_slots;
@@ -1927,7 +1899,7 @@ bool StrongholdProtocolTaskPlugin::prep_phase(BoardState& board)
                 OCRer ocr(image);
                 ocr.set_task_info("StrongholdProtocol@ShopBottomOcr");
                 const auto rows = ocr.analyze();
-                if (!rows || (after_confirm && rows->front().text == "确认升级")) {
+                if (!rows || (after_confirm && rows->front().text == "confirm")) {
                     previous.reset();
                     continue;
                 }
@@ -1950,10 +1922,10 @@ bool StrongholdProtocolTaskPlugin::prep_phase(BoardState& board)
             ocr.set_task_info(task);
             ocr.set_roi(roi);
             const auto rows = ocr.analyze();
-            if (rows && rows->size() == 1 && rows->front().score >= 0.75) {
-                const auto it = std::ranges::find(task->text, rows->front().text);
-                if (it != task->text.end()) {
-                    return static_cast<int>(it - task->text.begin()) + 1;
+            if (rows && rows->front().score >= 0.75) {
+                int value = 0;
+                if (utils::chars_to_number<int, true>(rows->front().text, value)) {
+                    return value;
                 }
             }
             return 0;
@@ -1968,10 +1940,10 @@ bool StrongholdProtocolTaskPlugin::prep_phase(BoardState& board)
             const ShopInfo before = shop;
             const int old_level = level(*button);
             ProcessTask confirm(*this, { "StrongholdProtocol@UpgradeConfirmClick" });
-            if (button->text == "确认升级") {
+            if (button->text == "confirm") {
                 confirm.set_reusable_image(image);
             }
-            else if (button->text != "升级" || !ctrler()->click(button->rect)) {
+            else if (button->text != "upgrade" || !ctrler()->click(button->rect)) {
                 break;
             }
             upgrade_pending = true;
@@ -3182,8 +3154,8 @@ bool StrongholdProtocolTaskPlugin::handle_settlement(BoardState& board)
             result.set_task_info("StrongholdProtocol@SettlementResultOcr");
             if (auto rows = result.analyze(); rows && !rows->empty()) {
                 const auto& title = rows->front().text;
-                if (title == "模拟完成" || title == "模拟中断") {
-                    outcome = title == "模拟完成";
+                if (title == "cleared" || title == "interrupted") {
+                    outcome = title == "cleared";
                     break;
                 }
             }
@@ -3230,6 +3202,7 @@ bool StrongholdProtocolTaskPlugin::handle_settlement(BoardState& board)
     }
     board = BoardState {};
     m_current_strategy.clear();
+    m_deferred_opening = false;
     m_upgrade_x.reset();
     return true;
 }
