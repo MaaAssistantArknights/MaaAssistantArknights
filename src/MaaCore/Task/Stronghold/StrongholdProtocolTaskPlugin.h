@@ -92,9 +92,8 @@ private:
         std::optional<TextRect> generic_button; // 可点的通用按钮（继续/确认/领取等）
     };
 
-    Scene detect_scene(const cv::Mat& image, UnknownScreen& screen);
+    Scene detect_scene(const cv::Mat& image, UnknownScreen& screen, bool wait_for_transition = false);
     static UnknownScreen scan_unknown_screen(const std::vector<TextRect>& text);
-    static bool is_bounty_select(const std::vector<TextRect>& text);
     // 悬赏决策：默认选中间一项，避免个别目标奖励/难度失衡
     bool pick_bounty();
     // 模板命中后直接点击其矩形；不借 ProcessTask，避免任务 next 链把流程带走
@@ -105,7 +104,7 @@ private:
         AllCompleted,
         IncompleteScan,
     };
-    StrategyResult pick_strategy();
+    StrategyResult pick_strategy(Scene& next_scene);
     bool pick_squad(BoardState& board);
     bool prep_phase(BoardState& board);
     bool handle_settlement(BoardState& board);

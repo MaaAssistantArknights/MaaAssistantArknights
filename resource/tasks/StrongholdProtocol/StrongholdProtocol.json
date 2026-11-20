@@ -75,11 +75,23 @@
         "text": ["悬赏"],
         "roi": [0, 0, 1280, 720]
     },
-    "StrongholdProtocol@ConfirmInfo": {
-        "doc": "｢确认本局信息｣ 页判定：与自选编队页共用同款准备就绪按钮，模板分不开，按页面文字全屏查找区分",
+    "StrongholdProtocol@SceneHeader": {
+        "doc": "极速模拟步骤标题。编队、本局信息和策略页共用这次识别结果。",
         "algorithm": "OcrDetect",
-        "text": ["确认本局信息"],
-        "roi": [0, 0, 1280, 720]
+        "text": [],
+        "roi": [400, 8, 405, 65]
+    },
+    "StrongholdProtocol@ConfirmInfo": {
+        "baseTask": "StrongholdProtocol@SceneHeader",
+        "text": ["确认本局信息"]
+    },
+    "StrongholdProtocol@CustomSquadTitle": {
+        "baseTask": "StrongholdProtocol@SceneHeader",
+        "text": ["确定自选编队"]
+    },
+    "StrongholdProtocol@StrategyTitle": {
+        "baseTask": "StrongholdProtocol@SceneHeader",
+        "text": ["选择策略"]
     },
     "StrongholdProtocol@StrategyPanel": {
         "doc": "策略详情面板多行文本（策略名与已通过次数），供插件 pick_strategy 解析",

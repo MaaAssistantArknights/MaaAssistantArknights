@@ -110,13 +110,9 @@ bool StrongholdProtocolTaskPlugin::_run()
         if (scene != Scene::Settlement && scene != Scene::Unknown) {
             m_settlement_counted = false; // 已离开结算页进入下一局流程，下次结算重新计数
         }
-        switch (scene) {
-        case Scene::Navigate:
-            // 活动主界面：走 @Nav 链导航到策略选择页（链停在策略页，不代选策略）
-            ProcessTask(*this, { "StrongholdProtocol@Nav" }).run();
-            break;
-        case Scene::StrategySelect: {
-            const auto result = pick_strategy();
+        if (scene == Scene::StrategySelect) {
+            // 确认策略时已识别出下一页，同一轮直接处理该页，操作本身仍使用新截图。
+            const auto result = pick_strategy(scene);
             if (need_exit() || result == StrategyResult::IncompleteScan) {
                 return false;
             }
@@ -127,8 +123,12 @@ bool StrongholdProtocolTaskPlugin::_run()
                 return true;
             }
             progressed = true;
-            break;
         }
+        switch (scene) {
+        case Scene::Navigate:
+            // 活动主界面：走 @Nav 链导航到策略选择页（链停在策略页，不代选策略）
+            ProcessTask(*this, { "StrongholdProtocol@Nav" }).run();
+            break;
         case Scene::BountySelect:
             pick_bounty();
             break;
@@ -142,7 +142,7 @@ bool StrongholdProtocolTaskPlugin::_run()
         case Scene::RoundPrepare: {
             const int round_before = board.round_done;
             prep_phase(board);
-            progressed = board.round_done != round_before;
+            progressed |= board.round_done != round_before;
             break;
         }
         case Scene::ConfirmPopup:
@@ -191,50 +191,101 @@ bool StrongholdProtocolTaskPlugin::_run()
     return true;
 }
 
-StrongholdProtocolTaskPlugin::Scene
-    StrongholdProtocolTaskPlugin::detect_scene(const cv::Mat& image, UnknownScreen& screen)
+static bool has_scene_text(const std::vector<TextRect>& text, const std::string& task_name, size_t required = 1)
 {
-    auto match = [&image](const std::string& task_name) {
+    const auto task = Task.get<OcrTaskInfo>(task_name);
+    if (!task || text.size() < required) {
+        return false;
+    }
+    const auto& config = OcrConfig::get_instance();
+    auto keywords = task->text;
+    for (auto& keyword : keywords) {
+        keyword = config.process_equivalence_class(keyword);
+    }
+    size_t matches = 0;
+    for (const auto& row : text) {
+        if (!task->roi.empty() && !task->roi.include(row.rect)) {
+            continue;
+        }
+        const auto line = config.process_equivalence_class(row.text);
+        const bool matched = std::ranges::any_of(keywords, [&](const std::string& keyword) {
+            return task->full_match ? line == keyword : line.find(keyword) != std::string::npos;
+        });
+        if (matched && ++matches == required) {
+            return true;
+        }
+    }
+    return false;
+}
+
+StrongholdProtocolTaskPlugin::Scene
+    StrongholdProtocolTaskPlugin::detect_scene(const cv::Mat& image, UnknownScreen& screen, bool wait_for_transition)
+{
+    const auto match = [&image](const std::string& task_name) {
         Matcher matcher(image);
         matcher.set_task_info(task_name);
         return matcher.analyze().has_value();
     };
-    auto ocr_contains = [&image](const std::string& task_name) {
-        // 场景判定必须用多结果 OCRer：roi 内常有多行文本，RegionOCRer 单结果
-        // 模式可能取到别的行导致关键词漏判
+    const auto read = [&image](const std::string& task_name) {
         OCRer ocr(image);
         ocr.set_task_info(task_name);
-        return ocr.analyze().has_value();
+        return ocr.analyze().value_or(std::vector<TextRect> {});
     };
-
     if (match("StrongholdProtocol@ReturnHome")) {
         return Scene::Settlement;
     }
-    // 悬赏判定和未知场景共用同一份全屏文字，保留各行原文供词表匹配。
-    OCRer ocr(image);
-    ocr.set_task_info("StrongholdProtocol@ScreenTextOcr");
-    const auto text = ocr.analyze().value_or(std::vector<TextRect> {});
-    if (is_bounty_select(text)) {
+    const bool ready = match("StrongholdProtocol@CustomOpersConfirm");
+    const bool strategy =
+        !ready && (match("StrongholdProtocol@SPRConfirmSelect") || match("StrongholdProtocol@SPAConfirmSelect") ||
+                   match("StrongholdProtocol@Goliath"));
+    const auto step = [&](const std::vector<TextRect>& text) {
+        if (ready && has_scene_text(text, "StrongholdProtocol@CustomSquadTitle")) {
+            return Scene::CustomSquad;
+        }
+        if (ready && has_scene_text(text, "StrongholdProtocol@ConfirmInfo")) {
+            return Scene::ConfirmInfo;
+        }
+        if (strategy && has_scene_text(text, "StrongholdProtocol@StrategyTitle")) {
+            return Scene::StrategySelect;
+        }
+        return Scene::Unknown;
+    };
+    Scene scene = Scene::Unknown;
+    if (ready || strategy) {
+        scene = step(read("StrongholdProtocol@SceneHeader"));
+    }
+    else if (!read("StrongholdProtocol@ReadyButton").empty()) {
+        // 确认准备弹窗可能仍露出右上角的商店按钮。
+        scene = read("StrongholdProtocol@ConfirmReadyOcr").empty() ? Scene::RoundPrepare : Scene::ConfirmPopup;
+    }
+    // 悬赏弹层的确认按钮在中部，出现时要用原来的两行证据核实悬赏，再考虑背景页。
+    if ((scene != Scene::Unknown || wait_for_transition) && read("StrongholdProtocol@BountyConfirmBtn").empty()) {
+        return scene;
+    }
+
+    const auto text = read("StrongholdProtocol@ScreenTextOcr");
+    if (has_scene_text(text, "StrongholdProtocol@BountyTitle", 2)) {
         return Scene::BountySelect;
     }
-    // 自选编队页：CustomOpersConfirm 模板命中即编队页（准备就绪按钮常亮可点，选人并非前置条件）
-    if (match("StrongholdProtocol@CustomOpersConfirm")) {
-        // ｢确认本局信息｣ 页与编队页共用同款 ｢准备就绪｣ 按钮，模板分不开，按页面文字区分
-        return ocr_contains("StrongholdProtocol@ConfirmInfo") ? Scene::ConfirmInfo : Scene::CustomSquad;
+    if (scene != Scene::Unknown) {
+        return scene;
     }
-    // 策略网格页（歌利亚环节）：Goliath 模板或 SPR/SPA 确认按钮任一命中；
-    // OCR ｢选择策略｣ 标题与实际画面不符，不用其判定
-    if (match("StrongholdProtocol@Goliath") || match("StrongholdProtocol@SPRConfirmSelect") ||
-        match("StrongholdProtocol@SPAConfirmSelect")) {
+    if (ready) {
+        scene = step(text);
+        if (scene != Scene::Unknown) {
+            return scene;
+        }
+    }
+    else if (strategy) {
+        // 旧策略页可能只有歌利亚或确认按钮可见。
         return Scene::StrategySelect;
     }
-    if (ocr_contains("StrongholdProtocol@ConfirmReadyOcr")) {
-        return Scene::ConfirmPopup; // 弹窗会遮挡准备按钮，必须优先于 RoundPrepare 处理
+    if (has_scene_text(text, "StrongholdProtocol@ConfirmReadyOcr")) {
+        return Scene::ConfirmPopup;
     }
-    if (ocr_contains("StrongholdProtocol@ReadyButton")) {
+    if (has_scene_text(text, "StrongholdProtocol@ReadyButton")) {
         return Scene::RoundPrepare;
     }
-    // 活动主界面（极速模拟入口）放最后：对局内各场景优先
     if (match("StrongholdProtocol@Nav@EnterQuickly")) {
         return Scene::Navigate;
     }
@@ -295,33 +346,6 @@ StrongholdProtocolTaskPlugin::UnknownScreen
         }
     }
     return screen;
-}
-
-bool StrongholdProtocolTaskPlugin::is_bounty_select(const std::vector<TextRect>& text)
-{
-    const auto task = Task.get<OcrTaskInfo>("StrongholdProtocol@BountyTitle");
-    if (!task || text.size() < 2) {
-        return false;
-    }
-    const auto& config = OcrConfig::get_instance();
-    auto keywords = task->text;
-    for (auto& keyword : keywords) {
-        keyword = config.process_equivalence_class(keyword);
-    }
-    int matches = 0;
-    for (const auto& row : text) {
-        if (!task->roi.empty() && !task->roi.include(row.rect)) {
-            continue;
-        }
-        const auto line = config.process_equivalence_class(row.text);
-        const bool matched = std::ranges::any_of(keywords, [&](const std::string& keyword) {
-            return task->full_match ? line == keyword : line.find(keyword) != std::string::npos;
-        });
-        if (matched && ++matches == 2) {
-            return true; // 标题和一张卡，或两张卡
-        }
-    }
-    return false;
 }
 
 bool StrongholdProtocolTaskPlugin::pick_bounty()
@@ -488,7 +512,7 @@ bool StrongholdProtocolTaskPlugin::has_chinese(const std::string& text)
 
 // ---------------- 局外：选策略 / 自选编队 ----------------
 
-StrongholdProtocolTaskPlugin::StrategyResult StrongholdProtocolTaskPlugin::pick_strategy()
+StrongholdProtocolTaskPlugin::StrategyResult StrongholdProtocolTaskPlugin::pick_strategy(Scene& next_scene)
 {
     LogTraceFunction;
 
@@ -921,15 +945,17 @@ StrongholdProtocolTaskPlugin::StrategyResult StrongholdProtocolTaskPlugin::pick_
             }
             // 歌利亚卡片滚出屏幕后也会失配。确认时检查实际进入的后续场景。
             Scene scene = Scene::Unknown;
-            for (int attempt = 0; attempt < 3; ++attempt) {
-                if (!sleep(attempt == 0 ? 1500 : 300)) {
+            for (int attempt = 0; attempt < 12; ++attempt) {
+                if (!sleep(200)) {
                     return StrategyResult::IncompleteScan;
                 }
                 UnknownScreen screen;
-                scene = detect_scene(ctrler()->get_image(), screen);
+                // 过场先查局部特征，画面仍未确定时再走完整识别。
+                scene = detect_scene(ctrler()->get_image(), screen, attempt < 9);
                 if ((scene == Scene::CustomSquad || scene == Scene::BountySelect || scene == Scene::ConfirmInfo ||
                      scene == Scene::RoundPrepare) &&
                     !need_exit()) {
+                    next_scene = scene;
                     m_current_strategy = strategy_name;
                     LogInfo << "select strategy:" << strategy_name << "passed" << passed << "target" << m_target;
                     auto info = basic_info_with_what("StrongholdStrategy");
