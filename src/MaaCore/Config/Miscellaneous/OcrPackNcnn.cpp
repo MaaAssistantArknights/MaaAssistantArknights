@@ -122,7 +122,7 @@ bool OcrPack::check_and_load()
     LogTraceFunction;
 
     m_impl->ncnn = std::make_unique<OcrPackNcnn>();
-    m_impl->ncnn->set_cpu_threads(OcrPackNcnn::bind_performance_cores());
+    m_impl->ncnn->set_cpu_threads(OcrPackNcnn::default_cpu_threads());
 
     const auto det_bin = std::filesystem::path(m_impl->det_model_path).replace_extension("bin");
     const auto rec_bin = std::filesystem::path(m_impl->rec_model_path).replace_extension("bin");
@@ -172,6 +172,7 @@ constexpr float kRecMean[3] = { 127.5f, 127.5f, 127.5f };
 constexpr float kRecNorm[3] = { 1.f / 127.5f, 1.f / 127.5f, 1.f / 127.5f };
 
 constexpr int kMaxCpuThreads = 4;
+constexpr int kOpenmpBlocktimeMs = 2;
 
 cv::Mat ensure_continuous_bgr(const cv::Mat& img)
 {
@@ -334,39 +335,11 @@ asst::OcrPackNcnn::OcrPackNcnn() = default;
 
 asst::OcrPackNcnn::~OcrPackNcnn() = default;
 
-// ncnn 的 powersave 2 以各核最高频率的中点划分大小核，中核低于中点的 SoC（如骁龙 870）只会绑到一个超大核，
-// 这里改为只排除最低频的一簇
-int asst::OcrPackNcnn::bind_performance_cores()
+int asst::OcrPackNcnn::default_cpu_threads()
 {
     const int count = ncnn::get_cpu_count();
-    std::vector<long> max_freq(count, 0);
-    long lowest = 0;
-    bool readable = true;
-    for (int i = 0; i < count; ++i) {
-        std::ifstream ifs(utils::path(std::format("/sys/devices/system/cpu/cpu{}/cpufreq/cpuinfo_max_freq", i)));
-        if (!(ifs >> max_freq[i]) || max_freq[i] <= 0) {
-            readable = false;
-            break;
-        }
-        lowest = lowest == 0 ? max_freq[i] : std::min(lowest, max_freq[i]);
-    }
-    ncnn::CpuSet mask;
-    for (int i = 0; readable && i < count; ++i) {
-        if (max_freq[i] > lowest) {
-            mask.enable(i);
-        }
-    }
-
-    if (mask.num_enabled() == 0) {
-        ncnn::set_cpu_powersave(0);
-        const int threads = count <= 2 ? 1 : count <= 4 ? 2 : count <= 12 ? 3 : 4;
-        LogInfo << __FUNCTION__ << "no frequency tiers, unbound, threads" << threads;
-        return threads;
-    }
-
-    ncnn::set_cpu_thread_affinity(mask);
-    const int threads = std::min(mask.num_enabled(), kMaxCpuThreads);
-    LogInfo << __FUNCTION__ << "performance cores" << mask.num_enabled() << "threads" << threads;
+    const int threads = count <= 2 ? 1 : count <= 4 ? 2 : kMaxCpuThreads;
+    LogInfo << __FUNCTION__ << "cpu count" << count << "threads" << threads;
     return threads;
 }
 
@@ -384,6 +357,7 @@ bool asst::OcrPackNcnn::load(
         auto net = std::make_unique<ncnn::Net>();
         net->opt.use_vulkan_compute = false;
         net->opt.num_threads = m_cpu_threads;
+        net->opt.openmp_blocktime = kOpenmpBlocktimeMs;
         net->opt.use_fp16_packed = false;
         net->opt.use_fp16_storage = false;
         net->opt.use_fp16_arithmetic = false;
