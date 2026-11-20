@@ -233,6 +233,11 @@
         "text": ["特质", "天赋", "技能", "特性"],
         "roi": [0, 347, 467, 53]
     },
+    "StrongholdProtocol@BenchOperatorTab": {
+        "doc": "干员专有的详情标签，用于区分干员与装备、召唤物。",
+        "baseTask": "StrongholdProtocol@DragTraitOcr",
+        "text": ["特质", "天赋"]
+    },
     "StrongholdProtocol@DragNameOcr": {
         "doc": "商店和备战席详情左侧的干员名，区域止于等阶方牌上方。参数为复核退场干员身份所需的最低 OCR 置信度（百分比）。",
         "baseTask": "CharsNameOcrReplace",
@@ -241,6 +246,13 @@
         "roi": [0, 175, 220, 43],
         "orderBy": "Score",
         "specialParams": [90]
+    },
+    "StrongholdProtocol@BenchQuotedItemName": {
+        "doc": "未匹配干员资料时，识别名称带引号的物件，避免重复检查该席位。",
+        "baseTask": "StrongholdProtocol@DragNameOcr",
+        "ocrReplace": [["^[“「\"『].*$", "QuotedItem"]],
+        "text": ["QuotedItem"],
+        "fullMatch": true
     },
     "StrongholdProtocol@DragLevelOcr": {
         "doc": "干员详情中 LV 右侧的养成等级。specialParams[0] 为最低 OCR 置信度（百分比）。",

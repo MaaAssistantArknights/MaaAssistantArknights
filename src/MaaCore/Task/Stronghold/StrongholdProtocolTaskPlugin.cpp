@@ -2235,13 +2235,7 @@ static std::optional<BenchIdentity> read_bench_identity(const cv::Mat& image, bo
     if (image.empty()) {
         return std::nullopt;
     }
-    OCRer tabs(image);
-    tabs.set_task_info("StrongholdProtocol@DragTraitOcr");
-    const auto traits = tabs.analyze();
-    const bool oper_tab =
-        traits && std::ranges::any_of(*traits, [](const TextRect& tr) {
-            return tr.text.find("特质") != std::string::npos || tr.text.find("天赋") != std::string::npos;
-        });
+    const bool oper_tab = has_bench_control(image, "StrongholdProtocol@BenchOperatorTab");
     if (!oper_tab && !check_unreadable) {
         return std::nullopt;
     }
@@ -2258,17 +2252,17 @@ static std::optional<BenchIdentity> read_bench_identity(const cv::Mat& image, bo
     const auto& best = rows->front();
     const auto& name = best.text;
     const auto role = StrongholdProtocol.get_role(name);
-    if (role == battle::Role::Drone || name.starts_with("“") || name.starts_with("「") || name.starts_with("\"") ||
-        name.starts_with("『") ||
+    if (role == battle::Role::Drone ||
         (!BattleData.get_all_oper_names().contains(name) && BattleData.find_first_oper(battle::Role::Drone, name))) {
         return BenchIdentity {};
     }
     if (!oper_tab || role == battle::Role::Unknown) {
+        if (check_unreadable && has_bench_control(image, "StrongholdProtocol@BenchQuotedItemName")) {
+            return BenchIdentity {};
+        }
         return std::nullopt;
     }
-    const bool verified =
-        !name_task->special_params.empty() && best.score >= name_task->special_params[0] / 100.0 &&
-        std::ranges::any_of(*traits, [](const auto& t) { return t.text == "特质" || t.text == "天赋"; });
+    const bool verified = !name_task->special_params.empty() && best.score >= name_task->special_params[0] / 100.0;
     return BenchIdentity { name, verified };
 }
 
