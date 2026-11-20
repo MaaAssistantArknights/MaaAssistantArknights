@@ -54,13 +54,19 @@ private:
         float score = 0.f;
     };
 
+    struct SharedDet; // det Net 及其内存池，同路径的实例间共享
+
+    bool setup_net(ncnn::Net& net, const std::filesystem::path& param, const std::filesystem::path& bin) const;
+    std::shared_ptr<SharedDet>
+        acquire_shared_det(const std::filesystem::path& param, const std::filesystem::path& bin) const;
+
     std::vector<DetBox> detect(const cv::Mat& image) const;
     // 透视摆正裁出文本行（竖排自动旋正）
     static cv::Mat crop_rotated(const cv::Mat& image, const DetBox& box);
     // 单行文本识别：返回 (utf-8 文本, 平均置信度)；max_wh_ratio 为同批最大宽高比，决定补边后的画布宽度
     std::pair<std::string, float> recognize_line(const cv::Mat& line, float max_wh_ratio) const;
 
-    std::unique_ptr<ncnn::Net> m_det;
+    std::shared_ptr<SharedDet> m_det;
     std::unique_ptr<ncnn::Net> m_rec;
     std::vector<std::string> m_charset; // [<blank>] + keys (+ space)，按 rec 输出维度对齐
     int m_cpu_threads = 2;
