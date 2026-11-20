@@ -739,6 +739,7 @@ asst::OcrPackNcnn::ResultsVec asst::OcrPackNcnn::recognize(const cv::Mat& image_
 
     const std::vector<DetBox> boxes = detect(image);
     // 全图 det 的特征图缓存超过 200 MB，用完即释放；下次 det 重新分配，耗时约多 15%
+    // ncnn::PoolAllocator 内部带锁，clear 只释放空闲块，不影响共享同一 det 的并发识别
     m_det->blob_pool.clear();
     m_det->workspace_pool.clear();
     if (boxes.empty()) {
