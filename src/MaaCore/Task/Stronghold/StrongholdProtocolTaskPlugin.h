@@ -1,6 +1,5 @@
 #pragma once
 #include "Common/AsstTypes.h"
-#include "Controller/ControllerAPI.h"
 #include "Task/AbstractTaskPlugin.h"
 
 #include <map>
@@ -150,8 +149,9 @@ private:
     static bool is_reward_shop(const std::vector<ShopCard>& cards);
     static void record_promotion(BoardState& board, const ShopCard& card, std::optional<int> slots_freed);
     static void resolve_promotion_tile(BoardState& board, const std::string& key, bool occupied);
-    static int held_tier(const cv::Mat& preview, int panel_tier);
-    static std::optional<bool> held_is_elite(const cv::Mat& preview, int tier);
+    cv::Mat inspect_bench(const Point& bench, const cv::Mat& shop);
+    static int panel_tier_value(const cv::Mat& preview, int panel_tier);
+    static std::optional<bool> panel_is_elite(const cv::Mat& preview, int tier);
     std::vector<Point> ordered_bench(const BoardState& board, const cv::Mat& rest, const std::vector<Point>& slots);
     static bool may_have_bench_elite(const BoardState& board, const std::string& name);
     static std::optional<ShopCard> shop_pick(const std::vector<ShopCard>& cards, const BoardState& board, int gold);
@@ -185,12 +185,7 @@ private:
     void deploy_opening(BoardState& board, std::vector<OpeningOper>& opening, bool gifts = false);
     void deploy_opening_gifts(BoardState& board, const cv::Mat& image);
 
-    // 触控原语：游戏要求先在干员头像上 press-and-hold 进入拖拽预览再滑动，
-    // swipe 快速位移来不及触发 grab；用 inject_input_event 手动 down→hold→move→hold→up
-    void emit_input(InputEvent::Type type, const Point& p, long ms = 0);
-    void drag_to(const Point& from, const Point& to, int hold_ms, int move_ms);
-    void drop_held(const Point& from, const Point& to, int move_ms, int settle_ms);
-    Point lift_from_bench(const Point& bench);
+    bool swipe_from_bench(const Point& bench, const Point& target);
     static int verified_displaced_tier(
         const cv::Mat& preview,
         const std::string& expected,
@@ -220,7 +215,7 @@ private:
         FacingPending,
         Confirmed,
     };
-    Placement place_held(const Point& hover, const Point& tile);
+    Placement drag_from_bench(const Point& bench, const Point& tile);
 
     struct BoardDrop
     {
@@ -232,7 +227,7 @@ private:
     std::optional<BoardDrop> place_on_board(
         BoardState& board,
         const DeployTile& tile,
-        const Point& hover,
+        const Point& bench,
         const std::string& name,
         DeployRank rank,
         int slots);
@@ -272,8 +267,9 @@ private:
     int m_cleared = 0;
     int m_attempted = 0;
     std::string m_current_strategy;
-    std::optional<Point> m_last_tile;  // 最近部署的格子，朝向设置卡住时补设用
-    bool m_settlement_counted = false; // 当前结算页已计数，离开结算页后复位
-    std::optional<int> m_upgrade_x;    // 最近一次读到的升级按钮中心 x，商店卡牌识别据此剔除按钮区
+    bool m_bench_shop_unconfirmed = false; // 点选备战席后，商店恢复前不能按原布局操作。
+    std::optional<Point> m_last_tile;      // 最近部署的格子，朝向设置卡住时补设用
+    bool m_settlement_counted = false;     // 当前结算页已计数，离开结算页后复位
+    std::optional<int> m_upgrade_x;        // 最近一次读到的升级按钮中心 x，商店卡牌识别据此剔除按钮区
 };
 }

@@ -17,7 +17,6 @@ struct StrongholdTiles
     std::vector<Point> safe; // 敌人不经过的格子
     std::vector<Point> path; // 近战堵口顺序，首格是开局前排
     std::vector<Point> rear; // 首格在开局前排身后，仍会接敌
-    Point lift { 507, 433 }; // 拿起干员后的悬停点（不遮挡目标格）
 };
 
 // 卫戍协议极速模拟购买权重与干员分类

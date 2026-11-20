@@ -208,21 +208,34 @@
         "ocrReplace": [["^模拟完$", "模拟完成"]],
         "roi": [65, 156, 450, 160]
     },
+    "StrongholdProtocol@ShopExpanded": {
+        "doc": "普通商店展开时，右下角显示 ｢收起｣",
+        "algorithm": "OcrDetect",
+        "text": ["收起"],
+        "roi": [1100, 644, 150, 59]
+    },
+    "StrongholdProtocol@BenchDetailClose": {
+        "doc": "查看备战席时商店收起，右下角显示 ｢展开｣。确认休整和详情标签后点击顶部休息提示收起详情。",
+        "baseTask": "StrongholdProtocol@ShopExpanded",
+        "text": ["展开"],
+        "action": "ClickRect",
+        "specificRect": [640, 25, 1, 1]
+    },
     "StrongholdProtocol@DragTraitOcr": {
-        "doc": "按住拖拽干员时左侧面板的特质/天赋标签（拿起与装备判定，1080p 0,520,700,80 等比）",
+        "doc": "备战席详情左侧的干员或召唤物标签",
         "algorithm": "OcrDetect",
         "text": ["特质", "天赋", "技能", "特性"],
         "roi": [0, 347, 467, 53]
     },
     "StrongholdProtocol@DragNameOcr": {
-        "doc": "按住拖拽时左侧面板的干员名与 LV 等级行（1080p 0,262,330,120 等比）",
+        "doc": "商店和备战席详情左侧的干员名与等阶行",
         "baseTask": "CharsNameOcrReplace",
         "algorithm": "OcrDetect",
         "text": [],
         "roi": [0, 175, 220, 80]
     },
     "StrongholdProtocol@DragLevelOcr": {
-        "doc": "干员详情中 LV 右侧的养成等级，与活动等阶组合判断本次拿起的副本是否精锐",
+        "doc": "干员详情中 LV 右侧的养成等级，结合活动等阶判断当前副本是否精锐",
         "algorithm": "OcrDetect",
         "withoutDet": true,
         "text": [],
@@ -373,7 +386,7 @@
         "roi": [27, -73, 37, 43]
     },
     "StrongholdProtocol@Roi@ShopSell": {
-        "doc": "商店出售区拖拽终点（代码 deploy_from_bench 读此 roi 中心）",
+        "doc": "商店出售区，起拖前核对右下角商店按钮是否在区域内，终点取区域中心",
         "algorithm": "OcrDetect",
         "text": [],
         "action": "DoNothing",
@@ -421,13 +434,6 @@
         "action": "DoNothing",
         "roi": [-11, 520, 23, 23]
     },
-    "StrongholdProtocol@Roi@GrabProbeTarget": {
-        "doc": "拿起干员时朝此点挪动 1/4 段触发抓取（取 roi.x/y；代码 deploy_from_bench）",
-        "algorithm": "OcrDetect",
-        "text": [],
-        "action": "DoNothing",
-        "roi": [640, 300, 1, 1]
-    },
     "StrongholdProtocol@Roi@BenchPressOffset": {
         "doc": "备战席等阶方牌左上角到小人躯干按压点的偏移（取 roi.x/y；代码 detect_bench_opers）",
         "algorithm": "OcrDetect",
@@ -450,7 +456,7 @@
         "roi": [0, 0, 100, 1]
     },
     "StrongholdProtocol@Roi@DragTierFrame": {
-        "doc": "拖拽面板干员等阶黄框判定区（代码 deploy_from_bench 读此 roi 色判 V/VI；1080p 20,328-58,362 等比）",
+        "doc": "详情面板左侧的活动等阶方牌，读取罗马数字或根据框色识别 V、VI 阶",
         "algorithm": "OcrDetect",
         "text": [],
         "action": "DoNothing",
@@ -504,12 +510,5 @@
         "text": [],
         "action": "DoNothing",
         "roi": [0, -113, 1, 1]
-    },
-    "StrongholdProtocol@Roi@FacingDragDist": {
-        "doc": "部署后朝向拖拽距离（roi.width 为像素距离，方向语义）",
-        "algorithm": "OcrDetect",
-        "text": [],
-        "action": "DoNothing",
-        "roi": [0, 0, 200, 1]
     }
 }

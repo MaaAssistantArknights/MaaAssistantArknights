@@ -174,10 +174,6 @@ bool asst::StrongholdProtocolConfig::parse(const json::value& json)
         !parse_point_array("rear", tiles.rear) || tiles.safe.empty() || tiles.path.empty() || tiles.rear.empty()) {
         return false;
     }
-    if (const auto lift = json.find("lift"); lift && !parse_point(*lift, tiles.lift)) {
-        LogError << "invalid tiles lift point";
-        return false;
-    }
     m_tiles = std::move(tiles);
     return true;
 }
