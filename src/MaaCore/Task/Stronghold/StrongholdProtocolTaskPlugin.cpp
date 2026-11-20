@@ -1436,7 +1436,8 @@ std::optional<StrongholdProtocolTaskPlugin::ShopCard>
         return std::pair { card.tier == 6 ? Group::Six : Group::Five, 0 };
     };
     std::optional<ShopCard> best;
-    std::tuple<bool, bool, std::pair<Group, int>, int> best_score;
+    const bool missing_medic = !field_medic_tier(board);
+    std::tuple<bool, bool, std::pair<Group, int>, bool, int> best_score;
     for (const auto& card : cards) {
         const bool free = card.cost == 0;
         if (!card.is_oper || card.empty || card.cost < 0 || card.cost > gold || (!free && card.tier < 5)) {
@@ -1453,6 +1454,7 @@ std::optional<StrongholdProtocolTaskPlugin::ShopCard>
         const auto score = std::tuple { free,
                                         !free || suitable,
                                         rank(card),
+                                        missing_medic && suitable && role == battle::Role::Medic,
                                         copies == board.purchases.end() ? 0 : copies->second.unmerged };
         if (!best || score > best_score) {
             best = card;
