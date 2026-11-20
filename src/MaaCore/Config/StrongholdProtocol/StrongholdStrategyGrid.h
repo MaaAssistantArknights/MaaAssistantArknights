@@ -9,15 +9,6 @@ namespace asst
 {
 struct StrongholdStrategyGrid
 {
-    struct Badge
-    {
-        std::array<int, 2> hue;
-        int min_saturation;
-        int min_value;
-        double min_ratio;
-        MEO_JSONIZATION(hue, min_saturation, min_value, min_ratio);
-    };
-
     struct Scrollbar
     {
         std::vector<int> columns;
@@ -54,36 +45,12 @@ struct StrongholdStrategyGrid
             candidate_y);
     };
 
-    struct Marker
-    {
-        std::array<int, 2> hue;
-        std::array<int, 2> center_offset; // 从标记中心到卡心。
-        MEO_JSONIZATION(hue, center_offset);
-    };
-
-    Badge gold_badge;
-    Badge color_badge;
-    double color_badge_max_gold_ratio;
     Scrollbar scrollbar;
     Frame frame;
     std::vector<int> columns; // 两种布局的卡心列坐标。
-    std::vector<Marker> markers;
-    int marker_min_saturation;
-    int marker_min_value;
     int portrait_max_saturation;
     int portrait_min_value;
-    MEO_FROMJSON(
-        gold_badge,
-        color_badge,
-        color_badge_max_gold_ratio,
-        scrollbar,
-        frame,
-        columns,
-        markers,
-        marker_min_saturation,
-        marker_min_value,
-        portrait_max_saturation,
-        portrait_min_value);
+    MEO_FROMJSON(scrollbar, frame, columns, portrait_max_saturation, portrait_min_value);
 
     bool check_json(const json::value& json) const
     {

@@ -482,24 +482,58 @@
         "roi": [120, 380, 930, 35],
         "specialParams": [28, 28, 6]
     },
-    "StrongholdProtocol@Roi@GoldBadgeOffset": {
-        "doc": "金角标相对格心的偏移矩形",
-        "algorithm": "OcrDetect",
-        "text": [],
-        "action": "DoNothing",
-        "roi": [20, -87, 47, 67]
+    "StrongholdProtocol@StrategyNewMarker": {
+        "doc": "识别策略卡上的 NEW 标签。rectMove 将各类标记的匹配框移到对应卡心的容许区域。",
+        "baseTask": "StrongholdProtocol@Roi@StrategyGrid",
+        "algorithm": "MatchTemplate",
+        "template": "StrongholdProtocol@StrategyNewMarker.png",
+        "method": "HSVCount",
+        "colorScales": [
+            [
+                [166, 101, 121],
+                [180, 255, 255]
+            ]
+        ],
+        "colorWithClose": false,
+        "templThreshold": 0.6,
+        "nmsDistance": 35,
+        "rectMove": [-25, 58, 26, 36]
     },
-    "StrongholdProtocol@Roi@ColorBadgeOffset": {
-        "doc": "彩角标相对格心的偏移矩形",
-        "algorithm": "OcrDetect",
-        "text": [],
-        "action": "DoNothing",
-        "roi": [27, -73, 37, 43]
+    "StrongholdProtocol@StrategyGoldMarker": {
+        "doc": "金色通关标记对应已通过 3 次的策略卡。",
+        "baseTask": "StrongholdProtocol@StrategyNewMarker",
+        "template": "StrongholdProtocol@StrategyGoldMarker.png",
+        "colorScales": [
+            [
+                [8, 120, 150],
+                [35, 255, 255]
+            ]
+        ],
+        "rectMove": [-44, 48, 28, 40]
     },
-    "StrongholdProtocol@Roi@ColorBadgeCenter": {
-        "doc": "彩角标内部相对卡心的偏移矩形，用于排除选中卡的青色边框。",
-        "baseTask": "StrongholdProtocol@Roi@ColorBadgeOffset",
-        "roi": [32, -60, 26, 28]
+    "StrongholdProtocol@StrategyColorMarker": {
+        "doc": "彩色通关标记对应已通过 6 次的策略卡。模板包含内部纹样，以区分选中卡的青色边框。",
+        "baseTask": "StrongholdProtocol@StrategyNewMarker",
+        "template": "StrongholdProtocol@StrategyColorMarker.png",
+        "colorScales": [
+            [
+                [70, 40, 150],
+                [140, 255, 255]
+            ]
+        ],
+        "rectMove": [-44, 41, 28, 40]
+    },
+    "StrongholdProtocol@StrategyDisabledMarker": {
+        "doc": "策略卡左上角的红色禁用标记。",
+        "baseTask": "StrongholdProtocol@StrategyNewMarker",
+        "template": "StrongholdProtocol@StrategyDisabledMarker.png",
+        "colorScales": [
+            [
+                [0, 101, 121],
+                [6, 255, 255]
+            ]
+        ],
+        "rectMove": [44, 43, 28, 40]
     },
     "StrongholdProtocol@Roi@ShopSell": {
         "doc": "商店出售区，起拖前核对右下角商店按钮是否在区域内，终点取区域中心",

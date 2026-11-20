@@ -13,6 +13,7 @@
 #include "Utils/StringMisc.hpp"
 #include "Vision/Matcher.h"
 #include "Vision/Miscellaneous/PipelineAnalyzer.h"
+#include "Vision/MultiMatcher.h"
 #include "Vision/OCRer.h"
 #include "Vision/RegionOCRer.h"
 
@@ -281,51 +282,6 @@ bool StrongholdProtocolTaskPlugin::is_medic(const std::string& name)
     return StrongholdProtocol.get_role(name) == battle::Role::Medic;
 }
 
-// ---------------- 颜色判定 ----------------
-
-double StrongholdProtocolTaskPlugin::color_ratio(
-    const cv::Mat& image,
-    const Rect& roi,
-    int lower_h,
-    int upper_h,
-    int lower_s,
-    int lower_v)
-{
-    // 偏移量算出的 roi 可能越出画面，裁到图内防 cv 越界
-    const cv::Rect rect = make_rect<cv::Rect>(roi) & cv::Rect(0, 0, image.cols, image.rows);
-    if (rect.empty()) {
-        return 0.0;
-    }
-    cv::Mat hsv;
-    cv::cvtColor(image(rect), hsv, cv::COLOR_BGR2HSV);
-    cv::Mat mask;
-    cv::inRange(hsv, cv::Scalar(lower_h, lower_s, lower_v), cv::Scalar(upper_h, 255, 255), mask);
-    return static_cast<double>(cv::countNonZero(mask)) / mask.total();
-}
-
-bool StrongholdProtocolTaskPlugin::has_gold_badge(const cv::Mat& image, int cx, int cy)
-{
-    // 角标相对格心的偏移矩形由 Roi@GoldBadgeOffset 任务给出
-    const Rect off = task_roi("StrongholdProtocol@Roi@GoldBadgeOffset");
-    const Rect roi { cx + off.x, cy + off.y, off.width, off.height };
-    const auto& gold = StrongholdProtocol.get_strategy_grid().gold_badge;
-    return color_ratio(image, roi, gold.hue[0], gold.hue[1], gold.min_saturation, gold.min_value) > gold.min_ratio;
-}
-
-bool StrongholdProtocolTaskPlugin::has_color_badge(const cv::Mat& image, int cx, int cy)
-{
-    const auto& grid = StrongholdProtocol.get_strategy_grid();
-    const auto ratio = [&](const Rect& off, const StrongholdStrategyGrid::Badge& badge) {
-        const Rect roi { cx + off.x, cy + off.y, off.width, off.height };
-        return color_ratio(image, roi, badge.hue[0], badge.hue[1], badge.min_saturation, badge.min_value);
-    };
-    const Rect off = task_roi("StrongholdProtocol@Roi@ColorBadgeOffset");
-    // 选中卡的青色边框也会进入外框，再核对角标内部。
-    return ratio(off, grid.color_badge) > grid.color_badge.min_ratio &&
-           ratio(off, grid.gold_badge) < grid.color_badge_max_gold_ratio &&
-           ratio(task_roi("StrongholdProtocol@Roi@ColorBadgeCenter"), grid.color_badge) > grid.color_badge.min_ratio;
-}
-
 std::optional<int> StrongholdProtocolTaskPlugin::measure_grid_shift(const cv::Mat& before, const cv::Mat& after)
 {
     // 用滚动前的一条横带（Roi@StrategyGridStrip）在滚动后的网格可见区（Roi@StrategyGrid）里找位置，
@@ -505,7 +461,7 @@ StrongholdProtocolTaskPlugin::StrategyResult StrongholdProtocolTaskPlugin::pick_
     };
 
     // 按立绘和角标定位可选卡，即使卡框或滑块识别不全也能继续选策略。
-    auto detect_grid_cells = [&](const cv::Mat& img) {
+    auto detect_grid_cells = [&](const cv::Mat& img, std::vector<Rect>& completed) {
         const cv::Rect grid_cv = make_rect<cv::Rect>(task_roi("StrongholdProtocol@Roi@StrategyGrid"));
         if (grid_cv.empty() || (grid_cv & cv::Rect(0, 0, img.cols, img.rows)) != grid_cv) {
             return std::vector<Point> {};
@@ -539,26 +495,27 @@ StrongholdProtocolTaskPlugin::StrategyResult StrongholdProtocolTaskPlugin::pick_
             evidence.emplace_back(grid_cv.x + rc.x + rc.width / 2.0, grid_cv.y + rc.y + rc.height / 2.0);
         }
 
-        for (const auto& marker : layout.markers) {
-            cv::Mat m;
-            cv::inRange(
-                hsv,
-                cv::Scalar(marker.hue[0], layout.marker_min_saturation, layout.marker_min_value),
-                cv::Scalar(marker.hue[1], 255, 255),
-                m);
-            cv::erode(m, m, cv::getStructuringElement(cv::MORPH_RECT, { 3, 3 }));
-            std::vector<std::vector<cv::Point>> cs;
-            cv::findContours(m, cs, cv::RETR_EXTERNAL, cv::CHAIN_APPROX_SIMPLE);
-            for (const auto& c : cs) {
-                const auto rc = cv::boundingRect(c);
-                if (rc.width * rc.height < 150 || rc.width > 90 || rc.height > 60) {
-                    continue;
-                }
-                evidence.emplace_back(
-                    grid_cv.x + rc.x + rc.width / 2.0 + marker.center_offset[0],
-                    grid_cv.y + rc.y + rc.height / 2.0 + marker.center_offset[1]);
+        const auto match_markers = [&](const char* name, bool meets_target) {
+            const auto task = Task.get<MatchTaskInfo>(name);
+            if (!task || task->roi.empty() || task->rect_move.empty()) {
+                return;
             }
-        }
+            MultiMatcher matcher(img);
+            matcher.set_task_info(task);
+            if (const auto hits = matcher.analyze()) {
+                for (const auto& hit : *hits) {
+                    const Rect cell = hit.rect.move(task->rect_move);
+                    evidence.emplace_back(cell.x + cell.width / 2.0, cell.y + cell.height / 2.0);
+                    if (meets_target) {
+                        completed.emplace_back(cell);
+                    }
+                }
+            }
+        };
+        match_markers("StrongholdProtocol@StrategyNewMarker", false);
+        match_markers("StrongholdProtocol@StrategyGoldMarker", m_target <= 3);
+        match_markers("StrongholdProtocol@StrategyColorMarker", true);
+        match_markers("StrongholdProtocol@StrategyDisabledMarker", false);
 
         // 列心吸附过滤杂散（顶栏图标/左栏暗红横幅/详情面板亮块的证据落不到列心附近），再按卡去重
         std::ranges::sort(evidence, [](const Ev& a, const Ev& b) { return a.y != b.y ? a.y < b.y : a.x < b.x; });
@@ -673,7 +630,8 @@ StrongholdProtocolTaskPlugin::StrategyResult StrongholdProtocolTaskPlugin::pick_
             LogWarn << "strategy screenshot unavailable";
             return StrategyResult::IncompleteScan;
         }
-        auto cells = detect_grid_cells(image);
+        std::vector<Rect> completed;
+        auto cells = detect_grid_cells(image, completed);
         if (thumb) {
             auto frames = detect_card_frames(image, *thumb, verified);
             verified &= !frames.empty();
@@ -687,6 +645,8 @@ StrongholdProtocolTaskPlugin::StrategyResult StrongholdProtocolTaskPlugin::pick_
                            return std::abs(pt.x - frame.x) < 25 && std::abs(pt.y - frame.y) < 45;
                        });
             });
+            // 只有卡框能证明这一页的卡已核全。仅靠标记或立绘定位的卡仍可选择。
+            verified &= cells.empty();
             cells.insert(cells.end(), frames.begin(), frames.end());
             std::ranges::sort(cells, [](const Point& a, const Point& b) { return a.y != b.y ? a.y < b.y : a.x < b.x; });
         }
@@ -701,7 +661,7 @@ StrongholdProtocolTaskPlugin::StrategyResult StrongholdProtocolTaskPlugin::pick_
             if (need_exit()) {
                 return StrategyResult::IncompleteScan;
             }
-            if (has_color_badge(image, pt.x, pt.y) || (m_target <= 3 && has_gold_badge(image, pt.x, pt.y))) {
+            if (std::ranges::any_of(completed, [&](const Rect& cell) { return cell.include(pt); })) {
                 continue;
             }
 

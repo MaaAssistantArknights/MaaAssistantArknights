@@ -257,11 +257,6 @@ private:
 
     static bool is_medic(const std::string& name);
 
-    // 策略网格角标颜色判定（金色=已通关 3 次，彩色=镀层 6 次）
-    static bool has_gold_badge(const cv::Mat& image, int cx, int cy);
-    static bool has_color_badge(const cv::Mat& image, int cx, int cy);
-    static double
-        color_ratio(const cv::Mat& image, const Rect& roi, int lower_h, int upper_h, int lower_s, int lower_v);
     // 策略列表滚动位移测量（模板匹配；位移过小视为已到底）
     static std::optional<int> measure_grid_shift(const cv::Mat& before, const cv::Mat& after);
 

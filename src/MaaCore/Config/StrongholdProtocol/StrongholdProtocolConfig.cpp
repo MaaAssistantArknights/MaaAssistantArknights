@@ -122,25 +122,16 @@ bool asst::StrongholdStrategyGrid::valid() const
     const auto in_range = [](auto value, auto low, auto high) {
         return low <= value && value <= high;
     };
-    const auto hue_ok = [&](const auto& hue) {
-        return in_range(hue[0], 0, hue[1]) && hue[1] <= 180;
-    };
     const auto byte_ok = [&](int value) {
         return in_range(value, 0, 255);
-    };
-    const auto badge_ok = [&](const Badge& badge) {
-        return hue_ok(badge.hue) && byte_ok(badge.min_saturation) && byte_ok(badge.min_value) &&
-               in_range(badge.min_ratio, 0., 1.);
     };
     const auto [top, bottom] = scrollbar.track_y;
     const auto [pad_x, pad_y] = scrollbar.scan_padding;
     const auto& view = frame.viewport;
-    if (!badge_ok(gold_badge) || !badge_ok(color_badge) || !in_range(color_badge_max_gold_ratio, 0., 1.) ||
-        !byte_ok(marker_min_saturation) || !byte_ok(marker_min_value) || !byte_ok(portrait_max_saturation) ||
-        !byte_ok(portrait_min_value) || !byte_ok(scrollbar.max_saturation) || !byte_ok(scrollbar.min_value) ||
-        !in_range(scrollbar.min_fill, 0., 1.) || !in_range(pad_x, 0, WindowWidthDefault) ||
-        !in_range(pad_y, 0, WindowHeightDefault) || top < pad_y || bottom <= top ||
-        bottom >= WindowHeightDefault - pad_y || !in_range(scrollbar.min_height, 1, bottom - top) ||
+    if (!byte_ok(portrait_max_saturation) || !byte_ok(portrait_min_value) || !byte_ok(scrollbar.max_saturation) ||
+        !byte_ok(scrollbar.min_value) || !in_range(scrollbar.min_fill, 0., 1.) ||
+        !in_range(pad_x, 0, WindowWidthDefault) || !in_range(pad_y, 0, WindowHeightDefault) || top < pad_y ||
+        bottom <= top || bottom >= WindowHeightDefault - pad_y || !in_range(scrollbar.min_height, 1, bottom - top) ||
         !in_range(scrollbar.thumb_width[0], 1, scrollbar.thumb_width[1]) || scrollbar.thumb_width[1] > 2 * pad_x + 1 ||
         !in_range(view.width, 1, WindowWidthDefault) || !in_range(view.height, 1, WindowHeightDefault) ||
         !in_range(view.y, 0, WindowHeightDefault - view.height) || !in_range(view.x, -WindowWidthDefault, 0) ||
@@ -152,7 +143,7 @@ bool asst::StrongholdStrategyGrid::valid() const
         !in_range(frame.center_from_bottom_left[1], -frame.height[1], 0) ||
         !in_range(frame.candidate_left, -WindowWidthDefault, 0) ||
         !in_range(frame.candidate_y[0], 0, frame.candidate_y[1]) || frame.candidate_y[1] > WindowHeightDefault ||
-        columns.empty() || scrollbar.columns.empty() || markers.empty()) {
+        columns.empty() || scrollbar.columns.empty()) {
         return false;
     }
     // 滑块中心允许偏一像素。视口和最外侧卡框的取样列都必须留在画面内。
@@ -167,12 +158,7 @@ bool asst::StrongholdStrategyGrid::valid() const
                    return left - 1 >= 4 &&
                           left + 1 + std::max(view.width, last_column + frame.right_edge + 4) <= WindowWidthDefault;
                }) &&
-           std::ranges::all_of(columns, [&](int x) { return in_range(x, 0, WindowWidthDefault - 1); }) &&
-           std::ranges::all_of(markers, [&](const Marker& marker) {
-               return hue_ok(marker.hue) &&
-                      in_range(marker.center_offset[0], -WindowWidthDefault, WindowWidthDefault) &&
-                      in_range(marker.center_offset[1], -WindowHeightDefault, WindowHeightDefault);
-           });
+           std::ranges::all_of(columns, [&](int x) { return in_range(x, 0, WindowWidthDefault - 1); });
 }
 
 bool asst::StrongholdTierBadgeConfig::check_json(const json::value& json) const
