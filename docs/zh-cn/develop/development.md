@@ -13,6 +13,20 @@ icon: iconoir:developer
 你可以 [向 DeepWiki 询问](https://deepwiki.com/MaaAssistantArknights/MaaAssistantArknights)，以初步了解 MAA 项目的总体架构。  
 :::
 
+::: caution  
+在 Pull Request 的 cover letter 或 commit message 中使用具有明显 AI 生成特征的文本可能会导致该 Pull Request 被忽略或直接关闭。
+
+「AI 生成特征」包括但不限于：
+
+- 不是……而是……
+- 列出不重要的具体数字
+- 连续的极短句子
+- 过于口语化的表述
+- 使用错误的术语翻译（如使用「端口」代替「移植」）
+- `Co-Authored-By` 及类似标记
+
+:::
+
 ## 我不懂编程，只是想改一点点 JSON 文件/文档等，要怎么操作？
 
 欢迎收看 [牛牛也能看懂的 GitHub Pull Request 使用指南](./pr-tutorial.md) （纯网页端操作 GitHub.com）

@@ -68,6 +68,13 @@
             "docs": "#11907"
         },
         {
+            "name": "相遇",
+            "option_num": 1,
+            "choose": 1,
+            "next_event": "相会-收藏品选择",
+            "docs": "#19310"
+        },
+        {
             "name": "相会-收藏品选择",
             "option_num": 3,
             "choose": 2
@@ -339,6 +346,12 @@
             "name": "不速之客",
             "option_num": 3,
             "choose": 3
+        },
+        {
+            "name": "不请自来",
+            "option_num": 3,
+            "choose": 3,
+            "docs": "#19310"
         },
         {
             "name": "点睛",

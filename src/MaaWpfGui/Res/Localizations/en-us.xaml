@@ -2546,6 +2546,41 @@ Only level rewards can be farmed; to get the Engraved Medal, all ｢Key Objectiv
     <system:String x:Key="Toolbox.MiniGame.SecretFront.Event2">Knight-errant</system:String>
     <system:String x:Key="Toolbox.MiniGame.SecretFront.Event3">Sly Shadows</system:String>
     <system:String x:Key="Toolbox.MiniGame.SecretFront.Tip" xml:space="preserve">Start from the squad selection screen;&#10;If there is a saved game, please delete it manually.&#10;Close the tutorial after playing it for the first time.&#10;Recommended to enable in-game ｢Inherit previous squad's data｣.</system:String>
+    <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol">{key=Toolbox.MiniGame.SPA}</system:String>
+    <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Alliance.Tip">This season is not available yet.</system:String>
+    <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Cleared">Run cleared</system:String>
+    <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.ClosedTheme">The event is not open</system:String>
+    <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Failed">Run failed</system:String>
+    <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Mode">Mode</system:String>
+    <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Mode.Badge">Farm badges (full clear)</system:String>
+    <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Mode.Score">Farm score (idle rush)</system:String>
+    <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Runs">Clears</system:String>
+    <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.SettlementLog">{0}, cleared {1}/{2}</system:String>
+    <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.StrategyLog">{0}: passed {1}/{2}</system:String>
+    <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Target">Badge goal</system:String>
+    <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Target.Color">Colored badge (6 clears)</system:String>
+    <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Target.Gold">Gold badge (3 clears)</system:String>
+    <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Theme">Stronghold Protocol Theme</system:String>
+    <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Theme.Alliance">Alliance</system:String>
+    <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Theme.Regulation">Regulation</system:String>
+    <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Tip.Badge" xml:space="preserve">Use the default event skin and start from the main event screen with the ｢Express Simulation｣ option (name TBD). Manually abandon any saved run first.
+MAA picks a strategy that still needs clears and plays each run to the end.
+
+You can borrow up to 30 support units in this mode.
+For a better chance of clearing, borrow everyone on the shop priority list first, then all tier VI damage dealers. Fill any remaining slots with tier V damage dealers.
+
+The custom squad takes only 6-star operators, up to two per tier. First picks, in order:
+{0}
+
+Once the shop reaches its highest level, MAA buys these operators first, in order:
+{1}
+For other operators, the purchase order is:
+Custom squad tier VI → custom squad tier V → regular tier VI → substitutes the game provides for unfilled roster slots → regular tier V.
+Aim to keep one Medic on the field. Once you have one deployed, only buy another to replace a low-tier Medic with a higher-tier one.</system:String>
+    <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Tip.Score" xml:space="preserve">Start the task from the main event screen (where ｢Express Simulation｣ (name TBD) is located)
+The default event skin must be used
+If there is a saved game, you need to manually abandon it first
+Leaves the run alone and quickly clears rounds for level rewards</system:String>
     <system:String x:Key="Toolbox.MiniGame.TL.WartimePressCommittee">Wartime Press Committee</system:String>
     <system:String x:Key="Toolbox.MiniGame.TL.WartimePressCommittee.Tip" xml:space="preserve">Please start from the event newspaper selection screen where the paper name is visible.</system:String>
     <system:String x:Key="Toolbox.MiniGame.Title">Useful Tasks</system:String>

@@ -1525,6 +1525,56 @@ Sarkaz テーマ、Investment モード、 ｢破棘成金分隊｣ または �
 
 </details>
 
+- `StrongholdProtocol`  
+  堅守協定のどちらのモードでも `AsstAppendTask` の `type` に `StrongholdProtocol` を指定し、`params.mode` でモードを選びます。各モードの開始画面は[堅守協定の使い方](../manual/introduction/tools.md#堅守協定)を参照してください。
+
+スコア稼ぎの処理を直接実行するには、`params` に次の JSON を渡すだけです。
+
+```json
+{ "mode": "score" }
+```
+
+:::: field-group  
+::: field enable  
+@type boolean  
+@default true  
+@optional  
+このタスクを有効にするかどうか。  
+:::  
+::: field mode  
+@type string  
+@default badge  
+@optional  
+`score` は ｢スコア稼ぎ（放置速攻略）｣、`badge` は ｢バッジ収集（完全攻略）｣ を指定します。`theme`、`target`、`runs`、`attempts` はバッジ収集にのみ適用されます。  
+:::  
+::: field theme  
+@type string  
+@default Regulation  
+@optional  
+`Regulation` は第 3 期の ｢規程｣（仮訳）です。第 2 期の ｢盟約｣（`Alliance`）は未公開です。`Alliance` を指定してもタスクは追加されますが、実行すると試合を始めずに終了します。  
+:::  
+::: field target  
+@type number  
+@default 3  
+@optional  
+各戦略の累計クリア回数の目標。金色バッジは `3`、彩色バッジは `6` を指定します。すべての戦略が目標に達したことを確認すると、タスクはその時点で終了します。  
+:::  
+::: field runs  
+@type number  
+@default 60  
+@optional  
+今回のタスクで達成する勝利数。正の整数で指定します。勝利した試合だけを数え、目標に達した時点で終了します。  
+:::  
+::: field attempts  
+@type number  
+@default 0  
+@optional  
+今回のタスクで行う試合数の上限。勝敗にかかわらず数えます。0 以上の整数で指定し、`0` は無制限です。勝利数が `runs` に届いていなくても、試合数が上限に達すると正常終了します。  
+:::  
+::::
+
+未定義の `mode` を指定すると `AsstAppendTask` は `0` を返します。`badge` モードでは、未定義の `theme` を指定した場合や、`Regulation` で `target`、`runs`、`attempts` に範囲外の値を指定した場合も `0` を返します。
+
 - `Custom`  
   カスタム タスク
 

@@ -1526,6 +1526,56 @@ Tag 等級（大於等於 3）對應的期望招募時限（單位：分鐘）�
 
 </details>
 
+- `StrongholdProtocol`  
+  呼叫 `AsstAppendTask` 時，將 `type` 設為 `StrongholdProtocol`，並以 `params.mode` 選擇刷分或刷角標。各模式的起始畫面請見[衛戍協議使用說明](../manual/introduction/tools.md#衛戍協議)。
+
+刷分只需傳入以下 `params`，任務便會直接執行刷分流程。
+
+```json
+{ "mode": "score" }
+```
+
+:::: field-group  
+::: field enable  
+@type boolean  
+@default true  
+@optional  
+是否啟用本任務。  
+:::  
+::: field mode  
+@type string  
+@default badge  
+@optional  
+`score` 表示刷分（放生速通），`badge` 表示刷角標（完整通關）。`theme`、`target`、`runs` 和 `attempts` 僅在刷角標時生效。  
+:::  
+::: field theme  
+@type string  
+@default Regulation  
+@optional  
+`Regulation` 為第 3 期 ｢規程｣。第 2 期 ｢盟約｣（`Alliance`）尚未開放，指定此值仍可新增任務，執行時會直接結束。  
+:::  
+::: field target  
+@type number  
+@default 3  
+@optional  
+每個策略需達到的累計通過次數。`3` 為金色角標，`6` 為彩色角標。若確認所有策略都已達標，任務會提前結束。  
+:::  
+::: field runs  
+@type number  
+@default 60  
+@optional  
+本次任務的目標勝場數，須為正整數。每通關一局計一場，達到目標後結束。  
+:::  
+::: field attempts  
+@type number  
+@default 0  
+@optional  
+本次任務最多嘗試的局數，須為非負整數。勝負均計入，`0` 表示不限。達到上限時任務正常結束，即使勝場數尚未達到 `runs`。  
+:::  
+::::
+
+若 `mode` 的值無效，`AsstAppendTask` 會回傳 `0`。在 `badge` 模式下，指定未知的 `theme`，或為 `Regulation` 指定超出上述範圍的 `target`、`runs` 或 `attempts`，也會回傳 `0`。
+
 - `Custom`  
   自訂任務
 

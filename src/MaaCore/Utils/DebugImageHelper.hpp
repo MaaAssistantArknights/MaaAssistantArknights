@@ -133,7 +133,7 @@ inline bool save_debug_image(
 
     std::string stem = MAA_NS::format_now_for_filename();
     std::string filename = suffix.empty() ? (stem + "_raw." + ext) : (stem + "_" + std::string(suffix) + "." + ext);
-    auto relative_path = norm_dir / filename;
+    auto relative_path = norm_dir / utils::path(filename);
 
     if (description.empty()) {
         Log.trace("Save image", relative_path);

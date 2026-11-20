@@ -67,6 +67,7 @@ Built-in features include:
 
 - Permanent Activities
   - Hidden Front (supports selecting endings and event branches)
+  - Stronghold Protocol
   - Reclamation Algorithm
 - Permanent Features
   - Event shop exchange
@@ -75,6 +76,21 @@ Built-in features include:
   - Reclamation Algorithm shop exchange
   - Automatically Raise Potential
   - Missing Material Synthesis
+
+### Stronghold Protocol
+
+Open ｢Toolbox｣ → ｢Useful Tasks｣ and select ｢Stronghold Protocol｣ under ｢Permanent Activities｣. In the game, switch to the default event skin, manually abandon any saved run, and return to the event home screen. Choose a mode according to the rewards you want.
+
+#### Farm score (idle rush)
+
+Choose this mode for event level rewards. Start on the event home screen with the Express Simulation or Independent Simulation option. MAA selects Goliath and starts rounds without buying or deploying operators. At the start of round 5, it quits the run, settles the result and returns to the event home screen to start another run. There is no run limit. Select ｢Stop｣ when you have enough points.
+
+#### Farm badges (full clear)
+
+Choose this mode to earn clears for individual strategies. Select Season 3, ｢Regulation｣, and start from the event home screen with the ｢极速模拟｣ (Express Simulation) option. Badge farming currently supports only the Simplified Chinese game interface on the CN server. MAA lists Season 2, ｢Alliance｣, as unavailable.
+
+- ｢Badge goal｣ sets the total clears required per strategy. A gold badge requires 3 clears (default) and a colored badge requires 6. MAA picks a strategy that still needs clears, buys and deploys operators, and plays the run to the end.
+- ｢Clears｣ sets the number of wins to earn during this task, from 1 to 999 (default 60). MAA keeps trying after a loss. It selects the return button after each run and stops when it reaches the win target. If it confirms that every strategy has reached the badge goal, it stops early on the strategy selection screen.
 
 ### Reclamation Algorithm
 

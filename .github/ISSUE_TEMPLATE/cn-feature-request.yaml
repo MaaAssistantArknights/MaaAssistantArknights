@@ -17,6 +17,8 @@ body:
           required: false
         - label: 我已检查了 [常见问题](https://docs.maa.plus/zh-cn/manual/faq.html), [公告](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/7732), [活跃议题](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues), [已关闭议题](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues?q=is%3Aissue%20state%3Aclosed) 确认我的建议未被提及
           required: false
+        - label: 我知晓并明白建议中包含具有明显 AI 生成特征的文本可能导致建议被忽略或直接关闭
+          required: false
   - type: textarea
     id: describe
     attributes:

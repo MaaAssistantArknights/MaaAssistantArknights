@@ -45,23 +45,12 @@ RegionOCRer::ResultOpt RegionOCRer::analyze() const
 
     auto config = m_params;
     auto use_raw = config.use_raw;
-    OCRer ocr_analyzer;
-    if (use_raw) {
-        ocr_analyzer = OCRer(m_image, new_roi);
-    }
-    else {
-        cv::Mat bin_full = cv::Mat::zeros(m_image.size(), bin.type());
-        bin.copyTo(bin_full(make_rect<cv::Rect>(m_roi)));
-        cv::Mat bin3;
-        cv::merge(std::array { bin_full, bin_full, bin_full }, bin3);
-        cv::bitwise_and(m_image, bin3, bin3);
-        ocr_analyzer = OCRer(bin3, new_roi);
-    }
+    OCRer ocr_analyzer(m_image, new_roi);
 
     config.without_det = true;
     ocr_analyzer.set_params(std::move(config));
 
-    auto result = ocr_analyzer.analyze();
+    auto result = use_raw ? ocr_analyzer.analyze() : ocr_analyzer.analyze_masked(bin, m_roi);
     if (!result) {
         return std::nullopt;
     }

@@ -35,7 +35,7 @@ public:
 
 private:
     Matcher::ResultOpt match(const std::shared_ptr<TaskInfo>& task_ptr) const;
-    OCRer::ResultsVecOpt ocr(const std::shared_ptr<TaskInfo>& task_ptr) const;
+    OCRer::ResultsVecOpt ocr(const std::shared_ptr<TaskInfo>& task_ptr, OCRer::RawCache& frame_cache) const;
     FeatureMatcher::ResultsVecOpt feature_match(const std::shared_ptr<TaskInfo>& task_ptr) const;
 
     std::vector<std::string> m_tasks_name;

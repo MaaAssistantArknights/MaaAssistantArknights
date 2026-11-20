@@ -1,0 +1,26 @@
+{
+    "scrollbar": {
+        "columns": [956, 1220],
+        "track_y": [111, 689],
+        "scan_padding": [7, 6],
+        "thumb_width": [5, 10],
+        "min_height": 48,
+        "min_value": 100,
+        "max_saturation": 32,
+        "min_fill": 0.7
+    },
+    "frame": {
+        "viewport": [-566, 93, 546, 615],
+        "column_step": 140,
+        "center_from_bottom_left": [64, -65],
+        "inner_columns": [6, 117],
+        "right_edge": 124,
+        "height": [108, 136],
+        "min_partial_height": 30,
+        "candidate_left": -550,
+        "candidate_y": [150, 650]
+    },
+    "columns": [453, 593, 722, 733, 862, 873, 1002, 1142],
+    "portrait_max_saturation": 109,
+    "portrait_min_value": 96
+}

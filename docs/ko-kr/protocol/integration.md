@@ -1527,6 +1527,56 @@ Sarkaz 테마, Investment 모드, "연금술 분대" 또는 "지원 분대"일 �
 
 </details>
 
+- `StrongholdProtocol`  
+  위수 협의의 두 모드 모두 `AsstAppendTask`의 `type`에 `StrongholdProtocol`을 지정하고 `params.mode`로 모드를 선택합니다. 모드별 시작 화면은 [위수 협의 사용 방법](../manual/introduction/tools.md#위수-협의)을 참고하세요.
+
+점수 파밍을 바로 실행하려면 `params`에 다음 JSON만 전달하면 됩니다.
+
+```json
+{ "mode": "score" }
+```
+
+:::: field-group  
+::: field enable  
+@type boolean  
+@default true  
+@optional  
+작업을 활성화할지 설정합니다.  
+:::  
+::: field mode  
+@type string  
+@default badge  
+@optional  
+`score`는 ｢점수 파밍 (방치 속행)｣, `badge`는 ｢배지 파밍 (완전 클리어)｣를 선택합니다. `theme`, `target`, `runs`, `attempts`는 배지 파밍에만 적용됩니다.  
+:::  
+::: field theme  
+@type string  
+@default Regulation  
+@optional  
+`Regulation`은 시즌 3 ｢규정｣(임시 명칭)입니다. 시즌 2 ｢맹약｣(`Alliance`)은 아직 이용할 수 없습니다. `Alliance`를 지정하면 작업은 추가되지만 실행 시 게임을 시작하지 않고 종료합니다.  
+:::  
+::: field target  
+@type number  
+@default 3  
+@optional  
+각 전략의 누적 클리어 목표 횟수입니다. 금색 배지는 `3`, 색상 배지는 `6`을 지정합니다. 모든 전략이 목표를 달성한 것을 확인하면 작업을 일찍 종료합니다.  
+:::  
+::: field runs  
+@type number  
+@default 60  
+@optional  
+이번 작업의 목표 승리 횟수입니다. 양의 정수로 지정합니다. 승리한 판만 집계하며 목표에 도달하면 작업을 종료합니다.  
+:::  
+::: field attempts  
+@type number  
+@default 0  
+@optional  
+이번 작업에서 시도할 최대 판수입니다. 승패에 관계없이 집계합니다. 0 이상의 정수로 지정하며 `0`은 무제한입니다. 승리 횟수가 `runs`에 미치지 않아도 최대 판수에 도달하면 작업을 정상 종료합니다.  
+:::  
+::::
+
+지원하지 않는 `mode`를 지정하면 `AsstAppendTask`는 `0`을 반환합니다. `badge` 모드에서 알 수 없는 `theme`을 지정하거나 `Regulation`의 `target`, `runs`, `attempts` 값이 위 범위를 벗어나도 `0`을 반환합니다.
+
 - `Custom`  
   사용자 정의 작업
 

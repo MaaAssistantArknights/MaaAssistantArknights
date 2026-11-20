@@ -1059,7 +1059,8 @@
         "Doc": "本任务注册了插件 RoguelikeFormationTaskPlugin",
         "action": "ClickSelf",
         "roi": [817, 0, 402, 146],
-        "next": ["Roguelike@FormationConfirm"],
+        "next_Doc": "点击未生效、面板没打开时，重新识别并点击快捷编队",
+        "next": ["Roguelike@FormationConfirm", "Roguelike@QuickFormation"],
         "preDelay": 100,
         "postDelay": 2000
     },

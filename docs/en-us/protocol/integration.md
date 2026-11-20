@@ -1526,6 +1526,56 @@ Maximum number of craft batches per session. Only effective for Tales theme.
 
 </details>
 
+- `StrongholdProtocol`  
+  For both modes, call `AsstAppendTask` with `type` set to `StrongholdProtocol` and select the mode with `params.mode`. For the starting screen for each mode, see the [Stronghold Protocol guide](../manual/introduction/tools.md#stronghold-protocol).
+
+Pass the following `params` to run the score farming pipeline directly.
+
+```json
+{ "mode": "score" }
+```
+
+:::: field-group  
+::: field enable  
+@type boolean  
+@default true  
+@optional  
+Whether to enable this task.  
+:::  
+::: field mode  
+@type string  
+@default badge  
+@optional  
+`score` selects ｢Farm score (idle rush)｣. `badge` selects ｢Farm badges (full clear)｣. Only badge farming uses `theme`, `target`, `runs` and `attempts`.  
+:::  
+::: field theme  
+@type string  
+@default Regulation  
+@optional  
+`Regulation` selects Season 3. `Alliance` selects Season 2, which is currently unavailable. A task added with `Alliance` ends without starting a run.  
+:::  
+::: field target  
+@type number  
+@default 3  
+@optional  
+Total clears required per strategy. Use `3` for gold badges or `6` for colored badges. The task ends early if it confirms that all strategies have reached this goal.  
+:::  
+::: field runs  
+@type number  
+@default 60  
+@optional  
+Number of wins to earn during this task. Must be a positive integer. Only wins count, and the task ends when it reaches this number.  
+:::  
+::: field attempts  
+@type number  
+@default 0  
+@optional  
+Maximum number of runs to play during this task, counting both wins and losses. Must be a nonnegative integer. Use `0` for unlimited attempts. Reaching the limit ends the task normally, even with fewer than `runs` wins.  
+:::  
+::::
+
+`AsstAppendTask` returns `0` for an unknown `mode`. In `badge` mode, it also returns `0` for an unknown `theme` or an out-of-range `target`, `runs` or `attempts` value for `Regulation`.
+
 - `Custom`  
   Custom Task
 
