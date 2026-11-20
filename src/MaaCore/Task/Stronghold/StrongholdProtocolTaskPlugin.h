@@ -33,6 +33,7 @@ public:
 
 protected:
     virtual bool _run() override;
+    bool on_run_fails() override;
 
 private:
     enum class Scene
@@ -338,6 +339,7 @@ private:
     bool m_settlement_counted = false;     // 当前结算页已计数，离开结算页后复位
     std::optional<int> m_upgrade_x;        // 最近一次读到的升级按钮中心 x，商店卡牌识别据此剔除按钮区
     bool m_covenant = false;               // 盟约策略模式
+    bool m_covenant_preparation_failed = false;
     std::string m_core_major_bond;         // 大核心盟约（阵营盟约），空 = 不启用
     std::string m_core_minor_bond;         // 小核心盟约（非阵营盟约），空 = 不启用
     std::vector<int> m_upgrade_plan;       // 每回合目标商店等级，下标 = 回合-1，0 = 不升级

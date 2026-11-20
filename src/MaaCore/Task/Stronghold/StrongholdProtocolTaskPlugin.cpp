@@ -105,6 +105,7 @@ bool StrongholdProtocolTaskPlugin::_run()
     BoardState board;
     bool attempted_entry = false;
     m_bench_shop_unconfirmed = false;
+    m_covenant_preparation_failed = false;
     m_last_tile.reset();
     // 选定策略、推进到新回合或结算时刷新进度，战斗和过场保留原来的计时。
     constexpr auto stall_timeout = std::chrono::minutes(10);
@@ -181,6 +182,7 @@ bool StrongholdProtocolTaskPlugin::_run()
         case Scene::RoundPrepare: {
             const int round_before = board.round_done;
             if (!prep_phase(board)) {
+                m_covenant_preparation_failed = m_covenant;
                 LogWarn << __FUNCTION__ << "preparation stopped with unconfirmed shop layout";
                 return false;
             }
@@ -220,6 +222,12 @@ bool StrongholdProtocolTaskPlugin::_run()
         sleep(400);
     }
     return true;
+}
+
+bool StrongholdProtocolTaskPlugin::on_run_fails()
+{
+    // 赛季任务的商店操作依赖完整的棋盘记录，重新进入 _run 会丢失本局身份。
+    return !m_covenant_preparation_failed;
 }
 
 StrongholdProtocolTaskPlugin::Scene StrongholdProtocolTaskPlugin::detect_scene(const cv::Mat& image)
@@ -2154,63 +2162,75 @@ bool StrongholdProtocolTaskPlugin::deploy_covenant_from_bench(BoardState& board,
         return false;
     }
     const auto drop = place_on_board(board, *tile, from->second, name, rank, *slots);
-    if (!drop) {
-        // 名额或朝向未确认时保留身份记录，避免下一次操作使用不确定的席位。
+    if (!drop || board.unknown_displaced) {
+        // 部署或被换下的干员身份未确认时，保留备战席记录。
         board.covenant_tracking_uncertain = true;
         LogWarn << __FUNCTION__ << "bench identity unresolved after deployment" << seat + 1 << name;
         return false;
     }
 
-    auto after = covenant_bench_slots(drop->after);
-    sleep(250);
-    after.merge(covenant_bench_slots(ctrler()->get_image()));
-    board.covenant_bench.erase(copy);
     if (!drop->displaced) {
+        board.covenant_bench.erase(copy);
         return true;
     }
 
     const auto& [old_name, old_rank] = *drop->displaced;
-    // 换下的干员由游戏放回最靠前的空席位，也可能直接占据刚拖走的席位。
-    auto returned = std::ranges::find_if(after, [&](const auto& entry) {
-        return !occupied.contains(entry.first) && !board.covenant_bench.contains(entry.first);
-    });
-    if (returned == after.end()) {
-        returned = after.find(seat);
+    // 换下的干员回到新干员起拖的备战席。
+    copy->second = *drop->displaced;
+    const auto [first, last] = board.displaced.equal_range(old_name);
+    const auto previous = std::find_if(first, last, [&](const auto& entry) { return entry.second == old_rank; });
+    if (previous != last) {
+        board.displaced.erase(previous);
     }
-    if (returned != after.end()) {
-        board.covenant_bench.insert_or_assign(returned->first, *drop->displaced);
-        const auto [first, last] = board.displaced.equal_range(old_name);
-        const auto previous = std::find_if(first, last, [&](const auto& entry) { return entry.second == old_rank; });
-        if (previous != last) {
-            board.displaced.erase(previous);
+    LogInfo << "covenant operator returned to bench" << old_name << "seat" << seat + 1;
+
+    if (choose_covenant_tile(board, old_name, old_rank, drop->slots, false) || !sleep(250)) {
+        return true;
+    }
+    const auto shop = ctrler()->get_image();
+    const auto after = covenant_bench_slots(shop);
+    const auto returned = after.find(seat);
+    if (returned == after.end()) {
+        LogInfo << "covenant sale skipped, original seat not visible" << old_name << "seat" << seat + 1;
+        return true;
+    }
+    const auto gold = read_gold(shop);
+    const Rect sell = task_roi("StrongholdProtocol@Roi@ShopSell");
+    if (!gold || sell.empty() || need_exit() ||
+        !swipe_from_bench(returned->second, { sell.x + sell.width / 2, sell.y + sell.height / 2 })) {
+        LogInfo << "covenant sale could not be started" << old_name;
+        return true;
+    }
+
+    // 金币漏读时，用连续两次原席为空确认干员已离开备战席。
+    int empty_frames = 0;
+    for (const int delay : { 800, 400, 400 }) {
+        if (!sleep(delay)) {
+            break;
         }
-        LogInfo << "covenant operator returned to bench" << old_name << "seat" << returned->first + 1;
-        // 若换下的普通副本也没有同职业空格，按原流程出售并用席位和余额核销。
-        if (!is_core_oper(board, old_name) && !old_rank.elite &&
-            !choose_covenant_tile(board, old_name, old_rank, drop->slots, false)) {
-            const auto gold = read_gold(drop->after);
-            const Rect sell = task_roi("StrongholdProtocol@Roi@ShopSell");
-            if (gold && swipe_from_bench(returned->second, { sell.x + sell.width / 2, sell.y + sell.height / 2 })) {
-                sleep(800);
-                const auto sale = ctrler()->get_image();
-                const auto balance = read_gold(sale);
-                if (balance && *balance > *gold && !covenant_bench_slots(sale).contains(returned->first)) {
-                    board.covenant_bench.erase(returned->first);
-                    auto& old = board.purchases.at(old_name);
-                    old.unmerged = std::max(0, old.unmerged - 1);
-                    LogInfo << "sold covenant operator" << old_name << "seat" << returned->first + 1;
-                }
-                else {
-                    board.covenant_tracking_uncertain = true;
-                    LogWarn << "covenant sale not confirmed:" << old_name;
-                }
+        const auto sale = ctrler()->get_image();
+        if (covenant_bench_slots(sale).contains(seat)) {
+            empty_frames = 0;
+            continue;
+        }
+        if (++empty_frames < 2) {
+            auto balance = read_number(sale, "StrongholdProtocol@ShopGoldOcr");
+            if (!balance) {
+                balance = read_number(sale, "StrongholdProtocol@ShopGoldWideOcr");
+            }
+            if (!balance || *balance <= *gold || *balance > 99) {
+                continue;
             }
         }
+        board.covenant_bench.erase(copy);
+        if (const auto old = board.purchases.find(old_name); old != board.purchases.end()) {
+            int& copies = old_rank.elite ? old->second.promotions : old->second.unmerged;
+            copies = std::max(0, copies - 1);
+        }
+        LogInfo << "sold covenant operator" << old_name << "seat" << seat + 1;
+        return true;
     }
-    else {
-        board.covenant_tracking_uncertain = true;
-        LogWarn << "returned covenant operator seat unavailable:" << old_name;
-    }
+    LogInfo << "covenant sale not confirmed, keeping bench record" << old_name << "seat" << seat + 1;
     return true;
 }
 
