@@ -266,7 +266,7 @@ private:
     static std::optional<int> measure_grid_shift(const cv::Mat& before, const cv::Mat& after);
 
     int m_target = 3;   // 3 = 金色角标，6 = 彩色角标
-    int m_runs = 20;    // 目标通关局数
+    int m_runs = 60;    // 目标通关局数
     int m_attempts = 0; // 总局数上限（胜负都算），0 = 不限
     int m_cleared = 0;
     int m_attempted = 0;

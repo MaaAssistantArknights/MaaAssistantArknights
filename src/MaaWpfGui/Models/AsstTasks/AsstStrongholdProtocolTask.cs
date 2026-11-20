@@ -38,7 +38,7 @@ public class AsstStrongholdProtocolTask : AsstBaseTask
     /// <summary>
     /// Gets or sets 目标通关局数
     /// </summary>
-    public int Runs { get; set; } = 20;
+    public int Runs { get; set; } = 60;
 
     /// <summary>
     /// Gets or sets 总局数上限，0 不限

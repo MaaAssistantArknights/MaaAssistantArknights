@@ -61,7 +61,7 @@ public class MiniGame : NotifyPropertyChangedWithValue
     /// <summary>
     /// 卫戍协议目标通关局数。
     /// </summary>
-    public int StrongholdProtocolRuns { get; set; } = 20;
+    public int StrongholdProtocolRuns { get; set; } = 60;
 
     public bool EventShopBlackListDataSupplementInstrument { get; set; }
 

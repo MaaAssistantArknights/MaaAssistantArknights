@@ -36,7 +36,7 @@ bool asst::StrongholdProtocolTask::set_params(const json::value& params)
         Log.error("set_params failed, invalid stronghold protocol target:", target);
         return false;
     }
-    const int runs = params.get("runs", 20);
+    const int runs = params.get("runs", 60);
     if (runs <= 0) {
         Log.error("set_params failed, invalid stronghold protocol runs:", runs);
         return false;
