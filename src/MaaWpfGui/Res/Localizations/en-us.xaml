@@ -2557,6 +2557,9 @@ Only level rewards can be farmed; to get the Engraved Medal, all ｢Key Objectiv
     <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Tip.Badge" xml:space="preserve">Use the default event skin and start from the main event screen with the ｢Express Simulation｣ option (name TBD). Manually abandon any saved run first.
 MAA picks a strategy that still needs clears and plays each run to the end.
 
+You can borrow up to 30 support units in this mode.
+For a better chance of clearing, borrow everyone on the shop priority list first, then all tier VI damage dealers. Fill any remaining slots with tier V damage dealers.
+
 The custom squad takes only 6-star operators, up to two per tier. First picks, in order:
 {0}
 
@@ -2564,10 +2567,7 @@ Once the shop reaches its highest level, MAA buys these operators first, in orde
 {1}
 For other operators, the purchase order is:
 Custom squad tier VI → custom squad tier V → regular tier VI → substitutes the game provides for unfilled roster slots → regular tier V.
-Aim to keep one Medic on the field. Once you have one deployed, only buy another to replace a low-tier Medic with a higher-tier one.
-
-You can borrow up to 30 support units in this mode.
-For a better chance of clearing, borrow everyone on the shop priority list first, then all tier VI damage dealers. Fill any remaining slots with tier V damage dealers.</system:String>
+Aim to keep one Medic on the field. Once you have one deployed, only buy another to replace a low-tier Medic with a higher-tier one.</system:String>
     <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Tip.Score" xml:space="preserve">Start the task from the main event screen (where ｢Express Simulation｣ (name TBD) is located)
 The default event skin must be used
 If there is a saved game, you need to manually abandon it first
