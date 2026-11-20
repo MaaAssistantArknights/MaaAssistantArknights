@@ -752,17 +752,6 @@ Todo
 
   `rewards` は `reward_missed`、`reward_picked`、`completed`、`reward_unrecognized`、`reward_recognition_failed` のときのみ通知され、`blackflow_start_rewards` が 0 で `blackflow_start_utopia` が無効（報酬を認識しない）の場合や 1 つも認識できなかった場合は省略されます。報酬名は簡体字中国語で出力されます。
 
-- `BlackFlowScrapTradeAborted`  
-  BlackFlow の行商取引で異常が発生し、取引を中止します。`details` の内容：
-
-  ```json
-  // 対応する詳細フィールドの例
-  {
-      "reason": "sale_failed",  // 取引を中止した理由
-      "item": "晶体元件"        // 中止のきっかけとなったアイテム名
-  }
-  ```
-
 ### ReportRequest
 
 このフィールドは、コアモジュールがネットワークリクエスト情報をUI層に渡すために主に使用され、UIは実際のHTTP報告処理を担当します。

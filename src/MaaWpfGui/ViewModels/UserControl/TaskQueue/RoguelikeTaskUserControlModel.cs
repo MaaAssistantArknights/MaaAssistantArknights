@@ -1295,6 +1295,7 @@ public class RoguelikeTaskUserControlModel : TaskSettingsViewModel, RoguelikeTas
         "node_dispatch_failed" => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.OutcomeNodeDispatchFailed"),
         "node_result_failed" => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.OutcomeNodeResultFailed"),
         "internal_failure" => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.OutcomeInternalFailure"),
+        "scrap_trade_aborted" => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.OutcomeScrapTradeAborted"),
         _ => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.OutcomeUnknown"),
     };
 
@@ -1318,6 +1319,13 @@ public class RoguelikeTaskUserControlModel : TaskSettingsViewModel, RoguelikeTas
         "third_floor_has_no_portal" => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.TerminationNoBoskyPassage"),
         "third_floor_action_points_exhausted" => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.TerminationActionPointsExhaustedBeforeCultivation"),
         "scrap_shop_never_reached" => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.TerminationScrapShopNeverReached"),
+        "scrap_trade_inventory_incomplete" => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.TerminationScrapTradeInventoryIncomplete"),
+        "scrap_trade_market_unavailable" => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.TerminationScrapTradeMarketUnavailable"),
+        "scrap_trade_page_switch_failed" => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.TerminationScrapTradePageSwitchFailed"),
+        "scrap_trade_purchase_failed" => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.TerminationScrapTradePurchaseFailed"),
+        "scrap_trade_sale_failed" => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.TerminationScrapTradeSaleFailed"),
+        "scrap_trade_sale_search_failed" => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.TerminationScrapTradeSaleSearchFailed"),
+        "scrap_trade_sell_back_search_failed" => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.TerminationScrapTradeSellBackSearchFailed"),
         "map recovery port is unavailable" => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.TerminationRecoveryPortUnavailable"),
         "BlackFlow perception and task port is not attached" => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.TerminationPerceptionPortUnavailable"),
         "map rebuild failed twice" => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.TerminationMapRebuildFailedTwice"),
@@ -1540,22 +1548,6 @@ public class RoguelikeTaskUserControlModel : TaskSettingsViewModel, RoguelikeTas
                         Instances.TaskQueueViewModel.AddLog(message, color);
                     }
 
-                    break;
-                }
-
-            case "BlackFlowScrapTradeAborted":
-                {
-                    var item = subTaskDetails?["item"]?.ToString() ?? string.Empty;
-                    var message = subTaskDetails?["reason"]?.ToString() switch {
-                        "market_unavailable" => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.ScrapTradeAbortedMarketUnavailable"),
-                        "inventory_incomplete" => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.ScrapTradeAbortedInventoryIncomplete"),
-                        "page_switch_failed" => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.ScrapTradeAbortedPageSwitchFailed"),
-                        "sale_search_failed" => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.ScrapTradeAbortedSaleSearchFailed"),
-                        "sell_back_search_failed" => LocalizationHelper.GetStringFormat("Asst.Roguelike.BlackFlow.ScrapTradeAbortedSellBackSearchFailed", item),
-                        "sale_failed" => LocalizationHelper.GetStringFormat("Asst.Roguelike.BlackFlow.ScrapTradeAbortedSaleFailed", item),
-                        _ => LocalizationHelper.GetString("Asst.Roguelike.BlackFlow.ScrapTradeAbortedUnknown"),
-                    };
-                    Instances.TaskQueueViewModel.AddLog(message, UiLogColor.Warning);
                     break;
                 }
 

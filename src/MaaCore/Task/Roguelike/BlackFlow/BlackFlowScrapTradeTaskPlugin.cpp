@@ -31,11 +31,15 @@ constexpr std::string_view ScrapTradeHeldSeedCountTask = "BlackFlow@Roguelike@Cu
 constexpr std::string_view ScrapTradeItemsTask = "BlackFlow@Roguelike@ScrapTradeItems";
 constexpr std::string_view ScrapTradeSellingFlagTask = "BlackFlow@Roguelike@CultivateSellingFlag";
 constexpr std::string_view ScrapTradeWalletTask = "BlackFlow@Roguelike@CurrentIngots";
+constexpr std::string_view StrategyTerminatedEntry = "BlackFlow@Roguelike@StrategyTerminated-Enter";
 
 constexpr int ScrapTradeMaxToggleAttempts = 3;
 constexpr int ScrapTradeSameSlotTolerance = 20;
 constexpr int ScrapTradeAtMostClickTimes = 3;
 constexpr int ScrapTradeRepeatedClickInterval = 100;
+// 与出售点卡片相同的次数和等待。
+constexpr int ScrapTradePurchaseClickAttempts = 3;
+constexpr unsigned ScrapTradePurchaseSettleDelay = 300;
 
 bool BlackFlowScrapTradeTaskPlugin::verify(AsstMsg msg, const json::value& details) const
 {
@@ -141,7 +145,7 @@ void BlackFlowScrapTradeTaskPlugin::decide()
 {
     if (!BlackFlowScrapMarket.available()) {
         LogWarn << __FUNCTION__ << "BlackFlow scrap market is unavailable";
-        abort_trade("market_unavailable");
+        stop_trade("market_unavailable");
         return;
     }
 
@@ -172,7 +176,7 @@ void BlackFlowScrapTradeTaskPlugin::decide()
             const auto survey = m_inventory.survey(*this, m_inventory_names, &error);
             if (!survey) {
                 LogWarn << "BlackFlow scrap trade inventory survey failed" << error;
-                abort_trade("inventory_incomplete");
+                stop_trade("inventory_incomplete");
                 return;
             }
             m_ledger.reset(survey->items, survey->exact_counts);
@@ -240,7 +244,7 @@ bool BlackFlowScrapTradeTaskPlugin::switch_tab(bool want_selling, bool selling)
     }
     if (++m_toggle_attempts > ScrapTradeMaxToggleAttempts) {
         LogWarn << __FUNCTION__ << "BlackFlow scrap trade cannot switch page" << "want selling" << want_selling;
-        abort_trade("page_switch_failed");
+        stop_trade("page_switch_failed");
         return true;
     }
     m_inventory.forget_position();
@@ -264,7 +268,7 @@ bool BlackFlowScrapTradeTaskPlugin::sell_matching(bool liquidating)
     if (!item) {
         if (!error.empty()) {
             LogWarn << "BlackFlow scrap trade sale search failed" << error;
-            abort_trade("sale_search_failed");
+            stop_trade("sale_search_failed");
             return true;
         }
         return false;
@@ -283,7 +287,7 @@ bool BlackFlowScrapTradeTaskPlugin::sell_back()
     if (!target) {
         if (!error.empty()) {
             LogWarn << "BlackFlow scrap trade sell-back search failed" << name << error;
-            abort_trade("sell_back_search_failed", name);
+            stop_trade("sell_back_search_failed", name);
             return true;
         }
         // 已完整查找仍找不到时，沿用放弃卖回这一件的处理。
@@ -354,7 +358,10 @@ bool BlackFlowScrapTradeTaskPlugin::buy(const cv::Mat& image, const Funds& funds
         LogInfo << __FUNCTION__ << "BlackFlow scrap trade buys to keep" << goods.name << "price" << *item->get().price
                 << "budget" << funds.budget << "wallet" << funds.wallet << "reserved" << funds.reserved << "name rect"
                 << offer->rect << "click rect" << click_rect;
-        ctrler()->click(click_rect);
+        if (!open_purchase(offer->text, click_rect)) {
+            stop_trade("purchase_failed", offer->text);
+            return true;
+        }
         m_pending_purchase = PendingPurchase { offer->text, offer->rect, true };
         set_action(ScrapTradeBuyConfirmEntry);
         return true;
@@ -381,7 +388,10 @@ bool BlackFlowScrapTradeTaskPlugin::buy(const cv::Mat& image, const Funds& funds
     LogInfo << __FUNCTION__ << "BlackFlow scrap trade buys" << best->text << "net" << best_net << "growth" << growth
             << "budget" << funds.budget << "wallet" << funds.wallet << "reserved" << funds.reserved << "name rect"
             << best->rect << "click rect" << click_rect;
-    ctrler()->click(click_rect);
+    if (!open_purchase(best->text, click_rect)) {
+        stop_trade("purchase_failed", best->text);
+        return true;
+    }
     m_pending_purchase = PendingPurchase { best->text, best->rect, false };
     set_action(ScrapTradeBuyConfirmEntry);
     return true;
@@ -415,24 +425,51 @@ bool BlackFlowScrapTradeTaskPlugin::refresh(const Funds& funds)
     return true;
 }
 
-// 正常结束和页面异常都直接离店，沿用路由的普通完成；第五层目标按到访计数，异常离店不会挡住后面的商店。
+// 交易结束后离店，沿用路由的普通完成。
 void BlackFlowScrapTradeTaskPlugin::leave()
 {
     m_phase = Phase::Leave;
     set_action(ScrapTradeLeaveEntry);
 }
 
-void BlackFlowScrapTradeTaskPlugin::abort_trade(std::string_view reason, const std::string& item)
+void BlackFlowScrapTradeTaskPlugin::stop_trade(std::string_view reason, const std::string& item)
 {
-    if (!need_exit()) {
-        auto info = basic_info_with_what("BlackFlowScrapTradeAborted");
-        info["details"] = json::object {
-            { "reason", std::string(reason) },
-            { "item", item },
-        };
-        callback(AsstMsg::SubTaskExtraInfo, info);
+    if (need_exit()) {
+        return;
     }
-    leave();
+    LogError << __FUNCTION__ << "BlackFlow scrap trade stopped" << reason << "item" << item;
+    m_session->fail("scrap_trade_aborted", "scrap_trade_" + std::string(reason), FailureDisposition::StopTask);
+    // 进入终止流程，停在当前画面。
+    set_action(StrategyTerminatedEntry);
+    report_outputs();
+}
+
+// 与出售相同：点卡片后等确认框，没弹出再点；再点之前先看确认框是否已经延迟出现。
+bool BlackFlowScrapTradeTaskPlugin::open_purchase(const std::string& name, const Rect& click_rect)
+{
+    for (int attempt = 0; attempt < ScrapTradePurchaseClickAttempts; ++attempt) {
+        if (need_exit()) {
+            return false;
+        }
+        if (attempt > 0 && purchase_dialog_shown()) {
+            return true;
+        }
+        ctrler()->click(click_rect);
+        sleep(ScrapTradePurchaseSettleDelay);
+        if (purchase_dialog_shown()) {
+            return true;
+        }
+        LogWarn << __FUNCTION__ << "BlackFlow scrap trade purchase dialog not opened" << name << "attempt"
+                << attempt + 1;
+    }
+    return false;
+}
+
+bool BlackFlowScrapTradeTaskPlugin::purchase_dialog_shown() const
+{
+    Matcher analyzer(ctrler()->get_image());
+    analyzer.set_task_info(std::string(ScrapTradeBuyConfirmTask));
+    return analyzer.analyze().has_value();
 }
 
 void BlackFlowScrapTradeTaskPlugin::on_purchase_confirmed()
@@ -484,7 +521,7 @@ bool BlackFlowScrapTradeTaskPlugin::complete_sale(const ScrapTradeInventoryTarge
     std::string error;
     if (!m_inventory.sell(*this, target, &error)) {
         LogWarn << "BlackFlow scrap trade sale failed" << target.text.text << error;
-        abort_trade("sale_failed", target.text.text);
+        stop_trade("sale_failed", target.text.text);
         return true;
     }
     m_ledger.record_sale(target.text.text);

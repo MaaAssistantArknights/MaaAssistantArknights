@@ -775,22 +775,6 @@ typedef void(ASST_CALL* AsstApiCallback)(AsstMsgId msg, const char* details_json
     - `reward_recognition_failed`：準備局或目標局在選擇支援頁選擇獎勵失敗，停止任務。
   - `rewards` (`array<string>`, optional)：目標局在選擇支援頁辨識出的獎勵名稱，如 `空间租赁`、`金乌`；只隨 `reward_missed`、`reward_picked`、`completed`、`reward_unrecognized`、`reward_recognition_failed` 回報；`blackflow_start_rewards` 為 0 且未開啟 `blackflow_start_utopia`（不辨識獎勵），或一項都沒辨識出時省略。
 
-- `BlackFlowScrapTradeAborted`  
-  黑流樹海秘境行商交易異常，中止交易。`details` 欄位內容如下：
-
-  :::: field-group  
-  ::: field reason  
-  @type string  
-  @required  
-  中止交易的原因。  
-  :::  
-  ::: field item  
-  @type string  
-  @required  
-  觸發中止的交易物品名稱。  
-  :::  
-  ::::
-
 ### ReportRequest
 
 該欄位主要用於核心模組向 UI 層傳遞網路請求資訊，UI 負責執行具體的 HTTP 彙報操作。

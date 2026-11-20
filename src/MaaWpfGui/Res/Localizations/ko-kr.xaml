@@ -587,19 +587,13 @@
     <system:String x:Key="Asst.Roguelike.BlackFlow.OutcomePlanningFailed">경로 계획 실패</system:String>
     <system:String x:Key="Asst.Roguelike.BlackFlow.OutcomePlanningRetryExhausted">경로 재계획 횟수를 모두 소진함</system:String>
     <system:String x:Key="Asst.Roguelike.BlackFlow.OutcomePostMoveValidationFailed">이동 후 상태 검증 실패</system:String>
+    <system:String x:Key="Asst.Roguelike.BlackFlow.OutcomeScrapTradeAborted">신비한 상인(秘境行商) 거래 중단</system:String>
     <system:String x:Key="Asst.Roguelike.BlackFlow.OutcomeStateMachineDeadEnd">내부 상태 머신 오류</system:String>
     <system:String x:Key="Asst.Roguelike.BlackFlow.OutcomeStrategyCompleted">이번 판 전략 목표 완료</system:String>
     <system:String x:Key="Asst.Roguelike.BlackFlow.OutcomeTaskEventFailed">노드 결과 처리 실패</system:String>
     <system:String x:Key="Asst.Roguelike.BlackFlow.OutcomeTransactionProposalFailed">이번 이동을 준비할 수 없음</system:String>
     <system:String x:Key="Asst.Roguelike.BlackFlow.OutcomeUnknown">로그라이크 오류</system:String>
     <system:String x:Key="Asst.Roguelike.BlackFlow.RoutingDecision">{0}층 | 행동력 {1}→{2} | {4}까지 {3} | 안전 여유 {5}</system:String>
-    <system:String x:Key="Asst.Roguelike.BlackFlow.ScrapTradeAbortedInventoryIncomplete">신비한 상인(秘境行商)에서 보유품 확인에 실패해 거래를 중단하고 나갑니다</system:String>
-    <system:String x:Key="Asst.Roguelike.BlackFlow.ScrapTradeAbortedMarketUnavailable">신비한 상인(秘境行商)의 아이템 데이터를 사용할 수 없어 거래하지 않고 나갑니다</system:String>
-    <system:String x:Key="Asst.Roguelike.BlackFlow.ScrapTradeAbortedPageSwitchFailed">신비한 상인(秘境行商)에서 구매·판매 페이지 전환에 실패해 거래를 중단하고 나갑니다</system:String>
-    <system:String x:Key="Asst.Roguelike.BlackFlow.ScrapTradeAbortedSaleFailed">신비한 상인(秘境行商)에서 「{0}」 판매가 확인되지 않아 거래를 중단하고 나갑니다</system:String>
-    <system:String x:Key="Asst.Roguelike.BlackFlow.ScrapTradeAbortedSaleSearchFailed">신비한 상인(秘境行商)에서 판매 목록 검색에 실패해 거래를 중단하고 나갑니다</system:String>
-    <system:String x:Key="Asst.Roguelike.BlackFlow.ScrapTradeAbortedSellBackSearchFailed">신비한 상인(秘境行商)에서 되팔 「{0}」을(를) 찾지 못해 거래를 중단하고 나갑니다</system:String>
-    <system:String x:Key="Asst.Roguelike.BlackFlow.ScrapTradeAbortedUnknown">신비한 상인(秘境行商) 거래에 이상이 발생해 거래를 중단하고 나갑니다</system:String>
     <system:String x:Key="Asst.Roguelike.BlackFlow.StartRunCompleted">시작 조건을 충족하여 이번 탐험을 유지한 채 나왔습니다</system:String>
     <system:String x:Key="Asst.Roguelike.BlackFlow.StartRunPrepared">탐험 준비 완료</system:String>
     <system:String x:Key="Asst.Roguelike.BlackFlow.StartRunPreparedReason">3층에 도달했습니다. 다음 탐험은 지정한 난이도와 분대로 시작합니다</system:String>
@@ -636,6 +630,13 @@
     <system:String x:Key="Asst.Roguelike.BlackFlow.TerminationPlanningRetryExhausted">미리보기가 경로를 계속 바꿔 재계획 횟수 초과</system:String>
     <system:String x:Key="Asst.Roguelike.BlackFlow.TerminationRecoveryPortUnavailable">지도 복구 인터페이스를 사용할 수 없음</system:String>
     <system:String x:Key="Asst.Roguelike.BlackFlow.TerminationScrapShopNeverReached">신비한 상인에 도달하지 못해 이번 판 종료</system:String>
+    <system:String x:Key="Asst.Roguelike.BlackFlow.TerminationScrapTradeInventoryIncomplete">보유품 확인 실패</system:String>
+    <system:String x:Key="Asst.Roguelike.BlackFlow.TerminationScrapTradeMarketUnavailable">아이템 데이터를 사용할 수 없음</system:String>
+    <system:String x:Key="Asst.Roguelike.BlackFlow.TerminationScrapTradePageSwitchFailed">구매·판매 페이지 전환 실패</system:String>
+    <system:String x:Key="Asst.Roguelike.BlackFlow.TerminationScrapTradePurchaseFailed">구매 확인 창이 나타나지 않음</system:String>
+    <system:String x:Key="Asst.Roguelike.BlackFlow.TerminationScrapTradeSaleFailed">판매가 확인되지 않음</system:String>
+    <system:String x:Key="Asst.Roguelike.BlackFlow.TerminationScrapTradeSaleSearchFailed">판매 목록 검색 실패</system:String>
+    <system:String x:Key="Asst.Roguelike.BlackFlow.TerminationScrapTradeSellBackSearchFailed">되팔 물품을 찾지 못함</system:String>
     <system:String x:Key="Asst.Roguelike.BlackFlow.TerminationStrategyTerminalReached">전략 종점에 도달함</system:String>
     <system:String x:Key="Asst.Roguelike.BlackFlow.TerminationUnknown">피드백하려면 "{key=Settings.Title} - {key=Settings.IssueReport.Title}"(으)로 이동하세요</system:String>
     <system:String x:Key="Asst.Roguelike.BlackFlow.WarningIdentityConflict">미리보기 노드 유형과 현재 지도 불일치</system:String>
