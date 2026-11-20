@@ -21,16 +21,6 @@ bool asst::ReclamationToolConfig::Catalog::parse(const json::value& json)
     return true;
 }
 
-bool asst::ReclamationToolConfig::load(const std::filesystem::path& path)
-{
-    Catalog catalog;
-    if (!catalog.load(path)) {
-        return false;
-    }
-    replace_layer(path, false, std::move(catalog.tools));
-    return true;
-}
-
 bool asst::ReclamationToolConfig::load_layer(const std::filesystem::path& root, bool inherits)
 {
     using namespace asst::utils::path_literals;
@@ -43,23 +33,18 @@ bool asst::ReclamationToolConfig::load_layer(const std::filesystem::path& root, 
             return false;
         }
     }
-    replace_layer(path, inherits, std::move(catalog.tools));
-    return true;
-}
-
-void asst::ReclamationToolConfig::replace_layer(const std::filesystem::path& source, bool inherits, Tools tools)
-{
-    const auto path = source.lexically_normal();
+    const auto source = path.lexically_normal();
     std::lock_guard lock(m_mutex);
     if (inherits) {
-        std::erase_if(m_layers, [&](const Layer& layer) { return layer.source == path; });
+        std::erase_if(m_layers, [&](const Layer& layer) { return layer.source == source; });
     }
     else {
         m_layers.clear();
     }
-    if (!tools.empty()) {
-        m_layers.emplace_back(path, std::move(tools));
+    if (!catalog.tools.empty()) {
+        m_layers.emplace_back(source, std::move(catalog.tools));
     }
+    return true;
 }
 
 std::vector<std::string> asst::ReclamationToolConfig::names_for(const std::string& tool) const

@@ -8,10 +8,9 @@
 
 namespace asst
 {
-class ReclamationToolConfig final : public MAA_NS::SingletonHolder<ReclamationToolConfig>, public AbstractResource
+class ReclamationToolConfig final : public MAA_NS::SingletonHolder<ReclamationToolConfig>
 {
 public:
-    bool load(const std::filesystem::path& path) override;
     bool load_layer(const std::filesystem::path& root, bool inherits);
     std::vector<std::string> names_for(const std::string& tool) const;
 
@@ -30,7 +29,6 @@ private:
         Tools tools;
     };
 
-    void replace_layer(const std::filesystem::path& source, bool inherits, Tools tools);
     mutable std::mutex m_mutex;
     std::vector<Layer> m_layers;
 };
