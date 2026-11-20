@@ -81,16 +81,19 @@ TaskQueue* task_queue_new(TaskQueueWorkerFactory worker_factory)
     queue->tail = 0;
     queue->stop = 0;
     queue->worker_factory = worker_factory;
+    pthread_mutex_init(&queue->mutex, NULL);
+    pthread_cond_init(&queue->cond_not_empty, NULL);
+    pthread_cond_init(&queue->cond_not_full, NULL);
+
     TaskQueueWorker* worker = worker_factory(queue);
     if (!worker) {
+        pthread_cond_destroy(&queue->cond_not_full);
+        pthread_cond_destroy(&queue->cond_not_empty);
+        pthread_mutex_destroy(&queue->mutex);
         free(queue);
         return NULL;
     }
     queue->workers[queue->worker_count++] = worker;
-
-    pthread_mutex_init(&queue->mutex, NULL);
-    pthread_cond_init(&queue->cond_not_empty, NULL);
-    pthread_cond_init(&queue->cond_not_full, NULL);
     return queue;
 }
 
@@ -116,39 +119,32 @@ void task_queue_free(TaskQueue* queue)
 
 Task* task_queue_push(TaskQueue* queue, TaskFunc function, void* arg)
 {
-    if (queue->stop) {
-        return NULL;
-    }
     pthread_mutex_lock(&queue->mutex);
     // TODO: add worker if queue is full
-    while ((queue->tail + 1) % MAX_TASKS == queue->head) {
+    while (!queue->stop && (queue->tail + 1) % MAX_TASKS == queue->head) {
         pthread_cond_wait(&queue->cond_not_full, &queue->mutex);
     }
-    Task* task = task_new(function, arg);
 
-    // 1 reference for the queue, 1 for the caller; addref before enqueue
-    task_addref(task);
-    queue->tasks[queue->tail] = task;
-    queue->tail = (queue->tail + 1) % MAX_TASKS;
-
-    pthread_cond_signal(&queue->cond_not_empty);
+    Task* task = NULL;
+    if (!queue->stop) {
+        task = task_new(function, arg);
+        // 1 reference for the queue, 1 for the caller; addref before enqueue
+        task_addref(task);
+        queue->tasks[queue->tail] = task;
+        queue->tail = (queue->tail + 1) % MAX_TASKS;
+        pthread_cond_signal(&queue->cond_not_empty);
+    }
     pthread_mutex_unlock(&queue->mutex);
     return task;
 }
 
 Task* task_queue_pop(TaskQueue* queue)
 {
-    if (queue->stop) {
-        return NULL;
-    }
-
     pthread_mutex_lock(&queue->mutex);
-
     while (queue->head == queue->tail && !queue->stop) {
         pthread_cond_wait(&queue->cond_not_empty, &queue->mutex);
     }
-
-    if (queue->stop) {
+    if (queue->head == queue->tail) {
         pthread_mutex_unlock(&queue->mutex);
         return NULL;
     }
