@@ -2040,7 +2040,7 @@ void StrongholdProtocolTaskPlugin::drop_held(const Point& from, const Point& to,
     emit_input(InputEvent::Type::TOUCH_UP, to);
 }
 
-static bool is_tier_one_stroke(const cv::Mat& image, const cv::Rect& inner)
+static bool is_tier_one_stroke(const cv::Mat& image, const cv::Rect& inner, int threshold = 140)
 {
     if (inner.empty() || (inner & cv::Rect(0, 0, image.cols, image.rows)) != inner) {
         return false;
@@ -2048,7 +2048,16 @@ static bool is_tier_one_stroke(const cv::Mat& image, const cv::Rect& inner)
     // I 常被 OCR 和相邻职业图标读成一行，只接受牌内居中、完整且近乎白色的一根竖笔。
     cv::Mat strokes;
     cv::cvtColor(image(inner), strokes, cv::COLOR_BGR2GRAY);
-    cv::threshold(strokes, strokes, 140, 255, cv::THRESH_BINARY);
+    // 归一化后，竖笔的两侧会变暗。只有笔芯从上到下都亮时，才把较暗的边缘算入笔形。
+    if (threshold < 140) {
+        const cv::Mat core = strokes > 140;
+        const auto line = cv::boundingRect(core);
+        if (line.width < 1 || line.width > 4 || line.height < 10 ||
+            cv::countNonZero(core.col(line.x + line.width / 2)) != line.height) {
+            return false;
+        }
+    }
+    cv::threshold(strokes, strokes, threshold, 255, cv::THRESH_BINARY);
     const auto ink = cv::boundingRect(strokes);
     const auto color = cv::mean(image(inner), strokes);
     const auto [darkest, brightest] = std::minmax({ color[0], color[1], color[2] });
@@ -2057,7 +2066,11 @@ static bool is_tier_one_stroke(const cv::Mat& image, const cv::Rect& inner)
            cv::countNonZero(strokes) >= 0.85 * ink.area();
 }
 
-static int read_panel_tier(const cv::Mat& image, const Rect& badge, const std::vector<TextRect>& rows)
+static int read_panel_tier(
+    const cv::Mat& image,
+    const Rect& badge,
+    const std::vector<TextRect>& rows,
+    bool allow_dim_edges = false)
 {
     static constexpr std::array<std::string_view, 6> roman { "I", "II", "III", "IV", "V", "VI" };
     int tier = 0;
@@ -2078,7 +2091,8 @@ static int read_panel_tier(const cv::Mat& image, const Rect& badge, const std::v
     if (tier > 1) {
         return tier;
     }
-    return is_tier_one_stroke(image, { badge.x + 4, badge.y + 3, badge.width - 7, badge.height - 5 }) ? 1 : 0;
+    const cv::Rect inner(badge.x + 4, badge.y + 3, badge.width - 7, badge.height - 5);
+    return is_tier_one_stroke(image, inner) || (allow_dim_edges && is_tier_one_stroke(image, inner, 110)) ? 1 : 0;
 }
 
 // nullopt 表示面板未读清，空名字表示已辨认为装备或召唤物。
@@ -2115,7 +2129,7 @@ static std::optional<std::string> read_drag_name(const cv::Mat& image, bool chec
             name = row.text;
         }
         if (oper_tab && !name.empty()) {
-            tier = read_panel_tier(image, task_roi("StrongholdProtocol@Roi@DragTierFrame"), *rows);
+            tier = read_panel_tier(image, task_roi("StrongholdProtocol@Roi@DragTierFrame"), *rows, true);
             return name;
         }
     }
