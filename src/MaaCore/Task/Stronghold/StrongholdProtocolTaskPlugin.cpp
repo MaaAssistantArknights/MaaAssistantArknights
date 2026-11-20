@@ -1,5 +1,7 @@
 #include "StrongholdProtocolTaskPlugin.h"
 
+#include "StrongholdTierMatcher.h"
+
 #include "Config/Miscellaneous/BattleDataConfig.h"
 #include "Config/Miscellaneous/OcrConfig.h"
 #include "Config/StrongholdProtocol/StrongholdProtocolConfig.h"
@@ -17,25 +19,11 @@
 #include <MaaUtils/NoWarningCV.hpp>
 
 #include <algorithm>
-#include <array>
 #include <chrono>
 #include <tuple>
 
 namespace asst
 {
-namespace stronghold
-{
-// 界面坐标、roi、偏移量由 pipeline 任务（StrongholdProtocol@Roi@*）的 roi 字段定义，部署格位在 stronghold_protocol
-// 资源目录的 tiles.json 中定义；代码里只保留与界面布局无关的色域窗与算法参数（容差、阈值、聚类间距）。
-
-// 色域窗：金 (8,120,150)-(35,255,255)；青（彩标）(70,40,150)-(140,255,255)；
-constexpr int gold_lower_h = 8, gold_upper_h = 35, gold_lower_s = 120;
-constexpr int cyan_lower_h = 70, cyan_upper_h = 140, cyan_lower_s = 40;
-constexpr int color_lower_v = 150; // 金/青共用 V 下限
-}
-
-using namespace stronghold;
-
 // 所有扫描/判定 ROI 统一从 pipeline 任务的 roi 字段读取；缺任务时记错误并返回全图，避免空 rect 崩溃
 static Rect task_roi(const std::string& task_name)
 {
@@ -1212,32 +1200,56 @@ StrongholdProtocolTaskPlugin::ShopInfo StrongholdProtocolTaskPlugin::read_shop(c
     return info;
 }
 
-static std::vector<int>
-    detect_shop_card_x(const std::vector<TextRect>& ocr_results, const Rect& cost_band, const Rect& tier_band)
+static std::vector<Rect> locate_tier_badges(const cv::Mat& image, const Rect& scan, int width, int height)
 {
-    // 费用徽章在卡槽正中，等阶框与它的间距固定。左对齐的名字会随字数改变中心位置。
-    std::vector<int> centers;
-    for (const auto& tr : ocr_results) {
-        const int cx = tr.rect.x + tr.rect.width / 2;
-        const int cy = tr.rect.y + tr.rect.height / 2;
-        if (cy >= cost_band.y && cy <= cost_band.y + cost_band.height) {
-            centers.emplace_back(cx);
+    const auto task = Task.get("StrongholdProtocol@TierBadgeLocate");
+    const auto roi = make_rect<cv::Rect>(scan) & cv::Rect(0, 0, image.cols, image.rows);
+    if (!task || task->special_params.size() != 7 || roi.empty() || image.type() != CV_8UC3) {
+        return {};
+    }
+    const auto& params = task->special_params;
+    const int dark_limit = params[0], rim = params[1], size_tolerance = params[2];
+    const double min_area = params[3] / 100.0;
+    const int inset = params[4], min_contrast = params[5];
+    const double min_ink = params[6] / 100.0;
+    if (rim < 0 || inset < 0 || width <= 2 * rim || height <= 2 * rim) {
+        return {};
+    }
+
+    cv::Mat gray, dark;
+    cv::cvtColor(image(roi), gray, cv::COLOR_BGR2GRAY);
+    cv::threshold(gray, dark, dark_limit, 255, cv::THRESH_BINARY_INV);
+    std::vector<std::vector<cv::Point>> contours;
+    cv::findContours(dark, contours, cv::RETR_LIST, cv::CHAIN_APPROX_SIMPLE);
+
+    std::vector<Rect> badges;
+    for (const auto& contour : contours) {
+        const auto face = cv::boundingRect(contour);
+        if (std::abs(face.width - (width - 2 * rim)) > size_tolerance ||
+            std::abs(face.height - (height - 2 * rim)) > size_tolerance ||
+            cv::contourArea(contour) < face.area() * min_area || face.width <= 2 * inset || face.height <= 2 * inset) {
+            continue;
         }
-        else if (cy >= tier_band.y && cy <= tier_band.y + tier_band.height) {
-            centers.emplace_back(cx + tier_band.x);
+        // 同一灰色字在阴影下会变暗，按牌内的明暗差保留可点选的席位。
+        const cv::Rect inner(face.x + inset, face.y + inset, face.width - 2 * inset, face.height - 2 * inset);
+        if (cv::countNonZero(dark(inner)) == 0) {
+            continue;
+        }
+        const auto background = cv::mean(gray(inner), dark(inner))[0];
+        if (cv::countNonZero(gray(inner) > background + min_contrast) < inner.area() * min_ink) {
+            continue;
+        }
+        const Rect frame { roi.x + face.x + face.width / 2 - width / 2,
+                           roi.y + face.y + face.height / 2 - height / 2,
+                           width,
+                           height };
+        if (scan.include(frame) && std::ranges::none_of(badges, [&](const Rect& other) {
+                return std::abs(other.x - frame.x) <= size_tolerance && std::abs(other.y - frame.y) <= size_tolerance;
+            })) {
+            badges.emplace_back(frame);
         }
     }
-    std::ranges::sort(centers);
-    std::vector<int> slots;
-    for (int x : centers) {
-        if (slots.empty() || x - slots.back() > 12) {
-            slots.emplace_back(x);
-        }
-        else {
-            slots.back() = (slots.back() + x) / 2;
-        }
-    }
-    return slots;
+    return badges;
 }
 
 std::vector<StrongholdProtocolTaskPlugin::ShopCard>
@@ -1258,13 +1270,16 @@ std::vector<StrongholdProtocolTaskPlugin::ShopCard>
         }
         return std::nullopt;
     };
-    const auto tier_roi = task_roi("StrongholdProtocol@Roi@ShopTierY");
+    const auto frame_task = Task.get("StrongholdProtocol@Roi@ShopTierFrame");
+    if (!results_opt || !frame_task || frame_task->special_params.size() != 3) {
+        return {};
+    }
+    const auto& tier_frame = frame_task->roi;
+    const int merge_distance = frame_task->special_params[0];
+    const int text_distance = frame_task->special_params[1];
+    const int name_distance = frame_task->special_params[2];
     const auto cost_roi = task_roi("StrongholdProtocol@Roi@ShopCostY");
-    auto card_xs = results_opt ? detect_shop_card_x(*results_opt, cost_roi, tier_roi) : std::vector<int> {};
     std::vector<ShopCard> cards;
-    static const std::unordered_map<std::string, int> roman = {
-        { "I", 1 }, { "II", 2 }, { "III", 3 }, { "IV", 4 }, { "V", 5 }, { "VI", 6 },
-    };
     auto center = [](const Rect& r) {
         return r.x + r.width / 2;
     };
@@ -1274,26 +1289,38 @@ std::vector<StrongholdProtocolTaskPlugin::ShopCard>
     const auto empty_roi = task_roi("StrongholdProtocol@Roi@ShopEmptyY");
     const auto pact_roi = task_roi("StrongholdProtocol@Roi@ShopPactY");
     const auto name_roi2 = task_roi("StrongholdProtocol@Roi@ShopNameY");
-    // 单卡局部区域：x 为相对卡牌中心的偏移，y/w/h 为绝对值
-    const auto tier_frame = task_roi("StrongholdProtocol@Roi@ShopTierFrame");
     const auto cost_reread = task_roi("StrongholdProtocol@Roi@ShopCostReread");
     const auto card_rect = [](const Rect& r, int card_x) {
         return Rect { card_x + r.x, r.y, r.width, r.height };
     };
-    const auto read_badge = [&](int x) {
+    const auto read_card_cost = [&](int x) {
         RegionOCRer cost(image);
         cost.set_roi(card_rect(cost_reread, x));
         const auto result = cost.analyze();
         return result ? parse_cost(result->text).value_or(-1) : -1;
     };
-    const int tier_lo = tier_roi.y, tier_hi = tier_roi.y + tier_roi.height;
     const int cost_lo = cost_roi.y, cost_hi = cost_roi.y + cost_roi.height;
+    const auto shelf = task_roi("StrongholdProtocol@ShopCardsOcr");
+    const Rect strip { shelf.x, tier_frame.y, shelf.width, tier_frame.height };
+    std::vector<int> card_xs;
+    for (const auto& frame : locate_tier_badges(image, strip, tier_frame.width, tier_frame.height)) {
+        card_xs.emplace_back(frame.x - tier_frame.x);
+    }
+    // 费用徽章在卡槽中央，可补全等阶方牌被遮住的卡位。
+    for (const auto& row : *results_opt) {
+        const int x = center(row.rect);
+        const int y = center_y(row.rect);
+        if (y >= cost_lo && y <= cost_hi &&
+            std::ranges::none_of(card_xs, [&](int current) { return std::abs(current - x) <= merge_distance; })) {
+            card_xs.emplace_back(x);
+        }
+    }
     const int empty_lo = empty_roi.y, empty_hi = empty_roi.y + empty_roi.height;
     const int pact_lo = pact_roi.y, pact_hi = pact_roi.y + pact_roi.height;
     const int name_lo2 = name_roi2.y, name_hi2 = name_roi2.y + name_roi2.height;
     std::map<int, std::string> recovered;
-    if (results_opt && !previous.empty()) {
-        // 整架 OCR 可能连续漏掉费用和等阶。全名仍在原处时，用它的位移修正上次确认的卡槽中心。
+    if (!previous.empty()) {
+        // 费用和方牌都漏检时，仍可用全名的位移修正上次确认的卡槽中心。
         for (const auto& old : previous) {
             if (!old.is_oper || old.cost <= 0 || old.name_left < 0 || old.name.empty()) {
                 continue;
@@ -1301,19 +1328,21 @@ std::vector<StrongholdProtocolTaskPlugin::ShopCard>
             for (const auto& tr : *results_opt) {
                 const int dx = tr.rect.x - old.name_left;
                 const int cy = center_y(tr.rect);
-                if (tr.text != old.name || std::abs(dx) > 8 || cy < name_lo2 || cy > name_hi2) {
+                if (tr.text != old.name || std::abs(dx) > name_distance || cy < name_lo2 || cy > name_hi2) {
                     continue;
                 }
                 const int x = old.x + dx;
-                if (std::ranges::none_of(card_xs, [&](int current) { return std::abs(current - x) <= 60; })) {
+                if (std::ranges::none_of(card_xs, [&](int current) {
+                        return std::abs(current - x) <= text_distance;
+                    })) {
                     recovered.emplace(x, old.name);
                     card_xs.emplace_back(x);
                 }
                 break;
             }
         }
-        std::ranges::sort(card_xs);
     }
+    std::ranges::sort(card_xs);
     if (m_upgrade_x) {
         const int span = task_roi("StrongholdProtocol@Roi@ShopUpgradeButtonSpan").width;
         std::erase_if(card_xs, [&](int x) { return x <= *m_upgrade_x + span; });
@@ -1321,65 +1350,48 @@ std::vector<StrongholdProtocolTaskPlugin::ShopCard>
     for (int x : card_xs) {
         ShopCard card;
         card.x = x;
-        if (results_opt) {
-            for (const auto& tr : *results_opt) {
-                const int cx = center(tr.rect);
-                const int cy = center_y(tr.rect);
-                // 卡宽约 110，水平容差 60
-                if (std::abs(cx - x) > 60) {
+        for (const auto& tr : *results_opt) {
+            const int cx = center(tr.rect);
+            const int cy = center_y(tr.rect);
+            if (std::abs(cx - x) > text_distance) {
+                continue;
+            }
+            LogTrace << "shop tr card" << x << "text" << tr.text << "cx" << cx << "cy" << cy;
+            if (cy >= cost_lo && cy <= cost_hi && std::abs(cx - x) <= cost_reread.width / 2) {
+                if (const auto cost = parse_cost(tr.text)) {
+                    card.cost = *cost;
                     continue;
                 }
-                LogTrace << "shop tr card" << x << "text" << tr.text << "cx" << cx << "cy" << cy;
-                std::string upper;
-                std::ranges::transform(tr.text, std::back_inserter(upper), [](char c) {
-                    return c == '1' || c == 'L' || c == 'l'
-                               ? 'I'
-                               : static_cast<char>(std::toupper(static_cast<unsigned char>(c)));
-                });
-                // 等阶罗马数字：左上黑牌区，x 偏卡左（cx < x）
-                if (cy >= tier_lo && cy <= tier_hi && cx < x && roman.contains(upper)) {
-                    card.tier = roman.at(upper);
-                    continue;
-                }
-                if (cy >= cost_lo && cy <= cost_hi && std::abs(cx - x) <= cost_reread.width / 2) {
-                    if (const auto cost = parse_cost(tr.text)) {
-                        card.cost = *cost;
-                        continue;
-                    }
-                }
-                if (cy >= empty_lo && cy <= empty_hi && tr.text.find("NO INFO") != std::string::npos) {
-                    card.empty = true;
-                    continue;
-                }
-                if (cy >= pact_lo && cy <= pact_hi && has_chinese(tr.text)) {
-                    card.is_oper = true;
-                    continue;
-                }
-                if (cy >= name_lo2 && cy <= name_hi2 && card.name.empty() && oper_names.contains(tr.text)) {
-                    card.name = tr.text;
-                    card.name_left = tr.rect.x;
-                    LogTrace << "shop name matched" << tr.text << "card" << x;
-                }
+            }
+            if (cy >= empty_lo && cy <= empty_hi && tr.text.find("NO INFO") != std::string::npos) {
+                card.empty = true;
+                continue;
+            }
+            if (cy >= pact_lo && cy <= pact_hi && has_chinese(tr.text)) {
+                card.is_oper = true;
+                continue;
+            }
+            if (cy >= name_lo2 && cy <= name_hi2 && card.name.empty() && oper_names.contains(tr.text)) {
+                card.name = tr.text;
+                card.name_left = tr.rect.x;
+                LogTrace << "shop name matched" << tr.text << "card" << x;
             }
         }
         if (const auto it = recovered.find(x); it != recovered.end()) {
             if (card.empty || !card.is_oper || card.name != it->second) {
                 continue;
             }
-            card.cost = read_badge(x);
+            card.cost = read_card_cost(x);
             if (card.cost <= 0) {
                 continue;
             }
             LogTrace << "recovered shop slot" << x << card.name << "cost" << card.cost;
         }
         else if (card.cost < 0 && !card.empty) {
-            card.cost = read_badge(x);
+            card.cost = read_card_cost(x);
         }
-        // 等阶未识别时按卡牌左上金框色判 V/VI
-        if (card.tier == 0 &&
-            color_ratio(image, card_rect(tier_frame, x), gold_lower_h, gold_upper_h, gold_lower_s, color_lower_v) >
-                0.1) {
-            card.tier = 5;
+        if (!card.empty) {
+            card.tier = stronghold::match_tier_badge(image, card_rect(tier_frame, x));
         }
         card.is_oper = card.is_oper && !card.empty;
         cards.emplace_back(card);
@@ -1391,7 +1403,7 @@ std::vector<StrongholdProtocolTaskPlugin::ShopCard>
         !is_reward_shop(cards)) {
         for (auto& card : cards) {
             if (card.is_oper && card.cost == 0) {
-                const int cost = read_badge(card.x);
+                const int cost = read_card_cost(card.x);
                 card.cost = cost > 0 ? cost : -1;
                 LogTrace << "rechecked isolated zero cost" << card.x << "cost" << card.cost;
             }
@@ -1613,6 +1625,11 @@ std::optional<StrongholdProtocolTaskPlugin::ShopCard>
     return best;
 }
 
+static int panel_tier(const cv::Mat& preview)
+{
+    return stronghold::match_tier_badge(preview, task_roi("StrongholdProtocol@Roi@DragTierFrame"));
+}
+
 StrongholdProtocolTaskPlugin::PurchaseResult StrongholdProtocolTaskPlugin::buy_oper(
     ShopCard& card,
     const cv::Mat& before,
@@ -1625,7 +1642,8 @@ StrongholdProtocolTaskPlugin::PurchaseResult StrongholdProtocolTaskPlugin::buy_o
     const auto can_buy = [&] {
         const auto role = StrongholdProtocol.get_role(card.name);
         return reward ||
-               (role != battle::Role::Unknown && (role != battle::Role::Medic || can_buy_medic(board, card.tier)));
+               ((phase != ShopPhase::Maxed || card.cost == 0 || card.tier >= 5) && role != battle::Role::Unknown &&
+                (role != battle::Role::Medic || can_buy_medic(board, card.tier)));
     };
     if (!card.name.empty() && !can_buy()) {
         return PurchaseResult::Skipped;
@@ -1650,6 +1668,9 @@ StrongholdProtocolTaskPlugin::PurchaseResult StrongholdProtocolTaskPlugin::buy_o
         trait.set_task_info("StrongholdProtocol@ShopTraitOcr");
         if (trait.analyze()) {
             saw_trait = true;
+            if (const int tier = panel_tier(img)) {
+                card.tier = tier;
+            }
             if (card.name.empty()) {
                 // 卡面漏字时，详情面板只显示当前选中的干员。
                 OCRer name(img);
@@ -2242,6 +2263,12 @@ static bool is_bench_shop(const cv::Mat& image)
            has_bench_control(image, "StrongholdProtocol@ReadyButton");
 }
 
+static bool same_bench_slot(const Point& a, const Point& b)
+{
+    const auto scan = Task.get("StrongholdProtocol@Roi@BenchScan");
+    return scan && scan->special_params.size() == 3 && Point::distance(a, b) <= scan->special_params[2];
+}
+
 cv::Mat StrongholdProtocolTaskPlugin::inspect_bench(const Point& bench, const cv::Mat& shop)
 {
     if (need_exit() || m_bench_shop_unconfirmed) {
@@ -2268,9 +2295,7 @@ cv::Mat StrongholdProtocolTaskPlugin::inspect_bench(const Point& bench, const cv
                 const auto restored = ctrler()->get_image();
                 m_bench_shop_unconfirmed = !is_bench_shop(restored);
                 if (!m_bench_shop_unconfirmed &&
-                    std::ranges::equal(original, detect_bench_opers(restored), [](const Point& a, const Point& b) {
-                        return Point::distance(a, b) <= 6;
-                    })) {
+                    std::ranges::equal(original, detect_bench_opers(restored), same_bench_slot)) {
                     return image;
                 }
             }
@@ -2298,63 +2323,46 @@ bool StrongholdProtocolTaskPlugin::swipe_from_bench(const Point& bench, const Po
         swipe->special_params.at(3) / 10.0);
 }
 
-static bool is_tier_one_stroke(const cv::Mat& image, const cv::Rect& inner, int threshold = 140)
+static std::vector<Rect> detect_bench_badges(const cv::Mat& image)
 {
-    if (inner.empty() || (inner & cv::Rect(0, 0, image.cols, image.rows)) != inner) {
-        return false;
+    const auto scan = Task.get("StrongholdProtocol@Roi@BenchScan");
+    if (!scan || scan->special_params.size() != 3) {
+        return {};
     }
-    // I 常被 OCR 和相邻职业图标读成一行，只接受牌内居中、完整且近乎白色的一根竖笔。
-    cv::Mat strokes;
-    cv::cvtColor(image(inner), strokes, cv::COLOR_BGR2GRAY);
-    // 归一化后，竖笔的两侧会变暗。只有笔芯从上到下都亮时，才把较暗的边缘算入笔形。
-    if (threshold < 140) {
-        const cv::Mat core = strokes > 140;
-        const auto line = cv::boundingRect(core);
-        if (line.width < 1 || line.width > 4 || line.height < 10 ||
-            cv::countNonZero(core.col(line.x + line.width / 2)) != line.height) {
-            return false;
-        }
-    }
-    cv::threshold(strokes, strokes, threshold, 255, cv::THRESH_BINARY);
-    const auto ink = cv::boundingRect(strokes);
-    const auto color = cv::mean(image(inner), strokes);
-    const auto [darkest, brightest] = std::minmax({ color[0], color[1], color[2] });
-    return brightest - darkest < 25 && ink.width >= 2 && ink.width <= 4 && ink.height >= 10 && ink.height <= 15 &&
-           std::abs(2 * ink.x + ink.width - inner.width) <= 3 && ink.y > 0 && ink.br().y < inner.height &&
-           cv::countNonZero(strokes) >= 0.85 * ink.area();
+    return locate_tier_badges(image, scan->roi, scan->special_params[0], scan->special_params[1]);
 }
 
-static int read_panel_tier(
-    const cv::Mat& image,
-    const Rect& badge,
-    const std::vector<TextRect>& rows,
-    bool allow_dim_edges = false)
+static std::optional<Rect> bench_badge_at(const cv::Mat& image, const Point& bench)
 {
-    static constexpr std::array<std::string_view, 6> roman { "I", "II", "III", "IV", "V", "VI" };
-    int tier = 0;
-    for (const auto& row : rows) {
-        if (!badge.include(row.rect)) {
-            continue;
+    const auto press = task_roi("StrongholdProtocol@Roi@BenchPressOffset");
+    std::optional<Rect> found;
+    for (const auto& badge : detect_bench_badges(image)) {
+        if (same_bench_slot(bench, { badge.x + press.x, badge.y + press.y })) {
+            if (found) {
+                return std::nullopt;
+            }
+            found = badge;
         }
-        const auto it = std::ranges::find(roman, row.text);
-        if (it == roman.end()) {
-            continue;
-        }
-        const int value = static_cast<int>(it - roman.begin()) + 1;
-        if (row.score < 0.75 || (tier != 0 && value != tier)) {
-            return 0;
-        }
-        tier = value;
     }
-    if (tier > 1) {
+    return found;
+}
+
+static int selected_bench_tier(const cv::Mat& preview, const cv::Mat& rest, const Point& bench)
+{
+    if (const int tier = panel_tier(preview)) {
         return tier;
     }
-    const cv::Rect inner(badge.x + 4, badge.y + 3, badge.width - 7, badge.height - 5);
-    return is_tier_one_stroke(image, inner) || (allow_dim_edges && is_tier_one_stroke(image, inner, 110)) ? 1 : 0;
+    const auto badge = bench_badge_at(rest, bench);
+    return badge ? stronghold::match_tier_badge(rest, *badge) : 0;
 }
 
-// nullopt 表示面板未读清，空名字表示已辨认为装备或召唤物。
-static std::optional<std::string> read_bench_name(const cv::Mat& image, bool check_unreadable, int& tier)
+struct BenchIdentity
+{
+    std::string name;      // 空名字表示已辨认为装备或召唤物。
+    bool verified = false; // 退场副本需要完整姓名和干员标签。
+};
+
+static std::optional<BenchIdentity> read_bench_identity(const cv::Mat& image, bool check_unreadable)
 {
     if (image.empty()) {
         return std::nullopt;
@@ -2369,22 +2377,21 @@ static std::optional<std::string> read_bench_name(const cv::Mat& image, bool che
     if (!oper_tab && !check_unreadable) {
         return std::nullopt;
     }
+    const auto name_task = Task.get<OcrTaskInfo>("StrongholdProtocol@DragNameOcr");
+    if (!name_task) {
+        return std::nullopt;
+    }
     OCRer ocr(image);
-    ocr.set_task_info("StrongholdProtocol@DragNameOcr");
+    ocr.set_task_info(name_task);
     if (auto rows = ocr.analyze()) {
-        const Rect badge = task_roi("StrongholdProtocol@Roi@DragTierFrame");
         std::string name;
         for (const auto& row : *rows) {
-            // 姓名在等阶框上方。下方的等阶和图标可能被识别成英文干员名。
-            if (row.rect.y + row.rect.height / 2 >= badge.y) {
-                continue;
-            }
             const auto role = StrongholdProtocol.get_role(row.text);
             if (role == battle::Role::Drone || row.text.starts_with("“") || row.text.starts_with("「") ||
                 row.text.starts_with("\"") || row.text.starts_with("『") ||
                 (!BattleData.get_all_oper_names().contains(row.text) &&
                  BattleData.find_first_oper(battle::Role::Drone, row.text))) {
-                return std::string {};
+                return BenchIdentity {};
             }
             if (role == battle::Role::Unknown) {
                 continue;
@@ -2395,38 +2402,14 @@ static std::optional<std::string> read_bench_name(const cv::Mat& image, bool che
             name = row.text;
         }
         if (oper_tab && !name.empty()) {
-            tier = read_panel_tier(image, badge, *rows, true);
-            return name;
+            const bool verified =
+                rows->size() == 1 && !name_task->special_params.empty() &&
+                rows->front().score >= name_task->special_params[0] / 100.0 &&
+                std::ranges::any_of(*traits, [](const auto& t) { return t.text == "特质" || t.text == "天赋"; });
+            return BenchIdentity { std::move(name), verified };
         }
     }
     return std::nullopt;
-}
-
-static int bench_stroke_tier(const cv::Mat& image, const Point& bench);
-
-int StrongholdProtocolTaskPlugin::panel_tier_value(const cv::Mat& preview, int panel_tier)
-{
-    const Rect badge = task_roi("StrongholdProtocol@Roi@DragTierFrame");
-    // V 阶方牌为金黄，VI 阶为橙色。整行 OCR 常把罗马数字和精英化图标连读。
-    const bool five = color_ratio(preview, badge, 21, 28, gold_lower_s, color_lower_v) > 0.08;
-    const bool six = color_ratio(preview, badge, 12, 18, gold_lower_s, color_lower_v) > 0.08;
-    if (five != six) {
-        return six ? 6 : 5;
-    }
-    if (panel_tier != 0) {
-        return panel_tier;
-    }
-    RegionOCRer numeral(preview);
-    numeral.set_roi({ badge.x + 4, badge.y + 3, badge.width - 7, badge.height - 5 });
-    const auto digit = numeral.analyze();
-    static constexpr std::array<std::string_view, 6> roman { "I", "II", "III", "IV", "V", "VI" };
-    if (digit && digit->score >= 0.9) {
-        const auto it = std::ranges::find(roman, digit->text);
-        if (it != roman.end()) {
-            return static_cast<int>(it - roman.begin()) + 1;
-        }
-    }
-    return 0;
 }
 
 std::vector<Point> StrongholdProtocolTaskPlugin::ordered_bench(
@@ -2449,14 +2432,11 @@ std::vector<Point> StrongholdProtocolTaskPlugin::ordered_bench(
             return {};
         }
         int tier = 0;
-        const auto name = read_bench_name(preview, false, tier);
+        const auto identity = read_bench_identity(preview, false);
         bool elite = false;
-        if (name && !name->empty()) {
-            tier = panel_tier_value(preview, tier);
-            if (tier == 0) {
-                tier = bench_stroke_tier(rest, slot);
-            }
-            elite = may_have_bench_elite(board, *name) && panel_is_elite(preview, tier).value_or(false);
+        if (identity && !identity->name.empty()) {
+            tier = selected_bench_tier(preview, rest, slot);
+            elite = may_have_bench_elite(board, identity->name) && panel_is_elite(preview, tier).value_or(false);
         }
         ranked.push_back({ { tier, elite }, slot });
     }
@@ -2487,21 +2467,19 @@ void StrongholdProtocolTaskPlugin::deploy_opening_gifts(BoardState& board, const
             if (m_bench_shop_unconfirmed) {
                 return;
             }
-            int tier = 0;
-            const auto name = read_bench_name(preview, true, tier);
-            if (!name || name->empty() || board.displaced.contains(*name) ||
-                std::ranges::any_of(board.bench_known, [&](const auto& copy) { return copy.first == *name; })) {
+            const auto identity = read_bench_identity(preview, true);
+            if (!identity || identity->name.empty() || board.displaced.contains(identity->name) ||
+                std::ranges::any_of(board.bench_known, [&](const auto& copy) {
+                    return copy.first == identity->name;
+                })) {
                 continue;
             }
-            tier = panel_tier_value(preview, tier);
-            if (tier == 0) {
-                tier = bench_stroke_tier(rest, slot);
-            }
+            const int tier = selected_bench_tier(preview, rest, slot);
             if (tier != 0 && tier != 2 && tier != 4) {
                 continue;
             }
-            opening.push_back({ *name, tier, slot, {} });
-            LogInfo << "opening gift on bench" << *name << "tier" << tier << "at" << slot;
+            opening.push_back({ identity->name, tier, slot, {} });
+            LogInfo << "opening gift on bench" << identity->name << "tier" << tier << "at" << slot;
         }
         if (static_cast<int>(opening.size()) == board.unread_opening_gifts || attempt == 1) {
             break;
@@ -2660,110 +2638,6 @@ std::optional<StrongholdProtocolTaskPlugin::DeployTile> StrongholdProtocolTaskPl
     return empty_only ? promotion_fallback : medic_swap;
 }
 
-static std::vector<cv::Rect> detect_bench_badges(const cv::Mat& image);
-
-static int bench_stroke_tier(const cv::Mat& image, const Point& bench)
-{
-    const Rect press = task_roi("StrongholdProtocol@Roi@BenchPressOffset");
-    const auto badges = detect_bench_badges(image);
-    for (const auto& badge : badges) {
-        // 差分方块和整块方牌的左上角会相差几像素，不能借用相邻干员的方牌。
-        if (Point::distance(bench, Point { badge.x + press.x, badge.y + press.y }) <= 6) {
-            const cv::Rect inner(badge.x + 4, badge.y + 4, badge.width - 8, badge.height - 8);
-            if (is_tier_one_stroke(image, inner)) {
-                return 1;
-            }
-            // II 和 III 由同高、等间距的完整竖笔组成。缺笔、斜笔或贴边的数字不能确认等阶。
-            cv::Mat mask;
-            cv::cvtColor(image(inner), mask, cv::COLOR_BGR2GRAY);
-            cv::threshold(mask, mask, 140, 255, cv::THRESH_BINARY);
-            std::vector<std::vector<cv::Point>> contours;
-            cv::findContours(mask, contours, cv::RETR_EXTERNAL, cv::CHAIN_APPROX_SIMPLE);
-            if (contours.size() != 2 && contours.size() != 3) {
-                return 0;
-            }
-            std::vector<cv::Rect> strokes;
-            for (const auto& contour : contours) {
-                const auto line = cv::boundingRect(contour);
-                if (line.width < 2 || line.width > 4 || line.height < 10 || line.height > 15 || line.y <= 0 ||
-                    line.br().y >= inner.height || cv::countNonZero(mask(line)) < 0.85 * line.area()) {
-                    return 0;
-                }
-                strokes.emplace_back(line);
-            }
-            std::ranges::sort(strokes, {}, &cv::Rect::x);
-            const auto& first = strokes.front();
-            for (size_t i = 1; i < strokes.size(); ++i) {
-                const auto& line = strokes[i];
-                const int pitch = line.x - strokes[i - 1].x;
-                if (pitch < 5 || pitch > 7 || std::abs(line.y - first.y) > 1 ||
-                    std::abs(line.br().y - first.br().y) > 1) {
-                    return 0;
-                }
-            }
-            const auto ink = first | strokes.back();
-            return ink.x > 0 && ink.br().x < inner.width && std::abs(2 * ink.x + ink.width - inner.width) <= 2
-                       ? static_cast<int>(strokes.size())
-                       : 0;
-        }
-    }
-    return 0;
-}
-
-static OCRer::ResultsVecOpt
-    verified_displaced_panel(const cv::Mat& preview, const std::string& expected, const Rect& badge)
-{
-    if (preview.empty() || !Rect(0, 0, preview.cols, preview.rows).include(badge)) {
-        return std::nullopt;
-    }
-    OCRer tabs(preview);
-    tabs.set_task_info("StrongholdProtocol@DragTraitOcr");
-    const auto traits = tabs.analyze();
-    if (!traits || !std::ranges::any_of(*traits, [](const auto& t) { return t.text == "特质" || t.text == "天赋"; })) {
-        return std::nullopt;
-    }
-    OCRer panel(preview);
-    panel.set_task_info("StrongholdProtocol@DragNameOcr");
-    auto rows = panel.analyze();
-    if (!rows) {
-        return std::nullopt;
-    }
-    bool named = false;
-    for (const auto& row : *rows) {
-        if (row.rect.y + row.rect.height / 2 < badge.y) {
-            // 名字拆行或只读到别名的一部分时，不能确认当前干员。
-            if (named || row.text != expected || row.score < 0.9) {
-                return std::nullopt;
-            }
-            named = true;
-        }
-    }
-    return named ? std::move(rows) : std::nullopt;
-}
-
-int StrongholdProtocolTaskPlugin::verified_displaced_tier(
-    const cv::Mat& preview,
-    const std::string& expected,
-    bool for_sale,
-    const cv::Mat& rest,
-    const Point& bench)
-{
-    const Rect badge = task_roi("StrongholdProtocol@Roi@DragTierFrame");
-    const auto rows = verified_displaced_panel(preview, expected, badge);
-    if (!rows ||
-        (for_sale && color_ratio(preview, badge, gold_lower_h, gold_upper_h, gold_lower_s, color_lower_v) > 0.08)) {
-        return 0;
-    }
-    const int panel_tier = read_panel_tier(preview, badge, *rows, !for_sale);
-    const int tier = for_sale ? panel_tier : panel_tier_value(preview, panel_tier);
-    if (tier == 0 && !for_sale &&
-        std::ranges::none_of(*rows, [&](const auto& row) { return badge.include(row.rect); })) {
-        // 职业图标和等阶可能被 OCR 连读。只核对原席位，售出时仍须从详情面板确认等阶。
-        return bench_stroke_tier(rest, bench);
-    }
-    return !for_sale || tier < 5 ? tier : 0;
-}
-
 StrongholdProtocolTaskPlugin::Placement
     StrongholdProtocolTaskPlugin::drag_from_bench(const Point& bench, const Point& tile)
 {
@@ -2849,35 +2723,56 @@ bool StrongholdProtocolTaskPlugin::can_sell_replaced_medic(
     });
 }
 
-void StrongholdProtocolTaskPlugin::sell_displaced(
+bool StrongholdProtocolTaskPlugin::sell_displaced(
     BoardState& board,
     DisplacedOpers::iterator copy,
     const Point& bench,
-    int gold)
+    int gold,
+    const cv::Mat& preview)
 {
+    const auto [name, rank] = *copy;
+    const bool replaced_medic = can_sell_replaced_medic(board, name, rank);
+    const int tier = panel_tier(preview);
+    if ((tier && rank.tier && tier != rank.tier) || (!replaced_medic && (!tier || !rank.tier))) {
+        return false;
+    }
+    if (rank.elite || may_have_bench_elite(board, name)) {
+        const auto elite = panel_is_elite(preview, tier);
+        if ((elite && *elite != rank.elite) || (!elite && !replaced_medic)) {
+            return false;
+        }
+    }
     const Rect sell = task_roi("StrongholdProtocol@Roi@ShopSell");
     // 售出提示只在拖动中出现。起拖前核对商店位置、原席位和资金。
     const auto shop = ctrler()->get_image();
+    const auto badge = bench_badge_at(shop, bench);
+    if (!badge) {
+        return false;
+    }
+    const int bench_tier = stronghold::match_tier_badge(shop, *badge);
+    if (bench_tier && ((tier && bench_tier != tier) || (rank.tier && bench_tier != rank.tier))) {
+        return false;
+    }
+    if (replaced_medic && !rank.tier &&
+        !can_sell_replaced_medic(board, name, { tier ? tier : bench_tier, rank.elite })) {
+        return false;
+    }
     OCRer drawer(shop);
     drawer.set_task_info("StrongholdProtocol@ShopExpanded");
     const auto buttons = drawer.analyze();
     if (!buttons || !sell.include(buttons->front().rect) ||
         !has_bench_control(shop, "StrongholdProtocol@ReadyButton") ||
-        read_number(shop, "StrongholdProtocol@ShopGoldWideOcr") != gold ||
-        std::ranges::none_of(
-            detect_bench_opers(shop),
-            [&](const Point& p) { return Point::distance(p, bench) <= 8; }) ||
-        need_exit() || !swipe_from_bench(bench, { sell.x + sell.width / 2, sell.y + sell.height / 2 })) {
-        return;
+        read_number(shop, "StrongholdProtocol@ShopGoldWideOcr") != gold || need_exit() ||
+        !swipe_from_bench(bench, { sell.x + sell.width / 2, sell.y + sell.height / 2 })) {
+        return false;
     }
     // 已发出售手势，即使余额漏读也不能凭这份退场记录再卖一次。
-    const auto [name, rank] = *copy;
     board.displaced.erase(copy);
     sleep(1000);
     const auto after = read_gold(ctrler()->get_image());
     if (!after || *after <= gold) {
         LogWarn << "sale unconfirmed:" << name;
-        return;
+        return true;
     }
     if (auto it = board.purchases.find(name); it != board.purchases.end()) {
         auto& copies = rank.elite ? it->second.promotions : it->second.unmerged;
@@ -2886,6 +2781,7 @@ void StrongholdProtocolTaskPlugin::sell_displaced(
         }
     }
     LogInfo << "sold swapped-out operator" << name << "gold" << gold << "->" << *after;
+    return true;
 }
 
 void StrongholdProtocolTaskPlugin::handle_displaced(BoardState& board, BoardDrop drop, cv::Mat before, Point bench)
@@ -2933,34 +2829,32 @@ void StrongholdProtocolTaskPlugin::handle_displaced(BoardState& board, BoardDrop
             if (m_bench_shop_unconfirmed) {
                 return;
             }
-            if (replaced_medic) {
-                if (verified_displaced_panel(preview, name, task_roi("StrongholdProtocol@Roi@DragTierFrame"))) {
-                    sell_displaced(board, copy, candidate, *gold);
+            const auto identity = read_bench_identity(preview, false);
+            if (!identity || !identity->verified || identity->name != name || need_exit()) {
+                continue;
+            }
+            if (!empty) {
+                if (sell_displaced(board, copy, candidate, *gold, preview)) {
                     return;
                 }
                 continue;
             }
-            const int verified = verified_displaced_tier(preview, name, !empty, drop.after, candidate);
-            const auto elite =
-                rank.elite || may_have_bench_elite(board, name) ? panel_is_elite(preview, verified) : false;
-            if (verified != rank.tier || elite != rank.elite || need_exit()) {
+            const int tier = selected_bench_tier(preview, drop.after, candidate);
+            const auto elite = rank.elite || may_have_bench_elite(board, name) ? panel_is_elite(preview, tier) : false;
+            if (tier != rank.tier || elite != rank.elite || need_exit()) {
                 LogInfo << "unverified displaced operator on bench:" << name << candidate;
                 continue;
             }
-            if (empty) {
-                auto next = place_on_board(board, *empty, candidate, name, rank, drop.slots);
-                if (!next) {
-                    return;
-                }
-                board.displaced.erase(copy);
-                before = std::move(drop.after);
-                drop = std::move(*next);
-                bench = candidate;
-                placed = true;
-                break;
+            auto next = place_on_board(board, *empty, candidate, name, rank, drop.slots);
+            if (!next) {
+                return;
             }
-            sell_displaced(board, copy, candidate, *gold);
-            return;
+            board.displaced.erase(copy);
+            before = std::move(drop.after);
+            drop = std::move(*next);
+            bench = candidate;
+            placed = true;
+            break;
         }
         if (!placed) {
             return;
@@ -2995,29 +2889,25 @@ std::optional<Point> StrongholdProtocolTaskPlugin::deploy_from_bench(
     }
     const auto preview = inspect_bench(bench, before_deploy);
 
-    int observed_tier = 0;
-    const auto panel_name = read_bench_name(preview, observed != nullptr, observed_tier);
+    const auto identity = read_bench_identity(preview, observed != nullptr);
     if (observed) {
-        *observed = panel_name;
+        *observed = identity ? std::optional { identity->name } : std::nullopt;
     }
-    const auto name = panel_name.value_or("");
-    if (name.empty() || (!name_hint.empty() && name != name_hint)) {
-        LogInfo << "bench operator not confirmed, expected" << name_hint << "read" << name;
+    if (!identity || identity->name.empty() || (!name_hint.empty() && identity->name != name_hint)) {
+        LogInfo << "bench operator not confirmed, expected" << name_hint << "read" << (identity ? identity->name : "");
         return std::nullopt;
     }
+    const auto& name = identity->name;
     const auto [first, last] = board.displaced.equal_range(name);
     if (!medic_only && name_hint.empty() && first != last && can_sell_replaced_medic(board, name, first->second)) {
-        if (verified_displaced_panel(preview, name, task_roi("StrongholdProtocol@Roi@DragTierFrame"))) {
+        if (identity->verified) {
             if (const auto gold = read_gold(before_deploy)) {
-                sell_displaced(board, first, bench, *gold);
+                sell_displaced(board, first, bench, *gold, preview);
             }
         }
         return std::nullopt;
     }
-    observed_tier = panel_tier_value(preview, observed_tier);
-    if (observed_tier == 0) {
-        observed_tier = bench_stroke_tier(before_deploy, bench);
-    }
+    const int observed_tier = selected_bench_tier(preview, before_deploy, bench);
     auto known = std::ranges::find(board.bench_known, name, &std::pair<std::string, int>::first);
     auto displaced = last;
     if (known != board.bench_known.end()) {
@@ -3045,10 +2935,10 @@ std::optional<Point> StrongholdProtocolTaskPlugin::deploy_from_bench(
     const DeployRank rank { tier, *elite };
     const bool unknown_bench = board.unknown_displaced && name_hint.empty();
     if (unknown_bench || (name_hint.empty() && first != last)) {
-        const int verified = verified_displaced_tier(preview, name, false, before_deploy, bench);
         displaced = std::find_if(first, last, [&](const auto& copy) { return copy.second == rank; });
-        if (verified <= 0 || verified != tier ||
-            (displaced == last && known != board.bench_known.end() && known->second > 0 && known->second != verified) ||
+        if (!identity->verified || observed_tier <= 0 ||
+            (displaced == last && known != board.bench_known.end() && known->second > 0 &&
+             known->second != observed_tier) ||
             (first != last && displaced == last && known == board.bench_known.end())) {
             return std::nullopt;
         }
@@ -3309,53 +3199,6 @@ std::optional<Point> StrongholdProtocolTaskPlugin::new_bench_slot(const cv::Mat&
     cv::vconcat(std::vector<cv::Mat> { before(scan), after(scan), diff_vis }, trip);
     utils::save_debug_image(trip, utils::path("debug/stronghold"), true, "bench diff miss", "bench_diff_miss");
     return std::nullopt;
-}
-
-// 检测休整界面备战席上的小人：每个小人头顶一块深色圆角等阶方牌（内有浅色罗马数字）。
-// 扫描范围由 Roi@BenchScan 限定，布局随人数与地图变化故按方牌形态检测而非固定坐标。
-static std::vector<cv::Rect> detect_bench_badges(const cv::Mat& image)
-{
-    const Rect scan = task_roi("StrongholdProtocol@Roi@BenchScan");
-    const cv::Rect scan_cv = make_rect<cv::Rect>(scan) & cv::Rect(0, 0, image.cols, image.rows);
-    if (scan_cv.empty()) {
-        return {};
-    }
-    const cv::Mat sub = image(scan_cv);
-
-    // 等阶方牌是深灰圆角方块（面 ~30，远低于木台面 ~70）：低亮度粗筛候选块
-    cv::Mat gray;
-    cv::cvtColor(sub, gray, cv::COLOR_BGR2GRAY);
-    cv::Mat dark;
-    cv::threshold(gray, dark, 60, 255, cv::THRESH_BINARY_INV);
-
-    std::vector<std::vector<cv::Point>> contours;
-    cv::findContours(dark, contours, cv::RETR_EXTERNAL, cv::CHAIN_APPROX_SIMPLE);
-
-    std::vector<cv::Rect> badges;
-    for (const auto& c : contours) {
-        const cv::Rect rc = cv::boundingRect(c);
-        // 方牌约 18-34px 宽、15-34px 高，横向矩形（实测 25x24）
-        if (rc.width < 18 || rc.width > 34 || rc.height < 15 || rc.height > 34) {
-            continue;
-        }
-        const double ar = static_cast<double>(rc.width) / rc.height;
-        if (ar < 0.8 || ar > 1.8) {
-            continue;
-        }
-        // 彩色数字会抬高牌面均值。用外轮廓包围的面积区分圆角方牌和台面接缝。
-        if (cv::contourArea(c) < rc.area() * 0.75) {
-            continue;
-        }
-        // 避开彩色边框，只检查牌内的数字笔画。
-        const cv::Rect inner(rc.x + 4, rc.y + 4, rc.width - 8, rc.height - 8);
-        cv::Mat strokes;
-        cv::threshold(gray(inner), strokes, 140, 255, cv::THRESH_BINARY);
-        if (cv::countNonZero(strokes) < inner.area() * 0.03) {
-            continue;
-        }
-        badges.emplace_back(rc + scan_cv.tl());
-    }
-    return badges;
 }
 
 std::vector<Point> StrongholdProtocolTaskPlugin::detect_bench_opers(const cv::Mat& image)

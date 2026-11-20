@@ -175,9 +175,44 @@ bool asst::StrongholdStrategyGrid::valid() const
            });
 }
 
+bool asst::StrongholdTierBadgeConfig::check_json(const json::value& json) const
+{
+    StrongholdTierBadgeConfig cfg;
+    if (!json.is_object() || !cfg.from_json(json)) {
+        return false;
+    }
+    for (const auto& [lo, hi] : cfg.hsv) {
+        for (size_t channel = 0; channel < lo.size(); ++channel) {
+            if (lo[channel] < 0 || lo[channel] > hi[channel] || hi[channel] > (channel == 0 ? 179 : 255)) {
+                return false;
+            }
+        }
+    }
+    const auto ordered_fraction = [](const auto& bounds) {
+        return 0 <= bounds[0] && bounds[0] < bounds[1] && bounds[1] <= 1;
+    };
+    return std::ranges::all_of(cfg.inset, [](double margin) { return margin >= 0 && margin < 0.5; }) &&
+           ordered_fraction(cfg.glyph_height) && ordered_fraction(cfg.stroke_rows) &&
+           ordered_fraction(cfg.foreground_fraction) && cfg.max_center_offset >= 0 && cfg.max_center_offset < 0.5 &&
+           cfg.max_stroke_width > 0 && cfg.max_stroke_width <= 1 && cfg.max_stroke_drift >= 0 &&
+           cfg.max_stroke_drift <= 1 && cfg.min_convergence > 0 && cfg.min_convergence < 1 &&
+           cfg.min_color_fraction > 0.5 && cfg.min_color_fraction <= 1 && cfg.min_contrast > 0 &&
+           cfg.min_contrast <= 255 && cfg.max_background_value >= 0 && cfg.max_background_value <= 255;
+}
+
 bool asst::StrongholdProtocolConfig::parse(const json::value& json)
 {
     LogTraceFunction;
+
+    if (m_path.filename() == utils::path("tier_badges.json") ||
+        m_path.filename() == utils::path("tier_badges_custom.json")) {
+        if (!json.is<StrongholdTierBadgeConfig>()) {
+            LogError << __FUNCTION__ << "invalid tier badge configuration";
+            return false;
+        }
+        m_tier_badges = json.as<StrongholdTierBadgeConfig>();
+        return true;
+    }
 
     const bool custom = m_path.filename() == utils::path("purchase_custom.json");
     if (custom || m_path.filename() == utils::path("purchase.json")) {

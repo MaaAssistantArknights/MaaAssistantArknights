@@ -43,7 +43,7 @@ private:
         Unknown,
     };
 
-    // 商店单张卡牌（解析自卡牌区 OCR 与局部色判）
+    // 商店卡牌的文字和等阶方牌均跟随当前卡槽的位置。
     struct ShopCard
     {
         int x = 0;            // 卡牌中心 x（720p 基准）
@@ -152,7 +152,6 @@ private:
     static void record_promotion(BoardState& board, const ShopCard& card, std::optional<int> slots_freed);
     static void resolve_promotion_tile(BoardState& board, const std::string& key, bool occupied);
     cv::Mat inspect_bench(const Point& bench, const cv::Mat& shop);
-    static int panel_tier_value(const cv::Mat& preview, int panel_tier);
     static std::optional<bool> panel_is_elite(const cv::Mat& preview, int tier);
     std::vector<Point> ordered_bench(const BoardState& board, const cv::Mat& rest, const std::vector<Point>& slots);
     static bool may_have_bench_elite(const BoardState& board, const std::string& name);
@@ -188,12 +187,6 @@ private:
     void deploy_opening_gifts(BoardState& board, const cv::Mat& image);
 
     bool swipe_from_bench(const Point& bench, const Point& target);
-    static int verified_displaced_tier(
-        const cv::Mat& preview,
-        const std::string& expected,
-        bool for_sale,
-        const cv::Mat& rest,
-        const Point& bench);
     // 放置后用剩余名额区分补位和换人。被换下的干员优先补空位，出售前单独核验。
     std::optional<Point> deploy_from_bench(
         BoardState& board,
@@ -234,7 +227,13 @@ private:
         DeployRank rank,
         int slots);
     static bool can_sell_replaced_medic(const BoardState& board, const std::string& name, DeployRank rank);
-    void sell_displaced(BoardState& board, DisplacedOpers::iterator copy, const Point& bench, int gold);
+    // 发出售出手势就核销退场记录，余额漏读时也不能再试另一个席位。
+    bool sell_displaced(
+        BoardState& board,
+        DisplacedOpers::iterator copy,
+        const Point& bench,
+        int gold,
+        const cv::Mat& preview);
     void handle_displaced(BoardState& board, BoardDrop drop, cv::Mat before, Point bench);
     static std::optional<DeployTile> choose_tile(
         const BoardState& board,

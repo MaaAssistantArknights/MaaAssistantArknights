@@ -1,6 +1,7 @@
 #pragma once
 #include "Config/AbstractConfig.h"
 #include "StrongholdStrategyGrid.h"
+#include "StrongholdTierBadgeConfig.h"
 
 #include <string>
 #include <unordered_map>
@@ -20,7 +21,7 @@ struct StrongholdTiles
     std::vector<Point> rear; // 首格在开局前排身后，仍会接敌
 };
 
-// 卫戍协议极速模拟购买权重与干员分类
+// 卫戍协议赛季配置
 class StrongholdProtocolConfig final : public MAA_NS::SingletonHolder<StrongholdProtocolConfig>, public AbstractConfig
 {
 public:
@@ -37,6 +38,8 @@ public:
 
     // 同名干员有多个职业时取赛季指定的职业，无法确定时返回 Unknown。
     battle::Role get_role(const std::string& name) const;
+
+    const StrongholdTierBadgeConfig& get_tier_badges() const { return m_tier_badges; }
 
     const StrongholdTiles& get_tiles() const { return m_tiles; }
 
@@ -59,6 +62,7 @@ private:
     Purchase::Oper season_oper(const std::string& name) const;
     bool parse_purchase(const json::value& json, bool custom);
     Purchase m_purchase;
+    StrongholdTierBadgeConfig m_tier_badges;
     StrongholdTiles m_tiles;
     StrongholdStrategyGrid m_strategy_grid {};
 };

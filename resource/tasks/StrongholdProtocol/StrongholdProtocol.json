@@ -171,7 +171,7 @@
         "roi": [0, 636, 507, 66]
     },
     "StrongholdProtocol@ShopCardsOcr": {
-        "doc": "商店卡牌区多行文本（费用/等阶/盟约标签/干员名，1080p 180,770,1520,290 等比）",
+        "doc": "商店卡牌的费用、盟约标签和干员名",
         "baseTask": "CharsNameOcrReplace",
         "algorithm": "OcrDetect",
         "text": [],
@@ -228,11 +228,12 @@
         "roi": [0, 347, 467, 53]
     },
     "StrongholdProtocol@DragNameOcr": {
-        "doc": "商店和备战席详情左侧的干员名与等阶行",
+        "doc": "商店和备战席详情左侧的干员名，区域止于等阶方牌上方。参数为复核退场干员身份所需的最低 OCR 置信度（百分比）。",
         "baseTask": "CharsNameOcrReplace",
         "algorithm": "OcrDetect",
         "text": [],
-        "roi": [0, 175, 220, 80]
+        "roi": [0, 175, 220, 43],
+        "specialParams": [90]
     },
     "StrongholdProtocol@DragLevelOcr": {
         "doc": "干员详情中 LV 右侧的养成等级。specialParams[0] 为最低 OCR 置信度（百分比）。",
@@ -253,7 +254,7 @@
         "text": ["50", "55", "60", "60", "60", "60"]
     },
     "StrongholdProtocol@ScreenTextOcr": {
-        "doc": "未识别场景时的全屏文字扫描：判定是否仍在卫戍协议内、是否战斗中、有无通用按钮（代码 scan_unknown_screen，词表见 Keywords@*）",
+        "doc": "场景未知时扫描全屏文字，判断是否仍在卫戍协议内、是否正在战斗，以及有哪些通用按钮可点击",
         "algorithm": "OcrDetect",
         "text": [],
         "roi": [0, 0, 1280, 720]
@@ -375,12 +376,18 @@
         "action": "DoNothing",
         "roi": [380, 80, 835, 640]
     },
+    "StrongholdProtocol@TierBadgeLocate": {
+        "doc": "方牌轮廓与笔画。参数依次为牌面灰度上限、边框厚度、内框宽高容差、最小轮廓面积百分比、笔画区域缩进、笔画和牌面的最小灰度差、最小笔画像素百分比。长度单位为像素。",
+        "algorithm": "JustReturn",
+        "specialParams": [60, 2, 3, 75, 4, 40, 3]
+    },
     "StrongholdProtocol@Roi@BenchScan": {
-        "doc": "备战席等阶方牌扫描带；方牌只存在于这一窄带（y 380-415），加宽会引入立绘深色块误检",
+        "doc": "备战席等阶方牌扫描带，加宽会引入立绘深色块。参数依次为完整方牌宽度、高度和复核点选席位的位置容差，单位为像素。",
         "algorithm": "OcrDetect",
         "text": [],
         "action": "DoNothing",
-        "roi": [120, 380, 930, 35]
+        "roi": [120, 380, 930, 35],
+        "specialParams": [28, 28, 6]
     },
     "StrongholdProtocol@Roi@GoldBadgeOffset": {
         "doc": "金角标相对格心的偏移矩形",
@@ -437,11 +444,12 @@
         "roi": [0, 681, 1, 1]
     },
     "StrongholdProtocol@Roi@ShopTierFrame": {
-        "doc": "卡牌左上等阶金框色判区，罗马数字未识别时判 V/VI：x 为相对卡牌中心的偏移，y/w/h 为绝对值（代码 read_shop_cards）",
+        "doc": "商店卡牌左上角的完整等阶方牌。x 相对卡牌中心。参数依次为合并卡位中心的距离、卡面文字与中心的最大水平距离、复核同名卡左边缘的位置容差，单位为像素。",
         "algorithm": "OcrDetect",
         "text": [],
         "action": "DoNothing",
-        "roi": [-62, 533, 17, 17]
+        "roi": [-71, 529, 26, 26],
+        "specialParams": [12, 60, 8]
     },
     "StrongholdProtocol@Roi@ShopCostReread": {
         "doc": "漏读卡牌费用时单独识别费用徽章。横坐标相对卡牌中心，纵坐标和区域大小固定。",
@@ -472,11 +480,11 @@
         "roi": [0, 0, 100, 1]
     },
     "StrongholdProtocol@Roi@DragTierFrame": {
-        "doc": "详情面板左侧的活动等阶方牌，读取罗马数字或根据框色识别 V、VI 阶",
+        "doc": "详情面板姓名下方的完整等阶方牌",
         "algorithm": "OcrDetect",
         "text": [],
         "action": "DoNothing",
-        "roi": [13, 219, 26, 22]
+        "roi": [14, 218, 24, 26]
     },
     "StrongholdProtocol@Roi@ShopCardY": {
         "doc": "商店卡牌中心的纵坐标",
@@ -491,13 +499,6 @@
         "text": [],
         "action": "DoNothing",
         "roi": [0, 527, 1, 8]
-    },
-    "StrongholdProtocol@Roi@ShopTierY": {
-        "doc": "y 区间限定左上等阶数字的中心，x 是从等阶数字中心到费用徽章中心的水平偏移",
-        "algorithm": "OcrDetect",
-        "text": [],
-        "action": "DoNothing",
-        "roi": [58, 537, 1, 9]
     },
     "StrongholdProtocol@Roi@ShopPactY": {
         "doc": "商店卡牌盟约标签 y 区间",
