@@ -190,6 +190,7 @@ bool asst::MacSCKHelper::Impl::init(std::string_view bundle_id, std::string_view
         auto config = [[SCStreamConfiguration alloc] init];
         config.width = size.first;
         config.height = size.second;
+        config.scalesToFit = YES;
         config.pixelFormat = kCVPixelFormatType_32BGRA;
         config.colorSpaceName = kCGColorSpaceSRGB;
         config.showsCursor = NO;
