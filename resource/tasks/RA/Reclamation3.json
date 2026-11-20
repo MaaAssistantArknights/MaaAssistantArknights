@@ -189,13 +189,17 @@
         "next": ["RelaunchAnchor@RA@RA1-DeployOperatorSwipe"]
     },
     "RelaunchAnchor@RA@RA1-DeployOperatorSwipe": {
-        "doc": "步骤 14：JustReturn Swipe，占位部署干员",
+        "doc": "步骤 14：JustReturn Swipe，占位部署干员；部署失败导致本局结束（建设暂缓）时直接进入结算",
         "algorithm": "JustReturn",
         "action": "Swipe",
         "specificRect": [1120, 630, 10, 10],
         "rectMove": [745, 300, 1, 1],
         "specialParams": [500, 0, 37, 1],
-        "next": ["RelaunchAnchor@RA@RA1-DeployOperatorDirection", "#self"]
+        "next": [
+            "RelaunchAnchor@RA@RA1-DeployOperatorDirection",
+            "RelaunchAnchor@RA@RA1-ContinueAfterSettlement",
+            "#self"
+        ]
     },
     "RelaunchAnchor@RA@RA1-DeployOperatorDirection": {
         "doc": "步骤 15：OCR 识别 <迷迭香>，确认干员已部署",
