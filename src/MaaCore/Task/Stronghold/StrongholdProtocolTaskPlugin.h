@@ -76,7 +76,7 @@ private:
         int round_done = -1;         // 已处理完的回合号
         bool pending_deploy = false; // 备战席上还有干员待部署
         bool squad_picked = false;   // 本局已在编队页选过人
-        // 已知身份但仍在备战席的干员 (名, 等阶)：买入后没能当场部署、或被换下没卖掉，回合末重扫时据此恢复等阶
+        // 已买入且待部署的干员名与等阶，回合末重扫时据此恢复等阶。
         std::vector<std::pair<std::string, int>> bench_known;
         bool medic_slot_taken = false;                            // 已获得医疗或职业未明的干员，前期只再买非医疗
         std::unordered_map<std::string, PurchaseCount> purchases; // 本局各干员的累计购买次数，含免费领取
@@ -153,8 +153,11 @@ private:
     // swipe 快速位移来不及触发 grab；用 inject_input_event 手动 down→hold→move→hold→up
     void emit_input(InputEvent::Type type, const Point& p, long ms = 0);
     void drag_to(const Point& from, const Point& to, int hold_ms, int move_ms);
+    void drop_held(const Point& from, const Point& to, int move_ms, int settle_ms);
+    Point lift_from_bench(const Point& bench);
+    static bool is_verified_sale(const cv::Mat& preview, const std::string& expected);
     // 部署（固定格位布局）：拿起复核（面板名字/等阶/装备）→ lift 悬停 → 固定格表选格 →
-    // 拖放 → 朝向确认 → 换人时卖掉顶下的低星、高星标记待重排
+    // 拖放 → 朝向确认 → 换人后复核并出售旧的低阶干员
     std::optional<Point> deploy_from_bench(
         BoardState& board,
         const Point& bench,

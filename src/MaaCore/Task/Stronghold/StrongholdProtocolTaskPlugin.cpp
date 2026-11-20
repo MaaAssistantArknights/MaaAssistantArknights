@@ -15,6 +15,7 @@
 #include "Vision/RegionOCRer.h"
 
 #include <MaaUtils/NoWarningCV.hpp>
+#include <MaaUtils/ScopeLeave.hpp>
 
 #include <algorithm>
 #include <chrono>
@@ -1950,6 +1951,11 @@ void StrongholdProtocolTaskPlugin::drag_to(const Point& from, const Point& to, i
 {
     emit_input(InputEvent::Type::TOUCH_DOWN, from);
     emit_input(InputEvent::Type::WAIT_MS, from, hold_ms); // 按住让游戏进入拖拽预览
+    drop_held(from, to, move_ms, hold_ms / 2);
+}
+
+void StrongholdProtocolTaskPlugin::drop_held(const Point& from, const Point& to, int move_ms, int settle_ms)
+{
     // 控制器注入的 TOUCH_MOVE 不保证 milisec 生效（瞬时连发），每步 MOVE 后须插 WAIT_MS
     // 让游戏帧感知位移，否则整个拖拽被压缩成一帧判定不到
     const int steps = 8;
@@ -1960,7 +1966,7 @@ void StrongholdProtocolTaskPlugin::drag_to(const Point& from, const Point& to, i
             Point { from.x + (to.x - from.x) * i / steps, from.y + (to.y - from.y) * i / steps });
         emit_input(InputEvent::Type::WAIT_MS, to, per);
     }
-    emit_input(InputEvent::Type::WAIT_MS, to, hold_ms / 2); // 终点按住让游戏确认落格
+    emit_input(InputEvent::Type::WAIT_MS, to, settle_ms); // 终点按住让游戏确认落格
     emit_input(InputEvent::Type::TOUCH_UP, to);
 }
 
@@ -2066,23 +2072,8 @@ std::optional<StrongholdProtocolTaskPlugin::DeployTile> StrongholdProtocolTaskPl
     return melee ? pick_group("safe", tiles.safe) : pick_group("path", tiles.path);
 }
 
-std::optional<Point> StrongholdProtocolTaskPlugin::deploy_from_bench(
-    BoardState& board,
-    const Point& bench,
-    const std::string& name_hint,
-    int tier_hint,
-    const cv::Mat& before_purchase,
-    const std::string& opening_tile)
+Point StrongholdProtocolTaskPlugin::lift_from_bench(const Point& bench)
 {
-    const auto before_deploy = ctrler()->get_image();
-    const auto slots0 = slots_left(before_deploy);
-    const auto& tiles = StrongholdProtocol.get_tiles();
-    if (slots0 == 0 && board.promotion_tiles.empty() &&
-        board.occ.size() == tiles.path.size() + tiles.safe.size() + tiles.rear.size() &&
-        std::ranges::all_of(board.occ, [](const auto& entry) { return entry.second.second >= 5; })) {
-        LogTrace << "bench deployment skipped: all tiles occupied by high-tier operators";
-        return std::nullopt;
-    }
     // 进入拖拽预览：按下备战席小人并 hold，游戏此时把可部署格整格填绿
     // grab 机制：原地 down+hold 只会弹详情面板；须按住后快速连续 move 才抓起小人
     // 进入预览。先 down 再朝地图方向连续小步 move 激活抓取，虚影跟手后格高亮。
@@ -2101,7 +2092,7 @@ std::optional<Point> StrongholdProtocolTaskPlugin::deploy_from_bench(
         emit_input(InputEvent::Type::WAIT_MS, probe, 30);
     }
     // 拿起后拖到 lift 悬停点：远离全部格表格，触点不遮挡候选格的绿高亮
-    const Point lp = tiles.lift;
+    const Point lp = StrongholdProtocol.get_tiles().lift;
     const int lift_ms = std::max(150, static_cast<int>(Point::distance(probe, lp)) / 2);
     for (int i = 1; i <= 8; ++i) {
         emit_input(
@@ -2109,6 +2100,87 @@ std::optional<Point> StrongholdProtocolTaskPlugin::deploy_from_bench(
             Point { probe.x + (lp.x - probe.x) * i / 8, probe.y + (lp.y - probe.y) * i / 8 });
         emit_input(InputEvent::Type::WAIT_MS, lp, std::max(16, lift_ms / 8));
     }
+    return lp;
+}
+
+bool StrongholdProtocolTaskPlugin::is_verified_sale(const cv::Mat& preview, const std::string& expected)
+{
+    const Rect badge = task_roi("StrongholdProtocol@Roi@DragTierFrame");
+    if (preview.empty() || !Rect(0, 0, preview.cols, preview.rows).include(badge) ||
+        color_ratio(preview, badge, gold_lower_h, gold_upper_h, gold_lower_s, color_lower_v) > 0.08) {
+        return false;
+    }
+    OCRer sell(preview, task_roi("StrongholdProtocol@Roi@ShopSell"));
+    sell.set_required({ "拖拽至此售出" });
+    if (!sell.analyze()) {
+        return false;
+    }
+    OCRer tabs(preview);
+    tabs.set_task_info("StrongholdProtocol@DragTraitOcr");
+    const auto traits = tabs.analyze();
+    if (!traits || !std::ranges::any_of(*traits, [](const auto& t) { return t.text == "特质" || t.text == "天赋"; })) {
+        return false;
+    }
+    OCRer panel(preview);
+    panel.set_task_info("StrongholdProtocol@DragNameOcr");
+    const auto rows = panel.analyze();
+    if (!rows) {
+        return false;
+    }
+    bool named = false;
+    bool low = false;
+    for (const auto& row : *rows) {
+        if (row.rect.y + row.rect.height / 2 < badge.y) {
+            // 名字拆行或只读到别名的一部分时，不能确认手上的干员。
+            if (named || row.text != expected || row.score < 0.9) {
+                return false;
+            }
+            named = true;
+        }
+        else if (badge.include(row.rect)) {
+            if (row.text == "V" || row.text == "VI") {
+                return false;
+            }
+            low = row.score >= 0.75 && (row.text == "II" || row.text == "III" || row.text == "IV");
+        }
+    }
+    if (!named || low) {
+        return named && low;
+    }
+    // I 的单竖常和右侧职业图标一起被 OCR 读成一行。取方牌内部，只有居中且完整的一根亮竖笔才认作 I。
+    const cv::Rect inner(badge.x + 4, badge.y + 3, badge.width - 7, badge.height - 5);
+    if (inner.empty()) {
+        return false;
+    }
+    cv::Mat strokes;
+    cv::cvtColor(preview(inner), strokes, cv::COLOR_BGR2GRAY);
+    cv::threshold(strokes, strokes, 140, 255, cv::THRESH_BINARY);
+    const auto ink = cv::boundingRect(strokes);
+    const auto color = cv::mean(preview(inner), strokes);
+    const auto [darkest, brightest] = std::minmax({ color[0], color[1], color[2] });
+    return brightest - darkest < 25 && ink.width >= 2 && ink.width <= 4 && ink.height >= 10 && ink.height <= 15 &&
+           std::abs(2 * ink.x + ink.width - inner.width) <= 3 && ink.y > 0 && ink.br().y < inner.height &&
+           cv::countNonZero(strokes) >= 0.85 * ink.area();
+}
+
+std::optional<Point> StrongholdProtocolTaskPlugin::deploy_from_bench(
+    BoardState& board,
+    const Point& bench,
+    const std::string& name_hint,
+    int tier_hint,
+    const cv::Mat& before_purchase,
+    const std::string& opening_tile)
+{
+    const auto before_deploy = ctrler()->get_image();
+    const auto slots0 = slots_left(before_deploy);
+    const auto& tiles = StrongholdProtocol.get_tiles();
+    if (slots0 == 0 && board.promotion_tiles.empty() &&
+        board.occ.size() == tiles.path.size() + tiles.safe.size() + tiles.rear.size() &&
+        std::ranges::all_of(board.occ, [](const auto& entry) { return entry.second.second >= 5; })) {
+        LogTrace << "bench deployment skipped: all tiles occupied by high-tier operators";
+        return std::nullopt;
+    }
+    const Point lp = lift_from_bench(bench);
     const auto preview = ctrler()->get_image();
 
     const std::string name = read_drag_name(preview);
@@ -2174,16 +2246,7 @@ std::optional<Point> StrongholdProtocolTaskPlugin::deploy_from_bench(
     // 已按住预览（当前触点 lp）：滑到目标格后松手（move 触发游戏格内吸附）
     const int dist = static_cast<int>(Point::distance(lp, target_pt));
     const int move_ms = std::max(300, dist);
-    const int steps = 8;
-    const int per = std::max(16, move_ms / steps);
-    for (int i = 1; i <= steps; ++i) {
-        emit_input(
-            InputEvent::Type::TOUCH_MOVE,
-            Point { lp.x + (target_pt.x - lp.x) * i / steps, lp.y + (target_pt.y - lp.y) * i / steps });
-        emit_input(InputEvent::Type::WAIT_MS, target_pt, per);
-    }
-    emit_input(InputEvent::Type::WAIT_MS, target_pt, 150); // 终点按住让触点停稳再松手
-    emit_input(InputEvent::Type::TOUCH_UP, target_pt);
+    drop_held(lp, target_pt, move_ms, 150);
 
     // 放置成功会停在 ｢选择朝向｣ 界面（出现 ｢点击取消｣），轮询 ≤2s
     bool facing_shown = false;
@@ -2202,7 +2265,7 @@ std::optional<Point> StrongholdProtocolTaskPlugin::deploy_from_bench(
         return std::nullopt;
     }
 
-    set_facing(target_pt);
+    const bool facing_applied = set_facing(target_pt);
     m_last_tile = target_pt;
 
     // 格上现在是刚放下的干员（换人与意外交换都一样），被顶下者回到备战席
@@ -2222,32 +2285,60 @@ std::optional<Point> StrongholdProtocolTaskPlugin::deploy_from_bench(
     }
 
     if (is_swap) {
-        // 顶下来的旧干员回到备战席：先标记回合末重扫（定位或卖出失败时兜底），低星当场拖去出售区（资金增加确认卖出）
         board.pending_deploy = true;
-        bool sold = false;
-        if (swap_old.second < 5) {
-            // 换下的干员可能回到刚买入者腾出的原位，购买前的截图保留了该位置的背景。
+        const auto& [old_name, old_tier] = swap_old;
+        const bool ambiguous =
+            name == old_name ||
+            std::ranges::any_of(board.bench_known, [&](const auto& oper) { return oper.first == old_name; }) ||
+            std::ranges::any_of(board.occ, [&](const auto& entry) {
+                return entry.second.first == old_name && entry.second.second >= 5;
+            });
+        if (facing_applied && slots0 && *slots0 <= 8 && slots0 == slots1 && !is_green_tile(preview, target_pt) &&
+            old_tier > 0 && old_tier < 5 && !ambiguous && oper_priority(old_name) < 0 &&
+            BattleData.get_all_oper_names().contains(old_name) &&
+            !BattleData.find_first_oper(battle::Role::Drone, old_name)) {
             const auto& baseline = before_purchase.empty() ? before_deploy : before_purchase;
-            if (auto out = new_bench_slot(baseline, after_deploy)) {
-                const auto gold0 = read_number(after_deploy, "StrongholdProtocol@ShopGoldOcr");
+            const auto out = new_bench_slot(baseline, after_deploy);
+            // 原位换人时方牌只变了数字。差分没命中或抓到别的物体，都可再核对刚腾出的原位。
+            std::vector<Point> candidates { out.value_or(bench) };
+            if (out && *out != bench) {
+                candidates.emplace_back(bench);
+            }
+            const auto gold0 = read_gold(after_deploy);
+            for (const auto& candidate : candidates) {
+                if (!gold0 || need_exit()) {
+                    break;
+                }
+                const auto hover = lift_from_bench(candidate);
+                bool dropped = false;
+                OnScopeLeave([&] {
+                    if (!dropped) {
+                        emit_input(InputEvent::Type::TOUCH_UP, hover);
+                        sleep(800);
+                    }
+                });
+                if (!is_verified_sale(ctrler()->get_image(), old_name) || need_exit()) {
+                    LogInfo << "unverified sale candidate returned:" << old_name << candidate;
+                    continue;
+                }
                 const Rect sell = task_roi("StrongholdProtocol@Roi@ShopSell");
-                drag_to(*out, Point(sell.x + sell.width / 2, sell.y + sell.height / 2), 400, 250);
+                drop_held(hover, { sell.x + sell.width / 2, sell.y + sell.height / 2 }, 250, 200);
+                dropped = true;
                 sleep(1000);
-                const auto gold1 = read_number(ctrler()->get_image(), "StrongholdProtocol@ShopGoldOcr");
-                sold = gold0 && gold1 && *gold1 > *gold0;
-                LogInfo << "sold swapped-out low-tier oper" << swap_old.first << (sold ? "ok" : "unconfirmed");
+                const auto gold1 = read_gold(ctrler()->get_image());
+                if (gold1 && *gold1 > *gold0) {
+                    if (auto it = board.purchases.find(old_name);
+                        it != board.purchases.end() && it->second.unmerged > 0) {
+                        --it->second.unmerged;
+                    }
+                    LogInfo << "sold swapped-out operator" << old_name << "gold" << *gold0 << "->" << *gold1;
+                }
+                else {
+                    LogWarn << "sale unconfirmed, bench will be rescanned:" << old_name;
+                }
+                // 已在出售区松手，即使资金读数缺失也不能再试，重扫时重新辨认席上的干员。
+                break;
             }
-            else {
-                LogWarn << "swapped-out oper not located on bench, left for round-end scan:" << swap_old.first;
-            }
-        }
-        // 没卖掉的被顶下者记下身份与等阶，回合末重扫部署时恢复（高星不会因面板漏判被当成低星换掉）
-        if (!sold) {
-            board.bench_known.emplace_back(swap_old);
-        }
-        else if (
-            auto it = board.purchases.find(swap_old.first); it != board.purchases.end() && it->second.unmerged > 0) {
-            --it->second.unmerged;
         }
     }
     LogInfo << "deployed" << (name.empty() ? "?" : name) << "tier" << tier << "to" << target_key << target_pt.x << ","
