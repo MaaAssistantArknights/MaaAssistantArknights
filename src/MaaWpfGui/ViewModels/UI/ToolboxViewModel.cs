@@ -93,6 +93,10 @@ public class ToolboxViewModel : Screen
             StrongholdProtocolSeasonList.RefreshLocalization();
             StrongholdProtocolModeList.RefreshLocalization();
             StrongholdProtocolTargetList.RefreshLocalization();
+            if (SelectedMiniGameItem?.IsStrongholdProtocol == true && IsStrongholdProtocolParamsVisible)
+            {
+                MiniGameTip = GetRegulationBadgeTip();
+            }
 
             // CheckComboBox 未设 DisplayMemberPath（WPF 禁止与 ItemTemplate 并存），选中 tag 显示的是
             // ToString 快照；重赋选中数组触发 tag 重建，使 tag 文字跟随切换后的语言
@@ -2894,13 +2898,87 @@ public class ToolboxViewModel : Screen
             {
                 return StrongholdProtocolSeason == Season.Covenant
                     ? LocalizationHelper.GetString("Toolbox.MiniGame.StrongholdProtocol.Covenant.Tip")
-                    : LocalizationHelper.GetString("Toolbox.MiniGame.StrongholdProtocol.Tip.Badge");
+                    : GetRegulationBadgeTip();
             }
 
             return LocalizationHelper.GetString("Toolbox.MiniGame.StrongholdProtocol.Tip.Score");
         }
 
         return GetMiniGameTipCore(name);
+    }
+
+    private static string GetRegulationBadgeTip()
+    {
+        var resourceDirs = new List<string> { PathsHelper.ResourceDir, PathsHelper.CacheResourceDir };
+        var clientType = SettingsViewModel.GameSettings.ClientType;
+        if (clientType is not (ClientType.Official or ClientType.Bilibili))
+        {
+            var clientDir = Path.Combine("global", clientType.ToCustomString(), "resource");
+            resourceDirs.Add(Path.Combine(PathsHelper.ResourceDir, clientDir));
+            resourceDirs.Add(Path.Combine(PathsHelper.CacheResourceDir, clientDir));
+        }
+
+        if (SettingsViewModel.ConnectSettings.IsPCConnectConfig)
+        {
+            resourceDirs.Add(Path.Combine(PathsHelper.ResourceDir, "platform_diff", "PC", "resource"));
+        }
+
+        JArray priority = [];
+        foreach (var dir in resourceDirs)
+        {
+            // 基础文件替换整份配置。资源根目录的自定义文件仅覆盖已声明的字段，旧版姓名数组沿用基础名单。
+            priority = ReadRegulationPriority(Path.Combine(dir, "stronghold_protocol", "regulation", "purchase.json"), custom: false) ?? priority;
+            priority = ReadRegulationPriority(Path.Combine(dir, "purchase_custom.json"), custom: true) ?? priority;
+        }
+
+        List<string> squad = [];
+        List<string> shop = [];
+        foreach (var entry in priority)
+        {
+            var oper = DataHelper.GetCharacterById(entry.Value<string>("id")!);
+            var name = DataHelper.GetLocalizedCharacterName(oper, LocalizationHelper.CurrentCulture);
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                continue;
+            }
+
+            shop.Add(name);
+            if (entry.Value<bool>("squad"))
+            {
+                squad.Add(name);
+            }
+        }
+
+        return LocalizationHelper.GetStringFormat(
+            "Toolbox.MiniGame.StrongholdProtocol.Tip.Badge",
+            squad.Count > 0 ? string.Join(" → ", squad) : "—",
+            shop.Count > 0 ? string.Join(" → ", shop) : "—");
+    }
+
+    private static JArray? ReadRegulationPriority(string path, bool custom)
+    {
+        if (!File.Exists(path))
+        {
+            return null;
+        }
+
+        try
+        {
+            var config = JObject.Parse(File.ReadAllText(path));
+            if (!config.TryGetValue("priority", out var token))
+            {
+                return custom ? null : [];
+            }
+
+            return token is JArray entries && entries.All(entry => entry is JObject obj
+                && obj["id"]?.Type == JTokenType.String
+                && obj["squad"] is null or { Type: JTokenType.Boolean }) ? entries : null;
+        }
+        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or JsonException)
+        {
+            _logger.Warning(ex, "Failed to read Stronghold Protocol priorities from {Path}", path);
+            return null;
+        }
     }
 
     private static string GetMiniGameTipCore(string name)

@@ -2555,10 +2555,20 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Theme">主題</system:String>
     <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Theme.Covenant">盟約（仮訳）</system:String>
     <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Theme.Regulation">規程（仮訳）</system:String>
-    <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Tip.Badge" xml:space="preserve">イベントメイン画面（｢高速演算｣（仮訳）がある場所）からタスクを開始
-デフォルトのスキンを使用する必要があります
-セーブデータがある場合は、まず手動で破棄する必要があります
-各試合を完走し、未達成の作戦を自動選択します。カスタム編成には赤刃明霄陳（仮訳）の編成を推奨します</system:String>
+    <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Tip.Badge" xml:space="preserve">イベントのスキンをデフォルトに設定し、｢高速演算｣（仮訳）があるイベントのメイン画面から開始してください。セーブデータがある場合は、先に手動で破棄してください。
+MAA は目標のクリア回数に達していない作戦を選び、毎回最後までプレイします。
+
+カスタム編成では★6 オペレーターのみを、各ランク 2 人まで選びます。優先順位は以下のとおりです。
+{0}
+
+ショップが最大レベルになると、以下の順に優先して購入します。
+{1}
+それ以外のオペレーターは以下の順に購入します。
+カスタム編成のランク VI → カスタム編成のランク V → 通常のランク VI → 手持ちが足りないときに補充されるオペレーター → 通常のランク V。
+医療は 1 人だけ配置するのがおすすめです。すでに配置している場合は、低ランクの医療をより高ランクの医療と交代できるときだけ購入します。
+
+このモードではサポートオペレーターを最大 30 人借りられます。
+クリア率を上げるには、まずショップで優先するオペレーターを全員借り、次にランク VI の火力役を揃えてください。枠に余裕があれば、ランク V の火力役もできるだけ揃えましょう。</system:String>
     <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Tip.Score" xml:space="preserve">イベントメイン画面（｢高速演算｣（仮訳）がある場所）からタスクを開始
 デフォルトのイベントスキンを使用する必要があります
 セーブデータがある場合は、まず手動で破棄する必要があります

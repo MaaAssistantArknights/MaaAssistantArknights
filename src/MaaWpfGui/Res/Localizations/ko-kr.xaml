@@ -2554,10 +2554,20 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Theme">위수 협의 테마</system:String>
     <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Theme.Covenant">동맹 (명칭 임시)</system:String>
     <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Theme.Regulation">규정 (명칭 임시)</system:String>
-    <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Tip.Badge" xml:space="preserve">이벤트 메인 화면에서 임무 시작 (아래에 ｢고속 시뮬레이션｣ (명칭 임시))
-기본 스킨을 사용해야 합니다
-저장 데이터가 있는 경우 먼저 수동으로 포기해야 합니다
-매 판을 끝까지 플레이하며 미달성 전략을 자동 선택합니다. 사용자 지정 편성에 첸 더 던스트릭 (명칭 임시) 편성을 권장합니다</system:String>
+    <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Tip.Badge" xml:space="preserve">이벤트 기본 스킨을 적용하고 ｢고속 시뮬레이션｣(임시 명칭)이 있는 이벤트 메인 화면에서 시작하세요. 저장된 게임이 있으면 먼저 직접 포기하세요.
+MAA는 목표 클리어 횟수를 채우지 못한 전략을 선택해 매 판 끝까지 진행합니다.
+
+사용자 지정 편성에는 등급별로 6성 오퍼레이터를 최대 2명까지 선택합니다. 우선순위는 다음과 같습니다.
+{0}
+
+상점이 최고 레벨에 도달하면 다음 순서로 우선 구매합니다.
+{1}
+나머지 오퍼레이터의 구매 순서는 다음과 같습니다.
+사용자 지정 VI등급 → 사용자 지정 V등급 → 일반 VI등급 → 보유 인원이 부족할 때 게임에서 제공하는 대체 오퍼레이터 → 일반 V등급.
+전장에는 메딕을 1명만 배치하는 것이 좋습니다. 이미 메딕이 있다면 배치 중인 낮은 등급의 메딕을 더 높은 등급으로 교체할 수 있을 때만 구매합니다.
+
+이 모드에서는 지원 유닛을 최대 30명까지 빌릴 수 있습니다.
+클리어 확률을 높이려면 먼저 상점 우선순위에 있는 오퍼레이터를 모두 빌리고, 다음으로 VI등급 딜러를 모두 빌리세요. 자리가 남으면 V등급 딜러도 최대한 빌리는 것이 좋습니다.</system:String>
     <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Tip.Score" xml:space="preserve">이벤트 메인 화면에서 임무 시작 (아래에 ｢고속 시뮬레이션｣ (명칭 임시))
 기본 이벤트 스킨을 사용해야 합니다
 저장 데이터가 있는 경우 먼저 수동으로 포기해야 합니다
