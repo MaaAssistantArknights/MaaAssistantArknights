@@ -1,6 +1,7 @@
 ---
 order: 1
 icon: bxs:book
+outline: [2, 6]
 ---
 
 # 통합 문서
@@ -47,8 +48,9 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
 
 ##### 작업 유형 목록
 
-- `StartUp`  
-  시작 및 깨우기
+###### `StartUp`
+
+시작 및 깨우기
 
 :::: field-group  
 ::: field enable  
@@ -99,8 +101,9 @@ Bilibili 서버: `张三`인 경우 `张三`, `张`, `三` 입력 가능
 
 </details>
 
-- `CloseDown`  
-  게임 종료
+###### `CloseDown`
+
+게임 종료
 
 :::: field-group  
 ::: field enable  
@@ -130,8 +133,9 @@ Bilibili 서버: `张三`인 경우 `张三`, `张`, `三` 입력 가능
 
 </details>
 
-- `Fight`  
-  이성 사용 작전
+###### `Fight`
+
+이성 사용 작전
 
 :::: field-group  
 ::: field enable  
@@ -298,8 +302,9 @@ Yituliu 전송 ID, 기본값 비어 있음. `report_to_yituliu`가 true일 때�
 
 일부 소수 자원 스테이지명도 지원합니다.
 
-- `Recruit`  
-  공개 모집
+###### `Recruit`
+
+공개 모집
 
 :::: field-group  
 ::: field enable  
@@ -457,8 +462,9 @@ Yituliu 전송 ID, 기본값 비어 있음. `report_to_yituliu`가 true일 때�
 
 </details>
 
-- `Infrast`  
-  기반시설 교대
+###### `Infrast`
+
+기반시설 교대
 
 :::: field-group  
 ::: field enable  
@@ -625,8 +631,9 @@ Yituliu 전송 ID, 기본값 비어 있음. `report_to_yituliu`가 true일 때�
 
 </details>
 
-- `Mall`  
-  크레딧 수령 및 상점 구매  
+###### `Mall`
+
+크레딧 수령 및 상점 구매
   먼저 `buy_first` 목록 순서대로 구매하고, 그 다음 `blacklist`를 제외하고 왼쪽에서 오른쪽으로 구매하며, 크레딧이 넘칠 경우 블랙리스트를 무시하고 넘치지 않을 때까지 구매
 
 :::: field-group  
@@ -714,8 +721,9 @@ OF-1 플레이 시 사용할 편성 슬롯 번호
 
 </details>
 
-- `Award`  
-  각종 보상 수령
+###### `Award`
+
+각종 보상 수령
 
 :::: field-group  
 ::: field enable  
@@ -783,8 +791,9 @@ OF-1 플레이 시 사용할 편성 슬롯 번호
 
 </details>
 
-- `SwitchTheme`  
-  게임 메인 화면 테마 전환
+###### `SwitchTheme`
+
+게임 메인 화면 테마 전환
 
 :::: field-group  
 ::: field enable  
@@ -812,8 +821,9 @@ OF-1 플레이 시 사용할 편성 슬롯 번호
 
 </details>
 
-- `Roguelike`  
-  통합 전략 무한 반복
+###### `Roguelike`
+
+통합 전략 무한 반복
 
 :::: field-group  
 ::: field enable  
@@ -1192,8 +1202,9 @@ Sarkaz 테마, Investment 모드, "연금술 분대" 또는 "지원 분대"일 �
 
 붕괴 패러다임 파밍 기능에 대한 자세한 내용은 [통합 전략 보조 프로토콜](./integrated-strategy-schema.md#탐험가의-은빛-서리-끝자락-—-붕괴-패러다임)을 참고하세요.
 
-- `Copilot`  
-  자동지휘
+###### `Copilot`
+
+자동지휘
 
 :::: field-group  
 ::: field enable  
@@ -1320,8 +1331,9 @@ Sarkaz 테마, Investment 모드, "연금술 분대" 또는 "지원 분대"일 �
 
 </details>
 
-- `SSSCopilot`  
-  보안 파견 자동지휘
+###### `SSSCopilot`
+
+보안 파견 자동지휘
 
 :::: field-group  
 ::: field enable  
@@ -1356,8 +1368,9 @@ Sarkaz 테마, Investment 모드, "연금술 분대" 또는 "지원 분대"일 �
 
 </details>
 
-- `ParadoxCopilot`
-  패러독스 시뮬레이션 작전 계획 자동 수행
+###### `ParadoxCopilot`
+
+패러독스 시뮬레이션 작전 계획 자동 수행
 
 :::: field-group  
 ::: field enable  
@@ -1393,8 +1406,9 @@ Sarkaz 테마, Investment 모드, "연금술 분대" 또는 "지원 분대"일 �
 
 </details>
 
-- `Depot`  
-  창고 인식
+###### `Depot`
+
+창고 인식
 
 :::: field-group  
 ::: field enable  
@@ -1416,8 +1430,9 @@ Sarkaz 테마, Investment 모드, "연금술 분대" 또는 "지원 분대"일 �
 
 </details>
 
-- `OperBox`  
-  오퍼레이터 인식
+###### `OperBox`
+
+오퍼레이터 인식
 
 :::: field-group  
 ::: field enable  
@@ -1439,8 +1454,9 @@ Sarkaz 테마, Investment 모드, "연금술 분대" 또는 "지원 분대"일 �
 
 </details>
 
-- `Reclamation`  
-  생존 연산
+###### `Reclamation`
+
+생존 연산
 
 :::: field-group  
 ::: field enable  
@@ -1527,8 +1543,9 @@ Sarkaz 테마, Investment 모드, "연금술 분대" 또는 "지원 분대"일 �
 
 </details>
 
-- `Custom`  
-  사용자 정의 작업
+###### `Custom`
+
+사용자 정의 작업
 
 :::: field-group  
 ::: field enable  
@@ -1583,8 +1600,9 @@ Sarkaz 테마, Investment 모드, "연금술 분대" 또는 "지원 분대"일 �
 
 </details>
 
-- `SingleStep`  
-  단일 단계 작업 (현재 전투만 지원)
+###### `SingleStep`
+
+단일 단계 작업 (현재 전투만 지원)
 
 :::: field-group  
 ::: field enable  
@@ -1633,8 +1651,9 @@ Sarkaz 테마, Investment 모드, "연금술 분대" 또는 "지원 분대"일 �
 
 </details>
 
-- `VideoRecognition`  
-  영상 인식, 현재 작전(전투) 영상만 지원
+###### `VideoRecognition`
+
+영상 인식, 현재 작전(전투) 영상만 지원
 
 :::: field-group  
 ::: field enable  
