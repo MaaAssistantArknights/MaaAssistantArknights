@@ -2257,8 +2257,13 @@ static std::optional<BenchIdentity> read_bench_identity(const cv::Mat& image, bo
         return BenchIdentity {};
     }
     if (!oper_tab || role == battle::Role::Unknown) {
-        if (check_unreadable && has_bench_control(image, "StrongholdProtocol@BenchQuotedItemName")) {
-            return BenchIdentity {};
+        if (check_unreadable && !best.rect.empty()) {
+            RegionOCRer item(image);
+            item.set_task_info("StrongholdProtocol@BenchQuotedItemName");
+            item.set_roi(best.rect);
+            if (item.analyze()) {
+                return BenchIdentity {};
+            }
         }
         return std::nullopt;
     }
