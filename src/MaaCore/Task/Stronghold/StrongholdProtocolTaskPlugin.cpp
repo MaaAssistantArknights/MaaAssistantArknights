@@ -2235,8 +2235,8 @@ std::optional<StrongholdProtocolTaskPlugin::DeployTile> StrongholdProtocolTaskPl
                 }
                 continue;
             }
-            if (group == "path" && melee && !old_melee) {
-                // 堵口位有低阶远程时，近战先接替这一格，再考虑后排的空格。
+            if (group == "path" && melee && (!old_melee || tier >= 5)) {
+                // 堵路格按接敌顺序补强。新近战接替低阶远程，高阶近战也接替低阶近战。
                 return tile;
             }
             const bool keep_melee = group == "path" || (group == "rear" && tier < 5);
