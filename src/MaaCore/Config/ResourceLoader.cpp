@@ -31,6 +31,7 @@
 #include "Roguelike/RoguelikeStageEncounterConfig.h"
 #include "Roguelike/Sami/RoguelikeCollapsalParadigmConfig.h"
 #include "Roguelike/Sami/RoguelikeFoldartalConfig.h"
+#include "StrongholdProtocol/StrongholdProtocolConfig.h"
 #include "TaskData.h"
 #include "TemplResource.h"
 #include "Utils/Logger.hpp"
@@ -256,6 +257,15 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
         if (!load_with_custom.template operator()<RoguelikeMapConfig>(
                 roguelike_path(theme, "map.json"_p),
                 "RoguelikeMapConfig")) {
+            return false;
+        }
+    }
+
+    const auto regulation_dir = "stronghold_protocol"_p / "regulation"_p;
+    for (const auto& file : { "purchase.json"_p, "tiles.json"_p, "strategy_grid.json"_p, "tier_badges.json"_p }) {
+        if (!load_with_custom.template operator()<StrongholdProtocolConfig>(
+                regulation_dir / file,
+                "StrongholdProtocolConfig")) {
             return false;
         }
     }

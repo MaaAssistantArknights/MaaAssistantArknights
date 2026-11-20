@@ -6,12 +6,14 @@
     },
     "MiniGame@SPA@EnterIndependentQuickly": {
         "doc": "三期新增极速模拟模式",
+        "template": "StrongholdProtocol@EnterIndependentQuickly.png",
         "action": "ClickSelf",
         "roi": [707, 549, 166, 171],
         "next": ["MiniGame@SPA@StartSimulation2", "#self"]
     },
     "MiniGame@SPA@StartSimulation2": {
         "doc": "三期新增极速模拟模式",
+        "template": "StrongholdProtocol@StartSimulation2.png",
         "action": "ClickSelf",
         "roi": [969, 553, 158, 167],
         "postDelay": 1000,
@@ -56,6 +58,7 @@
     },
     "MiniGame@SPA@GoliathConfirmSelect2": {
         "doc": "三期修改了确认按钮",
+        "template": "StrongholdProtocol@GoliathConfirmSelect2.png",
         "action": "ClickSelf",
         "roi": [946, 572, 271, 148],
         "next": ["#self", "MiniGame@SPA@CustomOpersConfirm"]

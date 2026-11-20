@@ -19,6 +19,18 @@ using static MaaWpfGui.Configuration.Factory.ConfigFactory;
 namespace MaaWpfGui.Configuration.Single.Settings;
 
 /// <summary>
+/// 卫戍协议赛季主题。
+/// </summary>
+public enum StrongholdProtocolSeason
+{
+    /// <summary>规程（第 3 期）</summary>
+    Regulation = 0,
+
+    /// <summary>盟约（第 2 期，当前未开放）</summary>
+    Alliance = 1,
+}
+
+/// <summary>
 /// 工具箱小游戏标签页相关设置
 /// </summary>
 public class MiniGame : NotifyPropertyChangedWithValue
@@ -30,6 +42,26 @@ public class MiniGame : NotifyPropertyChangedWithValue
     }
 
     public string EventShopBlackList { get; set; } = string.Empty;
+
+    /// <summary>
+    /// 卫戍协议赛季主题，默认规程（第 3 期）；盟约（第 2 期）当前未开放。
+    /// </summary>
+    public StrongholdProtocolSeason StrongholdProtocolSeason { get; set; } = default;
+
+    /// <summary>
+    /// 卫戍协议极速模拟运行模式：badge = 刷角标（完整通关），score = 放生速通（刷分）。
+    /// </summary>
+    public string StrongholdProtocolMode { get; set; } = "badge";
+
+    /// <summary>
+    /// 卫戍协议角标目标通关次数：3 = 金色角标，6 = 彩色角标。
+    /// </summary>
+    public int StrongholdProtocolTarget { get; set; } = 3;
+
+    /// <summary>
+    /// 卫戍协议目标通关局数。
+    /// </summary>
+    public int StrongholdProtocolRuns { get; set; } = 60;
 
     public bool EventShopBlackListDataSupplementInstrument { get; set; }
 

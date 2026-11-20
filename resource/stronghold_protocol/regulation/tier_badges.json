@@ -1,0 +1,40 @@
+{
+    "doc": "hsv 按 I 至 VI 排列，每阶填写 OpenCV HSV 的下界和上界。inset 分别是左右、上下每边裁去的比例。glyph_height 相对于整牌高度，stroke_rows 是沿字形高度取上下截面的位置。foreground_fraction 是中央取样区内的笔画像素占比，min_color_fraction 是笔画中的目标色占比。笔宽、竖笔漂移和 V 形单侧收窄量均相对于整牌宽度。",
+    "hsv": [
+        [
+            [0, 0, 48],
+            [179, 70, 215]
+        ],
+        [
+            [0, 0, 100],
+            [179, 70, 255]
+        ],
+        [
+            [75, 90, 50],
+            [87, 255, 255]
+        ],
+        [
+            [90, 90, 50],
+            [101, 255, 255]
+        ],
+        [
+            [21, 95, 22],
+            [29, 255, 255]
+        ],
+        [
+            [12, 95, 50],
+            [19, 255, 255]
+        ]
+    ],
+    "inset": [0.14, 0.2],
+    "glyph_height": [0.28, 0.68],
+    "stroke_rows": [0.2, 0.8],
+    "foreground_fraction": [0.02, 0.48],
+    "max_center_offset": 0.105,
+    "max_stroke_width": 0.2,
+    "max_stroke_drift": 0.08,
+    "min_convergence": 0.04,
+    "min_color_fraction": 0.85,
+    "min_contrast": 16,
+    "max_background_value": 105
+}

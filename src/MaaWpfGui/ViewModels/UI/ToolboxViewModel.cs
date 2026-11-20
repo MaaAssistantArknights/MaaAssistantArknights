@@ -48,6 +48,7 @@ using Newtonsoft.Json.Linq;
 using ObservableCollections;
 using Serilog;
 using Stylet;
+using Season = MaaWpfGui.Configuration.Single.Settings.StrongholdProtocolSeason;
 using Timer = System.Timers.Timer;
 
 namespace MaaWpfGui.ViewModels.UI;
@@ -89,6 +90,13 @@ public class ToolboxViewModel : Screen
             PixelPaintDitherModeList.RefreshLocalization();
             SecretFrontEventList.RefreshLocalization();
             EventShopBlackListItems.RefreshLocalization();
+            StrongholdProtocolSeasonList.RefreshLocalization();
+            StrongholdProtocolModeList.RefreshLocalization();
+            StrongholdProtocolTargetList.RefreshLocalization();
+            if (SelectedMiniGameItem?.IsStrongholdProtocol == true && IsStrongholdProtocolParamsVisible)
+            {
+                MiniGameTip = GetRegulationBadgeTip();
+            }
 
             // CheckComboBox 未设 DisplayMemberPath（WPF 禁止与 ItemTemplate 并存），选中 tag 显示的是
             // ToString 快照；重赋选中数组触发 tag 重建，使 tag 文字跟随切换后的语言
@@ -2769,6 +2777,8 @@ public class ToolboxViewModel : Screen
         public bool IsEventShop => Value == "SS@Store@Begin";
 
         public bool IsReclamation => Value == "Reclamation";
+
+        public bool IsStrongholdProtocol => Value == "StrongholdProtocol@Farm@Begin";
     }
 
     public static string MaterialSynthesisVideoPath => Path.Combine(PathsHelper.BaseDir, "Res", "Video", "MaterialSynthesis.mp4");
@@ -2879,7 +2889,99 @@ public class ToolboxViewModel : Screen
         set => SetAndNotify(ref _miniGameTip, value);
     }
 
-    private static string GetMiniGameTip(string name)
+    private string GetMiniGameTip(string name)
+    {
+        // 卫戍协议提示随（模式 × 赛季）变化：盟约未开放只显示未开放提示，规程刷角标与刷分各用各的操作说明
+        if (name == "StrongholdProtocol@Farm@Begin")
+        {
+            if (IsStrongholdProtocolBadgeMode)
+            {
+                return StrongholdProtocolSeason == Season.Alliance
+                    ? LocalizationHelper.GetString("Toolbox.MiniGame.StrongholdProtocol.Alliance.Tip")
+                    : GetRegulationBadgeTip();
+            }
+
+            return LocalizationHelper.GetString("Toolbox.MiniGame.StrongholdProtocol.Tip.Score");
+        }
+
+        return GetMiniGameTipCore(name);
+    }
+
+    private static string GetRegulationBadgeTip()
+    {
+        var resourceDirs = new List<string> { PathsHelper.ResourceDir, PathsHelper.CacheResourceDir };
+        var clientType = SettingsViewModel.GameSettings.ClientType;
+        if (clientType is not (ClientType.Official or ClientType.Bilibili))
+        {
+            var clientDir = Path.Combine("global", clientType.ToCustomString(), "resource");
+            resourceDirs.Add(Path.Combine(PathsHelper.ResourceDir, clientDir));
+            resourceDirs.Add(Path.Combine(PathsHelper.CacheResourceDir, clientDir));
+        }
+
+        if (SettingsViewModel.ConnectSettings.IsPCConnectConfig)
+        {
+            resourceDirs.Add(Path.Combine(PathsHelper.ResourceDir, "platform_diff", "PC", "resource"));
+        }
+
+        JArray priority = [];
+        foreach (var dir in resourceDirs)
+        {
+            // 基础文件替换整份配置。资源根目录的自定义文件仅覆盖已声明的字段，旧版姓名数组沿用基础名单。
+            priority = ReadRegulationPriority(Path.Combine(dir, "stronghold_protocol", "regulation", "purchase.json"), custom: false) ?? priority;
+            priority = ReadRegulationPriority(Path.Combine(dir, "purchase_custom.json"), custom: true) ?? priority;
+        }
+
+        List<string> squad = [];
+        List<string> shop = [];
+        foreach (var entry in priority)
+        {
+            var oper = DataHelper.GetCharacterById(entry.Value<string>("id")!);
+            var name = DataHelper.GetLocalizedCharacterName(oper, LocalizationHelper.CurrentCulture);
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                continue;
+            }
+
+            shop.Add(name);
+            if (entry.Value<bool>("squad"))
+            {
+                squad.Add(name);
+            }
+        }
+
+        return LocalizationHelper.GetStringFormat(
+            "Toolbox.MiniGame.StrongholdProtocol.Tip.Badge",
+            squad.Count > 0 ? string.Join(" → ", squad) : "—",
+            shop.Count > 0 ? string.Join(" → ", shop) : "—");
+    }
+
+    private static JArray? ReadRegulationPriority(string path, bool custom)
+    {
+        if (!File.Exists(path))
+        {
+            return null;
+        }
+
+        try
+        {
+            var config = JObject.Parse(File.ReadAllText(path));
+            if (!config.TryGetValue("priority", out var token))
+            {
+                return custom ? null : [];
+            }
+
+            return token is JArray entries && entries.All(entry => entry is JObject obj
+                && obj["id"]?.Type == JTokenType.String
+                && obj["squad"] is null or { Type: JTokenType.Boolean }) ? entries : null;
+        }
+        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or JsonException)
+        {
+            _logger.Warning(ex, "Failed to read Stronghold Protocol priorities from {Path}", path);
+            return null;
+        }
+    }
+
+    private static string GetMiniGameTipCore(string name)
     {
         if (string.IsNullOrEmpty(name))
         {
@@ -2944,6 +3046,72 @@ public class ToolboxViewModel : Screen
     /// Gets or sets 自动提升潜能：中坚信物不足时是否消耗普通信物继续提升（不勾选时点 × 跳过该次提升）。
     /// </summary>
     public bool MiniGameUseNormalToken { get; set => SetAndNotify(ref field, value); }
+
+    /// <summary>卫戍协议赛季主题。盟约（第 2 期）当前未开放，条目带未开放后缀。</summary>
+    public LocalizedObservableList<Season> StrongholdProtocolSeasonList { get; } = new(
+        (Season.Alliance, "Toolbox.MiniGame.StrongholdProtocol.Theme.Alliance")
+            .WithSecondaryKey("Toolbox.MiniGame.StrongholdProtocol.ClosedTheme"),
+        (Season.Regulation, "Toolbox.MiniGame.StrongholdProtocol.Theme.Regulation"));
+
+    public Season StrongholdProtocolSeason
+    {
+        get;
+        set {
+            SetAndNotify(ref field, value);
+            ConfigFactory.CurrentConfig.Toolbox.MiniGame.StrongholdProtocolSeason = value;
+            MiniGameTip = GetMiniGameTip(MiniGameTaskName);
+        }
+    } = ConfigFactory.CurrentConfig.Toolbox.MiniGame.StrongholdProtocolSeason;
+
+    /// <summary>盟约（第 2 期）未开放，所有参数不会生效。</summary>
+    [PropertyDependsOn(nameof(StrongholdProtocolSeason))]
+    public bool IsStrongholdProtocolAlliance => StrongholdProtocolSeason == Season.Alliance;
+
+    /// <summary>角标目标与通关局数仅在刷角标模式且规程期生效（score 速通不传参数，盟约空跑）。</summary>
+    [PropertyDependsOn(nameof(StrongholdProtocolSeason), nameof(StrongholdProtocolMode))]
+    public bool IsStrongholdProtocolParamsVisible => IsStrongholdProtocolBadgeMode && !IsStrongholdProtocolAlliance;
+
+    /// <summary>卫戍协议极速模拟运行模式。</summary>
+    public LocalizedObservableList<string> StrongholdProtocolModeList { get; } = new(
+        ("badge", "Toolbox.MiniGame.StrongholdProtocol.Mode.Badge"),
+        ("score", "Toolbox.MiniGame.StrongholdProtocol.Mode.Score"));
+
+    public string StrongholdProtocolMode
+    {
+        get;
+        set {
+            SetAndNotify(ref field, value);
+            ConfigFactory.CurrentConfig.Toolbox.MiniGame.StrongholdProtocolMode = value;
+            MiniGameTip = GetMiniGameTip(MiniGameTaskName);
+        }
+    } = ConfigFactory.CurrentConfig.Toolbox.MiniGame.StrongholdProtocolMode;
+
+    /// <summary>卫戍协议角标目标。</summary>
+    public LocalizedObservableList<int> StrongholdProtocolTargetList { get; } = new(
+        (3, "Toolbox.MiniGame.StrongholdProtocol.Target.Gold"),
+        (6, "Toolbox.MiniGame.StrongholdProtocol.Target.Color"));
+
+    public int StrongholdProtocolTarget
+    {
+        get;
+        set {
+            SetAndNotify(ref field, value);
+            ConfigFactory.CurrentConfig.Toolbox.MiniGame.StrongholdProtocolTarget = value;
+        }
+    } = ConfigFactory.CurrentConfig.Toolbox.MiniGame.StrongholdProtocolTarget;
+
+    public int StrongholdProtocolRuns
+    {
+        get;
+        set {
+            SetAndNotify(ref field, value);
+            ConfigFactory.CurrentConfig.Toolbox.MiniGame.StrongholdProtocolRuns = value;
+        }
+    } = ConfigFactory.CurrentConfig.Toolbox.MiniGame.StrongholdProtocolRuns;
+
+    /// <summary>刷角标模式才有角标目标选项，放生速通时隐藏。</summary>
+    [PropertyDependsOn(nameof(StrongholdProtocolMode))]
+    public bool IsStrongholdProtocolBadgeMode => StrongholdProtocolMode == "badge";
 
     public LocalizedObservableList<string> EventShopBlackListItems { get; } = new(
         (DataSupplementInstrumentItemId, "Toolbox.MiniGame.EventShop.DataSupplementInstrument"),
@@ -3621,7 +3789,19 @@ public class ToolboxViewModel : Screen
             return StartEventShop();
         }
 
+        if (SelectedMiniGameItem?.IsStrongholdProtocol == true)
+        {
+            return StartStrongholdProtocol();
+        }
+
         return Instances.AsstProxy.AsstMiniGame(GetMiniGameTask());
+    }
+
+    /// <summary>卫戍协议极速模拟启动：badge 走 StrongholdProtocol 独立任务，score 走 Custom 通道的 SPA 挂机链。</summary>
+    /// <returns>任务是否成功提交。</returns>
+    private bool StartStrongholdProtocol()
+    {
+        return Instances.AsstProxy.AsstStrongholdProtocol(StrongholdProtocolMode, StrongholdProtocolSeason, StrongholdProtocolTarget, StrongholdProtocolRuns);
     }
 
     /// <summary>活动商店启动：提交自定义及游戏客户端语言下的预设黑名单关键词。</summary>

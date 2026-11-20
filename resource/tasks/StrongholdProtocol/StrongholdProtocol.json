@@ -1,0 +1,639 @@
+{
+    "StrongholdProtocol@Farm@Begin": {
+        "doc": "卫戍协议极速模拟刷角标入口：插件 StrongholdProtocolTaskPlugin 挂载点，整个流程（含 @Nav 前置导航）由插件驱动。next 必须为空：插件在本任务的 SubTaskStart 回调里同步跑完，返回后链路会继续执行 next",
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "next": []
+    },
+    "StrongholdProtocol@Nav": {
+        "doc": "刷角标前置导航：活动主界面→极速模拟→确认本局信息→停在策略选择页，选策略交给插件按角标判定。不复用 MiniGame@SPA 挂机链：后者会自动点选歌利亚并确认",
+        "algorithm": "JustReturn",
+        "next": ["StrongholdProtocol@Nav@EnterQuickly"]
+    },
+    "StrongholdProtocol@Nav@EnterQuickly": {
+        "doc": "活动主界面的 ｢极速模拟｣ 入口，也是识别活动主界面的标志",
+        "template": "StrongholdProtocol@EnterIndependentQuickly.png",
+        "action": "ClickSelf",
+        "roi": [707, 549, 166, 171],
+        "next": ["StrongholdProtocol@Nav@StartSimulation", "#self"]
+    },
+    "StrongholdProtocol@Nav@StartSimulation": {
+        "template": "StrongholdProtocol@StartSimulation2.png",
+        "action": "ClickSelf",
+        "roi": [969, 553, 158, 167],
+        "postDelay": 1000,
+        "next": [
+            "StrongholdProtocol@Nav@ReadyScreen",
+            "StrongholdProtocol@Goliath",
+            "StrongholdProtocol@SPRConfirmSelect",
+            "#self"
+        ]
+    },
+    "StrongholdProtocol@Nav@ReadyScreen": {
+        "doc": "确认本局信息页的准备就绪；不带 #self，避免过场期间连点落到策略页的确认按钮上",
+        "template": "MiniGame@SPA@ReadyScreen.png",
+        "action": "ClickSelf",
+        "roi": [952, 581, 265, 139],
+        "next": ["StrongholdProtocol@Goliath", "StrongholdProtocol@SPRConfirmSelect"]
+    },
+    "StrongholdProtocol@Goliath": {
+        "doc": "策略选择页判定（歌利亚立绘），只判定不点击；@Nav 链到此停止",
+        "template": "MiniGame@SPA@Goliath.png",
+        "roi": [620, 84, 600, 400]
+    },
+    "StrongholdProtocol@SPRConfirmSelect": {
+        "doc": "规程策略选择页的 ｢确认选择｣ 按钮。导航到此停止，选定策略后再点击。",
+        "template": "StrongholdProtocol@GoliathConfirmSelect2.png",
+        "roi": [946, 572, 271, 148]
+    },
+    "StrongholdProtocol@SPAConfirmSelect": {
+        "doc": "策略选择页确认按钮（盟约），仅用于场景判定",
+        "template": "MiniGame@SPA@GoliathConfirmSelect.png",
+        "roi": [1002, 588, 148, 132]
+    },
+    "StrongholdProtocol@CustomOpersConfirm": {
+        "doc": "自选编队页命中即停，由插件接管选人",
+        "template": "MiniGame@SPA@CustomOpersConfirm.png",
+        "roi": [946, 572, 271, 148],
+        "action": "DoNothing",
+        "next": []
+    },
+    "StrongholdProtocol@ReturnHome": {
+        "doc": "结算页返回主页按钮，插件判定结算并点击",
+        "template": "MiniGame@SPA@ReturnHome.png",
+        "roi": [964, 590, 294, 130]
+    },
+    "StrongholdProtocol@BountyTitle": {
+        "algorithm": "OcrDetect",
+        "text": ["悬赏决策"],
+        "ocrReplace": [
+            ["賞", "赏"],
+            ["決", "决"]
+        ],
+        "roi": [450, 100, 380, 110],
+        "next": ["StrongholdProtocol@BountyMiddleCard"]
+    },
+    "StrongholdProtocol@BountyMiddleCard": {
+        "algorithm": "OcrDetect",
+        "text": ["悬赏"],
+        "roi": [510, 265, 280, 130],
+        "action": "ClickSelf",
+        "postDelay": 400,
+        "next": ["StrongholdProtocol@BountyConfirmBtn"]
+    },
+    "StrongholdProtocol@BountyConfirmBtn": {
+        "algorithm": "OcrDetect",
+        "text": ["确认选择"],
+        "fullMatch": true,
+        "roi": [505, 440, 270, 100],
+        "action": "ClickSelf",
+        "postDelay": 800
+    },
+    "StrongholdProtocol@ConfirmInfo": {
+        "algorithm": "OcrDetect",
+        "roi": [400, 8, 405, 65],
+        "text": ["确认本局信息"]
+    },
+    "StrongholdProtocol@CustomSquadTitle": {
+        "baseTask": "StrongholdProtocol@ConfirmInfo",
+        "text": ["确定自选编队"]
+    },
+    "StrongholdProtocol@StrategyTitle": {
+        "baseTask": "StrongholdProtocol@ConfirmInfo",
+        "text": ["选择策略"]
+    },
+    "StrongholdProtocol@StrategyName": {
+        "doc": "详情面板 TEAM ID 下方的策略名，回调保留游戏内名称。",
+        "algorithm": "OcrDetect",
+        "text": [],
+        "orderBy": "Score",
+        "roi": [982, 363, 295, 43]
+    },
+    "StrongholdProtocol@StrategyPassed": {
+        "doc": "详情面板右上角的通过次数。将含通过标记的行归一为 # 加次数。数字另成一框时保留该框数字。",
+        "algorithm": "OcrDetect",
+        "text": [],
+        "ocrReplace": [
+            ["①", "1"],
+            ["②", "2"],
+            ["③", "3"],
+            ["④", "4"],
+            ["⑤", "5"],
+            ["⑥", "6"],
+            ["⑦", "7"],
+            ["⑧", "8"],
+            ["⑨", "9"],
+            ["^.*通过", "#"],
+            ["[^#0-9]", ""]
+        ],
+        "roi": [977, 104, 300, 53]
+    },
+    "StrongholdProtocol@SquadOpersV": {
+        "doc": "自选编队上排 V 阶干员姓名",
+        "baseTask": "CharsNameOcrReplace",
+        "algorithm": "OcrDetect",
+        "text": [],
+        "roi": [373, 253, 825, 51]
+    },
+    "StrongholdProtocol@SquadOpersVI": {
+        "doc": "自选编队下排 VI 阶干员姓名",
+        "baseTask": "StrongholdProtocol@SquadOpersV",
+        "roi": [373, 507, 825, 51]
+    },
+    "StrongholdProtocol@SquadDisabledV": {
+        "doc": "上排干员名牌下方的禁用标记，按横坐标与干员对应。",
+        "algorithm": "OcrDetect",
+        "text": ["禁用"],
+        "roi": [373, 304, 825, 43]
+    },
+    "StrongholdProtocol@SquadDisabledVI": {
+        "baseTask": "StrongholdProtocol@SquadDisabledV",
+        "roi": [373, 558, 825, 43]
+    },
+    "StrongholdProtocol@SquadCountV": {
+        "doc": "自选编队上排已选人数，只读取分子",
+        "baseTask": "NumberOcrReplace",
+        "roi": [1195, 211, 38, 45]
+    },
+    "StrongholdProtocol@SquadCountVI": {
+        "doc": "自选编队下排已选人数，只读取分子",
+        "baseTask": "StrongholdProtocol@SquadCountV",
+        "roi": [1195, 467, 38, 45]
+    },
+    "StrongholdProtocol@ReadyButton": {
+        "doc": "回合休整界面的 ｢准备就绪｣ 按钮",
+        "algorithm": "OcrDetect",
+        "text": ["准备就绪"],
+        "roi": [1125, 85, 140, 60]
+    },
+    "StrongholdProtocol@ShopGoldOcr": {
+        "doc": "休整期的剩余资金",
+        "baseTask": "NumberOcrReplace",
+        "roi": [1190, 512, 43, 32],
+        "ocrReplace": [["[^\\d]", ""]]
+    },
+    "StrongholdProtocol@ShopGoldWideOcr": {
+        "doc": "首次读取资金失败时，扩大识别范围重读",
+        "baseTask": "NumberOcrReplace",
+        "roi": [1173, 507, 80, 43],
+        "ocrReplace": [["[^\\d]", ""]]
+    },
+    "StrongholdProtocol@ShopRoundOcr": {
+        "doc": "当前回合号",
+        "baseTask": "NumberOcrReplace",
+        "roi": [485, 21, 33, 31],
+        "ocrReplace": [["[^\\d]", ""]]
+    },
+    "StrongholdProtocol@ShopSlotsOcr": {
+        "doc": "剩余可放置角色数。确认朝向后若读数不符合一次部署的变化，按重试次数和间隔重新取图。",
+        "baseTask": "NumberOcrReplace",
+        "specialParams": [3],
+        "postDelay": 150,
+        "roi": [1241, 377, 24, 28],
+        "ocrReplace": [["[^\\d]", ""]]
+    },
+    "StrongholdProtocol@ShopUpgradeCostOcr": {
+        "doc": "升级按钮随商店等级横移。找不到 ｢升级｣ 文字时，在此区域读取费用。",
+        "baseTask": "NumberOcrReplace",
+        "roi": [0, 513, 160, 120],
+        "ocrReplace": [["[^\\d]", ""]]
+    },
+    "StrongholdProtocol@ShopBottomOcr": {
+        "doc": "商店按钮随等级横移，确认文字比普通升级按钮低一行",
+        "algorithm": "OcrDetect",
+        "text": ["upgrade", "confirm", "maxed"],
+        "ocrReplace": [
+            ["^升级$", "upgrade"],
+            ["^确认升级$", "confirm"],
+            ["^(?:已)?满级$", "maxed"]
+        ],
+        "fullMatch": true,
+        "roi": [0, 636, 507, 66]
+    },
+    "StrongholdProtocol@ShopCardsOcr": {
+        "doc": "卡牌费用、空位和盟约标签共用一次 OCR，插件按文字所在行取值。国服盟约标签至少含一个汉字。",
+        "algorithm": "OcrDetect",
+        "text": [],
+        "ocrReplace": [
+            ["^[oO]$", "0"],
+            ["^.*NO INFO.*$", "empty"],
+            ["^.*[一-鿿].*$", "pact"]
+        ],
+        "roi": [120, 513, 1013, 153]
+    },
+    "StrongholdProtocol@ShopCardNamesOcr": {
+        "doc": "商店卡牌底部的干员名，使用各服干员名纠错表。",
+        "baseTask": "CharsNameOcrReplace",
+        "roi": [120, 666, 1013, 44]
+    },
+    "StrongholdProtocol@ShopNoFundsOcr": {
+        "doc": "资金不足提示",
+        "algorithm": "OcrDetect",
+        "text": ["资金不足"],
+        "roi": [933, 80, 320, 93]
+    },
+    "StrongholdProtocol@ShopTraitOcr": {
+        "doc": "选中卡牌后，识别到左侧面板的特质或天赋说明才确认购买",
+        "algorithm": "OcrDetect",
+        "text": ["特质", "天赋", "特性"],
+        "roi": [0, 167, 467, 245]
+    },
+    "StrongholdProtocol@ConfirmReadyOcr": {
+        "doc": "回合准备确认弹窗中的标题或资金提示",
+        "algorithm": "OcrDetect",
+        "text": ["确认准备", "资金将在"],
+        "roi": [430, 255, 420, 110],
+        "next": ["StrongholdProtocol@PopupNotAgain", "StrongholdProtocol@PopupConfirmBtn"]
+    },
+    "StrongholdProtocol@FacingCancelOcr": {
+        "doc": "选择朝向时，取消提示位于刚放置的格子左上方。识别区域相对于该格中心。",
+        "algorithm": "OcrDetect",
+        "text": ["点击取消"],
+        "roi": [-230, -158, 155, 75]
+    },
+    "StrongholdProtocol@SettlementResultOcr": {
+        "doc": "结算页左侧的胜负标题，出字动画中可能只显示前三个字",
+        "algorithm": "OcrDetect",
+        "text": ["cleared", "interrupted"],
+        "fullMatch": true,
+        "ocrReplace": [
+            ["^模拟完$|^.*模拟完成.*$", "cleared"],
+            ["^.*模拟中断.*$", "interrupted"]
+        ],
+        "roi": [65, 156, 450, 160]
+    },
+    "StrongholdProtocol@ShopExpanded": {
+        "doc": "普通商店展开时，右下角显示 ｢收起｣",
+        "algorithm": "OcrDetect",
+        "text": ["收起"],
+        "roi": [1100, 644, 150, 59]
+    },
+    "StrongholdProtocol@BenchDetailClose": {
+        "doc": "查看备战席时商店收起，右下角显示 ｢展开｣。确认休整和详情标签后点击顶部休息提示收起详情。",
+        "baseTask": "StrongholdProtocol@ShopExpanded",
+        "text": ["展开"],
+        "action": "ClickRect",
+        "specificRect": [640, 25, 1, 1]
+    },
+    "StrongholdProtocol@DragTraitOcr": {
+        "doc": "备战席详情左侧的干员或召唤物标签",
+        "algorithm": "OcrDetect",
+        "text": ["特质", "天赋", "技能", "特性"],
+        "roi": [0, 347, 467, 53]
+    },
+    "StrongholdProtocol@BenchOperatorTab": {
+        "doc": "干员专有的详情标签，用于区分干员与装备、召唤物。",
+        "baseTask": "StrongholdProtocol@DragTraitOcr",
+        "text": ["特质", "天赋"]
+    },
+    "StrongholdProtocol@DragNameOcr": {
+        "doc": "商店和备战席详情左侧的干员名，区域止于等阶方牌上方。参数为确认干员身份所需的最低 OCR 置信度（百分比）。",
+        "baseTask": "CharsNameOcrReplace",
+        "algorithm": "OcrDetect",
+        "text": [],
+        "roi": [0, 175, 220, 43],
+        "orderBy": "Score",
+        "specialParams": [90]
+    },
+    "StrongholdProtocol@BenchQuotedItemName": {
+        "doc": "未匹配干员资料时，识别名称带引号的物件，避免重复检查该席位。",
+        "baseTask": "StrongholdProtocol@DragNameOcr",
+        "ocrReplace": [["^[“「\"『].*$", "QuotedItem"]],
+        "text": ["QuotedItem"],
+        "fullMatch": true
+    },
+    "StrongholdProtocol@DragLevelOcr": {
+        "doc": "干员详情中 LV 右侧的养成等级。specialParams[0] 为最低 OCR 置信度（百分比）。",
+        "algorithm": "OcrDetect",
+        "withoutDet": true,
+        "text": [],
+        "roi": [112, 208, 48, 40],
+        "specialParams": [90]
+    },
+    "StrongholdProtocol@DragInitialLevels": {
+        "doc": "按活动等阶从 I 到 VI 排列的初始 LV。",
+        "baseTask": "StrongholdProtocol@DragLevelOcr",
+        "text": ["55", "60", "1", "1", "1", "1"]
+    },
+    "StrongholdProtocol@DragEliteLevels": {
+        "doc": "按活动等阶从 I 到 VI 排列的精锐 LV。",
+        "baseTask": "StrongholdProtocol@DragLevelOcr",
+        "text": ["50", "55", "60", "60", "60", "60"]
+    },
+    "StrongholdProtocol@ReconnectAvailable": {
+        "doc": "断线后主页同时显示放弃和重连按钮，只点击重连。",
+        "algorithm": "OcrDetect",
+        "text": ["放弃模拟"],
+        "fullMatch": true,
+        "roi": [730, 608, 230, 79],
+        "next": ["StrongholdProtocol@Reconnect"]
+    },
+    "StrongholdProtocol@Reconnect": {
+        "algorithm": "OcrDetect",
+        "text": ["断线重连"],
+        "fullMatch": true,
+        "roi": [1000, 610, 270, 100],
+        "action": "ClickSelf"
+    },
+    "StrongholdProtocol@BattleTimeout": {
+        "algorithm": "OcrDetect",
+        "text": ["战斗将重新进行"],
+        "roi": [425, 277, 425, 86],
+        "next": ["StrongholdProtocol@BattleTimeoutConfirm"]
+    },
+    "StrongholdProtocol@BattleTimeoutConfirm": {
+        "algorithm": "OcrDetect",
+        "text": ["确认"],
+        "fullMatch": true,
+        "roi": [570, 440, 155, 90],
+        "action": "ClickSelf"
+    },
+    "StrongholdProtocol@SimulationHud": {
+        "algorithm": "OcrDetect",
+        "text": ["极速模拟"],
+        "roi": [100, 7, 155, 63]
+    },
+    "StrongholdProtocol@BattleRound": {
+        "algorithm": "OcrDetect",
+        "text": ["回合"],
+        "roi": [340, 8, 180, 60]
+    },
+    "StrongholdProtocol@BattleInspect": {
+        "doc": "战斗中的详情按钮位于右下方，休整时相同按钮在棋盘右上方。",
+        "algorithm": "OcrDetect",
+        "text": ["查看"],
+        "fullMatch": true,
+        "roi": [1110, 507, 100, 75]
+    },
+    "StrongholdProtocol@BattleDetailsOpen": {
+        "algorithm": "OcrDetect",
+        "text": ["隐藏"],
+        "fullMatch": true,
+        "roi": [1168, 160, 102, 70]
+    },
+    "StrongholdProtocol@SimulationLoading": {
+        "doc": "关卡载入画面中央的关卡名称。",
+        "algorithm": "OcrDetect",
+        "text": ["极速模拟"],
+        "fullMatch": true,
+        "roi": [475, 420, 325, 120]
+    },
+    "StrongholdProtocol@StrategyGridProbe": {
+        "doc": "点击任意策略格，使网格左移到固定位置",
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [1000, 387, 1, 1],
+        "postDelay": 600
+    },
+    "StrongholdProtocol@ReadyClick": {
+        "doc": "休整界面的 ｢准备就绪｣ 按钮",
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [1187, 113, 1, 1],
+        "postDelay": 1000
+    },
+    "StrongholdProtocol@RefreshClick": {
+        "doc": "刷新商店按钮",
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [1191, 457, 1, 1],
+        "postDelay": 800
+    },
+    "StrongholdProtocol@PopupClose": {
+        "doc": "点击空白处关闭购买失败提示",
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [640, 400, 1, 1],
+        "postDelay": 400
+    },
+    "StrongholdProtocol@PopupNotAgain": {
+        "template": "MiniGame@SPA@NoMoreHint.png",
+        "roi": [515, 365, 240, 77],
+        "action": "ClickSelf",
+        "postDelay": 500,
+        "next": ["StrongholdProtocol@PopupConfirmBtn"]
+    },
+    "StrongholdProtocol@PopupConfirmBtn": {
+        "template": "MiniGame@SPA@ConfirmHint.png",
+        "roi": [860, 420, 160, 120],
+        "action": "ClickSelf",
+        "postDelay": 1500
+    },
+    "StrongholdProtocol@UpgradeConfirmClick": {
+        "baseTask": "StrongholdProtocol@ShopBottomOcr",
+        "action": "ClickSelf",
+        "text": ["confirm"],
+        "cache": false
+    },
+    "StrongholdProtocol@ShopLevelOcr": {
+        "doc": "升级按钮上方的商店等级，横坐标相对按钮中心。识别结果为实际等级。",
+        "algorithm": "OcrDetect",
+        "text": ["1", "2", "3", "4", "5", "6"],
+        "ocrReplace": [
+            ["^[0-9]+$", ""],
+            ["^I$", "1"],
+            ["^II$", "2"],
+            ["^III$", "3"],
+            ["^IV$", "4"],
+            ["^V$", "5"],
+            ["^VI$", "6"]
+        ],
+        "fullMatch": true,
+        "orderBy": "Score",
+        "roi": [-46, 578, 92, 54]
+    },
+    "StrongholdProtocol@StrategyListScroll": {
+        "doc": "策略列表上滚一步：手指上划使内容上移露出更靠后的策略；extra 水平补偿段消除竖直松手惯性",
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "specificRect": [667, 600, 1, 1],
+        "rectMove": [667, 380, 1, 1],
+        "specialParams": [200, 3, 37, 1],
+        "postDelay": 300
+    },
+    "StrongholdProtocol@Roi@StrategyGrid": {
+        "doc": "搜索范围覆盖初始居右和点击后左移的策略网格，并避开顶栏和左栏",
+        "algorithm": "OcrDetect",
+        "text": [],
+        "action": "DoNothing",
+        "roi": [380, 80, 835, 640]
+    },
+    "StrongholdProtocol@TierBadgeLocate": {
+        "doc": "方牌轮廓与笔画。参数依次为牌面灰度上限、边框厚度、内框宽高容差、最小轮廓面积百分比、笔画区域缩进、笔画和牌面的最小灰度差、最小笔画像素百分比。长度单位为像素。",
+        "algorithm": "JustReturn",
+        "specialParams": [60, 2, 3, 75, 4, 40, 3]
+    },
+    "StrongholdProtocol@BenchDiff": {
+        "doc": "买入或换人后用变暗区域定位新增方牌。参数依次为最小灰度差、闭运算核边长、差分方块最小边长。后两项单位为像素。",
+        "algorithm": "JustReturn",
+        "specialParams": [40, 10, 20]
+    },
+    "StrongholdProtocol@Roi@BenchScan": {
+        "doc": "备战席等阶方牌扫描带，加宽会引入立绘深色块。参数依次为完整方牌宽度、高度和复核点选席位的位置容差，单位为像素。",
+        "algorithm": "OcrDetect",
+        "text": [],
+        "action": "DoNothing",
+        "roi": [120, 380, 930, 35],
+        "specialParams": [28, 28, 6]
+    },
+    "StrongholdProtocol@StrategyNewMarker": {
+        "doc": "识别策略卡上的 NEW 标签。rectMove 将各类标记的匹配框移到对应卡心的容许区域。",
+        "baseTask": "StrongholdProtocol@Roi@StrategyGrid",
+        "algorithm": "MatchTemplate",
+        "template": "StrongholdProtocol@StrategyNewMarker.png",
+        "method": "HSVCount",
+        "colorScales": [
+            [
+                [166, 101, 121],
+                [180, 255, 255]
+            ]
+        ],
+        "colorWithClose": false,
+        "templThreshold": 0.6,
+        "nmsDistance": 35,
+        "rectMove": [-25, 58, 26, 36]
+    },
+    "StrongholdProtocol@StrategyGoldMarker": {
+        "doc": "金色通关标记对应已通过 3 次的策略卡。",
+        "baseTask": "StrongholdProtocol@StrategyNewMarker",
+        "template": "StrongholdProtocol@StrategyGoldMarker.png",
+        "colorScales": [
+            [
+                [8, 120, 150],
+                [35, 255, 255]
+            ]
+        ],
+        "rectMove": [-44, 48, 28, 40]
+    },
+    "StrongholdProtocol@StrategyColorMarker": {
+        "doc": "彩色通关标记对应已通过 6 次的策略卡。模板包含内部纹样，以区分选中卡的青色边框。",
+        "baseTask": "StrongholdProtocol@StrategyNewMarker",
+        "template": "StrongholdProtocol@StrategyColorMarker.png",
+        "colorScales": [
+            [
+                [70, 40, 150],
+                [140, 255, 255]
+            ]
+        ],
+        "rectMove": [-44, 41, 28, 40]
+    },
+    "StrongholdProtocol@StrategyDisabledMarker": {
+        "doc": "策略卡左上角的红色禁用标记。",
+        "baseTask": "StrongholdProtocol@StrategyNewMarker",
+        "template": "StrongholdProtocol@StrategyDisabledMarker.png",
+        "colorScales": [
+            [
+                [0, 101, 121],
+                [6, 255, 255]
+            ]
+        ],
+        "rectMove": [44, 43, 28, 40]
+    },
+    "StrongholdProtocol@Roi@ShopSell": {
+        "doc": "商店出售区，起拖前核对右下角商店按钮是否在区域内，终点取区域中心",
+        "algorithm": "OcrDetect",
+        "text": [],
+        "action": "DoNothing",
+        "roi": [1080, 480, 200, 240]
+    },
+    "StrongholdProtocol@Roi@StrategyGridStrip": {
+        "doc": "滚动前截取这段横带，在滚动后的策略网格中匹配图像以测量位移",
+        "algorithm": "OcrDetect",
+        "text": [],
+        "action": "DoNothing",
+        "roi": [400, 373, 520, 93]
+    },
+    "StrongholdProtocol@Roi@ShopBuyY": {
+        "doc": "购买按钮的纵坐标固定，横坐标与选中的卡牌中心对齐",
+        "algorithm": "OcrDetect",
+        "text": [],
+        "action": "DoNothing",
+        "roi": [0, 681, 1, 1]
+    },
+    "StrongholdProtocol@Roi@ShopTierFrame": {
+        "doc": "商店卡牌左上角的完整等阶方牌。x 相对卡牌中心。参数依次为合并卡位中心的距离、卡面文字与中心的最大水平距离、复核同名卡左边缘的位置容差，单位为像素。",
+        "algorithm": "OcrDetect",
+        "text": [],
+        "action": "DoNothing",
+        "roi": [-71, 529, 26, 26],
+        "specialParams": [12, 60, 8]
+    },
+    "StrongholdProtocol@Roi@ShopCostReread": {
+        "doc": "漏读卡牌费用时单独识别费用徽章。横坐标相对卡牌中心，纵坐标和区域大小固定。",
+        "algorithm": "OcrDetect",
+        "text": [],
+        "action": "DoNothing",
+        "ocrReplace": [["^[oO]$", "0"]],
+        "roi": [-11, 520, 23, 23]
+    },
+    "StrongholdProtocol@Roi@BenchPressOffset": {
+        "doc": "从备战席等阶方牌左上角到角色躯干按压点的偏移",
+        "algorithm": "OcrDetect",
+        "text": [],
+        "action": "DoNothing",
+        "roi": [50, 110, 1, 1]
+    },
+    "StrongholdProtocol@Roi@ShopUpgradeCost": {
+        "doc": "升级费用徽章的横坐标相对 ｢升级｣ 文字中心，纵坐标和区域大小固定",
+        "algorithm": "OcrDetect",
+        "text": [],
+        "action": "DoNothing",
+        "roi": [-15, 520, 30, 28]
+    },
+    "StrongholdProtocol@Roi@ShopUpgradeButtonSpan": {
+        "doc": "识别卡牌时，排除从升级按钮中心向右延伸此宽度内的文字",
+        "algorithm": "OcrDetect",
+        "text": [],
+        "action": "DoNothing",
+        "roi": [0, 0, 100, 1]
+    },
+    "StrongholdProtocol@Roi@DragTierFrame": {
+        "doc": "详情面板姓名下方的完整等阶方牌",
+        "algorithm": "OcrDetect",
+        "text": [],
+        "action": "DoNothing",
+        "roi": [14, 218, 24, 26]
+    },
+    "StrongholdProtocol@Roi@ShopCardY": {
+        "doc": "商店卡牌中心的纵坐标",
+        "algorithm": "OcrDetect",
+        "text": [],
+        "action": "DoNothing",
+        "roi": [0, 610, 1, 1]
+    },
+    "StrongholdProtocol@Roi@ShopCostY": {
+        "doc": "商店卡牌顶部菱形费用徽章的纵向范围",
+        "algorithm": "OcrDetect",
+        "text": [],
+        "action": "DoNothing",
+        "roi": [0, 527, 1, 8]
+    },
+    "StrongholdProtocol@Roi@ShopPactY": {
+        "doc": "商店卡牌盟约标签 y 区间",
+        "algorithm": "OcrDetect",
+        "text": [],
+        "action": "DoNothing",
+        "roi": [0, 645, 1, 20]
+    },
+    "StrongholdProtocol@Roi@ShopNameY": {
+        "doc": "商店卡牌干员名 y 区间",
+        "algorithm": "OcrDetect",
+        "text": [],
+        "action": "DoNothing",
+        "roi": [0, 672, 1, 28]
+    },
+    "StrongholdProtocol@Roi@ShopEmptyY": {
+        "doc": "商店卡牌 [NO INFO] 空位 y 区间",
+        "algorithm": "OcrDetect",
+        "text": [],
+        "action": "DoNothing",
+        "roi": [0, 600, 1, 20]
+    },
+    "StrongholdProtocol@Roi@SquadNameOffset": {
+        "doc": "从自选编队中的干员名向上偏移，点击对应头像",
+        "algorithm": "OcrDetect",
+        "text": [],
+        "action": "DoNothing",
+        "roi": [0, -113, 1, 1]
+    }
+}

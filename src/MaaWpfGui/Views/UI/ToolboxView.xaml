@@ -1,4 +1,4 @@
-<UserControl
+﻿<UserControl
     x:Class="MaaWpfGui.Views.UI.ToolboxView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -1453,17 +1453,63 @@
                                     Visibility="{c:Binding EventShopBlackListOther}" />
                             </StackPanel>
 
+                            <!--  卫戍协议极速模拟  -->
+                            <StackPanel
+                                Grid.Row="0"
+                                Margin="0,10,0,0"
+                                Visibility="{c:Binding 'SelectedMiniGameItem.IsStrongholdProtocol'}">
+                                <ComboBox
+                                    hc:TitleElement.Title="{DynamicResource Toolbox.MiniGame.StrongholdProtocol.Theme}"
+                                    DisplayMemberPath="Display"
+                                    ItemsSource="{Binding StrongholdProtocolSeasonList}"
+                                    SelectedValue="{Binding StrongholdProtocolSeason}"
+                                    SelectedValuePath="Value"
+                                    Visibility="{c:Binding IsStrongholdProtocolBadgeMode}" />
+                                <ComboBox
+                                    Margin="0,10,0,0"
+                                    hc:TitleElement.Title="{DynamicResource Toolbox.MiniGame.StrongholdProtocol.Mode}"
+                                    DisplayMemberPath="Display"
+                                    ItemsSource="{Binding StrongholdProtocolModeList}"
+                                    SelectedValue="{Binding StrongholdProtocolMode}"
+                                    SelectedValuePath="Value"
+                                    Visibility="{c:Binding '!IsStrongholdProtocolAlliance'}" />
+                                <ComboBox
+                                    Margin="0,10,0,0"
+                                    hc:TitleElement.Title="{DynamicResource Toolbox.MiniGame.StrongholdProtocol.Target}"
+                                    DisplayMemberPath="Display"
+                                    ItemsSource="{Binding StrongholdProtocolTargetList}"
+                                    SelectedValue="{Binding StrongholdProtocolTarget}"
+                                    SelectedValuePath="Value"
+                                    Visibility="{c:Binding IsStrongholdProtocolParamsVisible}" />
+                                <hc:NumericUpDown
+                                    Margin="0,10,0,0"
+                                    hc:InfoElement.Title="{DynamicResource Toolbox.MiniGame.StrongholdProtocol.Runs}"
+                                    Maximum="999"
+                                    Minimum="1"
+                                    Visibility="{c:Binding IsStrongholdProtocolParamsVisible}"
+                                    Value="{Binding StrongholdProtocolRuns}" />
+                            </StackPanel>
+
                             <Viewbox
                                 Grid.Row="1"
                                 Margin="0,12,0,0"
                                 Stretch="Uniform"
                                 StretchDirection="Both"
-                                Visibility="{c:Binding '!SelectedMiniGameItem.IsPixelPaint and !SelectedMiniGameItem.IsReclamation'}">
+                                Visibility="{c:Binding '!SelectedMiniGameItem.IsPixelPaint and !SelectedMiniGameItem.IsReclamation and !(SelectedMiniGameItem.IsStrongholdProtocol and IsStrongholdProtocolParamsVisible)'}">
                                 <controls:TextBlock
                                     MaxWidth="150"
                                     Text="{Binding MiniGameTip}"
                                     TextWrapping="Wrap" />
                             </Viewbox>
+                            <hc:ScrollViewer
+                                Grid.Row="1"
+                                Margin="0,12,0,0"
+                                HorizontalScrollBarVisibility="Disabled"
+                                IsInertiaEnabled="True"
+                                VerticalScrollBarVisibility="Auto"
+                                Visibility="{c:Binding 'SelectedMiniGameItem.IsStrongholdProtocol and IsStrongholdProtocolParamsVisible'}">
+                                <controls:TextBlock Text="{Binding MiniGameTip}" TextWrapping="Wrap" />
+                            </hc:ScrollViewer>
                         </Grid>
                     </controls:TransitioningContentControl>
                 </Grid>
