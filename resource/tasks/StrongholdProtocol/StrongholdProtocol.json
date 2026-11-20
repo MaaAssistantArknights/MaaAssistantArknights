@@ -164,10 +164,11 @@
         "ocrReplace": [["[^\\d]", ""]]
     },
     "StrongholdProtocol@ShopBottomOcr": {
-        "doc": "商店底部升级/满级按钮文字（1080p 0,820,760,190 等比），定位升级按钮位置",
+        "doc": "商店按钮随等级横移，确认文字比普通升级按钮低一行",
         "algorithm": "OcrDetect",
-        "text": ["升级", "满级"],
-        "roi": [0, 547, 507, 127]
+        "text": ["升级", "确认升级", "已满级", "满级"],
+        "fullMatch": true,
+        "roi": [0, 636, 507, 66]
     },
     "StrongholdProtocol@ShopCardsOcr": {
         "doc": "商店卡牌区多行文本（费用/等阶/盟约标签/干员名，1080p 180,770,1520,290 等比）",
@@ -314,12 +315,18 @@
         "specificRect": [940, 485, 1, 1],
         "postDelay": 1500
     },
-    "StrongholdProtocol@UpgradeClick": {
-        "doc": "商店升级按钮，随商店等级移动，按文字定位 ClickSelf；点 ｢升级｣ 后按钮变 ｢确认升级｣，代码连点两次完成二次确认；商店满级后按钮文字变为 ｢满级｣，本任务不再命中",
-        "algorithm": "OcrDetect",
+    "StrongholdProtocol@UpgradeConfirmClick": {
+        "baseTask": "StrongholdProtocol@ShopBottomOcr",
         "action": "ClickSelf",
-        "text": ["升级"],
-        "roi": [0, 547, 507, 127]
+        "text": ["确认升级"],
+        "cache": false
+    },
+    "StrongholdProtocol@ShopLevelOcr": {
+        "doc": "升级按钮上方的商店等级，x 相对按钮中心，按等级从低到高排列",
+        "algorithm": "OcrDetect",
+        "text": ["I", "II", "III", "IV", "V", "VI"],
+        "fullMatch": true,
+        "roi": [-46, 578, 92, 54]
     },
     "StrongholdProtocol@StrategyListScroll": {
         "doc": "策略列表上滚一步：手指上划使内容上移露出更靠后的策略；extra 水平补偿段消除竖直松手惯性",

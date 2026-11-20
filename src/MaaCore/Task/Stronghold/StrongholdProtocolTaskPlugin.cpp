@@ -1879,40 +1879,82 @@ bool StrongholdProtocolTaskPlugin::prep_phase(BoardState& board)
     }
 
     if (!shop.maxed) {
-        // 能升级就升级（同一轮可多次升级，最多连点 8 轮），成功判定：资金减少 / 费用变化 /
-        // 按钮位移 / 满级。升级按钮走 OCR 任务（文字 ｢升级｣），商店满级后文字变 ｢满级｣ 即不再命中自动停
-        for (int i = 0; i < 8 && !need_exit(); ++i) {
-            if (shop.maxed || (shop.gold && shop.upgrade_cost && *shop.gold < *shop.upgrade_cost)) {
-                break;
-            }
-            // 点 ｢升级｣ 后按钮变 ｢确认升级｣，需二次点击；text 子串命中，同一任务连点两次；
-            // 扣费与按钮位移有动画，等落定再读，否则判定不中会误认为升级失败提前退出
-            const auto click_upgrade = [&] {
-                return ProcessTask(*this, { "StrongholdProtocol@UpgradeClick" }).set_retry_times(1).run();
-            };
-            if (!click_upgrade()) {
+        // 关闭干员详情或升级后，整排商店会横移。连续两帧文字与位置一致后才使用按钮和费用。
+        const auto settled_button = [&](bool after_confirm) -> std::optional<TextRect> {
+            std::optional<TextRect> previous;
+            for (int retry = 0; retry < 5 && !need_exit(); ++retry) {
+                sleep(150);
                 image = ctrler()->get_image();
-                shop = read_shop(image, board);
+                OCRer ocr(image);
+                ocr.set_task_info("StrongholdProtocol@ShopBottomOcr");
+                const auto rows = ocr.analyze();
+                if (!rows || (after_confirm && rows->front().text == "确认升级")) {
+                    previous.reset();
+                    continue;
+                }
+                const auto& button = rows->front();
+                if (previous && previous->text == button.text && std::abs(previous->rect.x - button.rect.x) <= 4) {
+                    return button;
+                }
+                previous = button;
+            }
+            return std::nullopt;
+        };
+        const auto level = [&](const TextRect& button) {
+            const auto task = Task.get<OcrTaskInfo>("StrongholdProtocol@ShopLevelOcr");
+            auto roi = task->roi;
+            roi.x += button.rect.x + button.rect.width / 2;
+            OCRer ocr(image);
+            ocr.set_task_info(task);
+            ocr.set_roi(roi);
+            const auto rows = ocr.analyze();
+            if (rows && rows->size() == 1 && rows->front().score >= 0.75) {
+                const auto it = std::ranges::find(task->text, rows->front().text);
+                if (it != task->text.end()) {
+                    return static_cast<int>(it - task->text.begin()) + 1;
+                }
+            }
+            return 0;
+        };
+        bool upgrade_pending = false;
+        auto button = settled_button(false);
+        shop = read_shop(image, board);
+        for (int i = 0; i < 8 && button && !shop.maxed && !need_exit(); ++i) {
+            if (shop.gold && shop.upgrade_cost && *shop.gold < *shop.upgrade_cost) {
                 break;
             }
-            click_upgrade();
             const ShopInfo before = shop;
-            const auto check_upgrade = [&] {
-                sleep(250);
-                image = ctrler()->get_image();
-                shop = read_shop(image, board);
-                // 按钮随商店等级移动，位移超过 OCR 抖动即视为升级生效
-                return shop.maxed ||
-                       (before.upgrade_x && shop.upgrade_x && std::abs(*shop.upgrade_x - *before.upgrade_x) > 10) ||
-                       (before.gold && shop.gold && *shop.gold < *before.gold) ||
-                       (before.upgrade_cost && shop.upgrade_cost && *shop.upgrade_cost != *before.upgrade_cost);
-            };
-            if (!check_upgrade() && !check_upgrade()) {
+            const int old_level = level(*button);
+            ProcessTask confirm(*this, { "StrongholdProtocol@UpgradeConfirmClick" });
+            if (button->text == "确认升级") {
+                confirm.set_reusable_image(image);
+            }
+            else if (button->text != "升级" || !ctrler()->click(button->rect)) {
                 break;
             }
-            LogInfo << "shop upgraded, gold" << before.gold.value_or(-1) << "->" << shop.gold.value_or(-1);
+            upgrade_pending = true;
+            if (!confirm.set_task_delay(150).set_retry_times(4).run()) {
+                break;
+            }
+            for (int retry = 0; retry < 2 && !need_exit(); ++retry) {
+                button = settled_button(true);
+                shop = read_shop(image, board);
+                if (!button || shop.maxed) {
+                    break;
+                }
+                if ((before.gold && shop.gold && *shop.gold < *before.gold) ||
+                    (before.upgrade_cost && shop.upgrade_cost && *shop.upgrade_cost != *before.upgrade_cost) ||
+                    (old_level > 0 && level(*button) > old_level)) {
+                    upgrade_pending = false;
+                    LogInfo << "shop upgraded, gold" << before.gold.value_or(-1) << "->" << shop.gold.value_or(-1);
+                    break;
+                }
+            }
+            if (upgrade_pending) {
+                break;
+            }
         }
-        if (!shop.maxed && shop.gold != 0) {
+        if (!shop.maxed && !upgrade_pending && shop.gold != 0) {
             // 剩余资金买干员（资金不跨回合，不买装备）
             for (const auto& card : read_shop_cards(image)) {
                 image = ctrler()->get_image();
