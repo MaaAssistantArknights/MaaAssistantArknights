@@ -196,6 +196,17 @@ AsstBool __stdcall WineShimAsstBackToHome(AsstHandle handle)
     return dl_AsstBackToHome(handle);
 }
 
+// linux core has no win32 window binding; stub keeps the export resolvable
+AsstBool __stdcall WineShimAsstAttachWindow(
+    AsstHandle handle,
+    void* hwnd,
+    uint64_t screencap_method,
+    uint64_t mouse_method,
+    uint64_t keyboard_method)
+{
+    return 0;
+}
+
 AsstAsyncCallId __stdcall WineShimAsstAsyncConnect(
     AsstHandle handle,
     const char* adb_path,
