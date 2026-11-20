@@ -63,40 +63,43 @@
         "template": "MiniGame@SPA@ReturnHome.png",
         "roi": [964, 590, 294, 130]
     },
-    "StrongholdProtocol@BountyConfirmBtn": {
-        "doc": "悬赏决策页 ｢确认选择｣ 按钮",
-        "algorithm": "OcrDetect",
-        "text": ["确认选择"],
-        "roi": [400, 440, 480, 100]
-    },
-    "StrongholdProtocol@BountyPanel": {
-        "doc": "悬赏弹层的标题、卡名和确认按钮。背景页仍可见时，任一条线索都需要复核悬赏。",
-        "algorithm": "OcrDetect",
-        "text": ["悬赏", "确认选择"],
-        "roi": [130, 70, 1020, 455]
-    },
     "StrongholdProtocol@BountyTitle": {
-        "doc": "悬赏决策页判定：顶部标题 + 悬赏·开头卡片",
+        "algorithm": "OcrDetect",
+        "text": ["悬赏决策"],
+        "ocrReplace": [
+            ["賞", "赏"],
+            ["決", "决"]
+        ],
+        "roi": [450, 100, 380, 110],
+        "next": ["StrongholdProtocol@BountyMiddleCard"]
+    },
+    "StrongholdProtocol@BountyMiddleCard": {
         "algorithm": "OcrDetect",
         "text": ["悬赏"],
-        "roi": [0, 0, 1280, 720]
+        "roi": [510, 265, 280, 130],
+        "action": "ClickSelf",
+        "postDelay": 400,
+        "next": ["StrongholdProtocol@BountyConfirmBtn"]
     },
-    "StrongholdProtocol@SceneHeader": {
-        "doc": "极速模拟步骤标题。编队、本局信息和策略页共用这次识别结果。",
+    "StrongholdProtocol@BountyConfirmBtn": {
         "algorithm": "OcrDetect",
-        "text": [],
-        "roi": [400, 8, 405, 65]
+        "text": ["确认选择"],
+        "fullMatch": true,
+        "roi": [505, 440, 270, 100],
+        "action": "ClickSelf",
+        "postDelay": 800
     },
     "StrongholdProtocol@ConfirmInfo": {
-        "baseTask": "StrongholdProtocol@SceneHeader",
+        "algorithm": "OcrDetect",
+        "roi": [400, 8, 405, 65],
         "text": ["确认本局信息"]
     },
     "StrongholdProtocol@CustomSquadTitle": {
-        "baseTask": "StrongholdProtocol@SceneHeader",
+        "baseTask": "StrongholdProtocol@ConfirmInfo",
         "text": ["确定自选编队"]
     },
     "StrongholdProtocol@StrategyTitle": {
-        "baseTask": "StrongholdProtocol@SceneHeader",
+        "baseTask": "StrongholdProtocol@ConfirmInfo",
         "text": ["选择策略"]
     },
     "StrongholdProtocol@StrategyPanel": {
@@ -131,7 +134,7 @@
         "doc": "回合休整界面的 ｢准备就绪｣ 按钮",
         "algorithm": "OcrDetect",
         "text": ["准备就绪"],
-        "roi": [1000, 60, 280, 140]
+        "roi": [1125, 85, 140, 60]
     },
     "StrongholdProtocol@ShopGoldOcr": {
         "doc": "休整期的剩余资金",
@@ -193,13 +196,14 @@
         "doc": "回合准备确认弹窗中的标题或资金提示",
         "algorithm": "OcrDetect",
         "text": ["确认准备", "资金将在"],
-        "roi": [400, 260, 480, 360]
+        "roi": [430, 255, 420, 110],
+        "next": ["StrongholdProtocol@PopupNotAgain", "StrongholdProtocol@PopupConfirmBtn"]
     },
     "StrongholdProtocol@FacingCancelOcr": {
-        "doc": "选择朝向时出现 ｢点击取消｣ 提示，表示干员已放置",
+        "doc": "选择朝向时，取消提示位于刚放置的格子左上方。识别区域相对于该格中心。",
         "algorithm": "OcrDetect",
         "text": ["点击取消"],
-        "roi": [200, 0, 933, 547]
+        "roi": [-230, -158, 155, 75]
     },
     "StrongholdProtocol@SettlementResultOcr": {
         "doc": "结算页左侧的胜负标题，出字动画中可能只显示前三个字",
@@ -253,57 +257,63 @@
         "baseTask": "StrongholdProtocol@DragLevelOcr",
         "text": ["50", "55", "60", "60", "60", "60"]
     },
-    "StrongholdProtocol@ScreenTextOcr": {
-        "doc": "场景未知时扫描全屏文字，判断是否仍在卫戍协议内、是否正在战斗，以及有哪些通用按钮可点击",
+    "StrongholdProtocol@ReconnectAvailable": {
+        "doc": "断线后主页同时显示放弃和重连按钮，只点击重连。",
         "algorithm": "OcrDetect",
-        "text": [],
-        "roi": [0, 0, 1280, 720]
+        "text": ["放弃模拟"],
+        "fullMatch": true,
+        "roi": [730, 608, 230, 79],
+        "next": ["StrongholdProtocol@Reconnect"]
     },
-    "StrongholdProtocol@Keywords@Garrison": {
-        "doc": "出现任一词即仍在卫戍协议界面内；连续 30 秒既无已知场景也无这些词则判定已离开并停止",
+    "StrongholdProtocol@Reconnect": {
         "algorithm": "OcrDetect",
-        "text": [
-            "极速模拟",
-            "卫戍",
-            "STRONGHOLD",
-            "同盟模拟",
-            "个人模拟",
-            "确认准备",
-            "资金将在",
-            "选择策略",
-            "确认本局信息",
-            "确定自选编队",
-            "返回主页",
-            "模拟完成",
-            "模拟中断",
-            "COUNTDOWN",
-            "断线重连",
-            "超时异常+战斗将重新进行",
-            "放弃模拟"
-        ],
-        "action": "DoNothing",
-        "roi": [0, 0, 1280, 720]
+        "text": ["断线重连"],
+        "fullMatch": true,
+        "roi": [1000, 610, 270, 100],
+        "action": "ClickSelf"
     },
-    "StrongholdProtocol@Keywords@Battle": {
-        "doc": "战斗回合中（含领袖回合）的特征词，｢+｣ 连接的词须同时出现；战斗中不做通用点击",
+    "StrongholdProtocol@BattleTimeout": {
         "algorithm": "OcrDetect",
-        "text": ["回合", "COUNTDOWN", "查看+极速模拟"],
-        "action": "DoNothing",
-        "roi": [0, 0, 1280, 720]
+        "text": ["战斗将重新进行"],
+        "roi": [425, 277, 425, 86],
+        "next": ["StrongholdProtocol@BattleTimeoutConfirm"]
     },
-    "StrongholdProtocol@Keywords@Generic": {
-        "doc": "仍在卫戍协议内且不在战斗中时可直接点击推进的通用按钮文字",
+    "StrongholdProtocol@BattleTimeoutConfirm": {
         "algorithm": "OcrDetect",
-        "text": ["点击任意", "继续", "断线重连", "返回", "确认", "确定", "领取", "下一步", "完成"],
-        "action": "DoNothing",
-        "roi": [0, 0, 1280, 720]
+        "text": ["确认"],
+        "fullMatch": true,
+        "roi": [570, 440, 155, 90],
+        "action": "ClickSelf"
     },
-    "StrongholdProtocol@Keywords@GenericExclude": {
-        "doc": "含这些词的文字不做通用点击：避免绕过选策略直接确认，或误点放弃",
+    "StrongholdProtocol@SimulationHud": {
         "algorithm": "OcrDetect",
-        "text": ["选择", "放弃"],
-        "action": "DoNothing",
-        "roi": [0, 0, 1280, 720]
+        "text": ["极速模拟"],
+        "roi": [100, 7, 155, 63]
+    },
+    "StrongholdProtocol@BattleRound": {
+        "algorithm": "OcrDetect",
+        "text": ["回合"],
+        "roi": [340, 8, 180, 60]
+    },
+    "StrongholdProtocol@BattleInspect": {
+        "doc": "战斗中的详情按钮位于右下方，休整时相同按钮在棋盘右上方。",
+        "algorithm": "OcrDetect",
+        "text": ["查看"],
+        "fullMatch": true,
+        "roi": [1110, 507, 100, 75]
+    },
+    "StrongholdProtocol@BattleDetailsOpen": {
+        "algorithm": "OcrDetect",
+        "text": ["隐藏"],
+        "fullMatch": true,
+        "roi": [1168, 160, 102, 70]
+    },
+    "StrongholdProtocol@SimulationLoading": {
+        "doc": "关卡载入画面中央的关卡名称。",
+        "algorithm": "OcrDetect",
+        "text": ["极速模拟"],
+        "fullMatch": true,
+        "roi": [475, 420, 325, 120]
     },
     "StrongholdProtocol@StrategyGridProbe": {
         "doc": "点击任意策略格，使网格左移到固定位置",
@@ -334,17 +344,16 @@
         "postDelay": 400
     },
     "StrongholdProtocol@PopupNotAgain": {
-        "doc": "回合准备确认弹窗中的 ｢本局不再提示｣ 复选框",
-        "algorithm": "JustReturn",
-        "action": "ClickRect",
-        "specificRect": [563, 401, 1, 1],
-        "postDelay": 500
+        "template": "MiniGame@SPA@NoMoreHint.png",
+        "roi": [515, 365, 240, 77],
+        "action": "ClickSelf",
+        "postDelay": 500,
+        "next": ["StrongholdProtocol@PopupConfirmBtn"]
     },
     "StrongholdProtocol@PopupConfirmBtn": {
-        "doc": "回合准备确认弹窗的确认按钮",
-        "algorithm": "JustReturn",
-        "action": "ClickRect",
-        "specificRect": [940, 485, 1, 1],
+        "template": "MiniGame@SPA@ConfirmHint.png",
+        "roi": [860, 420, 160, 120],
+        "action": "ClickSelf",
         "postDelay": 1500
     },
     "StrongholdProtocol@UpgradeConfirmClick": {

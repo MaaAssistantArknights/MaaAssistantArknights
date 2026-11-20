@@ -13,7 +13,7 @@ namespace asst
 {
 // 卫戍协议极速模拟刷角标插件：活动主界面经 @Nav 链导航到策略选择页（不复用 MiniGame@SPA 挂机链），
 // 按角标选策略，回合准备（按权重购买、升级商店、固定格位部署）、结算判定与循环，直到目标通关局数。
-// 界面状态判定走模板匹配（复用挂机链模板），OCR 仅用于小范围数据读取。
+// 场景识别使用按钮模板和局部文字。
 class StrongholdProtocolTaskPlugin final : public AbstractTaskPlugin
 {
 public:
@@ -33,6 +33,7 @@ private:
     enum class Scene
     {
         Navigate,       // 活动主界面（极速模拟入口），走 @Nav 链导航到策略选择页
+        StartSimulation,
         StrategySelect, // 策略网格页（歌利亚环节，@Nav 链停在此页）
         ConfirmInfo,    // 确认本局信息页（与编队页同款准备就绪按钮，按页面文字区分）
         CustomSquad,    // 自选编队页（CustomOpersConfirm 模板命中；选人/确认同一场景）
@@ -40,6 +41,10 @@ private:
         RoundPrepare,   // 回合休整（商店与准备就绪）
         ConfirmPopup,   // 确认准备吗（有剩余资金/指令时的进入战斗确认弹窗）
         Settlement,     // 结算（返回主页）
+        Reconnect,
+        BattleTimeout,
+        Battle,
+        Transition,
         Unknown,
     };
 
@@ -104,18 +109,7 @@ private:
         std::map<std::string, std::pair<std::string, int>> occ; // 格位键（组名+序号）-> (干员名, 等阶)
     };
 
-    // 未识别场景时的全屏文字扫描结果
-    struct UnknownScreen
-    {
-        bool in_garrison = false;               // 画面上有卫戍协议界面关键词
-        bool in_battle = false;                 // 战斗回合中（含领袖回合），不做通用点击
-        std::optional<TextRect> generic_button; // 可点的通用按钮（继续/确认/领取等）
-    };
-
-    Scene detect_scene(const cv::Mat& image, UnknownScreen& screen, bool wait_for_transition = false);
-    static UnknownScreen scan_unknown_screen(const std::vector<TextRect>& text);
-    // 悬赏决策：默认选中间一项，避免个别目标奖励/难度失衡
-    bool pick_bounty();
+    static Scene detect_scene(const cv::Mat& image);
     // 模板命中后直接点击其矩形；不借 ProcessTask，避免任务 next 链把流程带走
     bool click_template(const std::string& task_name);
     enum class StrategyResult

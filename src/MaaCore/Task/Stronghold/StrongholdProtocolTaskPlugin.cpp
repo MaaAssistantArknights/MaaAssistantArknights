@@ -3,7 +3,6 @@
 #include "StrongholdTierMatcher.h"
 
 #include "Config/Miscellaneous/BattleDataConfig.h"
-#include "Config/Miscellaneous/OcrConfig.h"
 #include "Config/StrongholdProtocol/StrongholdProtocolConfig.h"
 #include "Config/TaskData.h"
 #include "Controller/Controller.h"
@@ -13,6 +12,7 @@
 #include "Utils/Logger.hpp"
 #include "Utils/StringMisc.hpp"
 #include "Vision/Matcher.h"
+#include "Vision/Miscellaneous/PipelineAnalyzer.h"
 #include "Vision/OCRer.h"
 #include "Vision/RegionOCRer.h"
 
@@ -24,14 +24,29 @@
 
 namespace asst
 {
-// 所有扫描/判定 ROI 统一从 pipeline 任务的 roi 字段读取；缺任务时记错误并返回全图，避免空 rect 崩溃
+// 缺少局部区域时返回空框，调用方跳过该次识别。
 static Rect task_roi(const std::string& task_name)
 {
     if (auto task = Task.get(task_name); task && task->roi.width > 0 && task->roi.height > 0) {
         return task->roi;
     }
     LogError << __FUNCTION__ << "roi task missing or empty:" << task_name;
-    return Rect { 0, 0, 1280, 720 };
+    return {};
+}
+
+static bool has_facing_cancel(const cv::Mat& image, const Point& tile)
+{
+    const auto task = Task.get<OcrTaskInfo>("StrongholdProtocol@FacingCancelOcr");
+    if (!task || task->roi.empty()) {
+        return false;
+    }
+    auto roi = task->roi;
+    roi.x += tile.x;
+    roi.y += tile.y;
+    OCRer facing(image);
+    facing.set_task_info(task);
+    facing.set_roi(roi);
+    return facing.analyze().has_value();
 }
 
 bool StrongholdProtocolTaskPlugin::verify(AsstMsg msg, const json::value& details) const
@@ -68,10 +83,10 @@ bool StrongholdProtocolTaskPlugin::_run()
 
     BoardState board;
     m_bench_shop_unconfirmed = false;
-    // 卡死判定：选定策略、推进到新回合、结算算作进展；
-    // 战斗回合与过场落在 Unknown 属正常等待，长时间无进展即停止
+    m_last_tile.reset();
+    // 选定策略、推进到新回合或结算时刷新进度，战斗和过场保留原来的计时。
     constexpr auto stall_timeout = std::chrono::minutes(10);
-    // 离开判定：连续这么久既没有已知场景、也扫不到卫戍协议界面关键词即停止
+    // 连续看不到活动界面时提前停止。
     constexpr auto leave_timeout = std::chrono::seconds(30);
     auto last_progress = std::chrono::steady_clock::now();
     auto last_in_garrison = last_progress;
@@ -83,18 +98,19 @@ bool StrongholdProtocolTaskPlugin::_run()
         }
 
         bool progressed = false;
-        auto image = ctrler()->get_image();
-        UnknownScreen screen;
-        Scene scene = detect_scene(image, screen);
-        if (scene == Scene::Unknown && screen.generic_button) {
-            // 过场中按钮和坐标都可能变化，点击前用新画面重新判定场景。
-            image = ctrler()->get_image();
-            scene = detect_scene(image, screen);
+        const auto image = ctrler()->get_image();
+        if (m_last_tile && has_facing_cancel(image, *m_last_tile)) {
+            if (set_facing(*m_last_tile)) {
+                m_last_tile.reset();
+            }
+            last_in_garrison = std::chrono::steady_clock::now();
+            continue;
         }
+        Scene scene = detect_scene(image);
         if (scene != Scene::Unknown) {
             last_in_garrison = std::chrono::steady_clock::now();
         }
-        if (scene != Scene::Settlement && scene != Scene::Unknown) {
+        if (scene != Scene::Settlement && scene != Scene::Transition && scene != Scene::Unknown) {
             m_settlement_counted = false; // 已离开结算页进入下一局流程，下次结算重新计数
         }
         if (scene == Scene::StrategySelect) {
@@ -116,8 +132,17 @@ bool StrongholdProtocolTaskPlugin::_run()
             // 活动主界面：走 @Nav 链导航到策略选择页（链停在策略页，不代选策略）
             ProcessTask(*this, { "StrongholdProtocol@Nav" }).run();
             break;
+        case Scene::StartSimulation:
+            ProcessTask(*this, { "StrongholdProtocol@Nav@StartSimulation" }).run();
+            break;
         case Scene::BountySelect:
-            pick_bounty();
+            ProcessTask(*this, { "StrongholdProtocol@BountyTitle" }).set_retry_times(1).run();
+            break;
+        case Scene::Reconnect:
+            ProcessTask(*this, { "StrongholdProtocol@ReconnectAvailable" }).set_retry_times(0).run();
+            break;
+        case Scene::BattleTimeout:
+            ProcessTask(*this, { "StrongholdProtocol@BattleTimeout" }).set_retry_times(0).run();
             break;
         case Scene::ConfirmInfo:
             click_template("StrongholdProtocol@Nav@ReadyScreen");
@@ -144,34 +169,23 @@ bool StrongholdProtocolTaskPlugin::_run()
                 return false;
             }
             break;
-        default: {
-            // 停在选择朝向界面（朝向拖拽没生效）：按最近部署的格子补设朝向
-            if (m_last_tile) {
-                OCRer facing(image);
-                facing.set_task_info("StrongholdProtocol@FacingCancelOcr");
-                if (auto r = facing.analyze(); r && !r->empty()) {
-                    set_facing(*m_last_tile);
-                    break;
-                }
-            }
-            if (screen.in_garrison || screen.in_battle) {
-                last_in_garrison = std::chrono::steady_clock::now();
-            }
-            else if (std::chrono::steady_clock::now() - last_in_garrison > leave_timeout) {
+        case Scene::Battle:
+            sleep(800);
+            continue;
+        case Scene::Transition:
+            sleep(500);
+            continue;
+        case Scene::Unknown:
+            if (std::chrono::steady_clock::now() - last_in_garrison > leave_timeout) {
                 save_img(utils::path("debug") / utils::path("stronghold"), false);
                 LogError << __FUNCTION__ << "stronghold protocol screen not seen for" << leave_timeout.count()
                          << "seconds, task stopped";
                 return false;
             }
-            if (screen.generic_button) {
-                // 仍在卫戍协议内且不在战斗中：点通用按钮推进（继续/确认/领取等）
-                LogInfo << __FUNCTION__ << "generic click:" << screen.generic_button->text;
-                ctrler()->click(screen.generic_button->rect);
-            }
-            // 点掉弹窗/过场后短等即重判场景（回合尽快开始）；战斗中无进展可等，慢轮询
-            sleep(screen.in_battle ? 800 : 500);
+            sleep(500);
             continue;
-        }
+        case Scene::StrategySelect:
+            break;
         }
         if (progressed) {
             last_progress = std::chrono::steady_clock::now();
@@ -181,206 +195,54 @@ bool StrongholdProtocolTaskPlugin::_run()
     return true;
 }
 
-static bool has_scene_text(const std::vector<TextRect>& text, const std::string& task_name, size_t required = 1)
+StrongholdProtocolTaskPlugin::Scene StrongholdProtocolTaskPlugin::detect_scene(const cv::Mat& image)
 {
-    const auto task = Task.get<OcrTaskInfo>(task_name);
-    if (!task || text.size() < required) {
-        return false;
-    }
-    const auto& config = OcrConfig::get_instance();
-    auto keywords = task->text;
-    for (auto& keyword : keywords) {
-        keyword = config.process_equivalence_class(keyword);
-    }
-    size_t matches = 0;
-    for (const auto& row : text) {
-        if (!task->roi.empty() && !task->roi.include(row.rect)) {
-            continue;
-        }
-        const auto line = config.process_equivalence_class(row.text);
-        const bool matched = std::ranges::any_of(keywords, [&](const std::string& keyword) {
-            return task->full_match ? line == keyword : line.find(keyword) != std::string::npos;
-        });
-        if (matched && ++matches == required) {
-            return true;
-        }
-    }
-    return false;
-}
-
-StrongholdProtocolTaskPlugin::Scene
-    StrongholdProtocolTaskPlugin::detect_scene(const cv::Mat& image, UnknownScreen& screen, bool wait_for_transition)
-{
-    const auto match = [&image](const std::string& task_name) {
-        Matcher matcher(image);
-        matcher.set_task_info(task_name);
-        return matcher.analyze().has_value();
+    PipelineAnalyzer analyzer(image);
+    const auto has = [&](const std::string& name) {
+        analyzer.set_tasks({ "StrongholdProtocol@" + name });
+        return analyzer.analyze().has_value();
     };
-    const auto read = [&image](const std::string& task_name) {
-        OCRer ocr(image);
-        ocr.set_task_info(task_name);
-        return ocr.analyze().value_or(std::vector<TextRect> {});
-    };
-    if (match("StrongholdProtocol@ReturnHome")) {
+    if (has("ReturnHome")) {
         return Scene::Settlement;
     }
-    const bool squad_button = match("StrongholdProtocol@CustomOpersConfirm");
-    const bool info_button = match("StrongholdProtocol@Nav@ReadyScreen");
-    const bool ready = squad_button || info_button;
-    const bool strategy =
-        !ready && (match("StrongholdProtocol@SPRConfirmSelect") || match("StrongholdProtocol@SPAConfirmSelect") ||
-                   match("StrongholdProtocol@Goliath"));
-    const auto step = [&](const std::vector<TextRect>& text) {
-        if (squad_button && has_scene_text(text, "StrongholdProtocol@CustomSquadTitle")) {
-            return Scene::CustomSquad;
-        }
-        if (info_button && has_scene_text(text, "StrongholdProtocol@ConfirmInfo")) {
-            return Scene::ConfirmInfo;
-        }
-        if (strategy && has_scene_text(text, "StrongholdProtocol@StrategyTitle")) {
-            return Scene::StrategySelect;
-        }
-        return Scene::Unknown;
-    };
-    Scene scene = Scene::Unknown;
-    if (ready || strategy) {
-        scene = step(read("StrongholdProtocol@SceneHeader"));
+    // 悬赏和确认弹窗可能露出背景页的按钮，须先识别弹窗。
+    if (has("BountyTitle")) {
+        return has("BountyMiddleCard") ? Scene::BountySelect : Scene::Unknown;
     }
-    else if (!read("StrongholdProtocol@ReadyButton").empty()) {
-        // 确认准备弹窗可能仍露出右上角的商店按钮。
-        scene = read("StrongholdProtocol@ConfirmReadyOcr").empty() ? Scene::RoundPrepare : Scene::ConfirmPopup;
-    }
-    // 悬赏弹层可能仍露出背景页的标题和按钮。面板内只读到一条线索时，用全屏原文核对两行悬赏文字。
-    if ((scene != Scene::Unknown || wait_for_transition) && read("StrongholdProtocol@BountyPanel").empty()) {
-        return scene;
-    }
-
-    const auto text = read("StrongholdProtocol@ScreenTextOcr");
-    if (has_scene_text(text, "StrongholdProtocol@BountyTitle", 2)) {
-        return Scene::BountySelect;
-    }
-    if (scene != Scene::Unknown) {
-        return scene;
-    }
-    if (ready) {
-        scene = step(text);
-        if (scene != Scene::Unknown) {
-            return scene;
-        }
-    }
-    else if (strategy) {
-        // 旧策略页可能只有歌利亚或确认按钮可见。
-        return Scene::StrategySelect;
-    }
-    if (has_scene_text(text, "StrongholdProtocol@ConfirmReadyOcr")) {
+    if (has("ConfirmReadyOcr")) {
         return Scene::ConfirmPopup;
     }
-    if (has_scene_text(text, "StrongholdProtocol@ReadyButton")) {
+    if (has("BattleTimeout")) {
+        return has("BattleTimeoutConfirm") ? Scene::BattleTimeout : Scene::Unknown;
+    }
+    const bool squad_button = has("CustomOpersConfirm");
+    const bool info_button = has("Nav@ReadyScreen");
+    if (squad_button || info_button) {
+        if (squad_button && has("CustomSquadTitle")) {
+            return Scene::CustomSquad;
+        }
+        return info_button && has("ConfirmInfo") ? Scene::ConfirmInfo : Scene::Unknown;
+    }
+    if (has("SPRConfirmSelect") || has("SPAConfirmSelect") || has("Goliath")) {
+        return has("StrategyTitle") ? Scene::StrategySelect : Scene::Unknown;
+    }
+    if (has("ReadyButton")) {
         return Scene::RoundPrepare;
     }
-    if (match("StrongholdProtocol@Nav@EnterQuickly")) {
+    if (has("ReconnectAvailable")) {
+        return has("Reconnect") ? Scene::Reconnect : Scene::Unknown;
+    }
+    if (has("Nav@EnterQuickly")) {
         return Scene::Navigate;
     }
-    screen = scan_unknown_screen(text);
-    return Scene::Unknown;
-}
-
-StrongholdProtocolTaskPlugin::UnknownScreen
-    StrongholdProtocolTaskPlugin::scan_unknown_screen(const std::vector<TextRect>& text)
-{
-    UnknownScreen screen;
-    if (text.empty()) {
-        return screen;
+    if (has("Nav@StartSimulation")) {
+        return Scene::StartSimulation;
     }
-    const auto upper = [](std::string word) {
-        std::ranges::transform(word, word.begin(), [](char ch) {
-            return static_cast<char>(std::toupper(static_cast<unsigned char>(ch)));
-        });
-        return word;
-    };
-    std::string all_text;
-    for (const auto& tr : text) {
-        all_text += upper(tr.text);
+    if (has("SimulationHud")) {
+        return has("BattleRound") || has("BattleInspect") || has("BattleDetailsOpen") ? Scene::Battle
+                                                                                      : Scene::Transition;
     }
-    const auto keywords = [](const std::string& task_name) {
-        const auto task = Task.get<OcrTaskInfo>(task_name);
-        return task ? task->text : std::vector<std::string> {};
-    };
-    // 词表条目可用 ｢+｣ 连接多个词，须同时出现；英文按大写比较
-    const auto contains = [&](const std::string& keyword) {
-        size_t begin = 0;
-        while (begin <= keyword.size()) {
-            const size_t end = std::min(keyword.find('+', begin), keyword.size());
-            if (all_text.find(upper(keyword.substr(begin, end - begin))) == std::string::npos) {
-                return false;
-            }
-            begin = end + 1;
-        }
-        return true;
-    };
-    screen.in_garrison = std::ranges::any_of(keywords("StrongholdProtocol@Keywords@Garrison"), contains);
-    // 重连入口也显示当前回合，旁边的 ｢放弃模拟｣ 能区分入口和战斗画面。
-    screen.in_battle =
-        !contains("断线重连+放弃模拟") && std::ranges::any_of(keywords("StrongholdProtocol@Keywords@Battle"), contains);
-    if (!screen.in_garrison || screen.in_battle) {
-        return screen;
-    }
-    // 只在仍处于卫戍协议界面且不在战斗中时做通用点击，不在界面外乱点
-    const auto generic = keywords("StrongholdProtocol@Keywords@Generic");
-    const auto exclude = keywords("StrongholdProtocol@Keywords@GenericExclude");
-    for (const auto& tr : text) {
-        const auto hit = [&tr](const std::string& k) {
-            return tr.text.find(k) != std::string::npos;
-        };
-        if (std::ranges::any_of(generic, hit) && std::ranges::none_of(exclude, hit)) {
-            screen.generic_button = tr;
-            break;
-        }
-    }
-    return screen;
-}
-
-bool StrongholdProtocolTaskPlugin::pick_bounty()
-{
-    LogTraceFunction;
-    // 悬赏三选一：选中中间项中庸，然后点页面下方 ｢确认选择｣ 按钮
-    // 三张悬赏卡：BountyTitle roi 内会含标题 + 三张卡名，剔除含 ｢决策｣ 的标题行后按 x 排序取中间
-    OCRer cards(ctrler()->get_image());
-    cards.set_task_info("StrongholdProtocol@BountyTitle");
-    if (auto results = cards.analyze(); results && !results->empty()) {
-        std::vector<TextRect> card_rows;
-        for (const auto& tr : *results) {
-            if (tr.text.find("决策") != std::string::npos) {
-                continue;
-            }
-            if (tr.text.find("悬赏") != std::string::npos) {
-                card_rows.emplace_back(tr);
-            }
-        }
-        if (card_rows.size() >= 3) {
-            std::ranges::sort(card_rows, [](const TextRect& a, const TextRect& b) { return a.rect.x < b.rect.x; });
-            ctrler()->click(card_rows[1].rect);
-        }
-        else {
-            LogWarn << "bounty cards ocr rows" << card_rows.size() << "< 3";
-        }
-    }
-    else {
-        LogWarn << "bounty card ocr missed";
-    }
-    sleep(400);
-    // ｢确认选择｣ 按钮 OCR 命中即点
-    OCRer confirm(ctrler()->get_image());
-    confirm.set_task_info("StrongholdProtocol@BountyConfirmBtn");
-    if (auto results = confirm.analyze(); results && !results->empty()) {
-        ctrler()->click(results->front().rect);
-    }
-    else {
-        LogWarn << "bounty confirm ocr missed";
-    }
-    sleep(800);
-    LogInfo << "bounty picked (middle)";
-    return true;
+    return has("SimulationLoading") ? Scene::Transition : Scene::Unknown;
 }
 
 bool StrongholdProtocolTaskPlugin::click_template(const std::string& task_name)
@@ -943,9 +805,7 @@ StrongholdProtocolTaskPlugin::StrategyResult StrongholdProtocolTaskPlugin::pick_
                 if (!sleep(200)) {
                     return StrategyResult::IncompleteScan;
                 }
-                UnknownScreen screen;
-                // 过场先查局部特征，画面仍未确定时再走完整识别。
-                scene = detect_scene(ctrler()->get_image(), screen, attempt < 9);
+                scene = detect_scene(ctrler()->get_image());
                 if ((scene == Scene::CustomSquad || scene == Scene::BountySelect || scene == Scene::ConfirmInfo ||
                      scene == Scene::RoundPrepare) &&
                     !need_exit()) {
@@ -1114,15 +974,19 @@ std::optional<int> StrongholdProtocolTaskPlugin::read_number(
 {
     // 任务自身的 [^\d] 剔除表会整体覆盖 baseTask NumberOcrReplace 的纠错表（baseTask 不合并数组），
     // 串联回纠错表让 O→0、l→1 等误识别先纠正再剔除，而不是被删掉
+    const auto task = Task.get<OcrTaskInfo>(task_name);
+    if (!task || roi.value_or(task->roi).empty()) {
+        return std::nullopt;
+    }
     const auto& number_replace = Task.get<OcrTaskInfo>("NumberOcrReplace")->replace_map;
-    const auto& task_replace = Task.get<OcrTaskInfo>(task_name)->replace_map;
+    const auto& task_replace = task->replace_map;
     std::decay_t<decltype(task_replace)> merged_replace {};
     merged_replace.reserve(number_replace.size() + task_replace.size());
     std::ranges::copy(number_replace, std::back_inserter(merged_replace));
     std::ranges::copy(task_replace, std::back_inserter(merged_replace));
 
     RegionOCRer ocr(image);
-    ocr.set_task_info(task_name);
+    ocr.set_task_info(task);
     if (roi) {
         ocr.set_roi(*roi);
     }
@@ -1294,6 +1158,9 @@ std::vector<StrongholdProtocolTaskPlugin::ShopCard>
         return Rect { card_x + r.x, r.y, r.width, r.height };
     };
     const auto read_card_cost = [&](int x) {
+        if (cost_reread.empty()) {
+            return -1;
+        }
         RegionOCRer cost(image);
         cost.set_roi(card_rect(cost_reread, x));
         const auto result = cost.analyze();
@@ -2078,6 +1945,9 @@ bool StrongholdProtocolTaskPlugin::prep_phase(BoardState& board)
         };
         const auto level = [&](const TextRect& button) {
             const auto task = Task.get<OcrTaskInfo>("StrongholdProtocol@ShopLevelOcr");
+            if (!task || task->roi.empty()) {
+                return 0;
+            }
             auto roi = task->roi;
             roi.x += button.rect.x + button.rect.width / 2;
             OCRer ocr(image);
@@ -2239,12 +2109,14 @@ bool StrongholdProtocolTaskPlugin::prep_phase(BoardState& board)
 
 void StrongholdProtocolTaskPlugin::handle_popups()
 {
-    // 多结果 OCRer：弹窗 roi 内多行文本，单结果模式可能取到正文行漏判
-    OCRer popup(ctrler()->get_image());
+    const auto image = ctrler()->get_image();
+    OCRer popup(image);
     popup.set_task_info("StrongholdProtocol@ConfirmReadyOcr");
     if (popup.analyze()) {
-        ProcessTask(*this, { "StrongholdProtocol@PopupNotAgain" }).run();
-        ProcessTask(*this, { "StrongholdProtocol@PopupConfirmBtn" }).run();
+        ProcessTask(*this, Task.get("StrongholdProtocol@ConfirmReadyOcr")->next)
+            .set_reusable_image(image)
+            .set_retry_times(1)
+            .run();
     }
 }
 
@@ -2646,11 +2518,13 @@ StrongholdProtocolTaskPlugin::Placement
     }
     for (int i = 0; i < 10 && !need_exit(); ++i) {
         sleep(200);
-        OCRer facing(ctrler()->get_image());
-        facing.set_task_info("StrongholdProtocol@FacingCancelOcr");
-        if (auto r = facing.analyze(); r && !r->empty()) {
+        if (has_facing_cancel(ctrler()->get_image(), tile)) {
+            if (set_facing(tile)) {
+                m_last_tile.reset();
+                return Placement::Confirmed;
+            }
             m_last_tile = tile;
-            return set_facing(tile) ? Placement::Confirmed : Placement::FacingPending;
+            return Placement::FacingPending;
         }
     }
     save_img(utils::path("debug") / utils::path("stronghold"), false);
@@ -3132,9 +3006,7 @@ bool StrongholdProtocolTaskPlugin::set_facing(const Point& tile)
     }
     for (int i = 0; i < 10 && !need_exit(); ++i) {
         sleep(200);
-        OCRer facing(ctrler()->get_image());
-        facing.set_task_info("StrongholdProtocol@FacingCancelOcr");
-        if (!facing.analyze()) {
+        if (!has_facing_cancel(ctrler()->get_image(), tile)) {
             return true;
         }
     }
