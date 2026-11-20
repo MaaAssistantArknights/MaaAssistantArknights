@@ -559,15 +559,44 @@ StrongholdProtocolTaskPlugin::StrategyResult StrongholdProtocolTaskPlugin::pick_
         for (int offset : { 566, 426, 286, 146 }) {
             const int left = thumb.x + thumb.width / 2 - offset;
             const auto band = gray.rowRange(view_top, view_bottom);
-            cv::Mat edge, background;
-            cv::reduce(band.colRange(left, left + 4), edge, 1, cv::REDUCE_AVG, CV_32F);
-            cv::reduce(band.colRange(left - 4, left - 1), background, 1, cv::REDUCE_AVG, CV_32F);
-            cv::Mat mask = edge - background > 10;
-            cv::morphologyEx(mask, mask, cv::MORPH_CLOSE, cv::getStructuringElement(cv::MORPH_RECT, { 1, 5 }));
-            std::vector<std::vector<cv::Point>> borders;
-            cv::findContours(mask, borders, cv::RETR_EXTERNAL, cv::CHAIN_APPROX_SIMPLE);
-            for (const auto& border : borders) {
-                const auto rect = cv::boundingRect(border);
+            const auto column_mean = [&](int x, int width = 4) {
+                cv::Mat mean;
+                cv::reduce(band.colRange(x, x + width), mean, 1, cv::REDUCE_AVG, CV_32F);
+                return mean;
+            };
+            const auto find_borders = [](cv::Mat mask) {
+                cv::morphologyEx(mask, mask, cv::MORPH_CLOSE, cv::getStructuringElement(cv::MORPH_RECT, { 1, 5 }));
+                std::vector<std::vector<cv::Point>> contours;
+                cv::findContours(mask, contours, cv::RETR_EXTERNAL, cv::CHAIN_APPROX_SIMPLE);
+                std::vector<cv::Rect> borders;
+                for (const auto& contour : contours) {
+                    borders.emplace_back(cv::boundingRect(contour));
+                }
+                return borders;
+            };
+            const auto edge = column_mean(left);
+            auto borders = find_borders(edge - column_mean(left - 4, 3) > 10);
+            // 暗卡的边框和外部背景可能同亮，另外检查左右边框与各自内侧的相对亮度差。
+            const auto edge_contrast = [](const cv::Mat& frame, const cv::Mat& inner) {
+                cv::Mat contrast;
+                cv::compare(cv::abs(frame - inner), (frame + inner) * 0.10, contrast, cv::CMP_GT);
+                return contrast;
+            };
+            const auto inner_edges = find_borders(
+                edge_contrast(edge, column_mean(left + 6)) &
+                edge_contrast(column_mean(left + 124), column_mean(left + 117)));
+            for (const auto& rect : inner_edges) {
+                if (rect.y > 0 && rect.br().y < band.rows && rect.height >= 108 && rect.height <= 136 &&
+                    std::ranges::none_of(
+                        borders,
+                        [&](const cv::Rect& found) {
+                            return found.height >= 108 && found.height <= 136 &&
+                                   std::abs(found.br().y - rect.br().y) < 35;
+                        })) {
+                    borders.emplace_back(rect);
+                }
+            }
+            for (const auto& rect : borders) {
                 if (rect.y == 0 || rect.br().y == band.rows) {
                     // 相邻页有重叠，裁断的卡留给显示全卡的一页。首尾再有裁断则无法核全。
                     if (rect.height >= 30 && ((rect.y == 0 && thumb.y <= track_top + 2) ||
@@ -582,6 +611,16 @@ StrongholdProtocolTaskPlugin::StrategyResult StrongholdProtocolTaskPlugin::pick_
                 else if (rect.height >= 30) {
                     verified = false;
                 }
+            }
+        }
+        // 分组末行可以留空。若已识别卡的左邻缺失，无法确认整行都已核对。
+        const int first_col = thumb.x + thumb.width / 2 - 566 + 64;
+        for (const auto& cell : cells) {
+            if (cell.x > first_col && std::ranges::none_of(cells, [&](const Point& other) {
+                    return other.x == cell.x - 140 && std::abs(other.y - cell.y) < 35;
+                })) {
+                verified = false;
+                break;
             }
         }
         return cells;
