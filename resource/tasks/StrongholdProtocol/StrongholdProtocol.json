@@ -155,8 +155,10 @@
         "ocrReplace": [["[^\\d]", ""]]
     },
     "StrongholdProtocol@ShopSlotsOcr": {
-        "doc": "剩余可放置角色数",
+        "doc": "剩余可放置角色数。确认朝向后若读数不符合一次部署的变化，按重试次数和间隔重新取图。",
         "baseTask": "NumberOcrReplace",
+        "specialParams": [3],
+        "postDelay": 150,
         "roi": [1241, 377, 24, 28],
         "ocrReplace": [["[^\\d]", ""]]
     },
@@ -390,6 +392,11 @@
         "doc": "方牌轮廓与笔画。参数依次为牌面灰度上限、边框厚度、内框宽高容差、最小轮廓面积百分比、笔画区域缩进、笔画和牌面的最小灰度差、最小笔画像素百分比。长度单位为像素。",
         "algorithm": "JustReturn",
         "specialParams": [60, 2, 3, 75, 4, 40, 3]
+    },
+    "StrongholdProtocol@BenchDiff": {
+        "doc": "买入或换人后用变暗区域定位新增方牌。参数依次为最小灰度差、闭运算核边长、差分方块最小边长。后两项单位为像素。",
+        "algorithm": "JustReturn",
+        "specialParams": [40, 10, 20]
     },
     "StrongholdProtocol@Roi@BenchScan": {
         "doc": "备战席等阶方牌扫描带，加宽会引入立绘深色块。参数依次为完整方牌宽度、高度和复核点选席位的位置容差，单位为像素。",

@@ -2377,6 +2377,8 @@ void StrongholdProtocolTaskPlugin::deploy_opening_gifts(BoardState& board, const
     }
 }
 
+static constexpr int MaxDeploymentSlots = 8;
+
 std::optional<StrongholdProtocolTaskPlugin::DeployTile> StrongholdProtocolTaskPlugin::choose_tile(
     const BoardState& board,
     const std::string& name,
@@ -2387,7 +2389,7 @@ std::optional<StrongholdProtocolTaskPlugin::DeployTile> StrongholdProtocolTaskPl
 {
     const auto& tiles = StrongholdProtocol.get_tiles();
     const auto role = StrongholdProtocol.get_role(name);
-    if (slots < 0 || slots > 8 || role == battle::Role::Unknown || role == battle::Role::Drone) {
+    if (slots < 0 || slots > MaxDeploymentSlots || role == battle::Role::Unknown || role == battle::Role::Drone) {
         return std::nullopt;
     }
     const bool medic = role == battle::Role::Medic;
@@ -2530,9 +2532,33 @@ std::optional<StrongholdProtocolTaskPlugin::BoardDrop> StrongholdProtocolTaskPlu
     LogInfo << "deploy target" << tile.key << tile.point.x << "," << tile.point.y;
     const auto placement = drag_from_bench(bench, tile.point);
     auto after = ctrler()->get_image();
-    const auto remaining = slots_left(after);
-    if (placement != Placement::Confirmed || !remaining || *remaining < 0 ||
-        (*remaining != slots && *remaining != slots - 1)) {
+    auto remaining = slots_left(after);
+    const auto valid_capacity = [&] {
+        return remaining && *remaining >= 0 && (*remaining == slots || *remaining == slots - 1);
+    };
+    if (placement == Placement::Confirmed && !valid_capacity()) {
+        const auto counter = Task.get("StrongholdProtocol@ShopSlotsOcr");
+        if (counter && counter->special_params.size() == 1) {
+            for (int retry = 0; retry < counter->special_params.front() && !valid_capacity() && !need_exit(); ++retry) {
+                sleep(counter->post_delay);
+                after = ctrler()->get_image();
+                remaining = slots_left(after);
+            }
+        }
+    }
+    if (placement == Placement::Unconfirmed && slots > 0 && remaining == slots &&
+        std::ssize(board.occ) + slots == MaxDeploymentSlots && !board.occ.contains(tile.key) &&
+        board.unconfirmed_tiles.empty() && board.promotion_tiles.empty() && !board.unknown_displaced && !need_exit() &&
+        is_bench_shop(after) && bench_badge_at(after, bench)) {
+        // 已知空格没有消耗名额，原席仍是同一干员时，回合内可重新尝试这个格子。
+        const auto original = read_bench_identity(inspect_bench(bench, after), false);
+        if (original && original->verified && original->name == name) {
+            board.pending_deploy = true;
+            LogInfo << "operator still on bench after swipe" << name << tile.key;
+            return std::nullopt;
+        }
+    }
+    if (placement != Placement::Confirmed || !valid_capacity()) {
         // 结果不明时，原占位和本次拿起的干员都可能仍在该格。后续选格须避开它。
         board.unconfirmed_tiles[tile.key] = name;
         board.unknown_displaced = true;
@@ -3016,7 +3042,14 @@ std::optional<Point> StrongholdProtocolTaskPlugin::new_bench_slot(const cv::Mat&
 {
     const cv::Rect scan = make_rect<cv::Rect>(task_roi("StrongholdProtocol@Roi@BenchScan")) &
                           cv::Rect(0, 0, std::min(before.cols, after.cols), std::min(before.rows, after.rows));
-    if (scan.empty()) {
+    const auto diff = Task.get("StrongholdProtocol@BenchDiff");
+    if (scan.empty() || !diff || diff->special_params.size() != 3) {
+        return std::nullopt;
+    }
+    const auto& params = diff->special_params;
+    const int min_change = params[0], kernel = params[1], min_side = params[2];
+    if (min_change <= 0 || min_change > 255 || kernel <= 0 || kernel > scan.height || min_side <= 0 ||
+        min_side > scan.height) {
         return std::nullopt;
     }
     // 深色方牌出现时背景变暗，离开时背景变亮。
@@ -3024,9 +3057,9 @@ std::optional<Point> StrongholdProtocolTaskPlugin::new_bench_slot(const cv::Mat&
     cv::cvtColor(before(scan), before_gray, cv::COLOR_BGR2GRAY);
     cv::cvtColor(after(scan), after_gray, cv::COLOR_BGR2GRAY);
     cv::subtract(before_gray, after_gray, mask);
-    cv::threshold(mask, mask, 40, 255, cv::THRESH_BINARY);
+    cv::threshold(mask, mask, min_change, 255, cv::THRESH_BINARY);
     // 等阶数字的笔画会在方牌内留下差分空洞。
-    cv::morphologyEx(mask, mask, cv::MORPH_CLOSE, cv::getStructuringElement(cv::MORPH_RECT, { 10, 10 }));
+    cv::morphologyEx(mask, mask, cv::MORPH_CLOSE, cv::getStructuringElement(cv::MORPH_RECT, { kernel, kernel }));
 
     cv::Rect square;
     std::vector<int> previous(mask.cols + 1), current(mask.cols + 1);
@@ -3042,12 +3075,18 @@ std::optional<Point> StrongholdProtocolTaskPlugin::new_bench_slot(const cv::Mat&
         }
         previous.swap(current);
     }
-    if (square.width >= 20) {
-        const Rect press = task_roi("StrongholdProtocol@Roi@BenchPressOffset");
-        const Point pt(scan.x + square.x + press.x, scan.y + square.y + press.y);
-        LogTrace << "new bench slot square" << scan.x + square.x << scan.y + square.y << "side" << square.width
-                 << "press" << pt.x << pt.y;
-        return pt;
+    if (square.width >= min_side) {
+        // 差分方块只覆盖变暗的牌面，起拖点以完整方牌的左上角为准。
+        const Point center { scan.x + square.x + square.width / 2, scan.y + square.y + square.height / 2 };
+        const auto badges = detect_bench_badges(after);
+        const auto badge =
+            std::ranges::find_if(badges, [&](const Rect& candidate) { return candidate.include(center); });
+        if (badge != badges.end()) {
+            const auto press = task_roi("StrongholdProtocol@Roi@BenchPressOffset");
+            const Point pt { badge->x + press.x, badge->y + press.y };
+            LogTrace << "new bench slot" << *badge << "press" << pt;
+            return pt;
+        }
     }
 
     cv::Mat diff_vis;
