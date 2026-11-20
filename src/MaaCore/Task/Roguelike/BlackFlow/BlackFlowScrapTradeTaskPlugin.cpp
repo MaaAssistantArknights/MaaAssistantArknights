@@ -350,9 +350,11 @@ bool BlackFlowScrapTradeTaskPlugin::buy(const cv::Mat& image, const Funds& funds
             skipped.emplace_back(goods.name + " " + std::string(reason));
             continue;
         }
+        const Rect click_rect = offer_click_rect(offer->rect);
         LogInfo << __FUNCTION__ << "BlackFlow scrap trade buys to keep" << goods.name << "price" << *item->get().price
-                << "budget" << funds.budget << "wallet" << funds.wallet << "reserved" << funds.reserved;
-        ctrler()->click(offer->rect);
+                << "budget" << funds.budget << "wallet" << funds.wallet << "reserved" << funds.reserved << "name rect"
+                << offer->rect << "click rect" << click_rect;
+        ctrler()->click(click_rect);
         m_pending_purchase = PendingPurchase { offer->text, offer->rect, true };
         set_action(ScrapTradeBuyConfirmEntry);
         return true;
@@ -375,9 +377,11 @@ bool BlackFlowScrapTradeTaskPlugin::buy(const cv::Mat& image, const Funds& funds
     if (best == nullptr) {
         return false;
     }
+    const Rect click_rect = offer_click_rect(best->rect);
     LogInfo << __FUNCTION__ << "BlackFlow scrap trade buys" << best->text << "net" << best_net << "growth" << growth
-            << "budget" << funds.budget << "wallet" << funds.wallet << "reserved" << funds.reserved;
-    ctrler()->click(best->rect);
+            << "budget" << funds.budget << "wallet" << funds.wallet << "reserved" << funds.reserved << "name rect"
+            << best->rect << "click rect" << click_rect;
+    ctrler()->click(click_rect);
     m_pending_purchase = PendingPurchase { best->text, best->rect, false };
     set_action(ScrapTradeBuyConfirmEntry);
     return true;
@@ -606,6 +610,12 @@ std::vector<TextRect>
     analyzer.set_required(names);
     const auto results = analyzer.analyze();
     return results.has_value() ? std::move(*results) : std::vector<TextRect> {};
+}
+
+// 名称框紧贴卡片上沿，点在框的上缘时游戏可能不弹出确认框；改点名称下方的卡片。
+Rect BlackFlowScrapTradeTaskPlugin::offer_click_rect(const Rect& name_rect)
+{
+    return name_rect.move(Task.get(std::string(ScrapTradeItemsTask))->rect_move);
 }
 
 bool BlackFlowScrapTradeTaskPlugin::already_purchased(const Rect& rect) const
