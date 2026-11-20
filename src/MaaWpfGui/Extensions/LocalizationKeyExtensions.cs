@@ -175,6 +175,7 @@ public static class LocalizationKeyExtensions
         "SSSCopilot" => "Copilot.SSS",
         "ParadoxCopilot" => "Copilot.ParadoxSimulation",
         "SingleStep" => "Copilot.SingleStep",
+        "InfrastPresetImport" => "Toolbox.MiniGame.InfrastPresetImport",
         _ when Enum.TryParse<TaskType>(taskChain, out var type) => type.LocalizationKey(),
         _ => taskChain,
     };
