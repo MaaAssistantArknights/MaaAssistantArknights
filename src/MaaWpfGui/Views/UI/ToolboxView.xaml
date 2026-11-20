@@ -1472,7 +1472,7 @@
                                     ItemsSource="{Binding StrongholdProtocolModeList}"
                                     SelectedValue="{Binding StrongholdProtocolMode}"
                                     SelectedValuePath="Value"
-                                    Visibility="{c:Binding '!IsStrongholdProtocolCovenant'}" />
+                                    Visibility="{c:Binding '!IsStrongholdProtocolAlliance'}" />
                                 <ComboBox
                                     Margin="0,10,0,0"
                                     hc:TitleElement.Title="{DynamicResource Toolbox.MiniGame.StrongholdProtocol.Target}"

@@ -2896,8 +2896,8 @@ public class ToolboxViewModel : Screen
         {
             if (IsStrongholdProtocolBadgeMode)
             {
-                return StrongholdProtocolSeason == Season.Covenant
-                    ? LocalizationHelper.GetString("Toolbox.MiniGame.StrongholdProtocol.Covenant.Tip")
+                return StrongholdProtocolSeason == Season.Alliance
+                    ? LocalizationHelper.GetString("Toolbox.MiniGame.StrongholdProtocol.Alliance.Tip")
                     : GetRegulationBadgeTip();
             }
 
@@ -3049,7 +3049,7 @@ public class ToolboxViewModel : Screen
 
     /// <summary>卫戍协议赛季主题。盟约（第 2 期）当前未开放，条目带未开放后缀。</summary>
     public LocalizedObservableList<Season> StrongholdProtocolSeasonList { get; } = new(
-        (Season.Covenant, "Toolbox.MiniGame.StrongholdProtocol.Theme.Covenant")
+        (Season.Alliance, "Toolbox.MiniGame.StrongholdProtocol.Theme.Alliance")
             .WithSecondaryKey("Toolbox.MiniGame.StrongholdProtocol.ClosedTheme"),
         (Season.Regulation, "Toolbox.MiniGame.StrongholdProtocol.Theme.Regulation"));
 
@@ -3065,11 +3065,11 @@ public class ToolboxViewModel : Screen
 
     /// <summary>盟约（第 2 期）未开放，所有参数不会生效。</summary>
     [PropertyDependsOn(nameof(StrongholdProtocolSeason))]
-    public bool IsStrongholdProtocolCovenant => StrongholdProtocolSeason == Season.Covenant;
+    public bool IsStrongholdProtocolAlliance => StrongholdProtocolSeason == Season.Alliance;
 
     /// <summary>角标目标与通关局数仅在刷角标模式且规程期生效（score 速通不传参数，盟约空跑）。</summary>
     [PropertyDependsOn(nameof(StrongholdProtocolSeason), nameof(StrongholdProtocolMode))]
-    public bool IsStrongholdProtocolParamsVisible => IsStrongholdProtocolBadgeMode && !IsStrongholdProtocolCovenant;
+    public bool IsStrongholdProtocolParamsVisible => IsStrongholdProtocolBadgeMode && !IsStrongholdProtocolAlliance;
 
     /// <summary>卫戍协议极速模拟运行模式。</summary>
     public LocalizedObservableList<string> StrongholdProtocolModeList { get; } = new(

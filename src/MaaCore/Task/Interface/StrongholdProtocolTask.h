@@ -11,7 +11,7 @@ class StrongholdProtocolTheme
 {
 public:
     static constexpr std::string_view Regulation = "Regulation"; // 规程（第 3 期）
-    static constexpr std::string_view Covenant = "Covenant";     // 盟约（第 2 期）
+    static constexpr std::string_view Alliance = "Alliance";     // 盟约（第 2 期）
 };
 
 class StrongholdProtocolTask : public InterfaceTask

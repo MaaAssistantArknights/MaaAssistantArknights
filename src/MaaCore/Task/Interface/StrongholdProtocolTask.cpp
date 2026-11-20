@@ -20,7 +20,7 @@ bool asst::StrongholdProtocolTask::set_params(const json::value& params)
     LogTraceFunction;
 
     const std::string theme = params.get("theme", std::string(StrongholdProtocolTheme::Regulation));
-    if (theme == StrongholdProtocolTheme::Covenant) {
+    if (theme == StrongholdProtocolTheme::Alliance) {
         // 盟约（第 2 期）当前未开放，空跑结束（同生息演算沙中之火）
         LogInfo << __FUNCTION__ << "theme" << theme << "is not available";
         m_stronghold_task_ptr->set_tasks({ "Stop" });

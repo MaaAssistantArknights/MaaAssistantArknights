@@ -27,7 +27,7 @@ public enum StrongholdProtocolSeason
     Regulation = 0,
 
     /// <summary>盟约（第 2 期，当前未开放）</summary>
-    Covenant = 1,
+    Alliance = 1,
 }
 
 /// <summary>

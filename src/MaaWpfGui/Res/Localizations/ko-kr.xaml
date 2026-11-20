@@ -2538,9 +2538,9 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="Toolbox.MiniGame.SecretFront.Event3">수상한 그림자</system:String>
     <system:String x:Key="Toolbox.MiniGame.SecretFront.Tip">소대 선택 화면에서 시작합니다. 기존 세이브 데이터가 있으면 수동으로 삭제해야 합니다.\n게임 내  ｢이전 소대의 데이터 전승받기｣  옵션을 체크하는 것을 권장합니다.</system:String>
     <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol">{key=Toolbox.MiniGame.SPA}</system:String>
+    <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Alliance.Tip">이 시즌은 미개방으로 사용할 수 없습니다</system:String>
     <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Cleared">이번 판 클리어</system:String>
     <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.ClosedTheme">미개방</system:String>
-    <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Covenant.Tip">이 시즌은 미개방으로 사용할 수 없습니다</system:String>
     <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Failed">이번 판 실패</system:String>
     <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Mode">모드</system:String>
     <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Mode.Badge">배지 파밍 (완전 클리어)</system:String>
@@ -2552,7 +2552,7 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Target.Color">색상 배지 (6회 클리어)</system:String>
     <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Target.Gold">금색 배지 (3회 클리어)</system:String>
     <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Theme">위수 협의 테마</system:String>
-    <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Theme.Covenant">동맹 (명칭 임시)</system:String>
+    <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Theme.Alliance">맹약</system:String>
     <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Theme.Regulation">규정 (명칭 임시)</system:String>
     <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Tip.Badge" xml:space="preserve">이벤트 기본 스킨을 적용하고 ｢고속 시뮬레이션｣(임시 명칭)이 있는 이벤트 메인 화면에서 시작하세요. 저장된 게임이 있으면 먼저 직접 포기하세요.
 MAA는 목표 클리어 횟수를 채우지 못한 전략을 선택해 매 판 끝까지 진행합니다.
