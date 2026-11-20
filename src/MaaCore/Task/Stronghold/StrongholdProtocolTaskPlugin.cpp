@@ -625,6 +625,7 @@ StrongholdProtocolTaskPlugin::StrategyResult StrongholdProtocolTaskPlugin::pick_
     }
     bool verified = thumb && std::abs(thumb->y - track_top) <= 2;
     std::vector<std::string> tried;
+    std::vector<Point> covered_top;
     for (int page = 0; page < max_pages && !need_exit(); ++page) {
         if (image.cols < 1280 || image.rows < 720) {
             LogWarn << "strategy screenshot unavailable";
@@ -638,12 +639,13 @@ StrongholdProtocolTaskPlugin::StrategyResult StrongholdProtocolTaskPlugin::pick_
             // 保留未能核对卡框的立绘候选。裁切到视窗边缘的卡由相邻页覆盖，侧栏不属于网格。
             const int bar_x = thumb->x + thumb->width / 2;
             std::erase_if(cells, [&](const Point& pt) {
+                const auto same_cell = [&](const Point& center) {
+                    return std::abs(pt.x - center.x) < 25 && std::abs(pt.y - center.y) < 45;
+                };
                 return pt.x < bar_x + frame.candidate_left || pt.x > bar_x ||
                        (!frames.empty() && ((pt.y < frame.candidate_y[0] && thumb->y > track_top + 2) ||
                                             (pt.y > frame.candidate_y[1] && thumb->br().y < track_bottom - 2))) ||
-                       std::ranges::any_of(frames, [&](const Point& frame) {
-                           return std::abs(pt.x - frame.x) < 25 && std::abs(pt.y - frame.y) < 45;
-                       });
+                       std::ranges::any_of(frames, same_cell) || std::ranges::any_of(covered_top, same_cell);
             });
             // 只有卡框能证明这一页的卡已核全。仅靠标记或立绘定位的卡仍可选择。
             verified &= cells.empty();
@@ -763,6 +765,7 @@ StrongholdProtocolTaskPlugin::StrategyResult StrongholdProtocolTaskPlugin::pick_
         }
         auto after = ctrler()->get_image();
         auto next_thumb = scrollbar(after);
+        covered_top.clear();
         if (thumb && next_thumb) {
             const int advance = next_thumb->y - thumb->y;
             if (advance <= 0) {
@@ -784,8 +787,24 @@ StrongholdProtocolTaskPlugin::StrategyResult StrongholdProtocolTaskPlugin::pick_
                     cv::Mat scores;
                     cv::matchTemplate(grid, strip, scores, cv::TM_CCOEFF_NORMED);
                     double moved = 0;
-                    cv::minMaxLoc(scores.rowRange(last_y - max_shift, last_y - min_shift + 1), nullptr, &moved);
+                    cv::Point match;
+                    cv::minMaxLoc(
+                        scores.rowRange(last_y - max_shift, last_y - min_shift + 1),
+                        nullptr,
+                        &moved,
+                        nullptr,
+                        &match);
                     verified = moved >= 0.8 && moved > scores.at<float>(last_y, 0) + 0.001;
+                    if (verified) {
+                        // 仅复用上页已核全的卡框。按实测位移映射到新页后，顶部被裁断的角标无需再识别。
+                        const int shift = max_shift - match.y;
+                        for (const auto& cell : cells) {
+                            const int y = cell.y - shift;
+                            if (y >= view.y && y <= view.y + overlap_height + frame.center_from_bottom_left[1]) {
+                                covered_top.emplace_back(cell.x + next_left - previous_left, y);
+                            }
+                        }
+                    }
                 }
                 if (!verified) {
                     LogWarn << "strategy list page overlap unconfirmed" << advance;
