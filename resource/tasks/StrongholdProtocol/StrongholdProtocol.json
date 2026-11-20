@@ -109,12 +109,6 @@
         "orderBy": "Score",
         "roi": [982, 363, 295, 43]
     },
-    "StrongholdProtocol@StrategyDeferredOpening": {
-        "doc": "延迟发放开局奖励的策略卡名称，只识别已选定策略的详情面板。",
-        "baseTask": "StrongholdProtocol@StrategyName",
-        "text": ["老鲤"],
-        "fullMatch": true
-    },
     "StrongholdProtocol@StrategyPassed": {
         "doc": "详情面板右上角的通过次数。将含通过标记的行归一为 # 加次数。数字另成一框时保留该框数字。",
         "algorithm": "OcrDetect",
@@ -293,7 +287,7 @@
         "text": ["特质", "天赋"]
     },
     "StrongholdProtocol@DragNameOcr": {
-        "doc": "商店和备战席详情左侧的干员名，区域止于等阶方牌上方。参数为复核退场干员身份所需的最低 OCR 置信度（百分比）。",
+        "doc": "商店和备战席详情左侧的干员名，区域止于等阶方牌上方。参数为确认干员身份所需的最低 OCR 置信度（百分比）。",
         "baseTask": "CharsNameOcrReplace",
         "algorithm": "OcrDetect",
         "text": [],

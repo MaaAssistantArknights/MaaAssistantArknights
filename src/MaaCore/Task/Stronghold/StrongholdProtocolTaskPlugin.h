@@ -71,7 +71,7 @@ private:
     struct PurchaseCount
     {
         int total = 0;
-        int unmerged = 0;   // 已买入且未确认合成或卖出的份数
+        int unmerged = 0;   // 已持有且未确认合成或卖出的普通份数，含备战席赠卡
         int promotions = 0; // 已确认合成且尚未确认售出的精锐份数
     };
 
@@ -88,6 +88,8 @@ private:
     {
         Point point;
         std::optional<std::string> name;
+        std::optional<DeployRank> rank;
+        bool level_unread = false; // 方牌等阶已读清，LV 漏读时只用于补空。
     };
 
     // 每局对局状态，结算后重置
@@ -100,8 +102,7 @@ private:
         std::optional<int> maxed_shop_x;            // 满级后本局商店等级和按钮位置固定
         // 已确认持有且待部署的干员名与等阶，回合末重扫时据此恢复等阶。
         std::vector<std::pair<std::string, int>> bench_known;
-        int unread_opening_gifts = 0;           // 尚未确认身份的开局赠卡，后续休整时继续核对。
-        std::vector<OpeningOper> opening_gifts; // 尚未确认落位的赠卡保留各自的开局格。
+        bool opening_finished = false; // 已经上过干员的棋盘即便再次清空，也不再使用开局站位。
         // 按方牌位置记录已核对的姓名，供医疗优先部署和退场复核使用。空名字表示装备或召唤物。
         std::vector<BenchSlot> bench_roster;
         DisplacedOpers displaced;                                 // 换下者重扫时优先补空，已被替代的医疗待售
@@ -110,6 +111,7 @@ private:
         std::unordered_map<std::string, PurchaseCount> purchases; // 本局各干员的累计购买次数，含免费领取
         std::set<std::string> promotion_tiles;                    // 合成素材曾占用、尚待核对的格位
         std::set<std::string> elite_tiles;                        // 已确认精锐副本的格位
+        std::set<std::string> unread_level_tiles;                 // 已经上场、仍不能确定普通或精锐的副本
         // 两个素材格只腾出一个名额，第一次试放即可从名额变化确定精锐在哪一格。
         std::map<std::string, std::string> promotion_partners;
         std::map<std::string, std::pair<std::string, int>> occ; // 格位键（组名+序号）-> (干员名, 等阶)
@@ -155,10 +157,12 @@ private:
     static std::optional<bool> panel_is_elite(const cv::Mat& preview, int tier);
     std::vector<Point> ordered_bench(const BoardState& board, const cv::Mat& rest, const std::vector<Point>& slots);
     static bool may_have_bench_elite(const BoardState& board, const std::string& name);
-    static std::optional<ShopCard> shop_pick(const std::vector<ShopCard>& cards, const BoardState& board, int gold);
+    static std::optional<ShopCard>
+        shop_pick(const std::vector<ShopCard>& cards, const BoardState& board, int gold, int slots);
     static std::optional<ShopCard> promotion_reward(const std::vector<ShopCard>& cards, const BoardState& board);
     enum class ShopPhase
     {
+        Opening,
         Early,
         Maxed,
         PromotionReward,
@@ -170,7 +174,7 @@ private:
         Failed,
     };
     static std::optional<int> field_medic_tier(const BoardState& board);
-    static bool can_buy_medic(const BoardState& board, int tier);
+    static bool can_buy_card(const BoardState& board, const ShopCard& card, ShopPhase phase, int slots);
     PurchaseResult buy_oper(
         ShopCard& card,
         const cv::Mat& before,
@@ -183,8 +187,10 @@ private:
     static std::optional<ShopCard>
         opening_pick(const std::vector<ShopCard>& cards, int gold, int remaining, const BoardState& board);
     static void assign_opening_tiles(std::vector<OpeningOper>& opening);
-    void deploy_opening(BoardState& board, std::vector<OpeningOper>& opening, bool gifts = false);
-    void deploy_opening_gifts(BoardState& board, const cv::Mat& image);
+    static bool is_opening(BoardState& board, std::optional<int> slots);
+    void deploy_opening(BoardState& board, std::vector<OpeningOper>& opening);
+    bool inspect_new_bench(BoardState& board, const cv::Mat& image);
+    static void reconcile_bench_copies(BoardState& board);
 
     bool swipe_from_bench(const Point& bench, const Point& target);
     // 放置后用剩余名额区分补位和换人。被换下的干员优先补空位，出售前单独核验。
@@ -266,7 +272,6 @@ private:
     int m_cleared = 0;
     int m_attempted = 0;
     std::string m_current_strategy;
-    bool m_deferred_opening = false;
     bool m_bench_shop_unconfirmed = false; // 点选备战席后，商店恢复前不能按原布局操作。
     std::optional<Point> m_last_tile;      // 最近部署的格子，朝向设置卡住时补设用
     bool m_settlement_counted = false;     // 当前结算页已计数，离开结算页后复位
