@@ -19,11 +19,16 @@ using Newtonsoft.Json.Linq;
 namespace MaaWpfGui.Models.AsstTasks;
 
 /// <summary>
-/// 卫戍协议极速模拟（刷角标）。
+/// 卫戍协议极速模拟。
 /// </summary>
 public class AsstStrongholdProtocolTask : AsstBaseTask
 {
     public override AsstTaskType TaskType => AsstTaskType.StrongholdProtocol;
+
+    /// <summary>
+    /// Gets or sets 运行模式，badge 刷角标，score 刷分。
+    /// </summary>
+    public string Mode { get; set; } = "badge";
 
     /// <summary>
     /// Gets or sets 卫戍协议赛季主题
@@ -47,13 +52,14 @@ public class AsstStrongholdProtocolTask : AsstBaseTask
 
     public override (AsstTaskType TaskType, JObject Params) Serialize()
     {
-        var data = new JObject
+        var data = new JObject { ["mode"] = Mode };
+        if (Mode == "badge")
         {
-            ["theme"] = Season.ToString(),
-            ["target"] = Target,
-            ["runs"] = Runs,
-            ["attempts"] = Attempts,
-        };
+            data["theme"] = Season.ToString();
+            data["target"] = Target;
+            data["runs"] = Runs;
+            data["attempts"] = Attempts;
+        }
 
         return (TaskType, data);
     }

@@ -3992,7 +3992,7 @@ public class AsstProxy
     }
 
     /// <summary>
-    /// 卫戍协议极速模拟（牛杂）。badge = 刷角标（StrongholdProtocol 独立任务，插件入口完整通关），score = 放生速通（沿用 MiniGame@SPA 挂机链刷分，走 CustomTask）。
+    /// 启动卫戍协议极速模拟。
     /// </summary>
     /// <param name="mode">badge / score。</param>
     /// <param name="season">卫戍协议赛季主题（仅 badge）。</param>
@@ -4002,17 +4002,8 @@ public class AsstProxy
     /// <returns>是否成功启动。</returns>
     public bool AsstStrongholdProtocol(string mode, StrongholdProtocolSeason season, int target, int runs, int attempts = 0)
     {
-        if (mode == "score")
-        {
-            var scoreTask = new AsstCustomTask {
-                CustomTasks = ["MiniGame@SPA@Begin"],
-            };
-
-            var (type, param) = scoreTask.Serialize();
-            return AsstAppendTaskWithEncoding(TaskType.MiniGame, type, param) && AsstStart();
-        }
-
         var task = new AsstStrongholdProtocolTask {
+            Mode = mode,
             Season = season,
             Target = target,
             Runs = runs,

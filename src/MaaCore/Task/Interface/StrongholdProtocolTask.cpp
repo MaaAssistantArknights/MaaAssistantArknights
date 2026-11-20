@@ -11,13 +11,26 @@ asst::StrongholdProtocolTask::StrongholdProtocolTask(const AsstCallback& callbac
     LogTraceFunction;
 
     m_plugin_ptr = m_stronghold_task_ptr->register_plugin<StrongholdProtocolTaskPlugin>();
-    m_stronghold_task_ptr->set_tasks({ "StrongholdProtocol@Farm@Begin" });
     m_subtasks.emplace_back(m_stronghold_task_ptr);
 }
 
 bool asst::StrongholdProtocolTask::set_params(const json::value& params)
 {
     LogTraceFunction;
+
+    if (params.exists("mode") && !params.at("mode").is_string()) {
+        LogError << __FUNCTION__ << "expected a stronghold protocol mode string";
+        return false;
+    }
+    const auto mode = params.get("mode", std::string("badge"));
+    if (mode == "score") {
+        m_stronghold_task_ptr->set_tasks({ "MiniGame@SPA@Begin" });
+        return true;
+    }
+    if (mode != "badge") {
+        LogError << __FUNCTION__ << "invalid stronghold protocol mode" << mode;
+        return false;
+    }
 
     const std::string theme = params.get("theme", std::string(StrongholdProtocolTheme::Regulation));
     if (theme == StrongholdProtocolTheme::Alliance) {
@@ -47,6 +60,7 @@ bool asst::StrongholdProtocolTask::set_params(const json::value& params)
         return false;
     }
 
+    m_stronghold_task_ptr->set_tasks({ "StrongholdProtocol@Farm@Begin" });
     m_plugin_ptr->set_target(target).set_runs(runs).set_attempts(attempts);
     return true;
 }
