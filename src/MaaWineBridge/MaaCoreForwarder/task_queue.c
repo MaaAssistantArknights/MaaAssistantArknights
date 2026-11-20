@@ -126,13 +126,13 @@ Task* task_queue_push(TaskQueue* queue, TaskFunc function, void* arg)
     }
     Task* task = task_new(function, arg);
 
+    // 1 reference for the queue, 1 for the caller; addref before enqueue
+    task_addref(task);
     queue->tasks[queue->tail] = task;
     queue->tail = (queue->tail + 1) % MAX_TASKS;
 
     pthread_cond_signal(&queue->cond_not_empty);
     pthread_mutex_unlock(&queue->mutex);
-    task_addref(task);
-    // 1 reference for the queue, 1 for the caller
     return task;
 }
 
