@@ -56,6 +56,14 @@ private:
         std::string name;     // 干员名（可能为空）
     };
 
+    struct OpeningOper
+    {
+        std::string name;
+        int tier;
+        std::optional<Point> bench;
+        std::string tile;
+    };
+
     struct PurchaseCount
     {
         int total = 0;
@@ -135,7 +143,11 @@ private:
         std::vector<ShopCard>& cards_after,
         ShopPhase phase,
         bool medic_slot_taken);
-    bool buy_and_deploy(BoardState& board, ShopCard card, ShopPhase phase);
+    bool buy_and_deploy(BoardState& board, ShopCard card, ShopPhase phase, std::vector<OpeningOper>* opening = nullptr);
+    static std::optional<ShopCard>
+        opening_pick(const std::vector<ShopCard>& cards, int gold, int remaining, bool medic_slot_taken);
+    static void assign_opening_tiles(std::vector<OpeningOper>& opening);
+    void deploy_opening(BoardState& board, std::vector<OpeningOper>& opening);
 
     // 触控原语：游戏要求先在干员头像上 press-and-hold 进入拖拽预览再滑动，
     // swipe 快速位移来不及触发 grab；用 inject_input_event 手动 down→hold→move→hold→up
@@ -148,7 +160,22 @@ private:
         const Point& bench,
         const std::string& name_hint = "",
         int tier_hint = 0,
-        const cv::Mat& before_purchase = {});
+        const cv::Mat& before_purchase = {},
+        const std::string& opening_tile = {});
+
+    struct DeployTile
+    {
+        std::string key;
+        Point point;
+    };
+
+    static std::optional<DeployTile> choose_tile(
+        const BoardState& board,
+        const std::string& name,
+        int tier,
+        const std::string& opening_tile,
+        const cv::Mat& preview,
+        std::optional<int> slots);
     void deploy_bench(BoardState& board);
     bool set_facing(const Point& tile);
     void handle_popups();
@@ -160,7 +187,6 @@ private:
 
     // 优先级干员判定（权重表在 stronghold_protocol 资源目录的 purchase.json）
     static int oper_priority(const std::string& name);
-    static bool is_safe_oper(const std::string& name);
     static bool is_medic(const std::string& name);
     static bool is_dps_oper(const std::string& name);
     static int oper_rank(const std::string& name, int tier);

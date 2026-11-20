@@ -13,9 +13,9 @@ namespace asst
 // 卫戍协议极速模拟部署格位（1280x720 基准）
 struct StrongholdTiles
 {
-    std::vector<Point> safe; // 木框高台安全位（敌人不经过），优先给远程输出
-    std::vector<Point> path; // 最右三列最上两行敌人路径，按优先顺序
-    std::vector<Point> rest; // 其余可部署格
+    std::vector<Point> safe; // 敌人不经过的格子
+    std::vector<Point> path; // 近战堵口顺序，首格是开局前排
+    std::vector<Point> rear; // 首格在开局前排身后，仍会接敌
     Point lift { 507, 433 }; // 拿起干员后的悬停点（不遮挡目标格）
 };
 
@@ -26,8 +26,6 @@ public:
     virtual ~StrongholdProtocolConfig() override = default;
 
     const std::vector<std::string>& get_priority() const { return m_priority; }
-
-    const std::vector<std::string>& get_safe_keys() const { return m_safe_keys; }
 
     const std::vector<std::string>& get_dps() const { return m_dps; }
 
@@ -40,7 +38,6 @@ protected:
     virtual bool parse(const json::value& json) override;
 
     std::vector<std::string> m_priority; // 购买优先级，数组序即权重序
-    std::vector<std::string> m_safe_keys;
     std::vector<std::string> m_dps;
     std::unordered_map<std::string, battle::Role> m_role_overrides;
     StrongholdTiles m_tiles;

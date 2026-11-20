@@ -41,8 +41,7 @@ bool asst::StrongholdProtocolConfig::parse(const json::value& json)
         out = std::move(parsed);
         return true;
     };
-    if (!parse_string_array("priority", m_priority) || !parse_string_array("safe_keys", m_safe_keys) ||
-        !parse_string_array("dps", m_dps)) {
+    if (!parse_string_array("priority", m_priority) || !parse_string_array("dps", m_dps)) {
         return false;
     }
     if (const auto overrides = json.find("role_overrides")) {
@@ -67,9 +66,13 @@ bool asst::StrongholdProtocolConfig::parse(const json::value& json)
         m_role_overrides.clear();
     }
 
-    // tiles.json 顶层即格子结构：safe/path 必填，rest/lift 可选
-    if (!json.exists("safe") || !json.exists("path")) {
+    if (!json.exists("safe") && !json.exists("path") && !json.exists("rear")) {
         return true;
+    }
+    if (!json.exists("rear")) {
+        // 旧格表的 rest 混有安全格和堵口格，无法推断自定义坐标中哪一格是 C7R1。
+        LogWarn << __FUNCTION__ << "legacy tile layout has no rear group; keeping the loaded layout";
+        return m_path.filename() == utils::path("tiles_custom.json") && !m_tiles.rear.empty();
     }
     auto parse_point = [](const json::value& item, Point& out) {
         if (!item.is_array() || item.as_array().size() != 2 || !item.as_array()[0].is_number() ||
@@ -100,7 +103,7 @@ bool asst::StrongholdProtocolConfig::parse(const json::value& json)
     };
     StrongholdTiles tiles;
     if (!parse_point_array("safe", tiles.safe) || !parse_point_array("path", tiles.path) ||
-        !parse_point_array("rest", tiles.rest)) {
+        !parse_point_array("rear", tiles.rear) || tiles.safe.empty() || tiles.path.empty() || tiles.rear.empty()) {
         return false;
     }
     if (const auto lift = json.find("lift"); lift && !parse_point(*lift, tiles.lift)) {
