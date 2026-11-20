@@ -62,17 +62,6 @@ bool asst::StrongholdProtocolConfig::parse_purchase(const json::value& json, boo
         LogError << __FUNCTION__ << "expected a purchase configuration object";
         return false;
     }
-    const auto priority = json.find("priority");
-    if (custom && !json.exists("forms") && !json.exists("substitutes") && !json.exists("squad_blacklist") &&
-        ((!priority && (json.exists("role_overrides") || json.exists("dps"))) ||
-         (priority && priority->is_array() && !priority->as_array().empty() &&
-          std::ranges::all_of(priority->as_array(), [](const auto& entry) { return entry.is_string(); })))) {
-        LogWarn << __FUNCTION__
-                << "ignoring legacy purchase_custom.json; use priority objects with id and optional squad,"
-                   " and operator IDs in substitutes, forms and squad_blacklist";
-        return true;
-    }
-
     Purchase purchase = custom ? m_purchase : Purchase {};
     for (const std::string key : { "priority", "substitutes", "forms", "squad_blacklist" }) {
         const auto entries = json.find(key);
@@ -139,11 +128,6 @@ bool asst::StrongholdProtocolConfig::parse(const json::value& json)
 
     if (!json.exists("safe") && !json.exists("path") && !json.exists("rear")) {
         return true;
-    }
-    if (!json.exists("rear")) {
-        // 旧格表的 rest 混有安全格和堵口格，无法推断自定义坐标中哪一格是 C7R1。
-        LogWarn << __FUNCTION__ << "legacy tile layout has no rear group; keeping the loaded layout";
-        return m_path.filename() == utils::path("tiles_custom.json") && !m_tiles.rear.empty();
     }
     auto parse_point = [](const json::value& item, Point& out) {
         if (!item.is_array() || item.as_array().size() != 2 || !item.as_array()[0].is_number() ||
