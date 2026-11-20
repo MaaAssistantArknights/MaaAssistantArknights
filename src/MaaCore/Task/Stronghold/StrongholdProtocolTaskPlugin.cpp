@@ -1542,13 +1542,9 @@ StrongholdProtocolTaskPlugin::PurchaseResult StrongholdProtocolTaskPlugin::buy_o
                 // 卡面漏字时，详情面板只显示当前选中的干员。
                 OCRer name(img);
                 name.set_task_info("StrongholdProtocol@DragNameOcr");
-                if (const auto rows = name.analyze()) {
-                    for (const auto& row : *rows) {
-                        if (BattleData.get_all_oper_names().contains(row.text)) {
-                            card.name = row.text;
-                            break;
-                        }
-                    }
+                if (const auto rows = name.analyze();
+                    rows && BattleData.get_all_oper_names().contains(rows->front().text)) {
+                    card.name = rows->front().text;
                 }
                 if (card.name.empty() && !reward) {
                     continue;
@@ -2255,33 +2251,25 @@ static std::optional<BenchIdentity> read_bench_identity(const cv::Mat& image, bo
     }
     OCRer ocr(image);
     ocr.set_task_info(name_task);
-    if (auto rows = ocr.analyze()) {
-        std::string name;
-        for (const auto& row : *rows) {
-            const auto role = StrongholdProtocol.get_role(row.text);
-            if (role == battle::Role::Drone || row.text.starts_with("“") || row.text.starts_with("「") ||
-                row.text.starts_with("\"") || row.text.starts_with("『") ||
-                (!BattleData.get_all_oper_names().contains(row.text) &&
-                 BattleData.find_first_oper(battle::Role::Drone, row.text))) {
-                return BenchIdentity {};
-            }
-            if (role == battle::Role::Unknown) {
-                continue;
-            }
-            if (!name.empty() && name != row.text) {
-                return {};
-            }
-            name = row.text;
-        }
-        if (oper_tab && !name.empty()) {
-            const bool verified =
-                rows->size() == 1 && !name_task->special_params.empty() &&
-                rows->front().score >= name_task->special_params[0] / 100.0 &&
-                std::ranges::any_of(*traits, [](const auto& t) { return t.text == "特质" || t.text == "天赋"; });
-            return BenchIdentity { std::move(name), verified };
-        }
+    const auto rows = ocr.analyze();
+    if (!rows) {
+        return std::nullopt;
     }
-    return std::nullopt;
+    const auto& best = rows->front();
+    const auto& name = best.text;
+    const auto role = StrongholdProtocol.get_role(name);
+    if (role == battle::Role::Drone || name.starts_with("“") || name.starts_with("「") || name.starts_with("\"") ||
+        name.starts_with("『") ||
+        (!BattleData.get_all_oper_names().contains(name) && BattleData.find_first_oper(battle::Role::Drone, name))) {
+        return BenchIdentity {};
+    }
+    if (!oper_tab || role == battle::Role::Unknown) {
+        return std::nullopt;
+    }
+    const bool verified =
+        !name_task->special_params.empty() && best.score >= name_task->special_params[0] / 100.0 &&
+        std::ranges::any_of(*traits, [](const auto& t) { return t.text == "特质" || t.text == "天赋"; });
+    return BenchIdentity { name, verified };
 }
 
 std::vector<Point> StrongholdProtocolTaskPlugin::ordered_bench(

@@ -237,6 +237,7 @@
         "algorithm": "OcrDetect",
         "text": [],
         "roi": [0, 175, 220, 43],
+        "orderBy": "Score",
         "specialParams": [90]
     },
     "StrongholdProtocol@DragLevelOcr": {
