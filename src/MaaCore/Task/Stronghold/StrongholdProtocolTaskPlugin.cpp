@@ -1685,7 +1685,7 @@ StrongholdProtocolTaskPlugin::PurchaseResult StrongholdProtocolTaskPlugin::buy_a
             return result == PurchaseResult::Bought ? result : purchase;
         }
         result = PurchaseResult::Bought;
-        board.medic_bench.clear(); // 合成或买入可能在同一席位换人。
+        board.bench_roster.clear(); // 合成或买入可能在同一席位换人。
         int count = 0;
         if (!card.name.empty()) {
             auto& copies = board.purchases[card.name];
@@ -1815,7 +1815,7 @@ void StrongholdProtocolTaskPlugin::deploy_opening(BoardState& board, std::vector
                 board.unconfirmed_tiles.erase(oper.tile);
             }
             if (deploy_from_bench(board, p, oper.name, oper.tier, {}, oper.tile)) {
-                board.medic_bench.clear();
+                board.bench_roster.clear();
                 return true;
             }
             if (retry_gift) {
@@ -2605,6 +2605,21 @@ bool StrongholdProtocolTaskPlugin::can_sell_replaced_medic(
     });
 }
 
+bool StrongholdProtocolTaskPlugin::can_sell_displaced_non_medic(
+    const BoardState& board,
+    const std::string& name,
+    DeployRank rank)
+{
+    return !is_medic(name) && rank.tier > 0 && rank.tier < 5 && !rank.elite && StrongholdProtocol.priority(name) == 0 &&
+           BattleData.get_all_oper_names().contains(name) && !BattleData.find_first_oper(battle::Role::Drone, name) &&
+           !board.unknown_displaced && board.displaced.count(name) == 1 &&
+           std::ranges::count(board.bench_roster, name, &BenchSlot::name) <= 1 &&
+           std::ranges::none_of(
+               board.bench_known,
+               [&](const auto& copy) { return copy.first == name; }) &&
+           std::ranges::none_of(board.occ, [&](const auto& entry) { return entry.second.first == name; });
+}
+
 bool StrongholdProtocolTaskPlugin::sell_displaced(
     BoardState& board,
     DisplacedOpers::iterator copy,
@@ -2677,14 +2692,7 @@ void StrongholdProtocolTaskPlugin::handle_displaced(BoardState& board, BoardDrop
             return;
         }
         const auto empty = replaced_medic ? std::nullopt : choose_tile(board, name, rank, {}, drop.slots, true);
-        const bool may_sell =
-            replaced_medic ||
-            (!is_medic(name) && rank.tier < 5 && !rank.elite && StrongholdProtocol.priority(name) == 0 &&
-             !board.unknown_displaced &&
-             std::ranges::none_of(
-                 board.bench_known,
-                 [&](const auto& copy) { return copy.first == name; }) &&
-             std::ranges::none_of(board.occ, [&](const auto& entry) { return entry.second.first == name; }));
+        const bool may_sell = replaced_medic || can_sell_displaced_non_medic(board, name, rank);
         if (!empty && !may_sell) {
             return;
         }
@@ -2699,7 +2707,7 @@ void StrongholdProtocolTaskPlugin::handle_displaced(BoardState& board, BoardDrop
         }
         const auto changed = new_bench_slot(before, drop.after);
         std::vector<Point> candidates { changed.value_or(bench) };
-        if (changed && *changed != bench) {
+        if (changed && !same_bench_slot(*changed, bench)) {
             candidates.emplace_back(bench);
         }
         bool placed = false;
@@ -2773,7 +2781,8 @@ std::optional<Point> StrongholdProtocolTaskPlugin::deploy_from_bench(
 
     const auto identity = read_bench_identity(preview, observed != nullptr);
     if (observed) {
-        *observed = identity ? std::optional { identity->name } : std::nullopt;
+        *observed = identity && (identity->verified || identity->name.empty()) ? std::optional { identity->name }
+                                                                               : std::nullopt;
     }
     if (!identity || identity->name.empty() || (!name_hint.empty() && identity->name != name_hint)) {
         LogInfo << "bench operator not confirmed, expected" << name_hint << "read" << (identity ? identity->name : "");
@@ -2822,6 +2831,9 @@ std::optional<Point> StrongholdProtocolTaskPlugin::deploy_from_bench(
             (displaced == last && known != board.bench_known.end() && known->second > 0 &&
              known->second != observed_tier) ||
             (first != last && displaced == last && known == board.bench_known.end())) {
+            if (observed) {
+                observed->reset();
+            }
             return std::nullopt;
         }
     }
@@ -2831,12 +2843,20 @@ std::optional<Point> StrongholdProtocolTaskPlugin::deploy_from_bench(
         name_hint.empty() && !from_displacement &&
         ((board.unread_opening_gifts > 0 && known == board.bench_known.end()) ||
          std::ranges::any_of(board.opening_gifts, [&](const auto& gift) { return gift.name == name; }));
-    if (awaiting_opening || (medic_only && !is_medic(name))) {
+    if (awaiting_opening || (medic_only && !is_medic(name) && !from_displacement)) {
         return std::nullopt;
     }
     const auto target =
         choose_tile(board, name, rank, opening_tile, slots0.value_or(-1), from_displacement || unknown_bench);
     if (!target) {
+        // 医疗检查也可能点到待售的退场者。名额已读清且没有可补的格位时，用本次面板核验出售。
+        if (from_displacement && slots0 && *slots0 <= MaxDeploymentSlots &&
+            can_sell_displaced_non_medic(board, name, rank)) {
+            if (const auto gold = read_gold(before_deploy)) {
+                sell_displaced(board, displaced, bench, *gold, preview);
+            }
+            return std::nullopt;
+        }
         if (is_medic(name) && !from_displacement) {
             if (known == board.bench_known.end()) {
                 board.bench_known.emplace_back(name, tier);
@@ -2848,7 +2868,7 @@ std::optional<Point> StrongholdProtocolTaskPlugin::deploy_from_bench(
         LogInfo << "no available tile for" << name;
         return std::nullopt;
     }
-    if (need_exit()) {
+    if (need_exit() || (medic_only && !is_medic(name))) {
         return std::nullopt;
     }
     auto result = place_on_board(board, *target, bench, name, rank, *slots0);
@@ -2865,6 +2885,17 @@ std::optional<Point> StrongholdProtocolTaskPlugin::deploy_from_bench(
     return target->point;
 }
 
+void StrongholdProtocolTaskPlugin::update_bench_roster(BoardState& board, const std::vector<Point>& slots)
+{
+    auto& roster = board.bench_roster;
+    if (!std::ranges::equal(slots, roster, same_bench_slot, std::identity {}, &BenchSlot::point)) {
+        roster.assign(slots.size(), {});
+    }
+    for (size_t i = 0; i < slots.size(); ++i) {
+        roster[i].point = slots[i];
+    }
+}
+
 bool StrongholdProtocolTaskPlugin::deploy_bench_medic(BoardState& board, const cv::Mat& image)
 {
     const auto field = field_medic_tier(board);
@@ -2877,34 +2908,37 @@ bool StrongholdProtocolTaskPlugin::deploy_bench_medic(BoardState& board, const c
     const bool pending_elite_medic = std::ranges::any_of(board.purchases, [&](const auto& bought) {
         return bought.second.promotions > 0 && is_medic(bought.first) && may_have_bench_elite(board, bought.first);
     });
-    const auto order = pending_elite_medic ? ordered_bench(board, image, slots) : slots;
-    if (m_bench_shop_unconfirmed) {
-        return false;
-    }
-    auto& roster = board.medic_bench;
-    if (!std::ranges::equal(order, roster, [](const Point& slot, const auto& entry) {
-            return Point::distance(slot, entry.first) < 8;
-        })) {
-        roster.clear();
-        for (const auto& slot : order) {
-            roster.emplace_back(slot, std::nullopt);
+    update_bench_roster(board, slots);
+    auto& roster = board.bench_roster;
+    std::vector<Point> candidates;
+    for (const auto& [slot, name] : roster) {
+        if (!name ||
+            (is_medic(*name) && (!field || !board.promotion_tiles.empty() || may_have_bench_elite(board, *name) ||
+                                 std::ranges::any_of(board.bench_known, [&](const auto& copy) {
+                                     return copy.first == *name && improves_field_medic(field, copy.second);
+                                 })))) {
+            candidates.push_back(slot);
         }
     }
+    if (pending_elite_medic) {
+        candidates = ordered_bench(board, image, candidates);
+    }
     bool inspected = false;
-    for (auto& [slot, name] : roster) {
+    for (const auto& slot : candidates) {
         if (need_exit() || m_bench_shop_unconfirmed) {
             return inspected;
         }
-        if (name &&
-            (!is_medic(*name) || (field && board.promotion_tiles.empty() && !may_have_bench_elite(board, *name) &&
-                                  !std::ranges::any_of(board.bench_known, [&](const auto& copy) {
-                                      return copy.first == *name && improves_field_medic(field, copy.second);
-                                  })))) {
-            continue;
-        }
+        auto& name = std::ranges::find(roster, slot, &BenchSlot::point)->name;
         inspected = true;
+        const auto displaced = board.displaced.size();
         if (deploy_from_bench(board, slot, {}, 0, {}, {}, &name, true)) {
             roster.clear();
+            return true;
+        }
+        if (board.displaced.size() < displaced) {
+            // 售出后其余方牌可能移动，重新定位再继续找医疗。
+            roster.clear();
+            deploy_bench_medic(board, ctrler()->get_image());
             return true;
         }
     }
@@ -2912,10 +2946,10 @@ bool StrongholdProtocolTaskPlugin::deploy_bench_medic(BoardState& board, const c
         return inspected;
     }
     // 名单完整且方牌位置稳定时，才清除已离开备战席的医疗记录。
-    if (known_medic && std::ranges::all_of(roster, [](const auto& entry) { return entry.second.has_value(); })) {
+    if (known_medic && std::ranges::all_of(roster, [](const BenchSlot& slot) { return slot.name.has_value(); })) {
         const auto missing = [&](const auto& copy) {
             return is_medic(copy.first) &&
-                   std::ranges::none_of(roster, [&](const auto& entry) { return entry.second == copy.first; });
+                   std::ranges::none_of(roster, [&](const BenchSlot& slot) { return slot.name == copy.first; });
         };
         if (std::ranges::any_of(board.bench_known, missing)) {
             sleep(200);
@@ -2938,6 +2972,7 @@ bool StrongholdProtocolTaskPlugin::deploy_bench(BoardState& board)
     for (int round = 0; round < 10 && !need_exit(); ++round) {
         const auto rest = ctrler()->get_image();
         const auto opers = detect_bench_opers(rest);
+        update_bench_roster(board, opers);
         if (opers.empty()) {
             if (board.unknown_displaced || !board.displaced.empty()) {
                 sleep(200);
@@ -2958,20 +2993,35 @@ bool StrongholdProtocolTaskPlugin::deploy_bench(BoardState& board)
         bool unreadable = false;
         bool bench_changed = false;
         const auto displaced_before = board.displaced.size();
-        for (const auto& pt : ordered_bench(board, rest, opers)) {
+        auto candidates = opers;
+        auto& roster = board.bench_roster;
+        if (!board.unknown_displaced && !board.displaced.empty()) {
+            // 只跳过名单中已核验的唯一退场副本。每次按当前名额、棋盘和出售条件重新判断。
+            const auto slots = slots_left(rest);
+            for (const auto& [pt, name] : roster) {
+                if (!slots || *slots > MaxDeploymentSlots || !name || is_medic(*name) ||
+                    board.displaced.count(*name) != 1 || std::ranges::count(roster, name, &BenchSlot::name) != 1 ||
+                    std::ranges::any_of(board.bench_known, [&](const auto& copy) { return copy.first == *name; })) {
+                    continue;
+                }
+                const auto& rank = board.displaced.find(*name)->second;
+                if (!can_sell_displaced_non_medic(board, *name, rank) &&
+                    !choose_tile(board, *name, rank, {}, *slots, true)) {
+                    std::erase(candidates, pt);
+                    unseen_displaced.erase(*name);
+                }
+            }
+        }
+        for (const auto& pt : ordered_bench(board, rest, candidates)) {
             std::optional<std::string> name = std::string {}; // 满员且全为高阶时会在点选前返回。
-            if (deploy_from_bench(
-                    board,
-                    pt,
-                    {},
-                    0,
-                    {},
-                    {},
-                    unseen.empty() && unseen_displaced.empty() ? nullptr : &name) ||
-                board.displaced.size() < displaced_before) {
-                board.medic_bench.clear();
+            auto* observed = unseen.empty() && unseen_displaced.empty() ? nullptr : &name;
+            if (deploy_from_bench(board, pt, {}, 0, {}, {}, observed) || board.displaced.size() < displaced_before) {
+                board.bench_roster.clear();
                 bench_changed = true;
                 break;
+            }
+            if (observed && !board.displaced.empty()) {
+                std::ranges::find(roster, pt, &BenchSlot::point)->name = name;
             }
             if (!name) {
                 unreadable = true;

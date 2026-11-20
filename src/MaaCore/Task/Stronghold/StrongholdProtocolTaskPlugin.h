@@ -84,6 +84,12 @@ private:
 
     using DisplacedOpers = std::multimap<std::string, DeployRank>;
 
+    struct BenchSlot
+    {
+        Point point;
+        std::optional<std::string> name;
+    };
+
     // 每局对局状态，结算后重置
     struct BoardState
     {
@@ -96,8 +102,8 @@ private:
         std::vector<std::pair<std::string, int>> bench_known;
         int unread_opening_gifts = 0;           // 尚未确认身份的开局赠卡，后续休整时继续核对。
         std::vector<OpeningOper> opening_gifts; // 尚未确认落位的赠卡保留各自的开局格。
-        // 备战席名单未变时，只复核上次没读清的方牌和可能上场的医疗。空名字表示装备或召唤物。
-        std::vector<std::pair<Point, std::optional<std::string>>> medic_bench;
+        // 按方牌位置记录已核对的姓名，供医疗优先部署和退场复核使用。空名字表示装备或召唤物。
+        std::vector<BenchSlot> bench_roster;
         DisplacedOpers displaced;                                 // 换下者重扫时优先补空，已被替代的医疗待售
         std::map<std::string, std::string> unconfirmed_tiles;     // 朝向或名额未能确认的格位及尝试放入的干员
         bool unknown_displaced = false;                           // 备战席可能有身份未知的换下者
@@ -221,6 +227,7 @@ private:
         DeployRank rank,
         int slots);
     static bool can_sell_replaced_medic(const BoardState& board, const std::string& name, DeployRank rank);
+    static bool can_sell_displaced_non_medic(const BoardState& board, const std::string& name, DeployRank rank);
     // 发出售出手势就核销退场记录，余额漏读时也不能再试另一个席位。
     bool sell_displaced(
         BoardState& board,
@@ -236,6 +243,7 @@ private:
         const std::string& opening_tile,
         int slots,
         bool empty_only = false);
+    static void update_bench_roster(BoardState& board, const std::vector<Point>& slots);
     bool deploy_bench_medic(BoardState& board, const cv::Mat& image);
     // 若本轮仍有未辨认的方牌可能属于已买入的干员，下回合再按当前棋盘选格。
     bool deploy_bench(BoardState& board);
