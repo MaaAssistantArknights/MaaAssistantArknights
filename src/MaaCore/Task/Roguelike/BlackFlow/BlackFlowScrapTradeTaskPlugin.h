@@ -61,6 +61,7 @@ private:
         int budget = 0;
     };
 
+    [[nodiscard]] static std::string_view phase_name(Phase phase);
     void enter();
     void decide();
     void on_purchase_confirmed();

@@ -151,6 +151,7 @@ void BlackFlowScrapTradeTaskPlugin::decide()
 
     const cv::Mat image = ctrler()->get_image();
     const bool selling = on_selling_page(image);
+    LogInfo << __FUNCTION__ << "BlackFlow scrap trade phase" << phase_name(m_phase) << "selling page" << selling;
     while (true) {
         switch (m_phase) {
         case Phase::Cultivate: {
@@ -234,6 +235,25 @@ void BlackFlowScrapTradeTaskPlugin::decide()
             return;
         }
     }
+}
+
+std::string_view BlackFlowScrapTradeTaskPlugin::phase_name(Phase phase)
+{
+    switch (phase) {
+    case Phase::Cultivate:
+        return "cultivate";
+    case Phase::Observe:
+        return "observe";
+    case Phase::Prepare:
+        return "prepare";
+    case Phase::Trade:
+        return "trade";
+    case Phase::Liquidate:
+        return "liquidate";
+    case Phase::Leave:
+        return "leave";
+    }
+    return "unknown";
 }
 
 bool BlackFlowScrapTradeTaskPlugin::switch_tab(bool want_selling, bool selling)
