@@ -2038,8 +2038,49 @@ void StrongholdProtocolTaskPlugin::drop_held(const Point& from, const Point& to,
     emit_input(InputEvent::Type::TOUCH_UP, to);
 }
 
+static bool is_tier_one_stroke(const cv::Mat& image, const cv::Rect& inner)
+{
+    if (inner.empty() || (inner & cv::Rect(0, 0, image.cols, image.rows)) != inner) {
+        return false;
+    }
+    // I 常被 OCR 和相邻职业图标读成一行，只接受牌内居中、完整且近乎白色的一根竖笔。
+    cv::Mat strokes;
+    cv::cvtColor(image(inner), strokes, cv::COLOR_BGR2GRAY);
+    cv::threshold(strokes, strokes, 140, 255, cv::THRESH_BINARY);
+    const auto ink = cv::boundingRect(strokes);
+    const auto color = cv::mean(image(inner), strokes);
+    const auto [darkest, brightest] = std::minmax({ color[0], color[1], color[2] });
+    return brightest - darkest < 25 && ink.width >= 2 && ink.width <= 4 && ink.height >= 10 && ink.height <= 15 &&
+           std::abs(2 * ink.x + ink.width - inner.width) <= 3 && ink.y > 0 && ink.br().y < inner.height &&
+           cv::countNonZero(strokes) >= 0.85 * ink.area();
+}
+
+static int read_panel_tier(const cv::Mat& image, const Rect& badge, const std::vector<TextRect>& rows)
+{
+    static constexpr std::array<std::string_view, 6> roman { "I", "II", "III", "IV", "V", "VI" };
+    int tier = 0;
+    for (const auto& row : rows) {
+        if (!badge.include(row.rect)) {
+            continue;
+        }
+        const auto it = std::ranges::find(roman, row.text);
+        if (it == roman.end()) {
+            continue;
+        }
+        const int value = static_cast<int>(it - roman.begin()) + 1;
+        if (row.score < 0.75 || (tier != 0 && value != tier)) {
+            return 0;
+        }
+        tier = value;
+    }
+    if (tier > 1) {
+        return tier;
+    }
+    return is_tier_one_stroke(image, { badge.x + 4, badge.y + 3, badge.width - 7, badge.height - 5 }) ? 1 : 0;
+}
+
 // nullopt 表示面板未读清，空名字表示已辨认为装备或召唤物。
-static std::optional<std::string> read_drag_name(const cv::Mat& image, bool check_unreadable)
+static std::optional<std::string> read_drag_name(const cv::Mat& image, bool check_unreadable, int& tier)
 {
     OCRer tabs(image);
     tabs.set_task_info("StrongholdProtocol@DragTraitOcr");
@@ -2072,6 +2113,7 @@ static std::optional<std::string> read_drag_name(const cv::Mat& image, bool chec
             name = row.text;
         }
         if (oper_tab && !name.empty()) {
+            tier = read_panel_tier(image, task_roi("StrongholdProtocol@Roi@DragTierFrame"), *rows);
             return name;
         }
     }
@@ -2136,7 +2178,7 @@ std::optional<StrongholdProtocolTaskPlugin::DeployTile> StrongholdProtocolTaskPl
             const bool old_melee = opening_front_priority(old_name) > 0;
             if (medic) {
                 // 首名医疗优先用空格。所有兼容格都满时，才换下其中等阶最低的干员。
-                if (!field && (!old_melee || group == "safe") && old_tier < medic_swap_tier) {
+                if (!field && (!old_melee || group != "path") && old_tier < medic_swap_tier) {
                     medic_swap_tier = old_tier;
                     medic_swap = tile;
                 }
@@ -2146,7 +2188,8 @@ std::optional<StrongholdProtocolTaskPlugin::DeployTile> StrongholdProtocolTaskPl
                 // 堵口位有低阶远程时，近战先接替这一格，再考虑后排的空格。
                 return tile;
             }
-            if ((!melee && old_melee && group != "safe") || (melee && !old_melee && group == "safe")) {
+            const bool keep_melee = group == "path" || (group == "rear" && tier < 5);
+            if ((!melee && old_melee && keep_melee) || (melee && !old_melee && group == "safe")) {
                 continue;
             }
             if (old_tier < best_value) {
@@ -2224,7 +2267,6 @@ bool StrongholdProtocolTaskPlugin::is_verified_sale(const cv::Mat& preview, cons
         return false;
     }
     bool named = false;
-    bool low = false;
     for (const auto& row : *rows) {
         if (row.rect.y + row.rect.height / 2 < badge.y) {
             // 名字拆行或只读到别名的一部分时，不能确认手上的干员。
@@ -2233,30 +2275,24 @@ bool StrongholdProtocolTaskPlugin::is_verified_sale(const cv::Mat& preview, cons
             }
             named = true;
         }
-        else if (badge.include(row.rect)) {
-            if (row.text == "V" || row.text == "VI") {
-                return false;
-            }
-            low = row.score >= 0.75 && (row.text == "II" || row.text == "III" || row.text == "IV");
+    }
+    const int tier = read_panel_tier(preview, badge, *rows);
+    return named && tier > 0 && tier < 5;
+}
+
+static std::vector<cv::Rect> detect_bench_badges(const cv::Mat& image);
+
+static bool bench_has_tier_one(const cv::Mat& image, const Point& bench)
+{
+    const Rect press = task_roi("StrongholdProtocol@Roi@BenchPressOffset");
+    const auto badges = detect_bench_badges(image);
+    for (const auto& badge : badges) {
+        // 差分方块和整块方牌的左上角会相差几像素，不能借用相邻干员的方牌。
+        if (Point::distance(bench, Point { badge.x + press.x, badge.y + press.y }) <= 6) {
+            return is_tier_one_stroke(image, { badge.x + 4, badge.y + 4, badge.width - 8, badge.height - 8 });
         }
     }
-    if (!named || low) {
-        return named && low;
-    }
-    // I 的单竖常和右侧职业图标一起被 OCR 读成一行。取方牌内部，只有居中且完整的一根亮竖笔才认作 I。
-    const cv::Rect inner(badge.x + 4, badge.y + 3, badge.width - 7, badge.height - 5);
-    if (inner.empty()) {
-        return false;
-    }
-    cv::Mat strokes;
-    cv::cvtColor(preview(inner), strokes, cv::COLOR_BGR2GRAY);
-    cv::threshold(strokes, strokes, 140, 255, cv::THRESH_BINARY);
-    const auto ink = cv::boundingRect(strokes);
-    const auto color = cv::mean(preview(inner), strokes);
-    const auto [darkest, brightest] = std::minmax({ color[0], color[1], color[2] });
-    return brightest - darkest < 25 && ink.width >= 2 && ink.width <= 4 && ink.height >= 10 && ink.height <= 15 &&
-           std::abs(2 * ink.x + ink.width - inner.width) <= 3 && ink.y > 0 && ink.br().y < inner.height &&
-           cv::countNonZero(strokes) >= 0.85 * ink.area();
+    return false;
 }
 
 std::optional<Point> StrongholdProtocolTaskPlugin::deploy_from_bench(
@@ -2281,7 +2317,8 @@ std::optional<Point> StrongholdProtocolTaskPlugin::deploy_from_bench(
     const Point lp = lift_from_bench(bench);
     const auto preview = ctrler()->get_image();
 
-    const auto panel_name = read_drag_name(preview, observed && !medic_only);
+    int observed_tier = 0;
+    const auto panel_name = read_drag_name(preview, observed && !medic_only, observed_tier);
     if (observed) {
         *observed = panel_name;
     }
@@ -2294,7 +2331,7 @@ std::optional<Point> StrongholdProtocolTaskPlugin::deploy_from_bench(
     }
     auto known = std::ranges::find(board.bench_known, name, &std::pair<std::string, int>::first);
     if (known != board.bench_known.end()) {
-        // 同名方牌换位后只能核对姓名。等阶不同时保留未知，面板金框仍可单独确认高阶。
+        // 同名方牌换位后无法按购买顺序区分。清除互相矛盾的旧等阶，当次拿起的干员单独核验。
         const bool ambiguous = std::ranges::any_of(board.bench_known, [&](const auto& copy) {
             return copy.first == name && copy.second != known->second;
         });
@@ -2307,7 +2344,13 @@ std::optional<Point> StrongholdProtocolTaskPlugin::deploy_from_bench(
         }
         tier_hint = known->second;
     }
-    int tier = tier_hint;
+    int tier = observed_tier > 0 ? observed_tier : tier_hint;
+    if (tier_hint >= 5) {
+        tier = std::max(tier, tier_hint);
+    }
+    if (tier == 0 && bench_has_tier_one(before_deploy, bench)) {
+        tier = 1;
+    }
     // 面板黄框色判 V/VI（判定区 Roi@DragTierFrame，金框占比 > 0.08）
     if (color_ratio(
             preview,
@@ -2616,11 +2659,13 @@ std::optional<Point> StrongholdProtocolTaskPlugin::new_bench_slot(const cv::Mat&
 
 // 检测休整界面备战席上的小人：每个小人头顶一块深色圆角等阶方牌（内有浅色罗马数字）。
 // 扫描范围由 Roi@BenchScan 限定，布局随人数与地图变化故按方牌形态检测而非固定坐标。
-std::vector<Point> StrongholdProtocolTaskPlugin::detect_bench_opers(const cv::Mat& image)
+static std::vector<cv::Rect> detect_bench_badges(const cv::Mat& image)
 {
     const Rect scan = task_roi("StrongholdProtocol@Roi@BenchScan");
-    const Rect press = task_roi("StrongholdProtocol@Roi@BenchPressOffset");
     const cv::Rect scan_cv = make_rect<cv::Rect>(scan) & cv::Rect(0, 0, image.cols, image.rows);
+    if (scan_cv.empty()) {
+        return {};
+    }
     const cv::Mat sub = image(scan_cv);
 
     // 等阶方牌是深灰圆角方块（面 ~30，远低于木台面 ~70）：低亮度粗筛候选块
@@ -2632,7 +2677,7 @@ std::vector<Point> StrongholdProtocolTaskPlugin::detect_bench_opers(const cv::Ma
     std::vector<std::vector<cv::Point>> contours;
     cv::findContours(dark, contours, cv::RETR_EXTERNAL, cv::CHAIN_APPROX_SIMPLE);
 
-    std::vector<Point> opers;
+    std::vector<cv::Rect> badges;
     for (const auto& c : contours) {
         const cv::Rect rc = cv::boundingRect(c);
         // 方牌约 18-34px 宽、15-34px 高，横向矩形（实测 25x24）
@@ -2654,10 +2699,18 @@ std::vector<Point> StrongholdProtocolTaskPlugin::detect_bench_opers(const cv::Ma
         if (cv::countNonZero(strokes) < inner.area() * 0.03) {
             continue;
         }
-        // 按压点：方牌左上角加 Roi@BenchPressOffset 偏移落到小人躯干（加回扫描区偏移）
-        const Point pt(scan_cv.x + rc.x + press.x, scan_cv.y + rc.y + press.y);
-        LogTrace << "bench tile" << (scan_cv.x + rc.x) << (scan_cv.y + rc.y) << rc.width << rc.height << "press" << pt.x
-                 << pt.y;
+        badges.emplace_back(rc + scan_cv.tl());
+    }
+    return badges;
+}
+
+std::vector<Point> StrongholdProtocolTaskPlugin::detect_bench_opers(const cv::Mat& image)
+{
+    const Rect press = task_roi("StrongholdProtocol@Roi@BenchPressOffset");
+    std::vector<Point> opers;
+    for (const auto& badge : detect_bench_badges(image)) {
+        const Point pt { badge.x + press.x, badge.y + press.y };
+        LogTrace << "bench tile" << badge.x << badge.y << badge.width << badge.height << "press" << pt.x << pt.y;
         opers.emplace_back(pt);
     }
     // 按 x 从右往左排（小人从台面右端起占）
