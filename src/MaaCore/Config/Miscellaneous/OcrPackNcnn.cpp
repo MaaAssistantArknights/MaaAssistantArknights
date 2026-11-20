@@ -144,9 +144,12 @@ bool OcrPack::check_and_load()
 #include <cmath>
 #include <format>
 #include <fstream>
+#include <map>
+#include <mutex>
 #include <numeric>
 #include <utility>
 
+#include <ncnn/allocator.h>
 #include <ncnn/net.h>
 
 #include <polyclipping/clipper.hpp>
@@ -343,6 +346,61 @@ int asst::OcrPackNcnn::default_cpu_threads()
     return threads;
 }
 
+struct asst::OcrPackNcnn::SharedDet
+{
+    SharedDet()
+    {
+        blob_pool.set_size_compare_ratio(0.f);
+        workspace_pool.set_size_compare_ratio(0.f);
+    }
+
+    // 内存池先于 net 声明，析构时 net 先归还内存
+    ncnn::PoolAllocator blob_pool;
+    ncnn::PoolAllocator workspace_pool;
+    ncnn::Net net;
+};
+
+bool asst::OcrPackNcnn::setup_net(ncnn::Net& net, const std::filesystem::path& param, const std::filesystem::path& bin)
+    const
+{
+    net.opt.use_vulkan_compute = false;
+    net.opt.num_threads = m_cpu_threads;
+    net.opt.openmp_blocktime = kOpenmpBlocktimeMs;
+    net.opt.use_fp16_packed = false;
+    net.opt.use_fp16_storage = false;
+    net.opt.use_fp16_arithmetic = false;
+    if (net.load_param(platform::path_to_utf8_string(param).c_str()) != 0) {
+        LogError << __FUNCTION__ << "load_param failed" << param;
+        return false;
+    }
+    if (net.load_model(platform::path_to_utf8_string(bin).c_str()) != 0) {
+        LogError << __FUNCTION__ << "load_model failed" << bin;
+        return false;
+    }
+    return true;
+}
+
+// WordOcr 与 CharOcr 的 det 是同一个模型，按路径共享，避免权重和内存池各占一份
+std::shared_ptr<asst::OcrPackNcnn::SharedDet>
+    asst::OcrPackNcnn::acquire_shared_det(const std::filesystem::path& param, const std::filesystem::path& bin) const
+{
+    static std::mutex mutex;
+    static std::map<std::filesystem::path, std::weak_ptr<SharedDet>> cache;
+
+    std::scoped_lock lock(mutex);
+    auto& slot = cache[param.lexically_normal()];
+    if (auto det = slot.lock()) {
+        LogInfo << __FUNCTION__ << "reuse" << param;
+        return det;
+    }
+    auto det = std::make_shared<SharedDet>();
+    if (!setup_net(det->net, param, bin)) {
+        return nullptr;
+    }
+    slot = det;
+    return det;
+}
+
 bool asst::OcrPackNcnn::load(
     const std::filesystem::path& det_param,
     const std::filesystem::path& det_bin,
@@ -352,29 +410,9 @@ bool asst::OcrPackNcnn::load(
 {
     LogTraceFunction;
 
-    auto make_net =
-        [this](const std::filesystem::path& param, const std::filesystem::path& bin) -> std::unique_ptr<ncnn::Net> {
-        auto net = std::make_unique<ncnn::Net>();
-        net->opt.use_vulkan_compute = false;
-        net->opt.num_threads = m_cpu_threads;
-        net->opt.openmp_blocktime = kOpenmpBlocktimeMs;
-        net->opt.use_fp16_packed = false;
-        net->opt.use_fp16_storage = false;
-        net->opt.use_fp16_arithmetic = false;
-        if (net->load_param(platform::path_to_utf8_string(param).c_str()) != 0) {
-            Log.error("OcrPackNcnn load_param failed:", param);
-            return nullptr;
-        }
-        if (net->load_model(platform::path_to_utf8_string(bin).c_str()) != 0) {
-            Log.error("OcrPackNcnn load_model failed:", bin);
-            return nullptr;
-        }
-        return net;
-    };
-
-    m_det = make_net(det_param, det_bin);
-    m_rec = make_net(rec_param, rec_bin);
-    if (!m_det || !m_rec) {
+    m_det = acquire_shared_det(det_param, det_bin);
+    m_rec = std::make_unique<ncnn::Net>();
+    if (!m_det || !setup_net(*m_rec, rec_param, rec_bin)) {
         m_loaded = false;
         return false;
     }
@@ -496,7 +534,9 @@ std::vector<asst::OcrPackNcnn::DetBox> asst::OcrPackNcnn::detect(const cv::Mat& 
 
     ncnn::Mat out;
     {
-        ncnn::Extractor ex = m_det->create_extractor();
+        ncnn::Extractor ex = m_det->net.create_extractor();
+        ex.set_blob_allocator(&m_det->blob_pool);
+        ex.set_workspace_allocator(&m_det->workspace_pool);
         ex.input("in0", in);
         if (ex.extract("out0", out) != 0) {
             Log.error("OcrPackNcnn det extract failed");
@@ -698,6 +738,10 @@ asst::OcrPackNcnn::ResultsVec asst::OcrPackNcnn::recognize(const cv::Mat& image_
     }
 
     const std::vector<DetBox> boxes = detect(image);
+    // 全图 det 的特征图缓存超过 200 MB，用完即释放；下次 det 重新分配，耗时约多 15%
+    // ncnn::PoolAllocator 内部带锁，clear 只释放空闲块，不影响共享同一 det 的并发识别
+    m_det->blob_pool.clear();
+    m_det->workspace_pool.clear();
     if (boxes.empty()) {
         // 对齐 fastdeploy PPOCRv2::BatchPredict：det 无框时整图当一行送 rec
         auto [text, score] = recognize_line(image, std::max(base_ratio, line_ratio(image)));
