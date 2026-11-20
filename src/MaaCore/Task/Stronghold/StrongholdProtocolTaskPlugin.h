@@ -176,7 +176,8 @@ private:
         int tier_hint = 0,
         const cv::Mat& before_purchase = {},
         const std::string& opening_tile = {},
-        std::string* medic_probe_name = nullptr);
+        std::optional<std::string>* observed = nullptr,
+        bool medic_only = false);
 
     struct DeployTile
     {
@@ -192,7 +193,8 @@ private:
         const cv::Mat& preview,
         std::optional<int> slots);
     void deploy_bench_medic(BoardState& board);
-    void deploy_bench(BoardState& board);
+    // 若本轮仍有未辨认的方牌可能属于已买入的干员，下回合再按当前棋盘选格。
+    bool deploy_bench(BoardState& board);
     bool set_facing(const Point& tile);
     void handle_popups();
 

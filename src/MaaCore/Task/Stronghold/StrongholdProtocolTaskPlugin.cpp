@@ -1925,8 +1925,7 @@ bool StrongholdProtocolTaskPlugin::prep_phase(BoardState& board)
     if (board.pending_deploy) {
         deploy_opening(board, opening);
         if (opening.empty()) {
-            deploy_bench(board);
-            board.pending_deploy = false;
+            board.pending_deploy = deploy_bench(board);
         }
     }
 
@@ -2011,15 +2010,18 @@ void StrongholdProtocolTaskPlugin::drop_held(const Point& from, const Point& to,
     emit_input(InputEvent::Type::TOUCH_UP, to);
 }
 
-static std::string read_drag_name(const cv::Mat& image)
+// nullopt 表示面板未读清，空名字表示已辨认为装备或召唤物。
+static std::optional<std::string> read_drag_name(const cv::Mat& image, bool check_unreadable)
 {
     OCRer tabs(image);
     tabs.set_task_info("StrongholdProtocol@DragTraitOcr");
     const auto traits = tabs.analyze();
-    if (!traits || !std::ranges::any_of(*traits, [](const TextRect& tr) {
+    const bool oper_tab =
+        traits && std::ranges::any_of(*traits, [](const TextRect& tr) {
             return tr.text.find("特质") != std::string::npos || tr.text.find("天赋") != std::string::npos;
-        })) {
-        return {};
+        });
+    if (!oper_tab && !check_unreadable) {
+        return std::nullopt;
     }
     OCRer ocr(image);
     ocr.set_task_info("StrongholdProtocol@DragNameOcr");
@@ -2031,7 +2033,7 @@ static std::string read_drag_name(const cv::Mat& image)
                 row.text.starts_with("\"") || row.text.starts_with("『") ||
                 (!BattleData.get_all_oper_names().contains(row.text) &&
                  BattleData.find_first_oper(battle::Role::Drone, row.text))) {
-                return {};
+                return std::string {};
             }
             if (role == battle::Role::Unknown) {
                 continue;
@@ -2041,9 +2043,11 @@ static std::string read_drag_name(const cv::Mat& image)
             }
             name = row.text;
         }
-        return name;
+        if (oper_tab && !name.empty()) {
+            return name;
+        }
     }
-    return {};
+    return std::nullopt;
 }
 
 std::optional<StrongholdProtocolTaskPlugin::DeployTile> StrongholdProtocolTaskPlugin::choose_tile(
@@ -2234,7 +2238,8 @@ std::optional<Point> StrongholdProtocolTaskPlugin::deploy_from_bench(
     int tier_hint,
     const cv::Mat& before_purchase,
     const std::string& opening_tile,
-    std::string* medic_probe_name)
+    std::optional<std::string>* observed,
+    bool medic_only)
 {
     const auto before_deploy = ctrler()->get_image();
     const auto slots0 = slots_left(before_deploy);
@@ -2248,10 +2253,11 @@ std::optional<Point> StrongholdProtocolTaskPlugin::deploy_from_bench(
     const Point lp = lift_from_bench(bench);
     const auto preview = ctrler()->get_image();
 
-    const std::string name = read_drag_name(preview);
-    if (medic_probe_name) {
-        *medic_probe_name = name;
+    const auto panel_name = read_drag_name(preview, observed && !medic_only);
+    if (observed) {
+        *observed = panel_name;
     }
+    const auto name = panel_name.value_or("");
     if (name.empty() || (!name_hint.empty() && name != name_hint)) {
         emit_input(InputEvent::Type::TOUCH_UP, lp);
         sleep(300);
@@ -2297,7 +2303,7 @@ std::optional<Point> StrongholdProtocolTaskPlugin::deploy_from_bench(
             }
         }
     }
-    if (medic_probe_name && !is_medic(name)) {
+    if (medic_only && !is_medic(name)) {
         emit_input(InputEvent::Type::TOUCH_UP, lp);
         return std::nullopt;
     }
@@ -2435,12 +2441,16 @@ void StrongholdProtocolTaskPlugin::deploy_bench_medic(BoardState& board)
         if (need_exit()) {
             return;
         }
-        std::string name;
-        if (deploy_from_bench(board, slot, {}, 0, {}, {}, &name)) {
+        std::optional<std::string> name;
+        if (deploy_from_bench(board, slot, {}, 0, {}, {}, &name, true)) {
             return;
         }
-        complete &= !name.empty();
-        seen.emplace(std::move(name));
+        if (name && !name->empty()) {
+            seen.emplace(std::move(*name));
+        }
+        else {
+            complete = false;
+        }
     }
     // 方牌位置稳定且每个面板都能辨认时，才清除备战席上已经找不到的医疗记录。
     if (complete && std::ranges::any_of(board.bench_known, [&](const auto& copy) {
@@ -2455,7 +2465,7 @@ void StrongholdProtocolTaskPlugin::deploy_bench_medic(BoardState& board)
     }
 }
 
-void StrongholdProtocolTaskPlugin::deploy_bench(BoardState& board)
+bool StrongholdProtocolTaskPlugin::deploy_bench(BoardState& board)
 {
     if (!field_medic_tier(board) || !board.promotion_tiles.empty()) {
         deploy_bench_medic(board);
@@ -2465,19 +2475,36 @@ void StrongholdProtocolTaskPlugin::deploy_bench(BoardState& board)
     for (int round = 0; round < 10 && !need_exit(); ++round) {
         const auto opers = detect_bench_opers(ctrler()->get_image());
         if (opers.empty()) {
-            break;
+            return false;
         }
+        auto unseen = board.bench_known;
+        std::erase_if(unseen, [](const auto& copy) {
+            const auto role = StrongholdProtocol.get_role(copy.first);
+            return role == battle::Role::Medic || role == battle::Role::Drone || role == battle::Role::Unknown;
+        });
+        bool unreadable = false;
         bool placed = false;
         for (const auto& pt : opers) {
-            if (deploy_from_bench(board, pt)) {
+            std::optional<std::string> name = std::string {}; // 满员且全为高阶时会在拿起前返回。
+            if (deploy_from_bench(board, pt, {}, 0, {}, {}, unseen.empty() ? nullptr : &name)) {
                 placed = true;
                 break;
             }
+            if (!name) {
+                unreadable = true;
+            }
+            else if (
+                const auto it = std::ranges::find(unseen, *name, &std::pair<std::string, int>::first);
+                it != unseen.end()) {
+                unseen.erase(it);
+            }
         }
         if (!placed) {
-            break;
+            // 同名份数分别核销，已核对但无格可放的干员不需要因旁边的方牌漏读而重扫。
+            return unreadable && !unseen.empty();
         }
     }
+    return !board.bench_known.empty();
 }
 
 bool StrongholdProtocolTaskPlugin::set_facing(const Point& tile)
