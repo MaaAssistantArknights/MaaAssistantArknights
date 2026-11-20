@@ -102,6 +102,11 @@
                     "$ref": "#/definitions/Rectangle",
                     "description": "可选项，表示识别的范围，格式为 [ x, y, width, height ]\n以 1280 * 720 为基准自动缩放；不填写时默认 [ 0, 0, 1280, 720 ]\n尽量填写，减小识别范围可以减少性能消耗，加快识别速度"
                 },
+                "mainScreen": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "可选项，是否按主界面识别策略准备截图。默认继承基任务，无基任务时为 false；显式 false 可覆盖继承值\n不沿 next 或 sub 传播，应标记实际识别节点；JustReturn 不触发截图\n仅支持该策略的控制器生效，通常由平台差异资源启用"
+                },
                 "cache": {
                     "type": "boolean",
                     "default": false,
