@@ -67,7 +67,7 @@ private:
     {
         int total = 0;
         int unmerged = 0;   // 已买入且未确认合成或卖出的份数
-        int promotions = 0; // 此干员已确认触发三选一的次数
+        int promotions = 0; // 已确认合成且尚未确认售出的精锐份数
     };
 
     struct DeployRank
@@ -76,6 +76,8 @@ private:
         bool elite = false;
         auto operator<=>(const DeployRank&) const = default;
     };
+
+    using DisplacedOpers = std::multimap<std::string, DeployRank>;
 
     // 每局对局状态，结算后重置
     struct BoardState
@@ -91,7 +93,7 @@ private:
         std::vector<OpeningOper> opening_gifts; // 尚未确认落位的赠卡保留各自的开局格。
         // 备战席名单未变时，只复核上次没读清的方牌和可能上场的医疗。空名字表示装备或召唤物。
         std::vector<std::pair<Point, std::optional<std::string>>> medic_bench;
-        std::multimap<std::string, DeployRank> displaced;         // 被换下的干员及原等阶，重扫时只补空格
+        DisplacedOpers displaced;                                 // 换下者重扫时优先补空，已被替代的医疗待售
         std::map<std::string, std::string> unconfirmed_tiles;     // 朝向或名额未能确认的格位及尝试放入的干员
         bool unknown_displaced = false;                           // 备战席可能有身份未知的换下者
         std::unordered_map<std::string, PurchaseCount> purchases; // 本局各干员的累计购买次数，含免费领取
@@ -231,6 +233,8 @@ private:
         const std::string& name,
         DeployRank rank,
         int slots);
+    static bool can_sell_replaced_medic(const BoardState& board, const std::string& name, DeployRank rank);
+    void sell_displaced(BoardState& board, DisplacedOpers::iterator copy, const Point& bench, int gold);
     void handle_displaced(BoardState& board, BoardDrop drop, cv::Mat before, Point bench);
     static std::optional<DeployTile> choose_tile(
         const BoardState& board,

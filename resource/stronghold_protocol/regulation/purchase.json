@@ -1,5 +1,6 @@
 {
-    "doc": "卫戍协议·规程。priority 按购买优先级从高到低排列，squad 表示编队时优先选入。substitutes 中的替补同档。forms 指定本赛季采用的同名干员形态。干员 ID 取自 battle_data.json。",
+    "doc": "卫戍协议·规程。priority 按购买优先级从高到低排列，squad 表示编队时优先选入。自选编队跳过 squad_blacklist 中的干员。substitutes 中的替补同档。forms 指定本赛季采用的同名干员形态。干员 ID 取自 battle_data.json。",
+    "squad_blacklist": ["char_2027_wang"],
     "priority": [
         { "id": "char_4247_oxi" },
         { "id": "char_1050_chen3", "squad": true },

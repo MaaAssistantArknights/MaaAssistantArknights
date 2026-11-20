@@ -1045,7 +1045,7 @@ bool StrongholdProtocolTaskPlugin::pick_squad(BoardState& board)
         std::vector<TextRect> names;
         for (const auto& tr : *text) {
             if (!BattleData.get_all_oper_names().contains(tr.text) || StrongholdProtocol.is_substitute(tr.text) ||
-                !StrongholdProtocol.is_six_star(tr.text)) {
+                StrongholdProtocol.is_squad_blacklisted(tr.text) || !StrongholdProtocol.is_six_star(tr.text)) {
                 continue;
             }
             const int x = tr.rect.x + tr.rect.width / 2;
@@ -2353,8 +2353,13 @@ static std::optional<std::string> read_bench_name(const cv::Mat& image, bool che
     OCRer ocr(image);
     ocr.set_task_info("StrongholdProtocol@DragNameOcr");
     if (auto rows = ocr.analyze()) {
+        const Rect badge = task_roi("StrongholdProtocol@Roi@DragTierFrame");
         std::string name;
         for (const auto& row : *rows) {
+            // 姓名在等阶框上方。下方的等阶和图标可能被识别成英文干员名。
+            if (row.rect.y + row.rect.height / 2 >= badge.y) {
+                continue;
+            }
             const auto role = StrongholdProtocol.get_role(row.text);
             if (role == battle::Role::Drone || row.text.starts_with("“") || row.text.starts_with("「") ||
                 row.text.starts_with("\"") || row.text.starts_with("『") ||
@@ -2371,7 +2376,7 @@ static std::optional<std::string> read_bench_name(const cv::Mat& image, bool che
             name = row.text;
         }
         if (oper_tab && !name.empty()) {
-            tier = read_panel_tier(image, task_roi("StrongholdProtocol@Roi@DragTierFrame"), *rows, true);
+            tier = read_panel_tier(image, badge, *rows, true);
             return name;
         }
     }
@@ -2686,6 +2691,37 @@ static int bench_stroke_tier(const cv::Mat& image, const Point& bench)
     return 0;
 }
 
+static OCRer::ResultsVecOpt
+    verified_displaced_panel(const cv::Mat& preview, const std::string& expected, const Rect& badge)
+{
+    if (preview.empty() || !Rect(0, 0, preview.cols, preview.rows).include(badge)) {
+        return std::nullopt;
+    }
+    OCRer tabs(preview);
+    tabs.set_task_info("StrongholdProtocol@DragTraitOcr");
+    const auto traits = tabs.analyze();
+    if (!traits || !std::ranges::any_of(*traits, [](const auto& t) { return t.text == "特质" || t.text == "天赋"; })) {
+        return std::nullopt;
+    }
+    OCRer panel(preview);
+    panel.set_task_info("StrongholdProtocol@DragNameOcr");
+    auto rows = panel.analyze();
+    if (!rows) {
+        return std::nullopt;
+    }
+    bool named = false;
+    for (const auto& row : *rows) {
+        if (row.rect.y + row.rect.height / 2 < badge.y) {
+            // 名字拆行或只读到别名的一部分时，不能确认当前干员。
+            if (named || row.text != expected || row.score < 0.9) {
+                return std::nullopt;
+            }
+            named = true;
+        }
+    }
+    return named ? std::move(rows) : std::nullopt;
+}
+
 int StrongholdProtocolTaskPlugin::verified_displaced_tier(
     const cv::Mat& preview,
     const std::string& expected,
@@ -2694,33 +2730,9 @@ int StrongholdProtocolTaskPlugin::verified_displaced_tier(
     const Point& bench)
 {
     const Rect badge = task_roi("StrongholdProtocol@Roi@DragTierFrame");
-    if (preview.empty() || !Rect(0, 0, preview.cols, preview.rows).include(badge) ||
+    const auto rows = verified_displaced_panel(preview, expected, badge);
+    if (!rows ||
         (for_sale && color_ratio(preview, badge, gold_lower_h, gold_upper_h, gold_lower_s, color_lower_v) > 0.08)) {
-        return 0;
-    }
-    OCRer tabs(preview);
-    tabs.set_task_info("StrongholdProtocol@DragTraitOcr");
-    const auto traits = tabs.analyze();
-    if (!traits || !std::ranges::any_of(*traits, [](const auto& t) { return t.text == "特质" || t.text == "天赋"; })) {
-        return 0;
-    }
-    OCRer panel(preview);
-    panel.set_task_info("StrongholdProtocol@DragNameOcr");
-    const auto rows = panel.analyze();
-    if (!rows) {
-        return 0;
-    }
-    bool named = false;
-    for (const auto& row : *rows) {
-        if (row.rect.y + row.rect.height / 2 < badge.y) {
-            // 名字拆行或只读到别名的一部分时，不能确认当前干员。
-            if (named || row.text != expected || row.score < 0.9) {
-                return 0;
-            }
-            named = true;
-        }
-    }
-    if (!named) {
         return 0;
     }
     const int panel_tier = read_panel_tier(preview, badge, *rows, !for_sale);
@@ -2801,27 +2813,91 @@ std::optional<StrongholdProtocolTaskPlugin::BoardDrop> StrongholdProtocolTaskPlu
     return result;
 }
 
+bool StrongholdProtocolTaskPlugin::can_sell_replaced_medic(
+    const BoardState& board,
+    const std::string& name,
+    DeployRank rank)
+{
+    if (!is_medic(name) || board.unknown_displaced || board.displaced.count(name) != 1 ||
+        std::ranges::any_of(board.bench_known, [&](const auto& copy) { return copy.first == name; })) {
+        return false;
+    }
+    // 换人时已记录退场副本的等阶。重扫时仍须确认场上医疗在位，且退场者不会反过来成为升级人选。
+    return std::ranges::any_of(board.occ, [&](const auto& entry) {
+        const auto& [key, oper] = entry;
+        return is_medic(oper.first) && !board.promotion_tiles.contains(key) && !board.unconfirmed_tiles.contains(key) &&
+               oper.second > 0 && DeployRank { oper.second, board.elite_tiles.contains(key) } >= rank;
+    });
+}
+
+void StrongholdProtocolTaskPlugin::sell_displaced(
+    BoardState& board,
+    DisplacedOpers::iterator copy,
+    const Point& bench,
+    int gold)
+{
+    const Rect sell = task_roi("StrongholdProtocol@Roi@ShopSell");
+    // 售出提示只在拖动中出现。起拖前核对商店位置、原席位和资金。
+    const auto shop = ctrler()->get_image();
+    OCRer drawer(shop);
+    drawer.set_task_info("StrongholdProtocol@ShopExpanded");
+    const auto buttons = drawer.analyze();
+    if (!buttons || !sell.include(buttons->front().rect) ||
+        !has_bench_control(shop, "StrongholdProtocol@ReadyButton") ||
+        read_number(shop, "StrongholdProtocol@ShopGoldWideOcr") != gold ||
+        std::ranges::none_of(
+            detect_bench_opers(shop),
+            [&](const Point& p) { return Point::distance(p, bench) <= 8; }) ||
+        need_exit() || !swipe_from_bench(bench, { sell.x + sell.width / 2, sell.y + sell.height / 2 })) {
+        return;
+    }
+    // 已发出售手势，即使余额漏读也不能凭这份退场记录再卖一次。
+    const auto [name, rank] = *copy;
+    board.displaced.erase(copy);
+    sleep(1000);
+    const auto after = read_gold(ctrler()->get_image());
+    if (!after || *after <= gold) {
+        LogWarn << "sale unconfirmed:" << name;
+        return;
+    }
+    if (auto it = board.purchases.find(name); it != board.purchases.end()) {
+        auto& copies = rank.elite ? it->second.promotions : it->second.unmerged;
+        if (copies > 0) {
+            --copies;
+        }
+    }
+    LogInfo << "sold swapped-out operator" << name << "gold" << gold << "->" << *after;
+}
+
 void StrongholdProtocolTaskPlugin::handle_displaced(BoardState& board, BoardDrop drop, cv::Mat before, Point bench)
 {
     // 补位只试空格或合成待核格。每次试放都会核实一个格位，因此不会在已知占位之间反复交换。
     while (drop.displaced && !need_exit()) {
         const auto [name, rank] = *drop.displaced;
-        if (rank.tier <= 0 || !BattleData.get_all_oper_names().contains(name) ||
+        const bool replaced_medic = can_sell_replaced_medic(board, name, rank);
+        if ((!replaced_medic && rank.tier <= 0) || !BattleData.get_all_oper_names().contains(name) ||
             BattleData.find_first_oper(battle::Role::Drone, name)) {
             return;
         }
-        const auto empty = choose_tile(board, name, rank, {}, drop.slots, true);
+        const auto empty = replaced_medic ? std::nullopt : choose_tile(board, name, rank, {}, drop.slots, true);
         const bool may_sell =
-            rank.tier < 5 && !rank.elite && StrongholdProtocol.priority(name) == 0 && !board.unknown_displaced &&
-            std::ranges::none_of(
-                board.bench_known,
-                [&](const auto& copy) { return copy.first == name; }) &&
-            std::ranges::none_of(board.occ, [&](const auto& entry) { return entry.second.first == name; });
+            replaced_medic ||
+            (!is_medic(name) && rank.tier < 5 && !rank.elite && StrongholdProtocol.priority(name) == 0 &&
+             !board.unknown_displaced &&
+             std::ranges::none_of(
+                 board.bench_known,
+                 [&](const auto& copy) { return copy.first == name; }) &&
+             std::ranges::none_of(board.occ, [&](const auto& entry) { return entry.second.first == name; }));
         if (!empty && !may_sell) {
             return;
         }
         const auto gold = empty ? std::optional<int> {} : read_gold(drop.after);
         if (!empty && !gold) {
+            return;
+        }
+        const auto [first, last] = board.displaced.equal_range(name);
+        const auto copy = std::find_if(first, last, [&](const auto& entry) { return entry.second == rank; });
+        if (copy == last) {
             return;
         }
         const auto changed = new_bench_slot(before, drop.after);
@@ -2838,6 +2914,13 @@ void StrongholdProtocolTaskPlugin::handle_displaced(BoardState& board, BoardDrop
             if (m_bench_shop_unconfirmed) {
                 return;
             }
+            if (replaced_medic) {
+                if (verified_displaced_panel(preview, name, task_roi("StrongholdProtocol@Roi@DragTierFrame"))) {
+                    sell_displaced(board, copy, candidate, *gold);
+                    return;
+                }
+                continue;
+            }
             const int verified = verified_displaced_tier(preview, name, !empty, drop.after, candidate);
             const auto elite =
                 rank.elite || may_have_bench_elite(board, name) ? panel_is_elite(preview, verified) : false;
@@ -2845,8 +2928,6 @@ void StrongholdProtocolTaskPlugin::handle_displaced(BoardState& board, BoardDrop
                 LogInfo << "unverified displaced operator on bench:" << name << candidate;
                 continue;
             }
-            const auto [first, last] = board.displaced.equal_range(name);
-            const auto copy = std::find_if(first, last, [&](const auto& entry) { return entry.second == rank; });
             if (empty) {
                 auto next = place_on_board(board, *empty, candidate, name, rank, drop.slots);
                 if (!next) {
@@ -2859,33 +2940,7 @@ void StrongholdProtocolTaskPlugin::handle_displaced(BoardState& board, BoardDrop
                 placed = true;
                 break;
             }
-            const Rect sell = task_roi("StrongholdProtocol@Roi@ShopSell");
-            // 售出提示只在拖动中出现。松手前无法中断普通滑动，起拖前核对商店位置、原席位和资金。
-            const auto shop = ctrler()->get_image();
-            OCRer drawer(shop);
-            drawer.set_task_info("StrongholdProtocol@ShopExpanded");
-            const auto buttons = drawer.analyze();
-            if (!buttons || !sell.include(buttons->front().rect) ||
-                !has_bench_control(shop, "StrongholdProtocol@ReadyButton") ||
-                read_number(shop, "StrongholdProtocol@ShopGoldWideOcr") != gold ||
-                std::ranges::none_of(
-                    detect_bench_opers(shop),
-                    [&](const Point& p) { return Point::distance(p, candidate) <= 8; }) ||
-                need_exit() || !swipe_from_bench(candidate, { sell.x + sell.width / 2, sell.y + sell.height / 2 })) {
-                return;
-            }
-            sleep(1000);
-            const auto gold1 = read_gold(ctrler()->get_image());
-            if (gold1 && *gold1 > *gold) {
-                board.displaced.erase(copy);
-                if (auto it = board.purchases.find(name); it != board.purchases.end() && it->second.unmerged > 0) {
-                    --it->second.unmerged;
-                }
-                LogInfo << "sold swapped-out operator" << name << "gold" << *gold << "->" << *gold1;
-            }
-            else {
-                LogWarn << "sale unconfirmed, bench will be rescanned:" << name;
-            }
+            sell_displaced(board, copy, candidate, *gold);
             return;
         }
         if (!placed) {
@@ -2931,12 +2986,20 @@ std::optional<Point> StrongholdProtocolTaskPlugin::deploy_from_bench(
         LogInfo << "bench operator not confirmed, expected" << name_hint << "read" << name;
         return std::nullopt;
     }
+    const auto [first, last] = board.displaced.equal_range(name);
+    if (!medic_only && name_hint.empty() && first != last && can_sell_replaced_medic(board, name, first->second)) {
+        if (verified_displaced_panel(preview, name, task_roi("StrongholdProtocol@Roi@DragTierFrame"))) {
+            if (const auto gold = read_gold(before_deploy)) {
+                sell_displaced(board, first, bench, *gold);
+            }
+        }
+        return std::nullopt;
+    }
     observed_tier = panel_tier_value(preview, observed_tier);
     if (observed_tier == 0) {
         observed_tier = bench_stroke_tier(before_deploy, bench);
     }
     auto known = std::ranges::find(board.bench_known, name, &std::pair<std::string, int>::first);
-    const auto [first, last] = board.displaced.equal_range(name);
     auto displaced = last;
     if (known != board.bench_known.end()) {
         // 同名方牌换位后无法按购买顺序区分。清除互相矛盾的旧等阶，当前点选的干员单独核验。
@@ -3102,7 +3165,8 @@ bool StrongholdProtocolTaskPlugin::deploy_bench(BoardState& board)
             return role == battle::Role::Medic || role == battle::Role::Drone || role == battle::Role::Unknown;
         });
         bool unreadable = false;
-        bool placed = false;
+        bool bench_changed = false;
+        const auto displaced_before = board.displaced.size();
         for (const auto& pt : ordered_bench(board, rest, opers)) {
             std::optional<std::string> name = std::string {}; // 满员且全为高阶时会在点选前返回。
             if (deploy_from_bench(
@@ -3112,9 +3176,10 @@ bool StrongholdProtocolTaskPlugin::deploy_bench(BoardState& board)
                     0,
                     {},
                     {},
-                    unseen.empty() && unseen_displaced.empty() ? nullptr : &name)) {
+                    unseen.empty() && unseen_displaced.empty() ? nullptr : &name) ||
+                board.displaced.size() < displaced_before) {
                 board.medic_bench.clear();
-                placed = true;
+                bench_changed = true;
                 break;
             }
             if (!name) {
@@ -3132,7 +3197,7 @@ bool StrongholdProtocolTaskPlugin::deploy_bench(BoardState& board)
         if (m_bench_shop_unconfirmed) {
             return true;
         }
-        if (!placed) {
+        if (!bench_changed) {
             // 同名份数分别核销，已核对但无格可放的干员不需要因旁边的方牌漏读而重扫。
             if (!unreadable && !unseen_displaced.empty() && detect_bench_opers(ctrler()->get_image()) == opers) {
                 for (const auto& [missing, unused] : unseen_displaced) {

@@ -30,6 +30,8 @@ public:
 
     bool is_substitute(const std::string& name) const { return m_purchase.substitutes.contains(name); }
 
+    bool is_squad_blacklisted(const std::string& name) const { return m_purchase.squad_blacklist.contains(name); }
+
     bool is_six_star(const std::string& name) const;
 
     // 同名干员有多个职业时取赛季指定的职业，无法确定时返回 Unknown。
@@ -48,6 +50,7 @@ private:
         std::vector<std::pair<Oper, bool>> priority;
         NamedOpers substitutes;
         NamedOpers forms;
+        std::unordered_set<std::string> squad_blacklist;
     };
 
     Purchase::Oper season_oper(const std::string& name) const;

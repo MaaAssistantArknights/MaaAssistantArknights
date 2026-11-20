@@ -63,18 +63,18 @@ bool asst::StrongholdProtocolConfig::parse_purchase(const json::value& json, boo
         return false;
     }
     const auto priority = json.find("priority");
-    if (custom && !json.exists("forms") && !json.exists("substitutes") &&
+    if (custom && !json.exists("forms") && !json.exists("substitutes") && !json.exists("squad_blacklist") &&
         ((!priority && (json.exists("role_overrides") || json.exists("dps"))) ||
          (priority && priority->is_array() && !priority->as_array().empty() &&
           std::ranges::all_of(priority->as_array(), [](const auto& entry) { return entry.is_string(); })))) {
         LogWarn << __FUNCTION__
                 << "ignoring legacy purchase_custom.json; use priority objects with id and optional squad,"
-                   " and operator IDs in substitutes and forms";
+                   " and operator IDs in substitutes, forms and squad_blacklist";
         return true;
     }
 
     Purchase purchase = custom ? m_purchase : Purchase {};
-    for (const std::string key : { "priority", "substitutes", "forms" }) {
+    for (const std::string key : { "priority", "substitutes", "forms", "squad_blacklist" }) {
         const auto entries = json.find(key);
         if (!entries) {
             continue;
@@ -89,7 +89,7 @@ bool asst::StrongholdProtocolConfig::parse_purchase(const json::value& json, boo
         else if (key == "substitutes") {
             purchase.substitutes.clear();
         }
-        else {
+        else if (key == "forms") {
             purchase.forms.clear();
         }
         std::unordered_set<std::string> names;
@@ -116,9 +116,12 @@ bool asst::StrongholdProtocolConfig::parse_purchase(const json::value& json, boo
             else if (key == "substitutes") {
                 purchase.substitutes.emplace(oper->name, oper);
             }
-            else {
+            else if (key == "forms") {
                 purchase.forms.emplace(oper->name, oper);
             }
+        }
+        if (key == "squad_blacklist") {
+            purchase.squad_blacklist = std::move(names);
         }
     }
     m_purchase = std::move(purchase);
