@@ -168,7 +168,7 @@ private:
     void enrich_covenant_card(ShopCard& card) const;
     void record_covenant_promotion(BoardState& board, const ShopCard& card, const std::map<size_t, Point>& seats);
     static std::map<size_t, Point> covenant_bench_slots(const cv::Mat& image);
-    bool deploy_covenant_from_bench(BoardState& board, size_t seat, bool empty_only = false);
+    bool deploy_covenant_from_bench(BoardState& board, size_t seat, bool replace_non_core = true);
     void deploy_covenant_bench(BoardState& board);
     // 卡栏签名（干员名+费用拼接），判定刷新是否生效
     static std::string shop_signature(const std::vector<ShopCard>& cards);
@@ -313,7 +313,7 @@ private:
         const std::string& name,
         DeployRank rank,
         int slots,
-        bool empty_only,
+        bool replace_non_core,
         bool core) const;
     bool deploy_bench_medic(BoardState& board, const cv::Mat& image);
     // 若本轮仍有未辨认的方牌可能属于已买入的干员，下回合再按当前棋盘选格。

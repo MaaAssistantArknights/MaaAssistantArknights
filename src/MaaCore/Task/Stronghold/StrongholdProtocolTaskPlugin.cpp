@@ -352,6 +352,14 @@ bool StrongholdProtocolTaskPlugin::is_core_oper(const BoardState& board, const s
     return board.covenant_core_names.contains(name) || (oper && is_core_card(oper->get().bonds));
 }
 
+static constexpr int MinCovenantUpgradeLevel = 4;
+
+static int covenant_oper_level(const std::string& name, int tier)
+{
+    const auto oper = StrongholdProtocol.find_oper(name);
+    return oper && oper->get().level > 0 ? oper->get().level : tier;
+}
+
 // 医疗优先用 medic，其余按 battle_data.json 的部署位置选格。
 static std::pair<std::string, const std::vector<Point>&>
     covenant_group(battle::Role role, battle::LocationType position)
@@ -2126,7 +2134,7 @@ std::map<size_t, Point> StrongholdProtocolTaskPlugin::covenant_bench_slots(const
     return occupied;
 }
 
-bool StrongholdProtocolTaskPlugin::deploy_covenant_from_bench(BoardState& board, size_t seat, bool empty_only)
+bool StrongholdProtocolTaskPlugin::deploy_covenant_from_bench(BoardState& board, size_t seat, bool replace_non_core)
 {
     const auto copy = board.covenant_bench.find(seat);
     if (copy == board.covenant_bench.end() || need_exit()) {
@@ -2141,7 +2149,7 @@ bool StrongholdProtocolTaskPlugin::deploy_covenant_from_bench(BoardState& board,
     }
 
     const auto [name, rank] = copy->second;
-    const auto tile = choose_covenant_tile(board, name, rank, *slots, empty_only, is_core_oper(board, name));
+    const auto tile = choose_covenant_tile(board, name, rank, *slots, replace_non_core, is_core_oper(board, name));
     if (!tile) {
         return false;
     }
@@ -2179,7 +2187,7 @@ bool StrongholdProtocolTaskPlugin::deploy_covenant_from_bench(BoardState& board,
         LogInfo << "covenant operator returned to bench" << old_name << "seat" << returned->first + 1;
         // 若换下的普通副本也没有同职业空格，按原流程出售并用席位和余额核销。
         if (!is_core_oper(board, old_name) && !old_rank.elite &&
-            !choose_covenant_tile(board, old_name, old_rank, drop->slots, true, false)) {
+            !choose_covenant_tile(board, old_name, old_rank, drop->slots, false, false)) {
             const auto gold = read_gold(drop->after);
             const Rect sell = task_roi("StrongholdProtocol@Roi@ShopSell");
             if (gold && swipe_from_bench(returned->second, { sell.x + sell.width / 2, sell.y + sell.height / 2 })) {
@@ -2218,7 +2226,7 @@ void StrongholdProtocolTaskPlugin::deploy_covenant_bench(BoardState& board)
         if (need_exit() || board.covenant_tracking_uncertain) {
             break;
         }
-        deploy_covenant_from_bench(board, seat, true);
+        deploy_covenant_from_bench(board, seat, false);
     }
 }
 
@@ -2345,7 +2353,7 @@ StrongholdProtocolTaskPlugin::PurchaseResult StrongholdProtocolTaskPlugin::buy_c
     if (!card.name.empty() && new_seat) {
         board.covenant_bench.insert_or_assign(*new_seat, std::pair { card.name, DeployRank { card.tier, false } });
         LogInfo << "covenant purchase landed" << card.name << "seat" << *new_seat + 1;
-        if (pick.deploy) {
+        if (pick.deploy || (card.core && covenant_oper_level(card.name, card.tier) >= MinCovenantUpgradeLevel)) {
             deploy_covenant_from_bench(board, *new_seat);
         }
     }
@@ -2454,7 +2462,7 @@ std::optional<StrongholdProtocolTaskPlugin::CovenantPick> StrongholdProtocolTask
         }
         const bool already_fielded = core_names.contains(card.name);
         const bool deploy =
-            choose_covenant_tile(board, card.name, { card.tier, false }, slots.value_or(-1), false, card.core)
+            choose_covenant_tile(board, card.name, { card.tier, false }, slots.value_or(-1), true, card.core)
                 .has_value();
         if (!deploy && (!card.core || bench_count >= bench_limit)) {
             continue;
@@ -3105,19 +3113,19 @@ std::optional<StrongholdProtocolTaskPlugin::DeployTile> StrongholdProtocolTaskPl
     const std::string& name,
     DeployRank rank,
     int slots,
-    bool empty_only,
+    bool replace_non_core,
     bool core) const
 {
-    if (slots < 0 || slots > 8) {
+    if (slots < 0 || slots > MaxDeploymentSlots) {
         return std::nullopt;
     }
     const auto oper = find_covenant_battle_oper(name);
     const auto role = oper ? oper->role : battle::Role::Unknown;
     const auto position = oper ? oper->location_type : battle::LocationType::Invalid;
     const auto names = field_core_names(board);
-    if (!rank.elite && core && names.contains(name) && names.size() < 3) {
-        return std::nullopt;
-    }
+    const bool can_fill = rank.elite || !core || !names.contains(name) || names.size() >= 3;
+    const bool can_replace_non_core = core && can_fill && !rank.elite && replace_non_core;
+    const bool can_upgrade_core = core && covenant_oper_level(name, rank.tier) >= MinCovenantUpgradeLevel;
     if (!rank.elite && !core && role == battle::Role::Tank && std::ranges::count_if(board.occ, [](const auto& entry) {
                                                                   const auto old =
                                                                       find_covenant_battle_oper(entry.second.first);
@@ -3127,7 +3135,10 @@ std::optional<StrongholdProtocolTaskPlugin::DeployTile> StrongholdProtocolTaskPl
     }
 
     const auto [group, points] = covenant_group(role, position);
-    std::optional<DeployTile> replacement;
+    std::optional<DeployTile> non_core_replacement;
+    std::optional<DeployTile> core_replacement;
+    std::pair<int, bool> weakest_core { MinCovenantUpgradeLevel, false };
+    bool all_occupants_are_core = true;
     for (size_t i = 0; i < points.size(); ++i) {
         DeployTile tile { group + std::to_string(i), points[i] };
         if (board.unconfirmed_tiles.contains(tile.key) || board.promotion_tiles.contains(tile.key)) {
@@ -3135,17 +3146,34 @@ std::optional<StrongholdProtocolTaskPlugin::DeployTile> StrongholdProtocolTaskPl
         }
         const auto occupant = board.occ.find(tile.key);
         if (occupant == board.occ.end()) {
-            if (slots > 0) {
+            if (can_fill && slots > 0) {
                 return tile;
             }
+            continue;
         }
-        else if (
-            core && !rank.elite && !empty_only && !replacement && occupant->second.first != "?" &&
-            !board.elite_tiles.contains(tile.key) && !is_core_oper(board, occupant->second.first)) {
-            replacement = std::move(tile);
+        if (!core) {
+            continue;
+        }
+
+        const auto& [old_name, old_tier] = occupant->second;
+        const bool old_elite = board.elite_tiles.contains(tile.key);
+        if (!is_core_oper(board, old_name)) {
+            all_occupants_are_core = false;
+            if (can_replace_non_core && !non_core_replacement && old_name != "?" && !old_elite) {
+                non_core_replacement = std::move(tile);
+            }
+            continue;
+        }
+        if (can_upgrade_core && !board.unread_level_tiles.contains(tile.key)) {
+            // 先按费用等级排序，同级优先换下未合成的副本。
+            const auto old_rank = std::pair { covenant_oper_level(old_name, old_tier), old_elite };
+            if (old_rank.first > 0 && old_rank < weakest_core) {
+                weakest_core = old_rank;
+                core_replacement = std::move(tile);
+            }
         }
     }
-    return replacement;
+    return all_occupants_are_core ? core_replacement : non_core_replacement;
 }
 
 StrongholdProtocolTaskPlugin::Placement
