@@ -53,6 +53,7 @@ private:
         bool empty = false;   // 空位
         bool is_oper = false; // 是干员（非装备）
         std::string name;     // 干员名（可能为空）
+        int name_left = -1;   // 卡面全名的左边界，用于比对同一架上的卡槽
     };
 
     struct OpeningOper
@@ -127,7 +128,7 @@ private:
     // 资金读取：失败时换新截图重试并用加宽识别框兜底，仍失败返回 nullopt
     std::optional<int> read_gold(const cv::Mat& image);
     ShopInfo read_shop(const cv::Mat& image, BoardState& board);
-    std::vector<ShopCard> read_shop_cards(const cv::Mat& image) const;
+    std::vector<ShopCard> read_shop_cards(const cv::Mat& image, const std::vector<ShopCard>& previous = {}) const;
     static bool is_reward_shop(const std::vector<ShopCard>& cards);
     static std::optional<ShopCard> shop_pick(const std::vector<ShopCard>& cards, const BoardState& board, int gold);
     static std::optional<ShopCard> promotion_reward(const std::vector<ShopCard>& cards, const BoardState& board);

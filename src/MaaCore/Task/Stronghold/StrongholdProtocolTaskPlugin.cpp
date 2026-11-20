@@ -1237,7 +1237,7 @@ static std::vector<int>
 }
 
 std::vector<StrongholdProtocolTaskPlugin::ShopCard>
-    StrongholdProtocolTaskPlugin::read_shop_cards(const cv::Mat& image) const
+    StrongholdProtocolTaskPlugin::read_shop_cards(const cv::Mat& image, const std::vector<ShopCard>& previous) const
 {
     OCRer ocr(image);
     ocr.set_task_info("StrongholdProtocol@ShopCardsOcr");
@@ -1257,12 +1257,6 @@ std::vector<StrongholdProtocolTaskPlugin::ShopCard>
     const auto tier_roi = task_roi("StrongholdProtocol@Roi@ShopTierY");
     const auto cost_roi = task_roi("StrongholdProtocol@Roi@ShopCostY");
     auto card_xs = results_opt ? detect_shop_card_x(*results_opt, cost_roi, tier_roi) : std::vector<int> {};
-    // 按钮右侧一段内的文字（按钮费用等）不算卡牌（按钮中心右侧 150px@1080p 之外才算）
-    if (m_upgrade_x) {
-        const int span = task_roi("StrongholdProtocol@Roi@ShopUpgradeButtonSpan").width;
-        std::erase_if(card_xs, [&](int x) { return x <= *m_upgrade_x + span; });
-    }
-
     std::vector<ShopCard> cards;
     static const std::unordered_map<std::string, int> roman = {
         { "I", 1 }, { "II", 2 }, { "III", 3 }, { "IV", 4 }, { "V", 5 }, { "VI", 6 },
@@ -1293,6 +1287,33 @@ std::vector<StrongholdProtocolTaskPlugin::ShopCard>
     const int empty_lo = empty_roi.y, empty_hi = empty_roi.y + empty_roi.height;
     const int pact_lo = pact_roi.y, pact_hi = pact_roi.y + pact_roi.height;
     const int name_lo2 = name_roi2.y, name_hi2 = name_roi2.y + name_roi2.height;
+    std::map<int, std::string> recovered;
+    if (results_opt && !previous.empty()) {
+        // 整架 OCR 可能连续漏掉费用和等阶。全名仍在原处时，用它的位移修正上次确认的卡槽中心。
+        for (const auto& old : previous) {
+            if (!old.is_oper || old.cost <= 0 || old.name_left < 0 || old.name.empty()) {
+                continue;
+            }
+            for (const auto& tr : *results_opt) {
+                const int dx = tr.rect.x - old.name_left;
+                const int cy = center_y(tr.rect);
+                if (tr.text != old.name || std::abs(dx) > 8 || cy < name_lo2 || cy > name_hi2) {
+                    continue;
+                }
+                const int x = old.x + dx;
+                if (std::ranges::none_of(card_xs, [&](int current) { return std::abs(current - x) <= 60; })) {
+                    recovered.emplace(x, old.name);
+                    card_xs.emplace_back(x);
+                }
+                break;
+            }
+        }
+        std::ranges::sort(card_xs);
+    }
+    if (m_upgrade_x) {
+        const int span = task_roi("StrongholdProtocol@Roi@ShopUpgradeButtonSpan").width;
+        std::erase_if(card_xs, [&](int x) { return x <= *m_upgrade_x + span; });
+    }
     for (int x : card_xs) {
         ShopCard card;
         card.x = x;
@@ -1332,11 +1353,22 @@ std::vector<StrongholdProtocolTaskPlugin::ShopCard>
                 }
                 if (cy >= name_lo2 && cy <= name_hi2 && card.name.empty() && oper_names.contains(tr.text)) {
                     card.name = tr.text;
+                    card.name_left = tr.rect.x;
                     LogTrace << "shop name matched" << tr.text << "card" << x;
                 }
             }
         }
-        if (card.cost < 0 && !card.empty) {
+        if (const auto it = recovered.find(x); it != recovered.end()) {
+            if (card.empty || !card.is_oper || card.name != it->second) {
+                continue;
+            }
+            card.cost = read_badge(x);
+            if (card.cost <= 0) {
+                continue;
+            }
+            LogTrace << "recovered shop slot" << x << card.name << "cost" << card.cost;
+        }
+        else if (card.cost < 0 && !card.empty) {
             card.cost = read_badge(x);
         }
         // 等阶未识别时按卡牌左上金框色判 V/VI
@@ -1813,8 +1845,9 @@ bool StrongholdProtocolTaskPlugin::prep_phase(BoardState& board)
         int remaining = 2;
         int budget = shop.gold.value_or(-1);
         std::vector<int> failed_slots;
+        std::vector<ShopCard> previous;
         while (remaining > 0 && !need_exit()) {
-            auto cards = read_shop_cards(image);
+            auto cards = read_shop_cards(image, previous);
             const bool reward_shop = is_reward_shop(cards);
             std::erase_if(cards, [&](const ShopCard& c) {
                 return (reward_shop && c.cost != 0) ||
@@ -1824,6 +1857,8 @@ bool StrongholdProtocolTaskPlugin::prep_phase(BoardState& board)
             if (!pick) {
                 break;
             }
+            previous = std::move(cards);
+            std::erase_if(previous, [&](const ShopCard& c) { return reward_shop || std::abs(c.x - pick->x) < 30; });
             if (buy_and_deploy(board, *pick, ShopPhase::Early, &opening) == PurchaseResult::Bought) {
                 --remaining;
                 if (budget >= 0) {
