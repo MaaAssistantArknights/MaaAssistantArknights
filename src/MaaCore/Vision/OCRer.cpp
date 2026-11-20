@@ -15,20 +15,54 @@
 
 using namespace asst;
 
-OCRer::ResultsVecOpt OCRer::analyze() const
+OCRer::ResultsVecOpt OCRer::analyze(RawCache* frame_cache) const
 {
     if (m_roi.empty()) {
         return std::nullopt;
     }
-    OcrPack* ocr_ptr = nullptr;
-    if (m_params.use_char_model) {
-        ocr_ptr = &CharOcr::get_instance();
+    return analyze_roi(make_roi(m_image, m_roi), frame_cache);
+}
+
+OCRer::ResultsVecOpt OCRer::analyze_masked(const cv::Mat& mask, const Rect& mask_roi) const
+{
+    if (m_roi.empty()) {
+        return std::nullopt;
+    }
+    const auto crop = make_rect<cv::Rect>(m_roi);
+    const auto bounds = make_rect<cv::Rect>(mask_roi);
+    const auto overlap = crop & bounds;
+    cv::Mat masked = cv::Mat::zeros(crop.size(), m_image.type());
+    if (!overlap.empty()) {
+        m_image(overlap).copyTo(masked(overlap - crop.tl()), mask(overlap - bounds.tl()));
+    }
+    return analyze_roi(masked, nullptr);
+}
+
+OCRer::ResultsVecOpt OCRer::analyze_roi(const cv::Mat& image_roi, RawCache* frame_cache) const
+{
+    const RawCache::Entry* cached = nullptr;
+    if (frame_cache) {
+        auto it = std::ranges::find_if(frame_cache->entries, [&](const RawCache::Entry& entry) {
+            return entry.roi == m_roi && entry.use_char_model == m_params.use_char_model &&
+                   entry.without_det == m_params.without_det;
+        });
+        if (it != frame_cache->entries.end()) {
+            cached = &*it;
+        }
+    }
+
+    ResultsVec raw_results;
+    if (cached) {
+        raw_results = cached->results;
     }
     else {
-        ocr_ptr = &WordOcr::get_instance();
+        OcrPack& model =
+            m_params.use_char_model ? static_cast<OcrPack&>(CharOcr::get_instance()) : WordOcr::get_instance();
+        raw_results = model.recognize(image_roi, m_params.without_det, m_roi);
+        if (frame_cache) {
+            frame_cache->entries.push_back({ m_roi, m_params.use_char_model, m_params.without_det, raw_results });
+        }
     }
-    ResultsVec raw_results = ocr_ptr->recognize(make_roi(m_image, m_roi), m_params.without_det, m_roi);
-    ocr_ptr = nullptr;
 
     /* post process */
     ResultsVec results_vec;

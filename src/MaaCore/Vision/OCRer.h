@@ -14,11 +14,26 @@ public:
     using ResultsVec = OcrPack::ResultsVec;
     using ResultsVecOpt = std::optional<ResultsVec>;
 
+    // 仅在同一帧的一次候选遍历中复用，按 ROI 与模型配置保存过滤前的结果（空结果同样有效）。
+    struct RawCache
+    {
+        struct Entry
+        {
+            Rect roi;
+            bool use_char_model = false;
+            bool without_det = false;
+            ResultsVec results;
+        };
+
+        std::vector<Entry> entries;
+    };
+
 public:
     using VisionHelper::VisionHelper;
     virtual ~OCRer() override = default;
 
-    ResultsVecOpt analyze() const;
+    ResultsVecOpt analyze(RawCache* frame_cache = nullptr) const;
+    ResultsVecOpt analyze_masked(const cv::Mat& mask, const Rect& mask_roi) const;
 
     // FIXME: 老接口太难重构了，先弄个这玩意兼容下，后续慢慢全删掉
     const auto& get_result() const noexcept { return m_result; }
@@ -39,6 +54,8 @@ protected:
     bool filter_and_replace_by_required_(Result& res) const;
 
 private:
+    ResultsVecOpt analyze_roi(const cv::Mat& image_roi, RawCache* frame_cache) const;
+
     // FIXME: 老接口太难重构了，先弄个这玩意兼容下，后续慢慢全删掉
     mutable ResultsVec m_result;
 };
