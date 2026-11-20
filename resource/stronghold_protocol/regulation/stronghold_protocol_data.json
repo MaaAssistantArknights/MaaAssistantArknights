@@ -1,0 +1,738 @@
+{
+    "doc": "卫戍协议极速模拟商店盟约与干员数据，由游戏数据表自动生成（tools/StrongholdProtocolCovenant）。id 对应 battle_data.json 中的干员 ID，level 为卡牌费用等阶（1~6），bonds 为干员携带的盟约，缺省时按卡面识别。",
+    "season": "act3autochess V3_1",
+    "bonds": [
+        "炎",
+        "萨尔贡",
+        "维多利亚",
+        "谢拉格",
+        "阿戈尔",
+        "叙拉古",
+        "卡西米尔",
+        "乌萨斯",
+        "伊比利亚",
+        "莱塔尼亚",
+        "精准",
+        "迅捷",
+        "灵巧",
+        "坚守",
+        "助力",
+        "远见",
+        "奇迹",
+        "投资人",
+        "突袭",
+        "不屈",
+        "调和",
+        "协防干员",
+        "独行",
+        "聚合",
+        "奥术"
+    ],
+    "operators": {
+        "Miss.Christine": {
+            "id": "char_4198_christ",
+            "level": 2,
+            "bonds": ["维多利亚", "奥术"]
+        },
+        "Mon3tr": {
+            "id": "char_4179_monstr",
+            "level": 5,
+            "bonds": ["协防干员"]
+        },
+        "W": {
+            "id": "char_113_cqbw",
+            "level": 4,
+            "bonds": ["迅捷"]
+        },
+        "乌啾": {
+            "id": "char_4224_turdus",
+            "level": 3,
+            "bonds": ["乌萨斯", "聚合"]
+        },
+        "乌尔比安": {
+            "id": "char_4145_ulpia",
+            "level": 5,
+            "bonds": ["阿戈尔"]
+        },
+        "乌有": {
+            "id": "char_455_nothin",
+            "level": 3,
+            "bonds": ["炎"]
+        },
+        "云迹": {
+            "id": "char_4165_ctrail",
+            "level": 2,
+            "bonds": ["灵巧", "奇迹"]
+        },
+        "仇白": {
+            "id": "char_4082_qiubai",
+            "level": 4,
+            "bonds": ["炎", "灵巧"]
+        },
+        "伊桑": {
+            "id": "char_355_ethan",
+            "level": 3,
+            "bonds": ["奥术", "突袭"]
+        },
+        "伺夜": {
+            "id": "char_427_vigil",
+            "level": 3,
+            "bonds": ["叙拉古", "精准"]
+        },
+        "余": {
+            "id": "char_2026_yu",
+            "level": 4,
+            "bonds": ["炎", "坚守"]
+        },
+        "佩佩": {
+            "id": "char_4058_pepe",
+            "level": 5,
+            "bonds": ["萨尔贡", "灵巧"]
+        },
+        "克莱门莎": {
+            "id": "char_4231_clemnt",
+            "level": 6,
+            "bonds": ["阿戈尔"]
+        },
+        "冻河": {
+            "id": "char_4244_tocka",
+            "level": 5,
+            "bonds": ["乌萨斯", "迅捷"]
+        },
+        "凛御银灰": {
+            "id": "char_1045_svash2",
+            "level": 5,
+            "bonds": ["谢拉格", "灵巧", "投资人"]
+        },
+        "凯瑟琳": {
+            "id": "char_4162_cathy",
+            "level": 3,
+            "bonds": ["维多利亚", "远见"]
+        },
+        "初雪": {
+            "id": "char_174_slbell",
+            "level": 3,
+            "bonds": ["谢拉格", "协防干员"]
+        },
+        "华法琳": {
+            "id": "char_171_bldsk",
+            "level": 4,
+            "bonds": ["灵巧", "聚合"]
+        },
+        "卡涅利安": {
+            "id": "char_426_billro",
+            "level": 3,
+            "bonds": ["莱塔尼亚", "萨尔贡", "迅捷"]
+        },
+        "卡达": {
+            "id": "char_328_cammou",
+            "level": 1,
+            "bonds": ["奥术"]
+        },
+        "历阵锐枪芬": {
+            "id": "char_1036_fang2",
+            "level": 3,
+            "bonds": ["卡西米尔", "远见"]
+        },
+        "可露希尔": {
+            "id": "char_4228_closur",
+            "level": 5,
+            "bonds": ["投资人"]
+        },
+        "史尔特尔": {
+            "id": "char_350_surtr",
+            "level": 6,
+            "bonds": ["突袭", "不屈"]
+        },
+        "吉星": {
+            "id": "char_4203_kichi",
+            "level": 3,
+            "bonds": ["奇迹"]
+        },
+        "哈洛德": {
+            "id": "char_4114_harold",
+            "level": 2,
+            "bonds": ["维多利亚", "谢拉格"]
+        },
+        "圣聆初雪": {
+            "id": "char_1046_sbell2",
+            "level": 5,
+            "bonds": ["谢拉格", "奥术"]
+        },
+        "地灵": {
+            "id": "char_183_skgoat",
+            "level": 1,
+            "bonds": ["莱塔尼亚", "独行"]
+        },
+        "塔露拉": {
+            "id": "char_4247_oxi",
+            "level": 6,
+            "bonds": ["乌萨斯", "奥术", "协防干员"]
+        },
+        "塞雷娅": {
+            "id": "char_202_demkni",
+            "level": 5,
+            "bonds": ["坚守", "协防干员"]
+        },
+        "复奏": {
+            "id": "char_4031_liesel",
+            "level": 2,
+            "bonds": ["莱塔尼亚", "叙拉古", "奇迹"]
+        },
+        "夏栎": {
+            "id": "char_492_quercu",
+            "level": 1,
+            "bonds": ["助力"]
+        },
+        "夕": {
+            "id": "char_2015_dusk",
+            "level": 6,
+            "bonds": ["炎", "奥术"]
+        },
+        "夜莺": {
+            "id": "char_179_cgbird",
+            "level": 4,
+            "bonds": ["聚合", "协防干员"]
+        },
+        "奥尔佳": {
+            "id": "char_4245_alga",
+            "level": 3,
+            "bonds": ["乌萨斯", "灵巧"]
+        },
+        "奥斯塔": {
+            "id": "char_346_aosta",
+            "level": 2,
+            "bonds": ["叙拉古"]
+        },
+        "妮芙": {
+            "id": "char_4146_nymph",
+            "level": 6,
+            "bonds": ["迅捷", "远见"]
+        },
+        "安哲拉": {
+            "id": "char_218_cuttle",
+            "level": 2,
+            "bonds": ["阿戈尔", "助力"]
+        },
+        "安洁莉娜": {
+            "id": "char_291_aglina",
+            "level": 4,
+            "bonds": ["叙拉古", "奇迹"]
+        },
+        "宴": {
+            "id": "char_337_utage",
+            "level": 2,
+            "bonds": ["不屈"]
+        },
+        "寒檀": {
+            "id": "char_341_sntlla",
+            "level": 4,
+            "bonds": ["远见"]
+        },
+        "山": {
+            "id": "char_264_f12yin",
+            "level": 4,
+            "bonds": ["投资人"]
+        },
+        "帕拉斯": {
+            "id": "char_485_pallas",
+            "level": 6,
+            "bonds": ["灵巧", "助力"]
+        },
+        "幽灵鲨": {
+            "id": "char_143_ghost",
+            "level": 1,
+            "bonds": ["阿戈尔"]
+        },
+        "异客": {
+            "id": "char_472_pasngr",
+            "level": 4,
+            "bonds": ["萨尔贡", "奥术"]
+        },
+        "引星棘刺": {
+            "id": "char_1039_thorn2",
+            "level": 6,
+            "bonds": ["伊比利亚", "迅捷"]
+        },
+        "归溟幽灵鲨": {
+            "id": "char_1023_ghost2",
+            "level": 4,
+            "bonds": ["阿戈尔", "不屈"]
+        },
+        "忍冬": {
+            "id": "char_4026_vulpis",
+            "level": 3,
+            "bonds": ["叙拉古", "迅捷"]
+        },
+        "怒潮凛冬": {
+            "id": "char_1051_headb2",
+            "level": 5,
+            "bonds": ["乌萨斯", "奇迹"]
+        },
+        "慕斯": {
+            "id": "char_185_frncat",
+            "level": 1,
+            "bonds": ["维多利亚"]
+        },
+        "承曦格雷伊": {
+            "id": "char_1027_greyy2",
+            "level": 2,
+            "bonds": ["精准", "灵巧"]
+        },
+        "折光": {
+            "id": "char_499_kaitou",
+            "level": 2,
+            "bonds": ["莱塔尼亚"]
+        },
+        "折桠": {
+            "id": "char_4207_branch",
+            "level": 1,
+            "bonds": ["乌萨斯", "不屈"]
+        },
+        "拉普兰德": {
+            "id": "char_140_whitew",
+            "level": 1,
+            "bonds": ["叙拉古"]
+        },
+        "拜松": {
+            "id": "char_325_bison",
+            "level": 1,
+            "bonds": ["炎"]
+        },
+        "摆渡人": {
+            "id": "char_4166_varkis",
+            "level": 1,
+            "bonds": ["坚守", "不屈"]
+        },
+        "斥罪": {
+            "id": "char_4065_judge",
+            "level": 4,
+            "bonds": ["叙拉古", "不屈"]
+        },
+        "斯卡蒂": {
+            "id": "char_263_skadi",
+            "level": 3,
+            "bonds": ["阿戈尔", "突袭"]
+        },
+        "旅骨": {
+            "id": "char_4232_hbound",
+            "level": 3,
+            "bonds": ["伊比利亚", "精准"]
+        },
+        "星极": {
+            "id": "char_274_astesi",
+            "level": 2,
+            "bonds": ["奇迹"]
+        },
+        "星源": {
+            "id": "char_135_halo",
+            "level": 2,
+            "bonds": ["助力"]
+        },
+        "机械师": {
+            "id": "char_4230_mcnist",
+            "level": 6,
+            "bonds": ["协防干员", "坚守"]
+        },
+        "杰克": {
+            "id": "char_347_jaksel",
+            "level": 1,
+            "bonds": ["突袭"]
+        },
+        "极光": {
+            "id": "char_422_aurora",
+            "level": 3,
+            "bonds": ["谢拉格"]
+        },
+        "棘刺": {
+            "id": "char_293_thorns",
+            "level": 5,
+            "bonds": ["伊比利亚", "奥术"]
+        },
+        "森蚺": {
+            "id": "char_416_zumama",
+            "level": 4,
+            "bonds": ["萨尔贡", "不屈"]
+        },
+        "歌蕾蒂娅": {
+            "id": "char_474_glady",
+            "level": 5,
+            "bonds": ["阿戈尔"]
+        },
+        "水月": {
+            "id": "char_437_mizuki",
+            "level": 4,
+            "bonds": ["阿戈尔", "灵巧"]
+        },
+        "水灯心": {
+            "id": "char_4177_brigid",
+            "level": 3,
+            "bonds": ["维多利亚", "独行", "灵巧"]
+        },
+        "泡泡": {
+            "id": "char_381_bubble",
+            "level": 2,
+            "bonds": ["萨尔贡", "坚守"]
+        },
+        "波登可": {
+            "id": "char_258_podego",
+            "level": 2,
+            "bonds": ["聚合", "迅捷"]
+        },
+        "流明": {
+            "id": "char_4042_lumen",
+            "level": 4,
+            "bonds": ["伊比利亚", "聚合"]
+        },
+        "浊心斯卡蒂": {
+            "id": "char_1012_skadi2",
+            "level": 6,
+            "bonds": ["阿戈尔", "聚合"]
+        },
+        "海沫": {
+            "id": "char_4066_highmo",
+            "level": 3,
+            "bonds": ["伊比利亚", "不屈"]
+        },
+        "涤火杰西卡": {
+            "id": "char_1034_jesca2",
+            "level": 4,
+            "bonds": ["维多利亚", "坚守"]
+        },
+        "淬羽赫默": {
+            "id": "char_1031_slent2",
+            "level": 4,
+            "bonds": ["助力"]
+        },
+        "深巡": {
+            "id": "char_4137_udflow",
+            "level": 3,
+            "bonds": ["阿戈尔", "坚守"]
+        },
+        "深靛": {
+            "id": "char_469_indigo",
+            "level": 1,
+            "bonds": ["伊比利亚"]
+        },
+        "渡桥": {
+            "id": "char_4147_mitm",
+            "level": 2,
+            "bonds": ["远见"]
+        },
+        "温蒂": {
+            "id": "char_400_weedy",
+            "level": 4,
+            "bonds": ["伊比利亚", "坚守"]
+        },
+        "溯光星源": {
+            "id": "char_1047_halo2",
+            "level": 5,
+            "bonds": ["奥术"]
+        },
+        "灰喉": {
+            "id": "char_367_swllow",
+            "level": 1,
+            "bonds": ["精准"]
+        },
+        "灵知": {
+            "id": "char_206_gnosis",
+            "level": 4,
+            "bonds": ["谢拉格", "迅捷"]
+        },
+        "烈夏": {
+            "id": "char_194_leto",
+            "level": 1,
+            "bonds": ["乌萨斯"]
+        },
+        "烛煌": {
+            "id": "char_1040_blaze2",
+            "level": 6,
+            "bonds": ["炎", "维多利亚", "迅捷"]
+        },
+        "焰尾": {
+            "id": "char_420_flamtl",
+            "level": 5,
+            "bonds": ["卡西米尔", "迅捷"]
+        },
+        "玛恩纳": {
+            "id": "char_4064_mlynar",
+            "level": 4,
+            "bonds": ["卡西米尔"]
+        },
+        "瑕光": {
+            "id": "char_423_blemsh",
+            "level": 3,
+            "bonds": ["卡西米尔", "突袭"]
+        },
+        "瑰盐": {
+            "id": "char_4163_rosesa",
+            "level": 2,
+            "bonds": ["伊比利亚", "聚合"]
+        },
+        "白铁": {
+            "id": "char_4072_ironmn",
+            "level": 4,
+            "bonds": ["维多利亚", "助力"]
+        },
+        "真理": {
+            "id": "char_195_glassb",
+            "level": 2,
+            "bonds": ["乌萨斯"]
+        },
+        "真言": {
+            "id": "char_4204_mantra",
+            "level": 6,
+            "bonds": ["萨尔贡"]
+        },
+        "矩": {
+            "id": "char_4221_ju",
+            "level": 2,
+            "bonds": ["炎"]
+        },
+        "砾": {
+            "id": "char_237_gravel",
+            "level": 2,
+            "bonds": ["卡西米尔", "不屈"]
+        },
+        "空弦": {
+            "id": "char_332_archet",
+            "level": 3,
+            "bonds": ["精准", "远见"]
+        },
+        "纯烬艾雅法拉": {
+            "id": "char_1016_agoat2",
+            "level": 5,
+            "bonds": ["聚合", "莱塔尼亚", "远见"]
+        },
+        "维伊": {
+            "id": "char_4226_veen",
+            "level": 4,
+            "bonds": ["乌萨斯", "奥术"]
+        },
+        "维娜·维多利亚": {
+            "id": "char_1019_siege2",
+            "level": 5,
+            "bonds": ["维多利亚", "奇迹"]
+        },
+        "缪尔赛思": {
+            "id": "char_249_mlyss",
+            "level": 6,
+            "bonds": ["协防干员"]
+        },
+        "罗比菈塔": {
+            "id": "char_484_robrta",
+            "level": 3,
+            "bonds": ["坚守", "助力"]
+        },
+        "耀骑士临光": {
+            "id": "char_1014_nearl2",
+            "level": 6,
+            "bonds": ["卡西米尔", "突袭"]
+        },
+        "老鲤": {
+            "id": "char_322_lmlee",
+            "level": 5,
+            "bonds": ["投资人", "炎"]
+        },
+        "耶拉": {
+            "id": "char_4013_kjera",
+            "level": 3,
+            "bonds": ["谢拉格", "奇迹"]
+        },
+        "至简": {
+            "id": "char_4054_malist",
+            "level": 3,
+            "bonds": ["萨尔贡"]
+        },
+        "艾丝黛尔": {
+            "id": "char_127_estell",
+            "level": 1,
+            "bonds": ["萨尔贡", "独行"]
+        },
+        "艾丽妮": {
+            "id": "char_4009_irene",
+            "level": 5,
+            "bonds": ["伊比利亚"]
+        },
+        "艾雅法拉": {
+            "id": "char_180_amgoat",
+            "level": 4,
+            "bonds": ["莱塔尼亚", "奥术"]
+        },
+        "荒芜拉普兰德": {
+            "id": "char_1038_whitw2",
+            "level": 6,
+            "bonds": ["叙拉古"]
+        },
+        "莎草": {
+            "id": "char_4139_papyrs",
+            "level": 2,
+            "bonds": ["萨尔贡", "聚合"]
+        },
+        "蓝毒": {
+            "id": "char_129_bluep",
+            "level": 2,
+            "bonds": ["伊比利亚"]
+        },
+        "蕾缪安": {
+            "id": "char_4193_lemuen",
+            "level": 6,
+            "bonds": ["精准"]
+        },
+        "薇薇安娜": {
+            "id": "char_4098_vvana",
+            "level": 5,
+            "bonds": ["莱塔尼亚", "卡西米尔", "奥术"]
+        },
+        "蛇屠箱": {
+            "id": "char_150_snakek",
+            "level": 2,
+            "bonds": ["坚守"]
+        },
+        "褐果": {
+            "id": "char_4041_chnut",
+            "level": 1,
+            "bonds": ["聚合"]
+        },
+        "角峰": {
+            "id": "char_199_yak",
+            "level": 1,
+            "bonds": ["谢拉格", "坚守"]
+        },
+        "贝洛内": {
+            "id": "char_4037_demetr",
+            "level": 5,
+            "bonds": ["叙拉古", "突袭"]
+        },
+        "赫德雷": {
+            "id": "char_4088_hodrer",
+            "level": 4,
+            "bonds": ["突袭"]
+        },
+        "赫拉格": {
+            "id": "char_188_helage",
+            "level": 4,
+            "bonds": ["乌萨斯", "突袭"]
+        },
+        "车尔尼": {
+            "id": "char_4047_pianst",
+            "level": 3,
+            "bonds": ["莱塔尼亚", "坚守"]
+        },
+        "远牙": {
+            "id": "char_430_fartth",
+            "level": 4,
+            "bonds": ["卡西米尔", "精准"]
+        },
+        "迷迭香": {
+            "id": "char_391_rosmon",
+            "level": 5,
+            "bonds": ["精准", "助力"]
+        },
+        "逻各斯": {
+            "id": "char_4133_logos",
+            "level": 6,
+            "bonds": ["奥术", "远见"]
+        },
+        "遥": {
+            "id": "char_4202_haruka",
+            "level": 6,
+            "bonds": ["聚合", "奇迹"]
+        },
+        "酒神": {
+            "id": "char_1042_phatm2",
+            "level": 6,
+            "bonds": ["维多利亚"]
+        },
+        "野鬃": {
+            "id": "char_496_wildmn",
+            "level": 1,
+            "bonds": ["卡西米尔", "助力"]
+        },
+        "铃兰": {
+            "id": "char_358_lisa",
+            "level": 5,
+            "bonds": ["叙拉古"]
+        },
+        "铸铁": {
+            "id": "char_333_sidero",
+            "level": 2,
+            "bonds": ["突袭"]
+        },
+        "锏": {
+            "id": "char_4116_blkkgt",
+            "level": 6,
+            "bonds": ["卡西米尔", "谢拉格", "莱塔尼亚"]
+        },
+        "锡人": {
+            "id": "char_4151_tinman",
+            "level": 2,
+            "bonds": ["投资人"]
+        },
+        "阿米娅": {
+            "id": "char_002_amiya",
+            "level": 5,
+            "bonds": ["奇迹"]
+        },
+        "陨星": {
+            "id": "char_219_meteo",
+            "level": 1,
+            "bonds": ["迅捷"]
+        },
+        "隐德来希": {
+            "id": "char_4010_etlchi",
+            "level": 5,
+            "bonds": ["灵巧", "不屈"]
+        },
+        "雪猎": {
+            "id": "char_4211_snhunt",
+            "level": 2,
+            "bonds": ["谢拉格", "精准"]
+        },
+        "霍尔海雅": {
+            "id": "char_4027_heyak",
+            "level": 4,
+            "bonds": ["奥术", "精准"]
+        },
+        "霜叶": {
+            "id": "char_193_frostl",
+            "level": 1,
+            "bonds": ["灵巧"]
+        },
+        "青枳": {
+            "id": "char_488_buildr",
+            "level": 3,
+            "bonds": ["坚守", "迅捷"]
+        },
+        "风丸": {
+            "id": "char_4016_kazema",
+            "level": 3,
+            "bonds": ["不屈"]
+        },
+        "风絮": {
+            "id": "char_4222_taraxa",
+            "level": 3,
+            "bonds": ["炎", "聚合"]
+        },
+        "魔王": {
+            "id": "char_4134_cetsyr",
+            "level": 6,
+            "bonds": ["调和"]
+        },
+        "鸿雪": {
+            "id": "char_4055_bgsnow",
+            "level": 5,
+            "bonds": ["萨尔贡", "精准"]
+        },
+        "黍": {
+            "id": "char_2025_shu",
+            "level": 5,
+            "bonds": ["炎", "远见"]
+        },
+        "黑键": {
+            "id": "char_4046_ebnhlz",
+            "level": 4,
+            "bonds": ["莱塔尼亚", "精准"]
+        }
+    }
+}

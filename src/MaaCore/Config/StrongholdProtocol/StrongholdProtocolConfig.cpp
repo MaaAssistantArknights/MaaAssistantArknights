@@ -1,6 +1,11 @@
 #include "StrongholdProtocolConfig.h"
 
 #include "Config/Miscellaneous/BattleDataConfig.h"
+#include "Config/Miscellaneous/TilePack.h"
+
+MAA_SUPPRESS_CV_WARNINGS_BEGIN
+#include <Arknights-Tile-Pos/TileCalc2.hpp>
+MAA_SUPPRESS_CV_WARNINGS_END
 #include "Utils/Logger.hpp"
 #include "Utils/Platform.hpp"
 
@@ -215,6 +220,57 @@ bool asst::StrongholdProtocolConfig::parse(const json::value& json)
         return true;
     }
 
+    auto parse_string_array = [&json](const std::string& key, std::vector<std::string>& out) {
+        const auto arr = json.find(key);
+        if (!arr) {
+            return true;
+        }
+        if (!arr->is_array()) {
+            LogError << "field is not an array:" << key;
+            return false;
+        }
+        std::vector<std::string> parsed;
+        for (const auto& item : arr->as_array()) {
+            if (!item.is_string()) {
+                LogError << "invalid string entry in" << key;
+                return false;
+            }
+            parsed.emplace_back(item.as_string());
+        }
+        out = std::move(parsed);
+        return true;
+    };
+    if (!parse_string_array("bonds", m_bonds)) {
+        return false;
+    }
+
+    // stronghold_protocol_data.json 中的赛季干员 ID、盟约和等阶。
+    if (const auto operators = json.find("operators")) {
+        if (!operators->is_object()) {
+            LogError << "operators field is not an object";
+            return false;
+        }
+        std::unordered_map<std::string, StrongholdOperInfo> parsed;
+        for (const auto& [name, info] : operators->as_object()) {
+            StrongholdOperInfo oper;
+            oper.id = info.get("id", std::string {});
+            if (const auto bonds = info.find("bonds"); bonds && bonds->is_array()) {
+                for (const auto& bond : bonds->as_array()) {
+                    if (!bond.is_string()) {
+                        LogError << "invalid bond for operator:" << name;
+                        return false;
+                    }
+                    oper.bonds.emplace_back(bond.as_string());
+                }
+            }
+            if (const auto level = info.find("level"); level && level->is_number()) {
+                oper.level = level->as_integer();
+            }
+            parsed.emplace(name, std::move(oper));
+        }
+        m_operators = std::move(parsed);
+    }
+
     if (!json.exists("safe") && !json.exists("path") && !json.exists("rear")) {
         return true;
     }
@@ -247,8 +303,82 @@ bool asst::StrongholdProtocolConfig::parse(const json::value& json)
     };
     StrongholdTiles tiles;
     if (!parse_point_array("safe", tiles.safe) || !parse_point_array("path", tiles.path) ||
-        !parse_point_array("rear", tiles.rear) || tiles.safe.empty() || tiles.path.empty() || tiles.rear.empty()) {
+        !parse_point_array("rear", tiles.rear) || !parse_point_array("melee", tiles.melee) ||
+        !parse_point_array("ranged", tiles.ranged) || !parse_point_array("medic", tiles.medic) || tiles.safe.empty() ||
+        tiles.path.empty() || tiles.rear.empty()) {
         return false;
+    }
+    if (const auto stage = json.find<std::string>("covenantStage")) {
+        const auto level = TilePack::find_level(*stage);
+        if (!level || level->view.size() != 2) {
+            LogError << __FUNCTION__ << "covenant map could not be loaded:" << *stage;
+            return false;
+        }
+
+        const auto project = [&](std::vector<Point>& points, bool deployment) {
+            using namespace Map::TileCalc2;
+            // 普通与部署视角分别使用校准后的相机偏移、俯仰角和视野角。
+            const vec3d offset = deployment ? vec3d { 0.0163, -0.6779, 0.1217 } : vec3d { 0.0039, -2.2213, -1.1865 };
+            const auto matrix = camera_matrix_from_trans(
+                camera_pos(*level, deployment) + offset,
+                { 0, (deployment ? 32.4822 : 34.2279) * degree, 0 },
+                static_cast<double>(WindowHeightDefault) / WindowWidthDefault,
+                (deployment ? 19.1447 : 17.0441) * degree);
+            for (auto& point : points) {
+                if (point.x < 0 || point.x >= level->get_width() || point.y < 0 || point.y >= level->get_height()) {
+                    LogError << __FUNCTION__ << "invalid covenant map tile" << point;
+                    return false;
+                }
+                auto world = get_tile_world_pos(*level, point.y, point.x);
+                world[2] = 0;
+                const auto screen = matrix * cv::Point3d(world);
+                point = {
+                    static_cast<int>(std::round((1 + screen(0) / screen(3)) * WindowWidthDefault / 2)),
+                    static_cast<int>(std::round((1 - screen(1) / screen(3)) * WindowHeightDefault / 2)),
+                };
+            }
+            return true;
+        };
+        for (auto [key, points] :
+             { std::pair { "melee", &tiles.melee }, { "ranged", &tiles.ranged }, { "medic", &tiles.medic } }) {
+            if (points->empty() && !parse_point_array(key, *points)) {
+                return false;
+            }
+            if (points->empty() || !project(*points, true)) {
+                return false;
+            }
+        }
+        // 按地图中的地块类型定位待部署席和装备席，席位顺序从右往左。
+        for (int row = 0; row < level->get_height(); ++row) {
+            for (int col = level->get_width() - 1; col >= 0; --col) {
+                const auto tile = level->get_item(row, col);
+                if (tile.tileKey == "tile_achand") {
+                    tiles.bench.emplace_back(col, row);
+                }
+                else if (tile.tileKey == "tile_acbag") {
+                    tiles.equipment.emplace_back(col, row);
+                }
+            }
+        }
+        if (tiles.bench.empty() || tiles.equipment.empty() || !project(tiles.bench, false) ||
+            !project(tiles.equipment, false)) {
+            LogError << __FUNCTION__ << "invalid covenant bench or equipment slots";
+            return false;
+        }
+    }
+    else {
+        // 自定义格表可以覆盖部署坐标，待部署席和装备席沿用内置地图。
+        if (tiles.melee.empty()) {
+            tiles.melee = m_tiles.melee;
+        }
+        if (tiles.ranged.empty()) {
+            tiles.ranged = m_tiles.ranged;
+        }
+        if (tiles.medic.empty()) {
+            tiles.medic = m_tiles.medic;
+        }
+        tiles.bench = m_tiles.bench;
+        tiles.equipment = m_tiles.equipment;
     }
     m_tiles = std::move(tiles);
     return true;

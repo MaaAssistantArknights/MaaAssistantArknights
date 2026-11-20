@@ -262,7 +262,11 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
     }
 
     const auto regulation_dir = "stronghold_protocol"_p / "regulation"_p;
-    for (const auto& file : { "purchase.json"_p, "tiles.json"_p, "strategy_grid.json"_p, "tier_badges.json"_p }) {
+    for (const auto& file : { "purchase.json"_p,
+                              "tiles.json"_p,
+                              "strategy_grid.json"_p,
+                              "tier_badges.json"_p,
+                              "stronghold_protocol_data.json"_p }) {
         if (!load_with_custom.template operator()<StrongholdProtocolConfig>(
                 regulation_dir / file,
                 "StrongholdProtocolConfig")) {

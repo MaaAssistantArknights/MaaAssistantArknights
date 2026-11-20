@@ -5,6 +5,24 @@
         "action": "DoNothing",
         "next": []
     },
+    "StrongholdProtocol@Enter": {
+        "algorithm": "JustReturn",
+        "sub": ["Terminal-Entry"],
+        "subErrorIgnored": true,
+        "next": ["StrongholdProtocol@EnterFromTerminal"]
+    },
+    "StrongholdProtocol@EnterFromTerminal": {
+        "template": "Terminal-StrongholdProtocol.png",
+        "roi": [900, 606, 348, 107],
+        "action": "ClickSelf",
+        "postDelay": 500,
+        "next": ["StrongholdProtocol@SimulationOpening"]
+    },
+    "StrongholdProtocol@SimulationOpening": {
+        "roi": [977, 508, 209, 64],
+        "action": "ClickSelf",
+        "postDelay": 500
+    },
     "StrongholdProtocol@Nav": {
         "doc": "刷角标前置导航：活动主界面→极速模拟→确认本局信息→停在策略选择页，选策略交给插件按角标判定。不复用 MiniGame@SPA 挂机链：后者会自动点选歌利亚并确认",
         "algorithm": "JustReturn",
@@ -217,7 +235,7 @@
         "ocrReplace": [
             ["^[oO]$", "0"],
             ["^.*NO INFO.*$", "empty"],
-            ["^.*[一-鿿].*$", "pact"]
+            ["^(.*[一-鿿].*)$", "pact:$1"]
         ],
         "roi": [120, 513, 1013, 153]
     },
@@ -476,6 +494,12 @@
         "roi": [120, 380, 930, 35],
         "specialParams": [28, 28, 6]
     },
+    "StrongholdProtocol@Roi@BenchEdge": {
+        "doc": "备战席木台左缘扫描区，用于修正视角横移后的席位横坐标。",
+        "algorithm": "OcrDetect",
+        "text": [],
+        "roi": [100, 465, 165, 27]
+    },
     "StrongholdProtocol@StrategyNewMarker": {
         "doc": "识别策略卡上的 NEW 标签。rectMove 将各类标记的匹配框移到对应卡心的容许区域。",
         "baseTask": "StrongholdProtocol@Roi@StrategyGrid",
@@ -614,6 +638,13 @@
         "text": [],
         "action": "DoNothing",
         "roi": [0, 645, 1, 20]
+    },
+    "StrongholdProtocol@Roi@ShopBondY": {
+        "doc": "商店卡牌盟约名 y 区间（多行拼接，干员名对不上数据表时按此区间取文本做盟约兜底识别）",
+        "algorithm": "OcrDetect",
+        "text": [],
+        "action": "DoNothing",
+        "roi": [0, 593, 1, 84]
     },
     "StrongholdProtocol@Roi@ShopNameY": {
         "doc": "商店卡牌干员名 y 区间",
