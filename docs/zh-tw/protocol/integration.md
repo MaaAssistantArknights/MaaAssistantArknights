@@ -1526,7 +1526,7 @@ Tag 等級（大於等於 3）對應的期望招募時限（單位：分鐘）�
 
 </details>
 
-- <a id="strongholdprotocol"></a>`StrongholdProtocol`  
+- `StrongholdProtocol`  
   呼叫 `AsstAppendTask` 時，將 `type` 設為 `StrongholdProtocol`，並以 `params.mode` 選擇刷分或刷角標。各模式的起始畫面請見[衛戍協議使用說明](../manual/introduction/tools.md#衛戍協議)。
 
 刷分只需傳入以下 `params`，任務便會直接執行刷分流程。

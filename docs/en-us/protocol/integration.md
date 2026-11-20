@@ -1526,7 +1526,7 @@ Maximum number of craft batches per session. Only effective for Tales theme.
 
 </details>
 
-- <a id="strongholdprotocol"></a>`StrongholdProtocol`  
+- `StrongholdProtocol`  
   For both modes, call `AsstAppendTask` with `type` set to `StrongholdProtocol` and select the mode with `params.mode`. For the starting screen for each mode, see the [Stronghold Protocol guide](../manual/introduction/tools.md#stronghold-protocol).
 
 Pass the following `params` to run the score farming pipeline directly.

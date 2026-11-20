@@ -1525,7 +1525,7 @@ Sarkaz テーマ、Investment モード、 ｢破棘成金分隊｣ または �
 
 </details>
 
-- <a id="strongholdprotocol"></a>`StrongholdProtocol`  
+- `StrongholdProtocol`  
   堅守協定のどちらのモードでも `AsstAppendTask` の `type` に `StrongholdProtocol` を指定し、`params.mode` でモードを選びます。各モードの開始画面は[堅守協定の使い方](../manual/introduction/tools.md#堅守協定)を参照してください。
 
 スコア稼ぎの処理を直接実行するには、`params` に次の JSON を渡すだけです。

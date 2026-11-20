@@ -92,8 +92,6 @@ Choose this mode to earn clears for individual strategies. Select Season 3, ｢R
 - ｢Badge goal｣ sets the total clears required per strategy. A gold badge requires 3 clears (default) and a colored badge requires 6. MAA picks a strategy that still needs clears, buys and deploys operators, and plays the run to the end.
 - ｢Clears｣ sets the number of wins to earn during this task, from 1 to 999 (default 60). MAA keeps trying after a loss. It selects the return button after each run and stops when it reaches the win target. If it confirms that every strategy has reached the badge goal, it stops early on the strategy selection screen.
 
-To select either mode through the API, see the [StrongholdProtocol task parameters](../../protocol/integration.md#strongholdprotocol).
-
 ### Reclamation Algorithm
 
 #### Tales Within the Sand

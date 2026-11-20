@@ -1527,7 +1527,7 @@ Sarkaz 테마, Investment 모드, "연금술 분대" 또는 "지원 분대"일 �
 
 </details>
 
-- <a id="strongholdprotocol"></a>`StrongholdProtocol`  
+- `StrongholdProtocol`  
   위수 협의의 두 모드 모두 `AsstAppendTask`의 `type`에 `StrongholdProtocol`을 지정하고 `params.mode`로 모드를 선택합니다. 모드별 시작 화면은 [위수 협의 사용 방법](../manual/introduction/tools.md#위수-협의)을 참고하세요.
 
 점수 파밍을 바로 실행하려면 `params`에 다음 JSON만 전달하면 됩니다.
