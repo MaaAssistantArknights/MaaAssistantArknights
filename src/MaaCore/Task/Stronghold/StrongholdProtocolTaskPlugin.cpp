@@ -2387,7 +2387,7 @@ void StrongholdProtocolTaskPlugin::covenant_prep_phase(BoardState& board, int ro
 
     std::unordered_set<int> failed_x; // 购买失败的卡位（多为资金误读），刷新后重置
     int refresh_no_effect = 0;        // 刷新后卡栏无变化计数，连续两次视为刷新失效
-    bool refreshed_shop = false;
+    constexpr int min_refresh_gold = 4;
     for (int i = 0; i < 40 && !need_exit() && !board.covenant_tracking_uncertain; ++i) {
         image = ctrler()->get_image();
         const auto gold = read_gold(image);
@@ -2404,16 +2404,12 @@ void StrongholdProtocolTaskPlugin::covenant_prep_phase(BoardState& board, int ro
                 }
                 continue;
             }
-            if (gold == 0) {
-                LogInfo << "gold is out, stop shopping, round" << round;
-                break;
-            }
-            if (refreshed_shop && !cards.empty()) {
-                LogInfo << "no purchasable operators after refresh, stop shopping, round" << round;
+            if (gold && *gold < min_refresh_gold) {
+                LogInfo << "shop refresh stopped, gold" << *gold << "round" << round;
                 break;
             }
             const std::string signature = shop_signature(cards);
-            refreshed_shop = ProcessTask(*this, { "StrongholdProtocol@RefreshClick" }).run();
+            ProcessTask(*this, { "StrongholdProtocol@RefreshClick" }).run();
             sleep(800); // 补货动画结束后再读取卡栏。
             failed_x.clear();
             cards = read_shop_cards(ctrler()->get_image());
@@ -2433,7 +2429,6 @@ void StrongholdProtocolTaskPlugin::covenant_prep_phase(BoardState& board, int ro
         refresh_no_effect = 0;
         // 部署位可用买了即部署；否则买入后留在备战席（攒合成或等部署位）
         if (buy_covenant_card(board, *pick, reward, image, cards) == PurchaseResult::Bought) {
-            refreshed_shop = false;
             failed_x.clear();
         }
         else {
