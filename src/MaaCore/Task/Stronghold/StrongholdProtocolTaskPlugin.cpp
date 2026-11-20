@@ -2600,8 +2600,13 @@ bool StrongholdProtocolTaskPlugin::sell_displaced(
         !swipe_from_bench(bench, { sell.x + sell.width / 2, sell.y + sell.height / 2 })) {
         return false;
     }
-    // 已发出售手势，即使余额漏读也不能凭这份退场记录再卖一次。
+    // 发出手势就核销退场记录。原席是否还在由下次方牌检测确认，其他席位的身份仍然有效。
     board.displaced.erase(copy);
+    for (auto& slot : board.bench_roster) {
+        if (same_bench_slot(slot.point, bench)) {
+            slot.name.reset();
+        }
+    }
     sleep(1000);
     const auto after = read_gold(ctrler()->get_image());
     if (!after || *after <= gold) {
@@ -2824,13 +2829,15 @@ std::optional<Point> StrongholdProtocolTaskPlugin::deploy_from_bench(
 
 void StrongholdProtocolTaskPlugin::update_bench_roster(BoardState& board, const std::vector<Point>& slots)
 {
-    auto& roster = board.bench_roster;
-    if (!std::ranges::equal(slots, roster, same_bench_slot, std::identity {}, &BenchSlot::point)) {
-        roster.assign(slots.size(), {});
+    std::vector<BenchSlot> current;
+    current.reserve(slots.size());
+    for (const auto& point : slots) {
+        const auto old = std::ranges::find_if(board.bench_roster, [&](const BenchSlot& slot) {
+            return same_bench_slot(slot.point, point);
+        });
+        current.push_back({ point, old == board.bench_roster.end() ? std::nullopt : old->name });
     }
-    for (size_t i = 0; i < slots.size(); ++i) {
-        roster[i].point = slots[i];
-    }
+    board.bench_roster = std::move(current);
 }
 
 bool StrongholdProtocolTaskPlugin::deploy_bench_medic(BoardState& board, const cv::Mat& image)
@@ -2867,15 +2874,8 @@ bool StrongholdProtocolTaskPlugin::deploy_bench_medic(BoardState& board, const c
         }
         auto& name = std::ranges::find(roster, slot, &BenchSlot::point)->name;
         inspected = true;
-        const auto displaced = board.displaced.size();
         if (deploy_from_bench(board, slot, {}, 0, {}, {}, &name, true)) {
             roster.clear();
-            return true;
-        }
-        if (board.displaced.size() < displaced) {
-            // 售出后其余方牌可能移动，重新定位再继续找医疗。
-            roster.clear();
-            deploy_bench_medic(board, ctrler()->get_image());
             return true;
         }
     }
@@ -2929,9 +2929,13 @@ bool StrongholdProtocolTaskPlugin::deploy_bench(BoardState& board)
         });
         bool unreadable = false;
         bool bench_changed = false;
-        const auto displaced_before = board.displaced.size();
-        auto candidates = opers;
+        std::vector<Point> candidates;
         auto& roster = board.bench_roster;
+        for (const auto& [point, name] : roster) {
+            if (!name || !name->empty()) {
+                candidates.emplace_back(point);
+            }
+        }
         if (!board.unknown_displaced && !board.displaced.empty()) {
             // 只跳过名单中已核验的唯一退场副本。每次按当前名额、棋盘和出售条件重新判断。
             const auto slots = slots_left(rest);
@@ -2952,10 +2956,17 @@ bool StrongholdProtocolTaskPlugin::deploy_bench(BoardState& board)
         for (const auto& pt : ordered_bench(board, rest, candidates)) {
             std::optional<std::string> name = std::string {}; // 满员且全为高阶时会在点选前返回。
             auto* observed = unseen.empty() && unseen_displaced.empty() ? nullptr : &name;
-            if (deploy_from_bench(board, pt, {}, 0, {}, {}, observed) || board.displaced.size() < displaced_before) {
+            const auto displaced_before = board.displaced.size();
+            if (deploy_from_bench(board, pt, {}, 0, {}, {}, observed)) {
                 board.bench_roster.clear();
                 bench_changed = true;
                 break;
+            }
+            if (board.displaced.size() < displaced_before) {
+                if (name) {
+                    unseen_displaced.erase(*name);
+                }
+                continue;
             }
             if (observed && !board.displaced.empty()) {
                 std::ranges::find(roster, pt, &BenchSlot::point)->name = name;
