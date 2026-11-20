@@ -6,6 +6,7 @@
 #include <array>
 #include <exception>
 #include <filesystem>
+#include <stdexcept>
 #include <thread>
 #include <unordered_map>
 
@@ -280,16 +281,23 @@ bool OcrPack::create_pipeline(bool force_cpu)
                 // 这里接管会话配置，把 Dawn 的 instance/device 一并交给 WebGPU EP。
                 // UseWebGPU 的参数只是适配器序号；真正的 ORT context id 在 webgpu_options 里。
                 m_impl->webgpu_options = std::move(*webgpu_options);
-                det_option.ort_option.configure_session_callback = &configure_webgpu_session;
+                const auto configure_session = [](OrtSessionOptions* options, void* data) {
+                    if (!configure_webgpu_session(options, data)) {
+                        // FastDeploy aborts when this callback returns false. Unwind to the CPU retry instead.
+                        throw std::runtime_error("Failed to configure the OCR WebGPU execution provider");
+                    }
+                    return true;
+                };
+                det_option.ort_option.configure_session_callback = configure_session;
                 det_option.ort_option.configure_session_callback_data = &m_impl->webgpu_options;
-                rec_option.ort_option.configure_session_callback = &configure_webgpu_session;
+                rec_option.ort_option.configure_session_callback = configure_session;
                 rec_option.ort_option.configure_session_callback_data = &m_impl->webgpu_options;
                 det_option.UseWebGPU(*device_id);
                 rec_option.UseWebGPU(*device_id);
                 Log.info(__FUNCTION__, "| FastDeploy WebGPU mode with device", *device_id);
             }
             else {
-                Log.error(__FUNCTION__, "| failed to create the WebGPU device, falling back to CPU");
+                Log.error(__FUNCTION__, "| failed to prepare the WebGPU execution provider, falling back to CPU");
             }
         }
 #ifdef _WIN32
