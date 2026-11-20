@@ -1136,11 +1136,17 @@ std::optional<int> StrongholdProtocolTaskPlugin::read_gold(const cv::Mat& image)
     return std::nullopt;
 }
 
-StrongholdProtocolTaskPlugin::ShopInfo StrongholdProtocolTaskPlugin::read_shop(const cv::Mat& image)
+StrongholdProtocolTaskPlugin::ShopInfo StrongholdProtocolTaskPlugin::read_shop(const cv::Mat& image, BoardState& board)
 {
     ShopInfo info;
     info.gold = read_gold(image);
     info.round = read_number(image, "StrongholdProtocol@ShopRoundOcr");
+    if (board.maxed_shop_x) {
+        info.maxed = true;
+        info.upgrade_x = board.maxed_shop_x;
+        m_upgrade_x = info.upgrade_x;
+        return info;
+    }
 
     // 升级按钮随商店等级移动：取 ｢升级｣/｢满级｣ 文字中心 x 定位，命中 ｢满级｣ 即商店已满
     OCRer bottom(image);
@@ -1151,6 +1157,8 @@ StrongholdProtocolTaskPlugin::ShopInfo StrongholdProtocolTaskPlugin::read_shop(c
         for (const auto& tr : *results) {
             if (tr.text.find("满级") != std::string::npos) {
                 info.maxed = true;
+                info.upgrade_x = tr.rect.x + tr.rect.width / 2;
+                board.maxed_shop_x = info.upgrade_x;
                 break;
             }
         }
@@ -1747,7 +1755,7 @@ void StrongholdProtocolTaskPlugin::deploy_opening(BoardState& board, std::vector
 bool StrongholdProtocolTaskPlugin::prep_phase(BoardState& board)
 {
     auto image = ctrler()->get_image();
-    auto shop = read_shop(image);
+    auto shop = read_shop(image, board);
     int round = shop.round.value_or(-1);
     if (round < 0) {
         // 回合号识别失败：按已完成回合 +1 推进（首回合保底为 1），不因失败卡死在同一回合
@@ -1769,7 +1777,7 @@ bool StrongholdProtocolTaskPlugin::prep_phase(BoardState& board)
          std::ranges::any_of(board.bench_known, [](const auto& copy) { return is_medic(copy.first); }))) {
         deploy_bench_medic(board);
         image = ctrler()->get_image();
-        shop = read_shop(image);
+        shop = read_shop(image, board);
     }
     if (board.round_done < 0 && round == 1) {
         int remaining = 2;
@@ -1802,7 +1810,7 @@ bool StrongholdProtocolTaskPlugin::prep_phase(BoardState& board)
         assign_opening_tiles(opening);
         deploy_opening(board, opening);
         image = ctrler()->get_image();
-        shop = read_shop(image);
+        shop = read_shop(image, board);
     }
 
     if (!shop.maxed) {
@@ -1814,13 +1822,20 @@ bool StrongholdProtocolTaskPlugin::prep_phase(BoardState& board)
             }
             // 点 ｢升级｣ 后按钮变 ｢确认升级｣，需二次点击；text 子串命中，同一任务连点两次；
             // 扣费与按钮位移有动画，等落定再读，否则判定不中会误认为升级失败提前退出
-            ProcessTask(*this, { "StrongholdProtocol@UpgradeClick" }).run();
-            ProcessTask(*this, { "StrongholdProtocol@UpgradeClick" }).run();
+            const auto click_upgrade = [&] {
+                return ProcessTask(*this, { "StrongholdProtocol@UpgradeClick" }).set_retry_times(1).run();
+            };
+            if (!click_upgrade()) {
+                image = ctrler()->get_image();
+                shop = read_shop(image, board);
+                break;
+            }
+            click_upgrade();
             const ShopInfo before = shop;
             const auto check_upgrade = [&] {
                 sleep(250);
                 image = ctrler()->get_image();
-                shop = read_shop(image);
+                shop = read_shop(image, board);
                 // 按钮随商店等级移动，位移超过 OCR 抖动即视为升级生效
                 return shop.maxed ||
                        (before.upgrade_x && shop.upgrade_x && std::abs(*shop.upgrade_x - *before.upgrade_x) > 10) ||

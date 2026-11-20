@@ -76,6 +76,7 @@ private:
         bool pending_deploy = false;                // 备战席上还有干员待部署
         bool squad_picked = false;                  // 名牌已处理，再次进入编队页时只补点确认
         std::unordered_map<std::string, int> squad; // 本局选入的干员及其编队行等阶
+        std::optional<int> maxed_shop_x;            // 满级后本局商店等级和按钮位置固定
         // 已买入且待部署的干员名与等阶，回合末重扫时据此恢复等阶。
         std::vector<std::pair<std::string, int>> bench_known;
         std::unordered_map<std::string, PurchaseCount> purchases; // 本局各干员的累计购买次数，含免费领取
@@ -126,7 +127,7 @@ private:
         const std::optional<Rect>& roi = std::nullopt) const;
     // 资金读取：失败时换新截图重试并用加宽识别框兜底，仍失败返回 nullopt
     std::optional<int> read_gold(const cv::Mat& image);
-    ShopInfo read_shop(const cv::Mat& image);
+    ShopInfo read_shop(const cv::Mat& image, BoardState& board);
     std::vector<ShopCard> read_shop_cards(const cv::Mat& image) const;
     static bool is_reward_shop(const std::vector<ShopCard>& cards);
     static std::optional<ShopCard> shop_pick(const std::vector<ShopCard>& cards, const BoardState& board, int gold);
