@@ -2329,6 +2329,17 @@ MAA は非インストール型のアプリケーションであり、レジス�
     <system:String x:Key="TaskQueue.Task.Recruit">{key=TaskQueue.Task.Recruiting}</system:String>
     <system:String x:Key="TaskQueue.Task.Recruiting">公開求人</system:String>
     <system:String x:Key="TaskQueue.Task.Roguelike">{key=TaskQueue.Task.AutoRoguelike}</system:String>
+    <system:String x:Key="TaskQueue.Task.SeasonalTask">シーズンタスク</system:String>
+    <system:String x:Key="TaskQueue.Task.SeasonalTask.CoreBond.Major">大型コア盟約（陣営盟約）</system:String>
+    <system:String x:Key="TaskQueue.Task.SeasonalTask.CoreBond.Minor">小型コア盟約</system:String>
+    <system:String x:Key="TaskQueue.Task.SeasonalTask.CoreBond.Minor.Tip">選択した小型盟約を持つオペレーターもコアとして扱われ、大型盟約のいずれかと一致した場合は優先的に購入・配置されます。</system:String>
+    <system:String x:Key="TaskQueue.Task.SeasonalTask.CoreBond.Tip" xml:space="preserve">選択したコア盟約のいずれかを持つオペレーターを優先的に購入・配置します。｢{key=Common.NotSelected}｣ を選ぶとその盟約は判定に含まれません。&#10;同名のコアオペレーターが3体揃うと自動合成で昇進し、揃うまでは待機席で合成を溜めます。</system:String>
+    <system:String x:Key="TaskQueue.Task.SeasonalTask.Rounds">周回クリア回数</system:String>
+    <system:String x:Key="TaskQueue.Task.SeasonalTask.Rounds.Tip" xml:space="preserve">盟約戦略で高速シミュレーションを周回し、設定した回数に達したら停止します。0 = タスクをスキップ。&#10;大型・小型コア盟約とターン別アップグレード設定は ｢詳細設定｣ で調整できます。</system:String>
+    <system:String x:Key="TaskQueue.Task.SeasonalTask.Skipped">周回クリア回数が 0 のため、シーズンタスクをスキップします。</system:String>
+    <system:String x:Key="TaskQueue.Task.SeasonalTask.UpgradePlan">ターン別アップグレード設定</system:String>
+    <system:String x:Key="TaskQueue.Task.SeasonalTask.UpgradePlan.Round">第 {0} ターン</system:String>
+    <system:String x:Key="TaskQueue.Task.SeasonalTask.UpgradePlan.Tip" xml:space="preserve">各ターン開始時にショップを目標レベルまでアップグレードします。0 = そのターンはアップグレードしない。資金不足時は自動停止。&#10;例：第 1 ターンに 3、第 2 ターンに 4 を入力すると、1 ターン目でレベル 3、2 ターン目でレベル 4 まで上がります。</system:String>
     <system:String x:Key="TaskQueue.Task.StartUp">{key=TaskQueue.Task.WakeUp}</system:String>
     <system:String x:Key="TaskQueue.Task.SwitchTheme">テーマ変更</system:String>
     <system:String x:Key="TaskQueue.Task.UserDataUpdate">ユーザーデータ更新</system:String>

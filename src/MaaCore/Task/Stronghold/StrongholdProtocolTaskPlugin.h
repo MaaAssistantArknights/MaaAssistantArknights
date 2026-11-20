@@ -7,6 +7,7 @@
 #include <set>
 #include <string>
 #include <unordered_map>
+#include <unordered_set>
 #include <vector>
 
 namespace asst
@@ -25,6 +26,10 @@ public:
     StrongholdProtocolTaskPlugin& set_target(int target) noexcept;
     StrongholdProtocolTaskPlugin& set_runs(int runs) noexcept;
     StrongholdProtocolTaskPlugin& set_attempts(int attempts) noexcept;
+    // 盟约策略模式：按核心盟约优先级买入和部署干员，并按每回合升级计划升级。
+    StrongholdProtocolTaskPlugin& set_covenant(bool covenant) noexcept;
+    StrongholdProtocolTaskPlugin& set_core_bond(const std::string& major, const std::string& minor) noexcept;
+    StrongholdProtocolTaskPlugin& set_upgrade_plan(std::vector<int> plan) noexcept;
 
 protected:
     virtual bool _run() override;
@@ -51,13 +56,18 @@ private:
     // 商店卡牌的文字和等阶方牌均跟随当前卡槽的位置。
     struct ShopCard
     {
-        int x = 0;            // 卡牌中心 x（720p 基准）
-        int cost = -1;        // 购买费用，-1 未知
-        int tier = 0;         // 等阶（罗马数字），0 未知
-        bool empty = false;   // 空位
-        bool is_oper = false; // 是干员（非装备）
-        std::string name;     // 干员名（可能为空）
-        int name_left = -1;   // 卡面全名的左边界，用于比对同一架上的卡槽
+        int x = 0;                      // 卡牌中心 x（720p 基准）
+        int cost = -1;                  // 购买费用，-1 未知
+        int tier = 0;                   // 等阶（罗马数字），0 未知
+        bool empty = false;             // 空位
+        bool is_oper = false;           // 是干员（非装备）
+        std::string name;               // 干员名（可能为空）
+        int name_left = -1;             // 卡面全名的左边界，用于比对同一架上的卡槽
+        std::vector<std::string> bonds; // 携带盟约（数据表优先，缺省时卡面盟约区兜底识别）
+        std::string bond_text;          // 盟约区原文（多行拼接，兜底匹配用后即弃）
+        int level = 0;                  // 数据表费用等阶（同级裁决用），0 未知
+        bool reward_badge = false;
+        bool core = false;              // 携带核心盟约（大或小核心盟约任一命中）
     };
 
     struct OpeningOper
@@ -100,6 +110,11 @@ private:
         bool squad_picked = false;                  // 名牌已处理，再次进入编队页时只补点确认
         std::unordered_map<std::string, int> squad; // 本局选入的干员及其编队行等阶
         std::optional<int> maxed_shop_x;            // 满级后本局商店等级和按钮位置固定
+        int level = 1;                              // 盟约策略商店等级，OCR 失败时按已确认的升级次数推进
+        bool covenant_reward_pending = false;
+        bool covenant_tracking_uncertain = false;
+        std::map<size_t, std::pair<std::string, DeployRank>> covenant_bench;
+        std::unordered_set<std::string> covenant_core_names; // 已确认携带核心盟约的买入干员
         // 已确认持有且待部署的干员名与等阶，回合末重扫时据此恢复等阶。
         std::vector<std::pair<std::string, int>> bench_known;
         bool opening_finished = false; // 已经上过干员的棋盘即便再次清空，也不再使用开局站位。
@@ -131,6 +146,38 @@ private:
     bool prep_phase(BoardState& board);
     bool handle_settlement(BoardState& board);
 
+    // 盟约策略模式商店经营：按回合升级计划升级、按核心盟约优先级买入部署、刷新到资金耗尽
+    void covenant_prep_phase(BoardState& board, int round);
+
+    // 盟约策略买入裁决：返回当前最值得买的卡与动作（deploy=买了即部署 / bench=留备战席攒合成），无则 nullopt
+    struct CovenantPick
+    {
+        ShopCard card;
+        bool deploy = false;
+        int priority = 0; // 裁决优先级，小者优先
+    };
+
+    std::optional<CovenantPick> covenant_pick(
+        const std::vector<ShopCard>& cards,
+        const BoardState& board,
+        int bench_count,
+        std::optional<int> gold,
+        std::optional<int> slots,
+        bool reward,
+        const std::unordered_set<int>& failed_x) const;
+    void enrich_covenant_card(ShopCard& card) const;
+    void record_covenant_promotion(BoardState& board, const ShopCard& card, const std::map<size_t, Point>& seats);
+    static std::map<size_t, Point> covenant_bench_slots(const cv::Mat& image);
+    bool deploy_covenant_from_bench(BoardState& board, size_t seat, bool empty_only = false);
+    void deploy_covenant_bench(BoardState& board);
+    // 卡栏签名（干员名+费用拼接），判定刷新是否生效
+    static std::string shop_signature(const std::vector<ShopCard>& cards);
+    // 卡牌是否携带核心盟约（大或小核心盟约任一命中）
+    bool is_core_card(const std::vector<std::string>& bonds) const;
+    bool is_core_oper(const BoardState& board, const std::string& name) const;
+    std::set<std::string> field_core_names(const BoardState& board) const;
+    bool confirm_strategy(Scene& next_scene, const std::string& strategy_name, int passed);
+
     // 商店读取与操作
     struct ShopInfo
     {
@@ -149,6 +196,9 @@ private:
     // 资金读取：失败时换新截图重试并用加宽识别框兜底，仍失败返回 nullopt
     std::optional<int> read_gold(const cv::Mat& image);
     ShopInfo read_shop(const cv::Mat& image, BoardState& board);
+    // 返回是否可以按当前商店布局继续购买。
+    bool
+        upgrade_shop(ShopInfo& shop, BoardState& board, cv::Mat& image, std::optional<int> target_level = std::nullopt);
     std::vector<ShopCard> read_shop_cards(const cv::Mat& image, const std::vector<ShopCard>& previous = {}) const;
     static bool is_reward_shop(const std::vector<ShopCard>& cards);
     static void record_promotion(BoardState& board, const ShopCard& card, std::optional<int> slots_freed);
@@ -172,7 +222,14 @@ private:
         Bought,
         Skipped,
         Failed,
+        Unconfirmed,
     };
+    PurchaseResult buy_covenant_card(
+        BoardState& board,
+        CovenantPick pick,
+        bool reward,
+        cv::Mat& image,
+        std::vector<ShopCard>& cards);
     static std::optional<int> field_medic_tier(const BoardState& board);
     static bool can_buy_card(const BoardState& board, const ShopCard& card, ShopPhase phase, int slots);
     PurchaseResult buy_oper(
@@ -181,7 +238,8 @@ private:
         cv::Mat& after,
         std::vector<ShopCard>& cards_after,
         ShopPhase phase,
-        const BoardState& board);
+        const BoardState& board,
+        const std::vector<ShopCard>& cards_before = {});
     PurchaseResult
         buy_and_deploy(BoardState& board, ShopCard card, ShopPhase phase, std::vector<OpeningOper>* opening = nullptr);
     static std::optional<ShopCard>
@@ -250,6 +308,13 @@ private:
         int slots,
         bool empty_only = false);
     static void update_bench_roster(BoardState& board, const std::vector<Point>& slots);
+    std::optional<DeployTile> choose_covenant_tile(
+        const BoardState& board,
+        const std::string& name,
+        DeployRank rank,
+        int slots,
+        bool empty_only,
+        bool core) const;
     bool deploy_bench_medic(BoardState& board, const cv::Mat& image);
     // 若本轮仍有未辨认的方牌可能属于已买入的干员，下回合再按当前棋盘选格。
     bool deploy_bench(BoardState& board);
@@ -276,5 +341,9 @@ private:
     std::optional<Point> m_last_tile;      // 最近部署的格子，朝向设置卡住时补设用
     bool m_settlement_counted = false;     // 当前结算页已计数，离开结算页后复位
     std::optional<int> m_upgrade_x;        // 最近一次读到的升级按钮中心 x，商店卡牌识别据此剔除按钮区
+    bool m_covenant = false;               // 盟约策略模式
+    std::string m_core_major_bond;         // 大核心盟约（阵营盟约），空 = 不启用
+    std::string m_core_minor_bond;         // 小核心盟约（非阵营盟约），空 = 不启用
+    std::vector<int> m_upgrade_plan;       // 每回合目标商店等级，下标 = 回合-1，0 = 不升级
 };
 }

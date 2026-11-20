@@ -10907,6 +10907,15 @@
         "stageId": "act2autochess_m04",
         "width": 21
     },
+        "act3autochess_m01-activities/act3autochess/level_act3autochess_m01": {
+        "code": "act3autochess_m01",
+        "filename": "act3autochess_m01-activities-act3autochess-level_act3autochess_m01.json",
+        "height": 7,
+        "levelId": "activities/act3autochess/level_act3autochess_m01",
+        "name": "act3autochess_m01",
+        "stageId": "act3autochess_m01",
+        "width": 11
+    },
     "act2bossrush_01-activities/act2bossrush/level_bossrush2_01": {
         "code": "TN-1",
         "filename": "act2bossrush_01-activities-act2bossrush-level_bossrush2_01.json",

@@ -78,11 +78,32 @@ StrongholdProtocolTaskPlugin& StrongholdProtocolTaskPlugin::set_attempts(int att
     return *this;
 }
 
+StrongholdProtocolTaskPlugin& StrongholdProtocolTaskPlugin::set_covenant(bool covenant) noexcept
+{
+    m_covenant = covenant;
+    return *this;
+}
+
+StrongholdProtocolTaskPlugin&
+    StrongholdProtocolTaskPlugin::set_core_bond(const std::string& major, const std::string& minor) noexcept
+{
+    m_core_major_bond = major;
+    m_core_minor_bond = minor;
+    return *this;
+}
+
+StrongholdProtocolTaskPlugin& StrongholdProtocolTaskPlugin::set_upgrade_plan(std::vector<int> plan) noexcept
+{
+    m_upgrade_plan = std::move(plan);
+    return *this;
+}
+
 bool StrongholdProtocolTaskPlugin::_run()
 {
     LogTraceFunction;
 
     BoardState board;
+    bool attempted_entry = false;
     m_bench_shop_unconfirmed = false;
     m_last_tile.reset();
     // 选定策略、推进到新回合或结算时刷新进度，战斗和过场保留原来的计时。
@@ -108,6 +129,11 @@ bool StrongholdProtocolTaskPlugin::_run()
             continue;
         }
         Scene scene = detect_scene(image);
+        if (m_covenant && scene == Scene::Unknown && !attempted_entry) {
+            attempted_entry = true;
+            ProcessTask(*this, { "StrongholdProtocol@Enter" }).set_retry_times(2).run();
+            continue;
+        }
         if (scene != Scene::Unknown) {
             last_in_garrison = std::chrono::steady_clock::now();
         }
@@ -261,25 +287,109 @@ bool StrongholdProtocolTaskPlugin::click_template(const std::string& task_name)
 
 static int opening_front_priority(const std::string& name)
 {
-    switch (StrongholdProtocol.get_role(name)) {
+    const auto role = StrongholdProtocol.get_role(name);
+    if (role == battle::Role::Medic || role == battle::Role::Unknown || role == battle::Role::Drone) {
+        return -1;
+    }
+    if (BattleData.get_location_type(role, name) != battle::LocationType::Melee) {
+        return 0;
+    }
+    switch (role) {
     case battle::Role::Tank:
         return 3;
     case battle::Role::Warrior:
         return 2;
-    case battle::Role::Pioneer:
-        return 1;
-    case battle::Role::Medic:
-    case battle::Role::Unknown:
-    case battle::Role::Drone:
-        return -1;
     default:
-        return 0;
+        return 1;
     }
 }
 
 bool StrongholdProtocolTaskPlugin::is_medic(const std::string& name)
 {
     return StrongholdProtocol.get_role(name) == battle::Role::Medic;
+}
+
+// ---------------- 盟约策略判定 ----------------
+
+static std::shared_ptr<const battle::OperProps> find_covenant_battle_oper(const std::string& name)
+{
+    if (const auto info = StrongholdProtocol.find_oper(name)) {
+        if (const auto oper = BattleData.find_oper_by_id(info->get().id); oper && oper->name == name) {
+            return oper;
+        }
+    }
+    const auto role = StrongholdProtocol.get_role(name);
+    return role == battle::Role::Unknown ? nullptr : BattleData.find_first_oper(role, name);
+}
+
+bool StrongholdProtocolTaskPlugin::is_core_card(const std::vector<std::string>& bonds) const
+{
+    const auto has_bond = [&bonds](const std::string& bond) {
+        return !bond.empty() && std::ranges::find(bonds, bond) != bonds.end();
+    };
+    return has_bond(m_core_major_bond) || has_bond(m_core_minor_bond);
+}
+
+void StrongholdProtocolTaskPlugin::enrich_covenant_card(ShopCard& card) const
+{
+    if (const auto oper = StrongholdProtocol.find_oper(card.name)) {
+        card.bonds = oper->get().bonds;
+        card.level = oper->get().level;
+    }
+    if (card.bonds.empty() && !card.bond_text.empty()) {
+        for (const auto& bond : StrongholdProtocol.get_bonds()) {
+            if (card.bond_text.find(bond) != std::string::npos) {
+                card.bonds.emplace_back(bond);
+            }
+        }
+    }
+    card.core = is_core_card(card.bonds);
+}
+
+bool StrongholdProtocolTaskPlugin::is_core_oper(const BoardState& board, const std::string& name) const
+{
+    const auto oper = StrongholdProtocol.find_oper(name);
+    return board.covenant_core_names.contains(name) || (oper && is_core_card(oper->get().bonds));
+}
+
+// 医疗优先用 medic，其余按 battle_data.json 的部署位置选格。
+static std::pair<std::string, const std::vector<Point>&>
+    covenant_group(battle::Role role, battle::LocationType position)
+{
+    // 自定义格表未定义盟约格组时，沿用相应的极速模拟格组。
+    const auto& tiles = StrongholdProtocol.get_tiles();
+    if (role == battle::Role::Medic) {
+        return { tiles.medic.empty() ? "rear" : "medic", tiles.medic.empty() ? tiles.rear : tiles.medic };
+    }
+    if (position == battle::LocationType::Melee) {
+        return { tiles.melee.empty() ? "path" : "melee", tiles.melee.empty() ? tiles.path : tiles.melee };
+    }
+    return { tiles.ranged.empty() ? "safe" : "ranged", tiles.ranged.empty() ? tiles.safe : tiles.ranged };
+}
+
+std::set<std::string> StrongholdProtocolTaskPlugin::field_core_names(const BoardState& board) const
+{
+    std::set<std::string> names;
+    for (const auto& [key, occupant] : board.occ) {
+        if (!board.promotion_tiles.contains(key) && !board.unconfirmed_tiles.contains(key) &&
+            is_core_oper(board, occupant.first)) {
+            names.emplace(occupant.first);
+        }
+    }
+    return names;
+}
+
+static double color_ratio(const cv::Mat& image, const Rect& roi, int lower_h, int upper_h, int lower_s, int lower_v)
+{
+    const cv::Rect rect = make_rect<cv::Rect>(roi) & cv::Rect(0, 0, image.cols, image.rows);
+    if (rect.empty()) {
+        return 0.0;
+    }
+    cv::Mat hsv;
+    cv::cvtColor(image(rect), hsv, cv::COLOR_BGR2HSV);
+    cv::Mat mask;
+    cv::inRange(hsv, cv::Scalar(lower_h, lower_s, lower_v), cv::Scalar(upper_h, 255, 255), mask);
+    return static_cast<double>(cv::countNonZero(mask)) / mask.total();
 }
 
 std::optional<int> StrongholdProtocolTaskPlugin::measure_grid_shift(const cv::Mat& before, const cv::Mat& after)
@@ -667,8 +777,10 @@ StrongholdProtocolTaskPlugin::StrategyResult StrongholdProtocolTaskPlugin::pick_
                 continue;
             }
 
-            // 点击可能留在上一张卡的详情。面板读数可用于挑选，只有当前卡的角标能独立证明它已达标。
-            verified = false;
+            // 面板读数可用于挑选。刷角标模式另要求当前卡自身显示达标角标。
+            if (!m_covenant) {
+                verified = false;
+            }
             if (!ctrler()->click(Point { pt.x + grid_offset, pt.y }) || !sleep(400)) {
                 return StrategyResult::IncompleteScan;
             }
@@ -704,6 +816,7 @@ StrongholdProtocolTaskPlugin::StrategyResult StrongholdProtocolTaskPlugin::pick_
                 sleep(300);
             }
             if (strategy_name.empty()) {
+                verified = false;
                 LogWarn << "strategy panel unreadable, skip grid" << pt.x << pt.y;
                 continue;
             }
@@ -715,36 +828,10 @@ StrongholdProtocolTaskPlugin::StrategyResult StrongholdProtocolTaskPlugin::pick_
                 continue;
             }
 
-            Matcher confirm(ctrler()->get_image());
-            confirm.set_task_info("StrongholdProtocol@SPRConfirmSelect");
-            const auto button = confirm.analyze();
-            if (need_exit() || !button || !ctrler()->click(button->rect)) {
-                LogWarn << "strategy confirmation unavailable:" << strategy_name;
-                continue;
+            if (confirm_strategy(next_scene, strategy_name, passed)) {
+                return StrategyResult::Selected;
             }
-            // 歌利亚卡片滚出屏幕后也会失配。确认时检查实际进入的后续场景。
-            Scene scene = Scene::Unknown;
-            for (int attempt = 0; attempt < 12; ++attempt) {
-                if (!sleep(200)) {
-                    return StrategyResult::IncompleteScan;
-                }
-                scene = detect_scene(ctrler()->get_image());
-                if ((scene == Scene::CustomSquad || scene == Scene::BountySelect || scene == Scene::ConfirmInfo ||
-                     scene == Scene::RoundPrepare) &&
-                    !need_exit()) {
-                    next_scene = scene;
-                    m_current_strategy = strategy_name;
-                    LogInfo << "select strategy:" << strategy_name << "passed" << passed << "target" << m_target;
-                    auto info = basic_info_with_what("StrongholdStrategy");
-                    info["details"]["name"] = strategy_name;
-                    info["details"]["passed"] = passed;
-                    info["details"]["target"] = m_target;
-                    callback(AsstMsg::SubTaskExtraInfo, info);
-                    return StrategyResult::Selected;
-                }
-            }
-            LogWarn << "strategy confirmation did not reach the next scene:" << strategy_name;
-            if (scene != Scene::StrategySelect) {
+            if (next_scene != Scene::StrategySelect) {
                 return StrategyResult::IncompleteScan;
             }
         }
@@ -821,6 +908,47 @@ StrongholdProtocolTaskPlugin::StrategyResult StrongholdProtocolTaskPlugin::pick_
     }
     LogWarn << "strategy list scan stopped before the end";
     return StrategyResult::IncompleteScan;
+}
+
+bool StrongholdProtocolTaskPlugin::confirm_strategy(Scene& next_scene, const std::string& strategy_name, int passed)
+{
+    const auto image = ctrler()->get_image();
+    Matcher confirm(image);
+    confirm.set_task_info("StrongholdProtocol@SPRConfirmSelect");
+    auto button = confirm.analyze();
+    if (!button && m_covenant) {
+        confirm.set_task_info("StrongholdProtocol@SPAConfirmSelect");
+        button = confirm.analyze();
+    }
+    if (need_exit() || !button || !ctrler()->click(button->rect)) {
+        LogWarn << "strategy confirmation unavailable:" << strategy_name;
+        return false;
+    }
+    Scene scene = Scene::StrategySelect;
+    for (int attempt = 0; attempt < 12; ++attempt) {
+        if (!sleep(200)) {
+            next_scene = Scene::Unknown;
+            return false;
+        }
+        // 确认后等待实际进入下一阶段。
+        scene = detect_scene(ctrler()->get_image());
+        if ((scene == Scene::CustomSquad || scene == Scene::BountySelect || scene == Scene::ConfirmInfo ||
+             scene == Scene::RoundPrepare) &&
+            !need_exit()) {
+            next_scene = scene;
+            m_current_strategy = strategy_name;
+            LogInfo << "select strategy:" << strategy_name << "passed" << passed << "target" << m_target;
+            auto info = basic_info_with_what("StrongholdStrategy");
+            info["details"]["name"] = strategy_name;
+            info["details"]["passed"] = passed;
+            info["details"]["target"] = m_target;
+            callback(AsstMsg::SubTaskExtraInfo, info);
+            return true;
+        }
+    }
+    next_scene = scene;
+    LogWarn << "strategy confirmation did not reach the next scene:" << strategy_name;
+    return false;
 }
 
 bool StrongholdProtocolTaskPlugin::pick_squad(BoardState& board)
@@ -1007,6 +1135,106 @@ StrongholdProtocolTaskPlugin::ShopInfo StrongholdProtocolTaskPlugin::read_shop(c
     return info;
 }
 
+bool StrongholdProtocolTaskPlugin::upgrade_shop(
+    ShopInfo& shop,
+    BoardState& board,
+    cv::Mat& image,
+    std::optional<int> target_level)
+{
+    // 关闭干员详情或升级后，整排商店会横移。连续两帧文字与位置一致后才使用按钮和费用。
+    const auto settled_button = [&](bool after_confirm) -> std::optional<TextRect> {
+        std::optional<TextRect> previous;
+        for (int retry = 0; retry < 5 && !need_exit(); ++retry) {
+            sleep(150);
+            image = ctrler()->get_image();
+            OCRer ocr(image);
+            ocr.set_task_info("StrongholdProtocol@ShopBottomOcr");
+            const auto rows = ocr.analyze();
+            if (!rows || rows->empty() || (after_confirm && rows->front().text == "confirm")) {
+                previous.reset();
+                continue;
+            }
+            const auto& button = rows->front();
+            if (previous && previous->text == button.text && std::abs(previous->rect.x - button.rect.x) <= 4) {
+                return button;
+            }
+            previous = button;
+        }
+        return std::nullopt;
+    };
+    const auto level = [&](const TextRect& button) {
+        const auto task = Task.get<OcrTaskInfo>("StrongholdProtocol@ShopLevelOcr");
+        if (!task || task->roi.empty()) {
+            return 0;
+        }
+        auto roi = task->roi;
+        roi.x += button.rect.x + button.rect.width / 2;
+        OCRer ocr(image);
+        ocr.set_task_info(task);
+        ocr.set_roi(roi);
+        const auto rows = ocr.analyze();
+        if (rows && !rows->empty() && rows->front().score >= 0.75) {
+            int value = 0;
+            if (utils::chars_to_number<int, true>(rows->front().text, value)) {
+                return value;
+            }
+        }
+        return 0;
+    };
+    bool upgrade_pending = false;
+    auto button = settled_button(false);
+    shop = read_shop(image, board);
+    for (int i = 0; i < 8 && button && !shop.maxed && !need_exit(); ++i) {
+        if (shop.gold && shop.upgrade_cost && *shop.gold < *shop.upgrade_cost) {
+            break;
+        }
+        const ShopInfo before = shop;
+        const int old_level = level(*button);
+        if (target_level && old_level > 0) {
+            board.level = old_level;
+        }
+        if (target_level && board.level >= *target_level) {
+            break;
+        }
+        ProcessTask confirm(*this, { "StrongholdProtocol@UpgradeConfirmClick" });
+        if (button->text == "confirm") {
+            confirm.set_reusable_image(image);
+        }
+        else if (button->text != "upgrade" || !ctrler()->click(button->rect)) {
+            break;
+        }
+        upgrade_pending = true;
+        if (!confirm.set_task_delay(150).set_retry_times(4).run()) {
+            break;
+        }
+        for (int retry = 0; retry < 2 && !need_exit(); ++retry) {
+            button = settled_button(true);
+            shop = read_shop(image, board);
+            if (!button || shop.maxed) {
+                break;
+            }
+            const int new_level = old_level > 0 || target_level ? level(*button) : 0;
+            if ((before.gold && shop.gold && *shop.gold < *before.gold) ||
+                (before.upgrade_cost && shop.upgrade_cost && *shop.upgrade_cost != *before.upgrade_cost) ||
+                (old_level > 0 && new_level > old_level)) {
+                upgrade_pending = false;
+                if (target_level) {
+                    board.level = std::max(board.level + 1, new_level);
+                }
+                LogInfo << "shop upgraded, gold" << before.gold.value_or(-1) << "->" << shop.gold.value_or(-1);
+                break;
+            }
+        }
+        if (upgrade_pending) {
+            break;
+        }
+    }
+    if (target_level && shop.maxed) {
+        board.level = 6;
+    }
+    return !upgrade_pending || shop.maxed;
+}
+
 static std::vector<Rect> locate_tier_badges(const cv::Mat& image, const Rect& scan, int width, int height)
 {
     const auto task = Task.get("StrongholdProtocol@TierBadgeLocate");
@@ -1098,6 +1326,7 @@ std::vector<StrongholdProtocolTaskPlugin::ShopCard>
     const auto empty_roi = task_roi("StrongholdProtocol@Roi@ShopEmptyY");
     const auto pact_roi = task_roi("StrongholdProtocol@Roi@ShopPactY");
     const auto name_roi2 = task_roi("StrongholdProtocol@Roi@ShopNameY");
+    const auto bond_roi = task_roi("StrongholdProtocol@Roi@ShopBondY");
     const auto cost_reread = task_roi("StrongholdProtocol@Roi@ShopCostReread");
     const auto card_rect = [](const Rect& r, int card_x) {
         return Rect { card_x + r.x, r.y, r.width, r.height };
@@ -1160,6 +1389,7 @@ std::vector<StrongholdProtocolTaskPlugin::ShopCard>
         const int span = task_roi("StrongholdProtocol@Roi@ShopUpgradeButtonSpan").width;
         std::erase_if(card_xs, [&](int x) { return x <= *m_upgrade_x + span; });
     }
+    const int bond_lo = bond_roi.y, bond_hi = bond_roi.y + bond_roi.height;
     for (int x : card_xs) {
         ShopCard card;
         card.x = x;
@@ -1180,7 +1410,12 @@ std::vector<StrongholdProtocolTaskPlugin::ShopCard>
                 card.empty = true;
                 continue;
             }
-            if (cy >= pact_lo && cy <= pact_hi && tr.text == "pact") {
+            constexpr std::string_view pact_prefix = "pact:";
+            const bool has_pact_text = tr.text.starts_with(pact_prefix);
+            if (m_covenant && has_pact_text && cy >= bond_lo && cy <= bond_hi) {
+                card.bond_text += std::string_view(tr.text).substr(pact_prefix.size());
+            }
+            if (cy >= pact_lo && cy <= pact_hi && has_pact_text) {
                 card.is_oper = true;
                 continue;
             }
@@ -1205,6 +1440,17 @@ std::vector<StrongholdProtocolTaskPlugin::ShopCard>
         }
         if (!card.empty) {
             card.tier = stronghold::match_tier_badge(image, card_rect(tier_frame, x));
+        }
+        if (m_covenant) {
+            enrich_covenant_card(card);
+            // 赠卡的蓝色零费数字比整栏 OCR 更稳定，装备槽的费用数字为黄色。
+            const Rect reward_cost { x - 13, cost_lo - 9, 26, 24 };
+            card.reward_badge =
+                !card.empty && card.cost <= 0 && color_ratio(image, reward_cost, 78, 101, 115, 110) >= 0.07;
+            if (card.reward_badge) {
+                card.cost = 0;
+                card.is_oper = true;
+            }
         }
         card.is_oper = card.is_oper && !card.empty;
         cards.emplace_back(card);
@@ -1282,6 +1528,10 @@ bool StrongholdProtocolTaskPlugin::can_buy_card(
 
 bool StrongholdProtocolTaskPlugin::is_reward_shop(const std::vector<ShopCard>& cards)
 {
+    const auto badges = std::ranges::count_if(cards, &ShopCard::reward_badge);
+    if (badges > 0) {
+        return badges == 3;
+    }
     return std::ranges::count_if(cards, [](const ShopCard& card) {
                return card.is_oper && !card.empty && card.cost == 0;
            }) == 3;
@@ -1474,11 +1724,16 @@ StrongholdProtocolTaskPlugin::PurchaseResult StrongholdProtocolTaskPlugin::buy_o
     cv::Mat& after,
     std::vector<ShopCard>& cards_after,
     ShopPhase phase,
-    const BoardState& board)
+    const BoardState& board,
+    const std::vector<ShopCard>& cards_before)
 {
     const bool reward = phase == ShopPhase::PromotionReward;
-    const int slots = card.cost > 0 && phase != ShopPhase::Opening ? slots_left(before).value_or(-1) : -1;
-    if (!card.name.empty() && !can_buy_card(board, card, phase, slots)) {
+    const int slots =
+        !m_covenant && card.cost > 0 && phase != ShopPhase::Opening ? slots_left(before).value_or(-1) : -1;
+    const auto can_buy = [&] {
+        return m_covenant ? !card.name.empty() : can_buy_card(board, card, phase, slots);
+    };
+    if (!card.name.empty() && !can_buy()) {
         return PurchaseResult::Skipped;
     }
     const auto gold0 = card.cost == 0 ? std::nullopt : read_gold(before);
@@ -1488,6 +1743,7 @@ StrongholdProtocolTaskPlugin::PurchaseResult StrongholdProtocolTaskPlugin::buy_o
     // 等 ｢资金不足｣ 提示或左侧特质面板出现；任一命中即停止轮询（≤1.2s）
     bool saw_no_funds = false;
     bool saw_trait = false;
+    bool name_checked = false;
     for (int i = 0; i < 6 && !need_exit(); ++i) {
         sleep(200);
         const auto img = ctrler()->get_image();
@@ -1505,13 +1761,17 @@ StrongholdProtocolTaskPlugin::PurchaseResult StrongholdProtocolTaskPlugin::buy_o
                 card.tier = tier;
             }
             if (const auto task = Task.get<OcrTaskInfo>("StrongholdProtocol@DragNameOcr");
-                task && !task->special_params.empty()) {
+                task && !task->special_params.empty() && (!m_covenant || (card.name.empty() && !name_checked))) {
+                name_checked = true;
                 OCRer name(img);
                 name.set_task_info(task);
                 if (const auto rows = name.analyze(); rows &&
                                                       rows->front().score >= task->special_params.front() / 100.0 &&
                                                       BattleData.get_all_oper_names().contains(rows->front().text)) {
                     card.name = rows->front().text;
+                }
+                if (m_covenant && !card.name.empty()) {
+                    enrich_covenant_card(card);
                 }
             }
             if (card.name.empty() && !reward) {
@@ -1524,7 +1784,7 @@ StrongholdProtocolTaskPlugin::PurchaseResult StrongholdProtocolTaskPlugin::buy_o
         ProcessTask(*this, { "StrongholdProtocol@PopupClose" }).run();
         return PurchaseResult::Failed;
     }
-    if (!saw_trait || !can_buy_card(board, card, phase, slots)) {
+    if (!saw_trait || !can_buy()) {
         LogInfo << __FUNCTION__ << "canceling shop selection" << card.name << "at" << card.x;
         ctrler()->click(Point(card.x, card_y));
         ProcessTask(*this, { "StrongholdProtocol@PopupClose" }).run();
@@ -1553,13 +1813,38 @@ StrongholdProtocolTaskPlugin::PurchaseResult StrongholdProtocolTaskPlugin::buy_o
             break; // 降价即成交
         }
     }
-    if (failed || (card.cost != 0 && gold0 && gold1 && *gold1 >= *gold0)) {
+    if (failed || (!m_covenant && card.cost != 0 && gold0 && gold1 && *gold1 >= *gold0)) {
         ProcessTask(*this, { "StrongholdProtocol@PopupClose" }).run();
         return PurchaseResult::Failed;
     }
     sleep(600); // 买入动画结束后，备战席和赠送卡槽才同时可读。
     after = ctrler()->get_image();
     cards_after = read_shop_cards(after);
+    if (m_covenant) {
+        const auto occupied_before = covenant_bench_slots(before);
+        const auto occupied_after = covenant_bench_slots(after);
+        const bool bench_changed = !std::ranges::equal(
+            occupied_before,
+            occupied_after,
+            {},
+            &std::pair<const size_t, Point>::first,
+            &std::pair<const size_t, Point>::first);
+        const auto slots_before = slots_left(before);
+        const auto slots_after = slots_left(after);
+        const bool field_changed = slots_before && slots_after && *slots_before != *slots_after;
+        const bool spent_gold = gold0 && gold1 && *gold1 < *gold0;
+        const bool changed_shop = !cards_after.empty() && shop_signature(cards_before) != shop_signature(cards_after);
+        const bool old_reward_visible = std::ranges::any_of(cards_after, [&](const auto& candidate) {
+            return std::abs(candidate.x - card.x) < 30 && !candidate.empty && candidate.cost == 0 &&
+                   (candidate.name.empty() || candidate.name == card.name);
+        });
+        if (bench_changed || field_changed || spent_gold || (!reward && is_reward_shop(cards_after)) ||
+            (reward && changed_shop && !old_reward_visible)) {
+            return PurchaseResult::Bought;
+        }
+        LogWarn << __FUNCTION__ << "unconfirmed covenant purchase:" << card.name;
+        return PurchaseResult::Unconfirmed;
+    }
     if (card.cost == 0) {
         // 领取免费卡不会扣钱，须确认原卡已从该槽位消失。
         const bool still_there = std::ranges::any_of(cards_after, [&card](const ShopCard& c) {
@@ -1676,7 +1961,6 @@ StrongholdProtocolTaskPlugin::PurchaseResult StrongholdProtocolTaskPlugin::buy_a
         record_promotion(board, card, freed);
         const auto reward = shop_pick(cards_after, board, 0, -1);
         LogInfo << "promotion after purchase:" << card.name << "purchases" << count << "reward" << reward->name;
-        board.pending_deploy = true;
         before = after;
         card = *reward;
         phase = ShopPhase::PromotionReward;
@@ -1805,6 +2089,394 @@ bool StrongholdProtocolTaskPlugin::is_opening(BoardState& board, std::optional<i
            board.promotion_tiles.empty() && !board.unknown_displaced && board.displaced.empty();
 }
 
+// ---------------- 局内：盟约策略商店经营 ----------------
+
+std::map<size_t, Point> StrongholdProtocolTaskPlugin::covenant_bench_slots(const cv::Mat& image)
+{
+    std::map<size_t, Point> occupied;
+    const auto& seats = StrongholdProtocol.get_tiles().bench;
+    const auto anchor = task_roi("StrongholdProtocol@Roi@BenchEdge");
+    const auto region = make_rect<cv::Rect>(anchor) & cv::Rect(0, 0, image.cols, image.rows);
+    std::vector<int> edges;
+    if (region.width > 32) {
+        cv::Mat hsv, wood;
+        cv::cvtColor(image(region), hsv, cv::COLOR_BGR2HSV);
+        cv::inRange(hsv, cv::Scalar(10, 60, 125), cv::Scalar(35, 255, 255), wood);
+        for (int y = 0; y < wood.rows; y += 4) {
+            for (int x = 8; x + 23 <= wood.cols; ++x) {
+                const auto row = wood.row(y);
+                if (cv::countNonZero(row.colRange(x, x + 23)) >= 20 && cv::countNonZero(row.colRange(x - 8, x)) <= 4) {
+                    edges.emplace_back(region.x + x);
+                    break;
+                }
+            }
+        }
+    }
+    // 侧栏和部分策略会把木台整体右移。用台面左缘修正席位，再以方牌定位实际拖拽起点。
+    std::ranges::sort(edges);
+    const int shift = edges.size() >= 4 ? edges[edges.size() / 2] - (anchor.x + 40) : 0;
+    for (const auto& detected : detect_bench_opers(image)) {
+        const auto seat = std::ranges::min_element(seats, {}, [&](const Point& projected) {
+            return std::abs(projected.x + shift - detected.x);
+        });
+        if (seat != seats.end() && std::abs(seat->x + shift - detected.x) < 32) {
+            occupied.try_emplace(static_cast<size_t>(seat - seats.begin()), detected);
+        }
+    }
+    return occupied;
+}
+
+bool StrongholdProtocolTaskPlugin::deploy_covenant_from_bench(BoardState& board, size_t seat, bool empty_only)
+{
+    const auto copy = board.covenant_bench.find(seat);
+    if (copy == board.covenant_bench.end() || need_exit()) {
+        return false;
+    }
+    const auto before = ctrler()->get_image();
+    const auto occupied = covenant_bench_slots(before);
+    const auto from = occupied.find(seat);
+    const auto slots = slots_left(before);
+    if (from == occupied.end() || !slots) {
+        return false;
+    }
+
+    const auto [name, rank] = copy->second;
+    const auto tile = choose_covenant_tile(board, name, rank, *slots, empty_only, is_core_oper(board, name));
+    if (!tile) {
+        return false;
+    }
+    const auto drop = place_on_board(board, *tile, from->second, name, rank, *slots);
+    if (!drop) {
+        // 名额或朝向未确认时保留身份记录，避免下一次操作使用不确定的席位。
+        board.covenant_tracking_uncertain = true;
+        LogWarn << __FUNCTION__ << "bench identity unresolved after deployment" << seat + 1 << name;
+        return false;
+    }
+
+    auto after = covenant_bench_slots(drop->after);
+    sleep(250);
+    after.merge(covenant_bench_slots(ctrler()->get_image()));
+    board.covenant_bench.erase(copy);
+    if (!drop->displaced) {
+        return true;
+    }
+
+    const auto& [old_name, old_rank] = *drop->displaced;
+    // 换下的干员由游戏放回最靠前的空席位，也可能直接占据刚拖走的席位。
+    auto returned = std::ranges::find_if(after, [&](const auto& entry) {
+        return !occupied.contains(entry.first) && !board.covenant_bench.contains(entry.first);
+    });
+    if (returned == after.end()) {
+        returned = after.find(seat);
+    }
+    if (returned != after.end()) {
+        board.covenant_bench.insert_or_assign(returned->first, *drop->displaced);
+        const auto [first, last] = board.displaced.equal_range(old_name);
+        const auto previous = std::find_if(first, last, [&](const auto& entry) { return entry.second == old_rank; });
+        if (previous != last) {
+            board.displaced.erase(previous);
+        }
+        LogInfo << "covenant operator returned to bench" << old_name << "seat" << returned->first + 1;
+        // 若换下的普通副本也没有同职业空格，按原流程出售并用席位和余额核销。
+        if (!is_core_oper(board, old_name) && !old_rank.elite &&
+            !choose_covenant_tile(board, old_name, old_rank, drop->slots, true, false)) {
+            const auto gold = read_gold(drop->after);
+            const Rect sell = task_roi("StrongholdProtocol@Roi@ShopSell");
+            if (gold && swipe_from_bench(returned->second, { sell.x + sell.width / 2, sell.y + sell.height / 2 })) {
+                sleep(800);
+                const auto sale = ctrler()->get_image();
+                const auto balance = read_gold(sale);
+                if (balance && *balance > *gold && !covenant_bench_slots(sale).contains(returned->first)) {
+                    board.covenant_bench.erase(returned->first);
+                    auto& old = board.purchases.at(old_name);
+                    old.unmerged = std::max(0, old.unmerged - 1);
+                    LogInfo << "sold covenant operator" << old_name << "seat" << returned->first + 1;
+                }
+                else {
+                    board.covenant_tracking_uncertain = true;
+                    LogWarn << "covenant sale not confirmed:" << old_name;
+                }
+            }
+        }
+    }
+    else {
+        board.covenant_tracking_uncertain = true;
+        LogWarn << "returned covenant operator seat unavailable:" << old_name;
+    }
+    return true;
+}
+
+void StrongholdProtocolTaskPlugin::deploy_covenant_bench(BoardState& board)
+{
+    // 先尝试部署合成后的精锐。重新扫描席位后再处理剩余副本。
+    std::vector<std::pair<size_t, bool>> seats;
+    for (const auto& [seat, copy] : board.covenant_bench) {
+        seats.emplace_back(seat, copy.second.elite);
+    }
+    std::ranges::stable_sort(seats, std::greater {}, &std::pair<size_t, bool>::second);
+    for (const auto& [seat, _] : seats) {
+        if (need_exit() || board.covenant_tracking_uncertain) {
+            break;
+        }
+        deploy_covenant_from_bench(board, seat, true);
+    }
+}
+
+void StrongholdProtocolTaskPlugin::record_covenant_promotion(
+    BoardState& board,
+    const ShopCard& card,
+    const std::map<size_t, Point>& seats)
+{
+    if (card.name.empty()) {
+        return;
+    }
+    auto& copies = board.purchases.at(card.name);
+    ++copies.promotions;
+    copies.unmerged = std::max(0, copies.unmerged - 3);
+
+    const auto oper = find_covenant_battle_oper(card.name);
+    const auto [group, points] = covenant_group(
+        oper ? oper->role : battle::Role::Unknown,
+        oper ? oper->location_type : battle::LocationType::Invalid);
+    std::vector<DeployTile> field;
+    for (size_t i = 0; i < points.size(); ++i) {
+        const auto key = group + std::to_string(i);
+        const auto pos = board.occ.find(key);
+        if (pos != board.occ.end() && pos->second.first == card.name && !board.elite_tiles.contains(key)) {
+            field.push_back({ key, points[i] });
+        }
+    }
+
+    std::optional<size_t> elite_seat;
+    for (auto it = board.covenant_bench.begin(); it != board.covenant_bench.end();) {
+        if (it->second.first != card.name || it->second.second.elite) {
+            ++it;
+            continue;
+        }
+        if (!elite_seat && seats.contains(it->first)) {
+            elite_seat = it->first;
+        }
+        it = board.covenant_bench.erase(it);
+    }
+    board.displaced.erase(card.name);
+    std::erase_if(board.bench_known, [&](const auto& op) { return op.first == card.name; });
+
+    if (!field.empty()) {
+        const auto keep = std::ranges::min_element(field, {}, [](const DeployTile& tile) {
+            return std::pair { tile.point.y, tile.point.x };
+        });
+        board.elite_tiles.emplace(keep->key);
+        for (const auto& tile : field) {
+            if (tile.key != keep->key) {
+                board.occ.erase(tile.key);
+            }
+        }
+    }
+    else {
+        if (elite_seat) {
+            board.covenant_bench.insert_or_assign(*elite_seat, std::pair { card.name, DeployRank { card.tier, true } });
+            LogInfo << "covenant operator promoted on bench" << card.name << "seat" << *elite_seat + 1;
+        }
+        else {
+            board.covenant_tracking_uncertain = true;
+            LogWarn << "covenant promotion seat unavailable:" << card.name;
+        }
+    }
+}
+
+StrongholdProtocolTaskPlugin::PurchaseResult StrongholdProtocolTaskPlugin::buy_covenant_card(
+    BoardState& board,
+    CovenantPick pick,
+    bool reward,
+    cv::Mat& image,
+    std::vector<ShopCard>& cards)
+{
+    auto& card = pick.card;
+    const auto before = image;
+    const auto seats_before = covenant_bench_slots(before);
+    cv::Mat after;
+    std::vector<ShopCard> cards_after;
+    const auto bought = buy_oper(
+        card,
+        before,
+        after,
+        cards_after,
+        reward ? ShopPhase::PromotionReward : ShopPhase::Early,
+        board,
+        cards);
+    if (bought != PurchaseResult::Bought) {
+        board.covenant_tracking_uncertain |= bought == PurchaseResult::Unconfirmed;
+        return bought;
+    }
+
+    auto seats_after = covenant_bench_slots(after);
+    sleep(250);
+    seats_after.merge(covenant_bench_slots(ctrler()->get_image()));
+    image = std::move(after);
+    std::optional<size_t> new_seat;
+    for (const auto& [seat, _] : seats_after) {
+        if (!seats_before.contains(seat) && !board.covenant_bench.contains(seat)) {
+            new_seat = seat;
+            break;
+        }
+    }
+
+    bool promoted = !reward && is_reward_shop(cards_after);
+    if (!card.name.empty()) {
+        auto& copies = board.purchases[card.name];
+        ++copies.total;
+        ++copies.unmerged;
+        if (card.core) {
+            board.covenant_core_names.emplace(card.name);
+        }
+        // 免费卡的席位可能先清空又出现。结合已确认的同名副本数辨认连续合成。
+        promoted |= copies.unmerged >= 3;
+    }
+    board.covenant_reward_pending = promoted;
+    cards = std::move(cards_after);
+    if (promoted) {
+        record_covenant_promotion(board, card, seats_after);
+        if (!card.name.empty() && may_have_bench_elite(board, card.name)) {
+            deploy_covenant_bench(board);
+        }
+        return bought;
+    }
+
+    if (!card.name.empty() && new_seat) {
+        board.covenant_bench.insert_or_assign(*new_seat, std::pair { card.name, DeployRank { card.tier, false } });
+        LogInfo << "covenant purchase landed" << card.name << "seat" << *new_seat + 1;
+        if (pick.deploy) {
+            deploy_covenant_from_bench(board, *new_seat);
+        }
+    }
+    else {
+        board.covenant_tracking_uncertain = true;
+        LogWarn << "covenant purchase landing not identified:" << card.name;
+    }
+    return bought;
+}
+
+void StrongholdProtocolTaskPlugin::covenant_prep_phase(BoardState& board, int round)
+{
+    // 回合升级计划：第 round 回合目标等级（下标 = 回合-1），0 或越界 = 本回合不升级
+    auto image = ctrler()->get_image();
+    if (round >= 1 && round <= static_cast<int>(m_upgrade_plan.size())) {
+        if (const int target_level = m_upgrade_plan[round - 1]; target_level > 0) {
+            auto shop = read_shop(image, board);
+            if (!shop.maxed && !upgrade_shop(shop, board, image, target_level)) {
+                return;
+            }
+        }
+    }
+
+    // 全场无空部署位且备战席接近满载（留 2 格余量）时跳过购买，避免无意义的扫描与刷新
+    auto cards = read_shop_cards(image);
+    if (!board.covenant_reward_pending && !is_reward_shop(cards) && slots_left(image).value_or(1) == 0 &&
+        covenant_bench_slots(image).size() >= 8) {
+        LogInfo << "field and bench are full, skip shopping";
+        return;
+    }
+
+    std::unordered_set<int> failed_x; // 购买失败的卡位（多为资金误读），刷新后重置
+    int refresh_no_effect = 0;        // 刷新后卡栏无变化计数，连续两次视为刷新失效
+    for (int i = 0; i < 40 && !need_exit() && !board.covenant_tracking_uncertain; ++i) {
+        image = ctrler()->get_image();
+        const auto gold = read_gold(image);
+        const int bench_count = static_cast<int>(covenant_bench_slots(image).size());
+        const bool reward = board.covenant_reward_pending || is_reward_shop(cards);
+        const auto pick = covenant_pick(cards, board, bench_count, gold, slots_left(image), reward, failed_x);
+        if (!pick) {
+            if (reward) {
+                // 等奖励画面稳定后重试，不按普通商店的余额结束。
+                sleep(500);
+                cards = read_shop_cards(ctrler()->get_image(), cards);
+                if (i % 3 == 2) {
+                    failed_x.clear();
+                }
+                continue;
+            }
+            if (gold == 0) {
+                LogInfo << "gold is out, stop shopping, round" << round;
+                break;
+            }
+            const std::string signature = shop_signature(cards);
+            ProcessTask(*this, { "StrongholdProtocol@RefreshClick" }).run();
+            sleep(800); // 补货动画结束后再读取卡栏。
+            failed_x.clear();
+            cards = read_shop_cards(ctrler()->get_image());
+            if (shop_signature(cards) == signature) {
+                ++refresh_no_effect;
+                LogInfo << "refresh no effect" << refresh_no_effect;
+            }
+            else {
+                refresh_no_effect = 0;
+            }
+            if (refresh_no_effect >= 2) {
+                LogInfo << "refresh has no effect, stop shopping, round" << round;
+                break;
+            }
+            continue;
+        }
+        refresh_no_effect = 0;
+        // 部署位可用买了即部署；否则买入后留在备战席（攒合成或等部署位）
+        if (buy_covenant_card(board, *pick, reward, image, cards) == PurchaseResult::Bought) {
+            failed_x.clear();
+        }
+        else {
+            failed_x.emplace(pick->card.x);
+        }
+    }
+}
+
+std::optional<StrongholdProtocolTaskPlugin::CovenantPick> StrongholdProtocolTaskPlugin::covenant_pick(
+    const std::vector<ShopCard>& cards,
+    const BoardState& board,
+    int bench_count,
+    std::optional<int> gold,
+    std::optional<int> slots,
+    bool reward,
+    const std::unordered_set<int>& failed_x) const
+{
+    constexpr int bench_limit = 8;
+    const auto core_names = field_core_names(board);
+    std::optional<CovenantPick> best;
+    std::optional<CovenantPick> fallback;
+    const bool has_reward_badges = std::ranges::any_of(cards, &ShopCard::reward_badge);
+    for (auto it = cards.rbegin(); it != cards.rend(); ++it) {
+        const auto& card = *it;
+        if (card.empty || failed_x.contains(card.x) ||
+            (reward ? (has_reward_badges ? !card.reward_badge : !card.is_oper || card.cost != 0)
+                    : !card.is_oper || card.cost <= 0 || (gold && card.cost > *gold))) {
+            continue;
+        }
+        if (reward && !fallback) {
+            fallback = CovenantPick { card, false, 6 };
+        }
+        const bool already_fielded = core_names.contains(card.name);
+        const bool deploy =
+            choose_covenant_tile(board, card.name, { card.tier, false }, slots.value_or(-1), false, card.core)
+                .has_value();
+        if (!deploy && (!card.core || bench_count >= bench_limit)) {
+            continue;
+        }
+        const int priority = card.core ? (deploy ? (already_fielded ? 2 : 1) : (already_fielded ? 5 : 4)) : 3;
+        if (!best || priority < best->priority || (priority == best->priority && card.level > best->card.level)) {
+            best = CovenantPick { card, deploy, priority };
+        }
+    }
+    return best ? best : fallback;
+}
+
+std::string StrongholdProtocolTaskPlugin::shop_signature(const std::vector<ShopCard>& cards)
+{
+    // 卡栏签名（干员名+费用），判定刷新是否生效
+    std::string signature;
+    for (const auto& card : cards) {
+        signature += card.name + ":" + std::to_string(card.cost) + ",";
+    }
+    return signature;
+}
+
 // ---------------- 局内：回合准备主流程 ----------------
 
 bool StrongholdProtocolTaskPlugin::prep_phase(BoardState& board)
@@ -1826,180 +2498,116 @@ bool StrongholdProtocolTaskPlugin::prep_phase(BoardState& board)
 
     LogInfo << "round" << round << "gold" << shop.gold.value_or(-1) << "maxed" << shop.maxed;
 
-    std::vector<OpeningOper> opening;
-    auto slots = slots_left(image);
-    const bool empty_field = is_opening(board, slots);
-    bool shop_changed = inspect_new_bench(board, image);
-    if (m_bench_shop_unconfirmed) {
-        return false;
+    if (m_covenant) {
+        deploy_covenant_bench(board);
+        if (!board.covenant_tracking_uncertain) {
+            covenant_prep_phase(board, round);
+        }
+        if (board.covenant_tracking_uncertain || board.covenant_reward_pending) {
+            LogWarn << __FUNCTION__ << "covenant tracking or reward requires confirmation";
+            return false;
+        }
     }
-    if (empty_field) {
-        for (const auto& slot : board.bench_roster) {
-            if (slot.name && slot.rank) {
-                opening.push_back({ *slot.name, slot.rank->tier, slot.point, {} });
+    std::vector<OpeningOper> opening;
+    if (!m_covenant) {
+        auto slots = slots_left(image);
+        const bool empty_field = is_opening(board, slots);
+        bool shop_changed = inspect_new_bench(board, image);
+        if (m_bench_shop_unconfirmed) {
+            return false;
+        }
+        if (empty_field) {
+            for (const auto& slot : board.bench_roster) {
+                if (slot.name && slot.rank) {
+                    opening.push_back({ *slot.name, slot.rank->tier, slot.point, {} });
+                }
+            }
+            if (opening.size() > 2) {
+                assign_opening_tiles(opening);
+                opening.resize(2);
+            }
+            if (shop_changed) {
+                image = ctrler()->get_image();
+                shop = read_shop(image, board);
+                shop_changed = false;
+            }
+            int budget = shop.gold.value_or(-1);
+            std::vector<int> failed_slots;
+            std::vector<ShopCard> previous;
+            while (opening.size() < 2 && !need_exit()) {
+                const int remaining = 2 - static_cast<int>(opening.size());
+                auto cards = read_shop_cards(image, previous);
+                const bool reward_shop = is_reward_shop(cards);
+                std::erase_if(cards, [&](const ShopCard& c) {
+                    return (reward_shop && c.cost != 0) ||
+                           std::ranges::any_of(failed_slots, [&](int x) { return std::abs(c.x - x) < 30; });
+                });
+                auto pick =
+                    reward_shop ? shop_pick(cards, board, 0, -1) : opening_pick(cards, budget, remaining, board);
+                if (!pick) {
+                    break;
+                }
+                previous = std::move(cards);
+                std::erase_if(previous, [&](const ShopCard& c) { return reward_shop || std::abs(c.x - pick->x) < 30; });
+                shop_changed = true;
+                if (buy_and_deploy(board, *pick, ShopPhase::Opening, &opening) == PurchaseResult::Bought) {
+                    if (budget >= 0) {
+                        budget = std::max(0, budget - pick->cost);
+                    }
+                    failed_slots.clear();
+                }
+                else {
+                    failed_slots.emplace_back(pick->x);
+                }
+                image = ctrler()->get_image();
+                budget = read_gold(image).value_or(budget);
+            }
+            if (!opening.empty()) {
+                assign_opening_tiles(opening);
+                deploy_opening(board, opening);
+                shop_changed = true;
+                slots = slots_left(ctrler()->get_image());
             }
         }
-        if (opening.size() > 2) {
-            assign_opening_tiles(opening);
-            opening.resize(2);
+        if (opening.empty() && std::ranges::any_of(board.bench_roster, [&](const BenchSlot& slot) {
+                return slot.name && slot.rank &&
+                       choose_tile(board, *slot.name, *slot.rank, {}, slots.value_or(-1), slot.level_unread);
+            })) {
+            board.pending_deploy = deploy_bench(board);
+            shop_changed = true;
+        }
+        if (m_bench_shop_unconfirmed) {
+            return false;
         }
         if (shop_changed) {
             image = ctrler()->get_image();
+            update_bench_roster(board, detect_bench_opers(image));
+            reconcile_bench_copies(board);
             shop = read_shop(image, board);
-            shop_changed = false;
         }
-        int budget = shop.gold.value_or(-1);
-        std::vector<int> failed_slots;
-        std::vector<ShopCard> previous;
-        while (opening.size() < 2 && !need_exit()) {
-            const int remaining = 2 - static_cast<int>(opening.size());
-            auto cards = read_shop_cards(image, previous);
-            const bool reward_shop = is_reward_shop(cards);
-            std::erase_if(cards, [&](const ShopCard& c) {
-                return (reward_shop && c.cost != 0) ||
-                       std::ranges::any_of(failed_slots, [&](int x) { return std::abs(c.x - x) < 30; });
-            });
-            auto pick = reward_shop ? shop_pick(cards, board, 0, -1) : opening_pick(cards, budget, remaining, board);
-            if (!pick) {
-                break;
-            }
-            previous = std::move(cards);
-            std::erase_if(previous, [&](const ShopCard& c) { return reward_shop || std::abs(c.x - pick->x) < 30; });
-            shop_changed = true;
-            if (buy_and_deploy(board, *pick, ShopPhase::Opening, &opening) == PurchaseResult::Bought) {
-                if (budget >= 0) {
-                    budget = std::max(0, budget - pick->cost);
-                }
-                failed_slots.clear();
-            }
-            else {
-                failed_slots.emplace_back(pick->x);
-            }
-            image = ctrler()->get_image();
-            budget = read_gold(image).value_or(budget);
-        }
-        if (!opening.empty()) {
-            assign_opening_tiles(opening);
-            deploy_opening(board, opening);
-            shop_changed = true;
-            slots = slots_left(ctrler()->get_image());
-        }
-    }
-    if (opening.empty() && std::ranges::any_of(board.bench_roster, [&](const BenchSlot& slot) {
-            return slot.name && slot.rank &&
-                   choose_tile(board, *slot.name, *slot.rank, {}, slots.value_or(-1), slot.level_unread);
-        })) {
-        board.pending_deploy = deploy_bench(board);
-        shop_changed = true;
-    }
-    if (m_bench_shop_unconfirmed) {
-        return false;
-    }
-    if (shop_changed) {
-        image = ctrler()->get_image();
-        update_bench_roster(board, detect_bench_opers(image));
-        reconcile_bench_copies(board);
-        shop = read_shop(image, board);
-    }
-    if (!shop.maxed) {
-        // 关闭干员详情或升级后，整排商店会横移。连续两帧文字与位置一致后才使用按钮和费用。
-        const auto settled_button = [&](bool after_confirm) -> std::optional<TextRect> {
-            std::optional<TextRect> previous;
-            for (int retry = 0; retry < 5 && !need_exit(); ++retry) {
-                sleep(150);
-                image = ctrler()->get_image();
-                OCRer ocr(image);
-                ocr.set_task_info("StrongholdProtocol@ShopBottomOcr");
-                const auto rows = ocr.analyze();
-                if (!rows || (after_confirm && rows->front().text == "confirm")) {
-                    previous.reset();
-                    continue;
-                }
-                const auto& button = rows->front();
-                if (previous && previous->text == button.text && std::abs(previous->rect.x - button.rect.x) <= 4) {
-                    return button;
-                }
-                previous = button;
-            }
-            return std::nullopt;
-        };
-        const auto level = [&](const TextRect& button) {
-            const auto task = Task.get<OcrTaskInfo>("StrongholdProtocol@ShopLevelOcr");
-            if (!task || task->roi.empty()) {
-                return 0;
-            }
-            auto roi = task->roi;
-            roi.x += button.rect.x + button.rect.width / 2;
-            OCRer ocr(image);
-            ocr.set_task_info(task);
-            ocr.set_roi(roi);
-            const auto rows = ocr.analyze();
-            if (rows && rows->front().score >= 0.75) {
-                int value = 0;
-                if (utils::chars_to_number<int, true>(rows->front().text, value)) {
-                    return value;
-                }
-            }
-            return 0;
-        };
-        bool upgrade_pending = false;
-        auto button = settled_button(false);
-        shop = read_shop(image, board);
-        for (int i = 0; i < 8 && button && !shop.maxed && !need_exit(); ++i) {
-            if (shop.gold && shop.upgrade_cost && *shop.gold < *shop.upgrade_cost) {
-                break;
-            }
-            const ShopInfo before = shop;
-            const int old_level = level(*button);
-            ProcessTask confirm(*this, { "StrongholdProtocol@UpgradeConfirmClick" });
-            if (button->text == "confirm") {
-                confirm.set_reusable_image(image);
-            }
-            else if (button->text != "upgrade" || !ctrler()->click(button->rect)) {
-                break;
-            }
-            upgrade_pending = true;
-            if (!confirm.set_task_delay(150).set_retry_times(4).run()) {
-                break;
-            }
-            for (int retry = 0; retry < 2 && !need_exit(); ++retry) {
-                button = settled_button(true);
-                shop = read_shop(image, board);
-                if (!button || shop.maxed) {
-                    break;
-                }
-                if ((before.gold && shop.gold && *shop.gold < *before.gold) ||
-                    (before.upgrade_cost && shop.upgrade_cost && *shop.upgrade_cost != *before.upgrade_cost) ||
-                    (old_level > 0 && level(*button) > old_level)) {
-                    upgrade_pending = false;
-                    LogInfo << "shop upgraded, gold" << before.gold.value_or(-1) << "->" << shop.gold.value_or(-1);
-                    break;
-                }
-            }
-            if (upgrade_pending) {
-                break;
-            }
-        }
-        if (!shop.maxed && !upgrade_pending && shop.gold != 0) {
-            // 剩余资金买干员（资金不跨回合，不买装备）
-            for (const auto& card : read_shop_cards(image)) {
-                image = ctrler()->get_image();
-                const auto gold = read_gold(image);
-                if (gold == 0) {
-                    break;
-                }
-                if (!card.is_oper || card.cost < 0 || (gold && card.cost > *gold)) {
-                    continue;
-                }
-                buy_and_deploy(board, card, ShopPhase::Early);
-                if (m_bench_shop_unconfirmed) {
-                    return false;
+        if (!shop.maxed) {
+            const bool shop_ready = upgrade_shop(shop, board, image);
+            if (!shop.maxed && shop_ready && shop.gold != 0) {
+                // 剩余资金买干员（资金不跨回合，不买装备）
+                for (const auto& card : read_shop_cards(image)) {
+                    image = ctrler()->get_image();
+                    const auto gold = read_gold(image);
+                    if (gold == 0) {
+                        break;
+                    }
+                    if (!card.is_oper || card.cost < 0 || (gold && card.cost > *gold)) {
+                        continue;
+                    }
+                    buy_and_deploy(board, card, ShopPhase::Early);
+                    if (m_bench_shop_unconfirmed) {
+                        return false;
+                    }
                 }
             }
         }
     }
 
-    if (shop.maxed) {
+    if (!m_covenant && shop.maxed) {
         // 满级先领赠卡，再按本局偏好购买 V/VI 阶干员。
         std::string last_signature;
         std::vector<int> skipped_slots;
@@ -2009,10 +2617,7 @@ bool StrongholdProtocolTaskPlugin::prep_phase(BoardState& board)
             image = ctrler()->get_image();
             const auto gold = read_gold(image);
             auto cards = read_shop_cards(image);
-            std::string signature;
-            for (const auto& card : cards) {
-                signature += card.name + ":" + std::to_string(card.cost) + ",";
-            }
+            const std::string signature = shop_signature(cards);
             if (refreshed && signature != last_signature) {
                 skipped_slots.clear();
             }
@@ -2058,7 +2663,14 @@ bool StrongholdProtocolTaskPlugin::prep_phase(BoardState& board)
         }
     }
 
-    if (board.pending_deploy) {
+    if (m_covenant) {
+        deploy_covenant_bench(board);
+        if (board.covenant_tracking_uncertain) {
+            return false;
+        }
+        board.pending_deploy = false;
+    }
+    else if (board.pending_deploy) {
         deploy_opening(board, opening);
         if (opening.empty()) {
             board.pending_deploy = deploy_bench(board);
@@ -2392,7 +3004,7 @@ std::optional<StrongholdProtocolTaskPlugin::DeployTile> StrongholdProtocolTaskPl
     std::optional<DeployTile> promotion_fallback;
     std::optional<DeployTile> medic_swap;
     DeployRank medic_swap_rank { 5, false };
-    const bool melee = opening_front_priority(name) > 0;
+    const bool melee = BattleData.get_location_type(role, name) == battle::LocationType::Melee;
     const auto pick_group = [&](const std::string& group,
                                 const std::vector<Point>& points) -> std::optional<DeployTile> {
         std::optional<DeployTile> promotion;
@@ -2445,7 +3057,7 @@ std::optional<StrongholdProtocolTaskPlugin::DeployTile> StrongholdProtocolTaskPl
                 }
                 continue;
             }
-            const bool old_melee = opening_front_priority(old_name) > 0;
+            const bool old_melee = BattleData.get_location_type(old_role, old_name) == battle::LocationType::Melee;
             if (medic) {
                 // 首名医疗优先用空格。所有兼容格都满时，才换下其中等阶最低的干员。
                 if (!field && (!old_melee || group != "path") && old_rank < medic_swap_rank) {
@@ -2486,6 +3098,54 @@ std::optional<StrongholdProtocolTaskPlugin::DeployTile> StrongholdProtocolTaskPl
         return tile;
     }
     return empty_only ? promotion_fallback : medic_swap;
+}
+
+std::optional<StrongholdProtocolTaskPlugin::DeployTile> StrongholdProtocolTaskPlugin::choose_covenant_tile(
+    const BoardState& board,
+    const std::string& name,
+    DeployRank rank,
+    int slots,
+    bool empty_only,
+    bool core) const
+{
+    if (slots < 0 || slots > 8) {
+        return std::nullopt;
+    }
+    const auto oper = find_covenant_battle_oper(name);
+    const auto role = oper ? oper->role : battle::Role::Unknown;
+    const auto position = oper ? oper->location_type : battle::LocationType::Invalid;
+    const auto names = field_core_names(board);
+    if (!rank.elite && core && names.contains(name) && names.size() < 3) {
+        return std::nullopt;
+    }
+    if (!rank.elite && !core && role == battle::Role::Tank && std::ranges::count_if(board.occ, [](const auto& entry) {
+                                                                  const auto old =
+                                                                      find_covenant_battle_oper(entry.second.first);
+                                                                  return old && old->role == battle::Role::Tank;
+                                                              }) >= 2) {
+        return std::nullopt;
+    }
+
+    const auto [group, points] = covenant_group(role, position);
+    std::optional<DeployTile> replacement;
+    for (size_t i = 0; i < points.size(); ++i) {
+        DeployTile tile { group + std::to_string(i), points[i] };
+        if (board.unconfirmed_tiles.contains(tile.key) || board.promotion_tiles.contains(tile.key)) {
+            continue;
+        }
+        const auto occupant = board.occ.find(tile.key);
+        if (occupant == board.occ.end()) {
+            if (slots > 0) {
+                return tile;
+            }
+        }
+        else if (
+            core && !rank.elite && !empty_only && !replacement && occupant->second.first != "?" &&
+            !board.elite_tiles.contains(tile.key) && !is_core_oper(board, occupant->second.first)) {
+            replacement = std::move(tile);
+        }
+    }
+    return replacement;
 }
 
 StrongholdProtocolTaskPlugin::Placement
@@ -2695,7 +3355,7 @@ void StrongholdProtocolTaskPlugin::handle_displaced(BoardState& board, BoardDrop
     // 补位只试空格或合成待核格。每次试放都会核实一个格位，因此不会在已知占位之间反复交换。
     while (drop.displaced && !need_exit()) {
         const auto [name, rank] = *drop.displaced;
-        const bool replaced_medic = can_sell_replaced_medic(board, name, rank);
+        const bool replaced_medic = !m_covenant && can_sell_replaced_medic(board, name, rank);
         if ((!replaced_medic && rank.tier <= 0) || !BattleData.get_all_oper_names().contains(name) ||
             BattleData.find_first_oper(battle::Role::Drone, name)) {
             return;
@@ -2780,8 +3440,8 @@ std::optional<Point> StrongholdProtocolTaskPlugin::deploy_from_bench(
     const auto before_deploy = ctrler()->get_image();
     const auto slots0 = slots_left(before_deploy);
     const auto& tiles = StrongholdProtocol.get_tiles();
-    if (slots0 == 0 && board.promotion_tiles.empty() && board.displaced.empty() && board.elite_tiles.empty() &&
-        board.occ.size() == tiles.path.size() + tiles.safe.size() + tiles.rear.size() &&
+    if (!m_covenant && slots0 == 0 && board.promotion_tiles.empty() && board.displaced.empty() &&
+        board.elite_tiles.empty() && board.occ.size() == tiles.path.size() + tiles.safe.size() + tiles.rear.size() &&
         std::ranges::all_of(board.occ, [](const auto& entry) { return entry.second.second >= 5; }) &&
         std::ranges::none_of(board.purchases, [](const auto& bought) { return bought.second.promotions > 0; })) {
         return std::nullopt;
@@ -2996,7 +3656,9 @@ bool StrongholdProtocolTaskPlugin::deploy_bench_medic(BoardState& board, const c
 
 bool StrongholdProtocolTaskPlugin::deploy_bench(BoardState& board)
 {
-    deploy_bench_medic(board, ctrler()->get_image());
+    if (!m_covenant) {
+        deploy_bench_medic(board, ctrler()->get_image());
+    }
     if (m_bench_shop_unconfirmed) {
         return true;
     }
@@ -3019,10 +3681,12 @@ bool StrongholdProtocolTaskPlugin::deploy_bench(BoardState& board)
         }
         auto unseen_displaced = board.displaced;
         auto unseen = board.bench_known;
-        std::erase_if(unseen, [](const auto& copy) {
-            const auto role = StrongholdProtocol.get_role(copy.first);
-            return role == battle::Role::Medic || role == battle::Role::Drone || role == battle::Role::Unknown;
-        });
+        if (!m_covenant) {
+            std::erase_if(unseen, [](const auto& copy) {
+                const auto role = StrongholdProtocol.get_role(copy.first);
+                return role == battle::Role::Medic || role == battle::Role::Drone || role == battle::Role::Unknown;
+            });
+        }
         bool unreadable = false;
         bool bench_changed = false;
         std::vector<Point> candidates;

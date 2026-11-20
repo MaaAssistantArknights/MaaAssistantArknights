@@ -3789,6 +3789,9 @@ public class AsstProxy
         /// <summary>卫戍协议</summary>
         StrongholdProtocol,
 
+        /// <summary>赛季任务</summary>
+        SeasonalTask,
+
         /// <summary>更新用户数据</summary>
         UserDataUpdate,
 

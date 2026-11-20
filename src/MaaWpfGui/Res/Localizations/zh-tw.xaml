@@ -2328,6 +2328,17 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
     <system:String x:Key="TaskQueue.Task.Recruit">{key=TaskQueue.Task.Recruiting}</system:String>
     <system:String x:Key="TaskQueue.Task.Recruiting">自動公招</system:String>
     <system:String x:Key="TaskQueue.Task.Roguelike">{key=TaskQueue.Task.AutoRoguelike}</system:String>
+    <system:String x:Key="TaskQueue.Task.SeasonalTask">賽季任務</system:String>
+    <system:String x:Key="TaskQueue.Task.SeasonalTask.CoreBond.Major">大核心盟約（陣營盟約）</system:String>
+    <system:String x:Key="TaskQueue.Task.SeasonalTask.CoreBond.Minor">小核心盟約</system:String>
+    <system:String x:Key="TaskQueue.Task.SeasonalTask.CoreBond.Minor.Tip">攜帶所選小盟約的幹員同樣按核心對待，與所選大盟約任一命中即優先買入部署。</system:String>
+    <system:String x:Key="TaskQueue.Task.SeasonalTask.CoreBond.Tip" xml:space="preserve">攜帶任一所選核心盟約的幹員優先買入並部署上場；選 ｢{key=Common.NotSelected}｣ 則該盟約不參與判定。&#10;同名核心幹員湊滿三張自動合成晉升，未湊齊前先落備戰席攢合成。</system:String>
+    <system:String x:Key="TaskQueue.Task.SeasonalTask.Rounds">通關循環局數</system:String>
+    <system:String x:Key="TaskQueue.Task.SeasonalTask.Rounds.Tip" xml:space="preserve">以盟約策略進行極速模擬並循環通關，達到設定局數後停止；0 = 跳過任務。&#10;大核心盟約、小核心盟約與每回合升級策略在 ｢高級設置｣ 中調整。</system:String>
+    <system:String x:Key="TaskQueue.Task.SeasonalTask.Skipped">通關循環局數為 0，跳過賽季任務。</system:String>
+    <system:String x:Key="TaskQueue.Task.SeasonalTask.UpgradePlan">每回合升級策略</system:String>
+    <system:String x:Key="TaskQueue.Task.SeasonalTask.UpgradePlan.Round">第 {0} 回合</system:String>
+    <system:String x:Key="TaskQueue.Task.SeasonalTask.UpgradePlan.Tip" xml:space="preserve">每回合開始時升到對應目標商店等級，0 = 該回合不升級；資金不足自動停。&#10;例：第 1 回合填 3、第 2 回合填 4，即首回合升到 3 本、次回合升到 4 本。</system:String>
     <system:String x:Key="TaskQueue.Task.StartUp">{key=TaskQueue.Task.WakeUp}</system:String>
     <system:String x:Key="TaskQueue.Task.SwitchTheme">更換主題</system:String>
     <system:String x:Key="TaskQueue.Task.UserDataUpdate">更新使用者資料</system:String>

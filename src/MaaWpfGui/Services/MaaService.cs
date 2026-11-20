@@ -184,6 +184,11 @@ public enum AsstTaskType : byte
     StrongholdProtocol,
 
     /// <summary>
+    /// 赛季任务
+    /// </summary>
+    SeasonalTask,
+
+    /// <summary>
     /// 更换主题
     /// </summary>
     SwitchTheme,
