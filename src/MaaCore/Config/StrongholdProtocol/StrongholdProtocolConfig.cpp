@@ -1,13 +1,26 @@
 #include "StrongholdProtocolConfig.h"
 
+#include "Config/Miscellaneous/BattleDataConfig.h"
 #include "Utils/Logger.hpp"
+#include "Utils/Platform.hpp"
+
+asst::battle::Role asst::StrongholdProtocolConfig::get_role(const std::string& name) const
+{
+    const auto roles = BattleData.get_roles(name, true);
+    if (roles.size() == 1) {
+        return *roles.begin();
+    }
+    const auto it = m_role_overrides.find(name);
+    if (it != m_role_overrides.end() && roles.contains(it->second)) {
+        return it->second;
+    }
+    return battle::Role::Unknown;
+}
 
 bool asst::StrongholdProtocolConfig::parse(const json::value& json)
 {
     LogTraceFunction;
 
-    // purchase.json 与 tiles.json 分别 load 本配置：按字段存在性独立刷新，
-    // 不存在的字段保持原值，两次加载各自更新自己文件的内容
     auto parse_string_array = [&json](const std::string& key, std::vector<std::string>& out) {
         const auto arr = json.find(key);
         if (!arr) {
@@ -29,8 +42,29 @@ bool asst::StrongholdProtocolConfig::parse(const json::value& json)
         return true;
     };
     if (!parse_string_array("priority", m_priority) || !parse_string_array("safe_keys", m_safe_keys) ||
-        !parse_string_array("dps", m_dps) || !parse_string_array("healers", m_healers)) {
+        !parse_string_array("dps", m_dps)) {
         return false;
+    }
+    if (const auto overrides = json.find("role_overrides")) {
+        if (!overrides->is_object()) {
+            LogError << __FUNCTION__ << "role_overrides must be an object";
+            return false;
+        }
+        std::unordered_map<std::string, battle::Role> parsed;
+        for (const auto& [name, value] : overrides->as_object()) {
+            const auto role = value.is_string() ? battle::parse_role_type(value.as_string(), battle::Role::Unknown)
+                                                : battle::Role::Unknown;
+            if (role == battle::Role::Unknown) {
+                LogError << __FUNCTION__ << "invalid operator role override for" << name;
+                return false;
+            }
+            parsed.emplace(name, role);
+        }
+        m_role_overrides = std::move(parsed);
+    }
+    else if (m_path.filename() == utils::path("purchase.json")) {
+        // 新赛季可以省略职业覆盖。格位文件和自定义配置则只更新其中列出的字段。
+        m_role_overrides.clear();
     }
 
     // tiles.json 顶层即格子结构：safe/path 必填，rest/lift 可选

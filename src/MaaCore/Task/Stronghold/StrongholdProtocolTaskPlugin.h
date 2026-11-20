@@ -70,7 +70,7 @@ private:
         bool squad_picked = false;   // 本局已在编队页选过人
         // 已知身份但仍在备战席的干员 (名, 等阶)：买入后没能当场部署、或被换下没卖掉，回合末重扫时据此恢复等阶
         std::vector<std::pair<std::string, int>> bench_known;
-        int healers = 0;                                          // 已购买的医疗干员数（前期最多 1 个）
+        bool medic_slot_taken = false;                            // 已获得医疗或职业未明的干员，前期只再买非医疗
         std::unordered_map<std::string, PurchaseCount> purchases; // 本局各干员的累计购买次数，含免费领取
         std::set<std::string> promotion_tiles;                    // 合成素材曾占用、尚待核对的格位
         std::map<std::string, std::pair<std::string, int>> occ;   // 格位键（组名+序号）-> (干员名, 等阶)
@@ -122,8 +122,20 @@ private:
     ShopInfo read_shop(const cv::Mat& image);
     std::vector<ShopCard> read_shop_cards(const cv::Mat& image) const;
     static std::optional<ShopCard> promotion_reward(const std::vector<ShopCard>& cards);
-    bool buy_oper(ShopCard& card, const cv::Mat& before, cv::Mat& after, std::vector<ShopCard>& cards_after);
-    bool buy_and_deploy(BoardState& board, ShopCard card);
+    enum class ShopPhase
+    {
+        Early,
+        Maxed,
+        PromotionReward,
+    };
+    bool buy_oper(
+        ShopCard& card,
+        const cv::Mat& before,
+        cv::Mat& after,
+        std::vector<ShopCard>& cards_after,
+        ShopPhase phase,
+        bool medic_slot_taken);
+    bool buy_and_deploy(BoardState& board, ShopCard card, ShopPhase phase);
 
     // 触控原语：游戏要求先在干员头像上 press-and-hold 进入拖拽预览再滑动，
     // swipe 快速位移来不及触发 grab；用 inject_input_event 手动 down→hold→move→hold→up
@@ -149,7 +161,7 @@ private:
     // 优先级干员判定（权重表在 stronghold_protocol 资源目录的 purchase.json）
     static int oper_priority(const std::string& name);
     static bool is_safe_oper(const std::string& name);
-    static bool is_healer(const std::string& name);
+    static bool is_medic(const std::string& name);
     static bool is_dps_oper(const std::string& name);
     static int oper_rank(const std::string& name, int tier);
     static bool name_match(const std::string& name, const std::string& key);

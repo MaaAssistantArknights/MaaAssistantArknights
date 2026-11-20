@@ -2,9 +2,10 @@
 #include "Config/AbstractConfig.h"
 
 #include <string>
-#include <utility>
+#include <unordered_map>
 #include <vector>
 
+#include "Common/AsstBattleDef.h"
 #include "Common/AsstTypes.h"
 
 namespace asst
@@ -30,7 +31,8 @@ public:
 
     const std::vector<std::string>& get_dps() const { return m_dps; }
 
-    const std::vector<std::string>& get_healers() const { return m_healers; }
+    // 同名干员有多个职业时取赛季指定的职业，无法确定时返回 Unknown。
+    battle::Role get_role(const std::string& name) const;
 
     const StrongholdTiles& get_tiles() const { return m_tiles; }
 
@@ -40,7 +42,7 @@ protected:
     std::vector<std::string> m_priority; // 购买优先级，数组序即权重序
     std::vector<std::string> m_safe_keys;
     std::vector<std::string> m_dps;
-    std::vector<std::string> m_healers;
+    std::unordered_map<std::string, battle::Role> m_role_overrides;
     StrongholdTiles m_tiles;
 };
 

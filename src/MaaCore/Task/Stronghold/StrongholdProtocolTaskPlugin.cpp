@@ -404,11 +404,9 @@ bool StrongholdProtocolTaskPlugin::is_safe_oper(const std::string& name)
     });
 }
 
-bool StrongholdProtocolTaskPlugin::is_healer(const std::string& name)
+bool StrongholdProtocolTaskPlugin::is_medic(const std::string& name)
 {
-    return std::ranges::any_of(StrongholdProtocol.get_healers(), [&](const std::string& h) {
-        return name_match(name, h);
-    });
+    return StrongholdProtocol.get_role(name) == battle::Role::Medic;
 }
 
 bool StrongholdProtocolTaskPlugin::is_dps_oper(const std::string& name)
@@ -1232,9 +1230,7 @@ std::vector<StrongholdProtocolTaskPlugin::ShopCard>
     ocr.set_task_info("StrongholdProtocol@ShopCardsOcr");
     auto results_opt = ocr.analyze();
 
-    const auto is_oper_name = [](const std::string& text) {
-        return oper_priority(text) >= 0 || is_dps_oper(text) || is_healer(text) || is_safe_oper(text);
-    };
+    const auto& oper_names = BattleData.get_all_oper_names();
     const auto parse_cost = [](std::string_view text) -> std::optional<int> {
         if (text == "o" || text == "O") {
             return 0;
@@ -1321,7 +1317,7 @@ std::vector<StrongholdProtocolTaskPlugin::ShopCard>
                     card.is_oper = true;
                     continue;
                 }
-                if (cy >= name_lo2 && cy <= name_hi2 && card.name.empty() && is_oper_name(tr.text)) {
+                if (cy >= name_lo2 && cy <= name_hi2 && card.name.empty() && oper_names.contains(tr.text)) {
                     card.name = tr.text;
                     LogTrace << "shop name matched" << tr.text << "card" << x;
                 }
@@ -1373,8 +1369,20 @@ bool StrongholdProtocolTaskPlugin::buy_oper(
     ShopCard& card,
     const cv::Mat& before,
     cv::Mat& after,
-    std::vector<ShopCard>& cards_after)
+    std::vector<ShopCard>& cards_after,
+    ShopPhase phase,
+    bool medic_slot_taken)
 {
+    const auto can_buy = [&](const std::string& name) {
+        if (phase != ShopPhase::Early) {
+            return true;
+        }
+        const auto role = StrongholdProtocol.get_role(name);
+        return role != battle::Role::Unknown && (role != battle::Role::Medic || !medic_slot_taken);
+    };
+    if (!card.name.empty() && !can_buy(card.name)) {
+        return false;
+    }
     const auto gold0 = card.cost == 0 ? std::nullopt : read_gold(before);
     const int card_y = task_roi("StrongholdProtocol@Roi@ShopCardY").y;
     ctrler()->click(Point(card.x, card_y));
@@ -1396,7 +1404,7 @@ bool StrongholdProtocolTaskPlugin::buy_oper(
         if (trait.analyze()) {
             saw_trait = true;
             if (card.name.empty()) {
-                // 购买详情只展示选中的干员，未列入购买权重表的干员也能用正式名字记账。
+                // 卡面漏字时，详情面板只显示当前选中的干员。
                 OCRer name(img);
                 name.set_task_info("StrongholdProtocol@DragNameOcr");
                 if (const auto rows = name.analyze()) {
@@ -1407,6 +1415,9 @@ bool StrongholdProtocolTaskPlugin::buy_oper(
                         }
                     }
                 }
+                if (card.name.empty() && phase == ShopPhase::Early) {
+                    continue;
+                }
             }
             break;
         }
@@ -1415,8 +1426,9 @@ bool StrongholdProtocolTaskPlugin::buy_oper(
         ProcessTask(*this, { "StrongholdProtocol@PopupClose" }).run();
         return false;
     }
-    if (!saw_trait) {
-        // 装备/非干员：取消选中后关提示
+    if (!saw_trait || !can_buy(card.name)) {
+        // 前期买入职业未明的干员会导致后续无法判断是否已买过医疗。
+        LogInfo << __FUNCTION__ << "canceling shop selection" << card.name << "at" << card.x;
         ctrler()->click(Point(card.x, card_y));
         ProcessTask(*this, { "StrongholdProtocol@PopupClose" }).run();
         return false;
@@ -1466,14 +1478,23 @@ bool StrongholdProtocolTaskPlugin::buy_oper(
     return true;
 }
 
-bool StrongholdProtocolTaskPlugin::buy_and_deploy(BoardState& board, ShopCard card)
+bool StrongholdProtocolTaskPlugin::buy_and_deploy(BoardState& board, ShopCard card, ShopPhase phase)
 {
     auto before = ctrler()->get_image();
+    if (phase == ShopPhase::Early && card.cost == 0) {
+        // 领取后其他赠卡会一起消失，不能用上一张商店截图中的 0 费继续购买。
+        const auto reward = promotion_reward(read_shop_cards(before));
+        if (!reward) {
+            return false;
+        }
+        card = *reward;
+        phase = ShopPhase::PromotionReward;
+    }
     cv::Mat after;
     bool bought = false;
     while (!need_exit()) {
         std::vector<ShopCard> cards_after;
-        if (!buy_oper(card, before, after, cards_after)) {
+        if (!buy_oper(card, before, after, cards_after, phase, board.medic_slot_taken)) {
             LogWarn << "buy failed:" << card.name << "cost" << card.cost;
             board.pending_deploy |= card.cost == 0;
             return bought;
@@ -1485,7 +1506,8 @@ bool StrongholdProtocolTaskPlugin::buy_and_deploy(BoardState& board, ShopCard ca
             count = ++copies.total;
             ++copies.unmerged;
         }
-        board.healers += is_healer(card.name);
+        const auto role = StrongholdProtocol.get_role(card.name);
+        board.medic_slot_taken |= role == battle::Role::Medic || role == battle::Role::Unknown;
         LogInfo << "bought:" << card.name << "cost" << card.cost << "tier" << card.tier << "purchases" << count;
         const auto reward = promotion_reward(cards_after);
         if (!reward) {
@@ -1506,6 +1528,7 @@ bool StrongholdProtocolTaskPlugin::buy_and_deploy(BoardState& board, ShopCard ca
         board.pending_deploy = true;
         before = after;
         card = *reward;
+        phase = ShopPhase::PromotionReward;
     }
     if (need_exit()) {
         return bought;
@@ -1564,10 +1587,7 @@ bool StrongholdProtocolTaskPlugin::prep_phase(BoardState& board)
             if (!card.is_oper || card.cost < 0 || (shop.gold && card.cost > *shop.gold)) {
                 continue;
             }
-            if (is_healer(card.name) && board.healers >= 1) {
-                continue;
-            }
-            if (buy_and_deploy(board, card)) {
+            if (buy_and_deploy(board, card, ShopPhase::Early)) {
                 ++bought;
             }
         }
@@ -1614,10 +1634,7 @@ bool StrongholdProtocolTaskPlugin::prep_phase(BoardState& board)
                 if (!card.is_oper || card.cost < 0 || (gold && card.cost > *gold)) {
                     continue;
                 }
-                if (is_healer(card.name) && board.healers >= 1) {
-                    continue;
-                }
-                buy_and_deploy(board, card);
+                buy_and_deploy(board, card, ShopPhase::Early);
             }
         }
     }
@@ -1705,7 +1722,7 @@ bool StrongholdProtocolTaskPlugin::prep_phase(BoardState& board)
             }
             if (pick) {
                 LogInfo << "buy V/VI:" << pick->name << "cost" << pick->cost;
-                if (buy_and_deploy(board, *pick)) {
+                if (buy_and_deploy(board, *pick, ShopPhase::Maxed)) {
                     last_signature.clear(); // 商店已变化，重置签名
                     continue;
                 }
@@ -1990,7 +2007,7 @@ std::optional<Point> StrongholdProtocolTaskPlugin::deploy_from_bench(
     const auto pick_in = [&](const std::vector<std::pair<std::string, std::vector<Point>>>& groups) {
         for (const auto& [group_name, points] : groups) {
             // 医疗占住首个堵口位会让战斗一直拖到回合倒计时结束。
-            const size_t first = group_name == "path" && is_healer(name) ? 1 : 0;
+            const size_t first = group_name == "path" && is_medic(name) ? 1 : 0;
             for (size_t i = first; i < points.size(); ++i) {
                 const std::string key = group_name + std::to_string(i);
                 if (!board.occ.contains(key) && tile_green(points[i])) {
