@@ -146,7 +146,7 @@ private:
     bool prep_phase(BoardState& board);
     bool handle_settlement(BoardState& board);
 
-    // 盟约策略模式商店经营：按回合升级计划升级、按核心盟约优先级买入部署、刷新到资金耗尽
+    // 盟约策略模式商店经营：按回合升级计划升级，按核心盟约优先级买入、部署和刷新。
     void covenant_prep_phase(BoardState& board, int round);
 
     // 盟约策略买入裁决：返回当前最值得买的卡与动作（deploy=买了即部署 / bench=留备战席攒合成），无则 nullopt
