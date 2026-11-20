@@ -268,6 +268,9 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
             "StrongholdProtocolConfig") ||
         !load_with_custom.template operator()<StrongholdProtocolConfig>(
             "stronghold_protocol"_p / "regulation"_p / "tiles.json"_p,
+            "StrongholdProtocolConfig") ||
+        !load_with_custom.template operator()<StrongholdProtocolConfig>(
+            "stronghold_protocol"_p / "regulation"_p / "strategy_grid.json"_p,
             "StrongholdProtocolConfig")) {
         return false;
     }

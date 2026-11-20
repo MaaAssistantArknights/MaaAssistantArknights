@@ -239,7 +239,18 @@
         "algorithm": "OcrDetect",
         "withoutDet": true,
         "text": [],
-        "roi": [112, 208, 48, 40]
+        "roi": [112, 208, 48, 40],
+        "specialParams": [90]
+    },
+    "StrongholdProtocol@DragInitialLevels": {
+        "doc": "按活动等阶从 I 到 VI 排列的初始 LV。",
+        "baseTask": "StrongholdProtocol@DragLevelOcr",
+        "text": ["55", "60", "1", "1", "1", "1"]
+    },
+    "StrongholdProtocol@DragEliteLevels": {
+        "doc": "按活动等阶从 I 到 VI 排列的精锐 LV。",
+        "baseTask": "StrongholdProtocol@DragLevelOcr",
+        "text": ["50", "55", "60", "60", "60", "60"]
     },
     "StrongholdProtocol@ScreenTextOcr": {
         "doc": "未识别场景时的全屏文字扫描：判定是否仍在卫戍协议内、是否战斗中、有无通用按钮（代码 scan_unknown_screen，词表见 Keywords@*）",
@@ -384,6 +395,11 @@
         "text": [],
         "action": "DoNothing",
         "roi": [27, -73, 37, 43]
+    },
+    "StrongholdProtocol@Roi@ColorBadgeCenter": {
+        "doc": "彩角标内部相对卡心的偏移矩形，用于排除选中卡的青色边框。",
+        "baseTask": "StrongholdProtocol@Roi@ColorBadgeOffset",
+        "roi": [32, -60, 26, 28]
     },
     "StrongholdProtocol@Roi@ShopSell": {
         "doc": "商店出售区，起拖前核对右下角商店按钮是否在区域内，终点取区域中心",

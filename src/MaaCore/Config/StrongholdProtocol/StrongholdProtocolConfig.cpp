@@ -117,6 +117,64 @@ bool asst::StrongholdProtocolConfig::parse_purchase(const json::value& json, boo
     return true;
 }
 
+bool asst::StrongholdStrategyGrid::valid() const
+{
+    const auto in_range = [](auto value, auto low, auto high) {
+        return low <= value && value <= high;
+    };
+    const auto hue_ok = [&](const auto& hue) {
+        return in_range(hue[0], 0, hue[1]) && hue[1] <= 180;
+    };
+    const auto byte_ok = [&](int value) {
+        return in_range(value, 0, 255);
+    };
+    const auto badge_ok = [&](const Badge& badge) {
+        return hue_ok(badge.hue) && byte_ok(badge.min_saturation) && byte_ok(badge.min_value) &&
+               in_range(badge.min_ratio, 0., 1.);
+    };
+    const auto [top, bottom] = scrollbar.track_y;
+    const auto [pad_x, pad_y] = scrollbar.scan_padding;
+    const auto& view = frame.viewport;
+    if (!badge_ok(gold_badge) || !badge_ok(color_badge) || !in_range(color_badge_max_gold_ratio, 0., 1.) ||
+        !byte_ok(marker_min_saturation) || !byte_ok(marker_min_value) || !byte_ok(portrait_max_saturation) ||
+        !byte_ok(portrait_min_value) || !byte_ok(scrollbar.max_saturation) || !byte_ok(scrollbar.min_value) ||
+        !in_range(scrollbar.min_fill, 0., 1.) || !in_range(pad_x, 0, WindowWidthDefault) ||
+        !in_range(pad_y, 0, WindowHeightDefault) || top < pad_y || bottom <= top ||
+        bottom >= WindowHeightDefault - pad_y || !in_range(scrollbar.min_height, 1, bottom - top) ||
+        !in_range(scrollbar.thumb_width[0], 1, scrollbar.thumb_width[1]) || scrollbar.thumb_width[1] > 2 * pad_x + 1 ||
+        !in_range(view.width, 1, WindowWidthDefault) || !in_range(view.height, 1, WindowHeightDefault) ||
+        !in_range(view.y, 0, WindowHeightDefault - view.height) || !in_range(view.x, -WindowWidthDefault, 0) ||
+        !in_range(frame.column_step, 1, WindowWidthDefault) || !in_range(frame.right_edge, 1, WindowWidthDefault) ||
+        !in_range(frame.inner_columns[0], 0, frame.right_edge) ||
+        !in_range(frame.inner_columns[1], 0, frame.right_edge) || !in_range(frame.height[1], 1, view.height) ||
+        !in_range(frame.height[0], 1, frame.height[1]) || !in_range(frame.min_partial_height, 1, frame.height[0]) ||
+        !in_range(frame.center_from_bottom_left[0], 0, frame.column_step) ||
+        !in_range(frame.center_from_bottom_left[1], -frame.height[1], 0) ||
+        !in_range(frame.candidate_left, -WindowWidthDefault, 0) ||
+        !in_range(frame.candidate_y[0], 0, frame.candidate_y[1]) || frame.candidate_y[1] > WindowHeightDefault ||
+        columns.empty() || scrollbar.columns.empty() || markers.empty()) {
+        return false;
+    }
+    // 滑块中心允许偏一像素。视口和最外侧卡框的取样列都必须留在画面内。
+    const int last_column = (view.width - 1) / frame.column_step * frame.column_step;
+    return std::ranges::all_of(
+               scrollbar.columns,
+               [&](int x) {
+                   if (!in_range(x, pad_x, WindowWidthDefault - pad_x - 1)) {
+                       return false;
+                   }
+                   const int left = x + view.x;
+                   return left - 1 >= 4 &&
+                          left + 1 + std::max(view.width, last_column + frame.right_edge + 4) <= WindowWidthDefault;
+               }) &&
+           std::ranges::all_of(columns, [&](int x) { return in_range(x, 0, WindowWidthDefault - 1); }) &&
+           std::ranges::all_of(markers, [&](const Marker& marker) {
+               return hue_ok(marker.hue) &&
+                      in_range(marker.center_offset[0], -WindowWidthDefault, WindowWidthDefault) &&
+                      in_range(marker.center_offset[1], -WindowHeightDefault, WindowHeightDefault);
+           });
+}
+
 bool asst::StrongholdProtocolConfig::parse(const json::value& json)
 {
     LogTraceFunction;
@@ -124,6 +182,16 @@ bool asst::StrongholdProtocolConfig::parse(const json::value& json)
     const bool custom = m_path.filename() == utils::path("purchase_custom.json");
     if (custom || m_path.filename() == utils::path("purchase.json")) {
         return parse_purchase(json, custom);
+    }
+
+    if (m_path.filename() == utils::path("strategy_grid.json") ||
+        m_path.filename() == utils::path("strategy_grid_custom.json")) {
+        if (!json.is<StrongholdStrategyGrid>()) {
+            LogError << __FUNCTION__ << "invalid strategy grid configuration";
+            return false;
+        }
+        m_strategy_grid = json.as<StrongholdStrategyGrid>();
+        return true;
     }
 
     if (!json.exists("safe") && !json.exists("path") && !json.exists("rear")) {

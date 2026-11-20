@@ -1,5 +1,6 @@
 #pragma once
 #include "Config/AbstractConfig.h"
+#include "StrongholdStrategyGrid.h"
 
 #include <string>
 #include <unordered_map>
@@ -39,6 +40,8 @@ public:
 
     const StrongholdTiles& get_tiles() const { return m_tiles; }
 
+    const StrongholdStrategyGrid& get_strategy_grid() const { return m_strategy_grid; }
+
 protected:
     virtual bool parse(const json::value& json) override;
 
@@ -57,6 +60,7 @@ private:
     bool parse_purchase(const json::value& json, bool custom);
     Purchase m_purchase;
     StrongholdTiles m_tiles;
+    StrongholdStrategyGrid m_strategy_grid {};
 };
 
 inline static auto& StrongholdProtocol = StrongholdProtocolConfig::get_instance();

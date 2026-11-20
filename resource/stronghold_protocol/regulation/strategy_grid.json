@@ -1,0 +1,37 @@
+{
+    "gold_badge": { "hue": [8, 35], "min_saturation": 120, "min_value": 150, "min_ratio": 0.1 },
+    "color_badge": { "hue": [70, 140], "min_saturation": 40, "min_value": 150, "min_ratio": 0.15 },
+    "color_badge_max_gold_ratio": 0.05,
+    "scrollbar": {
+        "columns": [956, 1220],
+        "track_y": [111, 689],
+        "scan_padding": [7, 6],
+        "thumb_width": [5, 10],
+        "min_height": 48,
+        "min_value": 100,
+        "max_saturation": 32,
+        "min_fill": 0.7
+    },
+    "frame": {
+        "viewport": [-566, 93, 546, 615],
+        "column_step": 140,
+        "center_from_bottom_left": [64, -65],
+        "inner_columns": [6, 117],
+        "right_edge": 124,
+        "height": [108, 136],
+        "min_partial_height": 30,
+        "candidate_left": -550,
+        "candidate_y": [150, 650]
+    },
+    "columns": [453, 593, 722, 733, 862, 873, 1002, 1142],
+    "markers": [
+        { "name": "NEW", "hue": [166, 180], "center_offset": [-34, 68] },
+        { "name": "金标", "hue": [13, 22], "center_offset": [-47, 51] },
+        { "name": "彩标", "hue": [73, 108], "center_offset": [-47, 51] },
+        { "name": "禁用标记", "hue": [0, 6], "center_offset": [45, 48] }
+    ],
+    "marker_min_saturation": 101,
+    "marker_min_value": 121,
+    "portrait_max_saturation": 109,
+    "portrait_min_value": 96
+}

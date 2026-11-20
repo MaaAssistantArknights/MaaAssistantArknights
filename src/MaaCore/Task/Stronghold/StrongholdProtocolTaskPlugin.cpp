@@ -458,15 +458,22 @@ bool StrongholdProtocolTaskPlugin::has_gold_badge(const cv::Mat& image, int cx, 
     // 角标相对格心的偏移矩形由 Roi@GoldBadgeOffset 任务给出
     const Rect off = task_roi("StrongholdProtocol@Roi@GoldBadgeOffset");
     const Rect roi { cx + off.x, cy + off.y, off.width, off.height };
-    return color_ratio(image, roi, gold_lower_h, gold_upper_h, gold_lower_s, color_lower_v) > 0.10;
+    const auto& gold = StrongholdProtocol.get_strategy_grid().gold_badge;
+    return color_ratio(image, roi, gold.hue[0], gold.hue[1], gold.min_saturation, gold.min_value) > gold.min_ratio;
 }
 
 bool StrongholdProtocolTaskPlugin::has_color_badge(const cv::Mat& image, int cx, int cy)
 {
+    const auto& grid = StrongholdProtocol.get_strategy_grid();
+    const auto ratio = [&](const Rect& off, const StrongholdStrategyGrid::Badge& badge) {
+        const Rect roi { cx + off.x, cy + off.y, off.width, off.height };
+        return color_ratio(image, roi, badge.hue[0], badge.hue[1], badge.min_saturation, badge.min_value);
+    };
     const Rect off = task_roi("StrongholdProtocol@Roi@ColorBadgeOffset");
-    const Rect roi { cx + off.x, cy + off.y, off.width, off.height };
-    return color_ratio(image, roi, cyan_lower_h, cyan_upper_h, cyan_lower_s, color_lower_v) > 0.15 &&
-           color_ratio(image, roi, gold_lower_h, gold_upper_h, gold_lower_s, color_lower_v) < 0.05;
+    // 选中卡的青色边框也会进入外框，再核对角标内部。
+    return ratio(off, grid.color_badge) > grid.color_badge.min_ratio &&
+           ratio(off, grid.gold_badge) < grid.color_badge_max_gold_ratio &&
+           ratio(task_roi("StrongholdProtocol@Roi@ColorBadgeCenter"), grid.color_badge) > grid.color_badge.min_ratio;
 }
 
 std::optional<int> StrongholdProtocolTaskPlugin::measure_grid_shift(const cv::Mat& before, const cv::Mat& after)
@@ -475,11 +482,13 @@ std::optional<int> StrongholdProtocolTaskPlugin::measure_grid_shift(const cv::Ma
     // 差值即滚动位移（向上为正）
     const cv::Rect grid_cv = make_rect<cv::Rect>(task_roi("StrongholdProtocol@Roi@StrategyGrid"));
     const cv::Rect strip_cv = make_rect<cv::Rect>(task_roi("StrongholdProtocol@Roi@StrategyGridStrip"));
-    const cv::Mat strip = before(strip_cv);
-    const cv::Mat area = after(grid_cv);
-    if (area.rows < strip.rows || area.cols < strip.cols) {
+    if (strip_cv.empty() || grid_cv.empty() || (strip_cv & cv::Rect(0, 0, before.cols, before.rows)) != strip_cv ||
+        (grid_cv & cv::Rect(0, 0, after.cols, after.rows)) != grid_cv || grid_cv.height < strip_cv.height ||
+        grid_cv.width < strip_cv.width) {
         return std::nullopt;
     }
+    const cv::Mat strip = before(strip_cv);
+    const cv::Mat area = after(grid_cv);
     cv::Mat result;
     cv::matchTemplate(area, strip, result, cv::TM_CCOEFF_NORMED);
     double max_val = 0;
@@ -509,23 +518,29 @@ StrongholdProtocolTaskPlugin::StrategyResult StrongholdProtocolTaskPlugin::pick_
 {
     LogTraceFunction;
 
-    constexpr int track_top = 111, track_bottom = 689;
-    auto scrollbar = [](const cv::Mat& image) -> std::optional<cv::Rect> {
+    const auto& layout = StrongholdProtocol.get_strategy_grid();
+    const auto& bar = layout.scrollbar;
+    const auto& frame = layout.frame;
+    const auto& view = frame.viewport;
+    const auto [track_top, track_bottom] = bar.track_y;
+    auto scrollbar = [&](const cv::Mat& image) -> std::optional<cv::Rect> {
         // 打开详情后网格和滚动条一起左移。窄条内只有滑块会形成两侧留空的灰白色长条。
-        for (const int x : { 956, 1220 }) {
-            const cv::Rect strip(x - 7, track_top - 6, 15, track_bottom - track_top + 13);
+        const auto [pad_x, pad_y] = bar.scan_padding;
+        for (const int x : bar.columns) {
+            const cv::Rect strip(x - pad_x, track_top - pad_y, 2 * pad_x + 1, track_bottom - track_top + 2 * pad_y + 1);
             if ((strip & cv::Rect(0, 0, image.cols, image.rows)) != strip) {
                 continue;
             }
             cv::Mat hsv, mask;
             cv::cvtColor(image(strip), hsv, cv::COLOR_BGR2HSV);
-            cv::inRange(hsv, cv::Scalar(0, 0, 100), cv::Scalar(180, 32, 255), mask);
+            cv::inRange(hsv, cv::Scalar(0, 0, bar.min_value), cv::Scalar(180, bar.max_saturation, 255), mask);
             std::vector<std::vector<cv::Point>> contours;
             cv::findContours(mask, contours, cv::RETR_EXTERNAL, cv::CHAIN_APPROX_SIMPLE);
             for (const auto& contour : contours) {
                 const auto rect = cv::boundingRect(contour);
-                if (rect.height >= 48 && rect.width >= 5 && rect.width <= 10 &&
-                    std::abs(rect.x + rect.width / 2 - 7) <= 1 && cv::contourArea(contour) > rect.area() * 0.7) {
+                if (rect.height >= bar.min_height && rect.width >= bar.thumb_width[0] &&
+                    rect.width <= bar.thumb_width[1] && std::abs(rect.x + rect.width / 2 - pad_x) <= 1 &&
+                    cv::contourArea(contour) > rect.area() * bar.min_fill) {
                     return rect + strip.tl();
                 }
             }
@@ -537,15 +552,18 @@ StrongholdProtocolTaskPlugin::StrategyResult StrongholdProtocolTaskPlugin::pick_
         return StrategyResult::IncompleteScan;
     }
 
-    auto detect_card_frames = [](const cv::Mat& img, const cv::Rect& thumb, bool& verified) {
-        // 已知网格位置时按四列卡框核对，暗色立绘和无角标策略也有左边框。
-        constexpr int view_top = 93, view_bottom = 708;
+    auto detect_card_frames = [&](const cv::Mat& img, const cv::Rect& thumb, bool& verified) {
+        // 已知网格位置时逐列核对卡框，暗色立绘和无角标策略也有左边框。
         cv::Mat gray;
         cv::cvtColor(img, gray, cv::COLOR_BGR2GRAY);
+        const auto band = gray.rowRange(view.y, view.y + view.height);
+        const int view_left = thumb.x + thumb.width / 2 + view.x;
+        const auto full_frame = [&](int height) {
+            return height >= frame.height[0] && height <= frame.height[1];
+        };
         std::vector<Point> cells;
-        for (int offset : { 566, 426, 286, 146 }) {
-            const int left = thumb.x + thumb.width / 2 - offset;
-            const auto band = gray.rowRange(view_top, view_bottom);
+        for (int offset = 0; offset < view.width; offset += frame.column_step) {
+            const int left = view_left + offset;
             const auto column_mean = [&](int x, int width = 4) {
                 cv::Mat mean;
                 cv::reduce(band.colRange(x, x + width), mean, 1, cv::REDUCE_AVG, CV_32F);
@@ -570,15 +588,14 @@ StrongholdProtocolTaskPlugin::StrategyResult StrongholdProtocolTaskPlugin::pick_
                 return contrast;
             };
             const auto inner_edges = find_borders(
-                edge_contrast(edge, column_mean(left + 6)) &
-                edge_contrast(column_mean(left + 124), column_mean(left + 117)));
+                edge_contrast(edge, column_mean(left + frame.inner_columns[0])) &
+                edge_contrast(column_mean(left + frame.right_edge), column_mean(left + frame.inner_columns[1])));
             for (const auto& rect : inner_edges) {
-                if (rect.y > 0 && rect.br().y < band.rows && rect.height >= 108 && rect.height <= 136 &&
+                if (rect.y > 0 && rect.br().y < band.rows && full_frame(rect.height) &&
                     std::ranges::none_of(
                         borders,
                         [&](const cv::Rect& found) {
-                            return found.height >= 108 && found.height <= 136 &&
-                                   std::abs(found.br().y - rect.br().y) < 35;
+                            return full_frame(found.height) && std::abs(found.br().y - rect.br().y) < 35;
                         })) {
                     borders.emplace_back(rect);
                 }
@@ -586,25 +603,28 @@ StrongholdProtocolTaskPlugin::StrategyResult StrongholdProtocolTaskPlugin::pick_
             for (const auto& rect : borders) {
                 if (rect.y == 0 || rect.br().y == band.rows) {
                     // 相邻页有重叠，裁断的卡留给显示全卡的一页。首尾再有裁断则无法核全。
-                    if (rect.height >= 30 && ((rect.y == 0 && thumb.y <= track_top + 2) ||
-                                              (rect.br().y == band.rows && thumb.br().y >= track_bottom - 2))) {
+                    if (rect.height >= frame.min_partial_height &&
+                        ((rect.y == 0 && thumb.y <= track_top + 2) ||
+                         (rect.br().y == band.rows && thumb.br().y >= track_bottom - 2))) {
                         verified = false;
                     }
                     continue;
                 }
-                if (rect.height >= 108 && rect.height <= 136) {
-                    cells.emplace_back(left + 64, view_top + rect.br().y - 65);
+                if (full_frame(rect.height)) {
+                    cells.emplace_back(
+                        left + frame.center_from_bottom_left[0],
+                        view.y + rect.br().y + frame.center_from_bottom_left[1]);
                 }
-                else if (rect.height >= 30) {
+                else if (rect.height >= frame.min_partial_height) {
                     verified = false;
                 }
             }
         }
         // 分组末行可以留空。若已识别卡的左邻缺失，无法确认整行都已核对。
-        const int first_col = thumb.x + thumb.width / 2 - 566 + 64;
+        const int first_col = view_left + frame.center_from_bottom_left[0];
         for (const auto& cell : cells) {
             if (cell.x > first_col && std::ranges::none_of(cells, [&](const Point& other) {
-                    return other.x == cell.x - 140 && std::abs(other.y - cell.y) < 35;
+                    return other.x == cell.x - frame.column_step && std::abs(other.y - cell.y) < 35;
                 })) {
                 verified = false;
                 break;
@@ -614,22 +634,11 @@ StrongholdProtocolTaskPlugin::StrategyResult StrongholdProtocolTaskPlugin::pick_
     };
 
     // 按立绘和角标定位可选卡，即使卡框或滑块识别不全也能继续选策略。
-    auto detect_grid_cells = [](const cv::Mat& img) {
-        // 两种布局固定列心的并集（720p，全屏坐标）
-        static constexpr int kCols[] = { 453, 593, 722, 733, 862, 873, 1002, 1142 };
-        // 标记块色相段（OpenCV H 0-180）与块中心相对卡心的偏移：红三角在卡左上、其余在卡顶右
-        struct Seg
-        {
-            int h_lo, h_hi, ox, oy;
-        };
-        static constexpr Seg kSegs[] = {
-            { 166, 180, -34, 68 }, // NEW
-            { 13, 22, -47, 51 },   // 金章
-            { 73, 108, -47, 51 },  // 彩章
-            { 0, 6, 45, 48 },      // 红三角（禁用标记）
-        };
-        const Rect grid = task_roi("StrongholdProtocol@Roi@StrategyGrid");
-        const cv::Rect grid_cv = make_rect<cv::Rect>(grid);
+    auto detect_grid_cells = [&](const cv::Mat& img) {
+        const cv::Rect grid_cv = make_rect<cv::Rect>(task_roi("StrongholdProtocol@Roi@StrategyGrid"));
+        if (grid_cv.empty() || (grid_cv & cv::Rect(0, 0, img.cols, img.rows)) != grid_cv) {
+            return std::vector<Point> {};
+        }
         cv::Mat hsv;
         cv::cvtColor(img(grid_cv), hsv, cv::COLOR_BGR2HSV);
 
@@ -641,7 +650,11 @@ StrongholdProtocolTaskPlugin::StrategyResult StrongholdProtocolTaskPlugin::pick_
 
         // 立绘亮像素块：闭运算连接素描纹理线条，垂直长核腐蚀断开跨卡的水平连接
         cv::Mat lit;
-        cv::inRange(hsv, cv::Scalar(0, 0, 96), cv::Scalar(180, 109, 255), lit);
+        cv::inRange(
+            hsv,
+            cv::Scalar(0, 0, layout.portrait_min_value),
+            cv::Scalar(180, layout.portrait_max_saturation, 255),
+            lit);
         cv::morphologyEx(lit, lit, cv::MORPH_CLOSE, cv::getStructuringElement(cv::MORPH_RECT, { 7, 7 }));
         cv::erode(lit, lit, cv::getStructuringElement(cv::MORPH_RECT, { 1, 13 }));
         std::vector<std::vector<cv::Point>> contours;
@@ -655,9 +668,13 @@ StrongholdProtocolTaskPlugin::StrategyResult StrongholdProtocolTaskPlugin::pick_
             evidence.emplace_back(grid_cv.x + rc.x + rc.width / 2.0, grid_cv.y + rc.y + rc.height / 2.0);
         }
 
-        for (const auto& seg : kSegs) {
+        for (const auto& marker : layout.markers) {
             cv::Mat m;
-            cv::inRange(hsv, cv::Scalar(seg.h_lo, 101, 121), cv::Scalar(seg.h_hi, 255, 255), m);
+            cv::inRange(
+                hsv,
+                cv::Scalar(marker.hue[0], layout.marker_min_saturation, layout.marker_min_value),
+                cv::Scalar(marker.hue[1], 255, 255),
+                m);
             cv::erode(m, m, cv::getStructuringElement(cv::MORPH_RECT, { 3, 3 }));
             std::vector<std::vector<cv::Point>> cs;
             cv::findContours(m, cs, cv::RETR_EXTERNAL, cv::CHAIN_APPROX_SIMPLE);
@@ -667,8 +684,8 @@ StrongholdProtocolTaskPlugin::StrategyResult StrongholdProtocolTaskPlugin::pick_
                     continue;
                 }
                 evidence.emplace_back(
-                    grid_cv.x + rc.x + rc.width / 2.0 + seg.ox,
-                    grid_cv.y + rc.y + rc.height / 2.0 + seg.oy);
+                    grid_cv.x + rc.x + rc.width / 2.0 + marker.center_offset[0],
+                    grid_cv.y + rc.y + rc.height / 2.0 + marker.center_offset[1]);
             }
         }
 
@@ -677,7 +694,7 @@ StrongholdProtocolTaskPlugin::StrategyResult StrongholdProtocolTaskPlugin::pick_
         std::vector<Ev> dedup;
         for (const auto& e : evidence) {
             double best = 1e9;
-            for (int c : kCols) {
+            for (int c : layout.columns) {
                 best = std::min(best, std::abs(e.x - c));
             }
             if (best > 45) {
@@ -716,8 +733,8 @@ StrongholdProtocolTaskPlugin::StrategyResult StrongholdProtocolTaskPlugin::pick_
         for (auto& row : rows) {
             std::vector<int> cols_hit;
             for (const auto& e : row) {
-                int best_col = kCols[0];
-                for (int c : kCols) {
+                int best_col = layout.columns[0];
+                for (int c : layout.columns) {
                     if (std::abs(e.x - c) < std::abs(e.x - best_col)) {
                         best_col = c;
                     }
@@ -794,9 +811,9 @@ StrongholdProtocolTaskPlugin::StrategyResult StrongholdProtocolTaskPlugin::pick_
             // 保留未能核对卡框的立绘候选。裁切到视窗边缘的卡由相邻页覆盖，侧栏不属于网格。
             const int bar_x = thumb->x + thumb->width / 2;
             std::erase_if(cells, [&](const Point& pt) {
-                return pt.x < bar_x - 550 || pt.x > bar_x ||
-                       (!frames.empty() && ((pt.y < 150 && thumb->y > track_top + 2) ||
-                                            (pt.y > 650 && thumb->br().y < track_bottom - 2))) ||
+                return pt.x < bar_x + frame.candidate_left || pt.x > bar_x ||
+                       (!frames.empty() && ((pt.y < frame.candidate_y[0] && thumb->y > track_top + 2) ||
+                                            (pt.y > frame.candidate_y[1] && thumb->br().y < track_bottom - 2))) ||
                        std::ranges::any_of(frames, [&](const Point& frame) {
                            return std::abs(pt.x - frame.x) < 25 && std::abs(pt.y - frame.y) < 45;
                        });
@@ -815,11 +832,7 @@ StrongholdProtocolTaskPlugin::StrategyResult StrongholdProtocolTaskPlugin::pick_
             if (need_exit()) {
                 return StrategyResult::IncompleteScan;
             }
-            // 选中卡的青色边框也会进入彩标搜索区，再核对角标内部。
-            const Rect badge_center { pt.x + 32, pt.y - 60, 26, 28 };
-            if ((has_color_badge(image, pt.x, pt.y) &&
-                 color_ratio(image, badge_center, cyan_lower_h, cyan_upper_h, cyan_lower_s, color_lower_v) > 0.15) ||
-                (m_target <= 3 && has_gold_badge(image, pt.x, pt.y))) {
+            if (has_color_badge(image, pt.x, pt.y) || (m_target <= 3 && has_gold_badge(image, pt.x, pt.y))) {
                 continue;
             }
 
@@ -983,16 +996,16 @@ StrongholdProtocolTaskPlugin::StrategyResult StrongholdProtocolTaskPlugin::pick_
             }
             if (verified) {
                 // 滑块先到位时卡片可能还停在原页。用上一页底部一张卡高的内容确认两页确实重叠。
-                constexpr int view_top = 93, view_height = 615, overlap_height = 136, grid_width = 546;
-                const int previous_left = thumb->x + thumb->width / 2 - 566;
-                const int next_left = next_thumb->x + next_thumb->width / 2 - 566;
-                const int last_y = view_height - overlap_height;
+                const int overlap_height = frame.height[1];
+                const int previous_left = thumb->x + thumb->width / 2 + view.x;
+                const int next_left = next_thumb->x + next_thumb->width / 2 + view.x;
+                const int last_y = view.height - overlap_height;
                 const int min_shift = std::max(1, advance * (track_bottom - track_top) / thumb->height - 4);
-                const int max_shift = std::min(last_y, advance * view_height / thumb->height + 4);
+                const int max_shift = std::min(last_y, advance * view.height / thumb->height + 4);
                 verified = std::abs(next_thumb->height - thumb->height) <= 2 && min_shift <= max_shift;
                 if (verified) {
-                    const cv::Mat strip = image(cv::Rect(previous_left, view_top + last_y, grid_width, overlap_height));
-                    const cv::Mat grid = after(cv::Rect(next_left, view_top, grid_width, view_height));
+                    const cv::Mat strip = image(cv::Rect(previous_left, view.y + last_y, view.width, overlap_height));
+                    const cv::Mat grid = after(cv::Rect(next_left, view.y, view.width, view.height));
                     cv::Mat scores;
                     cv::matchTemplate(grid, strip, scores, cv::TM_CCOEFF_NORMED);
                     double moved = 0;
@@ -1510,17 +1523,23 @@ std::optional<bool> StrongholdProtocolTaskPlugin::panel_is_elite(const cv::Mat& 
     if (tier < 1 || tier > 6) {
         return std::nullopt;
     }
-    // 规程中初始与精锐的 LV 随活动等阶变化。II 阶初始也是 LV 60，必须先确认本次查看的副本的等阶。
-    static constexpr std::array<std::string_view, 6> elite_levels { "50", "55", "60", "60", "60", "60" };
-    static constexpr std::array<std::string_view, 6> initial_levels { "55", "60", "1", "1", "1", "1" };
+    // 同一 LV 在不同活动等阶可能对应不同的精锐状态。
+    const auto ocr = Task.get<OcrTaskInfo>("StrongholdProtocol@DragLevelOcr");
+    const auto elite = Task.get<OcrTaskInfo>("StrongholdProtocol@DragEliteLevels");
+    const auto initial = Task.get<OcrTaskInfo>("StrongholdProtocol@DragInitialLevels");
+    const auto index = static_cast<size_t>(tier - 1);
+    if (!ocr || ocr->special_params.empty() || ocr->special_params.front() < 0 || ocr->special_params.front() > 100 ||
+        !elite || index >= elite->text.size() || !initial || index >= initial->text.size()) {
+        return std::nullopt;
+    }
     OCRer level(preview);
-    level.set_task_info("StrongholdProtocol@DragLevelOcr");
+    level.set_task_info(ocr);
     const auto rows = level.analyze();
-    if (rows && rows->size() == 1 && rows->front().score >= 0.9) {
-        if (rows->front().text == elite_levels[tier - 1]) {
+    if (rows && rows->size() == 1 && rows->front().score >= ocr->special_params.front() / 100.0) {
+        if (rows->front().text == elite->text[index]) {
             return true;
         }
-        if (rows->front().text == initial_levels[tier - 1]) {
+        if (rows->front().text == initial->text[index]) {
             return false;
         }
     }
