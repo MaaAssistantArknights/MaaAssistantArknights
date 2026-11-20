@@ -80,6 +80,7 @@ private:
         std::optional<int> maxed_shop_x;            // 满级后本局商店等级和按钮位置固定
         // 已买入且待部署的干员名与等阶，回合末重扫时据此恢复等阶。
         std::vector<std::pair<std::string, int>> bench_known;
+        std::multiset<std::string> displaced_melee;               // 换下后尚待核对的低阶近战，重扫时只允许补空格
         std::unordered_map<std::string, PurchaseCount> purchases; // 本局各干员的累计购买次数，含免费领取
         std::set<std::string> promotion_tiles;                    // 合成素材曾占用、尚待核对的格位
         std::map<std::string, std::pair<std::string, int>> occ;   // 格位键（组名+序号）-> (干员名, 等阶)
@@ -166,9 +167,9 @@ private:
     void drag_to(const Point& from, const Point& to, int hold_ms, int move_ms);
     void drop_held(const Point& from, const Point& to, int move_ms, int settle_ms);
     Point lift_from_bench(const Point& bench);
-    static bool is_verified_sale(const cv::Mat& preview, const std::string& expected);
+    static int verified_displaced_tier(const cv::Mat& preview, const std::string& expected, bool for_sale);
     // 部署（固定格位布局）：拿起复核（面板名字/等阶/装备）→ lift 悬停 → 固定格表选格 →
-    // 拖放 → 朝向确认 → 换人后复核并出售旧的低阶干员
+    // 拖放 → 朝向确认 → 换下的低阶近战优先补空格，其余按出售条件复核
     std::optional<Point> deploy_from_bench(
         BoardState& board,
         const Point& bench,
@@ -185,6 +186,21 @@ private:
         Point point;
     };
 
+    enum class Placement
+    {
+        Unconfirmed,
+        FacingPending,
+        Confirmed,
+    };
+    Placement place_held(const Point& hover, const Point& tile);
+    static std::optional<DeployTile> empty_melee_tile(const BoardState& board, const cv::Mat& preview);
+    bool place_displaced_melee(
+        BoardState& board,
+        const DeployTile& tile,
+        const Point& hover,
+        const std::string& name,
+        int tier,
+        int slots);
     static std::optional<DeployTile> choose_tile(
         const BoardState& board,
         const std::string& name,
