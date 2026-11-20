@@ -234,15 +234,17 @@ StrongholdProtocolTaskPlugin::Scene
     if (match("StrongholdProtocol@ReturnHome")) {
         return Scene::Settlement;
     }
-    const bool ready = match("StrongholdProtocol@CustomOpersConfirm");
+    const bool squad_button = match("StrongholdProtocol@CustomOpersConfirm");
+    const bool info_button = match("StrongholdProtocol@Nav@ReadyScreen");
+    const bool ready = squad_button || info_button;
     const bool strategy =
         !ready && (match("StrongholdProtocol@SPRConfirmSelect") || match("StrongholdProtocol@SPAConfirmSelect") ||
                    match("StrongholdProtocol@Goliath"));
     const auto step = [&](const std::vector<TextRect>& text) {
-        if (ready && has_scene_text(text, "StrongholdProtocol@CustomSquadTitle")) {
+        if (squad_button && has_scene_text(text, "StrongholdProtocol@CustomSquadTitle")) {
             return Scene::CustomSquad;
         }
-        if (ready && has_scene_text(text, "StrongholdProtocol@ConfirmInfo")) {
+        if (info_button && has_scene_text(text, "StrongholdProtocol@ConfirmInfo")) {
             return Scene::ConfirmInfo;
         }
         if (strategy && has_scene_text(text, "StrongholdProtocol@StrategyTitle")) {
@@ -258,8 +260,8 @@ StrongholdProtocolTaskPlugin::Scene
         // 确认准备弹窗可能仍露出右上角的商店按钮。
         scene = read("StrongholdProtocol@ConfirmReadyOcr").empty() ? Scene::RoundPrepare : Scene::ConfirmPopup;
     }
-    // 悬赏弹层的确认按钮在中部，出现时要用原来的两行证据核实悬赏，再考虑背景页。
-    if ((scene != Scene::Unknown || wait_for_transition) && read("StrongholdProtocol@BountyConfirmBtn").empty()) {
+    // 悬赏弹层可能仍露出背景页的标题和按钮。面板内只读到一条线索时，用全屏原文核对两行悬赏文字。
+    if ((scene != Scene::Unknown || wait_for_transition) && read("StrongholdProtocol@BountyPanel").empty()) {
         return scene;
     }
 

@@ -69,6 +69,12 @@
         "text": ["确认选择"],
         "roi": [400, 440, 480, 100]
     },
+    "StrongholdProtocol@BountyPanel": {
+        "doc": "悬赏弹层的标题、卡名和确认按钮。背景页仍可见时，任一条线索都需要复核悬赏。",
+        "algorithm": "OcrDetect",
+        "text": ["悬赏", "确认选择"],
+        "roi": [130, 70, 1020, 455]
+    },
     "StrongholdProtocol@BountyTitle": {
         "doc": "悬赏决策页判定：顶部标题 + 悬赏·开头卡片",
         "algorithm": "OcrDetect",
