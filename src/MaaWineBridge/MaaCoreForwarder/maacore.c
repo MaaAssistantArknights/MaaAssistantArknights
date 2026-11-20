@@ -75,6 +75,7 @@ static void invoke_helper(void* arg)
     invocation->x64abi_callback(invocation->msg, invocation->details_json, invocation->custom_arg);
 }
 
+// details_json is only valid during the callback, so wait for the worker
 static void UnixCallbackShim(AsstMsgId msg, const char* details_json, void* custom_arg)
 {
     CallbackState* state = (CallbackState*)custom_arg;
@@ -87,6 +88,7 @@ static void UnixCallbackShim(AsstMsgId msg, const char* details_json, void* cust
     Task* task = task_queue_push(state->queue, invoke_helper, &invocation);
     task_wait(task);
     task_release(task);
+    // Destroyed is the last callback and the msg thread is already joined
     if (msg == AsstMsg_Destroyed) {
         cb_state_free(state);
     }
@@ -121,13 +123,16 @@ AsstHandle __stdcall WineShimAsstCreate()
 AsstHandle __stdcall WineShimAsstCreateEx(AsstApiCallbackMsAbi callback, void* custom_arg)
 {
     CallbackState* fwd_state = cb_state_new();
-    fwd_state->x64abi_callback = callback;
-    fwd_state->custom_arg = custom_arg;
     if (!fwd_state) {
         return NULL;
     }
+    fwd_state->x64abi_callback = callback;
+    fwd_state->custom_arg = custom_arg;
     // callback needs to be called in a wine thread
     AsstHandle result = dl_AsstCreateEx(UnixCallbackShim, fwd_state);
+    if (!result) {
+        cb_state_free(fwd_state);
+    }
     return result;
 }
 
