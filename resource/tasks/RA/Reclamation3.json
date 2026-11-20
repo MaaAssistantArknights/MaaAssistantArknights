@@ -125,7 +125,11 @@
     "RelaunchAnchor@RA@RA1-WaitGatheringBasePrompt": {
         "doc": "步骤 8 前等待 <请部署罗德岛采集基站> 出现",
         "algorithm": "JustReturn",
-        "next": ["RelaunchAnchor@RA@RA1-DeployGatheringBasePrompt", "#self"]
+        "next": [
+            "RelaunchAnchor@RA@RA1-DeployGatheringBasePrompt",
+            "RelaunchAnchor@RA@RA1-ContinueAfterSettlement",
+            "#self"
+        ]
     },
     "RelaunchAnchor@RA@RA1-DeployGatheringBasePrompt": {
         "doc": "步骤 8：OCR 等待 <请部署罗德岛采集基站>",
@@ -157,7 +161,7 @@
     "RelaunchAnchor@RA@RA1-WaitDoubleSpeed": {
         "doc": "步骤 11 前等待二倍速提示出现",
         "algorithm": "JustReturn",
-        "next": ["RelaunchAnchor@RA@RA1-DoubleSpeed", "#self"]
+        "next": ["RelaunchAnchor@RA@RA1-DoubleSpeed", "RelaunchAnchor@RA@RA1-ContinueAfterSettlement", "#self"]
     },
     "RelaunchAnchor@RA@RA1-DoubleSpeed": {
         "doc": "步骤 11：开启二倍速",
@@ -177,7 +181,7 @@
     "RelaunchAnchor@RA@RA1-WaitCost": {
         "doc": "步骤 13 前等待部署费用",
         "baseTask": "RelaunchAnchor@RA@Common-WaitCost",
-        "next": ["RelaunchAnchor@RA@RA1-Cost", "#self"]
+        "next": ["RelaunchAnchor@RA@RA1-Cost", "RelaunchAnchor@RA@RA1-ContinueAfterSettlement", "#self"]
     },
     "RelaunchAnchor@RA@RA1-Cost": {
         "doc": "步骤 13：OCR 识别部署费用 ≥22",
@@ -246,7 +250,7 @@
     "RelaunchAnchor@RA@RA1-WaitDeliverWood": {
         "doc": "步骤 20 前等待木材生产完成，出现 <交付木材8>",
         "algorithm": "JustReturn",
-        "next": ["RelaunchAnchor@RA@RA1-DeliverWood", "#self"]
+        "next": ["RelaunchAnchor@RA@RA1-DeliverWood", "RelaunchAnchor@RA@RA1-ContinueAfterSettlement", "#self"]
     },
     "RelaunchAnchor@RA@RA1-DeliverWood": {
         "doc": "步骤 20：OCR 识别 <交付木材8+> 并点击",
@@ -260,7 +264,12 @@
     "RelaunchAnchor@RA@RA1-WaitWoodDialogue": {
         "doc": "步骤 21 前等待说话标识或制造标识出现",
         "algorithm": "JustReturn",
-        "next": ["RelaunchAnchor@RA@RA1-WoodDialogue", "RelaunchAnchor@RA@RA1-ManufactureIcon", "#self"]
+        "next": [
+            "RelaunchAnchor@RA@RA1-WoodDialogue",
+            "RelaunchAnchor@RA@RA1-ManufactureIcon",
+            "RelaunchAnchor@RA@RA1-ContinueAfterSettlement",
+            "#self"
+        ]
     },
     "RelaunchAnchor@RA@RA1-WoodDialogue": {
         "doc": "步骤 21：模板匹配说话标识，持续点击直到标识消失",
@@ -346,7 +355,7 @@
     "RelaunchAnchor@RA@RA1-WaitFirstCommDialogue": {
         "doc": "步骤 31 前等待第一段说话标识出现",
         "algorithm": "JustReturn",
-        "next": ["RelaunchAnchor@RA@RA1-FirstCommDialogue", "#self"]
+        "next": ["RelaunchAnchor@RA@RA1-FirstCommDialogue", "RelaunchAnchor@RA@RA1-ContinueAfterSettlement", "#self"]
     },
     "RelaunchAnchor@RA@RA1-FirstCommDialogue": {
         "doc": "步骤 31：模板匹配说话标识，持续点击直到标识消失",
@@ -357,7 +366,7 @@
     "RelaunchAnchor@RA@RA1-WaitSecondCommDialogue": {
         "doc": "步骤 32 前等待第二段说话标识出现",
         "algorithm": "JustReturn",
-        "next": ["RelaunchAnchor@RA@RA1-SecondCommDialogue", "#self"]
+        "next": ["RelaunchAnchor@RA@RA1-SecondCommDialogue", "RelaunchAnchor@RA@RA1-ContinueAfterSettlement", "#self"]
     },
     "RelaunchAnchor@RA@RA1-SecondCommDialogue": {
         "doc": "步骤 32：模板匹配说话标识，持续点击直到标识消失",
@@ -374,7 +383,7 @@
     "RelaunchAnchor@RA@RA1-WaitMissionIcon3": {
         "doc": "步骤 34 前等待任务图标出现",
         "algorithm": "JustReturn",
-        "next": ["RelaunchAnchor@RA@RA1-MissionIcon3", "#self"]
+        "next": ["RelaunchAnchor@RA@RA1-MissionIcon3", "RelaunchAnchor@RA@RA1-ContinueAfterSettlement", "#self"]
     },
     "RelaunchAnchor@RA@RA1-MissionIcon3": {
         "doc": "步骤 34：模板匹配任务图标并点击",
@@ -406,7 +415,12 @@
     "RelaunchAnchor@RA@RA1-WaitSettleNow": {
         "doc": "步骤 38 前等待 <立即结算> 出现",
         "algorithm": "JustReturn",
-        "next": ["RelaunchAnchor@RA@RA1-SettleNow", "RelaunchAnchor@RA@RA1-DeliverStone", "#self"]
+        "next": [
+            "RelaunchAnchor@RA@RA1-SettleNow",
+            "RelaunchAnchor@RA@RA1-DeliverStone",
+            "RelaunchAnchor@RA@RA1-ContinueAfterSettlement",
+            "#self"
+        ]
     },
     "RelaunchAnchor@RA@RA1-SettleNow": {
         "doc": "步骤 38：OCR 识别 <立即结算> 并点击",
