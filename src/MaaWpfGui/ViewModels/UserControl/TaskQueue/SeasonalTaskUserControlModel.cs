@@ -13,8 +13,6 @@
 #nullable enable
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 using MaaWpfGui.Configuration.Single.MaaTask;
@@ -74,14 +72,15 @@ public class SeasonalTaskUserControlModel : TaskSettingsViewModel, SeasonalTaskU
         ("投资人", "投资人"));
 
     // 每回合升级目标（回合 1~9），0 = 该回合不升级
-    public ObservableCollection<UpgradeRoundItem> UpgradeRounds { get; } = [];
+    public IReadOnlyList<UpgradeRoundItem> UpgradeRounds { get; } = Enumerable.Range(1, MaxUpgradeRounds)
+        .Select(round => new UpgradeRoundItem(round))
+        .ToArray();
 
     public SeasonalTaskUserControlModel()
     {
-        UpgradeRounds.CollectionChanged += UpgradeRounds_CollectionChanged;
-        for (var round = 1; round <= MaxUpgradeRounds; ++round)
+        foreach (var item in UpgradeRounds)
         {
-            UpgradeRounds.Add(new UpgradeRoundItem(round));
+            item.PropertyChanged += UpgradeRoundItem_PropertyChanged;
         }
     }
 
@@ -125,24 +124,17 @@ public class SeasonalTaskUserControlModel : TaskSettingsViewModel, SeasonalTaskU
         }
 
         IsRefreshingUI = true;
-        foreach (var item in UpgradeRounds)
+        try
         {
-            item.PropertyChanged -= UpgradeRoundItem_PropertyChanged;
+            for (var i = 0; i < UpgradeRounds.Count; ++i)
+            {
+                UpgradeRounds[i].Target = i < task.UpgradePlan.Count ? task.UpgradePlan[i] : 0;
+            }
         }
-
-        UpgradeRounds.CollectionChanged -= UpgradeRounds_CollectionChanged;
-        for (var i = 0; i < UpgradeRounds.Count; ++i)
+        finally
         {
-            UpgradeRounds[i].Target = i < task.UpgradePlan.Count ? task.UpgradePlan[i] : 0;
+            IsRefreshingUI = false;
         }
-
-        UpgradeRounds.CollectionChanged += UpgradeRounds_CollectionChanged;
-        foreach (var item in UpgradeRounds)
-        {
-            item.PropertyChanged += UpgradeRoundItem_PropertyChanged;
-        }
-
-        IsRefreshingUI = false;
     }
 
     public override (bool? IsSuccess, IEnumerable<int> TaskId) SerializeTask(BaseTask? baseTask, int? taskId = null) => (this as ISerialize).Serialize(baseTask, taskId);
@@ -172,16 +164,6 @@ public class SeasonalTaskUserControlModel : TaskSettingsViewModel, SeasonalTaskU
         }
 
         SetTaskConfig<SeasonalTask>(t => t.UpgradePlan.SequenceEqual(plan), t => t.UpgradePlan = plan);
-    }
-
-    private void UpgradeRounds_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
-    {
-        if (e.Action is NotifyCollectionChangedAction.Remove or NotifyCollectionChangedAction.Replace)
-        {
-            e.OldItems?.OfType<UpgradeRoundItem>().ToList().ForEach(item => item.PropertyChanged -= UpgradeRoundItem_PropertyChanged);
-        }
-
-        SyncUpgradePlanToTaskConfig();
     }
 
     private void UpgradeRoundItem_PropertyChanged(object? sender, PropertyChangedEventArgs e)
