@@ -17,223 +17,732 @@
     d:Background="White"
     d:DataContext="{d:DesignInstance ui_vms:SettingsViewModel}"
     mc:Ignorable="d">
+    <UserControl.Resources>
+        <!--  引导强调色：门槛提示与菜单目标标记共用，避免在样式里散落硬编码色值  -->
+        <SolidColorBrush x:Key="GuideAccentBrush" Color="#F3631B" />
+        <SolidColorBrush x:Key="GuideBadgeBackgroundBrush" Color="#33FFB300" />
+        <SolidColorBrush x:Key="GuideBadgeForegroundBrush" Color="#B36B00" />
+
+        <!--  现代化向导图标资源  -->
+        <Geometry x:Key="GlobeGeometry">M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M11,4.07C7.45,4.57 4.64,7.4 4.1,11H7.81C8.25,8.19 9.47,5.74 11,4.07M13,4.07C14.53,5.74 15.75,8.19 16.19,11H19.9C19.36,7.4 16.55,4.57 13,4.07M4.09,13C4.63,16.6 7.44,19.43 11,19.93C9.47,18.26 8.25,15.81 7.81,13H4.09M9.83,13H14.17C14.61,15.44 15.6,17.5 16.88,19C15.42,19.64 13.76,20 12,20C10.24,20 8.58,19.64 7.12,19C8.4,17.5 9.39,15.44 9.83,13M9.83,11C9.39,8.56 8.4,6.5 7.12,5C8.58,4.36 10.24,4 12,4C13.76,4 15.42,4.36 16.88,5C15.6,6.5 14.61,8.56 14.17,11H9.83M16.19,13C15.75,15.81 14.53,18.26 13,19.93C16.55,19.43 19.36,16.6 19.91,13H16.19Z</Geometry>
+        <Geometry x:Key="PaletteGeometry">M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A3.5,3.5 0 0,0 15.5,18.5C15.5,17.8 15.2,17.2 14.8,16.7C14.4,16.2 14.2,15.6 14.2,15A1.8,1.8 0 0,1 16,13.2H18A4,4 0 0,0 22,9.2C22,5.2 17.5,2 12,2M6.5,11A1.5,1.5 0 0,1 5,9.5A1.5,1.5 0 0,1 6.5,8A1.5,1.5 0 0,1 8,9.5A1.5,1.5 0 0,1 6.5,11M9.5,7A1.5,1.5 0 0,1 8,5.5A1.5,1.5 0 0,1 9.5,4A1.5,1.5 0 0,1 11,5.5A1.5,1.5 0 0,1 9.5,7M14.5,7A1.5,1.5 0 0,1 13,5.5A1.5,1.5 0 0,1 14.5,4A1.5,1.5 0 0,1 16,5.5A1.5,1.5 0 0,1 14.5,7M17.5,11A1.5,1.5 0 0,1 16,9.5A1.5,1.5 0 0,1 17.5,8A1.5,1.5 0 0,1 19,9.5A1.5,1.5 0 0,1 17.5,11Z</Geometry>
+        <Geometry x:Key="SparkleGeometry">M12,2L14.4,7.6L20,10L14.4,12.4L12,18L9.6,12.4L4,10L9.6,7.6L12,2M19,15L20.2,17.8L23,19L20.2,20.2L19,23L17.8,20.2L15,19L17.8,17.8L19,15M6,16L7.2,18.8L10,20L7.2,21.2L6,24L4.8,21.2L2,20L4.8,18.8L6,16Z</Geometry>
+    </UserControl.Resources>
     <Grid>
         <GroupBox
             Margin="10"
             Background="{DynamicResource RegionBrush}"
             Style="{StaticResource GroupBoxTab}">
             <GroupBox.Header>
-                <hc:RelativePanel Height="20">
+                <hc:RelativePanel Height="24">
+                    <!--  标题与徽标  -->
+                    <StackPanel
+                        Orientation="Horizontal"
+                        hc:RelativePanel.AlignHorizontalCenterWithPanel="True"
+                        hc:RelativePanel.AlignVerticalCenterWithPanel="True">
+                        <Path
+                            Width="14"
+                            Height="14"
+                            Margin="0,0,6,0"
+                            Data="{StaticResource ConfigGeometry}"
+                            Fill="{DynamicResource PrimaryBrush}"
+                            Stretch="Uniform"
+                            VerticalAlignment="Center" />
+                        <TextBlock
+                            FontSize="14"
+                            FontWeight="SemiBold"
+                            VerticalAlignment="Center"
+                            Text="{DynamicResource Guide.Settings}" />
+                    </StackPanel>
+                    <!--  跳过按钮：靠右对齐，幽灵风格更克制不喧宾夺主  -->
                     <Button
-                        Margin="5,0"
+                        Margin="8,0"
+                        Padding="10,2"
+                        Height="22"
+                        FontSize="12"
+                        hc:BorderElement.CornerRadius="3"
+                        hc:RelativePanel.AlignRightWithPanel="True"
                         hc:RelativePanel.AlignVerticalCenterWithPanel="True"
                         Command="{s:Action SkipGuide}"
                         Content="{DynamicResource Guide.Skip}"
-                        Style="{StaticResource ButtonDashedWarning.Small}"
+                        Style="{StaticResource ButtonDefault}"
+                        Foreground="{DynamicResource SecondaryTextBrush}"
                         Visibility="{c:Binding GuideSkipVisible}" />
-                    <TextBlock
-                        hc:RelativePanel.AlignHorizontalCenterWithPanel="True"
-                        hc:RelativePanel.AlignVerticalCenterWithPanel="True"
-                        FontSize="14"
-                        Text="{DynamicResource Guide.Settings}" />
                 </hc:RelativePanel>
             </GroupBox.Header>
             <DockPanel>
-                <!--  顶部导航：横排步骤条，其下上一步/下一步分居左右两端，门槛提示居中占满两者之间的宽度  -->
-                <Grid Margin="10,10,10,0" DockPanel.Dock="Top">
+                <!--  顶部导航区：横排步骤条，其下导航按钮与胶囊指引提示  -->
+                <Grid Margin="12,12,12,6" DockPanel.Dock="Top">
                     <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition />
+                        <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
-                    <!--  步骤项等分整行宽度，外服长文案用包装 TextBlock 在格内换行（原版 TextBlock 以继承步骤状态前景色）  -->
                     <hc:StepBar
                         Name="GuideStepBar"
                         Grid.ColumnSpan="3"
+                        Margin="0,0,0,10"
                         d:StepIndex="5"
-                        StepIndex="{Binding GuideStepIndex}">
+                        PreviewMouseLeftButtonUp="{s:Action NavigateGuideToStepFromBar}"
+                        StepIndex="{Binding GuideStepIndex, Mode=OneWay}"
+                        ToolTip="{DynamicResource Guide.StepBar.Tip}"
+                        ToolTipService.InitialShowDelay="400">
                         <hc:StepBarItem>
                             <TextBlock
+                                Background="Transparent"
+                                Cursor="Hand"
                                 Text="{DynamicResource Settings.Ui.Title}"
                                 TextAlignment="Center"
                                 TextWrapping="Wrap" />
                         </hc:StepBarItem>
                         <hc:StepBarItem>
                             <TextBlock
+                                Background="Transparent"
+                                Cursor="Hand"
                                 Text="{DynamicResource Guide.User}"
                                 TextAlignment="Center"
                                 TextWrapping="Wrap" />
                         </hc:StepBarItem>
                         <hc:StepBarItem>
                             <TextBlock
+                                Background="Transparent"
+                                Cursor="Hand"
                                 Text="{DynamicResource Settings.Game.Title}"
                                 TextAlignment="Center"
                                 TextWrapping="Wrap" />
                         </hc:StepBarItem>
                         <hc:StepBarItem>
                             <TextBlock
+                                Background="Transparent"
+                                Cursor="Hand"
                                 Text="{DynamicResource Settings.Connection.Title}"
                                 TextAlignment="Center"
                                 TextWrapping="Wrap" />
                         </hc:StepBarItem>
                         <hc:StepBarItem>
                             <TextBlock
+                                Background="Transparent"
+                                Cursor="Hand"
                                 Text="{DynamicResource Settings.Performance.Title}"
                                 TextAlignment="Center"
                                 TextWrapping="Wrap" />
                         </hc:StepBarItem>
                         <hc:StepBarItem>
                             <TextBlock
+                                Background="Transparent"
+                                Cursor="Hand"
                                 Text="{DynamicResource TaskQueue.TaskSettings}"
                                 TextAlignment="Center"
                                 TextWrapping="Wrap" />
                         </hc:StepBarItem>
                         <hc:StepBarItem>
                             <TextBlock
+                                Background="Transparent"
+                                Cursor="Hand"
                                 Text="{DynamicResource Settings.Update.Title}"
                                 TextAlignment="Center"
                                 TextWrapping="Wrap" />
                         </hc:StepBarItem>
                     </hc:StepBar>
+
+                    <!--  上一步按钮  -->
                     <Button
                         Grid.Row="1"
-                        MinWidth="100"
-                        Margin="0,10,0,0"
+                        Grid.Column="0"
+                        MinWidth="96"
+                        Height="32"
                         VerticalAlignment="Center"
+                        hc:BorderElement.CornerRadius="6"
                         hc:IconElement.Geometry="{StaticResource UpGeometry}"
-                        hc:IconElement.Width="18"
+                        hc:IconElement.Width="14"
                         Command="{s:Action PrevGuide}"
-                        CommandParameter="{Binding ElementName=GuideStepBar}"
                         Content="{DynamicResource Guide.Prev}"
-                        Style="{StaticResource ButtonDashedPrimary}" />
-                    <controls:TextBlock
+                        IsEnabled="{Binding GuidePrevEnabled}"
+                        Style="{StaticResource ButtonDefault}" />
+
+                    <!--  中心门槛提示胶囊 / 步骤指示器  -->
+                    <Grid
                         Grid.Row="1"
                         Grid.Column="1"
-                        Margin="10,10,10,0"
+                        Margin="12,0"
                         HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        d:Text="Next gate tip"
-                        FontSize="12"
-                        Foreground="{DynamicResource WarningLogBrush}"
-                        Text="{Binding GuideNextGateTip}"
-                        TextAlignment="Center"
-                        TextWrapping="Wrap"
-                        Visibility="{c:Binding 'GuideNextGateTip != null'}" />
+                        VerticalAlignment="Center">
+                        <!--  门槛提示：醒目圆润的引导提示胶囊  -->
+                        <Border
+                            Padding="14,5"
+                            Background="{DynamicResource GuideBadgeBackgroundBrush}"
+                            BorderBrush="{DynamicResource GuideAccentBrush}"
+                            BorderThickness="1"
+                            CornerRadius="16"
+                            Visibility="{c:Binding 'GuideNextGateTip != null'}">
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                <Path
+                                    Width="13"
+                                    Height="13"
+                                    Margin="0,0,6,0"
+                                    Data="{StaticResource InfoGeometry}"
+                                    Fill="{DynamicResource GuideAccentBrush}"
+                                    Stretch="Uniform"
+                                    VerticalAlignment="Center" />
+                                <controls:TextBlock
+                                    d:Text="Next gate tip"
+                                    FontSize="12"
+                                    FontWeight="SemiBold"
+                                    Foreground="{DynamicResource GuideAccentBrush}"
+                                    Text="{Binding GuideNextGateTip}"
+                                    TextAlignment="Center"
+                                    TextWrapping="Wrap" />
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+
+                    <!--  下一步 / 完成按钮  -->
                     <Grid
                         Grid.Row="1"
                         Grid.Column="2"
-                        Margin="0,10,0,0"
                         VerticalAlignment="Center">
-                        <!--  门槛未满足时按钮禁用，ToolTip 复用门槛提示说明原因；禁用控件默认不弹 ToolTip，需 ShowOnDisabled  -->
                         <Button
                             MinWidth="100"
+                            Height="32"
+                            hc:BorderElement.CornerRadius="6"
                             hc:IconElement.Geometry="{StaticResource DownGeometry}"
-                            hc:IconElement.Width="18"
+                            hc:IconElement.Width="14"
                             Command="{s:Action NextGuide}"
-                            CommandParameter="{Binding ElementName=GuideStepBar}"
                             Content="{DynamicResource Guide.Next}"
                             IsEnabled="{c:Binding 'GuideNextGateTip == null'}"
-                            Style="{StaticResource ButtonDashedPrimary}"
+                            Style="{StaticResource ButtonPrimary}"
                             ToolTip="{Binding GuideNextGateTip}"
                             ToolTipService.InitialShowDelay="0"
                             ToolTipService.ShowOnDisabled="True"
                             Visibility="{c:Binding 'GuideStepIndex less GuideMaxStep - 1'}" />
                         <Button
                             MinWidth="100"
+                            Height="32"
+                            hc:BorderElement.CornerRadius="6"
                             hc:IconElement.Geometry="{StaticResource SuccessGeometry}"
-                            hc:IconElement.Width="18"
+                            hc:IconElement.Width="14"
                             Command="{s:Action DoneGuide}"
                             Content="{DynamicResource Guide.Done}"
-                            Style="{StaticResource ButtonDashedPrimary}"
+                            Style="{StaticResource ButtonPrimary}"
                             Visibility="{c:Binding 'GuideStepIndex >= GuideMaxStep - 1'}" />
                     </Grid>
+
+                    <!--  数字进度：始终常驻，让用户对指引全局有清晰预期  -->
+                    <controls:TextBlock
+                        Grid.Row="2"
+                        Grid.ColumnSpan="3"
+                        Margin="0,6,0,6"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        FontSize="11"
+                        Foreground="{DynamicResource ThirdlyTextBrush}"
+                        TextAlignment="Center">
+                        <Run Text="{DynamicResource Guide.Progress}" /><Run Text=" " /><Run Text="{Binding GuideProgressText, Mode=OneWay}" />
+                    </controls:TextBlock>
                 </Grid>
-                <ScrollViewer Margin="10" VerticalScrollBarVisibility="Auto">
-                    <hc:SimplePanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <hc:TransitioningContentControl
-                            Width="200"
-                            d:Visibility="Collapsed"
-                            TransitionMode="{Binding GuideTransitionMode}"
-                            Visibility="{c:Binding 'GuideStepIndex less= 0'}">
-                            <hc:UniformSpacingPanel
-                                DataContext="{Binding GuiSettings}"
-                                Orientation="Vertical"
-                                Spacing="20">
-                                <ComboBox
-                                    hc:InfoElement.Title="{Binding LanguageInfo}"
-                                    hc:TitleElement.HorizontalAlignment="Center"
-                                    DisplayMemberPath="Display"
-                                    ItemsSource="{Binding LanguageList}"
-                                    SelectedValue="{Binding Language}"
-                                    SelectedValuePath="Value" />
-                                <ComboBox
-                                    hc:InfoElement.Title="{DynamicResource Settings.Theme}"
-                                    hc:TitleElement.HorizontalAlignment="Center"
-                                    DisplayMemberPath="Display"
-                                    ItemsSource="{Binding DarkModeList}"
-                                    SelectedValue="{Binding DarkMode}"
-                                    SelectedValuePath="Value" />
-                            </hc:UniformSpacingPanel>
-                        </hc:TransitioningContentControl>
 
-                        <hc:TransitioningContentControl
-                            d:Visibility="Collapsed"
-                            TransitionMode="{Binding GuideTransitionMode}"
-                            Visibility="{c:Binding 'GuideStepIndex == 2'}">
-                            <StackPanel DataContext="{Binding GameSettings}">
-                                <ComboBox
-                                    Width="200"
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
-                                    hc:InfoElement.Title="{DynamicResource Settings.Game.ClientType}"
-                                    hc:TitleElement.HorizontalAlignment="Center"
-                                    DisplayMemberPath="Display"
-                                    ItemsSource="{Binding ClientTypeList}"
-                                    SelectedValue="{Binding ClientType}"
-                                    SelectedValuePath="Value" />
-                                <!--<CheckBox
-                                    Margin="10"
-                                    VerticalAlignment="Center"
-                                    IsChecked="{Binding DeploymentWithPause}">
-                                    <controls:TextBlock
-                                        Block.TextAlignment="Center"
-                                        Text="{DynamicResource Settings.Game.DeploymentWithPause}"
-                                        TextWrapping="Wrap" />
-                                </CheckBox>-->
-                            </StackPanel>
-                        </hc:TransitioningContentControl>
+                <!--  清晰 1px 分割线，形成干净利落的硬过渡分界  -->
+                <Rectangle
+                    Height="1"
+                    DockPanel.Dock="Top"
+                    Fill="{DynamicResource BorderBrush}" />
 
-                        <hc:TransitioningContentControl
-                            d:Visibility="Collapsed"
-                            TransitionMode="{Binding GuideTransitionMode}"
-                            Visibility="{c:Binding 'GuideStepIndex == 3'}">
-                            <StackPanel s:View.ActionTarget="{Binding DataContext, RelativeSource={RelativeSource Self}}" DataContext="{Binding Source={x:Static ui_vms:SettingsViewModel.ConnectSettings}}">
-                                <!--  提示宽度跟随下方连接设置控件，外服长文案少折行  -->
-                                <controls:TextBlock
-                                    MaxWidth="{Binding ActualWidth, ElementName=GuideConnectSettings}"
-                                    Margin="0,5"
-                                    HorizontalAlignment="Left"
-                                    VerticalAlignment="Center"
-                                    Block.TextAlignment="Left"
-                                    Foreground="{DynamicResource InfoBrush}"
-                                    Text="{DynamicResource Guide.Clarification}"
-                                    TextWrapping="Wrap"
-                                    Visibility="{c:Binding !IsPCConnectConfig}" />
+                <!--  主内容展示区与聚光灯遮罩（完全贴合内容区，下边缘圆角匹配外框）  -->
+                <Grid>
+                    <ScrollViewer
+                        Name="GuideContentScrollViewer"
+                        Padding="10,8,10,10"
+                        HorizontalScrollBarVisibility="Disabled"
+                        VerticalScrollBarVisibility="Auto">
+                        <Grid MinHeight="{Binding ViewportHeight, ElementName=GuideContentScrollViewer}">
+                            <hc:SimplePanel
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center">
 
-                                <settings:ConnectSettingsUserControl x:Name="GuideConnectSettings" ShowAdvancedConnectSettings="False" />
-                            </StackPanel>
-                        </hc:TransitioningContentControl>
+                            <!--  步骤 0：欢迎开场与个性化偏好（语言 / 主题）  -->
+                            <hc:TransitioningContentControl
+                                Width="740"
+                                d:Visibility="Collapsed"
+                                TransitionMode="{Binding GuideTransitionMode}"
+                                Visibility="{c:Binding 'GuideStepIndex less= 0'}">
+                                <StackPanel MaxWidth="740">
+                                    <!--  顶部欢迎横幅卡片  -->
+                                    <Border
+                                        Margin="0,0,0,16"
+                                        Padding="20,16"
+                                        Background="{DynamicResource RegionBrushOpacity25}"
+                                        BorderBrush="{DynamicResource BorderBrush}"
+                                        BorderThickness="1"
+                                        CornerRadius="8">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+                                            <Image
+                                                Width="52"
+                                                Height="52"
+                                                Margin="0,0,16,0"
+                                                VerticalAlignment="Center"
+                                                RenderOptions.BitmapScalingMode="HighQuality"
+                                                Source="pack://application:,,,/Res/Img/Pallas.png" />
+                                            <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                                <controls:TextBlock
+                                                    HorizontalAlignment="Left"
+                                                    TextAlignment="Left"
+                                                    FontSize="15"
+                                                    FontWeight="SemiBold"
+                                                    Foreground="{DynamicResource PrimaryTextBrush}"
+                                                    Text="{DynamicResource Guide.Welcome.Title}" />
+                                                <controls:TextBlock
+                                                    HorizontalAlignment="Left"
+                                                    TextAlignment="Left"
+                                                    Margin="0,4,0,0"
+                                                    FontSize="12"
+                                                    Foreground="{DynamicResource SecondaryTextBrush}"
+                                                    Text="{DynamicResource Guide.Welcome.Tip}"
+                                                    TextWrapping="Wrap" />
+                                            </StackPanel>
+                                        </Grid>
+                                    </Border>
 
-                        <!--  外服文案较长时允许加宽，固定宽度会使居中内容两侧被裁切  -->
+                                    <!--  下方左右两列设置卡片（语言设置 + 界面主题）  -->
+                                    <Grid DataContext="{Binding GuiSettings}">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="16" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+
+                                        <!--  卡片 1：语言偏好设置  -->
+                                        <Border
+                                            Grid.Column="0"
+                                            Padding="20,16"
+                                            Background="{DynamicResource RegionBrushOpacity25}"
+                                            BorderBrush="{DynamicResource BorderBrush}"
+                                            BorderThickness="1"
+                                            CornerRadius="8">
+                                            <StackPanel>
+                                                <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
+                                                    <Path
+                                                        Width="16"
+                                                        Height="16"
+                                                        Margin="0,0,8,0"
+                                                        Data="{StaticResource GlobeGeometry}"
+                                                        Fill="{DynamicResource PrimaryBrush}"
+                                                        Stretch="Uniform"
+                                                        VerticalAlignment="Center" />
+                                                    <controls:TextBlock
+                                                        FontSize="14"
+                                                        FontWeight="SemiBold"
+                                                        Foreground="{DynamicResource PrimaryTextBrush}"
+                                                        Text="{Binding LanguageInfo}" />
+                                                </StackPanel>
+                                                <ComboBox
+                                                    HorizontalAlignment="Stretch"
+                                                    DisplayMemberPath="Display"
+                                                    ItemsSource="{Binding LanguageList}"
+                                                    SelectedValue="{Binding Language}"
+                                                    SelectedValuePath="Value" />
+                                            </StackPanel>
+                                        </Border>
+
+                                        <!--  卡片 2：界面主题模式  -->
+                                        <Border
+                                            Grid.Column="2"
+                                            Padding="20,16"
+                                            Background="{DynamicResource RegionBrushOpacity25}"
+                                            BorderBrush="{DynamicResource BorderBrush}"
+                                            BorderThickness="1"
+                                            CornerRadius="8">
+                                            <StackPanel>
+                                                <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
+                                                    <Path
+                                                        Width="16"
+                                                        Height="16"
+                                                        Margin="0,0,8,0"
+                                                        Data="{StaticResource PaletteGeometry}"
+                                                        Fill="{DynamicResource PrimaryBrush}"
+                                                        Stretch="Uniform"
+                                                        VerticalAlignment="Center" />
+                                                    <controls:TextBlock
+                                                        FontSize="14"
+                                                        FontWeight="SemiBold"
+                                                        Foreground="{DynamicResource PrimaryTextBrush}"
+                                                        Text="{DynamicResource Settings.Theme}" />
+                                                </StackPanel>
+                                                <ComboBox
+                                                    HorizontalAlignment="Stretch"
+                                                    DisplayMemberPath="Display"
+                                                    ItemsSource="{Binding DarkModeList}"
+                                                    SelectedValue="{Binding DarkMode}"
+                                                    SelectedValuePath="Value" />
+                                            </StackPanel>
+                                        </Border>
+                                    </Grid>
+                                </StackPanel>
+                            </hc:TransitioningContentControl>
+
+                            <!--  步骤 1：使用指引与用户协议  -->
+                            <hc:TransitioningContentControl
+                                d:Visibility="Collapsed"
+                                TransitionMode="{Binding GuideTransitionMode}"
+                                Visibility="{c:Binding 'GuideStepIndex == 1'}">
+                                <StackPanel MaxWidth="720" Margin="10,0">
+                                    <!--  2x2 信息卡片网格  -->
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="12" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+
+                                        <!--  卡片 1：官网与文档  -->
+                                        <Border
+                                            Grid.Row="0"
+                                            Grid.Column="0"
+                                            Margin="0,0,0,12"
+                                            Padding="14,12"
+                                            Background="{DynamicResource RegionBrushOpacity25}"
+                                            BorderBrush="{DynamicResource BorderBrush}"
+                                            BorderThickness="1"
+                                            CornerRadius="6">
+                                            <StackPanel>
+                                                <StackPanel Margin="0,0,0,4" Orientation="Horizontal">
+                                                    <Path
+                                                        Width="14"
+                                                        Height="14"
+                                                        Margin="0,0,6,0"
+                                                        Data="{StaticResource InfoGeometry}"
+                                                        Fill="{DynamicResource PrimaryBrush}"
+                                                        Stretch="Uniform"
+                                                        VerticalAlignment="Center" />
+                                                    <controls:TextBlock
+                                                        FontSize="13"
+                                                        FontWeight="SemiBold"
+                                                        Foreground="{DynamicResource PrimaryTextBrush}"
+                                                        Text="{DynamicResource Guide.Documentation.Title}" />
+                                                </StackPanel>
+                                                <controls:TextBlock
+                                                    FontSize="12"
+                                                    Foreground="{DynamicResource SecondaryTextBrush}"
+                                                    Text="{DynamicResource Guide.Documentation.Path}"
+                                                    TextWrapping="Wrap" />
+                                            </StackPanel>
+                                        </Border>
+
+                                        <!--  卡片 2：问题反馈与日志  -->
+                                        <Border
+                                            Grid.Row="0"
+                                            Grid.Column="2"
+                                            Margin="0,0,0,12"
+                                            Padding="14,12"
+                                            Background="{DynamicResource RegionBrushOpacity25}"
+                                            BorderBrush="{DynamicResource BorderBrush}"
+                                            BorderThickness="1"
+                                            CornerRadius="6">
+                                            <StackPanel>
+                                                <StackPanel Margin="0,0,0,4" Orientation="Horizontal">
+                                                    <Path
+                                                        Width="14"
+                                                        Height="14"
+                                                        Margin="0,0,6,0"
+                                                        Data="{StaticResource ConfigGeometry}"
+                                                        Fill="{DynamicResource PrimaryBrush}"
+                                                        Stretch="Uniform"
+                                                        VerticalAlignment="Center" />
+                                                    <controls:TextBlock
+                                                        FontSize="13"
+                                                        FontWeight="SemiBold"
+                                                        Foreground="{DynamicResource PrimaryTextBrush}"
+                                                        Text="{DynamicResource Guide.IssueReport.Subtitle}" />
+                                                </StackPanel>
+                                                <controls:TextBlock
+                                                    FontSize="12"
+                                                    Foreground="{DynamicResource SecondaryTextBrush}"
+                                                    Text="{DynamicResource Guide.ViewLog}"
+                                                    TextWrapping="Wrap" />
+                                                <controls:TextBlock
+                                                    Margin="0,2,0,0"
+                                                    FontSize="12"
+                                                    Foreground="{DynamicResource SecondaryTextBrush}"
+                                                    Text="{DynamicResource Guide.GenerateReport}"
+                                                    TextWrapping="Wrap" />
+                                            </StackPanel>
+                                        </Border>
+
+                                        <!--  卡片 3：GitHub 反馈规范  -->
+                                        <Border
+                                            Grid.Row="1"
+                                            Grid.Column="0"
+                                            Padding="14,12"
+                                            Background="{DynamicResource RegionBrushOpacity25}"
+                                            BorderBrush="{DynamicResource BorderBrush}"
+                                            BorderThickness="1"
+                                            CornerRadius="6">
+                                            <StackPanel>
+                                                <StackPanel Margin="0,0,0,4" Orientation="Horizontal">
+                                                    <Path
+                                                        Width="14"
+                                                        Height="14"
+                                                        Margin="0,0,6,0"
+                                                        Data="{StaticResource InfoGeometry}"
+                                                        Fill="{DynamicResource PrimaryBrush}"
+                                                        Stretch="Uniform"
+                                                        VerticalAlignment="Center" />
+                                                    <controls:TextBlock
+                                                        FontSize="13"
+                                                        FontWeight="SemiBold"
+                                                        Foreground="{DynamicResource PrimaryTextBrush}"
+                                                        Text="{DynamicResource Guide.GitHubIssue.Title}" />
+                                                </StackPanel>
+                                                <controls:TextBlock
+                                                    FontSize="12"
+                                                    Foreground="{DynamicResource SecondaryTextBrush}"
+                                                    Text="{DynamicResource Guide.GitHubIssue.Description}"
+                                                    TextWrapping="Wrap" />
+                                            </StackPanel>
+                                        </Border>
+
+                                        <!--  卡片 4：开源项目参与  -->
+                                        <Border
+                                            Grid.Row="1"
+                                            Grid.Column="2"
+                                            Padding="14,12"
+                                            Background="{DynamicResource RegionBrushOpacity25}"
+                                            BorderBrush="{DynamicResource BorderBrush}"
+                                            BorderThickness="1"
+                                            CornerRadius="6">
+                                            <StackPanel>
+                                                <StackPanel Margin="0,0,0,4" Orientation="Horizontal">
+                                                    <Path
+                                                        Width="14"
+                                                        Height="14"
+                                                        Margin="0,0,6,0"
+                                                        Data="{StaticResource SuccessGeometry}"
+                                                        Fill="{DynamicResource PrimaryBrush}"
+                                                        Stretch="Uniform"
+                                                        VerticalAlignment="Center" />
+                                                    <controls:TextBlock
+                                                        FontSize="13"
+                                                        FontWeight="SemiBold"
+                                                        Foreground="{DynamicResource PrimaryTextBrush}"
+                                                        Text="{DynamicResource Guide.OpenSource.Title}" />
+                                                </StackPanel>
+                                                <controls:TextBlock
+                                                    FontSize="12"
+                                                    Foreground="{DynamicResource SecondaryTextBrush}"
+                                                    Text="{DynamicResource Guide.OpenSource.Description}"
+                                                    TextWrapping="Wrap" />
+                                            </StackPanel>
+                                        </Border>
+                                    </Grid>
+
+                                    <!--  底部协议确认卡片  -->
+                                    <Border
+                                        Margin="0,16,0,0"
+                                        Padding="16,12"
+                                        Background="{DynamicResource RegionBrushOpacity25}"
+                                        BorderBrush="{DynamicResource BorderBrush}"
+                                        BorderThickness="1"
+                                        CornerRadius="6">
+                                        <StackPanel
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            Orientation="Horizontal">
+                                            <controls:TextBlock
+                                                VerticalAlignment="Center"
+                                                FontSize="13"
+                                                Text="{DynamicResource Guide.Agreement.Prefix}" />
+                                            <Grid
+                                                Margin="4,0,0,0"
+                                                VerticalAlignment="Center"
+                                                helper:GuideHighlight.IsActive="{c:Binding 'GuideStepIndex == 1 and !GuideUserAgreementOpened'}"
+                                                helper:GuideHighlight.Mode="Frame">
+                                                <controls:TextBlock>
+                                                    <Hyperlink
+                                                        Click="{s:Action OnGuideUserAgreementClick}"
+                                                        Cursor="Hand"
+                                                        NavigateUri="{Binding Source={x:Static constants:MaaUrls.UserAgreement}}"
+                                                        TextDecorations="None">
+                                                        <TextBlock
+                                                            FontSize="13"
+                                                            FontWeight="SemiBold"
+                                                            Style="{StaticResource HyperlinkTextBlockStyle}"
+                                                            Text="{DynamicResource Guide.Agreement.Link}" />
+                                                    </Hyperlink>
+                                                </controls:TextBlock>
+                                            </Grid>
+                                            <Button
+                                                Margin="12,0,0,0"
+                                                Padding="12,4"
+                                                VerticalAlignment="Center"
+                                                Command="{s:Action OnGuideUserAgreementClick}"
+                                                Content="{DynamicResource Guide.Agreement.Confirm}"
+                                                Visibility="{c:Binding '!GuideUserAgreementOpened'}" />
+                                        </StackPanel>
+                                    </Border>
+                                </StackPanel>
+                            </hc:TransitioningContentControl>
+
+                            <!--  步骤 2：游戏设置（客户端类型）  -->
+                            <hc:TransitioningContentControl
+                                Width="420"
+                                d:Visibility="Collapsed"
+                                TransitionMode="{Binding GuideTransitionMode}"
+                                Visibility="{c:Binding 'GuideStepIndex == 2'}">
+                                <Border
+                                    Padding="28,24"
+                                    Background="{DynamicResource RegionBrushOpacity25}"
+                                    BorderBrush="{DynamicResource BorderBrush}"
+                                    BorderThickness="1"
+                                    CornerRadius="8">
+                                    <StackPanel HorizontalAlignment="Center" DataContext="{Binding GameSettings}">
+                                        <controls:TextBlock
+                                            FontSize="16"
+                                            FontWeight="SemiBold"
+                                            Foreground="{DynamicResource PrimaryTextBrush}"
+                                            Text="{DynamicResource Settings.Game.Title}"
+                                            TextAlignment="Center" />
+                                        <controls:TextBlock
+                                            MaxWidth="360"
+                                            Margin="0,8,0,18"
+                                            FontSize="12"
+                                            Foreground="{DynamicResource SecondaryTextBrush}"
+                                            Text="{DynamicResource Guide.Game.ClientType.Tip}"
+                                            TextAlignment="Center"
+                                            TextWrapping="Wrap" />
+                                        <ComboBox
+                                            Width="260"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            hc:InfoElement.Title="{DynamicResource Settings.Game.ClientType}"
+                                            hc:TitleElement.HorizontalAlignment="Center"
+                                            DisplayMemberPath="Display"
+                                            ItemsSource="{Binding ClientTypeList}"
+                                            SelectedValue="{Binding ClientType}"
+                                            SelectedValuePath="Value" />
+                                    </StackPanel>
+                                </Border>
+                            </hc:TransitioningContentControl>
+
+                            <!--  步骤 3：连接设置  -->
+                            <hc:TransitioningContentControl
+                                d:Visibility="Collapsed"
+                                TransitionMode="{Binding GuideTransitionMode}"
+                                Visibility="{c:Binding 'GuideStepIndex == 3'}">
+                                <StackPanel
+                                    s:View.ActionTarget="{Binding DataContext, RelativeSource={RelativeSource Self}}"
+                                    DataContext="{Binding Source={x:Static ui_vms:SettingsViewModel.ConnectSettings}}">
+                                    <Border
+                                        MaxWidth="{Binding ActualWidth, ElementName=GuideConnectSettings}"
+                                        Margin="0,0,0,10"
+                                        Padding="12,8"
+                                        Background="{DynamicResource RegionBrushOpacity25}"
+                                        BorderBrush="{DynamicResource InfoBrush}"
+                                        BorderThickness="2,0,0,0"
+                                        CornerRadius="0,4,4,0"
+                                        Visibility="{c:Binding !IsPCConnectConfig}">
+                                        <controls:TextBlock
+                                            FontSize="12"
+                                            Foreground="{DynamicResource PrimaryTextBrush}"
+                                            Text="{DynamicResource Guide.Clarification}"
+                                            TextWrapping="Wrap" />
+                                    </Border>
+
+                                    <settings:ConnectSettingsUserControl x:Name="GuideConnectSettings" ShowAdvancedConnectSettings="False" />
+                                </StackPanel>
+                            </hc:TransitioningContentControl>
+
+                            <!--  步骤 4：性能与推理设置  -->
+                            <hc:TransitioningContentControl
+                                Width="460"
+                                d:Visibility="Collapsed"
+                                TransitionMode="{Binding GuideTransitionMode}"
+                                Visibility="{c:Binding 'GuideStepIndex == 4'}">
+                                <Border
+                                    Padding="28,24"
+                                    Background="{DynamicResource RegionBrushOpacity25}"
+                                    BorderBrush="{DynamicResource BorderBrush}"
+                                    BorderThickness="1"
+                                    CornerRadius="8">
+                                    <StackPanel
+                                        s:View.ActionTarget="{Binding DataContext, RelativeSource={RelativeSource Self}}"
+                                        DataContext="{Binding Source={x:Static ui_vms:SettingsViewModel.PerformanceSettings}}">
+                                        <controls:TextBlock
+                                            FontSize="16"
+                                            FontWeight="SemiBold"
+                                            Foreground="{DynamicResource PrimaryTextBrush}"
+                                            Text="{DynamicResource Settings.Performance.Title}"
+                                            TextAlignment="Center" />
+                                        <Border
+                                            Margin="0,10,0,18"
+                                            Padding="12,8"
+                                            Background="{DynamicResource RegionBrushOpacity25}"
+                                            BorderBrush="{DynamicResource InfoBrush}"
+                                            BorderThickness="2,0,0,0"
+                                            CornerRadius="0,4,4,0">
+                                            <controls:TextBlock
+                                                FontSize="12"
+                                                Foreground="{DynamicResource SecondaryTextBrush}"
+                                                Text="{DynamicResource Settings.Performance.UseGpuForInference.Tip}"
+                                                TextWrapping="Wrap" />
+                                        </Border>
+                                        <hc:ComboBox
+                                            Width="320"
+                                            HorizontalAlignment="Center"
+                                            hc:InfoElement.Title="{DynamicResource Settings.Performance.UseGpuForInference}"
+                                            hc:TitleElement.HorizontalAlignment="Center"
+                                            Background="{DynamicResource RegionBrushOpacity25}"
+                                            DisplayMemberPath="Display"
+                                            ItemsSource="{Binding GpuOptions}"
+                                            PreviewMouseWheel="{s:Action DisableComboBoxScrollWhenClosed,
+                                                                         Target={x:Type helper:MouseWheelHelper}}"
+                                            SelectedItem="{Binding ActiveGpuOption}">
+                                            <hc:ComboBox.ItemContainerStyle>
+                                                <Style BasedOn="{StaticResource ComboBoxItemBaseStyle}" TargetType="{x:Type ComboBoxItem}">
+                                                    <Style.Triggers>
+                                                        <MultiDataTrigger>
+                                                            <MultiDataTrigger.Conditions>
+                                                                <Condition Binding="{Binding IsDeprecated}" Value="True" />
+                                                                <Condition Binding="{Binding DataContext.AllowDeprecatedGpu, RelativeSource={RelativeSource AncestorType=hc:ComboBox}}" Value="False" />
+                                                            </MultiDataTrigger.Conditions>
+                                                            <Setter Property="Visibility" Value="Collapsed" />
+                                                        </MultiDataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </hc:ComboBox.ItemContainerStyle>
+                                        </hc:ComboBox>
+                                    </StackPanel>
+                                </Border>
+                            </hc:TransitioningContentControl>
+
+                            <!--  步骤 5：任务设置与交互演示  -->
                         <hc:TransitioningContentControl
                             MinWidth="480"
                             d:Visibility="Collapsed"
                             TransitionMode="{Binding GuideTransitionMode}"
                             Visibility="{c:Binding 'GuideStepIndex == 5'}">
+                            <!--  本步概览：先说明这一屏在教什么、练习数据不会落盘，再让用户动手  -->
+                            <DockPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <controls:TextBlock
+                                    DockPanel.Dock="Top"
+                                    MaxWidth="520"
+                                    Margin="0,0,0,10"
+                                    FontSize="12"
+                                    Foreground="{DynamicResource ThirdlyTextBrush}"
+                                    Text="{DynamicResource Guide.Demo.Overview}"
+                                    TextAlignment="Center"
+                                    TextWrapping="Wrap" />
                             <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto" />
@@ -253,6 +762,7 @@
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="Auto" />
                                         <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
                                     </Grid.RowDefinitions>
                                     <controls:TextBlock
                                         HorizontalAlignment="Left"
@@ -265,6 +775,15 @@
                                         FontSize="14"
                                         Text="{DynamicResource Guide.GearContextMenu.Tip}"
                                         TextAlignment="Right"
+                                        TextWrapping="Wrap" />
+                                    <!--  复制/删除在指引里恒灰，先用一行说明原因，避免新用户反复点  -->
+                                    <controls:TextBlock
+                                        Grid.Row="2"
+                                        Margin="0,4,0,0"
+                                        FontSize="11"
+                                        Foreground="{DynamicResource ThirdlyTextBrush}"
+                                        Text="{DynamicResource Guide.Demo.LockedOperations}"
+                                        TextAlignment="Left"
                                         TextWrapping="Wrap" />
                                 </Grid>
 
@@ -285,13 +804,13 @@
                                         </Grid.RowDefinitions>
                                         <ItemsControl
                                             Grid.Row="0"
-                                            Width="190"
                                             MinHeight="140"
                                             Margin="0,10,0,8"
-                                            HorizontalAlignment="Center"
+                                            HorizontalAlignment="Stretch"
+                                            Background="Transparent"
                                             dd:DragDrop.DragDropContext="{Binding RelativeSource={RelativeSource Self}}"
-                                            dd:DragDrop.IsDragSource="True"
-                                            dd:DragDrop.IsDropTarget="True"
+                                            dd:DragDrop.IsDragSource="{Binding GuideDemoDragAllowed}"
+                                            dd:DragDrop.IsDropTarget="{Binding GuideDemoDragAllowed}"
                                             ItemsSource="{Binding GuideDemoTasks}">
                                             <ItemsControl.ItemTemplate>
                                                 <DataTemplate>
@@ -299,7 +818,10 @@
                                                         x:Name="GuideDemoItemBorder"
                                                         MinHeight="24.5"
                                                         Background="Transparent"
-                                                        CornerRadius="4">
+                                                        CornerRadius="4"
+                                                        helper:GuideHighlight.IsActive="{c:Binding 'IsMoveUpBadgeVisible or IsMoveDownBadgeVisible'}"
+                                                        helper:GuideHighlight.Placement="Left"
+                                                        helper:GuideHighlight.Text="{Binding GuideNextGateTip, Source={x:Static helper:Instances.SettingsViewModel}}">
                                                         <Grid>
                                                             <Grid.ColumnDefinitions>
                                                                 <ColumnDefinition />
@@ -324,50 +846,6 @@
                                                                 IsHitTestVisible="False"
                                                                 Orientation="Horizontal">
                                                                 <controls:TextBlock Text="{Binding Name}" />
-                                                                <!--  重命名步骤中鼠标移到任务上时，红点让位给随之显示的重命名按钮  -->
-                                                                <Ellipse
-                                                                    Width="7"
-                                                                    Height="7"
-                                                                    Margin="4,-3,0,0"
-                                                                    VerticalAlignment="Top"
-                                                                    Fill="{DynamicResource NewBadgeBrush}">
-                                                                    <Ellipse.Style>
-                                                                        <Style TargetType="Ellipse">
-                                                                            <Setter Property="Visibility" Value="Collapsed" />
-                                                                            <Style.Triggers>
-                                                                                <DataTrigger Binding="{Binding IsNameBadgeVisible}" Value="True">
-                                                                                    <Setter Property="Visibility" Value="Visible" />
-                                                                                </DataTrigger>
-                                                                                <MultiDataTrigger>
-                                                                                    <MultiDataTrigger.Conditions>
-                                                                                        <Condition Binding="{Binding IsRenameBadgeVisible}" Value="True" />
-                                                                                        <Condition Binding="{Binding IsMouseOver, ElementName=GuideDemoItemBorder}" Value="True" />
-                                                                                    </MultiDataTrigger.Conditions>
-                                                                                    <Setter Property="Visibility" Value="Collapsed" />
-                                                                                </MultiDataTrigger>
-                                                                            </Style.Triggers>
-                                                                        </Style>
-                                                                    </Ellipse.Style>
-                                                                </Ellipse>
-                                                                <!--  移动任务顺序的步骤用箭头代替红点，指示移动方向  -->
-                                                                <Path
-                                                                    Width="8"
-                                                                    Height="10"
-                                                                    Margin="4,0,0,0"
-                                                                    VerticalAlignment="Center"
-                                                                    Data="M 4,0 L 8,4.5 L 5.2,4.5 L 5.2,10 L 2.8,10 L 2.8,4.5 L 0,4.5 Z"
-                                                                    Fill="{DynamicResource NewBadgeBrush}"
-                                                                    Stretch="Fill"
-                                                                    Visibility="{c:Binding IsMoveUpBadgeVisible}" />
-                                                                <Path
-                                                                    Width="8"
-                                                                    Height="10"
-                                                                    Margin="4,0,0,0"
-                                                                    VerticalAlignment="Center"
-                                                                    Data="M 4,10 L 8,5.5 L 5.2,5.5 L 5.2,0 L 2.8,0 L 2.8,5.5 L 0,5.5 Z"
-                                                                    Fill="{DynamicResource NewBadgeBrush}"
-                                                                    Stretch="Fill"
-                                                                    Visibility="{c:Binding IsMoveDownBadgeVisible}" />
                                                             </StackPanel>
 
                                                             <!--  Column 1: 悬浮显示的 复制/重命名/删除 与常驻齿轮（右键菜单），交互均落在演示列表  -->
@@ -378,6 +856,10 @@
                                                                             <Setter Property="Visibility" Value="Collapsed" />
                                                                             <Style.Triggers>
                                                                                 <DataTrigger Binding="{Binding IsMouseOver, ElementName=GuideDemoItemBorder}" Value="True">
+                                                                                    <Setter Property="Visibility" Value="Visible" />
+                                                                                </DataTrigger>
+                                                                                <!--  重命名步骤无需悬停，直接显示操作按钮以指明图标位置  -->
+                                                                                <DataTrigger Binding="{Binding IsNameBadgeVisible}" Value="True">
                                                                                     <Setter Property="Visibility" Value="Visible" />
                                                                                 </DataTrigger>
                                                                             </Style.Triggers>
@@ -391,25 +873,17 @@
                                                                         IsEnabled="False"
                                                                         Style="{StaticResource TaskActionButtonStyle}"
                                                                         ToolTip="{DynamicResource Common.Copy}" />
-                                                                    <Grid>
-                                                                        <Button
-                                                                            hc:IconElement.Geometry="{StaticResource RenameTaskGeometry}"
-                                                                            Command="{s:Action RenameGuideDemoTask,
-                                                                                               Target={x:Static helper:Instances.SettingsViewModel}}"
-                                                                            CommandParameter="{Binding}"
-                                                                            IsEnabled="{Binding GuideRenameTaskEnabled, Source={x:Static helper:Instances.SettingsViewModel}}"
-                                                                            Style="{StaticResource TaskActionButtonStyle}"
-                                                                            ToolTip="{DynamicResource TaskQueue.Rename}" />
-                                                                        <Ellipse
-                                                                            Width="7"
-                                                                            Height="7"
-                                                                            Margin="0,1,1,0"
-                                                                            HorizontalAlignment="Right"
-                                                                            VerticalAlignment="Top"
-                                                                            Fill="{DynamicResource NewBadgeBrush}"
-                                                                            IsHitTestVisible="False"
-                                                                            Visibility="{c:Binding IsRenameBadgeVisible}" />
-                                                                    </Grid>
+                                                                    <Button
+                                                                        hc:IconElement.Geometry="{StaticResource RenameTaskGeometry}"
+                                                                        Command="{s:Action RenameGuideDemoTask,
+                                                                                           Target={x:Static helper:Instances.SettingsViewModel}}"
+                                                                        CommandParameter="{Binding}"
+                                                                        helper:GuideHighlight.IsActive="{Binding IsNameBadgeVisible}"
+                                                                        helper:GuideHighlight.Placement="Right"
+                                                                        helper:GuideHighlight.Text="{Binding GuideNextGateTip, Source={x:Static helper:Instances.SettingsViewModel}}"
+                                                                        IsEnabled="{Binding GuideRenameTaskEnabled, Source={x:Static helper:Instances.SettingsViewModel}}"
+                                                                        Style="{StaticResource TaskActionButtonStyle}"
+                                                                        ToolTip="{DynamicResource TaskQueue.Rename}" />
                                                                     <Button
                                                                         hc:IconElement.Geometry="{StaticResource DeleteTaskGeometry}"
                                                                         Command="{s:Action RemoveGuideDemoTask,
@@ -430,6 +904,9 @@
                                                                             Background="Transparent"
                                                                             BorderThickness="0"
                                                                             GroupName="TaskSettings"
+                                                                            helper:GuideHighlight.IsActive="{Binding IsGearBadgeVisible}"
+                                                                            helper:GuideHighlight.Placement="Right"
+                                                                            helper:GuideHighlight.Text="{Binding GuideNextGateTip, Source={x:Static helper:Instances.SettingsViewModel}}"
                                                                             IsChecked="{Binding EnableSetting}"
                                                                             Style="{DynamicResource RadioGroupItemSingle}">
                                                                             <Grid Width="16" Height="16">
@@ -505,15 +982,6 @@
                                                                             </RadioButton.ContextMenu>
                                                                         </RadioButton>
                                                                     </hc:ButtonGroup>
-                                                                    <Ellipse
-                                                                        Width="7"
-                                                                        Height="7"
-                                                                        Margin="0,0,2,0"
-                                                                        HorizontalAlignment="Right"
-                                                                        VerticalAlignment="Top"
-                                                                        Fill="{DynamicResource NewBadgeBrush}"
-                                                                        IsHitTestVisible="False"
-                                                                        Visibility="{c:Binding IsGearBadgeVisible}" />
                                                                 </Grid>
                                                             </StackPanel>
                                                         </Grid>
@@ -540,6 +1008,9 @@
                                                     hc:IconElement.Geometry="{StaticResource TaskQueueAddTaskIcon}"
                                                     AutomationProperties.Name="{DynamicResource TaskQueue.AddTask}"
                                                     Foreground="{DynamicResource PrimaryTextBrush}"
+                                                    helper:GuideHighlight.IsActive="{Binding GuideAddTaskBadgeVisible, Source={x:Static helper:Instances.SettingsViewModel}}"
+                                                    helper:GuideHighlight.Placement="Left"
+                                                    helper:GuideHighlight.Text="{Binding GuideNextGateTip, Source={x:Static helper:Instances.SettingsViewModel}}"
                                                     IsEnabled="{Binding GuideAddTaskEnabled, Source={x:Static helper:Instances.SettingsViewModel}}"
                                                     Style="{StaticResource MaaButtonDefaultStyle}"
                                                     ToolTip="{DynamicResource TaskQueue.AddTask}">
@@ -570,14 +1041,19 @@
                                                                                 <DataTemplate>
                                                                                     <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
                                                                                         <TextBlock VerticalAlignment="Center" Text="{Binding Display}" />
-                                                                                        <Ellipse
-                                                                                            x:Name="MenuGateBadge"
-                                                                                            Width="7"
-                                                                                            Height="7"
-                                                                                            Margin="4,-3,0,0"
-                                                                                            VerticalAlignment="Top"
-                                                                                            Fill="{DynamicResource NewBadgeBrush}"
-                                                                                            Visibility="Collapsed" />
+                                                                                        <Border
+                                                                                            x:Name="MenuGateHint"
+                                                                                            Margin="8,0,0,0"
+                                                                                            Padding="5,1"
+                                                                                            VerticalAlignment="Center"
+                                                                                            Background="{DynamicResource GuideBadgeBackgroundBrush}"
+                                                                                            CornerRadius="3"
+                                                                                            Visibility="Collapsed">
+                                                                                            <TextBlock
+                                                                                                FontSize="11"
+                                                                                                Foreground="{DynamicResource GuideBadgeForegroundBrush}"
+                                                                                                Text="{DynamicResource Guide.ClickHere}" />
+                                                                                        </Border>
                                                                                     </StackPanel>
                                                                                     <DataTemplate.Triggers>
                                                                                         <MultiDataTrigger>
@@ -585,19 +1061,35 @@
                                                                                                 <Condition Binding="{Binding Value.Name}" Value="FightTask" />
                                                                                                 <Condition Binding="{Binding GuideFightMenuBadgeVisible, Source={x:Static helper:Instances.SettingsViewModel}}" Value="True" />
                                                                                             </MultiDataTrigger.Conditions>
-                                                                                            <Setter TargetName="MenuGateBadge" Property="Visibility" Value="Visible" />
+                                                                                            <Setter TargetName="MenuGateHint" Property="Visibility" Value="Visible" />
                                                                                         </MultiDataTrigger>
                                                                                         <MultiDataTrigger>
                                                                                             <MultiDataTrigger.Conditions>
                                                                                                 <Condition Binding="{Binding Value.Name}" Value="SwitchThemeTask" />
                                                                                                 <Condition Binding="{Binding GuideSwitchThemeMenuBadgeVisible, Source={x:Static helper:Instances.SettingsViewModel}}" Value="True" />
                                                                                             </MultiDataTrigger.Conditions>
-                                                                                            <Setter TargetName="MenuGateBadge" Property="Visibility" Value="Visible" />
+                                                                                            <Setter TargetName="MenuGateHint" Property="Visibility" Value="Visible" />
                                                                                         </MultiDataTrigger>
                                                                                     </DataTemplate.Triggers>
                                                                                 </DataTemplate>
                                                                             </Setter.Value>
                                                                         </Setter>
+                                                                        <Style.Triggers>
+                                                                            <MultiDataTrigger>
+                                                                                <MultiDataTrigger.Conditions>
+                                                                                    <Condition Binding="{Binding Value.Name}" Value="FightTask" />
+                                                                                    <Condition Binding="{Binding GuideFightMenuBadgeVisible, Source={x:Static helper:Instances.SettingsViewModel}}" Value="True" />
+                                                                                </MultiDataTrigger.Conditions>
+                                                                                <Setter Property="Background" Value="{DynamicResource GuideBadgeBackgroundBrush}" />
+                                                                            </MultiDataTrigger>
+                                                                            <MultiDataTrigger>
+                                                                                <MultiDataTrigger.Conditions>
+                                                                                    <Condition Binding="{Binding Value.Name}" Value="SwitchThemeTask" />
+                                                                                    <Condition Binding="{Binding GuideSwitchThemeMenuBadgeVisible, Source={x:Static helper:Instances.SettingsViewModel}}" Value="True" />
+                                                                                </MultiDataTrigger.Conditions>
+                                                                                <Setter Property="Background" Value="{DynamicResource GuideBadgeBackgroundBrush}" />
+                                                                            </MultiDataTrigger>
+                                                                        </Style.Triggers>
                                                                     </Style>
                                                                 </Menu.ItemContainerStyle>
                                                                 <Menu.ItemsPanel>
@@ -609,16 +1101,6 @@
                                                         </Border>
                                                     </controls:MenuButton.PopupContent>
                                                 </controls:MenuButton>
-                                                <!--  教程要求先添加任务才能进入下一步，未添加时红点引导（与任务队列按钮同视觉）  -->
-                                                <Ellipse
-                                                    Width="7"
-                                                    Height="7"
-                                                    Margin="0,1,1,0"
-                                                    HorizontalAlignment="Right"
-                                                    VerticalAlignment="Top"
-                                                    Fill="{DynamicResource NewBadgeBrush}"
-                                                    IsHitTestVisible="False"
-                                                    Visibility="{c:Binding GuideAddTaskBadgeVisible}" />
                                             </Grid>
                                             <Button
                                                 Grid.Column="1"
@@ -701,19 +1183,13 @@
                                             <ComboBox
                                                 Height="30"
                                                 DisplayMemberPath="Display"
+                                                helper:GuideHighlight.IsActive="{c:Binding GuideStageBadgeVisible}"
+                                                helper:GuideHighlight.Placement="Right"
+                                                helper:GuideHighlight.Text="{Binding GuideNextGateTip}"
                                                 IsEnabled="{c:Binding GuideStageEditingAllowed}"
                                                 ItemsSource="{Binding GuideDemoStageList}"
                                                 SelectedValue="{Binding SelectedGuideDemoTask.DemoStage}"
                                                 SelectedValuePath="Value" />
-                                            <Ellipse
-                                                Width="7"
-                                                Height="7"
-                                                Margin="0,-3,-4,0"
-                                                HorizontalAlignment="Right"
-                                                VerticalAlignment="Top"
-                                                Fill="{DynamicResource NewBadgeBrush}"
-                                                IsHitTestVisible="False"
-                                                Visibility="{c:Binding GuideStageBadgeVisible}" />
                                         </Grid>
                                     </StackPanel>
                                     <!--  更换主题：主题名列表（演示）  -->
@@ -762,16 +1238,10 @@
                                                                    Target={x:Static helper:Instances.SettingsViewModel}}"
                                                 CommandParameter="{Binding SelectedGuideDemoTask}"
                                                 Content="{DynamicResource TaskQueue.SwitchTheme.Add}"
+                                                helper:GuideHighlight.IsActive="{c:Binding GuideThemeAddBadgeVisible}"
+                                                helper:GuideHighlight.Placement="Right"
+                                                helper:GuideHighlight.Text="{Binding GuideNextGateTip}"
                                                 IsEnabled="{c:Binding GuideThemeEditingAllowed}" />
-                                            <Ellipse
-                                                Width="7"
-                                                Height="7"
-                                                Margin="0,1,1,0"
-                                                HorizontalAlignment="Right"
-                                                VerticalAlignment="Top"
-                                                Fill="{DynamicResource NewBadgeBrush}"
-                                                IsHitTestVisible="False"
-                                                Visibility="{c:Binding GuideThemeAddBadgeVisible}" />
                                         </Grid>
                                     </StackPanel>
                                     <!--  其他任务类型：跟随指引提示  -->
@@ -795,16 +1265,11 @@
                                             <StackPanel Orientation="Horizontal">
                                                 <CheckBox
                                                     Content="{DynamicResource TaskQueue.UseWeeklySchedule}"
+                                                    helper:GuideHighlight.IsActive="{c:Binding GuideWeeklyBadgeVisible}"
+                                                    helper:GuideHighlight.Placement="Right"
+                                                    helper:GuideHighlight.Text="{Binding GuideNextGateTip}"
                                                     IsChecked="{Binding SelectedGuideDemoTask.DemoUseWeeklySchedule}"
                                                     IsEnabled="{c:Binding GuideWeeklyEditingAllowed}" />
-                                                <Ellipse
-                                                    Width="7"
-                                                    Height="7"
-                                                    Margin="4,-3,0,0"
-                                                    VerticalAlignment="Top"
-                                                    Fill="{DynamicResource NewBadgeBrush}"
-                                                    IsHitTestVisible="False"
-                                                    Visibility="{c:Binding GuideWeeklyBadgeVisible}" />
                                                 <controls:TooltipBlock VerticalAlignment="Center" TooltipText="{DynamicResource TaskQueue.UseWeeklySchedule.Tip}" />
                                             </StackPanel>
                                         </Grid>
@@ -825,37 +1290,21 @@
                                                                 VerticalAlignment="Center"
                                                                 Content="{Binding Display}"
                                                                 IsChecked="{Binding Value}" />
-                                                            <Ellipse
-                                                                x:Name="WeekDayGateBadge"
-                                                                Width="7"
-                                                                Height="7"
-                                                                Margin="4,-3,0,0"
-                                                                VerticalAlignment="Top"
-                                                                Fill="{DynamicResource NewBadgeBrush}"
-                                                                IsHitTestVisible="False"
-                                                                Visibility="Collapsed" />
                                                         </StackPanel>
-                                                        <DataTemplate.Triggers>
-                                                            <MultiDataTrigger>
-                                                                <MultiDataTrigger.Conditions>
-                                                                    <Condition Binding="{Binding DayOfWeek}" Value="{x:Static sys:DayOfWeek.Sunday}" />
-                                                                    <Condition Binding="{Binding Value}" Value="False" />
-                                                                    <Condition Binding="{Binding GuideWeekDaysBadgeVisible, Source={x:Static helper:Instances.SettingsViewModel}}" Value="True" />
-                                                                </MultiDataTrigger.Conditions>
-                                                                <Setter TargetName="WeekDayGateBadge" Property="Visibility" Value="Visible" />
-                                                            </MultiDataTrigger>
-                                                            <MultiDataTrigger>
-                                                                <MultiDataTrigger.Conditions>
-                                                                    <Condition Binding="{Binding DayOfWeek}" Value="{x:Static sys:DayOfWeek.Monday}" />
-                                                                    <Condition Binding="{Binding Value}" Value="False" />
-                                                                    <Condition Binding="{Binding GuideWeekDaysBadgeVisible, Source={x:Static helper:Instances.SettingsViewModel}}" Value="True" />
-                                                                </MultiDataTrigger.Conditions>
-                                                                <Setter TargetName="WeekDayGateBadge" Property="Visibility" Value="Visible" />
-                                                            </MultiDataTrigger>
-                                                        </DataTemplate.Triggers>
                                                     </DataTemplate>
                                                 </ListBox.ItemTemplate>
                                             </ListBox>
+                                            <!--  周计划步骤一次性框住前两项（周日、周一），避开右侧滚动条并贴合内容，气泡置于左侧开阔区  -->
+                                            <Border
+                                                Height="56"
+                                                Margin="2,2,18,0"
+                                                HorizontalAlignment="Stretch"
+                                                VerticalAlignment="Top"
+                                                Background="Transparent"
+                                                IsHitTestVisible="False"
+                                                helper:GuideHighlight.IsActive="{c:Binding GuideWeekDaysBadgeVisible}"
+                                                helper:GuideHighlight.Placement="Left"
+                                                helper:GuideHighlight.Text="{Binding GuideNextGateTip}" />
                                         </Grid>
                                     </StackPanel>
                                 </StackPanel>
@@ -878,232 +1327,133 @@
                                             hc:VisualElement.HighlightBackground="{DynamicResource RegionBrushOpacity25}"
                                             Background="{DynamicResource RegionBrushOpacity25}"
                                             Content="{DynamicResource TaskQueue.AdvancedSettings}"
+                                            helper:GuideHighlight.IsActive="{c:Binding GuideAdvancedBadgeVisible}"
+                                            helper:GuideHighlight.Placement="Right"
+                                            helper:GuideHighlight.Text="{Binding GuideNextGateTip}"
                                             IsChecked="{c:Binding GuideDemoAdvancedSettings}"
                                             IsEnabled="{c:Binding SelectedGuideDemoTask.IsFightTask}" />
                                     </hc:ButtonGroup>
-                                    <Ellipse
-                                        Width="7"
-                                        Height="7"
-                                        Margin="0,-3,-4,0"
-                                        HorizontalAlignment="Right"
-                                        VerticalAlignment="Top"
-                                        Fill="{DynamicResource NewBadgeBrush}"
-                                        IsHitTestVisible="False"
-                                        Visibility="{c:Binding GuideAdvancedBadgeVisible}" />
                                 </Grid>
                             </Grid>
+                            </DockPanel>
                         </hc:TransitioningContentControl>
 
-                        <hc:TransitioningContentControl
-                            d:Visibility="Collapsed"
-                            TransitionMode="{Binding GuideTransitionMode}"
-                            Visibility="{c:Binding 'GuideStepIndex == 4'}">
-                            <StackPanel s:View.ActionTarget="{Binding DataContext, RelativeSource={RelativeSource Self}}" DataContext="{Binding Source={x:Static ui_vms:SettingsViewModel.PerformanceSettings}}">
-                                <controls:TextBlock
-                                    MaxWidth="400"
-                                    Foreground="{DynamicResource InfoBrush}"
-                                    Text="{DynamicResource Settings.Performance.UseGpuForInference.Tip}"
-                                    TextWrapping="Wrap" />
-                                <hc:ComboBox
-                                    Grid.Row="0"
-                                    Grid.Column="1"
-                                    Width="300"
-                                    Margin="5"
-                                    HorizontalAlignment="Stretch"
-                                    hc:InfoElement.Title="{DynamicResource Settings.Performance.UseGpuForInference}"
-                                    hc:TitleElement.HorizontalAlignment="Center"
+                            <hc:TransitioningContentControl
+                                Width="440"
+                                d:Visibility="Collapsed"
+                                TransitionMode="{Binding GuideTransitionMode}"
+                                Visibility="{c:Binding 'GuideStepIndex == 6'}">
+                                <Border
+                                    Padding="28,24"
                                     Background="{DynamicResource RegionBrushOpacity25}"
-                                    DisplayMemberPath="Display"
-                                    ItemsSource="{Binding GpuOptions}"
-                                    PreviewMouseWheel="{s:Action DisableComboBoxScrollWhenClosed,
-                                                                 Target={x:Type helper:MouseWheelHelper}}"
-                                    SelectedItem="{Binding ActiveGpuOption}">
-                                    <hc:ComboBox.ItemContainerStyle>
-                                        <Style BasedOn="{StaticResource ComboBoxItemBaseStyle}" TargetType="{x:Type ComboBoxItem}">
-                                            <Style.Triggers>
-                                                <MultiDataTrigger>
-                                                    <MultiDataTrigger.Conditions>
-                                                        <Condition Binding="{Binding IsDeprecated}" Value="True" />
-                                                        <Condition Binding="{Binding DataContext.AllowDeprecatedGpu, RelativeSource={RelativeSource AncestorType=hc:ComboBox}}" Value="False" />
-                                                    </MultiDataTrigger.Conditions>
-                                                    <Setter Property="Visibility" Value="Collapsed" />
-                                                </MultiDataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </hc:ComboBox.ItemContainerStyle>
-                                </hc:ComboBox>
-                            </StackPanel>
-                        </hc:TransitioningContentControl>
-
-                        <hc:TransitioningContentControl
-                            d:Visibility="Collapsed"
-                            TransitionMode="{Binding GuideTransitionMode}"
-                            Visibility="{c:Binding 'GuideStepIndex == 6'}">
-                            <hc:UniformSpacingPanel
-                                s:View.ActionTarget="{Binding DataContext, RelativeSource={RelativeSource Self}}"
-                                DataContext="{Binding Source={x:Static ui_vms:SettingsViewModel.VersionUpdateSettings}}"
-                                Orientation="Vertical"
-                                Spacing="10">
-                                <StackPanel>
+                                    BorderBrush="{DynamicResource BorderBrush}"
+                                    BorderThickness="1"
+                                    CornerRadius="8">
                                     <StackPanel
-                                        Margin="8,0,0,5"
-                                        HorizontalAlignment="Center"
-                                        Orientation="Horizontal">
-                                        <controls:TextBlock Text="{DynamicResource Settings.Update.Channel}" />
-                                        <controls:TooltipBlock TooltipText="{DynamicResource Settings.Update.Channel.Tip}" />
+                                        s:View.ActionTarget="{Binding DataContext, RelativeSource={RelativeSource Self}}"
+                                        DataContext="{Binding Source={x:Static ui_vms:SettingsViewModel.VersionUpdateSettings}}">
+                                        <controls:TextBlock
+                                            FontSize="16"
+                                            FontWeight="SemiBold"
+                                            Foreground="{DynamicResource PrimaryTextBrush}"
+                                            Text="{DynamicResource Settings.Update.Title}"
+                                            TextAlignment="Center" />
+                                        <controls:TextBlock
+                                            MaxWidth="360"
+                                            Margin="0,8,0,18"
+                                            FontSize="12"
+                                            Foreground="{DynamicResource SecondaryTextBrush}"
+                                            Text="{DynamicResource Guide.Update.Tip}"
+                                            TextAlignment="Center"
+                                            TextWrapping="Wrap" />
+
+                                        <hc:UniformSpacingPanel
+                                            HorizontalAlignment="Center"
+                                            Orientation="Vertical"
+                                            Spacing="14">
+                                            <StackPanel HorizontalAlignment="Center">
+                                                <StackPanel
+                                                    Margin="0,0,0,4"
+                                                    HorizontalAlignment="Center"
+                                                    Orientation="Horizontal">
+                                                    <controls:TextBlock Text="{DynamicResource Settings.Update.Channel}" />
+                                                    <controls:TooltipBlock TooltipText="{DynamicResource Settings.Update.Channel.Tip}" />
+                                                </StackPanel>
+                                                <hc:ComboBox
+                                                    Width="240"
+                                                    Height="32"
+                                                    VerticalAlignment="Center"
+                                                    DisplayMemberPath="Display"
+                                                    ItemsSource="{Binding VersionTypeList}"
+                                                    SelectedValue="{Binding VersionType}"
+                                                    SelectedValuePath="Value" />
+                                            </StackPanel>
+
+                                            <StackPanel HorizontalAlignment="Center">
+                                                <StackPanel
+                                                    Margin="0,0,0,4"
+                                                    HorizontalAlignment="Center"
+                                                    Orientation="Horizontal">
+                                                    <controls:TextBlock Text="{DynamicResource Settings.Update.Source}" />
+                                                    <controls:TooltipBlock TooltipText="{DynamicResource Settings.Update.Source.Tip}" />
+                                                </StackPanel>
+                                                <hc:ComboBox
+                                                    Width="240"
+                                                    Height="32"
+                                                    VerticalAlignment="Center"
+                                                    DisplayMemberPath="Display"
+                                                    ItemsSource="{Binding UpdateSourceList}"
+                                                    SelectedValue="{Binding UpdateSource}"
+                                                    SelectedValuePath="Value" />
+                                            </StackPanel>
+
+                                            <controls:UpdateCredentialInput Width="240" HorizontalAlignment="Center" />
+                                        </hc:UniformSpacingPanel>
                                     </StackPanel>
-                                    <hc:ComboBox
-                                        Width="200"
-                                        VerticalAlignment="Center"
-                                        DisplayMemberPath="Display"
-                                        ItemsSource="{Binding VersionTypeList}"
-                                        SelectedValue="{Binding VersionType}"
-                                        SelectedValuePath="Value" />
-                                </StackPanel>
-                                <StackPanel>
-                                    <StackPanel
-                                        Margin="8,0,0,5"
-                                        HorizontalAlignment="Center"
-                                        Orientation="Horizontal">
-                                        <controls:TextBlock Text="{DynamicResource Settings.Update.Source}" />
-                                        <controls:TooltipBlock TooltipText="{DynamicResource Settings.Update.Source.Tip}" />
-                                    </StackPanel>
-                                    <hc:ComboBox
-                                        Width="200"
-                                        VerticalAlignment="Center"
-                                        DisplayMemberPath="Display"
-                                        ItemsSource="{Binding UpdateSourceList}"
-                                        SelectedValue="{Binding UpdateSource}"
-                                        SelectedValuePath="Value" />
-                                </StackPanel>
-                                <controls:UpdateCredentialInput Width="200" HorizontalAlignment="Center" />
-                            </hc:UniformSpacingPanel>
-                        </hc:TransitioningContentControl>
+                                </Border>
+                            </hc:TransitioningContentControl>
 
-                        <hc:TransitioningContentControl
-                            d:Visibility="Collapsed"
-                            TransitionMode="{Binding GuideTransitionMode}"
-                            Visibility="{c:Binding 'GuideStepIndex == 1'}">
-                            <!--  宽度放开到导航区以下的可用宽度，减少折行使默认窗口下整页可见，超出时由外层滚动  -->
-                            <hc:UniformSpacingPanel
-                                MaxWidth="720"
-                                Margin="10,0"
-                                Orientation="Vertical"
-                                Spacing="8">
-                                <!--  官网/文档位置  -->
-                                <StackPanel>
-                                    <controls:TextBlock
-                                        FontSize="14"
-                                        FontWeight="SemiBold"
-                                        Text="{DynamicResource Guide.Documentation.Title}"
-                                        TextWrapping="Wrap" />
-                                    <controls:TextBlock
-                                        Margin="0,2.5"
-                                        HorizontalAlignment="Left"
-                                        FontSize="13"
-                                        Text="{DynamicResource Guide.Documentation.Path}"
-                                        TextWrapping="Wrap" />
-                                </StackPanel>
-
-                                <Separator />
-
-                                <!--  问题反馈  -->
-                                <StackPanel>
-                                    <controls:TextBlock
-                                        FontSize="14"
-                                        FontWeight="SemiBold"
-                                        Text="{DynamicResource Guide.IssueReport.Subtitle}"
-                                        TextWrapping="Wrap" />
-
-                                    <!--  查看日志  -->
-                                    <controls:TextBlock
-                                        Margin="0,2.5"
-                                        HorizontalAlignment="Left"
-                                        FontSize="13"
-                                        Text="{DynamicResource Guide.ViewLog}"
-                                        TextWrapping="Wrap" />
-
-                                    <!--  生成报告  -->
-                                    <controls:TextBlock
-                                        Margin="0,2.5"
-                                        HorizontalAlignment="Left"
-                                        FontSize="13"
-                                        Text="{DynamicResource Guide.GenerateReport}"
-                                        TextWrapping="Wrap" />
-                                </StackPanel>
-
-                                <Separator />
-
-                                <!--  GitHub 反馈规范  -->
-                                <StackPanel>
-                                    <controls:TextBlock
-                                        FontSize="14"
-                                        FontWeight="SemiBold"
-                                        Text="{DynamicResource Guide.GitHubIssue.Title}"
-                                        TextWrapping="Wrap" />
-                                    <controls:TextBlock
-                                        Margin="0,2.5"
-                                        HorizontalAlignment="Left"
-                                        FontSize="13"
-                                        Text="{DynamicResource Guide.GitHubIssue.Description}"
-                                        TextWrapping="Wrap" />
-                                </StackPanel>
-
-                                <Separator />
-
-                                <!--  开源项目参与  -->
-                                <StackPanel>
-                                    <controls:TextBlock
-                                        FontSize="14"
-                                        FontWeight="SemiBold"
-                                        Text="{DynamicResource Guide.OpenSource.Title}"
-                                        TextWrapping="Wrap" />
-                                    <controls:TextBlock
-                                        Margin="0,2.5"
-                                        HorizontalAlignment="Left"
-                                        FontSize="13"
-                                        Text="{DynamicResource Guide.OpenSource.Description}"
-                                        TextWrapping="Wrap" />
-                                </StackPanel>
-
-                                <Separator />
-
-                                <!--
-                                    UniformSpacingPanel 会把直接子项拉伸至整行宽导致内容左对齐，
-                                    须经 StackPanel 包装后子元素的 HorizontalAlignment=Center 才能生效
-                                -->
-                                <StackPanel>
-                                    <Grid HorizontalAlignment="Center">
-                                        <StackPanel Orientation="Horizontal">
-                                            <controls:TextBlock Text="{DynamicResource Guide.Agreement.Prefix}" />
-                                            <Grid>
-                                                <controls:TextBlock>
-                                                    <Hyperlink
-                                                        Click="{s:Action OnGuideUserAgreementClick}"
-                                                        Cursor="Hand"
-                                                        NavigateUri="{Binding Source={x:Static constants:MaaUrls.UserAgreement}}"
-                                                        TextDecorations="None">
-                                                        <TextBlock Style="{StaticResource HyperlinkTextBlockStyle}" Text="{DynamicResource Guide.Agreement.Link}" />
-                                                    </Hyperlink>
-                                                </controls:TextBlock>
-                                                <Ellipse
-                                                    Width="7"
-                                                    Height="7"
-                                                    Margin="0,1,-10,0"
-                                                    HorizontalAlignment="Right"
-                                                    VerticalAlignment="Top"
-                                                    Fill="{DynamicResource NewBadgeBrush}"
-                                                    IsHitTestVisible="False"
-                                                    Visibility="{c:Binding 'GuideStepIndex == 1 and !GuideUserAgreementOpened'}" />
-                                            </Grid>
-                                        </StackPanel>
-                                    </Grid>
-                                </StackPanel>
-                            </hc:UniformSpacingPanel>
-                        </hc:TransitioningContentControl>
-                    </hc:SimplePanel>
+                        </hc:SimplePanel>
+                    </Grid>
                 </ScrollViewer>
-            </DockPanel>
-        </GroupBox>
-    </Grid>
+                <!--  聚光灯遮罩层：置于内容区，配合顶部 1px 分割线硬过渡，底部圆角与 GroupBox 框线对齐  -->
+                <helper:GuideSpotlightOverlay />
+            </Grid>
+        </DockPanel>
+    </GroupBox>
+
+    <!--  跳过确认浮层：避免依赖系统弹窗，保证各主题下都有明确的确认/取消按钮  -->
+    <Border Background="#99000000" Visibility="{c:Binding GuideSkipConfirmVisible}">
+        <Border
+            Width="440"
+            Padding="24"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Background="{DynamicResource RegionBrush}"
+            BorderBrush="{DynamicResource BorderBrush}"
+            BorderThickness="1"
+            CornerRadius="8">
+            <StackPanel>
+                <controls:TextBlock
+                    Foreground="{DynamicResource PrimaryTextBrush}"
+                    Text="{DynamicResource Guide.SkipPrompt}"
+                    TextWrapping="Wrap" />
+                <StackPanel
+                    Margin="0,18,0,0"
+                    HorizontalAlignment="Right"
+                    Orientation="Horizontal">
+                    <Button
+                        Padding="14,4"
+                        Command="{s:Action CancelSkipGuide}"
+                        Content="{DynamicResource Common.Cancel}" />
+                    <Button
+                        Margin="8,0,0,0"
+                        Padding="14,4"
+                        Command="{s:Action ConfirmSkipGuide}"
+                        Content="{DynamicResource Common.Confirm}" />
+                </StackPanel>
+            </StackPanel>
+        </Border>
+    </Border>
+</Grid>
 </UserControl>
