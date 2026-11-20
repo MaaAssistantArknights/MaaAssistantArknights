@@ -10,6 +10,7 @@
 #include "MaaUtils/NoWarningCV.hpp"
 #include "Task/ProcessTask.h"
 #include "Task/Roguelike/BlackFlow/BlackFlowSession.h"
+#include "Task/Roguelike/JieGarden/RoguelikeCoppersRecastTaskPlugin.h"
 #include "Task/Roguelike/Map/RoguelikeBoskyPassageMap.h"
 #include "Utils/DebugImageHelper.hpp"
 #include "Utils/Logger.hpp"
@@ -130,6 +131,36 @@ std::optional<std::string> asst::RoguelikeStageEncounterTaskPlugin::handle_singl
 
     const auto& event = it->second;
 
+    // 掷地有声就是投钱事件本体，接管必须发生在 process_task 之前：
+    // process_task 会按 encounter/default.json 的配置把选项点掉（掷地有声的默认选项是「离开」），
+    // 事件一收尾就再也回不到投币面板了。这里直接把控制权交给投币插件，由它自己点「欣然应允」进面板。
+    // 其余神明的常乐（种因得果 / 三缺一）不是投钱事件，仍按普通事件处理。
+    if (m_config->get_theme() == RoguelikeTheme::JieGarden && m_config->get_mode() == RoguelikeMode::CoppersRecast &&
+        event.name == "掷地有声") {
+        auto& bosky_map = RoguelikeBoskyPassageMap::get_instance();
+        bosky_map.set_node_subtype(bosky_map.get_curr_pos(), RoguelikeBoskySubNodeType::Ling);
+
+        auto info = basic_info_with_what("RoguelikeEvent");
+        info["details"]["name"] = event.name;
+        info["details"]["default_choose"] = event.default_choose;
+        info["details"]["choose_option"] = 0;
+        callback(AsstMsg::SubTaskExtraInfo, info);
+
+        LogInfo << __FUNCTION__ << "| coppers recast target found, hand over to recast plugin";
+        auto recast = m_task_ptr == nullptr ? nullptr : m_task_ptr->find_plugin<RoguelikeCoppersRecastTaskPlugin>();
+        if (recast == nullptr) {
+            LogError << __FUNCTION__ << "| coppers recast plugin not found, abandon this run";
+            m_control_ptr->exit_then_stop(true);
+            m_task_ptr->set_enable(false);
+            return std::nullopt;
+        }
+        recast->set_task_ptr(m_task_ptr);
+        recast->set_task_id(m_task_ptr->get_task_id());
+        // 插件内部按 5 衡 1 厉的轮次循环投币，成功/失败都由它自己决定是否放弃本局
+        recast->run();
+        return std::nullopt;
+    }
+
     cv::Mat image = ctrler()->get_image();
 
     int special_val = 0;
@@ -186,6 +217,7 @@ std::optional<std::string> asst::RoguelikeStageEncounterTaskPlugin::handle_singl
             bosky_map.set_node_subtype(bosky_map.get_curr_pos(), RoguelikeBoskySubNodeType::Nian);
         }
 
+        // 投钱事件已在函数开头接管，这里只处理其余神明的常乐
         if (bosky_map.get_target_subtype() != RoguelikeBoskySubNodeType::Unknown) {
             if (bosky_map.get_node_subtype(bosky_map.get_curr_pos()) == bosky_map.get_target_subtype()) {
                 Log.info(__FUNCTION__, "| Found target playtime node, completing task and exiting");

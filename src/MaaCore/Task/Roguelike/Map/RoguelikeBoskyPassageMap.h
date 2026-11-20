@@ -34,6 +34,9 @@ public:
 
     void set_visited(size_t index);
 
+    // 撤销「已访问」：点击后没能进入节点时用来重试
+    void set_unvisited(size_t index);
+
     void set_node_type(size_t index, RoguelikeNodeType type);
 
     void set_curr_pos(size_t index) { m_curr_pos = index; }
@@ -65,6 +68,12 @@ public:
     // 获得节点像素坐标（左上角）
     [[nodiscard]] std::pair<int, int>
         get_node_pixel(size_t index, int origin_x, int origin_y, int column_offset, int row_offset) const;
+
+    // 该节点是否在最近一次地图更新中被识别到
+    [[nodiscard]] bool get_node_seen(size_t index) const;
+
+    // 每次重新识别地图前清空「本次是否识别到」标记
+    void clear_seen_flags();
 
     // 按 (x,y) 访问节点
     [[nodiscard]] std::optional<size_t> coord_to_index(int x, int y) const;
@@ -106,6 +115,11 @@ public:
 
     // 像素 -> 网格；返回 (x, y) 坐标
     [[nodiscard]] std::pair<int, int> pixel_to_grid_coords(int px, int py, const BoskyPassageMapConfig& config) const;
+
+    // 点击点：优先用最近一次识别到的真实像素位置，其次才回退到网格换算。
+    // 树洞地图本身是固定的，正常情况两者一致；用实测位置可避免节点登记与格子不一致时点偏。
+    [[nodiscard]] std::pair<int, int>
+        get_node_click_point(size_t index, const BoskyPassageMapConfig& config) const;
 
     // 像素 -> 节点；若节点不存在则返回 std::nullopt。
     [[nodiscard]] std::optional<size_t> pixel_to_index(int px, int py, const BoskyPassageMapConfig& config) const;
@@ -149,6 +163,9 @@ private:
         bool exists = false;  // 是否已创建
         bool is_open = false; // 是否开放可探索
         bool visited = false; // 是否已访问
+        bool seen = false;    // 最近一次地图更新中是否识别到（seen == true 时下面两个像素坐标可信）
+        int pixel_x = -1;     // 最近一次识别到的图标左上角 X
+        int pixel_y = -1;     // 最近一次识别到的图标左上角 Y
     };
 
     std::array<Node, WIDTH * HEIGHT> m_nodes {}; // 直接按 y*WIDTH + x 索引

@@ -43,6 +43,7 @@
 #include "Task/Roguelike/Map/RoguelikeRoutingTaskPlugin.h"
 
 // ------------------ 界园主题专用配置及插件 ------------------
+#include "Task/Roguelike/JieGarden/RoguelikeCoppersRecastTaskPlugin.h"
 #include "Task/Roguelike/JieGarden/RoguelikeCoppersTaskPlugin.h"
 
 // ------------------ 黑流树海主题专用配置及插件 ------------------
@@ -124,6 +125,7 @@ asst::RoguelikeTask::RoguelikeTask(const AsstCallback& callback, Assistant* inst
 
     // ------------------ 界园主题专用插件 ------------------
     m_roguelike_task_ptr->register_plugin<RoguelikeCoppersTaskPlugin>(m_config_ptr, m_control_ptr);
+    m_roguelike_task_ptr->register_plugin<RoguelikeCoppersRecastTaskPlugin>(m_config_ptr, m_control_ptr);
 
     // ------------------ 黑流树海主题专用插件 ------------------
     m_blackflow_map_source_ptr = std::make_shared<blackflow::BlackFlowMapObservationSource>();
@@ -234,6 +236,31 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
     const auto& mode = m_config_ptr->get_mode();
 
     m_roguelike_task_ptr->set_tasks({ theme + "@Roguelike@Begin" });
+
+    if (mode == RoguelikeMode::CoppersRecast) {
+        // 游客倒转要在玩家已经推进过的那一局里刷钱，不能像常规开局那样点「放弃探索」重开：
+        // 换一条不点放弃的入口链，优先续玩已有进度，只有完全没有进行中的探索时才开新局
+        m_roguelike_task_ptr->set_tasks({ theme + "@Roguelike@Begin-CoppersRecast" });
+
+        // 从主界面「⟳ → 终端 → 换主题」这条路进来时，链尾是
+        // IntegratedStrategies → PreSelectTheme → SelectTheme → FromIntegratedStrategies → @Begin，
+        // 会绕过上面那条入口链直接跑到常规 @Begin；而 @Begin 在主题页第一个能命中的就是 @Abandon
+        // （实测红叉 0.98998），它被下面限成 0 次 → 「认到放弃 → 次数用尽 → 整条 Roguelike 链判定完成」，
+        // 人就停在主题页不动了（2026-11-07 19:07 实机日志）。把 @Begin 指到不点放弃的入口链，
+        // 回主题页时会走 CoppersRecast-Resume：红叉只用来判定，实际点右下角「继续探索」续玩本局。
+        Task.set_task_base(theme + "@Roguelike@Begin", theme + "@Roguelike@Begin-CoppersRecast");
+
+        // 兜底：把这个主题下「放弃探索」的两步都封死。
+        // 「放弃探索」的红叉图标在地图、结算、选干员等好几个界面都长一样，
+        // 资源链里任何一处误判都会把玩家推进了很多层的那一局直接毁掉；
+        // 相比任务卡住等人看一眼，这个代价完全不能接受。
+        // 键名不带主题前缀：calc_time_limit 会按 `A@B@C` → `B@C` → `C` 逐级回退，
+        // 不带前缀的名字才能同时盖住 base 任务和各主题的派生任务。
+        m_roguelike_task_ptr->set_times_limit("Roguelike@Abandon", 0);
+        m_roguelike_task_ptr->set_times_limit("Roguelike@AbandonConfirm", 0);
+        // 注意不要动 ExitThenAbandon：它只是退回肉鸽主页（进度保留），
+        // 是任务正常收尾（投完币退出）要走的路。
+    }
 
     if (mode == RoguelikeMode::Investment) {
         // 刷源石锭模式是否进入第二层
