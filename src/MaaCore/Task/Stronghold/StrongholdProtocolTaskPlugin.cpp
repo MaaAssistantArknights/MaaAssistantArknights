@@ -18,6 +18,7 @@
 #include <MaaUtils/ScopeLeave.hpp>
 
 #include <algorithm>
+#include <array>
 #include <chrono>
 #include <tuple>
 
@@ -1398,6 +1399,9 @@ std::vector<StrongholdProtocolTaskPlugin::ShopCard>
 
 std::optional<int> StrongholdProtocolTaskPlugin::field_medic_tier(const BoardState& board)
 {
+    if (std::ranges::any_of(board.unconfirmed_tiles, [](const auto& entry) { return is_medic(entry.second); })) {
+        return 0;
+    }
     std::optional<int> tier;
     for (const auto& [key, occupant] : board.occ) {
         if (is_medic(occupant.first)) {
@@ -1686,6 +1690,7 @@ StrongholdProtocolTaskPlugin::PurchaseResult StrongholdProtocolTaskPlugin::buy_a
             return result == PurchaseResult::Bought ? result : purchase;
         }
         result = PurchaseResult::Bought;
+        board.medic_bench.clear(); // 合成或买入可能在同一席位换人。
         int count = 0;
         if (!card.name.empty()) {
             auto& copies = board.purchases[card.name];
@@ -1697,11 +1702,13 @@ StrongholdProtocolTaskPlugin::PurchaseResult StrongholdProtocolTaskPlugin::buy_a
             break;
         }
         // 三个免费干员同时出现表示刚才的购买触发了合成。赠送的干员要另行领取。
+        // 同名素材可能已经合成，失去原副本后不能再沿用它的开局格。
+        const auto material = [&](const OpeningOper& oper) {
+            return card.name.empty() || oper.name == card.name;
+        };
+        std::erase_if(board.opening_gifts, material);
         if (opening) {
-            // 同名素材可能已经合成；领取后的方牌只能用于定位赠送的干员。
-            std::erase_if(*opening, [&](const OpeningOper& oper) {
-                return card.name.empty() || oper.name == card.name;
-            });
+            std::erase_if(*opening, material);
         }
         if (!card.name.empty()) {
             auto& copies = board.purchases.at(card.name);
@@ -1787,10 +1794,22 @@ void StrongholdProtocolTaskPlugin::assign_opening_tiles(std::vector<OpeningOper>
     }
 }
 
-void StrongholdProtocolTaskPlugin::deploy_opening(BoardState& board, std::vector<OpeningOper>& opening)
+void StrongholdProtocolTaskPlugin::deploy_opening(BoardState& board, std::vector<OpeningOper>& opening, bool gifts)
 {
     std::erase_if(opening, [&](const OpeningOper& oper) {
-        if (oper.tile.empty()) {
+        const auto uncertain = board.unconfirmed_tiles.find(oper.tile);
+        const auto copies = std::ranges::count(board.bench_known, oper.name, &std::pair<std::string, int>::first);
+        // 唯一持有的赠卡若仍能从席上拿起，可再试它原先的空格。其他干员不能借此覆盖待核格。
+        const bool retry_gift = gifts && uncertain != board.unconfirmed_tiles.end() && uncertain->second == oper.name &&
+                                !board.occ.contains(oper.tile) && !board.purchases.contains(oper.name) && copies == 1;
+        const bool release_gift =
+            gifts &&
+            ((uncertain != board.unconfirmed_tiles.end() && !retry_gift) ||
+             (copies > 1 && board.purchases.contains(oper.name)) ||
+             (board.occ.contains(oper.tile) && !is_medic(oper.name)) ||
+             (is_medic(oper.name) && !retry_gift && !improves_field_medic(field_medic_tier(board), oper.tier)));
+        if (oper.tile.empty() || release_gift) {
+            // 预定位置已不可用，交回普通备战席重扫按当前棋盘选格。
             board.pending_deploy = true;
             return true;
         }
@@ -1798,15 +1817,28 @@ void StrongholdProtocolTaskPlugin::deploy_opening(BoardState& board, std::vector
             return false;
         }
         const auto try_slot = [&](const Point& p) {
-            return !need_exit() && deploy_from_bench(board, p, oper.name, oper.tier, {}, oper.tile).has_value();
+            if (need_exit()) {
+                return false;
+            }
+            if (retry_gift) {
+                board.unconfirmed_tiles.erase(oper.tile);
+            }
+            if (deploy_from_bench(board, p, oper.name, oper.tier, {}, oper.tile)) {
+                board.medic_bench.clear();
+                return true;
+            }
+            if (retry_gift) {
+                board.unconfirmed_tiles.try_emplace(oper.tile, oper.name);
+            }
+            return false;
         };
-        if (oper.bench && try_slot(*oper.bench)) {
+        if (!retry_gift && oper.bench && try_slot(*oper.bench)) {
             return true;
         }
         // 再买一人或部署上一人后，原格可能已换人。只有面板姓名一致才能使用预定的站位。
         const auto current = detect_bench_opers(ctrler()->get_image());
         return std::ranges::any_of(current, [&](const Point& p) {
-            return (!oper.bench || Point::distance(p, *oper.bench) >= 8) && try_slot(p);
+            return (retry_gift || !oper.bench || Point::distance(p, *oper.bench) >= 8) && try_slot(p);
         });
     });
     board.pending_deploy |= !opening.empty();
@@ -1834,14 +1866,24 @@ bool StrongholdProtocolTaskPlugin::prep_phase(BoardState& board)
     LogInfo << "round" << round << "gold" << shop.gold.value_or(-1) << "maxed" << shop.maxed;
 
     std::vector<OpeningOper> opening;
-    if ((board.round_done >= 0 || round > 1) &&
-        (!field_medic_tier(board) || !board.promotion_tiles.empty() ||
-         std::ranges::any_of(board.bench_known, [](const auto& copy) { return is_medic(copy.first); }))) {
-        deploy_bench_medic(board);
+    const bool deferred_opening = m_current_strategy == "老鲤";
+    if (deferred_opening && round == 3 && board.round_done < 3) {
+        // 老鲤在第 3 回合休整时发放暂存资金，并将两名赠送干员直接放入备战席。
+        board.unread_opening_gifts = 2;
+    }
+    if (board.unread_opening_gifts > 0 || !board.opening_gifts.empty()) {
+        if (board.unread_opening_gifts > 0) {
+            deploy_opening_gifts(board, image);
+        }
+        deploy_opening(board, board.opening_gifts, true);
         image = ctrler()->get_image();
         shop = read_shop(image, board);
     }
-    if (board.round_done < 0 && round == 1) {
+    else if ((board.round_done >= 0 || round > 1) && deploy_bench_medic(board, image)) {
+        image = ctrler()->get_image();
+        shop = read_shop(image, board);
+    }
+    if (!deferred_opening && board.round_done < 0 && round == 1) {
         int remaining = 2;
         int budget = shop.gold.value_or(-1);
         std::vector<int> failed_slots;
@@ -2031,6 +2073,7 @@ bool StrongholdProtocolTaskPlugin::prep_phase(BoardState& board)
 
     if (board.pending_deploy) {
         deploy_opening(board, opening);
+        deploy_opening(board, board.opening_gifts, true);
         if (opening.empty()) {
             board.pending_deploy = deploy_bench(board);
         }
@@ -2213,6 +2256,104 @@ static std::optional<std::string> read_drag_name(const cv::Mat& image, bool chec
     return std::nullopt;
 }
 
+static int bench_stroke_tier(const cv::Mat& image, const Point& bench);
+
+int StrongholdProtocolTaskPlugin::held_tier(const cv::Mat& preview, int panel_tier)
+{
+    const Rect badge = task_roi("StrongholdProtocol@Roi@DragTierFrame");
+    // V 阶方牌为金黄，VI 阶为橙色。整行 OCR 常把罗马数字和精英化图标连读。
+    const bool five = color_ratio(preview, badge, 21, 28, gold_lower_s, color_lower_v) > 0.08;
+    const bool six = color_ratio(preview, badge, 12, 18, gold_lower_s, color_lower_v) > 0.08;
+    if (five != six) {
+        return six ? 6 : 5;
+    }
+    if (panel_tier != 0) {
+        return panel_tier;
+    }
+    RegionOCRer numeral(preview);
+    numeral.set_roi({ badge.x + 4, badge.y + 3, badge.width - 7, badge.height - 5 });
+    const auto digit = numeral.analyze();
+    static constexpr std::array<std::string_view, 6> roman { "I", "II", "III", "IV", "V", "VI" };
+    if (digit && digit->score >= 0.9) {
+        const auto it = std::ranges::find(roman, digit->text);
+        if (it != roman.end()) {
+            return static_cast<int>(it - roman.begin()) + 1;
+        }
+    }
+    return 0;
+}
+
+void StrongholdProtocolTaskPlugin::deploy_opening_gifts(BoardState& board, const cv::Mat& image)
+{
+    std::vector<OpeningOper> opening;
+    auto rest = image;
+    auto slots = detect_bench_opers(rest);
+    for (int attempt = 0; attempt < 2 && !need_exit(); ++attempt) {
+        for (const auto& slot : slots) {
+            if (need_exit() || static_cast<int>(opening.size()) == board.unread_opening_gifts) {
+                break;
+            }
+            if (std::ranges::any_of(opening, [&](const OpeningOper& oper) {
+                    return Point::distance(*oper.bench, slot) < 8;
+                })) {
+                continue;
+            }
+            const auto hover = lift_from_bench(slot);
+            const auto preview = ctrler()->get_image();
+            emit_input(InputEvent::Type::TOUCH_UP, hover);
+            sleep(300);
+            int tier = 0;
+            const auto name = read_drag_name(preview, true, tier);
+            if (!name || name->empty() || board.displaced_melee.contains(*name) ||
+                std::ranges::any_of(board.bench_known, [&](const auto& copy) { return copy.first == *name; })) {
+                continue;
+            }
+            tier = held_tier(preview, tier);
+            if (tier == 0) {
+                tier = bench_stroke_tier(rest, slot);
+            }
+            if (tier != 0 && tier != 2 && tier != 4) {
+                continue;
+            }
+            opening.push_back({ *name, tier, slot, {} });
+            LogInfo << "opening gift on bench" << *name << "tier" << tier << "at" << slot;
+        }
+        if (static_cast<int>(opening.size()) == board.unread_opening_gifts || attempt == 1) {
+            break;
+        }
+        sleep(200);
+        rest = ctrler()->get_image();
+        const auto current = detect_bench_opers(rest);
+        if (current != slots) {
+            opening.clear(); // 方牌换位后，两次看到的可能是同一名干员。
+            slots = current;
+        }
+    }
+    if (opening.size() == 2 && slots.size() == 2 && board.round_done < 3) {
+        auto& first = opening[0].tier;
+        auto& second = opening[1].tier;
+        // 两张赠卡的等阶分别为 II 和 IV，只能用同一批已确认的另一张补全等阶。
+        if (first == second) {
+            first = second = 0;
+        }
+        else if (first == 0) {
+            first = second == 2 ? 4 : 2;
+        }
+        else if (second == 0) {
+            second = first == 2 ? 4 : 2;
+        }
+    }
+    board.unread_opening_gifts -= static_cast<int>(opening.size());
+    for (auto& oper : opening) {
+        board.bench_known.emplace_back(oper.name, oper.tier);
+        board.opening_gifts.emplace_back(std::move(oper));
+    }
+    assign_opening_tiles(board.opening_gifts);
+    if (board.opening_gifts.size() == 1 && board.occ.contains("path0") && !board.occ.contains("rear0")) {
+        board.opening_gifts.front().tile = "rear0";
+    }
+}
+
 std::optional<StrongholdProtocolTaskPlugin::DeployTile> StrongholdProtocolTaskPlugin::choose_tile(
     const BoardState& board,
     const std::string& name,
@@ -2223,7 +2364,8 @@ std::optional<StrongholdProtocolTaskPlugin::DeployTile> StrongholdProtocolTaskPl
 {
     const auto& tiles = StrongholdProtocol.get_tiles();
     const auto role = StrongholdProtocol.get_role(name);
-    if (role == battle::Role::Unknown || role == battle::Role::Drone) {
+    if ((!opening_tile.empty() && (!slots || *slots < 0 || *slots > 8)) || role == battle::Role::Unknown ||
+        role == battle::Role::Drone) {
         return std::nullopt;
     }
     const bool medic = role == battle::Role::Medic;
@@ -2240,7 +2382,7 @@ std::optional<StrongholdProtocolTaskPlugin::DeployTile> StrongholdProtocolTaskPl
         int best_value = tier;
         for (size_t i = 0; i < points.size(); ++i) {
             DeployTile tile { group + std::to_string(i), points[i] };
-            if (!opening_tile.empty() && tile.key != opening_tile) {
+            if (board.unconfirmed_tiles.contains(tile.key) || (!opening_tile.empty() && tile.key != opening_tile)) {
                 continue;
             }
             if (tile.key == "path0" && !melee && (opening_tile.empty() || role == battle::Role::Medic)) {
@@ -2380,17 +2522,52 @@ int StrongholdProtocolTaskPlugin::verified_displaced_tier(
 
 static std::vector<cv::Rect> detect_bench_badges(const cv::Mat& image);
 
-static bool bench_has_tier_one(const cv::Mat& image, const Point& bench)
+static int bench_stroke_tier(const cv::Mat& image, const Point& bench)
 {
     const Rect press = task_roi("StrongholdProtocol@Roi@BenchPressOffset");
     const auto badges = detect_bench_badges(image);
     for (const auto& badge : badges) {
         // 差分方块和整块方牌的左上角会相差几像素，不能借用相邻干员的方牌。
         if (Point::distance(bench, Point { badge.x + press.x, badge.y + press.y }) <= 6) {
-            return is_tier_one_stroke(image, { badge.x + 4, badge.y + 4, badge.width - 8, badge.height - 8 });
+            const cv::Rect inner(badge.x + 4, badge.y + 4, badge.width - 8, badge.height - 8);
+            if (is_tier_one_stroke(image, inner)) {
+                return 1;
+            }
+            // II 和 III 由同高、等间距的完整竖笔组成。缺笔、斜笔或贴边的数字不能确认等阶。
+            cv::Mat mask;
+            cv::cvtColor(image(inner), mask, cv::COLOR_BGR2GRAY);
+            cv::threshold(mask, mask, 140, 255, cv::THRESH_BINARY);
+            std::vector<std::vector<cv::Point>> contours;
+            cv::findContours(mask, contours, cv::RETR_EXTERNAL, cv::CHAIN_APPROX_SIMPLE);
+            if (contours.size() != 2 && contours.size() != 3) {
+                return 0;
+            }
+            std::vector<cv::Rect> strokes;
+            for (const auto& contour : contours) {
+                const auto line = cv::boundingRect(contour);
+                if (line.width < 2 || line.width > 4 || line.height < 10 || line.height > 15 || line.y <= 0 ||
+                    line.br().y >= inner.height || cv::countNonZero(mask(line)) < 0.85 * line.area()) {
+                    return 0;
+                }
+                strokes.emplace_back(line);
+            }
+            std::ranges::sort(strokes, {}, &cv::Rect::x);
+            const auto& first = strokes.front();
+            for (size_t i = 1; i < strokes.size(); ++i) {
+                const auto& line = strokes[i];
+                const int pitch = line.x - strokes[i - 1].x;
+                if (pitch < 5 || pitch > 7 || std::abs(line.y - first.y) > 1 ||
+                    std::abs(line.br().y - first.br().y) > 1) {
+                    return 0;
+                }
+            }
+            const auto ink = first | strokes.back();
+            return ink.x > 0 && ink.br().x < inner.width && std::abs(2 * ink.x + ink.width - inner.width) <= 2
+                       ? static_cast<int>(strokes.size())
+                       : 0;
         }
     }
-    return false;
+    return 0;
 }
 
 StrongholdProtocolTaskPlugin::Placement StrongholdProtocolTaskPlugin::place_held(const Point& hover, const Point& tile)
@@ -2419,7 +2596,7 @@ std::optional<StrongholdProtocolTaskPlugin::DeployTile>
         for (size_t i = 0; i < points->size(); ++i) {
             const auto key = group + std::to_string(i);
             if (!board.occ.contains(key) && !board.promotion_tiles.contains(key) &&
-                is_green_tile(preview, (*points)[i])) {
+                !board.unconfirmed_tiles.contains(key) && is_green_tile(preview, (*points)[i])) {
                 return DeployTile { key, (*points)[i] };
             }
         }
@@ -2475,7 +2652,7 @@ std::optional<Point> StrongholdProtocolTaskPlugin::deploy_from_bench(
     const auto preview = ctrler()->get_image();
 
     int observed_tier = 0;
-    const auto panel_name = read_drag_name(preview, observed && !medic_only, observed_tier);
+    const auto panel_name = read_drag_name(preview, observed != nullptr, observed_tier);
     if (observed) {
         *observed = panel_name;
     }
@@ -2524,8 +2701,8 @@ std::optional<Point> StrongholdProtocolTaskPlugin::deploy_from_bench(
     if (tier_hint >= 5) {
         tier = std::max(tier, tier_hint);
     }
-    if (tier == 0 && bench_has_tier_one(before_deploy, bench)) {
-        tier = 1;
+    if (tier == 0) {
+        tier = bench_stroke_tier(before_deploy, bench);
     }
     // 面板黄框色判 V/VI（判定区 Roi@DragTierFrame，金框占比 > 0.08）
     if (color_ratio(
@@ -2550,7 +2727,12 @@ std::optional<Point> StrongholdProtocolTaskPlugin::deploy_from_bench(
             }
         }
     }
-    if (medic_only && !is_medic(name)) {
+    // 尚未辨认的赠卡留给开局排位。已知的买入干员和换下者仍可按原流程部署。
+    const bool awaiting_opening =
+        name_hint.empty() &&
+        ((board.unread_opening_gifts > 0 && known == board.bench_known.end()) ||
+         std::ranges::any_of(board.opening_gifts, [&](const auto& gift) { return gift.name == name; }));
+    if (awaiting_opening || (medic_only && !is_medic(name))) {
         emit_input(InputEvent::Type::TOUCH_UP, lp);
         return std::nullopt;
     }
@@ -2577,14 +2759,20 @@ std::optional<Point> StrongholdProtocolTaskPlugin::deploy_from_bench(
     LogInfo << "deploy target" << target_key << target_pt.x << "," << target_pt.y;
 
     const auto placement = place_held(lp, target_pt);
+    const auto after_deploy = ctrler()->get_image();
+    const auto slots1 = slots_left(after_deploy);
+    if (!opening_tile.empty() && (placement != Placement::Confirmed || !slots0 || !slots1 || *slots1 < 0 ||
+                                  (*slots1 != *slots0 && *slots1 != *slots0 - 1))) {
+        board.unconfirmed_tiles[target_key] = name;
+        board.pending_deploy = true;
+        LogWarn << "opening placement unconfirmed" << name << target_key;
+        return std::nullopt;
+    }
     if (placement == Placement::Unconfirmed) {
         LogWarn << "deploy failed (probably equipment or occupied tile):" << name;
         return std::nullopt;
     }
 
-    // 格上现在是刚放下的干员（换人与意外交换都一样），被顶下者回到备战席
-    const auto after_deploy = ctrler()->get_image();
-    const auto slots1 = slots_left(after_deploy);
     const bool is_swap = !swap_old.first.empty() && !(slots0 && slots1 && *slots1 < *slots0);
     board.promotion_tiles.erase(target_key);
     board.occ[target_key] = { name, tier };
@@ -2686,44 +2874,60 @@ std::optional<Point> StrongholdProtocolTaskPlugin::deploy_from_bench(
     return target_pt;
 }
 
-void StrongholdProtocolTaskPlugin::deploy_bench_medic(BoardState& board)
+bool StrongholdProtocolTaskPlugin::deploy_bench_medic(BoardState& board, const cv::Mat& image)
 {
-    const auto slots = detect_bench_opers(ctrler()->get_image());
-    std::set<std::string> seen;
-    bool complete = true;
-    for (const auto& slot : slots) {
-        if (need_exit()) {
-            return;
-        }
-        std::optional<std::string> name;
-        if (deploy_from_bench(board, slot, {}, 0, {}, {}, &name, true)) {
-            return;
-        }
-        if (name && !name->empty()) {
-            seen.emplace(std::move(*name));
-        }
-        else {
-            complete = false;
-        }
+    const auto field = field_medic_tier(board);
+    const bool known_medic =
+        std::ranges::any_of(board.bench_known, [](const auto& copy) { return is_medic(copy.first); });
+    if (field && !known_medic && board.promotion_tiles.empty()) {
+        return false;
     }
-    // 方牌位置稳定且每个面板都能辨认时，才清除备战席上已经找不到的医疗记录。
-    if (complete && std::ranges::any_of(board.bench_known, [&](const auto& copy) {
-            return is_medic(copy.first) && !seen.contains(copy.first);
+    const auto slots = detect_bench_opers(image);
+    auto& roster = board.medic_bench;
+    if (!std::ranges::equal(slots, roster, [](const Point& slot, const auto& entry) {
+            return Point::distance(slot, entry.first) < 8;
         })) {
-        sleep(200);
-        if (detect_bench_opers(ctrler()->get_image()) == slots) {
-            std::erase_if(board.bench_known, [&](const auto& copy) {
-                return is_medic(copy.first) && !seen.contains(copy.first);
-            });
+        roster.clear();
+        for (const auto& slot : slots) {
+            roster.emplace_back(slot, std::nullopt);
         }
     }
+    bool inspected = false;
+    for (auto& [slot, name] : roster) {
+        if (need_exit()) {
+            return inspected;
+        }
+        if (name && (!is_medic(*name) || (field && board.promotion_tiles.empty() &&
+                                          !std::ranges::any_of(board.bench_known, [&](const auto& copy) {
+                                              return copy.first == *name && improves_field_medic(field, copy.second);
+                                          })))) {
+            continue;
+        }
+        inspected = true;
+        if (deploy_from_bench(board, slot, {}, 0, {}, {}, &name, true)) {
+            roster.clear();
+            return true;
+        }
+    }
+    // 名单完整且方牌位置稳定时，才清除已离开备战席的医疗记录。
+    if (known_medic && std::ranges::all_of(roster, [](const auto& entry) { return entry.second.has_value(); })) {
+        const auto missing = [&](const auto& copy) {
+            return is_medic(copy.first) &&
+                   std::ranges::none_of(roster, [&](const auto& entry) { return entry.second == copy.first; });
+        };
+        if (std::ranges::any_of(board.bench_known, missing)) {
+            sleep(200);
+            if (detect_bench_opers(ctrler()->get_image()) == slots) {
+                std::erase_if(board.bench_known, missing);
+            }
+        }
+    }
+    return inspected;
 }
 
 bool StrongholdProtocolTaskPlugin::deploy_bench(BoardState& board)
 {
-    if (!field_medic_tier(board) || !board.promotion_tiles.empty()) {
-        deploy_bench_medic(board);
-    }
+    deploy_bench_medic(board, ctrler()->get_image());
     // 备战席小人按头顶等阶方牌检测定位（台面布局随人数变化，固定扫点不可靠）：
     // 每轮重新检测当前剩余人，逐个尝试部署，部署成功小人消失故循环重扫
     for (int round = 0; round < 10 && !need_exit(); ++round) {
@@ -2756,6 +2960,7 @@ bool StrongholdProtocolTaskPlugin::deploy_bench(BoardState& board)
                     {},
                     {},
                     unseen.empty() && unseen_displaced.empty() ? nullptr : &name)) {
+                board.medic_bench.clear();
                 placed = true;
                 break;
             }

@@ -78,9 +78,14 @@ private:
         bool squad_picked = false;                  // 名牌已处理，再次进入编队页时只补点确认
         std::unordered_map<std::string, int> squad; // 本局选入的干员及其编队行等阶
         std::optional<int> maxed_shop_x;            // 满级后本局商店等级和按钮位置固定
-        // 已买入且待部署的干员名与等阶，回合末重扫时据此恢复等阶。
+        // 已确认持有且待部署的干员名与等阶，回合末重扫时据此恢复等阶。
         std::vector<std::pair<std::string, int>> bench_known;
+        int unread_opening_gifts = 0;           // 尚未确认身份的开局赠卡，后续休整时继续核对。
+        std::vector<OpeningOper> opening_gifts; // 尚未确认落位的赠卡保留各自的开局格。
+        // 备战席名单未变时，只复核上次没读清的方牌和可能上场的医疗。空名字表示装备或召唤物。
+        std::vector<std::pair<Point, std::optional<std::string>>> medic_bench;
         std::multiset<std::string> displaced_melee;               // 换下后尚待核对的低阶近战，重扫时只允许补空格
+        std::map<std::string, std::string> unconfirmed_tiles;     // 朝向或名额未能确认的格位及尝试放入的干员
         std::unordered_map<std::string, PurchaseCount> purchases; // 本局各干员的累计购买次数，含免费领取
         std::set<std::string> promotion_tiles;                    // 合成素材曾占用、尚待核对的格位
         std::map<std::string, std::pair<std::string, int>> occ;   // 格位键（组名+序号）-> (干员名, 等阶)
@@ -130,6 +135,7 @@ private:
     std::optional<int> read_gold(const cv::Mat& image);
     ShopInfo read_shop(const cv::Mat& image, BoardState& board);
     std::vector<ShopCard> read_shop_cards(const cv::Mat& image, const std::vector<ShopCard>& previous = {}) const;
+    static int held_tier(const cv::Mat& preview, int panel_tier);
     static bool is_reward_shop(const std::vector<ShopCard>& cards);
     static std::optional<ShopCard> shop_pick(const std::vector<ShopCard>& cards, const BoardState& board, int gold);
     static std::optional<ShopCard> promotion_reward(const std::vector<ShopCard>& cards, const BoardState& board);
@@ -159,7 +165,8 @@ private:
     static std::optional<ShopCard>
         opening_pick(const std::vector<ShopCard>& cards, int gold, int remaining, const BoardState& board);
     static void assign_opening_tiles(std::vector<OpeningOper>& opening);
-    void deploy_opening(BoardState& board, std::vector<OpeningOper>& opening);
+    void deploy_opening(BoardState& board, std::vector<OpeningOper>& opening, bool gifts = false);
+    void deploy_opening_gifts(BoardState& board, const cv::Mat& image);
 
     // 触控原语：游戏要求先在干员头像上 press-and-hold 进入拖拽预览再滑动，
     // swipe 快速位移来不及触发 grab；用 inject_input_event 手动 down→hold→move→hold→up
@@ -208,7 +215,7 @@ private:
         const std::string& opening_tile,
         const cv::Mat& preview,
         std::optional<int> slots);
-    void deploy_bench_medic(BoardState& board);
+    bool deploy_bench_medic(BoardState& board, const cv::Mat& image);
     // 若本轮仍有未辨认的方牌可能属于已买入的干员，下回合再按当前棋盘选格。
     bool deploy_bench(BoardState& board);
     bool set_facing(const Point& tile);
