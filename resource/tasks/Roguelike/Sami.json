@@ -1412,8 +1412,8 @@
     },
     "Sami@RoguelikeEncounterOptionAnalyzer-Option": {
         "template": "empty.png",
-        "roi": [872, 40, 400, 595],
-        "specificRect": [872, 0, 400, 44],
+        "roi": [875, 40, 325, 595],
+        "specificRect": [875, 0, 325, 40],
         "specificRect_Doc": "供 RoguelikeEncounterOptionAnalyzer 截取单个事件选项，y 坐标由分析器按识别结果覆盖。"
     },
     "Sami@RoguelikeEncounterOptionAnalyzer-OptionHeaderBar": {
@@ -1432,7 +1432,7 @@
     },
     "Sami@RoguelikeEncounterOptionAnalyzer-OptionHeaderBar-Text": {
         "algorithm": "OcrDetect",
-        "roi": [0, 0, 400, 44],
+        "roi": [0, 0, 325, 40],
         "text": [],
         "withoutDet": true
     },
