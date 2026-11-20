@@ -67,7 +67,15 @@ private:
     struct PurchaseCount
     {
         int total = 0;
-        int unmerged = 0; // 已买入且未确认合成或卖出的份数
+        int unmerged = 0;   // 已买入且未确认合成或卖出的份数
+        int promotions = 0; // 此干员已确认触发三选一的次数
+    };
+
+    struct DeployRank
+    {
+        int tier = 0;
+        bool elite = false;
+        auto operator<=>(const DeployRank&) const = default;
     };
 
     // 每局对局状态，结算后重置
@@ -84,11 +92,15 @@ private:
         std::vector<OpeningOper> opening_gifts; // 尚未确认落位的赠卡保留各自的开局格。
         // 备战席名单未变时，只复核上次没读清的方牌和可能上场的医疗。空名字表示装备或召唤物。
         std::vector<std::pair<Point, std::optional<std::string>>> medic_bench;
-        std::multiset<std::string> displaced_melee;               // 换下后尚待核对的低阶近战，重扫时只允许补空格
+        std::multimap<std::string, DeployRank> displaced;         // 被换下的干员及原等阶，重扫时只补空格
         std::map<std::string, std::string> unconfirmed_tiles;     // 朝向或名额未能确认的格位及尝试放入的干员
+        bool unknown_displaced = false;                           // 备战席可能有身份未知的换下者
         std::unordered_map<std::string, PurchaseCount> purchases; // 本局各干员的累计购买次数，含免费领取
         std::set<std::string> promotion_tiles;                    // 合成素材曾占用、尚待核对的格位
-        std::map<std::string, std::pair<std::string, int>> occ;   // 格位键（组名+序号）-> (干员名, 等阶)
+        std::set<std::string> elite_tiles;                        // 已确认精锐副本的格位
+        // 两个素材格只腾出一个名额，第一次试放即可从名额变化确定精锐在哪一格。
+        std::map<std::string, std::string> promotion_partners;
+        std::map<std::string, std::pair<std::string, int>> occ; // 格位键（组名+序号）-> (干员名, 等阶)
     };
 
     // 未识别场景时的全屏文字扫描结果
@@ -135,8 +147,13 @@ private:
     std::optional<int> read_gold(const cv::Mat& image);
     ShopInfo read_shop(const cv::Mat& image, BoardState& board);
     std::vector<ShopCard> read_shop_cards(const cv::Mat& image, const std::vector<ShopCard>& previous = {}) const;
-    static int held_tier(const cv::Mat& preview, int panel_tier);
     static bool is_reward_shop(const std::vector<ShopCard>& cards);
+    static void record_promotion(BoardState& board, const ShopCard& card, std::optional<int> slots_freed);
+    static void resolve_promotion_tile(BoardState& board, const std::string& key, bool occupied);
+    static int held_tier(const cv::Mat& preview, int panel_tier);
+    static std::optional<bool> held_is_elite(const cv::Mat& preview, int tier);
+    std::vector<Point> ordered_bench(const BoardState& board, const cv::Mat& rest, const std::vector<Point>& slots);
+    static bool may_have_bench_elite(const BoardState& board, const std::string& name);
     static std::optional<ShopCard> shop_pick(const std::vector<ShopCard>& cards, const BoardState& board, int gold);
     static std::optional<ShopCard> promotion_reward(const std::vector<ShopCard>& cards, const BoardState& board);
     enum class ShopPhase
@@ -174,9 +191,13 @@ private:
     void drag_to(const Point& from, const Point& to, int hold_ms, int move_ms);
     void drop_held(const Point& from, const Point& to, int move_ms, int settle_ms);
     Point lift_from_bench(const Point& bench);
-    static int verified_displaced_tier(const cv::Mat& preview, const std::string& expected, bool for_sale);
-    // 部署（固定格位布局）：拿起复核（面板名字/等阶/装备）→ lift 悬停 → 固定格表选格 →
-    // 拖放 → 朝向确认 → 换下的低阶近战优先补空格，其余按出售条件复核
+    static int verified_displaced_tier(
+        const cv::Mat& preview,
+        const std::string& expected,
+        bool for_sale,
+        const cv::Mat& rest,
+        const Point& bench);
+    // 放置后用剩余名额区分补位和换人。被换下的干员优先补空位，出售前单独核验。
     std::optional<Point> deploy_from_bench(
         BoardState& board,
         const Point& bench,
@@ -200,21 +221,29 @@ private:
         Confirmed,
     };
     Placement place_held(const Point& hover, const Point& tile);
-    static std::optional<DeployTile> empty_melee_tile(const BoardState& board, const cv::Mat& preview);
-    bool place_displaced_melee(
+
+    struct BoardDrop
+    {
+        cv::Mat after;
+        int slots;
+        std::optional<std::pair<std::string, DeployRank>> displaced;
+    };
+
+    std::optional<BoardDrop> place_on_board(
         BoardState& board,
         const DeployTile& tile,
         const Point& hover,
         const std::string& name,
-        int tier,
+        DeployRank rank,
         int slots);
+    void handle_displaced(BoardState& board, BoardDrop drop, cv::Mat before, Point bench);
     static std::optional<DeployTile> choose_tile(
         const BoardState& board,
         const std::string& name,
-        int tier,
+        DeployRank rank,
         const std::string& opening_tile,
-        const cv::Mat& preview,
-        std::optional<int> slots);
+        int slots,
+        bool empty_only = false);
     bool deploy_bench_medic(BoardState& board, const cv::Mat& image);
     // 若本轮仍有未辨认的方牌可能属于已买入的干员，下回合再按当前棋盘选格。
     bool deploy_bench(BoardState& board);
@@ -233,8 +262,6 @@ private:
     static bool has_color_badge(const cv::Mat& image, int cx, int cy);
     static double
         color_ratio(const cv::Mat& image, const Rect& roi, int lower_h, int upper_h, int lower_s, int lower_v);
-    // 拖拽预览中格心邻域绿占比 > 0.8 即可部署的空格
-    static bool is_green_tile(const cv::Mat& image, const Point& pt, int radius = 15);
     static bool has_chinese(const std::string& text);
     // 策略列表滚动位移测量（模板匹配；位移过小视为已到底）
     static std::optional<int> measure_grid_shift(const cv::Mat& before, const cv::Mat& after);

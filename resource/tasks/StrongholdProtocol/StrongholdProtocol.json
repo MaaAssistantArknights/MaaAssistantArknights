@@ -221,6 +221,13 @@
         "text": [],
         "roi": [0, 175, 220, 80]
     },
+    "StrongholdProtocol@DragLevelOcr": {
+        "doc": "干员详情中 LV 右侧的养成等级，与活动等阶组合判断本次拿起的副本是否精锐",
+        "algorithm": "OcrDetect",
+        "withoutDet": true,
+        "text": [],
+        "roi": [112, 208, 48, 40]
+    },
     "StrongholdProtocol@ScreenTextOcr": {
         "doc": "未识别场景时的全屏文字扫描：判定是否仍在卫戍协议内、是否战斗中、有无通用按钮（代码 scan_unknown_screen，词表见 Keywords@*）",
         "algorithm": "OcrDetect",
