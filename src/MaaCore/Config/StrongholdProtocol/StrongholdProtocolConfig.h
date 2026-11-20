@@ -3,9 +3,12 @@
 #include "StrongholdStrategyGrid.h"
 #include "StrongholdTierBadgeConfig.h"
 
+#include <functional>
+#include <optional>
 #include <string>
 #include <unordered_map>
 #include <unordered_set>
+#include <utility>
 #include <vector>
 
 #include "Common/AsstBattleDef.h"
@@ -16,9 +19,22 @@ namespace asst
 // 卫戍协议极速模拟部署格位（1280x720 基准）
 struct StrongholdTiles
 {
-    std::vector<Point> safe; // 敌人不经过的格子
-    std::vector<Point> path; // 近战堵口顺序，首格是开局前排
-    std::vector<Point> rear; // 首格在开局前排身后，仍会接敌
+    std::vector<Point> safe;   // 敌人不经过的格子
+    std::vector<Point> path;   // 近战堵口顺序，首格是开局前排
+    std::vector<Point> rear;   // 首格在开局前排身后，仍会接敌
+    std::vector<Point> melee;  // 盟约策略近战格
+    std::vector<Point> ranged; // 盟约策略远程格
+    std::vector<Point> medic;  // 盟约策略医疗格
+    std::vector<Point> bench;
+    std::vector<Point> equipment;
+};
+
+// 盟约干员数据（stronghold_protocol_data.json）
+struct StrongholdOperInfo
+{
+    std::string id;                 // battle_data.json 中的赛季干员形态 ID
+    std::vector<std::string> bonds; // 携带的盟约，空表未知（走卡面盟约识别兜底）
+    int level = 0;                  // 费用等阶（1~6），0 未知
 };
 
 // 卫戍协议赛季配置
@@ -40,6 +56,17 @@ public:
     battle::Role get_role(const std::string& name) const;
 
     const StrongholdTierBadgeConfig& get_tier_badges() const { return m_tier_badges; }
+
+    std::optional<std::reference_wrapper<const StrongholdOperInfo>> find_oper(const std::string& name) const
+    {
+        if (const auto iter = m_operators.find(name); iter != m_operators.end()) {
+            return std::cref(iter->second);
+        }
+        return std::nullopt;
+    }
+
+    // 全部已知盟约名（卡面盟约区识别兜底用），按盟约定义顺序，阵营盟约在前
+    const std::vector<std::string>& get_bonds() const { return m_bonds; }
 
     const StrongholdTiles& get_tiles() const { return m_tiles; }
 
@@ -63,6 +90,8 @@ private:
     bool parse_purchase(const json::value& json, bool custom);
     Purchase m_purchase;
     StrongholdTierBadgeConfig m_tier_badges;
+    std::vector<std::string> m_bonds;
+    std::unordered_map<std::string, StrongholdOperInfo> m_operators;
     StrongholdTiles m_tiles;
     StrongholdStrategyGrid m_strategy_grid {};
 };

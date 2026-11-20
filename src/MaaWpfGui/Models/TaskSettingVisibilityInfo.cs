@@ -60,6 +60,9 @@ public class TaskSettingVisibilityInfo : PropertyChangedBase
 
     public bool SwitchTheme { get => field; set => SetAndNotify(ref field, value); }
 
+    // 注意属性名不能用 SeasonalTask：与 Configuration 类型名撞名，switch 臂里赋值目标会被解析成类型
+    public bool Seasonal { get => field; set => SetAndNotify(ref field, value); }
+
     public bool Custom { get => field; set => SetAndNotify(ref field, value); }
 
     public bool PostAction { get => field; set => SetAndNotify(ref field, value); }
@@ -160,6 +163,7 @@ public class TaskSettingVisibilityInfo : PropertyChangedBase
             UserDataUpdateTask => UserDataUpdate = enable,
             DepotMaintainTask => DepotMaintain = enable,
             SwitchThemeTask => SwitchTheme = enable,
+            SeasonalTask => Seasonal = enable,
             CustomTask => Custom = enable,
             _ => throw new NotImplementedException(),
         };
@@ -188,6 +192,7 @@ public class TaskSettingVisibilityInfo : PropertyChangedBase
         UserDataUpdate = false;
         DepotMaintain = false;
         SwitchTheme = false;
+        Seasonal = false;
         Custom = false;
     }
 

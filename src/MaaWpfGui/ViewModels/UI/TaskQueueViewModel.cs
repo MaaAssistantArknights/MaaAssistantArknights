@@ -144,6 +144,11 @@ public class TaskQueueViewModel : Screen
     public static SwitchThemeTaskUserControlModel SwitchThemeTask => SwitchThemeTaskUserControlModel.Instance;
 
     /// <summary>
+    /// Gets 赛季任务Model
+    /// </summary>
+    public static SeasonalTaskUserControlModel SeasonalTask => SeasonalTaskUserControlModel.Instance;
+
+    /// <summary>
     /// Gets 生稀盐酸任务Model
     /// </summary>
     public static CustomTaskUserControlModel CustomTask => CustomTaskUserControlModel.Instance;
@@ -1793,6 +1798,7 @@ public class TaskQueueViewModel : Screen
             new TaskTypeItem(LocalizationHelper.GetString("TaskQueue.Task.UserDataUpdate"), typeof(UserDataUpdateTask)),
             new TaskTypeItem(LocalizationHelper.GetString("TaskQueue.Task.DepotMaintain"), typeof(DepotMaintainTask)),
             new TaskTypeItem(LocalizationHelper.GetString("TaskQueue.Task.SwitchTheme"), typeof(SwitchThemeTask), introducedVersion: "6.19.0-beta.2"),
+            new TaskTypeItem(LocalizationHelper.GetString("TaskQueue.Task.SeasonalTask"), typeof(SeasonalTask)),
             new TaskTypeItem(LocalizationHelper.GetString("TaskQueue.Task.Custom"), typeof(CustomTask), isDebugOnly: true),
         ]);
 
@@ -1812,6 +1818,7 @@ public class TaskQueueViewModel : Screen
                 nameof(UserDataUpdateTask) => LocalizationHelper.GetString("TaskQueue.Task.UserDataUpdate"),
                 nameof(DepotMaintainTask) => LocalizationHelper.GetString("TaskQueue.Task.DepotMaintain"),
                 nameof(SwitchThemeTask) => LocalizationHelper.GetString("TaskQueue.Task.SwitchTheme"),
+                nameof(SeasonalTask) => LocalizationHelper.GetString("TaskQueue.Task.SeasonalTask"),
                 nameof(CustomTask) => LocalizationHelper.GetString("TaskQueue.Task.Custom"),
                 _ => item.Display,
             };

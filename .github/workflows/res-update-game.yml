@@ -243,6 +243,13 @@ jobs:
             tools/TaskSorter/requirements.txt
             tools/OptimizeTemplates/requirements.txt
 
+      - name: Update Stronghold Protocol data
+        run: |
+          python tools/StrongholdProtocolCovenant/generate_covenant.py \
+            --activity ./tools/ResourceUpdater/Official/gamedata/excel/activity_table.json \
+            --character ./tools/ResourceUpdater/Official/gamedata/excel/character_table.json \
+            --output resource/stronghold_protocol/regulation/stronghold_protocol_data.json
+
       - name: Install TaskSorter dependencies
         run: |
           python -m pip install -r tools/TaskSorter/requirements.txt

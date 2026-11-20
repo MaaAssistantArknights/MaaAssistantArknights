@@ -2318,6 +2318,17 @@ Right-clicking other options will check/uncheck this option simultaneously</syst
     <system:String x:Key="TaskQueue.Task.Recruit">{key=TaskQueue.Task.Recruiting}</system:String>
     <system:String x:Key="TaskQueue.Task.Recruiting">Auto Recruit</system:String>
     <system:String x:Key="TaskQueue.Task.Roguelike">{key=TaskQueue.Task.AutoRoguelike}</system:String>
+    <system:String x:Key="TaskQueue.Task.SeasonalTask">Seasonal Task</system:String>
+    <system:String x:Key="TaskQueue.Task.SeasonalTask.CoreBond.Major">Major core bond (faction bond)</system:String>
+    <system:String x:Key="TaskQueue.Task.SeasonalTask.CoreBond.Minor">Minor core bond</system:String>
+    <system:String x:Key="TaskQueue.Task.SeasonalTask.CoreBond.Minor.Tip">Operators carrying the selected minor bond are treated as core as well; a hit on either the selected major or minor bond grants purchase and deployment priority.</system:String>
+    <system:String x:Key="TaskQueue.Task.SeasonalTask.CoreBond.Tip" xml:space="preserve">Operators carrying either selected core bond are purchased and deployed with priority; select ｢{key=Common.NotSelected}｣ to leave that bond out of the check.&#10;Three same-name core operators auto-merge into a promotion; before that, same-name cores are kept on the bench to accumulate the merge.</system:String>
+    <system:String x:Key="TaskQueue.Task.SeasonalTask.Rounds">Clear loop runs</system:String>
+    <system:String x:Key="TaskQueue.Task.SeasonalTask.Rounds.Tip" xml:space="preserve">Runs quick simulations with the bond strategy and loops clear attempts until the set number of runs is reached; 0 = skip the task.&#10;The major/minor core bonds and per-round upgrade strategy are configured in ｢Advanced Settings｣.</system:String>
+    <system:String x:Key="TaskQueue.Task.SeasonalTask.Skipped">Clear loop runs is 0, skipping the seasonal task.</system:String>
+    <system:String x:Key="TaskQueue.Task.SeasonalTask.UpgradePlan">Per-round upgrade strategy</system:String>
+    <system:String x:Key="TaskQueue.Task.SeasonalTask.UpgradePlan.Round">Round {0}</system:String>
+    <system:String x:Key="TaskQueue.Task.SeasonalTask.UpgradePlan.Tip" xml:space="preserve">At the start of each round the shop is upgraded to the target level, 0 = no upgrade that round; stops automatically when funds run short.&#10;Example: 3 for round 1 and 4 for round 2 upgrades the shop to level 3 in the first round and level 4 in the second.</system:String>
     <system:String x:Key="TaskQueue.Task.StartUp">{key=TaskQueue.Task.WakeUp}</system:String>
     <system:String x:Key="TaskQueue.Task.SwitchTheme">Switch Theme</system:String>
     <system:String x:Key="TaskQueue.Task.UserDataUpdate">Update Doctor Data</system:String>
