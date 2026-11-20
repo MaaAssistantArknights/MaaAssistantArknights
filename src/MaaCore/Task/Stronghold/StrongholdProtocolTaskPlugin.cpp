@@ -19,7 +19,7 @@
 
 #include <algorithm>
 #include <chrono>
-#include <climits>
+#include <tuple>
 
 namespace asst
 {
@@ -373,30 +373,12 @@ bool StrongholdProtocolTaskPlugin::click_template(const std::string& task_name)
     matcher.set_task_info(task_name);
     if (auto result = matcher.analyze()) {
         const Rect& rect = result->rect;
-        ctrler()->click(rect);
-        return true;
+        return ctrler()->click(rect);
     }
     return false;
 }
 
 // ---------------- 干员判定（权重表） ----------------
-
-bool StrongholdProtocolTaskPlugin::name_match(const std::string& name, const std::string& key)
-{
-    // 干员名全等匹配；OCR 错字由 CharsNameOcrReplace 纠错表在识别层规整
-    return !name.empty() && name == key;
-}
-
-int StrongholdProtocolTaskPlugin::oper_priority(const std::string& name)
-{
-    const auto& priority = StrongholdProtocol.get_priority();
-    for (size_t i = 0; i < priority.size(); ++i) {
-        if (name_match(name, priority[i])) {
-            return static_cast<int>(i);
-        }
-    }
-    return -1;
-}
 
 static int opening_front_priority(const std::string& name)
 {
@@ -419,28 +401,6 @@ static int opening_front_priority(const std::string& name)
 bool StrongholdProtocolTaskPlugin::is_medic(const std::string& name)
 {
     return StrongholdProtocol.get_role(name) == battle::Role::Medic;
-}
-
-bool StrongholdProtocolTaskPlugin::is_dps_oper(const std::string& name)
-{
-    // 空名（OCR 未读出）时 d.find("") 恒为 0，须先排除
-    if (name.empty()) {
-        return false;
-    }
-    return std::ranges::any_of(StrongholdProtocol.get_dps(), [&](const std::string& d) { return name_match(name, d); });
-}
-
-int StrongholdProtocolTaskPlugin::oper_rank(const std::string& name, int tier)
-{
-    // 干员价值：优先干员 > 其他 V/VI 输出 > 其他 V/VI > 低星
-    int p = oper_priority(name);
-    if (p >= 0) {
-        return 1000 - p;
-    }
-    if (tier >= 5) {
-        return 500 + (is_dps_oper(name) ? 50 : 0);
-    }
-    return tier;
 }
 
 // ---------------- 颜色判定 ----------------
@@ -1047,77 +1007,82 @@ bool StrongholdProtocolTaskPlugin::pick_squad(BoardState& board)
 {
     LogTraceFunction;
 
-    // 已选过人但页面没推进：只补点确认，不再点名字（再点会取消已选干员）
+    const auto confirm = "StrongholdProtocol@CustomOpersConfirm";
     if (board.squad_picked) {
-        click_template("StrongholdProtocol@CustomOpersConfirm");
-        return true;
+        return click_template(confirm);
     }
 
-    // 自选编队按权重每等阶选 2 名；编队为空（识别不到可选干员）时直接确认开始
-    OCRer ocr(ctrler()->get_image());
-    ocr.set_task_info("StrongholdProtocol@SquadOpers");
-    auto results_opt = ocr.analyze();
-
-    std::vector<TextRect> names;
-    std::vector<Rect> banned_marks; // ｢本局禁用｣ 标记位置，被禁干员名字紧邻其上方
-    if (results_opt) {
-        for (const auto& tr : *results_opt) {
-            if (tr.text.find("禁用") != std::string::npos) {
-                banned_marks.emplace_back(tr.rect);
-                continue;
-            }
-            // 只选名单内干员（权重表全等命中）；被 ban 的名牌有遮挡读不全，
-            // 名单不中自然出局，界面说明文字与 OCR 噪声同理
-            if (oper_priority(tr.text) < 0) {
-                continue;
-            }
-            names.emplace_back(tr);
+    const int offset = task_roi("StrongholdProtocol@Roi@SquadNameOffset").y;
+    std::set<std::string> attempted;
+    for (const int tier : { 5, 6 }) {
+        const std::string row = tier == 5 ? "V" : "VI";
+        auto image = ctrler()->get_image();
+        OCRer ocr(image);
+        ocr.set_task_info("StrongholdProtocol@SquadOpers" + row);
+        const auto text = ocr.analyze();
+        if (!text) {
+            continue;
         }
-    }
-    auto is_banned = [&](const TextRect& tr) {
-        const int cx = tr.rect.x + tr.rect.width / 2;
-        return std::ranges::any_of(banned_marks, [&](const Rect& mark) {
-            return std::abs(cx - (mark.x + mark.width / 2)) < 60 && mark.y > tr.rect.y && mark.y - tr.rect.y < 80;
+        std::vector<TextRect> names;
+        for (const auto& tr : *text) {
+            if (!BattleData.get_all_oper_names().contains(tr.text) || StrongholdProtocol.is_substitute(tr.text) ||
+                !StrongholdProtocol.is_six_star(tr.text)) {
+                continue;
+            }
+            const int x = tr.rect.x + tr.rect.width / 2;
+            const bool banned = std::ranges::any_of(*text, [&](const TextRect& mark) {
+                return mark.text.find("禁用") != std::string::npos && mark.rect.y > tr.rect.y &&
+                       mark.rect.y - tr.rect.y < 80 && std::abs(x - mark.rect.x - mark.rect.width / 2) < 60;
+            });
+            if (!banned) {
+                names.emplace_back(tr);
+            }
+        }
+        std::ranges::sort(names, {}, [](const TextRect& tr) {
+            return std::pair { -StrongholdProtocol.priority(tr.text, true), tr.rect.x };
         });
-    };
-
-    // 按 y 聚类成行：相邻名字 y 差 < 80px 归一行（上排 V、下排 VI）
-    std::ranges::sort(names, [](const TextRect& a, const TextRect& b) { return a.rect.y < b.rect.y; });
-    std::vector<std::vector<TextRect>> rows;
-    for (const auto& tr : names) {
-        if (rows.empty() || tr.rect.y - rows.back().front().rect.y > 80) {
-            rows.emplace_back();
-        }
-        rows.back().emplace_back(tr);
-    }
-
-    std::vector<std::string> picked;
-    for (auto& row : rows) {
-        std::ranges::sort(row, [](const TextRect& a, const TextRect& b) {
-            int pa = oper_priority(a.text), pb = oper_priority(b.text);
-            return (pa < 0 ? 999 : pa) < (pb < 0 ? 999 : pb);
-        });
-        int chosen = 0;
-        for (const auto& tr : row) {
-            if (chosen >= 2 || is_banned(tr)) {
+        const std::string counter = "StrongholdProtocol@SquadCount" + row;
+        int used_slots = 0;
+        for (const auto& tr : names) {
+            if (used_slots == 2 || need_exit()) {
+                break;
+            }
+            if (!attempted.emplace(tr.text).second) {
                 continue;
             }
-            // OCR 会把同一干员读出重复条目（名字与名牌双行），重复点击会 toggle 取消已选
-            if (std::ranges::find(picked, tr.text) != picked.end()) {
+            const auto before = read_number(ctrler()->get_image(), counter);
+            if (before == 2) {
+                break;
+            }
+            if (!ctrler()->click(Point(tr.rect.x + tr.rect.width / 2, tr.rect.y + tr.rect.height / 2 + offset))) {
                 continue;
             }
-            ctrler()->click(Point(
-                tr.rect.x + tr.rect.width / 2,
-                tr.rect.y + tr.rect.height / 2 + task_roi("StrongholdProtocol@Roi@SquadNameOffset").y));
-            sleep(400);
-            picked.emplace_back(tr.text);
-            ++chosen;
+            // 同一名牌再次点击会取消选择。只有分子递增才记录，读数不明时给这次点击预留一个名额。
+            std::optional<int> after;
+            for (int retry = 0; retry < 3 && !need_exit(); ++retry) {
+                sleep(200);
+                after = read_number(ctrler()->get_image(), counter);
+                if (before && after && before != after) {
+                    break;
+                }
+            }
+            if ((before == 0 || before == 1) && after == *before + 1) {
+                board.squad.emplace(tr.text, tier);
+                ++used_slots;
+                LogInfo << __FUNCTION__ << "selected" << tr.text << "tier" << row << "count" << *after;
+            }
+            else {
+                if (!before || !after || *before > 2 || *after > 2 || *after > *before) {
+                    ++used_slots;
+                }
+                LogWarn << __FUNCTION__ << "selection unconfirmed" << tr.text << "tier" << row << "count"
+                        << before.value_or(-1) << "->" << after.value_or(-1);
+            }
         }
     }
-    LogInfo << "custom squad picked:" << picked.size() << "operators";
+    // 确认失败或过场尚未结束时，下次只补点确认，避免再次点击头像取消选择。
     board.squad_picked = true;
-    click_template("StrongholdProtocol@CustomOpersConfirm");
-    return true;
+    return !need_exit() && click_template(confirm);
 }
 
 // ---------------- 局内：商店读取与操作 ----------------
@@ -1344,7 +1309,6 @@ std::vector<StrongholdProtocolTaskPlugin::ShopCard>
                 0.1) {
             card.tier = 5;
         }
-        card.is_dps = is_dps_oper(card.name);
         card.is_oper = card.is_oper && !card.empty;
         cards.emplace_back(card);
         LogTrace << "shop card x" << x << "cost" << card.cost << "tier" << card.tier << "oper" << card.is_oper
@@ -1352,7 +1316,7 @@ std::vector<StrongholdProtocolTaskPlugin::ShopCard>
     }
     // 普通商店的费用徽章可能只读出一小段像 0 的笔画；混有付费卡时，单独的 0 需要补读。
     if (std::ranges::any_of(cards, [](const ShopCard& c) { return !c.empty && c.cost > 0; }) &&
-        !promotion_reward(cards)) {
+        !is_reward_shop(cards)) {
         for (auto& card : cards) {
             if (card.is_oper && card.cost == 0) {
                 const int cost = read_badge(card.x);
@@ -1364,17 +1328,67 @@ std::vector<StrongholdProtocolTaskPlugin::ShopCard>
     return cards;
 }
 
-std::optional<StrongholdProtocolTaskPlugin::ShopCard>
-    StrongholdProtocolTaskPlugin::promotion_reward(const std::vector<ShopCard>& cards)
+bool StrongholdProtocolTaskPlugin::is_reward_shop(const std::vector<ShopCard>& cards)
 {
-    const auto free_oper = [](const ShopCard& card) {
-        return card.is_oper && !card.empty && card.cost == 0;
+    return std::ranges::count_if(cards, [](const ShopCard& card) {
+               return card.is_oper && !card.empty && card.cost == 0;
+           }) == 3;
+}
+
+std::optional<StrongholdProtocolTaskPlugin::ShopCard>
+    StrongholdProtocolTaskPlugin::promotion_reward(const std::vector<ShopCard>& cards, const BoardState& board)
+{
+    return is_reward_shop(cards) ? shop_pick(cards, board, 0) : std::nullopt;
+}
+
+std::optional<StrongholdProtocolTaskPlugin::ShopCard>
+    StrongholdProtocolTaskPlugin::shop_pick(const std::vector<ShopCard>& cards, const BoardState& board, int gold)
+{
+    enum class Group
+    {
+        Low,
+        Five,
+        Substitute,
+        Six,
+        SquadFive,
+        SquadSix,
+        Priority
     };
-    if (std::ranges::count_if(cards, free_oper) != 3) {
-        return std::nullopt;
+    const auto rank = [&](const ShopCard& card) {
+        if (card.tier > 0 && card.tier < 5) {
+            return std::pair { Group::Low, card.tier };
+        }
+        if (const int priority = StrongholdProtocol.priority(card.name)) {
+            return std::pair { Group::Priority, priority };
+        }
+        if (const auto it = board.squad.find(card.name); it != board.squad.end()) {
+            // 自选档取编队页的行等阶，卡面实测等阶另用于付费筛选和部署。
+            return std::pair { it->second == 6 ? Group::SquadSix : Group::SquadFive, 0 };
+        }
+        if (card.tier == 0) {
+            return std::pair { Group::Low, 0 };
+        }
+        if (StrongholdProtocol.is_substitute(card.name)) {
+            return std::pair { Group::Substitute, 0 };
+        }
+        return std::pair { card.tier == 6 ? Group::Six : Group::Five, 0 };
+    };
+    std::optional<ShopCard> best;
+    std::tuple<bool, std::pair<Group, int>, int> best_score;
+    for (const auto& card : cards) {
+        const bool free = card.cost == 0;
+        if (!card.is_oper || card.empty || card.cost < 0 || card.cost > gold || (!free && card.tier < 5)) {
+            continue;
+        }
+        const auto copies = board.purchases.find(card.name);
+        const auto score =
+            std::tuple { free, rank(card), copies == board.purchases.end() ? 0 : copies->second.unmerged };
+        if (!best || score > best_score) {
+            best = card;
+            best_score = score;
+        }
     }
-    auto offers = cards | std::views::filter(free_oper);
-    return std::ranges::max(offers, {}, [](const ShopCard& card) { return oper_rank(card.name, card.tier); });
+    return best;
 }
 
 bool StrongholdProtocolTaskPlugin::buy_oper(
@@ -1544,7 +1558,7 @@ bool StrongholdProtocolTaskPlugin::buy_and_deploy(
     auto before = ctrler()->get_image();
     if (phase == ShopPhase::Early && card.cost == 0) {
         // 领取后其他赠卡会一起消失，不能用上一张商店截图中的 0 费继续购买。
-        const auto reward = promotion_reward(read_shop_cards(before));
+        const auto reward = promotion_reward(read_shop_cards(before), board);
         if (!reward) {
             return false;
         }
@@ -1570,7 +1584,7 @@ bool StrongholdProtocolTaskPlugin::buy_and_deploy(
         const auto role = StrongholdProtocol.get_role(card.name);
         board.medic_slot_taken |= role == battle::Role::Medic || role == battle::Role::Unknown;
         LogInfo << "bought:" << card.name << "cost" << card.cost << "tier" << card.tier << "purchases" << count;
-        const auto reward = promotion_reward(cards_after);
+        const auto reward = promotion_reward(cards_after, board);
         if (!reward) {
             break;
         }
@@ -1711,13 +1725,13 @@ bool StrongholdProtocolTaskPlugin::prep_phase(BoardState& board)
         std::vector<int> failed_slots;
         while (remaining > 0 && !need_exit()) {
             auto cards = read_shop_cards(image);
-            const bool reward_shop = promotion_reward(cards).has_value();
+            const bool reward_shop = is_reward_shop(cards);
             std::erase_if(cards, [&](const ShopCard& c) {
                 return (reward_shop && c.cost != 0) ||
                        std::ranges::any_of(failed_slots, [&](int x) { return std::abs(c.x - x) < 30; });
             });
-            auto pick =
-                reward_shop ? promotion_reward(cards) : opening_pick(cards, budget, remaining, board.medic_slot_taken);
+            auto pick = reward_shop ? shop_pick(cards, board, 0)
+                                    : opening_pick(cards, budget, remaining, board.medic_slot_taken);
             if (!pick) {
                 break;
             }
@@ -1785,7 +1799,7 @@ bool StrongholdProtocolTaskPlugin::prep_phase(BoardState& board)
     }
 
     if (shop.maxed) {
-        // 满级后只买 V/VI 干员，没有就刷新；优先免费（晋升赠送）> 权重 > 凑晋升 > 输出型
+        // 满级先领赠卡，再按本局偏好购买 V/VI 阶干员。
         std::string last_signature;
         int same_count = 0;
         for (int i = 0; i < 40 && !need_exit(); ++i) {
@@ -1807,64 +1821,7 @@ bool StrongholdProtocolTaskPlugin::prep_phase(BoardState& board)
             }
             last_signature = signature;
 
-            const int gold_value = gold.value_or(99);
-            const ShopCard* pick = nullptr;
-            // 优先免费干员
-            for (const auto& card : cards) {
-                if (card.is_oper && card.cost == 0) {
-                    if (!pick || oper_rank(card.name, card.tier) > oper_rank(pick->name, pick->tier)) {
-                        pick = &card;
-                    }
-                }
-            }
-            if (!pick) {
-                // 权重优先 > 已拥有（凑 3 晋升）> 输出型 > 买得起 4 费时的非输出
-                auto affordable = [&](const ShopCard& c) {
-                    return c.is_oper && c.tier >= 5 && c.cost >= 0 && c.cost <= gold_value;
-                };
-                int best_priority = INT_MAX;
-                for (const auto& card : cards) {
-                    if (!affordable(card)) {
-                        continue;
-                    }
-                    int p = oper_priority(card.name);
-                    if (p >= 0 && p < best_priority) {
-                        pick = &card;
-                        best_priority = p;
-                    }
-                }
-                if (!pick) {
-                    for (const auto& card : cards) {
-                        if (!affordable(card) || card.cost == 0) {
-                            continue;
-                        }
-                        const auto it = board.purchases.find(card.name);
-                        if (it == board.purchases.end() || it->second.unmerged == 0) {
-                            continue;
-                        }
-                        if (!pick || it->second.unmerged > board.purchases.at(pick->name).unmerged) {
-                            pick = &card;
-                        }
-                    }
-                }
-                if (!pick) {
-                    for (const auto& card : cards) {
-                        if (affordable(card) && card.cost > 0 && card.is_dps) {
-                            pick = &card;
-                            break;
-                        }
-                    }
-                }
-                // 资金见底（扣 1 刷新费后不足 4）才买任意可买卡清仓；资金充足时留钱刷新等 V/VI
-                if (!pick && gold && *gold - 1 < 4) {
-                    for (const auto& card : cards) {
-                        if (affordable(card) && card.cost > 0) {
-                            pick = &card;
-                            break;
-                        }
-                    }
-                }
-            }
+            const auto pick = shop_pick(cards, board, gold.value_or(99));
             if (pick) {
                 LogInfo << "buy V/VI:" << pick->name << "cost" << pick->cost;
                 if (buy_and_deploy(board, *pick, ShopPhase::Maxed, opening.empty() ? nullptr : &opening)) {
@@ -2022,7 +1979,7 @@ std::optional<StrongholdProtocolTaskPlugin::DeployTile> StrongholdProtocolTaskPl
     const auto pick_group = [&](const std::string& group,
                                 const std::vector<Point>& points) -> std::optional<DeployTile> {
         std::optional<DeployTile> swap;
-        int best_value = oper_rank(name, tier);
+        int best_value = tier;
         for (size_t i = 0; i < points.size(); ++i) {
             DeployTile tile { group + std::to_string(i), points[i] };
             if (!opening_tile.empty() && tile.key != opening_tile) {
@@ -2055,9 +2012,8 @@ std::optional<StrongholdProtocolTaskPlugin::DeployTile> StrongholdProtocolTaskPl
             if ((!melee && old_melee && group != "safe") || (melee && !old_melee && group == "safe")) {
                 continue;
             }
-            const int value = oper_rank(old_name, old_tier);
-            if (value < best_value) {
-                best_value = value;
+            if (old_tier < best_value) {
+                best_value = old_tier;
                 swap = tile;
             }
         }
@@ -2205,7 +2161,7 @@ std::optional<Point> StrongholdProtocolTaskPlugin::deploy_from_bench(
         }
         tier_hint = known->second;
     }
-    int tier = oper_priority(name) >= 0 ? std::max(5, tier_hint) : tier_hint;
+    int tier = tier_hint;
     // 面板黄框色判 V/VI（判定区 Roi@DragTierFrame，金框占比 > 0.08）
     if (color_ratio(
             preview,
@@ -2294,7 +2250,7 @@ std::optional<Point> StrongholdProtocolTaskPlugin::deploy_from_bench(
                 return entry.second.first == old_name && entry.second.second >= 5;
             });
         if (facing_applied && slots0 && *slots0 <= 8 && slots0 == slots1 && !is_green_tile(preview, target_pt) &&
-            old_tier > 0 && old_tier < 5 && !ambiguous && oper_priority(old_name) < 0 &&
+            old_tier > 0 && old_tier < 5 && !ambiguous && StrongholdProtocol.priority(old_name) == 0 &&
             BattleData.get_all_oper_names().contains(old_name) &&
             !BattleData.find_first_oper(battle::Role::Drone, old_name)) {
             const auto& baseline = before_purchase.empty() ? before_deploy : before_purchase;

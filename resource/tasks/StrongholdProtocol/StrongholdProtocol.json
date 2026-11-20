@@ -87,12 +87,27 @@
         "text": [],
         "roi": [960, 100, 320, 433]
     },
-    "StrongholdProtocol@SquadOpers": {
-        "doc": "自选编队界面干员名区（1080p 560,80,1160,880 等比），供插件 pick_squad 按权重选人",
+    "StrongholdProtocol@SquadOpersV": {
+        "doc": "自选编队上排 V 阶干员姓名和本局禁用标记",
         "baseTask": "CharsNameOcrReplace",
         "algorithm": "OcrDetect",
         "text": [],
-        "roi": [373, 53, 773, 587]
+        "roi": [373, 253, 825, 94]
+    },
+    "StrongholdProtocol@SquadOpersVI": {
+        "doc": "自选编队下排 VI 阶干员姓名和本局禁用标记",
+        "baseTask": "StrongholdProtocol@SquadOpersV",
+        "roi": [373, 507, 825, 94]
+    },
+    "StrongholdProtocol@SquadCountV": {
+        "doc": "自选编队上排已选人数，只读取分子",
+        "baseTask": "NumberOcrReplace",
+        "roi": [1195, 211, 38, 45]
+    },
+    "StrongholdProtocol@SquadCountVI": {
+        "doc": "自选编队下排已选人数，只读取分子",
+        "baseTask": "StrongholdProtocol@SquadCountV",
+        "roi": [1195, 467, 38, 45]
     },
     "StrongholdProtocol@ReadyButton": {
         "doc": "回合休整界面（准备就绪按钮），roi 待实测校准",

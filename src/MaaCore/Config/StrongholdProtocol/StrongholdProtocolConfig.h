@@ -3,6 +3,7 @@
 
 #include <string>
 #include <unordered_map>
+#include <unordered_set>
 #include <vector>
 
 #include "Common/AsstBattleDef.h"
@@ -25,9 +26,12 @@ class StrongholdProtocolConfig final : public MAA_NS::SingletonHolder<Stronghold
 public:
     virtual ~StrongholdProtocolConfig() override = default;
 
-    const std::vector<std::string>& get_priority() const { return m_priority; }
+    // 数值越高越优先，未列入名单时返回 0。编队时只考虑标记 squad 的条目。
+    int priority(const std::string& name, bool squad_only = false) const;
 
-    const std::vector<std::string>& get_dps() const { return m_dps; }
+    bool is_substitute(const std::string& name) const { return m_purchase.substitutes.contains(name); }
+
+    bool is_six_star(const std::string& name) const;
 
     // 同名干员有多个职业时取赛季指定的职业，无法确定时返回 Unknown。
     battle::Role get_role(const std::string& name) const;
@@ -37,9 +41,19 @@ public:
 protected:
     virtual bool parse(const json::value& json) override;
 
-    std::vector<std::string> m_priority; // 购买优先级，数组序即权重序
-    std::vector<std::string> m_dps;
-    std::unordered_map<std::string, battle::Role> m_role_overrides;
+private:
+    struct Purchase
+    {
+        using Oper = std::shared_ptr<const battle::OperProps>;
+        using NamedOpers = std::unordered_map<std::string, Oper>;
+        std::vector<std::pair<Oper, bool>> priority;
+        NamedOpers substitutes;
+        NamedOpers forms;
+    };
+
+    Purchase::Oper season_oper(const std::string& name) const;
+    bool parse_purchase(const json::value& json, bool custom);
+    Purchase m_purchase;
     StrongholdTiles m_tiles;
 };
 

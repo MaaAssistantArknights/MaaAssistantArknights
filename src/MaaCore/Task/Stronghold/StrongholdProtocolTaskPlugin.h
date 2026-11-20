@@ -52,7 +52,6 @@ private:
         int tier = 0;         // 等阶（罗马数字），0 未知
         bool empty = false;   // 空位
         bool is_oper = false; // 是干员（非装备）
-        bool is_dps = false;  // 输出型干员
         std::string name;     // 干员名（可能为空）
     };
 
@@ -73,9 +72,10 @@ private:
     // 每局对局状态，结算后重置
     struct BoardState
     {
-        int round_done = -1;         // 已处理完的回合号
-        bool pending_deploy = false; // 备战席上还有干员待部署
-        bool squad_picked = false;   // 本局已在编队页选过人
+        int round_done = -1;                        // 已处理完的回合号
+        bool pending_deploy = false;                // 备战席上还有干员待部署
+        bool squad_picked = false;                  // 名牌已处理，再次进入编队页时只补点确认
+        std::unordered_map<std::string, int> squad; // 本局选入的干员及其编队行等阶
         // 已买入且待部署的干员名与等阶，回合末重扫时据此恢复等阶。
         std::vector<std::pair<std::string, int>> bench_known;
         bool medic_slot_taken = false;                            // 已获得医疗或职业未明的干员，前期只再买非医疗
@@ -129,7 +129,9 @@ private:
     std::optional<int> read_gold(const cv::Mat& image);
     ShopInfo read_shop(const cv::Mat& image);
     std::vector<ShopCard> read_shop_cards(const cv::Mat& image) const;
-    static std::optional<ShopCard> promotion_reward(const std::vector<ShopCard>& cards);
+    static bool is_reward_shop(const std::vector<ShopCard>& cards);
+    static std::optional<ShopCard> shop_pick(const std::vector<ShopCard>& cards, const BoardState& board, int gold);
+    static std::optional<ShopCard> promotion_reward(const std::vector<ShopCard>& cards, const BoardState& board);
     enum class ShopPhase
     {
         Early,
@@ -188,12 +190,7 @@ private:
     // 备战席小人定位：按头顶深色等阶方牌检测，按压点为方牌左上角加 Roi@BenchPressOffset 偏移
     static std::vector<Point> detect_bench_opers(const cv::Mat& image);
 
-    // 优先级干员判定（权重表在 stronghold_protocol 资源目录的 purchase.json）
-    static int oper_priority(const std::string& name);
     static bool is_medic(const std::string& name);
-    static bool is_dps_oper(const std::string& name);
-    static int oper_rank(const std::string& name, int tier);
-    static bool name_match(const std::string& name, const std::string& key);
 
     // 策略网格角标颜色判定（金色=已通关 3 次，彩色=镀层 6 次）
     static bool has_gold_badge(const cv::Mat& image, int cx, int cy);
