@@ -1328,6 +1328,34 @@ std::vector<StrongholdProtocolTaskPlugin::ShopCard>
     return cards;
 }
 
+std::optional<int> StrongholdProtocolTaskPlugin::field_medic_tier(const BoardState& board)
+{
+    std::optional<int> tier;
+    for (const auto& [key, occupant] : board.occ) {
+        if (is_medic(occupant.first)) {
+            // 合成可能腾出该格，在部署预览确认之前保留占位。
+            if (tier || board.promotion_tiles.contains(key) || key == "path0") {
+                return 0;
+            }
+            tier = occupant.second;
+        }
+    }
+    return tier;
+}
+
+static bool improves_field_medic(std::optional<int> field, int tier)
+{
+    return !field || (*field > 0 && *field < 5 && tier > *field);
+}
+
+bool StrongholdProtocolTaskPlugin::can_buy_medic(const BoardState& board, int tier)
+{
+    const auto field = field_medic_tier(board);
+    return improves_field_medic(field, tier) && !std::ranges::any_of(board.bench_known, [&](const auto& copy) {
+               return is_medic(copy.first) && improves_field_medic(field, copy.second);
+           });
+}
+
 bool StrongholdProtocolTaskPlugin::is_reward_shop(const std::vector<ShopCard>& cards)
 {
     return std::ranges::count_if(cards, [](const ShopCard& card) {
@@ -1374,15 +1402,24 @@ std::optional<StrongholdProtocolTaskPlugin::ShopCard>
         return std::pair { card.tier == 6 ? Group::Six : Group::Five, 0 };
     };
     std::optional<ShopCard> best;
-    std::tuple<bool, std::pair<Group, int>, int> best_score;
+    std::tuple<bool, bool, std::pair<Group, int>, int> best_score;
     for (const auto& card : cards) {
         const bool free = card.cost == 0;
         if (!card.is_oper || card.empty || card.cost < 0 || card.cost > gold || (!free && card.tier < 5)) {
             continue;
         }
+        const auto role = StrongholdProtocol.get_role(card.name);
+        const bool suitable =
+            role != battle::Role::Unknown && (role != battle::Role::Medic || can_buy_medic(board, card.tier));
+        if (!free && !card.name.empty() && !suitable) {
+            continue;
+        }
         const auto copies = board.purchases.find(card.name);
-        const auto score =
-            std::tuple { free, rank(card), copies == board.purchases.end() ? 0 : copies->second.unmerged };
+        // 免费三选一必须领走一张。有合适的赠卡时才跳过多余的医疗。
+        const auto score = std::tuple { free,
+                                        !free || suitable,
+                                        rank(card),
+                                        copies == board.purchases.end() ? 0 : copies->second.unmerged };
         if (!best || score > best_score) {
             best = card;
             best_score = score;
@@ -1391,23 +1428,22 @@ std::optional<StrongholdProtocolTaskPlugin::ShopCard>
     return best;
 }
 
-bool StrongholdProtocolTaskPlugin::buy_oper(
+StrongholdProtocolTaskPlugin::PurchaseResult StrongholdProtocolTaskPlugin::buy_oper(
     ShopCard& card,
     const cv::Mat& before,
     cv::Mat& after,
     std::vector<ShopCard>& cards_after,
     ShopPhase phase,
-    bool medic_slot_taken)
+    const BoardState& board)
 {
-    const auto can_buy = [&](const std::string& name) {
-        if (phase != ShopPhase::Early) {
-            return true;
-        }
-        const auto role = StrongholdProtocol.get_role(name);
-        return role != battle::Role::Unknown && (role != battle::Role::Medic || !medic_slot_taken);
+    const bool reward = phase == ShopPhase::PromotionReward;
+    const auto can_buy = [&] {
+        const auto role = StrongholdProtocol.get_role(card.name);
+        return reward ||
+               (role != battle::Role::Unknown && (role != battle::Role::Medic || can_buy_medic(board, card.tier)));
     };
-    if (!card.name.empty() && !can_buy(card.name)) {
-        return false;
+    if (!card.name.empty() && !can_buy()) {
+        return PurchaseResult::Skipped;
     }
     const auto gold0 = card.cost == 0 ? std::nullopt : read_gold(before);
     const int card_y = task_roi("StrongholdProtocol@Roi@ShopCardY").y;
@@ -1441,7 +1477,7 @@ bool StrongholdProtocolTaskPlugin::buy_oper(
                         }
                     }
                 }
-                if (card.name.empty() && phase == ShopPhase::Early) {
+                if (card.name.empty() && !reward) {
                     continue;
                 }
             }
@@ -1450,14 +1486,13 @@ bool StrongholdProtocolTaskPlugin::buy_oper(
     }
     if (saw_no_funds) {
         ProcessTask(*this, { "StrongholdProtocol@PopupClose" }).run();
-        return false;
+        return PurchaseResult::Failed;
     }
-    if (!saw_trait || !can_buy(card.name)) {
-        // 前期买入职业未明的干员会导致后续无法判断是否已买过医疗。
+    if (!saw_trait || !can_buy()) {
         LogInfo << __FUNCTION__ << "canceling shop selection" << card.name << "at" << card.x;
         ctrler()->click(Point(card.x, card_y));
         ProcessTask(*this, { "StrongholdProtocol@PopupClose" }).run();
-        return false;
+        return saw_trait ? PurchaseResult::Skipped : PurchaseResult::Failed;
     }
     // 确认购买：点卡牌下方的购买按钮（y 见 Roi@ShopBuyY，x 跟随卡牌）
     ctrler()->click(Point(card.x, task_roi("StrongholdProtocol@Roi@ShopBuyY").y));
@@ -1484,7 +1519,7 @@ bool StrongholdProtocolTaskPlugin::buy_oper(
     }
     if (failed || (card.cost != 0 && gold0 && gold1 && *gold1 >= *gold0)) {
         ProcessTask(*this, { "StrongholdProtocol@PopupClose" }).run();
-        return false;
+        return PurchaseResult::Failed;
     }
     sleep(600); // 买入动画结束后，备战席和赠送卡槽才同时可读。
     after = ctrler()->get_image();
@@ -1498,23 +1533,24 @@ bool StrongholdProtocolTaskPlugin::buy_oper(
         if (still_there) {
             LogWarn << __FUNCTION__ << "free card still in shop, purchase not confirmed:" << card.name;
             ProcessTask(*this, { "StrongholdProtocol@PopupClose" }).run();
-            return false;
+            return PurchaseResult::Failed;
         }
     }
-    return true;
+    return PurchaseResult::Bought;
 }
 
 std::optional<StrongholdProtocolTaskPlugin::ShopCard> StrongholdProtocolTaskPlugin::opening_pick(
     const std::vector<ShopCard>& cards,
     int gold,
     int remaining,
-    bool medic_slot_taken)
+    const BoardState& board)
 {
     std::optional<ShopCard> best;
     std::tuple<int, int, int, int> best_score {};
-    const auto eligible = [](const ShopCard& c) {
-        return c.is_oper && !c.empty && c.cost > 0 &&
-               (c.name.empty() || StrongholdProtocol.get_role(c.name) != battle::Role::Unknown);
+    const auto eligible = [&](const ShopCard& c) {
+        const auto role = StrongholdProtocol.get_role(c.name);
+        return c.is_oper && !c.empty && c.cost > 0 && (c.name.empty() || role != battle::Role::Unknown) &&
+               (role != battle::Role::Medic || can_buy_medic(board, c.tier));
     };
     for (size_t i = 0; i < cards.size(); ++i) {
         const auto& first = cards[i];
@@ -1524,7 +1560,7 @@ std::optional<StrongholdProtocolTaskPlugin::ShopCard> StrongholdProtocolTaskPlug
         const auto consider = [&](const ShopCard* second) {
             const int cost = first.cost + (second ? second->cost : 0);
             const int medics = is_medic(first.name) + (second && is_medic(second->name));
-            if ((gold >= 0 && cost > gold) || medic_slot_taken + medics > 1) {
+            if ((gold >= 0 && cost > gold) || medics > 1) {
                 return;
             }
             const int melee =
@@ -1549,43 +1585,45 @@ std::optional<StrongholdProtocolTaskPlugin::ShopCard> StrongholdProtocolTaskPlug
     return best;
 }
 
-bool StrongholdProtocolTaskPlugin::buy_and_deploy(
+StrongholdProtocolTaskPlugin::PurchaseResult StrongholdProtocolTaskPlugin::buy_and_deploy(
     BoardState& board,
     ShopCard card,
     ShopPhase phase,
     std::vector<OpeningOper>* opening)
 {
     auto before = ctrler()->get_image();
-    if (phase == ShopPhase::Early && card.cost == 0) {
+    if (card.cost == 0) {
         // 领取后其他赠卡会一起消失，不能用上一张商店截图中的 0 费继续购买。
         const auto reward = promotion_reward(read_shop_cards(before), board);
-        if (!reward) {
-            return false;
+        if (reward) {
+            card = *reward;
+            phase = ShopPhase::PromotionReward;
         }
-        card = *reward;
-        phase = ShopPhase::PromotionReward;
+        else if (phase == ShopPhase::Early) {
+            return PurchaseResult::Skipped;
+        }
     }
     cv::Mat after;
-    bool bought = false;
+    auto result = PurchaseResult::Failed;
     while (!need_exit()) {
         std::vector<ShopCard> cards_after;
-        if (!buy_oper(card, before, after, cards_after, phase, board.medic_slot_taken)) {
-            LogWarn << "buy failed:" << card.name << "cost" << card.cost;
+        const auto purchase = buy_oper(card, before, after, cards_after, phase, board);
+        if (purchase != PurchaseResult::Bought) {
+            if (purchase == PurchaseResult::Failed) {
+                LogWarn << "buy failed:" << card.name << "cost" << card.cost;
+            }
             board.pending_deploy |= card.cost == 0;
-            return bought;
+            return result == PurchaseResult::Bought ? result : purchase;
         }
-        bought = true;
+        result = PurchaseResult::Bought;
         int count = 0;
         if (!card.name.empty()) {
             auto& copies = board.purchases[card.name];
             count = ++copies.total;
             ++copies.unmerged;
         }
-        const auto role = StrongholdProtocol.get_role(card.name);
-        board.medic_slot_taken |= role == battle::Role::Medic || role == battle::Role::Unknown;
         LogInfo << "bought:" << card.name << "cost" << card.cost << "tier" << card.tier << "purchases" << count;
-        const auto reward = promotion_reward(cards_after, board);
-        if (!reward) {
+        if (!is_reward_shop(cards_after)) {
             break;
         }
         // 三个免费干员同时出现表示刚才的购买触发了合成。赠送的干员要另行领取。
@@ -1610,6 +1648,7 @@ bool StrongholdProtocolTaskPlugin::buy_and_deploy(
             }
             board.bench_known.emplace_back(card.name, 0);
         }
+        const auto reward = shop_pick(cards_after, board, 0);
         LogInfo << "promotion after purchase:" << card.name << "purchases" << count << "reward" << reward->name;
         board.pending_deploy = true;
         before = after;
@@ -1617,7 +1656,7 @@ bool StrongholdProtocolTaskPlugin::buy_and_deploy(
         phase = ShopPhase::PromotionReward;
     }
     if (need_exit()) {
-        return bought;
+        return result;
     }
 
     // 当场没部署上的买入干员记下名字与等阶，回合末重扫部署时按名字恢复等阶
@@ -1645,18 +1684,24 @@ bool StrongholdProtocolTaskPlugin::buy_and_deploy(
     }
     if (opening) {
         opening->push_back({ card.name, tier_hint, slot, {} });
-        return true;
+        return result;
+    }
+    if (!is_medic(card.name) && !field_medic_tier(board) &&
+        std::ranges::any_of(board.bench_known, [](const auto& copy) { return is_medic(copy.first); })) {
+        // 给待部署的首名医疗保留最后一个可用位置，回合末按面板身份依次部署。
+        board.pending_deploy = true;
+        return result;
     }
     if (!slot) {
         LogWarn << "new bench slot not found after purchase:" << card.name;
         handle_popups();
         board.pending_deploy = true;
-        return true;
+        return result;
     }
     if (!deploy_from_bench(board, *slot, card.name, tier_hint, before)) {
         board.pending_deploy = true;
     }
-    return true;
+    return result;
 }
 
 void StrongholdProtocolTaskPlugin::assign_opening_tiles(std::vector<OpeningOper>& opening)
@@ -1719,6 +1764,13 @@ bool StrongholdProtocolTaskPlugin::prep_phase(BoardState& board)
     LogInfo << "round" << round << "gold" << shop.gold.value_or(-1) << "maxed" << shop.maxed;
 
     std::vector<OpeningOper> opening;
+    if ((board.round_done >= 0 || round > 1) &&
+        (!field_medic_tier(board) || !board.promotion_tiles.empty() ||
+         std::ranges::any_of(board.bench_known, [](const auto& copy) { return is_medic(copy.first); }))) {
+        deploy_bench_medic(board);
+        image = ctrler()->get_image();
+        shop = read_shop(image);
+    }
     if (board.round_done < 0 && round == 1) {
         int remaining = 2;
         int budget = shop.gold.value_or(-1);
@@ -1730,12 +1782,11 @@ bool StrongholdProtocolTaskPlugin::prep_phase(BoardState& board)
                 return (reward_shop && c.cost != 0) ||
                        std::ranges::any_of(failed_slots, [&](int x) { return std::abs(c.x - x) < 30; });
             });
-            auto pick = reward_shop ? shop_pick(cards, board, 0)
-                                    : opening_pick(cards, budget, remaining, board.medic_slot_taken);
+            auto pick = reward_shop ? shop_pick(cards, board, 0) : opening_pick(cards, budget, remaining, board);
             if (!pick) {
                 break;
             }
-            if (buy_and_deploy(board, *pick, ShopPhase::Early, &opening)) {
+            if (buy_and_deploy(board, *pick, ShopPhase::Early, &opening) == PurchaseResult::Bought) {
                 --remaining;
                 if (budget >= 0) {
                     budget = std::max(0, budget - pick->cost);
@@ -1787,10 +1838,11 @@ bool StrongholdProtocolTaskPlugin::prep_phase(BoardState& board)
                 image = ctrler()->get_image();
                 const auto gold = read_gold(image);
                 const auto slots = slots_left(image);
-                if (gold == 0 || slots == 0) {
+                if (gold == 0) {
                     break;
                 }
-                if (!card.is_oper || card.cost < 0 || (gold && card.cost > *gold)) {
+                if ((slots == 0 && !is_medic(card.name)) || !card.is_oper || card.cost < 0 ||
+                    (gold && card.cost > *gold)) {
                     continue;
                 }
                 buy_and_deploy(board, card, ShopPhase::Early, opening.empty() ? nullptr : &opening);
@@ -1801,15 +1853,21 @@ bool StrongholdProtocolTaskPlugin::prep_phase(BoardState& board)
     if (shop.maxed) {
         // 满级先领赠卡，再按本局偏好购买 V/VI 阶干员。
         std::string last_signature;
+        std::vector<int> skipped_slots;
+        bool refreshed = false;
         int same_count = 0;
         for (int i = 0; i < 40 && !need_exit(); ++i) {
             image = ctrler()->get_image();
             const auto gold = read_gold(image);
-            const auto cards = read_shop_cards(image);
+            auto cards = read_shop_cards(image);
             std::string signature;
             for (const auto& card : cards) {
                 signature += card.name + ":" + std::to_string(card.cost) + ",";
             }
+            if (refreshed && signature != last_signature) {
+                skipped_slots.clear();
+            }
+            refreshed = false;
             if (signature == last_signature) {
                 if (++same_count >= 2) {
                     LogWarn << "refresh has no effect, stop refreshing";
@@ -1821,20 +1879,31 @@ bool StrongholdProtocolTaskPlugin::prep_phase(BoardState& board)
             }
             last_signature = signature;
 
-            const auto pick = shop_pick(cards, board, gold.value_or(99));
-            if (pick) {
+            if (!is_reward_shop(cards)) {
+                std::erase_if(cards, [&](const ShopCard& c) {
+                    return std::ranges::any_of(skipped_slots, [&](int x) { return std::abs(c.x - x) < 30; });
+                });
+            }
+            if (const auto pick = shop_pick(cards, board, gold.value_or(99))) {
                 LogInfo << "buy V/VI:" << pick->name << "cost" << pick->cost;
-                if (buy_and_deploy(board, *pick, ShopPhase::Maxed, opening.empty() ? nullptr : &opening)) {
-                    last_signature.clear(); // 商店已变化，重置签名
-                    continue;
+                const auto result =
+                    buy_and_deploy(board, *pick, ShopPhase::Maxed, opening.empty() ? nullptr : &opening);
+                if (result == PurchaseResult::Failed) {
+                    LogWarn << "buy failed, stop purchasing this round";
+                    break;
                 }
-                LogWarn << "buy failed, stop purchasing this round";
-                break;
+                if (result == PurchaseResult::Skipped) {
+                    skipped_slots.emplace_back(pick->x);
+                }
+                last_signature.clear();
+                continue;
             }
             if (gold && *gold < 4) {
                 break;
             }
             ProcessTask(*this, { "StrongholdProtocol@RefreshClick" }).run();
+            // 同一架上的匿名卡已在详情确认过，刷新后才能重新检查该位置。
+            refreshed = true;
         }
     }
 
@@ -1975,6 +2044,13 @@ std::optional<StrongholdProtocolTaskPlugin::DeployTile> StrongholdProtocolTaskPl
     if (role == battle::Role::Unknown || role == battle::Role::Drone) {
         return std::nullopt;
     }
+    const bool medic = role == battle::Role::Medic;
+    const auto field = medic ? field_medic_tier(board) : std::nullopt;
+    if (medic && !improves_field_medic(field, tier)) {
+        return std::nullopt;
+    }
+    std::optional<DeployTile> medic_swap;
+    int medic_swap_tier = 5;
     const bool melee = opening_front_priority(name) > 0;
     const auto pick_group = [&](const std::string& group,
                                 const std::vector<Point>& points) -> std::optional<DeployTile> {
@@ -1990,12 +2066,12 @@ std::optional<StrongholdProtocolTaskPlugin::DeployTile> StrongholdProtocolTaskPl
             }
             const auto occupant = board.occ.find(tile.key);
             if (occupant == board.occ.end()) {
-                if (slots != 0 && is_green_tile(preview, tile.point)) {
+                if (!field && slots != 0 && is_green_tile(preview, tile.point)) {
                     return tile;
                 }
                 continue;
             }
-            if (!opening_tile.empty() || board.promotion_tiles.contains(tile.key)) {
+            if ((!opening_tile.empty() && !medic) || board.promotion_tiles.contains(tile.key)) {
                 continue;
             }
             const auto& [old_name, old_tier] = occupant->second;
@@ -2004,7 +2080,21 @@ std::optional<StrongholdProtocolTaskPlugin::DeployTile> StrongholdProtocolTaskPl
                 old_role == battle::Role::Drone) {
                 continue;
             }
+            if (old_role == battle::Role::Medic) {
+                if (medic && field) {
+                    return tile;
+                }
+                continue;
+            }
             const bool old_melee = opening_front_priority(old_name) > 0;
+            if (medic) {
+                // 首名医疗优先用空格。所有兼容格都满时，才换下其中等阶最低的干员。
+                if (!field && (!old_melee || group == "safe") && old_tier < medic_swap_tier) {
+                    medic_swap_tier = old_tier;
+                    medic_swap = tile;
+                }
+                continue;
+            }
             if (group == "path" && melee && !old_melee) {
                 // 堵口位有低阶远程时，近战先接替这一格，再考虑后排的空格。
                 return tile;
@@ -2025,7 +2115,10 @@ std::optional<StrongholdProtocolTaskPlugin::DeployTile> StrongholdProtocolTaskPl
     if (auto tile = pick_group("rear", tiles.rear)) {
         return tile;
     }
-    return melee ? pick_group("safe", tiles.safe) : pick_group("path", tiles.path);
+    if (auto tile = melee ? pick_group("safe", tiles.safe) : pick_group("path", tiles.path)) {
+        return tile;
+    }
+    return medic_swap;
 }
 
 Point StrongholdProtocolTaskPlugin::lift_from_bench(const Point& bench)
@@ -2125,7 +2218,8 @@ std::optional<Point> StrongholdProtocolTaskPlugin::deploy_from_bench(
     const std::string& name_hint,
     int tier_hint,
     const cv::Mat& before_purchase,
-    const std::string& opening_tile)
+    const std::string& opening_tile,
+    std::string* medic_probe_name)
 {
     const auto before_deploy = ctrler()->get_image();
     const auto slots0 = slots_left(before_deploy);
@@ -2140,6 +2234,9 @@ std::optional<Point> StrongholdProtocolTaskPlugin::deploy_from_bench(
     const auto preview = ctrler()->get_image();
 
     const std::string name = read_drag_name(preview);
+    if (medic_probe_name) {
+        *medic_probe_name = name;
+    }
     if (name.empty() || (!name_hint.empty() && name != name_hint)) {
         emit_input(InputEvent::Type::TOUCH_UP, lp);
         sleep(300);
@@ -2185,8 +2282,20 @@ std::optional<Point> StrongholdProtocolTaskPlugin::deploy_from_bench(
             }
         }
     }
+    if (medic_probe_name && !is_medic(name)) {
+        emit_input(InputEvent::Type::TOUCH_UP, lp);
+        return std::nullopt;
+    }
     const auto target = choose_tile(board, name, tier, opening_tile, preview, slots0);
     if (!target) {
+        if (is_medic(name)) {
+            if (known == board.bench_known.end()) {
+                board.bench_known.emplace_back(name, tier);
+            }
+            else {
+                known->second = tier;
+            }
+        }
         emit_input(InputEvent::Type::WAIT_MS, lp, 300);
         emit_input(InputEvent::Type::TOUCH_UP, lp);
         LogInfo << "no free tile, returned to bench:" << name;
@@ -2302,8 +2411,40 @@ std::optional<Point> StrongholdProtocolTaskPlugin::deploy_from_bench(
     return target_pt;
 }
 
+void StrongholdProtocolTaskPlugin::deploy_bench_medic(BoardState& board)
+{
+    const auto slots = detect_bench_opers(ctrler()->get_image());
+    std::set<std::string> seen;
+    bool complete = true;
+    for (const auto& slot : slots) {
+        if (need_exit()) {
+            return;
+        }
+        std::string name;
+        if (deploy_from_bench(board, slot, {}, 0, {}, {}, &name)) {
+            return;
+        }
+        complete &= !name.empty();
+        seen.emplace(std::move(name));
+    }
+    // 方牌位置稳定且每个面板都能辨认时，才清除备战席上已经找不到的医疗记录。
+    if (complete && std::ranges::any_of(board.bench_known, [&](const auto& copy) {
+            return is_medic(copy.first) && !seen.contains(copy.first);
+        })) {
+        sleep(200);
+        if (detect_bench_opers(ctrler()->get_image()) == slots) {
+            std::erase_if(board.bench_known, [&](const auto& copy) {
+                return is_medic(copy.first) && !seen.contains(copy.first);
+            });
+        }
+    }
+}
+
 void StrongholdProtocolTaskPlugin::deploy_bench(BoardState& board)
 {
+    if (!field_medic_tier(board) || !board.promotion_tiles.empty()) {
+        deploy_bench_medic(board);
+    }
     // 备战席小人按头顶等阶方牌检测定位（台面布局随人数变化，固定扫点不可靠）：
     // 每轮重新检测当前剩余人，逐个尝试部署，部署成功小人消失故循环重扫
     for (int round = 0; round < 10 && !need_exit(); ++round) {

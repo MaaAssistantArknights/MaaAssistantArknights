@@ -78,7 +78,6 @@ private:
         std::unordered_map<std::string, int> squad; // 本局选入的干员及其编队行等阶
         // 已买入且待部署的干员名与等阶，回合末重扫时据此恢复等阶。
         std::vector<std::pair<std::string, int>> bench_known;
-        bool medic_slot_taken = false;                            // 已获得医疗或职业未明的干员，前期只再买非医疗
         std::unordered_map<std::string, PurchaseCount> purchases; // 本局各干员的累计购买次数，含免费领取
         std::set<std::string> promotion_tiles;                    // 合成素材曾占用、尚待核对的格位
         std::map<std::string, std::pair<std::string, int>> occ;   // 格位键（组名+序号）-> (干员名, 等阶)
@@ -138,16 +137,25 @@ private:
         Maxed,
         PromotionReward,
     };
-    bool buy_oper(
+    enum class PurchaseResult
+    {
+        Bought,
+        Skipped,
+        Failed,
+    };
+    static std::optional<int> field_medic_tier(const BoardState& board);
+    static bool can_buy_medic(const BoardState& board, int tier);
+    PurchaseResult buy_oper(
         ShopCard& card,
         const cv::Mat& before,
         cv::Mat& after,
         std::vector<ShopCard>& cards_after,
         ShopPhase phase,
-        bool medic_slot_taken);
-    bool buy_and_deploy(BoardState& board, ShopCard card, ShopPhase phase, std::vector<OpeningOper>* opening = nullptr);
+        const BoardState& board);
+    PurchaseResult
+        buy_and_deploy(BoardState& board, ShopCard card, ShopPhase phase, std::vector<OpeningOper>* opening = nullptr);
     static std::optional<ShopCard>
-        opening_pick(const std::vector<ShopCard>& cards, int gold, int remaining, bool medic_slot_taken);
+        opening_pick(const std::vector<ShopCard>& cards, int gold, int remaining, const BoardState& board);
     static void assign_opening_tiles(std::vector<OpeningOper>& opening);
     void deploy_opening(BoardState& board, std::vector<OpeningOper>& opening);
 
@@ -166,7 +174,8 @@ private:
         const std::string& name_hint = "",
         int tier_hint = 0,
         const cv::Mat& before_purchase = {},
-        const std::string& opening_tile = {});
+        const std::string& opening_tile = {},
+        std::string* medic_probe_name = nullptr);
 
     struct DeployTile
     {
@@ -181,6 +190,7 @@ private:
         const std::string& opening_tile,
         const cv::Mat& preview,
         std::optional<int> slots);
+    void deploy_bench_medic(BoardState& board);
     void deploy_bench(BoardState& board);
     bool set_facing(const Point& tile);
     void handle_popups();
