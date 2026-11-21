@@ -41,6 +41,7 @@ In Normal Mode, the shift order is planned automatically by the algorithm (Dormi
 ## Preset Rotation Mode
 
 - This mode requires preset squads configured in-game. MAA will automatically rotate through them.
+- The advanced option `Fill dormitories for trust after queue rotation` is off by default. When enabled, a dormitory-only task follows rotation: it prioritizes unassigned operators who need rest, then fills remaining trust slots. Dormitories are rearranged rather than only filling empty slots; working operators and base assistants are not moved. Changes take effect on the next run.
 
 ## Custom Base Mode
 

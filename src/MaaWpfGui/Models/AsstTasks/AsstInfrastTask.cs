@@ -116,6 +116,28 @@ public class AsstInfrastTask : AsstBaseTask
     /// </summary>
     public int PlanIndex { get; set; }
 
+    /// <summary>
+    /// 构建同一基建条目内依次执行的原生任务。
+    /// </summary>
+    /// <param name="rotationDormTrustEnabled">是否在队列轮换后整理宿舍。</param>
+    /// <returns>原任务及按需追加的宿舍专用任务。</returns>
+    public IEnumerable<AsstInfrastTask> BuildExecutionTasks(bool rotationDormTrustEnabled)
+    {
+        yield return this;
+        if (Mode != InfrastMode.Rotation || !rotationDormTrustEnabled)
+        {
+            yield break;
+        }
+
+        yield return new AsstInfrastTask {
+            Mode = InfrastMode.Normal,
+            Facilitys = ["Dorm"],
+            DormThreshold = DormThreshold,
+            DormFilterNotStationedEnabled = true,
+            DormTrustEnabled = true,
+        };
+    }
+
     public override (AsstTaskType TaskType, JObject Params) Serialize()
     {
         var fiammettaTargets = FiammettaTargets

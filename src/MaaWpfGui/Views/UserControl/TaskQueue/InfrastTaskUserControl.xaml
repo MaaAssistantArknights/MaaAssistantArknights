@@ -225,6 +225,20 @@
 
         <!--  高级设置  -->
         <StackPanel d:Visibility="Visible" Visibility="{c:Binding EnableAdvancedSettings, Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}">
+            <StackPanel
+                Margin="0,10"
+                Orientation="Horizontal"
+                Visibility="{c:Binding 'InfrastMode == taskQueue_vms:InfrastMode.Rotation',
+                                       Source={x:Static taskQueue_vms:InfrastTaskUserControlModel.Instance}}">
+                <CheckBox
+                    MaxWidth="{c:Binding '220 - ActualWidth',
+                                         ElementName=RotationDormTrustTipsTooltipBlock}"
+                    AutomationProperties.AutomationId="RotationDormTrustEnabled"
+                    IsChecked="{Binding RotationDormTrustEnabled}">
+                    <controls:TextBlock Text="{DynamicResource Infrast.RotationDormTrustEnabled}" TextWrapping="Wrap" />
+                </CheckBox>
+                <controls:TooltipBlock x:Name="RotationDormTrustTipsTooltipBlock" TooltipText="{DynamicResource Infrast.RotationDormTrustEnabled.Tip}" />
+            </StackPanel>
             <CheckBox
                 Margin="0,10"
                 d:Visibility="Visible"
