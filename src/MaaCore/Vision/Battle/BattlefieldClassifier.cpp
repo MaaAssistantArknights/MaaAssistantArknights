@@ -79,7 +79,8 @@ BattlefieldClassifier::SkillReadyResult BattlefieldClassifier::skill_ready_analy
     auto memory_info = Ort::MemoryInfo::CreateCpu(OrtDeviceAllocator, OrtMemTypeCPU);
     constexpr int64_t batch_size = 1;
 
-    auto& session = OnnxSessions::get_instance().get("skill_ready_cls");
+    auto lease = OnnxSessions::get_instance().acquire_lease("skill_ready_cls");
+    auto& session = lease.session();
 
     std::array<int64_t, 4> input_shape { batch_size, cropped_image.channels(), cropped_image.rows, cropped_image.cols };
 
@@ -104,6 +105,11 @@ BattlefieldClassifier::SkillReadyResult BattlefieldClassifier::skill_ready_analy
     constexpr const char* output_names[] = { "output" }; // session.GetOutputName()
 
     Ort::RunOptions run_options;
+    auto npu_lock = OnnxSessions::acquire_npu_inference_lock();
+    if (npu_lock.timed_out) {
+        LogError << __FUNCTION__ << "| timed out waiting for NPU lock";
+        return {};
+    }
     session.Run(run_options, input_names, &input_tensor, 1, output_names, &output_tensor, 1);
     Log.info(__FUNCTION__, "raw results:", raw_results);
 
@@ -248,12 +254,18 @@ BattlefieldClassifier::DeployDirectionResult BattlefieldClassifier::deploy_direc
         output_shape.data(),
         output_shape.size());
 
-    auto& session = OnnxSessions::get_instance().get("deploy_direction_cls");
+    auto lease = OnnxSessions::get_instance().acquire_lease("deploy_direction_cls");
+    auto& session = lease.session();
     // 这俩是 hardcode 在模型里的
     constexpr const char* input_names[] = { "input" };   // session.GetInputName()
     constexpr const char* output_names[] = { "output" }; // session.GetOutputName()
 
     Ort::RunOptions run_options;
+    auto npu_lock = OnnxSessions::acquire_npu_inference_lock();
+    if (npu_lock.timed_out) {
+        LogError << __FUNCTION__ << "| timed out waiting for NPU lock";
+        return {};
+    }
     session.Run(run_options, input_names, &input_tensor, 1, output_names, &output_tensor, 1);
     Log.info(__FUNCTION__, "raw result:", raw_results);
 

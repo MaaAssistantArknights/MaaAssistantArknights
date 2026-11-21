@@ -63,6 +63,49 @@ if(WIN32 OR APPLE)
     endif()
 endif()
 
+# Intel OpenVINO: native OCR (CPU/NPU) plus the ONNX Runtime execution provider.
+# Optional so builds without the SDK keep working; the GPU backends stay available.
+# Restricted to Windows/Linux, matching the MaaDeps port's supported platforms.
+if(WIN32 OR CMAKE_SYSTEM_NAME STREQUAL "Linux")
+    find_package(OpenVINO CONFIG QUIET COMPONENTS Runtime ONNX)
+    if(OpenVINO_FOUND)
+        # OpenVINO only ships a release CRT. Linking it into a /MDd Debug build
+        # triggers MSVCRT conflicts and makes passing ov:: objects unsafe, so the
+        # native OCR path is enabled for non-Debug configurations only. ONNX
+        # sessions still reach the OpenVINO EP through onnxruntime in Debug.
+        target_link_libraries(MaaCore
+            $<$<NOT:$<CONFIG:Debug>>:openvino::runtime>
+            $<$<NOT:$<CONFIG:Debug>>:openvino::frontend::onnx>)
+        target_compile_definitions(MaaCore PRIVATE $<$<NOT:$<CONFIG:Debug>>:MAA_WITH_OPENVINO=1>)
+        message(STATUS "MaaCore: OpenVINO backend enabled (${OpenVINO_VERSION}); native OCR disabled in Debug")
+
+        if(WIN32)
+            get_target_property(_ov_runtime_dll openvino::runtime IMPORTED_LOCATION_RELEASE)
+            if(NOT _ov_runtime_dll)
+                get_target_property(_ov_runtime_dll openvino::runtime IMPORTED_LOCATION_RELWITHDEBINFO)
+            endif()
+            if(NOT _ov_runtime_dll)
+                get_target_property(_ov_runtime_dll openvino::runtime IMPORTED_LOCATION)
+            endif()
+
+            if(_ov_runtime_dll)
+                get_filename_component(_ov_bin_dir "${_ov_runtime_dll}" DIRECTORY)
+                file(GLOB _ov_runtime_files "${_ov_bin_dir}/openvino*.dll" "${_ov_bin_dir}/tbb*.dll")
+                add_custom_command(
+                    TARGET MaaCore
+                    POST_BUILD
+                    COMMAND ${CMAKE_COMMAND} -E copy_if_different ${_ov_runtime_files}
+                            $<TARGET_FILE_DIR:MaaCore>
+                    COMMAND_EXPAND_LISTS)
+            else()
+                message(WARNING "OpenVINO runtime DLL location could not be resolved; copy it next to MaaCore.dll manually")
+            endif()
+        endif()
+    else()
+        message(STATUS "MaaCore: OpenVINO backend disabled (OpenVINO not found)")
+    endif()
+endif()
+
 if(LINUX)
     target_link_libraries(MaaCore pthread dl)
 endif()

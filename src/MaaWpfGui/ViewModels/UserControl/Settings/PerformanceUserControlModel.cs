@@ -19,6 +19,7 @@ using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Constants.Enums;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
+using MaaWpfGui.Utilities;
 using MaaWpfGui.Utilities.ValueType;
 using MaaWpfGui.ViewModels.UI;
 using Stylet;
@@ -34,9 +35,15 @@ public class PerformanceUserControlModel : PropertyChangedBase
     {
         Instance = new();
         LocalizationHelper.LanguageChanged += Instance.RefreshLocalization;
+        AsstProxy.OpenVinoAvailabilityChanged += Instance.RefreshOpenVinoAvailability;
     }
 
     public static PerformanceUserControlModel Instance { get; }
+
+    public PerformanceUserControlModel()
+    {
+        PropertyDependsOnUtility.InitializePropertyDependencies(this);
+    }
 
     private List<GpuOptionItem>? _gpuOptions;
 
@@ -55,17 +62,87 @@ public class PerformanceUserControlModel : PropertyChangedBase
             }
 
             GpuOption.SetCurrent(value.Value);
-            NotifyOfPropertyChange(nameof(IsGpuEnabled));
             SettingsViewModel.AskRestartToApplySettings();
         }
     }
 
-    public bool IsGpuEnabled => ActiveGpuOption?.Value is not GpuOption.DisableOption;
+    public LocalizedObservableList<BackendFamily> BackendFamilyOptions { get; } = new(
+        (BackendFamily.Auto, "InferenceBackendAuto"),
+        (BackendFamily.DirectML, "InferenceBackendDirectML"),
+        (BackendFamily.WebGPU, "InferenceBackendWebGpu"),
+        (BackendFamily.OpenVINO, "InferenceBackend.OpenVino"));
 
-    public LocalizedObservableList<InferenceBackend> BackendOptions { get; } = new(
-        (InferenceBackend.Auto, "InferenceBackendAuto"),
-        (InferenceBackend.DirectML, "InferenceBackendDirectML"),
-        (InferenceBackend.WebGPU, "InferenceBackendWebGpu"));
+    public LocalizedObservableList<OpenVinoDeviceChoice> OpenVinoDeviceOptions { get; } = new(
+        (OpenVinoDeviceChoice.CPU, "InferenceBackend.OpenVinoDevice.Cpu"),
+        (OpenVinoDeviceChoice.NPU, "InferenceBackend.OpenVinoDevice.Npu"),
+        (OpenVinoDeviceChoice.Hybrid, "InferenceBackend.OpenVinoDevice.Hybrid"));
+
+    [PropertyDependsOn(nameof(ActiveBackend))]
+    public BackendFamily ActiveBackendFamily
+    {
+        get => ActiveBackend switch
+        {
+            InferenceBackend.DirectML => BackendFamily.DirectML,
+            InferenceBackend.WebGPU => BackendFamily.WebGPU,
+            InferenceBackend.OpenVINOCpu or InferenceBackend.OpenVINONpu or InferenceBackend.OpenVINOHybrid => BackendFamily.OpenVINO,
+            _ => BackendFamily.Auto,
+        };
+        set
+        {
+            switch (value)
+            {
+                case BackendFamily.DirectML:
+                    ActiveBackend = InferenceBackend.DirectML;
+                    break;
+                case BackendFamily.WebGPU:
+                    ActiveBackend = InferenceBackend.WebGPU;
+                    break;
+                case BackendFamily.OpenVINO:
+                    // 切换到 OpenVINO 时沿用已保存的设备；从其他后端切来时选择当前可用的设备，
+                    // 避免保存一个不可用（置灰）的选项导致启动时被回退为 Auto。
+                    ActiveBackend = ActiveBackend switch
+                    {
+                        InferenceBackend.OpenVINOCpu => InferenceBackend.OpenVINOCpu,
+                        InferenceBackend.OpenVINONpu => InferenceBackend.OpenVINONpu,
+                        InferenceBackend.OpenVINOHybrid => InferenceBackend.OpenVINOHybrid,
+                        _ when !AsstProxy.OpenVinoProbed => InferenceBackend.OpenVINONpu,
+                        _ when OpenVinoNpuAvailable => InferenceBackend.OpenVINONpu,
+                        _ when OpenVinoCpuAvailable => InferenceBackend.OpenVINOCpu,
+                        _ => InferenceBackend.Auto,
+                    };
+                    break;
+                default:
+                    ActiveBackend = InferenceBackend.Auto;
+                    break;
+            }
+
+            NotifyOfPropertyChange();
+        }
+    }
+
+    [PropertyDependsOn(nameof(ActiveBackend))]
+    public OpenVinoDeviceChoice ActiveOpenVinoDevice
+    {
+        get => ActiveBackend switch
+        {
+            InferenceBackend.OpenVINOCpu => OpenVinoDeviceChoice.CPU,
+            InferenceBackend.OpenVINOHybrid => OpenVinoDeviceChoice.Hybrid,
+            _ => OpenVinoDeviceChoice.NPU,
+        };
+        set
+        {
+            ActiveBackend = value switch
+            {
+                OpenVinoDeviceChoice.CPU => InferenceBackend.OpenVINOCpu,
+                OpenVinoDeviceChoice.Hybrid => InferenceBackend.OpenVINOHybrid,
+                _ => InferenceBackend.OpenVINONpu,
+            };
+            NotifyOfPropertyChange();
+        }
+    }
+
+    [PropertyDependsOn(nameof(ActiveBackend))]
+    public bool IsOpenVinoDeviceVisible => ActiveBackendFamily == BackendFamily.OpenVINO;
 
     public InferenceBackend ActiveBackend
     {
@@ -79,7 +156,84 @@ public class PerformanceUserControlModel : PropertyChangedBase
 
             ConfigFactory.Root.Gui.Performance.Backend = value;
             NotifyOfPropertyChange();
-            SettingsViewModel.AskRestartToApplySettings();
+            if (!_suppressRestartPrompt)
+            {
+                SettingsViewModel.AskRestartToApplySettings();
+            }
+        }
+    }
+
+    private bool _suppressRestartPrompt;
+
+    public void SetBackendWithoutRestart(InferenceBackend backend)
+    {
+        if (ActiveBackend == backend)
+        {
+            return;
+        }
+
+        _suppressRestartPrompt = true;
+        try
+        {
+            ActiveBackend = backend;
+        }
+        finally
+        {
+            _suppressRestartPrompt = false;
+        }
+    }
+
+    [PropertyDependsOn(nameof(ActiveBackend))]
+    public bool IsGpuSelectionVisible => !IsOpenVino(ActiveBackend);
+
+    /// <summary>
+    /// 判断后端是否属于 OpenVINO 系列。
+    /// </summary>
+    /// <param name="backend">推理后端。</param>
+    /// <returns>属于 OpenVINO CPU/NPU/Hybrid 时返回 true。</returns>
+    public static bool IsOpenVino(InferenceBackend backend) =>
+        backend is InferenceBackend.OpenVINOCpu or InferenceBackend.OpenVINONpu or InferenceBackend.OpenVINOHybrid;
+
+    [PropertyDependsOn(nameof(ActiveBackend))]
+    public bool IsOpenVinoNpuSelected => ActiveBackend == InferenceBackend.OpenVINONpu;
+
+    [PropertyDependsOn(nameof(ActiveBackend))]
+    public bool IsOpenVinoHybridSelected => ActiveBackend == InferenceBackend.OpenVINOHybrid;
+
+    public bool OpenVinoCpuAvailable => !AsstProxy.OpenVinoProbed || AsstProxy.OpenVinoCpuAvailable;
+
+    public bool OpenVinoNpuAvailable => !AsstProxy.OpenVinoProbed || AsstProxy.OpenVinoNpuAvailable;
+
+    /// <summary>
+    /// 首选 OpenVINO 后端不可用时，返回仍可用的 CPU/NPU 模式；都不可用则回退 Auto。
+    /// </summary>
+    /// <param name="backend">当前保存的推理后端。</param>
+    /// <param name="cpuAvailable">OpenVINO CPU 是否可用。</param>
+    /// <param name="npuAvailable">OpenVINO NPU 是否可用。</param>
+    /// <returns>可用的回退后端；首选后端可用时原样返回。</returns>
+    public static InferenceBackend GetAvailableFallback(InferenceBackend backend, bool cpuAvailable, bool npuAvailable) => backend switch
+    {
+        InferenceBackend.OpenVINOCpu when !cpuAvailable =>
+            npuAvailable ? InferenceBackend.OpenVINONpu : InferenceBackend.Auto,
+        InferenceBackend.OpenVINONpu when !npuAvailable =>
+            cpuAvailable ? InferenceBackend.OpenVINOCpu : InferenceBackend.Auto,
+        InferenceBackend.OpenVINOHybrid when !(cpuAvailable && npuAvailable) =>
+            npuAvailable ? InferenceBackend.OpenVINONpu
+            : cpuAvailable ? InferenceBackend.OpenVINOCpu
+            : InferenceBackend.Auto,
+        _ => backend,
+    };
+
+    private void RefreshOpenVinoAvailability()
+    {
+        NotifyOfPropertyChange(nameof(OpenVinoCpuAvailable));
+        NotifyOfPropertyChange(nameof(OpenVinoNpuAvailable));
+
+        // 探针完成时修正不可用的选择，避免启动时被静默回退为 Auto。
+        if (AsstProxy.OpenVinoProbed && IsOpenVino(ActiveBackend))
+        {
+            SetBackendWithoutRestart(
+                GetAvailableFallback(ActiveBackend, OpenVinoCpuAvailable, OpenVinoNpuAvailable));
         }
     }
 
@@ -89,7 +243,8 @@ public class PerformanceUserControlModel : PropertyChangedBase
     private void RefreshLocalization()
     {
         RefreshGpuOptions();
-        BackendOptions.RefreshLocalization();
+        BackendFamilyOptions.RefreshLocalization();
+        OpenVinoDeviceOptions.RefreshLocalization();
     }
 
     /// <summary>
