@@ -84,6 +84,13 @@ private:
 
     using DisplacedOpers = std::multimap<std::string, DeployRank>;
 
+    struct BenchOper
+    {
+        std::string name;
+        int tier;
+        bool fill_vacancy = false; // 余钱购买的副本重试时也只补空格。
+    };
+
     struct BenchSlot
     {
         Point point;
@@ -101,7 +108,7 @@ private:
         std::unordered_map<std::string, int> squad; // 本局选入的干员及其编队行等阶
         std::optional<int> maxed_shop_x;            // 满级后本局商店等级和按钮位置固定
         // 已确认持有且待部署的干员名与等阶，回合末重扫时据此恢复等阶。
-        std::vector<std::pair<std::string, int>> bench_known;
+        std::vector<BenchOper> bench_known;
         bool opening_finished = false; // 已经上过干员的棋盘即便再次清空，也不再使用开局站位。
         // 按方牌位置记录已核对的姓名，供医疗优先部署和退场复核使用。空名字表示装备或召唤物。
         std::vector<BenchSlot> bench_roster;
@@ -159,12 +166,15 @@ private:
     static bool may_have_bench_elite(const BoardState& board, const std::string& name);
     static std::optional<ShopCard>
         shop_pick(const std::vector<ShopCard>& cards, const BoardState& board, int gold, int slots);
+    static std::optional<ShopCard>
+        vacancy_pick(const std::vector<ShopCard>& cards, const BoardState& board, int gold, int slots);
     static std::optional<ShopCard> promotion_reward(const std::vector<ShopCard>& cards, const BoardState& board);
     enum class ShopPhase
     {
         Opening,
         Early,
         Maxed,
+        FillVacancy,
         PromotionReward,
     };
     enum class PurchaseResult
@@ -249,6 +259,9 @@ private:
         const std::string& opening_tile,
         int slots,
         bool empty_only = false);
+    static std::optional<DeployTile>
+        known_empty_tile(const BoardState& board, const std::string& name, DeployRank rank, int slots);
+    static std::optional<DeployTile> vacancy_purchase_tile(const BoardState& board, const ShopCard& card, int slots);
     static void update_bench_roster(BoardState& board, const std::vector<Point>& slots);
     bool deploy_bench_medic(BoardState& board, const cv::Mat& image);
     // 若本轮仍有未辨认的方牌可能属于已买入的干员，下回合再按当前棋盘选格。

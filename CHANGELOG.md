@@ -1,4 +1,4 @@
-## v6.23.0-beta.1
+## v6.23.0
 
 ### Highlights
 
@@ -20,7 +20,7 @@ On the CN server, MAA can now farm gold or colored strategy badges in Stronghold
 以下是详细内容：
 
 <details open>
-<summary><b>v6.23.0-beta.1 (2026-11-21)</b></summary>
+<summary><b>v6.23.0 (2026-11-21)</b></summary>
 
 ### 新增 | New
 
@@ -34,6 +34,8 @@ On the CN server, MAA can now farm gold or colored strategy badges in Stronghold
 
 ### 修复 | Fix
 
+* 修复自动战斗关卡名复核偶发不通过的问题 @status102
+* 修复保全派驻抽卡按钮在可用时识别不到的问题，改为按调配图标的启用状态识别 ([#19340](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/19340)) @Or1a
 * 肉鸽战斗前点击 ｢快捷编队｣ 未打开面板时会自动重试，并修正繁中、日、韩服的按钮点击区域 ([#19322](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/19322)) @momomochi987
 * 修复更换主题时偶尔找不到 ｢梦乡｣ 的问题 ([#19332](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/19332)) @noirz607
 * 修复 macOS 系统截图在游戏窗口较小时缩放错误的问题 ([#19327](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/19327)) @Or1a

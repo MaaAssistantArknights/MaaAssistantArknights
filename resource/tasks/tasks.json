@@ -298,7 +298,7 @@
         "text": [],
         "ocrReplaceDoc": "和 ClickStageName 同步",
         "ocrReplace": [
-            ["(O|D)PERATION", ""],
+            ["(O|D)?PERATION", ""],
             ["-\\]", "-1"],
             [" ", ""],
             ["s", "S"],
@@ -5412,7 +5412,14 @@
     },
     "SSSDrawCard": {
         "action": "ClickSelf",
-        "templThreshold": 0.98,
+        "method": "HSVCount",
+        "colorScales": [
+            [
+                [5, 120, 100],
+                [25, 255, 255]
+            ]
+        ],
+        "templThreshold": 0.8,
         "roi": [1151, 319, 129, 157]
     },
     "SSSSettlement": {
