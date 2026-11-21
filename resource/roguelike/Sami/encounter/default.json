@@ -469,7 +469,7 @@
                     ]
                 },
                 {
-                    "name": "选择仓库深处的货品",
+                    "name": "选择推车里刚到的新货品",
                     "option_num": 4,
                     "choose": 4,
                     "requirements": [
