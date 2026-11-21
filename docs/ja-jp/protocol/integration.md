@@ -346,6 +346,37 @@ v6.8.0 で非推奨になりました。代わりに `medicine_expire_days` を�
 <br>
 `2` - 可能な限り、より多くの高星タグの組み合わせを選択します（競合の可能性あり）  
 :::  
+::: field oper_priority_mode  
+@type number  
+@default 0  
+@optional  
+未所持/潜在未完凸のオペレーターを獲得できるタグの組み合わせを優先します。`operbox_data_path` が必要です。自動更新・確定・求人票の保留・募集時間は引き続きレア度順で最良の組み合わせに基づきます。
+<br>
+`0` - 無効
+<br>
+`1` - 現在のレア度を維持：最高保証レア度と同じ組み合わせの中からのみ選びます（ロボットは星3扱い）
+<br>
+`2` - 直接優先：より高いレア度の組み合わせを諦めることがありますが、エリート/上級エリートタグと星5以上の保証は諦めません
+<br>
+選んだ組み合わせはそのタグのみを選択し、`extra_tags_mode` の影響を受けません。星3帯の組み合わせを選んだ場合、`select` に 3 が含まれていなくてもタグを選択します（`first_tags` と同様）。星3の組み合わせのみで `first_tags` に一致する場合は `first_tags` が優先され、`preserve_tags` はこのオプションより優先されます。  
+:::  
+::: field oper_priority_allow_low_star  
+@type boolean  
+@default false  
+@optional  
+`oper_priority_mode` が 0 以外のとき、未所持/潜在未完凸の星1ロボットと星2オペレーターのために組み合わせを選ぶかどうか（星2は星4以上の保証がない組み合わせのみ）。そのために選んだ組み合わせは自動更新されず、`select` に該当レア度がなくてもタグを選択し、募集時間はロボット 3:50、星2 は最大 7:30 に短縮されます。`false` の場合、ロボットと星2オペレーターを狙いません。  
+:::  
+::: field oper_priority_low_star_confirm  
+@type boolean  
+@default false  
+@optional  
+`oper_priority_allow_low_star` が `true` のとき、ロボット/星2オペレーターのために選んだ組み合わせを自動確定するかどうか。`confirm` の星3・星4 の設定には影響されません。`false` の場合、その枠はスキップして保留します（更新しません）。`level3_recruitment_permit_reserve` も適用されます。  
+:::  
+::: field operbox_data_path  
+@type string  
+@optional  
+オペレーター識別データファイルのパス（オペレーター識別コールバックの `own_opers` と同じ形式。`id`・`potential` が必須、`own` は任意）。`oper_priority_mode` が 0 以外のときのみ使用します。所持リストが空の場合は全オペレーターを未所持として扱います。ファイルが存在しない、通常のファイルではない、16 MiB を超える、解析できない、または形式が不正な場合（いずれかの項目で `id` が有効でない、`potential` が 1~6 の整数でない、`own` が真偽値でない）、今回はこの機能を無効にし、その他の公開求人処理は通常どおり行います。タスク実行中にこれらのパラメータを更新しても、次回そのタスクを実行するまで反映されません。  
+:::  
 ::: field times  
 @type number  
 @default 0  
