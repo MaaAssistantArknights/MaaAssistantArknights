@@ -21,7 +21,17 @@
     "StrongholdProtocol@SimulationOpening": {
         "roi": [977, 508, 209, 64],
         "action": "ClickSelf",
-        "postDelay": 500
+        "postDelay": 500,
+        "next": ["StrongholdProtocol@SinglePlayerSimulat", "StrongholdProtocol@SinglePlayerSimulating"]
+    },
+    "StrongholdProtocol@SinglePlayerSimulate": {
+        "roi": [873, 511, 220, 120],
+        "action": "ClickSelf",
+        "postDelay": 800,
+        "next": ["StrongholdProtocol@SinglePlayerSimulate", "StrongholdProtocol@SinglePlayerSimulating"]
+    },
+    "StrongholdProtocol@SinglePlayerSimulating": {
+        "roi": [873, 511, 220, 120]        
     },
     "StrongholdProtocol@Nav": {
         "doc": "刷角标前置导航：活动主界面→极速模拟→确认本局信息→停在策略选择页，选策略交给插件按角标判定。不复用 MiniGame@SPA 挂机链：后者会自动点选歌利亚并确认",
