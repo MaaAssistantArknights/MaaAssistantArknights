@@ -598,6 +598,10 @@ public class AchievementTrackerHelper : PropertyChangedBase
         BasicUsage(id: AchievementIds.RoguelikeGamePass2, group: AchievementIds.RoguelikeGamePassGroup, target: 5, groupIndex: 2),
         BasicUsage(id: AchievementIds.RoguelikeGamePass3, group: AchievementIds.RoguelikeGamePassGroup, target: 10, groupIndex: 3),
 
+        BasicUsage(id: AchievementIds.SimulationSpaceMedal1, group: AchievementIds.SimulationSpaceGroup, target: 5, groupIndex: 1), // 模拟空间通关数
+        BasicUsage(id: AchievementIds.SimulationSpaceMedal2, group: AchievementIds.SimulationSpaceGroup, target: 10, groupIndex: 2),
+        BasicUsage(id: AchievementIds.SimulationSpaceMedal3, group: AchievementIds.SimulationSpaceGroup, target: 20, groupIndex: 3), // 为将来扩关卡预留，现有关卡数不足 20
+
         BasicUsage(id: AchievementIds.RoguelikeN04, group: AchievementIds.RoguelikeNGroup, groupIndex: 1), // 肉鸽 难度 通关
         BasicUsage(id: AchievementIds.RoguelikeN08, group: AchievementIds.RoguelikeNGroup, groupIndex: 2),
         BasicUsage(id: AchievementIds.RoguelikeN12, group: AchievementIds.RoguelikeNGroup, groupIndex: 3),

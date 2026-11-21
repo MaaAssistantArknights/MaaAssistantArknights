@@ -12,6 +12,7 @@
 // </copyright>
 
 using MaaWpfGui.Constants.Enums;
+using MaaWpfGui.Styles.Properties;
 using MaaWpfGui.Utilities;
 using Stylet;
 
@@ -20,7 +21,7 @@ namespace MaaWpfGui.ViewModels.Items;
 /// <summary>
 /// The view model of setting item.
 /// </summary>
-public class SettingItemViewModel : PropertyChangedBase
+public class SettingItemViewModel : PropertyChangedBase, ISearchableSettingSection
 {
     public SettingItemViewModel(string key, string display, int value)
     {

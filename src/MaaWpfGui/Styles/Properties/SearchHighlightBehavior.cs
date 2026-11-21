@@ -28,7 +28,7 @@ namespace MaaWpfGui.Styles.Properties;
 /// <summary>
 /// 搜索高亮附加行为。
 /// 挂在 ScrollViewer 上，通过 SearchText 驱动关键词高亮；
-/// 通过 SectionFilter 接收集合，设置其中每个 <see cref="SettingItemViewModel.IsVisibleInSearch"/> 过滤分区。
+/// 通过 SectionFilter 接收集合，设置其中每个 <see cref="ISearchableSettingSection.IsVisibleInSearch"/> 过滤分区。
 /// 每次搜索实时遍历视觉树，只搜索当前可见的控件，确保不会搜索到被条件隐藏的子区域。
 /// </summary>
 public static class SearchHighlightBehavior
@@ -50,8 +50,8 @@ public static class SearchHighlightBehavior
     public static void SetSearchText(DependencyObject obj, string value) => obj.SetValue(SearchTextProperty, value);
 
     /// <summary>
-    /// 可过滤的 SettingItemViewModel 集合，绑定到 ViewModel 的 Settings。
-    /// 搜索时会设置每个条目的 IsVisibleInSearch 属性。
+    /// 可过滤的分区集合，绑定到 ViewModel 的分区列表。
+    /// 搜索时会设置每个 <see cref="ISearchableSettingSection"/> 条目的 IsVisibleInSearch 属性。
     /// </summary>
     public static readonly DependencyProperty SectionFilterProperty =
         DependencyProperty.RegisterAttached(
@@ -100,7 +100,7 @@ public static class SearchHighlightBehavior
             // 上一次搜索隐藏的分区也必须参与本次搜索。
             foreach (var item in sectionFilter)
             {
-                if (item is SettingItemViewModel setting)
+                if (item is ISearchableSettingSection setting)
                 {
                     setting.IsVisibleInSearch = true;
                 }
@@ -184,18 +184,18 @@ public static class SearchHighlightBehavior
 
         foreach (var item in sectionFilter)
         {
-            if (item is SettingItemViewModel setting)
+            if (item is ISearchableSettingSection setting)
             {
                 setting.IsVisibleInSearch = true;
             }
         }
     }
 
-    private static SettingItemViewModel? FindSettingByRowIndex(IList sectionFilter, int rowIndex)
+    private static ISearchableSettingSection? FindSettingByRowIndex(IList sectionFilter, int rowIndex)
     {
         foreach (var item in sectionFilter)
         {
-            if (item is SettingItemViewModel setting && setting.GridRow == rowIndex)
+            if (item is ISearchableSettingSection setting && setting.GridRow == rowIndex)
             {
                 return setting;
             }

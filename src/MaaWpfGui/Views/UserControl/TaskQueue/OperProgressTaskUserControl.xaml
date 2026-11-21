@@ -28,7 +28,7 @@
     </UserControl.Resources>
     <StackPanel>
         <!--  常规设置  -->
-        <StackPanel Visibility="{c:Binding '!EnableAdvancedSettings', Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}">
+        <StackPanel Visibility="{c:Binding '!EnableAdvancedSettings'}">
             <!--  固定区：在线编辑计划链接、操作按钮行与干员选择添加行  -->
             <StackPanel x:Name="FixedHeaderPanel">
                 <!--  在线编辑计划链接  -->
@@ -128,15 +128,12 @@
                 HorizontalContentAlignment="Stretch"
                 d:IsHitTestVisible="True"
                 dd:DragDrop.DragDropContext="{Binding RelativeSource={RelativeSource Self}}"
-                dd:DragDrop.IsDragSource="{c:Binding !IsCurrentTaskRunning,
-                                                     Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}"
-                dd:DragDrop.IsDropTarget="{c:Binding !IsCurrentTaskRunning,
-                                                     Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}"
+                dd:DragDrop.IsDragSource="{c:Binding !IsCurrentTaskRunning}"
+                dd:DragDrop.IsDropTarget="{c:Binding !IsCurrentTaskRunning}"
                 hc:ScrollViewer.IsInertiaEnabled="True"
                 BorderThickness="0"
                 ClipToBounds="False"
-                IsHitTestVisible="{c:Binding !IsCurrentTaskRunning,
-                                             Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}"
+                IsHitTestVisible="{c:Binding !IsCurrentTaskRunning}"
                 ItemsSource="{Binding PlanItems}"
                 PreviewMouseWheel="{s:Action RouteMouseWheelToParentExceptScrollable,
                                              Target={x:Type helper:MouseWheelHelper}}"

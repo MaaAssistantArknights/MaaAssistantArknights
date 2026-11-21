@@ -411,7 +411,7 @@ public class RemoteControlService
                         if (TaskQueueViewModel.FightTask.StagePlan.Count != 1)
                         {
                             TaskQueueViewModel.FightTask.StagePlan.Clear();
-                            TaskQueueViewModel.FightTask.StagePlan.Add(new());
+                            TaskQueueViewModel.FightTask.StagePlan.Add(new(FightTaskUserControlModel.Instance));
                         }
                         TaskQueueViewModel.FightTask.StagePlan[0].Stage = data;
                     });

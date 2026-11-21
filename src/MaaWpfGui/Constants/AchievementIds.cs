@@ -32,6 +32,11 @@ public static class AchievementIds
     public const string RoguelikeGamePass2 = "RoguelikeGamePass2";
     public const string RoguelikeGamePass3 = "RoguelikeGamePass3";
 
+    public const string SimulationSpaceGroup = "SimulationSpace";
+    public const string SimulationSpaceMedal1 = "SimulationSpaceMedal1"; // 通关 5 关
+    public const string SimulationSpaceMedal2 = "SimulationSpaceMedal2"; // 通关 10 关
+    public const string SimulationSpaceMedal3 = "SimulationSpaceMedal3"; // 通关 20 关（为将来扩关卡预留）
+
     public const string RoguelikeGroup = "Roguelike";
     public const string RoguelikeRetreat = "RoguelikeRetreat";
     public const string RoguelikeGoldMax = "RoguelikeGoldMax";
