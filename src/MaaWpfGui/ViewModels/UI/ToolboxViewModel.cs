@@ -92,7 +92,6 @@ public class ToolboxViewModel : Screen
             EventShopBlackListItems.RefreshLocalization();
             StrongholdProtocolSeasonList.RefreshLocalization();
             StrongholdProtocolModeList.RefreshLocalization();
-            StrongholdProtocolTargetList.RefreshLocalization();
             if (SelectedMiniGameItem?.IsStrongholdProtocol == true && IsStrongholdProtocolParamsVisible)
             {
                 MiniGameTip = GetRegulationBadgeTip();
@@ -3086,20 +3085,6 @@ public class ToolboxViewModel : Screen
         }
     } = ConfigFactory.CurrentConfig.Toolbox.MiniGame.StrongholdProtocolMode;
 
-    /// <summary>卫戍协议角标目标。</summary>
-    public LocalizedObservableList<int> StrongholdProtocolTargetList { get; } = new(
-        (3, "Toolbox.MiniGame.StrongholdProtocol.Target.Gold"),
-        (6, "Toolbox.MiniGame.StrongholdProtocol.Target.Color"));
-
-    public int StrongholdProtocolTarget
-    {
-        get;
-        set {
-            SetAndNotify(ref field, value);
-            ConfigFactory.CurrentConfig.Toolbox.MiniGame.StrongholdProtocolTarget = value;
-        }
-    } = ConfigFactory.CurrentConfig.Toolbox.MiniGame.StrongholdProtocolTarget;
-
     public int StrongholdProtocolRuns
     {
         get;
@@ -3801,7 +3786,14 @@ public class ToolboxViewModel : Screen
     /// <returns>任务是否成功提交。</returns>
     private bool StartStrongholdProtocol()
     {
-        return Instances.AsstProxy.AsstStrongholdProtocol(StrongholdProtocolMode, StrongholdProtocolSeason, StrongholdProtocolTarget, StrongholdProtocolRuns);
+        return Instances.AsstProxy.AsstStrongholdProtocol(new AsstStrongholdProtocolTask
+        {
+            Mode = StrongholdProtocolMode,
+            Season = StrongholdProtocolSeason,
+            Target = SettingsViewModel.StrongholdProtocolSettings.BadgeTarget,
+            Runs = StrongholdProtocolRuns,
+            StrategySettings = SettingsViewModel.StrongholdProtocolSettings.Settings,
+        });
     }
 
     /// <summary>活动商店启动：提交自定义及游戏客户端语言下的预设黑名单关键词。</summary>

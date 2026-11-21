@@ -4018,22 +4018,10 @@ public class AsstProxy
     /// <summary>
     /// 启动卫戍协议极速模拟。
     /// </summary>
-    /// <param name="mode">badge / score。</param>
-    /// <param name="season">卫戍协议赛季主题（仅 badge）。</param>
-    /// <param name="target">角标目标通关次数（3 金 / 6 彩，仅 badge）。</param>
-    /// <param name="runs">目标通关局数。</param>
-    /// <param name="attempts">总局数上限，0 不限（仅 badge）。</param>
+    /// <param name="task">按当前配置构造的卫戍协议任务。</param>
     /// <returns>是否成功启动。</returns>
-    public bool AsstStrongholdProtocol(string mode, StrongholdProtocolSeason season, int target, int runs, int attempts = 0)
+    public bool AsstStrongholdProtocol(AsstStrongholdProtocolTask task)
     {
-        var task = new AsstStrongholdProtocolTask {
-            Mode = mode,
-            Season = season,
-            Target = target,
-            Runs = runs,
-            Attempts = attempts,
-        };
-
         var (isSuccess, _) = AsstAppendTaskWithEncoding(TaskType.StrongholdProtocol, task);
         return isSuccess && AsstStart();
     }

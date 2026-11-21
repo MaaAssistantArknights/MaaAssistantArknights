@@ -39,6 +39,7 @@ public class MiniGame : NotifyPropertyChangedWithValue
     {
         PropertyChanged += Handler.OnPropertyChangedFactory(prefix);
         Reclamation.EventBinding(prefix + nameof(Reclamation) + ".");
+        StrongholdProtocol.EventBinding(prefix + nameof(StrongholdProtocol) + ".");
     }
 
     public string EventShopBlackList { get; set; } = string.Empty;
@@ -62,6 +63,9 @@ public class MiniGame : NotifyPropertyChangedWithValue
     /// 卫戍协议目标通关局数。
     /// </summary>
     public int StrongholdProtocolRuns { get; set; } = 60;
+
+    [JsonInclude]
+    public StrongholdProtocolSettings StrongholdProtocol { get; private set; } = new();
 
     public bool EventShopBlackListDataSupplementInstrument { get; set; }
 

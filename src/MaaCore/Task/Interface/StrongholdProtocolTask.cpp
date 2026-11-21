@@ -44,11 +44,6 @@ bool asst::StrongholdProtocolTask::set_params(const json::value& params)
         return false;
     }
 
-    const int target = params.get("target", 3);
-    if (target != 3 && target != 6) {
-        Log.error("set_params failed, invalid stronghold protocol target:", target);
-        return false;
-    }
     const int runs = params.get("runs", 60);
     if (runs <= 0) {
         Log.error("set_params failed, invalid stronghold protocol runs:", runs);
@@ -60,7 +55,11 @@ bool asst::StrongholdProtocolTask::set_params(const json::value& params)
         return false;
     }
 
+    if (!m_plugin_ptr->set_farm_params(params, 1)) {
+        return false;
+    }
+
     m_stronghold_task_ptr->set_tasks({ "StrongholdProtocol@Farm@Begin" });
-    m_plugin_ptr->set_target(target).set_runs(runs).set_attempts(attempts);
+    m_plugin_ptr->set_runs(runs).set_attempts(attempts);
     return true;
 }

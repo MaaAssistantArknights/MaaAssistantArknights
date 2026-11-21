@@ -60,12 +60,6 @@ bool StrongholdProtocolTaskPlugin::verify(AsstMsg msg, const json::value& detail
     return task == "StrongholdProtocol@Farm@Begin";
 }
 
-StrongholdProtocolTaskPlugin& StrongholdProtocolTaskPlugin::set_target(int target) noexcept
-{
-    m_target = target;
-    return *this;
-}
-
 StrongholdProtocolTaskPlugin& StrongholdProtocolTaskPlugin::set_runs(int runs) noexcept
 {
     m_runs = runs;
@@ -78,24 +72,43 @@ StrongholdProtocolTaskPlugin& StrongholdProtocolTaskPlugin::set_attempts(int att
     return *this;
 }
 
-StrongholdProtocolTaskPlugin& StrongholdProtocolTaskPlugin::set_covenant(bool covenant) noexcept
+bool StrongholdProtocolTaskPlugin::set_farm_params(const json::value& params, int default_strategy)
 {
-    m_covenant = covenant;
-    return *this;
+    const int target = params.get("target", 3);
+    if (target != 3 && target != 6) {
+        LogError << __FUNCTION__ << "invalid stronghold protocol target" << target;
+        return false;
+    }
+
+    const int strategy = params.get("strategy", default_strategy);
+    if (strategy != 1 && strategy != 2) {
+        LogError << __FUNCTION__ << "invalid stronghold protocol strategy" << strategy;
+        return false;
+    }
+
+    std::vector<int> upgrade_plan;
+    if (strategy == 2) {
+        if (const auto plan = params.find("upgrade_plan"); plan && plan->is_array()) {
+            for (const auto& item : plan->as_array()) {
+                if (!item.is_number() || item.as_integer() < 0 || item.as_integer() > 6) {
+                    LogError << __FUNCTION__ << "invalid upgrade_plan entry:" << item;
+                    return false;
+                }
+                upgrade_plan.emplace_back(item.as_integer());
+            }
+        }
+        m_core_major_bond = params.get("core_major_bond", std::string());
+        m_core_minor_bond = params.get("core_minor_bond", std::string());
+    }
+    m_target = target;
+    m_covenant = strategy == 2;
+    m_upgrade_plan = std::move(upgrade_plan);
+    return true;
 }
 
-StrongholdProtocolTaskPlugin&
-    StrongholdProtocolTaskPlugin::set_core_bond(const std::string& major, const std::string& minor) noexcept
+void StrongholdProtocolTaskPlugin::enable_terminal_entry() noexcept
 {
-    m_core_major_bond = major;
-    m_core_minor_bond = minor;
-    return *this;
-}
-
-StrongholdProtocolTaskPlugin& StrongholdProtocolTaskPlugin::set_upgrade_plan(std::vector<int> plan) noexcept
-{
-    m_upgrade_plan = std::move(plan);
-    return *this;
+    m_enter_from_terminal = true;
 }
 
 bool StrongholdProtocolTaskPlugin::_run()
@@ -130,7 +143,7 @@ bool StrongholdProtocolTaskPlugin::_run()
             continue;
         }
         Scene scene = detect_scene(image);
-        if (m_covenant && scene == Scene::Unknown && !attempted_entry) {
+        if ((m_enter_from_terminal || m_covenant) && scene == Scene::Unknown && !attempted_entry) {
             attempted_entry = true;
             ProcessTask(*this, { "StrongholdProtocol@Enter" }).set_retry_times(2).run();
             continue;

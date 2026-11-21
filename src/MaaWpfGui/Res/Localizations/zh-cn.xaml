@@ -2334,11 +2334,14 @@ DEBUG 目录下保存的图片有数量限制，超出后会自动清理旧图�
     <system:String x:Key="TaskQueue.Task.SeasonalTask.CoreBond.Minor.Tip">携带所选小盟约的干员同样按核心对待，与所选大盟约任一命中即优先买入部署。</system:String>
     <system:String x:Key="TaskQueue.Task.SeasonalTask.CoreBond.Tip" xml:space="preserve">携带任一所选核心盟约的干员优先买入并部署上场；选 ｢{key=Common.NotSelected}｣ 则该盟约不参与判定。&#10;同名核心干员凑满三张自动合成晋升，未凑齐前先落备战席攒合成。</system:String>
     <system:String x:Key="TaskQueue.Task.SeasonalTask.Rounds">通关循环局数</system:String>
-    <system:String x:Key="TaskQueue.Task.SeasonalTask.Rounds.Tip" xml:space="preserve">以盟约策略进行极速模拟并循环通关，达到设定局数后停止；0 = 跳过任务。&#10;大核心盟约、小核心盟约与每回合升级策略在 ｢高级设置｣ 中调整。</system:String>
+    <system:String x:Key="TaskQueue.Task.SeasonalTask.Rounds.Tip" xml:space="preserve">按所选策略循环通关极速模拟，达到设定局数后停止。0 = 跳过任务。&#10;策略和盟约选项在 ｢{key=TaskQueue.AdvancedSettings}｣ 中调整，与{key=Toolbox.Title}中的{key=Toolbox.MiniGame.SPA}共用。</system:String>
     <system:String x:Key="TaskQueue.Task.SeasonalTask.Skipped">通关循环局数为 0，跳过赛季任务。</system:String>
     <system:String x:Key="TaskQueue.Task.SeasonalTask.UpgradePlan">每回合升级策略</system:String>
+    <system:String x:Key="TaskQueue.Task.SeasonalTask.UpgradePlan.AddRound">添加下一回合</system:String>
+    <system:String x:Key="TaskQueue.Task.SeasonalTask.UpgradePlan.RemoveRound">移除最后一回合</system:String>
     <system:String x:Key="TaskQueue.Task.SeasonalTask.UpgradePlan.Round">第 {0} 回合</system:String>
-    <system:String x:Key="TaskQueue.Task.SeasonalTask.UpgradePlan.Tip" xml:space="preserve">每回合开始时升到对应目标商店等级，0 = 该回合不升级；资金不足自动停。&#10;例：第 1 回合填 3、第 2 回合填 4，即首回合升到 3 本、次回合升到 4 本。</system:String>
+    <system:String x:Key="TaskQueue.Task.SeasonalTask.UpgradePlan.Tip" xml:space="preserve">每回合开始时尝试升到目标商店等级，资金不足时停止升级。目标为 0 或未显示的回合不升级。&#10;用 + 添加下一回合，用 - 移除最后一回合。</system:String>
+    <system:String x:Key="TaskQueue.Task.SeasonalTask.UpgradePlan.Unit">本</system:String>
     <system:String x:Key="TaskQueue.Task.StartUp">{key=TaskQueue.Task.WakeUp}</system:String>
     <system:String x:Key="TaskQueue.Task.SwitchTheme">更换主题</system:String>
     <system:String x:Key="TaskQueue.Task.UserDataUpdate">更新数据</system:String>
@@ -2567,6 +2570,9 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Mode.Score">刷分（放生速通）</system:String>
     <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Runs">通关局数</system:String>
     <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.SettlementLog">{0}，已通关 {1}/{2}</system:String>
+    <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Strategy">策略</system:String>
+    <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Strategy.Covenant">策略 2</system:String>
+    <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Strategy.Standard">策略 1</system:String>
     <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.StrategyLog">{0}：通过 {1}/{2}</system:String>
     <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Target">角标目标</system:String>
     <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Target.Color">彩色角标（通关 6 次）</system:String>

@@ -23,13 +23,10 @@ public:
 
     virtual bool verify(AsstMsg msg, const json::value& details) const override;
 
-    StrongholdProtocolTaskPlugin& set_target(int target) noexcept;
     StrongholdProtocolTaskPlugin& set_runs(int runs) noexcept;
     StrongholdProtocolTaskPlugin& set_attempts(int attempts) noexcept;
-    // 盟约策略模式：按核心盟约优先级买入和部署干员，并按每回合升级计划升级。
-    StrongholdProtocolTaskPlugin& set_covenant(bool covenant) noexcept;
-    StrongholdProtocolTaskPlugin& set_core_bond(const std::string& major, const std::string& minor) noexcept;
-    StrongholdProtocolTaskPlugin& set_upgrade_plan(std::vector<int> plan) noexcept;
+    bool set_farm_params(const json::value& params, int default_strategy);
+    void enable_terminal_entry() noexcept;
 
 protected:
     virtual bool _run() override;
@@ -340,9 +337,10 @@ private:
     bool m_settlement_counted = false;     // 当前结算页已计数，离开结算页后复位
     std::optional<int> m_upgrade_x;        // 最近一次读到的升级按钮中心 x，商店卡牌识别据此剔除按钮区
     bool m_covenant = false;               // 盟约策略模式
+    bool m_enter_from_terminal = false;
     bool m_covenant_preparation_failed = false;
-    std::string m_core_major_bond;         // 大核心盟约（阵营盟约），空 = 不启用
-    std::string m_core_minor_bond;         // 小核心盟约（非阵营盟约），空 = 不启用
-    std::vector<int> m_upgrade_plan;       // 每回合目标商店等级，下标 = 回合-1，0 = 不升级
+    std::string m_core_major_bond;   // 大核心盟约（阵营盟约），空 = 不启用
+    std::string m_core_minor_bond;   // 小核心盟约（非阵营盟约），空 = 不启用
+    std::vector<int> m_upgrade_plan; // 每回合目标商店等级，下标 = 回合-1，0 = 不升级
 };
 }

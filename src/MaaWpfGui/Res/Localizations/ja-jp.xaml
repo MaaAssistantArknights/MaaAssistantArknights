@@ -2335,11 +2335,14 @@ MAA は非インストール型のアプリケーションであり、レジス�
     <system:String x:Key="TaskQueue.Task.SeasonalTask.CoreBond.Minor.Tip">選択した小型盟約を持つオペレーターもコアとして扱われ、大型盟約のいずれかと一致した場合は優先的に購入・配置されます。</system:String>
     <system:String x:Key="TaskQueue.Task.SeasonalTask.CoreBond.Tip" xml:space="preserve">選択したコア盟約のいずれかを持つオペレーターを優先的に購入・配置します。｢{key=Common.NotSelected}｣ を選ぶとその盟約は判定に含まれません。&#10;同名のコアオペレーターが3体揃うと自動合成で昇進し、揃うまでは待機席で合成を溜めます。</system:String>
     <system:String x:Key="TaskQueue.Task.SeasonalTask.Rounds">周回クリア回数</system:String>
-    <system:String x:Key="TaskQueue.Task.SeasonalTask.Rounds.Tip" xml:space="preserve">盟約戦略で高速シミュレーションを周回し、設定した回数に達したら停止します。0 = タスクをスキップ。&#10;大型・小型コア盟約とターン別アップグレード設定は ｢詳細設定｣ で調整できます。</system:String>
+    <system:String x:Key="TaskQueue.Task.SeasonalTask.Rounds.Tip" xml:space="preserve">選択した戦略で高速シミュレーションを周回し、設定したクリア回数に達すると停止します。0 でタスクをスキップします。&#10;｢{key=TaskQueue.AdvancedSettings}｣ の戦略と盟約の設定は、{key=Toolbox.Title}の{key=Toolbox.MiniGame.SPA}と共通です。</system:String>
     <system:String x:Key="TaskQueue.Task.SeasonalTask.Skipped">周回クリア回数が 0 のため、シーズンタスクをスキップします。</system:String>
     <system:String x:Key="TaskQueue.Task.SeasonalTask.UpgradePlan">ターン別アップグレード設定</system:String>
+    <system:String x:Key="TaskQueue.Task.SeasonalTask.UpgradePlan.AddRound">次のターンを追加</system:String>
+    <system:String x:Key="TaskQueue.Task.SeasonalTask.UpgradePlan.RemoveRound">最後のターンを削除</system:String>
     <system:String x:Key="TaskQueue.Task.SeasonalTask.UpgradePlan.Round">第 {0} ターン</system:String>
-    <system:String x:Key="TaskQueue.Task.SeasonalTask.UpgradePlan.Tip" xml:space="preserve">各ターン開始時にショップを目標レベルまでアップグレードします。0 = そのターンはアップグレードしない。資金不足時は自動停止。&#10;例：第 1 ターンに 3、第 2 ターンに 4 を入力すると、1 ターン目でレベル 3、2 ターン目でレベル 4 まで上がります。</system:String>
+    <system:String x:Key="TaskQueue.Task.SeasonalTask.UpgradePlan.Tip" xml:space="preserve">各ターンの開始時に、資金の範囲内でショップを目標レベルまでアップグレードします。目標が 0 のターンや非表示のターンではアップグレードしません。&#10;+ で次のターンを追加し、- で最後のターンを削除します。</system:String>
+    <system:String x:Key="TaskQueue.Task.SeasonalTask.UpgradePlan.Unit">Lv.</system:String>
     <system:String x:Key="TaskQueue.Task.StartUp">{key=TaskQueue.Task.WakeUp}</system:String>
     <system:String x:Key="TaskQueue.Task.SwitchTheme">テーマ変更</system:String>
     <system:String x:Key="TaskQueue.Task.UserDataUpdate">ユーザーデータ更新</system:String>
@@ -2568,6 +2571,9 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Mode.Score">スコア稼ぎ（放置速攻略）</system:String>
     <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Runs">クリア回数</system:String>
     <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.SettlementLog">{0}、クリア {1}/{2}</system:String>
+    <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Strategy">戦略</system:String>
+    <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Strategy.Covenant">戦略 2</system:String>
+    <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Strategy.Standard">戦略 1</system:String>
     <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.StrategyLog">{0}：クリア {1}/{2}</system:String>
     <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Target">バッジ目標</system:String>
     <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Target.Color">彩色バッジ（6 回クリア）</system:String>

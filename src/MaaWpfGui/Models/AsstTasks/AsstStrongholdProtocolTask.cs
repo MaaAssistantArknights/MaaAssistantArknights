@@ -50,6 +50,8 @@ public class AsstStrongholdProtocolTask : AsstBaseTask
     /// </summary>
     public int Attempts { get; set; }
 
+    public StrongholdProtocolSettings StrategySettings { get; set; } = new();
+
     public override (AsstTaskType TaskType, JObject Params) Serialize()
     {
         var data = new JObject { ["mode"] = Mode };
@@ -59,8 +61,20 @@ public class AsstStrongholdProtocolTask : AsstBaseTask
             data["target"] = Target;
             data["runs"] = Runs;
             data["attempts"] = Attempts;
+            SerializeStrategy(data, StrategySettings);
         }
 
         return (TaskType, data);
+    }
+
+    internal static void SerializeStrategy(JObject data, StrongholdProtocolSettings settings)
+    {
+        data["strategy"] = (int)settings.Strategy;
+        if (settings.Strategy == StrongholdProtocolStrategy.Covenant)
+        {
+            data["core_major_bond"] = settings.CoreMajorBond;
+            data["core_minor_bond"] = settings.CoreMinorBond;
+            data["upgrade_plan"] = JArray.FromObject(settings.UpgradePlan ?? []);
+        }
     }
 }

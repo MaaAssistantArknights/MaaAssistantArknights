@@ -77,6 +77,8 @@ public class SettingsViewModel : Screen
     /// </summary>
     public static GameSettingsUserControlModel GameSettings { get; } = GameSettingsUserControlModel.Instance;
 
+    public static StrongholdProtocolSettingsUserControlModel StrongholdProtocolSettings => StrongholdProtocolSettingsUserControlModel.Instance;
+
     /// <summary>
     /// Gets 连接设置 model
     /// </summary>

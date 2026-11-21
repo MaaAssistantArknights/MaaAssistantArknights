@@ -1,0 +1,105 @@
+<UserControl
+    x:Class="MaaWpfGui.Views.UserControl.Settings.StrongholdProtocolSettingsUserControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:c="clr-namespace:CalcBinding;assembly=CalcBinding"
+    xmlns:controls="clr-namespace:MaaWpfGui.Styles.Controls"
+    xmlns:hc="https://handyorg.github.io/handycontrol"
+    xmlns:s="https://github.com/canton7/Stylet"
+    s:View.ActionTarget="{Binding}">
+    <StackPanel>
+        <ComboBox
+            hc:TitleElement.Title="{DynamicResource Toolbox.MiniGame.StrongholdProtocol.Strategy}"
+            DisplayMemberPath="Display"
+            ItemsSource="{Binding StrategyList}"
+            SelectedValue="{Binding Strategy}"
+            SelectedValuePath="Value" />
+        <ComboBox
+            Margin="0,10,0,0"
+            hc:TitleElement.Title="{DynamicResource Toolbox.MiniGame.StrongholdProtocol.Target}"
+            DisplayMemberPath="Display"
+            ItemsSource="{Binding BadgeTargetList}"
+            SelectedValue="{Binding BadgeTarget}"
+            SelectedValuePath="Value" />
+        <StackPanel Margin="0,5,0,0" Visibility="{c:Binding IsCovenantStrategy}">
+            <StackPanel Margin="0,3" Orientation="Horizontal">
+                <controls:TextBlock Text="{DynamicResource TaskQueue.Task.SeasonalTask.CoreBond.Major}" />
+                <controls:TooltipBlock
+                    Margin="3,0,0,0"
+                    VerticalAlignment="Center"
+                    TooltipText="{DynamicResource TaskQueue.Task.SeasonalTask.CoreBond.Tip}" />
+            </StackPanel>
+            <hc:ComboBox
+                Margin="0,3"
+                DisplayMemberPath="Display"
+                ItemsSource="{Binding MajorBondList}"
+                SelectedValue="{Binding CoreMajorBond}"
+                SelectedValuePath="Value" />
+            <StackPanel Margin="0,3" Orientation="Horizontal">
+                <controls:TextBlock Text="{DynamicResource TaskQueue.Task.SeasonalTask.CoreBond.Minor}" />
+                <controls:TooltipBlock
+                    Margin="3,0,0,0"
+                    VerticalAlignment="Center"
+                    TooltipText="{DynamicResource TaskQueue.Task.SeasonalTask.CoreBond.Minor.Tip}" />
+            </StackPanel>
+            <hc:ComboBox
+                Margin="0,3"
+                DisplayMemberPath="Display"
+                ItemsSource="{Binding MinorBondList}"
+                SelectedValue="{Binding CoreMinorBond}"
+                SelectedValuePath="Value" />
+            <StackPanel Margin="0,3" Orientation="Horizontal">
+                <controls:TextBlock Text="{DynamicResource TaskQueue.Task.SeasonalTask.UpgradePlan}" />
+                <controls:TooltipBlock
+                    Margin="3,0,0,0"
+                    VerticalAlignment="Center"
+                    TooltipText="{DynamicResource TaskQueue.Task.SeasonalTask.UpgradePlan.Tip}" />
+            </StackPanel>
+            <ItemsControl Margin="0,3" ItemsSource="{Binding UpgradeRounds}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Margin="0,2,6,2" Orientation="Horizontal">
+                            <controls:TextBlock
+                                VerticalAlignment="Center"
+                                FontSize="11"
+                                Text="{Binding Display}" />
+                            <hc:NumericUpDown
+                                Width="60"
+                                Height="26"
+                                Margin="4,0,0,0"
+                                HorizontalContentAlignment="Center"
+                                Maximum="6"
+                                Minimum="0"
+                                Value="{Binding Target}" />
+                            <controls:TextBlock
+                                Margin="4,0,0,0"
+                                VerticalAlignment="Center"
+                                FontSize="11"
+                                Text="{DynamicResource TaskQueue.Task.SeasonalTask.UpgradePlan.Unit}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+            <StackPanel Margin="0,3" Orientation="Horizontal">
+                <Button
+                    MinWidth="28"
+                    Margin="0,0,4,0"
+                    AutomationProperties.Name="{DynamicResource TaskQueue.Task.SeasonalTask.UpgradePlan.AddRound}"
+                    Command="{s:Action AddUpgradeRound}"
+                    Content="+"
+                    ToolTip="{DynamicResource TaskQueue.Task.SeasonalTask.UpgradePlan.AddRound}" />
+                <Button
+                    MinWidth="28"
+                    AutomationProperties.Name="{DynamicResource TaskQueue.Task.SeasonalTask.UpgradePlan.RemoveRound}"
+                    Command="{s:Action RemoveUpgradeRound}"
+                    Content="-"
+                    ToolTip="{DynamicResource TaskQueue.Task.SeasonalTask.UpgradePlan.RemoveRound}" />
+            </StackPanel>
+        </StackPanel>
+    </StackPanel>
+</UserControl>

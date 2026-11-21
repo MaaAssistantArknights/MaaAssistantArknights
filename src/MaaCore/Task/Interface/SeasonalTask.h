@@ -6,8 +6,7 @@ namespace asst
 class ProcessTask;
 class StrongholdProtocolTaskPlugin;
 
-// 赛季任务（一键长草队列任务）：盟约策略模式跑卫戍协议极速模拟，按局数循环通关。
-// 复用 StrongholdProtocolTaskPlugin，商店经营切换为盟约策略（核心盟约优先买入部署 + 每回合升级计划）
+// 赛季任务（一键长草队列任务）：按选定策略循环通关卫戍协议极速模拟。
 class SeasonalTask final : public InterfaceTask
 {
 public:

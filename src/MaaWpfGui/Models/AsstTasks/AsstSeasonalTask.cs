@@ -12,14 +12,14 @@
 // </copyright>
 
 #nullable enable
-using System.Collections.Generic;
+using MaaWpfGui.Configuration.Single.Settings;
 using MaaWpfGui.Services;
 using Newtonsoft.Json.Linq;
 
 namespace MaaWpfGui.Models.AsstTasks;
 
 /// <summary>
-/// 赛季任务（盟约策略通关循环）。
+/// 赛季任务（卫戍协议极速模拟通关循环）。
 /// </summary>
 public class AsstSeasonalTask : AsstBaseTask
 {
@@ -31,29 +31,25 @@ public class AsstSeasonalTask : AsstBaseTask
     public int Rounds { get; set; } = 3;
 
     /// <summary>
-    /// Gets or sets 大核心盟约（阵营盟约），空 = 不启用。
+    /// Gets or sets 角标目标通关次数（3 金 / 6 彩）。
     /// </summary>
-    public string CoreMajorBond { get; set; } = string.Empty;
+    public int Target { get; set; } = 3;
 
-    /// <summary>
-    /// Gets or sets 小核心盟约（非阵营盟约），空 = 不启用。
-    /// </summary>
-    public string CoreMinorBond { get; set; } = string.Empty;
-
-    /// <summary>
-    /// Gets or sets 每回合升级计划：下标 = 回合-1，值为该回合目标商店等级，0 = 该回合不升级。
-    /// </summary>
-    public List<int> UpgradePlan { get; set; } = [];
+    public StrongholdProtocolSettings StrategySettings { get; set; } = new()
+    {
+        Strategy = StrongholdProtocolStrategy.Covenant,
+        CoreMinorBond = string.Empty,
+        UpgradePlan = [],
+    };
 
     public override (AsstTaskType TaskType, JObject Params) Serialize()
     {
         var data = new JObject
         {
             ["rounds"] = Rounds,
-            ["core_major_bond"] = CoreMajorBond,
-            ["core_minor_bond"] = CoreMinorBond,
-            ["upgrade_plan"] = JArray.FromObject(UpgradePlan),
+            ["target"] = Target,
         };
+        AsstStrongholdProtocolTask.SerializeStrategy(data, StrategySettings);
 
         return (TaskType, data);
     }

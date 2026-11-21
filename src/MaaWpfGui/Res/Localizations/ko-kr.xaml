@@ -2334,11 +2334,14 @@ MAA는 비설치형 응용 프로그램으로, 삭제 시 레지스트리 항목
     <system:String x:Key="TaskQueue.Task.SeasonalTask.CoreBond.Minor.Tip">선택한 소형 동맹을 지닌 오퍼레이터도 코어로 취급되며, 선택한 대형 동맹과 어느 하나라도 일치하면 우선적으로 구매·배치됩니다.</system:String>
     <system:String x:Key="TaskQueue.Task.SeasonalTask.CoreBond.Tip" xml:space="preserve">선택한 코어 동맹 중 하나를 지닌 오퍼레이터를 우선적으로 구매·배치합니다. ｢{key=Common.NotSelected}｣ 를 선택하면 해당 동맹은 판정에 포함되지 않습니다.&#10;같은 이름의 코어 오퍼레이터가 3명 모이면 자동 합성으로 승진하며, 모이기 전까지는 대기석에서 합성을 모읍니다.</system:String>
     <system:String x:Key="TaskQueue.Task.SeasonalTask.Rounds">클리어 반복 횟수</system:String>
-    <system:String x:Key="TaskQueue.Task.SeasonalTask.Rounds.Tip" xml:space="preserve">동맹 전략으로 빠른 시뮬레이션을 반복 클리어하며, 설정한 횟수에 도달하면 중지합니다. 0 = 작업 건너뛰기.&#10;대형·소형 코어 동맹과 라운드별 업그레이드 전략은 ｢고급 설정｣ 에서 조정합니다.</system:String>
+    <system:String x:Key="TaskQueue.Task.SeasonalTask.Rounds.Tip" xml:space="preserve">선택한 전략으로 빠른 시뮬레이션을 반복하고, 설정한 클리어 횟수에 도달하면 중지합니다. 0은 작업을 건너뜁니다.&#10;｢{key=TaskQueue.AdvancedSettings}｣의 전략 및 동맹 설정은 {key=Toolbox.Title}의 {key=Toolbox.MiniGame.SPA}과 공유됩니다.</system:String>
     <system:String x:Key="TaskQueue.Task.SeasonalTask.Skipped">클리어 반복 횟수가 0이므로 시즌 작업을 건너뜁니다.</system:String>
     <system:String x:Key="TaskQueue.Task.SeasonalTask.UpgradePlan">라운드별 업그레이드 전략</system:String>
+    <system:String x:Key="TaskQueue.Task.SeasonalTask.UpgradePlan.AddRound">다음 라운드 추가</system:String>
+    <system:String x:Key="TaskQueue.Task.SeasonalTask.UpgradePlan.RemoveRound">마지막 라운드 제거</system:String>
     <system:String x:Key="TaskQueue.Task.SeasonalTask.UpgradePlan.Round">제 {0} 라운드</system:String>
-    <system:String x:Key="TaskQueue.Task.SeasonalTask.UpgradePlan.Tip" xml:space="preserve">각 라운드 시작 시 상점을 목표 레벨까지 업그레이드합니다. 0 = 해당 라운드는 업그레이드하지 않음. 자금 부족 시 자동 중지.&#10;예: 1 라운드에 3, 2 라운드에 4를 입력하면 첫 라운드에 레벨 3, 다음 라운드에 레벨 4까지 올라갑니다.</system:String>
+    <system:String x:Key="TaskQueue.Task.SeasonalTask.UpgradePlan.Tip" xml:space="preserve">각 라운드 시작 시 자금이 허용하는 범위에서 상점을 목표 레벨까지 업그레이드합니다. 목표가 0이거나 숨겨진 라운드에서는 업그레이드하지 않습니다.&#10;+로 다음 라운드를 추가하고 -로 마지막 라운드를 제거합니다.</system:String>
+    <system:String x:Key="TaskQueue.Task.SeasonalTask.UpgradePlan.Unit">Lv.</system:String>
     <system:String x:Key="TaskQueue.Task.StartUp">{key=TaskQueue.Task.WakeUp}</system:String>
     <system:String x:Key="TaskQueue.Task.SwitchTheme">테마 변경</system:String>
     <system:String x:Key="TaskQueue.Task.UserDataUpdate">사용자 데이터 업데이트</system:String>
@@ -2567,6 +2570,9 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Mode.Score">점수 파밍 (방치 속행)</system:String>
     <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Runs">클리어 횟수</system:String>
     <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.SettlementLog">{0}, 클리어 {1}/{2}</system:String>
+    <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Strategy">전략</system:String>
+    <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Strategy.Covenant">전략 2</system:String>
+    <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Strategy.Standard">전략 1</system:String>
     <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.StrategyLog">{0}: 클리어 {1}/{2}</system:String>
     <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Target">배지 목표</system:String>
     <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Target.Color">색상 배지 (6회 클리어)</system:String>
