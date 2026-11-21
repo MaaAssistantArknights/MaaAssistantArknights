@@ -18,13 +18,15 @@ public:
 
     bool init(std::string_view bundle_id, std::string_view port, std::pair<int, int> size, std::array<int16_t, 8> rect);
     bool capture(std::vector<uint8_t>& bgrData) const;
+    void cancel_capture() noexcept;
+    void reset();
 
     static bool hasPermission();
     static bool requestPermission();
 
 private:
     struct Impl;
-    std::unique_ptr<Impl> pImpl;
+    std::shared_ptr<Impl> pImpl;
 };
 } // namespace asst
 

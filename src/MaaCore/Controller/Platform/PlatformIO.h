@@ -36,6 +36,14 @@ public:
 
     virtual void set_adb_serial(std::string_view) {}
 
+    virtual bool supports_screencap_cancellation() const noexcept { return false; }
+
+    virtual void cancel_screencap() noexcept {}
+
+    virtual bool reset_screencap() { return false; }
+
+    virtual std::string screencap_stage() const { return {}; }
+
     virtual void release_adb(const std::string& adb_release, int64_t timeout = 20'000) = 0;
 
     bool m_support_socket = false;

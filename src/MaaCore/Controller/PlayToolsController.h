@@ -3,6 +3,10 @@
 #include "ControllerAPI.h"
 #include "MinitouchController.h"
 
+#include <atomic>
+#include <mutex>
+#include <optional>
+
 #include <boost/asio/io_context.hpp>
 #include <boost/asio/ip/tcp.hpp>
 
@@ -32,6 +36,13 @@ public:
     virtual size_t get_version() const noexcept override;
 
     virtual bool screencap(cv::Mat& image_payload, bool allow_reconnect = false) override;
+
+    virtual bool supports_screencap_cancellation() const noexcept override { return true; }
+
+    virtual void cancel_screencap() noexcept override;
+    virtual bool reset_screencap() override;
+
+    virtual std::string screencap_stage() const override { return m_screencap_stage; }
 
     virtual bool start_game(const std::string& client_type) override;
     virtual bool stop_game(const std::string& client_type) override;
@@ -67,6 +78,11 @@ protected:
 
     boost::asio::io_context m_context;
     boost::asio::ip::tcp::socket m_socket;
+    std::mutex m_socket_cancel_mutex;
+    std::optional<boost::asio::ip::tcp::socket::native_handle_type> m_screencap_socket_handle;
+    bool m_screencap_connecting = false;
+    std::atomic_bool m_screencap_cancelled = false;
+    std::string m_screencap_stage;
 
     std::vector<uint8_t> m_screencap_buffer;
 

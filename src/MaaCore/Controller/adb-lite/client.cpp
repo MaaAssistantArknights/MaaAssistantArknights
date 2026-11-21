@@ -1,11 +1,21 @@
+#include <atomic>
 #include <fstream>
 #include <iostream>
+#include <mutex>
+#include <optional>
 #include <thread>
+
+#ifdef _WIN32
+#include <winsock2.h>
+#else
+#include <sys/socket.h>
+#endif
 
 #include <boost/asio.hpp>
 
 #include "client.hpp"
 #include "protocol.hpp"
+#include "stage.hpp"
 
 #include "Utils/Platform.hpp"
 
@@ -20,9 +30,11 @@ namespace adb
 static inline std::string version(boost::asio::io_context& context, const tcp_endpoints& endpoints)
 {
     tcp::socket socket(context);
+    stage::set("adb-server-tcp-connect");
     boost::asio::connect(socket, endpoints);
 
     const auto request = "host:version";
+    stage::set("send-host-version-request");
     send_host_request(socket, request);
 
     return protocol::host_message(socket);
@@ -31,9 +43,11 @@ static inline std::string version(boost::asio::io_context& context, const tcp_en
 static inline std::string devices(boost::asio::io_context& context, const tcp_endpoints& endpoints)
 {
     tcp::socket socket(context);
+    stage::set("adb-server-tcp-connect");
     boost::asio::connect(socket, endpoints);
 
     const auto request = "host:devices";
+    stage::set("send-host-devices-request");
     send_host_request(socket, request);
 
     return protocol::host_message(socket);
@@ -163,13 +177,51 @@ public:
     std::string root() override;
     std::string unroot() override;
     void wait_for_device() override;
+    void cancel_active_io() noexcept override;
 
 private:
     friend class client;
 
+    struct active_socket_scope
+    {
+        active_socket_scope(client_impl& owner, std::shared_ptr<tcp::socket> socket) :
+            owner(owner),
+            socket(std::move(socket))
+        {
+            std::lock_guard lock(owner.m_active_socket_mutex);
+            owner.m_active_socket = this->socket;
+        }
+
+        void publish_native_handle()
+        {
+            std::lock_guard lock(owner.m_active_socket_mutex);
+            if (socket->is_open()) {
+                owner.m_active_socket_handle = socket->native_handle();
+            }
+        }
+
+        ~active_socket_scope()
+        {
+            std::lock_guard lock(owner.m_active_socket_mutex);
+            owner.m_active_socket_handle.reset();
+            if (owner.m_active_socket == socket) {
+                owner.m_active_socket.reset();
+            }
+        }
+
+        client_impl& owner;
+        std::shared_ptr<tcp::socket> socket;
+    };
+
     std::string m_serial;
     boost::asio::io_context m_context;
     tcp_endpoints m_endpoints;
+    std::mutex m_active_socket_mutex;
+    std::shared_ptr<tcp::socket> m_active_socket;
+    std::optional<tcp::socket::native_handle_type> m_active_socket_handle;
+    std::atomic_bool m_cancel_requested = false;
+
+    void connect_active_socket(tcp::socket& socket);
 
     /// Switch the connection to the device.
     /**
@@ -193,14 +245,46 @@ client_impl::client_impl(const std::string_view serial)
     m_endpoints = resolver.resolve("127.0.0.1", "5037");
 }
 
+void client_impl::connect_active_socket(tcp::socket& socket)
+{
+    if (m_cancel_requested.load(std::memory_order_acquire)) {
+        m_context.restart();
+        m_context.poll();
+        throw boost::system::system_error(boost::asio::error::operation_aborted);
+    }
+
+    boost::system::error_code result;
+    bool completed = false;
+    boost::asio::async_connect(socket, m_endpoints, [&](const boost::system::error_code& error, const tcp::endpoint&) {
+        result = error;
+        completed = true;
+    });
+
+    m_context.restart();
+    while (!completed) {
+        m_context.run_one();
+    }
+    if (m_cancel_requested.load(std::memory_order_acquire)) {
+        m_context.restart();
+        m_context.poll();
+        throw boost::system::system_error(boost::asio::error::operation_aborted);
+    }
+    if (result) {
+        throw boost::system::system_error(result);
+    }
+}
+
 std::string client_impl::connect()
 {
     tcp::socket socket(m_context);
+    stage::set("adb-server-tcp-connect");
     boost::asio::connect(socket, m_endpoints);
 
     const auto request = "host:connect:" + m_serial;
+    stage::set("send-host-connect-request");
     send_host_request(socket, request);
 
+    stage::set("wait-host-connect-message");
     return protocol::host_message(socket);
 }
 
@@ -227,28 +311,50 @@ std::string client_impl::devices()
 
 std::string client_impl::shell(const std::string_view command)
 {
-    tcp::socket socket(m_context);
-    boost::asio::connect(socket, m_endpoints);
+    auto socket = std::make_shared<tcp::socket>(m_context);
+    active_socket_scope active_socket(*this, socket);
+    stage::set("adb-server-tcp-connect");
+    connect_active_socket(*socket);
+    active_socket.publish_native_handle();
+    if (m_cancel_requested.load(std::memory_order_acquire)) {
+        m_context.restart();
+        m_context.poll();
+        throw boost::system::system_error(boost::asio::error::operation_aborted);
+    }
 
-    switch_to_device(socket);
+    stage::set("switch-adb-transport");
+    switch_to_device(*socket);
 
     const auto request = std::string("shell:") + command.data();
-    send_host_request(socket, request);
+    stage::set("send-shell-request");
+    send_host_request(*socket, request);
 
-    return protocol::host_data(socket);
+    stage::set("wait-shell-output-eof");
+    return protocol::host_data(*socket);
 }
 
 std::string client_impl::exec(const std::string_view command)
 {
-    tcp::socket socket(m_context);
-    boost::asio::connect(socket, m_endpoints);
+    auto socket = std::make_shared<tcp::socket>(m_context);
+    active_socket_scope active_socket(*this, socket);
+    stage::set("adb-server-tcp-connect");
+    connect_active_socket(*socket);
+    active_socket.publish_native_handle();
+    if (m_cancel_requested.load(std::memory_order_acquire)) {
+        m_context.restart();
+        m_context.poll();
+        throw boost::system::system_error(boost::asio::error::operation_aborted);
+    }
 
-    switch_to_device(socket);
+    stage::set("switch-adb-transport");
+    switch_to_device(*socket);
 
     const auto request = std::string("exec:") + command.data();
-    send_host_request(socket, request);
+    stage::set("send-exec-request");
+    send_host_request(*socket, request);
 
-    return protocol::host_data(socket);
+    stage::set("wait-exec-output-eof");
+    return protocol::host_data(*socket);
 }
 
 bool client_impl::push(const std::string_view src, const std::string_view dst, int perm)
@@ -337,6 +443,32 @@ std::shared_ptr<io_handle> client_impl::interactive_shell(const std::string_view
     send_host_request(socket, request);
 
     return std::make_shared<io_handle_impl>(std::move(context), std::move(socket));
+}
+
+void client_impl::cancel_active_io() noexcept
+{
+    std::optional<tcp::socket::native_handle_type> socket_handle;
+    {
+        std::lock_guard lock(m_active_socket_mutex);
+        m_cancel_requested.store(true, std::memory_order_release);
+        if (m_active_socket && !m_active_socket_handle) {
+            const auto socket = m_active_socket;
+            boost::asio::post(m_context, [socket] {
+                boost::system::error_code ignored;
+                socket->cancel(ignored);
+            });
+        }
+        socket_handle = m_active_socket_handle;
+    }
+
+    if (!socket_handle) {
+        return;
+    }
+#ifdef _WIN32
+    ::shutdown(*socket_handle, SD_BOTH);
+#else
+    ::shutdown(*socket_handle, SHUT_RDWR);
+#endif
 }
 
 void client_impl::wait_for_device()

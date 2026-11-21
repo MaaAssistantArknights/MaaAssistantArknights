@@ -111,6 +111,19 @@ public:
     bool back_to_home();
 
 private:
+    enum class ScreencapStatus
+    {
+        Success,
+        Failed,
+        Timeout,
+    };
+
+    ScreencapStatus screencap_managed(
+        const std::shared_ptr<ControllerAPI>& controller,
+        cv::Mat& image,
+        bool allow_reconnect,
+        bool preview,
+        std::string& stage);
     cv::Mat get_resized_image_cache(bool for_preview = false) const;
 
     void clear_info() noexcept;
@@ -143,5 +156,6 @@ private:
     mutable std::shared_mutex m_image_mutex;
     cv::Mat m_cache_image;
     cv::Mat m_preview_image;
+    std::atomic_uint m_consecutive_screencap_timeouts = 0;
 };
 } // namespace asst

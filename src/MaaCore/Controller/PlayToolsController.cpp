@@ -2,6 +2,11 @@
 
 #include <boost/asio.hpp>
 #include <chrono>
+#ifdef _WIN32
+#include <winsock2.h>
+#else
+#include <sys/socket.h>
+#endif
 
 #include "Config/GeneralConfig.h"
 #include "MaaUtils/NoWarningCV.hpp"
@@ -72,12 +77,22 @@ size_t asst::PlayToolsController::get_version() const noexcept
 bool asst::PlayToolsController::screencap(cv::Mat& image_payload, bool allow_reconnect)
 {
     LogTraceFunction;
+    if (m_screencap_cancelled.load(std::memory_order_acquire)) {
+        m_screencap_stage = "screencap-cancelled";
+        return false;
+    }
     switch (m_screencap_method) {
     case ScreencapMethod::RGBA:
+        m_screencap_stage = "rgba-capture";
         return screencap_rgba(image_payload, allow_reconnect);
     case ScreencapMethod::BGR:
+        m_screencap_stage = "bgr-capture";
         return screencap_bgr(image_payload, allow_reconnect);
     case ScreencapMethod::MacSCK: {
+        if (!open()) {
+            return false;
+        }
+        m_screencap_stage = "macsck-frame-wait";
 #if ASST_WITH_MAC_SCK
         if (!m_sck_helper.capture(m_screencap_buffer)) {
             return false;
@@ -104,7 +119,9 @@ bool asst::PlayToolsController::screencap_rgba(cv::Mat& image_payload, bool allo
 
     try {
         constexpr char request[6] = { 0, 4, 'S', 'C', 'R', 'N' };
+        m_screencap_stage = "rgba-send-request";
         boost::asio::write(m_socket, boost::asio::buffer(request));
+        m_screencap_stage = "rgba-read-header";
         boost::asio::read(m_socket, boost::asio::buffer(&image_size, sizeof(image_size)));
         image_size = socket_ops::network_to_host_long(image_size);
     }
@@ -120,6 +137,7 @@ bool asst::PlayToolsController::screencap_rgba(cv::Mat& image_payload, bool allo
 
     try {
         m_screencap_buffer.resize(image_size);
+        m_screencap_stage = "rgba-read-payload";
         boost::asio::read(m_socket, boost::asio::buffer(m_screencap_buffer));
         auto mat = cv::Mat(m_screen_size.second, m_screen_size.first, CV_8UC4, m_screencap_buffer.data());
         cv::cvtColor(mat, image_payload, cv::COLOR_RGBA2BGR);
@@ -141,7 +159,9 @@ bool asst::PlayToolsController::screencap_bgr(cv::Mat& image_payload, bool allow
 
     try {
         constexpr char request[] = { 0, 4, 'B', 'G', 'R', 1 };
+        m_screencap_stage = "bgr-send-request";
         boost::asio::write(m_socket, boost::asio::buffer(request));
+        m_screencap_stage = "bgr-read-header";
         boost::asio::read(m_socket, boost::asio::buffer(header));
     }
     catch (const std::exception& e) {
@@ -160,6 +180,7 @@ bool asst::PlayToolsController::screencap_bgr(cv::Mat& image_payload, bool allow
 
     try {
         m_screencap_buffer.resize(image_size);
+        m_screencap_stage = "bgr-read-payload";
         boost::asio::read(m_socket, boost::asio::buffer(m_screencap_buffer));
         auto mat = cv::Mat(image_height, image_width, CV_8UC3, m_screencap_buffer.data());
         mat.copyTo(image_payload);
@@ -323,10 +344,49 @@ void asst::PlayToolsController::toucher_wait(const int delay)
     std::this_thread::sleep_for(std::chrono::milliseconds(delay));
 }
 
+void asst::PlayToolsController::cancel_screencap() noexcept
+{
+    m_screencap_cancelled.store(true, std::memory_order_release);
+#if ASST_WITH_MAC_SCK
+    if (m_screencap_method == ScreencapMethod::MacSCK) {
+        m_sck_helper.cancel_capture();
+    }
+#endif
+    std::lock_guard lock(m_socket_cancel_mutex);
+    if (m_screencap_connecting) {
+        boost::asio::post(m_context, [this] {
+            boost::system::error_code ignored;
+            m_socket.cancel(ignored);
+        });
+    }
+    if (!m_screencap_socket_handle) {
+        return;
+    }
+#ifdef _WIN32
+    ::shutdown(*m_screencap_socket_handle, SD_BOTH);
+#else
+    ::shutdown(*m_screencap_socket_handle, SHUT_RDWR);
+#endif
+}
+
+bool asst::PlayToolsController::reset_screencap()
+{
+    close();
+#if ASST_WITH_MAC_SCK
+    if (m_screencap_method == ScreencapMethod::MacSCK) {
+        m_sck_helper.reset();
+    }
+#endif
+    m_screencap_cancelled.store(false, std::memory_order_release);
+    return true;
+}
+
 void asst::PlayToolsController::close()
 {
     m_screen_size = { 0, 0 };
 
+    std::lock_guard lock(m_socket_cancel_mutex);
+    m_screencap_socket_handle.reset();
     if (m_socket.is_open()) {
         try {
             m_socket.shutdown(tcp::socket::shutdown_both);
@@ -346,6 +406,9 @@ void asst::PlayToolsController::close()
 
 bool asst::PlayToolsController::open()
 {
+    if (m_screencap_cancelled.load(std::memory_order_acquire)) {
+        return false;
+    }
     if (m_socket.is_open()) {
         return true;
     }
@@ -362,11 +425,57 @@ bool asst::PlayToolsController::open()
     constexpr char signature[4] = { 'O', 'K', 'A', 'Y' };
 
     try {
-        boost::asio::connect(m_socket, resolver.resolve(host, port));
+        m_screencap_stage = "playtools-connect";
+        const auto endpoints = resolver.resolve(host, port);
+        if (m_screencap_cancelled.load(std::memory_order_acquire)) {
+            return false;
+        }
+
+        boost::system::error_code connect_error;
+        bool connect_completed = false;
+        {
+            std::lock_guard lock(m_socket_cancel_mutex);
+            if (m_screencap_cancelled.load(std::memory_order_acquire)) {
+                return false;
+            }
+            m_screencap_connecting = true;
+        }
+        boost::asio::async_connect(
+            m_socket,
+            endpoints,
+            [&](const boost::system::error_code& error, const tcp::endpoint&) {
+                connect_error = error;
+                connect_completed = true;
+            });
+        m_context.restart();
+        while (!connect_completed) {
+            m_context.run_one();
+        }
+        {
+            std::lock_guard lock(m_socket_cancel_mutex);
+            m_screencap_connecting = false;
+            if (!connect_error) {
+                m_screencap_socket_handle = m_socket.native_handle();
+            }
+        }
+        m_context.restart();
+        m_context.poll();
+        if (m_screencap_cancelled.load(std::memory_order_acquire)) {
+            return false;
+        }
+        if (connect_error) {
+            throw boost::system::system_error(connect_error);
+        }
+        m_screencap_stage = "playtools-handshake-write";
         boost::asio::write(m_socket, boost::asio::buffer(handshake));
+        m_screencap_stage = "playtools-handshake-read";
         boost::asio::read(m_socket, boost::asio::buffer(buffer, 4));
     }
     catch (const std::exception& e) {
+        {
+            std::lock_guard lock(m_socket_cancel_mutex);
+            m_screencap_connecting = false;
+        }
         Log.error("Cannot connect to", m_address, e.what());
         return false;
     }
