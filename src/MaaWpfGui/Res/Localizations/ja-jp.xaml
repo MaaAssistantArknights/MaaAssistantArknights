@@ -2335,7 +2335,8 @@ MAA は非インストール型のアプリケーションであり、レジス�
     <system:String x:Key="TaskQueue.Task.SeasonalTask.CoreBond.Minor.Tip">選択した小型盟約を持つオペレーターもコアとして扱われ、大型盟約のいずれかと一致した場合は優先的に購入・配置されます。</system:String>
     <system:String x:Key="TaskQueue.Task.SeasonalTask.CoreBond.Tip" xml:space="preserve">選択したコア盟約のいずれかを持つオペレーターを優先的に購入・配置します。｢{key=Common.NotSelected}｣ を選ぶとその盟約は判定に含まれません。&#10;同名のコアオペレーターが3体揃うと自動合成で昇進し、揃うまでは待機席で合成を溜めます。</system:String>
     <system:String x:Key="TaskQueue.Task.SeasonalTask.Rounds">周回クリア回数</system:String>
-    <system:String x:Key="TaskQueue.Task.SeasonalTask.Rounds.Tip" xml:space="preserve">選択した戦略で高速シミュレーションを周回し、設定したクリア回数に達すると停止します。0 でタスクをスキップします。&#10;｢{key=TaskQueue.AdvancedSettings}｣ の戦略と盟約の設定は、{key=Toolbox.Title}の{key=Toolbox.MiniGame.SPA}と共通です。</system:String>
+    <system:String x:Key="TaskQueue.Task.SeasonalTask.Rounds.Tip">選択した戦略で高速シミュレーションを周回し、設定したクリア回数に達すると停止します。0 でタスクをスキップします。</system:String>
+    <system:String x:Key="TaskQueue.Task.SeasonalTask.SharedSettings">以下の設定は、{key=Toolbox.Title}の対応する機能の設定と同期します。</system:String>
     <system:String x:Key="TaskQueue.Task.SeasonalTask.Skipped">周回クリア回数が 0 のため、シーズンタスクをスキップします。</system:String>
     <system:String x:Key="TaskQueue.Task.SeasonalTask.UpgradePlan">ターン別アップグレード設定</system:String>
     <system:String x:Key="TaskQueue.Task.SeasonalTask.UpgradePlan.AddRound">次のターンを追加</system:String>

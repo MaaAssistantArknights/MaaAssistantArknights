@@ -2334,7 +2334,8 @@ MAA는 비설치형 응용 프로그램으로, 삭제 시 레지스트리 항목
     <system:String x:Key="TaskQueue.Task.SeasonalTask.CoreBond.Minor.Tip">선택한 소형 동맹을 지닌 오퍼레이터도 코어로 취급되며, 선택한 대형 동맹과 어느 하나라도 일치하면 우선적으로 구매·배치됩니다.</system:String>
     <system:String x:Key="TaskQueue.Task.SeasonalTask.CoreBond.Tip" xml:space="preserve">선택한 코어 동맹 중 하나를 지닌 오퍼레이터를 우선적으로 구매·배치합니다. ｢{key=Common.NotSelected}｣ 를 선택하면 해당 동맹은 판정에 포함되지 않습니다.&#10;같은 이름의 코어 오퍼레이터가 3명 모이면 자동 합성으로 승진하며, 모이기 전까지는 대기석에서 합성을 모읍니다.</system:String>
     <system:String x:Key="TaskQueue.Task.SeasonalTask.Rounds">클리어 반복 횟수</system:String>
-    <system:String x:Key="TaskQueue.Task.SeasonalTask.Rounds.Tip" xml:space="preserve">선택한 전략으로 빠른 시뮬레이션을 반복하고, 설정한 클리어 횟수에 도달하면 중지합니다. 0은 작업을 건너뜁니다.&#10;｢{key=TaskQueue.AdvancedSettings}｣의 전략 및 동맹 설정은 {key=Toolbox.Title}의 {key=Toolbox.MiniGame.SPA}과 공유됩니다.</system:String>
+    <system:String x:Key="TaskQueue.Task.SeasonalTask.Rounds.Tip">선택한 전략으로 빠른 시뮬레이션을 반복하고, 설정한 클리어 횟수에 도달하면 중지합니다. 0은 작업을 건너뜁니다.</system:String>
+    <system:String x:Key="TaskQueue.Task.SeasonalTask.SharedSettings">아래 설정은 {key=Toolbox.Title}의 해당 기능 설정과 동기화됩니다.</system:String>
     <system:String x:Key="TaskQueue.Task.SeasonalTask.Skipped">클리어 반복 횟수가 0이므로 시즌 작업을 건너뜁니다.</system:String>
     <system:String x:Key="TaskQueue.Task.SeasonalTask.UpgradePlan">라운드별 업그레이드 전략</system:String>
     <system:String x:Key="TaskQueue.Task.SeasonalTask.UpgradePlan.AddRound">다음 라운드 추가</system:String>

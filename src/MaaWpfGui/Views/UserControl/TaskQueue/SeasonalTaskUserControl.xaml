@@ -22,18 +22,32 @@
             IsEnabled="{Binding Run.Idle, Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingDataContext}}"
             Visibility="{c:Binding !EnableAdvancedSettings,
                                    Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}">
-            <StackPanel Margin="0,3" Orientation="Horizontal">
-                <controls:TextBlock Text="{DynamicResource TaskQueue.Task.SeasonalTask.Rounds}" />
-                <controls:TooltipBlock
-                    Margin="3,0,0,0"
-                    VerticalAlignment="Center"
-                    TooltipText="{DynamicResource TaskQueue.Task.SeasonalTask.Rounds.Tip}" />
-            </StackPanel>
-            <hc:NumericUpDown
-                Margin="0,3"
-                Maximum="999"
-                Minimum="0"
-                Value="{Binding Rounds}" />
+            <CheckBox
+                Margin="0,10,0,5"
+                Block.TextAlignment="Left"
+                Content="{DynamicResource Toolbox.MiniGame.StrongholdProtocol}"
+                IsChecked="{Binding StrongholdProtocolEnabled}" />
+            <DockPanel Visibility="{c:Binding StrongholdProtocolEnabled}">
+                <controls:TextBlock
+                    Margin="2.5,0,7.5,0"
+                    VerticalAlignment="Top"
+                    DockPanel.Dock="Left"
+                    Text="└" />
+                <StackPanel>
+                    <StackPanel Margin="0,0,0,3" Orientation="Horizontal">
+                        <controls:TextBlock Text="{DynamicResource TaskQueue.Task.SeasonalTask.Rounds}" />
+                        <controls:TooltipBlock
+                            Margin="3,0,0,0"
+                            VerticalAlignment="Center"
+                            TooltipText="{DynamicResource TaskQueue.Task.SeasonalTask.Rounds.Tip}" />
+                    </StackPanel>
+                    <hc:NumericUpDown
+                        Margin="0,3"
+                        Maximum="999"
+                        Minimum="0"
+                        Value="{Binding Rounds}" />
+                </StackPanel>
+            </DockPanel>
         </StackPanel>
 
         <StackPanel
@@ -41,6 +55,11 @@
             IsEnabled="{Binding Run.Idle, Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingDataContext}}"
             Visibility="{c:Binding EnableAdvancedSettings,
                                    Source={x:Static ui_vms:TaskQueueViewModel.TaskSettingVisibilities}}">
+            <controls:TextBlock
+                Margin="0,0,0,8"
+                Foreground="{DynamicResource ThirdlyTextBrush}"
+                Text="{DynamicResource TaskQueue.Task.SeasonalTask.SharedSettings}"
+                TextWrapping="Wrap" />
             <settings:StrongholdProtocolSettingsUserControl DataContext="{x:Static ui_vms:SettingsViewModel.StrongholdProtocolSettings}" />
         </StackPanel>
     </StackPanel>

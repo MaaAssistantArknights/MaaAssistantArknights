@@ -2333,7 +2333,8 @@ Right-clicking other options will check/uncheck this option simultaneously</syst
     <system:String x:Key="TaskQueue.Task.SeasonalTask.CoreBond.Minor.Tip">Operators carrying the selected minor bond are treated as core as well; a hit on either the selected major or minor bond grants purchase and deployment priority.</system:String>
     <system:String x:Key="TaskQueue.Task.SeasonalTask.CoreBond.Tip" xml:space="preserve">Operators carrying either selected core bond are purchased and deployed with priority; select ｢{key=Common.NotSelected}｣ to leave that bond out of the check.&#10;Three same-name core operators auto-merge into a promotion; before that, same-name cores are kept on the bench to accumulate the merge.</system:String>
     <system:String x:Key="TaskQueue.Task.SeasonalTask.Rounds">Clear loop runs</system:String>
-    <system:String x:Key="TaskQueue.Task.SeasonalTask.Rounds.Tip" xml:space="preserve">Clears quick simulations using the selected strategy until the configured number of clears is reached. 0 skips the task.&#10;Strategy and bond settings in {key=TaskQueue.AdvancedSettings} are shared with {key=Toolbox.MiniGame.SPA} in the {key=Toolbox.Title}.</system:String>
+    <system:String x:Key="TaskQueue.Task.SeasonalTask.Rounds.Tip">Clears quick simulations using the selected strategy until the configured number of clears is reached. 0 skips the task.</system:String>
+    <system:String x:Key="TaskQueue.Task.SeasonalTask.SharedSettings">The settings below sync with the corresponding settings in the {key=Toolbox.Title}.</system:String>
     <system:String x:Key="TaskQueue.Task.SeasonalTask.Skipped">Clear loop runs is 0, skipping the seasonal task.</system:String>
     <system:String x:Key="TaskQueue.Task.SeasonalTask.UpgradePlan">Per-round upgrade strategy</system:String>
     <system:String x:Key="TaskQueue.Task.SeasonalTask.UpgradePlan.AddRound">Add the next round</system:String>

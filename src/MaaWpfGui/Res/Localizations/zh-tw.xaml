@@ -2334,7 +2334,8 @@ DEBUG 目錄下儲存的圖片有數量限制，超出後會自動清理舊圖�
     <system:String x:Key="TaskQueue.Task.SeasonalTask.CoreBond.Minor.Tip">攜帶所選小盟約的幹員同樣按核心對待，與所選大盟約任一命中即優先買入部署。</system:String>
     <system:String x:Key="TaskQueue.Task.SeasonalTask.CoreBond.Tip" xml:space="preserve">攜帶任一所選核心盟約的幹員優先買入並部署上場；選 ｢{key=Common.NotSelected}｣ 則該盟約不參與判定。&#10;同名核心幹員湊滿三張自動合成晉升，未湊齊前先落備戰席攢合成。</system:String>
     <system:String x:Key="TaskQueue.Task.SeasonalTask.Rounds">通關循環局數</system:String>
-    <system:String x:Key="TaskQueue.Task.SeasonalTask.Rounds.Tip" xml:space="preserve">按所選策略循環通關極速模擬，達到設定局數後停止。0 = 跳過任務。&#10;策略和盟約選項在 ｢{key=TaskQueue.AdvancedSettings}｣ 中調整，與{key=Toolbox.Title}中的{key=Toolbox.MiniGame.SPA}共用。</system:String>
+    <system:String x:Key="TaskQueue.Task.SeasonalTask.Rounds.Tip">按所選策略循環通關極速模擬，達到設定局數後停止。0 = 跳過任務。</system:String>
+    <system:String x:Key="TaskQueue.Task.SeasonalTask.SharedSettings">以下設定同步牛雜中對應功能的設定</system:String>
     <system:String x:Key="TaskQueue.Task.SeasonalTask.Skipped">通關循環局數為 0，跳過賽季任務。</system:String>
     <system:String x:Key="TaskQueue.Task.SeasonalTask.UpgradePlan">每回合升級策略</system:String>
     <system:String x:Key="TaskQueue.Task.SeasonalTask.UpgradePlan.AddRound">新增下一回合</system:String>

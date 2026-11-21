@@ -26,6 +26,12 @@ public class SeasonalTaskUserControlModel : TaskSettingsViewModel, SeasonalTaskU
 {
     public static SeasonalTaskUserControlModel Instance { get; } = new();
 
+    public bool StrongholdProtocolEnabled
+    {
+        get => GetTaskConfig<SeasonalTask>().StrongholdProtocolEnabled;
+        set => SetTaskConfig<SeasonalTask>(t => t.StrongholdProtocolEnabled == value, t => t.StrongholdProtocolEnabled = value);
+    }
+
     /// <summary>
     /// Gets or sets 通关循环局数，0 = 跳过任务。
     /// </summary>
@@ -37,6 +43,11 @@ public class SeasonalTaskUserControlModel : TaskSettingsViewModel, SeasonalTaskU
 
     public override void RefreshUI(BaseTask baseTask)
     {
+        if (baseTask is SeasonalTask)
+        {
+            NotifyOfPropertyChange(nameof(StrongholdProtocolEnabled));
+            NotifyOfPropertyChange(nameof(Rounds));
+        }
     }
 
     public override (bool? IsSuccess, IEnumerable<int> TaskId) SerializeTask(BaseTask? baseTask, int? taskId = null) => (this as ISerialize).Serialize(baseTask, taskId);
@@ -45,7 +56,7 @@ public class SeasonalTaskUserControlModel : TaskSettingsViewModel, SeasonalTaskU
     {
         (bool? IsSuccess, IEnumerable<int> TaskId) ITaskQueueModelSerialize.Serialize(BaseTask? baseTask, int? taskId)
         {
-            if (baseTask is not SeasonalTask task || taskId > 0)
+            if (baseTask is not SeasonalTask task || !task.StrongholdProtocolEnabled || taskId > 0)
             {
                 return (null, []);
             }

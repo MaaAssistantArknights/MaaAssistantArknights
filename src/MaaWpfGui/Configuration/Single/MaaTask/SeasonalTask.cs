@@ -27,6 +27,11 @@ public class SeasonalTask : BaseTask
     public SeasonalTask() => TaskType = TaskType.SeasonalTask;
 
     /// <summary>
+    /// Gets or sets a value indicating whether to run Stronghold Protocol.
+    /// </summary>
+    public bool StrongholdProtocolEnabled { get; set; } = true;
+
+    /// <summary>
     /// Gets or sets 通关循环局数，0 = 跳过任务。
     /// </summary>
     public int Rounds { get; set; } = 3;
