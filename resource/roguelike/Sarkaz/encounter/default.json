@@ -43,6 +43,7 @@
             "name": "好心的女士",
             "option_num": 2,
             "choose": 1,
+            "fallback_choices": [[3, 2]],
             "choices": [
                 {
                     "name": "请帮帮我，还有我的同伴们",
@@ -139,6 +140,7 @@
             "name": "疤痕国际",
             "option_num": 2,
             "choose": 1,
+            "fallback_choices": [[3, 2]],
             "choices": [
                 {
                     "name": "和负责人打个招呼",
@@ -210,7 +212,7 @@
                     ]
                 },
                 {
-                    "name": "跟随独眼巨人的预示",
+                    "name": "跟随巨人的预示",
                     "option_num": 3,
                     "choose": 2,
                     "requirements": [

@@ -658,6 +658,7 @@
             "Sarkaz@Roguelike@StageEmergencyOpsEnter",
             "Sarkaz@Roguelike@StageCombatOpsEnter",
             "Sarkaz@Roguelike@CloseEvent",
+            "Sarkaz@Roguelike@CloseEvent@(Sarkaz@Roguelike@CloseCollectionClose)",
             "Sarkaz@Roguelike@StageEncounterOptionUnknown"
         ]
     },
@@ -1170,6 +1171,31 @@
     "Sarkaz@Roguelike@TodoEnter": {},
     "Sarkaz@Roguelike@WaitForStartButtonClicked": {
         "template": "Roguelike@QuickFormation.png"
+    },
+    "Sarkaz@RoguelikeEncounterOptionAnalyzer-Option": {
+        "template": "empty.png",
+        "roi": [875, 40, 325, 595],
+        "specificRect": [875, 0, 325, 40],
+        "specificRect_Doc": "供 RoguelikeEncounterOptionAnalyzer 截取单个事件选项，y 坐标由分析器按识别结果覆盖。"
+    },
+    "Sarkaz@RoguelikeEncounterOptionAnalyzer-OptionHeaderBar": {
+        "roi": [1181, 40, 67, 595]
+    },
+    "Sarkaz@RoguelikeEncounterOptionAnalyzer-OptionHeaderBar-Enabled": {
+        "template": "Sarkaz@RoguelikeEncounterOptionAnalyzer-OptionHeaderBar.png",
+        "roi": [0, 0, 67, 45],
+        "method": "HSVCount",
+        "colorScales": [
+            [
+                [0, 0, 20],
+                [179, 255, 255]
+            ]
+        ]
+    },
+    "Sarkaz@RoguelikeEncounterOptionAnalyzer-OptionHeaderBar-Text": {
+        "algorithm": "OcrDetect",
+        "roi": [0, 0, 325, 40],
+        "text": []
     },
     "Sarkaz@RoguelikeSettlementConfirm": {}
 }

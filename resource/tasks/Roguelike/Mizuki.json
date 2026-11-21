@@ -401,6 +401,7 @@
             "Mizuki@Roguelike@StageEmergencyOpsEnter",
             "Mizuki@Roguelike@StageCombatOpsEnter",
             "Mizuki@Roguelike@CloseEvent",
+            "Mizuki@Roguelike@CloseEvent@(Mizuki@Roguelike@CloseCollectionClose)",
             "Mizuki@Roguelike@StageEncounterOptionUnknown"
         ]
     },
@@ -590,6 +591,31 @@
     "Mizuki@Roguelike@TodoEnter": {},
     "Mizuki@Roguelike@WaitForStartButtonClicked": {
         "template": "Roguelike@QuickFormation.png"
+    },
+    "Mizuki@RoguelikeEncounterOptionAnalyzer-Option": {
+        "template": "empty.png",
+        "roi": [875, 40, 325, 595],
+        "specificRect": [875, 0, 325, 40],
+        "specificRect_Doc": "供 RoguelikeEncounterOptionAnalyzer 截取单个事件选项，y 坐标由分析器按识别结果覆盖。"
+    },
+    "Mizuki@RoguelikeEncounterOptionAnalyzer-OptionHeaderBar": {
+        "roi": [1168, 40, 32, 595]
+    },
+    "Mizuki@RoguelikeEncounterOptionAnalyzer-OptionHeaderBar-Enabled": {
+        "template": "Mizuki@RoguelikeEncounterOptionAnalyzer-OptionHeaderBar.png",
+        "roi": [0, 0, 32, 40],
+        "method": "HSVCount",
+        "colorScales": [
+            [
+                [0, 0, 50],
+                [179, 255, 255]
+            ]
+        ]
+    },
+    "Mizuki@RoguelikeEncounterOptionAnalyzer-OptionHeaderBar-Text": {
+        "algorithm": "OcrDetect",
+        "roi": [0, 0, 325, 40],
+        "text": []
     },
     "Mizuki@RoguelikeSettlementConfirm": {
         "template": "RoguelikeSettlementConfirm.png"
