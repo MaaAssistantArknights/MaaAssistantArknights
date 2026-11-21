@@ -678,6 +678,9 @@ bool asst::AdbController::convert_lf(std::string& data)
 
 bool asst::AdbController::screencap(cv::Mat& image_payload, bool allow_reconnect)
 {
+    if (m_screencap_cancelled.exchange(false, std::memory_order_acq_rel)) {
+        return false;
+    }
     if (m_connection_expired) {
         // 分辨率已被外部修改，等待上层整体重连，不再产出画面
         return false;
@@ -744,6 +747,9 @@ bool asst::AdbController::screencap(cv::Mat& image_payload, bool allow_reconnect
     };
 
     image_payload = cv::Mat(); // 清空缓存
+    const auto was_screencap_cancelled = [this] {
+        return m_screencap_cancelled.exchange(false, std::memory_order_acq_rel);
+    };
     if (m_adb.screencap_method == AdbProperty::ScreencapMethod::UnknownYet) {
         std::vector<std::pair<AdbProperty::ScreencapMethod, std::string>> all_methods_cost;
         auto fastest_method = AdbProperty::ScreencapMethod::UnknownYet;
@@ -769,6 +775,9 @@ bool asst::AdbController::screencap(cv::Mat& image_payload, bool allow_reconnect
             all_methods_cost.emplace_back(AdbProperty::ScreencapMethod::RawByNc, "???");
         }
         clear_lf_info();
+        if (was_screencap_cancelled()) {
+            return false;
+        }
 
         start_time = steady_clock::now();
         if (screencap(m_adb.screencap_raw_with_gzip, decode_raw_with_gzip, allow_reconnect) ==
@@ -787,6 +796,9 @@ bool asst::AdbController::screencap(cv::Mat& image_payload, bool allow_reconnect
             all_methods_cost.emplace_back(AdbProperty::ScreencapMethod::RawWithGzip, "???");
         }
         clear_lf_info();
+        if (was_screencap_cancelled()) {
+            return false;
+        }
 
         start_time = steady_clock::now();
         if (screencap(m_adb.screencap_encode, decode_encode, allow_reconnect) == ScreencapResult::Success) {
@@ -802,6 +814,9 @@ bool asst::AdbController::screencap(cv::Mat& image_payload, bool allow_reconnect
         else {
             Log.info("Encode is not supported");
             all_methods_cost.emplace_back(AdbProperty::ScreencapMethod::Encode, "???");
+        }
+        if (was_screencap_cancelled()) {
+            return false;
         }
 
         if (m_modavd_extras.inited()) {
@@ -825,6 +840,9 @@ bool asst::AdbController::screencap(cv::Mat& image_payload, bool allow_reconnect
                 all_methods_cost.emplace_back(AdbProperty::ScreencapMethod::ModAvdExtras, "???");
             }
         }
+        if (was_screencap_cancelled()) {
+            return false;
+        }
 
 #if ASST_WITH_EMULATOR_EXTRAS
         if (m_mumu_extras.inited()) {
@@ -846,6 +864,9 @@ bool asst::AdbController::screencap(cv::Mat& image_payload, bool allow_reconnect
                 all_methods_cost.emplace_back(AdbProperty::ScreencapMethod::MumuExtras, "???");
             }
         }
+        if (was_screencap_cancelled()) {
+            return false;
+        }
         if (m_ld_extras.inited()) {
             start_time = steady_clock::now();
             if (m_ld_extras.screencap()) {
@@ -864,6 +885,9 @@ bool asst::AdbController::screencap(cv::Mat& image_payload, bool allow_reconnect
             }
         }
 #endif
+        if (was_screencap_cancelled()) {
+            return false;
+        }
 
         m_adb.screencap_method = fastest_method;
 
@@ -961,6 +985,9 @@ bool asst::AdbController::screencap(cv::Mat& image_payload, bool allow_reconnect
         default:
             break;
         }
+        if (was_screencap_cancelled()) {
+            return false;
+        }
         const bool screencap_ret = screencap_result == ScreencapResult::Success;
         if (screencap_result == ScreencapResult::Reprobe) {
             m_adb.screencap_method = AdbProperty::ScreencapMethod::UnknownYet;
@@ -1029,6 +1056,38 @@ bool asst::AdbController::screencap(cv::Mat& image_payload, bool allow_reconnect
     }
 }
 
+bool asst::AdbController::supports_screencap_cancellation() const noexcept
+{
+    return m_platform_io && m_platform_io->supports_screencap_cancellation();
+}
+
+void asst::AdbController::cancel_screencap() noexcept
+{
+    m_screencap_cancelled.store(true, std::memory_order_release);
+    if (m_platform_io) {
+        m_platform_io->cancel_screencap();
+    }
+}
+
+bool asst::AdbController::reset_screencap()
+{
+    if (!m_platform_io) {
+        return false;
+    }
+    const bool reset = m_platform_io->reset_screencap();
+    m_screencap_cancelled.store(false, std::memory_order_release);
+    if (!reset) {
+        return false;
+    }
+    m_adb.screencap_method = AdbProperty::ScreencapMethod::UnknownYet;
+    return true;
+}
+
+std::string asst::AdbController::screencap_stage() const
+{
+    return m_platform_io ? m_platform_io->screencap_stage() : std::string {};
+}
+
 asst::AdbController::ScreencapResult asst::AdbController::screencap(
     const std::string& cmd,
     const DecodeFunc& decode_func,
@@ -1040,7 +1099,8 @@ asst::AdbController::ScreencapResult asst::AdbController::screencap(
         if ((!m_support_socket || !m_server_started) && by_socket) [[unlikely]] {
             return ScreencapResult::Failed;
         }
-        auto ret = call_command(cmd, timeout, allow_reconnect, by_socket);
+        const bool allow_command_reconnect = allow_reconnect && !supports_screencap_cancellation();
+        auto ret = call_command(cmd, timeout, allow_command_reconnect, by_socket);
 
         if (!ret || ret.value().empty()) [[unlikely]] {
             Log.warn("data is empty!");

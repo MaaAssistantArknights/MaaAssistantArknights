@@ -2,6 +2,7 @@
 
 #include "ControllerAPI.h"
 
+#include <atomic>
 #include <chrono>
 #include <deque>
 #include <future>
@@ -86,6 +87,10 @@ public:
     virtual size_t get_version() const noexcept override;
 
     virtual bool screencap(cv::Mat& image_payload, bool allow_reconnect = false) override;
+    virtual bool supports_screencap_cancellation() const noexcept override;
+    virtual void cancel_screencap() noexcept override;
+    virtual bool reset_screencap() override;
+    virtual std::string screencap_stage() const override;
 
     virtual bool start_game(const std::string& client_type) override;
     virtual bool stop_game(const std::string& client_type) override;
@@ -242,6 +247,7 @@ protected:
     std::pair<int, int> m_last_screencap_size = { 0, 0 };
     // 分辨率被外部修改后置位：此后截图一律快速失败，任务随即停止，等待上层整体重连
     bool m_connection_expired = false;
+    std::atomic_bool m_screencap_cancelled = false;
     bool m_support_socket = false;
     bool m_server_started = false;
     bool m_inited = false;

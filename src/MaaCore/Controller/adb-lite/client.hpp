@@ -130,6 +130,9 @@ public:
      */
     virtual std::string exec(const std::string_view command) = 0;
 
+    /// Interrupt an in-flight one-shot shell/exec operation, if any.
+    virtual void cancel_active_io() noexcept {}
+
     /// Send a file to the device.
     /**
      * @return true if the file is successfully sent.

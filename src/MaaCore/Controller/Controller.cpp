@@ -3,6 +3,9 @@
 #include "Utils/Platform.hpp"
 
 #include <boost/regex.hpp>
+#include <condition_variable>
+#include <mutex>
+#include <thread>
 #include <type_traits>
 #include <utility>
 #include <vector>
@@ -110,11 +113,11 @@ std::pair<int, int> asst::Controller::get_scale_size() const noexcept
 
 void asst::Controller::clear_info() noexcept
 {
+    std::unique_lock<std::shared_mutex> image_lock(m_image_mutex);
     m_uuid.clear();
     m_scale_size = { WindowWidthDefault, WindowHeightDefault };
     m_controller = nullptr;
     m_scale_proxy = nullptr;
-    std::unique_lock<std::shared_mutex> image_lock(m_image_mutex);
     m_cache_image.release();
     m_preview_image.release();
 }
@@ -275,7 +278,10 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
     // attach_window 会将 m_controller_type 置为 Win32，连接前按 touch mode 重新派生
     set_touch_mode(m_touch_mode);
 
-    m_controller = create_controller(m_controller_type, m_platform_type);
+    {
+        std::unique_lock<std::shared_mutex> image_lock(m_image_mutex);
+        m_controller = create_controller(m_controller_type, m_platform_type);
+    }
     if (!m_controller) {
         Log.error("connect failed");
         return false;
@@ -285,6 +291,7 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
 
     if (!m_controller->connect(adb_path, address, config)) {
         Log.error("connect failed");
+        std::unique_lock<std::shared_mutex> image_lock(m_image_mutex);
         m_controller = nullptr;
         return false;
     }
@@ -487,21 +494,32 @@ cv::Mat asst::Controller::get_image(bool raw)
         return {};
     }
 
-    // 有些模拟器adb偶尔会莫名其妙截图失败，多试几次
+    // Some emulators occasionally fail to capture; keep retrying ordinary failures.
     static constexpr int MaxTryCount = 20;
     bool success = false;
     for (int i = 0; i < MaxTryCount && inited(); ++i) {
         if (need_exit()) {
             break;
         }
+        const auto timeouts_before_capture = m_consecutive_screencap_timeouts.load();
         if (screencap()) {
             success = true;
             break;
         }
+        const auto timeouts_after_capture = m_consecutive_screencap_timeouts.load();
+        if (!need_exit() && timeouts_after_capture > timeouts_before_capture && timeouts_after_capture >= 3) {
+            throw ScreencapTimeoutException();
+        }
     }
     while (!success && !need_exit()) {
+        const auto timeouts_before_capture = m_consecutive_screencap_timeouts.load();
         if (screencap(true)) {
+            success = true;
             break;
+        }
+        const auto timeouts_after_capture = m_consecutive_screencap_timeouts.load();
+        if (!need_exit() && timeouts_after_capture > timeouts_before_capture && timeouts_after_capture >= 3) {
+            throw ScreencapTimeoutException();
         }
         Log.error(__FUNCTION__, "screencap failed!");
         json::value info = json::object {
@@ -511,10 +529,11 @@ cv::Mat asst::Controller::get_image(bool raw)
             { "details", json::object {} },
         };
         callback(AsstMsg::ConnectionInfo, info);
-
-        const cv::Size d_size(m_scale_size.first, m_scale_size.second);
-        m_cache_image = cv::Mat(d_size, CV_8UC3);
-
+        if (m_consecutive_screencap_timeouts == 0) {
+            std::unique_lock<std::shared_mutex> image_lock(m_image_mutex);
+            const cv::Size size(m_scale_size.first, m_scale_size.second);
+            m_cache_image = cv::Mat(size, CV_8UC3);
+        }
         break;
     }
 
@@ -537,27 +556,169 @@ cv::Mat asst::Controller::get_preview_image_cache() const
     return get_resized_image_cache(true);
 }
 
+asst::Controller::ScreencapStatus asst::Controller::screencap_managed(
+    const std::shared_ptr<ControllerAPI>& controller,
+    cv::Mat& image,
+    bool allow_reconnect,
+    bool preview,
+    std::string& stage)
+{
+    constexpr auto timeout = std::chrono::seconds(20);
+    if (!controller->supports_screencap_cancellation()) {
+        const bool success = preview ? controller->screencap_for_preview(image, allow_reconnect)
+                                     : controller->screencap(image, allow_reconnect);
+        if (success) {
+            m_consecutive_screencap_timeouts = 0;
+            return ScreencapStatus::Success;
+        }
+        return ScreencapStatus::Failed;
+    }
+
+    std::mutex mutex;
+    std::condition_variable condition;
+    bool completed = false;
+    bool timed_out = false;
+    std::thread watchdog([&] {
+        std::unique_lock lock(mutex);
+        if (condition.wait_for(lock, timeout, [&] { return completed; })) {
+            return;
+        }
+        timed_out = true;
+        lock.unlock();
+        controller->cancel_screencap();
+    });
+
+    bool success = false;
+    std::exception_ptr capture_exception;
+    try {
+        success = preview ? controller->screencap_for_preview(image, allow_reconnect)
+                          : controller->screencap(image, allow_reconnect);
+    }
+    catch (...) {
+        capture_exception = std::current_exception();
+    }
+    {
+        std::lock_guard lock(mutex);
+        completed = true;
+    }
+    condition.notify_one();
+    watchdog.join();
+    if (need_exit()) {
+        if (timed_out) {
+            controller->reset_screencap();
+        }
+        return ScreencapStatus::Failed;
+    }
+    if (capture_exception && !timed_out) {
+        std::rethrow_exception(capture_exception);
+    }
+    if (!timed_out) {
+        if (success) {
+            m_consecutive_screencap_timeouts = 0;
+            return ScreencapStatus::Success;
+        }
+        return ScreencapStatus::Failed;
+    }
+
+    stage = controller->screencap_stage();
+    const auto consecutive_timeouts = ++m_consecutive_screencap_timeouts;
+    const bool reset = controller->reset_screencap();
+    Log.error(
+        "Screencap timeout",
+        "backend",
+        static_cast<int>(m_controller_type),
+        "stage",
+        stage,
+        "timeout_ms",
+        std::chrono::duration_cast<std::chrono::milliseconds>(timeout).count(),
+        "consecutive_timeouts",
+        consecutive_timeouts,
+        "reset",
+        reset);
+    return ScreencapStatus::Timeout;
+}
+
 bool asst::Controller::screencap(bool allow_reconnect)
 {
-    CHECK_EXIST(m_controller, false);
-    std::unique_lock<std::shared_mutex> image_lock(m_image_mutex);
-    if (!m_controller->screencap(m_cache_image, allow_reconnect)) {
+    std::shared_ptr<ControllerAPI> controller;
+    std::string stage;
+    ScreencapStatus result;
+    {
+        std::unique_lock<std::shared_mutex> image_lock(m_image_mutex);
+        controller = m_controller;
+        if (!controller) {
+            Log.error(__FUNCTION__, "controller is not initialized");
+            return false;
+        }
+        result = screencap_managed(controller, m_cache_image, allow_reconnect, false, stage);
+        if (result == ScreencapStatus::Success) {
+            // 任务帧更新后，外部预览也应读取最新的画面。
+            m_preview_image.release();
+        }
+        else if (result == ScreencapStatus::Timeout) {
+            m_cache_image.release();
+            m_preview_image.release();
+        }
+    }
+    if (result == ScreencapStatus::Timeout) {
+        const auto consecutive_timeouts = m_consecutive_screencap_timeouts.load();
+        json::value info = json::object {
+            { "uuid", m_uuid },
+            { "what", "ScreencapTimeout" },
+            { "why", "ScreencapTimeout" },
+            { "details",
+              json::object {
+                  { "backend", static_cast<int>(m_controller_type) },
+                  { "stage", stage },
+                  { "timeout_ms", 20'000 },
+                  { "consecutive_timeouts", consecutive_timeouts },
+                  { "will_retry", consecutive_timeouts < 3 },
+              } },
+        };
+        callback(AsstMsg::ConnectionInfo, info);
         return false;
     }
-    // 任务帧更新后，外部预览也应读取最新的画面。
-    m_preview_image.release();
-    return true;
+    return result == ScreencapStatus::Success;
 }
 
 bool asst::Controller::screencap_for_preview(bool allow_reconnect)
 {
-    CHECK_EXIST(m_controller, false);
-    std::unique_lock<std::shared_mutex> image_lock(m_image_mutex);
-    // 预览帧不能覆盖识别帧，也不能共享可能被截图后端原地改写的缓冲区。
+    std::shared_ptr<ControllerAPI> controller;
     cv::Mat image;
-    if (!m_controller->screencap_for_preview(image, allow_reconnect)) {
-        return false;
+    std::string stage;
+    ScreencapStatus result;
+    {
+        std::unique_lock<std::shared_mutex> image_lock(m_image_mutex);
+        controller = m_controller;
+        if (!controller) {
+            Log.error(__FUNCTION__, "controller is not initialized");
+            return false;
+        }
+        result = screencap_managed(controller, image, allow_reconnect, true, stage);
+        if (result == ScreencapStatus::Success) {
+            // 预览帧不能覆盖识别帧，也不能共享可能被截图后端原地改写的缓冲区。
+            m_preview_image = std::move(image);
+        }
+        else if (result == ScreencapStatus::Timeout) {
+            m_preview_image.release();
+        }
     }
-    m_preview_image = std::move(image);
-    return true;
+    if (result == ScreencapStatus::Timeout) {
+        const auto consecutive_timeouts = m_consecutive_screencap_timeouts.load();
+        json::value info = json::object {
+            { "uuid", m_uuid },
+            { "what", "ScreencapTimeout" },
+            { "why", "ScreencapTimeout" },
+            { "details",
+              json::object {
+                  { "backend", static_cast<int>(m_controller_type) },
+                  { "stage", stage },
+                  { "timeout_ms", 20'000 },
+                  { "consecutive_timeouts", consecutive_timeouts },
+                  { "will_retry", consecutive_timeouts < 3 },
+              } },
+        };
+        callback(AsstMsg::ConnectionInfo, info);
+    }
+    return result == ScreencapStatus::Success;
 }

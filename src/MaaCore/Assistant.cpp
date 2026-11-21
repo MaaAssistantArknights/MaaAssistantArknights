@@ -48,6 +48,7 @@ enum class TaskExceptionKind
     OpenCV,
     OutOfMemory,
     GpuDeviceRemoved,
+    ScreencapTimeout,
     Standard,
     Unknown,
 };
@@ -61,6 +62,8 @@ const char* task_exception_name(TaskExceptionKind kind) noexcept
         return "OutOfMemory";
     case TaskExceptionKind::GpuDeviceRemoved:
         return "GpuDeviceRemoved";
+    case TaskExceptionKind::ScreencapTimeout:
+        return "ScreencapTimeout";
     case TaskExceptionKind::Standard:
         return "UnhandledException";
     case TaskExceptionKind::Unknown:
@@ -639,6 +642,9 @@ void Assistant::working_proc()
             catch (const std::bad_alloc&) {
                 exception_kind = TaskExceptionKind::OutOfMemory;
             }
+            catch (const ScreencapTimeoutException&) {
+                exception_kind = TaskExceptionKind::ScreencapTimeout;
+            }
             catch (const std::exception& e) {
                 if (is_directml_device_removed(e.what())) {
                     exception_kind = TaskExceptionKind::GpuDeviceRemoved;
@@ -674,7 +680,8 @@ void Assistant::working_proc()
             if (exception_kind != TaskExceptionKind::None) {
                 save_fail_img();
                 const bool stop_remaining_tasks = exception_kind == TaskExceptionKind::OutOfMemory ||
-                                                  exception_kind == TaskExceptionKind::GpuDeviceRemoved;
+                                                  exception_kind == TaskExceptionKind::GpuDeviceRemoved ||
+                                                  exception_kind == TaskExceptionKind::ScreencapTimeout;
                 if (stop_remaining_tasks) {
                     lock.lock();
                     m_thread_idle = true;
@@ -692,6 +699,9 @@ void Assistant::working_proc()
                     };
                     append_callback(AsstMsg::TaskChainError, error_json);
                 };
+                if (exception_kind == TaskExceptionKind::ScreencapTimeout) {
+                    callback_json["details"] = json::object { { "error", "ScreencapTimeout" } };
+                }
                 if (exception_kind == TaskExceptionKind::OutOfMemory) {
                     best_effort(append_error);
                 }

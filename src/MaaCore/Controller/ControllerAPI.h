@@ -1,5 +1,7 @@
 #pragma once
 
+#include <chrono>
+#include <stdexcept>
 #include <string>
 
 #include "Common/AsstTypes.h"
@@ -54,6 +56,16 @@ public:
 
     virtual bool screencap(cv::Mat& image_payload, bool allow_reconnect = false) = 0;
 
+    // Timeout supervision runs outside the capture call. Implementations must make cancellation
+    // thread-safe and only rebuild the capture transport after the in-flight call has returned.
+    virtual bool supports_screencap_cancellation() const noexcept { return false; }
+
+    virtual void cancel_screencap() noexcept {}
+
+    virtual bool reset_screencap() { return false; }
+
+    virtual std::string screencap_stage() const { return {}; }
+
     // 预览只需要画面，不需要识别前的输入操作；无此区别的控制器沿用普通截图。
     virtual bool screencap_for_preview(cv::Mat& image_payload, bool allow_reconnect = false)
     {
@@ -90,6 +102,15 @@ public:
     virtual void back_to_home() noexcept {}
 
     virtual void set_main_screen_recognition(bool /*on*/) {}
+};
+
+class ScreencapTimeoutException : public std::runtime_error
+{
+public:
+    ScreencapTimeoutException() :
+        std::runtime_error("ScreencapTimeout")
+    {
+    }
 };
 
 struct InputEvent

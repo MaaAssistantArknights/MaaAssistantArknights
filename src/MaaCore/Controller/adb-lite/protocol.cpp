@@ -1,7 +1,8 @@
 #include <iomanip>
-#include <iostream>
+#include <boost/asio/read.hpp>
 
 #include "protocol.hpp"
+#include "stage.hpp"
 
 using boost::asio::ip::tcp;
 
@@ -29,8 +30,9 @@ static inline std::string host_request(const std::string_view body)
 static inline bool host_response(tcp::socket& socket, std::string& failure)
 {
     std::array<char, 4> header;
-    socket.read_some(boost::asio::buffer(header));
-    const auto result = std::string_view(header.data(), 4);
+    stage::set("wait-adb-host-response-header");
+    boost::asio::read(socket, boost::asio::buffer(header));
+    const auto result = std::string_view(header.data(), header.size());
     if (result == "OKAY") {
         return true;
     }
@@ -47,12 +49,14 @@ static inline bool host_response(tcp::socket& socket, std::string& failure)
 std::string host_message(tcp::socket& socket)
 {
     std::array<char, 4> header;
-    socket.read_some(boost::asio::buffer(header));
-    auto remain = std::stoull(std::string(header.data(), 4), nullptr, 16);
+    stage::set("wait-adb-host-message-length");
+    boost::asio::read(socket, boost::asio::buffer(header));
+    auto remain = std::stoull(std::string(header.data(), header.size()), nullptr, 16);
 
     std::string message;
     std::array<char, 1024> buffer;
     while (remain > 0) {
+        stage::set("wait-adb-host-message-payload");
         const auto length = socket.read_some(boost::asio::buffer(buffer));
         message.append(buffer.data(), length);
         remain -= length;
@@ -67,12 +71,19 @@ std::string host_data(tcp::socket& socket)
     std::array<char, 1024> buffer;
     boost::system::error_code ec;
 
+    stage::set("wait-device-output-or-eof");
     while (!ec) {
         const auto length = socket.read_some(boost::asio::buffer(buffer), ec);
         if (ec == boost::asio::error::eof) {
+            stage::set("device-stream-eof");
             break;
         }
-        data.append(buffer.data(), length);
+        if (ec) {
+            stage::set("device-stream-error-" + ec.message());
+        }
+        if (length > 0) {
+            data.append(buffer.data(), length);
+        }
     }
 
     return data;
@@ -101,6 +112,7 @@ void sync_response(tcp::socket& socket, std::string& id, uint32_t& length)
 
 void send_host_request(tcp::socket& socket, const std::string_view request)
 {
+    stage::set("write-adb-host-request");
     socket.write_some(boost::asio::buffer(protocol::host_request(request)));
     std::string failure;
     if (!protocol::host_response(socket, failure)) {
