@@ -22,7 +22,7 @@
         "roi": [977, 508, 209, 64],
         "action": "ClickSelf",
         "postDelay": 500,
-        "next": ["StrongholdProtocol@SinglePlayerSimulat", "StrongholdProtocol@SinglePlayerSimulating"]
+        "next": ["StrongholdProtocol@SinglePlayerSimulate", "StrongholdProtocol@SinglePlayerSimulating"]
     },
     "StrongholdProtocol@SinglePlayerSimulate": {
         "roi": [873, 511, 220, 120],
@@ -31,7 +31,7 @@
         "next": ["StrongholdProtocol@SinglePlayerSimulate", "StrongholdProtocol@SinglePlayerSimulating"]
     },
     "StrongholdProtocol@SinglePlayerSimulating": {
-        "roi": [873, 511, 220, 120]        
+        "roi": [873, 511, 220, 120]
     },
     "StrongholdProtocol@Nav": {
         "doc": "刷角标前置导航：活动主界面→极速模拟→确认本局信息→停在策略选择页，选策略交给插件按角标判定。不复用 MiniGame@SPA 挂机链：后者会自动点选歌利亚并确认",
@@ -259,6 +259,11 @@
         "algorithm": "OcrDetect",
         "text": ["资金不足"],
         "roi": [933, 80, 320, 93]
+    },
+    "StrongholdProtocol@BenchFullOcr": {
+        "algorithm": "OcrDetect",
+        "text": ["干员已满", "无法继续调度干员"],
+        "roi": [430, 473, 420, 50]
     },
     "StrongholdProtocol@ShopTraitOcr": {
         "doc": "选中卡牌后，识别到左侧面板的特质或天赋说明才确认购买",
@@ -490,6 +495,11 @@
         "doc": "方牌轮廓与笔画。参数依次为牌面灰度上限、边框厚度、内框宽高容差、最小轮廓面积百分比、笔画区域缩进、笔画和牌面的最小灰度差、最小笔画像素百分比。长度单位为像素。",
         "algorithm": "JustReturn",
         "specialParams": [60, 2, 3, 75, 4, 40, 3]
+    },
+    "StrongholdProtocol@BenchTierBadgeLocate": {
+        "doc": "备战席方牌的半透明底色会随背景变亮，使用更高的牌面灰度上限。",
+        "baseTask": "StrongholdProtocol@TierBadgeLocate",
+        "specialParams": [75, 2, 3, 75, 4, 40, 3]
     },
     "StrongholdProtocol@BenchDiff": {
         "doc": "买入或换人后用变暗区域定位新增方牌。参数依次为最小灰度差、闭运算核边长、差分方块最小边长。后两项单位为像素。",

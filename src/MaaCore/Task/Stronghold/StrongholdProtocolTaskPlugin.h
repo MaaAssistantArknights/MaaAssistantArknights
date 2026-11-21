@@ -223,6 +223,7 @@ private:
         Bought,
         Skipped,
         Failed,
+        BenchFull,
         Unconfirmed,
     };
     PurchaseResult buy_covenant_card(

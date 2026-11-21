@@ -1251,9 +1251,14 @@ bool StrongholdProtocolTaskPlugin::upgrade_shop(
     return !upgrade_pending || shop.maxed;
 }
 
-static std::vector<Rect> locate_tier_badges(const cv::Mat& image, const Rect& scan, int width, int height)
+static std::vector<Rect> locate_tier_badges(
+    const cv::Mat& image,
+    const Rect& scan,
+    int width,
+    int height,
+    std::string_view task_name = "StrongholdProtocol@TierBadgeLocate")
 {
-    const auto task = Task.get("StrongholdProtocol@TierBadgeLocate");
+    const auto task = Task.get(task_name);
     const auto roi = make_rect<cv::Rect>(scan) & cv::Rect(0, 0, image.cols, image.rows);
     if (!task || task->special_params.size() != 7 || roi.empty() || image.type() != CV_8UC3) {
         return {};
@@ -1858,6 +1863,13 @@ StrongholdProtocolTaskPlugin::PurchaseResult StrongholdProtocolTaskPlugin::buy_o
             (reward && changed_shop && !old_reward_visible)) {
             return PurchaseResult::Bought;
         }
+        if (!reward) {
+            OCRer full(after);
+            full.set_task_info("StrongholdProtocol@BenchFullOcr");
+            if (full.analyze()) {
+                return PurchaseResult::BenchFull;
+            }
+        }
         LogWarn << __FUNCTION__ << "unconfirmed covenant purchase:" << card.name;
         return PurchaseResult::Unconfirmed;
     }
@@ -2130,7 +2142,15 @@ std::map<size_t, Point> StrongholdProtocolTaskPlugin::covenant_bench_slots(const
     }
     // 侧栏和部分策略会把木台整体右移。用台面左缘修正席位，再以方牌定位实际拖拽起点。
     std::ranges::sort(edges);
-    const int shift = edges.size() >= 4 ? edges[edges.size() / 2] - (anchor.x + 40) : 0;
+    int shift = 0;
+    if (edges.size() >= 4) {
+        const int edge = edges[edges.size() / 2];
+        // 角色和提示会遮住木台，只有多行找到同一条边时才应用横移。
+        const auto agreeing_rows = std::ranges::count_if(edges, [edge](int x) { return std::abs(x - edge) <= 8; });
+        if (agreeing_rows >= 4) {
+            shift = edge - (anchor.x + 40);
+        }
+    }
     for (const auto& detected : detect_bench_opers(image)) {
         const auto seat = std::ranges::min_element(seats, {}, [&](const Point& projected) {
             return std::abs(projected.x + shift - detected.x);
@@ -2413,6 +2433,10 @@ void StrongholdProtocolTaskPlugin::covenant_prep_phase(BoardState& board, int ro
         const auto gold = read_gold(image);
         const int bench_count = static_cast<int>(covenant_bench_slots(image).size());
         const bool reward = board.covenant_reward_pending || is_reward_shop(cards);
+        if (!reward && bench_count >= std::ssize(StrongholdProtocol.get_tiles().bench)) {
+            LogInfo << "covenant bench is full, stop shopping, round" << round;
+            break;
+        }
         const auto pick = covenant_pick(cards, board, bench_count, gold, slots_left(image), reward, failed_x);
         if (!pick) {
             if (reward) {
@@ -2448,7 +2472,12 @@ void StrongholdProtocolTaskPlugin::covenant_prep_phase(BoardState& board, int ro
         }
         refresh_no_effect = 0;
         // 部署位可用买了即部署；否则买入后留在备战席（攒合成或等部署位）
-        if (buy_covenant_card(board, *pick, reward, image, cards) == PurchaseResult::Bought) {
+        const auto result = buy_covenant_card(board, *pick, reward, image, cards);
+        if (result == PurchaseResult::BenchFull) {
+            LogInfo << "covenant purchase declined because bench is full, round" << round;
+            break;
+        }
+        if (result == PurchaseResult::Bought) {
             failed_x.clear();
         }
         else {
@@ -2818,7 +2847,12 @@ static std::vector<Rect> detect_bench_badges(const cv::Mat& image)
     if (!scan || scan->special_params.size() != 3) {
         return {};
     }
-    return locate_tier_badges(image, scan->roi, scan->special_params[0], scan->special_params[1]);
+    return locate_tier_badges(
+        image,
+        scan->roi,
+        scan->special_params[0],
+        scan->special_params[1],
+        "StrongholdProtocol@BenchTierBadgeLocate");
 }
 
 static std::optional<Rect> bench_badge_at(const cv::Mat& image, const Point& bench)
