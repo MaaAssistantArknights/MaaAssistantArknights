@@ -21,6 +21,7 @@
 #include "Vision/BestMatcher.h"
 #include "Vision/Hasher.h"
 #include "Vision/Infrast/InfrastOperImageAnalyzer.h"
+#include "Vision/Matcher.h"
 #include "Vision/MultiMatcher.h"
 #include "Vision/Oper/OperBoxImageAnalyzer.h"
 #include "Vision/Oper/OperFilesImageAnalyzer.h"
@@ -30,7 +31,6 @@
 
 namespace asst::oper_progress
 {
-
 // 参照 BattleFormationTask::analyzer_opers：以职业旗标模板定位卡片,
 // 对旗标下方区域 OCR 干员名,并以旗标上方的高亮色块判断选中态。
 std::vector<QuickFormationOperInfo> analyze_formation_opers(const cv::Mat& image)
@@ -124,7 +124,6 @@ bool asst::OperProgressProcessTask::_run()
     bool training_room_busy = false;
     for (size_t index = 0; index < m_plan.size() && !need_exit(); ++index) {
         const auto& target = m_plan[index];
-
         if (training_room_busy && !target.elite && !target.skill_level && target.skill_mastery) {
             continue; // 训练室已占用且无其他目标, 跳过仅专精计划
         }
@@ -143,12 +142,20 @@ bool asst::OperProgressProcessTask::_run()
             continue;
         }
         if (target.elite) {
-            auto elite_ret = execute_elite(target.role, target.name, *target.elite);
-            report_elite_result(target.role, target.name, elite_ret, *target.elite);
+            int current_level = -1;
+            const auto elite_ret = execute_elite(target.role, target.name, *target.elite, current_level);
+            report_elite_result(target.role, target.name, elite_ret, *target.elite, current_level);
+            if (need_exit() || (is_material_shortage(elite_ret) && !restore_operator_files())) {
+                continue;
+            }
         }
         if (target.skill_level) {
-            auto main_ret = execute_skill(*target.skill_level);
-            report_skill_result(target.role, target.name, main_ret, *target.skill_level);
+            int current_level = -1;
+            const auto main_ret = execute_skill(*target.skill_level, current_level);
+            report_skill_result(target.role, target.name, main_ret, *target.skill_level, current_level);
+            if (need_exit() || (is_material_shortage(main_ret) && !restore_operator_files())) {
+                continue;
+            }
         }
         if (!training_room_busy && target.skill_mastery) {
             const auto& arr = *target.skill_mastery;
@@ -156,14 +163,17 @@ bool asst::OperProgressProcessTask::_run()
                 if (arr[i] <= 0) {
                     continue;
                 }
-                int training_level = 0;
-                auto skill_ret = execute_mastery(target.role, target.name, i + 1, arr[i], training_level);
+                int training_level = -1;
+                const auto skill_ret = execute_mastery(target.role, target.name, i + 1, arr[i], training_level);
                 std::array<int, 3> skill_levels { 0, 0, 0 };
                 if (skill_ret == ResultDetail::AlreadySatisfied || skill_ret == ResultDetail::Completed ||
                     skill_ret == ResultDetail::PrerequisiteTraining || skill_ret == ResultDetail::TrainingRoomBusy) {
                     skill_levels[i] = training_level;
                 }
-                report_skill_result(target.role, target.name, skill_ret, skill_levels);
+                report_skill_result(target.role, target.name, skill_ret, skill_levels, i + 1, training_level, arr[i]);
+                if (need_exit() || (is_material_shortage(skill_ret) && !restore_operator_files())) {
+                    break;
+                }
                 if (skill_ret == ResultDetail::TrainingRoomBusy || skill_ret == ResultDetail::PrerequisiteTraining ||
                     skill_ret == ResultDetail::Completed) {
                     training_room_busy = true;
@@ -267,8 +277,11 @@ bool asst::OperProgressProcessTask::select_role(battle::Role role)
            run_task(role_task) && run_task("BattleQuickFormationCollapseRole", 3);
 }
 
-asst::OperProgressProcessTask::ResultDetail
-    asst::OperProgressProcessTask::execute_elite(battle::Role role, const std::string& name, int target)
+asst::OperProgressProcessTask::ResultDetail asst::OperProgressProcessTask::execute_elite(
+    battle::Role role,
+    const std::string& name,
+    int target,
+    int& current_level)
 {
     // 档案页现场识别当前精英阶段,不沿用干员列表页或上一条计划的结果：
     // 前序培养目标可能已改变该干员的精英化等级。识别失败时不猜测,直接判识别失败。
@@ -276,12 +289,12 @@ asst::OperProgressProcessTask::ResultDetail
     if (!current_elite_opt) {
         return ResultDetail::RecognitionFailed;
     }
-    const int current_elite = *current_elite_opt;
-    if (current_elite >= target) {
+    current_level = *current_elite_opt;
+    if (current_level >= target) {
         return ResultDetail::AlreadySatisfied;
     }
 
-    for (int phase = current_elite; phase < target; ++phase) {
+    for (int phase = current_level; phase < target; ++phase) {
         if (need_exit()) {
             return ResultDetail::Interrupt;
         }
@@ -319,10 +332,14 @@ asst::OperProgressProcessTask::ResultDetail
             }
         }
         // 复核仍缺料则不点击晋升；材料齐备则点击晋升确认,再以新阶段标志确认晋升成功。
-        if (run_task("OperProgress@EliteUpMaterialMissing", 3) || !run_task("OperProgress@EliteUpPageConfirm") ||
+        if (run_task("OperProgress@EliteUpMaterialMissing", 3)) {
+            return ResultDetail::ResourceInsufficient;
+        }
+        if (!run_task("OperProgress@EliteUpPageConfirm") ||
             !run_task("OperProgress@CurrentElite" + std::to_string(phase + 1))) {
             return ResultDetail::RecognitionFailed;
         }
+        current_level = phase + 1;
     }
     return ResultDetail::Completed;
 }
@@ -331,7 +348,8 @@ void asst::OperProgressProcessTask::report_elite_result(
     battle::Role role,
     std::string_view name,
     ResultDetail result,
-    int elite)
+    int elite,
+    int current_level)
 {
     const auto process_result = [&]() {
         switch (result) {
@@ -354,6 +372,9 @@ void asst::OperProgressProcessTask::report_elite_result(
     if (process_result == Result::Success) {
         info["details"] |= json::object { { "elite", elite } };
     }
+    else {
+        info["details"] |= json::object { { "step", "elite" }, { "current", current_level }, { "target", elite } };
+    }
     callback(AsstMsg::SubTaskExtraInfo, std::move(info));
     if (process_result == Result::Success) {
         auto oper_it = std::ranges::find_if(m_plan_finish, [&role, &name](const auto& oper) {
@@ -369,7 +390,7 @@ void asst::OperProgressProcessTask::report_elite_result(
     }
 }
 
-asst::OperProgressProcessTask::ResultDetail asst::OperProgressProcessTask::execute_skill(int target)
+asst::OperProgressProcessTask::ResultDetail asst::OperProgressProcessTask::execute_skill(int target, int& current_level)
 {
     // 档案页技能等级 OCR 与精英阶段识别共用一张截图
     const cv::Mat& image = ctrler()->get_image();
@@ -377,6 +398,8 @@ asst::OperProgressProcessTask::ResultDetail asst::OperProgressProcessTask::execu
     // 当前技能等级以档案页 RANK 数字 OCR 为准（OperProgress@CurrentSkillLevel）,识别失败按 1 级处理。
     const auto& current_opt = ocr_number(image, "OperProgress@CurrentSkillLevel");
     const int current = current_opt.value_or(1);
+    // 执行保留原有回退，缺料上报不能把未识别到的进度当成 1 级。
+    current_level = current_opt.value_or(-1);
     if (current >= target) {
         return ResultDetail::AlreadySatisfied;
     }
@@ -423,6 +446,9 @@ asst::OperProgressProcessTask::ResultDetail asst::OperProgressProcessTask::execu
         if (!run_task("OperProgress@SkillUpConfirm")) {
             return ResultDetail::RecognitionFailed;
         }
+        if (current_level >= 0) {
+            current_level = level;
+        }
     }
     if (!run_task("OperProgress@OperFiles", 10)) {
         run_task("OperProgress@ReturnToOperFilesPage");
@@ -438,7 +464,8 @@ void asst::OperProgressProcessTask::report_skill_result(
     battle::Role role,
     std::string_view name,
     ResultDetail result,
-    int level)
+    int level,
+    int current_level)
 {
     const auto process_result = [&]() {
         switch (result) {
@@ -460,6 +487,10 @@ void asst::OperProgressProcessTask::report_skill_result(
     };
     if (process_result == Result::Success) {
         info["details"] |= json::object { { "skill_level", level } };
+    }
+    else {
+        info["details"] |=
+            json::object { { "step", "skill_level" }, { "current", current_level }, { "target", level } };
     }
     callback(AsstMsg::SubTaskExtraInfo, std::move(info));
     if (process_result == Result::Success) {
@@ -620,7 +651,10 @@ void asst::OperProgressProcessTask::report_skill_result(
     battle::Role role,
     std::string_view name,
     ResultDetail result,
-    std::array<int, 3> level)
+    std::array<int, 3> level,
+    int skill,
+    int current_level,
+    int target_level)
 {
     const auto process_result = [&]() {
         switch (result) {
@@ -646,6 +680,12 @@ void asst::OperProgressProcessTask::report_skill_result(
     };
     if (process_result == Result::Success) {
         info["details"] |= json::object { { "skill_mastery", level } };
+    }
+    else if (process_result == Result::Failed) {
+        info["details"] |= json::object { { "step", "skill_mastery" },
+                                          { "skill_index", skill },
+                                          { "current", current_level },
+                                          { "target", target_level } };
     }
     callback(AsstMsg::SubTaskExtraInfo, std::move(info));
     if (process_result == Result::Success) {
@@ -1039,6 +1079,30 @@ bool asst::OperProgressProcessTask::reset_trainer_list_page()
     return false;
 }
 
+bool asst::OperProgressProcessTask::is_material_shortage(ResultDetail result)
+{
+    return result == ResultDetail::ResourceInsufficient || result == ResultDetail::FormulaLocked ||
+           result == ResultDetail::ChipNotCraftable;
+}
+
+bool asst::OperProgressProcessTask::restore_operator_files()
+{
+    // 后续步骤从档案页读取进度，不能沿用缺料页面；恢复失败则不继续本计划。
+    if (need_exit()) {
+        return false;
+    }
+    ProcessTask returning(*this, { "OperProgress@OperFiles", "OperProgress@ReturnToOperFilesPage" });
+    returning.set_times_limit("OperProgress@ReturnToOperFilesPage", 5).set_retry_times(1).run();
+    if (need_exit()) {
+        return false;
+    }
+    const bool ready = detect_task(ctrler()->get_image(), "OperProgress@OperFiles");
+    if (!ready && !need_exit()) {
+        LogWarn << __FUNCTION__ << "| failed to restore operator files, skip remaining steps";
+    }
+    return ready;
+}
+
 asst::OperProgressProcessTask::ResultDetail
     asst::OperProgressProcessTask::synthesize_missing_material(OperProgressAction task_type, int material_index)
 {
@@ -1068,7 +1132,7 @@ asst::OperProgressProcessTask::ResultDetail
     if (!run_task(material_task)) {
         return ResultDetail::ResourceInsufficient;
     }
-    // TODO: 以后加上识别缺口数量后上报、自动使用兑换券或者去凭证商店补购
+    // TODO: 自动使用兑换券或者去凭证商店补购
     // 快速跳转弹窗内与跳转按钮同 roi 识别到不可用态,说明该材料配方尚未解锁,无法在加工站合成。
     if (run_task(material_task + "JumpProcessingUnable", 2)) {
         LogInfo << __FUNCTION__ << "| formula locked, skip synthesizing" << material_task;
@@ -1118,6 +1182,13 @@ bool asst::OperProgressProcessTask::record_factory_state()
         }
     }
     return false;
+}
+
+bool asst::OperProgressProcessTask::detect_task(const cv::Mat& image, const std::string& task_name)
+{
+    Matcher analyzer(image);
+    analyzer.set_task_info(task_name);
+    return analyzer.analyze().has_value();
 }
 
 std::optional<int> asst::OperProgressProcessTask::ocr_number(const std::string& task_name)
