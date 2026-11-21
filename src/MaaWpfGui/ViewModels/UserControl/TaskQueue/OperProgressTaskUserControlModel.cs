@@ -103,6 +103,23 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
 
     public OperItem? OperSelect { get; set => SetAndNotify(ref field, value); }
 
+    public bool AutoReplenishMaterials
+    {
+        get => GetTaskConfig<OperProgressTask>().AutoReplenishMaterials ??
+            (GetTaskConfig<OperProgressTask>().BuyMaterialsWithGreenTickets || GetTaskConfig<OperProgressTask>().BuyMaterialsWithParametricModels);
+        set => SetTaskConfig<OperProgressTask>(t => t.AutoReplenishMaterials == value, t => t.AutoReplenishMaterials = value);
+    }
+
+    public ObservableCollection<MaterialPurchaseSourceItemViewModel> MaterialPurchaseSources { get; private set => SetAndNotify(ref field, value); } = [];
+
+    private void RefreshMaterialPurchaseSources()
+    {
+        var task = GetTaskConfig<OperProgressTask>();
+        MaterialPurchaseSources = MaterialPurchaseSourceItemViewModel.Create(
+            task.MaterialPurchaseSources ?? MaterialPurchaseSourceOption.Defaults(task.BuyMaterialsWithGreenTickets, task.BuyMaterialsWithParametricModels),
+            list => SetTaskConfig<OperProgressTask>(t => t.MaterialPurchaseSources?.SequenceEqual(list) == true, t => t.MaterialPurchaseSources = list));
+    }
+
     public override void RefreshUI(BaseTask? baseTask)
     {
         if (baseTask is not OperProgressTask task)
@@ -112,6 +129,7 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
 
         _isRefreshing = true;
         RefreshPlanItems(task);
+        RefreshMaterialPurchaseSources();
         Refresh();
         _isRefreshing = false;
     }
@@ -297,6 +315,10 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
     private void RefreshPlanItemLocalization()
     {
         SpecializationSkillLevelList.RefreshLocalization();
+        foreach (var source in MaterialPurchaseSources)
+        {
+            source.RefreshLocalization();
+        }
         foreach (var item in PlanItems)
         {
             item.RefreshLocalizedText();
@@ -328,7 +350,11 @@ public class OperProgressTaskUserControlModel : TaskSettingsViewModel, OperProgr
                 return (null, []);
             }
 
-            var task = new AsstOperProgressTask { Plans = operProgress.Plans };
+            var task = new AsstOperProgressTask {
+                Plans = operProgress.Plans,
+                AutoReplenishMaterials = operProgress.AutoReplenishMaterials ?? (operProgress.BuyMaterialsWithGreenTickets || operProgress.BuyMaterialsWithParametricModels),
+                MaterialPurchaseSources = operProgress.MaterialPurchaseSources ?? MaterialPurchaseSourceOption.Defaults(operProgress.BuyMaterialsWithGreenTickets, operProgress.BuyMaterialsWithParametricModels),
+            };
             return taskId switch {
                 int id when id > 0 => (Instances.AsstProxy.AsstSetTaskParamsEncoded(id, task), [id]),
                 null => FromSingle(Instances.AsstProxy.AsstAppendTaskWithEncoding(TaskType.OperProgress, task)),

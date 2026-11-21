@@ -118,7 +118,12 @@
         "name": "源岩",
         "rarity": 0,
         "sortId": 100040,
-        "usage": "從地表開採出的岩石，可用於多種強化場合，也常作為製造站合成專案的原料。"
+        "usage": "從地表開採出的岩石，可用於多種強化場合，也常作為製造站合成專案的原料。",
+        "parametricShop": {
+            "price": 15,
+            "quantity": 8,
+            "monthlyLimits": [0, 0]
+        }
     },
     "30012": {
         "classifyType": "MATERIAL",
@@ -130,7 +135,12 @@
         "name": "固源岩",
         "rarity": 1,
         "sortId": 100039,
-        "usage": "從地表開採出的岩石固塊，可用於多種強化場合，也常作為製造站合成專案的原料。"
+        "usage": "從地表開採出的岩石固塊，可用於多種強化場合，也常作為製造站合成專案的原料。",
+        "parametricShop": {
+            "price": 15,
+            "quantity": 4,
+            "monthlyLimits": [0, 0]
+        }
     },
     "30013": {
         "classifyType": "MATERIAL",
@@ -142,7 +152,17 @@
         "name": "固源岩組",
         "rarity": 2,
         "sortId": 100038,
-        "usage": "從地表開採出的岩石固塊組，可用於多種強化場合，也常作為製造站合成專案的原料。"
+        "usage": "從地表開採出的岩石固塊組，可用於多種強化場合，也常作為製造站合成專案的原料。",
+        "greenTicketShop": {
+            "price": 25,
+            "quantity": 1,
+            "monthlyLimits": [15, 15]
+        },
+        "parametricShop": {
+            "price": 30,
+            "quantity": 2,
+            "monthlyLimits": [0, 0]
+        }
     },
     "30014": {
         "classifyType": "MATERIAL",
@@ -154,7 +174,12 @@
         "name": "提純源岩",
         "rarity": 3,
         "sortId": 100037,
-        "usage": "從地表開採出的岩石固塊組提純出的物質，可用於多種強化場合，也常作為製作聚合劑的原料之一。"
+        "usage": "從地表開採出的岩石固塊組提純出的物質，可用於多種強化場合，也常作為製作聚合劑的原料之一。",
+        "parametricShop": {
+            "price": 60,
+            "quantity": 1,
+            "monthlyLimits": [0, 0]
+        }
     },
     "30021": {
         "classifyType": "MATERIAL",
@@ -163,7 +188,12 @@
         "name": "代糖",
         "rarity": 0,
         "sortId": 100052,
-        "usage": "機械化製作的廉價天然糖替代產物，可用於多種強化場合，也常作為製造站合成專案的原料。"
+        "usage": "機械化製作的廉價天然糖替代產物，可用於多種強化場合，也常作為製造站合成專案的原料。",
+        "parametricShop": {
+            "price": 25,
+            "quantity": 8,
+            "monthlyLimits": [0, 0]
+        }
     },
     "30022": {
         "classifyType": "MATERIAL",
@@ -175,7 +205,12 @@
         "name": "糖",
         "rarity": 1,
         "sortId": 100051,
-        "usage": "機械化製作的少量糖塊，可用於多種強化場合，也常作為製造站合成專案的原料。"
+        "usage": "機械化製作的少量糖塊，可用於多種強化場合，也常作為製造站合成專案的原料。",
+        "parametricShop": {
+            "price": 25,
+            "quantity": 4,
+            "monthlyLimits": [0, 0]
+        }
     },
     "30023": {
         "classifyType": "MATERIAL",
@@ -187,7 +222,17 @@
         "name": "糖組",
         "rarity": 2,
         "sortId": 100050,
-        "usage": "機械化製作的中等量糖塊，可用於多種強化場合，也常作為製造站合成專案的原料。"
+        "usage": "機械化製作的中等量糖塊，可用於多種強化場合，也常作為製造站合成專案的原料。",
+        "greenTicketShop": {
+            "price": 30,
+            "quantity": 1,
+            "monthlyLimits": [15, 15]
+        },
+        "parametricShop": {
+            "price": 35,
+            "quantity": 2,
+            "monthlyLimits": [0, 0]
+        }
     },
     "30024": {
         "classifyType": "MATERIAL",
@@ -201,7 +246,12 @@
         "name": "糖聚塊",
         "rarity": 3,
         "sortId": 100049,
-        "usage": "機械化製作的大量糖塊，可用於多種強化場合，也常作為製造站合成專案的原料。"
+        "usage": "機械化製作的大量糖塊，可用於多種強化場合，也常作為製造站合成專案的原料。",
+        "parametricShop": {
+            "price": 75,
+            "quantity": 1,
+            "monthlyLimits": [0, 0]
+        }
     },
     "3003": {
         "classifyType": "NORMAL",
@@ -218,7 +268,12 @@
         "name": "酯原料",
         "rarity": 0,
         "sortId": 100048,
-        "usage": "工業製造所需的酯原料，可用於多種強化場合，也常作為製造站合成專案的原料。"
+        "usage": "工業製造所需的酯原料，可用於多種強化場合，也常作為製造站合成專案的原料。",
+        "parametricShop": {
+            "price": 25,
+            "quantity": 8,
+            "monthlyLimits": [0, 0]
+        }
     },
     "30032": {
         "classifyType": "MATERIAL",
@@ -230,7 +285,12 @@
         "name": "聚酸酯",
         "rarity": 1,
         "sortId": 100047,
-        "usage": "工業製造所需的零散聚酸酯，可用於多種強化場合，也常作為製造站合成專案的原料。"
+        "usage": "工業製造所需的零散聚酸酯，可用於多種強化場合，也常作為製造站合成專案的原料。",
+        "parametricShop": {
+            "price": 25,
+            "quantity": 4,
+            "monthlyLimits": [0, 0]
+        }
     },
     "30033": {
         "classifyType": "MATERIAL",
@@ -242,7 +302,17 @@
         "name": "聚酸酯組",
         "rarity": 2,
         "sortId": 100046,
-        "usage": "工業製造所需的一組聚酸酯，可用於多種強化場合，也常作為製造站合成專案的原料。"
+        "usage": "工業製造所需的一組聚酸酯，可用於多種強化場合，也常作為製造站合成專案的原料。",
+        "greenTicketShop": {
+            "price": 30,
+            "quantity": 1,
+            "monthlyLimits": [15, 15]
+        },
+        "parametricShop": {
+            "price": 35,
+            "quantity": 2,
+            "monthlyLimits": [0, 0]
+        }
     },
     "30034": {
         "classifyType": "MATERIAL",
@@ -256,7 +326,12 @@
         "name": "聚酸酯塊",
         "rarity": 3,
         "sortId": 100045,
-        "usage": "工業製造所需的成塊聚酸酯，可用於多種強化場合，也常作為製造站合成專案的原料。"
+        "usage": "工業製造所需的成塊聚酸酯，可用於多種強化場合，也常作為製造站合成專案的原料。",
+        "parametricShop": {
+            "price": 80,
+            "quantity": 1,
+            "monthlyLimits": [0, 0]
+        }
     },
     "30041": {
         "classifyType": "MATERIAL",
@@ -265,7 +340,12 @@
         "name": "異鐵碎片",
         "rarity": 0,
         "sortId": 100056,
-        "usage": "普普通通的工業材料。可用於多種強化場合，也常作為製造站合成專案的原料。"
+        "usage": "普普通通的工業材料。可用於多種強化場合，也常作為製造站合成專案的原料。",
+        "parametricShop": {
+            "price": 30,
+            "quantity": 8,
+            "monthlyLimits": [0, 0]
+        }
     },
     "30042": {
         "classifyType": "MATERIAL",
@@ -277,7 +357,12 @@
         "name": "異鐵",
         "rarity": 1,
         "sortId": 100055,
-        "usage": "罕見的工業材料。可用於多種強化場合，也常作為製造站合成專案的原料。"
+        "usage": "罕見的工業材料。可用於多種強化場合，也常作為製造站合成專案的原料。",
+        "parametricShop": {
+            "price": 30,
+            "quantity": 4,
+            "monthlyLimits": [0, 0]
+        }
     },
     "30043": {
         "classifyType": "MATERIAL",
@@ -289,7 +374,17 @@
         "name": "異鐵組",
         "rarity": 2,
         "sortId": 100054,
-        "usage": "珍貴的工業材料。可用於多種強化場合，也常作為製造站合成專案的原料。"
+        "usage": "珍貴的工業材料。可用於多種強化場合，也常作為製造站合成專案的原料。",
+        "greenTicketShop": {
+            "price": 35,
+            "quantity": 1,
+            "monthlyLimits": [15, 15]
+        },
+        "parametricShop": {
+            "price": 45,
+            "quantity": 2,
+            "monthlyLimits": [0, 0]
+        }
     },
     "30044": {
         "classifyType": "MATERIAL",
@@ -303,7 +398,12 @@
         "name": "異鐵塊",
         "rarity": 3,
         "sortId": 100053,
-        "usage": "價值高昂的工業材料。可用於多種強化場合，也常作為製作聚合劑的原料之一。"
+        "usage": "價值高昂的工業材料。可用於多種強化場合，也常作為製作聚合劑的原料之一。",
+        "parametricShop": {
+            "price": 90,
+            "quantity": 1,
+            "monthlyLimits": [0, 0]
+        }
     },
     "30051": {
         "classifyType": "MATERIAL",
@@ -312,7 +412,12 @@
         "name": "雙酮",
         "rarity": 0,
         "sortId": 100060,
-        "usage": "極少量的工業用有機化合物。可用於多種強化場合，也常作為製造站合成專案的原料。"
+        "usage": "極少量的工業用有機化合物。可用於多種強化場合，也常作為製造站合成專案的原料。",
+        "parametricShop": {
+            "price": 30,
+            "quantity": 8,
+            "monthlyLimits": [0, 0]
+        }
     },
     "30052": {
         "classifyType": "MATERIAL",
@@ -324,7 +429,12 @@
         "name": "酮凝集",
         "rarity": 1,
         "sortId": 100059,
-        "usage": "少量的工業用有機化合物。可用於多種強化場合，也常作為製造站合成專案的原料。"
+        "usage": "少量的工業用有機化合物。可用於多種強化場合，也常作為製造站合成專案的原料。",
+        "parametricShop": {
+            "price": 30,
+            "quantity": 4,
+            "monthlyLimits": [0, 0]
+        }
     },
     "30053": {
         "classifyType": "MATERIAL",
@@ -336,7 +446,17 @@
         "name": "酮凝集組",
         "rarity": 2,
         "sortId": 100058,
-        "usage": "中等量的工業用有機化合物。可用於多種強化場合，也常作為製造站合成專案的原料。"
+        "usage": "中等量的工業用有機化合物。可用於多種強化場合，也常作為製造站合成專案的原料。",
+        "greenTicketShop": {
+            "price": 35,
+            "quantity": 1,
+            "monthlyLimits": [15, 15]
+        },
+        "parametricShop": {
+            "price": 45,
+            "quantity": 2,
+            "monthlyLimits": [0, 0]
+        }
     },
     "30054": {
         "classifyType": "MATERIAL",
@@ -350,7 +470,12 @@
         "name": "酮陣列",
         "rarity": 3,
         "sortId": 100057,
-        "usage": "大量的工業用有機化合物。可用於多種強化場合，也常作為製作聚合劑的原料之一。"
+        "usage": "大量的工業用有機化合物。可用於多種強化場合，也常作為製作聚合劑的原料之一。",
+        "parametricShop": {
+            "price": 85,
+            "quantity": 1,
+            "monthlyLimits": [0, 0]
+        }
     },
     "30061": {
         "classifyType": "MATERIAL",
@@ -359,7 +484,12 @@
         "name": "破損裝置",
         "rarity": 0,
         "sortId": 100044,
-        "usage": "收繳來的破損機械裝置，可用於多種強化場合，也常作為製造站合成專案的原料。"
+        "usage": "收繳來的破損機械裝置，可用於多種強化場合，也常作為製造站合成專案的原料。",
+        "parametricShop": {
+            "price": 40,
+            "quantity": 8,
+            "monthlyLimits": [0, 0]
+        }
     },
     "30062": {
         "classifyType": "MATERIAL",
@@ -371,7 +501,12 @@
         "name": "裝置",
         "rarity": 1,
         "sortId": 100043,
-        "usage": "收繳來的常規機械裝置，可用於多種強化場合，也常作為製造站合成專案的原料。"
+        "usage": "收繳來的常規機械裝置，可用於多種強化場合，也常作為製造站合成專案的原料。",
+        "parametricShop": {
+            "price": 40,
+            "quantity": 4,
+            "monthlyLimits": [0, 0]
+        }
     },
     "30063": {
         "classifyType": "MATERIAL",
@@ -383,7 +518,17 @@
         "name": "全新裝置",
         "rarity": 2,
         "sortId": 100042,
-        "usage": "收繳來的全新機械裝置，可用於多種強化場合，也常作為製造站合成專案的原料。"
+        "usage": "收繳來的全新機械裝置，可用於多種強化場合，也常作為製造站合成專案的原料。",
+        "greenTicketShop": {
+            "price": 45,
+            "quantity": 1,
+            "monthlyLimits": [10, 10]
+        },
+        "parametricShop": {
+            "price": 60,
+            "quantity": 2,
+            "monthlyLimits": [0, 0]
+        }
     },
     "30064": {
         "classifyType": "MATERIAL",
@@ -397,7 +542,12 @@
         "name": "改量裝置",
         "rarity": 3,
         "sortId": 100041,
-        "usage": "收繳來的高等機械裝置，可用於多種強化場合，也常作為製作雙極納米片的原料之一。"
+        "usage": "收繳來的高等機械裝置，可用於多種強化場合，也常作為製作雙極納米片的原料之一。",
+        "parametricShop": {
+            "price": 85,
+            "quantity": 1,
+            "monthlyLimits": [0, 0]
+        }
     },
     "30073": {
         "classifyType": "MATERIAL",
@@ -406,7 +556,17 @@
         "name": "扭轉醇",
         "rarity": 2,
         "sortId": 100030,
-        "usage": "片狀有機化合物。可用於多種強化場合，也常作為製造站合成專案的原料。"
+        "usage": "片狀有機化合物。可用於多種強化場合，也常作為製造站合成專案的原料。",
+        "greenTicketShop": {
+            "price": 30,
+            "quantity": 1,
+            "monthlyLimits": [15, 0]
+        },
+        "parametricShop": {
+            "price": 40,
+            "quantity": 2,
+            "monthlyLimits": [0, 0]
+        }
     },
     "30074": {
         "classifyType": "MATERIAL",
@@ -420,7 +580,12 @@
         "name": "白馬醇",
         "rarity": 3,
         "sortId": 100029,
-        "usage": "片狀有機化合物。可用於多種強化場合，也常作為製作雙極納米片的原料之一。"
+        "usage": "片狀有機化合物。可用於多種強化場合，也常作為製作雙極納米片的原料之一。",
+        "parametricShop": {
+            "price": 65,
+            "quantity": 1,
+            "monthlyLimits": [0, 0]
+        }
     },
     "30083": {
         "classifyType": "MATERIAL",
@@ -429,7 +594,17 @@
         "name": "輕錳礦",
         "rarity": 2,
         "sortId": 100032,
-        "usage": "用於提煉冶煉用的金屬礦物。可用於多種強化場合，也常作為製造站合成專案的原料。"
+        "usage": "用於提煉冶煉用的金屬礦物。可用於多種強化場合，也常作為製造站合成專案的原料。",
+        "greenTicketShop": {
+            "price": 35,
+            "quantity": 1,
+            "monthlyLimits": [15, 0]
+        },
+        "parametricShop": {
+            "price": 45,
+            "quantity": 2,
+            "monthlyLimits": [0, 0]
+        }
     },
     "30084": {
         "classifyType": "MATERIAL",
@@ -443,7 +618,12 @@
         "name": "三水錳礦",
         "rarity": 3,
         "sortId": 100031,
-        "usage": "用於提煉冶煉用的金屬礦物。可用於多種強化場合，也常作為製作D32鋼的原料之一。"
+        "usage": "用於提煉冶煉用的金屬礦物。可用於多種強化場合，也常作為製作D32鋼的原料之一。",
+        "parametricShop": {
+            "price": 80,
+            "quantity": 1,
+            "monthlyLimits": [0, 0]
+        }
     },
     "30093": {
         "classifyType": "MATERIAL",
@@ -452,7 +632,17 @@
         "name": "研磨石",
         "rarity": 2,
         "sortId": 100034,
-        "usage": "用於加工武器零件的研磨石。可用於多種強化場合，也常作為製造站合成專案的原料。"
+        "usage": "用於加工武器零件的研磨石。可用於多種強化場合，也常作為製造站合成專案的原料。",
+        "greenTicketShop": {
+            "price": 40,
+            "quantity": 1,
+            "monthlyLimits": [15, 0]
+        },
+        "parametricShop": {
+            "price": 50,
+            "quantity": 2,
+            "monthlyLimits": [0, 0]
+        }
     },
     "30094": {
         "classifyType": "MATERIAL",
@@ -466,7 +656,12 @@
         "name": "五水研磨石",
         "rarity": 3,
         "sortId": 100033,
-        "usage": "用於精加工武器零件的高級研磨石。可用於多種強化場合，也常作為製作D32鋼的原料之一。"
+        "usage": "用於精加工武器零件的高級研磨石。可用於多種強化場合，也常作為製作D32鋼的原料之一。",
+        "parametricShop": {
+            "price": 75,
+            "quantity": 1,
+            "monthlyLimits": [0, 0]
+        }
     },
     "30103": {
         "classifyType": "MATERIAL",
@@ -475,7 +670,17 @@
         "name": "RMA70-12",
         "rarity": 2,
         "sortId": 100036,
-        "usage": "一種敏感且有良好傳導效果的礦物。可用於多種強化場合，也常作為製造站合成專案的原料。"
+        "usage": "一種敏感且有良好傳導效果的礦物。可用於多種強化場合，也常作為製造站合成專案的原料。",
+        "greenTicketShop": {
+            "price": 45,
+            "quantity": 1,
+            "monthlyLimits": [10, 0]
+        },
+        "parametricShop": {
+            "price": 60,
+            "quantity": 2,
+            "monthlyLimits": [0, 0]
+        }
     },
     "30104": {
         "classifyType": "MATERIAL",
@@ -489,7 +694,12 @@
         "name": "RMA70-24",
         "rarity": 3,
         "sortId": 100035,
-        "usage": "一種十分敏感且有優秀傳導效果的礦物。可用於多種強化場合，也常作為製作D32鋼的原料之一。"
+        "usage": "一種十分敏感且有優秀傳導效果的礦物。可用於多種強化場合，也常作為製作D32鋼的原料之一。",
+        "parametricShop": {
+            "price": 80,
+            "quantity": 1,
+            "monthlyLimits": [0, 0]
+        }
     },
     "30115": {
         "classifyType": "MATERIAL",
@@ -581,7 +791,17 @@
         "name": "凝膠",
         "rarity": 2,
         "sortId": 100028,
-        "usage": "一種高強度的可塑性材料。可用於多種強化場合，也常作為製造站合成專案的原料。"
+        "usage": "一種高強度的可塑性材料。可用於多種強化場合，也常作為製造站合成專案的原料。",
+        "greenTicketShop": {
+            "price": 40,
+            "quantity": 1,
+            "monthlyLimits": [10, 10]
+        },
+        "parametricShop": {
+            "price": 50,
+            "quantity": 2,
+            "monthlyLimits": [0, 0]
+        }
     },
     "31014": {
         "classifyType": "MATERIAL",
@@ -595,7 +815,12 @@
         "name": "聚合凝膠",
         "rarity": 3,
         "sortId": 100027,
-        "usage": "一種具備極高強度的可塑性材料。可用於多種強化場合。"
+        "usage": "一種具備極高強度的可塑性材料。可用於多種強化場合。",
+        "parametricShop": {
+            "price": 65,
+            "quantity": 1,
+            "monthlyLimits": [0, 0]
+        }
     },
     "31023": {
         "classifyType": "MATERIAL",
@@ -604,7 +829,17 @@
         "name": "熾合金",
         "rarity": 2,
         "sortId": 100026,
-        "usage": "電子工業用特殊高熔點合金。可用於多種強化場合，也常作為製造站合成專案的原料。"
+        "usage": "電子工業用特殊高熔點合金。可用於多種強化場合，也常作為製造站合成專案的原料。",
+        "greenTicketShop": {
+            "price": 35,
+            "quantity": 1,
+            "monthlyLimits": [10, 10]
+        },
+        "parametricShop": {
+            "price": 40,
+            "quantity": 2,
+            "monthlyLimits": [0, 0]
+        }
     },
     "31024": {
         "classifyType": "MATERIAL",
@@ -618,7 +853,12 @@
         "name": "熾合金塊",
         "rarity": 3,
         "sortId": 100025,
-        "usage": "產量稀少的電子工業用特殊高熔點合金。可用於多種強化場合。"
+        "usage": "產量稀少的電子工業用特殊高熔點合金。可用於多種強化場合。",
+        "parametricShop": {
+            "price": 75,
+            "quantity": 1,
+            "monthlyLimits": [0, 0]
+        }
     },
     "31033": {
         "classifyType": "MATERIAL",
@@ -627,7 +867,17 @@
         "name": "晶體元件",
         "rarity": 2,
         "sortId": 100024,
-        "usage": "重要的源石工業材料，可用於多種強化場合，可以製作與合成更高級的源石電子元件。"
+        "usage": "重要的源石工業材料，可用於多種強化場合，可以製作與合成更高級的源石電子元件。",
+        "greenTicketShop": {
+            "price": 30,
+            "quantity": 1,
+            "monthlyLimits": [10, 10]
+        },
+        "parametricShop": {
+            "price": 40,
+            "quantity": 2,
+            "monthlyLimits": [0, 0]
+        }
     },
     "31034": {
         "classifyType": "MATERIAL",
@@ -641,7 +891,12 @@
         "name": "晶體電路",
         "rarity": 3,
         "sortId": 100023,
-        "usage": "重要的源石工業材料，可用於多種強化場合，是製作源石晶體單元的基礎元件。"
+        "usage": "重要的源石工業材料，可用於多種強化場合，是製作源石晶體單元的基礎元件。",
+        "parametricShop": {
+            "price": 90,
+            "quantity": 1,
+            "monthlyLimits": [0, 0]
+        }
     },
     "31043": {
         "classifyType": "MATERIAL",
@@ -650,7 +905,17 @@
         "name": "半自然溶劑",
         "rarity": 2,
         "sortId": 100022,
-        "usage": "一種物理性能優異，耐酸鹼性良好的活性溶劑。可用於多種強化場合。"
+        "usage": "一種物理性能優異，耐酸鹼性良好的活性溶劑。可用於多種強化場合。",
+        "greenTicketShop": {
+            "price": 40,
+            "quantity": 1,
+            "monthlyLimits": [10, 10]
+        },
+        "parametricShop": {
+            "price": 50,
+            "quantity": 2,
+            "monthlyLimits": [0, 0]
+        }
     },
     "31044": {
         "classifyType": "MATERIAL",
@@ -664,7 +929,12 @@
         "name": "精煉溶劑",
         "rarity": 3,
         "sortId": 100021,
-        "usage": "經特殊工藝製作而成的特殊塗料。用於高級強化場合。"
+        "usage": "經特殊工藝製作而成的特殊塗料。用於高級強化場合。",
+        "parametricShop": {
+            "price": 70,
+            "quantity": 1,
+            "monthlyLimits": [0, 0]
+        }
     },
     "3105": {
         "classifyType": "NORMAL",
@@ -681,7 +951,17 @@
         "name": "化合切削液",
         "rarity": 2,
         "sortId": 100020,
-        "usage": "一種金屬加工時必備的工業試劑。可用於多種強化場合。"
+        "usage": "一種金屬加工時必備的工業試劑。可用於多種強化場合。",
+        "greenTicketShop": {
+            "price": 40,
+            "quantity": 1,
+            "monthlyLimits": [10, 10]
+        },
+        "parametricShop": {
+            "price": 50,
+            "quantity": 2,
+            "monthlyLimits": [0, 0]
+        }
     },
     "31054": {
         "classifyType": "MATERIAL",
@@ -695,7 +975,12 @@
         "name": "切削原液",
         "rarity": 3,
         "sortId": 100019,
-        "usage": "由多種活性溶劑配置而成的原液。用於高級強化場合。"
+        "usage": "由多種活性溶劑配置而成的原液。用於高級強化場合。",
+        "parametricShop": {
+            "price": 70,
+            "quantity": 1,
+            "monthlyLimits": [0, 0]
+        }
     },
     "31063": {
         "classifyType": "MATERIAL",
@@ -704,7 +989,17 @@
         "name": "轉質鹽組",
         "rarity": 2,
         "sortId": 100018,
-        "usage": "經過粗煉處理的化合物結晶。可用於多種強化場合。"
+        "usage": "經過粗煉處理的化合物結晶。可用於多種強化場合。",
+        "greenTicketShop": {
+            "price": 45,
+            "quantity": 1,
+            "monthlyLimits": [10, 10]
+        },
+        "parametricShop": {
+            "price": 55,
+            "quantity": 2,
+            "monthlyLimits": [0, 0]
+        }
     },
     "31064": {
         "classifyType": "MATERIAL",
@@ -718,7 +1013,12 @@
         "name": "轉質鹽聚塊",
         "rarity": 3,
         "sortId": 100017,
-        "usage": "經過精煉處理的化合物結晶塊。用於多種強化場合，也常作為製造站合成項目的原料。"
+        "usage": "經過精煉處理的化合物結晶塊。用於多種強化場合，也常作為製造站合成項目的原料。",
+        "parametricShop": {
+            "price": 70,
+            "quantity": 1,
+            "monthlyLimits": [0, 0]
+        }
     },
     "31073": {
         "classifyType": "MATERIAL",
@@ -727,7 +1027,17 @@
         "name": "褐素纖維",
         "rarity": 2,
         "sortId": 100016,
-        "usage": "具備高強度與高模量的特種纖維束。可用於多種強化場合。"
+        "usage": "具備高強度與高模量的特種纖維束。可用於多種強化場合。",
+        "greenTicketShop": {
+            "price": 40,
+            "quantity": 1,
+            "monthlyLimits": [10, 10]
+        },
+        "parametricShop": {
+            "price": 55,
+            "quantity": 2,
+            "monthlyLimits": [0, 0]
+        }
     },
     "31074": {
         "classifyType": "MATERIAL",
@@ -741,7 +1051,12 @@
         "name": "固化纖維板",
         "rarity": 3,
         "sortId": 100015,
-        "usage": "經過塑形固化處理的特種纖維板。可用於多種強化場合。"
+        "usage": "經過塑形固化處理的特種纖維板。可用於多種強化場合。",
+        "parametricShop": {
+            "price": 75,
+            "quantity": 1,
+            "monthlyLimits": [0, 0]
+        }
     },
     "31083": {
         "classifyType": "MATERIAL",
@@ -750,7 +1065,17 @@
         "name": "環烴聚質",
         "rarity": 2,
         "sortId": 100014,
-        "usage": "一種耐熱性、耐化學性俱優的工業材料。可用於多種強化場合。"
+        "usage": "一種耐熱性、耐化學性俱優的工業材料。可用於多種強化場合。",
+        "greenTicketShop": {
+            "price": 45,
+            "quantity": 1,
+            "monthlyLimits": [10, 10]
+        },
+        "parametricShop": {
+            "price": 60,
+            "quantity": 2,
+            "monthlyLimits": [0, 0]
+        }
     },
     "31084": {
         "classifyType": "MATERIAL",
@@ -764,7 +1089,12 @@
         "name": "環烴預製體",
         "rarity": 3,
         "sortId": 100013,
-        "usage": "由多種優良材料預加工而成的工業用材。可用於多種強化場合。"
+        "usage": "由多種優良材料預加工而成的工業用材。可用於多種強化場合。",
+        "parametricShop": {
+            "price": 80,
+            "quantity": 1,
+            "monthlyLimits": [0, 0]
+        }
     },
     "31093": {
         "classifyType": "MATERIAL",
@@ -773,7 +1103,17 @@
         "name": "類凝結核",
         "rarity": 2,
         "sortId": 100012,
-        "usage": "在實驗室中人工合成的微粒，擁有良好的吸附性能。可用於多種強化場合。"
+        "usage": "在實驗室中人工合成的微粒，擁有良好的吸附性能。可用於多種強化場合。",
+        "greenTicketShop": {
+            "price": 40,
+            "quantity": 1,
+            "monthlyLimits": [10, 10]
+        },
+        "parametricShop": {
+            "price": 50,
+            "quantity": 2,
+            "monthlyLimits": [0, 0]
+        }
     },
     "31094": {
         "classifyType": "MATERIAL",
@@ -787,7 +1127,12 @@
         "name": "手性屈光體",
         "rarity": 3,
         "sortId": 100011,
-        "usage": "具備良好光學性能和物理性能的特種光學材料。用於高級強化場合。"
+        "usage": "具備良好光學性能和物理性能的特種光學材料。用於高級強化場合。",
+        "parametricShop": {
+            "price": 70,
+            "quantity": 1,
+            "monthlyLimits": [0, 0]
+        }
     },
     "31103": {
         "classifyType": "MATERIAL",
@@ -796,7 +1141,17 @@
         "name": "液化高能氣體",
         "rarity": 2,
         "sortId": 100010,
-        "usage": "保存在特製金屬罐體中的液化氣體。可用於多種強化場合，也常作為製造站合成專案的原料。"
+        "usage": "保存在特製金屬罐體中的液化氣體。可用於多種強化場合，也常作為製造站合成專案的原料。",
+        "greenTicketShop": {
+            "price": 45,
+            "quantity": 1,
+            "monthlyLimits": [10, 10]
+        },
+        "parametricShop": {
+            "price": 55,
+            "quantity": 2,
+            "monthlyLimits": [0, 0]
+        }
     },
     "31104": {
         "classifyType": "MATERIAL",
@@ -810,7 +1165,12 @@
         "name": "液化醚吸聚體",
         "rarity": 3,
         "sortId": 100009,
-        "usage": "透過複雜的合成流程得到的有機化合物。可用於多種強化場合。"
+        "usage": "透過複雜的合成流程得到的有機化合物。可用於多種強化場合。",
+        "parametricShop": {
+            "price": 75,
+            "quantity": 1,
+            "monthlyLimits": [0, 0]
+        }
     },
     "31113": {
         "classifyType": "MATERIAL",
@@ -819,7 +1179,17 @@
         "name": "電極單元",
         "rarity": 2,
         "sortId": 100008,
-        "usage": "具有高度電性穩定性和抗腐蝕能力的工業用材。用於多種強化場合，也常作為製造站的合成原料。"
+        "usage": "具有高度電性穩定性和抗腐蝕能力的工業用材。用於多種強化場合，也常作為製造站的合成原料。",
+        "greenTicketShop": {
+            "price": 40,
+            "quantity": 1,
+            "monthlyLimits": [10, 10]
+        },
+        "parametricShop": {
+            "price": 50,
+            "quantity": 2,
+            "monthlyLimits": [0, 0]
+        }
     },
     "31114": {
         "classifyType": "MATERIAL",
@@ -833,7 +1203,12 @@
         "name": "聚能動力單元",
         "rarity": 3,
         "sortId": 100007,
-        "usage": "進行過專門設計和材料改良的動力輸出裝置。可用於多種強化場合。"
+        "usage": "進行過專門設計和材料改良的動力輸出裝置。可用於多種強化場合。",
+        "parametricShop": {
+            "price": 80,
+            "quantity": 1,
+            "monthlyLimits": [0, 0]
+        }
     },
     "3112": {
         "classifyType": "NORMAL",
@@ -1167,7 +1542,12 @@
         "name": "技巧概要·卷2",
         "rarity": 2,
         "sortId": 80002,
-        "usage": "記載了進階技巧的書籍，用於升級幹員技能。"
+        "usage": "記載了進階技巧的書籍，用於升級幹員技能。",
+        "greenTicketShop": {
+            "price": 20,
+            "quantity": 3,
+            "monthlyLimits": [15, 15]
+        }
     },
     "3303": {
         "classifyType": "MATERIAL",

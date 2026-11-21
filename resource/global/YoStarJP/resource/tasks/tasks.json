@@ -386,5 +386,17 @@
     },
     "OperProgress@OperBoxSortTabs": {
         "text": ["レベル", "レア度", "入手時間"]
+    },
+    "Parametric@Store@Select": {
+        "text": ["特別引換証"]
+    },
+    "MaterialPurchase@DepotConsumables": {
+        "text": ["消耗品"]
+    },
+    "MaterialPurchase@VoucherDetail": {
+        "text": ["使用"]
+    },
+    "MaterialPurchase@VoucherSelect": {
+        "text": ["素材を選択"]
     }
 }
