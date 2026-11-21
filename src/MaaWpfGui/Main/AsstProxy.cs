@@ -632,14 +632,17 @@ public class AsstProxy
     /// </remarks>
     public void LogGpuStatus()
     {
+        if (!Bootstrapper.IsDemoMode && GpuOption.GetCurrent() is GpuOption.EnableOption option)
+        {
+            LogGpuStatus(option);
+        }
+    }
+
+    private void LogGpuStatus(GpuOption.EnableOption x)
+    {
         if (Bootstrapper.IsDemoMode)
         {
             // README 截图演示模式：GPU 提示会污染注入的演示日志，直接跳过
-            return;
-        }
-
-        if (GpuOption.GetCurrent() is not GpuOption.EnableOption x)
-        {
             return;
         }
 
@@ -695,7 +698,7 @@ public class AsstProxy
 
         if (GpuOption.GetCurrent() is GpuOption.EnableOption x)
         {
-            LogGpuStatus();
+            LogGpuStatus(x);
             var backend = ConfigFactory.Root.Gui.Performance.Backend;
             var selector = backend switch
             {

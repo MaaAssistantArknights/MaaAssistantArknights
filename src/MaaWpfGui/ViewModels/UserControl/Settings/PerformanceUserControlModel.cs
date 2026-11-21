@@ -46,7 +46,18 @@ public class PerformanceUserControlModel : PropertyChangedBase
 
     public GpuOptionItem? ActiveGpuOption
     {
-        get => _activeGpuOption ??= GpuOptions.FirstOrDefault(x => x.Value.Equals(GpuOption.GetCurrent()));
+        get
+        {
+            if (_activeGpuOption is not null)
+            {
+                return _activeGpuOption;
+            }
+
+            var options = GpuOptions;
+            var currentGpu = GpuOption.GetCurrent(options.Select(x => x.Value));
+            return _activeGpuOption = options.FirstOrDefault(x => x.Value.Equals(currentGpu));
+        }
+
         set
         {
             if (!SetAndNotify(ref _activeGpuOption, value) || value is null)
