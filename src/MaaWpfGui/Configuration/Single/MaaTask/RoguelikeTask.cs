@@ -243,6 +243,10 @@ public class RoguelikeTask : BaseTask, IJsonOnDeserialized
 
     public void OnDeserialized()
     {
+        // 界园指定种子开局功能已下线（对应活动已结束），清掉残留的种子配置，避免旧配置仍触发种子开局。
+        StartWithSeed = false;
+        Seed = string.Empty;
+
         // 刷襁褓动物已并入刷开局：原来的培育目标改为刷开局的第一只动物。
         // 放在读配置时做，没打开过设置页就直接启动的旧任务也能迁移到。
         // 迁移只用到本类现有的字段，所以照 StartUpTask 写在 OnDeserialized 里；

@@ -548,31 +548,33 @@
                     Text="{DynamicResource Roguelike.StopAtMaxLevel}"
                     TextWrapping="Wrap" />
             </CheckBox>
-            <CheckBox
-                Margin="0,5"
-                IsChecked="{Binding RoguelikeStartWithSeed}"
-                Visibility="{c:Binding 'RoguelikeTheme == task:RoguelikeTheme.JieGarden',
-                                       Source={x:Static taskQueue_vms:RoguelikeTaskUserControlModel.Instance}}">
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock
-                        Block.TextAlignment="Left"
-                        Text="{DynamicResource Roguelike.StartWithSeed}"
-                        TextWrapping="Wrap" />
-                    <controls:TooltipBlock Margin="4,0,0,0" TooltipText="{DynamicResource Roguelike.StartWithSeed.Tip}" />
-                </StackPanel>
-            </CheckBox>
-            <hc:TextBox
-                x:Name="RoguelikeSeedTextBox"
-                Margin="0,2,0,10"
-                Visibility="{c:Binding RoguelikeStartWithSeed}">
-                <hc:TextBox.Text>
-                    <Binding Path="RoguelikeSeed" UpdateSourceTrigger="PropertyChanged">
-                        <Binding.ValidationRules>
-                            <hc:RegexRule Pattern="^[\da-zA-Z]+,rogue_\d+,\d+$" />
-                        </Binding.ValidationRules>
-                    </Binding>
-                </hc:TextBox.Text>
-            </hc:TextBox>
+            <StackPanel Visibility="Collapsed">
+                <CheckBox
+                    Margin="0,5"
+                    IsChecked="{Binding RoguelikeStartWithSeed}"
+                    Visibility="{c:Binding 'RoguelikeTheme == task:RoguelikeTheme.JieGarden',
+                                           Source={x:Static taskQueue_vms:RoguelikeTaskUserControlModel.Instance}}">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock
+                            Block.TextAlignment="Left"
+                            Text="{DynamicResource Roguelike.StartWithSeed}"
+                            TextWrapping="Wrap" />
+                        <controls:TooltipBlock Margin="4,0,0,0" TooltipText="{DynamicResource Roguelike.StartWithSeed.Tip}" />
+                    </StackPanel>
+                </CheckBox>
+                <hc:TextBox
+                    x:Name="RoguelikeSeedTextBox"
+                    Margin="0,2,0,10"
+                    Visibility="{c:Binding RoguelikeStartWithSeed}">
+                    <hc:TextBox.Text>
+                        <Binding Path="RoguelikeSeed" UpdateSourceTrigger="PropertyChanged">
+                            <Binding.ValidationRules>
+                                <hc:RegexRule Pattern="^[\da-zA-Z]+,rogue_\d+,\d+$" />
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </hc:TextBox.Text>
+                </hc:TextBox>
+            </StackPanel>
             <StackPanel d:Visibility="Visible" Visibility="{c:Binding 'RoguelikeTheme == task:RoguelikeTheme.BlackFlow and RoguelikeMode == task:RoguelikeMode.Exp', Source={x:Static taskQueue_vms:RoguelikeTaskUserControlModel.Instance}}">
                 <StackPanel Margin="0,5" Orientation="Horizontal">
                     <CheckBox IsChecked="{Binding RoguelikeBlackFlowFastFlight}">
