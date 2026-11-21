@@ -327,6 +327,12 @@ bool asst::InfrastReceptionTask::send_clue()
     return task.set_retry_times(20).run();
 }
 
+bool asst::InfrastReceptionTask::send_all_clues()
+{
+    ProcessTask task(*this, { "SendAllClues" });
+    return task.set_retry_times(20).run();
+}
+
 bool asst::InfrastReceptionTask::shift()
 {
     LogTraceFunction;
