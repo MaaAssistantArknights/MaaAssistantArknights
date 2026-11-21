@@ -36,6 +36,7 @@ jobs:
             /gamedata/excel/char_patch_table.json
             /gamedata/excel/gacha_table.json
             /gamedata/excel/roguelike_topic_table.json
+            /gamedata/excel/sandbox_perm_table.json
             /gamedata/excel/activity_table.json
 
       - name: Upload Official resources
@@ -65,6 +66,7 @@ jobs:
             /en/gamedata/excel/character_table.json
             /en/gamedata/excel/gacha_table.json
             /en/gamedata/excel/roguelike_topic_table.json
+            /en/gamedata/excel/sandbox_perm_table.json
             /en/gamedata/excel/activity_table.json
             /jp/gamedata/excel/item_table.json
             /jp/gamedata/excel/building_data.json
@@ -72,6 +74,7 @@ jobs:
             /jp/gamedata/excel/character_table.json
             /jp/gamedata/excel/gacha_table.json
             /jp/gamedata/excel/roguelike_topic_table.json
+            /jp/gamedata/excel/sandbox_perm_table.json
             /jp/gamedata/excel/activity_table.json
             /kr/gamedata/excel/item_table.json
             /kr/gamedata/excel/building_data.json
@@ -79,7 +82,9 @@ jobs:
             /kr/gamedata/excel/character_table.json
             /kr/gamedata/excel/gacha_table.json
             /kr/gamedata/excel/roguelike_topic_table.json
+            /kr/gamedata/excel/sandbox_perm_table.json
             /kr/gamedata/excel/activity_table.json
+            /tw/gamedata/excel/sandbox_perm_table.json
 
       - name: Upload Overseas resources
         uses: actions/upload-artifact@v7
@@ -242,6 +247,12 @@ jobs:
           cache-dependency-path: |
             tools/TaskSorter/requirements.txt
             tools/OptimizeTemplates/requirements.txt
+
+      - name: Update Tales workbench names
+        run: |
+          python tools/ResourceUpdater/update_reclamation_tools.py resource/reclamation/Tales/craft_names.json \
+            tools/ResourceUpdater/Official/gamedata/excel/sandbox_perm_table.json \
+            tools/ResourceUpdater/Overseas/{en,jp,kr,tw}/gamedata/excel/sandbox_perm_table.json
 
       - name: Install TaskSorter dependencies
         run: |

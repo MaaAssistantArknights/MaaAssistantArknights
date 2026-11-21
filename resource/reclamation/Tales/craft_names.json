@@ -1,0 +1,197 @@
+{
+    "sandbox_1_tactical_1": [
+        "荒地秘匣：支援雾机",
+        "Wasteland Cache: Support Fog Machine",
+        "荒野の秘宝：支援スモークマシン",
+        "상자: 포그머신",
+        "荒地秘匣：支援霧機"
+    ],
+    "sandbox_1_tactical_10": [
+        "荒地秘匣：支援急救包",
+        "Wasteland Cache: Support First Aid Kit",
+        "荒野の秘宝：救急キット",
+        "상자: 구급키트"
+    ],
+    "sandbox_1_tactical_11": [
+        "荒地秘匣：支援补给站",
+        "Wasteland Cache: Support Replenishment Station",
+        "荒野の秘宝：支援補給所",
+        "상자: 보급기",
+        "荒地秘匣：支援補給站"
+    ],
+    "sandbox_1_tactical_12": [
+        "荒地秘匣：支援起重机",
+        "Wasteland Cache: Support Escape Crane",
+        "荒野の秘宝：支援クレーン",
+        "상자: 크레인",
+        "荒地秘匣：支援起重機"
+    ],
+    "sandbox_1_tactical_13": [
+        "荒地秘匣：护盾遥控器",
+        "Wasteland Cache: Remote Shield Generator",
+        "荒野の秘宝：シールドリモコン",
+        "상자: 실드 컨트롤러",
+        "荒地秘匣：護盾遙控器"
+    ],
+    "sandbox_1_tactical_14": ["应急修理车", "Emergency Repair Vehicle", "緊急修理車両", "비상 수리 차량", "應急修理車"],
+    "sandbox_1_tactical_15": ["蟹蟹抽水泵", "Crabbie Pumpie", "カニカニポンプ", "메탈 크랩 펌프"],
+    "sandbox_1_tactical_16": ["木材采集站", "Sawing Harvester Hub", "木材採取基地", "목재 채집 허브", "木材採集站"],
+    "sandbox_1_tactical_17": ["石材采集站", "Quarrying Harvester Hub", "石材採取基地", "석재 채집 허브", "石材採集站"],
+    "sandbox_1_tactical_18": ["铁矿采集站", "Mining Harvester Hub", "鉄鉱石採取基地", "철광석 채집 허브", "鐵礦採集站"],
+    "sandbox_1_tactical_19": [
+        "荒地秘匣：特制水上平台",
+        "Wasteland Cache: Custom Floating Platform",
+        "荒野の秘宝：特設ボート",
+        "상자: 수상 플랫폼",
+        "荒地秘匣：特製水上平台"
+    ],
+    "sandbox_1_tactical_2": [
+        "荒地秘匣：支援线圈",
+        "Wasteland Cache: Support Coil",
+        "荒野の秘宝：支援コイル",
+        "상자: 코일",
+        "荒地秘匣：支援線圈"
+    ],
+    "sandbox_1_tactical_20": ["捕猎笼", "Beast Trap", "捕獲カゴ", "비스트 트랩", "捕獵籠"],
+    "sandbox_1_tactical_21": [
+        "澄亮采集站",
+        "Extracting Harvester Hub",
+        "透珀石採取基地",
+        "명징석 채집 허브",
+        "澄亮採集站"
+    ],
+    "sandbox_1_tactical_22": ["荧光棒", "Glow Stick", "ケミカルライト", "형광봉", "螢光棒"],
+    "sandbox_1_tactical_23": ["寻宝仪", "Prospector", "金属探知機", "프로스펙터", "尋寶儀"],
+    "sandbox_1_tactical_24": ["激励剂", "Restanding Potion", "激励剤", "격려제", "激勵劑"],
+    "sandbox_1_tactical_25": ["冰爆罐", "Ice Bomb", "氷爆缶", "얼음 폭탄"],
+    "sandbox_1_tactical_26": ["冰爆罐Ⅱ", "Ice Bomb II", "氷爆缶Ⅱ", "얼음 폭탄 II"],
+    "sandbox_1_tactical_27": ["高级捕猎笼", "High-Grade Beast Trap", "高級捕獲カゴ", "고급 비스트 트랩", "高級捕獵籠"],
+    "sandbox_1_tactical_28": ["激励剂Ⅱ", "Restanding Potion II", "激励剤Ⅱ", "격려제 II", "激勵劑Ⅱ"],
+    "sandbox_1_tactical_29": ["激励剂Ⅲ", "Restanding Potion III", "激励剤Ⅲ", "격려제 III", "激勵劑Ⅲ"],
+    "sandbox_1_tactical_3": [
+        "荒地秘匣：支援地雷组",
+        "Wasteland Cache: Support Landmine Set",
+        "荒野の秘宝：支援地雷セット",
+        "상자: 지뢰세트",
+        "荒地秘匣：支援地雷組"
+    ],
+    "sandbox_1_tactical_30": ["失衡异香", "Overspeed Spice", "眩暈のお香", "언밸런스 디퓨저", "失衡異香"],
+    "sandbox_1_tactical_31": [
+        "源石虫引诱器I",
+        "Slug Lure I",
+        "オリジムシ捕獲トラップⅠ",
+        "원석충 유인 장치 I",
+        "源石蟲引誘器I"
+    ],
+    "sandbox_1_tactical_32": [
+        "源石虫引诱器II",
+        "Slug Lure II",
+        "オリジムシ捕獲トラップⅡ",
+        "원석충 유인 장치 II",
+        "源石蟲引誘器II"
+    ],
+    "sandbox_1_tactical_33": [
+        "源石虫引诱器III",
+        "Slug Lure III",
+        "オリジムシ捕獲トラップⅢ",
+        "원석충 유인 장치 III",
+        "源石蟲引誘器III"
+    ],
+    "sandbox_1_tactical_34": ["行动套装", "Operation Kit", "作戦補給品", "작전 세트", "行動套裝"],
+    "sandbox_1_tactical_35": [
+        "荧光棒弹射装置",
+        "Glow Stick Launcher",
+        "ケミカルライト発射装置",
+        "형광봉 사출기",
+        "螢光棒彈射裝置"
+    ],
+    "sandbox_1_tactical_36": ["外骨骼", "Exoskeleton", "外骨格", "외골격"],
+    "sandbox_1_tactical_37": ["冰瀑喷射罐", "Ice Blaster", "氷瀑噴射缶", "얼음 제트 폭탄", "冰瀑噴射罐"],
+    "sandbox_1_tactical_38": ["凋亡发射器", "Necrosis Transmitter", "壊死損傷発射装置", "쇠약 발사기", "凋亡發射器"],
+    "sandbox_1_tactical_39": ["游猎精油", "Hunter Balm", "ハンターオイル", "사냥용 오일", "遊獵精油"],
+    "sandbox_1_tactical_4": [
+        "荒地秘匣：支援气罐",
+        "Wasteland Cache: Support Gas Tanks",
+        "荒野の秘宝：支援ガスボンベ",
+        "상자: 가스통",
+        "荒地秘匣：支援氣罐"
+    ],
+    "sandbox_1_tactical_40": ["庇护制造器", "Omni Umbrella", "パラソルマシン", "쉘터 제조기", "庇護製造器"],
+    "sandbox_1_tactical_41": ["驯兽口粮", "Hunting Rations", "猛獣のエサ", "조련용 사료", "馴獸口糧"],
+    "sandbox_1_tactical_42": ["感知链接器", "Neural Chain", "感覚共有装置", "뉴럴 체인", "感知鏈接器"],
+    "sandbox_1_tactical_43": ["追猎发射台", "Hunting Net Launcher", "狩猟用発射台", "사냥용 발사대", "追獵發射台"],
+    "sandbox_1_tactical_44": ["拟南盏", "Thale Calyx", "ナズナモドキの花", "탈레잔", "擬南盞"],
+    "sandbox_1_tactical_45": [
+        "稀有·拟南盏",
+        "Rare Thale Calyx",
+        "珍しいナズナモドキの花",
+        "레어 탈레잔",
+        "稀有·擬南盞"
+    ],
+    "sandbox_1_tactical_46": ["草香粉", "Fragrant Pollen", "香草の粉", "바닐라 가루"],
+    "sandbox_1_tactical_47": ["稀有·草香粉", "Rare Fragrant Pollen", "珍しい香草の粉", "레어 바닐라 가루"],
+    "sandbox_1_tactical_48": ["岩锤", "Rock Hammer", "ロックハンマー", "바위 망치", "岩錘"],
+    "sandbox_1_tactical_49": ["稀有·岩锤", "Rare Rock Hammer", "珍しいロックハンマー", "레어 바위 망치", "稀有·岩錘"],
+    "sandbox_1_tactical_5": [
+        "荒地秘匣：支援源石炸弹",
+        "Wasteland Cache: Support Originium Bomb",
+        "荒野の秘宝：支援源石爆弾",
+        "상자: 오리지늄 폭탄",
+        "荒地秘匣：支援源石炸彈"
+    ],
+    "sandbox_1_tactical_50": [
+        "蟹蟹抽水泵·采购",
+        "Deluxe Crabbie Pumpie",
+        "既製品のカニカニポンプ",
+        "메탈 크랩 펌프·구매",
+        "蟹蟹抽水泵·採購"
+    ],
+    "sandbox_1_tactical_51": [
+        "木材采集站·采购",
+        "Deluxe Sawing Harvester Hub",
+        "既製品の木材採取基地",
+        "목재 채집 허브·구매",
+        "木材採集站·採購"
+    ],
+    "sandbox_1_tactical_52": [
+        "石材采集站·采购",
+        "Deluxe Quarrying Harvester Hub",
+        "既製品の石材採取基地",
+        "석재 채집 허브·구매",
+        "石材採集站·採購"
+    ],
+    "sandbox_1_tactical_53": [
+        "铁矿采集站·采购",
+        "Deluxe Mining Harvester Hub",
+        "既製品の鉄鉱石採取基地",
+        "철광석 채집 허브·구매",
+        "鐵礦採集站·採購"
+    ],
+    "sandbox_1_tactical_6": [
+        "荒地秘匣：安眠迷香",
+        "Wasteland Cache: Hypnotic Censer",
+        "荒野の秘宝：安眠のお香",
+        "상자: 슬리핑 디퓨저"
+    ],
+    "sandbox_1_tactical_7": [
+        "荒地秘匣：支援轰隆隆",
+        "Wasteland Cache: Support Mr. Boom",
+        "荒野の秘宝：支援ランブル",
+        "상자: 럼블",
+        "荒地秘匣：支援轟隆隆"
+    ],
+    "sandbox_1_tactical_8": [
+        "荒地秘匣：反侦察藏匿机",
+        "Wasteland Cache: Camouflage Device",
+        "荒野の秘宝：隠密支援用マシン",
+        "상자: 대정찰 위장 장치",
+        "荒地秘匣：反偵察藏匿機"
+    ],
+    "sandbox_1_tactical_9": [
+        "荒地秘匣：醒神秘药",
+        "Wasteland Cache: Refreshing Potion",
+        "荒野の秘宝：覚醒の秘薬",
+        "상자: 리프레시 포션",
+        "荒地秘匣：醒神秘藥"
+    ]
+}

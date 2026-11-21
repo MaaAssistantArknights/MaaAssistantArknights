@@ -24,9 +24,10 @@ else
     version_json_dirs=()
     
     for dir in $directories; do
-        # If this is Arknights-Tile-Pos folder, use parent directory
         if [[ "$dir" =~ /Arknights-Tile-Pos$ ]]; then
             version_json_dirs+=("$(dirname "$dir")")
+        elif [[ "$dir" == resource/reclamation || "$dir" == resource/reclamation/* ]]; then
+            version_json_dirs+=("resource")
         else
             version_json_dirs+=("$dir")
         fi

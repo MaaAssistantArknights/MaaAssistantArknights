@@ -35,9 +35,10 @@ private:
 
     template <MAA_NS::Singleton T>
     requires std::is_base_of_v<AbstractResource, T>
-    bool load_resource(const std::filesystem::path& path)
+    bool load_resource(const std::filesystem::path& path, bool& inherits_resources)
     {
         if (!std::filesystem::exists(path)) {
+            inherits_resources = true;
             return m_loaded;
         }
         return SingletonHolder<T>::get_instance().load(path);
@@ -45,16 +46,19 @@ private:
 
     template <MAA_NS::Singleton T>
     requires std::is_base_of_v<AbstractConfigWithTempl, T>
-    bool load_resource_with_templ(const std::filesystem::path& path, const std::filesystem::path& templ_dir)
+    bool load_resource_with_templ(
+        const std::filesystem::path& path,
+        const std::filesystem::path& templ_dir,
+        bool& inherits_resources)
     {
-        if (!load_resource<T>(path)) {
+        if (!load_resource<T>(path, inherits_resources)) {
             return false;
         }
         static auto& templ_ins = SingletonHolder<TemplResource>::get_instance();
         const auto& required = SingletonHolder<T>::get_instance().get_templ_required();
         templ_ins.set_load_required(required);
 
-        return load_resource<TemplResource>(templ_dir);
+        return load_resource<TemplResource>(templ_dir, inherits_resources);
     }
 
     void add_load_queue(AbstractResource& res, const std::filesystem::path& path);

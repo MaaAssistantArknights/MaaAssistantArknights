@@ -122,7 +122,57 @@
         "roi": [48, 469, 87, 51],
         "action": "ClickSelf"
     },
+    "Tales@RA@Navigation": {
+        "next": [
+            "Tales@RA@Navigation-ThemeList",
+            "Tales@RA@Navigation-RecogniseTheme",
+            "Tales@RA@Navigation@ReturnButtons#next",
+            "Tales@RA@Navigation@StartUpThemes#next"
+        ]
+    },
+    "Tales@RA@Navigation-EnterCurrentTheme": {
+        "baseTask": "RA@Navigation-EnterCurrentTheme",
+        "postDelay": 800,
+        "next": [
+            "Tales@RA@Navigation-ThemeList",
+            "Tales@RA@Navigation-RecogniseTheme",
+            "Tales@RA@Navigation@OfflineConfirm"
+        ]
+    },
+    "Tales@RA@Navigation-EnterTales": {
+        "template": "Tales@RA@EnterTheme.png",
+        "roi": [992, 580, 288, 116],
+        "action": "ClickSelf",
+        "postDelay": 1000,
+        "next": ["Tales@RA@Navigation-RecogniseTheme", "Tales@RA@Navigation@OfflineConfirm"]
+    },
     "Tales@RA@Navigation-FromTodoList": {},
+    "Tales@RA@Navigation-SelectTales": {
+        "baseTask": "Tales@RA@Navigation-ThemeList",
+        "template": "Tales@RA@ThemeCard.png",
+        "action": "ClickSelf",
+        "postDelay": 700,
+        "next": ["Tales@RA@Navigation-TalesSelected"]
+    },
+    "Tales@RA@Navigation-TalesSelected": {
+        "doc": "同时核对沙洲卡面和左上边缘的选中高亮",
+        "template": "Tales@RA@ThemeCardSelected.png",
+        "method": "HSVCount",
+        "colorScales": [
+            [
+                [23, 62, 45],
+                [35, 205, 255]
+            ]
+        ],
+        "colorWithClose": false,
+        "roi": [0, 48, 1280, 168],
+        "next": ["Tales@RA@Navigation-EnterTales"]
+    },
+    "Tales@RA@Navigation-ThemeList": {
+        "template": "Tales@RA@ThemeCard.png",
+        "roi": [0, 56, 1280, 176],
+        "next": ["Tales@RA@Navigation-TalesSelected", "Tales@RA@Navigation-SelectTales"]
+    },
     "Tales@RA@NextDay": {
         "doc": "模板任务: 点击右上角箭头进入下一个生息日, 若在量定日则进行量定结算",
         "roi": [1152, 45, 54, 98],
@@ -186,7 +236,7 @@
     "Tales@RA@PIS-Navigation": {
         "algorithm": "JustReturn",
         "sub": ["Tales@RA@Navigation"],
-        "next": ["Tales@RA@ProsperityInSave"]
+        "next": ["Tales@RA@PIS-Resume", "Tales@RA@PIS-Commence"]
     },
     "Tales@RA@PIS-ProsperityBelowLimit": {
         "doc": "已完成生存周期, 生息点数未达到上限, 点击 <点击任意处继续> 文字位置",
@@ -513,7 +563,7 @@
     "Tales@RA@PNS-Navigation": {
         "algorithm": "JustReturn",
         "sub": ["Tales@RA@Navigation"],
-        "next": ["Tales@RA@ProsperityNoSave"]
+        "next": ["Tales@RA@PNS-Commence", "Tales@RA@PNS-Resume"]
     },
     "Tales@RA@PNS-OpeningAnimation": {
         "doc": "等待开启新游戏后的过场动画",
@@ -705,12 +755,12 @@
     "Tales@RA@ProsperityInSave": {
         "doc": "生息演算 ｢沙洲遗闻｣ 有存档刷生息点数 <ProsperityInSave> 任务入口",
         "algorithm": "JustReturn",
-        "next": ["Tales@RA@PIS-Resume", "Tales@RA@PIS-Commence", "Tales@RA@PIS-Workbench", "Tales@RA@PIS-Navigation"]
+        "next": ["Tales@RA@PIS-Workbench", "Tales@RA@PIS-Navigation"]
     },
     "Tales@RA@ProsperityNoSave": {
         "doc": "生息演算 ｢沙洲遗闻｣ 无存档刷生息点数 <ProsperityNoSave> 任务入口",
         "algorithm": "JustReturn",
-        "next": ["Tales@RA@PNS-Commence", "Tales@RA@PNS-Resume", "Tales@RA@PNS-Navigation"]
+        "next": ["Tales@RA@PNS-Navigation"]
     },
     "Tales@RA@ProsperityReachLimit": {
         "doc": "模板任务: 已完成生存周期, 生息点数达到上限, 点击 MAX 图案位置",
