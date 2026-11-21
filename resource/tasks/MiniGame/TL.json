@@ -1,0 +1,462 @@
+{
+    "MiniGame@TL@Begin": {
+        "doc": "战时新闻委员会",
+        "algorithm": "JustReturn",
+        "next": [
+            "MiniGame@TL@Max",
+            "MiniGame@TL@Day1",
+            "MiniGame@TL@Day2",
+            "MiniGame@TL@Day3",
+            "MiniGame@TL@Day4",
+            "MiniGame@TL@Day5"
+        ]
+    },
+    "MiniGame@TL@Max": {
+        "doc": "当日已完成，右箭头跳下一天，没有右箭头认为已完成第五天",
+        "template": "MiniGame@TL@Max.png",
+        "roi": [896, 616, 81, 72],
+        "next": ["MiniGame@TL@NextPage", "Stop"]
+    },
+    "MiniGame@TL@NextPage": {
+        "doc": "右箭头进入下一天",
+        "template": "MiniGame@TL@NextPage.png",
+        "roi": [1115, 271, 104, 122],
+        "action": "ClickSelf",
+        "next": ["MiniGame@TL@Begin"]
+    },
+    "MiniGame@TL@Day1": {
+        "algorithm": "OcrDetect",
+        "text": ["圣骏堡公报"],
+        "roi": [490, 415, 309, 59],
+        "next": ["MiniGame@TL@Day1-Max", "MiniGame@TL@Day1-Unlocked", "Stop"]
+    },
+    "MiniGame@TL@Day2": {
+        "algorithm": "OcrDetect",
+        "text": ["今日评论"],
+        "roi": [490, 415, 309, 59],
+        "next": ["MiniGame@TL@Day2-Max", "MiniGame@TL@Day2-Unlocked", "Stop"]
+    },
+    "MiniGame@TL@Day3": {
+        "algorithm": "OcrDetect",
+        "text": ["基尔萨宁乡土报"],
+        "ocrReplace": [["尔萨?乡报", "基尔萨宁乡土报"]],
+        "roi": [490, 415, 309, 59],
+        "next": ["MiniGame@TL@Day3-Max", "MiniGame@TL@Day3-Unlocked", "Stop"]
+    },
+    "MiniGame@TL@Day4": {
+        "algorithm": "OcrDetect",
+        "text": ["乌萨斯军锋报"],
+        "roi": [490, 415, 309, 59],
+        "next": ["MiniGame@TL@Day4-Max", "MiniGame@TL@Day4-Unlocked", "Stop"]
+    },
+    "MiniGame@TL@Day5": {
+        "algorithm": "OcrDetect",
+        "text": ["求真报"],
+        "roi": [490, 415, 309, 59],
+        "next": ["MiniGame@TL@Day5-Max", "MiniGame@TL@Day5-Unlocked", "Stop"]
+    },
+    "MiniGame@TL@EnterDay": {
+        "doc": "识别组版目标，作为成功进入组版界面的标识",
+        "algorithm": "OcrDetect",
+        "text": ["组版目标"],
+        "roi": [58, 603, 162, 46]
+    },
+    "MiniGame@TL@Unlocked": {
+        "doc": "识别最高销量，确认当日已解锁",
+        "algorithm": "OcrDetect",
+        "text": ["最高销量"],
+        "roi": [710, 623, 97, 54]
+    },
+    "MiniGame@TL@StartLayout": {
+        "algorithm": "OcrDetect",
+        "text": ["开始组版"],
+        "roi": [1019, 600, 177, 104],
+        "action": "ClickSelf"
+    },
+    "MiniGame@TL@Article": {
+        "algorithm": "OcrDetect",
+        "text": [""],
+        "roi": [1017, 43, 263, 587],
+        "action": "ClickSelf",
+        "postDelay": 500
+    },
+    "MiniGame@TL@Selected": {
+        "algorithm": "OcrDetect",
+        "text": ["已选中"],
+        "roi": [885, 59, 90, 557]
+    },
+    "MiniGame@TL@Confirm": {
+        "algorithm": "OcrDetect",
+        "text": ["点击组版"],
+        "roi": [226, 257, 533, 361],
+        "action": "ClickSelf"
+    },
+    "MiniGame@TL@MaxButton": {
+        "doc": "版面已组满，结束组版",
+        "template": "MiniGame@TL@MaxButton.png",
+        "roi": [886, 614, 80, 72]
+    },
+    "MiniGame@TL@EndLayout": {
+        "algorithm": "OcrDetect",
+        "text": ["结束组版"],
+        "roi": [1014, 598, 196, 106],
+        "action": "ClickSelf"
+    },
+    "MiniGame@TL@Day1-Max": {
+        "baseTask": "MiniGame@TL@Max",
+        "template": "MiniGame@TL@Max.png"
+    },
+    "MiniGame@TL@Day1-Unlocked": {
+        "baseTask": "MiniGame@TL@Unlocked",
+        "next": ["MiniGame@TL@Day1-StartLayout"]
+    },
+    "MiniGame@TL@Day1-StartLayout": {
+        "baseTask": "MiniGame@TL@StartLayout",
+        "next": ["MiniGame@TL@EnterDay1"]
+    },
+    "MiniGame@TL@EnterDay1": {
+        "baseTask": "MiniGame@TL@EnterDay",
+        "next": [
+            "MiniGame@TL@Day1-Article1",
+            "MiniGame@TL@Day1-Article2",
+            "MiniGame@TL@Day1-Article3",
+            "MiniGame@TL@Day1-MaxButton"
+        ]
+    },
+    "MiniGame@TL@Day1-Article1": {
+        "baseTask": "MiniGame@TL@Article",
+        "text": ["伊戈尔大帝"],
+        "next": ["MiniGame@TL@Day1-Article1Selected"]
+    },
+    "MiniGame@TL@Day1-Article1Selected": {
+        "baseTask": "MiniGame@TL@Selected",
+        "next": ["MiniGame@TL@Day1-Article1Confirm"]
+    },
+    "MiniGame@TL@Day1-Article1Confirm": {
+        "baseTask": "MiniGame@TL@Confirm",
+        "next": ["MiniGame@TL@Day1-MaxButton", "MiniGame@TL@EnterDay1", "#self"]
+    },
+    "MiniGame@TL@Day1-Article2": {
+        "baseTask": "MiniGame@TL@Article",
+        "text": ["征兵招募"],
+        "next": ["MiniGame@TL@Day1-Article2Selected"]
+    },
+    "MiniGame@TL@Day1-Article2Selected": {
+        "baseTask": "MiniGame@TL@Selected",
+        "next": ["MiniGame@TL@Day1-Article2Confirm"]
+    },
+    "MiniGame@TL@Day1-Article2Confirm": {
+        "baseTask": "MiniGame@TL@Confirm",
+        "next": ["MiniGame@TL@Day1-MaxButton", "MiniGame@TL@EnterDay1", "#self"]
+    },
+    "MiniGame@TL@Day1-Article3": {
+        "baseTask": "MiniGame@TL@Article",
+        "text": ["帕萨什商场"],
+        "next": ["MiniGame@TL@Day1-Article3Selected"]
+    },
+    "MiniGame@TL@Day1-Article3Selected": {
+        "baseTask": "MiniGame@TL@Selected",
+        "next": ["MiniGame@TL@Day1-Article3Confirm"]
+    },
+    "MiniGame@TL@Day1-Article3Confirm": {
+        "baseTask": "MiniGame@TL@Confirm",
+        "next": ["MiniGame@TL@Day1-MaxButton", "MiniGame@TL@EnterDay1", "#self"]
+    },
+    "MiniGame@TL@Day1-MaxButton": {
+        "baseTask": "MiniGame@TL@MaxButton",
+        "template": "MiniGame@TL@MaxButton.png",
+        "next": ["MiniGame@TL@Day1-EndLayout"]
+    },
+    "MiniGame@TL@Day1-EndLayout": {
+        "baseTask": "MiniGame@TL@EndLayout",
+        "next": ["MiniGame@TL@ClickToContinue", "#self"]
+    },
+    "MiniGame@TL@Day2-Max": {
+        "baseTask": "MiniGame@TL@Max",
+        "template": "MiniGame@TL@Max.png"
+    },
+    "MiniGame@TL@Day2-Unlocked": {
+        "baseTask": "MiniGame@TL@Unlocked",
+        "next": ["MiniGame@TL@Day2-StartLayout"]
+    },
+    "MiniGame@TL@Day2-StartLayout": {
+        "baseTask": "MiniGame@TL@StartLayout",
+        "next": ["MiniGame@TL@EnterDay2"]
+    },
+    "MiniGame@TL@EnterDay2": {
+        "baseTask": "MiniGame@TL@EnterDay",
+        "next": [
+            "MiniGame@TL@Day2-Article1",
+            "MiniGame@TL@Day2-Article2",
+            "MiniGame@TL@Day2-Article3",
+            "MiniGame@TL@Day2-MaxButton"
+        ]
+    },
+    "MiniGame@TL@Day2-Article1": {
+        "baseTask": "MiniGame@TL@Article",
+        "text": ["生活物资短缺"],
+        "next": ["MiniGame@TL@Day2-Article1Selected"]
+    },
+    "MiniGame@TL@Day2-Article1Selected": {
+        "baseTask": "MiniGame@TL@Selected",
+        "next": ["MiniGame@TL@Day2-Article1Confirm"]
+    },
+    "MiniGame@TL@Day2-Article1Confirm": {
+        "baseTask": "MiniGame@TL@Confirm",
+        "next": ["MiniGame@TL@Day2-MaxButton", "MiniGame@TL@EnterDay2", "#self"]
+    },
+    "MiniGame@TL@Day2-Article2": {
+        "baseTask": "MiniGame@TL@Article",
+        "text": ["电车新线路"],
+        "next": ["MiniGame@TL@Day2-Article2Selected"]
+    },
+    "MiniGame@TL@Day2-Article2Selected": {
+        "baseTask": "MiniGame@TL@Selected",
+        "next": ["MiniGame@TL@Day2-Article2Confirm"]
+    },
+    "MiniGame@TL@Day2-Article2Confirm": {
+        "baseTask": "MiniGame@TL@Confirm",
+        "next": ["MiniGame@TL@Day2-MaxButton", "MiniGame@TL@EnterDay2", "#self"]
+    },
+    "MiniGame@TL@Day2-Article3": {
+        "baseTask": "MiniGame@TL@Article",
+        "text": ["白糖到货"],
+        "next": ["MiniGame@TL@Day2-Article3Selected"]
+    },
+    "MiniGame@TL@Day2-Article3Selected": {
+        "baseTask": "MiniGame@TL@Selected",
+        "next": ["MiniGame@TL@Day2-Article3Confirm"]
+    },
+    "MiniGame@TL@Day2-Article3Confirm": {
+        "baseTask": "MiniGame@TL@Confirm",
+        "next": ["MiniGame@TL@Day2-MaxButton", "MiniGame@TL@EnterDay2", "#self"]
+    },
+    "MiniGame@TL@Day2-MaxButton": {
+        "baseTask": "MiniGame@TL@MaxButton",
+        "template": "MiniGame@TL@MaxButton.png",
+        "next": ["MiniGame@TL@Day2-EndLayout"]
+    },
+    "MiniGame@TL@Day2-EndLayout": {
+        "baseTask": "MiniGame@TL@EndLayout",
+        "next": ["MiniGame@TL@ClickToContinue", "#self"]
+    },
+    "MiniGame@TL@Day3-Max": {
+        "baseTask": "MiniGame@TL@Max",
+        "template": "MiniGame@TL@Max.png"
+    },
+    "MiniGame@TL@Day3-Unlocked": {
+        "baseTask": "MiniGame@TL@Unlocked",
+        "next": ["MiniGame@TL@Day3-StartLayout"]
+    },
+    "MiniGame@TL@Day3-StartLayout": {
+        "baseTask": "MiniGame@TL@StartLayout",
+        "next": ["MiniGame@TL@EnterDay3"]
+    },
+    "MiniGame@TL@EnterDay3": {
+        "baseTask": "MiniGame@TL@EnterDay",
+        "next": [
+            "MiniGame@TL@Day3-Article1",
+            "MiniGame@TL@Day3-Article2",
+            "MiniGame@TL@Day3-Article3",
+            "MiniGame@TL@Day3-MaxButton"
+        ]
+    },
+    "MiniGame@TL@Day3-Article1": {
+        "baseTask": "MiniGame@TL@Article",
+        "text": ["中央区"],
+        "next": ["MiniGame@TL@Day3-Article1Selected"]
+    },
+    "MiniGame@TL@Day3-Article1Selected": {
+        "baseTask": "MiniGame@TL@Selected",
+        "next": ["MiniGame@TL@Day3-Article1Confirm"]
+    },
+    "MiniGame@TL@Day3-Article1Confirm": {
+        "baseTask": "MiniGame@TL@Confirm",
+        "next": ["MiniGame@TL@Day3-MaxButton", "MiniGame@TL@EnterDay3", "#self"]
+    },
+    "MiniGame@TL@Day3-Article2": {
+        "baseTask": "MiniGame@TL@Article",
+        "text": ["东部矿区"],
+        "next": ["MiniGame@TL@Day3-Article2Selected"]
+    },
+    "MiniGame@TL@Day3-Article2Selected": {
+        "baseTask": "MiniGame@TL@Selected",
+        "next": ["MiniGame@TL@Day3-Article2Confirm"]
+    },
+    "MiniGame@TL@Day3-Article2Confirm": {
+        "baseTask": "MiniGame@TL@Confirm",
+        "next": ["MiniGame@TL@Day3-MaxButton", "MiniGame@TL@EnterDay3", "#self"]
+    },
+    "MiniGame@TL@Day3-Article3": {
+        "baseTask": "MiniGame@TL@Article",
+        "text": ["征兵招募"],
+        "next": ["MiniGame@TL@Day3-Article3Selected"]
+    },
+    "MiniGame@TL@Day3-Article3Selected": {
+        "baseTask": "MiniGame@TL@Selected",
+        "next": ["MiniGame@TL@Day3-Article3Confirm"]
+    },
+    "MiniGame@TL@Day3-Article3Confirm": {
+        "baseTask": "MiniGame@TL@Confirm",
+        "next": ["MiniGame@TL@Day3-MaxButton", "MiniGame@TL@EnterDay3", "#self"]
+    },
+    "MiniGame@TL@Day3-MaxButton": {
+        "baseTask": "MiniGame@TL@MaxButton",
+        "template": "MiniGame@TL@MaxButton.png",
+        "next": ["MiniGame@TL@Day3-EndLayout"]
+    },
+    "MiniGame@TL@Day3-EndLayout": {
+        "baseTask": "MiniGame@TL@EndLayout",
+        "next": ["MiniGame@TL@ClickToContinue", "#self"]
+    },
+    "MiniGame@TL@Day4-Max": {
+        "baseTask": "MiniGame@TL@Max",
+        "template": "MiniGame@TL@Max.png"
+    },
+    "MiniGame@TL@Day4-Unlocked": {
+        "baseTask": "MiniGame@TL@Unlocked",
+        "next": ["MiniGame@TL@Day4-StartLayout"]
+    },
+    "MiniGame@TL@Day4-StartLayout": {
+        "baseTask": "MiniGame@TL@StartLayout",
+        "next": ["MiniGame@TL@EnterDay4"]
+    },
+    "MiniGame@TL@EnterDay4": {
+        "baseTask": "MiniGame@TL@EnterDay",
+        "next": [
+            "MiniGame@TL@Day4-Article1",
+            "MiniGame@TL@Day4-Article2",
+            "MiniGame@TL@Day4-Article3",
+            "MiniGame@TL@Day4-MaxButton"
+        ]
+    },
+    "MiniGame@TL@Day4-Article1": {
+        "baseTask": "MiniGame@TL@Article",
+        "text": ["征兵招募"],
+        "next": ["MiniGame@TL@Day4-Article1Selected"]
+    },
+    "MiniGame@TL@Day4-Article1Selected": {
+        "baseTask": "MiniGame@TL@Selected",
+        "next": ["MiniGame@TL@Day4-Article1Confirm"]
+    },
+    "MiniGame@TL@Day4-Article1Confirm": {
+        "baseTask": "MiniGame@TL@Confirm",
+        "next": ["MiniGame@TL@Day4-MaxButton", "MiniGame@TL@EnterDay4", "#self"]
+    },
+    "MiniGame@TL@Day4-Article2": {
+        "baseTask": "MiniGame@TL@Article",
+        "text": ["卡特斯逃犯"],
+        "next": ["MiniGame@TL@Day4-Article2Selected"]
+    },
+    "MiniGame@TL@Day4-Article2Selected": {
+        "baseTask": "MiniGame@TL@Selected",
+        "next": ["MiniGame@TL@Day4-Article2Confirm"]
+    },
+    "MiniGame@TL@Day4-Article2Confirm": {
+        "baseTask": "MiniGame@TL@Confirm",
+        "next": ["MiniGame@TL@Day4-MaxButton", "MiniGame@TL@EnterDay4", "#self"]
+    },
+    "MiniGame@TL@Day4-Article3": {
+        "baseTask": "MiniGame@TL@Article",
+        "text": ["东部矿区"],
+        "next": ["MiniGame@TL@Day4-Article3Selected"]
+    },
+    "MiniGame@TL@Day4-Article3Selected": {
+        "baseTask": "MiniGame@TL@Selected",
+        "next": ["MiniGame@TL@Day4-Article3Confirm"]
+    },
+    "MiniGame@TL@Day4-Article3Confirm": {
+        "baseTask": "MiniGame@TL@Confirm",
+        "next": ["MiniGame@TL@Day4-MaxButton", "MiniGame@TL@EnterDay4", "#self"]
+    },
+    "MiniGame@TL@Day4-MaxButton": {
+        "baseTask": "MiniGame@TL@MaxButton",
+        "template": "MiniGame@TL@MaxButton.png",
+        "next": ["MiniGame@TL@Day4-EndLayout"]
+    },
+    "MiniGame@TL@Day4-EndLayout": {
+        "baseTask": "MiniGame@TL@EndLayout",
+        "next": ["MiniGame@TL@ClickToContinue", "#self"]
+    },
+    "MiniGame@TL@Day5-Max": {
+        "baseTask": "MiniGame@TL@Max",
+        "template": "MiniGame@TL@Max.png"
+    },
+    "MiniGame@TL@Day5-Unlocked": {
+        "baseTask": "MiniGame@TL@Unlocked",
+        "next": ["MiniGame@TL@Day5-StartLayout"]
+    },
+    "MiniGame@TL@Day5-StartLayout": {
+        "baseTask": "MiniGame@TL@StartLayout",
+        "next": ["MiniGame@TL@EnterDay5"]
+    },
+    "MiniGame@TL@EnterDay5": {
+        "baseTask": "MiniGame@TL@EnterDay",
+        "next": [
+            "MiniGame@TL@Day5-Article1",
+            "MiniGame@TL@Day5-Article2",
+            "MiniGame@TL@Day5-Article3",
+            "MiniGame@TL@Day5-MaxButton"
+        ]
+    },
+    "MiniGame@TL@Day5-Article1": {
+        "baseTask": "MiniGame@TL@Article",
+        "text": ["本报现已更名"],
+        "next": ["MiniGame@TL@Day5-Article1Selected"]
+    },
+    "MiniGame@TL@Day5-Article1Selected": {
+        "baseTask": "MiniGame@TL@Selected",
+        "next": ["MiniGame@TL@Day5-Article1Confirm"]
+    },
+    "MiniGame@TL@Day5-Article1Confirm": {
+        "baseTask": "MiniGame@TL@Confirm",
+        "next": ["MiniGame@TL@Day5-MaxButton", "MiniGame@TL@EnterDay5", "#self"]
+    },
+    "MiniGame@TL@Day5-Article2": {
+        "baseTask": "MiniGame@TL@Article",
+        "text": ["中央区"],
+        "next": ["MiniGame@TL@Day5-Article2Selected"]
+    },
+    "MiniGame@TL@Day5-Article2Selected": {
+        "baseTask": "MiniGame@TL@Selected",
+        "next": ["MiniGame@TL@Day5-Article2Confirm"]
+    },
+    "MiniGame@TL@Day5-Article2Confirm": {
+        "baseTask": "MiniGame@TL@Confirm",
+        "next": ["MiniGame@TL@Day5-MaxButton", "MiniGame@TL@EnterDay5", "#self"]
+    },
+    "MiniGame@TL@Day5-Article3": {
+        "baseTask": "MiniGame@TL@Article",
+        "text": ["电车新线路"],
+        "next": ["MiniGame@TL@Day5-Article3Selected"]
+    },
+    "MiniGame@TL@Day5-Article3Selected": {
+        "baseTask": "MiniGame@TL@Selected",
+        "next": ["MiniGame@TL@Day5-Article3Confirm"]
+    },
+    "MiniGame@TL@Day5-Article3Confirm": {
+        "baseTask": "MiniGame@TL@Confirm",
+        "next": ["MiniGame@TL@Day5-MaxButton", "MiniGame@TL@EnterDay5", "#self"]
+    },
+    "MiniGame@TL@Day5-MaxButton": {
+        "baseTask": "MiniGame@TL@MaxButton",
+        "template": "MiniGame@TL@MaxButton.png",
+        "next": ["MiniGame@TL@Day5-EndLayout"]
+    },
+    "MiniGame@TL@Day5-EndLayout": {
+        "baseTask": "MiniGame@TL@EndLayout",
+        "next": ["MiniGame@TL@ClickToContinue", "#self"]
+    },
+    "MiniGame@TL@ClickToContinue": {
+        "algorithm": "OcrDetect",
+        "text": ["点击任意处继续"],
+        "roi": [514, 628, 249, 92],
+        "action": "ClickSelf",
+        "next": ["MiniGame@TL@ReceiveReward", "#self"]
+    },
+    "MiniGame@TL@ReceiveReward": {
+        "baseTask": "CreditShop-Bought",
+        "template": "ItemObtainedIcon.png",
+        "next": ["MiniGame@TL@Begin"]
+    }
+}
