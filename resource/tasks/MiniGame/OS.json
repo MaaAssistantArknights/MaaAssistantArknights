@@ -52,10 +52,15 @@
         "action": "ClickSelf",
         "roi": [1010, 584, 270, 136],
         "postDelay": 2000,
-        "next": ["MiniGame@OS@CheckAchieved", "MiniGame@OS@StartRebuild", "#self"]
+        "next": ["MiniGame@OS@CheckAchieved", "MiniGame@OS@Obtain", "MiniGame@OS@StartRebuild", "#self"]
     },
     "MiniGame@OS@CheckAchieved": {
         "roi": [45, 628, 217, 92],
+        "next": ["Stop"]
+    },
+    "MiniGame@OS@Obtain": {
+        "baseTask": "CreditShop-Bought",
+        "template": "ItemObtainedIcon.png",
         "next": ["Stop"]
     }
 }
