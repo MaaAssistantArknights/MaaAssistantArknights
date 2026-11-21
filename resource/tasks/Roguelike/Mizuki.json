@@ -16,7 +16,7 @@
         "baseTask": "Roguelike@Begin",
         "next": [
             "Mizuki@Roguelike@ChooseDifficulty",
-            "Mizuki@Roguelike@StartExplore",
+            "Mizuki@Roguelike@StartExplore-Entry",
             "Mizuki@Roguelike@Stages#next",
             "Mizuki@Roguelike@GetDrops#next",
             "Mizuki@Roguelike@NextLevel",
@@ -526,6 +526,14 @@
     "Mizuki@Roguelike@StartExplore": {},
     "Mizuki@Roguelike@StartExplore-EnterCheck": {
         "template": "Mizuki@Roguelike@StartExplore.png"
+    },
+    "Mizuki@Roguelike@StartExplore-Entry": {
+        "baseTask": "Mizuki@Roguelike@StartExplore",
+        "template": "Mizuki@Roguelike@StartExplore.png",
+        "action": "DoNothing",
+        "postDelay": 0,
+        "sub": ["Mizuki@Roguelike@StartExplore-SelectMode#next"],
+        "next": ["Mizuki@Roguelike@StartExplore"]
     },
     "Mizuki@Roguelike@StrategyChange_mode0": {
         "text": ["_aggressive", "_pragmatic", "_default"],

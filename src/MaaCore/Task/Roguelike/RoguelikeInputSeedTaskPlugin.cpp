@@ -37,6 +37,7 @@ bool asst::RoguelikeInputSeedTaskPlugin::_run()
     bool ret = ProcessTask(*this, { m_config->get_theme() + "@Roguelike@StartExploreWithSeed-Open" }).run();
     ret = ret && ctrler()->input(m_seed);
     ret = ret && ProcessTask(*this, { "Roguelike@StartExploreWithSeed-Confirm" })
+                     .set_times_limit("Roguelike@StartExplore-Entry", 0)
                      .set_times_limit("Roguelike@StartExplore", 0)
                      .run();
     return ret;
