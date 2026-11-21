@@ -26,6 +26,7 @@ Please note that JSON files do not support comments. Comments are for demonstrat
       - `deposit.json` investing mode
     - `recruitment.json` operators recruitment logic
     - `shopping.json` trade store purchasing logic
+    - `monthly_squad.json` Monthly Squad task logic
 
 - Specifically, in `Sami/`:
   - `foldartal.json` defines the usage logic for Sami's Foldartals
@@ -813,6 +814,42 @@ The BlackFlow strategy module supports `shopping_rules`. When a page is dispatch
 If multiple rules match, the rule with the lowest `rank` is selected; ties are resolved by the lexicographical order of `id`, as with `encounter_rules`. Both tables come from the same rule; fields from different rules are not combined. If no rule matches, the `default` buy table is used and nothing is sold. Tables are selected again for every page dispatch, so the previous page's selection is not carried over.
 
 `when` cannot access candidate route facts. Referenced table names must exist in BlackFlow's `shopping.json`; otherwise, the strategy configuration fails to parse. The shopping plugin uses the selected buy table, while 秘境行商 (scrap trader) cultivation uses the selected sell table to filter items for sale.
+
+## Monthly Squad tasks
+
+`resource/roguelike/theme_name/monthly_squad.json` describes the task assigned to each Monthly Squad. Top-level keys may be squad indices from `1` to `8`. Use `default` as the fallback when an index has no dedicated entry or cannot be recognized.
+
+```json
+{
+    "1": {
+        "type": "DeployOperator",
+        "operator": "年",
+        "count": 10
+    },
+    "2": {
+        "type": "DeployOperatorSummon",
+        "operator": "令",
+        "skill": 3,
+        "count": 20
+    },
+    "default": {
+        "type": "ReachThirdFloor"
+    }
+}
+```
+
+The following task types are supported:
+
+| `type`                 | Required fields              | Description                                                                 |
+| ---------------------- | ---------------------------- | --------------------------------------------------------------------------- |
+| `ReachThirdFloor`      | None                         | Follow the existing exploration logic until the third floor                 |
+| `DeployOperator`       | `operator`, `count`          | Deploy the specified operator the required number of times                  |
+| `DeployOperatorSummon` | `operator`, `count`          | Deploy the specified operator, then repeatedly deploy their related summons |
+| `UseOperatorSkill`     | `operator`, `count`, `skill` | Select and use the specified operator's first, second, or third skill       |
+
+`count` must be a positive integer. `skill` must be from `1` to `3`. It is optional for `DeployOperatorSummon`; when omitted, the operator's existing skill-selection logic is preserved.
+
+While the target operator of a third-skill `UseOperatorSkill` task is not yet Elite 2, recruitment reserves hope for that promotion: only 3-star or lower operators, which cost no hope, are recruited in the meantime, other operators (temporary recruits included) are skipped, and the target operator itself is still allowed.
 
 ## Integrated Strategy Special Mechanisms
 

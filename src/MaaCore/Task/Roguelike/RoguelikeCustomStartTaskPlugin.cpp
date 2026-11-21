@@ -80,7 +80,7 @@ bool asst::RoguelikeCustomStartTaskPlugin::verify(AsstMsg msg, const json::value
 
 bool asst::RoguelikeCustomStartTaskPlugin::load_params(const json::value& params)
 {
-    m_squad = params.get("squad", "");
+    m_squad = m_config->get_mode() == RoguelikeMode::Squad ? "指挥分队" : params.get("squad", "");
     if (m_config->get_mode() == RoguelikeMode::Collectible ||
         m_config->get_mode() == RoguelikeMode::BlackFlowStartRun) {
         m_collectible_mode_squad = params.get("collectible_mode_squad", m_squad);

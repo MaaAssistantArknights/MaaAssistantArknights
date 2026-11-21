@@ -325,7 +325,11 @@ public class AsstRoguelikeTask : AsstBaseTask
             taskParams["stop_when_investment_full"] = InvestmentStopWhenFull;
         }
 
-        if (expFlight)
+        if (Mode == RoguelikeMode.Squad)
+        {
+            taskParams["squad"] = "指挥分队";
+        }
+        else if (expFlight)
         {
             taskParams["squad"] = BlackFlowFlightSquad;
         }
