@@ -239,9 +239,9 @@
         "roi": [0, 167, 467, 245]
     },
     "StrongholdProtocol@ConfirmReadyOcr": {
-        "doc": "回合准备确认弹窗中的标题或资金提示",
+        "doc": "识别准备确认、剩余资金或临时整备区溢出提示。",
         "algorithm": "OcrDetect",
-        "text": ["确认准备", "资金将在"],
+        "text": ["确认准备", "资金将在", "临时整备区"],
         "roi": [430, 255, 420, 110],
         "next": ["StrongholdProtocol@PopupNotAgain", "StrongholdProtocol@PopupConfirmBtn"]
     },
