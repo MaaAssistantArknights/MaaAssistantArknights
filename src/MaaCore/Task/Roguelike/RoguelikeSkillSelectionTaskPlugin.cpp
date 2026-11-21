@@ -42,16 +42,21 @@ bool asst::RoguelikeSkillSelectionTaskPlugin::_run()
     }
 
     int delay = Task.get("RoguelikeSkillSelectionMove1")->post_delay;
+    const auto& monthly_squad_task = m_config->get_monthly_squad_task();
+    auto& owned_opers = m_config->status().opers;
+    const bool restore_team = owned_opers.empty();
     bool has_rookie = false;
     for (const auto& [name, skill_vec] : analyzer.get_result()) {
+        if (restore_team || (monthly_squad_task && monthly_squad_task->oper_name == name)) {
+            // 编队页只能识别名字。补录自带干员时沿用精一估值，保留招募页已识别的精英阶段。
+            owned_opers.try_emplace(name, RoguelikeOper { .elite = 1, .level = 80 });
+        }
         const auto& oper_info = RoguelikeRecruit.get_oper_info(m_config->get_theme(), name);
-        const auto& monthly_squad_task = m_config->get_monthly_squad_task();
-        const bool override_skill =
-            monthly_squad_task.has_value() &&
-            (monthly_squad_task->type == MonthlySquadTaskType::UseOperatorSkill ||
-             monthly_squad_task->type == MonthlySquadTaskType::DeployOperatorSummon) &&
-            monthly_squad_task->oper_name == name && monthly_squad_task->skill.has_value() &&
-            monthly_squad_task->completed_count < monthly_squad_task->required_count;
+        const bool override_skill = monthly_squad_task.has_value() &&
+                                    (monthly_squad_task->type == MonthlySquadTaskType::UseOperatorSkill ||
+                                     monthly_squad_task->type == MonthlySquadTaskType::DeployOperatorSummon) &&
+                                    monthly_squad_task->oper_name == name && monthly_squad_task->skill.has_value() &&
+                                    monthly_squad_task->completed_count < monthly_squad_task->required_count;
         if (oper_info.name.empty() && !override_skill) {
             Log.warn("Unknown oper", name);
             continue;
@@ -79,15 +84,6 @@ bool asst::RoguelikeSkillSelectionTaskPlugin::_run()
         if (!oper_info.name.empty() && oper_info.promote_priority < RookieStd) {
             has_rookie = true;
         }
-    }
-
-    if (m_config->status().opers.empty()) {
-        std::unordered_map<std::string, RoguelikeOper> opers;
-        for (const auto& [name, skill_vec] : analyzer.get_result()) {
-            opers[name] = { .elite = 1, .level = 80 };
-            // 不知道是啥等级随便填一个
-        }
-        m_config->status().opers = std::move(opers);
     }
 
     if (analyzer.get_team_full() && !has_rookie) {
