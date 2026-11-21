@@ -21,12 +21,11 @@ using System.Windows;
 using System.Windows.Controls;
 using JetBrains.Annotations;
 using MaaWpfGui.Configuration.Factory;
+using MaaWpfGui.Configuration.Single.Settings;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
-using MaaWpfGui.Models.ExternalNotification;
 using MaaWpfGui.Services.ExternalNotification;
 using MaaWpfGui.Utilities.ValueType;
-using Serilog;
 using Stylet;
 
 namespace MaaWpfGui.ViewModels.UserControl.Settings;
@@ -36,8 +35,7 @@ namespace MaaWpfGui.ViewModels.UserControl.Settings;
 /// </summary>
 public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
 {
-    private static readonly ILogger _logger = Log.ForContext<ExternalNotificationSettingsUserControlModel>();
-    private readonly HashSet<BaseConfig> _subscribedConfigs = [];
+    private readonly HashSet<NotificationChannelViewModel> _subscribedConfigs = [];
 
     static ExternalNotificationSettingsUserControlModel()
     {
@@ -46,22 +44,46 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
 
     public ExternalNotificationSettingsUserControlModel()
     {
-        DeliverySettings = new(ConfigFactory.CurrentConfig.Gui.ExternalNotification.Delivery);
         ExternalNotificationConfigs = new(ConfigFactory.CurrentConfig.Gui.ExternalNotification.Configs
-            .Select(config => ExternalNotificationChannel.ForConfig(config).ReadConfig(config)));
+            .Select(config => new NotificationChannelViewModel(config)));
         ExternalNotificationConfigs.CollectionChanged += OnConfigsChanged;
         SynchronizeSubscriptions();
-        LocalizationHelper.LanguageChanged += ExternalNotificationProviderList.RefreshLocalization;
+        LocalizationHelper.LanguageChanged += RefreshLabels;
+        RefreshLabels();
     }
 
     public static ExternalNotificationSettingsUserControlModel Instance { get; }
 
-    public ExternalNotificationDeliverySettingsModel DeliverySettings { get; }
+    public bool Enable
+    {
+        get => ConfigFactory.CurrentConfig.Gui.ExternalNotification.Enable;
+        set {
+            if (Enable == value)
+            {
+                return;
+            }
+            ConfigFactory.CurrentConfig.Gui.ExternalNotification.Enable = value;
+            Instances.NotificationService?.ResetAllChannels();
+            NotifyOfPropertyChange();
+            NotifyOfPropertyChange(nameof(HasScheduledNotifications));
+        }
+    }
+
+    public bool HasScheduledNotifications => Enable && ExternalNotificationConfigs.Any(item => item.DeliverySettings.Enable && item.DeliverySettings.SendBeforeScheduledStart);
+
+    private void RefreshLabels()
+    {
+        ExternalNotificationProviderList.RefreshLocalization();
+        for (int i = 0; i < ExternalNotificationConfigs.Count; i++)
+        {
+            ExternalNotificationConfigs[i].RefreshLabel(i + 1);
+        }
+    }
 
     public LocalizedObservableList<ExternalNotificationChannel> ExternalNotificationProviderList { get; } = new(
         ExternalNotificationChannel.All.Select(channel => new LocalizedEntry<ExternalNotificationChannel>(channel, channel.LocalizationKey)).ToArray());
 
-    public ObservableCollection<BaseConfig> ExternalNotificationConfigs { get; }
+    public ObservableCollection<NotificationChannelViewModel> ExternalNotificationConfigs { get; }
 
     public int ConfigCount => ExternalNotificationConfigs.Count;
 
@@ -72,11 +94,16 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
     {
         if (e.OriginalSource is MenuItem { DataContext: GenericCombinedData<ExternalNotificationChannel> data })
         {
-            ExternalNotificationConfigs.Add(data.Value.CreateEditor());
+            AddChannel(data.Value);
         }
     }
 
-    public void RemoveConfig(BaseConfig config) => ExternalNotificationConfigs.Remove(config);
+    public void AddChannel(ExternalNotificationChannel channel) => ExternalNotificationConfigs.Add(
+        new NotificationChannelViewModel(new NotificationChannelConfig { Provider = channel.CreateEditor().ToConfig() }));
+
+    public void TestChannel(NotificationChannelViewModel channel) => channel.TestChannel();
+
+    public void RemoveConfig(NotificationChannelViewModel config) => ExternalNotificationConfigs.Remove(config);
 
     private void OnConfigsChanged(object? sender, NotifyCollectionChangedEventArgs e)
     {
@@ -89,13 +116,13 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
             case NotifyCollectionChangedAction.Add:
                 for (var index = 0; index < e.NewItems!.Count; ++index)
                 {
-                    saved.Insert(e.NewStartingIndex + index, ((BaseConfig)e.NewItems[index]!).ToConfig());
+                    saved.Insert(e.NewStartingIndex + index, ((NotificationChannelViewModel)e.NewItems[index]!).Config);
                 }
                 break;
             case NotifyCollectionChangedAction.Replace:
                 for (var index = 0; index < e.NewItems!.Count; ++index)
                 {
-                    saved[e.NewStartingIndex + index] = ((BaseConfig)e.NewItems[index]!).ToConfig();
+                    saved[e.NewStartingIndex + index] = ((NotificationChannelViewModel)e.NewItems[index]!).Config;
                 }
                 break;
             case NotifyCollectionChangedAction.Remove:
@@ -113,8 +140,10 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
 
         SynchronizeSubscriptions();
         NotifyOfPropertyChange(nameof(ConfigCount));
+        NotifyOfPropertyChange(nameof(HasScheduledNotifications));
+        RefreshLabels();
         if (ExternalNotificationChannel.All.All(channel =>
-            ExternalNotificationConfigs.Any(config => config.GetType() == channel.EditorType)))
+            ExternalNotificationConfigs.Any(config => config.Provider.GetType() == channel.EditorType)))
         {
             AchievementTrackerHelper.Instance.Unlock(AchievementIds.AllChannelBroadcast);
         }
@@ -126,6 +155,8 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
         {
             item.PropertyChanged -= OnConfigChanged;
             _subscribedConfigs.Remove(item);
+            Instances.NotificationService?.ResetChannel(item.Id);
+            item.Dispose();
         }
         foreach (var item in ExternalNotificationConfigs.Except(_subscribedConfigs))
         {
@@ -136,19 +167,6 @@ public class ExternalNotificationSettingsUserControlModel : PropertyChangedBase
 
     private void OnConfigChanged(object? sender, PropertyChangedEventArgs e)
     {
-        if (sender is not BaseConfig item)
-        {
-            return;
-        }
-        var index = ExternalNotificationConfigs.IndexOf(item);
-        var saved = ConfigFactory.CurrentConfig.Gui.ExternalNotification.Configs;
-        if (index < 0 || index >= saved.Count || saved.Count != ExternalNotificationConfigs.Count)
-        {
-            _logger.Error("External notification configuration count mismatch. Index: {Index}, editor count: {EditorCount}, saved count: {SavedCount}",
-                index, ExternalNotificationConfigs.Count, saved.Count);
-            return;
-        }
-
-        saved[index] = item.ToConfig();
+        NotifyOfPropertyChange(nameof(HasScheduledNotifications));
     }
 }
