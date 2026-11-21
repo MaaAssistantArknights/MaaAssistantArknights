@@ -27,6 +27,17 @@ IsIconic
 IsWindow
 IsWindowVisible
 GetWindowRect
+GetClientRect
+SetProp
+GetProp
+RemoveProp
+GetDpiForWindow
+GetMenu
+AdjustWindowRectExForDpi
+SetThreadDpiAwarenessContext
+MonitorFromWindow
+MonitorFromRect
+GetMonitorInfo
 GetSystemMetrics
 SetWindowPos
 ShowWindow
@@ -39,6 +50,7 @@ SetWindowLong
 // Game audio mute
 GetWindowPlacement
 SetWindowPlacement
+SendMessageTimeout
 MMDeviceEnumerator
 IMMDeviceEnumerator
 IAudioSessionManager2

@@ -56,6 +56,8 @@ public class Gui : NotifyPropertyChangedWithValue, IJsonOnDeserialized
 
     public WindowPlacement? WindowPlacement { get; set; } = null;
 
+    public Dictionary<string, GameWindowRestoreState> GameWindowRestoreStates { get; set; } = [];
+
     public bool LoadWindowPlacement { get; set; } = true;
 
     public bool SaveWindowPlacement { get; set; } = true;
@@ -229,6 +231,8 @@ public class Gui : NotifyPropertyChangedWithValue, IJsonOnDeserialized
     [UsedImplicitly]
     public void OnDeserialized()
     {
+        GameWindowRestoreStates ??= [];
+
         if (GuideTutorialVersion >= CurrentGuideTutorialVersion)
         {
             return;

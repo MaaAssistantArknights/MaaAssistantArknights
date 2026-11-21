@@ -746,7 +746,10 @@ public class TaskQueueViewModel : Screen
             {
                 _mainTasksTotalCount = 0;
                 RefreshMainTasksProgress();
-                _ = GameAudioMuteManager.RestoreWhenCoreIdleAsync(Instances.AsstProxy.AsstRunning);
+                if (!Bootstrapper.IsCoreInitSkipped && _runningState.GetInit())
+                {
+                    _ = GameAudioMuteManager.RestoreWhenCoreIdleAsync(Instances.AsstProxy.AsstRunning);
+                }
             }
 
             if (!e.NewState.Idle)
@@ -2585,11 +2588,14 @@ public class TaskQueueViewModel : Screen
         // GPU 相关提示在每次开始运行时重新输出，避免被 ClearLog 清空
         Instances.AsstProxy.LogGpuStatus();
 
+        // 所有提前 return 都要放在进入运行态之前，否则会导致无法再次点击开始
+        if (!_runningState.BeginRun(RunOwner.TaskQueue))
+        {
+            return;
+        }
+
         _mainTasksTotalCount = 0;
         ResetTaskItemStatuses();
-
-        // 所有提前 return 都要放在进入运行态之前，否则会导致无法再次点击开始
-        _runningState.BeginRun(RunOwner.TaskQueue);
 
         // 虽然更改时已经保存过了，不过保险起见在点击开始之后再次保存任务和基建列表
         // TaskItemSelectionChanged();

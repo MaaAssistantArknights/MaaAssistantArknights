@@ -553,7 +553,10 @@ public class RemoteControlService
             return;
         }
 
-        _runningState.BeginRun(RunOwner.TaskQueue);
+        if (!_runningState.BeginRun(RunOwner.TaskQueue))
+        {
+            return;
+        }
 
         await Execute.OnUIThreadAsync(async () => {
             // 虽然更改时已经保存过了，不过保险起见还是在点击开始之后再保存一次(任务及基建列表)

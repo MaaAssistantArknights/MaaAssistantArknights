@@ -26,6 +26,7 @@ using HandyControl.Controls;
 using JetBrains.Annotations;
 using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Constants;
+using MaaWpfGui.Constants.Enums;
 using MaaWpfGui.Helper;
 using MaaWpfGui.States;
 using MaaWpfGui.Utilities;
@@ -374,34 +375,25 @@ public class StartSettingsUserControlModel : PropertyChangedBase
 
     private void WaitForConnectionTargetStart(int delay, ConnectionTargetLaunchSettings settings)
     {
-        bool idle = _runningState.GetIdle();
-        _runningState.SetIdle(false);
-        try
+        for (var i = 0; i < delay; ++i)
         {
-            for (var i = 0; i < delay; ++i)
+            if (_runningState.GetStopping())
             {
-                if (_runningState.GetStopping())
-                {
-                    _logger.Information("Stop waiting for the {TargetName} to start", settings.LogName);
-                    return;
-                }
-
-                if (i % 10 == 0)
-                {
-                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString(settings.WaitTextKey) + ": " + (delay - i) + "s");
-                    _logger.Information("Waiting for the {TargetName} to start: {RemainingSeconds}s", settings.LogName, delay - i);
-                }
-
-                Thread.Sleep(1000);
+                _logger.Information("Stop waiting for the {TargetName} to start", settings.LogName);
+                return;
             }
 
-            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("Settings.Startup.WaitForEmulatorFinish"));
-            _logger.Information("Waiting for the {TargetName} is over", settings.LogName);
+            if (i % 10 == 0)
+            {
+                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString(settings.WaitTextKey) + ": " + (delay - i) + "s");
+                _logger.Information("Waiting for the {TargetName} to start: {RemainingSeconds}s", settings.LogName, delay - i);
+            }
+
+            Thread.Sleep(1000);
         }
-        finally
-        {
-            _runningState.SetIdle(idle);
-        }
+
+        Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("Settings.Startup.WaitForEmulatorFinish"));
+        _logger.Information("Waiting for the {TargetName} is over", settings.LogName);
     }
 
     /// <summary>
@@ -442,6 +434,14 @@ public class StartSettingsUserControlModel : PropertyChangedBase
         if (string.IsNullOrEmpty(settings.Path)
             || !File.Exists(settings.Path)
             || (!test && openWithMaaLaunch && !settings.OpenAfterMaaLaunch))
+        {
+            return;
+        }
+
+        // Only the task queue's own launch path may reuse its existing busy state.
+        var taskOwned = !test && _runningState.Owner == RunOwner.TaskQueue && !_runningState.GetStopping();
+        using var operation = taskOwned ? null : _runningState.TryBeginIdleOperation();
+        if (!taskOwned && operation is null)
         {
             return;
         }

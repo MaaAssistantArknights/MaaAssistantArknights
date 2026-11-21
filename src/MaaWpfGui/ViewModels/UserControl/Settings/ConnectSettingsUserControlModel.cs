@@ -24,6 +24,7 @@ using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using JetBrains.Annotations;
 using MaaWpfGui.Configuration.Factory;
+using MaaWpfGui.Configuration.Global;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Constants.Enums;
 using MaaWpfGui.Constants.Enums.Core;
@@ -64,6 +65,14 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
     private ConnectSettingsUserControlModel()
     {
         PropertyDependsOnUtility.InitializePropertyDependencies(this);
+
+        // This settings model is an application-lifetime singleton, like its localization subscription.
+        ConfigFactory.ConfigurationUpdateEvent += (key, _, _) => {
+            if (key is "Root.Gui.GameWindowRestoreStates" or "Root.Current" || key.EndsWith(".RuntimeSettings.ClientType", StringComparison.Ordinal))
+            {
+                Execute.OnUIThread(() => NotifyOfPropertyChange(nameof(GameWindowRestoreStates)));
+            }
+        };
 
         // 刷新截图方式选项的可用状态
         _extras.Win32.UpdateScreencapMethodAvailability();
@@ -659,7 +668,11 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
             return;
         }
 
-        _runningState.SetIdle(false);
+        using var operation = _runningState.TryBeginIdleOperation();
+        if (operation is null)
+        {
+            return;
+        }
 
         var errMsg = string.Empty;
         TestLinkInfo = LocalizationHelper.GetString("Connection.Connecting");
@@ -668,7 +681,6 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
         if (!caught)
         {
             TestLinkInfo = errMsg;
-            _runningState.SetIdle(true);
             return;
         }
 
@@ -682,8 +694,6 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
             {
                 Instances.AsstProxy.RestoreGameWindowPosition();
             }
-
-            _runningState.SetIdle(true);
         }
 
         if (TestLinkImage is null)
@@ -996,6 +1006,105 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
     public bool AdbReplaced { get; set; } = ConfigFactory.CurrentConfig.Gui.ConnectSettings.AdbReplaced;
 
     #region AttachWindow (Win32窗口绑定) 配置
+
+    private Dictionary<string, GameWindowRestoreState> GameWindowRestoreStates
+    {
+        get => ConfigFactory.Root.Gui.GameWindowRestoreStates;
+        set => ConfigFactory.Root.Gui.GameWindowRestoreStates = value;
+    }
+
+    [PropertyDependsOn(nameof(GameWindowRestoreStates))]
+    public bool IsGameWindowResized =>
+        GameWindowRestoreStates.TryGetValue(SettingsViewModel.GameSettings.ClientType.ToString(), out var state) && GameWindowSizeController.IsValidRestoreState(state);
+
+    private void SaveGameWindowRestoreState(string clientKey, GameWindowRestoreState? state)
+    {
+        // Replace the collection so the existing configuration notification/save path observes it.
+        var states = new Dictionary<string, GameWindowRestoreState>(GameWindowRestoreStates);
+        if (state is null)
+        {
+            states.Remove(clientKey);
+        }
+        else
+        {
+            states[clientKey] = state;
+        }
+
+        GameWindowRestoreStates = states;
+    }
+
+    /// <summary>
+    /// Toggles the game window between a standard client size and its retained original bounds.
+    /// </summary>
+    /// <returns>A task representing the resize or restoration.</returns>
+    [UsedImplicitly]
+    public async Task ToggleGameWindowSize()
+    {
+        if (!IsPCConnectConfig)
+        {
+            return;
+        }
+
+        using var operation = _runningState.TryBeginIdleOperation();
+        if (operation is null)
+        {
+            return;
+        }
+
+        try
+        {
+            TestLinkInfo = LocalizationHelper.GetString("Connection.WindowResize.Working");
+
+            // Use the task queue's deferred cleanup so Core cannot restore over the manual size.
+            if (!await GameAudioMuteManager.RestoreWhenCoreIdleAsync(Instances.AsstProxy.AsstRunning, TimeSpan.FromSeconds(3)))
+            {
+                TestLinkInfo = LocalizationHelper.GetString("Connection.WindowResize.CleanupPending");
+                return;
+            }
+
+            var hwnd = Instances.AsstProxy.FindGameWindowForResize(out var error, out var processId, out var executablePath);
+            if (hwnd == IntPtr.Zero)
+            {
+                TestLinkInfo = error;
+                return;
+            }
+
+            var clientType = SettingsViewModel.GameSettings.ClientType;
+            var clientKey = clientType.ToString();
+            GameWindowRestoreStates.TryGetValue(clientKey, out var savedState);
+            using var controller = new GameWindowSizeController(savedState, state => Execute.OnUIThreadSync(() => SaveGameWindowRestoreState(clientKey, state)), executablePath!);
+            var allow720p = clientType != ClientType.EN;
+            var result = await Task.Run(() => {
+                return controller.CanRestore ? controller.Restore(hwnd, processId) : controller.Resize(hwnd, processId, allow720p);
+            });
+            if (result.WindowChanged)
+            {
+                Instances.AsstProxy.Connected = false;
+            }
+
+            if (result.Status == GameWindowSizeController.Status.InstallationChanged)
+            {
+                // The old geometry has no verified owner in this installation. Do not move it.
+                SaveGameWindowRestoreState(clientKey, null);
+            }
+
+            TestLinkInfo = result.Status switch {
+                GameWindowSizeController.Status.Resized or GameWindowSizeController.Status.AlreadyStandard => LocalizationHelper.GetStringFormat("Connection.WindowResize.Success", result.Width, result.Height),
+                GameWindowSizeController.Status.Restored => LocalizationHelper.GetStringFormat("Connection.WindowResize.Restored", result.Width, result.Height),
+                GameWindowSizeController.Status.WindowedModeRequired => LocalizationHelper.GetString("Connection.WindowResize.WindowedModeRequired"),
+                GameWindowSizeController.Status.DisplayTooSmall => LocalizationHelper.GetStringFormat("Connection.WindowResize.DisplayTooSmall", result.Width, result.Height),
+                GameWindowSizeController.Status.InstallationChanged => LocalizationHelper.GetString("Connection.WindowResize.InstallationChanged"),
+                GameWindowSizeController.Status.WindowClosed => LocalizationHelper.GetString("Connection.WindowResize.WindowClosed"),
+                _ => LocalizationHelper.GetString("Connection.WindowResize.Failed"),
+            };
+            _logger.Information("Game window size toggle completed: {Status}, {Width}x{Height}, error: {Error}", result.Status, result.Width, result.Height, result.Error);
+        }
+        catch (Exception ex)
+        {
+            _logger.Error(ex, "Failed to toggle game window size");
+            TestLinkInfo = LocalizationHelper.GetString("Connection.WindowResize.Failed");
+        }
+    }
 
     /// <summary>
     /// Gets a value indicating whether to show the window restore button (PC 端 + *WithWindowPos 输入方式).
