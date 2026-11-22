@@ -11,7 +11,7 @@ namespace asst
 class ReclamationToolConfig final : public MAA_NS::SingletonHolder<ReclamationToolConfig>
 {
 public:
-    bool load_layer(const std::filesystem::path& root, bool inherits);
+    void load_layer(const std::filesystem::path& root, bool inherits);
     std::vector<std::string> names_for(const std::string& tool) const;
 
 private:

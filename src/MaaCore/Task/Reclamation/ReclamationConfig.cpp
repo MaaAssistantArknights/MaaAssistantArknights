@@ -58,7 +58,7 @@ bool asst::ReclamationConfig::verify_and_load_params(const json::value& params)
                 static_cast<IncrementMode>(params.get("increment_mode", static_cast<int>(IncrementMode::Click)));
             if (increment != IncrementMode::Click && increment != IncrementMode::Hold) {
                 LogError << __FUNCTION__ << "unknown increment mode" << static_cast<int>(increment);
-                break;
+                return false;
             }
             next->increment_mode = increment;
             next->num_craft_batches = params.get("num_craft_batches", next->num_craft_batches);

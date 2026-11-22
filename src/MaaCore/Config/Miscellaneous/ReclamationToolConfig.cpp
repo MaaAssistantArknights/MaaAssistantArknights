@@ -21,7 +21,7 @@ bool asst::ReclamationToolConfig::Catalog::parse(const json::value& json)
     return true;
 }
 
-bool asst::ReclamationToolConfig::load_layer(const std::filesystem::path& root, bool inherits)
+void asst::ReclamationToolConfig::load_layer(const std::filesystem::path& root, bool inherits)
 {
     using namespace asst::utils::path_literals;
 
@@ -29,8 +29,9 @@ bool asst::ReclamationToolConfig::load_layer(const std::filesystem::path& root, 
     const auto custom = root / "craft_names_custom.json"_p;
     Catalog catalog;
     for (const auto& file : { path, custom }) {
-        if (std::filesystem::exists(file) && !catalog.load(file)) {
-            return false;
+        std::error_code ec;
+        if ((std::filesystem::exists(file, ec) && !catalog.load(file)) || ec) {
+            LogWarn << "Ignoring invalid Reclamation tool catalog" << file;
         }
     }
     const auto source = path.lexically_normal();
@@ -44,7 +45,6 @@ bool asst::ReclamationToolConfig::load_layer(const std::filesystem::path& root, 
     if (!catalog.tools.empty()) {
         m_layers.emplace_back(source, std::move(catalog.tools));
     }
-    return true;
 }
 
 std::vector<std::string> asst::ReclamationToolConfig::names_for(const std::string& tool) const

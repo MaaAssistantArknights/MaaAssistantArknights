@@ -363,9 +363,7 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
     }
 
     // A standalone resource set starts a new catalog. Partial loads inherit lower layers.
-    if (!ReclamationToolConfig::get_instance().load_layer(path, inherits_resources)) {
-        return false;
-    }
+    ReclamationToolConfig::get_instance().load_layer(path, inherits_resources);
     m_uuid = MaaNS::make_uuid();
     m_loaded = true;
     Log.info(__FUNCTION__, "ret", m_loaded);
