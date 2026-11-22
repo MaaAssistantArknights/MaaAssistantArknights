@@ -198,6 +198,7 @@
     },
     "RecruitTags": {
         "ocrReplace": [
+            ["擊", "撃"],
             ["上級エ(リ|火).*", "上級エリート"],
             ["^エリ.*", "エリート"],
             ["前衛.*イ.*", "前衛タイプ"],
@@ -230,7 +231,7 @@
         "text": ["全て"]
     },
     "InfrastTrainingIdle": {
-        "text": ["待機中"],
+        "text": ["待機中", "未使用"],
         "roi": [325, 637, 180, 50]
     },
     "InfrastTrainingMasteryPage": {
