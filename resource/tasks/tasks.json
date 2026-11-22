@@ -4421,12 +4421,13 @@
     },
     "BattleQuickFormationRole-All": {
         "baseTask": "BattleQuickFormationRole",
-        "roi": [1163, 0, 117, 133]
+        "roi": [1200, 0, 80, 133]
     },
     "BattleQuickFormationRole-All-OCR": {
         "baseTask": "BattleQuickFormationRole-All",
         "algorithm": "OcrDetect",
         "text": ["ALL"],
+        "fullMatch": true,
         "ocrReplace": [["^A[LlI1\\[]{2}$", "ALL"]]
     },
     "BattleQuickFormationRole-Pioneer": {
