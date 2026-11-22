@@ -358,10 +358,14 @@ bool asst::RoguelikeBattleTaskPlugin::do_best_deploy()
         // 获取招募信息
         const auto& recruit_info = RoguelikeRecruit.get_oper_info(m_config->get_theme(), oper_tag);
         // 获取会用到该干员的干员组[干员组1序号,干员组2序号,...]
-        std::vector<int> group_ids = RoguelikeRecruit.get_group_ids_of_oper(m_config->get_theme(), oper_tag);
+        const auto& group_ids = recruit_info.group_id;
 
         bool is_in_group = false;
         for (const auto& group_id : group_ids) {
+            if (group_id < 0 || group_id >= static_cast<int>(groups.size())) {
+                LogWarn << "operator" << oper_tag << "has invalid group id" << group_id;
+                continue;
+            }
             // 当前干员组名,string类型
             std::string group_name = groups[group_id];
             LogDebug << m_stage_name << "group_name" << group_name;

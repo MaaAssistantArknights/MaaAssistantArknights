@@ -103,18 +103,15 @@ std::vector<int> asst::RoguelikeRecruitConfig::get_group_ids_of_oper(
     const battle::OperNameTag& oper_tag) const noexcept
 {
     auto& opers = m_all_opers.at(theme);
-
-    if (oper_tag.role != battle::Role::Unknown) {
-        const auto& find_iter = std::ranges::find_if(opers, [&](const auto& pair) { return pair.first == oper_tag; });
-        if (find_iter != opers.end()) {
-            return find_iter->second.group_id;
-        }
+    if (opers.contains(oper_tag)) {
+        return opers.at(oper_tag).group_id;
     }
-
-    const auto& find_iter =
-        std::ranges::find_if(opers, [&](const auto& pair) { return pair.first.name == oper_tag.name; });
-    if (find_iter != opers.end()) {
-        return find_iter->second.group_id;
+    const auto& it = std::ranges::find_if(opers, [&](const auto& pair) {
+        return (pair.first.role == battle::Role::Unknown || pair.first.role == oper_tag.role) &&
+               pair.first.name == oper_tag.name;
+    }); // 配置中要求的为 unk 或者与实际干员职业相等
+    if (it != opers.end()) {
+        return it->second.group_id;
     }
     else {
         const auto& role =
