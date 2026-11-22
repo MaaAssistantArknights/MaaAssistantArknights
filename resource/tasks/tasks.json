@@ -4982,6 +4982,28 @@
         "roi": [62, 90, 43, 22],
         "colorScales": [[110, 255]]
     },
+    "StageDrops-StageTD-Slot": {
+        "maskRange": [1, 255],
+        "roi": [165, 515, 1115, 132],
+        "templThreshold": 0.83
+    },
+    "StageDrops-StageTD-Item": {
+        "template": [
+            "items/act50side_melding_1.png",
+            "items/act50side_melding_2.png",
+            "items/act50side_melding_3.png",
+            "items/act50side_melding_4.png",
+            "items/act50side_melding_5.png",
+            "items/act50side_melding_6.png"
+        ],
+        "maskRange": [1, 255],
+        "templThreshold": 0.79
+    },
+    "StageDrops-StageTD-Quantity": {
+        "baseTask": "NumberOcrReplace",
+        "text": [],
+        "roi": [50, 64, 33, 16]
+    },
     "StageDrops-StageCF-ItemMatch": {
         "template": "empty.png",
         "templThreshold": 0.6,

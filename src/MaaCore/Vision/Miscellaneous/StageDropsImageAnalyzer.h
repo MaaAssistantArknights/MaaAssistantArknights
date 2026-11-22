@@ -40,6 +40,7 @@ protected:
     bool analyze_drops();
     // 落叶殇火 活动（异格夜刀）, act24side, 2023-03
     bool analyze_drops_for_CF();
+    bool analyze_drops_for_TD();
     // 第十二章主线 活动，前两次打有三倍掉落，过滤，2023-04
     bool analyze_drops_for_12();
 

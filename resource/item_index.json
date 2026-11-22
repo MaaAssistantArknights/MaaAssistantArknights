@@ -2861,6 +2861,54 @@
         "sortId": -10000,
         "usage": "1102年新年伊始，由阿纳托利·斯维特拉诺夫·卜捷里宁在泽尔格勒颁行的代用货币，通常仅能在居住园区内流通，用以换取日用品、食品、药品等生活所需。"
     },
+    "act50side_melding_1": {
+        "classifyType": "NONE",
+        "description": "遗落于荒野的枯骨，由于长年的风化而破碎，已无法辨认出完整的形态。它们或许曾属于某个伟大的生命，但如今只是随处可见的低级素材。",
+        "icon": "act50side_melding_1.png",
+        "name": "破碎的骨片",
+        "sortId": -10000,
+        "usage": "随处可以取得的低级素材，能够用于炼金。"
+    },
+    "act50side_melding_2": {
+        "classifyType": "NONE",
+        "description": "竹林中的竹子受到熔火蜗身上的高温影响后变成的形态，能应用在各种生产领域中，因此在泡影国的市场上能卖出不错的价格。",
+        "icon": "act50side_melding_2.png",
+        "name": "烈竹",
+        "sortId": -10000,
+        "usage": "稍加努力就能获得的常规素材，能够用于炼金。"
+    },
+    "act50side_melding_3": {
+        "classifyType": "NONE",
+        "description": "一种受刺激时会发光的昆虫，到了夜晚才会出现在竹林中。可以作为武器素材或照明道具使用，在泡影国十分受欢迎。但由于夜晚的竹林相当危险，因此有一定的获取难度。",
+        "icon": "act50side_melding_3.png",
+        "name": "萤虫",
+        "sortId": -10000,
+        "usage": "需要花点功夫才能到手的优质素材，能够用于炼金。"
+    },
+    "act50side_melding_4": {
+        "classifyType": "NONE",
+        "description": "由熔火蜗的壳制成的素材。熔火蜗在爬行过程中，壳上积累了各种矿石，经过长年累月的炙烤后变得美丽而坚硬，做成素材也十分耐用。",
+        "icon": "act50side_melding_4.png",
+        "name": "火竹炭",
+        "sortId": -10000,
+        "usage": "数量稀少的高级素材，能够用于炼金。"
+    },
+    "act50side_melding_5": {
+        "classifyType": "NONE",
+        "description": "完成对“异兽”熔火蜗的狩猎后，在其周围发现的一种特殊结晶。表面是冰晶，里面却像是包裹着火焰。十分稀有，用在装备制作中似乎能够激发装备的潜力。",
+        "icon": "act50side_melding_5.png",
+        "name": "熔火冰晶",
+        "sortId": -10000,
+        "usage": "极其稀少的顶级素材，能够用于炼金。"
+    },
+    "act50side_melding_6": {
+        "classifyType": "NONE",
+        "description": "雷狼龙偶尔会在体内生成的稀有玉石。王者力量的浓缩形象。",
+        "icon": "act50side_melding_6.png",
+        "name": "雷狼龙的碧玉",
+        "sortId": -10000,
+        "usage": "在与雷狼龙的战斗中取得的素材，用作炼金素材再好不过。"
+    },
     "act51side_token_poem": {
         "classifyType": "NONE",
         "description": "“这封信写给所有依然保有明天的人，我将仅剩的生命和希望赠予每一个追求自由幸福的灵魂，我将在天亮前死去……妈妈，我呼唤你的名字，你是乌萨斯，可我是谁？”",

@@ -632,14 +632,9 @@ bool update_items_data(const fs::path& input_dir, const fs::path& output_dir, bo
         }
 
         auto input_icon_path = input_dir / "item" / (item_info["iconId"].as_string() + ".png");
-        if (with_imgs && !fs::exists(input_icon_path)) {
-            std::cout << fs::relative(input_icon_path) << " not exist" << '\n';
-            continue;
-        }
-
         static const auto output_icon_path = output_dir / "template" / "items";
         std::string output_filename = item_id + ".png";
-        if (with_imgs) {
+        if (with_imgs && fs::exists(input_icon_path)) {
             cvt_single_item_template(input_icon_path, output_icon_path / output_filename);
         }
         else if (!fs::exists(output_icon_path / output_filename)) {

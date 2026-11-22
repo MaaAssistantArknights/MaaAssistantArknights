@@ -2781,6 +2781,54 @@
         "sortId": -10000,
         "usage": "A substitute currency issued in Zelgrad after the implementation of Anatoliy Svetlanov Buterin's ordinances at the beginning of 1102. Normally only distributed within the residential park, where it is traded for daily necessities, food, medicine, etc."
     },
+    "act50side_melding_1": {
+        "classifyType": "NONE",
+        "description": "Shattered bone fragments found in the barrens, weathered by wind for years. Their original, complete form can no longer be identified. Perhaps they once belonged to some great beast, but now they are nothing but low-grade materials that can be found anywhere.",
+        "icon": "act50side_melding_1.png",
+        "name": "Bone Fragments",
+        "sortId": -10000,
+        "usage": "A common low-grade material usable in Alchemy."
+    },
+    "act50side_melding_2": {
+        "classifyType": "NONE",
+        "description": "Bamboo from the groves that has transformed after being exposed to the high temperatures emanating from the Escorchgot, used in the manufacture of all sorts of goods. Meaning it fetches high prices in the markets of Houei.",
+        "icon": "act50side_melding_2.png",
+        "name": "Blisterstalk",
+        "sortId": -10000,
+        "usage": "A regular material usable in Alchemy, obtainable by putting in just a little bit of work."
+    },
+    "act50side_melding_3": {
+        "classifyType": "NONE",
+        "description": "A type of insect that glows when stimulated, appearing only at night in the bamboo groves. Can be used to make both weapons and lamps, so it enjoys great popularity in Houei. However, as the groves are dangerous at night, obtaining it involves some difficulty.",
+        "icon": "act50side_melding_3.png",
+        "name": "Glowbug",
+        "sortId": -10000,
+        "usage": "A fine material usable in Alchemy, obtainable by putting in a fair amount of work."
+    },
+    "act50side_melding_4": {
+        "classifyType": "NONE",
+        "description": "A material made from the shell of an Escorchgot. Escorchgot shells accumulate a variety of ores as they crawl, and after years of constant heating they become both beautiful and rock-solid, making for a very durable material.",
+        "icon": "act50side_melding_4.png",
+        "name": "Escarcoal",
+        "sortId": -10000,
+        "usage": "A rare, high-grade material usable in Alchemy."
+    },
+    "act50side_melding_5": {
+        "classifyType": "NONE",
+        "description": "A type of unusual crystal discovered in the periphery of the 'Iju' Escorchgot hunt. Its surface is like ice, but it is as if a flame is bound within. Exceedingly rare, and seemingly able to bring out the full potential of any equipment made with it.",
+        "icon": "act50side_melding_5.png",
+        "name": "Scorching Ice Crystal",
+        "sortId": -10000,
+        "usage": "An extremely rare, top-of-the-line material usable in Alchemy."
+    },
+    "act50side_melding_6": {
+        "classifyType": "NONE",
+        "description": "A rare gem sometimes produced inside a Zinogre's body. The beast's power swells within.",
+        "icon": "act50side_melding_6.png",
+        "name": "Zinogre Jasper",
+        "sortId": -10000,
+        "usage": "A material obtainable from battling a Zinogre. Perfect as melding material."
+    },
     "act51side_token_poem": {
         "classifyType": "NONE",
         "description": "'To all who have held onto their tomorrows, I bestow what life and hope remain in me to every soul who seeks freedom and happiness. I will be dead before morning light... Mama, I call out your name, and you are Ursus, yet who am I?'",

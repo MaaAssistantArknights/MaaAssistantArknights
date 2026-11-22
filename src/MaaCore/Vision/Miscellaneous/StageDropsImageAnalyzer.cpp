@@ -14,6 +14,7 @@
 #include "MaaUtils/ImageIo.h"
 #include "Utils/Logger.hpp"
 #include "Vision/Matcher.h"
+#include "Vision/MultiMatcher.h"
 #include "Vision/RegionOCRer.h"
 #include "Vision/TemplDetOCRer.h"
 
@@ -25,7 +26,7 @@ bool asst::StageDropsImageAnalyzer::analyze()
     analyze_difficulty();
     analyze_stars();
     analyze_times();
-    bool ret = analyze_drops() && analyze_drops_for_CF() && analyze_drops_for_12();
+    bool ret = analyze_drops() && analyze_drops_for_CF() && analyze_drops_for_TD() && analyze_drops_for_12();
 
 #ifndef ASST_DEBUG
     if (!ret)
@@ -360,6 +361,40 @@ bool asst::StageDropsImageAnalyzer::analyze_drops()
     return !has_error;
 }
 
+bool asst::StageDropsImageAnalyzer::analyze_drops_for_TD()
+{
+    // EX 等额外关卡的炼金素材仅限首通，不计入常规掉落。
+    if (!m_stage_code.starts_with("TD-") || m_stage_code.find('-', 3) != std::string::npos) {
+        return true;
+    }
+
+    MultiMatcher slots(m_image);
+    slots.set_task_info("StageDrops-StageTD-Slot");
+    if (!slots.analyze()) {
+        return false;
+    }
+    Matcher item(m_image);
+    item.set_task_info("StageDrops-StageTD-Item");
+    RegionOCRer quantity(m_image);
+    const auto quantity_task = Task.get("StageDrops-StageTD-Quantity");
+    quantity.set_task_info(quantity_task);
+    for (const auto& slot : slots.get_result()) {
+        item.set_roi(slot.rect);
+        quantity.set_roi(slot.rect.move(quantity_task->roi));
+        if (!item.analyze() || !quantity.analyze()) {
+            return false;
+        }
+        const int count = quantity_string_to_int(quantity.get_result().text);
+        if (count <= 0) {
+            return false;
+        }
+        auto id = std::filesystem::path(item.get_result().templ_name).stem().string();
+        const auto& name = ItemData.get_item_name(id);
+        m_drops.push_back({ StageDropType::Normal, "NORMAL_DROP", id, name.empty() ? id : name, count });
+    }
+    return true;
+}
+
 bool asst::StageDropsImageAnalyzer::analyze_drops_for_CF()
 {
     if (!m_stage_code.starts_with("CF-")) {
@@ -680,6 +715,18 @@ asst::StageDropType asst::StageDropsImageAnalyzer::match_droptype(const Rect& ro
         1);
 #endif
 
+    if (matched == StageDropType::Unknown && m_baseline.empty()) {
+        // 龙门币加成文字会取代原有的分类标签。只在首组的最后一个物品位置核对龙门币图标。
+        const auto& item = Task.get("StageDrops-Item")->rect_move;
+        if (roi.x < item.width && roi.width <= 2 * item.width) {
+            analyzer.set_task_info("StageDrops-Item");
+            analyzer.set_templ(LMD_ID);
+            analyzer.set_roi({ roi.x + roi.width - item.width, roi.y + item.y, item.width, item.height });
+            if (analyzer.analyze()) {
+                return StageDropType::ExpAndLMB;
+            }
+        }
+    }
     return matched;
 }
 
