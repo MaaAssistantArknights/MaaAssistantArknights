@@ -3286,8 +3286,8 @@
     "InfrastOfficeMini": {
         "template": "OfficeMini.png",
         "maskRange": [1, 255],
-        "roi": [627, 160, 653, 404],
-        "templThreshold": 0.95
+        "roi": [378, 160, 902, 404],
+        "templThreshold": 0.85
     },
     "InfrastProcessing": {
         "maskRange": [1, 255],
@@ -3296,8 +3296,8 @@
     },
     "InfrastProcessingMini": {
         "maskRange": [1, 255],
-        "roi": [627, 160, 653, 404],
-        "templThreshold": 0.95
+        "roi": [378, 160, 902, 404],
+        "templThreshold": 0.85
     },
     "InfrastProcessingEnterOperList": {
         "algorithm": "JustReturn",
@@ -3315,8 +3315,8 @@
     "InfrastReceptionMini": {
         "template": "ReceptionMini.png",
         "maskRange": [1, 255],
-        "roi": [627, 160, 653, 404],
-        "templThreshold": 0.95
+        "roi": [378, 160, 902, 404],
+        "templThreshold": 0.85
     },
     "InfrastReceptionReceiveMessageBoard": {
         "algorithm": "JustReturn",
@@ -3394,8 +3394,8 @@
     "InfrastTrainingMini": {
         "template": "TrainingMini.png",
         "maskRange": [1, 255],
-        "roi": [627, 160, 653, 404],
-        "templThreshold": 0.95
+        "roi": [378, 160, 902, 404],
+        "templThreshold": 0.85
     },
     "InfrastRecycle": {
         "template": "Recycle.png",
