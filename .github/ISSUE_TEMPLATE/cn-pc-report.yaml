@@ -1,5 +1,5 @@
 name: PC 端（明日方舟官方客户端）Bug 反馈（使用中文）
-description: 识别错误、操作异常、连接错误等
+description: 有关 PC 端（明日方舟官方客户端）问题的集中反馈
 labels: ["bug", "client: PC"]
 body:
   - type: checkboxes

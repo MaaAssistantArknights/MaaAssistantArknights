@@ -1,5 +1,5 @@
 name: PC Client (Official Arknights Client) Bug Report (in English)
-description: Recognition errors, operation abnormalities, connection errors, etc.
+description: Centralized feedback for PC client (official Arknights client) issues.
 labels: ["bug", "client: PC"]
 body:
   - type: checkboxes
