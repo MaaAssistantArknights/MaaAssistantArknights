@@ -93,6 +93,7 @@
                     "name": "酒神",
                     "skill": 3,
                     "alternate_skill": 1,
+                    "is_key": true,
                     "recruit_priority": 805,
                     "promote_priority": 802,
                     "recruit_priority_offsets": [
@@ -276,15 +277,12 @@
                 {
                     "name": "电弧",
                     "skill": 2,
-                    "is_key": true,
-                    "is_start": true,
                     "recruit_priority": 650,
                     "promote_priority": 650
                 },
                 {
                     "name": "令",
                     "skill": 1,
-                    "is_start": true,
                     "recruit_priority": 620,
                     "promote_priority": 600,
                     "recruit_priority_offsets": [
@@ -298,7 +296,6 @@
                 {
                     "name": "稀音",
                     "skill": 2,
-                    "is_start": true,
                     "recruit_priority": 550,
                     "promote_priority": 150,
                     "recruit_priority_offsets": [
@@ -1108,6 +1105,21 @@
                     ]
                 },
                 {
+                    "name": "灵知",
+                    "skill": 3,
+                    "alternate_skill": 1,
+                    "is_key": true,
+                    "recruit_priority": 750,
+                    "promote_priority": 902,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": ["控制", "异德"],
+                            "threshold": 1,
+                            "offset": -300
+                        }
+                    ]
+                },
+                {
                     "name": "提丰",
                     "skill": 2,
                     "is_key": true,
@@ -1116,20 +1128,6 @@
                     "recruit_priority_offsets": [
                         {
                             "groups": ["控制"],
-                            "threshold": 1,
-                            "offset": -300
-                        }
-                    ]
-                },
-                {
-                    "name": "灵知",
-                    "skill": 1,
-                    "is_key": true,
-                    "recruit_priority": 633,
-                    "promote_priority": 790,
-                    "recruit_priority_offsets": [
-                        {
-                            "groups": ["控制", "异德"],
                             "threshold": 1,
                             "offset": -300
                         }
@@ -2618,25 +2616,24 @@
             "name": "辅助",
             "opers": [
                 {
+                    "name": "酒神"
+                },
+                {
                     "name": "冻河",
                     "skill": 3,
-                    "alternate_skill": 2,
+                    "alternate_skill": 1,
                     "is_key": true,
-                    "is_start": true,
-                    "recruit_priority": 860,
+                    "recruit_priority": 800,
                     "promote_priority": 950
                 },
                 {
-                    "name": "酒神"
+                    "name": "灵知"
                 },
                 {
                     "name": "娜仁图亚"
                 },
                 {
                     "name": "塑心"
-                },
-                {
-                    "name": "灵知"
                 },
                 {
                     "name": "铃兰",
@@ -3026,6 +3023,7 @@
                     "name": "戴乌"
                 },
                 {
+                    "role": "Token",
                     "name": "Mon3tr"
                 },
                 {
@@ -3650,10 +3648,10 @@
                     "name": "圣聆初雪"
                 },
                 {
-                    "name": "冻河"
+                    "name": "酒神"
                 },
                 {
-                    "name": "酒神"
+                    "name": "冻河"
                 },
                 {
                     "name": "荒芜拉普兰德"
@@ -3666,6 +3664,13 @@
                 },
                 {
                     "name": "澄闪"
+                },
+                {
+                    "role": "MEDIC",
+                    "name": "阿米娅",
+                    "skill": 1,
+                    "recruit_priority": 750,
+                    "promote_priority": 500
                 },
                 {
                     "name": "艾拉",
@@ -3698,6 +3703,12 @@
                 },
                 {
                     "name": "令"
+                },
+                {
+                    "role": "CASTER",
+                    "name": "阿米娅",
+                    "skill": 2,
+                    "promote_priority": 500
                 },
                 {
                     "name": "缇缇"
@@ -3762,12 +3773,6 @@
                 },
                 {
                     "name": "卡达"
-                },
-                {
-                    "role": "CASTER",
-                    "name": "阿米娅",
-                    "skill": 2,
-                    "promote_priority": 500
                 },
                 {
                     "name": "死芒"
@@ -3840,13 +3845,6 @@
                 },
                 {
                     "name": "特米米"
-                },
-                {
-                    "role": "MEDIC",
-                    "name": "阿米娅",
-                    "skill": 1,
-                    "recruit_priority": 750,
-                    "promote_priority": 500
                 },
                 {
                     "name": "至简",
@@ -4077,6 +4075,7 @@
                     "name": "赛柯"
                 },
                 {
+                    "role": "Token",
                     "name": "Mon3tr"
                 },
                 {
