@@ -245,11 +245,12 @@ bool asst::AutoRecruitTask::_run()
                 return false;
             }
             auto result = recruit_one(start_rect.value());
-            // confirmed: real recruitment done, advance m_cur_times
+            // confirmed: real recruitment done, advance m_cur_times and reset consecutive failure count
             // skipped:   slot marked in m_force_skipped, try next slot without changing counters
-            // failed:    recognition error / no permit / etc., bump m_slot_fail for retry limiting
+            // failed:    recognition error / no permit / etc., bump m_slot_fail for consecutive retry limiting
             if (result == recruit_result::confirmed) {
                 ++m_cur_times;
+                m_slot_fail = 0;
             }
             else if (result == recruit_result::failed) {
                 ++m_slot_fail;
@@ -808,38 +809,45 @@ bool asst::AutoRecruitTask::recruit_begin()
 
 bool asst::AutoRecruitTask::check_timer(int minutes_expected)
 {
-    const auto image = ctrler()->get_image();
     const auto replace_map = Task.get<OcrTaskInfo>("NumberOcrReplace")->replace_map;
+    const std::string desired_hour_str = std::string("0") + std::to_string(minutes_expected / 60);
+    const std::string desired_minute_str = std::to_string((minutes_expected % 60) / 10) + "0";
 
-    {
+    static constexpr int retry_times = 2;
+    static constexpr int retry_delay_ms = 500;
+
+    for (int attempt = 0; attempt < retry_times; ++attempt) {
+        if (attempt > 0) {
+            sleep(retry_delay_ms);
+            if (need_exit()) {
+                return false;
+            }
+        }
+
+        const auto image = ctrler()->get_image();
+
         OCRer hour_ocr(image);
         hour_ocr.set_task_info("RecruitTimerH");
         hour_ocr.set_replace(replace_map);
-        if (!hour_ocr.analyze()) {
-            return false;
+        if (!hour_ocr.analyze() || hour_ocr.get_result().front().text != desired_hour_str) {
+            continue;
         }
-        std::string desired_hour_str = std::string("0") + std::to_string(minutes_expected / 60);
-        if (hour_ocr.get_result().front().text != desired_hour_str) {
-            return false;
-        }
-    }
-    if (minutes_expected % 60 == 0) {
-        return true; // minute counter stays untouched
-    }
 
-    {
+        if (minutes_expected % 60 == 0) {
+            return true; // minute counter stays untouched
+        }
+
         OCRer minute_ocr(image);
         minute_ocr.set_task_info("RecruitTimerM");
         minute_ocr.set_replace(replace_map);
-        if (!minute_ocr.analyze()) {
-            return false;
+        if (!minute_ocr.analyze() || minute_ocr.get_result().front().text != desired_minute_str) {
+            continue;
         }
-        std::string desired_minute_str = std::to_string((minutes_expected % 60) / 10) + "0";
-        if (minute_ocr.get_result().front().text != desired_minute_str) {
-            return false;
-        }
+
+        return true;
     }
-    return true;
+
+    return false;
 }
 
 bool asst::AutoRecruitTask::check_recruit_home_page()
