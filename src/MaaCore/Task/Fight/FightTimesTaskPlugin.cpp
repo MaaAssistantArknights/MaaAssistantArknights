@@ -87,12 +87,14 @@ bool asst::FightTimesTaskPlugin::_run()
     const auto& flag_task = Task.get("FightSeries-OldMethodFlag");
     bool is_new_series_list = flag_task == nullptr;
 
+    m_series_maybe_changed = false;
+
     if (m_series == -1) { // 禁用切换
     }
     else if (m_series == 0) {
         auto ret = is_new_series_list ? change_series_new(sanity->current, *sanity_cost, *series)
                                       : change_series(sanity->current, *sanity_cost, *series);
-        if (ret) {
+        if (ret || m_series_maybe_changed) {
             // 调整完代理倍率后，获取当前的理智消耗及代理倍率
             image = ctrler()->get_image();
             sanity_cost = analyze_sanity_cost(image);
@@ -106,7 +108,7 @@ bool asst::FightTimesTaskPlugin::_run()
     }
     else if (m_series > 0 && m_series < 11 && *series != m_series) {
         auto ret = is_new_series_list ? select_series_new(m_series) : select_series(m_series);
-        if (ret) {
+        if (ret || m_series_maybe_changed) {
             image = ctrler()->get_image();
             sanity_cost = analyze_sanity_cost(image);
             series = analyze_stage_series(image);
@@ -340,6 +342,7 @@ bool asst::FightTimesTaskPlugin::select_series_new(int times)
         if (std::abs(dis) > 4) {
             if (dis > 0) {
                 const auto& task = Task.get("FightSeries-List-SlideUp");
+                m_series_maybe_changed = true;
                 ctrler()->swipe(task->specific_rect, task->rect_move, 300, SwipeExtraDirection::None, 3.7, 0.1);
                 sleep(task->post_delay);
                 if (!reanalyze()) {
@@ -348,6 +351,7 @@ bool asst::FightTimesTaskPlugin::select_series_new(int times)
             }
             else if (dis < 0) {
                 const auto& task = Task.get("FightSeries-List-SlideDown");
+                m_series_maybe_changed = true;
                 ctrler()->swipe(task->specific_rect, task->rect_move, 300, SwipeExtraDirection::None, 3.7, 0.1);
                 sleep(task->post_delay);
                 if (!reanalyze()) {
@@ -357,6 +361,7 @@ bool asst::FightTimesTaskPlugin::select_series_new(int times)
         }
         else if (times > list.front().times) {
             // 最大次数仍小
+            m_series_maybe_changed = true;
             ctrler()->click(list.front().rect);
             sleep(500);
             if (!reanalyze()) {
@@ -365,6 +370,7 @@ bool asst::FightTimesTaskPlugin::select_series_new(int times)
         }
         else if (times < list.back().times) {
             // 最小次数仍大
+            m_series_maybe_changed = true;
             ctrler()->click(list.back().rect);
             sleep(500);
             if (!reanalyze()) {
@@ -373,6 +379,7 @@ bool asst::FightTimesTaskPlugin::select_series_new(int times)
         }
         for (const auto& item : list) {
             if (item.times == times) {
+                m_series_maybe_changed = true;
                 ctrler()->click(item.rect);
                 sleep(Config.get_options().task_delay);
                 close_series_list();

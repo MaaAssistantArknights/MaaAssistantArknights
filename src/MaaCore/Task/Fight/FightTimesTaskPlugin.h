@@ -79,5 +79,6 @@ private:
     int m_series_current = 1;                     // 当前代理倍率
     mutable bool m_has_used_medicine = false;     // 是否使用过药品
     mutable bool m_is_medicine_exhausted = false; // 是否药品、石头用完
+    bool m_series_maybe_changed = false;          // 切换过程中是否已操作过倍率列表
 };
 }
