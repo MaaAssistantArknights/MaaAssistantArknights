@@ -44,7 +44,7 @@ const asst::RoguelikeOperInfo&
         RoguelikeOperInfo info;
         info.role = oper_tag.role;
         info.name = oper_tag.name;
-        info.group_id = get_group_ids_of_oper(theme, oper_tag.name);
+        info.group_id = get_group_ids_of_oper(theme, oper_tag);
         opers.emplace(oper_tag, std::move(info));
         return opers.at(oper_tag);
     }
