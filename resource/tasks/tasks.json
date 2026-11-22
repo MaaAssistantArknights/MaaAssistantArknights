@@ -1228,7 +1228,7 @@
     },
     "FightSeries-Opened": {
         "template": "FightSeries-Indicator.png",
-        "roi": [900, 370, 70, 40],
+        "roi": [900, 360, 70, 60],
         "method": "RGBCount",
         "colorScales": [[0, 255]]
     },

@@ -186,7 +186,8 @@ std::optional<int> asst::FightTimesTaskPlugin::change_series_new(int sanity_curr
     int fight_times_remain = std::min(m_fight_times_max - m_fight_times, 10);
     if (!m_has_used_medicine && !m_is_medicine_exhausted) {
         if (fight_times_remain != series) {
-            return select_series_new(fight_times_remain); // 调整到剩余次数
+            return select_series_new(fight_times_remain) ? std::optional<int>(fight_times_remain)
+                                                         : std::nullopt; // 调整到剩余次数
         }
         return series;
     }
