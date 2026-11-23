@@ -111,8 +111,12 @@ icon: material-symbols:task
                                             // 預設 0.8, 可根據記錄檔查看實際得分是多少
 
         "maskRange": [1, 255],              // 選填，比對時的灰階遮罩範圍。 array<int, 2>
-                                            // 例如將圖片不需要辨識的部分塗成黑色（灰階值為 0）
+                                            // 範本會先轉為灰階再取遮罩，例如將不需要辨識的部分塗成黑色（灰階值為 0）
                                             // 然後設定為 [ 1, 255 ], 比對的時候即忽略塗黑的部分
+                                            // 注意：Ccoeff 為去均值正規化相關，遮罩若只框住範本中單一色塊，
+                                            // 範本會幾乎沒有灰階變化，得分失真；它只用來排除無關區域，
+                                            // 需要依顏色篩選請改用 colorScales + RGBCount/HSVCount
+                                            // 選值與調參流程見 .agents/skills/template-craft/SKILL.md
 
         "colorScales": [                    // 當 method 為 HSVCount 或 RGBCount 時有效且必填，數色遮罩範圍。
             [                               // list<array<array<int, 3>, 2>> / list<array<int, 2>>

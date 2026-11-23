@@ -6,7 +6,7 @@ description: 制作与调整 MAA 任务的识别资源：截模板图/抠模板�
 # 模板与识别资源制作（ImageCropper / MaskRangeTool）
 
 - `tools/ImageCropper/`（截模板/定 roi/取色）：agent 用 CLI `cli.py`（无头）；GUI `main.py` 留给人拖框。
-- `tools/MaskRangeTool/`（maskRange 调参，LUV/HSV/RGB）：直接 `import mask_utils` 调函数。
+- `tools/MaskRangeTool/`（maskRange 灰度掩模、colorScales 数色范围调参，LUV/HSV/RGB）：直接 `import mask_utils` 调函数。
 - CLI 子命令速查与 GUI 连设备/截 PC 窗口（需人操作）见 `tools/ImageCropper/README.md`；无头调用只需 opencv-python 与 numpy（MaskRangeTool 另需 matplotlib），MaaFw 仅 GUI 连设备用，依赖各见工具目录 `requirements.txt`。
 
 ## 坐标系（先于一切）
@@ -40,15 +40,19 @@ description: 制作与调整 MAA 任务的识别资源：截模板图/抠模板�
 
 ## MaskRangeTool
 
-`main.py` 是写死示例路径的演示脚本，agent 直接调 `mask_utils`（base_mask_ranges 预设见 `main.py` 顶部；`color` 支持 luv/hsv/rgb）：
+`main.py` 是写死示例路径的演示脚本，agent 直接调 `mask_utils`（base_mask_ranges 预设见 `main.py` 顶部；掩模颜色 `gray`/`luv`/`hsv`/`rgb`）：
+
+任务里的 `maskRange` 是**灰度**掩模：MaaCore 先把模板转灰度再 `cv::inRange`，与 `colorScales` 的三通道不是一套东西。`calc_mask_from_ranges` 收到二元组（或 `[1, 255]` 这种直接粘贴的写法）走灰度、三元组走 `colorScales`；同一张图用暗背景/亮背景各推荐一次，取能排除干扰又保留特征的区间。模板匹配用 Ccoeff（去均值归一化相关），掩模只圈住模板里单一色块会让灰度几乎没有变化、得分失真，此时应改用 `colorScales` + `RGBCount`/`HSVCount`，而不是继续收紧 `maskRange`。
 
 ```python
 import sys
 sys.path.insert(0, r"<仓库根>\tools\MaskRangeTool")
 import cv2
-from mask_utils import generate_mask_ranges, compare_2_image_with_mask_ranges
+from mask_utils import calc_mask_from_ranges, generate_mask_ranges, compare_2_image_with_mask_ranges
+# task maskRange：二元组走灰度路径，结果与 MaaCore 的 Hasher/Matcher 一致
+mask = calc_mask_from_ranges(img, [[1, 255]], "gray")
 # 自动推荐 maskRanges；show=False 无头拿返回值，save 存直方图+mask 预览供回读
 ranges = generate_mask_ranges(img, "luv", base_mask_ranges, show=False, save="preview.png")
-# 两组图在给定 ranges 下的差异对比，验证 maskRange 区分度
+# 两组图在给定 ranges 下的差异对比，验证 maskRange 区分度（mask_close 对应 colorWithClose）
 compare_2_image_with_mask_ranges(img1, img2, ranges, "luv", show=False, save="cmp.png")
 ```
