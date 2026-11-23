@@ -13,9 +13,6 @@ namespace asst
 class TaskData final : public MAA_NS::SingletonHolder<TaskData>, public AbstractConfigWithTempl
 {
 private:
-    friend class TaskDataScope;
-    static thread_local TaskData* m_active;
-
     static MatchTaskConstPtr _default_match_task_info();
     static OcrTaskConstPtr _default_ocr_task_info();
     static FeatureMatchTaskConstPtr _default_feature_match_task_info();
@@ -45,6 +42,10 @@ private:
         return task_list;
     }
 
+    static inline std::unordered_set<std::string> m_task_names {};
+
+    static const std::string& task_name_view(const std::string& name) { return *m_task_names.emplace(name).first; }
+
     struct RawCompileResult
     {
         bool task_changed;
@@ -73,12 +74,12 @@ private:
 
     decltype(auto) insert_or_assign_raw_task(const std::string& task_name, TaskDerivedPtr task_info_ptr)
     {
-        return m_raw_all_tasks_info.insert_or_assign(task_name, task_info_ptr);
+        return m_raw_all_tasks_info.insert_or_assign(task_name_view(task_name), task_info_ptr);
     }
 
     decltype(auto) insert_or_assign_task(const std::string& task_name, TaskPtr task_info_ptr)
     {
-        return m_all_tasks_info.insert_or_assign(task_name, task_info_ptr);
+        return m_all_tasks_info.insert_or_assign(task_name_view(task_name), task_info_ptr);
     }
 
     struct CompileResult
@@ -140,27 +141,9 @@ protected:
 
     std::unordered_set<std::string> m_templ_required;
     std::unordered_map<std::string, TaskStatus> m_task_status;
-    using Definitions = std::unordered_map<std::string, std::shared_ptr<const json::value>>;
-    std::shared_ptr<const Definitions> m_definitions = std::make_shared<Definitions>();
-    std::unordered_map<std::string, std::string> m_task_bases;
+    std::unordered_map<std::string, json::object> m_json_all_tasks_info;  // 原始的 json 信息
     std::unordered_map<std::string, TaskDerivedPtr> m_raw_all_tasks_info; // 未展开虚任务的任务信息
     std::unordered_map<std::string, TaskPtr> m_all_tasks_info;            // 已展开虚任务的任务信息
-};
-
-// 为同步执行的任务链和插件提供独立的 baseTask 和展开缓存，共享已加载的资源。
-class TaskDataScope final : public MAA_NS::NonCopyable
-{
-public:
-    using Bases = std::unordered_map<std::string, std::string>;
-
-    explicit TaskDataScope(const Bases& bases = {});
-    ~TaskDataScope();
-
-    const Bases& bases() const noexcept { return m_data.m_task_bases; }
-
-private:
-    TaskData m_data;
-    TaskData* m_previous;
 };
 
 inline static auto& Task = TaskData::get_instance();

@@ -121,6 +121,7 @@ public:
     }
 
     bool verify_and_load_params(const json::value& params);
+    void apply_run_strategy() const;
     void clear(); // 重置肉鸽局内数据
 
     const std::vector<std::string>& get_blackflow_start_animals() const { return m_blackflow_start_animals; }
@@ -194,6 +195,7 @@ private:
     int m_difficulty = 0;                      // 难度
     std::string m_squad;                       // 分队
     std::optional<MonthlySquadTask> m_monthly_squad_task;
+    std::string m_strategy_squad;              // 入队时指定的策略分队，独立于每局识别的分队。
 
     // ------------------ 开局 ------------------
     bool m_start_with_elite_two = false;      // 在刷开局模式下凹开局干员精二直升

@@ -2,7 +2,6 @@
 #include "Task/InterfaceTask.h"
 
 #include <mutex>
-#include <unordered_map>
 
 namespace asst
 {
@@ -45,7 +44,6 @@ private:
     std::shared_ptr<blackflow::BlackFlowSession> m_blackflow_session_ptr = nullptr;
     std::shared_ptr<blackflow::BlackFlowMapObservationSource> m_blackflow_map_source_ptr = nullptr;
     std::shared_ptr<blackflow::IBlackFlowTaskPort> m_blackflow_port_ptr = nullptr;
-    std::unordered_map<std::string, std::string> m_task_bases;
     std::mutex m_run_state_mutex;
     bool m_run_started = false;
 };
