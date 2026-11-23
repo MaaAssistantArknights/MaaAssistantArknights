@@ -49,7 +49,7 @@ body:
       description: |
         **请在 MAA -> 设置 -> 问题反馈中找到生成日志压缩包按钮，点击并上传压缩包**  
         **若待上传压缩包大于 25MB，请转而上传该压缩包同日期文件夹中的若干小压缩包**  
-        **若为 MAA 闪退问题，如果 %LOCALAPPDATA%\CrashDumps 中存在 MAA.exe.dmp 文件，请一并上传**  
+        **若为 MAA 闪退问题，如果 %LOCALAPPDATA%\CrashDumps 中存在 MAA.exe.dmp 文件，请一并上传**
     validations:
       required: true
   - type: textarea

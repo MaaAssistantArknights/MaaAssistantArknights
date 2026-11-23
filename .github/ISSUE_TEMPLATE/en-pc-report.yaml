@@ -51,7 +51,7 @@ body:
       description: |
         **Please locate the Generate Support Payload button under MAA Settings -> Issue Report, click the button, and upload the generated zip file**  
         **If the archive to upload is larger than 25MB, please upload smaller archives from the same date folder instead.**  
-        **If the issue is related to MAA crashing, please upload the MAA.exe.dmp file found in %LOCALAPPDATA%\CrashDumps if it exists**  
+        **If the issue is related to MAA crashing, please upload the MAA.exe.dmp file found in %LOCALAPPDATA%\CrashDumps if it exists**
     validations:
       required: true
   - type: textarea
