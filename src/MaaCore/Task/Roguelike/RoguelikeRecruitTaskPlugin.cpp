@@ -372,7 +372,7 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
                 }
             }
 
-            if (reserve_hope_for_monthly && !is_zero_hope_oper(oper_info.name)) {
+            if (reserve_hope_for_monthly && !is_zero_hope_recruit(oper_info.name)) {
                 continue;
             }
 
@@ -420,7 +420,7 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
         sleep(Task.get("RoguelikeCustom-HijackCoChar")->post_delay);
     }
 
-    if (reserve_hope_for_monthly && start_oper != nullptr && is_zero_hope_oper(start_oper->name)) {
+    if (reserve_hope_for_monthly && start_oper != nullptr && is_zero_hope_recruit(start_oper->name)) {
         if (i != 0) {
             swipe_to_the_left_of_operlist(i + 1);
             i = 0;
@@ -717,11 +717,16 @@ bool asst::RoguelikeRecruitTaskPlugin::recruit_start_oper(const RoguelikeStartOp
     return recruited;
 }
 
-bool asst::RoguelikeRecruitTaskPlugin::is_zero_hope_oper(const std::string& name)
+bool asst::RoguelikeRecruitTaskPlugin::is_zero_hope_recruit(const std::string& name) const
 {
-    // 三星及以下（含预备干员）招募不消耗希望；干员数据查不到时按消耗希望处理，宁可少招
     const battle::Role role = BattleData.get_first_role(name);
     const int rarity = BattleData.get_rarity(role, name);
+    if (rarity == 4) {
+        // 界园和萨卡兹的四星首次招募免费，已持有的四星再次出现在券上时需要消耗希望晋升。
+        const auto& theme = m_config->get_theme();
+        return (theme == RoguelikeTheme::JieGarden || theme == RoguelikeTheme::Sarkaz) &&
+               !m_config->status().opers.contains(name);
+    }
     return rarity > 0 && rarity <= 3;
 }
 

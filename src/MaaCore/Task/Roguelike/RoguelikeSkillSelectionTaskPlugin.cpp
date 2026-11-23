@@ -47,16 +47,19 @@ bool asst::RoguelikeSkillSelectionTaskPlugin::_run()
     const bool restore_team = owned_opers.empty();
     bool has_rookie = false;
     for (const auto& [name, skill_vec] : analyzer.get_result()) {
-        if (restore_team || (monthly_squad_task && monthly_squad_task->oper_name == name)) {
+        const bool is_monthly_target = monthly_squad_task && monthly_squad_task->oper_name == name;
+        if (restore_team || is_monthly_target) {
             // 编队页只能识别名字。补录自带干员时沿用精一估值，保留招募页已识别的精英阶段。
             owned_opers.try_emplace(name, RoguelikeOper { .elite = 1, .level = 80 });
         }
         const auto& oper_info = RoguelikeRecruit.get_oper_info(m_config->get_theme(), name);
-        const bool override_skill = monthly_squad_task.has_value() &&
-                                    (monthly_squad_task->type == MonthlySquadTaskType::UseOperatorSkill ||
-                                     monthly_squad_task->type == MonthlySquadTaskType::DeployOperatorSummon) &&
-                                    monthly_squad_task->oper_name == name && monthly_squad_task->skill.has_value() &&
-                                    monthly_squad_task->completed_count < monthly_squad_task->required_count;
+        const bool override_skill =
+            is_monthly_target &&
+            (monthly_squad_task->type == MonthlySquadTaskType::UseOperatorSkill ||
+             monthly_squad_task->type == MonthlySquadTaskType::DeployOperatorSummon) &&
+            monthly_squad_task->skill.has_value() &&
+            (monthly_squad_task->skill != MonthlySquadSkill::Skill3 || owned_opers.at(name).elite >= 2) &&
+            monthly_squad_task->completed_count < monthly_squad_task->required_count;
         if (oper_info.name.empty() && !override_skill) {
             Log.warn("Unknown oper", name);
             continue;

@@ -18,6 +18,26 @@
 #include "Utils/StringMisc.hpp"
 #include <ranges>
 
+static std::mutex task_definitions_mutex;
+
+thread_local asst::TaskData* asst::TaskData::m_active = nullptr;
+
+asst::TaskDataScope::TaskDataScope(const Bases& bases) :
+    m_previous(TaskData::m_active)
+{
+    {
+        std::lock_guard lock(task_definitions_mutex);
+        m_data.m_definitions = Task.m_definitions;
+    }
+    m_data.m_task_bases = bases;
+    TaskData::m_active = &m_data;
+}
+
+asst::TaskDataScope::~TaskDataScope()
+{
+    TaskData::m_active = m_previous;
+}
+
 const std::unordered_set<std::string>& asst::TaskData::get_templ_required() const noexcept
 {
     return m_templ_required;
@@ -44,6 +64,10 @@ asst::TaskDerivedConstPtr asst::TaskData::get_raw(const std::string& name)
 
 asst::TaskPtr asst::TaskData::get(std::string_view name_view)
 {
+    if (m_active && this == &Task) {
+        return m_active->get(name_view);
+    }
+
     std::string name(name_view);
     // 生成过的任务
     if (auto it = m_all_tasks_info.find(name); it != m_all_tasks_info.cend()) {
@@ -69,6 +93,10 @@ asst::TaskPtr asst::TaskData::get(std::string_view name_view)
 
 bool asst::TaskData::lazy_parse(const json::value& json)
 {
+    if (m_active && this == &Task) {
+        return m_active->lazy_parse(json);
+    }
+
     LogTraceFunction;
 
     if (!json.is_object()) {
@@ -76,29 +104,41 @@ bool asst::TaskData::lazy_parse(const json::value& json)
         return false;
     }
 
+    for (const auto& [name, definition] : json.as_object()) {
+        if (!definition.is_object()) {
+            LogError << __FUNCTION__ << "Expected a task object for" << name;
+            return false;
+        }
+    }
+
+    auto definitions = std::make_shared<Definitions>(*m_definitions);
     for (const auto& [name, task_json] : json.as_object()) {
-        const std::string& name_view = task_name_view(name);
+        auto& definition = (*definitions)[name];
         if (task_json.contains("baseTask")) {
-            // 直接声明 baseTask 的任务不继承同名任务参数而是直接覆盖
-            m_json_all_tasks_info[name_view] = task_json.as_object();
-            std::string base_task = task_json.get("baseTask", "");
+            // 显式设置 baseTask 会替换同名任务的全部字段。
+            m_task_bases.erase(name);
+            auto replacement = std::make_shared<json::value>(task_json);
+            const auto base = task_json.get("baseTask", "");
 #ifdef ASST_DEBUG
-            if (base_task.empty()) {
-                Log.error("Task", name, "has empty baseTask");
+            if (base.empty()) {
+                LogError << __FUNCTION__ << "Task has empty baseTask:" << name;
             }
 #endif
-            if (base_task == "#none") {
-                m_json_all_tasks_info[name_view].erase("baseTask");
+            if (base == "#none") {
+                replacement->as_object().erase("baseTask");
             }
-            continue;
+            definition = std::move(replacement);
         }
-        if (!m_json_all_tasks_info.contains(name_view)) {
-            m_json_all_tasks_info.emplace(name_view, task_json.as_object());
-            continue;
+        else if (definition) {
+            definition = std::make_shared<json::value>(definition->as_object() | task_json.as_object());
         }
-        for (const auto& [key, value] : task_json.as_object()) {
-            m_json_all_tasks_info[name_view][key] = value;
+        else {
+            definition = std::make_shared<json::value>(task_json);
         }
+    }
+    {
+        std::lock_guard lock(task_definitions_mutex);
+        m_definitions = definitions;
     }
 
     clear_tasks();
@@ -110,14 +150,14 @@ bool asst::TaskData::lazy_parse(const json::value& json)
         std::queue<std::string> task_queue;
         std::unordered_set<std::string> checking_task_set;
 
-        for (const std::string& name : m_json_all_tasks_info | std::views::keys) {
+        for (const std::string& name : *definitions | std::views::keys) {
             m_task_status[name] = ToBeGenerate;
             task_queue.push(name);
             checking_task_set.insert(name);
         }
 
-        for (const auto& [name, task_json] : m_json_all_tasks_info) [[likely]] {
-            validity &= syntax_check(name, task_json);
+        for (const auto& [name, task_json] : *definitions) [[likely]] {
+            validity &= syntax_check(name, *task_json);
         }
 
         const size_t MAX_CHECKING_SIZE = 10'000;
@@ -156,10 +196,10 @@ bool asst::TaskData::lazy_parse(const json::value& json)
                         }
 
                         if (!checking_task_set.contains(task_name)) {
-                            task_queue.emplace(task_name_view(task_name));
-                            checking_task_set.emplace(task_name_view(task_name));
+                            task_queue.emplace(task_name);
+                            checking_task_set.emplace(task_name);
                         }
-                        tasks_set.emplace(task_name_view(task_name));
+                        tasks_set.emplace(task_name);
                     }
 
                     return true;
@@ -189,7 +229,7 @@ bool asst::TaskData::lazy_parse(const json::value& json)
             // 用于解决 a8d68dd72df6eef1d2f8feed3883299922ec1a17 类似的潜在regex非法问题
             if (auto ocr_task = std::dynamic_pointer_cast<OcrTaskInfo>(task);
                 task->algorithm == AlgorithmType::OcrDetect) {
-                static boost::regex regex_valid;
+                boost::regex regex_valid;
                 for (const auto& [pattern, new_str] : ocr_task->replace_map) {
                     regex_valid.assign(pattern, boost::regex::no_except);
                     if (regex_valid.status() != boost::regex_constants::error_ok) {
@@ -304,7 +344,7 @@ bool asst::TaskData::parse(const json::value& json)
 #ifndef ASST_DEBUG
     // 本来重构之后完全支持惰性加载，但是发现模板图片不支持（
     // generate_task_info 中会把模板图片名加入 m_templ_required, 而 ASST_DEBUG 中语法检查已经生成过
-    for (const std::string& name : m_json_all_tasks_info | std::views::keys) {
+    for (const std::string& name : *m_definitions | std::views::keys) {
         generate_task_info(name);
     }
 #endif
@@ -314,18 +354,24 @@ bool asst::TaskData::parse(const json::value& json)
 
 void asst::TaskData::clear_tasks()
 {
+    if (m_active && this == &Task) {
+        return m_active->clear_tasks();
+    }
+
     // 注意：这会导致已经通过 get 获取的任务指针内容不会更新
     // 即运行期修改对已经获取的任务指针无效，但是不会导致崩溃；要想更新，需要重新获取任务指针
     m_all_tasks_info.clear();
     m_raw_all_tasks_info.clear();
-    for (const std::string& name : m_json_all_tasks_info | std::views::keys) {
-        m_task_status[task_name_view(name)] = ToBeGenerate;
-    }
+    m_task_status.clear();
 }
 
 void asst::TaskData::set_task_base(const std::string& task_name, std::string base_task_name)
 {
-    m_json_all_tasks_info[task_name_view(task_name)]["baseTask"] = std::move(base_task_name);
+    if (m_active && this == &Task) {
+        return m_active->set_task_base(task_name, std::move(base_task_name));
+    }
+
+    m_task_bases.insert_or_assign(task_name, std::move(base_task_name));
     clear_tasks();
 }
 
@@ -363,7 +409,7 @@ bool asst::TaskData::generate_raw_task_info(
     utils::get_and_check_value_or(name, json, "reduceOtherTimes", task->reduce_other_times, [&]() {
         return append_prefix(base_task->reduce_other_times, prefix);
     });
-    m_task_status[task_name_view(name)] = NotToBeGenerate;
+    m_task_status[name] = NotToBeGenerate;
 
     // 保存虚任务未展开的任务
     insert_or_assign_raw_task(name, task);
@@ -375,7 +421,11 @@ bool asst::TaskData::generate_raw_task_info(
 // allow_implicit: 允许隐式生成（解决 A@B@LoadingText 时 B 不存在的问题）
 bool asst::TaskData::generate_raw_task_and_base(const std::string& name, bool must_true, bool allow_implicit)
 {
-    switch (m_task_status[task_name_view(name)]) {
+    auto [status, inserted] = m_task_status.try_emplace(name, NotToBeGenerate);
+    if (inserted && (m_definitions->contains(name) || m_task_bases.contains(name))) {
+        status->second = ToBeGenerate;
+    }
+    switch (status->second) {
     case NotToBeGenerate:
         // 已经显式生成
         if (m_raw_all_tasks_info.contains(name)) {
@@ -404,21 +454,18 @@ bool asst::TaskData::generate_raw_task_and_base(const std::string& name, bool mu
         // 不一定必须有名字为 name 的资源，例如 Roguelike@Abandon 不必有 Abandon.
         return false;
     case ToBeGenerate: {
-        if (!m_json_all_tasks_info.contains(name)) [[unlikely]] {
-            // 这段正常情况来说是不可能的，除非有 string_view 引用失效
-            Log.error("Unexcepted ToBeGenerate task:", name);
-            return false;
-        }
-
         m_task_status[name] = Generating;
-
-        const json::value& task_json = m_json_all_tasks_info.at(name);
+        auto definition = m_definitions->find(name);
+        static const json::value empty_task = json::object {};
+        const json::value& task_json = definition == m_definitions->end() ? empty_task : *definition->second;
 
         // BaseTask
-        if (auto opt = task_json.find<std::string>("baseTask")) {
-            std::string base = opt.value();
-            return generate_raw_task_and_base(base, must_true) &&
-                   generate_raw_task_info(name, "", base, task_json, TaskDerivedType::BaseTask);
+        const auto base_override = m_task_bases.find(name);
+        const auto explicit_base = base_override == m_task_bases.end() ? task_json.find<std::string>("baseTask")
+                                                                       : std::optional(base_override->second);
+        if (explicit_base && *explicit_base != "#none") {
+            return generate_raw_task_and_base(*explicit_base, must_true) &&
+                   generate_raw_task_info(name, "", *explicit_base, task_json, TaskDerivedType::BaseTask);
         }
 
         // TemplateTask
@@ -447,9 +494,10 @@ asst::TaskPtr asst::TaskData::generate_task_info(const std::string& name)
         return nullptr;
     }
 
-    auto json_it = m_json_all_tasks_info.find(name);
-    const json::value& json = json_it == m_json_all_tasks_info.cend() ? json::value {} : json_it->second;
-    if (raw->type == TaskDerivedType::Raw && json_it == m_json_all_tasks_info.cend()) [[unlikely]] {
+    auto json_it = m_definitions->find(name);
+    static const json::value empty_task = json::object {};
+    const json::value& json = json_it == m_definitions->end() ? empty_task : *json_it->second;
+    if (raw->type == TaskDerivedType::Raw && json_it == m_definitions->cend()) [[unlikely]] {
         Log.error("Task", name, "of type Raw has no json");
         return nullptr;
     }
@@ -940,7 +988,7 @@ asst::ResultOrError<asst::TaskData::RawCompileResult> asst::TaskData::compile_ra
             tasks_set.emplace(ret.symbols.emplace_back(task).name());
         }
 
-        tasks_set.emplace(task_name_view(task_expr));
+        tasks_set.emplace(task_expr);
     }
 
     return ret;
@@ -986,7 +1034,7 @@ asst::ResultOrError<asst::TaskData::CompileResult>
             ret.task_changed = true;
             continue;
         }
-        ret.tasks.emplace_back(task_name_view(task_name));
+        ret.tasks.emplace_back(task_name);
         tasks_set.emplace(task_name);
     }
 

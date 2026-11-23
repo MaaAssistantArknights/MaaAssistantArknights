@@ -1,5 +1,6 @@
 #include "RoguelikeIterateMonthlySquadPlugin.h"
 
+#include "Config/GeneralConfig.h"
 #include "Config/Roguelike/RoguelikeMonthlySquadConfig.h"
 #include "Config/TaskData.h"
 #include "Controller/Controller.h"
@@ -62,7 +63,7 @@ bool asst::RoguelikeIterateMonthlySquadPlugin::_run()
     }
 
     for (int i = 0; i < monthly_squad_count; i++) {
-        m_monthly_squad_index = recognize_monthly_squad_index();
+        m_monthly_squad_index = recognize_monthly_squad_index(i > 0);
         const bool reward_completed = m_checkComms && is_monthly_squad_reward_completed();
         if (m_use_legacy_monthly_squad_logic && m_legacy_monthly_squad_index.has_value() &&
             m_monthly_squad_index.has_value() && m_legacy_monthly_squad_index != m_monthly_squad_index) {
@@ -87,12 +88,14 @@ bool asst::RoguelikeIterateMonthlySquadPlugin::_run()
                 break;
             }
         }
-        bool reward_miss =
+        const bool switched_squad =
             ProcessTask(*this, { m_config->get_theme() + "@Roguelike@MonthlySquadRewardCompleted" }).run();
-        if (!reward_miss) {
+        if (!switched_squad) {
             m_completed = false;
             break;
         }
+        // 领取状态匹配后会点击切队。下一次识别不能沿用上一队的目标和进度。
+        m_config->set_monthly_squad_task(std::nullopt);
         m_use_legacy_monthly_squad_logic = false;
         m_legacy_monthly_squad_index.reset();
     }
@@ -123,15 +126,10 @@ void asst::RoguelikeIterateMonthlySquadPlugin::update_monthly_squad_task()
 void asst::RoguelikeIterateMonthlySquadPlugin::apply_monthly_squad_task_strategy() const
 {
     const auto& monthly_squad_task = m_config->get_monthly_squad_task();
-    if (!monthly_squad_task.has_value()) {
-        return;
-    }
-
     const std::string strategy_task = m_config->get_theme() + "@Roguelike@StrategyChange";
-    const std::string strategy_base = strategy_task +
-                                      (monthly_squad_task->type == MonthlySquadTaskType::ReachThirdFloor
-                                           ? "_mode4"
-                                           : "_mode6");
+    const bool reach_third_floor =
+        monthly_squad_task && monthly_squad_task->type == MonthlySquadTaskType::ReachThirdFloor;
+    const std::string strategy_base = strategy_task + (reach_third_floor ? "_mode4" : "_mode6");
     if (Task.get(strategy_base) == nullptr) {
         LogError << __FUNCTION__ << "monthly squad strategy does not exist:" << strategy_base;
         return;
@@ -145,15 +143,7 @@ void asst::RoguelikeIterateMonthlySquadPlugin::apply_legacy_monthly_squad_logic(
     m_use_legacy_monthly_squad_logic = true;
     m_legacy_monthly_squad_index = m_monthly_squad_index;
     m_config->set_monthly_squad_task(std::nullopt);
-
-    const std::string strategy_task = m_config->get_theme() + "@Roguelike@StrategyChange";
-    const std::string strategy_base = strategy_task + "_mode6";
-    if (Task.get(strategy_base) == nullptr) {
-        LogError << __FUNCTION__ << "monthly squad legacy strategy does not exist:" << strategy_base;
-        return;
-    }
-
-    Task.set_task_base(strategy_task, strategy_base);
+    apply_monthly_squad_task_strategy();
     LogInfo << __FUNCTION__ << "use legacy monthly squad logic until communications are completed";
 }
 
@@ -164,7 +154,7 @@ bool asst::RoguelikeIterateMonthlySquadPlugin::is_monthly_squad_reward_completed
     return analyzer.analyze().has_value();
 }
 
-std::optional<int> asst::RoguelikeIterateMonthlySquadPlugin::recognize_monthly_squad_index() const
+std::optional<int> asst::RoguelikeIterateMonthlySquadPlugin::recognize_monthly_squad_index(bool after_switch) const
 {
     const std::string task_name = m_config->get_theme() + "@Roguelike@MonthlySquadIndex";
     const auto task_info = Task.get<OcrTaskInfo>(task_name);
@@ -172,23 +162,32 @@ std::optional<int> asst::RoguelikeIterateMonthlySquadPlugin::recognize_monthly_s
         return std::nullopt;
     }
 
-    OCRer analyzer(ctrler()->get_image());
-    analyzer.set_task_info(task_info);
-    const auto results = analyzer.analyze();
-    if (!results.has_value() || results->size() != 1) {
-        LogWarn << __FUNCTION__ << "failed to recognize monthly squad index";
-        return std::nullopt;
-    }
+    const int max_attempts = after_switch ? 3 : 1;
+    for (int attempt = 0; attempt < max_attempts; ++attempt) {
+        if (attempt > 0 && !sleep(Config.get_options().task_delay)) {
+            return std::nullopt;
+        }
+        OCRer analyzer(ctrler()->get_image());
+        analyzer.set_task_info(task_info);
+        const auto results = analyzer.analyze();
+        if (!results || results->size() != 1) {
+            continue;
+        }
 
-    int index = 0;
-    const std::string& text = results->front().text;
-    if (!utils::chars_to_number(text, index) || index < 1 || index > monthlySquadCount.at(m_config->get_theme())) {
-        LogWarn << __FUNCTION__ << "invalid monthly squad index:" << text;
-        return std::nullopt;
+        int index = 0;
+        const std::string& text = results->front().text;
+        if (!utils::chars_to_number(text, index) || index < 1 || index > monthlySquadCount.at(m_config->get_theme())) {
+            LogWarn << __FUNCTION__ << "invalid monthly squad index:" << text;
+            continue;
+        }
+        if (after_switch && index == m_monthly_squad_index) {
+            continue; // 切队动画中仍可能读到上一队的编号。
+        }
+        LogInfo << __FUNCTION__ << "monthly squad index:" << index;
+        return index;
     }
-
-    LogInfo << __FUNCTION__ << "monthly squad index:" << index;
-    return index;
+    LogWarn << __FUNCTION__ << "failed to recognize monthly squad index";
+    return std::nullopt;
 }
 
 bool asst::RoguelikeIterateMonthlySquadPlugin::try_task(const char* task) const

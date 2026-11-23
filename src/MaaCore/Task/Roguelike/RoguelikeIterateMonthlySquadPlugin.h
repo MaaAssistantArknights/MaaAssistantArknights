@@ -35,7 +35,7 @@ private:
     void apply_monthly_squad_task_strategy() const;
     void apply_legacy_monthly_squad_logic();
     bool is_monthly_squad_reward_completed() const;
-    std::optional<int> recognize_monthly_squad_index() const;
+    std::optional<int> recognize_monthly_squad_index(bool after_switch = false) const;
     virtual bool try_task(const char*) const;
 };
 

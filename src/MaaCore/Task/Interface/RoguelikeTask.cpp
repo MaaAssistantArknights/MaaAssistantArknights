@@ -207,6 +207,7 @@ bool asst::RoguelikeTask::run()
         }
     }
     try {
+        TaskDataScope task_data(m_task_bases);
         const bool result = InterfaceTask::run();
         finish_run();
         return result;
@@ -225,6 +226,7 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
         Log.warn(__FUNCTION__, "RoguelikeTask is running, cannot set params");
         return false;
     }
+    TaskDataScope task_data;
     if (!m_config_ptr->verify_and_load_params(params)) {
         m_roguelike_task_ptr->set_tasks({ "Stop" });
         return false;
@@ -303,5 +305,6 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
         }
     }
 
+    m_task_bases = task_data.bases();
     return true;
 }

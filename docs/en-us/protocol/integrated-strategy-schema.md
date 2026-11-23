@@ -848,7 +848,7 @@ The following task types are supported:
 
 `count` must be a positive integer. `skill` must be from `1` to `3`. It is optional for `DeployOperatorSummon`; when omitted, the operator's existing skill-selection logic is preserved.
 
-While the target operator of a third-skill `UseOperatorSkill` task is not yet Elite 2, recruitment reserves hope for that promotion: only 3-star or lower operators, which cost no hope, are recruited in the meantime, other operators (temporary recruits included) are skipped, and the target operator itself is still allowed.
+A `UseOperatorSkill` task that requires skill 3 reserves Hope to promote the target operator to Elite 2. While saving Hope, MAA can recruit operators of 3 stars or lower. In `JieGarden` and `Sarkaz`, it can also recruit a 4-star operator for the first time at zero Hope. It skips promotions for 4-star operators already on the roster and other higher-rarity recruits, including temporary recruits.
 
 ## Integrated Strategy Special Mechanisms
 
