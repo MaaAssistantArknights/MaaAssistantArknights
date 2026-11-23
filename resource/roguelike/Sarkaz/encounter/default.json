@@ -462,6 +462,7 @@
             "name": "财源广进",
             "option_num": 3,
             "choose": 3,
+            "fallback_choices": [[4, 3]],
             "choices": [
                 {
                     "name": "奉上一些财物",
