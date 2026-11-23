@@ -81,6 +81,7 @@ private:
 
     [[nodiscard]] bool on_selling_page(const cv::Mat& image) const;
     [[nodiscard]] std::vector<TextRect> recognize(const cv::Mat& image, const std::vector<std::string>& names) const;
+    [[nodiscard]] static Rect offer_click_rect(const Rect& name_rect);
     [[nodiscard]] bool already_purchased(const Rect& rect) const;
     void set_action(std::string_view task) const;
 

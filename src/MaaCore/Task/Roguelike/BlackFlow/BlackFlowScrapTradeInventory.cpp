@@ -509,6 +509,8 @@ bool BlackFlowScrapTradeInventory::sell(
         analyzer.set_task_info(std::string(SaleReadyTask));
         return analyzer.analyze().has_value();
     };
+    // 与买入相同，点名称下方的卡片。
+    const Rect click_rect = target.text.rect.move(Task.get(std::string(ItemsTask))->rect_move);
     bool opened = false;
     for (int attempt = 0; attempt < MaxCardClickAttempts; ++attempt) {
         if (context.interrupted()) {
@@ -520,7 +522,7 @@ bool BlackFlowScrapTradeInventory::sell(
             opened = true;
             break;
         }
-        if (context.interrupted() || !context.click(target.text.rect)) {
+        if (context.interrupted() || !context.click(click_rect)) {
             set_error(error, "scrap trade inventory could not click the sale item");
             return false;
         }

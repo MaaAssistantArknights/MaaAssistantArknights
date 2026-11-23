@@ -1753,7 +1753,8 @@
     },
     "BlackFlow@Roguelike@ScrapTradeItems": {
         "baseTask": "BlackFlow@Roguelike@CultivateSellItems",
-        "roi": [395, 159, 857, 325]
+        "roi": [395, 159, 857, 325],
+        "rectMove": [25, 25, 25, 25]
     },
     "BlackFlow@Roguelike@ScrapTradeLeave-Enter": {
         "algorithm": "JustReturn",
