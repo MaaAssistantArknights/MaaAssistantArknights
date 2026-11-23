@@ -1,0 +1,50 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "MaaCore resource/item_index.json",
+    "description": "Item list used by recognition and drop accounting, keyed by item id. Monolingual; each client has its own copy.",
+    "type": "object",
+    "additionalProperties": {
+        "$ref": "#/definitions/item"
+    },
+    "definitions": {
+        "item": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["classifyType", "description", "icon", "name", "sortId", "usage"],
+            "properties": {
+                "classifyType": {
+                    "type": "string",
+                    "enum": ["NONE", "MATERIAL", "CONSUME", "NORMAL", "MEMENTO"]
+                },
+                "description": { "$ref": "#/definitions/text" },
+                "icon": {
+                    "type": "string",
+                    "description": "Template image file name under `resource/template/items/`."
+                },
+                "name": { "$ref": "#/definitions/text" },
+                "sortId": {
+                    "type": "integer",
+                    "description": "Sort index used for display ordering."
+                },
+                "usage": { "$ref": "#/definitions/text" },
+                "rarity": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "description": "Item rarity. Only present for some items."
+                },
+                "formula": {
+                    "type": "object",
+                    "description": "Crafting formula: item id to required count. Only present for craftable items.",
+                    "additionalProperties": {
+                        "type": "integer",
+                        "minimum": 1
+                    }
+                }
+            }
+        },
+        "text": {
+            "type": ["string", "null"],
+            "description": "Localized text for this client. Some unused items have `null`."
+        }
+    }
+}

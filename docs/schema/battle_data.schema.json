@@ -1,0 +1,133 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "MaaCore resource/battle_data.json",
+    "description": "Character (and other deployable) data plus attack range patterns. Multilingual, one version shared by all clients.",
+    "type": "object",
+    "additionalProperties": false,
+    "required": ["chars", "ranges"],
+    "properties": {
+        "chars": {
+            "type": "object",
+            "description": "Deployables keyed by battle id (`char_`, `trap_` or `token_` prefix).",
+            "minProperties": 1,
+            "propertyNames": {
+                "pattern": "^(char|trap|token)_[0-9]+_.+$"
+            },
+            "additionalProperties": {
+                "$ref": "#/definitions/char"
+            }
+        },
+        "ranges": {
+            "type": "object",
+            "description": "Attack range patterns referenced by `rangeId`. Each pattern is a list of `[x, y]` cell coordinates.",
+            "minProperties": 1,
+            "propertyNames": {
+                "pattern": "^[0-9a-z]+-[1-9][0-9]*$"
+            },
+            "additionalProperties": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                    "type": "array",
+                    "minItems": 2,
+                    "maxItems": 2,
+                    "items": {
+                        "type": "integer"
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "char": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+                "name",
+                "name_en",
+                "name_jp",
+                "name_kr",
+                "name_tw",
+                "position",
+                "profession",
+                "rangeId",
+                "rarity"
+            ],
+            "properties": {
+                "name": { "$ref": "#/definitions/name" },
+                "name_en": { "$ref": "#/definitions/name" },
+                "name_jp": { "$ref": "#/definitions/name" },
+                "name_kr": { "$ref": "#/definitions/name" },
+                "name_tw": { "$ref": "#/definitions/name" },
+                "name_en_unavailable": {
+                    "type": "boolean",
+                    "description": "Set when no official English name exists; `name_en` then repeats the Chinese name."
+                },
+                "name_jp_unavailable": {
+                    "type": "boolean",
+                    "description": "Set when no official Japanese name exists; `name_jp` then repeats the Chinese name."
+                },
+                "name_kr_unavailable": {
+                    "type": "boolean",
+                    "description": "Set when no official Korean name exists; `name_kr` then repeats the Chinese name."
+                },
+                "name_tw_unavailable": {
+                    "type": "boolean",
+                    "description": "Set when no official Traditional Chinese name exists; `name_tw` then repeats the Simplified Chinese name."
+                },
+                "position": {
+                    "type": "string",
+                    "enum": ["RANGED", "MELEE", "NONE", "ALL"]
+                },
+                "profession": {
+                    "type": "string",
+                    "enum": [
+                        "PIONEER",
+                        "WARRIOR",
+                        "TANK",
+                        "SNIPER",
+                        "CASTER",
+                        "SUPPORT",
+                        "MEDIC",
+                        "SPECIAL",
+                        "TRAP",
+                        "TOKEN"
+                    ]
+                },
+                "rangeId": {
+                    "type": "array",
+                    "description": "Range pattern key for mastery 0, 1 and 2.",
+                    "minItems": 3,
+                    "maxItems": 3,
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "rarity": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 6
+                },
+                "sortIndex": {
+                    "type": "integer",
+                    "description": "Unique sort index used for stable ordering. Missing means `-1`."
+                },
+                "subProfessionId": {
+                    "type": "string",
+                    "description": "Sub-profession id used to derive the sub-role enum."
+                },
+                "tokens": {
+                    "type": "array",
+                    "description": "Names of summonables (tokens) belonging to this character.",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "name": {
+            "type": "string",
+            "description": "Display name in one language."
+        }
+    }
+}

@@ -1,0 +1,53 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "MaaCore resource/recruitment.json",
+    "description": "Recruitment operator and tag data. Monolingual; each client has its own copy.",
+    "type": "object",
+    "additionalProperties": false,
+    "required": ["operators", "tags"],
+    "properties": {
+        "operators": {
+            "type": "array",
+            "description": "Operators that can appear in recruitment.",
+            "items": {
+                "$ref": "#/definitions/operator"
+            }
+        },
+        "tags": {
+            "type": "object",
+            "description": "Simplified Chinese tag name to the localized tag name used by this client.",
+            "additionalProperties": {
+                "type": "string"
+            }
+        }
+    },
+    "definitions": {
+        "operator": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["id", "name", "rarity", "tags"],
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": "Character id from `resource/battle_data.json`."
+                },
+                "name": {
+                    "type": "string",
+                    "description": "Operator name in the language of this client."
+                },
+                "rarity": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 6
+                },
+                "tags": {
+                    "type": "array",
+                    "description": "Recruitment tags of this operator.",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        }
+    }
+}
