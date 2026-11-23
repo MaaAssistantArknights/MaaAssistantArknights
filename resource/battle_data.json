@@ -14570,8 +14570,7 @@
         },
         "trap_309_muctba": {
             "name": "智能裁判官",
-            "name_en": "智能裁判官",
-            "name_en_unavailable": true,
+            "name_en": "Smartref",
             "name_jp": "スマート審判員",
             "name_kr": "스마트 심판",
             "name_tw": "智能裁判官",
