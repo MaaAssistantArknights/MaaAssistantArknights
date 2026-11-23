@@ -30,7 +30,8 @@ if __name__ == "__main__":
     # generate_mask_ranges(image, 'rgb', rgb_base_mask_range_ignore_dark)
 
     # 在给定的 mask_ranges 下展示一张图
-    image = cv2.imread(str(maa_dir / "resource" / "template" / "VisitNextBlack.png"))
+    template_dir = maa_dir / "resource" / "template" / "Credit" / "Friend"
+    image = cv2.imread(str(template_dir / "VisitNextBlack.png"))
     mask_ranges = [[[0, 0, 40], [5, 5, 80]]]
 
     show_image_mask(
@@ -39,9 +40,12 @@ if __name__ == "__main__":
     # mask_ranges = [[[93, 81, 130], [102, 97, 142]], [[128, 100, 164], [134, 110, 169]], [[95, 85, 145], [105, 95, 155]]]
     # show_image_mask(image, calc_mask_from_ranges(image, mask_ranges, 'luv', True), 'luv')
 
+    # maskRange（灰度掩模）示例：模板先转灰度，再保留 [lower, upper] 范围内的像素
+    # show_image_mask(image, calc_mask_from_ranges(image, [[1, 255]], "gray"), "gray")
+
     # 在给定的 mask_ranges 下比较两张图
-    image1 = cv2.imread(str(maa_dir / "resource" / "template" / "VisitNext.png"))
-    image2 = cv2.imread(str(maa_dir / "resource" / "template" / "VisitNextBlack.png"))
+    image1 = cv2.imread(str(template_dir / "VisitNext.png"))
+    image2 = cv2.imread(str(template_dir / "VisitNextBlack.png"))
     mask_ranges = [[[0, 0, 40], [5, 5, 80]]]
 
     compare_2_image_with_mask_ranges(image1, image2, mask_ranges, "hsv")
