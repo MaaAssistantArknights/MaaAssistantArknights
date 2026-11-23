@@ -587,19 +587,13 @@
     <system:String x:Key="Asst.Roguelike.BlackFlow.OutcomePlanningFailed">路線規劃失敗</system:String>
     <system:String x:Key="Asst.Roguelike.BlackFlow.OutcomePlanningRetryExhausted">路線重新規劃次數已經用盡</system:String>
     <system:String x:Key="Asst.Roguelike.BlackFlow.OutcomePostMoveValidationFailed">移動後的狀態驗證失敗</system:String>
+    <system:String x:Key="Asst.Roguelike.BlackFlow.OutcomeScrapTradeAborted">秘境行商交易中止</system:String>
     <system:String x:Key="Asst.Roguelike.BlackFlow.OutcomeStateMachineDeadEnd">內部狀態機錯誤</system:String>
     <system:String x:Key="Asst.Roguelike.BlackFlow.OutcomeStrategyCompleted">本局策略目標已經完成</system:String>
     <system:String x:Key="Asst.Roguelike.BlackFlow.OutcomeTaskEventFailed">節點結果處理失敗</system:String>
     <system:String x:Key="Asst.Roguelike.BlackFlow.OutcomeTransactionProposalFailed">無法準備本次移動</system:String>
     <system:String x:Key="Asst.Roguelike.BlackFlow.OutcomeUnknown">肉鴿出現異常</system:String>
     <system:String x:Key="Asst.Roguelike.BlackFlow.RoutingDecision">第 {0} 層｜行動力 {1}→{2}｜{3}至 {4}｜安全餘量 {5}</system:String>
-    <system:String x:Key="Asst.Roguelike.BlackFlow.ScrapTradeAbortedInventoryIncomplete">秘境行商持有物清點失敗，停止交易並離店</system:String>
-    <system:String x:Key="Asst.Roguelike.BlackFlow.ScrapTradeAbortedMarketUnavailable">秘境行商的物品資料不可用，跳過交易並離店</system:String>
-    <system:String x:Key="Asst.Roguelike.BlackFlow.ScrapTradeAbortedPageSwitchFailed">秘境行商買入與出售頁面切換失敗，停止交易並離店</system:String>
-    <system:String x:Key="Asst.Roguelike.BlackFlow.ScrapTradeAbortedSaleFailed">秘境行商出售 ｢{0}｣ 未得到確認，停止交易並離店</system:String>
-    <system:String x:Key="Asst.Roguelike.BlackFlow.ScrapTradeAbortedSaleSearchFailed">秘境行商出售列表查找失敗，停止交易並離店</system:String>
-    <system:String x:Key="Asst.Roguelike.BlackFlow.ScrapTradeAbortedSellBackSearchFailed">秘境行商未能找到要賣回的 ｢{0}｣ ，停止交易並離店</system:String>
-    <system:String x:Key="Asst.Roguelike.BlackFlow.ScrapTradeAbortedUnknown">秘境行商交易出現異常，停止交易並離店</system:String>
     <system:String x:Key="Asst.Roguelike.BlackFlow.StartRunCompleted">開局目標已滿足，已退出並保留這一局</system:String>
     <system:String x:Key="Asst.Roguelike.BlackFlow.StartRunPrepared">開局準備已完成</system:String>
     <system:String x:Key="Asst.Roguelike.BlackFlow.StartRunPreparedReason">已到達第三層，將按目標難度和分隊開啟下一局</system:String>
@@ -636,6 +630,13 @@
     <system:String x:Key="Asst.Roguelike.BlackFlow.TerminationPlanningRetryExhausted">預覽反覆改變可選路線，已經超過重新規劃次數</system:String>
     <system:String x:Key="Asst.Roguelike.BlackFlow.TerminationRecoveryPortUnavailable">地圖恢復介面不可用</system:String>
     <system:String x:Key="Asst.Roguelike.BlackFlow.TerminationScrapShopNeverReached">沒有到達秘境行商，本局結束</system:String>
+    <system:String x:Key="Asst.Roguelike.BlackFlow.TerminationScrapTradeInventoryIncomplete">持有物清點失敗</system:String>
+    <system:String x:Key="Asst.Roguelike.BlackFlow.TerminationScrapTradeMarketUnavailable">物品資料不可用</system:String>
+    <system:String x:Key="Asst.Roguelike.BlackFlow.TerminationScrapTradePageSwitchFailed">買入與出售頁面切換失敗</system:String>
+    <system:String x:Key="Asst.Roguelike.BlackFlow.TerminationScrapTradePurchaseFailed">購買確認框沒有出現</system:String>
+    <system:String x:Key="Asst.Roguelike.BlackFlow.TerminationScrapTradeSaleFailed">出售未得到確認</system:String>
+    <system:String x:Key="Asst.Roguelike.BlackFlow.TerminationScrapTradeSaleSearchFailed">出售列表查找失敗</system:String>
+    <system:String x:Key="Asst.Roguelike.BlackFlow.TerminationScrapTradeSellBackSearchFailed">要賣回的物品查找失敗</system:String>
     <system:String x:Key="Asst.Roguelike.BlackFlow.TerminationStrategyTerminalReached">已經抵達策略終點</system:String>
     <system:String x:Key="Asst.Roguelike.BlackFlow.TerminationUnknown">如需回饋請前往 ｢{key=Settings.Title} - {key=Settings.IssueReport.Title}｣</system:String>
     <system:String x:Key="Asst.Roguelike.BlackFlow.WarningIdentityConflict">預覽顯示的節點類型與目前地圖不一致</system:String>

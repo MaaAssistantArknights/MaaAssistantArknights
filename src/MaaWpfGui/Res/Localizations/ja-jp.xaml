@@ -587,19 +587,13 @@
     <system:String x:Key="Asst.Roguelike.BlackFlow.OutcomePlanningFailed">経路計画に失敗</system:String>
     <system:String x:Key="Asst.Roguelike.BlackFlow.OutcomePlanningRetryExhausted">経路再計画の回数を使い切りました</system:String>
     <system:String x:Key="Asst.Roguelike.BlackFlow.OutcomePostMoveValidationFailed">移動後の状態検証に失敗</system:String>
+    <system:String x:Key="Asst.Roguelike.BlackFlow.OutcomeScrapTradeAborted">秘境行商の取引を中止</system:String>
     <system:String x:Key="Asst.Roguelike.BlackFlow.OutcomeStateMachineDeadEnd">内部ステートマシンエラー</system:String>
     <system:String x:Key="Asst.Roguelike.BlackFlow.OutcomeStrategyCompleted">今回の戦略目標は完了済み</system:String>
     <system:String x:Key="Asst.Roguelike.BlackFlow.OutcomeTaskEventFailed">ノード結果の処理に失敗</system:String>
     <system:String x:Key="Asst.Roguelike.BlackFlow.OutcomeTransactionProposalFailed">今回の移動を準備できず</system:String>
     <system:String x:Key="Asst.Roguelike.BlackFlow.OutcomeUnknown">ローグライクで異常が発生しました</system:String>
     <system:String x:Key="Asst.Roguelike.BlackFlow.RoutingDecision">第 {0} 層｜行動力 {1}→{2}｜{3}で {4} へ｜安全余裕 {5}</system:String>
-    <system:String x:Key="Asst.Roguelike.BlackFlow.ScrapTradeAbortedInventoryIncomplete">秘境行商で所持品の確認に失敗したため、取引を中止して退店します</system:String>
-    <system:String x:Key="Asst.Roguelike.BlackFlow.ScrapTradeAbortedMarketUnavailable">秘境行商のアイテムデータが利用できないため、取引せずに退店します</system:String>
-    <system:String x:Key="Asst.Roguelike.BlackFlow.ScrapTradeAbortedPageSwitchFailed">秘境行商で購入・売却ページを切り替えられなかったため、取引を中止して退店します</system:String>
-    <system:String x:Key="Asst.Roguelike.BlackFlow.ScrapTradeAbortedSaleFailed">秘境行商で「{0}」の売却が確認できなかったため、取引を中止して退店します</system:String>
-    <system:String x:Key="Asst.Roguelike.BlackFlow.ScrapTradeAbortedSaleSearchFailed">秘境行商で売却リストを検索できなかったため、取引を中止して退店します</system:String>
-    <system:String x:Key="Asst.Roguelike.BlackFlow.ScrapTradeAbortedSellBackSearchFailed">秘境行商で買い戻し分の「{0}」が見つからないため、取引を中止して退店します</system:String>
-    <system:String x:Key="Asst.Roguelike.BlackFlow.ScrapTradeAbortedUnknown">秘境行商の取引で異常が発生したため、取引を中止して退店します</system:String>
     <system:String x:Key="Asst.Roguelike.BlackFlow.StartRunCompleted">開始条件を満たしたため、この探索を保持したまま退出しました</system:String>
     <system:String x:Key="Asst.Roguelike.BlackFlow.StartRunPrepared">探索の準備が完了しました</system:String>
     <system:String x:Key="Asst.Roguelike.BlackFlow.StartRunPreparedReason">第3層に到達しました。次の探索では指定の難易度と分隊を使用します</system:String>
@@ -636,6 +630,13 @@
     <system:String x:Key="Asst.Roguelike.BlackFlow.TerminationPlanningRetryExhausted">プレビューが経路を変え続け再計画回数の上限に達しました</system:String>
     <system:String x:Key="Asst.Roguelike.BlackFlow.TerminationRecoveryPortUnavailable">マップ復旧インターフェースが利用不可</system:String>
     <system:String x:Key="Asst.Roguelike.BlackFlow.TerminationScrapShopNeverReached">秘境の行商人に到達できず今回の探索を終了</system:String>
+    <system:String x:Key="Asst.Roguelike.BlackFlow.TerminationScrapTradeInventoryIncomplete">所持品の確認に失敗</system:String>
+    <system:String x:Key="Asst.Roguelike.BlackFlow.TerminationScrapTradeMarketUnavailable">アイテムデータが利用できない</system:String>
+    <system:String x:Key="Asst.Roguelike.BlackFlow.TerminationScrapTradePageSwitchFailed">購入・売却ページを切り替えられない</system:String>
+    <system:String x:Key="Asst.Roguelike.BlackFlow.TerminationScrapTradePurchaseFailed">購入の確認画面が表示されない</system:String>
+    <system:String x:Key="Asst.Roguelike.BlackFlow.TerminationScrapTradeSaleFailed">売却が確認できない</system:String>
+    <system:String x:Key="Asst.Roguelike.BlackFlow.TerminationScrapTradeSaleSearchFailed">売却リストを検索できない</system:String>
+    <system:String x:Key="Asst.Roguelike.BlackFlow.TerminationScrapTradeSellBackSearchFailed">売り戻す品が見つからない</system:String>
     <system:String x:Key="Asst.Roguelike.BlackFlow.TerminationStrategyTerminalReached">戦略の終点に到達しました</system:String>
     <system:String x:Key="Asst.Roguelike.BlackFlow.TerminationUnknown">フィードバックは ｢{key=Settings.Title} - {key=Settings.IssueReport.Title}｣ へ</system:String>
     <system:String x:Key="Asst.Roguelike.BlackFlow.WarningIdentityConflict">プレビューのノード種別が現在のマップと一致しません</system:String>
