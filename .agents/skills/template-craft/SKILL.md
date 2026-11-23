@@ -42,17 +42,29 @@ description: 制作与调整 MAA 任务的识别资源：截模板图/抠模板�
 
 `main.py` 是写死示例路径的演示脚本，agent 直接调 `mask_utils`（base_mask_ranges 预设见 `main.py` 顶部；掩模颜色 `gray`/`luv`/`hsv`/`rgb`）：
 
-任务里的 `maskRange` 是**灰度**掩模：MaaCore 先把模板转灰度再 `cv::inRange`，与 `colorScales` 的三通道不是一套东西。`calc_mask_from_ranges` 收到二元组（或 `[1, 255]` 这种直接粘贴的写法）走灰度、三元组走 `colorScales`；同一张图用暗背景/亮背景各推荐一次，取能排除干扰又保留特征的区间。模板匹配用 Ccoeff（去均值归一化相关），掩模只圈住模板里单一色块会让灰度几乎没有变化、得分失真，此时应改用 `colorScales` + `RGBCount`/`HSVCount`，而不是继续收紧 `maskRange`。
+任务里的 `maskRange` 是**灰度**掩模：MaaCore 先把模板转灰度再 `cv::inRange`，与 `colorScales` 的三通道不是一套东西。`calc_mask_from_ranges` 的 `color` 默认就是 `gray`，平时直接传灰度区间即可；收到二元组（或 `[1, 255]` 这种直接粘贴的写法）走灰度、三元组走 `colorScales`，三元组却没给 `rgb`/`hsv`/`luv` 会直接报错。
+
+(0,0,0,0) 透明区域读进来是黑色（灰度 0），所以这类透明抠图模板取 `[[1, 255]]` 就足以排除背景；注意部分 PNG 的透明像素仍保留隐藏 RGB（实测草稿头像这类只 30%~50% 为纯黑），这种模板 maskRange 排不掉，别靠它抠图；再担心纯白背景参与匹配时用 `[[1, 254]]`。两者都先看预览，确有干扰再收窄。`main.py` 顶部有同名预设：
+
+| 预设 | 区间 | 用途 |
+| --- | --- | --- |
+| `gray_base_mask_range_transparent` | `[[1, 255]]` | 模板带透明区域（抠图）时先试这个 |
+| `gray_base_mask_range_default` | `[[1, 254]]` | 再去掉纯白，最常用 |
+| `gray_base_mask_range_ignore_light` | `[[0, 200]]` | 亮色背景/白底干扰 |
+| `gray_base_mask_range_ignore_dark` | `[[20, 255]]` | 暗色背景干扰 |
+| `gray_base_mask_range_ignore_light_dark` | `[[20, 200]]` | 明暗背景都干扰 |
+
+流程：先按模板来源选 `[[1, 255]]`（透明抠图）或 `[[1, 254]]`，看 4 面板预览，只在确有背景干扰时收窄；收窄后检查灰度直方图，若可用区域只剩一个窄峰（模板被削成近似平色），说明这个 maskRange 会毁掉 Ccoeff 的区分度——改用 `colorScales` + `RGBCount`/`HSVCount`，而不是继续收紧 `maskRange`。`generate_mask_ranges` 自动推荐在大部分平坦的模板上会给退化结果（如 `[[44, 44]]`），只当参考，不盲信结果里的单值区间。
 
 ```python
 import sys
 sys.path.insert(0, r"<仓库根>\tools\MaskRangeTool")
 import cv2
 from mask_utils import calc_mask_from_ranges, generate_mask_ranges, compare_2_image_with_mask_ranges
-# task maskRange：二元组走灰度路径，结果与 MaaCore 的 Hasher/Matcher 一致
-mask = calc_mask_from_ranges(img, [[1, 255]], "gray")
+# task maskRange：color 默认 gray，结果与 MaaCore 的 Hasher/Matcher 一致
+mask = calc_mask_from_ranges(img, [[1, 254]])
 # 自动推荐 maskRanges；show=False 无头拿返回值，save 存直方图+mask 预览供回读
-ranges = generate_mask_ranges(img, "luv", base_mask_ranges, show=False, save="preview.png")
+ranges = generate_mask_ranges(img, "gray", [[1, 254]], show=False, save="preview.png")
 # 两组图在给定 ranges 下的差异对比，验证 maskRange 区分度（mask_close 对应 colorWithClose）
-compare_2_image_with_mask_ranges(img1, img2, ranges, "luv", show=False, save="cmp.png")
+compare_2_image_with_mask_ranges(img1, img2, ranges, show=False, save="cmp.png")
 ```

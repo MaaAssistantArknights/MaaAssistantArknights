@@ -41,14 +41,15 @@ def to_gray(image):
     return cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
 
-def calc_mask_from_ranges(image, mask_ranges, color=None, mask_close=False):
+def calc_mask_from_ranges(image, mask_ranges, color="gray", mask_close=False):
     """Build the union mask for MaaCore template matching.
 
     ``maskRange`` is a single ``[lower, upper]`` pair over the grayscale
     template, exactly like ``Hasher`` and ``Matcher``: grayscale conversion
-    first, then ``cv2.inRange``.  Pass those pairs directly (or with
-    ``color="gray"``).  Three-element ranges select the ``colorScales`` path and
-    need ``color`` to name the color space (RGB / HSV / LUV).
+    first, then ``cv2.inRange``.  Gray is therefore the default: pass the pairs
+    directly (or as one ``[1, 255]``).  Three-element ranges select the
+    ``colorScales`` path and require ``color`` to name the space (RGB / HSV /
+    LUV).
     """
     if mask_ranges is None:
         return None
@@ -69,7 +70,11 @@ def calc_mask_from_ranges(image, mask_ranges, color=None, mask_close=False):
             current_mask = cv2.inRange(image_for_mask, int(lower), int(upper))
             mask = cv2.bitwise_or(mask, current_mask)
     else:
-        image_for_mask = image if color is None else convert_color(image, color)
+        if color is None or color.lower() in GRAY_NAMES:
+            raise RuntimeError(
+                "Three-element color ranges need color='rgb' / 'hsv' / 'luv'"
+            )
+        image_for_mask = convert_color(image, color)
         mask = None
         for mask_range in color_ranges:
             l0, l1, l2 = mask_range[0]
@@ -88,7 +93,7 @@ def calc_mask_from_ranges(image, mask_ranges, color=None, mask_close=False):
     return mask
 
 
-def show_image_mask(image, mask, color, hist_mask=None, save=None, show=True):
+def show_image_mask(image, mask, color="gray", hist_mask=None, save=None, show=True):
     is_gray = color.lower() in GRAY_NAMES
     image_for_hist = to_gray(image) if is_gray else convert_color(image, color)
     image_with_mask = cv2.bitwise_and(image, image, mask=mask)
@@ -181,7 +186,7 @@ def show_image_mask(image, mask, color, hist_mask=None, save=None, show=True):
 
 
 def generate_mask_ranges(
-    image, color, base_mask_ranges=None, thresholds=None, show=True, save=None
+    image, color="gray", base_mask_ranges=None, thresholds=None, show=True, save=None
 ):
     thresholds = thresholds or [0.6] * 3
     is_gray = color.lower() in GRAY_NAMES
@@ -266,7 +271,7 @@ def generate_mask_ranges(
 
 
 def compare_2_image_with_mask_ranges(
-    image1, image2, mask_ranges, color, mask_close=False, show=True, save=None
+    image1, image2, mask_ranges, color="gray", mask_close=False, show=True, save=None
 ):
     mask1 = calc_mask_from_ranges(image1, mask_ranges, color, mask_close)
     mask2 = calc_mask_from_ranges(image2, mask_ranges, color, mask_close)

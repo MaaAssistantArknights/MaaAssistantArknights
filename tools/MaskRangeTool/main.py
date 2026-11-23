@@ -23,11 +23,20 @@ if __name__ == "__main__":
     rgb_base_mask_range_ignore_light = [[[0, 0, 0], [200, 200, 200]]]  # 忽略亮色背景
     rgb_base_mask_range_ignore_dark = [[[20, 20, 20], [255, 255, 255]]]  # 忽略暗色背景
 
+    # 任务 maskRange 是灰度掩模（array<int, 2>）。(0,0,0,0) 透明区域读成黑色（灰度 0），
+    # 所以 [1, 255] 对用透明抠出来的模板就够；担心纯白背景参与匹配再用 [1, 254]。
+    gray_base_mask_range_transparent = [[1, 255]]  # 模板带透明区域时的默认
+    gray_base_mask_range_default = [[1, 254]]  # 再去掉纯白，最常用
+    gray_base_mask_range_ignore_light = [[0, 200]]  # 忽略亮色背景
+    gray_base_mask_range_ignore_dark = [[20, 255]]  # 忽略暗色背景
+    gray_base_mask_range_ignore_light_dark = [[20, 200]]  # 忽略亮色暗色背景
+
     # 自动判断图片的合适 mask_ranges
     # image = cv2.imread(str(maa_dir / "resource" / "template" / "Roguelike" / "JieGarden" / "JieGarden@Roguelike@StageWindAndRain.png"))
     # generate_mask_ranges(image, 'luv', luv_base_mask_range_ignore_light_dark)
     # generate_mask_ranges(image, 'hsv', hsv_base_mask_range_ignore_dark)
     # generate_mask_ranges(image, 'rgb', rgb_base_mask_range_ignore_dark)
+    # generate_mask_ranges(image, "gray", gray_base_mask_range_default)
 
     # 在给定的 mask_ranges 下展示一张图
     template_dir = maa_dir / "resource" / "template" / "Credit" / "Friend"
@@ -40,8 +49,9 @@ if __name__ == "__main__":
     # mask_ranges = [[[93, 81, 130], [102, 97, 142]], [[128, 100, 164], [134, 110, 169]], [[95, 85, 145], [105, 95, 155]]]
     # show_image_mask(image, calc_mask_from_ranges(image, mask_ranges, 'luv', True), 'luv')
 
-    # maskRange（灰度掩模）示例：模板先转灰度，再保留 [lower, upper] 范围内的像素
-    # show_image_mask(image, calc_mask_from_ranges(image, [[1, 255]], "gray"), "gray")
+    # maskRange（灰度掩模）示例：模板先转灰度，保留 [lower, upper] 内的像素。
+    # color 默认就是 gray，平时直接传灰度区间即可；[1, 254] 是最稳的起点。
+    # show_image_mask(image, calc_mask_from_ranges(image, gray_base_mask_range_default), "gray")
 
     # 在给定的 mask_ranges 下比较两张图
     image1 = cv2.imread(str(template_dir / "VisitNext.png"))
