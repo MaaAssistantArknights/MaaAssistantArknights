@@ -8,7 +8,7 @@
     ],
     "deploy_plan": [
         {
-            "groups": ["召唤", "益达", "提丰", "焰苇", "高台输出"],
+            "groups": ["召唤", "益达", "提丰", "高台输出"],
             "location": [8, 5],
             "direction": "left"
         },
@@ -23,7 +23,7 @@
             "direction": "left"
         },
         {
-            "groups": ["单奶", "群奶", "益达", "提丰", "焰苇", "高台输出"],
+            "groups": ["单奶", "群奶", "益达", "提丰", "高台输出"],
             "location": [8, 4],
             "direction": "left"
         },

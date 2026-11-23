@@ -43,7 +43,7 @@
             "direction": "right"
         },
         {
-            "groups": ["辅助", "阵法术师"],
+            "groups": ["辅助", "盾法"],
             "location": [6, 2],
             "direction": "left"
         },

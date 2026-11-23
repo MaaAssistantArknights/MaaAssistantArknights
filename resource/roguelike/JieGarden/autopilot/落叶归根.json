@@ -24,7 +24,7 @@
             "direction": "down"
         },
         {
-            "groups": ["益达", "焰苇", "高台输出"],
+            "groups": ["益达", "高台输出"],
             "location": [10, 2],
             "direction": "left"
         },
