@@ -3,9 +3,7 @@
     "title": "MaaCore resource/item_index.json",
     "description": "Item list used by recognition and drop accounting, keyed by item id. Monolingual; each client has its own copy.",
     "type": "object",
-    "additionalProperties": {
-        "$ref": "#/definitions/item"
-    },
+    "additionalProperties": { "$ref": "#/definitions/item" },
     "definitions": {
         "item": {
             "type": "object",

@@ -9,16 +9,12 @@
         "operators": {
             "type": "array",
             "description": "Operators that can appear in recruitment.",
-            "items": {
-                "$ref": "#/definitions/operator"
-            }
+            "items": { "$ref": "#/definitions/operator" }
         },
         "tags": {
             "type": "object",
             "description": "Simplified Chinese tag name to the localized tag name used by this client.",
-            "additionalProperties": {
-                "type": "string"
-            }
+            "additionalProperties": { "type": "string" }
         }
     },
     "definitions": {
@@ -35,17 +31,11 @@
                     "type": "string",
                     "description": "Operator name in the language of this client."
                 },
-                "rarity": {
-                    "type": "integer",
-                    "minimum": 1,
-                    "maximum": 6
-                },
+                "rarity": { "type": "integer", "minimum": 1, "maximum": 6 },
                 "tags": {
                     "type": "array",
                     "description": "Recruitment tags of this operator.",
-                    "items": {
-                        "type": "string"
-                    }
+                    "items": { "type": "string" }
                 }
             }
         }

@@ -11,10 +11,7 @@
             "additionalProperties": false,
             "required": ["name", "time"],
             "properties": {
-                "name": {
-                    "type": "string",
-                    "description": "Activity name."
-                },
+                "name": { "type": "string", "description": "Activity name." },
                 "time": {
                     "type": "integer",
                     "description": "Activity start time as a Unix timestamp (the newest activity whose `startTime` has passed)."
@@ -26,10 +23,7 @@
             "additionalProperties": false,
             "required": ["pool", "time"],
             "properties": {
-                "pool": {
-                    "type": "string",
-                    "description": "Gacha pool name."
-                },
+                "pool": { "type": "string", "description": "Gacha pool name." },
                 "time": {
                     "type": "integer",
                     "description": "Gacha pool open time as a Unix timestamp (the newest pool whose `openTime` has passed)."

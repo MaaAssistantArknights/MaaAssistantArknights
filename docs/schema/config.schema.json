@@ -10,9 +10,7 @@
             "type": "string",
             "description": "Format version of this file. Currently `1.0`."
         },
-        "options": {
-            "$ref": "#/definitions/options"
-        },
+        "options": { "$ref": "#/definitions/options" },
         "packageName": {
             "type": "object",
             "description": "Package name of the game client for each package type.",
@@ -30,15 +28,11 @@
             "type": "array",
             "description": "Available connection configurations. Each entry describes either a complete controller setup or, when `baseConfig` is set, an override of another entry.",
             "minItems": 1,
-            "items": {
-                "$ref": "#/definitions/connection"
-            }
+            "items": { "$ref": "#/definitions/connection" }
         }
     },
     "definitions": {
-        "string": {
-            "type": "string"
-        },
+        "string": { "type": "string" },
         "options": {
             "type": "object",
             "description": "Runtime options shared by all controllers.",
@@ -88,10 +82,7 @@
                     "description": "Random delay (ms) added before each control action, to evade detection. Format `[minimum, maximum]`. Default `[0, 0]` (no delay).",
                     "minItems": 2,
                     "maxItems": 2,
-                    "items": {
-                        "type": "integer",
-                        "minimum": 0
-                    }
+                    "items": { "type": "integer", "minimum": 0 }
                 },
                 "adbExtraSwipeDist": {
                     "type": "number",
@@ -128,9 +119,7 @@
                 "minitouchProgramsOrder": {
                     "type": "array",
                     "description": "Search order for the Minitouch program. Default `[\"x86_64\", \"x86\", \"arm64-v8a\", \"armeabi-v7a\", \"armeabi\"]`.",
-                    "items": {
-                        "type": "string"
-                    }
+                    "items": { "type": "string" }
                 },
                 "swipeWithPauseRequiredDistance": {
                     "type": "number",
@@ -268,10 +257,6 @@
                 "click": {
                     "type": "string",
                     "description": "Click command."
-                },
-                "swipe": {
-                    "type": "string",
-                    "description": "Swipe command."
                 },
                 "input": {
                     "type": "string",

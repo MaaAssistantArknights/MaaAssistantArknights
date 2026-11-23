@@ -3,9 +3,7 @@
     "title": "MaaCore resource/stages.json",
     "description": "Stage drop table used for drop accounting and item recognition. Multilingual, one version shared by all clients.",
     "type": "array",
-    "items": {
-        "$ref": "#/definitions/stage"
-    },
+    "items": { "$ref": "#/definitions/stage" },
     "definitions": {
         "stage": {
             "type": "object",
@@ -28,9 +26,7 @@
                 "dropInfos": {
                     "type": "array",
                     "description": "Possible drops.",
-                    "items": {
-                        "$ref": "#/definitions/drop"
-                    }
+                    "items": { "$ref": "#/definitions/drop" }
                 }
             }
         },

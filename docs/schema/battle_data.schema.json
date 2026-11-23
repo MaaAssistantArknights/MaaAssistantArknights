@@ -10,20 +10,14 @@
             "type": "object",
             "description": "Deployables keyed by battle id (`char_`, `trap_` or `token_` prefix).",
             "minProperties": 1,
-            "propertyNames": {
-                "pattern": "^(char|trap|token)_[0-9]+_.+$"
-            },
-            "additionalProperties": {
-                "$ref": "#/definitions/char"
-            }
+            "propertyNames": { "pattern": "^(char|trap|token)_[0-9]+_.+$" },
+            "additionalProperties": { "$ref": "#/definitions/char" }
         },
         "ranges": {
             "type": "object",
             "description": "Attack range patterns referenced by `rangeId`. Each pattern is a list of `[x, y]` cell coordinates.",
             "minProperties": 1,
-            "propertyNames": {
-                "pattern": "^[0-9a-z]+-[1-9][0-9]*$"
-            },
+            "propertyNames": { "pattern": "^[0-9a-z]+-[1-9][0-9]*$" },
             "additionalProperties": {
                 "type": "array",
                 "minItems": 1,
@@ -31,9 +25,7 @@
                     "type": "array",
                     "minItems": 2,
                     "maxItems": 2,
-                    "items": {
-                        "type": "integer"
-                    }
+                    "items": { "type": "integer" }
                 }
             }
         }
@@ -99,15 +91,9 @@
                     "description": "Range pattern key for mastery 0, 1 and 2.",
                     "minItems": 3,
                     "maxItems": 3,
-                    "items": {
-                        "type": "string"
-                    }
+                    "items": { "type": "string" }
                 },
-                "rarity": {
-                    "type": "integer",
-                    "minimum": 1,
-                    "maximum": 6
-                },
+                "rarity": { "type": "integer", "minimum": 1, "maximum": 6 },
                 "sortIndex": {
                     "type": "integer",
                     "description": "Unique sort index used for stable ordering. Missing means `-1`."
@@ -119,9 +105,7 @@
                 "tokens": {
                     "type": "array",
                     "description": "Names of summonables (tokens) belonging to this character.",
-                    "items": {
-                        "type": "string"
-                    }
+                    "items": { "type": "string" }
                 }
             }
         },

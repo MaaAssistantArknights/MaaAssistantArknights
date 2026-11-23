@@ -12,10 +12,7 @@
             "items": {
                 "type": "array",
                 "minItems": 2,
-                "items": {
-                    "type": "string",
-                    "minLength": 1
-                }
+                "items": { "type": "string", "minLength": 1 }
             }
         }
     }
