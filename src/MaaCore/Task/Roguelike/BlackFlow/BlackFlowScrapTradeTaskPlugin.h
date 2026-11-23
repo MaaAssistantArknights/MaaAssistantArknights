@@ -32,6 +32,8 @@ private:
         Enter,
         Decide,
         ClickAtMost,
+        ClickOffer,
+        PurchaseFailed,
         BuyConfirmed,
         RefreshConfirmed,
     };
@@ -50,6 +52,7 @@ private:
     {
         std::string name;
         Rect rect;
+        Rect click_rect;
         bool keep = false;
     };
 
@@ -79,9 +82,8 @@ private:
     void leave();
     // 交易无法继续时以 StopTask 结束策略，停在当前画面；item 只写日志。
     void stop_trade(std::string_view reason, const std::string& item = {});
-    // 点开购买确认框，最多点三次。
-    [[nodiscard]] bool open_purchase(const std::string& name, const Rect& click_rect);
-    [[nodiscard]] bool purchase_dialog_shown() const;
+    void click_offer();
+    void on_purchase_failed();
 
     [[nodiscard]] bool on_selling_page(const cv::Mat& image) const;
     [[nodiscard]] std::vector<TextRect> recognize(const cv::Mat& image, const std::vector<std::string>& names) const;

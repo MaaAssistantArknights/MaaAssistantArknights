@@ -20,7 +20,9 @@ constexpr std::string_view ScrapTradeDecisionTask = "BlackFlow@Roguelike@ScrapTr
 constexpr std::string_view ScrapTradeContinueTask = "BlackFlow@Roguelike@ScrapTradeContinue";
 constexpr std::string_view ScrapTradeAction = "BlackFlow@Roguelike@ScrapTradeAction";
 constexpr std::string_view ScrapTradeToggleTask = "BlackFlow@Roguelike@ScrapTradeToggle";
-constexpr std::string_view ScrapTradeBuyConfirmEntry = "BlackFlow@Roguelike@ScrapTradeBuyConfirm-Enter";
+constexpr std::string_view ScrapTradeBuyOfferEntry = "BlackFlow@Roguelike@ScrapTradeBuyOffer-Enter";
+constexpr std::string_view ScrapTradeBuyOfferTask = "BlackFlow@Roguelike@ScrapTradeBuyOffer";
+constexpr std::string_view ScrapTradePurchaseFailedTask = "BlackFlow@Roguelike@ScrapTradePurchaseFailed";
 constexpr std::string_view ScrapTradeBuyConfirmTask = "BlackFlow@Roguelike@ScrapTradeBuyConfirm";
 constexpr std::string_view ScrapTradeRefreshEntry = "BlackFlow@Roguelike@ScrapTradeRefresh-Enter";
 constexpr std::string_view ScrapTradeRefreshConfirmTask = "BlackFlow@Roguelike@ScrapTradeRefreshConfirm";
@@ -37,9 +39,6 @@ constexpr int ScrapTradeMaxToggleAttempts = 3;
 constexpr int ScrapTradeSameSlotTolerance = 20;
 constexpr int ScrapTradeAtMostClickTimes = 3;
 constexpr int ScrapTradeRepeatedClickInterval = 100;
-// 与出售点卡片相同的次数和等待。
-constexpr int ScrapTradePurchaseClickAttempts = 3;
-constexpr unsigned ScrapTradePurchaseSettleDelay = 300;
 
 bool BlackFlowScrapTradeTaskPlugin::verify(AsstMsg msg, const json::value& details) const
 {
@@ -58,6 +57,14 @@ bool BlackFlowScrapTradeTaskPlugin::verify(AsstMsg msg, const json::value& detai
         }
         if (task == ScrapTradeCultivateAtMostTask) {
             m_pending = PendingWork::ClickAtMost;
+            return true;
+        }
+        if (task == ScrapTradeBuyOfferTask) {
+            m_pending = PendingWork::ClickOffer;
+            return true;
+        }
+        if (task == ScrapTradePurchaseFailedTask) {
+            m_pending = PendingWork::PurchaseFailed;
             return true;
         }
     }
@@ -95,6 +102,12 @@ bool BlackFlowScrapTradeTaskPlugin::_run()
         break;
     case PendingWork::ClickAtMost:
         click_at_most();
+        break;
+    case PendingWork::ClickOffer:
+        click_offer();
+        break;
+    case PendingWork::PurchaseFailed:
+        on_purchase_failed();
         break;
     case PendingWork::BuyConfirmed:
         on_purchase_confirmed();
@@ -378,12 +391,8 @@ bool BlackFlowScrapTradeTaskPlugin::buy(const cv::Mat& image, const Funds& funds
         LogInfo << __FUNCTION__ << "BlackFlow scrap trade buys to keep" << goods.name << "price" << *item->get().price
                 << "budget" << funds.budget << "wallet" << funds.wallet << "reserved" << funds.reserved << "name rect"
                 << offer->rect << "click rect" << click_rect;
-        if (!open_purchase(offer->text, click_rect)) {
-            stop_trade("purchase_failed", offer->text);
-            return true;
-        }
-        m_pending_purchase = PendingPurchase { offer->text, offer->rect, true };
-        set_action(ScrapTradeBuyConfirmEntry);
+        m_pending_purchase = PendingPurchase { offer->text, offer->rect, click_rect, true };
+        set_action(ScrapTradeBuyOfferEntry);
         return true;
     }
 
@@ -408,12 +417,8 @@ bool BlackFlowScrapTradeTaskPlugin::buy(const cv::Mat& image, const Funds& funds
     LogInfo << __FUNCTION__ << "BlackFlow scrap trade buys" << best->text << "net" << best_net << "growth" << growth
             << "budget" << funds.budget << "wallet" << funds.wallet << "reserved" << funds.reserved << "name rect"
             << best->rect << "click rect" << click_rect;
-    if (!open_purchase(best->text, click_rect)) {
-        stop_trade("purchase_failed", best->text);
-        return true;
-    }
-    m_pending_purchase = PendingPurchase { best->text, best->rect, false };
-    set_action(ScrapTradeBuyConfirmEntry);
+    m_pending_purchase = PendingPurchase { best->text, best->rect, click_rect, false };
+    set_action(ScrapTradeBuyOfferEntry);
     return true;
 }
 
@@ -464,32 +469,21 @@ void BlackFlowScrapTradeTaskPlugin::stop_trade(std::string_view reason, const st
     report_outputs();
 }
 
-// 与出售相同：点卡片后等确认框，没弹出再点；再点之前先看确认框是否已经延迟出现。
-bool BlackFlowScrapTradeTaskPlugin::open_purchase(const std::string& name, const Rect& click_rect)
+void BlackFlowScrapTradeTaskPlugin::click_offer()
 {
-    for (int attempt = 0; attempt < ScrapTradePurchaseClickAttempts; ++attempt) {
-        if (need_exit()) {
-            return false;
-        }
-        if (attempt > 0 && purchase_dialog_shown()) {
-            return true;
-        }
-        ctrler()->click(click_rect);
-        sleep(ScrapTradePurchaseSettleDelay);
-        if (purchase_dialog_shown()) {
-            return true;
-        }
-        LogWarn << __FUNCTION__ << "BlackFlow scrap trade purchase dialog not opened" << name << "attempt"
-                << attempt + 1;
+    if (!m_pending_purchase) {
+        return;
     }
-    return false;
+    LogInfo << __FUNCTION__ << "BlackFlow scrap trade clicks offer" << m_pending_purchase->name << "click rect"
+            << m_pending_purchase->click_rect;
+    ctrler()->click(m_pending_purchase->click_rect);
 }
 
-bool BlackFlowScrapTradeTaskPlugin::purchase_dialog_shown() const
+void BlackFlowScrapTradeTaskPlugin::on_purchase_failed()
 {
-    Matcher analyzer(ctrler()->get_image());
-    analyzer.set_task_info(std::string(ScrapTradeBuyConfirmTask));
-    return analyzer.analyze().has_value();
+    const std::string name = m_pending_purchase ? m_pending_purchase->name : std::string();
+    m_pending_purchase.reset();
+    stop_trade("purchase_failed", name);
 }
 
 void BlackFlowScrapTradeTaskPlugin::on_purchase_confirmed()
