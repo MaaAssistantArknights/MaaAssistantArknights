@@ -38,6 +38,68 @@
         "Training": { "$ref": "#/definitions/facility" },
         "Recycle": { "$ref": "#/definitions/facility" }
     },
+    "allOf": [
+        {
+            "if": {
+                "properties": { "roomType": { "contains": { "const": "Trade" } } }
+            },
+            "then": { "required": ["Trade"] }
+        },
+        {
+            "if": {
+                "properties": { "roomType": { "contains": { "const": "Power" } } }
+            },
+            "then": { "required": ["Power"] }
+        },
+        {
+            "if": {
+                "properties": { "roomType": { "contains": { "const": "Mfg" } } }
+            },
+            "then": { "required": ["Mfg"] }
+        },
+        {
+            "if": {
+                "properties": { "roomType": { "contains": { "const": "Office" } } }
+            },
+            "then": { "required": ["Office"] }
+        },
+        {
+            "if": {
+                "properties": { "roomType": { "contains": { "const": "Reception" } } }
+            },
+            "then": { "required": ["Reception"] }
+        },
+        {
+            "if": {
+                "properties": { "roomType": { "contains": { "const": "Dorm" } } }
+            },
+            "then": { "required": ["Dorm"] }
+        },
+        {
+            "if": {
+                "properties": { "roomType": { "contains": { "const": "Control" } } }
+            },
+            "then": { "required": ["Control"] }
+        },
+        {
+            "if": {
+                "properties": { "roomType": { "contains": { "const": "Processing" } } }
+            },
+            "then": { "required": ["Processing"] }
+        },
+        {
+            "if": {
+                "properties": { "roomType": { "contains": { "const": "Training" } } }
+            },
+            "then": { "required": ["Training"] }
+        },
+        {
+            "if": {
+                "properties": { "roomType": { "contains": { "const": "Recycle" } } }
+            },
+            "then": { "required": ["Recycle"] }
+        }
+    ],
     "definitions": {
         "facility": {
             "type": "object",

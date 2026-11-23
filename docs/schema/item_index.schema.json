@@ -21,7 +21,10 @@
                     "type": "string",
                     "description": "Template image file name under `resource/template/items/`."
                 },
-                "name": { "$ref": "#/definitions/text" },
+                "name": {
+                    "type": "string",
+                    "description": "Localized item name. Always a string; MaaCore reads it unconditionally."
+                },
                 "sortId": {
                     "type": "integer",
                     "description": "Sort index used for display ordering."

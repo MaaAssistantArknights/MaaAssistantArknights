@@ -17,7 +17,7 @@
                 },
                 "time": {
                     "type": "integer",
-                    "description": "Activity end time as a Unix timestamp."
+                    "description": "Activity start time as a Unix timestamp (the newest activity whose `startTime` has passed)."
                 }
             }
         },
@@ -32,13 +32,13 @@
                 },
                 "time": {
                     "type": "integer",
-                    "description": "Gacha pool end time as a Unix timestamp."
+                    "description": "Gacha pool open time as a Unix timestamp (the newest pool whose `openTime` has passed)."
                 }
             }
         },
         "last_updated": {
             "type": "string",
-            "description": "Update time, formatted as `%Y-%m-%d %H:%M:%S.000` in UTC+8.",
+            "description": "Update time in UTC, formatted as `%Y-%m-%d %H:%M:%S.000` (no timezone suffix; parsers assume universal time).",
             "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}\\.[0-9]{3}$"
         }
     }

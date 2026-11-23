@@ -42,6 +42,13 @@
         "options": {
             "type": "object",
             "description": "Runtime options shared by all controllers.",
+            "required": [
+                "taskDelay",
+                "SSSFightScreencapInterval",
+                "RoguelikeFightScreencapInterval",
+                "CopilotFightScreencapInterval",
+                "controlDelayRange"
+            ],
             "additionalProperties": false,
             "patternProperties": {
                 "_Doc$": {
