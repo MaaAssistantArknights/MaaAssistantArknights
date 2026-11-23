@@ -9,7 +9,7 @@
     "blacklist_location": [],
     "deploy_plan": [
         {
-            "groups": ["召唤", "益达", "提丰", "焰苇", "高台输出"],
+            "groups": ["召唤", "益达", "提丰", "高台输出"],
             "location": [7, 5],
             "direction": "up"
         },

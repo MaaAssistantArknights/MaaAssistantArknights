@@ -23,7 +23,7 @@
             "direction": "left"
         },
         {
-            "groups": ["益达", "提丰", "焰苇", "高台输出"],
+            "groups": ["益达", "提丰", "高台输出"],
             "location": [7, 3],
             "direction": "left"
         },
@@ -63,7 +63,7 @@
             "direction": "down"
         },
         {
-            "groups": ["单奶", "群奶", "益达", "提丰", "焰苇", "高台输出"],
+            "groups": ["单奶", "群奶", "益达", "提丰", "高台输出"],
             "location": [3, 3],
             "direction": "down"
         },
