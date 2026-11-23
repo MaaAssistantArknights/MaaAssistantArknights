@@ -54,7 +54,7 @@ description: 制作与调整 MAA 任务的识别资源：截模板图/抠模板�
 | `gray_base_mask_range_ignore_dark` | `[[20, 255]]` | 暗色背景干扰 |
 | `gray_base_mask_range_ignore_light_dark` | `[[20, 200]]` | 明暗背景都干扰 |
 
-流程：先按模板来源选 `[[1, 255]]`（透明抠图）或 `[[1, 254]]`，看 4 面板预览，只在确有背景干扰时收窄；收窄后检查灰度直方图，若可用区域只剩一个窄峰（模板被削成近似平色），说明这个 maskRange 会毁掉 Ccoeff 的区分度——改用 `colorScales` + `RGBCount`/`HSVCount`，而不是继续收紧 `maskRange`。`generate_mask_ranges` 自动推荐在大部分平坦的模板上会给退化结果（如 `[[44, 44]]`），只当参考，不盲信结果里的单值区间。
+流程：先按模板来源选 `[[1, 255]]`（透明抠图）或 `[[1, 254]]`，看 4 面板预览，只在确有背景干扰时收窄；收窄后检查灰度直方图，若可用区域只剩一个窄峰（模板被削成近似平色），说明这个 maskRange 会毁掉 Ccoeff 的区分度——改用 `colorScales` + `RGBCount`/`HSVCount`，而不是继续收紧 `maskRange`。`generate_mask_ranges` 自动推荐在大部分平坦的模板上会给退化结果（如 `[44, 44]`），只当参考，不盲信结果里的单值区间。LUV 只用于分析：MaaCore 的 `colorScales` 只有 `RGBCount`/`HSVCount`，LUV 推荐值贴进任务会被按 RGB/HSV 解释。`compare_2_image_with_mask_ranges` 的 `mask_close` 也仅作用于本地预览的闭运算，任务的 `maskRange` 没有对应开关（JSON 的 `colorWithClose` 只作用于 `colorScales`）。
 
 ```python
 import sys
@@ -64,7 +64,8 @@ from mask_utils import calc_mask_from_ranges, generate_mask_ranges, compare_2_im
 # task maskRange：color 默认 gray，结果与 MaaCore 的 Hasher/Matcher 一致
 mask = calc_mask_from_ranges(img, [[1, 254]])
 # 自动推荐 maskRanges；show=False 无头拿返回值，save 存直方图+mask 预览供回读
+# 灰度推荐直接返回 [lower, upper]，可原样粘进任务的 maskRange
 ranges = generate_mask_ranges(img, "gray", [[1, 254]], show=False, save="preview.png")
-# 两组图在给定 ranges 下的差异对比，验证 maskRange 区分度（mask_close 对应 colorWithClose）
+# 两组图在给定 ranges 下的差异对比，验证 maskRange 区分度
 compare_2_image_with_mask_ranges(img1, img2, ranges, show=False, save="cmp.png")
 ```

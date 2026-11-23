@@ -51,7 +51,7 @@ def calc_mask_from_ranges(image, mask_ranges, color="gray", mask_close=False):
     ``colorScales`` path and require ``color`` to name the space (RGB / HSV /
     LUV).
     """
-    if mask_ranges is None:
+    if mask_ranges is None or len(mask_ranges) == 0:
         return None
 
     # 允许直接粘贴任务里的 "maskRange": [1, 255]，与 [ [1, 255] ] 等价
@@ -77,8 +77,8 @@ def calc_mask_from_ranges(image, mask_ranges, color="gray", mask_close=False):
         image_for_mask = convert_color(image, color)
         mask = None
         for mask_range in color_ranges:
-            l0, l1, l2 = mask_range[0]
-            u0, u1, u2 = mask_range[1]
+            l0, l1, l2 = (int(v) for v in mask_range[0])
+            u0, u1, u2 = (int(v) for v in mask_range[1])
             if mask is not None:
                 mask = cv2.bitwise_or(
                     mask, cv2.inRange(image_for_mask, (l0, l1, l2), (u0, u1, u2))
@@ -93,109 +93,122 @@ def calc_mask_from_ranges(image, mask_ranges, color="gray", mask_close=False):
     return mask
 
 
+def _as_panel(image):
+    """把 BGR 图转成 matplotlib 需要的 RGB；单通道图原样返回并配 gray cmap。"""
+    if image.ndim == 3:
+        return cv2.cvtColor(image, cv2.COLOR_BGR2RGB), None
+    return image, "gray"
+
+
 def show_image_mask(image, mask, color="gray", hist_mask=None, save=None, show=True):
     is_gray = color.lower() in GRAY_NAMES
     image_for_hist = to_gray(image) if is_gray else convert_color(image, color)
     image_with_mask = cv2.bitwise_and(image, image, mask=mask)
 
-    if is_gray:
-        fig, axs = plt.subplots(1, 4, figsize=(18, 4))
-        hist = cv2.calcHist([image_for_hist], [0], hist_mask, [256], [0, 256])
-        axs[0].plot(hist, color="k")
-        axs[0].set_title("Grayscale Histogram")
-        axs[0].set_xlim([0, 255])
-        panels = [
-            (cv2.cvtColor(image, cv2.COLOR_BGR2RGB), "Original Image", None),
-            (cv2.cvtColor(image_with_mask, cv2.COLOR_BGR2RGB), "Image with Mask", None),
-            (mask, "Mask", "gray"),
-        ]
-        for ax, (panel_image, title, cmap) in zip(axs[1:], panels):
-            ax.imshow(panel_image, cmap=cmap)
-            ax.set_title(title)
-            ax.axis("off")
-    else:
-        fig, axs = plt.subplots(2, 3, figsize=(15, 8))
+    fig = None
+    ok = False
+    try:
+        if is_gray:
+            fig, axs = plt.subplots(1, 4, figsize=(18, 4))
+            hist = cv2.calcHist([image_for_hist], [0], hist_mask, [256], [0, 256])
+            axs[0].plot(hist, color="k")
+            axs[0].set_title("Grayscale Histogram")
+            axs[0].set_xlim([0, 255])
+            original, original_cmap = _as_panel(image)
+            masked, masked_cmap = _as_panel(image_with_mask)
+            panels = [
+                (original, "Original Image", original_cmap),
+                (masked, "Image with Mask", masked_cmap),
+                (mask, "Mask", "gray"),
+            ]
+            for ax, (panel_image, title, cmap) in zip(axs[1:], panels):
+                ax.imshow(panel_image, cmap=cmap)
+                ax.set_title(title)
+                ax.axis("off")
+        else:
+            fig, axs = plt.subplots(2, 3, figsize=(15, 8))
 
-        # channel ranges
-        CHANNEL_RANGES = {
-            "luv": [(0, 255), (0, 255), (0, 255)],
-            "hsv": [(0, 179), (0, 255), (0, 255)],
-            "rgb": [(0, 255), (0, 255), (0, 255)],
-        }
+            # channel ranges
+            CHANNEL_RANGES = {
+                "luv": [(0, 255), (0, 255), (0, 255)],
+                "hsv": [(0, 179), (0, 255), (0, 255)],
+                "rgb": [(0, 255), (0, 255), (0, 255)],
+            }
 
-        channel_ranges = CHANNEL_RANGES[color.lower()]
+            channel_ranges = CHANNEL_RANGES[color.lower()]
 
-        hist_0 = cv2.calcHist(
-            [image_for_hist],
-            [0],
-            hist_mask,
-            [channel_ranges[0][1] - channel_ranges[0][0]],
-            [channel_ranges[0][0], channel_ranges[0][1] + 1],
-        )
-        hist_1 = cv2.calcHist(
-            [image_for_hist],
-            [1],
-            hist_mask,
-            [channel_ranges[1][1] - channel_ranges[1][0]],
-            [channel_ranges[1][0], channel_ranges[1][1] + 1],
-        )
-        hist_2 = cv2.calcHist(
-            [image_for_hist],
-            [2],
-            hist_mask,
-            [channel_ranges[2][1] - channel_ranges[2][0]],
-            [channel_ranges[2][0], channel_ranges[2][1] + 1],
-        )
+            hist_0 = cv2.calcHist(
+                [image_for_hist],
+                [0],
+                hist_mask,
+                [channel_ranges[0][1] - channel_ranges[0][0]],
+                [channel_ranges[0][0], channel_ranges[0][1] + 1],
+            )
+            hist_1 = cv2.calcHist(
+                [image_for_hist],
+                [1],
+                hist_mask,
+                [channel_ranges[1][1] - channel_ranges[1][0]],
+                [channel_ranges[1][0], channel_ranges[1][1] + 1],
+            )
+            hist_2 = cv2.calcHist(
+                [image_for_hist],
+                [2],
+                hist_mask,
+                [channel_ranges[2][1] - channel_ranges[2][0]],
+                [channel_ranges[2][0], channel_ranges[2][1] + 1],
+            )
 
-        axs[0, 0].plot(hist_0, color="r")
-        axs[0, 0].set_title("Channel 0 Histogram")
-        axs[0, 0].set_xlim([channel_ranges[0][0], channel_ranges[0][1]])
+            axs[0, 0].plot(hist_0, color="r")
+            axs[0, 0].set_title("Channel 0 Histogram")
+            axs[0, 0].set_xlim([channel_ranges[0][0], channel_ranges[0][1]])
 
-        axs[0, 1].plot(hist_1, color="g")
-        axs[0, 1].set_title("Channel 1 Histogram")
-        axs[0, 1].set_xlim([channel_ranges[1][0], channel_ranges[1][1]])
+            axs[0, 1].plot(hist_1, color="g")
+            axs[0, 1].set_title("Channel 1 Histogram")
+            axs[0, 1].set_xlim([channel_ranges[1][0], channel_ranges[1][1]])
 
-        axs[0, 2].plot(hist_2, color="b")
-        axs[0, 2].set_title("Channel 2 Histogram")
-        axs[0, 2].set_xlim([channel_ranges[2][0], channel_ranges[2][1]])
+            axs[0, 2].plot(hist_2, color="b")
+            axs[0, 2].set_title("Channel 2 Histogram")
+            axs[0, 2].set_xlim([channel_ranges[2][0], channel_ranges[2][1]])
 
-        # 原图
-        axs[1, 0].imshow(cv2.cvtColor(image, cv2.COLOR_BGR2RGB))
-        axs[1, 0].set_title("Original Image")
-        axs[1, 0].axis("off")
+            # 原图
+            axs[1, 0].imshow(cv2.cvtColor(image, cv2.COLOR_BGR2RGB))
+            axs[1, 0].set_title("Original Image")
+            axs[1, 0].axis("off")
 
-        # 掩模后的图像
-        axs[1, 1].imshow(cv2.cvtColor(image_with_mask, cv2.COLOR_BGR2RGB))
-        axs[1, 1].set_title("Image with Mask")
-        axs[1, 1].axis("off")
+            # 掩模后的图像
+            axs[1, 1].imshow(cv2.cvtColor(image_with_mask, cv2.COLOR_BGR2RGB))
+            axs[1, 1].set_title("Image with Mask")
+            axs[1, 1].axis("off")
 
-        # 显示掩模
-        axs[1, 2].imshow(mask, cmap="gray")
-        axs[1, 2].set_title("Mask")
-        axs[1, 2].axis("off")
+            # 显示掩模
+            axs[1, 2].imshow(mask, cmap="gray")
+            axs[1, 2].set_title("Mask")
+            axs[1, 2].axis("off")
 
-    plt.tight_layout()
-    # save 优先：保存预览图供无头调用（脚本/agent）读图复核，不弹窗
-    if save:
-        fig.savefig(save, bbox_inches="tight", dpi=120)
-        plt.close(fig)
-    elif show:
-        plt.show()
-    else:
-        plt.close(fig)
+        plt.tight_layout()
+        if save:
+            fig.savefig(save, bbox_inches="tight", dpi=120)
+        elif show:
+            plt.show()
+        ok = True
+    finally:
+        # 出错或只保存时都要关掉 figure，避免注册表里堆积
+        if fig is not None and (save or not show or not ok):
+            plt.close(fig)
 
 
 def generate_mask_ranges(
     image, color="gray", base_mask_ranges=None, thresholds=None, show=True, save=None
 ):
-    thresholds = thresholds or [0.6] * 3
+    thresholds = [0.6] * 3 if thresholds is None else thresholds
     is_gray = color.lower() in GRAY_NAMES
 
     if is_gray:
         image_for_mask = to_gray(image)
         base_mask = (
             calc_mask_from_ranges(image, base_mask_ranges, color)
-            if base_mask_ranges
+            if base_mask_ranges is not None
             else None
         )
         usable_mask = (
@@ -210,7 +223,8 @@ def generate_mask_ranges(
             print("Failed at #0")
             return []
 
-        mask_ranges = [[int(indices[0]), int(indices[-1])]]
+        # 直接返回任务 maskRange 的扁平结构 [lower, upper]，可原样粘贴
+        mask_ranges = [int(indices[0]), int(indices[-1])]
         print(f"Recommend {color.upper()} Mask Range: {mask_ranges}")
         if show or save:
             show_image_mask(
@@ -223,6 +237,12 @@ def generate_mask_ranges(
         return mask_ranges
 
     image_for_mask = convert_color(image, color)
+    if color.lower() == "luv":
+        # MaaCore 的 colorScales 只有 RGBCount / HSVCount，LUV 结果仅供分析
+        print(
+            "Note: MaaCore colorScales supports RGB/HSV only; "
+            "LUV ranges are for analysis and cannot be pasted into task JSON"
+        )
 
     base_mask = calc_mask_from_ranges(image, base_mask_ranges, color)
     mask_ranges = []
@@ -281,43 +301,35 @@ def compare_2_image_with_mask_ranges(
     image1_with_mask = cv2.bitwise_and(image1, image1, mask=mask1)
     image2_with_mask = cv2.bitwise_and(image2, image2, mask=mask2)
 
-    fig, axs = plt.subplots(2, 3, figsize=(15, 8))
+    fig = None
+    ok = False
+    try:
+        fig, axs = plt.subplots(2, 3, figsize=(15, 8))
+        rows = [
+            (image1, image1_with_mask, mask1),
+            (image2, image2_with_mask, mask2),
+        ]
+        for row, (original, masked, mask) in enumerate(rows):
+            original_panel, original_cmap = _as_panel(original)
+            masked_panel, masked_cmap = _as_panel(masked)
+            axs[row, 0].imshow(original_panel, cmap=original_cmap)
+            axs[row, 0].set_title("Original Image")
+            axs[row, 0].axis("off")
 
-    # 原图
-    axs[0, 0].imshow(cv2.cvtColor(image1, cv2.COLOR_BGR2RGB))
-    axs[0, 0].set_title("Original Image")
-    axs[0, 0].axis("off")
+            axs[row, 1].imshow(masked_panel, cmap=masked_cmap)
+            axs[row, 1].set_title("Image with Mask")
+            axs[row, 1].axis("off")
 
-    # 掩模后的图像
-    axs[0, 1].imshow(cv2.cvtColor(image1_with_mask, cv2.COLOR_BGR2RGB))
-    axs[0, 1].set_title("Image with Mask")
-    axs[0, 1].axis("off")
+            axs[row, 2].imshow(mask, cmap="gray")
+            axs[row, 2].set_title("Mask")
+            axs[row, 2].axis("off")
 
-    # 显示掩模
-    axs[0, 2].imshow(mask1, cmap="gray")
-    axs[0, 2].set_title("Mask")
-    axs[0, 2].axis("off")
-
-    # 原图
-    axs[1, 0].imshow(cv2.cvtColor(image2, cv2.COLOR_BGR2RGB))
-    axs[1, 0].set_title("Original Image")
-    axs[1, 0].axis("off")
-
-    # 掩模后的图像
-    axs[1, 1].imshow(cv2.cvtColor(image2_with_mask, cv2.COLOR_BGR2RGB))
-    axs[1, 1].set_title("Image with Mask")
-    axs[1, 1].axis("off")
-
-    # 显示掩模
-    axs[1, 2].imshow(mask2, cmap="gray")
-    axs[1, 2].set_title("Mask")
-    axs[1, 2].axis("off")
-
-    plt.tight_layout()
-    if save:
-        fig.savefig(save, bbox_inches="tight", dpi=120)
-        plt.close(fig)
-    elif show:
-        plt.show()
-    else:
-        plt.close(fig)
+        plt.tight_layout()
+        if save:
+            fig.savefig(save, bbox_inches="tight", dpi=120)
+        elif show:
+            plt.show()
+        ok = True
+    finally:
+        if fig is not None and (save or not show or not ok):
+            plt.close(fig)
