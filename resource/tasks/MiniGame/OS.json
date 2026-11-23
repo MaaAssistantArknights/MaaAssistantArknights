@@ -2,7 +2,7 @@
     "MiniGame@OS@Begin": {
         "doc": "雪山降临1101 - 喀兰贸易技术研发部",
         "algorithm": "JustReturn",
-        "next": ["MiniGame@OS@StartRebuild"]
+        "next": ["MiniGame@OS@CheckAchieved", "MiniGame@OS@StartRebuild"]
     },
     "MiniGame@OS@StartRebuild": {
         "action": "ClickSelf",
@@ -52,10 +52,23 @@
         "action": "ClickSelf",
         "roi": [1010, 584, 270, 136],
         "postDelay": 2000,
-        "next": ["MiniGame@OS@CheckAchieved", "MiniGame@OS@StartRebuild", "#self"]
+        "next": ["MiniGame@OS@CheckAchieved", "MiniGame@OS@Obtain", "MiniGame@OS@StartRebuild", "#self"]
     },
     "MiniGame@OS@CheckAchieved": {
+        "doc": "当前关已达成，有右箭头则切下一关，没有则认为所有关已完成",
         "roi": [45, 628, 217, 92],
-        "next": ["Stop"]
+        "next": ["MiniGame@OS@NextStage", "Stop"]
+    },
+    "MiniGame@OS@NextStage": {
+        "doc": "右箭头切到下一关",
+        "roi": [1197, 279, 83, 90],
+        "action": "ClickSelf",
+        "postDelay": 1000,
+        "next": ["MiniGame@OS@Begin"]
+    },
+    "MiniGame@OS@Obtain": {
+        "baseTask": "CreditShop-Bought",
+        "template": "ItemObtainedIcon.png",
+        "next": ["MiniGame@OS@CheckAchieved", "MiniGame@OS@StartRebuild", "MiniGame@OS@ClickToContinue"]
     }
 }

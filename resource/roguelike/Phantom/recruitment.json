@@ -58,11 +58,12 @@
             "name": "元素",
             "opers": [
                 {
-                    "name": "塑心",
+                    "name": "酒神",
                     "skill": 3,
                     "alternate_skill": 1,
-                    "recruit_priority": 705,
-                    "promote_priority": 702,
+                    "is_key": true,
+                    "recruit_priority": 805,
+                    "promote_priority": 850,
                     "recruit_priority_offsets": [
                         {
                             "groups": ["元素"],
@@ -72,11 +73,11 @@
                     ]
                 },
                 {
-                    "name": "酒神",
+                    "name": "塑心",
                     "skill": 3,
                     "alternate_skill": 1,
-                    "recruit_priority": 605,
-                    "promote_priority": 602,
+                    "recruit_priority": 705,
+                    "promote_priority": 702,
                     "recruit_priority_offsets": [
                         {
                             "groups": ["元素"],
@@ -1303,8 +1304,6 @@
                 {
                     "name": "电弧",
                     "skill": 2,
-                    "is_key": true,
-                    "is_start": true,
                     "recruit_priority": 650,
                     "promote_priority": 650
                 },
@@ -1312,7 +1311,6 @@
                     "name": "令",
                     "skill": 3,
                     "alternate_skill": 1,
-                    "is_start": true,
                     "recruit_priority": 620,
                     "promote_priority": 801,
                     "recruit_priority_offsets": [
@@ -1326,7 +1324,6 @@
                 {
                     "name": "稀音",
                     "skill": 2,
-                    "is_start": true,
                     "recruit_priority": 500,
                     "promote_priority": 150,
                     "recruit_priority_offsets": [
@@ -1665,8 +1662,8 @@
                     "name": "遥",
                     "skill": 2,
                     "is_key": true,
-                    "recruit_priority": 800,
-                    "promote_priority": 700,
+                    "recruit_priority": 850,
+                    "promote_priority": 850,
                     "recruit_priority_offsets": [
                         {
                             "groups": ["单奶", "群奶"],
@@ -1679,8 +1676,8 @@
                     "name": "凯尔希·思衡托",
                     "skill": 2,
                     "is_key": true,
-                    "recruit_priority": 750,
-                    "promote_priority": 700,
+                    "recruit_priority": 848,
+                    "promote_priority": 848,
                     "recruit_priority_offsets": [
                         {
                             "groups": ["单奶", "群奶"],
@@ -2754,26 +2751,26 @@
             "doc": "减速辅助和脆弱辅助",
             "opers": [
                 {
-                    "name": "冻河",
-                    "skill": 3,
-                    "alternate_skill": 2,
-                    "is_key": true,
-                    "is_start": true,
-                    "recruit_priority": 860,
-                    "promote_priority": 950
-                },
-                {
-                    "name": "塑心"
-                },
-                {
                     "name": "酒神"
                 },
                 {
-                    "name": "灵知",
-                    "skill": 1,
+                    "name": "冻河",
+                    "skill": 3,
+                    "alternate_skill": 1,
                     "is_key": true,
-                    "recruit_priority": 533,
-                    "promote_priority": 690
+                    "recruit_priority": 800,
+                    "promote_priority": 950
+                },
+                {
+                    "name": "灵知",
+                    "skill": 3,
+                    "alternate_skill": 1,
+                    "is_key": true,
+                    "recruit_priority": 750,
+                    "promote_priority": 902
+                },
+                {
+                    "name": "塑心"
                 },
                 {
                     "name": "铃兰",
@@ -3200,6 +3197,7 @@
                     "name": "戴乌"
                 },
                 {
+                    "role": "Token",
                     "name": "Mon3tr"
                 },
                 {
@@ -3655,7 +3653,13 @@
                     "name": "提丰"
                 },
                 {
+                    "name": "酒神"
+                },
+                {
                     "name": "荒芜拉普兰德"
+                },
+                {
+                    "name": "冻河"
                 },
                 {
                     "role": "MEDIC",
@@ -3663,6 +3667,9 @@
                     "skill": 1,
                     "recruit_priority": 750,
                     "promote_priority": 500
+                },
+                {
+                    "name": "灵知"
                 },
                 {
                     "name": "艾拉"
@@ -3718,9 +3725,6 @@
                 },
                 {
                     "name": "假日威龙陈"
-                },
-                {
-                    "name": "酒神"
                 },
                 {
                     "name": "艾雅法拉"
@@ -4178,6 +4182,7 @@
                     "name": "赛柯"
                 },
                 {
+                    "role": "Token",
                     "name": "Mon3tr"
                 },
                 {

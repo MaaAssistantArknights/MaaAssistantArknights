@@ -14570,6 +14570,96 @@
         "stageId": "act39side_tr01",
         "width": 9
     },
+    "act3autochess_m01-activities/act3autochess/level_act3autochess_m01": {
+        "code": "Unknown",
+        "filename": "act3autochess_m01-activities-act3autochess-level_act3autochess_m01.json",
+        "height": 36,
+        "levelId": "activities/act3autochess/level_act3autochess_m01",
+        "name": "Unknown",
+        "stageId": "act3autochess_m01",
+        "width": 55
+    },
+    "act3autochess_m02-activities/act3autochess/level_act3autochess_m02": {
+        "code": "Unknown",
+        "filename": "act3autochess_m02-activities-act3autochess-level_act3autochess_m02.json",
+        "height": 36,
+        "levelId": "activities/act3autochess/level_act3autochess_m02",
+        "name": "Unknown",
+        "stageId": "act3autochess_m02",
+        "width": 55
+    },
+    "act3autochess_m03-activities/act3autochess/level_act3autochess_m03": {
+        "code": "Unknown",
+        "filename": "act3autochess_m03-activities-act3autochess-level_act3autochess_m03.json",
+        "height": 36,
+        "levelId": "activities/act3autochess/level_act3autochess_m03",
+        "name": "Unknown",
+        "stageId": "act3autochess_m03",
+        "width": 55
+    },
+    "act3autochess_m04-activities/act3autochess/level_act3autochess_m04": {
+        "code": "Unknown",
+        "filename": "act3autochess_m04-activities-act3autochess-level_act3autochess_m04.json",
+        "height": 36,
+        "levelId": "activities/act3autochess/level_act3autochess_m04",
+        "name": "Unknown",
+        "stageId": "act3autochess_m04",
+        "width": 55
+    },
+    "act3autochess_m05-activities/act3autochess/level_act3autochess_m05": {
+        "code": "Unknown",
+        "filename": "act3autochess_m05-activities-act3autochess-level_act3autochess_m05.json",
+        "height": 36,
+        "levelId": "activities/act3autochess/level_act3autochess_m05",
+        "name": "Unknown",
+        "stageId": "act3autochess_m05",
+        "width": 55
+    },
+    "act3autochess_m06-activities/act3autochess/level_act3autochess_m06": {
+        "code": "Unknown",
+        "filename": "act3autochess_m06-activities-act3autochess-level_act3autochess_m06.json",
+        "height": 36,
+        "levelId": "activities/act3autochess/level_act3autochess_m06",
+        "name": "Unknown",
+        "stageId": "act3autochess_m06",
+        "width": 55
+    },
+    "act3autochess_m09-activities/act3autochess/level_act3autochess_m09": {
+        "code": "Unknown",
+        "filename": "act3autochess_m09-activities-act3autochess-level_act3autochess_m09.json",
+        "height": 36,
+        "levelId": "activities/act3autochess/level_act3autochess_m09",
+        "name": "Unknown",
+        "stageId": "act3autochess_m09",
+        "width": 55
+    },
+    "act3autochess_m10-activities/act3autochess/level_act3autochess_m10": {
+        "code": "Unknown",
+        "filename": "act3autochess_m10-activities-act3autochess-level_act3autochess_m10.json",
+        "height": 36,
+        "levelId": "activities/act3autochess/level_act3autochess_m10",
+        "name": "Unknown",
+        "stageId": "act3autochess_m10",
+        "width": 55
+    },
+    "act3autochess_m11-activities/act3autochess/level_act3autochess_m11": {
+        "code": "Unknown",
+        "filename": "act3autochess_m11-activities-act3autochess-level_act3autochess_m11.json",
+        "height": 36,
+        "levelId": "activities/act3autochess/level_act3autochess_m11",
+        "name": "Unknown",
+        "stageId": "act3autochess_m11",
+        "width": 55
+    },
+    "act3autochess_m12-activities/act3autochess/level_act3autochess_m12": {
+        "code": "Unknown",
+        "filename": "act3autochess_m12-activities-act3autochess-level_act3autochess_m12.json",
+        "height": 36,
+        "levelId": "activities/act3autochess/level_act3autochess_m12",
+        "name": "Unknown",
+        "stageId": "act3autochess_m12",
+        "width": 55
+    },
     "act3bossrush_01-activities/act3bossrush/level_bossrush3_01": {
         "code": "TN-1",
         "filename": "act3bossrush_01-activities-act3bossrush-level_bossrush3_01.json",

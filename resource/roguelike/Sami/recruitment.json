@@ -1325,8 +1325,6 @@
                 {
                     "name": "电弧",
                     "skill": 2,
-                    "is_key": true,
-                    "is_start": true,
                     "recruit_priority": 650,
                     "promote_priority": 650
                 },
@@ -1334,7 +1332,6 @@
                     "name": "令",
                     "skill": 3,
                     "alternate_skill": 1,
-                    "is_start": true,
                     "recruit_priority": 620,
                     "promote_priority": 801,
                     "recruit_priority_offsets": [
@@ -1348,7 +1345,6 @@
                 {
                     "name": "稀音",
                     "skill": 2,
-                    "is_start": true,
                     "recruit_priority": 500,
                     "promote_priority": 150,
                     "recruit_priority_offsets": [
@@ -1770,6 +1766,7 @@
                     "auto_retreat": 8
                 },
                 {
+                    "role": "Token",
                     "name": "Mon3tr"
                 },
                 {
@@ -2721,24 +2718,23 @@
             "name": "辅助",
             "opers": [
                 {
-                    "name": "冻河",
-                    "skill": 3,
-                    "alternate_skill": 2,
-                    "is_key": true,
-                    "is_start": true,
-                    "recruit_priority": 860,
-                    "promote_priority": 950
+                    "name": "酒神"
                 },
                 {
-                    "name": "酒神"
+                    "name": "冻河",
+                    "skill": 3,
+                    "alternate_skill": 1,
+                    "is_key": true,
+                    "recruit_priority": 800,
+                    "promote_priority": 950
                 },
                 {
                     "name": "灵知",
                     "skill": 3,
                     "alternate_skill": 1,
                     "is_key": true,
-                    "recruit_priority": 726,
-                    "promote_priority": 802
+                    "recruit_priority": 750,
+                    "promote_priority": 902
                 },
                 {
                     "name": "塑心"
@@ -3142,6 +3138,7 @@
                     "name": "戴乌"
                 },
                 {
+                    "role": "Token",
                     "name": "Mon3tr"
                 },
                 {
@@ -3704,9 +3701,6 @@
                     "name": "荒芜拉普兰德"
                 },
                 {
-                    "name": "冻河"
-                },
-                {
                     "name": "澄闪"
                 },
                 {
@@ -3722,6 +3716,9 @@
                     "name": "酒神"
                 },
                 {
+                    "name": "冻河"
+                },
+                {
                     "name": "逻各斯"
                 },
                 {
@@ -3732,6 +3729,9 @@
                     "is_start": true,
                     "recruit_priority": 750,
                     "promote_priority": 500
+                },
+                {
+                    "name": "灵知"
                 },
                 {
                     "name": "艾拉"
@@ -4173,6 +4173,7 @@
                     "name": "赛柯"
                 },
                 {
+                    "role": "Token",
                     "name": "Mon3tr"
                 },
                 {
