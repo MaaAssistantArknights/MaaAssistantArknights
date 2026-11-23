@@ -416,7 +416,7 @@ labels:
 
   # `client: PC`
   - name: "client: PC"
-    regexes: '(?:[Pp][Cc]|[Ww]indows|[Ww]in)\s*(?:版|端|客户端)'
+    regexes: '(?:[Pp][Cc]|[Ww]indows|[Ww]in)\s*(?:版|端|客户端|[Cc]lient|[Vv]ersion|[Aa]pp(?:lication)?)'
     skip-if:
       - skip all
       - skip client
