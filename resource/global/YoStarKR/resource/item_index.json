@@ -2101,6 +2101,14 @@
         "sortId": -10000,
         "usage": "듀얼 채널 선물 중에서도 비교적 비싼 유형. 홈페이지에서 실물 보상을 교환할 수 있다. (무료 배송)"
     },
+    "act1football_milestone_point": {
+        "classifyType": "NONE",
+        "description": "대회 주최 측이 챔피언십 참가자를 위해 준비한 디지털 쿠폰. 각 선수들의 활약을 모두 기록하고 있는 만큼, 우승자가 소유한 쿠폰에는 특별한 시각적 효과도 있다고 한다.",
+        "icon": "act1football_milestone_point.png",
+        "name": "챔피언십 쿠폰",
+        "sortId": -10000,
+        "usage": "진지 축구 챔피언십에서 각종 물자를 교환하는 데 사용된다."
+    },
     "act1lock_point_reward": {
         "classifyType": "NONE",
         "description": "가상의 적을 처치하여 획득하는 일종의 경기 포인트, 훈장 형식으로 참가팀에게 주어진다. 미노스의 장인이 제작한 메달에는 “영웅은 평범한 사람에서 나온다”라는 속담이 새겨져 있다.",
