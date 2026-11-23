@@ -2526,6 +2526,7 @@
     },
     "InfrastBegin": {
         "algorithm": "JustReturn",
+        "reduceOtherTimes": ["Infrast@MainThemes@QuickSwitch@ToInfrast@Open*3", "InfrastQuickSwitchReturn*3"],
         "next": [
             "Infrast",
             "InfrastNotification",
@@ -2911,6 +2912,28 @@
         "template": "InfrastPic/InfrastLoading.png",
         "roi": [520, 330, 240, 180],
         "next": ["#self", "#next", "#back"]
+    },
+    "Infrast@MainThemes@QuickSwitch@ToInfrast@Open": {
+        "doc": "基建入口一直未出现时，改走返回流程，避免反复开合快捷菜单",
+        "template": "QuickSwitch/Menu.png",
+        "maxTimes": 3,
+        "next": [
+            "Infrast@MainThemes@QuickSwitch@ToInfrast@Entry",
+            "InfrastNotification",
+            "InfrastEnteredFlag",
+            "#self",
+            "InfrastQuickSwitchReturn#next"
+        ],
+        "exceededNext": ["Infrast@MainThemes@QuickSwitch@ToInfrast@Entry", "InfrastQuickSwitchReturn#next"]
+    },
+    "InfrastQuickSwitchReturn": {
+        "baseTask": "Infrast@ReturnButton",
+        "doc": "复用普通返回的识别流程，单独限制快捷导航失败后点击返回的次数",
+        "template": ["Return.png", "Return-White.png"],
+        "maxTimes": 3,
+        "next": ["(Infrast@ReturnButton#next)^Infrast@ReturnButton", "InfrastQuickSwitchReturn"],
+        "exceededNext": ["(Infrast@ReturnButton#next)^Infrast@ReturnButton"],
+        "onErrorNext": []
     },
     "Infrast@MainThemes": {
         "next": ["(InfrastBegin#next)^((Infrast@MainThemes)@QuickSwitch@ToInfrast#next)"]
