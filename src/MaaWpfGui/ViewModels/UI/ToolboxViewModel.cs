@@ -2909,27 +2909,10 @@ public class ToolboxViewModel : Screen
 
     private static string GetRegulationBadgeTip()
     {
-        var resourceDirs = new List<string> { PathsHelper.ResourceDir, PathsHelper.CacheResourceDir };
-        var clientType = SettingsViewModel.GameSettings.ClientType;
-        if (clientType is not (ClientType.Official or ClientType.Bilibili))
-        {
-            var clientDir = Path.Combine("global", clientType.ToCustomString(), "resource");
-            resourceDirs.Add(Path.Combine(PathsHelper.ResourceDir, clientDir));
-            resourceDirs.Add(Path.Combine(PathsHelper.CacheResourceDir, clientDir));
-        }
-
-        if (SettingsViewModel.ConnectSettings.IsPCConnectConfig)
-        {
-            resourceDirs.Add(Path.Combine(PathsHelper.ResourceDir, "platform_diff", "PC", "resource"));
-        }
-
+        // 基础文件替换整份配置。资源根目录的自定义文件仅覆盖已声明的字段，旧版姓名数组沿用基础名单。
         JArray priority = [];
-        foreach (var dir in resourceDirs)
-        {
-            // 基础文件替换整份配置。资源根目录的自定义文件仅覆盖已声明的字段，旧版姓名数组沿用基础名单。
-            priority = ReadRegulationPriority(Path.Combine(dir, "stronghold_protocol", "regulation", "purchase.json"), custom: false) ?? priority;
-            priority = ReadRegulationPriority(Path.Combine(dir, "purchase_custom.json"), custom: true) ?? priority;
-        }
+        priority = ReadRegulationPriority(Path.Combine(PathsHelper.ResourceDir, "stronghold_protocol", "regulation", "purchase.json"), custom: false) ?? priority;
+        priority = ReadRegulationPriority(Path.Combine(PathsHelper.ResourceDir, "purchase_custom.json"), custom: true) ?? priority;
 
         List<string> squad = [];
         List<string> shop = [];
