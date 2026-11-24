@@ -2579,7 +2579,7 @@ MAA 会选择未达标的策略，并打完每一局。
 其余干员按以下顺序购买：
 自选 VI 阶 → 自选 V 阶 → 普通 VI 阶 → 账号替补（自有干员不足时由游戏提供）→ 普通 V 阶。
 建议场上只留 1 名医疗干员。已有医疗时，只购买能替换场上低阶医疗的更高阶医疗。
- PC 端需额外在游戏设置中关闭特殊玩法中的快捷键显示。</system:String>
+ PC 端需额外在游戏设置 ｢按键｣ 中关闭 ｢特殊玩法键位｣ 的快捷键显示。</system:String>
     <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Tip.Score" xml:space="preserve">在活动主界面（有 ｢极速模拟｣ 处）开始任务
 需要使用卫戍默认主题 UI 
 在有存档时需要先手动放弃
