@@ -264,6 +264,19 @@ void BlackFlowSession::set_cultivated_animal_types(std::vector<CultivatedAnimalT
     if (!set_fact("cultivation_target_obtained", obtained, &error)) {
         Log.error("BlackFlow cultivation target fact update failed", error);
     }
+
+    // 每局培育出的动物组合随遥测上报，供界面统计刷开局的实测命中率。这里只观测，不参与任何判定。
+    json::array cultivated_types;
+    for (const CultivatedAnimalType type : m_cultivated_animal_types) {
+        cultivated_types.emplace_back(std::string(to_string(type)));
+    }
+    json::object sample {
+        { "profile", m_profile },
+        { "cultivation_target", std::string(to_string(m_cultivation_target)) },
+        { "cultivated_animal_types", std::move(cultivated_types) },
+        { "obtained", obtained },
+    };
+    m_telemetry_events.emplace_back(BlackFlowTelemetryEvent { "BlackFlowCultivationSample", std::move(sample) });
 }
 
 void BlackFlowSession::reset_run()

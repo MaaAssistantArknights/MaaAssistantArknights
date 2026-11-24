@@ -595,6 +595,7 @@
     <system:String x:Key="Asst.Roguelike.BlackFlow.OutcomeUnknown">로그라이크 오류</system:String>
     <system:String x:Key="Asst.Roguelike.BlackFlow.RoutingDecision">{0}층 | 행동력 {1}→{2} | {4}까지 {3} | 안전 여유 {5}</system:String>
     <system:String x:Key="Asst.Roguelike.BlackFlow.StartRunCompleted">시작 조건을 충족하여 이번 탐험을 유지한 채 나왔습니다</system:String>
+    <system:String x:Key="Asst.Roguelike.BlackFlow.StartRunOdds">1회당 약 {0}%, 평균 약 {1}회 (이번 {2}회)</system:String>
     <system:String x:Key="Asst.Roguelike.BlackFlow.StartRunPrepared">탐험 준비 완료</system:String>
     <system:String x:Key="Asst.Roguelike.BlackFlow.StartRunPreparedReason">3층에 도달했습니다. 다음 탐험은 지정한 난이도와 분대로 시작합니다</system:String>
     <system:String x:Key="Asst.Roguelike.BlackFlow.StartRunPreparing">준비 탐험 진행 중</system:String>

@@ -595,6 +595,7 @@
     <system:String x:Key="Asst.Roguelike.BlackFlow.OutcomeUnknown">Roguelike encountered an error</system:String>
     <system:String x:Key="Asst.Roguelike.BlackFlow.RoutingDecision">Floor {0} | AP {1}→{2} | {3} to {4} | Safety margin {5}</system:String>
     <system:String x:Key="Asst.Roguelike.BlackFlow.StartRunCompleted">Starting conditions met; exited and kept this run</system:String>
+    <system:String x:Key="Asst.Roguelike.BlackFlow.StartRunOdds">About {0}% per run, expect about {1} runs ({2} runs this session)</system:String>
     <system:String x:Key="Asst.Roguelike.BlackFlow.StartRunPrepared">Preparation complete</system:String>
     <system:String x:Key="Asst.Roguelike.BlackFlow.StartRunPreparedReason">Floor 3 reached; the next run will use the target difficulty and squad</system:String>
     <system:String x:Key="Asst.Roguelike.BlackFlow.StartRunPreparing">Preparation run in progress</system:String>
