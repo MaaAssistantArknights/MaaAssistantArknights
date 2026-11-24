@@ -4596,5 +4596,7 @@
     "resource/template/StrongholdProtocol/StrongholdProtocol@StrategyDisabledMarker": "ee05bd6ccd20786c4f4d5a83b1def82beae15af581b719c97242a609838e7ea1",
     "resource/template/StrongholdProtocol/StrongholdProtocol@StrategyColorMarker": "dcae31c020ead915fadda4d22b6c5b41fcfbcb2a892248251f2a6d27029e96f2",
     "resource/global/YoStarJP/resource/template/MiniGame/PF/MiniGame@PF@StartAction": "7ba8d4b9369bec6e7cef6a4e77a3d95e50b7119a7ab722c5e5de9316ba12086a",
-    "resource/global/YoStarJP/resource/template/MiniGame/PF/MiniGame@PF@StartCompetition": "d52f67d1dc29a6c435dd9b736866f82c517f74491b5c4e35d6eedc767a43c346"
+    "resource/global/YoStarJP/resource/template/MiniGame/PF/MiniGame@PF@StartCompetition": "d52f67d1dc29a6c435dd9b736866f82c517f74491b5c4e35d6eedc767a43c346",
+    "resource/global/YoStarEN/resource/template/MiniGame/PF/MiniGame@PF@StartAction": "bd42b3af8d25bce5dda27b8413897012627692cecc9b803473e281f72aa6e14b",
+    "resource/global/YoStarEN/resource/template/MiniGame/PF/MiniGame@PF@StartCompetition": "6dbf3cf2e45db528b627ef41ab5717d09bba5bd30975527a95bec5fc40bff57b"
 }
