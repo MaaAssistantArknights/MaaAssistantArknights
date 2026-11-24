@@ -74,14 +74,14 @@ bool asst::RoguelikeBattleTaskPlugin::_run()
     auto start_time = std::chrono::steady_clock::now();
     cv::Mat image, image_prev;
     while (!need_exit()) {
-        // 不在战斗场景，且已使用过了干员，说明已经打完了，就结束循环
         image = ctrler()->get_image();
         const bool run_result = do_once(image, image_prev);
         const auto& monthly_task = m_config->get_monthly_squad_task();
-        const bool summon_task_active = monthly_task.has_value() &&
-                                        monthly_task->type == MonthlySquadTaskType::DeployOperatorSummon &&
+        const bool deploy_task_active = monthly_task.has_value() &&
+                                        (monthly_task->type == MonthlySquadTaskType::DeployOperator ||
+                                         monthly_task->type == MonthlySquadTaskType::DeployOperatorSummon) &&
                                         monthly_task->completed_count < monthly_task->required_count;
-        if (m_monthly_squad_task_battle_abandoned || (!run_result && (summon_task_active || !m_first_deploy))) {
+        if (m_monthly_squad_task_battle_abandoned || (!run_result && (deploy_task_active || !m_first_deploy))) {
             break;
         }
         image_prev = std::move(image);
@@ -460,13 +460,16 @@ bool asst::RoguelikeBattleTaskPlugin::try_run_monthly_squad_deploy_task()
     const auto oper_iter = std::ranges::find_if(m_cur_deployment_opers, [&](const battle::DeploymentOper& oper) {
         return oper.name == monthly_squad_task->oper_name;
     });
-    if (oper_iter == m_cur_deployment_opers.cend() || !oper_iter->available) {
+    if (oper_iter == m_cur_deployment_opers.cend()) {
+        return false;
+    }
+    if (!oper_iter->available) {
         return true;
     }
 
     const auto deploy_info = calc_best_loc(*oper_iter);
     if (!deploy_info.has_value()) {
-        return true;
+        return false;
     }
 
     if (!deploy_oper(oper_iter->role, oper_iter->name, deploy_info->placed, deploy_info->direction)) {
