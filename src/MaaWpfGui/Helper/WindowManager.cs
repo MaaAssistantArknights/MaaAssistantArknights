@@ -61,7 +61,7 @@ public class WindowManager : Stylet.WindowManager
         Window window = base.CreateWindow(viewModel, isDialog, ownerViewModel);
         if (window is RootView)
         {
-            HandyControl.Controls.Dialog.Register(nameof(RootView), window);
+            HandyControl.Controls.Dialog.SetToken(window, nameof(RootView));
 
             if (_loadWindowPlacement && GetConfiguration(out WindowPlacement wp))
             {
