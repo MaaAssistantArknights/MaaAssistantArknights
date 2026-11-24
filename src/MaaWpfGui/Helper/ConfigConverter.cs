@@ -85,7 +85,10 @@ public class ConfigConverter
             ret = ret && ConvertWpfSettings();
         }
 
-        return ret;
+        bool hasLegacyNotifications = parsedOld[ConfigurationKeys.ConfigurationMap] is JObject profiles
+            ? profiles.Properties().Any(profile => profile.Value is JObject values && values.ContainsKey(ConfigurationKeys.ExternalNotificationEnabled))
+            : parsedOld.ContainsKey(ConfigurationKeys.ExternalNotificationEnabled);
+        return ret && (!hasLegacyNotifications || ConvertExternalNotifications());
     }
 
     // 迁移任务队列，v5.15编写
@@ -533,6 +536,218 @@ public class ConfigConverter
         return true;
     }
 
+    private static bool ConvertExternalNotifications()
+    {
+        var currentLegacy = ConfigurationHelper.GetCurrentConfiguration();
+        var currentConfig = ConfigFactory.Root.Current;
+        try
+        {
+            foreach (var configName in ConfigurationHelper.GetConfigurationList())
+            {
+                if (!ConfigurationHelper.SwitchConfiguration(configName))
+                {
+                    return false;
+                }
+                if (!ConfigurationHelper.ContainsKey(ConfigurationKeys.ExternalNotificationEnabled))
+                {
+                    continue;
+                }
+                if (!ConfigFactory.SwitchConfig(configName))
+                {
+                    return false;
+                }
+                if (!File.Exists(_configurationOldBakFile))
+                {
+                    BackupOldConfig();
+                }
+
+                var targetNotifications = ConfigFactory.CurrentConfig.Gui.ExternalNotification;
+
+                // Existing channels are the durable checkpoint after interrupted cleanup.
+                if (targetNotifications.Configs.Count == 0)
+                {
+                    IReadOnlyList<string> externalNotificationProviders =
+                        [
+                            "ServerChan",
+                            "Telegram",
+                            "Discord",
+                            "DingTalk",
+                            "Discord Webhook",
+                            "SMTP",
+                            "Bark",
+                            "Qmsg",
+                            "Gotify",
+                            "Custom Webhook"
+                        ];
+                    var importedProviders = new List<Base>();
+                    var externalList = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationEnabled, string.Empty)
+                        .Split(',')
+                        .Where(s => externalNotificationProviders.Contains(s.ToString()))
+                        .Distinct()
+                        .ToArray();
+                    var serverChanEnabled = externalList.Contains("ServerChan");
+                    var telegramEnabled = externalList.Contains("Telegram");
+                    var discordEnabled = externalList.Contains("Discord");
+                    var discordWebhookEnabled = externalList.Contains("Discord Webhook");
+                    var dingTalkEnabled = externalList.Contains("DingTalk");
+                    var smtpEnabled = externalList.Contains("SMTP");
+                    var barkEnabled = externalList.Contains("Bark");
+                    var qmsgEnabled = externalList.Contains("Qmsg");
+                    var gotifyEnabled = externalList.Contains("Gotify");
+                    var customWebhookEnabled = externalList.Contains("Custom Webhook");
+                    if (serverChanEnabled)
+                    {
+                        var sendKey = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationServerChanSendKey, string.Empty);
+                        importedProviders.Add(new ServerChan(sendKey));
+                    }
+
+                    if (telegramEnabled)
+                    {
+                        var botToken = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationTelegramBotToken, string.Empty);
+                        var chatId = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationTelegramChatId, string.Empty);
+                        var topicId = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationTelegramTopicId, string.Empty);
+                        importedProviders.Add(new Telegram(botToken, chatId, topicId));
+                    }
+
+                    if (discordEnabled)
+                    {
+                        var botToken = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationDiscordBotToken, string.Empty);
+                        var userId = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationDiscordUserId, string.Empty);
+                        importedProviders.Add(new Discord(botToken, userId));
+                    }
+
+                    if (discordWebhookEnabled)
+                    {
+                        var webhookUrl = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationDiscordWebhookUrl, string.Empty);
+                        importedProviders.Add(new CustomWebhook(webhookUrl, Body: $"{{\"content\": \"{{content}}\"}}"));
+                    }
+
+                    if (dingTalkEnabled)
+                    {
+                        var accessToken = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationDingTalkAccessToken, string.Empty);
+                        var secret = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationDingTalkSecret, string.Empty);
+                        importedProviders.Add(new DingTalk(accessToken, secret));
+                    }
+
+                    if (smtpEnabled)
+                    {
+                        var server = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSmtpServer, string.Empty);
+                        var port = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSmtpPort, string.Empty);
+                        var user = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSmtpUser, string.Empty);
+                        var password = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSmtpPassword, string.Empty);
+                        var from = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSmtpFrom, string.Empty);
+                        var to = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSmtpTo, string.Empty);
+                        var useSsl = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSmtpUseSsl, false);
+                        var requiresAuthentication = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSmtpRequiresAuthentication, false);
+                        importedProviders.Add(new Smtp(server, port, user, password, from, to, useSsl, requiresAuthentication));
+                    }
+
+                    if (barkEnabled)
+                    {
+                        var sendKey = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationBarkSendKey, string.Empty);
+                        var server = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationBarkServer, string.Empty);
+                        importedProviders.Add(new Bark(sendKey, server));
+                    }
+
+                    if (qmsgEnabled)
+                    {
+                        var server = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationQmsgServer, string.Empty);
+                        var key = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationQmsgKey, string.Empty);
+                        var user = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationQmsgUser, string.Empty);
+                        var bot = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationQmsgBot, string.Empty);
+                        importedProviders.Add(new Qmsg(server, key, user, bot));
+                    }
+
+                    if (gotifyEnabled)
+                    {
+                        var server = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationGotifyServer, string.Empty);
+                        var token = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationGotifyToken, string.Empty);
+                        importedProviders.Add(new Gotify(server, token));
+                    }
+
+                    if (customWebhookEnabled)
+                    {
+                        var url = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationCustomWebhookUrl, string.Empty);
+                        var body = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationCustomWebhookBody, string.Empty);
+                        var headers = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationCustomWebhookHeaders, string.Empty);
+                        importedProviders.Add(new CustomWebhook(url, headers, body));
+                    }
+
+                    var importedDelivery = new DeliverySettings { Enable = importedProviders.Count > 0 };
+                    NotificationSettingsMigrationConverter.MigrateExternal(importedDelivery,
+                        ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSendWhenComplete, true),
+                        ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSendWhenError, true),
+                        ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSendWhenStalled, false),
+                        ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationEnableDetails, false));
+                    var imported = new System.Text.Json.Nodes.JsonObject {
+                        ["Delivery"] = System.Text.Json.JsonSerializer.SerializeToNode(importedDelivery),
+                        ["Configs"] = System.Text.Json.JsonSerializer.SerializeToNode(importedProviders),
+                    };
+                    NotificationChannelMigration.Normalize(imported);
+                    var migrated = System.Text.Json.JsonSerializer.Deserialize<MaaWpfGui.Configuration.Single.Settings.ExternalNotification>(imported)!;
+                    targetNotifications.Enable = migrated.Enable;
+                    foreach (var channel in migrated.Configs)
+                    {
+                        targetNotifications.Configs.Add(channel);
+                    }
+                }
+
+                if (!ConfigFactory.SaveNow())
+                {
+                    return false;
+                }
+                string[] legacyKeys =
+                [
+                    ConfigurationKeys.ExternalNotificationServerChanSendKey,
+                    ConfigurationKeys.ExternalNotificationTelegramBotToken,
+                    ConfigurationKeys.ExternalNotificationTelegramChatId,
+                    ConfigurationKeys.ExternalNotificationTelegramTopicId,
+                    ConfigurationKeys.ExternalNotificationDiscordBotToken,
+                    ConfigurationKeys.ExternalNotificationDiscordUserId,
+                    ConfigurationKeys.ExternalNotificationDiscordWebhookUrl,
+                    ConfigurationKeys.ExternalNotificationDingTalkAccessToken,
+                    ConfigurationKeys.ExternalNotificationDingTalkSecret,
+                    ConfigurationKeys.ExternalNotificationSmtpServer,
+                    ConfigurationKeys.ExternalNotificationSmtpPort,
+                    ConfigurationKeys.ExternalNotificationSmtpUser,
+                    ConfigurationKeys.ExternalNotificationSmtpPassword,
+                    ConfigurationKeys.ExternalNotificationSmtpFrom,
+                    ConfigurationKeys.ExternalNotificationSmtpTo,
+                    ConfigurationKeys.ExternalNotificationSmtpUseSsl,
+                    ConfigurationKeys.ExternalNotificationSmtpRequiresAuthentication,
+                    ConfigurationKeys.ExternalNotificationBarkSendKey,
+                    ConfigurationKeys.ExternalNotificationBarkServer,
+                    ConfigurationKeys.ExternalNotificationQmsgServer,
+                    ConfigurationKeys.ExternalNotificationQmsgKey,
+                    ConfigurationKeys.ExternalNotificationQmsgUser,
+                    ConfigurationKeys.ExternalNotificationQmsgBot,
+                    ConfigurationKeys.ExternalNotificationGotifyServer,
+                    ConfigurationKeys.ExternalNotificationGotifyToken,
+                    ConfigurationKeys.ExternalNotificationCustomWebhookUrl,
+                    ConfigurationKeys.ExternalNotificationCustomWebhookBody,
+                    ConfigurationKeys.ExternalNotificationCustomWebhookHeaders,
+                    ConfigurationKeys.ExternalNotificationSendWhenError,
+                    ConfigurationKeys.ExternalNotificationSendWhenComplete,
+                    ConfigurationKeys.ExternalNotificationSendWhenStalled,
+                    ConfigurationKeys.ExternalNotificationEnableDetails,
+                ];
+                foreach (var key in legacyKeys)
+                {
+                    ConfigurationHelper.DeleteValue(key);
+                }
+
+                // Remove the migration marker last, after saving the destination.
+                ConfigurationHelper.DeleteValue(ConfigurationKeys.ExternalNotificationEnabled);
+            }
+            return true;
+        }
+        finally
+        {
+            ConfigurationHelper.SwitchConfiguration(currentLegacy);
+            ConfigFactory.SwitchConfig(currentConfig);
+        }
+    }
+
     // 迁移Wpf设置, v6.14编写
     private static bool ConvertWpfSettings()
     {
@@ -566,155 +781,8 @@ public class ConfigConverter
                 ConfigurationHelper.DeleteValue(ConfigurationKeys.PerformanceAllowDeprecatedGpu);
             }
 
-            // 外部通知
+            // 远程控制与运行设置
             {
-                IReadOnlyList<string> externalNotificationProviders =
-                    [
-                        "ServerChan",
-                        "Telegram",
-                        "Discord",
-                        "DingTalk",
-                        "Discord Webhook",
-                        "SMTP",
-                        "Bark",
-                        "Qmsg",
-                        "Gotify",
-                        "Custom Webhook"
-                    ];
-                var externalList = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationEnabled, string.Empty)
-                    .Split(',')
-                    .Where(s => externalNotificationProviders.Contains(s.ToString()))
-                    .Distinct()
-                    .ToArray();
-                var serverChanEnabled = externalList.Contains("ServerChan");
-                var telegramEnabled = externalList.Contains("Telegram");
-                var discordEnabled = externalList.Contains("Discord");
-                var discordWebhookEnabled = externalList.Contains("Discord Webhook");
-                var dingTalkEnabled = externalList.Contains("DingTalk");
-                var smtpEnabled = externalList.Contains("SMTP");
-                var barkEnabled = externalList.Contains("Bark");
-                var qmsgEnabled = externalList.Contains("Qmsg");
-                var gotifyEnabled = externalList.Contains("Gotify");
-                var customWebhookEnabled = externalList.Contains("Custom Webhook");
-                ConfigurationHelper.DeleteValue(ConfigurationKeys.ExternalNotificationEnabled);
-                if (serverChanEnabled)
-                {
-                    var sendKey = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationServerChanSendKey, string.Empty);
-                    ConfigFactory.CurrentConfig.Gui.ExternalNotification.Configs.Add(new ServerChan(sendKey));
-                }
-                ConfigurationHelper.DeleteValue(ConfigurationKeys.ExternalNotificationServerChanSendKey);
-
-                if (telegramEnabled)
-                {
-                    var botToken = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationTelegramBotToken, string.Empty);
-                    var chatId = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationTelegramChatId, string.Empty);
-                    var topicId = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationTelegramTopicId, string.Empty);
-                    ConfigFactory.CurrentConfig.Gui.ExternalNotification.Configs.Add(new Telegram(botToken, chatId, topicId));
-                }
-                ConfigurationHelper.DeleteValue(ConfigurationKeys.ExternalNotificationTelegramBotToken);
-                ConfigurationHelper.DeleteValue(ConfigurationKeys.ExternalNotificationTelegramChatId);
-                ConfigurationHelper.DeleteValue(ConfigurationKeys.ExternalNotificationTelegramTopicId);
-
-                if (discordEnabled)
-                {
-                    var botToken = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationDiscordBotToken, string.Empty);
-                    var userId = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationDiscordUserId, string.Empty);
-                    ConfigFactory.CurrentConfig.Gui.ExternalNotification.Configs.Add(new Discord(botToken, userId));
-                }
-                ConfigurationHelper.DeleteValue(ConfigurationKeys.ExternalNotificationDiscordBotToken);
-                ConfigurationHelper.DeleteValue(ConfigurationKeys.ExternalNotificationDiscordUserId);
-
-                if (discordWebhookEnabled)
-                {
-                    var webhookUrl = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationDiscordWebhookUrl, string.Empty);
-                    ConfigFactory.CurrentConfig.Gui.ExternalNotification.Configs.Add(new CustomWebhook(webhookUrl, Body: $"{{\"content\": \"{{content}}\"}}"));
-                }
-                ConfigurationHelper.DeleteValue(ConfigurationKeys.ExternalNotificationDiscordWebhookUrl);
-
-                if (dingTalkEnabled)
-                {
-                    var accessToken = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationDingTalkAccessToken, string.Empty);
-                    var secret = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationDingTalkSecret, string.Empty);
-                    ConfigFactory.CurrentConfig.Gui.ExternalNotification.Configs.Add(new DingTalk(accessToken, secret));
-                }
-                ConfigurationHelper.DeleteValue(ConfigurationKeys.ExternalNotificationDingTalkAccessToken);
-                ConfigurationHelper.DeleteValue(ConfigurationKeys.ExternalNotificationDingTalkSecret);
-
-                if (smtpEnabled)
-                {
-                    var server = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSmtpServer, string.Empty);
-                    var port = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSmtpPort, string.Empty);
-                    var user = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSmtpUser, string.Empty);
-                    var password = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSmtpPassword, string.Empty);
-                    var from = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSmtpFrom, string.Empty);
-                    var to = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSmtpTo, string.Empty);
-                    var useSsl = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSmtpUseSsl, false);
-                    var requiresAuthentication = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSmtpRequiresAuthentication, false);
-                    ConfigFactory.CurrentConfig.Gui.ExternalNotification.Configs.Add(new Smtp(server, port, user, password, from, to, useSsl, requiresAuthentication));
-                }
-                ConfigurationHelper.DeleteValue(ConfigurationKeys.ExternalNotificationSmtpServer);
-                ConfigurationHelper.DeleteValue(ConfigurationKeys.ExternalNotificationSmtpPort);
-                ConfigurationHelper.DeleteValue(ConfigurationKeys.ExternalNotificationSmtpUser);
-                ConfigurationHelper.DeleteValue(ConfigurationKeys.ExternalNotificationSmtpPassword);
-                ConfigurationHelper.DeleteValue(ConfigurationKeys.ExternalNotificationSmtpFrom);
-                ConfigurationHelper.DeleteValue(ConfigurationKeys.ExternalNotificationSmtpTo);
-                ConfigurationHelper.DeleteValue(ConfigurationKeys.ExternalNotificationSmtpUseSsl);
-                ConfigurationHelper.DeleteValue(ConfigurationKeys.ExternalNotificationSmtpRequiresAuthentication);
-
-                if (barkEnabled)
-                {
-                    var sendKey = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationBarkSendKey, string.Empty);
-                    var server = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationBarkServer, string.Empty);
-                    ConfigFactory.CurrentConfig.Gui.ExternalNotification.Configs.Add(new Bark(sendKey, server));
-                }
-                ConfigurationHelper.DeleteValue(ConfigurationKeys.ExternalNotificationBarkSendKey);
-                ConfigurationHelper.DeleteValue(ConfigurationKeys.ExternalNotificationBarkServer);
-
-                if (qmsgEnabled)
-                {
-                    var server = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationQmsgServer, string.Empty);
-                    var key = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationQmsgKey, string.Empty);
-                    var user = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationQmsgUser, string.Empty);
-                    var bot = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationQmsgBot, string.Empty);
-                    ConfigFactory.CurrentConfig.Gui.ExternalNotification.Configs.Add(new Qmsg(server, key, user, bot));
-                }
-                ConfigurationHelper.DeleteValue(ConfigurationKeys.ExternalNotificationQmsgServer);
-                ConfigurationHelper.DeleteValue(ConfigurationKeys.ExternalNotificationQmsgKey);
-                ConfigurationHelper.DeleteValue(ConfigurationKeys.ExternalNotificationQmsgUser);
-                ConfigurationHelper.DeleteValue(ConfigurationKeys.ExternalNotificationQmsgBot);
-
-                if (gotifyEnabled)
-                {
-                    var server = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationGotifyServer, string.Empty);
-                    var token = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationGotifyToken, string.Empty);
-                    ConfigFactory.CurrentConfig.Gui.ExternalNotification.Configs.Add(new Gotify(server, token));
-                }
-                ConfigurationHelper.DeleteValue(ConfigurationKeys.ExternalNotificationGotifyServer);
-                ConfigurationHelper.DeleteValue(ConfigurationKeys.ExternalNotificationGotifyToken);
-
-                if (customWebhookEnabled)
-                {
-                    var url = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationCustomWebhookUrl, string.Empty);
-                    var body = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationCustomWebhookBody, string.Empty);
-                    var headers = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationCustomWebhookHeaders, string.Empty);
-                    ConfigFactory.CurrentConfig.Gui.ExternalNotification.Configs.Add(new CustomWebhook(url, headers, body));
-                }
-                ConfigurationHelper.DeleteValue(ConfigurationKeys.ExternalNotificationCustomWebhookUrl);
-                ConfigurationHelper.DeleteValue(ConfigurationKeys.ExternalNotificationCustomWebhookBody);
-                ConfigurationHelper.DeleteValue(ConfigurationKeys.ExternalNotificationCustomWebhookHeaders);
-
-                ConfigFactory.CurrentConfig.Gui.ExternalNotification.Delivery.Enable = ConfigFactory.CurrentConfig.Gui.ExternalNotification.Configs.Count > 0;
-                NotificationSettingsMigrationConverter.MigrateExternal(ConfigFactory.CurrentConfig.Gui.ExternalNotification.Delivery,
-                    ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSendWhenComplete, true),
-                    ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSendWhenError, true),
-                    ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSendWhenStalled, false),
-                    ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationEnableDetails, false));
-
-                ConfigurationHelper.DeleteValue(ConfigurationKeys.ExternalNotificationSendWhenError);
-                ConfigurationHelper.DeleteValue(ConfigurationKeys.ExternalNotificationSendWhenComplete);
-                ConfigurationHelper.DeleteValue(ConfigurationKeys.ExternalNotificationSendWhenStalled);
-                ConfigurationHelper.DeleteValue(ConfigurationKeys.ExternalNotificationEnableDetails);
-
                 ConfigFactory.CurrentConfig.Gui.RemoteControl.RemoteControlGetTaskEndpointUri = ConfigurationHelper.GetValue(ConfigurationKeys.RemoteControlGetTaskEndpointUri, string.Empty);
                 ConfigFactory.CurrentConfig.Gui.RemoteControl.RemoteControlReportStatusUri = ConfigurationHelper.GetValue(ConfigurationKeys.RemoteControlReportStatusUri, string.Empty);
                 ConfigFactory.CurrentConfig.Gui.RemoteControl.RemoteControlUserIdentity = ConfigurationHelper.GetValue(ConfigurationKeys.RemoteControlUserIdentity, string.Empty);
