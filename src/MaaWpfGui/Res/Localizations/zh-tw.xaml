@@ -2535,7 +2535,10 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
 如果已解鎖開局額外攜帶物品的相關科技，請拆除基地內會導致開局額外攜帶物品的設施，例如食品供給站、飲品供給站、獸欄等。
 
 任務流程：
-使用 ｢籌劃經營｣ 戰術傾向提供的赤金解鎖區域，再使用維什戴爾完成擊殺 Boss 的任務。</system:String>
+使用 ｢籌劃經營｣ 戰術傾向提供的赤金解鎖區域，再使用維什戴爾完成擊殺 Boss 的任務。
+
+注意事項：
+遊戲和模擬器的影格率需為 60 FPS，否則可能出現滑動異常導致任務出錯。</system:String>
     <system:String x:Key="Toolbox.MiniGame.Reclamation.TalesInSave.Tip" xml:space="preserve">有存檔時透過製造刷點數：
   1. 要求為結算後的第一天，且後續三天沒有敵襲進入駐紮地。
   2. 必須在進入大地圖後的介面開始（能看到駐紮地的介面）。
@@ -2573,6 +2576,24 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Mode">模式</system:String>
     <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Mode.Badge">刷角標（完整通關）</system:String>
     <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Mode.Score">刷分（放生速通）</system:String>
+    <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Regulation.PC.Tip">PC 端需額外在遊戲設定 ｢按鍵｣ 中關閉 ｢特殊玩法鍵位｣ 的快捷鍵顯示。</system:String>
+    <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Regulation.Tip.Badge" xml:space="preserve">請使用衛戍預設主題 UI，在有 ｢極速模擬｣ 的活動主畫面啟動任務。若已有存檔，請先手動放棄。
+MAA 會選擇尚未達標的策略（不包含 ｢極速模擬｣ 無法使用的策略），並打完每一局。
+
+本模式最多可借用 30 名支援幹員。
+建議先借齊商店優先名單中的幹員（見下），再借齊 VI 階輸出幹員。若還有名額，也盡量借齊 V 階輸出幹員，以提高通關率。
+
+MAA 會從自選編隊中每階選 2 名六星幹員，優先順序如下：
+{0}
+
+商店升到滿級後，會優先購買下列幹員：
+{1}
+其餘幹員依下列順序購買：
+自選 VI 階 → 自選 V 階 → 一般 VI 階 → 帳號替補（自有幹員不足時由遊戲提供）→ 一般 V 階。</system:String>
+    <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Regulation.Tip.Score" xml:space="preserve">在活動主介面（有 ｢極速模擬｣ 處）開始任務
+需要使用衛戍預設主題 UI
+在有存檔時需要先手動放棄
+不干預對局，快速過回合刷等級獎勵</system:String>
     <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Runs">通關局數</system:String>
     <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.SettlementLog">{0}，已通關 {1}/{2}</system:String>
     <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.StrategyLog">{0}：通過 {1}/{2}</system:String>
@@ -2582,24 +2603,6 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Theme">衛戍協議主題</system:String>
     <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Theme.Alliance">盟約</system:String>
     <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Theme.Regulation">規程</system:String>
-    <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Tip.Badge" xml:space="preserve">請使用活動預設外觀，在有 ｢極速模擬｣ 的活動主畫面啟動任務。若已有存檔，請先手動放棄。
-MAA 會選擇尚未達標的策略，並打完每一局。
-
-本模式最多可借用 30 名支援幹員。
-建議先借齊商店優先名單中的幹員，再借齊 VI 階輸出幹員。若還有名額，也盡量借齊 V 階輸出幹員，以提高通關率。
-
-自選編隊只選六星幹員，每階最多 2 名。優先順序如下：
-{0}
-
-商店升到滿級後，會優先購買下列幹員：
-{1}
-其餘幹員依下列順序購買：
-自選 VI 階 → 自選 V 階 → 一般 VI 階 → 帳號替補（自有幹員不足時由遊戲提供）→ 一般 V 階。
-建議場上只留 1 名醫療幹員。已有醫療時，只購買能替換場上低階醫療的更高階醫療。</system:String>
-    <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Tip.Score" xml:space="preserve">在活動主介面（有 ｢極速模擬｣ 處）開始任務
-需要使用活動預設皮膚
-在有存檔時需要先手動放棄
-不干預對局，快速過回合刷等級獎勵</system:String>
     <system:String x:Key="Toolbox.MiniGame.TL.WartimePressCommittee">戰時新聞委員會</system:String>
     <system:String x:Key="Toolbox.MiniGame.TL.WartimePressCommittee.Tip" xml:space="preserve">請從活動報紙選擇介面（可見報紙名稱與 ｢開始組版｣ 按鈕）的狀態開始。</system:String>
     <system:String x:Key="Toolbox.MiniGame.Title">快捷功能</system:String>

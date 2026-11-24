@@ -2517,7 +2517,9 @@ Open RA-4 on the map and start the task when &quot;Start &quot; appears at the b
 
 Note: Please dismantle the buildings in the base that cause starting with extra items, such as Supply Stations and Corrals...
 
-Task flow: Use the Gold from Strategy Business Management to unlock areas, and use Wis'adel to complete the boss elimination mission.</system:String>
+Task flow: Use the Gold from Strategy Business Management to unlock areas, and use Wis'adel to complete the boss elimination mission.
+
+Note: Keep both the game and the emulator at 60 FPS, otherwise swipes may misbehave and cause the task to fail.</system:String>
     <system:String x:Key="Toolbox.MiniGame.Reclamation.TalesInSave.Tip" xml:space="preserve">With save file: farm points through crafting:
   1. It must be the first day after settlement, and there should be no enemy attacks entering the stationed area for the next three days.
   2. It must start after entering the interface of the large map. (stationed location needs to be visible)
@@ -2555,6 +2557,24 @@ Only level rewards can be farmed; to get the Engraved Medal, all ｢Key Objectiv
     <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Mode">Mode</system:String>
     <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Mode.Badge">Farm badges (full clear)</system:String>
     <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Mode.Score">Farm score (idle rush)</system:String>
+    <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Regulation.PC.Tip">On PC, also go to ｢Keys｣ in the game settings and turn off shortcut key display for ｢Special Gameplay Keys｣ (name TBD).</system:String>
+    <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Regulation.Tip.Badge" xml:space="preserve">Use the default Stronghold Protocol theme UI and start from the main event screen with the ｢Express Simulation｣ option (name TBD). Manually abandon any saved run first.
+MAA picks a strategy that still needs clears (excluding strategies unavailable in ｢Express Simulation｣) and plays each run to the end.
+
+You can borrow up to 30 support units in this mode.
+For a better chance of clearing, borrow everyone on the shop priority list (see below) first, then all tier VI damage dealers. Fill any remaining slots with tier V damage dealers.
+
+From the custom squad, MAA picks 2 six-star operators per tier, in this order:
+{0}
+
+Once the shop reaches its highest level, MAA buys these operators first, in order:
+{1}
+For other operators, the purchase order is:
+Custom squad tier VI → custom squad tier V → regular tier VI → substitutes the game provides for unfilled roster slots → regular tier V.</system:String>
+    <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Regulation.Tip.Score" xml:space="preserve">Start the task from the main event screen (where ｢Express Simulation｣ (name TBD) is located)
+The default Stronghold Protocol theme UI must be used
+If there is a saved game, you need to manually abandon it first
+Leaves the run alone and quickly clears rounds for level rewards</system:String>
     <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Runs">Clears</system:String>
     <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.SettlementLog">{0}, cleared {1}/{2}</system:String>
     <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.StrategyLog">{0}: passed {1}/{2}</system:String>
@@ -2564,24 +2584,6 @@ Only level rewards can be farmed; to get the Engraved Medal, all ｢Key Objectiv
     <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Theme">Stronghold Protocol Theme</system:String>
     <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Theme.Alliance">Alliance</system:String>
     <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Theme.Regulation">Regulation</system:String>
-    <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Tip.Badge" xml:space="preserve">Use the default event skin and start from the main event screen with the ｢Express Simulation｣ option (name TBD). Manually abandon any saved run first.
-MAA picks a strategy that still needs clears and plays each run to the end.
-
-You can borrow up to 30 support units in this mode.
-For a better chance of clearing, borrow everyone on the shop priority list first, then all tier VI damage dealers. Fill any remaining slots with tier V damage dealers.
-
-The custom squad takes only 6-star operators, up to two per tier. First picks, in order:
-{0}
-
-Once the shop reaches its highest level, MAA buys these operators first, in order:
-{1}
-For other operators, the purchase order is:
-Custom squad tier VI → custom squad tier V → regular tier VI → substitutes the game provides for unfilled roster slots → regular tier V.
-Aim to keep one Medic on the field. Once you have one deployed, only buy another to replace a low-tier Medic with a higher-tier one.</system:String>
-    <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Tip.Score" xml:space="preserve">Start the task from the main event screen (where ｢Express Simulation｣ (name TBD) is located)
-The default event skin must be used
-If there is a saved game, you need to manually abandon it first
-Leaves the run alone and quickly clears rounds for level rewards</system:String>
     <system:String x:Key="Toolbox.MiniGame.TL.WartimePressCommittee">Wartime Press Committee</system:String>
     <system:String x:Key="Toolbox.MiniGame.TL.WartimePressCommittee.Tip" xml:space="preserve">Please start from the event newspaper selection screen where the paper name is visible.</system:String>
     <system:String x:Key="Toolbox.MiniGame.Title">Useful Tasks</system:String>

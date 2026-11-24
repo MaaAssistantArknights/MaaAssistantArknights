@@ -352,7 +352,7 @@ public class StageManager
             new() { Display = LocalizationHelper.GetString("Toolbox.MiniGame.CursedRelic"), DisplayKey = "Toolbox.MiniGame.CursedRelic", Value = "MiniGame@CursedRelic@Begin", TipKey = "Toolbox.MiniGame.CursedRelic.Tip", CategoryKey = "Toolbox.MiniGame.Category.PermanentFeature" },
 
             // 卫戍协议常驻化后的极速模拟任务（刷角标 / 放生速通刷分），走 StrongholdProtocol 独立任务 + StrongholdProtocolTaskPlugin
-            new() { Display = LocalizationHelper.GetString("Toolbox.MiniGame.StrongholdProtocol"), DisplayKey = "Toolbox.MiniGame.StrongholdProtocol", Value = "StrongholdProtocol@Farm@Begin", TipKey = "Toolbox.MiniGame.StrongholdProtocol.Tip.Badge", CategoryKey = "Toolbox.MiniGame.Category.Permanent" },
+            new() { Display = LocalizationHelper.GetString("Toolbox.MiniGame.StrongholdProtocol"), DisplayKey = "Toolbox.MiniGame.StrongholdProtocol", Value = "StrongholdProtocol@Farm@Begin", CategoryKey = "Toolbox.MiniGame.Category.Permanent" },
         };
 
         return entries;
