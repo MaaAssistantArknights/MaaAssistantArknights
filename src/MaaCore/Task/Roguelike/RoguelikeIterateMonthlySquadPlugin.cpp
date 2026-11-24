@@ -43,9 +43,6 @@ bool asst::RoguelikeIterateMonthlySquadPlugin::_run()
     LogTraceFunction;
 
     m_completed = true;
-    if (monthlySquadCount[m_config->get_theme()] > 0) {
-        ProcessTask(*this, { m_config->get_theme() + "@Roguelike@MonthlySquad" }).run();
-    }
 
     if (!m_iterateMS) {
         return true;
@@ -77,5 +74,8 @@ bool asst::RoguelikeIterateMonthlySquadPlugin::_run()
 
 bool asst::RoguelikeIterateMonthlySquadPlugin::try_task(const char* task) const
 {
-    return ProcessTask(*this, { m_config->get_theme() + task }).set_times_limit("Roguelike@StartExplore", 0).run();
+    return ProcessTask(*this, { m_config->get_theme() + task })
+        .set_times_limit("Roguelike@StartExplore-Entry", 0)
+        .set_times_limit("Roguelike@StartExplore", 0)
+        .run();
 }

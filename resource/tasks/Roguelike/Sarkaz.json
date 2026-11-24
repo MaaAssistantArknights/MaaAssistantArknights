@@ -1069,6 +1069,14 @@
         "template": "Sarkaz@Roguelike@StartExplore.png",
         "roi": [1014, 481, 266, 219]
     },
+    "Sarkaz@Roguelike@StartExplore-Entry": {
+        "baseTask": "Sarkaz@Roguelike@StartExplore",
+        "template": "Sarkaz@Roguelike@StartExplore.png",
+        "action": "DoNothing",
+        "postDelay": 0,
+        "sub": ["Sarkaz@Roguelike@StartExplore-SelectMode#next"],
+        "next": ["Sarkaz@Roguelike@StartExplore"]
+    },
     "Sarkaz@Roguelike@StrategyChange-FastInvestment": {
         "baseTask": "Sarkaz@Roguelike@StrategyChange_mode1",
         "text": ["_fastInvestment", "_exit"],

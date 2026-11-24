@@ -235,6 +235,15 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
 
     m_roguelike_task_ptr->set_tasks({ theme + "@Roguelike@Begin" });
 
+    std::string select_mode_task = "@Roguelike@StartExplore-SelectMode-Normal";
+    if (mode == RoguelikeMode::Squad) {
+        select_mode_task = "@Roguelike@StartExplore-SelectMode-MonthlySquad";
+    }
+    else if (mode == RoguelikeMode::Exploration) {
+        select_mode_task = "@Roguelike@StartExplore-SelectMode-DeepExploration";
+    }
+    Task.set_task_base(theme + "@Roguelike@StartExplore-SelectMode", theme + select_mode_task);
+
     if (mode == RoguelikeMode::Investment) {
         // 刷源石锭模式是否进入第二层
         if (m_config_ptr->get_invest_with_more_score()) {
@@ -288,7 +297,9 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
         }
     }
 
-    m_roguelike_task_ptr->set_times_limit(theme + "@Roguelike@StartExplore", params.get("starts_count", INT_MAX));
+    const int starts_count = params.get("starts_count", INT_MAX);
+    m_roguelike_task_ptr->set_times_limit(theme + "@Roguelike@StartExplore-Entry", starts_count);
+    m_roguelike_task_ptr->set_times_limit(theme + "@Roguelike@StartExplore", starts_count);
     // 通过 exceededNext 禁用投资系统，进入商店购买逻辑
     m_roguelike_task_ptr->set_times_limit(
         "StageTraderInvestSystem",

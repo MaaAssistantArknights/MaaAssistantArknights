@@ -41,9 +41,6 @@ bool asst::RoguelikeIterateDeepExplorationPlugin::_run()
     LogTraceFunction;
 
     m_completed = true;
-    if (deepExplorationCount[m_config->get_theme()] > 0) {
-        ProcessTask(*this, { m_config->get_theme() + "@Roguelike@DeepExploration" }).run();
-    }
 
     if (!m_iterateDE) {
         return true;
