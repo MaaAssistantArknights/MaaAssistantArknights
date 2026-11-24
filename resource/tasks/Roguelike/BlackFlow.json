@@ -1491,7 +1491,7 @@
     },
     "BlackFlow@Roguelike@Page-Employ": {
         "algorithm": "JustReturn",
-        "next": ["BlackFlow@Roguelike@EmployLeave"]
+        "next": ["BlackFlow@Roguelike@EmployLeave", "BlackFlow@Roguelike@EmployLeaveConfirm"]
     },
     "BlackFlow@Roguelike@Page-Encounter": {
         "baseTask": "BlackFlow@Roguelike@StageEncounterJudgeClick"
