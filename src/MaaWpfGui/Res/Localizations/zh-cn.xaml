@@ -2566,12 +2566,12 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Theme.Alliance">盟约</system:String>
     <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Theme.Regulation">规程</system:String>
     <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Tip.Badge" xml:space="preserve">请使用卫戍默认主题 UI ，在有 ｢极速模拟｣ 的活动主界面启动任务。已有存档时，请先手动放弃。
-MAA 会选择未达标的策略，并打完每一局。
+MAA 会选择未达标的策略（不包含 ｢极速模拟｣ 无法使用的策略），并打完每一局。
 
 本模式最多可借用 30 名助战干员。
-建议先借齐商店优先名单中的干员，再借齐 VI 阶输出干员，名额允许时也尽量借齐 V 阶输出干员，可提高通过率。
+建议先借齐商店优先名单中的干员（见下），再借齐 VI 阶输出干员，名额允许时也尽量借齐 V 阶输出干员，可提高通过率。
 
-自选编队只选六星干员，每阶最多 2 名。优先顺序如下：
+自选编队只选六星干员，每阶最多 2 名，可任意搭配。优先顺序如下：
 {0}
 
 商店满级后，优先购买以下干员：
