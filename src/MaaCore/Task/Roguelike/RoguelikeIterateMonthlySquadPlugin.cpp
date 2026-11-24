@@ -56,6 +56,11 @@ bool asst::RoguelikeIterateMonthlySquadPlugin::_run()
     }
 
     if (!m_iterateMS) {
+        if (is_monthly_squad_reward_completed()) {
+            LogInfo << __FUNCTION__ << "current monthly squad reward completed, finishing Roguelike task";
+            m_task_ptr->set_enable(false);
+            return true;
+        }
         m_monthly_squad_index = recognize_monthly_squad_index();
         update_monthly_squad_task();
         apply_monthly_squad_task_strategy();
@@ -153,8 +158,16 @@ void asst::RoguelikeIterateMonthlySquadPlugin::apply_legacy_monthly_squad_logic(
 
 bool asst::RoguelikeIterateMonthlySquadPlugin::is_monthly_squad_reward_completed() const
 {
+    // 刚进入小队页面时，奖励标记可能还在淡入。
     Matcher analyzer(ctrler()->get_image());
     analyzer.set_task_info(m_config->get_theme() + "@Roguelike@MonthlySquadRewardCompleted");
+    if (analyzer.analyze()) {
+        return true;
+    }
+    if (!sleep(Config.get_options().task_delay)) {
+        return false;
+    }
+    analyzer.set_image(ctrler()->get_image());
     return analyzer.analyze().has_value();
 }
 

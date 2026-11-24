@@ -846,6 +846,8 @@ The following task types are supported:
 | `DeployOperatorSummon` | `operator`, `count`          | Deploy the specified operator, then deploy and immediately retreat each summon |
 | `UseOperatorSkill`     | `operator`, `count`, `skill` | Select and use the specified operator's first, second, or third skill          |
 
+Before each exploration, MAA checks the reward completion mark on the squad screen, even if the local counter is below `count`. If the reward is complete and automatic squad rotation is off, MAA ends the current Integrated Strategies task and continues with the next task in the queue. With rotation on, MAA moves to the next squad once the reward is complete and, if communications checks are enabled, all of the current squad's communications are unlocked.
+
 `count` must be a positive integer. `skill` must be from `1` to `3`. It is optional for `DeployOperatorSummon`; when omitted, the operator's existing skill-selection logic is preserved.
 
 A `UseOperatorSkill` task that requires skill 3 reserves Hope to promote the target operator to Elite 2. While saving Hope, MAA can recruit operators of 3 stars or lower. In `JieGarden` and `Sarkaz`, it can also recruit a 4-star operator for the first time at zero Hope. It skips promotions for 4-star operators already on the roster and other higher-rarity recruits, including temporary recruits.
