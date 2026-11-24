@@ -1,0 +1,4 @@
+interface:
+  display_name: "MAA Windows WPF 使用指南"
+  short_description: "查询 Windows WPF 版 MAA 的安装、设备连接、任务与设置用法"
+  default_prompt: "使用 $maa-wpf-guide 回答这个 Windows WPF 版 MAA 的使用问题，并给出界面入口和官方依据。"

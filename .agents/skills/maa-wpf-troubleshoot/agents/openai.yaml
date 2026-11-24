@@ -1,0 +1,4 @@
+interface:
+  display_name: "MAA Windows WPF 故障排查"
+  short_description: "根据 Windows WPF 版 MAA 的报错、日志与症状排查故障"
+  default_prompt: "使用 $maa-wpf-troubleshoot 根据现象和已有证据排查 Windows WPF 版 MAA，并给出可验证的下一步。"
