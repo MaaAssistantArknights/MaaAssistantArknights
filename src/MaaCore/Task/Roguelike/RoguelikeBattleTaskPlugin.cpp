@@ -596,22 +596,27 @@ bool asst::RoguelikeBattleTaskPlugin::try_run_monthly_squad_summon_task()
 
 void asst::RoguelikeBattleTaskPlugin::configure_skill_usage(
     const battle::OperNameTag& oper_tag,
-    battle::SkillUsage default_usage,
-    int default_times)
+    battle::SkillUsage usage,
+    int times)
 {
     const auto& monthly_squad_task = m_config->get_monthly_squad_task();
     if (monthly_squad_task.has_value() && monthly_squad_task->type == MonthlySquadTaskType::UseOperatorSkill &&
         monthly_squad_task->oper_name == oper_tag.name && monthly_squad_task->skill.has_value() &&
-        (monthly_squad_task->skill != MonthlySquadSkill::Skill3 ||
-         (m_oper_elite.contains(oper_tag.name) && m_oper_elite.at(oper_tag.name) >= 2)) &&
         monthly_squad_task->required_count > monthly_squad_task->completed_count) {
-        m_skill_usage[oper_tag] = battle::SkillUsage::Times;
-        m_skill_times[oper_tag] = monthly_squad_task->required_count - monthly_squad_task->completed_count;
-        return;
+        const auto elite = m_oper_elite.find(oper_tag.name);
+        if (monthly_squad_task->skill == MonthlySquadSkill::Skill3 &&
+            (elite == m_oper_elite.end() || elite->second < 2)) {
+            // 精二未确认时也尝试释放，过渡技能的释放次数不能计入三技能进度。
+            usage = battle::SkillUsage::Possibly;
+        }
+        else {
+            usage = battle::SkillUsage::Times;
+            times = monthly_squad_task->required_count - monthly_squad_task->completed_count;
+        }
     }
 
-    m_skill_usage[oper_tag] = default_usage;
-    m_skill_times[oper_tag] = default_times;
+    m_skill_usage[oper_tag] = usage;
+    m_skill_times[oper_tag] = times;
 }
 
 bool asst::RoguelikeBattleTaskPlugin::use_all_ready_skill_and_track_monthly_task(const cv::Mat& image)
@@ -619,9 +624,6 @@ bool asst::RoguelikeBattleTaskPlugin::use_all_ready_skill_and_track_monthly_task
     auto& monthly_squad_task = m_config->get_monthly_squad_task();
     if (!monthly_squad_task.has_value() || monthly_squad_task->type != MonthlySquadTaskType::UseOperatorSkill ||
         monthly_squad_task->oper_name.empty() || !monthly_squad_task->skill.has_value() ||
-        (monthly_squad_task->skill == MonthlySquadSkill::Skill3 &&
-         (!m_oper_elite.contains(monthly_squad_task->oper_name) ||
-          m_oper_elite.at(monthly_squad_task->oper_name) < 2)) ||
         monthly_squad_task->required_count <= 0 ||
         monthly_squad_task->completed_count >= monthly_squad_task->required_count) {
         return use_all_ready_skill(image);

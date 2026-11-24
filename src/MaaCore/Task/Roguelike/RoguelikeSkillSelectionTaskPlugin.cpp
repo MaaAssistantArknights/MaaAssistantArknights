@@ -53,35 +53,38 @@ bool asst::RoguelikeSkillSelectionTaskPlugin::_run()
             owned_opers.try_emplace(name, RoguelikeOper { .elite = 1, .level = 80 });
         }
         const auto& oper_info = RoguelikeRecruit.get_oper_info(m_config->get_theme(), name);
-        const bool override_skill =
-            is_monthly_target &&
-            (monthly_squad_task->type == MonthlySquadTaskType::UseOperatorSkill ||
-             monthly_squad_task->type == MonthlySquadTaskType::DeployOperatorSummon) &&
-            monthly_squad_task->skill.has_value() &&
-            (monthly_squad_task->skill != MonthlySquadSkill::Skill3 || owned_opers.at(name).elite >= 2) &&
-            monthly_squad_task->completed_count < monthly_squad_task->required_count;
+        const bool override_skill = is_monthly_target &&
+                                    (monthly_squad_task->type == MonthlySquadTaskType::UseOperatorSkill ||
+                                     monthly_squad_task->type == MonthlySquadTaskType::DeployOperatorSummon) &&
+                                    monthly_squad_task->skill.has_value() &&
+                                    monthly_squad_task->completed_count < monthly_squad_task->required_count;
         if (oper_info.name.empty() && !override_skill) {
             Log.warn("Unknown oper", name);
             continue;
         }
 
+        int skill = oper_info.skill;
+        int alternate_skill = oper_info.alternate_skill;
         if (override_skill) {
-            const int skill = static_cast<int>(*monthly_squad_task->skill);
-            LogInfo << __FUNCTION__ << name << "select monthly squad task skill:" << skill;
-            ctrler()->click(skill_vec.at(skill - 1));
+            skill = static_cast<int>(*monthly_squad_task->skill);
+            // 事件晋升可能没有记录。尝试三技能前先选精一可用的技能。
+            if (monthly_squad_task->skill != MonthlySquadSkill::Skill3) {
+                alternate_skill = 0;
+            }
+            else if (alternate_skill != 1 && alternate_skill != 2) {
+                alternate_skill = oper_info.skill == 2 ? 2 : 1;
+            }
+        }
+        if (alternate_skill > 0) {
+            LogInfo << __FUNCTION__ << name << "select alternate skill:" << alternate_skill;
+            ctrler()->click(skill_vec.at(alternate_skill - 1));
             sleep(delay);
         }
-        else {
-            if (oper_info.alternate_skill > 0) {
-                Log.info(__FUNCTION__, name, " select alternate skill:", oper_info.alternate_skill);
-                ctrler()->click(skill_vec.at(oper_info.alternate_skill - 1));
-                sleep(delay);
-            }
-            if (oper_info.skill > 0) {
-                Log.info(__FUNCTION__, name, " select main skill:", oper_info.skill);
-                ctrler()->click(skill_vec.at(oper_info.skill - 1));
-                sleep(delay);
-            }
+        if (skill > 0) {
+            LogInfo << __FUNCTION__ << name
+                    << (override_skill ? "select monthly squad task skill:" : "select main skill:") << skill;
+            ctrler()->click(skill_vec.at(skill - 1));
+            sleep(delay);
         }
         constexpr int RookieStd = 200;
         if (!oper_info.name.empty() && oper_info.promote_priority < RookieStd) {
