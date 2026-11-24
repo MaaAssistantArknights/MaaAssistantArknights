@@ -30,6 +30,17 @@
     "Mizuki@Roguelike@StageSafeHouseReuse": {
         "text": ["Use the Safe House again", "Use the Safe"]
     },
+    "Mizuki@Roguelike@StrategyChange_ReachThirdFloor": {
+        "ocrReplace": [
+            ["Sunshine Coast", "_default"],
+            ["Offshore Island", "_default"],
+            ["Raging Billows", "_restart"],
+            ["Secret Hotbed", "_restart"],
+            ["Sacrosant Cave", "_restart"],
+            ["Deep Sea Woodland", "_restart"],
+            ["Indigo Cradle", "_default"]
+        ]
+    },
     "Mizuki@Roguelike@StrategyChange_mode0": {
         "ocrReplace": [
             ["Sunshine Coast", "_aggressive"],

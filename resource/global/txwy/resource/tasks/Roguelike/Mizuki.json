@@ -11,6 +11,17 @@
     "Mizuki@Roguelike@SelectTheme": {
         "text": ["生態譜系", "生態", "譜系"]
     },
+    "Mizuki@Roguelike@StrategyChange_ReachThirdFloor": {
+        "ocrReplace": [
+            ["天光海岸", "_default"],
+            ["離岸孤島", "_default"],
+            ["波濤略地", "_restart"],
+            ["隱秘溫床", "_restart"],
+            ["失塵岩洞", "_restart"],
+            ["幽海叢林", "_restart"],
+            ["紺碧搖籃", "_default"]
+        ]
+    },
     "Mizuki@Roguelike@StrategyChange_mode0": {
         "ocrReplace": [
             ["天光海岸", "_aggressive"],

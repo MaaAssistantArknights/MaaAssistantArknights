@@ -11,6 +11,16 @@
     "Phantom@Roguelike@StageEncounterOptionUnknown": {
         "templThreshold": 0.95
     },
+    "Phantom@Roguelike@StrategyChange_ReachThirdFloor": {
+        "ocrReplace": [
+            ["迷霧の岐路", "_default"],
+            ["落陽の庭園", "_default"],
+            ["凋落の故地", "_restart"],
+            ["悪夢の幕開け", "_restart"],
+            ["緋月の回廊", "_restart"],
+            ["渇欲の大広間", "_restart"]
+        ]
+    },
     "Phantom@Roguelike@StrategyChange_mode0": {
         "ocrReplace": [
             ["迷霧の岐路", "_aggressive"],

@@ -811,7 +811,7 @@ icon: ri:game-fill
 
 | `type`                 | 必填欄位                     | 說明                                   |
 | ---------------------- | ---------------------------- | -------------------------------------- |
-| `ReachThirdFloor`      | 無                           | 沿用原有邏輯探索至第三層               |
+| `ReachThirdFloor`      | 無                           | 進入第三層時結束本次探索               |
 | `DeployOperator`       | `operator`、`count`          | 部署指定幹員並累計次數                 |
 | `DeployOperatorSummon` | `operator`、`count`          | 先部署指定幹員，再持續部署其關聯召喚物 |
 | `UseOperatorSkill`     | `operator`、`count`、`skill` | 選擇並使用指定幹員的一、二或三技能     |

@@ -16,6 +16,18 @@
     "Mizuki@Roguelike@StageSafeHouseReuse": {
         "text": ["안전가옥활용"]
     },
+    "Mizuki@Roguelike@StrategyChange_ReachThirdFloor": {
+        "ocrReplace": [
+            [" ", ""],
+            ["하늘", "_default"],
+            ["연안", "_default"],
+            ["맹렬한", "_restart"],
+            ["은밀한", "_restart"],
+            ["신성한", "_restart"],
+            ["심해의", "_restart"],
+            ["짙푸른", "_default"]
+        ]
+    },
     "Mizuki@Roguelike@StrategyChange_mode0": {
         "ocrReplace": [
             [" ", ""],

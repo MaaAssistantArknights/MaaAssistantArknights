@@ -52,6 +52,17 @@
             ["奇妙な断章", "_exit"]
         ]
     },
+    "Sarkaz@Roguelike@StrategyChange_ReachThirdFloor": {
+        "ocrReplace": [
+            ["溶魂の端緒", "_default"],
+            ["錬鉄の根系", "_default"],
+            ["灰燼の迷城", "_restart"],
+            ["蓋然の異域", "_restart"],
+            ["虚[構横]の境[目E=]?", "_restart"],
+            ["輝ける天上", "_restart"],
+            ["奇妙な断章", "_default"]
+        ]
+    },
     "Sarkaz@Roguelike@StrategyChange_mode0": {
         "ocrReplace": [
             ["溶魂の端緒", "_default"],

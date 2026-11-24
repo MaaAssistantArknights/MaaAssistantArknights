@@ -144,6 +144,17 @@
     "Sami@Roguelike@SelectTheme": {
         "text": ["科考記錄", "科考", "記錄"]
     },
+    "Sami@Roguelike@StrategyChange_ReachThirdFloor": {
+        "ocrReplace": [
+            ["初霜湖澤", "_default"],
+            ["密靜林地", "_default"],
+            [".*明凍(土|士)", "_restart"],
+            ["積冰岩骸", "_restart"],
+            ["無瑕花.*", "_restart"],
+            ["遠見之構", "_restart"],
+            ["深埋迷境", "_default"]
+        ]
+    },
     "Sami@Roguelike@StrategyChange_mode0": {
         "ocrReplace": [
             ["初霜湖澤", "_aggressive"],

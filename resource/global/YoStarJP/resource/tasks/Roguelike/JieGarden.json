@@ -162,6 +162,17 @@
     "JieGarden@Roguelike@StartExploreWithSeed-Open": {
         "roi": [860, 569, 130, 43]
     },
+    "JieGarden@Roguelike@StrategyChange_ReachThirdFloor": {
+        "ocrReplace": [
+            ["洪陸楼", "_default"],
+            ["山水閣", "_default"],
+            ["雲瓦[亭亨夢幕享]", "_restart"],
+            ["汝吾(門)?", "_restart"],
+            ["見字[祠乱嗣両詞而]", "_restart"],
+            ["始末陵", "_restart"],
+            ["是非境", "_leaveBoskyPassage"]
+        ]
+    },
     "JieGarden@Roguelike@StrategyChange_mode0": {
         "text": ["_default", "_boskyPassageDefault"],
         "ocrReplace": [

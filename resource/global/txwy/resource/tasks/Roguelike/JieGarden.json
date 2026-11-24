@@ -141,6 +141,17 @@
     "JieGarden@Roguelike@StageSafeHouseReuse": {
         "text": ["活用安全屋"]
     },
+    "JieGarden@Roguelike@StrategyChange_ReachThirdFloor": {
+        "ocrReplace": [
+            ["洪陸樓", "_default"],
+            ["山水閣", "_default"],
+            ["雲(瓦)?(亭|亨)", "_restart"],
+            ["汝吾(門)?", "_restart"],
+            ["見字(祠|柯)", "_restart"],
+            ["始末陵", "_restart"],
+            ["是非境", "_leaveBoskyPassage"]
+        ]
+    },
     "JieGarden@Roguelike@StrategyChange_mode0": {
         "ocrReplace": [
             ["洪陸樓", "_default"],

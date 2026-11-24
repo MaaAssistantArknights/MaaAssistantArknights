@@ -1318,6 +1318,18 @@
         "template": "Sami@Roguelike@StartExplore.png",
         "roi": [958, 530, 322, 189]
     },
+    "Sami@Roguelike@StrategyChange_ReachThirdFloor": {
+        "ocrReplace": [
+            ["初霜湖泽", "_default"],
+            ["密静林地", "_default"],
+            [".*明冻土", "昧明冻土"],
+            ["昧明冻土", "_restart"],
+            ["积冰岩.*", "_restart"],
+            ["无瑕花园", "_restart"],
+            ["远见之构", "_restart"],
+            ["深埋迷境", "_default"]
+        ]
+    },
     "Sami@Roguelike@StrategyChange_mode0": {
         "text": ["_aggressive", "_pragmatic", "_default", "_SKIP_"],
         "ocrReplace": [

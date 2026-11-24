@@ -126,16 +126,20 @@ void asst::RoguelikeIterateMonthlySquadPlugin::update_monthly_squad_task()
 void asst::RoguelikeIterateMonthlySquadPlugin::apply_monthly_squad_task_strategy() const
 {
     const auto& monthly_squad_task = m_config->get_monthly_squad_task();
-    const std::string strategy_task = m_config->get_theme() + "@Roguelike@StrategyChange";
+    const std::string prefix = m_config->get_theme() + "@Roguelike@";
+    const std::string strategy_task = prefix + "StrategyChange";
     const bool reach_third_floor =
         monthly_squad_task && monthly_squad_task->type == MonthlySquadTaskType::ReachThirdFloor;
-    const std::string strategy_base = strategy_task + (reach_third_floor ? "_mode4" : "_mode6");
+    const std::string strategy_base = strategy_task + (reach_third_floor ? "_ReachThirdFloor" : "_mode6");
     if (Task.get(strategy_base) == nullptr) {
         LogError << __FUNCTION__ << "monthly squad strategy does not exist:" << strategy_base;
         return;
     }
 
     Task.set_task_base(strategy_task, strategy_base);
+    // 开局先恢复默认选点，避免沿用上一局到达第三层时的重开策略。
+    const std::string stages_task = prefix + "Stages";
+    Task.set_task_base(stages_task, stages_task + "_default");
 }
 
 void asst::RoguelikeIterateMonthlySquadPlugin::apply_legacy_monthly_squad_logic()

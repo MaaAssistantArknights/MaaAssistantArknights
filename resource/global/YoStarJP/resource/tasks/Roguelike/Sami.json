@@ -173,6 +173,17 @@
     "Sami@Roguelike@StageSafeHouseReuse": {
         "text": ["セーフハウスを利用する"]
     },
+    "Sami@Roguelike@StrategyChange_ReachThirdFloor": {
+        "ocrReplace": [
+            ["初霜の湖沼", "_default"],
+            ["静謐な.*", "_default"],
+            ["夜明けの凍.*", "_restart"],
+            ["凍てつく岩.*", "_restart"],
+            ["汚れなき花.*", "_restart"],
+            ["遠見の巨構", "_restart"],
+            ["深(埋|理)の迷境", "_default"]
+        ]
+    },
     "Sami@Roguelike@StrategyChange_mode0": {
         "ocrReplace": [
             ["初霜の湖沼", "_aggressive"],

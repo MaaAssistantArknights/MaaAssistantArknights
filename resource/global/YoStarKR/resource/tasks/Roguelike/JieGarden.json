@@ -170,6 +170,17 @@
     "JieGarden@Roguelike@StartExploreWithSeed-Open": {
         "roi": [851, 567, 130, 40]
     },
+    "JieGarden@Roguelike@StrategyChange_ReachThirdFloor": {
+        "ocrReplace": [
+            ["홍육루", "_default"],
+            ["산수각", "_default"],
+            ["청운정", "_restart"],
+            ["여오문", "_restart"],
+            ["견자사", "_restart"],
+            ["시말릉", "_restart"],
+            ["시비경", "_leaveBoskyPassage"]
+        ]
+    },
     "JieGarden@Roguelike@StrategyChange_mode0": {
         "ocrReplace": [
             ["홍육루", "_default"],

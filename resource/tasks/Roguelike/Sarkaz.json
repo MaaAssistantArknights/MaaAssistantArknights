@@ -1091,6 +1091,17 @@
             ["诡.*断章", "_exit"]
         ]
     },
+    "Sarkaz@Roguelike@StrategyChange_ReachThirdFloor": {
+        "ocrReplace": [
+            ["熔魂之始", "_default"],
+            ["锻铁根须", "_default"],
+            ["灰铸迷城", "_restart"],
+            ["或然歧域", "_restart"],
+            ["虚实疆界", "_restart"],
+            ["辉光天顶", "_restart"],
+            ["诡.*断章", "_default"]
+        ]
+    },
     "Sarkaz@Roguelike@StrategyChange_mode0": {
         "text": ["_default", "_SKIP_"],
         "ocrReplace": [

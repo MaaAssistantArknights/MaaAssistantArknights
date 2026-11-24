@@ -166,6 +166,18 @@
     "JieGarden@Roguelike@StartExploreWithSeed-Open": {
         "roi": [870, 576, 111, 31]
     },
+    "JieGarden@Roguelike@StrategyChange_ReachThirdFloor": {
+        "ocrReplace": [
+            ["Honglu Tower", "_default"],
+            ["Shanshui Pavilion", "_default"],
+            ["Yunwa Gazebo", "_restart"],
+            [".*Ruwu Gat.?", "_restart"],
+            ["Jianzi Shrine", "_restart"],
+            ["Shimo Tomb", "_restart"],
+            ["Shifei Border", "_leaveBoskyPassage"]
+        ],
+        "roi": [590, 17, 145, 24]
+    },
     "JieGarden@Roguelike@StrategyChange_mode0": {
         "text": ["_default", "_boskyPassageDefault"],
         "ocrReplace": [

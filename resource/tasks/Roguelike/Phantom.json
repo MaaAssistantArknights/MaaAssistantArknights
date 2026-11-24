@@ -303,6 +303,16 @@
     "Phantom@Roguelike@StartExplore-EnterCheck": {
         "template": "Phantom@Roguelike@StartExplore.png"
     },
+    "Phantom@Roguelike@StrategyChange_ReachThirdFloor": {
+        "ocrReplace": [
+            ["迷雾歧途", "_default"],
+            ["落阳庭院", "_default"],
+            ["故土残躯", "_restart"],
+            ["噩梦之始", "_restart"],
+            ["血月长廊", "_restart"],
+            ["渴欲大厅", "_restart"]
+        ]
+    },
     "Phantom@Roguelike@StrategyChange_mode0": {
         "text": ["_aggressive", "_pragmatic", "_default"],
         "ocrReplace": [

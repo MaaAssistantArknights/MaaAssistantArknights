@@ -841,7 +841,7 @@ The following task types are supported:
 
 | `type`                 | Required fields              | Description                                                                 |
 | ---------------------- | ---------------------------- | --------------------------------------------------------------------------- |
-| `ReachThirdFloor`      | None                         | Follow the existing exploration logic until the third floor                 |
+| `ReachThirdFloor`      | None                         | End the run upon entering the third floor                                   |
 | `DeployOperator`       | `operator`, `count`          | Deploy the specified operator the required number of times                  |
 | `DeployOperatorSummon` | `operator`, `count`          | Deploy the specified operator, then repeatedly deploy their related summons |
 | `UseOperatorSkill`     | `operator`, `count`, `skill` | Select and use the specified operator's first, second, or third skill       |

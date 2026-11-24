@@ -801,7 +801,7 @@ BlackFlow 전략 모듈은 `shopping_rules`를 지원합니다. 페이지 처리
 
 | `type`                 | 필수 필드                    | 설명                                                           |
 | ---------------------- | ---------------------------- | -------------------------------------------------------------- |
-| `ReachThirdFloor`      | 없음                         | 기존 탐험 로직을 사용하여 3층까지 진행                         |
+| `ReachThirdFloor`      | 없음                         | 3층에 진입하면 탐험 종료                                       |
 | `DeployOperator`       | `operator`, `count`          | 지정한 오퍼레이터를 필요한 횟수만큼 배치                       |
 | `DeployOperatorSummon` | `operator`, `count`          | 지정한 오퍼레이터를 먼저 배치한 후 관련 소환물을 반복해서 배치 |
 | `UseOperatorSkill`     | `operator`, `count`, `skill` | 지정한 오퍼레이터의 1, 2 또는 3스킬을 선택하여 사용            |
