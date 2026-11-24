@@ -2556,6 +2556,24 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Mode">模式</system:String>
     <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Mode.Badge">刷角标（完整通关）</system:String>
     <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Mode.Score">刷分（放生速通）</system:String>
+    <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Regulation.PC.Tip">PC 端需额外在游戏设置 ｢按键｣ 中关闭 ｢特殊玩法键位｣ 的快捷键显示。</system:String>
+    <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Regulation.Tip.Badge" xml:space="preserve">请使用卫戍默认主题 UI，在有 ｢极速模拟｣ 的活动主界面启动任务。已有存档时，请先手动放弃。
+MAA 会选择未达标的策略（不包含 ｢极速模拟｣ 无法使用的策略），并打完每一局。
+
+本模式最多可借用 30 名助战干员。
+建议先借齐商店优先名单中的干员（见下），再借齐 VI 阶输出干员，名额允许时也尽量借齐 V 阶输出干员，可提高通过率。
+
+MAA 会从自选编队中每阶选 2 名六星干员，优先顺序如下：
+{0}
+
+商店满级后，优先购买以下干员：
+{1}
+其余干员按以下顺序购买：
+自选 VI 阶 → 自选 V 阶 → 普通 VI 阶 → 账号替补（自有干员不足时由游戏提供）→ 普通 V 阶。</system:String>
+    <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Regulation.Tip.Score" xml:space="preserve">在活动主界面（有 ｢极速模拟｣ 处）开始任务
+需要使用卫戍默认主题 UI
+在有存档时需要先手动放弃
+不干预对局，快速过回合刷等级奖励</system:String>
     <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Runs">通关局数</system:String>
     <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.SettlementLog">{0}，已通关 {1}/{2}</system:String>
     <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.StrategyLog">{0}：通过 {1}/{2}</system:String>
@@ -2565,25 +2583,6 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Theme">卫戍协议主题</system:String>
     <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Theme.Alliance">盟约</system:String>
     <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Theme.Regulation">规程</system:String>
-    <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Tip.Badge" xml:space="preserve">请使用卫戍默认主题 UI ，在有 ｢极速模拟｣ 的活动主界面启动任务。已有存档时，请先手动放弃。
-MAA 会选择未达标的策略（不包含 ｢极速模拟｣ 无法使用的策略），并打完每一局。
-
-本模式最多可借用 30 名助战干员。
-建议先借齐商店优先名单中的干员（见下），再借齐 VI 阶输出干员，名额允许时也尽量借齐 V 阶输出干员，可提高通过率。
-
-自选编队只选六星干员，每阶最多 2 名，可任意搭配。优先顺序如下：
-{0}
-
-商店满级后，优先购买以下干员：
-{1}
-其余干员按以下顺序购买：
-自选 VI 阶 → 自选 V 阶 → 普通 VI 阶 → 账号替补（自有干员不足时由游戏提供）→ 普通 V 阶。
-建议场上只留 1 名医疗干员。已有医疗时，只购买能替换场上低阶医疗的更高阶医疗。
- PC 端需额外在游戏设置 ｢按键｣ 中关闭 ｢特殊玩法键位｣ 的快捷键显示。</system:String>
-    <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Tip.Score" xml:space="preserve">在活动主界面（有 ｢极速模拟｣ 处）开始任务
-需要使用卫戍默认主题 UI 
-在有存档时需要先手动放弃
-不干预对局，快速过回合刷等级奖励</system:String>
     <system:String x:Key="Toolbox.MiniGame.TL.WartimePressCommittee">战时新闻委员会</system:String>
     <system:String x:Key="Toolbox.MiniGame.TL.WartimePressCommittee.Tip" xml:space="preserve">请从活动报纸选择界面（可见报纸名称与 ｢开始组版｣ 按钮）的状态开始。</system:String>
     <system:String x:Key="Toolbox.MiniGame.Title">牛杂</system:String>

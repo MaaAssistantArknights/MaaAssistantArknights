@@ -95,7 +95,7 @@ public class ToolboxViewModel : Screen
             StrongholdProtocolTargetList.RefreshLocalization();
             if (SelectedMiniGameItem?.IsStrongholdProtocol == true && IsStrongholdProtocolParamsVisible)
             {
-                MiniGameTip = GetRegulationBadgeTip();
+                MiniGameTip = GetMiniGameTip(MiniGameTaskName);
             }
 
             // CheckComboBox 未设 DisplayMemberPath（WPF 禁止与 ItemTemplate 并存），选中 tag 显示的是
@@ -110,6 +110,14 @@ public class ToolboxViewModel : Screen
                     LoadOperBoxDetails();
                 },
                 DispatcherPriority.Loaded);
+        };
+
+        // 卫戍协议提示含仅 PC 连接显示的设置要求，切换连接方式后重新生成
+        SettingsViewModel.ConnectSettings.PropertyChanged += (_, e) => {
+            if (e.PropertyName == nameof(SettingsViewModel.ConnectSettings.IsPCConnectConfig))
+            {
+                MiniGameTip = GetMiniGameTip(MiniGameTaskName);
+            }
         };
         SettingsViewModel.GuiSettings.OperNameLanguageChanged += () => {
             Application.Current.Dispatcher.InvokeAsync(() => {
@@ -2891,20 +2899,38 @@ public class ToolboxViewModel : Screen
 
     private string GetMiniGameTip(string name)
     {
-        // 卫戍协议提示随（模式 × 赛季）变化：盟约未开放只显示未开放提示，规程刷角标与刷分各用各的操作说明
         if (name == "StrongholdProtocol@Farm@Begin")
         {
-            if (IsStrongholdProtocolBadgeMode)
-            {
-                return StrongholdProtocolSeason == Season.Alliance
-                    ? LocalizationHelper.GetString("Toolbox.MiniGame.StrongholdProtocol.Alliance.Tip")
-                    : GetRegulationBadgeTip();
-            }
-
-            return LocalizationHelper.GetString("Toolbox.MiniGame.StrongholdProtocol.Tip.Score");
+            return GetStrongholdProtocolTip();
         }
 
         return GetMiniGameTipCore(name);
+    }
+
+    // 卫戍协议提示按赛季区分：盟约未开放只显示未开放提示，规程刷角标与刷分各用各的操作说明，
+    // PC 连接时在操作说明后追加 PC 端的设置要求
+    private string GetStrongholdProtocolTip()
+    {
+        switch (StrongholdProtocolSeason)
+        {
+            case Season.Alliance:
+
+                return LocalizationHelper.GetString("Toolbox.MiniGame.StrongholdProtocol.Alliance.Tip");
+
+            case Season.Regulation:
+
+                var tip = IsStrongholdProtocolBadgeMode
+                    ? GetRegulationBadgeTip()
+                    : LocalizationHelper.GetString("Toolbox.MiniGame.StrongholdProtocol.Regulation.Tip.Score");
+                if (SettingsViewModel.ConnectSettings.IsPCConnectConfig)
+                {
+                    tip += Environment.NewLine + Environment.NewLine + LocalizationHelper.GetString("Toolbox.MiniGame.StrongholdProtocol.Regulation.PC.Tip");
+                }
+
+                return tip;
+        }
+
+        return string.Empty;
     }
 
     private static string GetRegulationBadgeTip()
@@ -2933,7 +2959,7 @@ public class ToolboxViewModel : Screen
         }
 
         return LocalizationHelper.GetStringFormat(
-            "Toolbox.MiniGame.StrongholdProtocol.Tip.Badge",
+            "Toolbox.MiniGame.StrongholdProtocol.Regulation.Tip.Badge",
             squad.Count > 0 ? string.Join(" → ", squad) : "—",
             shop.Count > 0 ? string.Join(" → ", shop) : "—");
     }
