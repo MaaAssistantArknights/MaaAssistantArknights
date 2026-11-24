@@ -1,5 +1,5 @@
-# WPF 外部资源 key 清单（HandyControls v3.6.0，仓库 ghost1372/HandyControls）
-# 生成：python tools/GenerateExternalResources.py 3.6.0
+# WPF 外部资源 key 清单（HandyControls v3.7.0，仓库 ghost1372/HandyControls）
+# 生成：python tools/GenerateExternalResources.py 3.7.0
 # 升级 HandyControls 版本后重跑生成脚本并提交本文件
 AccentBrush
 AccentColor
@@ -1064,6 +1064,7 @@ TransferItemBaseStyle
 TransferItemBaseStyle.CheckBox
 TransferItemBaseStyle.CheckBox.Small
 TransferItemBaseStyle.Small
+TransitionModes
 TreeArrow
 TreeView.Small
 TreeViewBaseStyle
