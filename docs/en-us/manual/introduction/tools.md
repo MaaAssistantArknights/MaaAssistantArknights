@@ -79,7 +79,7 @@ Built-in features include:
 
 ### Stronghold Protocol
 
-Open ｢Toolbox｣ → ｢Useful Tasks｣ and select ｢Stronghold Protocol｣ under ｢Permanent Activities｣. In the game, switch to the default event skin, manually abandon any saved run, and return to the event home screen. Choose a mode according to the rewards you want.
+Open ｢Toolbox｣ → ｢Useful Tasks｣ and select ｢Stronghold Protocol｣ under ｢Permanent Activities｣. In the game, switch to the default Stronghold Protocol theme UI, manually abandon any saved run, and return to the event home screen. Choose a mode according to the rewards you want.
 
 #### Farm score (idle rush)
 
