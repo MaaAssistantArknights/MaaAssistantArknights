@@ -2517,7 +2517,9 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
 
 참고: 초기 추가 아이템 휴대 관련 기술을 해제한 경우, 기지 내에서 초기 추가 아이템을 휴대하게 하는 시설(식품 공급소, 음료 공급소, 축사 등)을 철거하세요
 
-작업 흐름: ｢경영기획｣으로 얻은 순금 원석을 사용하여 지역을 해금하고, 위셔델로 보스 처치 임무를 완료합니다</system:String>
+작업 흐름: ｢경영기획｣으로 얻은 순금 원석을 사용하여 지역을 해금하고, 위셔델로 보스 처치 임무를 완료합니다
+
+참고: 게임과 에뮬레이터의 프레임 속도를 60 FPS로 유지해야 하며, 그렇지 않으면 스와이프 오류로 작업이 실패할 수 있습니다</system:String>
     <system:String x:Key="Toolbox.MiniGame.Reclamation.TalesInSave.Tip" xml:space="preserve">세이브 O: 도구 제작
   1. 결산 후 첫 번째 날이어야 하며, 이후 3일 이내에 적의 침입이 없어야 합니다
   2. 지도 화면에 진입한 상태(주둔지가 보이는 지점)에서 시작해야 합니다

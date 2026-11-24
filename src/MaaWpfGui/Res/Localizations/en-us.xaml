@@ -2517,7 +2517,9 @@ Open RA-4 on the map and start the task when &quot;Start &quot; appears at the b
 
 Note: Please dismantle the buildings in the base that cause starting with extra items, such as Supply Stations and Corrals...
 
-Task flow: Use the Gold from Strategy Business Management to unlock areas, and use Wis'adel to complete the boss elimination mission.</system:String>
+Task flow: Use the Gold from Strategy Business Management to unlock areas, and use Wis'adel to complete the boss elimination mission.
+
+Note: Keep both the game and the emulator at 60 FPS, otherwise swipes may misbehave and cause the task to fail.</system:String>
     <system:String x:Key="Toolbox.MiniGame.Reclamation.TalesInSave.Tip" xml:space="preserve">With save file: farm points through crafting:
   1. It must be the first day after settlement, and there should be no enemy attacks entering the stationed area for the next three days.
   2. It must start after entering the interface of the large map. (stationed location needs to be visible)

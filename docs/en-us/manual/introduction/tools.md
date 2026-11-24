@@ -132,6 +132,7 @@ Choose this mode to earn clears for individual strategies. Select Season 3, ｢R
 - Open RA-4 on the world map, start the task when "Start Construction" appears in the bottom-right corner
 - Note: If you have unlocked technologies that grant extra starting items, please remove facilities that cause this (e.g. Food Supply Station, Drink Supply Station, Large Beast Pen, etc.)
 - Task flow: Use the Gold from Strategy Planning Management to unlock areas, and use Wis'adel to complete the boss elimination mission.
+- Keep both the game and the emulator at 60 FPS, otherwise swipes may misbehave and cause the task to fail.
 
 ##### RA-15
 
