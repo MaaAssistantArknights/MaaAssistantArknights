@@ -140,11 +140,9 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
         LogInfo << __FUNCTION__ << "reserve hope for monthly squad operator:" << monthly_squad_task->oper_name;
     }
 
-    const auto* start_oper = m_initail_recruit ? m_config->get_current_start_oper() : nullptr;
-    if (start_oper != nullptr) {
-        // 每张开局券消耗一个顺位；免费自选和助战也要先让给本券可晋升的月度干员。
+    if (const auto* start_oper = m_initail_recruit ? m_config->get_current_start_oper() : nullptr) {
         m_config->advance_start_oper_index();
-        if (!reserve_hope_for_monthly && recruit_start_oper(*start_oper)) {
+        if (recruit_start_oper(*start_oper)) {
             return true;
         }
     }
@@ -236,9 +234,6 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
             if (promotion != oper_list.end()) {
                 LogInfo << __FUNCTION__ << "promote monthly squad operator:" << promotion->name;
                 select_oper(*promotion);
-                if (start_oper != nullptr && start_oper->name == promotion->name) {
-                    m_starts_complete = true;
-                }
                 return true;
             }
         }
@@ -418,16 +413,6 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
         Log.trace(__FUNCTION__, "| Page", i, "oper count:", oper_count, "- continue swiping");
         slowly_swipe(false, max_oper_x - 200);
         sleep(Task.get("RoguelikeCustom-HijackCoChar")->post_delay);
-    }
-
-    if (reserve_hope_for_monthly && start_oper != nullptr && is_zero_hope_recruit(start_oper->name)) {
-        if (i != 0) {
-            swipe_to_the_left_of_operlist(i + 1);
-            i = 0;
-        }
-        if (recruit_start_oper(*start_oper)) {
-            return true;
-        }
     }
 
     // 没有候选干员，进入后备逻辑

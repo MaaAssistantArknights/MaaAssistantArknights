@@ -1716,7 +1716,7 @@ public class RoguelikeTaskUserControlModel : TaskSettingsViewModel, RoguelikeTas
                 .TakeWhile(i => !string.IsNullOrEmpty(i.Name))
                 .ToList();
 
-            bool isPallasStarter = startingOpers.Any(i =>
+            bool isPallasStarter = roguelike.Mode != Mode.Squad && startingOpers.Any(i =>
                 string.Equals(
                     DataHelper.GetCharacterByNameOrAlias(i.Name)?.CodeName,
                     "pallas",

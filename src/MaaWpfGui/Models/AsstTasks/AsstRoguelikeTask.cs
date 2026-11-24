@@ -329,34 +329,33 @@ public class AsstRoguelikeTask : AsstBaseTask
         {
             taskParams["squad"] = "指挥分队";
         }
-        else if (expFlight)
+        else
         {
-            taskParams["squad"] = BlackFlowFlightSquad;
-        }
-        else if (Squad.Length > 0)
-        {
-            taskParams["squad"] = Squad;
-        }
-
-        if (expFlight)
-        {
-            taskParams["roles"] = BlackFlowFlightRoles;
-        }
-        else if (Roles.Length > 0)
-        {
-            taskParams["roles"] = Roles;
-        }
-
-        List<AsstRoguelikeCoreChar> coreCharList = expFlight
-            ? [new() { Name = BlackFlowFlightCoreChar, UseSupport = false }]
-            : CoreCharList;
-        if (coreCharList.Count > 0)
-        {
-            taskParams["core_char_list"] = new JArray(coreCharList.Select(i => new JObject
+            var squad = expFlight ? BlackFlowFlightSquad : Squad;
+            if (squad.Length > 0)
             {
-                ["name"] = i.Name,
-                ["use_support"] = i.UseSupport,
-            }));
+                taskParams["squad"] = squad;
+            }
+
+            var roles = expFlight ? BlackFlowFlightRoles : Roles;
+            if (roles.Length > 0)
+            {
+                taskParams["roles"] = roles;
+            }
+
+            List<AsstRoguelikeCoreChar> coreCharList = expFlight
+                ? [new() { Name = BlackFlowFlightCoreChar, UseSupport = false }]
+                : CoreCharList;
+            if (coreCharList.Count > 0)
+            {
+                taskParams["core_char_list"] = new JArray(coreCharList.Select(i => new JObject
+                {
+                    ["name"] = i.Name,
+                    ["use_support"] = i.UseSupport,
+                }));
+            }
+
+            taskParams["use_nonfriend_support"] = UseSupportNonFriend;
         }
 
         if (Mode == RoguelikeMode.Exp)
@@ -405,7 +404,6 @@ public class AsstRoguelikeTask : AsstBaseTask
             taskParams["expected_collapsal_paradigms"] = JArray.FromObject(ExpectedCollapsalParadigms);
         }
 
-        taskParams["use_nonfriend_support"] = UseSupportNonFriend;
         taskParams["refresh_trader_with_dice"] = Theme == RoguelikeTheme.Mizuki && RefreshTraderWithDice;
         if (!string.IsNullOrEmpty(StartWithSeed))
         {
