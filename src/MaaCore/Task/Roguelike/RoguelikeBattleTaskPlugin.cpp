@@ -563,6 +563,10 @@ bool asst::RoguelikeBattleTaskPlugin::try_run_monthly_squad_summon_task()
         m_monthly_squad_task_no_summon_since.reset();
         LogInfo << __FUNCTION__ << "deployed monthly squad summon:" << summon.name
                 << "progress:" << task->completed_count << "/" << task->required_count;
+        if (!retreat_oper(deploy_info->placed)) {
+            LogWarn << __FUNCTION__ << "failed to retreat monthly squad summon:" << summon.name << deploy_info->placed;
+            cancel_oper_selection();
+        }
         if (task->completed_count >= task->required_count) {
             m_monthly_squad_task_pending_abandon = true;
             m_monthly_squad_task_battle_abandoned = abandon();

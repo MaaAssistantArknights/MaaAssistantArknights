@@ -799,12 +799,12 @@ BlackFlow 전략 모듈은 `shopping_rules`를 지원합니다. 페이지 처리
 
 다음 임무 유형을 지원합니다:
 
-| `type`                 | 필수 필드                    | 설명                                                           |
-| ---------------------- | ---------------------------- | -------------------------------------------------------------- |
-| `ReachThirdFloor`      | 없음                         | 3층에 진입하면 탐험 종료                                       |
-| `DeployOperator`       | `operator`, `count`          | 지정한 오퍼레이터를 필요한 횟수만큼 배치                       |
-| `DeployOperatorSummon` | `operator`, `count`          | 지정한 오퍼레이터를 먼저 배치한 후 관련 소환물을 반복해서 배치 |
-| `UseOperatorSkill`     | `operator`, `count`, `skill` | 지정한 오퍼레이터의 1, 2 또는 3스킬을 선택하여 사용            |
+| `type`                 | 필수 필드                    | 설명                                                               |
+| ---------------------- | ---------------------------- | ------------------------------------------------------------------ |
+| `ReachThirdFloor`      | 없음                         | 3층에 진입하면 탐험 종료                                           |
+| `DeployOperator`       | `operator`, `count`          | 지정한 오퍼레이터를 필요한 횟수만큼 배치                           |
+| `DeployOperatorSummon` | `operator`, `count`          | 지정한 오퍼레이터를 배치한 뒤 소환물을 배치할 때마다 즉시 퇴각시킴 |
+| `UseOperatorSkill`     | `operator`, `count`, `skill` | 지정한 오퍼레이터의 1, 2 또는 3스킬을 선택하여 사용                |
 
 `count`는 양의 정수여야 합니다. `skill`의 범위는 `1`～`3`입니다. `DeployOperatorSummon`에서는 생략할 수 있으며, 생략하면 해당 오퍼레이터의 기존 스킬 선택 로직을 사용합니다.
 

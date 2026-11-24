@@ -813,12 +813,12 @@ OCR 识别不期而遇事件名称，但是选项是操作固定的位置
 
 支持以下任务类型：
 
-| `type`                 | 必填字段                     | 说明                                   |
-| ---------------------- | ---------------------------- | -------------------------------------- |
-| `ReachThirdFloor`      | 无                           | 进入第三层时结束本次探索               |
-| `DeployOperator`       | `operator`、`count`          | 部署指定干员并累计次数                 |
-| `DeployOperatorSummon` | `operator`、`count`          | 先部署指定干员，再持续部署其关联召唤物 |
-| `UseOperatorSkill`     | `operator`、`count`、`skill` | 选择并使用指定干员的一、二或三技能     |
+| `type`                 | 必填字段                     | 说明                                           |
+| ---------------------- | ---------------------------- | ---------------------------------------------- |
+| `ReachThirdFloor`      | 无                           | 进入第三层时结束本次探索                       |
+| `DeployOperator`       | `operator`、`count`          | 部署指定干员并累计次数                         |
+| `DeployOperatorSummon` | `operator`、`count`          | 部署指定干员，每次部署其召唤物后立即撤回召唤物 |
+| `UseOperatorSkill`     | `operator`、`count`、`skill` | 选择并使用指定干员的一、二或三技能             |
 
 `count` 必须是大于零的整数。`skill` 的取值范围为 `1`～`3`；在 `DeployOperatorSummon` 中可以省略，省略后沿用该干员原有的选技能逻辑。
 
