@@ -8,5 +8,107 @@
     },
     "BlackFlow@Roguelike@SeedPriority@Roguelike@StageTraderInvestSystem": {
         "template": ["Roguelike@StageTraderInvestSystem.png", "Roguelike@StageTraderInvestSystemPC.png"]
+    },
+    "Home": {
+        "mainScreen": true
+    },
+    "StartUp": {
+        "mainScreen": true
+    },
+    "Fight": {
+        "mainScreen": true
+    },
+    "Recruit": {
+        "mainScreen": true
+    },
+    "Award": {
+        "mainScreen": true
+    },
+    "Visit": {
+        "mainScreen": true
+    },
+    "Mall": {
+        "mainScreen": true
+    },
+    "Infrast": {
+        "mainScreen": true
+    },
+    "Depot": {
+        "mainScreen": true
+    },
+    "OperBox": {
+        "mainScreen": true
+    },
+    "Gacha": {
+        "mainScreen": true
+    },
+    "Mail": {
+        "mainScreen": true
+    },
+    "MailWithoutAward": {
+        "mainScreen": true
+    },
+    "MiningActivities": {
+        "mainScreen": true
+    },
+    "OrundumActivities": {
+        "mainScreen": true
+    },
+    "RecruitingActivities": {
+        "mainScreen": true
+    },
+    "SpecialAccessActivities": {
+        "mainScreen": true
+    },
+    "SignInEventEnter": {
+        "mainScreen": true
+    },
+    "SignInEventEnterByIcon": {
+        "mainScreen": true
+    },
+    "AwardNeedExpand": {
+        "mainScreen": true
+    },
+    "AwardNotNeedExpand": {
+        "mainScreen": true
+    },
+    "TerminalDefault": {
+        "mainScreen": true
+    },
+    "OperBoxDefault": {
+        "mainScreen": true
+    },
+    "MallDefault": {
+        "mainScreen": true
+    },
+    "RecruitDefault": {
+        "mainScreen": true
+    },
+    "GachaDefault": {
+        "mainScreen": true
+    },
+    "TaskDefault": {
+        "mainScreen": true
+    },
+    "InfrastDefault": {
+        "mainScreen": true
+    },
+    "DepotDefault": {
+        "mainScreen": true
+    },
+    "FriendsDefault": {
+        "mainScreen": true
+    },
+    "SwitchTheme@ToggleSettingsMenu": {
+        "mainScreen": true
+    },
+    "SwitchThemeByNameOpenSettings": {
+        "mainScreen": true
+    },
+    "Roguelike": {
+        "mainScreen": true
+    },
+    "RA@Navigation-FromMainInterface": {
+        "mainScreen": true
     }
 }
