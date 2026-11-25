@@ -14,6 +14,7 @@
 #nullable enable
 using System;
 using System.Globalization;
+using System.Text.Json.Serialization;
 using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
 using static MaaWpfGui.Main.AsstProxy;
@@ -23,7 +24,7 @@ namespace MaaWpfGui.Configuration.Single.MaaTask;
 /// <summary>
 /// 信用购物任务
 /// </summary>
-public class MallTask : BaseTask
+public class MallTask : BaseTask, IJsonOnDeserialized
 {
     public MallTask() => TaskType = TaskType.Mall;
 
@@ -91,6 +92,86 @@ public class MallTask : BaseTask
     /// Gets or sets a value indicating whether 低于300信用停止购物
     /// </summary>
     public bool ReserveMaxCredit { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether 检查月卡剩余天数并在临期时提醒
+    /// </summary>
+    public bool MonthlyCard { get; set; }
+
+    /// <summary>
+    /// Gets or sets 月卡剩余天数不高于该值时提醒。仅 7/5/3/1 有意义（与 UI 下拉一致），其它值在反序列化后归一化为默认 7
+    /// </summary>
+    public int MonthlyCardRemindDays { get; set; } = 7;
+
+    /// <summary>
+    /// Gets or sets 上次月卡到期提醒的时间（同一天不重复提醒）
+    /// </summary>
+    public string MonthlyCardLastRemindTime { get; set; } = DateTime.MinValue.ToFormattedString();
+
+    /// <summary>
+    /// Gets or sets 上次月卡检查的日期（鹰角日格式）
+    /// </summary>
+    public string MonthlyCardLastCheckDate { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets 上次月卡检查读到的剩余天数；-1 表示从未读到过
+    /// </summary>
+    public int MonthlyCardLastDaysLeft { get; set; } = -1;
+
+    public void OnDeserialized()
+    {
+        MonthlyCardRemindDays = MonthlyCardRemindDays is 7 or 5 or 3 or 1 ? MonthlyCardRemindDays : 7;
+    }
+
+    /// <summary>
+    /// 今天是否需要执行月卡检查：距可能触发提醒尚有富余天数则跳过（月卡 30 天一周期，无需每天检查）
+    /// </summary>
+    /// <returns>需要检查返回 true；按上次读数判定尚未到重查日返回 false。</returns>
+    public bool IsMonthlyCardCheckDue()
+    {
+        // 越界持久化值（手改配置等）不可信，视为无基线：读数写入侧只接受 0~30，这里防止绕过写入侧的异常值把下次检查推迟到提醒窗口之外
+        if (MonthlyCardLastDaysLeft is < 0 or > 30)
+        {
+            return true;
+        }
+
+        try
+        {
+            var last = DateTime.ParseExact(MonthlyCardLastCheckDate.Replace('-', '/'), "yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture);
+            var today = DateTime.UtcNow.ToYjDate();
+
+            // 时钟回拨或手改出的未来日期：nextCheck ≥ last > today 会把重查日推到未来，视为需要检查
+            if (last > today)
+            {
+                return true;
+            }
+
+            // 距提醒窗口的富余天数顺延重查并留 1 天余量；读数进入提醒窗口后钳为每天查
+            var nextCheck = last.AddDays(Math.Max(MonthlyCardLastDaysLeft - MonthlyCardRemindDays - 1, 0));
+            return today >= nextCheck;
+        }
+        catch
+        {
+            return true; // 调度状态损坏时退化为每天查
+        }
+    }
+
+    public bool IsMonthlyCardRemindAvailable(int daysLeft)
+    {
+        if (daysLeft > MonthlyCardRemindDays)
+        {
+            return false;
+        }
+
+        try
+        {
+            return DateTime.UtcNow.ToYjDate() > DateTime.ParseExact(MonthlyCardLastRemindTime.Replace('-', '/'), "yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture);
+        }
+        catch
+        {
+            return true;
+        }
+    }
 
     public bool IsCreditFightAvailable
     {
