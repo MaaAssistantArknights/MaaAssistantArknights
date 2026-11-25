@@ -371,8 +371,7 @@ bool asst::InfrastInfoTask::try_zoom_out()
     const Point pointer0_end { pointer0->rect_move.x, pointer0->rect_move.y };
     const Point pointer1_end { pointer1->rect_move.x, pointer1->rect_move.y };
 
-    // 两指从画面两侧向中心收拢。旧 ADB 和 PlayTools 控制器不支持多指输入，
-    // 此时立即返回，后续仍同时使用正常/最小视图模板识别。
+    // 两指从画面两侧向中心收拢。不支持多指的连接会继续使用当前视图识别。
     // MOVE 必须逐点插值并保持步间等待：没有中间轨迹的单步瞬移会被游戏端
     // 判成点击或页面滑动等独立手势，而不是捏合缩放。
     constexpr int ZoomSteps = 20;
@@ -516,7 +515,15 @@ bool asst::InfrastInfoTask::_run()
         if (!is_complete_layout(layout_counts) && partial_layout_candidate != layout_counts) {
             partial_layout_candidate = layout_counts;
             Log.info("InfrastInfoTask | partial facility layout detected, confirming", attempt);
-            sleep(300);
+            // A PlayCover pinch may leave both rooms on the right outside the visible overview.
+            if (ctrler()->get_controller_type() == ControllerType::MacPlayTools &&
+                analyzer.get_view_type() == ViewType::Normal && layout_counts.reception == 0 &&
+                layout_counts.office == 0) {
+                prepare_retry(attempt);
+            }
+            else {
+                sleep(300);
+            }
             continue;
         }
 
