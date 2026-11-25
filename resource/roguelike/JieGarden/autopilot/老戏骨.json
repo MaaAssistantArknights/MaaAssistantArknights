@@ -33,7 +33,7 @@
             "direction": "left"
         },
         {
-            "groups": ["焰苇", "水陈", "高台输出"],
+            "groups": ["水陈", "高台输出"],
             "location": [3, 4],
             "direction": "up"
         },

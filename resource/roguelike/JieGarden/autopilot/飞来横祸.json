@@ -35,7 +35,7 @@
             "direction": "right"
         },
         {
-            "groups": ["益达", "提丰", "焰苇", "水陈", "高台输出", "奶"],
+            "groups": ["益达", "提丰", "水陈", "高台输出", "奶"],
             "location": [6, 3],
             "direction": "left"
         },

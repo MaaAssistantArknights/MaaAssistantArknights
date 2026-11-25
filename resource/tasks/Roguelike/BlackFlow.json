@@ -1491,7 +1491,7 @@
     },
     "BlackFlow@Roguelike@Page-Employ": {
         "algorithm": "JustReturn",
-        "next": ["BlackFlow@Roguelike@EmployLeave"]
+        "next": ["BlackFlow@Roguelike@EmployLeave", "BlackFlow@Roguelike@EmployLeaveConfirm"]
     },
     "BlackFlow@Roguelike@Page-Encounter": {
         "baseTask": "BlackFlow@Roguelike@StageEncounterJudgeClick"
@@ -1687,9 +1687,25 @@
         "template": "BlackFlow@Roguelike@CultivateBuyConfirm.png",
         "next": ["#self", "BlackFlow@Roguelike@ScrapTradeDecision"]
     },
-    "BlackFlow@Roguelike@ScrapTradeBuyConfirm-Enter": {
+    "BlackFlow@Roguelike@ScrapTradeBuyOffer": {
+        "Doc": "BlackFlowScrapTradeTaskPlugin 在此点选中的商品卡片。",
         "algorithm": "JustReturn",
-        "next": ["BlackFlow@Roguelike@ScrapTradeBuyConfirm"]
+        "maxTimes": 3,
+        "next": ["BlackFlow@Roguelike@ScrapTradeBuyConfirm", "BlackFlow@Roguelike@ScrapTradeBuyOfferWait"],
+        "exceededNext": ["BlackFlow@Roguelike@ScrapTradeBuyConfirm", "BlackFlow@Roguelike@ScrapTradePurchaseFailed"],
+        "reduceOtherTimes": ["BlackFlow@Roguelike@ScrapTradeBuyOfferWait*2"]
+    },
+    "BlackFlow@Roguelike@ScrapTradeBuyOffer-Enter": {
+        "algorithm": "JustReturn",
+        "next": ["BlackFlow@Roguelike@ScrapTradeBuyOffer"],
+        "reduceOtherTimes": ["BlackFlow@Roguelike@ScrapTradeBuyOffer*3", "BlackFlow@Roguelike@ScrapTradeBuyOfferWait*2"]
+    },
+    "BlackFlow@Roguelike@ScrapTradeBuyOfferWait": {
+        "Doc": "确认框连续四轮没出现才再点卡片，默认配置下两次点击间隔约为两秒。",
+        "algorithm": "JustReturn",
+        "maxTimes": 2,
+        "next": ["BlackFlow@Roguelike@ScrapTradeBuyConfirm", "#self"],
+        "exceededNext": ["BlackFlow@Roguelike@ScrapTradeBuyConfirm", "BlackFlow@Roguelike@ScrapTradeBuyOffer"]
     },
     "BlackFlow@Roguelike@ScrapTradeContinue": {
         "algorithm": "JustReturn",
@@ -1753,11 +1769,17 @@
     },
     "BlackFlow@Roguelike@ScrapTradeItems": {
         "baseTask": "BlackFlow@Roguelike@CultivateSellItems",
-        "roi": [395, 159, 857, 325]
+        "roi": [395, 159, 857, 325],
+        "rectMove": [25, 25, 25, 25]
     },
     "BlackFlow@Roguelike@ScrapTradeLeave-Enter": {
         "algorithm": "JustReturn",
         "next": ["BlackFlow@Roguelike@StageTraderLeave"]
+    },
+    "BlackFlow@Roguelike@ScrapTradePurchaseFailed": {
+        "Doc": "BlackFlowScrapTradeTaskPlugin 在此停下报错。",
+        "algorithm": "JustReturn",
+        "next": ["BlackFlow@Roguelike@ScrapTradeAction"]
     },
     "BlackFlow@Roguelike@ScrapTradeRefresh": {
         "baseTask": "BlackFlow@Roguelike@CultivateRefresh",

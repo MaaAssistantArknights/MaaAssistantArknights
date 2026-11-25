@@ -32,6 +32,8 @@ private:
         Enter,
         Decide,
         ClickAtMost,
+        ClickOffer,
+        PurchaseFailed,
         BuyConfirmed,
         RefreshConfirmed,
     };
@@ -50,6 +52,7 @@ private:
     {
         std::string name;
         Rect rect;
+        Rect click_rect;
         bool keep = false;
     };
 
@@ -61,6 +64,7 @@ private:
         int budget = 0;
     };
 
+    [[nodiscard]] static std::string_view phase_name(Phase phase);
     void enter();
     void decide();
     void on_purchase_confirmed();
@@ -76,11 +80,14 @@ private:
     void click_at_most();
     [[nodiscard]] bool refresh(const Funds& funds);
     void leave();
-    // 交易无法继续时上报原因再离店；用户停止任务时只离店。
-    void abort_trade(std::string_view reason, const std::string& item = {});
+    // 交易无法继续时以 StopTask 结束策略，停在当前画面；item 只写日志。
+    void stop_trade(std::string_view reason, const std::string& item = {});
+    void click_offer();
+    void on_purchase_failed();
 
     [[nodiscard]] bool on_selling_page(const cv::Mat& image) const;
     [[nodiscard]] std::vector<TextRect> recognize(const cv::Mat& image, const std::vector<std::string>& names) const;
+    [[nodiscard]] static Rect offer_click_rect(const Rect& name_rect);
     [[nodiscard]] bool already_purchased(const Rect& rect) const;
     void set_action(std::string_view task) const;
 

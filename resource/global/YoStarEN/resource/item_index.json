@@ -2101,6 +2101,14 @@
         "sortId": -10000,
         "usage": "One of the more expensive Duel Channel gifts, and can be exchanged on the website for material rewards, with free shipping and home delivery."
     },
+    "act1football_milestone_point": {
+        "classifyType": "NONE",
+        "description": "Digital point tickets prepared for championship competitors by the competition committee, recording everything the players get up to on the field. Apparently, the tickets of the winners will have a special visual effect.",
+        "icon": "act1football_milestone_point.png",
+        "name": "Championship Point Ticket",
+        "sortId": -10000,
+        "usage": "Can be exchanged for all sorts of supplies in Positional Football Championship."
+    },
     "act1lock_point_reward": {
         "classifyType": "NONE",
         "description": "Points gained for taking down OpFor troops, awarded to competitors in the form of medals. Owing to it being forged by Minos smiths, in each medal's engraving is the proverb 'all heroes arise from normal people.'",

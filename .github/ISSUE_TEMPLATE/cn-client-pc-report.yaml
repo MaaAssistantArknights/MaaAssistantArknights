@@ -1,0 +1,83 @@
+name: PC 端（明日方舟官方客户端）Bug 反馈（使用中文）
+description: 有关 PC 端（明日方舟官方客户端）问题的集中反馈
+labels: ["bug", "client: PC"]
+body:
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: 请确认自己完成了下列必选项之后再进行勾选，若未完成必选项或勾选了"我未仔细阅读"选项将视为自愿接受被直接关闭 Issue
+      options:
+        - label: 我理解 Issue 是用于反馈和解决问题的，而非吐槽评论区，将尽可能提供更多信息帮助问题解决
+          required: false
+        - label: 我未仔细阅读这些内容，只是一键已读[所有内容](/MaaAssistantArknights/MaaAssistantArknights/issues)，并相信这不会影响问题的处理
+          required: false
+        - label: 我填写了简短且清晰明确的标题，以便开发者在翻阅 Issue 列表时能快速确定大致问题。而不是“一个建议”、“卡住了”等
+          required: false
+        - label: 我使用的是当前更新版本的最新版, 并已查看版本发布至今的 [更新内容](https://github.com/MaaAssistantArknights/MaaAssistantArknights/commits/dev-v2/), [Pull Requests](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pulls) 中尚未发布的更新内容并未提及该 Bug 已被修复的情况
+          required: false
+        - label: 我已检查了 [常见问题](https://docs.maa.plus/zh-cn/manual/faq.html), [公告](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/7732), [活跃议题](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues), [已关闭议题](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues?q=is%3Aissue%20state%3Aclosed) 确认我的问题未被提及
+          required: false
+        - label: 我确认此 issue 中的大部分内容是由人类编写，不包含由 AI 生成的所谓 ｢根因分析｣ 以及 ｢解决方案｣
+          required: false
+        - label: 我已知晓 MAA PC 端（明日方舟官方客户端）适配由社区开发者维护而非 MAA Team，问题可能不会得到解决
+          required: false
+  - type: textarea
+    id: describe
+    attributes:
+      label: 问题描述
+      description: 描述问题时请尽可能详细
+    validations:
+      required: true
+  - type: textarea
+    id: version
+    attributes:
+      label: Version
+      description: |
+        请提供 MAA 版本。可在 MAA -> 设置 -> 更新设置中找到，点击任一版本号即可复制全部 5 行版本信息。
+      placeholder: |
+        UI Version:
+        Core Version:
+        Resource Version:
+        Build Time:
+        Resource Time:
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: 日志和配置文件
+      description: |
+        **请在 MAA -> 设置 -> 问题反馈中找到生成日志压缩包按钮，点击并上传压缩包**  
+        **若待上传压缩包大于 25MB，请转而上传该压缩包同日期文件夹中的若干小压缩包**  
+        **若为 MAA 闪退问题，如果 %LOCALAPPDATA%\CrashDumps 中存在 MAA.exe.dmp 文件，请一并上传**
+    validations:
+      required: true
+  - type: textarea
+    id: configuration
+    attributes:
+      label: 配置信息
+      description: |
+        请说明操作系统及版本、PC 端（明日方舟官方客户端）分辨率、UI 缩放、帧率  
+        请提供 MAA 截图方式 / 鼠标输入 / 键盘输入设置  
+        最后请说明 GPU 加速推理是否开启，若开启请提供 GPU 型号。
+    validations:
+      required: true
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: 截图或录屏
+      description: |
+        可上传屏幕截图或录制以帮助解释你的问题，包括但不限于 MAA 软件截图、游戏画面截图  
+        若是**识别相关问题**，请尽可能提供游戏自带的截图工具截取的无遮挡的**原图**（或提供 MAA 报错截图）  
+        用其他的工具（如 QQ / 微信）截取的图片包含窗口边框且长宽比、分辨率不固定，不建议使用  
+        若文件体积过大可压缩后再上传
+    validations:
+      required: false
+  - type: textarea
+    id: others
+    attributes:
+      label: 还有别的吗？
+      description: |
+        任何能让我们对你所遇到的问题有更多了解的东西
+    validations:
+      required: false

@@ -587,19 +587,13 @@
     <system:String x:Key="Asst.Roguelike.BlackFlow.OutcomePlanningFailed">경로 계획 실패</system:String>
     <system:String x:Key="Asst.Roguelike.BlackFlow.OutcomePlanningRetryExhausted">경로 재계획 횟수를 모두 소진함</system:String>
     <system:String x:Key="Asst.Roguelike.BlackFlow.OutcomePostMoveValidationFailed">이동 후 상태 검증 실패</system:String>
+    <system:String x:Key="Asst.Roguelike.BlackFlow.OutcomeScrapTradeAborted">신비한 상인(秘境行商) 거래 중단</system:String>
     <system:String x:Key="Asst.Roguelike.BlackFlow.OutcomeStateMachineDeadEnd">내부 상태 머신 오류</system:String>
     <system:String x:Key="Asst.Roguelike.BlackFlow.OutcomeStrategyCompleted">이번 판 전략 목표 완료</system:String>
     <system:String x:Key="Asst.Roguelike.BlackFlow.OutcomeTaskEventFailed">노드 결과 처리 실패</system:String>
     <system:String x:Key="Asst.Roguelike.BlackFlow.OutcomeTransactionProposalFailed">이번 이동을 준비할 수 없음</system:String>
     <system:String x:Key="Asst.Roguelike.BlackFlow.OutcomeUnknown">로그라이크 오류</system:String>
     <system:String x:Key="Asst.Roguelike.BlackFlow.RoutingDecision">{0}층 | 행동력 {1}→{2} | {4}까지 {3} | 안전 여유 {5}</system:String>
-    <system:String x:Key="Asst.Roguelike.BlackFlow.ScrapTradeAbortedInventoryIncomplete">신비한 상인(秘境行商)에서 보유품 확인에 실패해 거래를 중단하고 나갑니다</system:String>
-    <system:String x:Key="Asst.Roguelike.BlackFlow.ScrapTradeAbortedMarketUnavailable">신비한 상인(秘境行商)의 아이템 데이터를 사용할 수 없어 거래하지 않고 나갑니다</system:String>
-    <system:String x:Key="Asst.Roguelike.BlackFlow.ScrapTradeAbortedPageSwitchFailed">신비한 상인(秘境行商)에서 구매·판매 페이지 전환에 실패해 거래를 중단하고 나갑니다</system:String>
-    <system:String x:Key="Asst.Roguelike.BlackFlow.ScrapTradeAbortedSaleFailed">신비한 상인(秘境行商)에서 「{0}」 판매가 확인되지 않아 거래를 중단하고 나갑니다</system:String>
-    <system:String x:Key="Asst.Roguelike.BlackFlow.ScrapTradeAbortedSaleSearchFailed">신비한 상인(秘境行商)에서 판매 목록 검색에 실패해 거래를 중단하고 나갑니다</system:String>
-    <system:String x:Key="Asst.Roguelike.BlackFlow.ScrapTradeAbortedSellBackSearchFailed">신비한 상인(秘境行商)에서 되팔 「{0}」을(를) 찾지 못해 거래를 중단하고 나갑니다</system:String>
-    <system:String x:Key="Asst.Roguelike.BlackFlow.ScrapTradeAbortedUnknown">신비한 상인(秘境行商) 거래에 이상이 발생해 거래를 중단하고 나갑니다</system:String>
     <system:String x:Key="Asst.Roguelike.BlackFlow.StartRunCompleted">시작 조건을 충족하여 이번 탐험을 유지한 채 나왔습니다</system:String>
     <system:String x:Key="Asst.Roguelike.BlackFlow.StartRunPrepared">탐험 준비 완료</system:String>
     <system:String x:Key="Asst.Roguelike.BlackFlow.StartRunPreparedReason">3층에 도달했습니다. 다음 탐험은 지정한 난이도와 분대로 시작합니다</system:String>
@@ -636,6 +630,13 @@
     <system:String x:Key="Asst.Roguelike.BlackFlow.TerminationPlanningRetryExhausted">미리보기가 경로를 계속 바꿔 재계획 횟수 초과</system:String>
     <system:String x:Key="Asst.Roguelike.BlackFlow.TerminationRecoveryPortUnavailable">지도 복구 인터페이스를 사용할 수 없음</system:String>
     <system:String x:Key="Asst.Roguelike.BlackFlow.TerminationScrapShopNeverReached">신비한 상인에 도달하지 못해 이번 판 종료</system:String>
+    <system:String x:Key="Asst.Roguelike.BlackFlow.TerminationScrapTradeInventoryIncomplete">보유품 확인 실패</system:String>
+    <system:String x:Key="Asst.Roguelike.BlackFlow.TerminationScrapTradeMarketUnavailable">아이템 데이터를 사용할 수 없음</system:String>
+    <system:String x:Key="Asst.Roguelike.BlackFlow.TerminationScrapTradePageSwitchFailed">구매·판매 페이지 전환 실패</system:String>
+    <system:String x:Key="Asst.Roguelike.BlackFlow.TerminationScrapTradePurchaseFailed">구매 확인 창이 나타나지 않음</system:String>
+    <system:String x:Key="Asst.Roguelike.BlackFlow.TerminationScrapTradeSaleFailed">판매가 확인되지 않음</system:String>
+    <system:String x:Key="Asst.Roguelike.BlackFlow.TerminationScrapTradeSaleSearchFailed">판매 목록 검색 실패</system:String>
+    <system:String x:Key="Asst.Roguelike.BlackFlow.TerminationScrapTradeSellBackSearchFailed">되팔 물품을 찾지 못함</system:String>
     <system:String x:Key="Asst.Roguelike.BlackFlow.TerminationStrategyTerminalReached">전략 종점에 도달함</system:String>
     <system:String x:Key="Asst.Roguelike.BlackFlow.TerminationUnknown">피드백하려면 "{key=Settings.Title} - {key=Settings.IssueReport.Title}"(으)로 이동하세요</system:String>
     <system:String x:Key="Asst.Roguelike.BlackFlow.WarningIdentityConflict">미리보기 노드 유형과 현재 지도 불일치</system:String>
@@ -2426,7 +2427,7 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="Toolbox.MiniGame.NameEmpty.Tip">위에서 미니게임을 선택하여 실행을 시작하세요.</system:String>
     <system:String x:Key="Toolbox.MiniGame.OS">OS-카란 무역 연구개발부</system:String>
     <system:String x:Key="Toolbox.MiniGame.OS.Tip">이벤트 메인 화면에서 임무를 시작하세요 (오른쪽 아래에 ｢시작하기｣)</system:String>
-    <system:String x:Key="Toolbox.MiniGame.PF">진지 축구 선수권 대회</system:String>
+    <system:String x:Key="Toolbox.MiniGame.PF">진지 축구 챔피언십</system:String>
     <system:String x:Key="Toolbox.MiniGame.PF.Tip">튜토리얼 스테이지를 수동으로 클리어한 후, PF-1에 진입하여 수동으로 편성하세요. ｢크루스｣만 단독으로 편성하고, 이벤트 스테이지 화면으로 돌아가 PF-1을 탭하여 임무를 시작하세요.</system:String>
     <system:String x:Key="Toolbox.MiniGame.PV">PV-불꽃놀이 집행위원회</system:String>
     <system:String x:Key="Toolbox.MiniGame.PV.Tip">선택한 스테이지부터 자동으로 클리어합니다. 첫 번째 스테이지를 선택한 경우에는 이벤트 페이지의 가장 왼쪽에서 시작하세요. 다른 스테이지를 선택한 경우에는 위치 보정을 위해 이전 스테이지에 먼저 들어갔다가 돌아오세요.</system:String>
@@ -2514,7 +2515,9 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
 
 맵에서 RA-4를 열고 오른쪽 아래에 ｢시작하기｣가 나타나면 작업을 시작하여 자동 순환할 수 있습니다
 
-참고: 초기 추가 아이템 휴대 관련 기술을 해제한 경우, 기지 내에서 초기 추가 아이템을 휴대하게 하는 시설(식품 공급소, 음료 공급소, 축사 등)을 철거하세요
+참고: 
+1. 초기 추가 아이템 휴대 관련 기술을 해제한 경우, 기지 내에서 초기 추가 아이템을 휴대하게 하는 시설(식품 공급소, 음료 공급소, 축사 등)을 철거하세요
+2. 게임과 에뮬레이터의 프레임 속도를 60 FPS로 유지해야 하며, 그렇지 않으면 스와이프 오류로 작업이 실패할 수 있습니다
 
 작업 흐름: ｢경영기획｣으로 얻은 순금 원석을 사용하여 지역을 해금하고, 위셔델로 보스 처치 임무를 완료합니다</system:String>
     <system:String x:Key="Toolbox.MiniGame.Reclamation.TalesInSave.Tip" xml:space="preserve">세이브 O: 도구 제작
@@ -2554,6 +2557,24 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Mode">모드</system:String>
     <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Mode.Badge">배지 파밍 (완전 클리어)</system:String>
     <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Mode.Score">점수 파밍 (방치 속행)</system:String>
+    <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Regulation.PC.Tip">PC에서는 게임 설정의 ｢키｣에서 ｢특수 플레이 키 배치｣(명칭 임시)의 단축키 표시를 꺼야 합니다.</system:String>
+    <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Regulation.Tip.Badge" xml:space="preserve">위수 협의 기본 테마 UI를 적용하고 ｢고속 시뮬레이션｣(임시 명칭)이 있는 이벤트 메인 화면에서 시작하세요. 저장된 게임이 있으면 먼저 직접 포기하세요.
+MAA는 ｢고속 시뮬레이션｣(명칭 임시)에서 사용할 수 없는 전략을 제외하고, 목표 클리어 횟수를 채우지 못한 전략을 선택해 매 판 끝까지 진행합니다.
+
+이 모드에서는 지원 유닛을 최대 30명까지 빌릴 수 있습니다.
+클리어 확률을 높이려면 먼저 상점 우선순위에 있는 오퍼레이터(아래 참조)를 모두 빌리고, 다음으로 VI등급 딜러를 모두 빌리세요. 자리가 남으면 V등급 딜러도 최대한 빌리는 것이 좋습니다.
+
+MAA는 사용자 지정 편성에서 등급별로 6성 오퍼레이터를 2명씩 선택합니다. 우선순위는 다음과 같습니다.
+{0}
+
+상점이 최고 레벨에 도달하면 다음 순서로 우선 구매합니다.
+{1}
+나머지 오퍼레이터의 구매 순서는 다음과 같습니다.
+사용자 지정 VI등급 → 사용자 지정 V등급 → 일반 VI등급 → 보유 인원이 부족할 때 게임에서 제공하는 대체 오퍼레이터 → 일반 V등급.</system:String>
+    <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Regulation.Tip.Score" xml:space="preserve">이벤트 메인 화면에서 임무 시작 (아래에 ｢고속 시뮬레이션｣ (명칭 임시))
+위수 협의 기본 테마 UI를 사용해야 합니다
+저장 데이터가 있는 경우 먼저 수동으로 포기해야 합니다
+판에 개입하지 않고 빠르게 라운드를 넘겨 레벨 보상을 획득합니다</system:String>
     <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Runs">클리어 횟수</system:String>
     <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.SettlementLog">{0}, 클리어 {1}/{2}</system:String>
     <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.StrategyLog">{0}: 클리어 {1}/{2}</system:String>
@@ -2563,24 +2584,6 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Theme">위수 협의 테마</system:String>
     <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Theme.Alliance">맹약</system:String>
     <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Theme.Regulation">규정 (명칭 임시)</system:String>
-    <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Tip.Badge" xml:space="preserve">이벤트 기본 스킨을 적용하고 ｢고속 시뮬레이션｣(임시 명칭)이 있는 이벤트 메인 화면에서 시작하세요. 저장된 게임이 있으면 먼저 직접 포기하세요.
-MAA는 목표 클리어 횟수를 채우지 못한 전략을 선택해 매 판 끝까지 진행합니다.
-
-이 모드에서는 지원 유닛을 최대 30명까지 빌릴 수 있습니다.
-클리어 확률을 높이려면 먼저 상점 우선순위에 있는 오퍼레이터를 모두 빌리고, 다음으로 VI등급 딜러를 모두 빌리세요. 자리가 남으면 V등급 딜러도 최대한 빌리는 것이 좋습니다.
-
-사용자 지정 편성에는 등급별로 6성 오퍼레이터를 최대 2명까지 선택합니다. 우선순위는 다음과 같습니다.
-{0}
-
-상점이 최고 레벨에 도달하면 다음 순서로 우선 구매합니다.
-{1}
-나머지 오퍼레이터의 구매 순서는 다음과 같습니다.
-사용자 지정 VI등급 → 사용자 지정 V등급 → 일반 VI등급 → 보유 인원이 부족할 때 게임에서 제공하는 대체 오퍼레이터 → 일반 V등급.
-전장에는 메딕을 1명만 배치하는 것이 좋습니다. 이미 메딕이 있다면 배치 중인 낮은 등급의 메딕을 더 높은 등급으로 교체할 수 있을 때만 구매합니다.</system:String>
-    <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Tip.Score" xml:space="preserve">이벤트 메인 화면에서 임무 시작 (아래에 ｢고속 시뮬레이션｣ (명칭 임시))
-기본 이벤트 스킨을 사용해야 합니다
-저장 데이터가 있는 경우 먼저 수동으로 포기해야 합니다
-판에 개입하지 않고 빠르게 라운드를 넘겨 레벨 보상을 획득합니다</system:String>
     <system:String x:Key="Toolbox.MiniGame.TL.WartimePressCommittee">전시 신문 위원회</system:String>
     <system:String x:Key="Toolbox.MiniGame.TL.WartimePressCommittee.Tip" xml:space="preserve">이벤트 신문 선택 화면이 표시된 상태에서 시작하세요</system:String>
     <system:String x:Key="Toolbox.MiniGame.Title">편의 기능</system:String>

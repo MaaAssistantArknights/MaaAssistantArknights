@@ -726,17 +726,6 @@ Todo
 
   `rewards` is only reported with `reward_missed`, `reward_picked`, `completed`, `reward_unrecognized` and `reward_recognition_failed`, and is omitted when `blackflow_start_rewards` is 0 with `blackflow_start_utopia` off (rewards are not recognized) or when no reward was recognized. Reward names are reported in Simplified Chinese.
 
-- `BlackFlowScrapTradeAborted`  
-  The BlackFlow scrap trade is aborted due to an anomaly. The `details` field contains:
-
-  ```json
-  // Corresponding details field example
-  {
-    "reason": "sale_failed", // Reason for aborting the trade
-    "item": "晶体元件" // Name of the item that triggered the abort
-  }
-  ```
-
 ### ReportRequest
 
 This field is mainly used by the core module to pass network request information to the UI layer, which is responsible for performing the actual HTTP reporting operations.

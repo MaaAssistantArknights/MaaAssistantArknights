@@ -183,10 +183,10 @@ std::optional<int> asst::FightTimesTaskPlugin::change_series(int sanity_current,
 
 std::optional<int> asst::FightTimesTaskPlugin::change_series_new(int sanity_current, int sanity_cost, int series)
 {
-    int fight_times_remain = std::min(m_fight_times_max - m_fight_times, 10);
+    int fight_times_remain = std::min(m_fight_times_max - m_fight_times, m_series_max);
     if (!m_has_used_medicine && !m_is_medicine_exhausted) {
-        if (fight_times_remain != series) {
-            return select_series_new(fight_times_remain); // 调整到剩余次数
+        if (fight_times_remain != series) { // 调整到剩余次数
+            return select_series_new(fight_times_remain) ? std::make_optional(fight_times_remain) : std::nullopt;
         }
         return series;
     }
@@ -203,7 +203,7 @@ std::optional<int> asst::FightTimesTaskPlugin::change_series_new(int sanity_curr
         // 未做任何调整，返回 nullopt 让调用方沿用当前倍率继续战斗
         return std::nullopt;
     }
-    auto target_times = std::clamp(sanity_current / cost, 1, 10);
+    auto target_times = std::clamp(sanity_current / cost, 1, fight_times_remain);
     LogInfo << __FUNCTION__ << "sanity_current:" << sanity_current << ", sanity_cost:" << sanity_cost
             << ", series:" << series << ", stage sanity cost per time:" << cost << ", target_times:" << target_times;
     if (target_times == series) {
@@ -334,9 +334,13 @@ bool asst::FightTimesTaskPlugin::select_series_new(int times)
         }
         return 0;
     };
-    for (int i = 0; i < 5 && !need_exit(); i++) {
+
+    const int retry_times = 5;
+    const int quick_dist = 4; // 快速滑动的阈值, 超过这个阈值就滑动, 否则点击
+
+    for (int i = 0; i < retry_times && !need_exit(); i++) {
         int dis = range_out(times, list.back().times, list.front().times);
-        if (std::abs(dis) > 4) {
+        if (std::abs(dis) > quick_dist) {
             if (dis > 0) {
                 const auto& task = Task.get("FightSeries-List-SlideUp");
                 ctrler()->swipe(task->specific_rect, task->rect_move, 300, SwipeExtraDirection::None, 3.7, 0.1);

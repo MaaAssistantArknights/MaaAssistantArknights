@@ -587,19 +587,13 @@
     <system:String x:Key="Asst.Roguelike.BlackFlow.OutcomePlanningFailed">Route planning failed</system:String>
     <system:String x:Key="Asst.Roguelike.BlackFlow.OutcomePlanningRetryExhausted">Route replanning limit reached</system:String>
     <system:String x:Key="Asst.Roguelike.BlackFlow.OutcomePostMoveValidationFailed">Post-move state validation failed</system:String>
+    <system:String x:Key="Asst.Roguelike.BlackFlow.OutcomeScrapTradeAborted">Trade at 秘境行商 (scrap trader) aborted</system:String>
     <system:String x:Key="Asst.Roguelike.BlackFlow.OutcomeStateMachineDeadEnd">Internal state machine error</system:String>
     <system:String x:Key="Asst.Roguelike.BlackFlow.OutcomeStrategyCompleted">Run objective completed</system:String>
     <system:String x:Key="Asst.Roguelike.BlackFlow.OutcomeTaskEventFailed">Failed to process the node result</system:String>
     <system:String x:Key="Asst.Roguelike.BlackFlow.OutcomeTransactionProposalFailed">Failed to prepare the move</system:String>
     <system:String x:Key="Asst.Roguelike.BlackFlow.OutcomeUnknown">Roguelike encountered an error</system:String>
     <system:String x:Key="Asst.Roguelike.BlackFlow.RoutingDecision">Floor {0} | AP {1}→{2} | {3} to {4} | Safety margin {5}</system:String>
-    <system:String x:Key="Asst.Roguelike.BlackFlow.ScrapTradeAbortedInventoryIncomplete">Could not count holdings at 秘境行商 (scrap trader); stopping the trade and leaving</system:String>
-    <system:String x:Key="Asst.Roguelike.BlackFlow.ScrapTradeAbortedMarketUnavailable">Item data for 秘境行商 (scrap trader) is unavailable; skipping the trade and leaving</system:String>
-    <system:String x:Key="Asst.Roguelike.BlackFlow.ScrapTradeAbortedPageSwitchFailed">Could not switch between the buy and sell pages at 秘境行商 (scrap trader); stopping the trade and leaving</system:String>
-    <system:String x:Key="Asst.Roguelike.BlackFlow.ScrapTradeAbortedSaleFailed">Selling "{0}" at 秘境行商 (scrap trader) was not confirmed; stopping the trade and leaving</system:String>
-    <system:String x:Key="Asst.Roguelike.BlackFlow.ScrapTradeAbortedSaleSearchFailed">Could not search the sell list at 秘境行商 (scrap trader); stopping the trade and leaving</system:String>
-    <system:String x:Key="Asst.Roguelike.BlackFlow.ScrapTradeAbortedSellBackSearchFailed">Could not find "{0}" to sell back at 秘境行商 (scrap trader); stopping the trade and leaving</system:String>
-    <system:String x:Key="Asst.Roguelike.BlackFlow.ScrapTradeAbortedUnknown">The trade at 秘境行商 (scrap trader) ran into an error; stopping the trade and leaving</system:String>
     <system:String x:Key="Asst.Roguelike.BlackFlow.StartRunCompleted">Starting conditions met; exited and kept this run</system:String>
     <system:String x:Key="Asst.Roguelike.BlackFlow.StartRunPrepared">Preparation complete</system:String>
     <system:String x:Key="Asst.Roguelike.BlackFlow.StartRunPreparedReason">Floor 3 reached; the next run will use the target difficulty and squad</system:String>
@@ -636,6 +630,13 @@
     <system:String x:Key="Asst.Roguelike.BlackFlow.TerminationPlanningRetryExhausted">Preview changes exhausted the route replanning limit</system:String>
     <system:String x:Key="Asst.Roguelike.BlackFlow.TerminationRecoveryPortUnavailable">Map recovery interface is unavailable</system:String>
     <system:String x:Key="Asst.Roguelike.BlackFlow.TerminationScrapShopNeverReached">No scrap trader was reached; this run has ended</system:String>
+    <system:String x:Key="Asst.Roguelike.BlackFlow.TerminationScrapTradeInventoryIncomplete">Could not count holdings</system:String>
+    <system:String x:Key="Asst.Roguelike.BlackFlow.TerminationScrapTradeMarketUnavailable">Item data is unavailable</system:String>
+    <system:String x:Key="Asst.Roguelike.BlackFlow.TerminationScrapTradePageSwitchFailed">Could not switch between the buy and sell pages</system:String>
+    <system:String x:Key="Asst.Roguelike.BlackFlow.TerminationScrapTradePurchaseFailed">The purchase confirmation did not appear</system:String>
+    <system:String x:Key="Asst.Roguelike.BlackFlow.TerminationScrapTradeSaleFailed">The sale was not confirmed</system:String>
+    <system:String x:Key="Asst.Roguelike.BlackFlow.TerminationScrapTradeSaleSearchFailed">Could not search the sell list</system:String>
+    <system:String x:Key="Asst.Roguelike.BlackFlow.TerminationScrapTradeSellBackSearchFailed">Could not find the item to sell back</system:String>
     <system:String x:Key="Asst.Roguelike.BlackFlow.TerminationStrategyTerminalReached">Reached the strategy destination</system:String>
     <system:String x:Key="Asst.Roguelike.BlackFlow.TerminationUnknown">To submit feedback, go to "{key=Settings.Title} - {key=Settings.IssueReport.Title}"</system:String>
     <system:String x:Key="Asst.Roguelike.BlackFlow.WarningIdentityConflict">The previewed node identity conflicts with the current map</system:String>
@@ -2514,7 +2515,9 @@ Prerequisite:
 
 Open RA-4 on the map and start the task when &quot;Start &quot; appears at the bottom-right to loop automatically
 
-Note: Please dismantle the buildings in the base that cause starting with extra items, such as Supply Stations and Corrals...
+Note: 
+1. Please dismantle the buildings in the base that cause starting with extra items, such as Supply Stations and Corrals...
+2. Keep both the game and the emulator at 60 FPS, otherwise swipes may misbehave and cause the task to fail.
 
 Task flow: Use the Gold from Strategy Business Management to unlock areas, and use Wis'adel to complete the boss elimination mission.</system:String>
     <system:String x:Key="Toolbox.MiniGame.Reclamation.TalesInSave.Tip" xml:space="preserve">With save file: farm points through crafting:
@@ -2554,6 +2557,24 @@ Only level rewards can be farmed; to get the Engraved Medal, all ｢Key Objectiv
     <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Mode">Mode</system:String>
     <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Mode.Badge">Farm badges (full clear)</system:String>
     <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Mode.Score">Farm score (idle rush)</system:String>
+    <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Regulation.PC.Tip">On PC, also go to ｢Keys｣ in the game settings and turn off shortcut key display for ｢Special Gameplay Keys｣ (name TBD).</system:String>
+    <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Regulation.Tip.Badge" xml:space="preserve">Use the default Stronghold Protocol theme UI and start from the main event screen with the ｢Express Simulation｣ option (name TBD). Manually abandon any saved run first.
+MAA picks a strategy that still needs clears (excluding strategies unavailable in ｢Express Simulation｣) and plays each run to the end.
+
+You can borrow up to 30 support units in this mode.
+For a better chance of clearing, borrow everyone on the shop priority list (see below) first, then all tier VI damage dealers. Fill any remaining slots with tier V damage dealers.
+
+From the custom squad, MAA picks 2 six-star operators per tier, in this order:
+{0}
+
+Once the shop reaches its highest level, MAA buys these operators first, in order:
+{1}
+For other operators, the purchase order is:
+Custom squad tier VI → custom squad tier V → regular tier VI → substitutes the game provides for unfilled roster slots → regular tier V.</system:String>
+    <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Regulation.Tip.Score" xml:space="preserve">Start the task from the main event screen (where ｢Express Simulation｣ (name TBD) is located)
+The default Stronghold Protocol theme UI must be used
+If there is a saved game, you need to manually abandon it first
+Leaves the run alone and quickly clears rounds for level rewards</system:String>
     <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Runs">Clears</system:String>
     <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.SettlementLog">{0}, cleared {1}/{2}</system:String>
     <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.StrategyLog">{0}: passed {1}/{2}</system:String>
@@ -2563,24 +2584,6 @@ Only level rewards can be farmed; to get the Engraved Medal, all ｢Key Objectiv
     <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Theme">Stronghold Protocol Theme</system:String>
     <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Theme.Alliance">Alliance</system:String>
     <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Theme.Regulation">Regulation</system:String>
-    <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Tip.Badge" xml:space="preserve">Use the default event skin and start from the main event screen with the ｢Express Simulation｣ option (name TBD). Manually abandon any saved run first.
-MAA picks a strategy that still needs clears and plays each run to the end.
-
-You can borrow up to 30 support units in this mode.
-For a better chance of clearing, borrow everyone on the shop priority list first, then all tier VI damage dealers. Fill any remaining slots with tier V damage dealers.
-
-The custom squad takes only 6-star operators, up to two per tier. First picks, in order:
-{0}
-
-Once the shop reaches its highest level, MAA buys these operators first, in order:
-{1}
-For other operators, the purchase order is:
-Custom squad tier VI → custom squad tier V → regular tier VI → substitutes the game provides for unfilled roster slots → regular tier V.
-Aim to keep one Medic on the field. Once you have one deployed, only buy another to replace a low-tier Medic with a higher-tier one.</system:String>
-    <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Tip.Score" xml:space="preserve">Start the task from the main event screen (where ｢Express Simulation｣ (name TBD) is located)
-The default event skin must be used
-If there is a saved game, you need to manually abandon it first
-Leaves the run alone and quickly clears rounds for level rewards</system:String>
     <system:String x:Key="Toolbox.MiniGame.TL.WartimePressCommittee">Wartime Press Committee</system:String>
     <system:String x:Key="Toolbox.MiniGame.TL.WartimePressCommittee.Tip" xml:space="preserve">Please start from the event newspaper selection screen where the paper name is visible.</system:String>
     <system:String x:Key="Toolbox.MiniGame.Title">Useful Tasks</system:String>

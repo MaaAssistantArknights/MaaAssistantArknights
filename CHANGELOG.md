@@ -1,4 +1,4 @@
-## v6.23.0
+## v6.23.2
 
 ### Highlights
 
@@ -20,6 +20,50 @@ On the CN server, MAA can now farm gold or colored strategy badges in Stronghold
 以下是详细内容：
 
 <details open>
+<summary><b>v6.23.2 (2026-11-25)</b></summary>
+
+### 修复 | Fix
+
+* 修复黑流树海秘境行商买卖时点击商品偶尔不弹出确认框的问题，改为点击商品名称下方的卡片，确认框未出现时自动补点；交易中止时停止任务并提示具体原因 ([#19409](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/19409), [#19407](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/19407)) @ZiyinLin
+* 修复国服刷理智 ｢代理倍率｣ 设为 AUTO 时，使用理智药后所选倍率可能超过 ｢指定次数｣ 剩余次数的问题 @status102
+* 修正界园肉鸽自动战斗作业中引用了未定义干员组的问题 ([#19413](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/19413)) @temple-dian
+* YostarEN/JP/KR add entry templates for the "PF" minigame @Constrat @Manicsteiner @HX3N
+* YostarJP/KR update the localized name of the "PF" minigame @Manicsteiner @HX3N
+* YostarJP add an OCR replacement for the Japanese name of 凯尔希·思衡托 @Manicsteiner
+
+### 文档 | Docs
+
+* 更新 ｢卫戍协议｣ 与生息演算 ｢重启锚点｣ 的任务说明，｢卫戍协议｣ 需使用卫戍默认主题 UI，PC 端连接时提示关闭 ｢特殊玩法键位｣ 的快捷键显示，｢重启锚点｣ RA-4 需保持 60 帧 ([#19415](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/19415)) @Saratoga-Official
+
+### 其他 | Other
+
+* 升级 HandyControls 至 3.7.0 ([#19416](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/19416)) @Aliothmoon
+* 新增 PC 端 Issue 反馈模板 ([#19379](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/19379)) @Saratoga-Official
+
+</details>
+
+<details>
+<summary><b>v6.23.1 (2026-11-23)</b></summary>
+
+### 改进 | Improved
+
+* ｢OS-喀兰贸易技术研发部｣ 小游戏在当前关卡已达成时自动进入下一关，领取奖励后自动继续 ([#19360](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/19360)) @Daydreamer114 @ABA2396
+* 调整各肉鸽主题辅助干员的招募与晋升优先级，令、稀音、冻河和电弧不再作为开局优先招募 @Saratoga-Official
+
+### 修复 | Fix
+
+* 修复肉鸽自动战斗中待部署区域的召唤物查询部署策略错误的问题 @status102
+* YostarJP 修复公招标签 ｢範囲攻撃｣ 偶发被识别为 ｢範囲攻擊｣ 导致同页少识别一个标签的问题 ([#19364](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/19364)) @Or1a
+
+### MaaMacGui
+
+#### 新增 | New
+
+* 新增 ｢卫戍协议｣ 小游戏 @hguandl
+
+</details>
+
+<details>
 <summary><b>v6.23.0 (2026-11-21)</b></summary>
 
 ### 新增 | New

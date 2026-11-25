@@ -769,22 +769,6 @@ typedef void(ASST_CALL* AsstApiCallback)(AsstMsgId msg, const char* details_json
     - `reward_recognition_failed`: 준비 탐험 또는 목표 탐험에서 지원 선택 화면의 보상 선택에 실패해 작업 중지.
   - `rewards` (`array<string>`, optional): 목표 탐험의 지원 선택 화면에서 인식한 보상 이름(중국어 간체), 예: `空间租赁`, `金乌`. `reward_missed`, `reward_picked`, `completed`, `reward_unrecognized`, `reward_recognition_failed`일 때만 전달되며, `blackflow_start_rewards`가 0이고 `blackflow_start_utopia`가 꺼져 있거나(보상을 인식하지 않음) 하나도 인식하지 못하면 생략됩니다.
 
-- `BlackFlowScrapTradeAborted`  
-  BlackFlow 행상 거래에서 이상이 발생하여 거래를 중단합니다. `details` 필드 내용은 다음과 같습니다:
-
-  :::: field-group  
-  ::: field reason  
-  @type string  
-  @required  
-  거래를 중단한 이유  
-  :::  
-  ::: field item  
-  @type string  
-  @required  
-  중단을 유발한 거래 아이템 이름  
-  :::  
-  ::::
-
 ### ReportRequest
 
 이 필드는 주로 코어 모듈이 UI 계층에 네트워크 요청 정보를 전달하는 데 사용되며, UI가 구체적인 HTTP 보고(Report) 작업을 수행합니다
