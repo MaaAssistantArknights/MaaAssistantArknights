@@ -26,6 +26,13 @@ asst::PlayToolsController::~PlayToolsController()
     close();
 }
 
+template <typename ConstBufferSequence>
+void asst::PlayToolsController::write_packet(const ConstBufferSequence& buffers)
+{
+    const std::lock_guard lock(m_write_mutex);
+    boost::asio::write(m_socket, buffers);
+}
+
 bool asst::PlayToolsController::connect(
     const std::string& adb_path [[maybe_unused]],
     const std::string& address,
@@ -108,7 +115,7 @@ bool asst::PlayToolsController::screencap_rgba(cv::Mat& image_payload, bool allo
 
     try {
         constexpr char request[6] = { 0, 4, 'S', 'C', 'R', 'N' };
-        boost::asio::write(m_socket, boost::asio::buffer(request));
+        write_packet(boost::asio::buffer(request));
         boost::asio::read(m_socket, boost::asio::buffer(&image_size, sizeof(image_size)));
         image_size = socket_ops::network_to_host_long(image_size);
     }
@@ -145,7 +152,7 @@ bool asst::PlayToolsController::screencap_bgr(cv::Mat& image_payload, bool allow
 
     try {
         constexpr char request[] = { 0, 4, 'B', 'G', 'R', 1 };
-        boost::asio::write(m_socket, boost::asio::buffer(request));
+        write_packet(boost::asio::buffer(request));
         boost::asio::read(m_socket, boost::asio::buffer(header));
     }
     catch (const std::exception& e) {
@@ -186,7 +193,7 @@ bool asst::PlayToolsController::stop_game(const std::string& client_type [[maybe
 {
     try {
         constexpr char request[6] = { 0, 4, 'T', 'E', 'R', 'M' };
-        boost::asio::write(m_socket, boost::asio::buffer(request));
+        write_packet(boost::asio::buffer(request));
     }
     catch (const std::exception& e) {
         Log.error("Cannot terminate game:", e.what());
@@ -244,6 +251,7 @@ bool asst::PlayToolsController::inject_input_event(const InputEvent& event)
     }
     const auto& [width, height] = m_screen_size;
     if (event.point.x < 0 || event.point.x >= width || event.point.y < 0 || event.point.y >= height) {
+        LogWarn << __FUNCTION__ << "touch point out of range" << event.point << "screen size" << width << height;
         return false;
     }
     if (!toucher_commit(down ? TouchPhase::Began : TouchPhase::Moved, event.point, 0, event.pointerId)) {
@@ -426,7 +434,7 @@ bool asst::PlayToolsController::open()
 
     try {
         boost::asio::connect(m_socket, resolver.resolve(host, port));
-        boost::asio::write(m_socket, boost::asio::buffer(handshake));
+        write_packet(boost::asio::buffer(handshake));
         boost::asio::read(m_socket, boost::asio::buffer(buffer, 4));
     }
     catch (const std::exception& e) {
@@ -464,7 +472,7 @@ bool asst::PlayToolsController::check_version()
     constexpr char request[6] = { 0, 4, 'V', 'E', 'R', 'N' };
 
     try {
-        boost::asio::write(m_socket, boost::asio::buffer(request));
+        write_packet(boost::asio::buffer(request));
         boost::asio::read(m_socket, boost::asio::buffer(&version, sizeof(version)));
     }
     catch (const std::exception& e) {
@@ -495,7 +503,7 @@ bool asst::PlayToolsController::fetch_screen_res()
     constexpr char request[6] = { 0, 4, 'S', 'I', 'Z', 'E' };
 
     try {
-        boost::asio::write(m_socket, boost::asio::buffer(request));
+        write_packet(boost::asio::buffer(request));
         boost::asio::read(m_socket, boost::asio::buffer(&width, sizeof(width)));
         boost::asio::read(m_socket, boost::asio::buffer(&height, sizeof(height)));
     }
@@ -529,7 +537,7 @@ bool asst::PlayToolsController::toucher_commit(TouchPhase phase, const Point& p,
         const uint8_t request[] = { 0, body_size, 'T', 'U', 'C', 'H' };
         const std::array<boost::asio::const_buffer, 2> packet { boost::asio::buffer(request),
                                                                 boost::asio::buffer(payload, body_size - 4) };
-        boost::asio::write(m_socket, packet);
+        write_packet(packet);
     }
     catch (const std::exception& e) {
         Log.error("Cannot touch screen:", e.what());
@@ -544,7 +552,7 @@ bool asst::PlayToolsController::fetch_frame_rect()
     constexpr char request[] = { 0, 4, 'R', 'E', 'C', 'T' };
 
     try {
-        boost::asio::write(m_socket, boost::asio::buffer(request));
+        write_packet(boost::asio::buffer(request));
         boost::asio::read(m_socket, boost::asio::buffer(m_frame_rect));
     }
     catch (const std::exception& e) {
@@ -566,7 +574,7 @@ bool asst::PlayToolsController::fetch_bundle_id()
     constexpr char request[] = { 0, 4, 'B', 'N', 'D', 'L' };
 
     try {
-        boost::asio::write(m_socket, boost::asio::buffer(request));
+        write_packet(boost::asio::buffer(request));
         boost::asio::read(m_socket, boost::asio::buffer(&length, sizeof(length)));
         length = socket_ops::network_to_host_long(length);
     }

@@ -7,6 +7,7 @@
 #include <boost/asio/ip/tcp.hpp>
 #include <cstdint>
 #include <map>
+#include <mutex>
 
 #include "Platform/PlatformFactory.h"
 
@@ -97,6 +98,10 @@ protected:
     bool toucher_wait(long delay);
 
 private:
+    std::mutex m_write_mutex;
+    template <typename ConstBufferSequence>
+    void write_packet(const ConstBufferSequence& buffers);
+
     unsigned m_minimal_version = 2;
     bool m_multi_touch_opt_in = false;
     uint32_t m_protocol_version = 0;

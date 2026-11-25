@@ -441,6 +441,7 @@ bool asst::InfrastInfoTask::_run()
     }
 
     const bool zoom_sent = try_zoom_out();
+    const bool playcover_zoom = zoom_sent && ctrler()->get_controller_type() == ControllerType::MacPlayTools;
     Log.info("InfrastInfoTask | zoom gesture", zoom_sent ? "sent" : "unsupported");
 
     constexpr int MaxAttempts = 3;
@@ -471,9 +472,9 @@ bool asst::InfrastInfoTask::_run()
         InfrastFacilityImageAnalyzer analyzer(image);
         analyzer.set_to_be_analyzed(
             { "Mfg", "Trade", "Power", "Dorm", "Control", "Reception", "Office", "Processing", "Training", "Recycle" });
-        if (!analyzer.analyze()) {
+        if (!analyzer.analyze() || (playcover_zoom && analyzer.get_view_type() == ViewType::Unknown)) {
             partial_layout_candidate.reset();
-            Log.warn("InfrastInfoTask | no facility matched, attempt", attempt);
+            LogWarn << __FUNCTION__ << "could not identify facility layout on attempt" << attempt;
             prepare_retry(attempt);
             continue;
         }
@@ -512,13 +513,14 @@ bool asst::InfrastInfoTask::_run()
             continue;
         }
 
-        if (!is_complete_layout(layout_counts) && partial_layout_candidate != layout_counts) {
+        // The right-hand rooms may still be off screen even if two counts agree.
+        const bool retry_zoom = playcover_zoom && attempt < MaxAttempts &&
+                                analyzer.get_view_type() == ViewType::Normal && layout_counts.reception == 0 &&
+                                layout_counts.office == 0;
+        if (retry_zoom || (!is_complete_layout(layout_counts) && partial_layout_candidate != layout_counts)) {
             partial_layout_candidate = layout_counts;
             Log.info("InfrastInfoTask | partial facility layout detected, confirming", attempt);
-            // A PlayCover pinch may leave both rooms on the right outside the visible overview.
-            if (ctrler()->get_controller_type() == ControllerType::MacPlayTools &&
-                analyzer.get_view_type() == ViewType::Normal && layout_counts.reception == 0 &&
-                layout_counts.office == 0) {
+            if (retry_zoom) {
                 prepare_retry(attempt);
             }
             else {
