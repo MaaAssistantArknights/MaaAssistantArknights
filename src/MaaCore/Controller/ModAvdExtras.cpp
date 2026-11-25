@@ -22,7 +22,7 @@ bool ModAvdExtras::init(const std::filesystem::path& modavd_root, const std::str
     }
 
     close_instance();
-    // LibraryHolder 按类型共享库，切换根目录前需释放旧库。
+    // 切换根目录前需释放旧库。
     if (library_loaded_ && modavd_root != modavd_root_) {
         unload_modavd_library();
     }
@@ -134,7 +134,7 @@ bool ModAvdExtras::load_modavd_library()
     using namespace asst::utils::path_literals;
 
     auto lib_path = modavd_root_ / "extras"_p / "modavd_extras"_p;
-    if (!Library::load_library(lib_path)) {
+    if (!load_library(lib_path)) {
         LogError << "Failed to load ModAVD extras library" << VAR(lib_path);
         unload_modavd_library();
         return false;
@@ -142,21 +142,20 @@ bool ModAvdExtras::load_modavd_library()
     library_loaded_ = true;
     LogInfo << "Successfully loaded ModAVD extras library from: " << lib_path;
 
-    api_version_func_ = Library::get_function<uint32_t()>(kApiVersionFuncName);
-    open_func_ = Library::get_function<int(const OpenParams*, void**)>(kOpenFuncName);
-    close_func_ = Library::get_function<void(void*)>(kCloseFuncName);
-    capabilities_func_ = Library::get_function<uint32_t(void*)>(kCapabilitiesFuncName);
-    capture_func_ =
-        Library::get_function<int(void*, int, uint32_t, uint32_t, void*, size_t, FrameInfo*)>(kCaptureFuncName);
-    strerror_func_ = Library::get_function<const char*(int)>(kStrErrorFuncName);
+    api_version_func_ = get_function<uint32_t()>(kApiVersionFuncName);
+    open_func_ = get_function<int(const OpenParams*, void**)>(kOpenFuncName);
+    close_func_ = get_function<void(void*)>(kCloseFuncName);
+    capabilities_func_ = get_function<uint32_t(void*)>(kCapabilitiesFuncName);
+    capture_func_ = get_function<int(void*, int, uint32_t, uint32_t, void*, size_t, FrameInfo*)>(kCaptureFuncName);
+    strerror_func_ = get_function<const char*(int)>(kStrErrorFuncName);
     // 点击的四个函数接口版本 1 起就导出，版本 2 起才能用；可选，缺了只是不用宿主侧点击
-    touch_down_func_ = Library::get_function<int(void*, int, int, int, int, int)>(kTouchDownFuncName);
-    touch_move_func_ = Library::get_function<int(void*, int, int, int, int, int)>(kTouchMoveFuncName);
-    touch_up_func_ = Library::get_function<int(void*, int, int)>(kTouchUpFuncName);
-    touch_release_all_func_ = Library::get_function<int(void*)>(kTouchReleaseAllFuncName);
+    touch_down_func_ = get_function<int(void*, int, int, int, int, int)>(kTouchDownFuncName);
+    touch_move_func_ = get_function<int(void*, int, int, int, int, int)>(kTouchMoveFuncName);
+    touch_up_func_ = get_function<int(void*, int, int)>(kTouchUpFuncName);
+    touch_release_all_func_ = get_function<int(void*)>(kTouchReleaseAllFuncName);
     // 按键、文字同样版本 1 起就导出，版本 3 起才能用
-    key_func_ = Library::get_function<int(void*, int, int, int)>(kKeyFuncName);
-    input_text_func_ = Library::get_function<int(void*, const char*)>(kInputTextFuncName);
+    key_func_ = get_function<int(void*, int, int, int)>(kKeyFuncName);
+    input_text_func_ = get_function<int(void*, const char*)>(kInputTextFuncName);
 
     if (!api_version_func_ || !open_func_ || !close_func_ || !capabilities_func_ || !capture_func_) {
         LogError << "ModAVD extras library is missing functions";
@@ -195,7 +194,7 @@ void ModAvdExtras::unload_modavd_library()
     api_version_ = 0;
 
     if (library_loaded_) {
-        Library::unload_library();
+        unload_library();
         library_loaded_ = false;
     }
 }

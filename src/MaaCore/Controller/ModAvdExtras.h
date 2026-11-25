@@ -13,7 +13,7 @@
 
 namespace asst
 {
-class ModAvdExtras
+class ModAvdExtras : public LibraryHolder
 {
 public:
     ModAvdExtras() = default;
@@ -45,9 +45,6 @@ public:
     bool input_text(const std::string& text);
 
 private:
-    // 未启用的成员不能通过 LibraryHolder 的析构释放其他控制器持有的引用。
-    using Library = LibraryHolder<ModAvdExtras>;
-
     // ABI: https://github.com/ModAVD/ModAVDExtras/blob/main/include/modavd_extras.h
     struct OpenParams
     {
