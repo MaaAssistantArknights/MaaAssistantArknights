@@ -3725,6 +3725,13 @@ public class ToolboxViewModel : Screen
     /// <returns>Task</returns>
     private async Task StartMiniGameAsync(Func<bool> submit)
     {
+        // 运行中的任务归属不可被迷你游戏覆盖，否则其 AllTasksCompleted 会被误归因到MiniGame也就是现在版本的“牛杂”
+        if (!_runningState.GetIdle())
+        {
+            _logger.Warning("Another task is running, mini game start rejected");
+            return;
+        }
+
         if (Bootstrapper.TryGetTaskBlockReason() is { } reason)
         {
             Instances.TaskQueueViewModel.AddLog(reason, UiLogColor.Error);
