@@ -21,7 +21,8 @@ jobs:
     name: Review and Modify Issues
     if: github.event_name == 'issues' && github.event.action == 'opened'
     outputs:
-      blocked: ${{ steps.unread-checkbox-check.outputs.result }}
+      # 无标签（未使用模板）或复选框检查命中，均视为 blocked
+      blocked: ${{ steps.template-check.outputs.result == 'true' || steps.unread-checkbox-check.outputs.result == 'true' }}
     runs-on: ubuntu-latest
     steps:
       - name: Check for duplicate issues in last hour
@@ -46,7 +47,7 @@ jobs:
             // 过滤出1小时内创建的其他 issues（排除当前 issue）
             const recentIssues = userIssues.filter(issue => {
               const issueCreatedAt = new Date(issue.created_at);
-              return issue.number !== context.issue.number && 
+              return issue.number !== context.issue.number &&
                      issueCreatedAt >= oneHourAgo &&
                      issueCreatedAt < currentIssueCreatedAt;
             });
@@ -59,7 +60,7 @@ jobs:
                 issue_number: context.issue.number,
                 labels: ['rapid-submission']
               });
-              
+
               // 给1小时内的其他 issues 也添加标签
               for (const issue of recentIssues) {
                 try {
@@ -76,8 +77,45 @@ jobs:
               }
             }
 
+      - name: Check issue was created from a template
+        id: template-check
+        uses: actions/github-script@v9
+        with:
+          script: |
+            // 所有 Issue 模板都会自动打标签；无任何标签即视为未使用模板
+            const labels = context.payload.issue.labels || [];
+            if (labels.length > 0) {
+              return false;
+            }
+
+            await github.rest.issues.update({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              state: 'closed',
+              state_reason: 'not_planned'
+            });
+
+            await github.rest.issues.addLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              labels: ['low-quality-report']
+            });
+
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: '请使用 Issue 模板提交问题，未使用模板的 Issue 会被自动关闭。\n\nPlease submit issues using one of the provided templates. Issues created without a template are automatically closed.'
+            });
+
+            return true;
+
       - name: Check for issue checkboxes
         id: unread-checkbox-check
+        # 无标签已关闭时跳过复选框解析
+        if: steps.template-check.outputs.result != 'true'
         uses: actions/github-script@v9
         with:
           script: |
@@ -215,7 +253,7 @@ jobs:
           bot-name: '@MaaArknightsBot'
           initial-comment-body: |
             🤖 **MaaBot 正在分析该 Issue...**  
-            
+
             感谢您的反馈！AI 正在自动分析该问题，预计耗时约 10 分钟。
           prompt-template: |
             严格按照 .agents/skills/maa-issue-log-analysis/SKILL.md 中的规则，分析 GitHub Issue {{issue_number}}。把最终结论写到 {{answer_file}}。
