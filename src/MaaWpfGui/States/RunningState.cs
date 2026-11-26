@@ -157,7 +157,7 @@ public class RunningState
         }
     }
 
-    // 运行时长上限相关字段，仅由主任务队列开始时设置，空闲时清除
+    // 运行时长上限相关字段，由支持时限的任务成功启动后设置，空闲时清除
     private readonly Lock _runDeadlineLock = new();
     private DateTime? _runDeadline;
     private int _runDurationLimitMinutes;
