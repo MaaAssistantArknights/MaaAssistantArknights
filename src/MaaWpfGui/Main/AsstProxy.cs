@@ -1707,8 +1707,8 @@ public class AsstProxy
                     Instances.NotificationService.Notify(NotificationSource.Copilot, new(NotificationKind.TaskComplete, message, message));
                 }
 
-                // 牛杂完成时同样按悬浮窗是否已创建判定超级监工的成就完成情况
-                if (runOwner == RunOwner.MiniGame && Instances.OverlayViewModel.IsCreated)
+                // 牛杂完成时同样按悬浮窗是否已创建判定超级监工的成就完成情况，如果任务失败那就不给用户成就
+                if (runOwner == RunOwner.MiniGame && allFinishedTasksCompleted && Instances.OverlayViewModel.IsCreated)
                 {
                     AchievementTrackerHelper.Instance.Unlock(AchievementIds.LogSupervisor);
                 }
