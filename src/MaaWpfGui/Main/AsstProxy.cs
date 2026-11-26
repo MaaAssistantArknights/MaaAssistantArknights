@@ -1702,6 +1702,12 @@ public class AsstProxy
                     Instances.NotificationService.Notify(NotificationSource.Copilot, new(NotificationKind.TaskComplete, message, message));
                 }
 
+                // 牛杂完成时同样按悬浮窗是否已创建判定超级监工的成就完成情况
+                if (runOwner == RunOwner.MiniGame && Instances.OverlayViewModel.IsCreated)
+                {
+                    AchievementTrackerHelper.Instance.Unlock(AchievementIds.LogSupervisor);
+                }
+
                 if (buyWine)
                 {
                     Instances.SettingsViewModel.LastBuyWineTime = DateTimeOffset.UtcNow.ToYjDateTime();
