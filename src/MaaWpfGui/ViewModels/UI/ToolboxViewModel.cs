@@ -3733,6 +3733,8 @@ public class ToolboxViewModel : Screen
 
         Instances.TaskQueueViewModel.ClearLog();
 
+        Instances.OverlayViewModel.LogItemsSource = Instances.TaskQueueViewModel.LogItemViewModels;
+
         _runningState.BeginRun(RunOwner.MiniGame);
 
         string errMsg = string.Empty;
