@@ -413,7 +413,9 @@ public abstract class GpuOption
         return true;
     }
 
-    public static GpuOption GetCurrent()
+    public static GpuOption GetCurrent() => GetCurrent(null);
+
+    internal static GpuOption GetCurrent(IEnumerable<GpuOption>? availableOptions)
     {
         var preferredGpuInstancePath = ConfigFactory.Root.Gui.Performance.GpuInstancePath;
         var preferredGpuDescription = ConfigFactory.Root.Gui.Performance.GpuDescription;
@@ -421,7 +423,7 @@ public abstract class GpuOption
         GpuOption result;
         if (ConfigFactory.Root.Gui.Performance.UseGpu)
         {
-            var options = GetGpuOptions();
+            var options = availableOptions ?? GetGpuOptions();
             if (ReferenceEquals(options, _unavailableOptions))
             {
                 return Disable;
