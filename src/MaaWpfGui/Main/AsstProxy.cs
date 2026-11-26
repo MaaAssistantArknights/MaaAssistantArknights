@@ -1602,6 +1602,11 @@ public class AsstProxy
                 // （更新数据/仓库维护展开的链不在白名单、copilot 启动失败残留条目误判轮次归属）。
                 // 归属快照须在 SetIdle(true) 清零之前取得
                 var runOwner = _runningState.Owner;
+                
+                // 任务出错时 Core 仍会移除任务并发 AllTasksCompleted，成功判定要按照 TaskChainCompleted 写入的状态确认
+                bool allFinishedTasksCompleted = taskList is { Length: > 0 }
+                    && taskList.All(taskId => _tasksStatus.TryGetValue(taskId, out var taskStatus) && taskStatus.Status == TaskStatus.Completed);
+
                 if (runOwner == RunOwner.Copilot)
                 {
                     if (SettingsViewModel.GameSettings.CopilotWithScript)
