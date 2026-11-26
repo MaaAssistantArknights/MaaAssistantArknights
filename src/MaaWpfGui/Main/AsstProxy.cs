@@ -1602,10 +1602,13 @@ public class AsstProxy
                 // （更新数据/仓库维护展开的链不在白名单、copilot 启动失败残留条目误判轮次归属）。
                 // 归属快照须在 SetIdle(true) 清零之前取得
                 var runOwner = _runningState.Owner;
-                
-                // 任务出错时 Core 仍会移除任务并发 AllTasksCompleted，成功判定要按照 TaskChainCompleted 写入的状态确认
-                bool allFinishedTasksCompleted = taskList is { Length: > 0 }
-                    && taskList.All(taskId => _tasksStatus.TryGetValue(taskId, out var taskStatus) && taskStatus.Status == TaskStatus.Completed);
+
+                // 成就只认本轮实际完成的迷你游戏任务（按任务类型与完成状态），不依赖共享的运行归属：
+                // 其他任务运行期间启动迷你游戏会改写归属，按归属判定会在其 AllTasksCompleted 时误解锁
+                bool miniGameTaskCompleted = taskList?.Any(taskId =>
+                    _tasksStatus.TryGetValue(taskId, out var taskStatus)
+                    && taskStatus.Status == TaskStatus.Completed
+                    && taskStatus.Type is TaskType.MiniGame or TaskType.Reclamation or TaskType.StrongholdProtocol) == true;
 
                 if (runOwner == RunOwner.Copilot)
                 {
@@ -1708,7 +1711,7 @@ public class AsstProxy
                 }
 
                 // 牛杂完成时同样按悬浮窗是否已创建判定超级监工的成就完成情况，如果任务失败那就不给用户成就
-                if (runOwner == RunOwner.MiniGame && allFinishedTasksCompleted && Instances.OverlayViewModel.IsCreated)
+                if (miniGameTaskCompleted && Instances.OverlayViewModel.IsCreated)
                 {
                     AchievementTrackerHelper.Instance.Unlock(AchievementIds.LogSupervisor);
                 }
