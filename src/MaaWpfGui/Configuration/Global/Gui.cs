@@ -223,12 +223,18 @@ public class Gui : NotifyPropertyChangedWithValue, IJsonOnDeserialized
     }
 
     /// <summary>
-    /// 教程版本迁移：版本不一致时无论旧进度如何都重置到预留的重置目标步重走，仅触发一次。
+    /// 教程版本迁移：版本不一致时无论旧进度如何都重置到预留的重置目标步重走，仅触发一次；
+    /// 调试构建下改为每次启动都从首步重走，便于反复验证引导流程。
     /// 新装用户首次运行不经反序列化不触发本方法，版本号由 DoneGuide 完成时标记。
     /// </summary>
     [UsedImplicitly]
     public void OnDeserialized()
     {
+#if DEBUG
+        // 调试构建：每次启动都从教程首步重走，便于反复验证引导流程；发布构建走下面的版本迁移
+        GuideStep = ViewModels.UI.SettingsViewModel.GuideTutorialResetStepIndex;
+        GuideTutorialVersion = CurrentGuideTutorialVersion;
+#else
         if (GuideTutorialVersion >= CurrentGuideTutorialVersion)
         {
             return;
@@ -236,5 +242,6 @@ public class Gui : NotifyPropertyChangedWithValue, IJsonOnDeserialized
 
         GuideStep = ViewModels.UI.SettingsViewModel.GuideTutorialResetStepIndex;
         GuideTutorialVersion = CurrentGuideTutorialVersion;
+#endif
     }
 }

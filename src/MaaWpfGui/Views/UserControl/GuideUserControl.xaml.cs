@@ -11,6 +11,8 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
+#nullable enable
+
 namespace MaaWpfGui.Views.UserControl;
 
 /// <summary>

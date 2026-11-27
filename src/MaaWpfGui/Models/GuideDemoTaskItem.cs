@@ -49,8 +49,6 @@ public class GuideDemoTaskItem : PropertyChangedBase, IDisposable
 
     private bool _gearBadgeVisible;
 
-    private bool _renameBadgeVisible;
-
     private string _demoStage = string.Empty;
 
     private bool _demoUseWeeklySchedule;
@@ -185,16 +183,6 @@ public class GuideDemoTaskItem : PropertyChangedBase, IDisposable
     {
         get => _gearBadgeVisible;
         set => SetAndNotify(ref _gearBadgeVisible, value);
-    }
-
-    /// <summary>
-    /// Gets or sets a value indicating whether the gate badge shows on this task's rename button：
-    /// 重命名按钮仅在鼠标移到任务上时显示，此时名称上的红点让位给按钮。
-    /// </summary>
-    public bool IsRenameBadgeVisible
-    {
-        get => _renameBadgeVisible;
-        set => SetAndNotify(ref _renameBadgeVisible, value);
     }
 
     /// <summary>
