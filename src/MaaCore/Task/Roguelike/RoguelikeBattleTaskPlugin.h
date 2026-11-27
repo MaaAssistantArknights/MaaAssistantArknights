@@ -17,6 +17,8 @@ class RoguelikeBattleTaskPlugin : public AbstractRoguelikeTaskPlugin, private Ba
     using Time_Point = std::chrono::time_point<std::chrono::system_clock>;
 
     inline static const std::unordered_set<std::string> DiceSet = { "骰子", "8面骰子", "12面骰子" };
+    // 风雪之眼只能部署在其他干员所在的地块，通用部署选的都是空地块，放不上去
+    inline static const std::unordered_set<std::string> NoGenericDeploySet = { "风雪之眼" };
 
 public:
     RoguelikeBattleTaskPlugin(
