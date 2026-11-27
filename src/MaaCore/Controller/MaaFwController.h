@@ -1,5 +1,6 @@
 #pragma once
 
+#include <deque>
 #include <functional>
 #include <optional>
 #include <string>
@@ -97,6 +98,8 @@ private:
     std::string m_uuid;
     std::pair<int, int> m_screen_size = { 0, 0 };
     bool m_main_screen_recognition = false;
+    long long m_screencap_times = 0;
+    std::deque<long long> m_screencap_cost;
 
     AsstCallback m_callback = nullptr;
 };

@@ -5,6 +5,8 @@
 #include <cmath>
 #include <cstdint>
 #include <future>
+#include <numeric>
+#include <ranges>
 #include <thread>
 
 #include "Config/GeneralConfig.h"
@@ -58,6 +60,8 @@ bool MaaFwController::connect_with_extras(
     m_inited = false;
     m_uuid.clear();
     m_screen_size = { 0, 0 };
+    m_screencap_cost.clear();
+    m_screencap_times = 0;
 
     m_target_is_pc = extras.get("target_is_pc", false);
     m_esc_keycode = 111; // KEYCODE_ESCAPE for Android
@@ -338,8 +342,60 @@ bool MaaFwController::screencap_impl(cv::Mat& image_payload, bool move_cursor)
         }
     }
 
-    if (!m_unit_handle->screencap(image_payload) || image_payload.empty()) {
+    // 只统计真正的截图调用本身，不含移光标及固定等待（对齐 Win32Controller 口径），
+    // 否则 PC 端主界面 300ms 视差等待会把耗时指标整体垫高
+    const auto start_time = std::chrono::steady_clock::now();
+    const bool screencap_ret = m_unit_handle->screencap(image_payload);
+    const auto cost =
+        std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now() - start_time).count();
+
+    const bool ret = screencap_ret && !image_payload.empty();
+    if (!ret) {
         LogWarn << "MaaFw control unit screencap failed" << VAR(m_library_name);
+    }
+
+    // 记录截图耗时，失败记 -1，每 10 次截图回传一次最值+平均值（对齐 AdbController 故障口径）
+    const bool is_first_screencap = m_screencap_cost.empty();
+    m_screencap_cost.emplace_back(ret ? cost : -1);
+    if (m_screencap_cost.size() > 30) {
+        m_screencap_cost.pop_front();
+    }
+    m_screencap_times = (m_screencap_times + 1) % 10;
+
+    if (is_first_screencap && ret) {
+        json::value info = json::object {
+            { "uuid", m_uuid },
+            { "what", "FastestWayToScreencap" },
+            { "details", json::object { { "method", m_library_name }, { "cost", cost } } },
+        };
+        callback(AsstMsg::ConnectionInfo, info);
+    }
+
+    if ((is_first_screencap && ret) || m_screencap_times == 0) {
+        auto filtered_cost = m_screencap_cost | std::views::filter([](auto num) { return num > 0; });
+        // 过滤后的有效截图用时次数
+        auto filtered_count = m_screencap_cost.size() - std::ranges::count(m_screencap_cost, -1);
+        if (filtered_count > 0) {
+            const auto [min_cost, max_cost] = std::ranges::minmax(filtered_cost);
+            const auto avg_cost = std::accumulate(filtered_cost.begin(), filtered_cost.end(), 0ll) / filtered_count;
+            json::value info = json::object {
+                { "uuid", m_uuid },
+                { "what", "ScreencapCost" },
+                { "details",
+                  json::object {
+                      { "min", min_cost },
+                      { "avg", avg_cost },
+                      { "max", max_cost },
+                  } },
+            };
+            if (m_screencap_cost.size() > filtered_count) {
+                info["details"]["fault_times"] = m_screencap_cost.size() - filtered_count;
+            }
+            callback(AsstMsg::ConnectionInfo, info);
+        }
+    }
+
+    if (!ret) {
         return false;
     }
 
