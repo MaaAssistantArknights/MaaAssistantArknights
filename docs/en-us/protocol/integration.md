@@ -346,6 +346,37 @@ Select more tags.
 <br>
 `2` - if possible, select more high star tag combinations even if they might conflict  
 :::  
+::: field oper_priority_mode  
+@type number  
+@default 0  
+@optional  
+Prefer tag combinations that can yield unowned / non-max-potential operators. Requires `operbox_data_path`. Auto refresh, confirmation, permit reserve and recruitment time still follow the best combination by rarity.
+<br>
+`0` - disabled
+<br>
+`1` - keep current rarity: only choose among combinations with the same guaranteed rarity as the best one (Robots count as 3★)
+<br>
+`2` - prefer directly: may give up higher-rarity combinations, but never Senior/Top Operator tags or a 5★+ guarantee
+<br>
+A picked combination selects only its own tags and ignores `extra_tags_mode`; a picked 3★-tier combination is selected even if `select` does not contain 3 (same as `first_tags`). When only 3★ combinations exist and `first_tags` matches, `first_tags` wins; `preserve_tags` takes precedence over this option.  
+:::  
+::: field oper_priority_allow_low_star  
+@type boolean  
+@default false  
+@optional  
+When `oper_priority_mode` is not 0, whether combinations may be picked for unowned / non-max-potential 1★ Robots and 2★ operators (2★ only in combinations without a 4★+ guarantee). Such a combination is never refreshed away, is selected even if `select` does not contain its rarity, and the recruitment time is shortened to 3:50 for Robots and at most 7:30 for 2★. When `false`, Robots and 2★ operators are never targeted.  
+:::  
+::: field oper_priority_low_star_confirm  
+@type boolean  
+@default false  
+@optional  
+When `oper_priority_allow_low_star` is `true`, whether combinations picked for Robots / 2★ operators are confirmed automatically, regardless of the 3★/4★ entries in `confirm`. When `false`, the slot is skipped and kept (not refreshed). `level3_recruitment_permit_reserve` still applies.  
+:::  
+::: field operbox_data_path  
+@type string  
+@optional  
+Path of the operator box data file (same format as `own_opers` in the operator recognition callback; needs `id` and `potential`, optional `own`). Only used when `oper_priority_mode` is not 0. An empty owned list means every operator is treated as unowned. If the file is missing, not a regular file, larger than 16 MiB, unparsable or malformed (any entry lacks a valid `id`, has a `potential` that is not an integer from 1 to 6, or has a non-boolean `own`), the option is skipped for this run and recruitment continues as usual. Updating these parameters while the task is running has no effect until the task runs again.  
+:::  
 ::: field times  
 @type number  
 @default 0  

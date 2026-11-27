@@ -1,8 +1,11 @@
 #pragma once
 #include "Task/AbstractTask.h"
 
+#include <mutex>
 #include <optional>
 #include <set>
+#include <string>
+#include <unordered_map>
 #include <vector>
 
 #include "Common/AsstTypes.h"
@@ -20,6 +23,8 @@ public:
     using AbstractTask::AbstractTask;
     virtual ~AutoRecruitTask() override = default;
 
+    virtual bool run() override;
+
     AutoRecruitTask& set_select_level(std::vector<int> select_level) noexcept;
     AutoRecruitTask& set_confirm_level(std::vector<int> confirm_level) noexcept;
     AutoRecruitTask& set_level3_recruitment_permit_reserve(int reserve) noexcept;
@@ -28,6 +33,12 @@ public:
     AutoRecruitTask& set_use_expedited(bool use_or_not) noexcept;
     AutoRecruitTask& set_select_extra_tags(ExtraTagsMode select_extra_tags_mode) noexcept;
     AutoRecruitTask& set_first_tags(std::vector<std::string> first_tags) noexcept;
+    // 线程安全；新设置在下一次 run() 时生效
+    AutoRecruitTask& set_oper_priority(
+        OperPriorityMode mode,
+        bool allow_low_star,
+        bool low_star_confirm,
+        std::string operbox_data_path);
     AutoRecruitTask& set_preserve_tags(std::vector<RecruitConfig::TagId> skip_tags) noexcept;
     AutoRecruitTask& set_set_time(bool set_time) noexcept;
     AutoRecruitTask& set_force_refresh(bool force_refrest) noexcept;
@@ -66,8 +77,46 @@ protected:
     bool hire_all();
     bool initialize_dirty_slot_info(const cv::Mat&);
     std::vector<std::string> get_tag_names(const std::vector<RecruitConfig::TagId>& ids) const;
-    std::vector<asst::RecruitConfig::TagId>
-        get_select_tags(const std::vector<RecruitCombs>& combinations, std::vector<RecruitConfig::TagId> tag_ids);
+    // combinations.front() 为最终选中的组合；oper_priority_applied 表示它是由 ｢优先未拥有/未满潜｣ 挑出来的
+    std::vector<asst::RecruitConfig::TagId> get_select_tags(
+        const std::vector<RecruitCombs>& combinations,
+        std::vector<RecruitConfig::TagId> tag_ids,
+        bool oper_priority_applied = false);
+
+    // ---- 优先选择未拥有/未满潜干员 ----
+    struct OperPriorityConfig
+    {
+        OperPriorityMode mode = OperPriorityMode::Disabled;
+        bool allow_low_star = false;   // 允许招募小车/2 星干员
+        bool low_star_confirm = false; // 自动确认小车/2 星
+        std::string operbox_data_path;
+    };
+
+    struct OperPriorityScore
+    {
+        size_t considered = 0;      // 参与统计的干员数
+        size_t wanted = 0;          // 其中未拥有或未满潜的干员数
+        size_t unowned = 0;         // 其中未拥有的干员数
+        size_t low_star_wanted = 0; // wanted 中 1、2 星干员的数量（需要缩短招募时长才可能招到）
+        bool low_duration = false;  // 该分数基于缩短后的招募时长（小车 3:50 / 2 星 7:30）计算
+
+        double wanted_ratio() const { return considered == 0 ? 0. : static_cast<double>(wanted) / considered; }
+
+        double unowned_ratio() const { return considered == 0 ? 0. : static_cast<double>(unowned) / considered; }
+    };
+
+    // 读取干员识别数据，返回是否可用。失败时本次任务不启用该功能，不影响其他公招逻辑；不抛异常
+    bool load_operbox_data();
+    // 是否为只出 1 星支援机械（小车）的组合
+    static bool is_robot_comb(const RecruitCombs& comb);
+    // 用于 ｢保持当前星级｣ 比较的档位：小车组合视为与 3 星同档
+    static int comb_tier(const RecruitCombs& comb);
+    OperPriorityScore calc_oper_priority_score(const RecruitCombs& comb) const;
+    // 在已按星级排好序的组合中挑选优先组合，返回其下标；不需要调整时返回 std::nullopt
+    std::optional<size_t> pick_oper_priority_comb(
+        const std::vector<RecruitCombs>& sorted_combs,
+        bool has_special_tag,
+        const std::vector<RecruitConfig::TagId>& special_tags) const;
     static std::vector<TextRect> start_recruit_analyze(const cv::Mat& image);
 
     template <typename Rng>
@@ -174,6 +223,12 @@ protected:
     ExtraTagsMode m_select_extra_tags_mode = ExtraTagsMode::NoExtra;
     std::vector<std::string> m_first_tags;
     std::vector<RecruitConfig::TagId> m_preserve_tags = { "支援机械" };
+    std::mutex m_oper_priority_mutex;
+    OperPriorityConfig m_pending_oper_priority;             // 最新设置，由 m_oper_priority_mutex 保护
+    OperPriorityConfig m_oper_priority;                     // 本次运行的快照，以下成员只在工作线程访问
+    bool m_operbox_loaded = false;                          // 本次任务已尝试读取过
+    bool m_operbox_available = false;                       // 干员数据读取成功（已拥有列表可以为空）
+    std::unordered_map<std::string, int> m_owned_potential; // 已拥有干员 id -> 潜能（1~6）
     int m_max_times = 0;
     bool m_has_permit = true;
     bool m_has_refresh = true;
