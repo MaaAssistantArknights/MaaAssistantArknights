@@ -54,6 +54,17 @@
             ["Bizarre Fragment", "_exit"]
         ]
     },
+    "Sarkaz@Roguelike@StrategyChange_ReachThirdFloor": {
+        "ocrReplace": [
+            ["Furnace Origin", "_default"],
+            ["Wrought Ironroots", "_default"],
+            ["Ashforged Ruins", "_restart"],
+            ["Probable Divergence", "_restart"],
+            ["Border of Truth", "_restart"],
+            ["Radiant Zenith", "_restart"],
+            ["Bizarre Fragment", "_default"]
+        ]
+    },
     "Sarkaz@Roguelike@StrategyChange_mode0": {
         "ocrReplace": [
             ["Furnace Origin", "_default"],

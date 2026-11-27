@@ -105,6 +105,7 @@ bool asst::RoguelikeConfig::verify_and_load_params(const json::value& params)
     m_theme = theme;
     m_mode = mode;
     m_difficulty = params.get("difficulty", -1);
+    m_monthly_squad_task.reset();
 
     Log.info("Roguelike theme", m_theme, "| mode", static_cast<int>(m_mode), "| difficulty", m_difficulty);
 
@@ -127,50 +128,9 @@ bool asst::RoguelikeConfig::verify_and_load_params(const json::value& params)
         return false;
     }
 
-    // 设置层数选点策略，相关逻辑在 RoguelikeStrategyChangeTaskPlugin
-    {
-        Task.set_task_base(m_theme + "@Roguelike@Stages", m_theme + "@Roguelike@Stages_default");
-        std::string strategy_task = m_theme + "@Roguelike@StrategyChange";
-        std::string strategy_task_with_mode = strategy_task + "_mode" + std::to_string(static_cast<int>(mode));
-        if (Task.get(strategy_task_with_mode) == nullptr) {
-            strategy_task_with_mode = "#none"; // 没有对应的层数选点策略，使用默认策略（避战）
-            Log.warn(__FUNCTION__, "No strategy for mode", static_cast<int>(mode));
-        }
-        Task.set_task_base(strategy_task, strategy_task_with_mode);
-
-        // 萨卡兹点刺成锭分队特殊策略
-        if (m_theme == "Sarkaz") {
-            if (m_mode == RoguelikeMode::Investment && params.get("squad", "") == "点刺成锭分队") {
-                // 启用特殊策略，联动 RoguelikeRoutingTaskPlugin
-                Task.set_task_base(strategy_task, "Sarkaz@Roguelike@StrategyChange-FastInvestment");
-                // 禁用前 2 层的 <思维负荷干员编队> 功能
-                Task.set_task_base(
-                    "Sarkaz@Roguelike@StageBurdenOperation",
-                    "Sarkaz@Roguelike@StageBurdenOperation-None");
-            }
-            else {
-                // 启用前 2 层的 <思维负荷干员编队> 功能
-                Task.set_task_base(
-                    "Sarkaz@Roguelike@StageBurdenOperation",
-                    "Sarkaz@Roguelike@StageBurdenOperation-Start");
-            }
-        }
-        // 界园指挥分队特殊策略
-        if (m_theme == "JieGarden") {
-            if (m_mode == RoguelikeMode::Investment && params.get("squad", "") == "指挥分队" && m_difficulty >= 3) {
-                // 启用特殊策略，联动 RoguelikeRoutingTaskPlugin
-                Task.set_task_base(strategy_task, "JieGarden@Roguelike@StrategyChange_mode1-FastPass");
-            }
-            if (m_mode == RoguelikeMode::Collectible &&
-                params.get("collectible_mode_squad", params.get("squad", "")) == "指挥分队" && m_difficulty >= 3) {
-                // 启用特殊策略，联动 RoguelikeRoutingTaskPlugin
-                Task.set_task_base(strategy_task, "JieGarden@Roguelike@StrategyChange_mode4-FastPass");
-            }
-            if (m_mode == RoguelikeMode::FindPlaytime) {
-                // 启用刷常乐节点策略，联动 RoguelikeRoutingTaskPlugin
-                Task.set_task_base(strategy_task, "JieGarden@Roguelike@StrategyChange_mode20001");
-            }
-        }
+    m_strategy_squad = params.get("squad", "");
+    if (mode == RoguelikeMode::Collectible) {
+        m_strategy_squad = params.get("collectible_mode_squad", m_strategy_squad);
     }
 
     if (m_mode == RoguelikeMode::Investment) {
@@ -201,6 +161,36 @@ bool asst::RoguelikeConfig::verify_and_load_params(const json::value& params)
     }
 
     return true;
+}
+
+void asst::RoguelikeConfig::apply_run_strategy() const
+{
+    // 在任务出队时绑定策略，以免待运行任务的参数覆盖当前局。
+    const std::string prefix = m_theme + "@Roguelike@";
+    const std::string strategy = prefix + "StrategyChange";
+    std::string base = strategy + "_mode" + std::to_string(static_cast<int>(m_mode));
+    if (m_theme == RoguelikeTheme::Sarkaz) {
+        const bool fast_investment = m_mode == RoguelikeMode::Investment && m_strategy_squad == "点刺成锭分队";
+        if (fast_investment) {
+            base = strategy + "-FastInvestment";
+        }
+        const std::string burden = prefix + "StageBurdenOperation";
+        Task.set_task_base(burden, burden + (fast_investment ? "-None" : "-Start"));
+    }
+    else if (
+        m_theme == RoguelikeTheme::JieGarden && m_difficulty >= 3 && m_strategy_squad == "指挥分队" &&
+        (m_mode == RoguelikeMode::Investment || m_mode == RoguelikeMode::Collectible)) {
+        base += "-FastPass";
+    }
+    if (Task.get(base) == nullptr) {
+        LogWarn << __FUNCTION__ << "No floor strategy for" << base;
+        base = "#none";
+    }
+    Task.set_task_base(strategy, base);
+    Task.set_task_base(prefix + "Stages", prefix + "Stages_default");
+    const std::string drops = prefix + "DropsFlag";
+    const bool only_collect_ingots = m_mode == RoguelikeMode::Investment && !m_invest_with_more_score;
+    Task.set_task_base(drops, drops + (only_collect_ingots ? "_mode1" : "_default"));
 }
 
 void asst::RoguelikeConfig::clear()

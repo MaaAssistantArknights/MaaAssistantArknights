@@ -34,8 +34,8 @@ protected:
 private:
     // 尝试招募指定助战干员
     bool recruit_support_char(const std::string& name, const int max_refresh);
-    // 招募指定的自有干员
-    bool recruit_own_char(const std::string& name);
+    // 按开局顺位招募自有或助战干员
+    bool recruit_start_oper(const RoguelikeStartOper& oper);
     // 直接招募第一个干员
     bool lazy_recruit();
     // 招募指定干员
@@ -47,6 +47,8 @@ private:
     bool recruit_appointed_char(const std::string& char_name, bool is_rtl = false);
     // 选择干员
     void select_oper(const battle::roguelike::Recruitment& oper);
+    // 保留月度干员晋升希望时，是否允许本次招募
+    bool is_zero_hope_recruit(const std::string& name) const;
     // 找出给定的 Offset 组所有满足条件的干员
     std::unordered_set<std::string> calculate_condition_oper(
         const RecruitPriorityOffset& condition,

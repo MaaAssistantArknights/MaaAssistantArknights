@@ -198,6 +198,18 @@
         "ocrReplace": [[" ", ""]],
         "text": ["안전가옥활용"]
     },
+    "Sami@Roguelike@StrategyChange_ReachThirdFloor": {
+        "ocrReplace": [
+            [" ", ""],
+            ["은빛의", "_default"],
+            ["고요한", "_default"],
+            ["여명의", "_restart"],
+            ["얼어.+은", "_restart"],
+            ["무결점", "_restart"],
+            ["예견의", "_restart"],
+            ["숨겨진", "_default"]
+        ]
+    },
     "Sami@Roguelike@StrategyChange_mode0": {
         "ocrReplace": [
             [" ", ""],

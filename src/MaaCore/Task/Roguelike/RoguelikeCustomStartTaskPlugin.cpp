@@ -80,15 +80,22 @@ bool asst::RoguelikeCustomStartTaskPlugin::verify(AsstMsg msg, const json::value
 
 bool asst::RoguelikeCustomStartTaskPlugin::load_params(const json::value& params)
 {
-    m_squad = params.get("squad", "");
-    if (m_config->get_mode() == RoguelikeMode::Collectible ||
-        m_config->get_mode() == RoguelikeMode::BlackFlowStartRun) {
-        m_collectible_mode_squad = params.get("collectible_mode_squad", m_squad);
+    const auto mode = m_config->get_mode();
+    if (mode == RoguelikeMode::Squad) {
+        m_squad = "指挥分队";
+        m_config->set_start_roles({});
+        m_config->set_start_opers({});
+        m_config->set_use_nonfriend_support(false);
     }
-
-    m_config->set_start_opers(RoguelikeConfig::parse_start_opers(params));           // 开局干员顺位列表
-    m_config->set_start_roles(params.get("roles", ""));                              // 开局职业组
-    m_config->set_use_nonfriend_support(params.get("use_nonfriend_support", false)); // 是否可以是非好友助战干员
+    else {
+        m_squad = params.get("squad", "");
+        m_config->set_start_roles(params.get("roles", ""));
+        m_config->set_start_opers(RoguelikeConfig::parse_start_opers(params));
+        m_config->set_use_nonfriend_support(params.get("use_nonfriend_support", false));
+        if (mode == RoguelikeMode::Collectible || mode == RoguelikeMode::BlackFlowStartRun) {
+            m_collectible_mode_squad = params.get("collectible_mode_squad", m_squad);
+        }
+    }
 
     if (auto select_list = params.find<json::object>("collectible_mode_start_list"); select_list) {
         RoguelikeStartSelect list;

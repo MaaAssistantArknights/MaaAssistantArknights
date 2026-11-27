@@ -1,5 +1,6 @@
 #include "RoguelikeRecruitTaskPlugin.h"
 
+#include "Config/Miscellaneous/BattleDataConfig.h"
 #include "Config/TaskData.h"
 #include "Controller/Controller.h"
 #include "Task/ProcessTask.h"
@@ -127,27 +128,26 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
         }
     }
 
-    if (m_initail_recruit) {
-        // 开局指定招募：顺位无论成败都消耗，本次没招到则落入下方默认优先级遍历
-        const RoguelikeStartOper* start_oper = m_config->get_current_start_oper();
-        if (start_oper != nullptr) {
-            const int max_refresh = Task.get("RoguelikeRefreshSupportBtnOcr")->special_params.front();
-            const bool recruited = start_oper->use_support ? recruit_support_char(start_oper->name, max_refresh)
-                                                           : recruit_own_char(start_oper->name);
-            m_config->advance_start_oper_index();
-            if (recruited) {
-                m_starts_complete = true;
-                return true;
-            }
+    const auto& chars_map = m_config->status().opers;
+    const auto& monthly_squad_task = m_config->get_monthly_squad_task();
+    // 月度干员随队入场，第一张券可能早于编队识别。确认精二前都要为晋升留希望。
+    const bool reserve_hope_for_monthly =
+        monthly_squad_task.has_value() && monthly_squad_task->type == MonthlySquadTaskType::UseOperatorSkill &&
+        monthly_squad_task->skill == MonthlySquadSkill::Skill3 && !monthly_squad_task->oper_name.empty() &&
+        monthly_squad_task->completed_count < monthly_squad_task->required_count &&
+        (!chars_map.contains(monthly_squad_task->oper_name) || chars_map.at(monthly_squad_task->oper_name).elite < 2);
+    if (reserve_hope_for_monthly) {
+        LogInfo << __FUNCTION__ << "reserve hope for monthly squad operator:" << monthly_squad_task->oper_name;
+    }
+
+    if (const auto* start_oper = m_initail_recruit ? m_config->get_current_start_oper() : nullptr) {
+        m_config->advance_start_oper_index();
+        if (recruit_start_oper(*start_oper)) {
+            return true;
         }
     }
 
-    bool team_full_without_rookie = m_config->status().team_full_without_rookie;
-    // Log.info("team_full_without_rookie", team_full_without_rookie);
-
-    // 编队信息 (已有角色)
-    const auto& chars_map = m_config->status().opers;
-
+    const bool team_full_without_rookie = m_config->status().team_full_without_rookie;
     if (!m_starts_complete) {
         for (const auto& oper : chars_map) {
             auto& recruit_info = RoguelikeRecruit.get_oper_info(m_config->get_theme(), oper.first);
@@ -218,7 +218,7 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
         if (!analyzer.analyze()) {
             Log.trace(__FUNCTION__, "| Page", i, "recruit list analyse failed");
             // 还没滑动就识别失败，通常是招募界面为空，视为招募成功并退出
-            if (i == 0) {
+            if (i == 0 && !reserve_hope_for_monthly) {
                 return true;
             }
             // 已经滑动过，识别失败可能是干员不可选
@@ -227,6 +227,16 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
 
         std::unordered_set<std::string> oper_names;
         const auto& oper_list = analyzer.get_result();
+        if (reserve_hope_for_monthly) {
+            const auto promotion = std::ranges::find_if(oper_list, [&](const auto& oper) {
+                return oper.name == monthly_squad_task->oper_name && oper.elite == 2;
+            });
+            if (promotion != oper_list.end()) {
+                LogInfo << __FUNCTION__ << "promote monthly squad operator:" << promotion->name;
+                select_oper(*promotion);
+                return true;
+            }
+        }
         bool stop_swipe = false;
         const auto& owned_collection = m_config->status().collections;
 
@@ -357,6 +367,10 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
                 }
             }
 
+            if (reserve_hope_for_monthly && !is_zero_hope_recruit(oper_info.name)) {
+                continue;
+            }
+
             // 优先级为0，可能练度不够被忽略
             if (priority <= 0) {
                 continue;
@@ -401,15 +415,12 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
         sleep(Task.get("RoguelikeCustom-HijackCoChar")->post_delay);
     }
 
-    bool recruited = false;
-    auto recruit_oper = [&](const battle::roguelike::Recruitment& info) {
-        select_oper(info);
-        recruited = true;
-    };
-
     // 没有候选干员，进入后备逻辑
     if (recruit_list.empty()) {
         Log.trace(__FUNCTION__, "| No oper in recruit list.");
+        if (reserve_hope_for_monthly) {
+            return true; // 本券没有可选目标，放弃招募，保留晋升希望。
+        }
 
         // 如果划动过，先划回最左边
         if (i != 0) {
@@ -431,7 +442,7 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
                 continue;
             }
             Log.trace(__FUNCTION__, "| Choose temporary recruitment elite 2:", info.name, info.elite, info.level);
-            recruit_oper(info);
+            select_oper(info);
             return true;
         }
 
@@ -441,7 +452,7 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
         //         continue;
         //     }
         //     Log.trace(__FUNCTION__, "| Choose random elite 1:", info.name, info.elite, info.level);
-        //     recruit_oper(info);
+        //     select_oper(info);
         //     return true;
         // }
 
@@ -680,11 +691,28 @@ bool asst::RoguelikeRecruitTaskPlugin::recruit_support_char(const std::string& n
     return true;
 }
 
-bool asst::RoguelikeRecruitTaskPlugin::recruit_own_char(const std::string& name)
+bool asst::RoguelikeRecruitTaskPlugin::recruit_start_oper(const RoguelikeStartOper& oper)
 {
-    LogTraceFunction;
+    const int max_refresh = Task.get("RoguelikeRefreshSupportBtnOcr")->special_params.front();
+    const bool recruited =
+        oper.use_support ? recruit_support_char(oper.name, max_refresh) : recruit_appointed_char(oper.name);
+    if (recruited) {
+        m_starts_complete = true;
+    }
+    return recruited;
+}
 
-    return recruit_appointed_char(name);
+bool asst::RoguelikeRecruitTaskPlugin::is_zero_hope_recruit(const std::string& name) const
+{
+    const battle::Role role = BattleData.get_first_role(name);
+    const int rarity = BattleData.get_rarity(role, name);
+    if (rarity == 4) {
+        // 界园和萨卡兹的四星首次招募免费，已持有的四星再次出现在券上时需要消耗希望晋升。
+        const auto& theme = m_config->get_theme();
+        return (theme == RoguelikeTheme::JieGarden || theme == RoguelikeTheme::Sarkaz) &&
+               !m_config->status().opers.contains(name);
+    }
+    return rarity > 0 && rarity <= 3;
 }
 
 void asst::RoguelikeRecruitTaskPlugin::select_oper(const battle::roguelike::Recruitment& oper)

@@ -196,6 +196,18 @@
     "Sami@Roguelike@StageSafeHouseReuse": {
         "text": ["Use the Safe House again", "Use the Safe"]
     },
+    "Sami@Roguelike@StrategyChange_ReachThirdFloor": {
+        "ocrReplace": [
+            [".*Brisk ?Marshlands", "_default"],
+            [".*Placid ?Forest.*", "_default"],
+            [".*Dawning ?Frostb.*", "_restart"],
+            [".*Gelid ?Rockshelves.*", "_restart"],
+            [".*Immaculate ?Garden.*", "_restart"],
+            [".*(Clairvoyant|Clayrovant) ?Carcass.*", "_restart"],
+            [".*Secluded ?Passage.*", "_default"]
+        ],
+        "roi": [540, 46, 240, 26]
+    },
     "Sami@Roguelike@StrategyChange_mode0": {
         "doc": "Ocr can't read 3rd floor, use temperature instead (experimental)",
         "doc2": "As expected, using temperature number leads to other issues. Removing...",

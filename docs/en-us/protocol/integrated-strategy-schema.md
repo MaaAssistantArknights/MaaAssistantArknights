@@ -26,6 +26,7 @@ Please note that JSON files do not support comments. Comments are for demonstrat
       - `deposit.json` investing mode
     - `recruitment.json` operators recruitment logic
     - `shopping.json` trade store purchasing logic
+    - `monthly_squad.json` Monthly Squad task logic
 
 - Specifically, in `Sami/`:
   - `foldartal.json` defines the usage logic for Sami's Foldartals
@@ -813,6 +814,46 @@ The BlackFlow strategy module supports `shopping_rules`. When a page is dispatch
 If multiple rules match, the rule with the lowest `rank` is selected; ties are resolved by the lexicographical order of `id`, as with `encounter_rules`. Both tables come from the same rule; fields from different rules are not combined. If no rule matches, the `default` buy table is used and nothing is sold. Tables are selected again for every page dispatch, so the previous page's selection is not carried over.
 
 `when` cannot access candidate route facts. Referenced table names must exist in BlackFlow's `shopping.json`; otherwise, the strategy configuration fails to parse. The shopping plugin uses the selected buy table, while 秘境行商 (scrap trader) cultivation uses the selected sell table to filter items for sale.
+
+## Monthly Squad tasks
+
+`resource/roguelike/theme_name/monthly_squad.json` describes the task assigned to each Monthly Squad. Top-level keys may be squad indices from `1` to `8`. Use `default` as the fallback when an index has no dedicated entry or cannot be recognized.
+
+```json
+{
+    "1": {
+        "type": "DeployOperator",
+        "operator": "年",
+        "count": 10
+    },
+    "2": {
+        "type": "DeployOperatorSummon",
+        "operator": "令",
+        "skill": 3,
+        "count": 20
+    },
+    "default": {
+        "type": "ReachThirdFloor"
+    }
+}
+```
+
+The following task types are supported:
+
+| `type`                 | Required fields              | Description                                                                    |
+| ---------------------- | ---------------------------- | ------------------------------------------------------------------------------ |
+| `ReachThirdFloor`      | None                         | End the run upon entering the third floor                                      |
+| `DeployOperator`       | `operator`, `count`          | Deploy the specified operator the required number of times                     |
+| `DeployOperatorSummon` | `operator`, `count`          | Deploy the specified operator, then deploy and immediately retreat each summon |
+| `UseOperatorSkill`     | `operator`, `count`, `skill` | Select and use the specified operator's first, second, or third skill          |
+
+Before each exploration, MAA checks the reward completion mark on the squad screen, even if the local counter is below `count`. If the reward is complete and automatic squad rotation is off, MAA ends the current Integrated Strategies task and continues with the next task in the queue. With rotation on, MAA moves to the next squad once the reward is complete and, if communications checks are enabled, all of the current squad's communications are unlocked.
+
+`count` must be a positive integer. `skill` must be from `1` to `3`. It is optional for `DeployOperatorSummon`; when omitted, the operator's existing skill-selection logic is preserved.
+
+When a monthly squad task requires skill 3, MAA first selects a fallback skill at formation, then tries skill 3 before each battle. For `UseOperatorSkill`, MAA attempts to use the equipped skill whenever it is ready. It starts counting uses of skill 3 locally once the recruitment record confirms Elite 2.
+
+A `UseOperatorSkill` task that requires skill 3 reserves Hope to promote the target operator to Elite 2. While saving Hope, MAA can recruit operators of 3 stars or lower. In `JieGarden` and `Sarkaz`, it can also recruit a 4-star operator for the first time at zero Hope. It skips promotions for 4-star operators already on the roster and other higher-rarity recruits, including temporary recruits.
 
 ## Integrated Strategy Special Mechanisms
 

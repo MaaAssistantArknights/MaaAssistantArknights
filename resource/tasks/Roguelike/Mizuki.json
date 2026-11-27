@@ -527,6 +527,17 @@
     "Mizuki@Roguelike@StartExplore-EnterCheck": {
         "template": "Mizuki@Roguelike@StartExplore.png"
     },
+    "Mizuki@Roguelike@StrategyChange_ReachThirdFloor": {
+        "ocrReplace": [
+            ["天光海岸", "_default"],
+            ["离岸孤岛", "_default"],
+            ["波涛略地", "_restart"],
+            ["隐秘温床", "_restart"],
+            ["失尘岩洞", "_restart"],
+            ["幽海丛林", "_restart"],
+            ["绀碧摇篮", "_default"]
+        ]
+    },
     "Mizuki@Roguelike@StrategyChange_mode0": {
         "text": ["_aggressive", "_pragmatic", "_default"],
         "ocrReplace": [

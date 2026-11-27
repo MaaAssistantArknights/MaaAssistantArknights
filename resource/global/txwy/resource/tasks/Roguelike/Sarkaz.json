@@ -41,6 +41,17 @@
             ["詭譎斷章", "_exit"]
         ]
     },
+    "Sarkaz@Roguelike@StrategyChange_ReachThirdFloor": {
+        "ocrReplace": [
+            ["熔魂之始", "_default"],
+            ["鍛鐵根須", "_default"],
+            ["灰鑄迷城", "_restart"],
+            ["或然歧域", "_restart"],
+            ["虛實疆界", "_restart"],
+            ["輝光天頂", "_restart"],
+            ["詭譎斷章", "_default"]
+        ]
+    },
     "Sarkaz@Roguelike@StrategyChange_mode0": {
         "ocrReplace": [
             ["熔魂之始", "_default"],

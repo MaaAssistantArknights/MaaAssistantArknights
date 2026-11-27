@@ -20,6 +20,7 @@ icon: ri:game-fill
       - `deposit.json`：刷源石錠模式。
     - `recruitment.json`：幹員招募邏輯。
     - `shopping.json`：商店購買收藏品邏輯。
+    - `monthly_squad.json`：月度小隊任務邏輯。
 
 - 薩米肉鴿 `Sami/` 下的特殊檔案：
   - `foldartal.json`：密文板的使用邏輯。
@@ -783,6 +784,46 @@ icon: ri:game-fill
 多條規則同時符合時，先比較 `rank`，相同時依 `id` 的字典順序，與 `encounter_rules` 一致。每次只採用同一條規則的買賣清單，不混合不同規則的欄位；未符合任何規則時使用 `default` 購買清單且不出售。每次頁面分派都會重新選擇清單，上一頁面的選擇不會延續到下一頁面。
 
 `when` 不能讀取候選路線事實。規則引用的清單名稱必須存在於黑流的 `shopping.json`，否則策略設定解析失敗。通用購物使用選中的購買清單；秘境行商培育使用選中的出售清單篩選出售名稱。
+
+## 月度小隊任務
+
+`resource/roguelike/主題名/monthly_squad.json` 描述各月度小隊需要完成的任務。頂層鍵為小隊序號 `1`～`8`，也可以使用 `default` 作為未設定對應序號或無法辨識序號時的預設任務。
+
+```json
+{
+    "1": {
+        "type": "DeployOperator",
+        "operator": "年",
+        "count": 10
+    },
+    "2": {
+        "type": "DeployOperatorSummon",
+        "operator": "令",
+        "skill": 3,
+        "count": 20
+    },
+    "default": {
+        "type": "ReachThirdFloor"
+    }
+}
+```
+
+支援以下任務類型：
+
+| `type`                 | 必填欄位                     | 說明                                           |
+| ---------------------- | ---------------------------- | ---------------------------------------------- |
+| `ReachThirdFloor`      | 無                           | 進入第三層時結束本次探索                       |
+| `DeployOperator`       | `operator`、`count`          | 部署指定幹員並累計次數                         |
+| `DeployOperatorSummon` | `operator`、`count`          | 部署指定幹員，每次部署其召喚物後立即撤回召喚物 |
+| `UseOperatorSkill`     | `operator`、`count`、`skill` | 選擇並使用指定幹員的一、二或三技能             |
+
+每次開始探索前，以小隊頁面的獎勵完成標記為準，即使本機計數尚未達到 `count`。獎勵已完成時，關閉自動切隊會結束目前的肉鴿任務並執行佇列中的下一項。開啟自動切隊則切換至下一支小隊。若同時開啟通訊檢查，還須先解鎖目前小隊的全部通訊。
+
+`count` 必須是大於零的整數。`skill` 的取值範圍為 `1`～`3`；在 `DeployOperatorSummon` 中可以省略，省略後沿用該幹員原有的技能選擇邏輯。
+
+月度任務指定三技能時，每次編隊都會先選可用的過渡技能，再嘗試三技能。對於 `UseOperatorSkill` 任務，MAA 會在技能就緒時嘗試施放。招募紀錄確認精二後，施放次數才計入本機的三技能進度。
+
+三技能的 `UseOperatorSkill` 任務會為目標幹員晉升精二預留希望。期間可以招募三星及以下幹員。在界園和薩卡茲主題中，首次招募四星幹員消耗 0 希望，也可以招募。已持有四星幹員的晉升及其他高星招募（含臨時招募）會被略過。
 
 ## 肉鴿特殊機制
 

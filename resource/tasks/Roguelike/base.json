@@ -1770,6 +1770,10 @@
         "roi": [570, 0, 180, 80],
         "next": ["Roguelike@Stages"]
     },
+    "Roguelike@StrategyChange_ReachThirdFloor": {
+        "baseTask": "Roguelike@StrategyChange_default",
+        "text": ["_default", "_restart"]
+    },
     "Roguelike@StrategyChange_mode0": {
         "baseTask": "Roguelike@StrategyChange_default"
     },

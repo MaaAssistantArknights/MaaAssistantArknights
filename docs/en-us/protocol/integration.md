@@ -855,7 +855,7 @@ Mode.
 <br>
 `5` - Collapsal Paradigm farming; only for the Sami theme; accelerates collapsal buildup via missed enemies; if the first collapsal paradigm encountered is in the `expected_collapsal_paradigms` list, stops the task; otherwise, restarts.
 <br>
-`6` - Monthly squad rewards farming, same as mode 0 except for specific mode adaptations.
+`6` - Monthly squad rewards farming, same as mode 0 except for specific mode adaptations. Monthly squads use the game's preset starting roles and operators. This mode ignores `roles`, `core_char_list`, and the legacy `core_char` parameter.
 <br>
 `7` - Deep Dive rewards farming, same as mode 0 except for specific mode adaptations.
 <br>

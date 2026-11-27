@@ -3,7 +3,6 @@
 #include <utility>
 
 #include "Common/AsstBattleDef.h"
-#include "Config/TaskData.h"
 #include "Task/ProcessTask.h"
 
 // ------------------ 通用配置及插件 ------------------
@@ -207,6 +206,9 @@ bool asst::RoguelikeTask::run()
         }
     }
     try {
+        if (get_enable()) {
+            m_config_ptr->apply_run_strategy();
+        }
         const bool result = InterfaceTask::run();
         finish_run();
         return result;
@@ -238,8 +240,6 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
     if (mode == RoguelikeMode::Investment) {
         // 刷源石锭模式是否进入第二层
         if (m_config_ptr->get_invest_with_more_score()) {
-            // 战斗后奖励默认
-            Task.set_task_base(theme + "@Roguelike@DropsFlag", theme + "@Roguelike@DropsFlag_default");
             m_roguelike_task_ptr->set_times_limit("StageTraderInvestCancel", INT_MAX);
             if (theme == RoguelikeTheme::JieGarden) {
                 m_roguelike_task_ptr->set_times_limit("StageTraderLeaveConfirm", INT_MAX);
@@ -249,15 +249,11 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
             }
         }
         else {
-            // 战斗后奖励只拿钱
-            Task.set_task_base(theme + "@Roguelike@DropsFlag", theme + "@Roguelike@DropsFlag_mode1");
             m_roguelike_task_ptr->set_times_limit("StageTraderInvestCancel", 0);
             m_roguelike_task_ptr->set_times_limit("StageTraderLeaveConfirm", INT_MAX);
         }
     }
     else {
-        // 重置战斗后奖励next
-        Task.set_task_base(theme + "@Roguelike@DropsFlag", theme + "@Roguelike@DropsFlag_default");
         m_roguelike_task_ptr->set_times_limit("StageTraderInvestCancel", INT_MAX);
         m_roguelike_task_ptr->set_times_limit("StageTraderLeaveConfirm", INT_MAX);
     }

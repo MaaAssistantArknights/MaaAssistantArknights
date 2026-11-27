@@ -61,6 +61,17 @@
     "Mizuki@Roguelike@StageSafeHouseReuse": {
         "text": ["セーフハウスを利用する"]
     },
+    "Mizuki@Roguelike@StrategyChange_ReachThirdFloor": {
+        "ocrReplace": [
+            ["陽の.*海岸", "_default"],
+            ["離.*の孤[島鳥]", "_default"],
+            ["迫.*来る波[濤清]", "_restart"],
+            ["秘密の温床", "_restart"],
+            ["不可侵の洞窟", "_restart"],
+            ["深海の密林", "_restart"],
+            ["紺碧の揺籃", "_default"]
+        ]
+    },
     "Mizuki@Roguelike@StrategyChange_mode0": {
         "roi": [570, 0, 220, 80],
         "ocrReplace": [

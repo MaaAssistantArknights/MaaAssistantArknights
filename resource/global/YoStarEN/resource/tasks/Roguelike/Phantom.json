@@ -23,6 +23,17 @@
     "Phantom@Roguelike@StageEncounterOptionUnknown": {
         "templThreshold": 0.95
     },
+    "Phantom@Roguelike@StrategyChange_ReachThirdFloor": {
+        "ocrReplace": [
+            ["Mist-stricken Missteps", "_default"],
+            ["Sunset Courtyard", "_default"],
+            ["Homeland Remnants", "_restart"],
+            ["Nightmare's Prelude", "_restart"],
+            ["Blood-soaked Corridor", "_restart"],
+            ["Hall of Desires", "_restart"]
+        ],
+        "roi": [541, 5, 241, 71]
+    },
     "Phantom@Roguelike@StrategyChange_mode0": {
         "roi": [541, 5, 241, 71],
         "ocrReplace": [

@@ -16,6 +16,17 @@
     "Phantom@Roguelike@StageEncounterOptionUnknown": {
         "templThreshold": 0.95
     },
+    "Phantom@Roguelike@StrategyChange_ReachThirdFloor": {
+        "ocrReplace": [
+            [" ", ""],
+            ["안개의", "_default"],
+            ["석양의", "_default"],
+            ["고향의", "_restart"],
+            ["악몽의", "_restart"],
+            ["붉은달", "_restart"],
+            ["욕망의", "_restart"]
+        ]
+    },
     "Phantom@Roguelike@StrategyChange_mode0": {
         "ocrReplace": [
             [" ", ""],
