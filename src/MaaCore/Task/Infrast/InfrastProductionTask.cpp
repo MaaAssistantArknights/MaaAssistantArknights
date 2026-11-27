@@ -982,6 +982,9 @@ size_t asst::InfrastProductionTask::select_abyssal_hunters(const std::vector<std
     if (expanded) {
         constexpr std::array<battle::Role, 2> Roles = { battle::Role::Warrior, battle::Role::Sniper };
         for (const battle::Role role : Roles) {
+            if (need_exit()) {
+                break;
+            }
             const std::string role_name = enum_to_string(role, true);
             const bool has_target = std::ranges::any_of(candidates, [&](const auto& candidate) {
                 return candidate.role == role && remaining.contains(candidate.operator_id);
@@ -1000,30 +1003,63 @@ size_t asst::InfrastProductionTask::select_abyssal_hunters(const std::vector<std
             }
             sleep(200);
 
-            for (int page = 0; page < 18 && !remaining.empty() && !need_exit(); ++page) {
-                const auto image = ctrler()->get_image();
-                InfrastOperImageAnalyzer oper_analyzer(image);
+            auto analyze_selected_page = [&](const cv::Mat& page_image, std::vector<infrast::Oper>& out_opers) {
+                InfrastOperImageAnalyzer oper_analyzer(page_image);
                 oper_analyzer.set_to_be_calced(InfrastOperImageAnalyzer::ToBeCalced::Selected);
-                if (oper_analyzer.analyze()) {
-                    oper_analyzer.sort_by_loc();
-                    for (const auto& oper : oper_analyzer.get_result()) {
-                        RegionOCRer name_analyzer(oper.name_img);
-                        name_analyzer.set_replace(ocr_replace->replace_map, ocr_replace->replace_full);
-                        name_analyzer.set_bin_expansion(0);
-                        const auto name = name_analyzer.analyze();
-                        if (!name) {
+                if (!oper_analyzer.analyze()) {
+                    out_opers.clear();
+                    return false;
+                }
+                oper_analyzer.sort_by_loc();
+                out_opers = oper_analyzer.get_result();
+                return true;
+            };
+            auto match_abyssal_hunter = [&](const infrast::Oper& oper) -> std::string {
+                RegionOCRer name_analyzer(oper.name_img);
+                name_analyzer.set_replace(ocr_replace->replace_map, ocr_replace->replace_full);
+                name_analyzer.set_bin_expansion(0);
+                const auto name = name_analyzer.analyze();
+                if (!name) {
+                    return {};
+                }
+
+                const auto& oper_ids = BattleData.get_ids(battle::Role::Unknown, name->text);
+                const std::string operator_id = oper_ids.empty() ? std::string() : oper_ids.front();
+                const auto candidate = std::ranges::find_if(candidates, [&](const auto& info) {
+                    return info.operator_id == operator_id && info.role == role;
+                });
+                if (candidate == candidates.end() || !remaining.contains(operator_id)) {
+                    return {};
+                }
+                return operator_id;
+            };
+
+            for (int page = 0; page < 18 && !remaining.empty() && !need_exit(); ++page) {
+                std::vector<infrast::Oper> page_opers;
+                if (analyze_selected_page(ctrler()->get_image(), page_opers)) {
+                    // 预检查当前页是否有需要选中的干员，没有则直接进入下一页
+                    const bool need_to_select = std::ranges::any_of(page_opers, [&](const infrast::Oper& oper) {
+                        return !match_abyssal_hunter(oper).empty();
+                    });
+                    if (!need_to_select) {
+                        swipe_of_operlist();
+                        continue;
+                    }
+
+                    // 触底过滑时列表会向回弹，等待停稳后重新识别准确坐标再点击
+                    sleep(500);
+                    if (need_exit()) {
+                        break;
+                    }
+                    if (!analyze_selected_page(ctrler()->get_image(), page_opers)) {
+                        continue;
+                    }
+
+                    for (const auto& oper : page_opers) {
+                        const std::string operator_id = match_abyssal_hunter(oper);
+                        if (operator_id.empty()) {
                             continue;
                         }
-
-                        const auto& oper_ids = BattleData.get_ids(battle::Role::Unknown, name->text);
-                        const auto& operator_id = oper_ids.empty() ? "" : oper_ids.front();
-                        const auto candidate = std::ranges::find_if(candidates, [&](const auto& info) {
-                            return info.operator_id == operator_id && info.role == role;
-                        });
-                        if (candidate == candidates.end() || !remaining.contains(operator_id)) {
-                            continue;
-                        }
-
                         if (!oper.selected) {
                             ctrler()->click(oper.rect);
                             sleep(100);
