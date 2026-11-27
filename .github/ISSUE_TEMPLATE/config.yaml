@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+    - name: 📖 MAA 用户手册 / Documentation
+      url: https://docs.maa.plus/
+      about: 提交 Issue 前请先阅读此文档 / Please read this guide before submitting an issue
