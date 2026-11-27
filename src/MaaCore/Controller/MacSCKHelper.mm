@@ -8,11 +8,16 @@
 
 #include "Utils/Logger.hpp"
 
+#include <mutex>
+
 @interface MacSCKOutput : NSObject <SCStreamDelegate, SCStreamOutput>
 
 @property (nonatomic, readonly) CVImageBufferRef buffer;
 
 @property (atomic, assign) BOOL running;
+
+- (void)waitForInitialized;
+- (void)cancelWait;
 
 @end
 
@@ -92,6 +97,13 @@
     _initialized.wait(false, std::memory_order_acquire);
 }
 
+- (void)cancelWait
+{
+    self.running = NO;
+    _initialized.store(true, std::memory_order_release);
+    _initialized.notify_all();
+}
+
 - (void)dealloc
 {
     if (_buffer) {
@@ -113,27 +125,49 @@ bool asst::MacSCKHelper::requestPermission()
     return CGRequestScreenCaptureAccess();
 }
 
-struct asst::MacSCKHelper::Impl {
+struct asst::MacSCKHelper::Impl : std::enable_shared_from_this<Impl> {
     ~Impl();
 
     SCStream* m_stream = nil;
     MacSCKOutput* m_output = nil;
+    std::mutex m_output_mutex;
+    std::mutex m_init_mutex;
+    dispatch_semaphore_t m_init_semaphore = nil;
+    std::atomic_bool m_init_cancelled = false;
 
     dispatch_queue_t m_queue = nil;
 
+    void signal_init() noexcept;
     bool init(std::string_view bundle_id, std::string_view port, std::pair<int, int> size, std::array<int16_t, 8> rect);
     bool capture(std::vector<uint8_t>& bgrData) const;
+    void cancel_capture() noexcept;
 };
+
+void asst::MacSCKHelper::Impl::signal_init() noexcept
+{
+    std::lock_guard lock(m_init_mutex);
+    if (m_init_semaphore) {
+        dispatch_semaphore_signal(m_init_semaphore);
+    }
+}
 
 asst::MacSCKHelper::Impl::~Impl()
 {
     const auto stream = m_stream;
-    const auto output = m_output;
     const auto queue = m_queue;
+    MacSCKOutput* output = nil;
+    {
+        std::lock_guard lock(m_output_mutex);
+        output = m_output;
+        m_output = nil;
+    }
 
     m_stream = nil;
-    m_output = nil;
     m_queue = nil;
+    if (m_init_semaphore) {
+        dispatch_release(m_init_semaphore);
+        m_init_semaphore = nil;
+    }
 
     const auto cleanup = ^{
         [stream release];
@@ -158,12 +192,26 @@ asst::MacSCKHelper::Impl::~Impl()
 bool asst::MacSCKHelper::Impl::init(std::string_view bundle_id, std::string_view port, std::pair<int, int> size, std::array<int16_t, 8> rect)
 {
     auto sem = dispatch_semaphore_create(0);
+    {
+        std::lock_guard lock(m_init_mutex);
+        m_init_semaphore = sem;
+    }
+    const auto self = shared_from_this();
     __block bool result = false;
 
+    if (m_init_cancelled.load(std::memory_order_acquire)) {
+        signal_init();
+        return false;
+    }
+
     const auto handler = ^(SCShareableContent* _Nullable content, NSError* _Nullable error) {
+        if (self->m_init_cancelled.load(std::memory_order_acquire)) {
+            self->signal_init();
+            return;
+        }
         if (error) {
             Log.error("Cannot get shareable content:", error.localizedDescription.UTF8String);
-            dispatch_semaphore_signal(sem);
+            self->signal_init();
             return;
         }
 
@@ -181,7 +229,7 @@ bool asst::MacSCKHelper::Impl::init(std::string_view bundle_id, std::string_view
         }
         if (!targetWindow) {
             Log.error("No window found with bundle ID:", bundle_id, ", port:", port);
-            dispatch_semaphore_signal(sem);
+            self->signal_init();
             return;
         }
 
@@ -205,35 +253,42 @@ bool asst::MacSCKHelper::Impl::init(std::string_view bundle_id, std::string_view
             config.sourceRect = CGRectMake(0, titlebar_height, content_width, content_height);
         }
 
-        m_output = [[MacSCKOutput alloc] init];
-        m_stream = [[SCStream alloc] initWithFilter:filter configuration:config delegate:m_output];
+        {
+            std::lock_guard lock(self->m_output_mutex);
+            self->m_output = [[MacSCKOutput alloc] init];
+        }
+        self->m_stream = [[SCStream alloc] initWithFilter:filter configuration:config delegate:self->m_output];
 
         [config release];
         [filter release];
 
-        m_queue = dispatch_queue_create("plus.maa.MacSCKOutput", NULL);
-        [m_stream addStreamOutput:m_output
-                             type:SCStreamOutputTypeScreen
-               sampleHandlerQueue:m_queue
-                            error:&error];
+        self->m_queue = dispatch_queue_create("plus.maa.MacSCKOutput", NULL);
+        [self->m_stream addStreamOutput:self->m_output
+                                   type:SCStreamOutputTypeScreen
+                     sampleHandlerQueue:self->m_queue
+                                  error:&error];
 
         if (error) {
             Log.error("Cannot add stream output:", error.localizedDescription.UTF8String);
-            dispatch_semaphore_signal(sem);
+            self->signal_init();
             return;
         }
 
-        [m_stream startCaptureWithCompletionHandler:^(NSError* _Nullable error) {
+        [self->m_stream startCaptureWithCompletionHandler:^(NSError* _Nullable error) {
+            if (self->m_init_cancelled.load(std::memory_order_acquire)) {
+                self->signal_init();
+                return;
+            }
             if (error) {
                 Log.error("Cannot start capture:", error.localizedDescription.UTF8String);
-                dispatch_semaphore_signal(sem);
+                self->signal_init();
                 return;
             }
 
             Log.trace("Started capture for window:", targetWindow.title.UTF8String);
-            m_output.running = YES;
+            self->m_output.running = YES;
             result = true;
-            dispatch_semaphore_signal(sem);
+            self->signal_init();
         }];
     };
 
@@ -242,8 +297,7 @@ bool asst::MacSCKHelper::Impl::init(std::string_view bundle_id, std::string_view
                                                  completionHandler:handler];
 
     dispatch_semaphore_wait(sem, DISPATCH_TIME_FOREVER);
-    dispatch_release(sem);
-    return result;
+    return result && !m_init_cancelled.load(std::memory_order_acquire);
 }
 
 struct BufferGuard {
@@ -268,6 +322,22 @@ struct BufferGuard {
         }
     }
 };
+
+void asst::MacSCKHelper::Impl::cancel_capture() noexcept
+{
+    m_init_cancelled.store(true, std::memory_order_release);
+    signal_init();
+
+    MacSCKOutput* output = nil;
+    {
+        std::lock_guard lock(m_output_mutex);
+        output = [m_output retain];
+    }
+    if (output) {
+        [output cancelWait];
+        [output release];
+    }
+}
 
 bool asst::MacSCKHelper::Impl::capture(std::vector<uint8_t>& bgrData) const
 {
@@ -333,7 +403,7 @@ bool asst::MacSCKHelper::Impl::capture(std::vector<uint8_t>& bgrData) const
 }
 
 asst::MacSCKHelper::MacSCKHelper()
-    : pImpl(std::make_unique<Impl>())
+    : pImpl(std::make_shared<Impl>())
 {
 }
 
@@ -349,6 +419,18 @@ bool asst::MacSCKHelper::capture(std::vector<uint8_t>& bgrData) const
 {
     LogTraceFunction;
     return pImpl->capture(bgrData);
+}
+
+void asst::MacSCKHelper::cancel_capture() noexcept
+{
+    if (pImpl) {
+        pImpl->cancel_capture();
+    }
+}
+
+void asst::MacSCKHelper::reset()
+{
+    pImpl = std::make_shared<Impl>();
 }
 
 #endif // ASST_WITH_MAC_SCK

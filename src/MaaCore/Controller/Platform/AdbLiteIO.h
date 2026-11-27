@@ -12,6 +12,7 @@
 
 #include "Utils/Logger.hpp"
 
+#include <atomic>
 #include <mutex>
 #include <optional>
 #include <string>
@@ -45,6 +46,12 @@ public:
 
     virtual void set_adb_serial(std::string_view serial) override;
 
+    virtual bool supports_screencap_cancellation() const noexcept override { return true; }
+
+    virtual void cancel_screencap() noexcept override;
+    virtual bool reset_screencap() override;
+    virtual std::string screencap_stage() const override;
+
     virtual void release_adb(const std::string& adb_release, int64_t timeout = 20'000) override;
 
 private:
@@ -56,6 +63,9 @@ private:
     std::mutex m_adb_client_mutex;
     std::shared_ptr<adb::client> m_adb_client = nullptr;
     std::string m_adb_serial;
+    mutable std::mutex m_active_screencap_client_mutex;
+    std::shared_ptr<adb::client> m_active_screencap_client;
+    std::atomic_bool m_screencap_cancelled = false;
 };
 
 class IOHandlerAdbLite : public IOHandler
