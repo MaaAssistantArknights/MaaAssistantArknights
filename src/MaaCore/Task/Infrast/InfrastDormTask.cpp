@@ -442,6 +442,12 @@ bool asst::InfrastDormTask::fill_dorm_slots()
         ProcessTask(*this, { "InfrastOperListTabMoodClick" }).run();
     }
 
+    // 信赖排序的姓名栏显示百分比，确认前统一切回心情排序并回正。
+    if (!switch_to_mood_sort()) {
+        return false;
+    }
+    swipe_to_the_left_of_operlist();
+
     return true;
 }
 
