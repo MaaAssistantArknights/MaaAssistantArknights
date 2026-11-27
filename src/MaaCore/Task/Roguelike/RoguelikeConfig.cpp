@@ -167,8 +167,14 @@ bool asst::RoguelikeConfig::verify_and_load_params(const json::value& params)
                 Task.set_task_base(strategy_task, "JieGarden@Roguelike@StrategyChange_mode4-FastPass");
             }
             if (m_mode == RoguelikeMode::FindPlaytime) {
-                // 启用刷常乐节点策略，联动 RoguelikeRoutingTaskPlugin
+                // 刷常乐：第一层正常打，找不到思维边界就重开；
+                // 进洞后由 RoguelikeBoskyPassageRoutingTaskPlugin 接管，反复找常乐节点
                 Task.set_task_base(strategy_task, "JieGarden@Roguelike@StrategyChange_mode20001");
+            }
+            if (m_mode == RoguelikeMode::CoppersRecast) {
+                // 游客倒转是在玩家已经推进过的那一局里刷钱，任何一层都要接着打；
+                // 这里绝不能沿用刷常乐的 mode20001（它把非第一层映射成 _restart，等于放弃本局）
+                Task.set_task_base(strategy_task, "JieGarden@Roguelike@StrategyChange_mode20002");
             }
         }
     }
@@ -198,6 +204,23 @@ bool asst::RoguelikeConfig::verify_and_load_params(const json::value& params)
             Log.error(__FUNCTION__, "| Invalid find_playTime_target", m_find_playTime_target);
             return false;
         }
+    }
+
+    if (m_mode == RoguelikeMode::CoppersRecast) {
+        m_coppers_recast_count = params.get("coppers_recast_count", 1);
+        m_coppers_recast_relic_count = params.get("coppers_recast_relic_count", 0);
+        // 0 是合法的：只换藏品、不刷钱。以前下限是 1，导致「只想拿藏品」的配置
+        // 必然先跑一轮衡如常，玩家看到的就是「该投厉如锋却在点衡如常」。
+        if (m_coppers_recast_count < 0 || m_coppers_recast_count > 999) {
+            LogError << __FUNCTION__ << "| Invalid coppers_recast_count:" << m_coppers_recast_count;
+            return false;
+        }
+        if (m_coppers_recast_relic_count < 0 || m_coppers_recast_relic_count > 999) {
+            LogError << __FUNCTION__ << "| Invalid coppers_recast_relic_count:" << m_coppers_recast_relic_count;
+            return false;
+        }
+        LogInfo << __FUNCTION__ << "| CoppersRecast count:" << m_coppers_recast_count << "| relic:"
+                << m_coppers_recast_relic_count;
     }
 
     return true;
