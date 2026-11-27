@@ -5,6 +5,9 @@
 
 #include <boost/asio/io_context.hpp>
 #include <boost/asio/ip/tcp.hpp>
+#include <cstdint>
+#include <map>
+#include <mutex>
 
 #include "Platform/PlatformFactory.h"
 
@@ -49,7 +52,7 @@ public:
         double slope_out = 1,
         bool with_pause = false) override;
 
-    virtual bool inject_input_event([[maybe_unused]] const InputEvent& event) override { return false; }
+    virtual bool inject_input_event(const InputEvent& event) override;
 
     virtual bool press_esc() override;
 
@@ -92,10 +95,17 @@ protected:
     bool toucher_move(const Point& p, const int delay = 0);
     bool toucher_up(const Point& p, const int delay = TouchHoldMs);
 
-    void toucher_wait(const int delay);
+    bool toucher_wait(long delay);
 
 private:
+    std::mutex m_write_mutex;
+    template <typename ConstBufferSequence>
+    void write_packet(const ConstBufferSequence& buffers);
+
     unsigned m_minimal_version = 2;
+    bool m_multi_touch_opt_in = false;
+    uint32_t m_protocol_version = 0;
+    std::map<int, Point> m_active_touches;
     std::string m_bundle_id;
     std::array<int16_t, 8> m_frame_rect = { 0, 0, 0, 0, 0, 0, 0, 0 };
 
@@ -103,7 +113,8 @@ private:
     bool open();
     bool check_version();
     bool fetch_screen_res();
-    bool toucher_commit(const TouchPhase phase, const Point& p, const int delay);
+    bool toucher_commit(TouchPhase phase, const Point& p, int delay, int pointer_id = -1);
+    bool release_touches();
 
     bool screencap_rgba(cv::Mat& image_payload, bool allow_reconnect);
     bool screencap_bgr(cv::Mat& image_payload, bool allow_reconnect);

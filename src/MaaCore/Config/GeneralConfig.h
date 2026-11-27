@@ -93,6 +93,7 @@ struct AdbCfg
     std::string event_id;
     std::string back_to_home;
     std::string fps; // 获取模拟器刷新率（SurfaceFlinger 帧间隔，单位纳秒）
+    bool playtools_multi_touch = false;
     json::object extras;
 };
 

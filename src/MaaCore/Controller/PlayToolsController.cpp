@@ -26,14 +26,25 @@ asst::PlayToolsController::~PlayToolsController()
     close();
 }
 
+template <typename ConstBufferSequence>
+void asst::PlayToolsController::write_packet(const ConstBufferSequence& buffers)
+{
+    const std::lock_guard lock(m_write_mutex);
+    boost::asio::write(m_socket, buffers);
+}
+
 bool asst::PlayToolsController::connect(
     const std::string& adb_path [[maybe_unused]],
     const std::string& address,
     const std::string& config)
 {
-    if (m_address != address) {
+    const auto profile = Config.get_adb_cfg(config);
+    // Early v4 servers lack numbered contacts. Enable them only for an opted-in connection.
+    const bool opt_in = profile && profile->extras.get("playToolsMultiTouch", profile->playtools_multi_touch);
+    if (m_address != address || m_multi_touch_opt_in != opt_in) {
         close();
         m_address = address;
+        m_multi_touch_opt_in = opt_in;
     }
 
     if (config == "MacBGR") {
@@ -104,7 +115,7 @@ bool asst::PlayToolsController::screencap_rgba(cv::Mat& image_payload, bool allo
 
     try {
         constexpr char request[6] = { 0, 4, 'S', 'C', 'R', 'N' };
-        boost::asio::write(m_socket, boost::asio::buffer(request));
+        write_packet(boost::asio::buffer(request));
         boost::asio::read(m_socket, boost::asio::buffer(&image_size, sizeof(image_size)));
         image_size = socket_ops::network_to_host_long(image_size);
     }
@@ -141,7 +152,7 @@ bool asst::PlayToolsController::screencap_bgr(cv::Mat& image_payload, bool allow
 
     try {
         constexpr char request[] = { 0, 4, 'B', 'G', 'R', 1 };
-        boost::asio::write(m_socket, boost::asio::buffer(request));
+        write_packet(boost::asio::buffer(request));
         boost::asio::read(m_socket, boost::asio::buffer(header));
     }
     catch (const std::exception& e) {
@@ -182,7 +193,7 @@ bool asst::PlayToolsController::stop_game(const std::string& client_type [[maybe
 {
     try {
         constexpr char request[6] = { 0, 4, 'T', 'E', 'R', 'M' };
-        boost::asio::write(m_socket, boost::asio::buffer(request));
+        write_packet(boost::asio::buffer(request));
     }
     catch (const std::exception& e) {
         Log.error("Cannot terminate game:", e.what());
@@ -202,6 +213,60 @@ bool asst::PlayToolsController::input([[maybe_unused]] const std::string& text)
 {
     Log.info("InputText is not supported on iOS");
     return true;
+}
+
+bool asst::PlayToolsController::inject_input_event(const InputEvent& event)
+{
+    if (!m_multi_touch_opt_in || m_protocol_version < 4 || !inited()) {
+        return false;
+    }
+
+    using enum InputEvent::Type;
+    const auto active = m_active_touches.find(event.pointerId);
+    switch (event.type) {
+    case COMMIT: // PlayTools dispatches each packet immediately.
+        return true;
+    case WAIT_MS:
+        return toucher_wait(event.milisec);
+    case TOUCH_RESET:
+        return release_touches();
+    case TOUCH_UP:
+        if (active == m_active_touches.end() ||
+            !toucher_commit(TouchPhase::Ended, active->second, 0, event.pointerId)) {
+            return false;
+        }
+        m_active_touches.erase(active);
+        return true;
+    case TOUCH_DOWN:
+    case TOUCH_MOVE:
+        break;
+    default:
+        return false;
+    }
+
+    const bool down = event.type == TOUCH_DOWN;
+    if (need_exit() || event.pointerId < 0 || event.pointerId >= UINT8_MAX ||
+        down == (active != m_active_touches.end())) {
+        return false;
+    }
+    const auto& [width, height] = m_screen_size;
+    if (event.point.x < 0 || event.point.x >= width || event.point.y < 0 || event.point.y >= height) {
+        LogWarn << __FUNCTION__ << "touch point out of range" << event.point << "screen size" << width << height;
+        return false;
+    }
+    if (!toucher_commit(down ? TouchPhase::Began : TouchPhase::Moved, event.point, 0, event.pointerId)) {
+        return false;
+    }
+    m_active_touches.insert_or_assign(event.pointerId, event.point);
+    return true;
+}
+
+bool asst::PlayToolsController::release_touches()
+{
+    std::erase_if(m_active_touches, [this](const auto& touch) {
+        return toucher_commit(TouchPhase::Ended, touch.second, 0, touch.first);
+    });
+    return m_active_touches.empty();
 }
 
 bool asst::PlayToolsController::swipe(
@@ -318,9 +383,13 @@ bool asst::PlayToolsController::toucher_up(const Point& p, const int delay)
     return toucher_commit(TouchPhase::Ended, p, delay);
 }
 
-void asst::PlayToolsController::toucher_wait(const int delay)
+bool asst::PlayToolsController::toucher_wait(long delay)
 {
+    if (delay < 0) {
+        return false;
+    }
     std::this_thread::sleep_for(std::chrono::milliseconds(delay));
+    return true;
 }
 
 void asst::PlayToolsController::close()
@@ -328,6 +397,7 @@ void asst::PlayToolsController::close()
     m_screen_size = { 0, 0 };
 
     if (m_socket.is_open()) {
+        release_touches();
         try {
             m_socket.shutdown(tcp::socket::shutdown_both);
         }
@@ -342,6 +412,7 @@ void asst::PlayToolsController::close()
             Log.warn("Error during socket close() cleanup:", e.what());
         }
     }
+    m_active_touches.clear();
 }
 
 bool asst::PlayToolsController::open()
@@ -363,7 +434,7 @@ bool asst::PlayToolsController::open()
 
     try {
         boost::asio::connect(m_socket, resolver.resolve(host, port));
-        boost::asio::write(m_socket, boost::asio::buffer(handshake));
+        write_packet(boost::asio::buffer(handshake));
         boost::asio::read(m_socket, boost::asio::buffer(buffer, 4));
     }
     catch (const std::exception& e) {
@@ -401,7 +472,7 @@ bool asst::PlayToolsController::check_version()
     constexpr char request[6] = { 0, 4, 'V', 'E', 'R', 'N' };
 
     try {
-        boost::asio::write(m_socket, boost::asio::buffer(request));
+        write_packet(boost::asio::buffer(request));
         boost::asio::read(m_socket, boost::asio::buffer(&version, sizeof(version)));
     }
     catch (const std::exception& e) {
@@ -422,6 +493,7 @@ bool asst::PlayToolsController::check_version()
         return false;
     }
 
+    m_protocol_version = version;
     return true;
 }
 
@@ -431,7 +503,7 @@ bool asst::PlayToolsController::fetch_screen_res()
     constexpr char request[6] = { 0, 4, 'S', 'I', 'Z', 'E' };
 
     try {
-        boost::asio::write(m_socket, boost::asio::buffer(request));
+        write_packet(boost::asio::buffer(request));
         boost::asio::read(m_socket, boost::asio::buffer(&width, sizeof(width)));
         boost::asio::read(m_socket, boost::asio::buffer(&height, sizeof(height)));
     }
@@ -447,29 +519,32 @@ bool asst::PlayToolsController::fetch_screen_res()
     return true;
 }
 
-bool asst::PlayToolsController::toucher_commit(const TouchPhase phase, const Point& p, const int delay)
+bool asst::PlayToolsController::toucher_commit(TouchPhase phase, const Point& p, int delay, int pointer_id)
 {
     if (!open()) {
         return false;
     }
     uint16_t x = socket_ops::host_to_network_short(static_cast<uint16_t>(p.x));
     uint16_t y = socket_ops::host_to_network_short(static_cast<uint16_t>(p.y));
-    uint8_t payload[5] = { static_cast<uint8_t>(phase), 0, 0, 0, 0 };
+    // Unnumbered clicks use wire contact 0. Numbered fingers start at 1.
+    const auto contact = static_cast<uint8_t>(pointer_id + 1);
+    uint8_t payload[] = { static_cast<uint8_t>(phase), 0, 0, 0, 0, contact };
     std::memcpy(payload + 1, &x, sizeof(x));
     std::memcpy(payload + 3, &y, sizeof(y));
 
     try {
-        constexpr char request[6] = { 0, 9, 'T', 'U', 'C', 'H' };
-        boost::asio::write(m_socket, boost::asio::buffer(request));
-        boost::asio::write(m_socket, boost::asio::buffer(payload, 5));
+        const uint8_t body_size = contact ? 10 : 9;
+        const uint8_t request[] = { 0, body_size, 'T', 'U', 'C', 'H' };
+        const std::array<boost::asio::const_buffer, 2> packet { boost::asio::buffer(request),
+                                                                boost::asio::buffer(payload, body_size - 4) };
+        write_packet(packet);
     }
     catch (const std::exception& e) {
         Log.error("Cannot touch screen:", e.what());
         return false;
     }
 
-    toucher_wait(delay);
-    return true;
+    return toucher_wait(delay);
 }
 
 bool asst::PlayToolsController::fetch_frame_rect()
@@ -477,7 +552,7 @@ bool asst::PlayToolsController::fetch_frame_rect()
     constexpr char request[] = { 0, 4, 'R', 'E', 'C', 'T' };
 
     try {
-        boost::asio::write(m_socket, boost::asio::buffer(request));
+        write_packet(boost::asio::buffer(request));
         boost::asio::read(m_socket, boost::asio::buffer(m_frame_rect));
     }
     catch (const std::exception& e) {
@@ -499,7 +574,7 @@ bool asst::PlayToolsController::fetch_bundle_id()
     constexpr char request[] = { 0, 4, 'B', 'N', 'D', 'L' };
 
     try {
-        boost::asio::write(m_socket, boost::asio::buffer(request));
+        write_packet(boost::asio::buffer(request));
         boost::asio::read(m_socket, boost::asio::buffer(&length, sizeof(length)));
         length = socket_ops::network_to_host_long(length);
     }
