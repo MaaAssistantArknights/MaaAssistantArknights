@@ -118,7 +118,12 @@
         "name": "源岩鉱",
         "rarity": 0,
         "sortId": 100040,
-        "usage": "地表から採掘された鉱石。昇進やスキル強化に必要な素材。"
+        "usage": "地表から採掘された鉱石。昇進やスキル強化に必要な素材。",
+        "parametricShop": {
+            "price": 15,
+            "quantity": 8,
+            "monthlyLimits": [0, 0]
+        }
     },
     "30012": {
         "classifyType": "MATERIAL",
@@ -130,7 +135,12 @@
         "name": "初級源岩",
         "rarity": 1,
         "sortId": 100039,
-        "usage": "地表から採掘された鉱石の塊。昇進やスキル強化に必要な素材。"
+        "usage": "地表から採掘された鉱石の塊。昇進やスキル強化に必要な素材。",
+        "parametricShop": {
+            "price": 15,
+            "quantity": 4,
+            "monthlyLimits": [0, 0]
+        }
     },
     "30013": {
         "classifyType": "MATERIAL",
@@ -142,7 +152,17 @@
         "name": "中級源岩",
         "rarity": 2,
         "sortId": 100038,
-        "usage": "地表から採掘された鉱石の大きな塊。昇進やスキル強化に必要な素材。"
+        "usage": "地表から採掘された鉱石の大きな塊。昇進やスキル強化に必要な素材。",
+        "greenTicketShop": {
+            "price": 25,
+            "quantity": 1,
+            "monthlyLimits": [15, 15]
+        },
+        "parametricShop": {
+            "price": 30,
+            "quantity": 2,
+            "monthlyLimits": [0, 0]
+        }
     },
     "30014": {
         "classifyType": "MATERIAL",
@@ -154,7 +174,12 @@
         "name": "上級源岩",
         "rarity": 3,
         "sortId": 100037,
-        "usage": "地表から採掘された鉱石の大きな塊が精錬された物質。昇進やスキル強化に必要な素材。融合剤の原料にも用いられる。"
+        "usage": "地表から採掘された鉱石の大きな塊が精錬された物質。昇進やスキル強化に必要な素材。融合剤の原料にも用いられる。",
+        "parametricShop": {
+            "price": 60,
+            "quantity": 1,
+            "monthlyLimits": [0, 0]
+        }
     },
     "30021": {
         "classifyType": "MATERIAL",
@@ -163,7 +188,12 @@
         "name": "ブドウ糖",
         "rarity": 0,
         "sortId": 100052,
-        "usage": "天然の砂糖の代替品として、機械で作られた安価な甘味料。昇進やスキル強化に必要な素材。"
+        "usage": "天然の砂糖の代替品として、機械で作られた安価な甘味料。昇進やスキル強化に必要な素材。",
+        "parametricShop": {
+            "price": 25,
+            "quantity": 8,
+            "monthlyLimits": [0, 0]
+        }
     },
     "30022": {
         "classifyType": "MATERIAL",
@@ -175,7 +205,12 @@
         "name": "初級糖原",
         "rarity": 1,
         "sortId": 100051,
-        "usage": "機械で作られた少量の糖。昇進やスキル強化に必要な素材。"
+        "usage": "機械で作られた少量の糖。昇進やスキル強化に必要な素材。",
+        "parametricShop": {
+            "price": 25,
+            "quantity": 4,
+            "monthlyLimits": [0, 0]
+        }
     },
     "30023": {
         "classifyType": "MATERIAL",
@@ -187,7 +222,17 @@
         "name": "中級糖原",
         "rarity": 2,
         "sortId": 100050,
-        "usage": "機械で作られたある程度の量の糖。昇進やスキル強化に必要な素材。"
+        "usage": "機械で作られたある程度の量の糖。昇進やスキル強化に必要な素材。",
+        "greenTicketShop": {
+            "price": 30,
+            "quantity": 1,
+            "monthlyLimits": [15, 15]
+        },
+        "parametricShop": {
+            "price": 35,
+            "quantity": 2,
+            "monthlyLimits": [0, 0]
+        }
     },
     "30024": {
         "classifyType": "MATERIAL",
@@ -201,7 +246,12 @@
         "name": "上級糖原",
         "rarity": 3,
         "sortId": 100049,
-        "usage": "機械で作られた大量の糖。昇進やスキル強化に必要な素材。"
+        "usage": "機械で作られた大量の糖。昇進やスキル強化に必要な素材。",
+        "parametricShop": {
+            "price": 75,
+            "quantity": 1,
+            "monthlyLimits": [0, 0]
+        }
     },
     "3003": {
         "classifyType": "NORMAL",
@@ -218,7 +268,12 @@
         "name": "エステル原料",
         "rarity": 0,
         "sortId": 100048,
-        "usage": "工業での製造に不可欠なエステル原料。昇進やスキル強化に必要な素材。"
+        "usage": "工業での製造に不可欠なエステル原料。昇進やスキル強化に必要な素材。",
+        "parametricShop": {
+            "price": 25,
+            "quantity": 8,
+            "monthlyLimits": [0, 0]
+        }
     },
     "30032": {
         "classifyType": "MATERIAL",
@@ -230,7 +285,12 @@
         "name": "初級エステル",
         "rarity": 1,
         "sortId": 100047,
-        "usage": "工業での製造に不可欠な初級エステル。昇進やスキル強化に必要な素材。"
+        "usage": "工業での製造に不可欠な初級エステル。昇進やスキル強化に必要な素材。",
+        "parametricShop": {
+            "price": 25,
+            "quantity": 4,
+            "monthlyLimits": [0, 0]
+        }
     },
     "30033": {
         "classifyType": "MATERIAL",
@@ -242,7 +302,17 @@
         "name": "中級エステル",
         "rarity": 2,
         "sortId": 100046,
-        "usage": "工業での製造に不可欠な中級エステル。昇進やスキル強化に必要な素材。"
+        "usage": "工業での製造に不可欠な中級エステル。昇進やスキル強化に必要な素材。",
+        "greenTicketShop": {
+            "price": 30,
+            "quantity": 1,
+            "monthlyLimits": [15, 15]
+        },
+        "parametricShop": {
+            "price": 35,
+            "quantity": 2,
+            "monthlyLimits": [0, 0]
+        }
     },
     "30034": {
         "classifyType": "MATERIAL",
@@ -256,7 +326,12 @@
         "name": "上級エステル",
         "rarity": 3,
         "sortId": 100045,
-        "usage": "工業での製造に不可欠な上級エステル。昇進やスキル強化に必要な素材。"
+        "usage": "工業での製造に不可欠な上級エステル。昇進やスキル強化に必要な素材。",
+        "parametricShop": {
+            "price": 80,
+            "quantity": 1,
+            "monthlyLimits": [0, 0]
+        }
     },
     "30041": {
         "classifyType": "MATERIAL",
@@ -265,7 +340,12 @@
         "name": "異鉄の欠片",
         "rarity": 0,
         "sortId": 100056,
-        "usage": "いたって普通の工業材料。昇進やスキル強化に必要な素材。"
+        "usage": "いたって普通の工業材料。昇進やスキル強化に必要な素材。",
+        "parametricShop": {
+            "price": 30,
+            "quantity": 8,
+            "monthlyLimits": [0, 0]
+        }
     },
     "30042": {
         "classifyType": "MATERIAL",
@@ -277,7 +357,12 @@
         "name": "初級異鉄",
         "rarity": 1,
         "sortId": 100055,
-        "usage": "まれに見る工業材料。昇進やスキル強化に必要な素材。"
+        "usage": "まれに見る工業材料。昇進やスキル強化に必要な素材。",
+        "parametricShop": {
+            "price": 30,
+            "quantity": 4,
+            "monthlyLimits": [0, 0]
+        }
     },
     "30043": {
         "classifyType": "MATERIAL",
@@ -289,7 +374,17 @@
         "name": "中級異鉄",
         "rarity": 2,
         "sortId": 100054,
-        "usage": "とても珍しい工業材料。昇進やスキル強化に必要な素材。"
+        "usage": "とても珍しい工業材料。昇進やスキル強化に必要な素材。",
+        "greenTicketShop": {
+            "price": 35,
+            "quantity": 1,
+            "monthlyLimits": [15, 15]
+        },
+        "parametricShop": {
+            "price": 45,
+            "quantity": 2,
+            "monthlyLimits": [0, 0]
+        }
     },
     "30044": {
         "classifyType": "MATERIAL",
@@ -303,7 +398,12 @@
         "name": "上級異鉄",
         "rarity": 3,
         "sortId": 100053,
-        "usage": "値段が高騰している工業材料。昇進やスキル強化に必要な素材。融合剤の原料にも用いられる。"
+        "usage": "値段が高騰している工業材料。昇進やスキル強化に必要な素材。融合剤の原料にも用いられる。",
+        "parametricShop": {
+            "price": 90,
+            "quantity": 1,
+            "monthlyLimits": [0, 0]
+        }
     },
     "30051": {
         "classifyType": "MATERIAL",
@@ -312,7 +412,12 @@
         "name": "アケトン試剤",
         "rarity": 0,
         "sortId": 100060,
-        "usage": "ごく少量の工業用有機化合物。昇進やスキル強化に必要な素材。"
+        "usage": "ごく少量の工業用有機化合物。昇進やスキル強化に必要な素材。",
+        "parametricShop": {
+            "price": 30,
+            "quantity": 8,
+            "monthlyLimits": [0, 0]
+        }
     },
     "30052": {
         "classifyType": "MATERIAL",
@@ -324,7 +429,12 @@
         "name": "初級アケトン",
         "rarity": 1,
         "sortId": 100059,
-        "usage": "少量の工業用有機化合物。昇進やスキル強化に必要な素材。"
+        "usage": "少量の工業用有機化合物。昇進やスキル強化に必要な素材。",
+        "parametricShop": {
+            "price": 30,
+            "quantity": 4,
+            "monthlyLimits": [0, 0]
+        }
     },
     "30053": {
         "classifyType": "MATERIAL",
@@ -336,7 +446,17 @@
         "name": "中級アケトン",
         "rarity": 2,
         "sortId": 100058,
-        "usage": "ある程度の量の工業用有機化合物。昇進やスキル強化に必要な素材。"
+        "usage": "ある程度の量の工業用有機化合物。昇進やスキル強化に必要な素材。",
+        "greenTicketShop": {
+            "price": 35,
+            "quantity": 1,
+            "monthlyLimits": [15, 15]
+        },
+        "parametricShop": {
+            "price": 45,
+            "quantity": 2,
+            "monthlyLimits": [0, 0]
+        }
     },
     "30054": {
         "classifyType": "MATERIAL",
@@ -350,7 +470,12 @@
         "name": "上級アケトン",
         "rarity": 3,
         "sortId": 100057,
-        "usage": "大量の工業用有機化合物。昇進やスキル強化に必要な素材。融合剤の原料にも用いられる。"
+        "usage": "大量の工業用有機化合物。昇進やスキル強化に必要な素材。融合剤の原料にも用いられる。",
+        "parametricShop": {
+            "price": 85,
+            "quantity": 1,
+            "monthlyLimits": [0, 0]
+        }
     },
     "30061": {
         "classifyType": "MATERIAL",
@@ -359,7 +484,12 @@
         "name": "破損装置",
         "rarity": 0,
         "sortId": 100044,
-        "usage": "押収した壊れている機械。昇進やスキル強化に必要な素材。"
+        "usage": "押収した壊れている機械。昇進やスキル強化に必要な素材。",
+        "parametricShop": {
+            "price": 40,
+            "quantity": 8,
+            "monthlyLimits": [0, 0]
+        }
     },
     "30062": {
         "classifyType": "MATERIAL",
@@ -371,7 +501,12 @@
         "name": "初級装置",
         "rarity": 1,
         "sortId": 100043,
-        "usage": "押収した機械。昇進やスキル強化に必要な素材。"
+        "usage": "押収した機械。昇進やスキル強化に必要な素材。",
+        "parametricShop": {
+            "price": 40,
+            "quantity": 4,
+            "monthlyLimits": [0, 0]
+        }
     },
     "30063": {
         "classifyType": "MATERIAL",
@@ -383,7 +518,17 @@
         "name": "中級装置",
         "rarity": 2,
         "sortId": 100042,
-        "usage": "押収した最新式のデバイス。昇進やスキル強化に必要な素材。"
+        "usage": "押収した最新式のデバイス。昇進やスキル強化に必要な素材。",
+        "greenTicketShop": {
+            "price": 45,
+            "quantity": 1,
+            "monthlyLimits": [10, 10]
+        },
+        "parametricShop": {
+            "price": 60,
+            "quantity": 2,
+            "monthlyLimits": [0, 0]
+        }
     },
     "30064": {
         "classifyType": "MATERIAL",
@@ -397,7 +542,12 @@
         "name": "上級装置",
         "rarity": 3,
         "sortId": 100041,
-        "usage": "押収したハイレベルな機械。昇進やスキル強化に必要な素材。ナノフレークの原料にも用いられる。"
+        "usage": "押収したハイレベルな機械。昇進やスキル強化に必要な素材。ナノフレークの原料にも用いられる。",
+        "parametricShop": {
+            "price": 85,
+            "quantity": 1,
+            "monthlyLimits": [0, 0]
+        }
     },
     "30073": {
         "classifyType": "MATERIAL",
@@ -406,7 +556,17 @@
         "name": "合成コール",
         "rarity": 2,
         "sortId": 100030,
-        "usage": "薄く小さい有機化合物。昇進やスキル強化に必要な素材。"
+        "usage": "薄く小さい有機化合物。昇進やスキル強化に必要な素材。",
+        "greenTicketShop": {
+            "price": 30,
+            "quantity": 1,
+            "monthlyLimits": [15, 0]
+        },
+        "parametricShop": {
+            "price": 40,
+            "quantity": 2,
+            "monthlyLimits": [0, 0]
+        }
     },
     "30074": {
         "classifyType": "MATERIAL",
@@ -420,7 +580,12 @@
         "name": "上級合成コール",
         "rarity": 3,
         "sortId": 100029,
-        "usage": "薄く小さい有機化合物。昇進やスキル強化に必要な素材。ナノフレークの原料にも用いられる。"
+        "usage": "薄く小さい有機化合物。昇進やスキル強化に必要な素材。ナノフレークの原料にも用いられる。",
+        "parametricShop": {
+            "price": 65,
+            "quantity": 1,
+            "monthlyLimits": [0, 0]
+        }
     },
     "30083": {
         "classifyType": "MATERIAL",
@@ -429,7 +594,17 @@
         "name": "マンガン",
         "rarity": 2,
         "sortId": 100032,
-        "usage": "精製や製錬に用いられる金属鉱物。昇進やスキル強化に必要な素材。"
+        "usage": "精製や製錬に用いられる金属鉱物。昇進やスキル強化に必要な素材。",
+        "greenTicketShop": {
+            "price": 35,
+            "quantity": 1,
+            "monthlyLimits": [15, 0]
+        },
+        "parametricShop": {
+            "price": 45,
+            "quantity": 2,
+            "monthlyLimits": [0, 0]
+        }
     },
     "30084": {
         "classifyType": "MATERIAL",
@@ -443,7 +618,12 @@
         "name": "上級マンガン",
         "rarity": 3,
         "sortId": 100031,
-        "usage": "精製や製錬に用いられる金属鉱物。昇進やスキル強化に必要な素材。D32鋼の原料にも用いられる。"
+        "usage": "精製や製錬に用いられる金属鉱物。昇進やスキル強化に必要な素材。D32鋼の原料にも用いられる。",
+        "parametricShop": {
+            "price": 80,
+            "quantity": 1,
+            "monthlyLimits": [0, 0]
+        }
     },
     "30093": {
         "classifyType": "MATERIAL",
@@ -452,7 +632,17 @@
         "name": "砥石",
         "rarity": 2,
         "sortId": 100034,
-        "usage": "武器のパーツへの加工に用いられる研磨石。昇進やスキル強化に必要な素材。"
+        "usage": "武器のパーツへの加工に用いられる研磨石。昇進やスキル強化に必要な素材。",
+        "greenTicketShop": {
+            "price": 40,
+            "quantity": 1,
+            "monthlyLimits": [15, 0]
+        },
+        "parametricShop": {
+            "price": 50,
+            "quantity": 2,
+            "monthlyLimits": [0, 0]
+        }
     },
     "30094": {
         "classifyType": "MATERIAL",
@@ -466,7 +656,12 @@
         "name": "上級砥石",
         "rarity": 3,
         "sortId": 100033,
-        "usage": "武器のパーツへの精密な加工に用いられる質のいい研磨石。昇進やスキル強化に必要な素材。D32鋼の原料にも用いられる。"
+        "usage": "武器のパーツへの精密な加工に用いられる質のいい研磨石。昇進やスキル強化に必要な素材。D32鋼の原料にも用いられる。",
+        "parametricShop": {
+            "price": 75,
+            "quantity": 1,
+            "monthlyLimits": [0, 0]
+        }
     },
     "30103": {
         "classifyType": "MATERIAL",
@@ -475,7 +670,17 @@
         "name": "RMA70-12",
         "rarity": 2,
         "sortId": 100036,
-        "usage": "感度が良く伝達効果も高い鉱物。昇進やスキル強化に必要な素材。"
+        "usage": "感度が良く伝達効果も高い鉱物。昇進やスキル強化に必要な素材。",
+        "greenTicketShop": {
+            "price": 45,
+            "quantity": 1,
+            "monthlyLimits": [10, 0]
+        },
+        "parametricShop": {
+            "price": 60,
+            "quantity": 2,
+            "monthlyLimits": [0, 0]
+        }
     },
     "30104": {
         "classifyType": "MATERIAL",
@@ -489,7 +694,12 @@
         "name": "RMA70-24",
         "rarity": 3,
         "sortId": 100035,
-        "usage": "感度がとても良く伝達効果も優秀な鉱物。昇進やスキル強化に必要な素材。D32鋼の原料にも用いられる。"
+        "usage": "感度がとても良く伝達効果も優秀な鉱物。昇進やスキル強化に必要な素材。D32鋼の原料にも用いられる。",
+        "parametricShop": {
+            "price": 80,
+            "quantity": 1,
+            "monthlyLimits": [0, 0]
+        }
     },
     "30115": {
         "classifyType": "MATERIAL",
@@ -581,7 +791,17 @@
         "name": "人工ゲル",
         "rarity": 2,
         "sortId": 100028,
-        "usage": "高強度の可塑性素材。昇進やスキル強化に必要。"
+        "usage": "高強度の可塑性素材。昇進やスキル強化に必要。",
+        "greenTicketShop": {
+            "price": 40,
+            "quantity": 1,
+            "monthlyLimits": [10, 10]
+        },
+        "parametricShop": {
+            "price": 50,
+            "quantity": 2,
+            "monthlyLimits": [0, 0]
+        }
     },
     "31014": {
         "classifyType": "MATERIAL",
@@ -595,7 +815,12 @@
         "name": "融合ゲル",
         "rarity": 3,
         "sortId": 100027,
-        "usage": "超高強度の可塑性素材。昇進やスキル強化に必要。"
+        "usage": "超高強度の可塑性素材。昇進やスキル強化に必要。",
+        "parametricShop": {
+            "price": 65,
+            "quantity": 1,
+            "monthlyLimits": [0, 0]
+        }
     },
     "31023": {
         "classifyType": "MATERIAL",
@@ -604,7 +829,17 @@
         "name": "熾合金",
         "rarity": 2,
         "sortId": 100026,
-        "usage": "電子工業用高融点特殊合金。昇進やスキル強化に必要な素材。"
+        "usage": "電子工業用高融点特殊合金。昇進やスキル強化に必要な素材。",
+        "greenTicketShop": {
+            "price": 35,
+            "quantity": 1,
+            "monthlyLimits": [10, 10]
+        },
+        "parametricShop": {
+            "price": 40,
+            "quantity": 2,
+            "monthlyLimits": [0, 0]
+        }
     },
     "31024": {
         "classifyType": "MATERIAL",
@@ -618,7 +853,12 @@
         "name": "上級熾合金",
         "rarity": 3,
         "sortId": 100025,
-        "usage": "産出量が極めて少ない、電子工業用高融点特殊合金。昇進やスキル強化に必要な素材。"
+        "usage": "産出量が極めて少ない、電子工業用高融点特殊合金。昇進やスキル強化に必要な素材。",
+        "parametricShop": {
+            "price": 75,
+            "quantity": 1,
+            "monthlyLimits": [0, 0]
+        }
     },
     "31033": {
         "classifyType": "MATERIAL",
@@ -627,7 +867,17 @@
         "name": "素子結晶",
         "rarity": 2,
         "sortId": 100024,
-        "usage": "源石工業において重要な部品。昇進やスキル強化に必要な素材。上級の源石電子部品の製作または合成のために用いることができる。"
+        "usage": "源石工業において重要な部品。昇進やスキル強化に必要な素材。上級の源石電子部品の製作または合成のために用いることができる。",
+        "greenTicketShop": {
+            "price": 30,
+            "quantity": 1,
+            "monthlyLimits": [10, 10]
+        },
+        "parametricShop": {
+            "price": 40,
+            "quantity": 2,
+            "monthlyLimits": [0, 0]
+        }
     },
     "31034": {
         "classifyType": "MATERIAL",
@@ -641,7 +891,12 @@
         "name": "結晶回路",
         "rarity": 3,
         "sortId": 100023,
-        "usage": "源石工業において重要な部品。昇進やスキル強化に必要な素材。結晶制御装置を製作する際に使用される。"
+        "usage": "源石工業において重要な部品。昇進やスキル強化に必要な素材。結晶制御装置を製作する際に使用される。",
+        "parametricShop": {
+            "price": 90,
+            "quantity": 1,
+            "monthlyLimits": [0, 0]
+        }
     },
     "31043": {
         "classifyType": "MATERIAL",
@@ -650,7 +905,17 @@
         "name": "半自然溶剤",
         "rarity": 2,
         "sortId": 100022,
-        "usage": "物性がずば抜けており、酸や塩基に対する耐性に優れた活性溶剤。 昇進やスキル強化に必要な素材。"
+        "usage": "物性がずば抜けており、酸や塩基に対する耐性に優れた活性溶剤。 昇進やスキル強化に必要な素材。",
+        "greenTicketShop": {
+            "price": 40,
+            "quantity": 1,
+            "monthlyLimits": [10, 10]
+        },
+        "parametricShop": {
+            "price": 50,
+            "quantity": 2,
+            "monthlyLimits": [0, 0]
+        }
     },
     "31044": {
         "classifyType": "MATERIAL",
@@ -664,7 +929,12 @@
         "name": "精錬溶剤",
         "rarity": 3,
         "sortId": 100021,
-        "usage": "特殊な工程で作られたコーティング剤。 昇進やスキル強化に必要な高ランク素材。"
+        "usage": "特殊な工程で作られたコーティング剤。 昇進やスキル強化に必要な高ランク素材。",
+        "parametricShop": {
+            "price": 70,
+            "quantity": 1,
+            "monthlyLimits": [0, 0]
+        }
     },
     "3105": {
         "classifyType": "NORMAL",
@@ -681,7 +951,17 @@
         "name": "切削液",
         "rarity": 2,
         "sortId": 100020,
-        "usage": "金属加工に欠かせない工業用試薬。 昇進やスキル強化に必要な素材。"
+        "usage": "金属加工に欠かせない工業用試薬。 昇進やスキル強化に必要な素材。",
+        "greenTicketShop": {
+            "price": 40,
+            "quantity": 1,
+            "monthlyLimits": [10, 10]
+        },
+        "parametricShop": {
+            "price": 50,
+            "quantity": 2,
+            "monthlyLimits": [0, 0]
+        }
     },
     "31054": {
         "classifyType": "MATERIAL",
@@ -695,7 +975,12 @@
         "name": "上級切削液",
         "rarity": 3,
         "sortId": 100019,
-        "usage": "活性溶剤を配合して作られた原液。昇進やスキル強化に必要な高ランク素材。"
+        "usage": "活性溶剤を配合して作られた原液。昇進やスキル強化に必要な高ランク素材。",
+        "parametricShop": {
+            "price": 70,
+            "quantity": 1,
+            "monthlyLimits": [0, 0]
+        }
     },
     "31063": {
         "classifyType": "MATERIAL",
@@ -704,7 +989,17 @@
         "name": "転化塩",
         "rarity": 2,
         "sortId": 100018,
-        "usage": "製錬処理を経た化合物結晶。昇進やスキル強化に必要な素材。"
+        "usage": "製錬処理を経た化合物結晶。昇進やスキル強化に必要な素材。",
+        "greenTicketShop": {
+            "price": 45,
+            "quantity": 1,
+            "monthlyLimits": [10, 10]
+        },
+        "parametricShop": {
+            "price": 55,
+            "quantity": 2,
+            "monthlyLimits": [0, 0]
+        }
     },
     "31064": {
         "classifyType": "MATERIAL",
@@ -718,7 +1013,12 @@
         "name": "上級転化塩",
         "rarity": 3,
         "sortId": 100017,
-        "usage": "精錬処理を経た化合物結晶の塊。昇進やスキル強化に必要な素材。"
+        "usage": "精錬処理を経た化合物結晶の塊。昇進やスキル強化に必要な素材。",
+        "parametricShop": {
+            "price": 70,
+            "quantity": 1,
+            "monthlyLimits": [0, 0]
+        }
     },
     "31073": {
         "classifyType": "MATERIAL",
@@ -727,7 +1027,17 @@
         "name": "褐素繊維",
         "rarity": 2,
         "sortId": 100016,
-        "usage": "高強度かつ高い弾力性を誇る特殊ファイバー。昇進やスキル強化に必要な素材。"
+        "usage": "高強度かつ高い弾力性を誇る特殊ファイバー。昇進やスキル強化に必要な素材。",
+        "greenTicketShop": {
+            "price": 40,
+            "quantity": 1,
+            "monthlyLimits": [10, 10]
+        },
+        "parametricShop": {
+            "price": 55,
+            "quantity": 2,
+            "monthlyLimits": [0, 0]
+        }
     },
     "31074": {
         "classifyType": "MATERIAL",
@@ -741,7 +1051,12 @@
         "name": "硬化ファイバー基板",
         "rarity": 3,
         "sortId": 100015,
-        "usage": "塑形硬化処理が施された特殊ファイバー基板。昇進やスキル強化に必要な素材。"
+        "usage": "塑形硬化処理が施された特殊ファイバー基板。昇進やスキル強化に必要な素材。",
+        "parametricShop": {
+            "price": 75,
+            "quantity": 1,
+            "monthlyLimits": [0, 0]
+        }
     },
     "31083": {
         "classifyType": "MATERIAL",
@@ -750,7 +1065,17 @@
         "name": "炭化水素ポリマー",
         "rarity": 2,
         "sortId": 100014,
-        "usage": "耐熱性と耐薬品性を兼ね備えた工業材料。昇進やスキル強化に必要な素材。"
+        "usage": "耐熱性と耐薬品性を兼ね備えた工業材料。昇進やスキル強化に必要な素材。",
+        "greenTicketShop": {
+            "price": 45,
+            "quantity": 1,
+            "monthlyLimits": [10, 10]
+        },
+        "parametricShop": {
+            "price": 60,
+            "quantity": 2,
+            "monthlyLimits": [0, 0]
+        }
     },
     "31084": {
         "classifyType": "MATERIAL",
@@ -764,7 +1089,12 @@
         "name": "プレハブ式炭化水素",
         "rarity": 3,
         "sortId": 100013,
-        "usage": "前処理を施した優れた材料を複数使用し作られた工業材料。昇進やスキル強化に必要な素材。"
+        "usage": "前処理を施した優れた材料を複数使用し作られた工業材料。昇進やスキル強化に必要な素材。",
+        "parametricShop": {
+            "price": 80,
+            "quantity": 1,
+            "monthlyLimits": [0, 0]
+        }
     },
     "31093": {
         "classifyType": "MATERIAL",
@@ -773,7 +1103,17 @@
         "name": "凝固核",
         "rarity": 2,
         "sortId": 100012,
-        "usage": "実験室で人工的に合成された粒子。優れた吸着性能を持つ。昇進やスキル強化に必要な素材。"
+        "usage": "実験室で人工的に合成された粒子。優れた吸着性能を持つ。昇進やスキル強化に必要な素材。",
+        "greenTicketShop": {
+            "price": 40,
+            "quantity": 1,
+            "monthlyLimits": [10, 10]
+        },
+        "parametricShop": {
+            "price": 50,
+            "quantity": 2,
+            "monthlyLimits": [0, 0]
+        }
     },
     "31094": {
         "classifyType": "MATERIAL",
@@ -787,7 +1127,12 @@
         "name": "カイラル屈光体",
         "rarity": 3,
         "sortId": 100011,
-        "usage": "優れた光学性能と物理性能を持ち合わせた特殊な光学素材。昇進やスキル強化に必要な高ランク素材。"
+        "usage": "優れた光学性能と物理性能を持ち合わせた特殊な光学素材。昇進やスキル強化に必要な高ランク素材。",
+        "parametricShop": {
+            "price": 70,
+            "quantity": 1,
+            "monthlyLimits": [0, 0]
+        }
     },
     "31103": {
         "classifyType": "MATERIAL",
@@ -796,7 +1141,17 @@
         "name": "液化高エネルギーガス",
         "rarity": 2,
         "sortId": 100010,
-        "usage": "特製の金属タンクに貯蔵された液化ガス。昇進やスキル強化に必要な素材。"
+        "usage": "特製の金属タンクに貯蔵された液化ガス。昇進やスキル強化に必要な素材。",
+        "greenTicketShop": {
+            "price": 45,
+            "quantity": 1,
+            "monthlyLimits": [10, 10]
+        },
+        "parametricShop": {
+            "price": 55,
+            "quantity": 2,
+            "monthlyLimits": [0, 0]
+        }
     },
     "31104": {
         "classifyType": "MATERIAL",
@@ -810,7 +1165,12 @@
         "name": "液化エーテル凝縮剤",
         "rarity": 3,
         "sortId": 100009,
-        "usage": "複雑な合成過程を経て作られる有機化合物。昇進やスキル強化に必要な素材。"
+        "usage": "複雑な合成過程を経て作られる有機化合物。昇進やスキル強化に必要な素材。",
+        "parametricShop": {
+            "price": 75,
+            "quantity": 1,
+            "monthlyLimits": [0, 0]
+        }
     },
     "31113": {
         "classifyType": "MATERIAL",
@@ -819,7 +1179,17 @@
         "name": "電極ユニット",
         "rarity": 2,
         "sortId": 100008,
-        "usage": "高い電気的安定性と耐腐食性を持つ工業材料。昇進やスキル強化に必要な素材。合成の原材料としてもよく用いられる。"
+        "usage": "高い電気的安定性と耐腐食性を持つ工業材料。昇進やスキル強化に必要な素材。合成の原材料としてもよく用いられる。",
+        "greenTicketShop": {
+            "price": 40,
+            "quantity": 1,
+            "monthlyLimits": [10, 10]
+        },
+        "parametricShop": {
+            "price": 50,
+            "quantity": 2,
+            "monthlyLimits": [0, 0]
+        }
     },
     "31114": {
         "classifyType": "MATERIAL",
@@ -833,7 +1203,12 @@
         "name": "集エネルギー動力ユニット",
         "rarity": 3,
         "sortId": 100007,
-        "usage": "特殊設計のもと素材の改良も施された動力出力装置。昇進やスキル強化に必要な素材。"
+        "usage": "特殊設計のもと素材の改良も施された動力出力装置。昇進やスキル強化に必要な素材。",
+        "parametricShop": {
+            "price": 80,
+            "quantity": 1,
+            "monthlyLimits": [0, 0]
+        }
     },
     "3112": {
         "classifyType": "NORMAL",
@@ -1167,7 +1542,12 @@
         "name": "アーツ学Ⅱ",
         "rarity": 2,
         "sortId": 80002,
-        "usage": "アーツ理論の中級教科書。スキル強化に必要な素材。"
+        "usage": "アーツ理論の中級教科書。スキル強化に必要な素材。",
+        "greenTicketShop": {
+            "price": 20,
+            "quantity": 3,
+            "monthlyLimits": [15, 15]
+        }
     },
     "3303": {
         "classifyType": "MATERIAL",

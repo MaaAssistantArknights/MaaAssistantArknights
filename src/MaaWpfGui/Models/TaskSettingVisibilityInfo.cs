@@ -170,7 +170,7 @@ public class TaskSettingVisibilityInfo : PropertyChangedBase
     private void UpdateAdvancedSettingsVisibility(BaseTask task)
     {
         AdvancedSettingsVisibility = task switch {
-            AwardTask or StartUpTask or UserDataUpdateTask or OperProgressTask or SwitchThemeTask => false,
+            AwardTask or StartUpTask or UserDataUpdateTask or SwitchThemeTask => false,
             _ => true,
         };
     }

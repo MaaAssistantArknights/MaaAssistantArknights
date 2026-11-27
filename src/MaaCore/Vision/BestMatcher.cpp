@@ -45,7 +45,15 @@ BestMatcher::ResultOpt BestMatcher::analyze() const
         }
         const auto& cur_matched = cur_opt.value();
         if (result.score < cur_matched.score) {
-            result = Result { .rect = cur_matched.rect, .score = cur_matched.score, .templ_info = templ_info };
+            result = Result {
+                .rect = cur_matched.rect,
+                .score = cur_matched.score,
+                .templ_info = templ_info,
+                .second_best_score = result.score,
+            };
+        }
+        else if (result.second_best_score < cur_matched.score) {
+            result.second_best_score = cur_matched.score;
         }
     }
 

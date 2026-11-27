@@ -118,7 +118,12 @@
         "name": "원암",
         "rarity": 0,
         "sortId": 100040,
-        "usage": "지표면에서 채굴된 광석. 제조소에서 합성 재료로 쓰이며 각종 강화에 사용된다."
+        "usage": "지표면에서 채굴된 광석. 제조소에서 합성 재료로 쓰이며 각종 강화에 사용된다.",
+        "parametricShop": {
+            "price": 15,
+            "quantity": 8,
+            "monthlyLimits": [0, 0]
+        }
     },
     "30012": {
         "classifyType": "MATERIAL",
@@ -130,7 +135,12 @@
         "name": "원암 큐브",
         "rarity": 1,
         "sortId": 100039,
-        "usage": "지표면에서 채굴된 광석 덩어리. 제조소에서 합성 재료로 쓰이며 각종 강화에 사용된다."
+        "usage": "지표면에서 채굴된 광석 덩어리. 제조소에서 합성 재료로 쓰이며 각종 강화에 사용된다.",
+        "parametricShop": {
+            "price": 15,
+            "quantity": 4,
+            "monthlyLimits": [0, 0]
+        }
     },
     "30013": {
         "classifyType": "MATERIAL",
@@ -142,7 +152,17 @@
         "name": "원암 큐브 번들",
         "rarity": 2,
         "sortId": 100038,
-        "usage": "지표면에서 채굴된 커다란 광석 덩어리. 제조소에서 합성 재료로 쓰이며 각종 강화에 사용된다."
+        "usage": "지표면에서 채굴된 커다란 광석 덩어리. 제조소에서 합성 재료로 쓰이며 각종 강화에 사용된다.",
+        "greenTicketShop": {
+            "price": 25,
+            "quantity": 1,
+            "monthlyLimits": [15, 15]
+        },
+        "parametricShop": {
+            "price": 30,
+            "quantity": 2,
+            "monthlyLimits": [0, 0]
+        }
     },
     "30014": {
         "classifyType": "MATERIAL",
@@ -154,7 +174,12 @@
         "name": "정제 원암",
         "rarity": 3,
         "sortId": 100037,
-        "usage": "지표면에서 채굴된 커다란 광석 덩어리를 제련한 것으로, 제조소에서 합성 재료로 쓰이며 각종 강화에 사용된다."
+        "usage": "지표면에서 채굴된 커다란 광석 덩어리를 제련한 것으로, 제조소에서 합성 재료로 쓰이며 각종 강화에 사용된다.",
+        "parametricShop": {
+            "price": 60,
+            "quantity": 1,
+            "monthlyLimits": [0, 0]
+        }
     },
     "30021": {
         "classifyType": "MATERIAL",
@@ -163,7 +188,12 @@
         "name": "대체당",
         "rarity": 0,
         "sortId": 100052,
-        "usage": "천연 설탕의 대용품으로 공장에서 생산된 저렴한 인공감미료. 제조소에서 합성 재료로 쓰이며 각종 강화에 사용된다."
+        "usage": "천연 설탕의 대용품으로 공장에서 생산된 저렴한 인공감미료. 제조소에서 합성 재료로 쓰이며 각종 강화에 사용된다.",
+        "parametricShop": {
+            "price": 25,
+            "quantity": 8,
+            "monthlyLimits": [0, 0]
+        }
     },
     "30022": {
         "classifyType": "MATERIAL",
@@ -175,7 +205,12 @@
         "name": "포도당",
         "rarity": 1,
         "sortId": 100051,
-        "usage": "공장에서 생산된 소량의 포도당. 제조소에서 합성 재료로 쓰이며 각종 강화에 사용된다."
+        "usage": "공장에서 생산된 소량의 포도당. 제조소에서 합성 재료로 쓰이며 각종 강화에 사용된다.",
+        "parametricShop": {
+            "price": 25,
+            "quantity": 4,
+            "monthlyLimits": [0, 0]
+        }
     },
     "30023": {
         "classifyType": "MATERIAL",
@@ -187,7 +222,17 @@
         "name": "포도당 번들",
         "rarity": 2,
         "sortId": 100050,
-        "usage": "공장에서 생산된 일정량 이상의 포도당. 제조소에서 합성 재료로 쓰이며 각종 강화에 사용된다."
+        "usage": "공장에서 생산된 일정량 이상의 포도당. 제조소에서 합성 재료로 쓰이며 각종 강화에 사용된다.",
+        "greenTicketShop": {
+            "price": 30,
+            "quantity": 1,
+            "monthlyLimits": [15, 15]
+        },
+        "parametricShop": {
+            "price": 35,
+            "quantity": 2,
+            "monthlyLimits": [0, 0]
+        }
     },
     "30024": {
         "classifyType": "MATERIAL",
@@ -201,7 +246,12 @@
         "name": "포도당 팩",
         "rarity": 3,
         "sortId": 100049,
-        "usage": "공장에서 생산된 대량의 포도당. 제조소에서 합성 재료로 쓰이며 각종 강화에 사용된다."
+        "usage": "공장에서 생산된 대량의 포도당. 제조소에서 합성 재료로 쓰이며 각종 강화에 사용된다.",
+        "parametricShop": {
+            "price": 75,
+            "quantity": 1,
+            "monthlyLimits": [0, 0]
+        }
     },
     "3003": {
         "classifyType": "NORMAL",
@@ -218,7 +268,12 @@
         "name": "에스테르 원료",
         "rarity": 0,
         "sortId": 100048,
-        "usage": "공업 제조에 꼭 필요한 에스테르 원료. 제조소에서 합성 재료로 쓰이며 각종 강화에 사용된다."
+        "usage": "공업 제조에 꼭 필요한 에스테르 원료. 제조소에서 합성 재료로 쓰이며 각종 강화에 사용된다.",
+        "parametricShop": {
+            "price": 25,
+            "quantity": 8,
+            "monthlyLimits": [0, 0]
+        }
     },
     "30032": {
         "classifyType": "MATERIAL",
@@ -230,7 +285,12 @@
         "name": "폴리에스테르",
         "rarity": 1,
         "sortId": 100047,
-        "usage": "공업 제조에 꼭 필요한 폴리에스테르. 제조소에서 합성 재료로 쓰이며 각종 강화에 사용된다."
+        "usage": "공업 제조에 꼭 필요한 폴리에스테르. 제조소에서 합성 재료로 쓰이며 각종 강화에 사용된다.",
+        "parametricShop": {
+            "price": 25,
+            "quantity": 4,
+            "monthlyLimits": [0, 0]
+        }
     },
     "30033": {
         "classifyType": "MATERIAL",
@@ -242,7 +302,17 @@
         "name": "폴리에스테르 번들",
         "rarity": 2,
         "sortId": 100046,
-        "usage": "공업 제조에 꼭 필요한 폴리에스테르 번들. 제조소에서 합성 재료로 쓰이며 각종 강화에 사용된다."
+        "usage": "공업 제조에 꼭 필요한 폴리에스테르 번들. 제조소에서 합성 재료로 쓰이며 각종 강화에 사용된다.",
+        "greenTicketShop": {
+            "price": 30,
+            "quantity": 1,
+            "monthlyLimits": [15, 15]
+        },
+        "parametricShop": {
+            "price": 35,
+            "quantity": 2,
+            "monthlyLimits": [0, 0]
+        }
     },
     "30034": {
         "classifyType": "MATERIAL",
@@ -256,7 +326,12 @@
         "name": "폴리에스테르 팩",
         "rarity": 3,
         "sortId": 100045,
-        "usage": "공업 제조에 꼭 필요한 폴리에스테르 팩. 제조소에서 합성 재료로 쓰이며 각종 강화에 사용된다."
+        "usage": "공업 제조에 꼭 필요한 폴리에스테르 팩. 제조소에서 합성 재료로 쓰이며 각종 강화에 사용된다.",
+        "parametricShop": {
+            "price": 80,
+            "quantity": 1,
+            "monthlyLimits": [0, 0]
+        }
     },
     "30041": {
         "classifyType": "MATERIAL",
@@ -265,7 +340,12 @@
         "name": "이철 조각",
         "rarity": 0,
         "sortId": 100056,
-        "usage": "지극히 평범한 공업 재료. 제조소에서 합성 재료로 쓰이며 각종 강화에 사용된다."
+        "usage": "지극히 평범한 공업 재료. 제조소에서 합성 재료로 쓰이며 각종 강화에 사용된다.",
+        "parametricShop": {
+            "price": 30,
+            "quantity": 8,
+            "monthlyLimits": [0, 0]
+        }
     },
     "30042": {
         "classifyType": "MATERIAL",
@@ -277,7 +357,12 @@
         "name": "이철",
         "rarity": 1,
         "sortId": 100055,
-        "usage": "보기 드문 공업 재료. 제조소에서 합성 재료로 쓰이며 각종 강화에 사용된다."
+        "usage": "보기 드문 공업 재료. 제조소에서 합성 재료로 쓰이며 각종 강화에 사용된다.",
+        "parametricShop": {
+            "price": 30,
+            "quantity": 4,
+            "monthlyLimits": [0, 0]
+        }
     },
     "30043": {
         "classifyType": "MATERIAL",
@@ -289,7 +374,17 @@
         "name": "이철 번들",
         "rarity": 2,
         "sortId": 100054,
-        "usage": "매우 희귀한 공업 재료. 제조소에서 합성 재료로 쓰이며 각종 강화에 사용된다."
+        "usage": "매우 희귀한 공업 재료. 제조소에서 합성 재료로 쓰이며 각종 강화에 사용된다.",
+        "greenTicketShop": {
+            "price": 35,
+            "quantity": 1,
+            "monthlyLimits": [15, 15]
+        },
+        "parametricShop": {
+            "price": 45,
+            "quantity": 2,
+            "monthlyLimits": [0, 0]
+        }
     },
     "30044": {
         "classifyType": "MATERIAL",
@@ -303,7 +398,12 @@
         "name": "이철 팩",
         "rarity": 3,
         "sortId": 100053,
-        "usage": "값비싼 공업 재료. 중합제의 재료 중 하나로, 각종 강화에 사용된다. "
+        "usage": "값비싼 공업 재료. 중합제의 재료 중 하나로, 각종 강화에 사용된다. ",
+        "parametricShop": {
+            "price": 90,
+            "quantity": 1,
+            "monthlyLimits": [0, 0]
+        }
     },
     "30051": {
         "classifyType": "MATERIAL",
@@ -312,7 +412,12 @@
         "name": "디케톤",
         "rarity": 0,
         "sortId": 100060,
-        "usage": "극소량의 공업용 유기 화합물. 제조소에서 합성 재료로 쓰이며 각종 강화에 사용된다."
+        "usage": "극소량의 공업용 유기 화합물. 제조소에서 합성 재료로 쓰이며 각종 강화에 사용된다.",
+        "parametricShop": {
+            "price": 30,
+            "quantity": 8,
+            "monthlyLimits": [0, 0]
+        }
     },
     "30052": {
         "classifyType": "MATERIAL",
@@ -324,7 +429,12 @@
         "name": "아케톤 응집체",
         "rarity": 1,
         "sortId": 100059,
-        "usage": "소량의 공업용 유기 화합물. 제조소에서 합성 재료로 쓰이며 각종 강화에 사용된다."
+        "usage": "소량의 공업용 유기 화합물. 제조소에서 합성 재료로 쓰이며 각종 강화에 사용된다.",
+        "parametricShop": {
+            "price": 30,
+            "quantity": 4,
+            "monthlyLimits": [0, 0]
+        }
     },
     "30053": {
         "classifyType": "MATERIAL",
@@ -336,7 +446,17 @@
         "name": "아케톤 응집체 번들",
         "rarity": 2,
         "sortId": 100058,
-        "usage": "일정량 이상의 공업용 유기 화합물. 제조소에서 합성 재료로 쓰이며 각종 강화에 사용된다."
+        "usage": "일정량 이상의 공업용 유기 화합물. 제조소에서 합성 재료로 쓰이며 각종 강화에 사용된다.",
+        "greenTicketShop": {
+            "price": 35,
+            "quantity": 1,
+            "monthlyLimits": [15, 15]
+        },
+        "parametricShop": {
+            "price": 45,
+            "quantity": 2,
+            "monthlyLimits": [0, 0]
+        }
     },
     "30054": {
         "classifyType": "MATERIAL",
@@ -350,7 +470,12 @@
         "name": "아케톤 팩",
         "rarity": 3,
         "sortId": 100057,
-        "usage": "대량의 공업용 유기 화합물. 제조소에서 합성 재료로 쓰이며 각종 강화에 사용된다."
+        "usage": "대량의 공업용 유기 화합물. 제조소에서 합성 재료로 쓰이며 각종 강화에 사용된다.",
+        "parametricShop": {
+            "price": 85,
+            "quantity": 1,
+            "monthlyLimits": [0, 0]
+        }
     },
     "30061": {
         "classifyType": "MATERIAL",
@@ -359,7 +484,12 @@
         "name": "파손된 장치",
         "rarity": 0,
         "sortId": 100044,
-        "usage": "고장 난 기계장치. 제조소에서 합성 재료로 쓰이며 각종 강화에 사용된다."
+        "usage": "고장 난 기계장치. 제조소에서 합성 재료로 쓰이며 각종 강화에 사용된다.",
+        "parametricShop": {
+            "price": 40,
+            "quantity": 8,
+            "monthlyLimits": [0, 0]
+        }
     },
     "30062": {
         "classifyType": "MATERIAL",
@@ -371,7 +501,12 @@
         "name": "장치",
         "rarity": 1,
         "sortId": 100043,
-        "usage": "기계장치. 제조소에서 합성 재료로 쓰이며 각종 강화에 사용된다."
+        "usage": "기계장치. 제조소에서 합성 재료로 쓰이며 각종 강화에 사용된다.",
+        "parametricShop": {
+            "price": 40,
+            "quantity": 4,
+            "monthlyLimits": [0, 0]
+        }
     },
     "30063": {
         "classifyType": "MATERIAL",
@@ -383,7 +518,17 @@
         "name": "리뉴얼 장치",
         "rarity": 2,
         "sortId": 100042,
-        "usage": "최신식 기계장치. 제조소에서 합성 재료로 쓰이며 각종 강화에 사용된다."
+        "usage": "최신식 기계장치. 제조소에서 합성 재료로 쓰이며 각종 강화에 사용된다.",
+        "greenTicketShop": {
+            "price": 45,
+            "quantity": 1,
+            "monthlyLimits": [10, 10]
+        },
+        "parametricShop": {
+            "price": 60,
+            "quantity": 2,
+            "monthlyLimits": [0, 0]
+        }
     },
     "30064": {
         "classifyType": "MATERIAL",
@@ -397,7 +542,12 @@
         "name": "개량 장치",
         "rarity": 3,
         "sortId": 100041,
-        "usage": "최고급 기계장치. 바이폴라 나노플레이크 칩의 재료 중 하나로써, 각종 강화에 사용된다. "
+        "usage": "최고급 기계장치. 바이폴라 나노플레이크 칩의 재료 중 하나로써, 각종 강화에 사용된다. ",
+        "parametricShop": {
+            "price": 85,
+            "quantity": 1,
+            "monthlyLimits": [0, 0]
+        }
     },
     "30073": {
         "classifyType": "MATERIAL",
@@ -406,7 +556,17 @@
         "name": "로식 콜",
         "rarity": 2,
         "sortId": 100030,
-        "usage": "매우 작은 유기 화합물. 제조소에서 합성 재료로 쓰이며 각종 강화에 사용된다."
+        "usage": "매우 작은 유기 화합물. 제조소에서 합성 재료로 쓰이며 각종 강화에 사용된다.",
+        "greenTicketShop": {
+            "price": 30,
+            "quantity": 1,
+            "monthlyLimits": [15, 0]
+        },
+        "parametricShop": {
+            "price": 40,
+            "quantity": 2,
+            "monthlyLimits": [0, 0]
+        }
     },
     "30074": {
         "classifyType": "MATERIAL",
@@ -420,7 +580,12 @@
         "name": "화이트 호스 콜",
         "rarity": 3,
         "sortId": 100029,
-        "usage": "매우 작은 유기 화합물. 바이폴라 나노플레이크 칩의 재료 중 하나로써, 각종 강화에 사용된다. "
+        "usage": "매우 작은 유기 화합물. 바이폴라 나노플레이크 칩의 재료 중 하나로써, 각종 강화에 사용된다. ",
+        "parametricShop": {
+            "price": 65,
+            "quantity": 1,
+            "monthlyLimits": [0, 0]
+        }
     },
     "30083": {
         "classifyType": "MATERIAL",
@@ -429,7 +594,17 @@
         "name": "망간 광석",
         "rarity": 2,
         "sortId": 100032,
-        "usage": "정제와 제련에 사용되는 금속 광물. 제조소에서 합성 재료로 쓰이며 각종 강화에 사용된다."
+        "usage": "정제와 제련에 사용되는 금속 광물. 제조소에서 합성 재료로 쓰이며 각종 강화에 사용된다.",
+        "greenTicketShop": {
+            "price": 35,
+            "quantity": 1,
+            "monthlyLimits": [15, 0]
+        },
+        "parametricShop": {
+            "price": 45,
+            "quantity": 2,
+            "monthlyLimits": [0, 0]
+        }
     },
     "30084": {
         "classifyType": "MATERIAL",
@@ -443,7 +618,12 @@
         "name": "망간 중합체",
         "rarity": 3,
         "sortId": 100031,
-        "usage": "D32강의 재료 중 하나로써, 정제와 제련에 사용되는 금속 광물이다."
+        "usage": "D32강의 재료 중 하나로써, 정제와 제련에 사용되는 금속 광물이다.",
+        "parametricShop": {
+            "price": 80,
+            "quantity": 1,
+            "monthlyLimits": [0, 0]
+        }
     },
     "30093": {
         "classifyType": "MATERIAL",
@@ -452,7 +632,17 @@
         "name": "연마석",
         "rarity": 2,
         "sortId": 100034,
-        "usage": "무기 부품을 가공하는 데 이용되는 연마석. 제조소에서 합성 재료로 쓰이며 각종 강화에 사용된다."
+        "usage": "무기 부품을 가공하는 데 이용되는 연마석. 제조소에서 합성 재료로 쓰이며 각종 강화에 사용된다.",
+        "greenTicketShop": {
+            "price": 40,
+            "quantity": 1,
+            "monthlyLimits": [15, 0]
+        },
+        "parametricShop": {
+            "price": 50,
+            "quantity": 2,
+            "monthlyLimits": [0, 0]
+        }
     },
     "30094": {
         "classifyType": "MATERIAL",
@@ -466,7 +656,12 @@
         "name": "고급연마석",
         "rarity": 3,
         "sortId": 100033,
-        "usage": "무기 부품을 정밀하게 가공하는 데 이용되는 질 좋은 연마석. D32강의 재료 중 하나로써, 각종 강화에 사용된다. "
+        "usage": "무기 부품을 정밀하게 가공하는 데 이용되는 질 좋은 연마석. D32강의 재료 중 하나로써, 각종 강화에 사용된다. ",
+        "parametricShop": {
+            "price": 75,
+            "quantity": 1,
+            "monthlyLimits": [0, 0]
+        }
     },
     "30103": {
         "classifyType": "MATERIAL",
@@ -475,7 +670,17 @@
         "name": "RMA70-12",
         "rarity": 2,
         "sortId": 100036,
-        "usage": "감도와 전도성이 좋은 광물. 제조소에서 합성 재료로 쓰이며 각종 강화에 사용된다."
+        "usage": "감도와 전도성이 좋은 광물. 제조소에서 합성 재료로 쓰이며 각종 강화에 사용된다.",
+        "greenTicketShop": {
+            "price": 45,
+            "quantity": 1,
+            "monthlyLimits": [10, 0]
+        },
+        "parametricShop": {
+            "price": 60,
+            "quantity": 2,
+            "monthlyLimits": [0, 0]
+        }
     },
     "30104": {
         "classifyType": "MATERIAL",
@@ -489,7 +694,12 @@
         "name": "RMA70-24",
         "rarity": 3,
         "sortId": 100035,
-        "usage": "감도와 전도성이 매우 우수한 광물. D32강의 재료 중 하나로써, 각종 강화에 사용된다. "
+        "usage": "감도와 전도성이 매우 우수한 광물. D32강의 재료 중 하나로써, 각종 강화에 사용된다. ",
+        "parametricShop": {
+            "price": 80,
+            "quantity": 1,
+            "monthlyLimits": [0, 0]
+        }
     },
     "30115": {
         "classifyType": "MATERIAL",
@@ -581,7 +791,17 @@
         "name": "젤",
         "rarity": 2,
         "sortId": 100028,
-        "usage": "고강도 가소성 재료. 다양한 강화 용도로 쓰이며, 주로 제조소에서 합성 원료로 쓰인다."
+        "usage": "고강도 가소성 재료. 다양한 강화 용도로 쓰이며, 주로 제조소에서 합성 원료로 쓰인다.",
+        "greenTicketShop": {
+            "price": 40,
+            "quantity": 1,
+            "monthlyLimits": [10, 10]
+        },
+        "parametricShop": {
+            "price": 50,
+            "quantity": 2,
+            "monthlyLimits": [0, 0]
+        }
     },
     "31014": {
         "classifyType": "MATERIAL",
@@ -595,7 +815,12 @@
         "name": "중합젤",
         "rarity": 3,
         "sortId": 100027,
-        "usage": "초고강도 가소성 재료. 다양한 강화 용도로 쓰인다."
+        "usage": "초고강도 가소성 재료. 다양한 강화 용도로 쓰인다.",
+        "parametricShop": {
+            "price": 65,
+            "quantity": 1,
+            "monthlyLimits": [0, 0]
+        }
     },
     "31023": {
         "classifyType": "MATERIAL",
@@ -604,7 +829,17 @@
         "name": "열합금",
         "rarity": 2,
         "sortId": 100026,
-        "usage": "전자공업용 특수 고융점 합금. 다양한 강화 용도로 쓰이며, 주로 제조소에서 합성 원료로 쓰인다."
+        "usage": "전자공업용 특수 고융점 합금. 다양한 강화 용도로 쓰이며, 주로 제조소에서 합성 원료로 쓰인다.",
+        "greenTicketShop": {
+            "price": 35,
+            "quantity": 1,
+            "monthlyLimits": [10, 10]
+        },
+        "parametricShop": {
+            "price": 40,
+            "quantity": 2,
+            "monthlyLimits": [0, 0]
+        }
     },
     "31024": {
         "classifyType": "MATERIAL",
@@ -618,7 +853,12 @@
         "name": "열합금 팩",
         "rarity": 3,
         "sortId": 100025,
-        "usage": "생산량이 매우 적은 전자공업용 특수 고융점 합금. 다양한 강화 용도로 쓰인다."
+        "usage": "생산량이 매우 적은 전자공업용 특수 고융점 합금. 다양한 강화 용도로 쓰인다.",
+        "parametricShop": {
+            "price": 75,
+            "quantity": 1,
+            "monthlyLimits": [0, 0]
+        }
     },
     "31033": {
         "classifyType": "MATERIAL",
@@ -627,7 +867,17 @@
         "name": "결정 부품",
         "rarity": 2,
         "sortId": 100024,
-        "usage": "중요한 오리지늄 공업 재료. 다양한 강화 용도로 사용할 수 있으며 보다 고급스러운 오리지늄 전자 부속품을 제작 및 합성할 수 있다."
+        "usage": "중요한 오리지늄 공업 재료. 다양한 강화 용도로 사용할 수 있으며 보다 고급스러운 오리지늄 전자 부속품을 제작 및 합성할 수 있다.",
+        "greenTicketShop": {
+            "price": 30,
+            "quantity": 1,
+            "monthlyLimits": [10, 10]
+        },
+        "parametricShop": {
+            "price": 40,
+            "quantity": 2,
+            "monthlyLimits": [0, 0]
+        }
     },
     "31034": {
         "classifyType": "MATERIAL",
@@ -641,7 +891,12 @@
         "name": "결정 회로",
         "rarity": 3,
         "sortId": 100023,
-        "usage": "중요한 오리지늄 공업 재료. 다양한 강화 용도로 사용할 수 있으며 오리지늄 결정 유닛을 제작하는 기본 부속품이다."
+        "usage": "중요한 오리지늄 공업 재료. 다양한 강화 용도로 사용할 수 있으며 오리지늄 결정 유닛을 제작하는 기본 부속품이다.",
+        "parametricShop": {
+            "price": 90,
+            "quantity": 1,
+            "monthlyLimits": [0, 0]
+        }
     },
     "31043": {
         "classifyType": "MATERIAL",
@@ -650,7 +905,17 @@
         "name": "반합성 용제",
         "rarity": 2,
         "sortId": 100022,
-        "usage": "물리 성능이 좋고 산성, 알칼리성 내성이 모두 양호한 용제. 다양한 강화 용도로 쓰인다."
+        "usage": "물리 성능이 좋고 산성, 알칼리성 내성이 모두 양호한 용제. 다양한 강화 용도로 쓰인다.",
+        "greenTicketShop": {
+            "price": 40,
+            "quantity": 1,
+            "monthlyLimits": [10, 10]
+        },
+        "parametricShop": {
+            "price": 50,
+            "quantity": 2,
+            "monthlyLimits": [0, 0]
+        }
     },
     "31044": {
         "classifyType": "MATERIAL",
@@ -664,7 +929,12 @@
         "name": "정제된 용제",
         "rarity": 3,
         "sortId": 100021,
-        "usage": "특수 공예를 거쳐 만든 특수 도료. 고급 강화에 사용된다."
+        "usage": "특수 공예를 거쳐 만든 특수 도료. 고급 강화에 사용된다.",
+        "parametricShop": {
+            "price": 70,
+            "quantity": 1,
+            "monthlyLimits": [0, 0]
+        }
     },
     "3105": {
         "classifyType": "NORMAL",
@@ -681,7 +951,17 @@
         "name": "중합 절삭유",
         "rarity": 2,
         "sortId": 100020,
-        "usage": "금속 가공에 필수인 공업용 시제. 다양한 강화 용도로 쓰인다."
+        "usage": "금속 가공에 필수인 공업용 시제. 다양한 강화 용도로 쓰인다.",
+        "greenTicketShop": {
+            "price": 40,
+            "quantity": 1,
+            "monthlyLimits": [10, 10]
+        },
+        "parametricShop": {
+            "price": 50,
+            "quantity": 2,
+            "monthlyLimits": [0, 0]
+        }
     },
     "31054": {
         "classifyType": "MATERIAL",
@@ -695,7 +975,12 @@
         "name": "절삭유 원액",
         "rarity": 3,
         "sortId": 100019,
-        "usage": "여러 가지 활성 용제를 배합해 만든 원액. 고급 강화에 사용된다."
+        "usage": "여러 가지 활성 용제를 배합해 만든 원액. 고급 강화에 사용된다.",
+        "parametricShop": {
+            "price": 70,
+            "quantity": 1,
+            "monthlyLimits": [0, 0]
+        }
     },
     "31063": {
         "classifyType": "MATERIAL",
@@ -704,7 +989,17 @@
         "name": "합성 소금 번들",
         "rarity": 2,
         "sortId": 100018,
-        "usage": "제련을 거쳐 생성된 화합물 결정. 각종 강화에 사용된다."
+        "usage": "제련을 거쳐 생성된 화합물 결정. 각종 강화에 사용된다.",
+        "greenTicketShop": {
+            "price": 45,
+            "quantity": 1,
+            "monthlyLimits": [10, 10]
+        },
+        "parametricShop": {
+            "price": 55,
+            "quantity": 2,
+            "monthlyLimits": [0, 0]
+        }
     },
     "31064": {
         "classifyType": "MATERIAL",
@@ -718,7 +1013,12 @@
         "name": "합성 소금 팩",
         "rarity": 3,
         "sortId": 100017,
-        "usage": "정련을 거쳐 생성된 화합물 결정. 제조소에서 합성 재료로 쓰이며 각종 강화에 사용된다."
+        "usage": "정련을 거쳐 생성된 화합물 결정. 제조소에서 합성 재료로 쓰이며 각종 강화에 사용된다.",
+        "parametricShop": {
+            "price": 70,
+            "quantity": 1,
+            "monthlyLimits": [0, 0]
+        }
     },
     "31073": {
         "classifyType": "MATERIAL",
@@ -727,7 +1027,17 @@
         "name": "퓨신 섬유",
         "rarity": 2,
         "sortId": 100016,
-        "usage": "고강도 및 고탄성 특수 섬유 다발. 다양한 강화 용도로 쓰인다."
+        "usage": "고강도 및 고탄성 특수 섬유 다발. 다양한 강화 용도로 쓰인다.",
+        "greenTicketShop": {
+            "price": 40,
+            "quantity": 1,
+            "monthlyLimits": [10, 10]
+        },
+        "parametricShop": {
+            "price": 55,
+            "quantity": 2,
+            "monthlyLimits": [0, 0]
+        }
     },
     "31074": {
         "classifyType": "MATERIAL",
@@ -741,7 +1051,12 @@
         "name": "경화 섬유판",
         "rarity": 3,
         "sortId": 100015,
-        "usage": "성형 고화 처리된 특수 강화판. 다양한 강화 용도로 쓰인다."
+        "usage": "성형 고화 처리된 특수 강화판. 다양한 강화 용도로 쓰인다.",
+        "parametricShop": {
+            "price": 75,
+            "quantity": 1,
+            "monthlyLimits": [0, 0]
+        }
     },
     "31083": {
         "classifyType": "MATERIAL",
@@ -750,7 +1065,17 @@
         "name": "고리탄화수소 응집질",
         "rarity": 2,
         "sortId": 100014,
-        "usage": "내열성 및 내화학성이 뛰어난 공업 재료. 다양한 강화 용도로 쓰인다."
+        "usage": "내열성 및 내화학성이 뛰어난 공업 재료. 다양한 강화 용도로 쓰인다.",
+        "greenTicketShop": {
+            "price": 45,
+            "quantity": 1,
+            "monthlyLimits": [10, 10]
+        },
+        "parametricShop": {
+            "price": 60,
+            "quantity": 2,
+            "monthlyLimits": [0, 0]
+        }
     },
     "31084": {
         "classifyType": "MATERIAL",
@@ -764,7 +1089,12 @@
         "name": "고리탄화수소 프리폼",
         "rarity": 3,
         "sortId": 100013,
-        "usage": "다양한 양질의 재료를 전처리하여 얻은 공업 재료. 다양한 강화 용도로 쓰인다."
+        "usage": "다양한 양질의 재료를 전처리하여 얻은 공업 재료. 다양한 강화 용도로 쓰인다.",
+        "parametricShop": {
+            "price": 80,
+            "quantity": 1,
+            "monthlyLimits": [0, 0]
+        }
     },
     "31093": {
         "classifyType": "MATERIAL",
@@ -773,7 +1103,17 @@
         "name": "유사 응결핵",
         "rarity": 2,
         "sortId": 100012,
-        "usage": "실험실에서 인공 합성된 미립자, 흡착 성능이 우수하다. 다양한 강화 용도로 쓰인다."
+        "usage": "실험실에서 인공 합성된 미립자, 흡착 성능이 우수하다. 다양한 강화 용도로 쓰인다.",
+        "greenTicketShop": {
+            "price": 40,
+            "quantity": 1,
+            "monthlyLimits": [10, 10]
+        },
+        "parametricShop": {
+            "price": 50,
+            "quantity": 2,
+            "monthlyLimits": [0, 0]
+        }
     },
     "31094": {
         "classifyType": "MATERIAL",
@@ -787,7 +1127,12 @@
         "name": "카이랄 굴광체",
         "rarity": 3,
         "sortId": 100011,
-        "usage": "우수한 광학적, 물리적 성질을 띤 특수 광학 재료. 고급 강화에 사용된다."
+        "usage": "우수한 광학적, 물리적 성질을 띤 특수 광학 재료. 고급 강화에 사용된다.",
+        "parametricShop": {
+            "price": 70,
+            "quantity": 1,
+            "monthlyLimits": [0, 0]
+        }
     },
     "31103": {
         "classifyType": "MATERIAL",
@@ -796,7 +1141,17 @@
         "name": "액화 고에너지 가스",
         "rarity": 2,
         "sortId": 100010,
-        "usage": "특제 금속 용기에 저장된 액화 가스. 제조소에서 합성 재료로 쓰이며 각종 강화에 사용된다."
+        "usage": "특제 금속 용기에 저장된 액화 가스. 제조소에서 합성 재료로 쓰이며 각종 강화에 사용된다.",
+        "greenTicketShop": {
+            "price": 45,
+            "quantity": 1,
+            "monthlyLimits": [10, 10]
+        },
+        "parametricShop": {
+            "price": 55,
+            "quantity": 2,
+            "monthlyLimits": [0, 0]
+        }
     },
     "31104": {
         "classifyType": "MATERIAL",
@@ -810,7 +1165,12 @@
         "name": "액화 에테르 응집체",
         "rarity": 3,
         "sortId": 100009,
-        "usage": "복잡한 합성 공정을 거쳐 생성된 유기 화합물. 다양한 강화 용도로 쓰인다."
+        "usage": "복잡한 합성 공정을 거쳐 생성된 유기 화합물. 다양한 강화 용도로 쓰인다.",
+        "parametricShop": {
+            "price": 75,
+            "quantity": 1,
+            "monthlyLimits": [0, 0]
+        }
     },
     "31113": {
         "classifyType": "MATERIAL",
@@ -819,7 +1179,17 @@
         "name": "전극 유닛",
         "rarity": 2,
         "sortId": 100008,
-        "usage": "높은 전기적 안정성과 내부식성을 갖춘 산업용 자재. 제조소에서 합성 재료로 쓰이며 각종 강화에 사용된다."
+        "usage": "높은 전기적 안정성과 내부식성을 갖춘 산업용 자재. 제조소에서 합성 재료로 쓰이며 각종 강화에 사용된다.",
+        "greenTicketShop": {
+            "price": 40,
+            "quantity": 1,
+            "monthlyLimits": [10, 10]
+        },
+        "parametricShop": {
+            "price": 50,
+            "quantity": 2,
+            "monthlyLimits": [0, 0]
+        }
     },
     "31114": {
         "classifyType": "MATERIAL",
@@ -833,7 +1203,12 @@
         "name": "에너지 동력 유닛",
         "rarity": 3,
         "sortId": 100007,
-        "usage": "특수 설계와 소재 개량을 거친 동력 출력 장치. 다양한 강화 용도로 쓰인다."
+        "usage": "특수 설계와 소재 개량을 거친 동력 출력 장치. 다양한 강화 용도로 쓰인다.",
+        "parametricShop": {
+            "price": 80,
+            "quantity": 1,
+            "monthlyLimits": [0, 0]
+        }
     },
     "3112": {
         "classifyType": "NORMAL",
@@ -1167,7 +1542,12 @@
         "name": "스킬개론 제2권",
         "rarity": 2,
         "sortId": 80002,
-        "usage": "스킬에 대한 이해도를 높일 수 있는 서적. 오퍼레이터의 능력을 향상시킬 때 사용된다."
+        "usage": "스킬에 대한 이해도를 높일 수 있는 서적. 오퍼레이터의 능력을 향상시킬 때 사용된다.",
+        "greenTicketShop": {
+            "price": 20,
+            "quantity": 3,
+            "monthlyLimits": [15, 15]
+        }
     },
     "3303": {
         "classifyType": "MATERIAL",

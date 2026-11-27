@@ -118,7 +118,12 @@
         "name": "Orirock",
         "rarity": 0,
         "sortId": 100040,
-        "usage": "A rock mined from the ground. Can be used for a variety of upgrades and for production in the Factory."
+        "usage": "A rock mined from the ground. Can be used for a variety of upgrades and for production in the Factory.",
+        "parametricShop": {
+            "price": 15,
+            "quantity": 8,
+            "monthlyLimits": [0, 0]
+        }
     },
     "30012": {
         "classifyType": "MATERIAL",
@@ -130,7 +135,12 @@
         "name": "Orirock Cube",
         "rarity": 1,
         "sortId": 100039,
-        "usage": "A rock cube mined from the ground. Can be used for a variety of upgrades and for production in the Factory."
+        "usage": "A rock cube mined from the ground. Can be used for a variety of upgrades and for production in the Factory.",
+        "parametricShop": {
+            "price": 15,
+            "quantity": 4,
+            "monthlyLimits": [0, 0]
+        }
     },
     "30013": {
         "classifyType": "MATERIAL",
@@ -142,7 +152,17 @@
         "name": "Orirock Cluster",
         "rarity": 2,
         "sortId": 100038,
-        "usage": "A conglomerate rock mined from the ground. Can be used for a variety of upgrades and for production in the Factory."
+        "usage": "A conglomerate rock mined from the ground. Can be used for a variety of upgrades and for production in the Factory.",
+        "greenTicketShop": {
+            "price": 25,
+            "quantity": 1,
+            "monthlyLimits": [15, 15]
+        },
+        "parametricShop": {
+            "price": 30,
+            "quantity": 2,
+            "monthlyLimits": [0, 0]
+        }
     },
     "30014": {
         "classifyType": "MATERIAL",
@@ -154,7 +174,12 @@
         "name": "Orirock Concentration",
         "rarity": 3,
         "sortId": 100037,
-        "usage": "A refined matter produced with Orirock Cluster. Can be used for a variety of upgrades and the synthesis of Polymerization Preparation."
+        "usage": "A refined matter produced with Orirock Cluster. Can be used for a variety of upgrades and the synthesis of Polymerization Preparation.",
+        "parametricShop": {
+            "price": 60,
+            "quantity": 1,
+            "monthlyLimits": [0, 0]
+        }
     },
     "30021": {
         "classifyType": "MATERIAL",
@@ -163,7 +188,12 @@
         "name": "Sugar Substitute",
         "rarity": 0,
         "sortId": 100052,
-        "usage": "Cheap sugar substitute produced by assembly line. Can be used for a variety of upgrades and for production in the Factory."
+        "usage": "Cheap sugar substitute produced by assembly line. Can be used for a variety of upgrades and for production in the Factory.",
+        "parametricShop": {
+            "price": 25,
+            "quantity": 8,
+            "monthlyLimits": [0, 0]
+        }
     },
     "30022": {
         "classifyType": "MATERIAL",
@@ -175,7 +205,12 @@
         "name": "Sugar",
         "rarity": 1,
         "sortId": 100051,
-        "usage": "A small amount of sugar produced by assembly line. Can be used for a variety of upgrades and for production in the Factory."
+        "usage": "A small amount of sugar produced by assembly line. Can be used for a variety of upgrades and for production in the Factory.",
+        "parametricShop": {
+            "price": 25,
+            "quantity": 4,
+            "monthlyLimits": [0, 0]
+        }
     },
     "30023": {
         "classifyType": "MATERIAL",
@@ -187,7 +222,17 @@
         "name": "Sugar Pack",
         "rarity": 2,
         "sortId": 100050,
-        "usage": "A decent amount of sugar produced by assembly line. Can be used for a variety of upgrades and for production in the Factory."
+        "usage": "A decent amount of sugar produced by assembly line. Can be used for a variety of upgrades and for production in the Factory.",
+        "greenTicketShop": {
+            "price": 30,
+            "quantity": 1,
+            "monthlyLimits": [15, 15]
+        },
+        "parametricShop": {
+            "price": 35,
+            "quantity": 2,
+            "monthlyLimits": [0, 0]
+        }
     },
     "30024": {
         "classifyType": "MATERIAL",
@@ -201,7 +246,12 @@
         "name": "Sugar Lump",
         "rarity": 3,
         "sortId": 100049,
-        "usage": "A large amount of sugar produced by assembly line. Can be used for a variety of upgrades and for production in the Factory."
+        "usage": "A large amount of sugar produced by assembly line. Can be used for a variety of upgrades and for production in the Factory.",
+        "parametricShop": {
+            "price": 75,
+            "quantity": 1,
+            "monthlyLimits": [0, 0]
+        }
     },
     "3003": {
         "classifyType": "NORMAL",
@@ -218,7 +268,12 @@
         "name": "Ester",
         "rarity": 0,
         "sortId": 100048,
-        "usage": "Ester used in industrial production. Can be used for a variety of upgrades and for production in the Factory."
+        "usage": "Ester used in industrial production. Can be used for a variety of upgrades and for production in the Factory.",
+        "parametricShop": {
+            "price": 25,
+            "quantity": 8,
+            "monthlyLimits": [0, 0]
+        }
     },
     "30032": {
         "classifyType": "MATERIAL",
@@ -230,7 +285,12 @@
         "name": "Polyester",
         "rarity": 1,
         "sortId": 100047,
-        "usage": "A small amount of polyester used in industrial production. Can be used for a variety of upgrades and for production in the Factory."
+        "usage": "A small amount of polyester used in industrial production. Can be used for a variety of upgrades and for production in the Factory.",
+        "parametricShop": {
+            "price": 25,
+            "quantity": 4,
+            "monthlyLimits": [0, 0]
+        }
     },
     "30033": {
         "classifyType": "MATERIAL",
@@ -242,7 +302,17 @@
         "name": "Polyester Pack",
         "rarity": 2,
         "sortId": 100046,
-        "usage": "A pack of polyester used in industrial production. Can be used for a variety of upgrades and for production in the Factory."
+        "usage": "A pack of polyester used in industrial production. Can be used for a variety of upgrades and for production in the Factory.",
+        "greenTicketShop": {
+            "price": 30,
+            "quantity": 1,
+            "monthlyLimits": [15, 15]
+        },
+        "parametricShop": {
+            "price": 35,
+            "quantity": 2,
+            "monthlyLimits": [0, 0]
+        }
     },
     "30034": {
         "classifyType": "MATERIAL",
@@ -256,7 +326,12 @@
         "name": "Polyester Lump",
         "rarity": 3,
         "sortId": 100045,
-        "usage": "A lump of polyester used in industrial production. Can be used for a variety of upgrades and for production in the Factory."
+        "usage": "A lump of polyester used in industrial production. Can be used for a variety of upgrades and for production in the Factory.",
+        "parametricShop": {
+            "price": 80,
+            "quantity": 1,
+            "monthlyLimits": [0, 0]
+        }
     },
     "30041": {
         "classifyType": "MATERIAL",
@@ -265,7 +340,12 @@
         "name": "Oriron Shard",
         "rarity": 0,
         "sortId": 100056,
-        "usage": "A common industrial material. Can be used for a variety of upgrades and for production in the Factory."
+        "usage": "A common industrial material. Can be used for a variety of upgrades and for production in the Factory.",
+        "parametricShop": {
+            "price": 30,
+            "quantity": 8,
+            "monthlyLimits": [0, 0]
+        }
     },
     "30042": {
         "classifyType": "MATERIAL",
@@ -277,7 +357,12 @@
         "name": "Oriron",
         "rarity": 1,
         "sortId": 100055,
-        "usage": "A rare industrial material. Can be used for a variety of upgrades and for production in the Factory."
+        "usage": "A rare industrial material. Can be used for a variety of upgrades and for production in the Factory.",
+        "parametricShop": {
+            "price": 30,
+            "quantity": 4,
+            "monthlyLimits": [0, 0]
+        }
     },
     "30043": {
         "classifyType": "MATERIAL",
@@ -289,7 +374,17 @@
         "name": "Oriron Cluster",
         "rarity": 2,
         "sortId": 100054,
-        "usage": "A precious industrial material. Can be used for a variety of upgrades and for production in the Factory."
+        "usage": "A precious industrial material. Can be used for a variety of upgrades and for production in the Factory.",
+        "greenTicketShop": {
+            "price": 35,
+            "quantity": 1,
+            "monthlyLimits": [15, 15]
+        },
+        "parametricShop": {
+            "price": 45,
+            "quantity": 2,
+            "monthlyLimits": [0, 0]
+        }
     },
     "30044": {
         "classifyType": "MATERIAL",
@@ -303,7 +398,12 @@
         "name": "Oriron Block",
         "rarity": 3,
         "sortId": 100053,
-        "usage": "An expensive industrial material. Can be used for a variety of upgrades and the synthesis of Polymerization Preparation."
+        "usage": "An expensive industrial material. Can be used for a variety of upgrades and the synthesis of Polymerization Preparation.",
+        "parametricShop": {
+            "price": 90,
+            "quantity": 1,
+            "monthlyLimits": [0, 0]
+        }
     },
     "30051": {
         "classifyType": "MATERIAL",
@@ -312,7 +412,12 @@
         "name": "Diketon",
         "rarity": 0,
         "sortId": 100060,
-        "usage": "A very small amount of industrial organic compound. Can be used for a variety of upgrades and for production in the Factory."
+        "usage": "A very small amount of industrial organic compound. Can be used for a variety of upgrades and for production in the Factory.",
+        "parametricShop": {
+            "price": 30,
+            "quantity": 8,
+            "monthlyLimits": [0, 0]
+        }
     },
     "30052": {
         "classifyType": "MATERIAL",
@@ -324,7 +429,12 @@
         "name": "Polyketon",
         "rarity": 1,
         "sortId": 100059,
-        "usage": "A small amount of industrial organic compound. Can be used for a variety of upgrades and for production in the Factory."
+        "usage": "A small amount of industrial organic compound. Can be used for a variety of upgrades and for production in the Factory.",
+        "parametricShop": {
+            "price": 30,
+            "quantity": 4,
+            "monthlyLimits": [0, 0]
+        }
     },
     "30053": {
         "classifyType": "MATERIAL",
@@ -336,7 +446,17 @@
         "name": "Aketon",
         "rarity": 2,
         "sortId": 100058,
-        "usage": "A modest amount of industrial organic compound. Can be used for a variety of upgrades and for production in the Factory."
+        "usage": "A modest amount of industrial organic compound. Can be used for a variety of upgrades and for production in the Factory.",
+        "greenTicketShop": {
+            "price": 35,
+            "quantity": 1,
+            "monthlyLimits": [15, 15]
+        },
+        "parametricShop": {
+            "price": 45,
+            "quantity": 2,
+            "monthlyLimits": [0, 0]
+        }
     },
     "30054": {
         "classifyType": "MATERIAL",
@@ -350,7 +470,12 @@
         "name": "Keton Colloid",
         "rarity": 3,
         "sortId": 100057,
-        "usage": "A large amount of industrial organic compound. Can be used for a variety of upgrades and the synthesis of Polymerization Preparation."
+        "usage": "A large amount of industrial organic compound. Can be used for a variety of upgrades and the synthesis of Polymerization Preparation.",
+        "parametricShop": {
+            "price": 85,
+            "quantity": 1,
+            "monthlyLimits": [0, 0]
+        }
     },
     "30061": {
         "classifyType": "MATERIAL",
@@ -359,7 +484,12 @@
         "name": "Damaged Device",
         "rarity": 0,
         "sortId": 100044,
-        "usage": "A damaged mechanical device captured from Reunion. Can be used for a variety of upgrades and for production in the Factory."
+        "usage": "A damaged mechanical device captured from Reunion. Can be used for a variety of upgrades and for production in the Factory.",
+        "parametricShop": {
+            "price": 40,
+            "quantity": 8,
+            "monthlyLimits": [0, 0]
+        }
     },
     "30062": {
         "classifyType": "MATERIAL",
@@ -371,7 +501,12 @@
         "name": "Device",
         "rarity": 1,
         "sortId": 100043,
-        "usage": "An ordinary mechanical device captured from Reunion. Can be used for a variety of upgrades and for production in the Factory."
+        "usage": "An ordinary mechanical device captured from Reunion. Can be used for a variety of upgrades and for production in the Factory.",
+        "parametricShop": {
+            "price": 40,
+            "quantity": 4,
+            "monthlyLimits": [0, 0]
+        }
     },
     "30063": {
         "classifyType": "MATERIAL",
@@ -383,7 +518,17 @@
         "name": "Integrated Device",
         "rarity": 2,
         "sortId": 100042,
-        "usage": "A brand new mechanical device captured from Reunion. Can be used for a variety of upgrades and for production in the Factory."
+        "usage": "A brand new mechanical device captured from Reunion. Can be used for a variety of upgrades and for production in the Factory.",
+        "greenTicketShop": {
+            "price": 45,
+            "quantity": 1,
+            "monthlyLimits": [10, 10]
+        },
+        "parametricShop": {
+            "price": 60,
+            "quantity": 2,
+            "monthlyLimits": [0, 0]
+        }
     },
     "30064": {
         "classifyType": "MATERIAL",
@@ -397,7 +542,12 @@
         "name": "Optimized Device",
         "rarity": 3,
         "sortId": 100041,
-        "usage": "An advanced mechanical device captured from Reunion. Can be used for a variety of upgrades and the synthesis of Bipolar Nanoflake."
+        "usage": "An advanced mechanical device captured from Reunion. Can be used for a variety of upgrades and the synthesis of Bipolar Nanoflake.",
+        "parametricShop": {
+            "price": 85,
+            "quantity": 1,
+            "monthlyLimits": [0, 0]
+        }
     },
     "30073": {
         "classifyType": "MATERIAL",
@@ -406,7 +556,17 @@
         "name": "Loxic Kohl",
         "rarity": 2,
         "sortId": 100030,
-        "usage": "A flaky organic compound. Can be used for a variety of upgrades and for production in the Factory."
+        "usage": "A flaky organic compound. Can be used for a variety of upgrades and for production in the Factory.",
+        "greenTicketShop": {
+            "price": 30,
+            "quantity": 1,
+            "monthlyLimits": [15, 0]
+        },
+        "parametricShop": {
+            "price": 40,
+            "quantity": 2,
+            "monthlyLimits": [0, 0]
+        }
     },
     "30074": {
         "classifyType": "MATERIAL",
@@ -420,7 +580,12 @@
         "name": "White Horse Kohl",
         "rarity": 3,
         "sortId": 100029,
-        "usage": "A flaky organic compound. Can be used for a variety of upgrades and the synthesis of Bipolar Nanoflake."
+        "usage": "A flaky organic compound. Can be used for a variety of upgrades and the synthesis of Bipolar Nanoflake.",
+        "parametricShop": {
+            "price": 65,
+            "quantity": 1,
+            "monthlyLimits": [0, 0]
+        }
     },
     "30083": {
         "classifyType": "MATERIAL",
@@ -429,7 +594,17 @@
         "name": "Manganese Ore",
         "rarity": 2,
         "sortId": 100032,
-        "usage": "A metal ore used for metallurgy. Can be used for a variety of upgrades and for production in the Factory."
+        "usage": "A metal ore used for metallurgy. Can be used for a variety of upgrades and for production in the Factory.",
+        "greenTicketShop": {
+            "price": 35,
+            "quantity": 1,
+            "monthlyLimits": [15, 0]
+        },
+        "parametricShop": {
+            "price": 45,
+            "quantity": 2,
+            "monthlyLimits": [0, 0]
+        }
     },
     "30084": {
         "classifyType": "MATERIAL",
@@ -443,7 +618,12 @@
         "name": "Manganese Trihydrate",
         "rarity": 3,
         "sortId": 100031,
-        "usage": "A metal ore used for metallurgy. Can be used for a variety of upgrades and the synthesis of D32 Steel."
+        "usage": "A metal ore used for metallurgy. Can be used for a variety of upgrades and the synthesis of D32 Steel.",
+        "parametricShop": {
+            "price": 80,
+            "quantity": 1,
+            "monthlyLimits": [0, 0]
+        }
     },
     "30093": {
         "classifyType": "MATERIAL",
@@ -452,7 +632,17 @@
         "name": "Grindstone",
         "rarity": 2,
         "sortId": 100034,
-        "usage": "A grindstone used to process weapon parts. Can be used for a variety of upgrades and for production in the Factory."
+        "usage": "A grindstone used to process weapon parts. Can be used for a variety of upgrades and for production in the Factory.",
+        "greenTicketShop": {
+            "price": 40,
+            "quantity": 1,
+            "monthlyLimits": [15, 0]
+        },
+        "parametricShop": {
+            "price": 50,
+            "quantity": 2,
+            "monthlyLimits": [0, 0]
+        }
     },
     "30094": {
         "classifyType": "MATERIAL",
@@ -466,7 +656,12 @@
         "name": "Grindstone Pentahydrate",
         "rarity": 3,
         "sortId": 100033,
-        "usage": "An advanced grindstone used in the finish machining of weapon parts. Can be used for a variety of upgrades and the synthesis of D32 Steel."
+        "usage": "An advanced grindstone used in the finish machining of weapon parts. Can be used for a variety of upgrades and the synthesis of D32 Steel.",
+        "parametricShop": {
+            "price": 75,
+            "quantity": 1,
+            "monthlyLimits": [0, 0]
+        }
     },
     "30103": {
         "classifyType": "MATERIAL",
@@ -475,7 +670,17 @@
         "name": "RMA70-12",
         "rarity": 2,
         "sortId": 100036,
-        "usage": "A sensitive mineral with high conductivity. Can be used for a variety of upgrades and for production in the Factory."
+        "usage": "A sensitive mineral with high conductivity. Can be used for a variety of upgrades and for production in the Factory.",
+        "greenTicketShop": {
+            "price": 45,
+            "quantity": 1,
+            "monthlyLimits": [10, 0]
+        },
+        "parametricShop": {
+            "price": 60,
+            "quantity": 2,
+            "monthlyLimits": [0, 0]
+        }
     },
     "30104": {
         "classifyType": "MATERIAL",
@@ -489,7 +694,12 @@
         "name": "RMA70-24",
         "rarity": 3,
         "sortId": 100035,
-        "usage": "A highly sensitive mineral with outstanding conductivity. Can be used for a variety of upgrades and the synthesis of D32 Steel."
+        "usage": "A highly sensitive mineral with outstanding conductivity. Can be used for a variety of upgrades and the synthesis of D32 Steel.",
+        "parametricShop": {
+            "price": 80,
+            "quantity": 1,
+            "monthlyLimits": [0, 0]
+        }
     },
     "30115": {
         "classifyType": "MATERIAL",
@@ -581,7 +791,17 @@
         "name": "Coagulating Gel",
         "rarity": 2,
         "sortId": 100028,
-        "usage": "A high-strength plastic material suitable. Can be used for a variety of upgrades and for synthesis projects in Factories."
+        "usage": "A high-strength plastic material suitable. Can be used for a variety of upgrades and for synthesis projects in Factories.",
+        "greenTicketShop": {
+            "price": 40,
+            "quantity": 1,
+            "monthlyLimits": [10, 10]
+        },
+        "parametricShop": {
+            "price": 50,
+            "quantity": 2,
+            "monthlyLimits": [0, 0]
+        }
     },
     "31014": {
         "classifyType": "MATERIAL",
@@ -595,7 +815,12 @@
         "name": "Polymerized Gel",
         "rarity": 3,
         "sortId": 100027,
-        "usage": "An extremely high-strength plastic material. Can be used for a variety of upgrades."
+        "usage": "An extremely high-strength plastic material. Can be used for a variety of upgrades.",
+        "parametricShop": {
+            "price": 65,
+            "quantity": 1,
+            "monthlyLimits": [0, 0]
+        }
     },
     "31023": {
         "classifyType": "MATERIAL",
@@ -604,7 +829,17 @@
         "name": "Incandescent Alloy",
         "rarity": 2,
         "sortId": 100026,
-        "usage": "A special alloy with a high melting point, commonly used in the electronics industry. Can be used for a variety of upgrades and for synthesis projects in Factories."
+        "usage": "A special alloy with a high melting point, commonly used in the electronics industry. Can be used for a variety of upgrades and for synthesis projects in Factories.",
+        "greenTicketShop": {
+            "price": 35,
+            "quantity": 1,
+            "monthlyLimits": [10, 10]
+        },
+        "parametricShop": {
+            "price": 40,
+            "quantity": 2,
+            "monthlyLimits": [0, 0]
+        }
     },
     "31024": {
         "classifyType": "MATERIAL",
@@ -618,7 +853,12 @@
         "name": "Incandescent Alloy Block",
         "rarity": 3,
         "sortId": 100025,
-        "usage": "A rarely-produced alloy with a high melting point, commonly used in the electronics industry. Can be used for a variety of upgrades."
+        "usage": "A rarely-produced alloy with a high melting point, commonly used in the electronics industry. Can be used for a variety of upgrades.",
+        "parametricShop": {
+            "price": 75,
+            "quantity": 1,
+            "monthlyLimits": [0, 0]
+        }
     },
     "31033": {
         "classifyType": "MATERIAL",
@@ -627,7 +867,17 @@
         "name": "Crystalline Component",
         "rarity": 2,
         "sortId": 100024,
-        "usage": "An important Originium industry material. Can be used for a variety of upgrades. Can be manufactured and assembled into more advanced Originium electric components."
+        "usage": "An important Originium industry material. Can be used for a variety of upgrades. Can be manufactured and assembled into more advanced Originium electric components.",
+        "greenTicketShop": {
+            "price": 30,
+            "quantity": 1,
+            "monthlyLimits": [10, 10]
+        },
+        "parametricShop": {
+            "price": 40,
+            "quantity": 2,
+            "monthlyLimits": [0, 0]
+        }
     },
     "31034": {
         "classifyType": "MATERIAL",
@@ -641,7 +891,12 @@
         "name": "Crystalline Circuit",
         "rarity": 3,
         "sortId": 100023,
-        "usage": "An important Originium industry material. Can be used for a variety of upgrades. A fundamental part of manufacturing Originium crystal assemblies."
+        "usage": "An important Originium industry material. Can be used for a variety of upgrades. A fundamental part of manufacturing Originium crystal assemblies.",
+        "parametricShop": {
+            "price": 90,
+            "quantity": 1,
+            "monthlyLimits": [0, 0]
+        }
     },
     "31043": {
         "classifyType": "MATERIAL",
@@ -650,7 +905,17 @@
         "name": "Semi-Synthetic Solvent",
         "rarity": 2,
         "sortId": 100022,
-        "usage": "An active solvent with excellent physical characteristics, and good resistance to acids and bases. Can be used in a variety of upgrades."
+        "usage": "An active solvent with excellent physical characteristics, and good resistance to acids and bases. Can be used in a variety of upgrades.",
+        "greenTicketShop": {
+            "price": 40,
+            "quantity": 1,
+            "monthlyLimits": [10, 10]
+        },
+        "parametricShop": {
+            "price": 50,
+            "quantity": 2,
+            "monthlyLimits": [0, 0]
+        }
     },
     "31044": {
         "classifyType": "MATERIAL",
@@ -664,7 +929,12 @@
         "name": "Refined Solvent",
         "rarity": 3,
         "sortId": 100021,
-        "usage": "A special coating made from a specific formulation process. Can be used for high level upgrades."
+        "usage": "A special coating made from a specific formulation process. Can be used for high level upgrades.",
+        "parametricShop": {
+            "price": 70,
+            "quantity": 1,
+            "monthlyLimits": [0, 0]
+        }
     },
     "3105": {
         "classifyType": "NORMAL",
@@ -681,7 +951,17 @@
         "name": "Compound Cutting Fluid",
         "rarity": 2,
         "sortId": 100020,
-        "usage": "An industrial agent necessary for metal processing. Can be used for a variety of upgrades."
+        "usage": "An industrial agent necessary for metal processing. Can be used for a variety of upgrades.",
+        "greenTicketShop": {
+            "price": 40,
+            "quantity": 1,
+            "monthlyLimits": [10, 10]
+        },
+        "parametricShop": {
+            "price": 50,
+            "quantity": 2,
+            "monthlyLimits": [0, 0]
+        }
     },
     "31054": {
         "classifyType": "MATERIAL",
@@ -695,7 +975,12 @@
         "name": "Cutting Fluid Solution",
         "rarity": 3,
         "sortId": 100019,
-        "usage": "A stock solution prepared from a variety of active solvents. Can be used for high level upgrades."
+        "usage": "A stock solution prepared from a variety of active solvents. Can be used for high level upgrades.",
+        "parametricShop": {
+            "price": 70,
+            "quantity": 1,
+            "monthlyLimits": [0, 0]
+        }
     },
     "31063": {
         "classifyType": "MATERIAL",
@@ -704,7 +989,17 @@
         "name": "Transmuted Salt",
         "rarity": 2,
         "sortId": 100018,
-        "usage": "A compound crystallization that has undergone low-tolerance refinement. Can be used in a variety of strengthening projects."
+        "usage": "A compound crystallization that has undergone low-tolerance refinement. Can be used in a variety of strengthening projects.",
+        "greenTicketShop": {
+            "price": 45,
+            "quantity": 1,
+            "monthlyLimits": [10, 10]
+        },
+        "parametricShop": {
+            "price": 55,
+            "quantity": 2,
+            "monthlyLimits": [0, 0]
+        }
     },
     "31064": {
         "classifyType": "MATERIAL",
@@ -718,7 +1013,12 @@
         "name": "Transmuted Salt Agglomerate",
         "rarity": 3,
         "sortId": 100017,
-        "usage": "A compound crystal mass that has undergone high-tolerance refinement. Used in a variety of strengthening projects, and is a common material in synthetic items at factories."
+        "usage": "A compound crystal mass that has undergone high-tolerance refinement. Used in a variety of strengthening projects, and is a common material in synthetic items at factories.",
+        "parametricShop": {
+            "price": 70,
+            "quantity": 1,
+            "monthlyLimits": [0, 0]
+        }
     },
     "31073": {
         "classifyType": "MATERIAL",
@@ -727,7 +1027,17 @@
         "name": "Fuscous Fiber",
         "rarity": 2,
         "sortId": 100016,
-        "usage": "A specialized fiber bundle, possessing high tensile strength and elastic modulus. Used in a variety of strengthening projects."
+        "usage": "A specialized fiber bundle, possessing high tensile strength and elastic modulus. Used in a variety of strengthening projects.",
+        "greenTicketShop": {
+            "price": 40,
+            "quantity": 1,
+            "monthlyLimits": [10, 10]
+        },
+        "parametricShop": {
+            "price": 55,
+            "quantity": 2,
+            "monthlyLimits": [0, 0]
+        }
     },
     "31074": {
         "classifyType": "MATERIAL",
@@ -741,7 +1051,12 @@
         "name": "Solidified Fiber Board",
         "rarity": 3,
         "sortId": 100015,
-        "usage": "A specialized fiber board, solidified in a mold. Used in a variety of strengthening projects."
+        "usage": "A specialized fiber board, solidified in a mold. Used in a variety of strengthening projects.",
+        "parametricShop": {
+            "price": 75,
+            "quantity": 1,
+            "monthlyLimits": [0, 0]
+        }
     },
     "31083": {
         "classifyType": "MATERIAL",
@@ -750,7 +1065,17 @@
         "name": "Aggregate Cyclicene",
         "rarity": 2,
         "sortId": 100014,
-        "usage": "A superlatively heat- and chemical-resistant industrial material. Used in a variety of strengthening projects."
+        "usage": "A superlatively heat- and chemical-resistant industrial material. Used in a variety of strengthening projects.",
+        "greenTicketShop": {
+            "price": 45,
+            "quantity": 1,
+            "monthlyLimits": [10, 10]
+        },
+        "parametricShop": {
+            "price": 60,
+            "quantity": 2,
+            "monthlyLimits": [0, 0]
+        }
     },
     "31084": {
         "classifyType": "MATERIAL",
@@ -764,7 +1089,12 @@
         "name": "Cyclicene Prefab",
         "rarity": 3,
         "sortId": 100013,
-        "usage": "A prefabricated industrial intermediate composed of multiple first-rate materials. Used in a variety of strengthening projects."
+        "usage": "A prefabricated industrial intermediate composed of multiple first-rate materials. Used in a variety of strengthening projects.",
+        "parametricShop": {
+            "price": 80,
+            "quantity": 1,
+            "monthlyLimits": [0, 0]
+        }
     },
     "31093": {
         "classifyType": "MATERIAL",
@@ -773,7 +1103,17 @@
         "name": "Coagulative Nodule",
         "rarity": 2,
         "sortId": 100012,
-        "usage": "A lab-made synthetic particle, boasting powerful adsorption properties. Can be used in a variety of strengthening projects."
+        "usage": "A lab-made synthetic particle, boasting powerful adsorption properties. Can be used in a variety of strengthening projects.",
+        "greenTicketShop": {
+            "price": 40,
+            "quantity": 1,
+            "monthlyLimits": [10, 10]
+        },
+        "parametricShop": {
+            "price": 50,
+            "quantity": 2,
+            "monthlyLimits": [0, 0]
+        }
     },
     "31094": {
         "classifyType": "MATERIAL",
@@ -787,7 +1127,12 @@
         "name": "Chiral Refractor",
         "rarity": 3,
         "sortId": 100011,
-        "usage": "A specialized material that displays useful optical qualities and other physical traits. Can be used for high level upgrades."
+        "usage": "A specialized material that displays useful optical qualities and other physical traits. Can be used for high level upgrades.",
+        "parametricShop": {
+            "price": 70,
+            "quantity": 1,
+            "monthlyLimits": [0, 0]
+        }
     },
     "31103": {
         "classifyType": "MATERIAL",
@@ -796,7 +1141,17 @@
         "name": "Liquefied High-Energy Gas",
         "rarity": 2,
         "sortId": 100010,
-        "usage": "A liquefied gas stored in a specialized metal canister. Can be used for a variety of upgrades and for production in the Factory."
+        "usage": "A liquefied gas stored in a specialized metal canister. Can be used for a variety of upgrades and for production in the Factory.",
+        "greenTicketShop": {
+            "price": 45,
+            "quantity": 1,
+            "monthlyLimits": [10, 10]
+        },
+        "parametricShop": {
+            "price": 55,
+            "quantity": 2,
+            "monthlyLimits": [0, 0]
+        }
     },
     "31104": {
         "classifyType": "MATERIAL",
@@ -810,7 +1165,12 @@
         "name": "Liquefied Ether Adsorbent",
         "rarity": 3,
         "sortId": 100009,
-        "usage": "An organic compound synthesized via a complex process. Can be used for a variety of upgrades."
+        "usage": "An organic compound synthesized via a complex process. Can be used for a variety of upgrades.",
+        "parametricShop": {
+            "price": 75,
+            "quantity": 1,
+            "monthlyLimits": [0, 0]
+        }
     },
     "31113": {
         "classifyType": "MATERIAL",
@@ -819,7 +1179,17 @@
         "name": "Electrode Unit",
         "rarity": 2,
         "sortId": 100008,
-        "usage": "An industrial material that possesses high electrical stability and anti-corrosive properties. Can be used for a variety of upgrades and for production in the factory."
+        "usage": "An industrial material that possesses high electrical stability and anti-corrosive properties. Can be used for a variety of upgrades and for production in the factory.",
+        "greenTicketShop": {
+            "price": 40,
+            "quantity": 1,
+            "monthlyLimits": [10, 10]
+        },
+        "parametricShop": {
+            "price": 50,
+            "quantity": 2,
+            "monthlyLimits": [0, 0]
+        }
     },
     "31114": {
         "classifyType": "MATERIAL",
@@ -833,7 +1203,12 @@
         "name": "Energy Accumulation Motor Unit",
         "rarity": 3,
         "sortId": 100007,
-        "usage": "A motor that has undergone a specialized design process and a change in materials. Can be used for a variety of upgrades."
+        "usage": "A motor that has undergone a specialized design process and a change in materials. Can be used for a variety of upgrades.",
+        "parametricShop": {
+            "price": 80,
+            "quantity": 1,
+            "monthlyLimits": [0, 0]
+        }
     },
     "3112": {
         "classifyType": "NORMAL",
@@ -1167,7 +1542,12 @@
         "name": "Skill Summary - 2",
         "rarity": 2,
         "sortId": 80002,
-        "usage": "A book that records intermediate tactics. Can be used to upgrade Operator skills."
+        "usage": "A book that records intermediate tactics. Can be used to upgrade Operator skills.",
+        "greenTicketShop": {
+            "price": 20,
+            "quantity": 3,
+            "monthlyLimits": [15, 15]
+        }
     },
     "3303": {
         "classifyType": "MATERIAL",

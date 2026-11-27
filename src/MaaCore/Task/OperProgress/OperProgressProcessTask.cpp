@@ -9,19 +9,24 @@
 #include "Config/GeneralConfig.h"
 #include "Config/Miscellaneous/BattleDataConfig.h"
 #include "Config/Miscellaneous/InfrastConfig.h"
+#include "Config/Miscellaneous/ItemConfig.h"
 #include "Config/TaskData.h"
 #include "Controller/Controller.h"
 #include "MaaUtils/NoWarningCV.hpp"
 #include "Task/Infrast/InfrastScore.h"
 #include "Task/MiniGame/MaterialSynthesisTaskPlugin.h"
+#include "Task/OperProgress/MaterialReplenishTask.h"
 #include "Task/OperProgress/OperProgressFormation.h"
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
 #include "Utils/StringMisc.hpp"
 #include "Vision/BestMatcher.h"
+#include "Vision/FeatureMatcher.h"
 #include "Vision/Hasher.h"
 #include "Vision/Infrast/InfrastOperImageAnalyzer.h"
+#include "Vision/Miscellaneous/MaterialSynthesisImageAnalyzer.h"
 #include "Vision/MultiMatcher.h"
+#include "Vision/OCRer.h"
 #include "Vision/Oper/OperBoxImageAnalyzer.h"
 #include "Vision/Oper/OperFilesImageAnalyzer.h"
 #include "Vision/Oper/OperNameAnalyzer.h"
@@ -124,6 +129,7 @@ bool asst::OperProgressProcessTask::_run()
     bool training_room_busy = false;
     for (size_t index = 0; index < m_plan.size() && !need_exit(); ++index) {
         const auto& target = m_plan[index];
+        m_material_recovery_failed = false;
 
         if (training_room_busy && !target.elite && !target.skill_level && target.skill_mastery) {
             continue; // 训练室已占用且无其他目标, 跳过仅专精计划
@@ -142,13 +148,24 @@ bool asst::OperProgressProcessTask::_run()
             callback(AsstMsg::SubTaskExtraInfo, info);
             continue;
         }
+        const auto recover = [&] {
+            return find_and_open_operator(target.role, target.name);
+        };
         if (target.elite) {
-            auto elite_ret = execute_elite(target.role, target.name, *target.elite);
+            auto elite_ret = execute_with_material_purchase(recover, [&] {
+                return execute_elite(target.role, target.name, *target.elite);
+            });
             report_elite_result(target.role, target.name, elite_ret, *target.elite);
+            if (need_exit() || m_material_recovery_failed) {
+                continue;
+            }
         }
         if (target.skill_level) {
-            auto main_ret = execute_skill(*target.skill_level);
+            auto main_ret = execute_with_material_purchase(recover, [&] { return execute_skill(*target.skill_level); });
             report_skill_result(target.role, target.name, main_ret, *target.skill_level);
+            if (need_exit() || m_material_recovery_failed) {
+                continue;
+            }
         }
         if (!training_room_busy && target.skill_mastery) {
             const auto& arr = *target.skill_mastery;
@@ -157,13 +174,18 @@ bool asst::OperProgressProcessTask::_run()
                     continue;
                 }
                 int training_level = 0;
-                auto skill_ret = execute_mastery(target.role, target.name, i + 1, arr[i], training_level);
+                auto skill_ret = execute_with_material_purchase(recover, [&] {
+                    return execute_mastery(target.role, target.name, i + 1, arr[i], training_level);
+                });
                 std::array<int, 3> skill_levels { 0, 0, 0 };
                 if (skill_ret == ResultDetail::AlreadySatisfied || skill_ret == ResultDetail::Completed ||
                     skill_ret == ResultDetail::PrerequisiteTraining || skill_ret == ResultDetail::TrainingRoomBusy) {
                     skill_levels[i] = training_level;
                 }
                 report_skill_result(target.role, target.name, skill_ret, skill_levels);
+                if (need_exit() || m_material_recovery_failed) {
+                    break;
+                }
                 if (skill_ret == ResultDetail::TrainingRoomBusy || skill_ret == ResultDetail::PrerequisiteTraining ||
                     skill_ret == ResultDetail::Completed) {
                     training_room_busy = true;
@@ -174,6 +196,57 @@ bool asst::OperProgressProcessTask::_run()
     }
     report_summary();
     return true;
+}
+
+asst::OperProgressProcessTask::ResultDetail asst::OperProgressProcessTask::execute_with_material_purchase(
+    const std::function<ResultDetail()>& recover,
+    const std::function<ResultDetail()>& execute)
+{
+    m_exhausted_materials.clear();
+    std::unordered_map<std::string, int> previous_shortfalls;
+    while (!need_exit()) {
+        m_material_shortfall.reset();
+        m_material_shortfall_context.clear();
+        const ResultDetail result = execute();
+        if (!m_purchase_options.enabled() ||
+            (result != ResultDetail::ResourceInsufficient && result != ResultDetail::FormulaLocked) ||
+            !m_material_shortfall) {
+            return result;
+        }
+        const auto [item_id, count] = *m_material_shortfall;
+        if (!m_purchase_options.can_buy(item_id) || m_exhausted_materials.contains(item_id)) {
+            return result;
+        }
+        const auto context = m_step_context + ":" + m_material_shortfall_context + ":" + item_id;
+        if (const auto previous = previous_shortfalls.find(context);
+            previous != previous_shortfalls.end() && count >= previous->second) {
+            LogWarn << __FUNCTION__ << "material shortfall did not decrease after purchase" << context << count;
+            return ResultDetail::ResourceInsufficient;
+        }
+        MaterialReplenishTask shopping(m_callback, m_inst, m_task_chain, item_id, count, m_purchase_options);
+        shopping.set_task_id(m_task_id);
+        shopping.run();
+        const auto purchased = shopping.get_acquired();
+        if (need_exit()) {
+            return ResultDetail::Interrupt;
+        }
+        // 无论购买成败都恢复培养页面，避免后续动作从商店开始。
+        const auto located = recover();
+        if (located != ResultDetail::Completed) {
+            m_material_recovery_failed = true;
+            LogWarn << __FUNCTION__ << "failed to restore development page after material purchase";
+            return located;
+        }
+        if (!purchased) {
+            return ResultDetail::ResourceInsufficient;
+        }
+        if (*purchased < count) {
+            // 来源已确认用尽：重新合成并识别缺口，允许直接补齐其上层材料。
+            m_exhausted_materials.emplace(item_id);
+        }
+        previous_shortfalls[context] = count;
+    }
+    return ResultDetail::Interrupt;
 }
 
 asst::OperProgressProcessTask::ResultDetail
@@ -282,6 +355,7 @@ asst::OperProgressProcessTask::ResultDetail
     }
 
     for (int phase = current_elite; phase < target; ++phase) {
+        m_step_context = "Elite:" + std::to_string(phase + 1);
         if (need_exit()) {
             return ResultDetail::Interrupt;
         }
@@ -392,6 +466,7 @@ asst::OperProgressProcessTask::ResultDetail asst::OperProgressProcessTask::execu
         return ResultDetail::RecognitionFailed;
     }
     for (int level = current + 1; level <= target; ++level) {
+        m_step_context = "Skill:" + std::to_string(level);
         if (need_exit()) {
             return ResultDetail::Interrupt;
         }
@@ -579,6 +654,7 @@ asst::OperProgressProcessTask::ResultDetail asst::OperProgressProcessTask::execu
     if (!run_task("OperProgress@MasterySelectSkill" + std::to_string(skill))) {
         return ResultDetail::RecognitionFailed;
     }
+    m_step_context = "Mastery:" + std::to_string(skill) + ":" + std::to_string(current_level + 1);
 
     // 选定受训干员与技能后确认面板展示材料行；逐槽检测（同 execute_elite 槽位分派）：
     // 技能书/材料1/材料2 依次跳加工站走自动合成,全部修复后复核仍缺料则不启动专精。
@@ -1065,10 +1141,42 @@ asst::OperProgressProcessTask::ResultDetail
 
     const std::string material_task =
         "OperProgress@" + std::string(task_type_name) + "Material" + std::to_string(material_index);
+    const bool replenish = m_purchase_options.enabled();
+    if (replenish) {
+        const auto image = ctrler()->get_image();
+        const auto slot = Task.get(material_task);
+        const auto required = Task.get(
+            material_index == 0 ? "OperProgress@" + std::string(task_type_name) + "SkillSummaryRequired"
+                                : material_task + "Required");
+        const auto item_task = Task.get<MatchTaskInfo>("OperProgress@RefillMaterialItem");
+        const auto quantity_task = Task.get<OcrTaskInfo>("OperProgress@RefillMaterialQuantity");
+        if (slot && required && item_task && quantity_task && item_task->special_params.size() >= 2) {
+            const auto item_roi = slot->specific_rect.center_zoom(item_task->special_params[1], image.cols, image.rows);
+            const auto& size = quantity_task->roi;
+            const Rect quantity_roi {
+                slot->specific_rect.x + (slot->specific_rect.width - size.width) / 2,
+                required->roi.y + (required->roi.height - size.height) / 2,
+                size.width,
+                size.height,
+            };
+            const auto missing = MaterialSynthesisImageAnalyzer::observe_missing_material(
+                image,
+                "OperProgress@RefillMaterial",
+                ItemData.get_ordered_material_item_id(),
+                item_roi,
+                quantity_roi);
+            if (missing) {
+                m_material_shortfall = { missing->item_id, missing->required - missing->owned };
+                m_material_shortfall_context = material_task;
+                if (ItemData.get_item_formula(missing->item_id).empty()) {
+                    return ResultDetail::ResourceInsufficient;
+                }
+            }
+        }
+    }
     if (!run_task(material_task)) {
         return ResultDetail::ResourceInsufficient;
     }
-    // TODO: 以后加上识别缺口数量后上报、自动使用兑换券或者去凭证商店补购
     // 快速跳转弹窗内与跳转按钮同 roi 识别到不可用态,说明该材料配方尚未解锁,无法在加工站合成。
     if (run_task(material_task + "JumpProcessingUnable", 2)) {
         LogInfo << __FUNCTION__ << "| formula locked, skip synthesizing" << material_task;
@@ -1080,9 +1188,22 @@ asst::OperProgressProcessTask::ResultDetail
     // 加工站递归合成复用小游戏自动合成逻辑：插件入口校验加工站标志并驱动当前配方。
     MaterialSynthesisTaskPlugin synthesis(m_callback, m_inst, m_task_chain);
     synthesis.set_task_id(m_task_id).set_retry_times(0);
+    if (replenish) {
+        synthesis.set_purchasable_material([this](const std::string& id) {
+            return !m_exhausted_materials.contains(id) && m_purchase_options.can_buy(id);
+        });
+    }
+    // 合成可能已经产出一部分材料，之后只能使用合成现场重新确认的缺口。
+    m_material_shortfall.reset();
     if (!synthesis.run()) {
+        const auto& shortfall = synthesis.get_material_shortfall();
+        if (shortfall && m_purchase_options.can_buy(shortfall->first)) {
+            m_material_shortfall = shortfall;
+            m_material_shortfall_context = material_task + ":" + synthesis.get_material_shortfall_context();
+        }
         return ResultDetail::ResourceInsufficient;
     }
+    m_material_shortfall.reset();
     return run_task("OperProgress@ReturnTo" + std::string(task_type_name) + "Page")
                ? ResultDetail::Completed
                : ResultDetail::ResourceInsufficient;

@@ -515,6 +515,8 @@ bool run_parallel_tasks(
 
 bool update_items_data(const fs::path& input_dir, const fs::path& output_dir, bool with_imgs)
 {
+    // Shop prices and quotas are curated item attributes, not supplied by item_table.json.
+    const auto previous_items = json::open(output_dir / "item_index.json");
     const auto input_excel_dir = with_imgs ? input_dir / "gamedata" / "excel" : input_dir;
     const auto input_json_path = input_excel_dir / "item_table.json";
 
@@ -622,7 +624,7 @@ bool update_items_data(const fs::path& input_dir, const fs::path& output_dir, bo
         }
 
         for (const auto& black : BlackListSuffix) {
-            if (std::equal(black.rbegin(), black.rend(), item_id.rbegin())) {
+            if (item_id.ends_with(black)) {
                 is_blacklist = true;
                 break;
             }
@@ -654,6 +656,13 @@ bool update_items_data(const fs::path& input_dir, const fs::path& output_dir, bo
         output["description"] = item_info["description"];
         output["sortId"] = item_info["sortId"];
         output["classifyType"] = item_info["classifyType"];
+        if (previous_items && previous_items->contains(item_id)) {
+            for (const auto* key : { "greenTicketShop", "parametricShop" }) {
+                if (const auto shop = previous_items->at(item_id).find_value(key)) {
+                    output[key] = *shop;
+                }
+            }
+        }
         if (rarity_item_ids.contains(item_id)) {
             // Official rarity is an integer, overseas is a "TIER_n" string; ItemConfig reads integers only.
             const auto& rarity = item_info["rarity"];

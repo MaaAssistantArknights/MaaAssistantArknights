@@ -33,6 +33,14 @@ public class OperProgressTask : BaseTask
 
     public List<Plan> Plans { get; set; } = [];
 
+    public bool BuyMaterialsWithGreenTickets { get; set; }
+
+    public bool BuyMaterialsWithParametricModels { get; set; }
+
+    public bool? AutoReplenishMaterials { get; set; }
+
+    public List<MaterialPurchaseSourceOption>? MaterialPurchaseSources { get; set; }
+
     public record Plan(OperatorRole Role, string Name, int Elite, int SkillLevel, SkillMastery SkillMastery, bool ShowRole);
 
     /// <summary>
