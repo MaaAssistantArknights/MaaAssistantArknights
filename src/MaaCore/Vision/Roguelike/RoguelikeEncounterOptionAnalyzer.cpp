@@ -7,6 +7,12 @@
 #include "Utils/Logger.hpp"
 #include "Vision/RegionOCRer.h"
 
+bool asst::RoguelikeEncounterOptionAnalyzer::supports_theme(std::string_view theme)
+{
+    return theme == RoguelikeTheme::Phantom || theme == RoguelikeTheme::Mizuki || theme == RoguelikeTheme::Sami ||
+           theme == RoguelikeTheme::Sarkaz || theme == RoguelikeTheme::JieGarden || theme == RoguelikeTheme::BlackFlow;
+}
+
 bool asst::RoguelikeEncounterOptionAnalyzer::analyze()
 {
     LogTraceFunction;
@@ -19,7 +25,7 @@ bool asst::RoguelikeEncounterOptionAnalyzer::analyze()
         return false;
     }
 
-    if (m_theme != RoguelikeTheme::JieGarden && m_theme != RoguelikeTheme::BlackFlow) [[unlikely]] {
+    if (!supports_theme(m_theme)) [[unlikely]] {
         Log.error(__FUNCTION__, std::format("| Unsupported roguelike theme: {}; failed to analyze", m_theme));
         return false;
     }
@@ -113,7 +119,7 @@ std::optional<int> asst::RoguelikeEncounterOptionAnalyzer::merge_image(const cv:
         return std::nullopt;
     }
 
-    if (m_theme != RoguelikeTheme::JieGarden && m_theme != RoguelikeTheme::BlackFlow) {
+    if (!supports_theme(m_theme)) {
         Log.error(__FUNCTION__, std::format("| Unsupported roguelike theme: {}; failed to merge images", m_theme));
         return std::nullopt;
     }
@@ -220,7 +226,7 @@ void asst::RoguelikeEncounterOptionAnalyzer::set_theme(const std::string& theme)
         return;
     }
 
-    if (theme != RoguelikeTheme::JieGarden && theme != RoguelikeTheme::BlackFlow) {
+    if (!supports_theme(theme)) {
         Log.error(
             __FUNCTION__,
             std::format("| Unsupported roguelike theme: {}; failed to set theme; reverting to {}", theme, m_theme));
@@ -247,7 +253,7 @@ asst::Matcher::ResultOpt asst::RoguelikeEncounterOptionAnalyzer::match_option(
         return std::nullopt;
     }
 
-    if (theme != RoguelikeTheme::JieGarden && theme != RoguelikeTheme::BlackFlow) [[unlikely]] {
+    if (!supports_theme(theme)) [[unlikely]] {
         Log.error(__FUNCTION__, std::format("| Unsupported roguelike theme: {}; failed to match option", theme));
         return std::nullopt;
     }

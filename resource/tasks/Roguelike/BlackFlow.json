@@ -2297,18 +2297,6 @@
     "BlackFlow@Roguelike@TodoEnter": {
         "template": "BlackFlow@Roguelike@TodoEnter.png"
     },
-    "BlackFlow@RoguelikeEncounter-InitialMoveUp": {
-        "baseTask": "JieGarden@RoguelikeEncounter-InitialMoveUp",
-        "Doc": "将事件选项列表移动到顶部。"
-    },
-    "BlackFlow@RoguelikeEncounter-MoveDown": {
-        "baseTask": "JieGarden@RoguelikeEncounter-MoveDown",
-        "Doc": "向后扫描事件选项列表。"
-    },
-    "BlackFlow@RoguelikeEncounter-MoveUp": {
-        "baseTask": "JieGarden@RoguelikeEncounter-MoveUp",
-        "Doc": "向前返回事件选项列表。"
-    },
     "BlackFlow@RoguelikeEncounterOptionAnalyzer-Option": {
         "Doc": ["匹配事件选项时用于 Matcher。", "specificRect 用于截取单个事件选项。"],
         "template": "empty.png",

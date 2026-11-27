@@ -206,8 +206,8 @@ std::optional<std::string> asst::RoguelikeStageEncounterTaskPlugin::handle_singl
         return select_blackflow_option(event, choose_option);
     }
 
-    // 界园只操作本次识别的选项，失败后结束当前事件处理。
-    if (theme == RoguelikeTheme::JieGarden) {
+    // 只操作本次识别的选项，失败后结束当前事件处理。
+    if (OptionAnalyzer::supports_theme(theme)) {
         reset_option_list_and_view_data();
         if (update_option_list()) {
             if (const auto selected = select_event_option(plan_from_event(event, choose_option), event.name)) {
@@ -715,8 +715,9 @@ bool asst::RoguelikeStageEncounterTaskPlugin::click_analyzed_option(size_t index
     }
 
     LogInfo << __FUNCTION__ << "Clicking option" << index + 1 << m_option_list[index].text;
-    if (m_config->get_theme() == RoguelikeTheme::JieGarden) {
-        Rect click_rect = Task.get("JieGarden@RoguelikeEncounter-ClickOption")->specific_rect;
+    const std::string& theme = m_config->get_theme();
+    if (theme != RoguelikeTheme::BlackFlow) {
+        Rect click_rect = Task.get(theme + "@RoguelikeEncounter-ClickOption")->specific_rect;
         click_rect.y = m_option_y_in_view[index];
         return ctrler()->click(click_rect);
     }
