@@ -51,25 +51,12 @@ bool asst::RoguelikeIterateMonthlySquadPlugin::_run()
 
     m_completed = true;
     const int monthly_squad_count = monthlySquadCount[m_config->get_theme()];
-    if (monthly_squad_count > 0) {
-        ProcessTask(*this, { m_config->get_theme() + "@Roguelike@MonthlySquad" }).run();
-    }
+    const bool squad_page_opened =
+        monthly_squad_count > 0 && ProcessTask(*this, { m_config->get_theme() + "@Roguelike@MonthlySquad" }).run();
 
-    if (!m_iterateMS) {
-        if (is_monthly_squad_reward_completed()) {
-            LogInfo << __FUNCTION__ << "current monthly squad reward completed, finishing Roguelike task";
-            m_task_ptr->set_enable(false);
-            return true;
-        }
-        m_monthly_squad_index = recognize_monthly_squad_index();
-        update_monthly_squad_task();
-        apply_monthly_squad_task_strategy();
-        return true;
-    }
-
-    for (int i = 0; i < monthly_squad_count; i++) {
+    const int squads_to_check = m_iterateMS ? monthly_squad_count : 1;
+    for (int i = 0; i < squads_to_check; i++) {
         m_monthly_squad_index = recognize_monthly_squad_index(i > 0);
-        const bool reward_completed = m_checkComms && is_monthly_squad_reward_completed();
         if (m_use_legacy_monthly_squad_logic && m_legacy_monthly_squad_index.has_value() &&
             m_monthly_squad_index.has_value() && m_legacy_monthly_squad_index != m_monthly_squad_index) {
             m_use_legacy_monthly_squad_logic = false;
@@ -81,6 +68,24 @@ bool asst::RoguelikeIterateMonthlySquadPlugin::_run()
         else {
             update_monthly_squad_task();
             apply_monthly_squad_task_strategy();
+        }
+
+        auto& task = m_config->get_monthly_squad_task();
+        const bool recheck_count = task && task->required_count > 0 && task->completed_count >= task->required_count &&
+                                   (m_monthly_squad_index || (squad_page_opened && task->squad_key == "default"));
+        const bool reward_completed =
+            (!m_iterateMS || m_checkComms || recheck_count) && is_monthly_squad_reward_completed();
+        if (recheck_count && !reward_completed && !need_exit()) {
+            LogWarn << __FUNCTION__ << "monthly squad reward incomplete, resetting local progress:"
+                    << task->theme << task->squad_key << task->completed_count << "/" << task->required_count;
+            task->completed_count = 0;
+        }
+        if (!m_iterateMS) {
+            if (reward_completed) {
+                LogInfo << __FUNCTION__ << "current monthly squad reward completed, finishing Roguelike task";
+                m_task_ptr->set_enable(false);
+            }
+            return true;
         }
         if (m_checkComms) {
             ProcessTask(*this, { m_config->get_theme() + "@Roguelike@MonthlySquadComms" }).run();
