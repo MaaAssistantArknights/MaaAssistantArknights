@@ -3956,9 +3956,12 @@
         "next": ["CloseCluePage", "InfrastClueFriendNew", "ReceptionFlag"]
     },
     "UnlockClues": {
+        "method": "RGBCount",
+        "colorScales": [[200, 255]],
+        "pureColor": true,
+        "templThreshold": 0.75,
+        "roi": [550, 614, 264, 70],
         "action": "ClickSelf",
-        "templThreshold": 0.9,
-        "roi": [200, 600, 700, 120],
         "postDelay": 5000,
         "next": ["UnlockCluesIsFake", "InfrastBottomLeftTab"]
     },
