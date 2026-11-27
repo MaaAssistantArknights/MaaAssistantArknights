@@ -6,6 +6,38 @@
                 "resource/global/**/resource/tasks/**/*.json",
             ],
             "url": "./docs/maa_tasks_schema.json"
+        },
+        {
+            "fileMatch": ["resource/config.json"],
+            "url": "./docs/schema/config.schema.json"
+        },
+        {
+            "fileMatch": ["resource/infrast.json"],
+            "url": "./docs/schema/infrast.schema.json"
+        },
+        {
+            "fileMatch": ["resource/battle_data.json"],
+            "url": "./docs/schema/battle_data.schema.json"
+        },
+        {
+            "fileMatch": ["resource/stages.json"],
+            "url": "./docs/schema/stages.schema.json"
+        },
+        {
+            "fileMatch": ["resource/item_index.json", "resource/global/**/resource/item_index.json"],
+            "url": "./docs/schema/item_index.schema.json"
+        },
+        {
+            "fileMatch": ["resource/ocr_config.json", "resource/global/**/resource/ocr_config.json"],
+            "url": "./docs/schema/ocr_config.schema.json"
+        },
+        {
+            "fileMatch": ["resource/recruitment.json", "resource/global/**/resource/recruitment.json"],
+            "url": "./docs/schema/recruitment.schema.json"
+        },
+        {
+            "fileMatch": ["resource/version.json", "resource/global/**/resource/version.json"],
+            "url": "./docs/schema/version.schema.json"
         }
     ],
     "files.exclude": {

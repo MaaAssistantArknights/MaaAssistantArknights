@@ -1,0 +1,49 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "MaaCore resource/stages.json",
+    "description": "Stage drop table used for drop accounting and item recognition. Multilingual, one version shared by all clients.",
+    "type": "array",
+    "items": { "$ref": "#/definitions/stage" },
+    "definitions": {
+        "stage": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["apCost", "code", "dropInfos", "stageId"],
+            "properties": {
+                "apCost": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "description": "Sanity cost."
+                },
+                "code": {
+                    "type": "string",
+                    "description": "UI-visible code, e.g. `3-10`."
+                },
+                "stageId": {
+                    "type": "string",
+                    "description": "Internal stage id, as used by map sites and Penguin Statistics."
+                },
+                "dropInfos": {
+                    "type": "array",
+                    "description": "Possible drops.",
+                    "items": { "$ref": "#/definitions/drop" }
+                }
+            }
+        },
+        "drop": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["dropType", "itemId"],
+            "properties": {
+                "dropType": {
+                    "type": "string",
+                    "enum": ["EXTRA_DROP", "NORMAL_DROP", "SPECIAL_DROP", "FURNITURE"]
+                },
+                "itemId": {
+                    "type": "string",
+                    "description": "Item id from `resource/item_index.json`, or `furni` for furniture drops."
+                }
+            }
+        }
+    }
+}

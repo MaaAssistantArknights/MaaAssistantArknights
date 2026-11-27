@@ -1,0 +1,308 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "MaaCore resource/config.json",
+    "description": "Connection and runtime options for MaaCore. Some controller behavior is selected by the connection `configName` instead of by fields in this file; see the `configName` description.",
+    "type": "object",
+    "additionalProperties": false,
+    "required": ["version", "options", "packageName", "connection"],
+    "properties": {
+        "version": {
+            "type": "string",
+            "description": "Format version of this file. Currently `1.0`."
+        },
+        "options": { "$ref": "#/definitions/options" },
+        "packageName": {
+            "type": "object",
+            "description": "Package name of the game client for each package type.",
+            "additionalProperties": false,
+            "properties": {
+                "Official": { "$ref": "#/definitions/string" },
+                "Bilibili": { "$ref": "#/definitions/string" },
+                "YoStarEN": { "$ref": "#/definitions/string" },
+                "YoStarJP": { "$ref": "#/definitions/string" },
+                "YoStarKR": { "$ref": "#/definitions/string" },
+                "txwy": { "$ref": "#/definitions/string" }
+            }
+        },
+        "connection": {
+            "type": "array",
+            "description": "Available connection configurations. Each entry describes either a complete controller setup or, when `baseConfig` is set, an override of another entry.",
+            "minItems": 1,
+            "items": { "$ref": "#/definitions/connection" }
+        }
+    },
+    "definitions": {
+        "string": { "type": "string" },
+        "options": {
+            "type": "object",
+            "description": "Runtime options shared by all controllers.",
+            "required": [
+                "taskDelay",
+                "SSSFightScreencapInterval",
+                "RoguelikeFightScreencapInterval",
+                "CopilotFightScreencapInterval",
+                "controlDelayRange"
+            ],
+            "additionalProperties": false,
+            "patternProperties": {
+                "_Doc$": {
+                    "type": "string",
+                    "description": "Human-readable note for the sibling option."
+                }
+            },
+            "properties": {
+                "taskDelay": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "description": "Image recognition delay (ms). Lower means more responsive but more CPU intensive. Default `500`."
+                },
+                "SSSFightScreencapInterval": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "description": "Minimal interval (ms) between two SSS fight screencaps. Default `16` (~60fps)."
+                },
+                "RoguelikeFightScreencapInterval": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "description": "Minimal interval (ms) between two Roguelike fight screencaps. Default `100`."
+                },
+                "CopilotFightScreencapInterval": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "description": "Minimal interval (ms) between two screencaps for all other copilot fights. Default `16` (~60fps)."
+                },
+                "battleStartTimeoutSeconds": {
+                    "type": "integer",
+                    "minimum": 10,
+                    "maximum": 300,
+                    "description": "Maximum time (s) to wait for a battle to start. Default `60`."
+                },
+                "controlDelayRange": {
+                    "type": "array",
+                    "description": "Random delay (ms) added before each control action, to evade detection. Format `[minimum, maximum]`. Default `[0, 0]` (no delay).",
+                    "minItems": 2,
+                    "maxItems": 2,
+                    "items": { "type": "integer", "minimum": 0 }
+                },
+                "adbExtraSwipeDist": {
+                    "type": "number",
+                    "description": "Extra swipe distance (px) used to work around an ADB bug where swipes occasionally overshoot. Default `100`."
+                },
+                "adbExtraSwipeDuration": {
+                    "type": "number",
+                    "description": "Duration (ms) of the extra ADB swipe. A negative value disables the extra swipe. Default `500`."
+                },
+                "adbSwipeDurationMultiplier": {
+                    "type": "number",
+                    "description": "Multiplier applied to ADB swipe duration. Default `10.0`."
+                },
+                "adbSwipeXDistanceMultiplier": {
+                    "type": "number",
+                    "description": "Multiplier applied to ADB swipe horizontal distance. Default `0.8`."
+                },
+                "minitouchSwipeDefaultDuration": {
+                    "type": "number",
+                    "description": "Default Minitouch swipe duration (ms). Default `200`."
+                },
+                "minitouchSwipeExtraEndDelay": {
+                    "type": "number",
+                    "description": "Extra delay (ms) added to the end of a Minitouch swipe. Default `150`."
+                },
+                "minitouchExtraSwipeDist": {
+                    "type": "number",
+                    "description": "Extra Minitouch swipe distance (px). Default `100`."
+                },
+                "minitouchExtraSwipeDuration": {
+                    "type": "number",
+                    "description": "Duration (ms) of the extra Minitouch swipe. Default `200`."
+                },
+                "minitouchProgramsOrder": {
+                    "type": "array",
+                    "description": "Search order for the Minitouch program. Default `[\"x86_64\", \"x86\", \"arm64-v8a\", \"armeabi-v7a\", \"armeabi\"]`.",
+                    "items": { "type": "string" }
+                },
+                "swipeWithPauseRequiredDistance": {
+                    "type": "number",
+                    "description": "Minimum distance (px) of a deployment swipe required to trigger a pause. Default `20`."
+                },
+                "penguinReport": {
+                    "type": "object",
+                    "description": "Penguin Logistics report settings (https://penguin-stats.cn/).",
+                    "additionalProperties": false,
+                    "patternProperties": {
+                        "_Doc$": { "$ref": "#/definitions/string" }
+                    },
+                    "properties": {
+                        "Doc": { "$ref": "#/definitions/string" },
+                        "url": {
+                            "type": "string",
+                            "description": "Report API endpoint. Default `\"https://penguin-stats.io/PenguinStats/api/v2/report\"`."
+                        }
+                    }
+                },
+                "yituliuReport": {
+                    "type": "object",
+                    "description": "Yituliu report settings (https://ark.yituliu.cn/survey/maarecruitdata).",
+                    "additionalProperties": false,
+                    "patternProperties": {
+                        "_Doc$": { "$ref": "#/definitions/string" }
+                    },
+                    "properties": {
+                        "Doc": { "$ref": "#/definitions/string" },
+                        "recruitUrl": {
+                            "type": "string",
+                            "description": "Recruitment data upload endpoint. Default `\"https://backend.yituliu.cn/maa/upload/recruit\"`."
+                        },
+                        "dropUrl": {
+                            "type": "string",
+                            "description": "Stage drop data upload endpoint. Default `\"https://backend.yituliu.cn/maa/upload/stageDrop\"`."
+                        }
+                    }
+                },
+                "debug": {
+                    "type": "object",
+                    "description": "Debug image dumping settings.",
+                    "additionalProperties": false,
+                    "patternProperties": {
+                        "_Doc$": { "$ref": "#/definitions/string" }
+                    },
+                    "properties": {
+                        "cleanFilesFreq": {
+                            "type": "integer",
+                            "minimum": 1,
+                            "description": "Run `save_debug_image` cleanup every N saves. Default `5`."
+                        },
+                        "maxDebugFileNum": {
+                            "type": "integer",
+                            "minimum": 1,
+                            "description": "Maximum number of debug images to keep. Default `10`."
+                        }
+                    }
+                }
+            }
+        },
+        "connection": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["configName"],
+            "properties": {
+                "configName": {
+                    "type": "string",
+                    "description": "Name of this connection configuration. Most controllers read the fields below, but a few also special-case specific names:\n\n- `DEBUG`: pseudo configuration available only in `ASST_DEBUG` builds.\n- `AVD`: handled in MaaFwAdbController; decides whether ADB extras are passed to `MaaAdbControlUnitCreate`.\n- `MuMuEmulator12`: handled in `AdbController::init_mumu_extras`.\n- `LDPlayer`: handled in `AdbController::init_ld_extras`.\n- `MacBGR`: not a config.json entry. `PlayToolsController::connect` asks PlayCover for BGR screenshots, which are smaller.\n- `MacSCK`: not a config.json entry. `PlayToolsController::connect` captures with the system ScreenCaptureKit instead of through PlayCover.\n- Any other name used with PlayTools keeps the default PlayCover RGBA screenshot."
+                },
+                "baseConfig": {
+                    "type": "string",
+                    "description": "Inherit all fields from the connection entry with this `configName`, then override them with the fields below."
+                },
+                "devices": {
+                    "type": "string",
+                    "description": "Command that lists available devices. Parsed with `addressRegex`."
+                },
+                "connect": {
+                    "type": "string",
+                    "description": "Command that connects to the device."
+                },
+                "uuid": {
+                    "type": "string",
+                    "description": "Command that returns a stable device identifier."
+                },
+                "version": {
+                    "type": "string",
+                    "description": "Command that returns the Android version."
+                },
+                "display": {
+                    "type": "string",
+                    "description": "Command that returns the screen resolution. Parsed with `displayFormat`."
+                },
+                "ncAddress": {
+                    "type": "string",
+                    "description": "Command that returns the address used for the netcat-based screenshot methods."
+                },
+                "abilist": {
+                    "type": "string",
+                    "description": "Command that returns the supported ABIs."
+                },
+                "orientation": {
+                    "type": "string",
+                    "description": "Command that returns the current screen orientation."
+                },
+                "pushMinitouch": {
+                    "type": "string",
+                    "description": "Command that pushes the Minitouch/MaaTouch binary to the device."
+                },
+                "chmodMinitouch": {
+                    "type": "string",
+                    "description": "Command that makes the pushed binary executable."
+                },
+                "callMinitouch": {
+                    "type": "string",
+                    "description": "Command that starts Minitouch."
+                },
+                "callMaatouch": {
+                    "type": "string",
+                    "description": "Command that starts MaaTouch."
+                },
+                "screencapRawByNC": {
+                    "type": "string",
+                    "description": "Screenshot command using `screencap` piped through `nc`."
+                },
+                "screencapRawWithGzip": {
+                    "type": "string",
+                    "description": "Screenshot command using `screencap` piped through `gzip`."
+                },
+                "screencapEncode": {
+                    "type": "string",
+                    "description": "Screenshot command using `screencap -p` (PNG encoding on device)."
+                },
+                "click": {
+                    "type": "string",
+                    "description": "Click command."
+                },
+                "input": {
+                    "type": "string",
+                    "description": "Text/input command."
+                },
+                "start": {
+                    "type": "string",
+                    "description": "Command that starts the game."
+                },
+                "stop": {
+                    "type": "string",
+                    "description": "Command that stops the game."
+                },
+                "back_to_home": {
+                    "type": "string",
+                    "description": "Command that returns to the home screen."
+                },
+                "release": {
+                    "type": "string",
+                    "description": "Command that releases all touch points."
+                },
+                "pressEsc": {
+                    "type": "string",
+                    "description": "Command that presses Escape (Windows clients)."
+                },
+                "displayId": {
+                    "type": "string",
+                    "description": "Command that returns the display id used for `screencap -d`."
+                },
+                "fps": {
+                    "type": "string",
+                    "description": "Command that returns the current frame rate."
+                },
+                "eventId": {
+                    "type": "string",
+                    "description": "Command that returns the input event id used for touch injection."
+                },
+                "addressRegex": {
+                    "type": "string",
+                    "description": "Regular expression that extracts the device address from the output of `devices`."
+                },
+                "displayFormat": {
+                    "type": "string",
+                    "description": "Format string that combines the numbers returned by `display`, e.g. `%d%d`."
+                }
+            }
+        }
+    }
+}

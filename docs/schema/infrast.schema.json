@@ -1,0 +1,275 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "MaaCore resource/infrast.json",
+    "description": "Infrast operator skill data for the default single-facility shift mode.",
+    "type": "object",
+    "additionalProperties": false,
+    "required": ["roomType"],
+    "properties": {
+        "roomType": {
+            "type": "array",
+            "description": "Facilities that exist in the base, in the order MaaCore iterates them. Every listed facility must have a property of the same name on this object.",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+                "type": "string",
+                "enum": [
+                    "Trade",
+                    "Power",
+                    "Mfg",
+                    "Office",
+                    "Reception",
+                    "Dorm",
+                    "Control",
+                    "Processing",
+                    "Training",
+                    "Recycle"
+                ]
+            }
+        },
+        "Trade": { "$ref": "#/definitions/facility" },
+        "Power": { "$ref": "#/definitions/facility" },
+        "Mfg": { "$ref": "#/definitions/facility" },
+        "Office": { "$ref": "#/definitions/facility" },
+        "Reception": { "$ref": "#/definitions/facility" },
+        "Dorm": { "$ref": "#/definitions/facility" },
+        "Control": { "$ref": "#/definitions/facility" },
+        "Processing": { "$ref": "#/definitions/facility" },
+        "Training": { "$ref": "#/definitions/facility" },
+        "Recycle": { "$ref": "#/definitions/facility" }
+    },
+    "allOf": [
+        {
+            "if": {
+                "properties": { "roomType": { "contains": { "const": "Trade" } } }
+            },
+            "then": { "required": ["Trade"] }
+        },
+        {
+            "if": {
+                "properties": { "roomType": { "contains": { "const": "Power" } } }
+            },
+            "then": { "required": ["Power"] }
+        },
+        {
+            "if": {
+                "properties": { "roomType": { "contains": { "const": "Mfg" } } }
+            },
+            "then": { "required": ["Mfg"] }
+        },
+        {
+            "if": {
+                "properties": { "roomType": { "contains": { "const": "Office" } } }
+            },
+            "then": { "required": ["Office"] }
+        },
+        {
+            "if": {
+                "properties": { "roomType": { "contains": { "const": "Reception" } } }
+            },
+            "then": { "required": ["Reception"] }
+        },
+        {
+            "if": {
+                "properties": { "roomType": { "contains": { "const": "Dorm" } } }
+            },
+            "then": { "required": ["Dorm"] }
+        },
+        {
+            "if": {
+                "properties": { "roomType": { "contains": { "const": "Control" } } }
+            },
+            "then": { "required": ["Control"] }
+        },
+        {
+            "if": {
+                "properties": { "roomType": { "contains": { "const": "Processing" } } }
+            },
+            "then": { "required": ["Processing"] }
+        },
+        {
+            "if": {
+                "properties": { "roomType": { "contains": { "const": "Training" } } }
+            },
+            "then": { "required": ["Training"] }
+        },
+        {
+            "if": {
+                "properties": { "roomType": { "contains": { "const": "Recycle" } } }
+            },
+            "then": { "required": ["Recycle"] }
+        }
+    ],
+    "definitions": {
+        "facility": {
+            "type": "object",
+            "description": "Skills and skill combinations available in one facility type. Facilities without a production output (Dorm, Processing, Training) only define `skills`.",
+            "additionalProperties": false,
+            "required": ["skills"],
+            "properties": {
+                "Doc": { "$ref": "#/definitions/doc" },
+                "maxNumOfOpers": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "description": "Maximum number of operators that can work in one such facility. Defaults to `1` when absent."
+                },
+                "products": {
+                    "type": "array",
+                    "description": "Products this facility can produce. The keys of `efficient` in skills and skill combinations are expected to be taken from this list.",
+                    "items": { "$ref": "#/definitions/product" }
+                },
+                "skills": {
+                    "type": "object",
+                    "description": "Skill templates recognized inside this facility, keyed by skill id. Ids starting with `bskill_` are the convention; a few legacy entries predate it.",
+                    "minProperties": 1,
+                    "additionalProperties": { "$ref": "#/definitions/skill" }
+                },
+                "skillsGroup": {
+                    "type": "array",
+                    "description": "Operator combinations scored as a whole, used by the default shift mode.",
+                    "items": { "$ref": "#/definitions/skillGroup" }
+                },
+                "skillsGroup_Doc": { "$ref": "#/definitions/doc" }
+            }
+        },
+        "skill": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["desc", "name", "template"],
+            "properties": {
+                "desc": {
+                    "type": "array",
+                    "description": "Description text of the skill. MaaCore only reads the first entry.",
+                    "minItems": 1,
+                    "items": { "type": "string" }
+                },
+                "name": {
+                    "type": "array",
+                    "description": "Skill name; multiple entries when the same skill template belongs to several operators.",
+                    "minItems": 1,
+                    "items": { "type": "string" }
+                },
+                "template": {
+                    "type": "string",
+                    "description": "Template image file name under `resource/template/infrast/`."
+                },
+                "efficient": { "$ref": "#/definitions/efficiency" },
+                "maxNum": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "description": "Maximum number of operators that may carry this skill at the same time. Absent means no limit."
+                },
+                "operatorIds": {
+                    "type": "array",
+                    "description": "Operators that have this skill, as battle_data character ids. Used to identify operators by skill icon.",
+                    "items": { "$ref": "#/definitions/operatorId" }
+                },
+                "additional": {
+                    "type": "object",
+                    "description": "Extra variables exposed to the efficiency expression of this skill. Currently not read by MaaCore.",
+                    "additionalProperties": { "type": "string" }
+                }
+            }
+        },
+        "skillGroup": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["necessary", "optional"],
+            "properties": {
+                "desc": {
+                    "type": "string",
+                    "description": "Human-readable name of the combination."
+                },
+                "allowExternal": {
+                    "type": "boolean",
+                    "description": "Whether the combination may use operators not listed in `skills`. Defaults to `false`."
+                },
+                "conditions": {
+                    "type": "object",
+                    "description": "Minimum values of status variables required for this combination, keyed by status key such as `NumOfPower`.",
+                    "additionalProperties": { "type": "integer" }
+                },
+                "necessary": {
+                    "type": "array",
+                    "description": "Skill groups that must all be present.",
+                    "items": { "$ref": "#/definitions/skillComb" }
+                },
+                "optional": {
+                    "type": "array",
+                    "description": "Skill groups of which any number may additionally be present.",
+                    "items": { "$ref": "#/definitions/skillComb" }
+                }
+            }
+        },
+        "skillComb": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["skills"],
+            "properties": {
+                "Doc": { "$ref": "#/definitions/doc" },
+                "desc": {
+                    "type": "string",
+                    "description": "Human-readable description of this combination part."
+                },
+                "efficient": { "$ref": "#/definitions/efficiency" },
+                "skills": {
+                    "type": "array",
+                    "description": "Skill ids (keys of the facility's `skills`) accepted here.",
+                    "minItems": 1,
+                    "items": { "type": "string" }
+                },
+                "filter": {
+                    "type": "array",
+                    "description": "Operator names allowed to fill this part. Only operators whose name is in this list are considered.",
+                    "items": { "type": "string" }
+                }
+            }
+        },
+        "efficiency": {
+            "type": "object",
+            "description": "Efficiency per product. Either `all` plus optional per-product numbers, or per-product numbers; a `<product>_reg` string value is an arithmetic expression over status variables and takes precedence over the number.",
+            "properties": { "Doc": { "$ref": "#/definitions/doc" } },
+            "patternProperties": {
+                "^(?:all|Money|SyntheticJade|CombatRecord|PureGold|OriginStone|Chip|HR|MoodAddition|General|Drone|No[1-7])$": {
+                    "type": "number"
+                },
+                "^(?:(?:all|Money|SyntheticJade|CombatRecord|PureGold|OriginStone|Chip|HR|MoodAddition|General|Drone|No[1-7]))_reg$": {
+                    "type": "string",
+                    "description": "Arithmetic expression over status variables, e.g. `[NumOfTrade] * 20`."
+                }
+            },
+            "additionalProperties": false
+        },
+        "product": {
+            "type": "string",
+            "description": "Product id.",
+            "enum": [
+                "Money",
+                "SyntheticJade",
+                "CombatRecord",
+                "PureGold",
+                "OriginStone",
+                "Chip",
+                "HR",
+                "MoodAddition",
+                "General",
+                "Drone",
+                "No1",
+                "No2",
+                "No3",
+                "No4",
+                "No5",
+                "No6",
+                "No7"
+            ]
+        },
+        "operatorId": {
+            "type": "string",
+            "description": "Character id from `resource/battle_data.json`, e.g. `char_002_amiya`."
+        },
+        "doc": {
+            "type": "string",
+            "description": "Note for maintainers. Ignored by MaaCore."
+        }
+    }
+}

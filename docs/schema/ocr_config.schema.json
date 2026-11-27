@@ -1,0 +1,19 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "MaaCore resource/ocr_config.json",
+    "description": "OCR confusables treated as equivalent during string matching. Monolingual; each client has its own copy.",
+    "type": "object",
+    "additionalProperties": false,
+    "required": ["equivalence_classes"],
+    "properties": {
+        "equivalence_classes": {
+            "type": "array",
+            "description": "Groups of characters considered interchangeable by OCR post-processing, e.g. `[\"0\", \"O\", \"o\"]`.",
+            "items": {
+                "type": "array",
+                "minItems": 2,
+                "items": { "type": "string", "minLength": 1 }
+            }
+        }
+    }
+}
