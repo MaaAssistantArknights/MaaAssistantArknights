@@ -110,20 +110,24 @@ JSON 文件是不支持注释的，文本中的注释仅用于演示，请勿直
         "templThreshold": 0.8,              // 可选项，图片模板匹配得分的阈值，超过阈值才认为识别到了，可以是数字或数字列表
                                             // 默认 0.8, 可根据日志查看实际得分是多少
 
-        "maskRange": [1, 255],              // 可选项，匹配时的灰度掩码范围。 array<int, 2>
-                                            // 例如将图片不需要识别的部分涂成黑色（灰度值为 0）
+        "maskRange": [1, 255],              // 可选项，匹配时的灰度掩模范围。 array<int, 2>
+                                            // 模板会先转为灰度再取掩模，例如将不需要识别的部分涂成黑色（灰度值为 0）
                                             // 然后设置为 [ 1, 255 ], 匹配的时候即忽略涂黑的部分
+                                            // 注意：Ccoeff 为去均值归一化相关，掩模若只框住模板中单一色块，
+                                            // 模板会几乎没有灰度变化，得分失真；它只用来排除无关区域，
+                                            // 需要按颜色筛选请改用 colorScales + RGBCount/HSVCount
+                                            // 选值与调参流程见 .agents/skills/template-craft/SKILL.md
 
-        "colorScales": [                    // 当 method 为 HSVCount 或 RGBCount 时有效且必选，数色掩码范围。
+        "colorScales": [                    // 当 method 为 HSVCount 或 RGBCount 时有效且必选，数色掩模范围。
             [                               // list<array<array<int, 3>, 2>> / list<array<int, 2>>
                 [23, 150, 40],              // 结构为 [[lower1, upper1], [lower2, upper2], ...]
                 [25, 230, 150]              //     内层为 int 时是灰度，
             ],                              //     　　为 array<int, 3> 时是三通道颜色，method 决定其是 RGB 或 HSV；
             ...                             //     中间一层的 array<*, 2> 是颜色（或灰度）下限与上限：
-        ],                                  //     最外层代表不同的颜色范围，待识别区域为它们对应在模板图片上掩码的并集。
+        ],                                  //     最外层代表不同的颜色范围，待识别区域为它们对应在模板图片上掩模的并集。
 
         "colorWithClose": true,             // 可选项，当 method 为 HSVCount 或 RGBCount 时有效，默认为 true
-                                            // 数色时是否先用闭运算处理掩码范围。
+                                            // 数色时是否先用闭运算处理掩模范围。
                                             // 闭运算可以填补小黑点，一般会提高数色匹配效果，但若图片中包含文字建议设为 false
 
         "pureColor": false,                 // 可选项，当 method 为 HSVCount 或 RGBCount 时有效，默认为 false

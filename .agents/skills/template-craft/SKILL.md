@@ -6,7 +6,7 @@ description: 制作与调整 MAA 任务的识别资源：截模板图/抠模板�
 # 模板与识别资源制作（ImageCropper / MaskRangeTool）
 
 - `tools/ImageCropper/`（截模板/定 roi/取色）：agent 用 CLI `cli.py`（无头）；GUI `main.py` 留给人拖框。
-- `tools/MaskRangeTool/`（maskRange 调参，LUV/HSV/RGB）：直接 `import mask_utils` 调函数。
+- `tools/MaskRangeTool/`（maskRange 灰度掩模、colorScales 数色范围调参，LUV/HSV/RGB）：直接 `import mask_utils` 调函数。
 - CLI 子命令速查与 GUI 连设备/截 PC 窗口（需人操作）见 `tools/ImageCropper/README.md`；无头调用只需 opencv-python 与 numpy（MaskRangeTool 另需 matplotlib），MaaFw 仅 GUI 连设备用，依赖各见工具目录 `requirements.txt`。
 
 ## 坐标系（先于一切）
@@ -40,15 +40,32 @@ description: 制作与调整 MAA 任务的识别资源：截模板图/抠模板�
 
 ## MaskRangeTool
 
-`main.py` 是写死示例路径的演示脚本，agent 直接调 `mask_utils`（base_mask_ranges 预设见 `main.py` 顶部；`color` 支持 luv/hsv/rgb）：
+`main.py` 是写死示例路径的演示脚本，agent 直接调 `mask_utils`（base_mask_ranges 预设见 `main.py` 顶部；掩模颜色 `gray`/`luv`/`hsv`/`rgb`）：
+
+任务里的 `maskRange` 是**灰度**掩模：MaaCore 先把模板转灰度再 `cv::inRange`，与 `colorScales` 的三通道不是一套东西。`calc_mask_from_ranges` 的 `color` 默认就是 `gray`，平时直接传灰度区间即可；收到二元组（或 `[1, 255]` 这种直接粘贴的写法）走灰度、三元组走 `colorScales`，三元组却没给 `rgb`/`hsv`/`luv` 会直接报错。
+
+(0,0,0,0) 透明区域读进来是黑色（灰度 0），所以这类透明抠图模板取 `[[1, 255]]` 就足以排除背景；注意部分 PNG 的透明像素仍保留隐藏 RGB（实测草稿头像这类只 30%~50% 为纯黑），这种模板 maskRange 排不掉，别靠它抠图；再担心纯白背景参与匹配时用 `[[1, 254]]`。两者都先看预览，确有干扰再收窄。`main.py` 顶部有同名预设：
+
+| 预设 | 区间 | 用途 |
+| --- | --- | --- |
+| `gray_base_mask_range_transparent` | `[[1, 255]]` | 模板带透明区域（抠图）时先试这个 |
+| `gray_base_mask_range_default` | `[[1, 254]]` | 再去掉纯白，最常用 |
+| `gray_base_mask_range_ignore_light` | `[[0, 200]]` | 亮色背景/白底干扰 |
+| `gray_base_mask_range_ignore_dark` | `[[20, 255]]` | 暗色背景干扰 |
+| `gray_base_mask_range_ignore_light_dark` | `[[20, 200]]` | 明暗背景都干扰 |
+
+流程：先按模板来源选 `[[1, 255]]`（透明抠图）或 `[[1, 254]]`，看 4 面板预览，只在确有背景干扰时收窄；收窄后检查灰度直方图，若可用区域只剩一个窄峰（模板被削成近似平色），说明这个 maskRange 会毁掉 Ccoeff 的区分度——改用 `colorScales` + `RGBCount`/`HSVCount`，而不是继续收紧 `maskRange`。`generate_mask_ranges` 自动推荐在大部分平坦的模板上会给退化结果（如 `[44, 44]`），只当参考，不盲信结果里的单值区间。LUV 只用于分析：MaaCore 的 `colorScales` 只有 `RGBCount`/`HSVCount`，LUV 推荐值贴进任务会被按 RGB/HSV 解释。`compare_2_image_with_mask_ranges` 的 `mask_close` 也仅作用于本地预览的闭运算，任务的 `maskRange` 没有对应开关（JSON 的 `colorWithClose` 只作用于 `colorScales`）。
 
 ```python
 import sys
 sys.path.insert(0, r"<仓库根>\tools\MaskRangeTool")
 import cv2
-from mask_utils import generate_mask_ranges, compare_2_image_with_mask_ranges
+from mask_utils import calc_mask_from_ranges, generate_mask_ranges, compare_2_image_with_mask_ranges
+# task maskRange：color 默认 gray，结果与 MaaCore 的 Hasher/Matcher 一致
+mask = calc_mask_from_ranges(img, [[1, 254]])
 # 自动推荐 maskRanges；show=False 无头拿返回值，save 存直方图+mask 预览供回读
-ranges = generate_mask_ranges(img, "luv", base_mask_ranges, show=False, save="preview.png")
+# 灰度推荐直接返回 [lower, upper]，可原样粘进任务的 maskRange
+ranges = generate_mask_ranges(img, "gray", [[1, 254]], show=False, save="preview.png")
 # 两组图在给定 ranges 下的差异对比，验证 maskRange 区分度
-compare_2_image_with_mask_ranges(img1, img2, ranges, "luv", show=False, save="cmp.png")
+compare_2_image_with_mask_ranges(img1, img2, ranges, show=False, save="cmp.png")
 ```

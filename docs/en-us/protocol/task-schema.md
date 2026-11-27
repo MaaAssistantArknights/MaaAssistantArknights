@@ -112,8 +112,13 @@ Please note that JSON files do not support comments. The comments in this docume
                                             // Default 0.8, check actual score in logs
 
         "maskRange": [1, 255],              // Optional, grayscale mask range for matching. array<int, 2>
-                                            // For example, paint parts of image that shouldn't be recognized black (grayscale 0)
-                                            // Then set [1, 255] to ignore black parts during matching
+                                            // The template is converted to grayscale before masking. Paint parts
+                                            // that should be ignored black (grayscale 0), then set [1, 255].
+                                            // Note: Ccoeff is a zero-mean normalized correlation; a mask that
+                                            // keeps only one flat color block leaves little grayscale variation,
+                                            // so the score becomes unreliable. Use it to exclude regions, not to
+                                            // select a color; for color matching use colorScales + RGBCount/HSVCount.
+                                            // See .agents/skills/template-craft/SKILL.md for picking and tuning ranges.
 
         "colorScales": [                    // Required when method is HSVCount or RGBCount, color mask ranges
             [                               // list<array<array<int, 3>, 2>> / list<array<int, 2>>

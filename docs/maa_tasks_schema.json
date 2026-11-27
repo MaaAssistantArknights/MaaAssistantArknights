@@ -233,11 +233,11 @@
                         "type": "integer"
                     },
                     "default": [1, 255],
-                    "description": "可选项，灰度掩码范围。例如将图片不需要识别的部分涂成黑色（灰度值为 0），然后设置 [ 1, 255 ], 匹配的时候即刻忽略涂黑的部分"
+                    "description": "可选项，灰度掩模范围。模板会先转为灰度再取掩模，例如将图片不需要识别的部分涂成黑色（灰度值为 0），然后设置 [ 1, 255 ], 匹配的时候即刻忽略涂黑的部分\n注意：Ccoeff 为去均值归一化相关，掩模若只框住模板中单一色块，模板会几乎没有灰度变化，得分失真；该字段只用来排除无关区域，按颜色筛选请改用 colorScales + RGBCount/HSVCount。选值与调参流程见 .agents/skills/template-craft/SKILL.md"
                 },
                 "colorScales": {
                     "type": "array",
-                    "description": "当 method 为 HSVCount 或 RGBCount 时有效且必选，数色掩码范围。",
+                    "description": "当 method 为 HSVCount 或 RGBCount 时有效且必选，数色掩模范围。",
                     "items": {
                         "type": "array",
                         "minItems": 2,
@@ -247,7 +247,7 @@
                 "colorWithClose": {
                     "type": "boolean",
                     "default": true,
-                    "description": "可选项，当 method 为 HSVCount 或 RGBCount 时有效，默认为 true\n数色时是否先用闭运算处理掩码范围\n闭运算可以填补小黑点，一般会提高数色匹配效果，但若图片中包含文字建议设为 false"
+                    "description": "可选项，当 method 为 HSVCount 或 RGBCount 时有效，默认为 true\n数色时是否先用闭运算处理掩模范围\n闭运算可以填补小黑点，一般会提高数色匹配效果，但若图片中包含文字建议设为 false"
                 },
                 "pureColor": {
                     "type": "boolean",

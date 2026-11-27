@@ -233,7 +233,7 @@
                         "type": "integer"
                     },
                     "default": [1, 255],
-                    "description": "Optional, grey scale mask range. For example, paint the part of the image that does not need to be recognised as black (grey value is 0), and then set [1, 255], the blackened part will be ignored when matching"
+                    "description": "Optional, grey scale mask range. The template is converted to grayscale before masking. For example, paint the part of the image that does not need to be recognised as black (grey value is 0), and then set [1, 255], the blackened part will be ignored when matching\nNote: Ccoeff is a zero-mean normalized correlation. A mask that keeps only one flat color block leaves little grayscale variation, making the score unreliable. Use this field to exclude regions, not to select a color; for color matching use colorScales with RGBCount/HSVCount. See .agents/skills/template-craft/SKILL.md for picking and tuning ranges"
                 },
                 "colorScales": {
                     "type": "array",
