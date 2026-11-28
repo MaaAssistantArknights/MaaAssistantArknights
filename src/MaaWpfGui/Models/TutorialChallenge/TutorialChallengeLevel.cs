@@ -23,7 +23,7 @@ namespace MaaWpfGui.Models.TutorialChallenge;
 
 /// <summary>
 /// 教程关卡操作场可交互场景的种类，决定关卡窗口向学习者开放哪些沙盒面板。
-/// 一关可同时声明多个场景（如任务队列 + 定时设置），按声明的顺序排布。
+/// 任务队列和设置可以在同一关中分别作为页签显示。
 /// </summary>
 public enum TutorialChallengePanelKind
 {
@@ -92,10 +92,10 @@ public class TutorialChallengeLevel
     /// <param name="id">关卡标识，用于推导本地化 key（Toolbox.TutorialChallenge.Level.{id}.Title / .Goal）与进度存档的通关键。</param>
     /// <param name="sandboxFactory">初始沙盒任务列表工厂，每次进入关卡重新调用。</param>
     /// <param name="goalPredicate">终态判定谓词，输入为当前沙盒任务列表与关卡视图模型（可读取窗口级沙盒状态，如定时设置）。</param>
-    /// <param name="panelKinds">本关开放的沙盒场景列表；不传时退化为仅任务队列。</param>
+    /// <param name="panelKinds">本关开放的沙盒场景。</param>
     /// <param name="smartSolution">可选的更优解判定与提示文案 key；达成 <paramref name="goalPredicate"/> 但不满足该判定时，弹出该提示。</param>
     /// <param name="goalArgs">目标文案的格式化参数，按当前数据实时取值；null 表示目标文案不含占位符。</param>
-    /// <param name="addableTaskTypes">｢+｣ 添加任务菜单列出的任务类型；null 表示按本关首个场景取默认全集（None: Fight；Fight: StartUp+Fight；DepotMaintain: StartUp+DepotMaintain+Fight；Recruit: StartUp+Recruit+Fight）。</param>
+    /// <param name="addableTaskTypes">｢+｣ 菜单可添加的任务类型。省略时按本关开放的任务面板选择默认列表。</param>
     /// <param name="settingSectionKinds">本关设置页投放的分区种类白名单；null 表示不构建设置分区（配合 <see cref="TutorialChallengePanelKind.Settings"/> 使用，无关分区不出现）。</param>
     /// <param name="sandboxTimerSlots">本关设置页定时分区的初始定时槽；null 表示默认 1 空槽。</param>
     /// <param name="difficulty">难度档位，枚举值即通关可获得的牛牛币数。</param>
