@@ -2,7 +2,13 @@
     "MiniGame@OS@Begin": {
         "doc": "雪山降临1101 - 喀兰贸易技术研发部",
         "algorithm": "JustReturn",
-        "next": ["MiniGame@OS@CheckAchieved", "MiniGame@OS@StartRebuild"]
+        "next": ["MiniGame@OS@CheckAchieved", "MiniGame@OS@StartRebuild", "MiniGame@OS@ResumeTurn"]
+    },
+    "MiniGame@OS@ResumeTurn": {
+        "doc": "看见结束回合按钮即可接续当前回合，先检查点数，再选牌。",
+        "template": "MiniGame@OS@EndTurn.png",
+        "roi": [1026, 341, 249, 142],
+        "next": ["MiniGame@OS@CheckPointsUsed", "MiniGame@OS@PlayFirstCard"]
     },
     "MiniGame@OS@StartRebuild": {
         "action": "ClickSelf",
@@ -22,19 +28,33 @@
         ]
     },
     "MiniGame@OS@CollectAction": {
+        "doc": "收集按钮在未选牌或需要先前进时也会亮。点击后检查点数和连携，可前进时前进，否则选下一张牌。",
         "action": "ClickSelf",
         "roi": [1036, 482, 231, 209],
-        "next": ["MiniGame@OS@CheckPointsUsed", "#self", "MiniGame@OS@Combo", "MiniGame@OS@PlayFirstCard"]
+        "next": [
+            "MiniGame@OS@CheckPointsUsed",
+            "MiniGame@OS@Combo",
+            "MiniGame@OS@MoveAction",
+            "MiniGame@OS@PlayFirstCard"
+        ]
     },
     "MiniGame@OS@Combo": {
+        "doc": "连携结束后可能需要选新牌，也可能已经用完本回合点数。",
         "action": "ClickSelf",
         "roi": [0, 415, 738, 305],
-        "next": ["MiniGame@OS@CollectAction", "#self"]
+        "next": [
+            "MiniGame@OS@CheckPointsUsed",
+            "MiniGame@OS@CollectAction",
+            "#self",
+            "MiniGame@OS@MoveAction",
+            "MiniGame@OS@PlayFirstCard"
+        ]
     },
     "MiniGame@OS@MoveAction": {
+        "doc": "前进按钮在未选牌时也可能亮。一次前进后检查剩余点数，再选牌。",
         "action": "ClickSelf",
         "roi": [877, 472, 186, 221],
-        "next": ["MiniGame@OS@CheckPointsUsed", "#self", "MiniGame@OS@PlayFirstCard"]
+        "next": ["MiniGame@OS@CheckPointsUsed", "MiniGame@OS@PlayFirstCard"]
     },
     "MiniGame@OS@CheckPointsUsed": {
         "algorithm": "OcrDetect",
