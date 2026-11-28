@@ -46,6 +46,7 @@ namespace MaaWpfGui.ViewModels.UserControl.TaskQueue;
 public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMaintainTaskUserControlModel.ISerialize
 {
     private readonly ILogger _logger = Log.ForContext<DepotMaintainTaskUserControlModel>();
+    private readonly GrowlHelper.WindowTarget? _growlTarget;
 
     /// <summary>
     /// 本轮已序列化（参与过计划评估）的库存保持任务。
@@ -69,8 +70,10 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
     /// </summary>
     /// <param name="attachGlobalEvents">是否订阅全局事件（core 任务回调、仓库识别、关卡数据变化）。
     /// 默认单例构造传 true；短生命周期派生 Model（如教程沙盒）传 false 以隔离真实任务事件与静态引用。</param>
-    protected DepotMaintainTaskUserControlModel(bool attachGlobalEvents)
+    /// <param name="growlTarget">显示任务提示的窗口。省略时使用主窗口。</param>
+    protected DepotMaintainTaskUserControlModel(bool attachGlobalEvents, GrowlHelper.WindowTarget? growlTarget = null)
     {
+        _growlTarget = growlTarget;
         PlanList.CollectionChanged += PlanList_CollectionChanged;
 
         if (attachGlobalEvents)
@@ -440,7 +443,7 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
         // 快捷导入不干预运行语义， ｢活动期间跳过｣ 开启时仅提示，导入的计划在活动期间不会执行
         if (GetTaskConfig<DepotMaintainTask>().SkipDuringActivity)
         {
-            GrowlHelper.Warning(LocalizationHelper.GetString("TaskQueue.DepotMaintain.PresetActivitySkipConflict"));
+            GrowlHelper.Warning(LocalizationHelper.GetString("TaskQueue.DepotMaintain.PresetActivitySkipConflict"), _growlTarget);
         }
     }
 

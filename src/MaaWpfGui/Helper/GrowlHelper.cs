@@ -14,17 +14,17 @@
 #nullable enable
 using System;
 using System.Collections.Generic;
+using System.Windows;
 using HandyControl.Controls;
 using HandyControl.Data;
 using Serilog;
 using Stylet;
+using Window = System.Windows.Window;
 
 namespace MaaWpfGui.Helper;
 
 /// <summary>
-/// Growl 统一入口：主窗口可见时立即显示；不可见（未创建或最小化到托盘）时暂存，
-/// 待窗口显示或从托盘恢复后补发，避免此期间的 Growl 因无容器或不可见而静默丢失。
-/// 每次调用记录类型与内容，暂存与补发另有记录。
+/// 在目标窗口可见时显示 Growl 通知，并在日志中记录内容。未指定目标时使用主窗口。
 /// </summary>
 public static class GrowlHelper
 {
@@ -52,8 +52,9 @@ public static class GrowlHelper
     /// 显示警告级 Growl 通知。
     /// </summary>
     /// <param name="message">通知内容。</param>
-    public static void Warning(string message)
-        => Show(InfoType.Warning, message, () => Growl.Warning(message));
+    /// <param name="target">通知所属的窗口。省略时使用主窗口。</param>
+    public static void Warning(string message, WindowTarget? target = null)
+        => Show(InfoType.Warning, message, () => Growl.Warning(message, target?.Token ?? string.Empty), target);
 
     /// <summary>
     /// 显示错误级 Growl 通知。
@@ -77,19 +78,24 @@ public static class GrowlHelper
         => Show(InfoType.Success, info.Message, () => Growl.Success(info));
 
     /// <summary>
-    /// Growl 显示的完全自定义底层入口：主窗口可见时立即执行，不可见时暂存，
-    /// 待窗口显示或从托盘恢复后在 UI 线程上补发。需要围绕显示做自定义前后处理时使用。
+    /// 在 UI 线程显示通知。窗口隐藏或最小化时暂存通知，待窗口恢复后补发。
     /// </summary>
     /// <param name="type">通知类型，仅用于日志。</param>
     /// <param name="message">通知内容，仅用于日志。</param>
     /// <param name="showGrowl">执行 Growl 显示的闭包，将在 UI 线程上调用。</param>
-    public static void Show(InfoType type, string? message, Action showGrowl)
+    /// <param name="target">通知所属的窗口。省略时使用主窗口。</param>
+    public static void Show(InfoType type, string? message, Action showGrowl, WindowTarget? target = null)
     {
         // gui.log 模板为 {Message:lj}，非字符串值按 JSON 渲染会给枚举加引号，故先转字符串
         var typeName = type.ToString();
         Execute.OnUIThread(() => {
-            var win = Instances.MainWindowManager?.GetWindowIfVisible();
-            if (win == null)
+            if (target is not null)
+            {
+                target.Show(typeName, message, showGrowl);
+                return;
+            }
+
+            if (Instances.MainWindowManager?.GetWindowIfVisible() is null)
             {
                 _logger.Information("Growl {Type} (deferred, main window hidden): {Message}", typeName, message);
                 _pending.Add((typeName, message, showGrowl));
@@ -97,17 +103,25 @@ public static class GrowlHelper
                 return;
             }
 
-            _logger.Information("Growl {Type}: {Message}", typeName, message);
-            try
+            Display(typeName, message, showGrowl);
+        });
+    }
+
+    private static void Display(string type, string? message, Action showGrowl, bool deferred = false)
+    {
+        _logger.Information("Growl {Type}{Status}: {Message}", type, deferred ? " (flushed)" : string.Empty, message);
+        try
+        {
+            showGrowl();
+        }
+        catch (Exception e)
+        {
+            _logger.Error(e, "Failed to show growl {Type}: {Message}", type, message);
+            if (!deferred)
             {
-                showGrowl();
-            }
-            catch (Exception e)
-            {
-                _logger.Error(e, "Failed to show growl {Type}: {Message}", typeName, message);
                 throw;
             }
-        });
+        }
     }
 
     private static void EnsureHandlersAttached()
@@ -154,16 +168,96 @@ public static class GrowlHelper
             _pending.Clear();
             foreach (var (type, message, showGrowl) in pending)
             {
-                _logger.Information("Growl {Type} (flushed): {Message}", type, message);
-                try
-                {
-                    showGrowl();
-                }
-                catch (Exception e)
-                {
-                    _logger.Error(e, "Failed to show deferred growl {Type}: {Message}", type, message);
-                }
+                Display(type, message, showGrowl, deferred: true);
             }
         });
+    }
+
+    /// <summary>
+    /// 管理一个窗口内的待显示通知。窗口复用时，每个使用该窗口的视图模型可独立结束自己的通知。
+    /// </summary>
+    public sealed class WindowTarget
+    {
+        private readonly Queue<(string Type, string? Message, Action Show)> _pending = new();
+        private Window? _window;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WindowTarget"/> class.
+        /// </summary>
+        /// <param name="window">承载通知的窗口。</param>
+        /// <param name="token">窗口内 Growl 容器注册的标识。</param>
+        public WindowTarget(Window window, string token)
+        {
+            _window = window;
+            Token = token;
+            window.Loaded += OnWindowChanged;
+            window.StateChanged += OnWindowChanged;
+            window.IsVisibleChanged += OnIsVisibleChanged;
+            window.Closed += OnClosed;
+        }
+
+        /// <summary>
+        /// Gets 窗口内 Growl 容器注册的标识。
+        /// </summary>
+        public string Token { get; }
+
+        internal bool IsDetached => _window is null;
+
+        private bool CanShow => _window is { IsLoaded: true, IsVisible: true, WindowState: not WindowState.Minimized };
+
+        /// <summary>
+        /// 窗口关闭或改由其他视图模型使用时，丢弃待显示通知，并解除对窗口的订阅。
+        /// </summary>
+        public void Detach()
+        {
+            if (_window is null)
+            {
+                return;
+            }
+
+            _window.Loaded -= OnWindowChanged;
+            _window.StateChanged -= OnWindowChanged;
+            _window.IsVisibleChanged -= OnIsVisibleChanged;
+            _window.Closed -= OnClosed;
+            _window = null;
+            while (_pending.TryDequeue(out var notification))
+            {
+                LogDiscarded(notification.Type, notification.Message);
+            }
+        }
+
+        internal void Show(string type, string? message, Action showGrowl)
+        {
+            if (IsDetached)
+            {
+                LogDiscarded(type, message);
+            }
+            else if (CanShow)
+            {
+                Display(type, message, showGrowl);
+            }
+            else
+            {
+                _logger.Information("Growl {Type} (deferred, target window hidden): {Message}", type, message);
+                _pending.Enqueue((type, message, showGrowl));
+            }
+        }
+
+        private static void LogDiscarded(string type, string? message)
+            => _logger.Information("Growl {Type} (discarded, target detached): {Message}", type, message);
+
+        private void OnClosed(object? sender, EventArgs e) => Detach();
+
+        private void OnWindowChanged(object? sender, EventArgs e) => FlushPending();
+
+        private void OnIsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e) => FlushPending();
+
+        private void FlushPending()
+        {
+            while (CanShow && _pending.TryDequeue(out var notification))
+            {
+                Display(notification.Type, notification.Message, notification.Show, deferred: true);
+            }
+        }
     }
 }

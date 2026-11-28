@@ -162,7 +162,7 @@ public sealed class SandboxRecruitTaskModel(TutorialChallengeLevelViewModel owne
 /// 库存显示读关卡 VM 的共享伪造库存（与 Fight 沙盒面板同源），不暴露真实账号仓库识别数据。
 /// </summary>
 /// <param name="owner">所属关卡 VM。</param>
-public sealed class SandboxDepotMaintainTaskModel(TutorialChallengeLevelViewModel owner) : DepotMaintainTaskUserControlModel(attachGlobalEvents: false)
+public sealed class SandboxDepotMaintainTaskModel(TutorialChallengeLevelViewModel owner) : DepotMaintainTaskUserControlModel(attachGlobalEvents: false, growlTarget: owner.GrowlTarget)
 {
     /// <inheritdoc/> 库存显示不读真实仓库识别缓存，指向关卡 VM 的共享伪造库存
     protected override ObservableList<ToolboxViewModel.DepotResultDate>? DepotResultSource => owner.FakeDepotResult;

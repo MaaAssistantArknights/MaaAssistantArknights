@@ -283,7 +283,7 @@ public class TutorialChallengeUserControlModel : PropertyChangedBase
         }
 
         (_levelWindow.DataContext as TutorialChallengeLevelViewModel)?.Detach();
-        _levelWindow.DataContext = new TutorialChallengeLevelViewModel(item.Level);
+        _levelWindow.DataContext = new TutorialChallengeLevelViewModel(item.Level, _levelWindow);
         Helper.WindowManager.ShowWindow(_levelWindow);
     }
 

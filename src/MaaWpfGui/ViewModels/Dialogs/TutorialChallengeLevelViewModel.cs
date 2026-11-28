@@ -76,9 +76,11 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
     /// Initializes a new instance of the <see cref="TutorialChallengeLevelViewModel"/> class.
     /// </summary>
     /// <param name="level">关卡定义。</param>
-    public TutorialChallengeLevelViewModel(TutorialChallengeLevel level)
+    /// <param name="window">显示本关的窗口。</param>
+    public TutorialChallengeLevelViewModel(TutorialChallengeLevel level, TutorialChallengeLevelView window)
     {
         _level = level;
+        GrowlTarget = new GrowlHelper.WindowTarget(window, "TutorialChallenge");
 
         // 沙盒任务字段变化的 UI 通知由各沙盒 Model 的绑定自带，这里只负责重算终态判定
         _taskPropertyChangedHandler = (_, _) => Evaluate();
@@ -853,31 +855,36 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
     {
         var key = alreadyIdentified ? "Toolbox.TutorialChallenge.Level.DragDropUpdate.AlreadyIdentified" : identifiedKey;
         ShowTutorialGrowl(InfoType.Success, LocalizationHelper.GetString(key));
-        if (!alreadyIdentified)
+        if (!alreadyIdentified && !GrowlTarget.IsDetached)
         {
             mark();
             Evaluate();
         }
     }
 
-    private static void ShowTutorialGrowl(InfoType type, string msg)
-        => GrowlHelper.Show(type, msg, () => {
+    internal GrowlHelper.WindowTarget GrowlTarget { get; }
+
+    private void ShowTutorialGrowl(InfoType type, string msg, bool staysOpen = false)
+    {
+        var info = new GrowlInfo { Message = msg, Token = GrowlTarget.Token, StaysOpen = staysOpen };
+        GrowlHelper.Show(type, msg, () => {
             switch (type)
             {
                 case InfoType.Success:
-                    Growl.Success(msg, "TutorialChallenge");
+                    Growl.Success(info);
                     break;
                 case InfoType.Warning:
-                    Growl.Warning(msg, "TutorialChallenge");
+                    Growl.Warning(info);
                     break;
                 case InfoType.Error:
-                    Growl.Error(msg, "TutorialChallenge");
+                    Growl.Error(info);
                     break;
                 default:
-                    Growl.Info(msg, "TutorialChallenge");
+                    Growl.Info(info);
                     break;
             }
-        });
+        }, GrowlTarget);
+    }
 
     private static bool TryGetDroppedZipFile(DragEventArgs e, out string packagePath)
     {
@@ -1161,7 +1168,7 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
         if (item is { IsChecked: true, IsTarget: false })
         {
             var msg = LocalizationHelper.GetString("Toolbox.TutorialChallenge.Level.SettingsSearch.WrongPick");
-            GrowlHelper.Show(InfoType.Info, msg, () => Growl.Info(msg, "TutorialChallenge"));
+            ShowTutorialGrowl(InfoType.Info, msg);
         }
 
         NotifyOfPropertyChange(nameof(SandboxDecoyTargetsAllChecked));
@@ -1290,39 +1297,37 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
         }
 
         IsExportingLogs = true;
+        string fullZipPath;
         try
         {
-            // 模拟真实导出耗时；空 zip 生成 + 目录创建为轻 IO，放后台线程对齐真实路径
-            string fullZipPath = await Task.Run(() =>
-            {
+            fullZipPath = await Task.Run(() => {
                 Directory.CreateDirectory(PathsHelper.ReportsDir);
-                string path = Path.Combine(PathsHelper.ReportsDir, $"report_{DateTimeOffset.Now:MM-dd_HH-mm-ss}.zip");
-                using (var fs = new FileStream(path, FileMode.Create))
-                using (var archive = new ZipArchive(fs, ZipArchiveMode.Create))
-                {
-                    // 空 zip：教学演示用
-                }
-
+                string path = Path.Combine(PathsHelper.ReportsDir, $"report_{DateTimeOffset.Now:MM-dd_HH-mm-ss-fffffff}.zip");
+                using var archive = ZipFile.Open(path, ZipArchiveMode.Create);
                 return path;
             });
-
-            var msg = $"{LocalizationHelper.GetString("Error.GenerateSupportPayloadSuccessful")}\n{fullZipPath}\n{LocalizationHelper.GetString("Toolbox.TutorialChallenge.Level.ExportLogs.EmptyPackageNote")}";
-
-            // 成功提示含完整 zip 路径，需时间看清，常驻不自动消失
-            var growlInfo = new GrowlInfo {
-                Message = msg,
-                StaysOpen = true,
-                Token = "TutorialChallenge",
-            };
-            GrowlHelper.Show(InfoType.Success, msg, () => Growl.Success(growlInfo));
-            IssueReportUserControlModel.Instance.OpenReportsFolder();
-            ExportLogsClicked = true;
-            Evaluate();
+        }
+        catch (Exception ex)
+        {
+            _logger.Error(ex, "Failed to create tutorial support payload");
+            ShowTutorialGrowl(InfoType.Error, $"{LocalizationHelper.GetString("Error.GenerateSupportPayloadException")}\n{ex.Message}");
+            return;
         }
         finally
         {
             IsExportingLogs = false;
         }
+
+        var msg = $"{LocalizationHelper.GetString("Error.GenerateSupportPayloadSuccessful")}\n{fullZipPath}\n{LocalizationHelper.GetString("Toolbox.TutorialChallenge.Level.ExportLogs.EmptyPackageNote")}";
+        ShowTutorialGrowl(InfoType.Success, msg, staysOpen: true);
+        if (GrowlTarget.IsDetached)
+        {
+            return;
+        }
+
+        IssueReportUserControlModel.Instance.OpenReportsFolder();
+        ExportLogsClicked = true;
+        Evaluate();
     }
 
     /// <summary>
@@ -1331,26 +1336,16 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
     public void OpenDebugFolder() => IssueReportUserControlModel.Instance.OpenDebugFolder();
 
     /// <summary>
-    /// 打开 reports 目录（转发真实设置页方法，沙盒与真实共用行为）。
-    /// </summary>
-    public void OpenReportsFolder() => IssueReportUserControlModel.Instance.OpenReportsFolder();
-
-    /// <summary>
     /// 清理图片缓存（转发真实设置页方法，沙盒与真实共用行为）。
     /// </summary>
     /// <returns>清理任务。</returns>
-    public Task ClearImageCache() => IssueReportUserControlModel.Instance.ClearImageCache();
+    public Task ClearImageCache() => IssueReportUserControlModel.Instance.ClearImageCache(GrowlTarget);
 
     /// <summary>
     /// 记录用户点开 issue 反馈页（仅解锁对应成就；不转发真实设置页方法，避免沙盒交互把
     /// ｢已确认 nightly 警告｣ 持久化为真实配置，导致主窗口的 nightly 警告不再弹出）。
     /// </summary>
     public void SetAcknowledgedNightlyWarning() => AchievementTrackerHelper.Instance.Unlock(AchievementIds.ProblemFeedback);
-
-    /// <summary>
-    /// Gets a value indicating whether 沙盒生成日志按钮当前可点（转发真实设置页属性）。
-    /// </summary>
-    public bool CanGenerateSupportPayload => IssueReportUserControlModel.Instance.CanGenerateSupportPayload;
 
     /// <summary>
     /// Gets a value indicating whether 沙盒清理图片缓存按钮当前可点（转发真实设置页属性）。
@@ -1514,7 +1509,7 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
         if (_level.SmartSolution is { } smart && !smart.Predicate(tasks, this))
         {
             var msg = LocalizationHelper.GetString(smart.HintKey);
-            GrowlHelper.Show(InfoType.Info, msg, () => Growl.Info(msg, "TutorialChallenge"));
+            ShowTutorialGrowl(InfoType.Info, msg);
         }
 
         TutorialChallengeProgress.MarkCleared(_level.Id);
@@ -1526,17 +1521,11 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
     private void OnStageDataChanged(object? sender, EventArgs e)
         => _ = Execute.OnUIThreadAsync(RefreshSandboxTaskModels);
 
-    // 转发属性经静态 Instance 绑定，真实侧状态变化须转成本实例的通知 UI 才刷新
     private void OnIssueReportPropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
-        switch (e.PropertyName)
+        if (e.PropertyName == nameof(IssueReportUserControlModel.CanClearImageCache))
         {
-            case nameof(IssueReportUserControlModel.CanClearImageCache):
-                NotifyOfPropertyChange(nameof(CanClearImageCache));
-                break;
-            case nameof(IssueReportUserControlModel.CanGenerateSupportPayload):
-                NotifyOfPropertyChange(nameof(CanGenerateSupportPayload));
-                break;
+            NotifyOfPropertyChange(nameof(CanClearImageCache));
         }
     }
 
@@ -1545,6 +1534,7 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
     /// </summary>
     public void Detach()
     {
+        GrowlTarget.Detach();
         LocalizationHelper.LanguageChanged -= OnLanguageChanged;
         Instances.StageManager.StageDataChanged -= OnStageDataChanged;
         IssueReportUserControlModel.Instance.PropertyChanged -= OnIssueReportPropertyChanged;
