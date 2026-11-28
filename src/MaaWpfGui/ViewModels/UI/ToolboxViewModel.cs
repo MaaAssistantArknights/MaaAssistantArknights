@@ -3731,9 +3731,18 @@ public class ToolboxViewModel : Screen
             return;
         }
 
+        // 运行归属的检查与认领必须原子：UI 与远程控制会并发进入本骨架，
+        // 需在锁内确认可安全打断（空闲且未处于收尾等中断锁定）后再声明归属，
+        // 避免完成事件被归因到 ｢牛杂｣
+        if (!_runningState.TryBeginRun(RunOwner.MiniGame))
+        {
+            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("Toolbox.MiniGame.StartBlocked"), UiLogColor.Warning);
+            return;
+        }
+
         Instances.TaskQueueViewModel.ClearLog();
 
-        _runningState.BeginRun(RunOwner.MiniGame);
+        Instances.OverlayViewModel.LogItemsSource = Instances.TaskQueueViewModel.LogItemViewModels;
 
         string errMsg = string.Empty;
         var caught = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
