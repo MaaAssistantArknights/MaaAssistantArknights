@@ -36,6 +36,7 @@ bool MaaFwController::connect(const std::string& adb_path, const std::string& ad
 
     auto adb_config = Config.get_adb_cfg("MaaFw");
     if (!adb_config) {
+        LogError << "MaaFw connection extras is required but not set";
         callback(
             AsstMsg::ConnectionInfo,
             json::object {
@@ -156,6 +157,7 @@ bool MaaFwController::connect_with_extras(
     }
 
     if (!m_unit_handle) {
+        LogError << "Failed to create MaaFw control unit" << VAR(m_library_name);
         callback(
             AsstMsg::ConnectionInfo,
             json::object {
