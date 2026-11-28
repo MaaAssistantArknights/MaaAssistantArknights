@@ -1899,17 +1899,17 @@ void ASSTAPI AsstSetConnectionExtras(const char* name, const char* extras);
 
 #### 參數說明
 
-:::: field-group
-::: field name
-@type const char*
-@required
-鍵
-:::
-::: field extras
-@type const char*
-@required
-JSON 值
-:::
+:::: field-group  
+::: field name  
+@type const char*  
+@required  
+鍵  
+:::  
+::: field extras  
+@type const char*  
+@required  
+JSON 值  
+:::  
 ::::
 
 ##### 鍵值一覽
@@ -1927,66 +1927,67 @@ JSON 值
 - `MaaFw`  
   MaaFw 觸控模式參數
 
-  :::: field-group
-  ::: field control_unit
-  @type string
-  @required
-  控制單元動態函式庫名稱。可選值：`MaaAdbControlUnit` | `MaaAndroidNativeControlUnit` | `MaaLinuxControlUnit`。
-  :::
-  ::: field target_is_pc
-  @type boolean
-  @default false
-  @optional
-  啟用 PC 端最佳化（截圖前先移動滑鼠到不影響辨識的位置）。
-  :::
+  :::: field-group  
+  ::: field control_unit  
+  @type string  
+  @required  
+  控制單元動態函式庫名稱。可選值：`MaaAdbControlUnit` | `MaaAndroidNativeControlUnit` | `MaaLinuxControlUnit`。  
+  :::  
+  ::: field target_is_pc  
+  @type boolean  
+  @default false  
+  @optional  
+  啟用 PC 端最佳化（截圖前先移動滑鼠到不影響辨識的位置）。  
+  :::  
   ::::
 
   - 僅在 `control_unit = MaaAdbControlUnit` 時生效：
 
-    :::: field-group
-    ::: field screencap_methods
-    @type number
-    @default 18446744073709551559 (All & ~RawByNetcat & ~MinicapDirect & ~MinicapStream)
-    @optional
-    所有可使用的截圖方式，參見 [控制方式說明](https://maafw.com/en/docs/2.4-ControlMethods#adb-screencap)
-    :::
-    ::: field input_methods
-    @type number
-    @default 1 (AdbShell)
-    @optional
-    所有可使用的輸入方式，參見 [控制方式說明](https://maafw.com/en/docs/2.4-ControlMethods#adb-input)
-    :::
-    ::: field config
-    @type object
-    @default {}
-    @optional
-    額外配置<br>
-    如果 `AsstConnect` 的 `config` 參數為 `AVD`，則預設值變為 `{"extras": {"avd": {"enable": true}}}`
-    :::
+    :::: field-group  
+    ::: field screencap_methods  
+    @type number  
+    @default 18446744073709551559 (All & ~RawByNetcat & ~MinicapDirect & ~MinicapStream)  
+    @optional  
+    所有可使用的截圖方式，參見 [控制方式說明](https://maafw.com/en/docs/2.4-ControlMethods#adb-screencap)  
+    :::  
+    ::: field input_methods  
+    @type number  
+    @default 1 (AdbShell)  
+    @optional  
+    所有可使用的輸入方式，參見 [控制方式說明](https://maafw.com/en/docs/2.4-ControlMethods#adb-input)  
+    :::  
+    ::: field config  
+    @type object  
+    @default {}  
+    @optional  
+    額外配置
+    <br>
+    如果 `AsstConnect` 的 `config` 參數為 `AVD`，則預設值變為 `{"extras": {"avd": {"enable": true}}}`  
+    :::  
     ::::
 
   - 僅在 `control_unit = MaaAndroidNativeControlUnit` 時生效：
 
-    :::: field-group
-    ::: field ...
-    @type object
-    @required
-    Android Native 控制器配置 JSON，參見 [MaaAndroidNativeControllerCreate](https://maafw.com/en/docs/2.2-IntegratedInterfaceOverview#maaandroidnativecontrollercreate)
-    :::
+    :::: field-group  
+    ::: field ...  
+    @type object  
+    @required  
+    Android Native 控制器配置 JSON，參見 [MaaAndroidNativeControllerCreate](https://maafw.com/en/docs/2.2-IntegratedInterfaceOverview#maaandroidnativecontrollercreate)  
+    :::  
     ::::
 
   - 僅在 `control_unit = MaaLinuxControlUnit` 時生效：
 
-    :::: field-group
-    ::: field ...
-    @type object
-    @required
-    Linux 控制器配置 JSON，參見 [MaaLinuxControllerCreate](https://maafw.com/en/docs/2.2-IntegratedInterfaceOverview#maalinuxcontrollercreate)
-    :::
+    :::: field-group  
+    ::: field ...  
+    @type object  
+    @required  
+    Linux 控制器配置 JSON，參見 [MaaLinuxControllerCreate](https://maafw.com/en/docs/2.2-IntegratedInterfaceOverview#maalinuxcontrollercreate)  
+    :::  
     ::::
 
-::: info MaaFw 觸控模式與 `AsstConnect`
-只有 `MaaAdbControlUnit` 使用 `AsstConnect` 的 `adb_path` 和 `address` 參數。其他控制單元無視傳遞給 `AsstConnect` 的參數。
+::: info MaaFw 觸控模式與 `AsstConnect`  
+只有 `MaaAdbControlUnit` 使用 `AsstConnect` 的 `adb_path` 和 `address` 參數。其他控制單元無視傳遞給 `AsstConnect` 的參數。  
 :::
 
 <details>

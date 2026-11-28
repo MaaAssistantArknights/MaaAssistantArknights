@@ -1899,17 +1899,17 @@ Set additional connection parameters (process-level)
 
 #### Parameter Description
 
-:::: field-group
-::: field name
-@type const char*
-@required
-key
-:::
-::: field extras
-@type const char*
-@required
-JSON value
-:::
+:::: field-group  
+::: field name  
+@type const char*  
+@required  
+key  
+:::  
+::: field extras  
+@type const char*  
+@required  
+JSON value  
+:::  
 ::::
 
 ##### List of Key and value
@@ -1927,66 +1927,67 @@ Please refer to [LDPlayerExtra.cs](https://github.com/MaaAssistantArknights/MaaA
 - `MaaFw`  
   MaaFw touch mode parameters
 
-  :::: field-group
-  ::: field control_unit
-  @type string
-  @required
-  Control unit dynamic library name. Options: `MaaAdbControlUnit` | `MaaAndroidNativeControlUnit` | `MaaLinuxControlUnit`.
-  :::
-  ::: field target_is_pc
-  @type boolean
-  @default false
-  @optional
-  Optimize for PC client (by moving mouse pointer to somewhere not interfering with recognition before taking a screenshot).
-  :::
+  :::: field-group  
+  ::: field control_unit  
+  @type string  
+  @required  
+  Control unit dynamic library name. Options: `MaaAdbControlUnit` | `MaaAndroidNativeControlUnit` | `MaaLinuxControlUnit`.  
+  :::  
+  ::: field target_is_pc  
+  @type boolean  
+  @default false  
+  @optional  
+  Optimize for PC client (by moving mouse pointer to somewhere not interfering with recognition before taking a screenshot).  
+  :::  
   ::::
 
   - Effective only when `control_unit = MaaAdbControlUnit`:
 
-    :::: field-group
-    ::: field screencap_methods
-    @type number
-    @default 18446744073709551559 (All & ~RawByNetcat & ~MinicapDirect & ~MinicapStream)
-    @optional
-    All available screencap methods, see [Control Methods Specification](https://maafw.com/en/docs/2.4-ControlMethods#adb-screencap)
-    :::
-    ::: field input_methods
-    @type number
-    @default 1 (AdbShell)
-    @optional
-    All available input methods, see [Control Methods Specification](https://maafw.com/en/docs/2.4-ControlMethods#adb-input)
-    :::
-    ::: field config
-    @type object
-    @default {}
-    @optional
-    Extra configuration<br>
-    If the `config` parameter of `AsstConnect` is `AVD`, the default value becomes `{"extras": {"avd": {"enable": true}}}`
-    :::
+    :::: field-group  
+    ::: field screencap_methods  
+    @type number  
+    @default 18446744073709551559 (All & ~RawByNetcat & ~MinicapDirect & ~MinicapStream)  
+    @optional  
+    All available screencap methods, see [Control Methods Specification](https://maafw.com/en/docs/2.4-ControlMethods#adb-screencap)  
+    :::  
+    ::: field input_methods  
+    @type number  
+    @default 1 (AdbShell)  
+    @optional  
+    All available input methods, see [Control Methods Specification](https://maafw.com/en/docs/2.4-ControlMethods#adb-input)  
+    :::  
+    ::: field config  
+    @type object  
+    @default {}  
+    @optional  
+    Extra configuration
+    <br>
+    If the `config` parameter of `AsstConnect` is `AVD`, the default value becomes `{"extras": {"avd": {"enable": true}}}`  
+    :::  
     ::::
 
   - Effective only when `control_unit = MaaAndroidNativeControlUnit`:
 
-    :::: field-group
-    ::: field ...
-    @type object
-    @required
-    Android native controller config JSON, see [MaaAndroidNativeControllerCreate](https://maafw.com/en/docs/2.2-IntegratedInterfaceOverview#maaandroidnativecontrollercreate)
-    :::
+    :::: field-group  
+    ::: field ...  
+    @type object  
+    @required  
+    Android native controller config JSON, see [MaaAndroidNativeControllerCreate](https://maafw.com/en/docs/2.2-IntegratedInterfaceOverview#maaandroidnativecontrollercreate)  
+    :::  
     ::::
 
   - Effective only when `control_unit = MaaLinuxControlUnit`:
 
-    :::: field-group
-    ::: field ...
-    @type object
-    @required
-    Linux controller config JSON, see [MaaLinuxControllerCreate](https://maafw.com/en/docs/2.2-IntegratedInterfaceOverview#maalinuxcontrollercreate)
-    :::
+    :::: field-group  
+    ::: field ...  
+    @type object  
+    @required  
+    Linux controller config JSON, see [MaaLinuxControllerCreate](https://maafw.com/en/docs/2.2-IntegratedInterfaceOverview#maalinuxcontrollercreate)  
+    :::  
     ::::
 
-::: info MaaFw Touch Mode and `AsstConnect`
-Only `MaaAdbControlUnit` makes use of the `adb_path` and `address` parameters in `AsstConnect`. Other control units ignore parameters passed to `AsstConnect`.
+::: info MaaFw Touch Mode and `AsstConnect`  
+Only `MaaAdbControlUnit` makes use of the `adb_path` and `address` parameters in `AsstConnect`. Other control units ignore parameters passed to `AsstConnect`.  
 :::
 
 <details>

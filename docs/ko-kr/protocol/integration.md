@@ -1900,17 +1900,17 @@ void ASSTAPI AsstSetConnectionExtras(const char* name, const char* extras);
 
 #### 파라미터 설명
 
-:::: field-group
-::: field name
-@type const char*
-@required
-Key
-:::
-::: field extras
-@type const char*
-@required
-JSON 값
-:::
+:::: field-group  
+::: field name  
+@type const char*  
+@required  
+Key  
+:::  
+::: field extras  
+@type const char*  
+@required  
+JSON 값  
+:::  
 ::::
 
 ##### 키-값 목록
@@ -1928,66 +1928,67 @@ JSON 값
 - `MaaFw`  
   MaaFw 터치 모드 파라미터
 
-  :::: field-group
-  ::: field control_unit
-  @type string
-  @required
-  제어 유닛 동적 라이브러리명. 옵션: `MaaAdbControlUnit` | `MaaAndroidNativeControlUnit` | `MaaLinuxControlUnit`
-  :::
-  ::: field target_is_pc
-  @type boolean
-  @default false
-  @optional
-  PC 최적화 활성화 (스크린샷 전 마우스를 인식에 영향이 없는 위치로 이동)
-  :::
+  :::: field-group  
+  ::: field control_unit  
+  @type string  
+  @required  
+  제어 유닛 동적 라이브러리명. 옵션: `MaaAdbControlUnit` | `MaaAndroidNativeControlUnit` | `MaaLinuxControlUnit`  
+  :::  
+  ::: field target_is_pc  
+  @type boolean  
+  @default false  
+  @optional  
+  PC 최적화 활성화 (스크린샷 전 마우스를 인식에 영향이 없는 위치로 이동)  
+  :::  
   ::::
 
   - `control_unit = MaaAdbControlUnit`일 때만 유효:
 
-    :::: field-group
-    ::: field screencap_methods
-    @type number
-    @default 18446744073709551559 (All & ~RawByNetcat & ~MinicapDirect & ~MinicapStream)
-    @optional
-    사용 가능한 모든 스크린샷 방식, [제어 방식 설명](https://maafw.com/en/docs/2.4-ControlMethods#adb-screencap) 참고
-    :::
-    ::: field input_methods
-    @type number
-    @default 1 (AdbShell)
-    @optional
-    사용 가능한 모든 입력 방식, [제어 방식 설명](https://maafw.com/en/docs/2.4-ControlMethods#adb-input) 참고
-    :::
-    ::: field config
-    @type object
-    @default {}
-    @optional
-    추가 설정<br>
-    `AsstConnect`의 `config` 파라미터가 `AVD`인 경우 기본값이 `{"extras": {"avd": {"enable": true}}}`로 변경됨
-    :::
+    :::: field-group  
+    ::: field screencap_methods  
+    @type number  
+    @default 18446744073709551559 (All & ~RawByNetcat & ~MinicapDirect & ~MinicapStream)  
+    @optional  
+    사용 가능한 모든 스크린샷 방식, [제어 방식 설명](https://maafw.com/en/docs/2.4-ControlMethods#adb-screencap) 참고  
+    :::  
+    ::: field input_methods  
+    @type number  
+    @default 1 (AdbShell)  
+    @optional  
+    사용 가능한 모든 입력 방식, [제어 방식 설명](https://maafw.com/en/docs/2.4-ControlMethods#adb-input) 참고  
+    :::  
+    ::: field config  
+    @type object  
+    @default {}  
+    @optional  
+    추가 설정
+    <br>
+    `AsstConnect`의 `config` 파라미터가 `AVD`인 경우 기본값이 `{"extras": {"avd": {"enable": true}}}`로 변경됨  
+    :::  
     ::::
 
   - `control_unit = MaaAndroidNativeControlUnit`일 때만 유효:
 
-    :::: field-group
-    ::: field ...
-    @type object
-    @required
-    Android Native 컨트롤러 설정 JSON, [MaaAndroidNativeControllerCreate](https://maafw.com/en/docs/2.2-IntegratedInterfaceOverview#maaandroidnativecontrollercreate) 참고
-    :::
+    :::: field-group  
+    ::: field ...  
+    @type object  
+    @required  
+    Android Native 컨트롤러 설정 JSON, [MaaAndroidNativeControllerCreate](https://maafw.com/en/docs/2.2-IntegratedInterfaceOverview#maaandroidnativecontrollercreate) 참고  
+    :::  
     ::::
 
   - `control_unit = MaaLinuxControlUnit`일 때만 유효:
 
-    :::: field-group
-    ::: field ...
-    @type object
-    @required
-    Linux 컨트롤러 설정 JSON, [MaaLinuxControllerCreate](https://maafw.com/en/docs/2.2-IntegratedInterfaceOverview#maalinuxcontrollercreate) 참고
-    :::
+    :::: field-group  
+    ::: field ...  
+    @type object  
+    @required  
+    Linux 컨트롤러 설정 JSON, [MaaLinuxControllerCreate](https://maafw.com/en/docs/2.2-IntegratedInterfaceOverview#maalinuxcontrollercreate) 참고  
+    :::  
     ::::
 
-::: info MaaFw 터치 모드와 `AsstConnect`
-`MaaAdbControlUnit`만 `AsstConnect`의 `adb_path` 및 `address` 파라미터를 사용합니다. 다른 제어 유닛은 `AsstConnect`에 전달된 파라미터를 무시합니다.
+::: info MaaFw 터치 모드와 `AsstConnect`  
+`MaaAdbControlUnit`만 `AsstConnect`의 `adb_path` 및 `address` 파라미터를 사용합니다. 다른 제어 유닛은 `AsstConnect`에 전달된 파라미터를 무시합니다.  
 :::
 
 <details>

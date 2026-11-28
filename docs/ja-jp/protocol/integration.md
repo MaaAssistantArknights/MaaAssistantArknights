@@ -1898,17 +1898,17 @@ void ASSTAPI AsstSetConnectionExtras(const char* name, const char* extras);
 
 #### パラメータ説明
 
-:::: field-group
-::: field name
-@type const char*
-@required
-キー
-:::
-::: field extras
-@type const char*
-@required
-JSON 値
-:::
+:::: field-group  
+::: field name  
+@type const char*  
+@required  
+キー  
+:::  
+::: field extras  
+@type const char*  
+@required  
+JSON 値  
+:::  
 ::::
 
 ##### キー値一覧
@@ -1926,66 +1926,67 @@ JSON 値
 - `MaaFw`  
   MaaFw タッチモードパラメータ
 
-  :::: field-group
-  ::: field control_unit
-  @type string
-  @required
-  制御ユニット動的ライブラリ名。可能な値：`MaaAdbControlUnit` | `MaaAndroidNativeControlUnit` | `MaaLinuxControlUnit`。
-  :::
-  ::: field target_is_pc
-  @type boolean
-  @default false
-  @optional
-  PC 向け最適化を有効化（スクリーンショット前に認識に影響しない位置へマウスを移動）。
-  :::
+  :::: field-group  
+  ::: field control_unit  
+  @type string  
+  @required  
+  制御ユニット動的ライブラリ名。可能な値：`MaaAdbControlUnit` | `MaaAndroidNativeControlUnit` | `MaaLinuxControlUnit`。  
+  :::  
+  ::: field target_is_pc  
+  @type boolean  
+  @default false  
+  @optional  
+  PC 向け最適化を有効化（スクリーンショット前に認識に影響しない位置へマウスを移動）。  
+  :::  
   ::::
 
   - `control_unit = MaaAdbControlUnit` の場合のみ有効：
 
-    :::: field-group
-    ::: field screencap_methods
-    @type number
-    @default 18446744073709551559 (All & ~RawByNetcat & ~MinicapDirect & ~MinicapStream)
-    @optional
-    使用可能なすべてのスクリーンショット方式。[制御方式の説明](https://maafw.com/en/docs/2.4-ControlMethods#adb-screencap)を参照
-    :::
-    ::: field input_methods
-    @type number
-    @default 1 (AdbShell)
-    @optional
-    使用可能なすべての入力方式。[制御方式の説明](https://maafw.com/en/docs/2.4-ControlMethods#adb-input)を参照
-    :::
-    ::: field config
-    @type object
-    @default {}
-    @optional
-    追加設定<br>
-    `AsstConnect` の `config` パラメータが `AVD` の場合、デフォルト値は `{"extras": {"avd": {"enable": true}}}` になります
-    :::
+    :::: field-group  
+    ::: field screencap_methods  
+    @type number  
+    @default 18446744073709551559 (All & ~RawByNetcat & ~MinicapDirect & ~MinicapStream)  
+    @optional  
+    使用可能なすべてのスクリーンショット方式。[制御方式の説明](https://maafw.com/en/docs/2.4-ControlMethods#adb-screencap)を参照  
+    :::  
+    ::: field input_methods  
+    @type number  
+    @default 1 (AdbShell)  
+    @optional  
+    使用可能なすべての入力方式。[制御方式の説明](https://maafw.com/en/docs/2.4-ControlMethods#adb-input)を参照  
+    :::  
+    ::: field config  
+    @type object  
+    @default {}  
+    @optional  
+    追加設定
+    <br>
+    `AsstConnect` の `config` パラメータが `AVD` の場合、デフォルト値は `{"extras": {"avd": {"enable": true}}}` になります  
+    :::  
     ::::
 
   - `control_unit = MaaAndroidNativeControlUnit` の場合のみ有効：
 
-    :::: field-group
-    ::: field ...
-    @type object
-    @required
-    Android Native コントローラ設定 JSON。[MaaAndroidNativeControllerCreate](https://maafw.com/en/docs/2.2-IntegratedInterfaceOverview#maaandroidnativecontrollercreate) を参照
-    :::
+    :::: field-group  
+    ::: field ...  
+    @type object  
+    @required  
+    Android Native コントローラ設定 JSON。[MaaAndroidNativeControllerCreate](https://maafw.com/en/docs/2.2-IntegratedInterfaceOverview#maaandroidnativecontrollercreate) を参照  
+    :::  
     ::::
 
   - `control_unit = MaaLinuxControlUnit` の場合のみ有効：
 
-    :::: field-group
-    ::: field ...
-    @type object
-    @required
-    Linux コントローラ設定 JSON。[MaaLinuxControllerCreate](https://maafw.com/en/docs/2.2-IntegratedInterfaceOverview#maalinuxcontrollercreate) を参照
-    :::
+    :::: field-group  
+    ::: field ...  
+    @type object  
+    @required  
+    Linux コントローラ設定 JSON。[MaaLinuxControllerCreate](https://maafw.com/en/docs/2.2-IntegratedInterfaceOverview#maalinuxcontrollercreate) を参照  
+    :::  
     ::::
 
-::: info MaaFw タッチモードと `AsstConnect`
-`MaaAdbControlUnit` のみが `AsstConnect` の `adb_path` および `address` パラメータを使用します。その他の制御ユニットは `AsstConnect` に渡されたパラメータを無視します。
+::: info MaaFw タッチモードと `AsstConnect`  
+`MaaAdbControlUnit` のみが `AsstConnect` の `adb_path` および `address` パラメータを使用します。その他の制御ユニットは `AsstConnect` に渡されたパラメータを無視します。  
 :::
 
 <details>
