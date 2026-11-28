@@ -454,9 +454,19 @@ public class ToolboxViewModel : Screen
                 ServerType = Instances.SettingsViewModel.ServerType,
             };
             var (type, taskParams) = task.Serialize();
-            bool ret = Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.RecruitCalc, type, taskParams);
-            ret &= Instances.AsstProxy.AsstStart();
-            handedOff = ret;
+
+            // 提交动作与最终认领校验原子化：避免停止请求插入到校验与提交之间
+            bool submitted = false;
+            if (!_runningState.TryInvokeWithActiveClaim(claim, () => {
+                bool ret = Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.RecruitCalc, type, taskParams);
+                submitted = ret && Instances.AsstProxy.AsstStart();
+            }))
+            {
+                _logger.Warning("Recruit start aborted: run claim is no longer active");
+                return;
+            }
+
+            handedOff = submitted;
         }
         finally
         {
@@ -1275,7 +1285,12 @@ public class ToolboxViewModel : Screen
                 return;
             }
 
-            handedOff = StartDepotRecognitionTask();
+            handedOff = false;
+            if (!_runningState.TryInvokeWithActiveClaim(claim, () => handedOff = StartDepotRecognitionTask()))
+            {
+                _logger.Warning("Depot start aborted: run claim is no longer active");
+                return;
+            }
         }
         finally
         {
@@ -2120,9 +2135,15 @@ public class ToolboxViewModel : Screen
     [UsedImplicitly]
     public async Task StartOperBox()
     {
-        // 只拦 Core 本地识别分支；一图流 API 拉取不发 Core 任务，不受限
+        // 一图流 API 拉取不发 Core 任务：不占用运行归属，任务运行期间也可以刷新数据
         var useYituliuApi = SettingsViewModel.ThirdPartyServiceSettings.EnableOperBoxYituliuApi;
-        if (!useYituliuApi && Bootstrapper.TryGetTaskBlockReason() is { } reason)
+        if (useYituliuApi)
+        {
+            await StartOperBoxFromYituliuApiAsync();
+            return;
+        }
+
+        if (Bootstrapper.TryGetTaskBlockReason() is { } reason)
         {
             OperBoxInfo = reason;
             return;
@@ -2137,14 +2158,7 @@ public class ToolboxViewModel : Screen
         bool handedOff = false;
         try
         {
-            if (useYituliuApi)
-            {
-                await StartOperBoxFromYituliuApiAsync();
-            }
-            else
-            {
-                handedOff = await StartOperBoxFromCoreAsync();
-            }
+            handedOff = await StartOperBoxFromCoreAsync(claim);
         }
         finally
         {
@@ -2159,8 +2173,9 @@ public class ToolboxViewModel : Screen
     /// 连接模拟器并开始 core 本地识别。点击即清空旧识别数据；
     /// 运行状态只在连接失败时于此复位，识别完成由 core 回调收尾。
     /// </summary>
+    /// <param name="claim">本次开始操作认领的运行令牌。</param>
     /// <returns>是否已把任务提交给 Core（提交成功后收尾归 Core 回调，调用方无需释放认领）。</returns>
-    private async Task<bool> StartOperBoxFromCoreAsync()
+    private async Task<bool> StartOperBoxFromCoreAsync(RunningState.RunClaim claim)
     {
         ResetOperBoxRecognitionState();
         string errMsg = string.Empty;
@@ -2172,7 +2187,15 @@ public class ToolboxViewModel : Screen
             return false;
         }
 
-        return StartOperBoxRecognitionTask();
+        // 提交动作与最终认领校验原子化：避免停止请求插入到校验与提交之间
+        bool started = false;
+        if (!_runningState.TryInvokeWithActiveClaim(claim, () => started = StartOperBoxRecognitionTask()))
+        {
+            _logger.Warning("OperBox start aborted: run claim is no longer active");
+            return false;
+        }
+
+        return started;
     }
 
     /// <summary>
@@ -2492,8 +2515,22 @@ public class ToolboxViewModel : Screen
         {
             string errMsg = string.Empty;
             GachaInfo = LocalizationHelper.GetString("Connection.Connecting");
-            bool caught = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg) && Instances.AsstProxy.AsstStartGacha(once));
+            bool caught = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
             if (!caught)
+            {
+                GachaInfo = errMsg;
+                return;
+            }
+
+            // 启动抽卡动作与最终认领校验原子化：避免停止请求插入到校验与启动之间
+            bool started = false;
+            if (!_runningState.TryInvokeWithActiveClaim(claim, () => started = Instances.AsstProxy.AsstStartGacha(once)))
+            {
+                _logger.Warning("Gacha start aborted: run claim is no longer active");
+                return;
+            }
+
+            if (!started)
             {
                 GachaInfo = errMsg;
                 return;
@@ -2829,7 +2866,24 @@ public class ToolboxViewModel : Screen
                         return;
                     }
 
+                    // 连接期间本轮可能已被停止/被新运行接管：失效认领不得继续截图
+                    if (!_runningState.IsClaimActive(claim))
+                    {
+                        _logger.Warning("Peep aborted: run claim is no longer active");
+                        return;
+                    }
+
                     IsPeepInProgress = true;
+                }
+                else
+                {
+                    // 复用现有连接必须确认 Core 已在运行且已连接，否则截图请求会静默失败
+                    if (!Instances.AsstProxy.Connected || !Instances.AsstProxy.AsstRunning())
+                    {
+                        Peeping = false;
+                        GachaInfo = LocalizationHelper.GetString("Common.StartBlocked");
+                        return;
+                    }
                 }
 
                 PeepScreenFpf = 0;
@@ -2837,7 +2891,7 @@ public class ToolboxViewModel : Screen
                 _peepImageNewestCount = 0;
                 _peepImageTimer.Start();
 
-                // 认领成功、连接建立且截图会话真正开始后才解锁成就：点击被拒/连接失败不应计入
+                // 连接可用且截图会话真正开始后才解锁成就：点击被拒/连接失败不应计入
                 AchievementTrackerHelper.Instance.Unlock(AchievementIds.PeekScreen);
                 handedOff = true;
             }
@@ -3854,14 +3908,16 @@ public class ToolboxViewModel : Screen
                 return;
             }
 
-            // 连接期间本轮可能已被停止、且状态被新运行认领：失效令牌不得再提交，否则任务会挂到新运行上
-            if (!_runningState.IsClaimActive(claim))
+            // 提交动作与最终认领校验原子化：停止请求不能插入到校验与提交之间，
+            // 失效令牌也不得再提交，否则任务会挂到新运行上
+            bool submitted = false;
+            if (!_runningState.TryInvokeWithActiveClaim(claim, () => submitted = submit()))
             {
-                _logger.Warning("Mini game start aborted: run claim is no longer active");
+                _logger.Warning("Mini game start aborted: run claim is no longer active or stopping");
                 return;
             }
 
-            handedOff = submit();
+            handedOff = submitted;
             if (handedOff)
             {
                 AchievementTrackerHelper.Instance.Unlock(AchievementIds.SlackingOff);

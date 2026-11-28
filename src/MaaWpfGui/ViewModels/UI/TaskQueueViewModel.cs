@@ -2341,7 +2341,7 @@ public class TaskQueueViewModel : Screen
 
             if (_runningState.GetStopping())
             {
-                SetStopped();
+                SetStopped(claim);
                 return false;
             }
 
@@ -2365,7 +2365,7 @@ public class TaskQueueViewModel : Screen
 
             if (_runningState.GetStopping())
             {
-                SetStopped();
+                SetStopped(claim);
                 return false;
             }
 
@@ -2380,7 +2380,7 @@ public class TaskQueueViewModel : Screen
 
             if (_runningState.GetStopping())
             {
-                SetStopped();
+                SetStopped(claim);
                 return false;
             }
 
@@ -2397,7 +2397,7 @@ public class TaskQueueViewModel : Screen
 
             if (_runningState.GetStopping())
             {
-                SetStopped();
+                SetStopped(claim);
                 return false;
             }
 
@@ -2413,7 +2413,7 @@ public class TaskQueueViewModel : Screen
 
             if (_runningState.GetStopping())
             {
-                SetStopped();
+                SetStopped(claim);
                 return false;
             }
 
@@ -2606,6 +2606,13 @@ public class TaskQueueViewModel : Screen
         // InfrastTask.InfrastOrderSelectionChanged();
         await Task.Run(() => SettingsViewModel.GameSettings.RunScript(GameSettingsUserControlModel.StartWithScriptKey));
 
+        // 启动前脚本/连接期间本轮可能已被停止、且状态被新运行认领：失效令牌不得继续提交任务或启动 Core
+        if (!_runningState.IsClaimActive(claim))
+        {
+            _logger.Warning("LinkStart aborted: run claim is no longer active");
+            return;
+        }
+
         AddLog(LocalizationHelper.GetString("Connection.Connecting"));
 
         /*
@@ -2632,6 +2639,12 @@ public class TaskQueueViewModel : Screen
         if (_runningState.GetStopping())
         {
             SetStopped(claim);
+            return;
+        }
+
+        if (!_runningState.IsClaimActive(claim))
+        {
+            _logger.Warning("LinkStart aborted: run claim is no longer active");
             return;
         }
 

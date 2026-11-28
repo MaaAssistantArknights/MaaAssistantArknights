@@ -591,6 +591,13 @@ public class RemoteControlService
                 return;
             }
 
+            // 连接期间本轮可能已被停止、且状态被新运行认领：失效令牌不得继续提交任务或启动 Core
+            if (!_runningState.IsClaimActive(claim))
+            {
+                _logger.Warning("RemoteControl LinkStart aborted: run claim is no longer active");
+                return;
+            }
+
             bool taskRet = true;
 
             // 直接遍历TaskItemViewModels里面的内容，是排序后的

@@ -473,7 +473,7 @@ public class AsstProxy
     {
         _callback = CallbackFunction;
         _runningState = RunningState.Instance;
-        _tasksStatus.CollectionChanged += (in NotifyCollectionChangedEventArgs<KeyValuePair<AsstTaskId, (TaskType, TaskStatus)>> args) => {
+        _tasksStatus.CollectionChanged += (in NotifyCollectionChangedEventArgs<KeyValuePair<AsstTaskId, (TaskType, TaskStatus, long)>> args) => {
             if (args.Action == NotifyCollectionChangedAction.Reset)
             {
                 TaskSettingVisibilityInfo.Instance.NotifyOfTaskStatus();
@@ -1463,14 +1463,20 @@ public class AsstProxy
                     // 手动停止、掉线、强制定时启动统一走到这里，把未定稿的作战日报 session 定稿
                     DailyReportCollector.OnQueueStopped();
 
-                    // Core 已停止：允许在非停止请求（掉线/异常）下强制收口；迟到的回调由
-                    // TryEndRunForStop 的停止请求/运行令牌校验拦下，不会清掉后来者认领的新运行
-                    Instances.TaskQueueViewModel.SetStopped(force: true);
+                    // 只认回调任务所属的那笔运行：用任务记录了发起时的认领令牌校验，
+                    // 迟到的旧回调不会把后来者认领的新运行清掉（未知任务 id 时退化为停止请求校验）
+                    RunningState.RunClaim? stoppedClaim = _tasksStatus.TryGetValue(taskId, out var stoppedTaskStatus) && stoppedTaskStatus.ClaimId != 0
+                        ? new RunningState.RunClaim(stoppedTaskStatus.ClaimId)
+                        : null;
+                    bool stopped = Instances.TaskQueueViewModel.SetStopped(stoppedClaim, force: stoppedClaim.HasValue);
+                    if (stopped)
+                    {
+                        // UpdateTaskStatus(taskId, TaskStatus.Completed);
+                        _tasksStatus.Clear();
+                        _taskChainStartTimes.Clear();
+                    }
                 }
 
-                // UpdateTaskStatus(taskId, TaskStatus.Completed);
-                _tasksStatus.Clear();
-                _taskChainStartTimes.Clear();
                 break;
 
             case AsstMsg.TaskChainError:
@@ -1648,6 +1654,41 @@ public class AsstProxy
     }
 
     /// <summary>
+    /// 取本轮完成任务的发起认领令牌。
+    /// 返回值 <c>Known</c> 为 false 表示完成列表里没有可追溯的任务记录（如空列表）；
+    /// 为 true 但 <c>Claim.Id == 0</c> 表示多个任务归属不一致，调用方应按不可信处理。
+    /// </summary>
+    /// <param name="taskList">完成回调里的任务 id 列表。</param>
+    /// <returns>是否可追溯，以及对应的认领令牌。</returns>
+    private (bool Known, RunningState.RunClaim Claim) GetTaskListClaim(AsstTaskId[]? taskList)
+    {
+        if (taskList is not { Length: > 0 })
+        {
+            return (false, default);
+        }
+
+        long claimId = 0;
+        foreach (var taskId in taskList)
+        {
+            if (!_tasksStatus.TryGetValue(taskId, out var status) || status.ClaimId == 0)
+            {
+                continue;
+            }
+
+            if (claimId == 0)
+            {
+                claimId = status.ClaimId;
+            }
+            else if (claimId != status.ClaimId)
+            {
+                return (true, default);
+            }
+        }
+
+        return claimId == 0 ? (false, default) : (true, new RunningState.RunClaim(claimId));
+    }
+
+    /// <summary>
     /// 本轮全部任务完成后的收尾。先锁中断再暴露空闲，使 <c>CheckAfterCompleted</c> 的结束脚本/完成后动作
     /// 与新开始入口互斥：否则空闲到收尾脚本加锁之间会出现小游戏等新运行与收尾脚本并发的窗口。
     /// </summary>
@@ -1660,9 +1701,33 @@ public class AsstProxy
         {
             var taskList = details["finished_tasks"]?.ToObject<AsstTaskId[]>();
 
+            // 终态回调必须属于当前活动运行：迟到/重复的旧回调不得清理新运行的任务状态、
+            // 置空闲或触发完成动作
+            var (claimKnown, callbackClaim) = GetTaskListClaim(taskList);
+            if (claimKnown)
+            {
+                if (callbackClaim.Id == 0 || !_runningState.IsClaimActive(callbackClaim))
+                {
+                    _logger.Information("Ignore stale AllTasksCompleted callback: claim {ClaimId} is not active", callbackClaim.Id);
+                    return;
+                }
+            }
+            else
+            {
+                // 没有可追溯的任务记录（如空完成列表）：只有当前确实在运行才收口，否则视为重复回调
+                var activeClaim = _runningState.ActiveClaim;
+                if (activeClaim is null)
+                {
+                    _logger.Information("Ignore duplicate AllTasksCompleted callback: no active run");
+                    return;
+                }
+
+                callbackClaim = activeClaim.Value;
+            }
+
             // 完成判定按发起归属而非 _tasksStatus 条目类型推断：条目 Type 与队列任务脱节
             // （更新数据/仓库维护展开的链不在白名单、copilot 启动失败残留条目误判轮次归属）。
-            // 归属快照须在 SetIdle(true) 清零之前取得
+            // 归属快照须在 EndRun 清零之前取得
             var runOwner = _runningState.Owner;
 
             // ｢超级监工｣ 只认本轮实际完成的迷你游戏任务：按 finished_tasks 逐项校验任务类型与完成状态，
@@ -1686,11 +1751,18 @@ public class AsstProxy
             // 同样覆盖 RemoteControlService 等绕过 LinkStartWithTasks 的启动入口；名单在下一轮开始时才清空，此处仍可读
             var failedTaskNames = Instances.TaskQueueViewModel.TaskItemViewModels.Where(i => i.StatusDisplay == TaskItemStatus.Error).Select(i => i.Name).ToArray();
             bool hasTaskErrors = failedTaskNames.Length > 0;
+
+            // 用回调来源的运行令牌结束本轮；令牌失效（已被停止/被新运行接管）时不再清理共享状态
+            if (!_runningState.EndRun(callbackClaim))
+            {
+                _logger.Information("Ignore AllTasksCompleted callback: run claim was already ended");
+                return;
+            }
+
             _tasksStatus.Clear();
             _taskChainStartTimes.Clear();
 
             Instances.TaskQueueViewModel.ResetAllTemporaryVariable();
-            _runningState.SetIdle(true);
 
             if (runOwner == RunOwner.TaskQueue && taskList?.Length > 0)
             {
@@ -3871,9 +3943,9 @@ public class AsstProxy
         Custom,
     }
 
-    private readonly ObservableDictionary<AsstTaskId, (TaskType Type, TaskStatus Status)> _tasksStatus = [];
+    private readonly ObservableDictionary<AsstTaskId, (TaskType Type, TaskStatus Status, long ClaimId)> _tasksStatus = [];
 
-    public IReadOnlyDictionary<AsstTaskId, (TaskType Type, TaskStatus Status)> TasksStatus => new Dictionary<AsstTaskId, (TaskType, TaskStatus)>(_tasksStatus);
+    public IReadOnlyDictionary<AsstTaskId, (TaskType Type, TaskStatus Status, long ClaimId)> TasksStatus => new Dictionary<AsstTaskId, (TaskType, TaskStatus, long)>(_tasksStatus);
 
     public delegate void TaskStatusDelegate(int taskId, TaskItemStatus status);
 
@@ -3897,7 +3969,7 @@ public class AsstProxy
             RunningState.Instance.ResetTimeout(); // 进入新任务时重置超时计时
         }
 
-        _tasksStatus[id] = (value.Type, status);
+        _tasksStatus[id] = (value.Type, status, value.ClaimId);
         OnTaskStatusChanged?.Invoke(id, (TaskItemStatus)status);
         if (status == TaskStatus.InProgress)
         {
@@ -4141,7 +4213,8 @@ public class AsstProxy
             return (false, 0);
         }
 
-        _tasksStatus.Add(id, (wpfTaskType, TaskStatus.Idle));
+        var claimId = RunningState.Instance.ActiveClaim?.Id ?? 0;
+        _tasksStatus.Add(id, (wpfTaskType, TaskStatus.Idle, claimId));
         return (true, id);
     }
 
@@ -4154,7 +4227,8 @@ public class AsstProxy
             return false;
         }
 
-        _tasksStatus.Add(id, (wpfTaskType, TaskStatus.Idle));
+        var claimId = RunningState.Instance.ActiveClaim?.Id ?? 0;
+        _tasksStatus.Add(id, (wpfTaskType, TaskStatus.Idle, claimId));
         return true;
     }
 

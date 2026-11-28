@@ -363,6 +363,40 @@ public class RunningState
     }
 
     /// <summary>
+    /// 当前活动认领令牌快照；空闲或未认领时为 <see langword="null"/>。
+    /// </summary>
+    public RunClaim? ActiveClaim
+    {
+        get {
+            lock (_runTransitionLock)
+            {
+                return _idle || _activeRunClaimId == 0 ? null : new RunClaim(_activeRunClaimId);
+            }
+        }
+    }
+
+    /// <summary>
+    /// 在持有转换锁的情况下执行一次提交动作：仅当令牌仍是活动认领、未在停止中且无中断锁定时才执行。
+    /// 供“校验完认领后立即提交任务/启动 Core”的收尾动作使用，避免停止请求插入到校验与提交之间。
+    /// </summary>
+    /// <param name="claim">提交方持有的认领令牌。</param>
+    /// <param name="action">实际的提交动作。</param>
+    /// <returns>是否实际执行了提交动作。</returns>
+    public bool TryInvokeWithActiveClaim(RunClaim claim, Action action)
+    {
+        lock (_runTransitionLock)
+        {
+            if (_idle || _activeRunClaimId != claim.Id || _stopping || IsInterruptLocked())
+            {
+                return false;
+            }
+
+            action();
+            return true;
+        }
+    }
+
+    /// <summary>
     /// 停止/收尾回调结束当前运行：资格判定与状态迁移在同一把锁内原子完成。
     /// 传入 <paramref name="claim"/> 时仅当该令牌仍是活动认领才生效；未传令牌时默认只处理
     /// 针对当前运行的停止请求（<paramref name="force"/> 供 Core 已停止/停止超时等强制收口使用），

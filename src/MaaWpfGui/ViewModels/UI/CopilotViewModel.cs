@@ -2106,6 +2106,13 @@ public partial class CopilotViewModel : Screen
 
         await RunStartsWithScriptAsync();
 
+        // 启动前脚本期间本轮可能已被停止/被新运行接管：失效令牌不得继续连接或提交
+        if (!_runningState.IsClaimActive(claim))
+        {
+            _logger.Warning("Copilot start aborted: run claim is no longer active");
+            return;
+        }
+
         if (!await ConnectToEmulatorAsync())
         {
             // Core 从未 start，Stop() 的轮询立即结束、走不到超时强制 SetStopped，需显式收尾
@@ -2119,6 +2126,12 @@ public partial class CopilotViewModel : Screen
         {
             Instances.TaskQueueViewModel.SetStopped(claim);
             AddLog(LocalizationHelper.GetString("TaskQueue.Stopped"));
+            return;
+        }
+
+        if (!_runningState.IsClaimActive(claim))
+        {
+            _logger.Warning("Copilot start aborted: run claim is no longer active");
             return;
         }
 
