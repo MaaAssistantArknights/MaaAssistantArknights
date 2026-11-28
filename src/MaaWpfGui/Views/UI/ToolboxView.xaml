@@ -1562,6 +1562,48 @@
                             </ItemsControl>
                         </Grid>
                     </hc:ScrollViewer>
+                    <!--  覆盖层：悬浮窗按钮，绑定到信息流区域右上角（不占布局）  -->
+                    <Grid
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Top"
+                        Panel.ZIndex="200">
+                        <Path
+                            Width="15"
+                            Height="15"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Fill="{DynamicResource PrimaryTextBrush}"
+                            IsHitTestVisible="False"
+                            Stretch="Uniform"
+                            StrokeThickness="1">
+                            <Path.Style>
+                                <Style TargetType="Path">
+                                    <Setter Property="Data" Value="{StaticResource CarbonUnlink}" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsOverlayEnabled, Source={x:Static helper:Instances.TaskQueueViewModel}}" Value="True">
+                                            <Setter Property="Data" Value="{StaticResource CarbonLink}" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Path.Style>
+                        </Path>
+                        <Button
+                            Width="27"
+                            Height="27"
+                            Click="{s:Action ToggleOverlay,
+                                             Target={x:Type ui_vms:TaskQueueViewModel}}"
+                            MouseRightButtonDown="{s:Action ChooseOverlayTarget,
+                                                            Target={x:Type ui_vms:TaskQueueViewModel}}" />
+                        <controls:TooltipBlock
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Top"
+                            MouseLeftButtonDown="{s:Action ToggleOverlay,
+                                                           Target={x:Type ui_vms:TaskQueueViewModel}}"
+                            MouseRightButtonDown="{s:Action ChooseOverlayTarget,
+                                                            Target={x:Type ui_vms:TaskQueueViewModel}}"
+                            NormalOpacity="0.25"
+                            TooltipText="{DynamicResource Logging.Overlay.Tip}" />
+                    </Grid>
                 </Grid>
             </Grid>
         </TabItem>
