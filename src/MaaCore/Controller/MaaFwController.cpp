@@ -125,6 +125,7 @@ bool MaaFwController::connect_with_extras(
             avd_extras["avd"] = std::move(avd_config);
             config_arg["extras"] = std::move(avd_extras);
         }
+        using namespace asst::utils::path_literals;
         m_unit_handle = create_func(
             adb_path.c_str(),
             address.c_str(),
@@ -136,7 +137,7 @@ bool MaaFwController::connect_with_extras(
             extras.get("input_methods", MaaAdbInputMethod::AdbShell),
             config_arg.dumps().c_str(),
             // MaaAgentBinary目录
-            utils::path_to_utf8_string(ResDir.get() / "minitouch").c_str());
+            utils::path_to_utf8_string(ResDir.get() / "minitouch"_p).c_str());
     } break;
     case ControlUnitType::MaaAndroidNativeControlUnit: {
         auto create_func = get_function<MaaFwControlUnitAPI*(const char*)>("MaaAndroidNativeControlUnitCreate");
