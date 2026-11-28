@@ -3,6 +3,7 @@
 #include "Config/TaskData.h"
 #include "Task/MiniGame/AutoRaisePotentialTaskPlugin.h"
 #include "Task/MiniGame/EventShopTaskPlugin.h"
+#include "Task/MiniGame/KarlanTaskPlugin.h"
 #include "Task/MiniGame/MaterialSynthesisTaskPlugin.h"
 #include "Task/MiniGame/PixelPaintTaskPlugin.h"
 #include "Task/MiniGame/SecretFrontTaskPlugin.h"
@@ -38,7 +39,12 @@ bool asst::CustomTask::set_params(const json::value& params)
         std::string task_name = t.as_string();
         std::string resolved_task = task_name;
 
-        if (parse_and_register_secretfront(task_name, resolved_task)) {
+        if (task_name == "MiniGame@OS@Begin") {
+            if (!m_custom_task_ptr->find_plugin<KarlanTaskPlugin>()) {
+                m_custom_task_ptr->register_plugin<KarlanTaskPlugin>()->set_retry_times(0);
+            }
+        }
+        else if (parse_and_register_secretfront(task_name, resolved_task)) {
             Log.info("Parsed and registered SecretFront task: ", task_name, " -> ", resolved_task);
         }
         else if (parse_and_register_auto_raise_potential(task_name, params)) {

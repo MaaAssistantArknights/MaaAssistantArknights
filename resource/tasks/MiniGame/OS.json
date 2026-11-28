@@ -2,12 +2,12 @@
     "MiniGame@OS@Begin": {
         "doc": "雪山降临1101 - 喀兰贸易技术研发部",
         "algorithm": "JustReturn",
-        "next": ["MiniGame@OS@CheckAchieved", "MiniGame@OS@StartRebuild"]
+        "next": ["MiniGame@OS@CheckAchieved", "MiniGame@OS@StartRebuild", "MiniGame@OS@OrderBoard"]
     },
     "MiniGame@OS@StartRebuild": {
         "action": "ClickSelf",
         "roi": [1022, 501, 226, 213],
-        "next": ["#self", "MiniGame@OS@PlayFirstCard"]
+        "next": ["#self", "MiniGame@OS@OrderBoard"]
     },
     "MiniGame@OS@PlayFirstCard": {
         "algorithm": "JustReturn",
@@ -46,7 +46,12 @@
         "action": "ClickSelf",
         "roi": [1026, 341, 249, 142],
         "postDelay": 4000,
-        "next": ["MiniGame@OS@CheckPointsUsed", "MiniGame@OS@ClickToContinue", "MiniGame@OS@PlayFirstCard"]
+        "next": [
+            "MiniGame@OS@CheckPointsUsed",
+            "MiniGame@OS@ClickToContinue",
+            "MiniGame@OS@OrderBoard",
+            "MiniGame@OS@PlayFirstCard"
+        ]
     },
     "MiniGame@OS@ClickToContinue": {
         "action": "ClickSelf",
@@ -70,5 +75,13 @@
         "baseTask": "CreditShop-Bought",
         "template": "ItemObtainedIcon.png",
         "next": ["MiniGame@OS@CheckAchieved", "MiniGame@OS@StartRebuild", "MiniGame@OS@ClickToContinue"]
+    },
+    "MiniGame@OS@OrderBoard": {
+        "doc": "按订单规划当前手牌。未识别的棋盘或旧内核走原出牌流程。",
+        "baseTask": "MiniGame@OS@EndTurn",
+        "template": "MiniGame@OS@EndTurn.png",
+        "action": "DoNothing",
+        "postDelay": 0,
+        "next": ["MiniGame@OS@CheckPointsUsed", "MiniGame@OS@ClickToContinue", "MiniGame@OS@PlayFirstCard"]
     }
 }
