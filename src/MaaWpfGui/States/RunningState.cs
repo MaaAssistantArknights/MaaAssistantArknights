@@ -261,6 +261,10 @@ public class RunningState
     private bool _idle = true;
     private RunOwner _runOwner;
 
+    // 运行归属的检查与声明必须在同一把锁内完成：小游戏等入口可能被 UI 与远程控制并发调用，
+    // 若先 GetIdle 再 BeginRun，两个调用方都会通过检查并依次接管归属，完成事件随即被错误归因
+    private readonly Lock _runTransitionLock = new();
+
     /// <summary>
     /// 当前运行轮次的发起入口归属，由开始入口经 <see cref="BeginRun"/> 声明，回到空闲时清零。
     /// </summary>
@@ -285,6 +289,37 @@ public class RunningState
     /// <param name="owner">发起运行的入口归属。</param>
     /// <param name="caller">调用方名称。</param>
     public void BeginRun(RunOwner owner, [CallerMemberName] string caller = "")
+    {
+        lock (_runTransitionLock)
+        {
+            BeginRunCore(owner, caller);
+        }
+    }
+
+    /// <summary>
+    /// 原子地尝试认领本轮运行：仅当当前可安全打断（空闲且中断未锁定）时声明归属并进入运行态。
+    /// 供可能被并发调用的开始入口使用（如小游戏：UI 与远程控制都会进入），避免检查与认领之间
+    /// 被另一入口插入，导致本轮运行归属被改写、完成事件归因到错误的任务。
+    /// </summary>
+    /// <param name="owner">发起运行的入口归属。</param>
+    /// <param name="caller">调用方名称。</param>
+    /// <returns>认领成功返回 <see langword="true"/>；已有运行、停止中或中断被锁定时返回 <see langword="false"/>，状态保持不变。</returns>
+    public bool TryBeginRun(RunOwner owner, [CallerMemberName] string caller = "")
+    {
+        lock (_runTransitionLock)
+        {
+            if (!CanInterrupt())
+            {
+                _logger.Information("TryBeginRun rejected: owner={Owner} (called from {Caller})", owner, caller);
+                return false;
+            }
+
+            BeginRunCore(owner, caller);
+            return true;
+        }
+    }
+
+    private void BeginRunCore(RunOwner owner, string caller)
     {
         _logger.Information("BeginRun: owner={Owner} (called from {Caller})", owner, caller);
         if (_idle)
