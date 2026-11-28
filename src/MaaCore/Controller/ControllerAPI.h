@@ -26,6 +26,7 @@ enum class ControllerType
 #ifdef __ANDROID__
     MaaFwAndroidNative,
 #endif
+    MaaFw,
 };
 
 class ControllerAPI

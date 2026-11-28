@@ -1,0 +1,681 @@
+#include "MaaFwController.h"
+
+#include <algorithm>
+#include <chrono>
+#include <cmath>
+#include <cstdint>
+#include <future>
+#include <numeric>
+#include <ranges>
+#include <thread>
+
+#include "Config/GeneralConfig.h"
+#include "Controller/MaaFwControlUnitInterface.h"
+#include "Controller/SwipeHelper.hpp"
+#include "Utils/Logger.hpp"
+#include "Utils/WorkingDir.hpp"
+
+namespace asst
+{
+MaaFwController::MaaFwController(const AsstCallback& callback, Assistant* inst, PlatformType type [[maybe_unused]]) :
+    InstHelper(inst),
+    m_callback(callback)
+{
+    LogTraceFunction;
+}
+
+MaaFwController::~MaaFwController()
+{
+    LogTraceFunction;
+    destroy_unit();
+}
+
+bool MaaFwController::connect(const std::string& adb_path, const std::string& address, const std::string& config)
+{
+    LogTraceFunction;
+
+    auto adb_config = Config.get_adb_cfg("MaaFw");
+    if (!adb_config) {
+        LogError << "MaaFw connection extras is required but not set";
+        callback(
+            AsstMsg::ConnectionInfo,
+            json::object {
+                { "what", "ConnectFailed" },
+                { "why", "connection extras for MaaFw is required but not set" },
+                { "details", json::object { { "adb", adb_path }, { "address", address }, { "config", config } } },
+            });
+        return false;
+    }
+
+    return connect_with_extras(adb_path, address, config, adb_config->extras);
+}
+
+bool MaaFwController::connect_with_extras(
+    const std::string& adb_path,
+    const std::string& address,
+    const std::string& config,
+    const json::object& extras)
+{
+    LogTraceFunction;
+
+    m_inited = false;
+    m_uuid.clear();
+    m_screen_size = { 0, 0 };
+    m_screencap_cost.clear();
+    m_screencap_times = 0;
+
+    m_target_is_pc = extras.get("target_is_pc", false);
+    m_esc_keycode = 111; // KEYCODE_ESCAPE for Android
+
+    auto get_info_json = [&]() -> json::object {
+        return json::object {
+            { "uuid", m_uuid },
+            { "details",
+              json::object {
+                  { "adb", adb_path },
+                  { "address", address },
+                  { "config", config },
+                  { "extras", extras },
+              } },
+        };
+    };
+
+    auto control_unit_type = extras.find<ControlUnitType>("control_unit");
+    if (!control_unit_type) {
+        LogError
+            << "MaaFw connection extras.control_unit must be a supported library name such as \"MaaAdbControlUnit\"";
+        callback(
+            AsstMsg::ConnectionInfo,
+            json::object {
+                { "what", "ConnectFailed" },
+                { "why", "control_unit missing or invalid in connection extras" },
+            } | get_info_json());
+        return false;
+    }
+
+    destroy_unit();
+
+    if (!init_library(*control_unit_type)) {
+        callback(
+            AsstMsg::ConnectionInfo,
+            json::object {
+                { "what", "ConnectFailed" },
+                { "why", "Failed to load MaaFw control unit library" },
+            } | get_info_json());
+        return false;
+    }
+
+    // 创建 control unit
+    switch (*control_unit_type) {
+    case ControlUnitType::MaaAdbControlUnit: {
+        auto create_func =
+            get_function<MaaFwControlUnitAPI*(const char*, const char*, uint64_t, uint64_t, const char*, const char*)>(
+                "MaaAdbControlUnitCreate");
+        if (!create_func) {
+            LogError << "MaaAdbControlUnitCreate function not found?!";
+            break;
+        }
+
+        json::object config_arg = extras.get("config", json::object {});
+        if (config == "AVD") {
+            // 深合并而非整体覆盖，保留调用方在 config.extras / config.extras.avd 里已传入的其它条目
+            json::object avd_extras = config_arg.get("extras", json::object {});
+            json::object avd_config = avd_extras.get("avd", json::object {});
+            avd_config["enable"] = true;
+            avd_extras["avd"] = std::move(avd_config);
+            config_arg["extras"] = std::move(avd_extras);
+        }
+        m_unit_handle = create_func(
+            adb_path.c_str(),
+            address.c_str(),
+            extras.get("screencap_methods", MaaAdbScreencapMethod::Default),
+            // 不要加 EmulatorExtras：MaaFramework 的 MuMuPlayerExtras::click/swipe 是空实现，
+            // 它靠 get_features() 返回 UseMouseDownAndUpInsteadOfClick 让上层改走 touch_down/up，
+            // 而这里的 click()/swipe() 直接透传给 ControlUnit，从不读 features，会全部失败。
+            // MuMu 触控走 MumuController（TouchMode::MumuExtras）。
+            extras.get("input_methods", MaaAdbInputMethod::AdbShell),
+            config_arg.dumps().c_str(),
+            // agent 目录：MaaFramework 会在该目录下自行拼接 minitouch/<arch>/minitouch、
+            // maatouch/universal/maatouch、minicap/<arch>/... 等子路径，须传资源根目录。
+            // AVDExtras 时期只支持 adb input 触控、不读该目录，传错路径的问题由此遗留
+            utils::path_to_utf8_string(ResDir.get()).c_str());
+    } break;
+    case ControlUnitType::MaaAndroidNativeControlUnit: {
+        auto create_func = get_function<MaaFwControlUnitAPI*(const char*)>("MaaAndroidNativeControlUnitCreate");
+        if (!create_func) {
+            LogError << "MaaAndroidNativeControlUnitCreate function not found?!";
+            break;
+        }
+        m_unit_handle = create_func(extras.dumps().c_str());
+    } break;
+    case ControlUnitType::MaaLinuxControlUnit: {
+        auto create_func = get_function<MaaFwControlUnitAPI*(const char*)>("MaaLinuxControlUnitCreate");
+        if (!create_func) {
+            LogError << "MaaLinuxControlUnitCreate function not found?!";
+            break;
+        }
+        json::object config_json = extras;
+        config_json["use_win32_vk_code"] = false;
+        m_esc_keycode = 1; // KEY_ESC defined in <linux/input-event-codes.h>
+        m_unit_handle = create_func(config_json.dumps().c_str());
+    } break;
+    }
+
+    if (!m_unit_handle) {
+        LogError << "Failed to create MaaFw control unit" << VAR(m_library_name);
+        callback(
+            AsstMsg::ConnectionInfo,
+            json::object {
+                { "what", "ConnectFailed" },
+                { "why", "Failed to create MaaFw control unit" },
+            } | get_info_json());
+        return false;
+    }
+
+    if (!m_unit_handle->connect()) {
+        LogError << "MaaFw control unit failed to connect" << VAR(m_library_name);
+        destroy_unit();
+        callback(
+            AsstMsg::ConnectionInfo,
+            json::object {
+                { "what", "ConnectFailed" },
+                { "why", "MaaFw control unit failed to connect" },
+            } | get_info_json());
+        return false;
+    }
+
+    if (!m_unit_handle->request_uuid(m_uuid)) {
+        LogError << "Failed to get UUID from MaaFw control unit" << VAR(m_library_name);
+        destroy_unit();
+        callback(
+            AsstMsg::ConnectionInfo,
+            json::object {
+                { "what", "ConnectFailed" },
+                { "why", "MaaFw control unit failed to get UUID" },
+            } | get_info_json());
+        return false;
+    }
+
+    {
+        json::value info = json::object {
+            { "what", "UuidGot" },
+            { "why", "" },
+        } | get_info_json();
+        info["details"]["uuid"] = m_uuid;
+        callback(AsstMsg::ConnectionInfo, info);
+    }
+
+    if (auto screen_resolution = extras.find<json::object>("screen_resolution")) {
+        const int width = screen_resolution->get("width", 0);
+        const int height = screen_resolution->get("height", 0);
+        m_screen_size = { width, height };
+        LogInfo << "Using screen resolution set in connection extras:" << width << "x" << height;
+    }
+
+    if (m_screen_size.first <= 0 || m_screen_size.second <= 0) {
+        // 尝试进行一次截图以获取屏幕分辨率
+        LogInfo << "Trying to determine screen size by screencap";
+        cv::Mat image;
+        if (!m_unit_handle->screencap(image) || image.empty()) {
+            LogError << "Failed to get screen size";
+            destroy_unit();
+            callback(
+                AsstMsg::ConnectionInfo,
+                json::object {
+                    { "what", "ResolutionError" },
+                    { "why", "Get resolution failed" },
+                } | get_info_json());
+            return false;
+        }
+        m_screen_size = { image.cols, image.rows };
+    }
+
+    LogInfo << "MaaFw control unit screen size:" << m_screen_size.first << "x" << m_screen_size.second;
+    callback(
+        AsstMsg::ConnectionInfo,
+        json::object {
+            { "what", "ResolutionGot" },
+            { "why", "" },
+            { "width", m_screen_size.first },
+            { "height", m_screen_size.second },
+        } | get_info_json());
+
+    m_inited = true;
+    callback(
+        AsstMsg::ConnectionInfo,
+        json::object {
+            { "what", "Connected" },
+            { "why", "" },
+        } | get_info_json());
+    return true;
+}
+
+bool MaaFwController::init_library(ControlUnitType control_unit_type)
+{
+    const std::string library_name = json::value(control_unit_type).as_string();
+
+    if (m_control_unit_type.has_value() && *m_control_unit_type == control_unit_type && m_get_version_func &&
+        m_destroy_func) {
+        LogInfo << "MaaFw control unit library already loaded" << VAR(library_name);
+        return true;
+    }
+
+    if (m_control_unit_type.has_value() && *m_control_unit_type != control_unit_type) {
+        LogError << "Cannot change MaaFw control unit library on the same controller object" << VAR(m_library_name)
+                 << VAR(library_name);
+        return false;
+    }
+
+    if (!load_library(library_name)) {
+        LogError << "Failed to load MaaFw control unit library" << VAR(library_name);
+        return false;
+    }
+
+    m_control_unit_type = control_unit_type;
+    m_library_name = library_name;
+    m_get_version_func = get_function<GetVersionFunc>(library_name + "GetVersion");
+    m_destroy_func = get_function<DestroyFunc>(library_name + "Destroy");
+
+    if (!m_get_version_func || !m_destroy_func) {
+        LogError << "Failed to get function pointers from MaaFw control unit library" << VAR(library_name);
+        return false;
+    }
+
+    LogInfo << "MaaFw control unit library version:" << m_get_version_func();
+    return true;
+}
+
+void MaaFwController::destroy_unit()
+{
+    m_inited = false;
+    if (!m_unit_handle) {
+        return;
+    }
+
+    if (m_destroy_func) {
+        LogInfo << "Cleaning up MaaFw control unit" << VAR(m_library_name);
+        m_destroy_func(m_unit_handle);
+    }
+    m_unit_handle = nullptr;
+}
+
+bool MaaFwController::inited() const noexcept
+{
+    return m_inited && m_unit_handle && m_unit_handle->connected();
+}
+
+const std::string& MaaFwController::get_uuid() const
+{
+    return m_uuid;
+}
+
+bool MaaFwController::screencap(cv::Mat& image_payload, bool allow_reconnect [[maybe_unused]])
+{
+    return screencap_impl(image_payload, m_target_is_pc);
+}
+
+bool MaaFwController::screencap_for_preview(cv::Mat& image_payload, bool allow_reconnect [[maybe_unused]])
+{
+    return screencap_impl(image_payload, false);
+}
+
+bool MaaFwController::screencap_impl(cv::Mat& image_payload, bool move_cursor)
+{
+    LogTraceFunction;
+    if (!m_unit_handle) {
+        LogWarn << "MaaFw control unit is not initialized";
+        return false;
+    }
+
+    // PC 端截图前把鼠标移走，避免光标出现在截图中影响识别
+    if (move_cursor && m_screen_size.second > 0) {
+        if (m_main_screen_recognition) {
+            // 主界面情况下鼠标移动到窗口中心，等待主界面的视差动画，300ms
+            if (inject_input_event(
+                    InputEvent {
+                        .type = InputEvent::Type::TOUCH_MOVE,
+                        .point = { m_screen_size.first / 2, m_screen_size.second / 2 },
+                    })) {
+                std::this_thread::sleep_for(std::chrono::milliseconds(300));
+            }
+            else {
+                LogWarn << "Failed to move cursor to screen center before screencap, "
+                           "cursor may appear in the screenshot";
+            }
+        }
+        else {
+            if (inject_input_event(
+                    InputEvent {
+                        .type = InputEvent::Type::TOUCH_MOVE,
+                        .point = { 0, m_screen_size.second - 1 },
+                    })) {
+                // 游戏自绘光标跟随真实光标，渲染存在帧延迟，等待其画到挪动终点后再截图，避免光标被截进识别区
+                std::this_thread::sleep_for(std::chrono::milliseconds(34));
+            }
+            else {
+                LogWarn << "Failed to move cursor away before screencap, cursor may appear in the screenshot";
+            }
+        }
+    }
+
+    // 只统计真正的截图调用本身，不含移光标及固定等待（对齐 Win32Controller 口径），
+    // 否则 PC 端主界面 300ms 视差等待会把耗时指标整体垫高
+    const auto start_time = std::chrono::steady_clock::now();
+    const bool screencap_ret = m_unit_handle->screencap(image_payload);
+    const auto cost =
+        std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now() - start_time).count();
+
+    const bool ret = screencap_ret && !image_payload.empty();
+    if (!ret) {
+        LogWarn << "MaaFw control unit screencap failed" << VAR(m_library_name);
+    }
+
+    // 记录截图耗时，失败记 -1，每 10 次截图回传一次最值+平均值（对齐 AdbController 故障口径）
+    const bool is_first_screencap = m_screencap_cost.empty();
+    m_screencap_cost.emplace_back(ret ? cost : -1);
+    if (m_screencap_cost.size() > 30) {
+        m_screencap_cost.pop_front();
+    }
+    m_screencap_times = (m_screencap_times + 1) % 10;
+
+    if (is_first_screencap && ret) {
+        json::value info = json::object {
+            { "uuid", m_uuid },
+            { "what", "FastestWayToScreencap" },
+            { "details", json::object { { "method", m_library_name }, { "cost", cost } } },
+        };
+        callback(AsstMsg::ConnectionInfo, info);
+    }
+
+    if ((is_first_screencap && ret) || m_screencap_times == 0) {
+        // 失败样本记 -1；0ms 成功样本也是有效用时，一并纳入统计，保证与下方有效次数口径一致
+        auto filtered_cost = m_screencap_cost | std::views::filter([](auto num) { return num >= 0; });
+        // 过滤后的有效截图用时次数
+        auto filtered_count = m_screencap_cost.size() - std::ranges::count(m_screencap_cost, -1);
+        if (filtered_count > 0) {
+            const auto [min_cost, max_cost] = std::ranges::minmax(filtered_cost);
+            const auto avg_cost = std::accumulate(filtered_cost.begin(), filtered_cost.end(), 0ll) / filtered_count;
+            json::value info = json::object {
+                { "uuid", m_uuid },
+                { "what", "ScreencapCost" },
+                { "details",
+                  json::object {
+                      { "min", min_cost },
+                      { "avg", avg_cost },
+                      { "max", max_cost },
+                  } },
+            };
+            if (m_screencap_cost.size() > filtered_count) {
+                info["details"]["fault_times"] = m_screencap_cost.size() - filtered_count;
+            }
+            callback(AsstMsg::ConnectionInfo, info);
+        }
+    }
+
+    if (!ret) {
+        return false;
+    }
+
+    m_screen_size = { image_payload.cols, image_payload.rows };
+    return true;
+}
+
+bool MaaFwController::start_game(const std::string& client_type)
+{
+    LogTraceFunction;
+    if (!m_unit_handle) {
+        LogWarn << "MaaFw control unit is not initialized";
+        return false;
+    }
+
+    auto package_name = Config.get_package_name(client_type);
+    if (!package_name) {
+        LogWarn << "Invalid client_type" << VAR(client_type);
+        return false;
+    }
+    return m_unit_handle->start_app(*package_name);
+}
+
+bool MaaFwController::stop_game(const std::string& client_type)
+{
+    LogTraceFunction;
+    if (!m_unit_handle) {
+        LogWarn << "MaaFw control unit is not initialized";
+        return false;
+    }
+
+    auto package_name = Config.get_package_name(client_type);
+    if (!package_name) {
+        LogWarn << "Invalid client_type" << VAR(client_type);
+        return false;
+    }
+    return m_unit_handle->stop_app(*package_name);
+}
+
+bool MaaFwController::click(const Point& p)
+{
+    LogTraceFunction;
+    if (!m_unit_handle) {
+        LogWarn << "MaaFw control unit is not initialized";
+        return false;
+    }
+
+    if (!(m_unit_handle->get_features() & MaaFeature::UseMouseDownAndUpInsteadOfClick)) {
+        return m_unit_handle->click(p.x, p.y);
+    }
+
+    // 按下与抬起后各等待一次 TouchHoldMs
+    // 抬起后同样要等待，否则高频连点会被合并成一次触控，丢失点击
+    if (!m_unit_handle->touch_down(0, p.x, p.y, 1)) {
+        return false;
+    }
+    std::this_thread::sleep_for(std::chrono::milliseconds(TouchHoldMs));
+    const bool ret = m_unit_handle->touch_up(0);
+    std::this_thread::sleep_for(std::chrono::milliseconds(TouchHoldMs));
+    return ret;
+}
+
+bool MaaFwController::input(const std::string& text)
+{
+    LogTraceFunction;
+    if (!m_unit_handle) {
+        LogWarn << "MaaFw control unit is not initialized";
+        return false;
+    }
+    return m_unit_handle->input_text(text);
+}
+
+bool MaaFwController::swipe(
+    const Point& p1,
+    const Point& p2,
+    int duration,
+    SwipeExtraDirection extra_swipe,
+    double slope_in,
+    double slope_out,
+    bool with_pause)
+{
+    LogTraceFunction;
+    if (!m_unit_handle) {
+        LogWarn << "MaaFw control unit is not initialized";
+        return false;
+    }
+
+    if (!(m_unit_handle->get_features() & MaaFeature::UseMouseDownAndUpInsteadOfClick)) {
+        return m_unit_handle->swipe(p1.x, p1.y, p2.x, p2.y, duration);
+    }
+
+    int x1 = p1.x, y1 = p1.y;
+    int x2 = p2.x, y2 = p2.y;
+
+    // 起点不能在屏幕外，但是终点可以
+    if (x1 < 0 || x1 >= m_screen_size.first || y1 < 0 || y1 >= m_screen_size.second) {
+        LogWarn << "swipe point1 is out of range" << x1 << y1;
+        x1 = std::clamp(x1, 0, m_screen_size.first - 1);
+        y1 = std::clamp(y1, 0, m_screen_size.second - 1);
+    }
+
+    // 触摸按下起点
+    if (!m_unit_handle->touch_down(0, x1, y1, 1)) {
+        LogError << "touch_down failed at swipe start point";
+        return false;
+    }
+    std::this_thread::sleep_for(std::chrono::milliseconds(TouchHoldMs));
+
+    bool need_pause = with_pause;
+    std::future<void> pause_future;
+    const auto& opt = Config.get_options();
+    auto bounds_check = [this](int x, int y) {
+        return x >= 0 && x < m_screen_size.first && y >= 0 && y < m_screen_size.second;
+    };
+    // 本地触控是同步的，而且命令是一个个发的，不像 minitouch/maatouch 那样有批次
+    // 所以直接同步 move-sleep-move-sleep-move-sleep 即可
+    // sleep 时长根据本段滑动起点为基准的绝对时间计算，过时不候
+    // 以本段滑动起始时间 start 为基准，第 k 步开始时间为 start + k * SwipeIntervalMs
+    auto tick_start = std::chrono::steady_clock::now();
+    int move_step = 0;
+    auto move_func = [&](int x, int y) -> bool {
+        if (!m_unit_handle->touch_move(0, x, y, 1)) {
+            return false;
+        }
+        high_res_sleep_until(tick_start + ++move_step * std::chrono::milliseconds(SwipeIntervalMs));
+        return true;
+    };
+    auto do_swipe = [&](int _x1, int _y1, int _x2, int _y2, int _duration) -> bool {
+        // 主要滑动和额外滑动各自独立计时
+        tick_start = std::chrono::steady_clock::now();
+        move_step = 0;
+        if (need_pause) {
+            auto pause_check = [&opt](int cur_x, int cur_y, int start_x, int start_y) {
+                return std::hypot(cur_x - start_x, cur_y - start_y) > opt.swipe_with_pause_required_distance;
+            };
+
+            return interpolate_swipe_with_pause(
+                _x1,
+                _y1,
+                _x2,
+                _y2,
+                _duration,
+                SwipeIntervalMs,
+                slope_in,
+                slope_out,
+                move_func,
+                bounds_check,
+                pause_check,
+                [&]() {
+                    need_pause = false;
+                    // press_esc 内置 50ms 等待，同步调用会阻塞干扰 move 里的 sleep，故异步执行
+                    // future 析构时会自动等待 press_esc 完成
+                    pause_future = std::async(std::launch::async, [this]() { press_esc(); });
+                });
+        }
+        return interpolate_swipe(
+            _x1,
+            _y1,
+            _x2,
+            _y2,
+            _duration,
+            SwipeIntervalMs,
+            slope_in,
+            slope_out,
+            move_func,
+            bounds_check);
+    };
+
+    if (!do_swipe(x1, y1, x2, y2, duration ? duration : opt.minitouch_swipe_default_duration)) {
+        LogWarn << "Failed during main swipe movement";
+        m_unit_handle->touch_up(0);
+        return false;
+    }
+
+    // 额外滑动逻辑
+    if (extra_swipe != SwipeExtraDirection::None && opt.minitouch_extra_swipe_duration > 0) {
+        std::this_thread::sleep_for(std::chrono::milliseconds(opt.minitouch_swipe_extra_end_delay));
+        const auto offset = extra_swipe_offset(extra_swipe, opt.minitouch_extra_swipe_dist);
+
+        if (!do_swipe(x2, y2, x2 + offset.x, y2 + offset.y, opt.minitouch_extra_swipe_duration)) {
+            LogWarn << "Failed during extra swipe movement";
+        }
+    }
+
+    if (!m_unit_handle->touch_up(0)) {
+        LogWarn << "failed during final touch up";
+        return false;
+    }
+    // 抬起后等待，为下一次输入留出时间间隔
+    std::this_thread::sleep_for(std::chrono::milliseconds(TouchHoldMs));
+    return true;
+}
+
+bool MaaFwController::inject_input_event(const InputEvent& event)
+{
+    LogTraceFunction;
+    if (!m_unit_handle) {
+        LogWarn << "MaaFw control unit is not initialized";
+        return false;
+    }
+
+    switch (event.type) {
+    case InputEvent::Type::TOUCH_DOWN:
+        return m_unit_handle->touch_down(event.pointerId, event.point.x, event.point.y, 1);
+    case InputEvent::Type::TOUCH_MOVE:
+        return m_unit_handle->touch_move(event.pointerId, event.point.x, event.point.y, 1);
+    case InputEvent::Type::TOUCH_UP:
+        return m_unit_handle->touch_up(event.pointerId);
+    case InputEvent::Type::KEY_DOWN:
+        return m_unit_handle->key_down(event.keycode);
+    case InputEvent::Type::KEY_UP:
+        return m_unit_handle->key_up(event.keycode);
+    case InputEvent::Type::WAIT_MS:
+        std::this_thread::sleep_for(std::chrono::milliseconds(event.milisec));
+        return true;
+    case InputEvent::Type::TOUCH_RESET:
+    case InputEvent::Type::COMMIT:
+        return true;
+    case InputEvent::Type::UNKNOWN:
+    default:
+        LogError << "unknown input event type" << VAR(static_cast<int>(event.type));
+        return false;
+    }
+}
+
+bool MaaFwController::press_esc()
+{
+    LogTraceFunction;
+    if (!m_unit_handle) {
+        LogWarn << "MaaFw control unit is not initialized";
+        return false;
+    }
+
+    if (!(m_unit_handle->get_features() & MaaFeature::UseKeyboardDownAndUpInsteadOfClick)) {
+        return m_unit_handle->click_key(m_esc_keycode);
+    }
+
+    if (!m_unit_handle->key_down(m_esc_keycode)) {
+        return false;
+    }
+    std::this_thread::sleep_for(std::chrono::milliseconds(50));
+    return m_unit_handle->key_up(m_esc_keycode);
+}
+
+ControlFeat::Feat MaaFwController::support_features() const noexcept
+{
+    // 根据控制单元报告支持情况确定是否支持精确滑动和暂停滑动功能
+    auto feat = ControlFeat::PRECISE_SWIPE;
+    if (m_unit_handle && (m_unit_handle->get_features() & MaaFeature::UseMouseDownAndUpInsteadOfClick)) {
+        feat |= ControlFeat::SWIPE_WITH_PAUSE;
+    }
+    return feat;
+}
+
+std::pair<int, int> MaaFwController::get_screen_res() const noexcept
+{
+    return m_screen_size;
+}
+
+void MaaFwController::callback(AsstMsg msg, const json::value& details) const
+{
+    if (m_callback) {
+        m_callback(msg, details, m_inst);
+    }
+}
+} // namespace asst
