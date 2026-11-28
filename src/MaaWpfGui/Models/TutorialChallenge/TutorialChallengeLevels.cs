@@ -101,10 +101,11 @@ public static class TutorialChallengeLevels
         new(
             id: "DailyReconnect",
             sandboxFactory: () => [new StartUpTask { IsEnable = false }, new RoguelikeTask()],
-            goalPredicate: (tasks, vm) => tasks.OfType<StartUpTask>().Any(t => t.IsEnable == true)
-                && tasks.SkipWhile(t => t is not StartUpTask).Skip(1).Any(t => t.IsEnable == true)
+            // 传入的任务已按真实队列过滤为会执行的任务；肉鸽须排在开始唤醒之后，重启游戏后才能接着打。
+            // 定时须在 4:00 闪断之后、挂机结束（文案示例 8:00）之前
+            goalPredicate: (tasks, vm) => tasks.SkipWhile(t => t is not StartUpTask).Skip(1).OfType<RoguelikeTask>().Any()
                 && vm.SandboxSchedule.TimerList.Count(timer => timer.IsEnabled == true) == 1
-                && vm.SandboxSchedule.TimerList.Any(timer => timer.IsEnabled == true && timer.Hour >= 4)
+                && vm.SandboxSchedule.TimerList.Any(timer => timer.IsEnabled == true && timer.Hour is >= 4 and < 8)
                 && vm.SandboxSchedule.ForceScheduledStart,
             smartSolution: (
                 (_, vm) => vm.SandboxSchedule.TimerList.Any(timer => timer.IsEnabled == true && timer.Hour == 4 && timer.Minute == 10),
