@@ -781,7 +781,8 @@ std::optional<asst::battle::DeploymentOper> asst::RoguelikeBattleTaskPlugin::cal
         }
 
         for (const battle::DeploymentOper& oper : cur_available) {
-            if (oper.role == role && !DiceSet.contains(oper.name) && !get_position_full(oper)) {
+            if (oper.role == role && !DiceSet.contains(oper.name) && !NoGenericDeploySet.contains(oper.name) &&
+                !get_position_full(oper)) {
                 best_oper = oper;
                 break;
             }

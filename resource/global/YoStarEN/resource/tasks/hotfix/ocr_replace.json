@@ -147,7 +147,7 @@
             ["Aurora", "极光"],
             ["Ashlock", "灰毫"],
             ["Heavyrain", "暴雨"],
-            ["Blitz", "闪击"],
+            ["^Blitz$", "闪击"],
             ["Mudrock", "泥岩"],
             ["Blemishine", "瑕光"],
             ["Bubble", "泡泡"],

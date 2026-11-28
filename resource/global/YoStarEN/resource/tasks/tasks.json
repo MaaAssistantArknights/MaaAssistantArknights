@@ -235,6 +235,7 @@
     },
     "InfrastReward": {
         "fullMatch": true,
+        "ocrReplace": [["^[Vv]?[Oo]rder?s\\s+[Aa]+c+quired$", "Orders Acquired"]],
         "text": ["Collectable", "Orders Acquired", "Trust"]
     },
     "ShamareThumbnail1": {
