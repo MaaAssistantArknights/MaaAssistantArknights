@@ -254,11 +254,19 @@ void asst::InfrastOperImageAnalyzer::skill_analyze()
             Rect skill_rect_in_roi(x, 0, skill_width, roi.height);
             cv::Mat skill_image = all_skills_img(make_rect<cv::Rect>(skill_rect_in_roi));
 
-            // 过滤掉亮度阈值不够的，说明是暗的技能（不是当前设施的技能）
+            // 过滤掉亮度阈值不够的，说明是暗的技能（不是当前设施的技能）。
+            // 训练室专精图标多为深红底配白色图案和轮廓，灰度均值偏低，改按最高灰度过滤暗图标。
             cv::Mat skill_gray;
             cv::cvtColor(skill_image, skill_gray, cv::COLOR_BGR2GRAY);
-            cv::Scalar avg = cv::mean(skill_gray, mask);
-            if (avg[0] < bright_thres) {
+            if (m_facility == "Training") {
+                constexpr double TrainingSkillMaxBrightThreshold = 180.0;
+                double max_bright = 0.0;
+                cv::minMaxLoc(skill_gray, nullptr, &max_bright, nullptr, nullptr, mask);
+                if (max_bright < TrainingSkillMaxBrightThreshold) {
+                    continue;
+                }
+            }
+            else if (cv::mean(skill_gray, mask)[0] < bright_thres) {
                 continue;
             }
             Rect skill_rect = skill_rect_in_roi;
