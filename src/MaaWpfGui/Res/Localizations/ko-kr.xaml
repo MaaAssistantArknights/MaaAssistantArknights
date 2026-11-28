@@ -2574,13 +2574,19 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="Toolbox.TutorialChallenge.Level.DragDropUpdate.DropZone.OtaPackage">OTA 델타 패키지 (선택)</system:String>
     <system:String x:Key="Toolbox.TutorialChallenge.Level.DragDropUpdate.DropZone.ResourcePackage">리소스 업데이트 패키지</system:String>
     <system:String x:Key="Toolbox.TutorialChallenge.Level.DragDropUpdate.DropZone.Tip">이 창의 아무 곳에나 업데이트 패키지를 끌어다 놓으세요</system:String>
-    <system:String x:Key="Toolbox.TutorialChallenge.Level.DragDropUpdate.Goal">세 종류의 업데이트 패키지를 직접 찾아 이 창의 아무 곳에나 끌어다 놓으세요. 전체 패키지 파일 이름은 ｢MAA-vX.Y.Z-win-{arch}.zip｣이며 X.Y.Z는 현재 버전과 같아야 합니다. OTA 델타 패키지 파일 이름은 ｢MAAComponent-OTA-vA_vB-win-{arch}.zip｣이며 vB는 현재 버전과 같아야 합니다. 리소스 패키지는 파일 이름 제한이 없지만 zip 내 리소스 버전이 현재 버전과 같아야 합니다. 메인 창에도 업데이트 패키지를 끌어다 놓아 업데이트할 수 있지만, 관리자 권한으로 실행 중에는 Windows에서 드롭을 차단합니다.</system:String>
+    <system:String x:Key="Toolbox.TutorialChallenge.Level.DragDropUpdate.Goal" xml:space="preserve">전체 업데이트 패키지와 리소스 업데이트 패키지를 끌어다 놓으면 클리어합니다. OTA 델타 패키지는 선택 사항입니다.
+전체 패키지 ｢MAA-vX.Y.Z-win-{arch}.zip｣의 목표 버전 X.Y.Z는 현재 MAA 버전과 같아야 합니다.
+리소스 패키지의 파일 이름은 자유롭게 정할 수 있습니다. 압축 파일 안의 리소스 버전은 현재 설치된 리소스 버전과 같아야 합니다.
+실제로 OTA 델타 패키지 ｢MAAComponent-OTA-vA_vB-win-{arch}.zip｣로 업데이트할 때는 시작 버전 vA가 현재 MAA 버전과 같아야 합니다. 이 챌린지에서는 최신 버전 사용자도 연습할 수 있도록 목표 버전 vB가 현재 MAA 버전과 같은 패키지를 사용합니다.
+전체 패키지와 OTA 델타 패키지의 파일 이름에서 {arch}는 사용 중인 PC의 아키텍처와 일치해야 합니다.
+MAA 메인 창에도 패키지를 끌어다 놓아 업데이트할 수 있습니다. 관리자 권한으로 MAA를 실행하면 Windows가 파일 드롭을 차단합니다.</system:String>
     <system:String x:Key="Toolbox.TutorialChallenge.Level.DragDropUpdate.Identified.FullPackage">전체 업데이트 패키지로 인식했습니다. 실제로는 등록 후 재시작을 안내합니다.</system:String>
     <system:String x:Key="Toolbox.TutorialChallenge.Level.DragDropUpdate.Identified.OtaPackage">OTA 델타 패키지로 인식했습니다. 실제로는 등록 후 재시작을 안내합니다.</system:String>
     <system:String x:Key="Toolbox.TutorialChallenge.Level.DragDropUpdate.Identified.ResourcePackage">리소스 업데이트 패키지로 인식했습니다. 실제로는 바로 가져와 다시 로드합니다.</system:String>
     <system:String x:Key="Toolbox.TutorialChallenge.Level.DragDropUpdate.Title">드래그 업데이트</system:String>
     <system:String x:Key="Toolbox.TutorialChallenge.Level.DragDropUpdate.Unknown">인식할 수 있는 업데이트 패키지가 아닙니다.</system:String>
-    <system:String x:Key="Toolbox.TutorialChallenge.Level.DragDropUpdate.WrongVersion">버전 불일치: 업데이트 패키지는 현재 버전을 대상으로 해야 합니다.</system:String>
+    <system:String x:Key="Toolbox.TutorialChallenge.Level.DragDropUpdate.WrongArchitecture">패키지의 아키텍처가 일치하지 않습니다. {0}용 패키지를 사용하세요.</system:String>
+    <system:String x:Key="Toolbox.TutorialChallenge.Level.DragDropUpdate.WrongVersion">패키지의 목표 버전이 현재 설치된 버전과 다릅니다.</system:String>
     <system:String x:Key="Toolbox.TutorialChallenge.Level.ExportLogs.EmptyPackageNote">(튜토리얼 데모: 압축 파일이 비어 있습니다)</system:String>
     <system:String x:Key="Toolbox.TutorialChallenge.Level.ExportLogs.Generating">생성 중…</system:String>
     <system:String x:Key="Toolbox.TutorialChallenge.Level.ExportLogs.Goal">버그를 제보하고 싶다면? 오류 보고서를 하나 생성하세요.</system:String>

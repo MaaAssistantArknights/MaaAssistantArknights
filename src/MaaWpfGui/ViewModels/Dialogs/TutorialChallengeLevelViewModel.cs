@@ -749,7 +749,7 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
     /// <param name="e">拖拽参数。</param>
     public void SandboxPackagePreviewDragOver(object sender, DragEventArgs e)
     {
-        if (!TryGetDroppedZipFile(e, out _))
+        if (!IsDragDropUpdateLevel || !TryGetDroppedZipFile(e, out _))
         {
             return;
         }
@@ -766,7 +766,7 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
     /// <param name="e">拖拽参数。</param>
     public void SandboxPackageDrop(object sender, DragEventArgs e)
     {
-        if (!TryGetDroppedZipFile(e, out string packagePath))
+        if (!IsDragDropUpdateLevel || !TryGetDroppedZipFile(e, out string packagePath))
         {
             return;
         }
@@ -785,21 +785,17 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
     /// <returns>识别任务。</returns>
     public async Task SandboxPackageDropFile(string packagePath)
     {
-        string fileName = Path.GetFileName(packagePath);
-        string currentVersion = VersionUpdateSettingsUserControlModel.CoreVersion;
-        string normalizedArch = RuntimeInformation.OSArchitecture.ToString().StartsWith("arm", StringComparison.OrdinalIgnoreCase)
-            ? "arm64" : "x64";
+        if (!IsDragDropUpdateLevel)
+        {
+            return;
+        }
 
+        string fileName = Path.GetFileName(packagePath);
         if (PendingUpdateApplier.MatchFullPackageFileName(fileName) is { } full)
         {
-            if (full.Version.Equals(currentVersion, StringComparison.OrdinalIgnoreCase)
-                && full.Arch.Equals(normalizedArch, StringComparison.OrdinalIgnoreCase))
+            if (MatchesTutorialPackage(full.Version, full.Arch))
             {
                 MarkIdentified(FullPackageIdentified, () => FullPackageIdentified = true, "Toolbox.TutorialChallenge.Level.DragDropUpdate.Identified.FullPackage");
-            }
-            else
-            {
-                ShowTutorialGrowl(InfoType.Warning, LocalizationHelper.GetString("Toolbox.TutorialChallenge.Level.DragDropUpdate.WrongVersion"));
             }
 
             return;
@@ -807,14 +803,10 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
 
         if (PendingUpdateApplier.MatchOtaPackageFileName(fileName) is { } ota)
         {
-            if (ota.To.Equals(currentVersion, StringComparison.OrdinalIgnoreCase)
-                && ota.Arch.Equals(normalizedArch, StringComparison.OrdinalIgnoreCase))
+            // 已安装最新版时也能练习拖入升级到该版本的 OTA 包。
+            if (MatchesTutorialPackage(ota.To, ota.Arch))
             {
                 MarkIdentified(OtaPackageIdentified, () => OtaPackageIdentified = true, "Toolbox.TutorialChallenge.Level.DragDropUpdate.Identified.OtaPackage");
-            }
-            else
-            {
-                ShowTutorialGrowl(InfoType.Warning, LocalizationHelper.GetString("Toolbox.TutorialChallenge.Level.DragDropUpdate.WrongVersion"));
             }
 
             return;
@@ -831,6 +823,24 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
 
         ShowTutorialGrowl(InfoType.Warning, LocalizationHelper.GetString(
             isResourcePackage ? "Toolbox.TutorialChallenge.Level.DragDropUpdate.WrongVersion" : "Toolbox.TutorialChallenge.Level.DragDropUpdate.Unknown"));
+    }
+
+    private bool MatchesTutorialPackage(string targetVersion, string packageArchitecture)
+    {
+        if (!targetVersion.Equals(VersionUpdateSettingsUserControlModel.CoreVersion, StringComparison.OrdinalIgnoreCase))
+        {
+            ShowTutorialGrowl(InfoType.Warning, LocalizationHelper.GetString("Toolbox.TutorialChallenge.Level.DragDropUpdate.WrongVersion"));
+            return false;
+        }
+
+        string architecture = PendingUpdateApplier.NormalizeArchitecture(RuntimeInformation.OSArchitecture.ToString());
+        if (!packageArchitecture.Equals(architecture, StringComparison.OrdinalIgnoreCase))
+        {
+            ShowTutorialGrowl(InfoType.Warning, LocalizationHelper.GetStringFormat("Toolbox.TutorialChallenge.Level.DragDropUpdate.WrongArchitecture", architecture));
+            return false;
+        }
+
+        return true;
     }
 
     /// <summary>

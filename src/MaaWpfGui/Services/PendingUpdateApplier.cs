@@ -215,11 +215,9 @@ internal static partial class PendingUpdateApplier
             normalizedArchitecture);
 
         // ① 完整包：MAA-vX.X.X-win-x64.zip
-        Match fullPackageMatch = FullPackageNameRegex().Match(fileName);
-        if (fullPackageMatch.Success)
+        if (MatchFullPackageFileName(fileName) is { } fullPackage)
         {
-            string targetVersion = fullPackageMatch.Groups["version"].Value;
-            string packageArchitecture = fullPackageMatch.Groups["arch"].Value;
+            var (targetVersion, packageArchitecture) = fullPackage;
             bool architectureMatched = string.Equals(normalizedArchitecture, packageArchitecture, StringComparison.OrdinalIgnoreCase);
             bool isUpgradeTarget = IsUpgradeTarget(currentVersion, targetVersion)
                 || (allowSameVersion && VersionsMatch(currentVersion, targetVersion));
@@ -242,12 +240,9 @@ internal static partial class PendingUpdateApplier
         }
 
         // ② OTA 包：MAAComponent-OTA-vFROM_vTO-win-x64.zip
-        Match otaMatch = OtaPackageNameRegex().Match(fileName);
-        if (otaMatch.Success)
+        if (MatchOtaPackageFileName(fileName) is { } otaPackage)
         {
-            string sourceVersion = otaMatch.Groups["from"].Value;
-            string targetVersion = otaMatch.Groups["to"].Value;
-            string packageArchitecture = otaMatch.Groups["arch"].Value;
+            var (sourceVersion, targetVersion, packageArchitecture) = otaPackage;
 
             _logger.Information(
                 "Dropped package matched OTA pattern: sourceVersion={SourceVersion}, targetVersion={TargetVersion}, packageArchitecture={PackageArchitecture}",
@@ -1021,7 +1016,7 @@ internal static partial class PendingUpdateApplier
         ConfigFactory.Root.Update.UpdatePackage = string.Empty;
     }
 
-    private static string NormalizeArchitecture(string architecture)
+    internal static string NormalizeArchitecture(string architecture)
     {
         return architecture.StartsWith("arm", StringComparison.OrdinalIgnoreCase)
             ? "arm64"
