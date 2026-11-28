@@ -1,0 +1,12 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <!--  Fallback resources keep the original layout when the skin is disabled.  -->
+    <Visibility x:Key="Skin.DecorationVisibility">Collapsed</Visibility>
+    <CornerRadius x:Key="Skin.CardCornerRadius">4</CornerRadius>
+    <CornerRadius x:Key="Skin.ControlCornerRadius">4</CornerRadius>
+    <SolidColorBrush x:Key="Skin.CardBrush" Color="Transparent" />
+    <SolidColorBrush x:Key="Skin.BorderBrush" Color="Transparent" />
+    <SolidColorBrush x:Key="Skin.InkBrush" Color="#403323" />
+    <SolidColorBrush x:Key="Skin.AccentBrush" Color="#64812D" />
+    <SolidColorBrush x:Key="Skin.HighlightBrush" Color="#FFD850" />
+    <SolidColorBrush x:Key="Skin.PatternBrush" Color="Transparent" />
+</ResourceDictionary>
