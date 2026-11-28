@@ -188,6 +188,7 @@ public static class GrowlHelper
         /// <param name="token">窗口内 Growl 容器注册的标识。</param>
         public WindowTarget(Window window, string token)
         {
+            ArgumentException.ThrowIfNullOrEmpty(token);
             _window = window;
             Token = token;
             window.Loaded += OnWindowChanged;
@@ -219,7 +220,13 @@ public static class GrowlHelper
             _window.StateChanged -= OnWindowChanged;
             _window.IsVisibleChanged -= OnIsVisibleChanged;
             _window.Closed -= OnClosed;
+            Clear();
             _window = null;
+        }
+
+        internal void Clear()
+        {
+            Growl.Clear(Token);
             while (_pending.TryDequeue(out var notification))
             {
                 LogDiscarded(notification.Type, notification.Message);
@@ -244,7 +251,7 @@ public static class GrowlHelper
         }
 
         private static void LogDiscarded(string type, string? message)
-            => _logger.Information("Growl {Type} (discarded, target detached): {Message}", type, message);
+            => _logger.Information("Growl {Type} (discarded): {Message}", type, message);
 
         private void OnClosed(object? sender, EventArgs e) => Detach();
 

@@ -64,6 +64,7 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
     private readonly PropertyChangedEventHandler _taskPropertyChangedHandler;
     private readonly Random _random = new();
     private bool _isCompleted;
+    private int _resetCount;
     private TutorialChallengeSandboxItem? _selectedItem;
 
     // 设置搜索关卡的干扰项常量：40 个分区、每分区 5 项、随机 2 个分区各含 1 个目标项
@@ -672,11 +673,6 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
     public bool ShowSettingsPanel => _level.HasPanel(TutorialChallengePanelKind.Settings);
 
     /// <summary>
-    /// Gets a value indicating whether 本关为 ｢设置搜索｣ 关卡（决定沙盒设置页是否投放干扰分区与目标 CheckBox）。
-    /// </summary>
-    public bool IsSettingsSearchLevel => _level.Id == "SettingsSearch";
-
-    /// <summary>
     /// Gets a value indicating whether 本关的目标项全部勾选，且干扰项全部未勾选。
     /// </summary>
     public bool SandboxDecoyTargetsAllChecked
@@ -817,8 +813,14 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
         }
 
         // zip 扫描开销较高（万级 entry），对齐真实 HandleImportedPackageAsync 放后台线程；后续置标志与 Growl 要碰 UI，不摘上下文
+        var resetCount = _resetCount;
         DateTimeOffset dt = DateTimeOffset.MinValue;
         bool isResourcePackage = await Task.Run(() => ResourceUpdater.IsResourcePackage(packagePath, out dt));
+        if (resetCount != _resetCount)
+        {
+            return;
+        }
+
         if (isResourcePackage && dt == VersionUpdateSettingsUserControlModel.Instance.ResourceDateTime)
         {
             MarkIdentified(ResourcePackageIdentified, () => ResourcePackageIdentified = true, "Toolbox.TutorialChallenge.Level.DragDropUpdate.Identified.ResourcePackage");
@@ -1044,8 +1046,11 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
     /// </summary>
     public void Reset()
     {
+        _resetCount++;
+        GrowlTarget.Clear();
         EnableAdvancedSettings = false;
         SelectedTab = 0;
+        IsExportingLogs = false;
         ExportLogsClicked = false;
         FullPackageIdentified = false;
         OtaPackageIdentified = false;
@@ -1055,13 +1060,7 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
         SandboxSchedule.Reset();
         SandboxTimerSettingsModel.Refresh();
         SandboxDepotMaintainTaskModel.RegenerateFakeDepot();
-        if (IsSettingsSearchLevel)
-        {
-            BuildSettingsSearchDecoySections();
-        }
-
-        AssignSectionGridRows();
-        OnSettingItemValueChanged();
+        BuildSettingSections();
         BuildSandbox();
 
         // 完成态最后复位：重建途中各沙盒状态变更会回调判定，提前复位会被尚未重建的旧沙盒重新判为通关
@@ -1104,8 +1103,6 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
 
         foreach (var section in SandboxSettingSections)
         {
-            // Decoy 分区在 BuildSettingsSearchDecoySections 内已挂载，先退订再挂保证幂等
-            section.PropertyChanged -= OnSettingSectionPropertyChanged;
             section.PropertyChanged += OnSettingSectionPropertyChanged;
         }
 
@@ -1122,15 +1119,6 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
     /// </summary>
     private void BuildSettingsSearchDecoySections()
     {
-        for (var i = SandboxSettingSections.Count - 1; i >= 0; i--)
-        {
-            if (SandboxSettingSections[i].Kind == TutorialChallengeSettingSectionKind.Decoy)
-            {
-                SandboxSettingSections[i].PropertyChanged -= OnSettingSectionPropertyChanged;
-                SandboxSettingSections.RemoveAt(i);
-            }
-        }
-
         // 先随机抽 2 个分区索引放目标项（每个分区至多 1 个），其余分区全为干扰项
         var targetSections = Enumerable.Range(0, SettingsSearchSectionCount)
             .OrderBy(_ => _random.Next())
@@ -1154,7 +1142,6 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
                 GenerateDecoyItemText(),
                 isAdvanced: false,
                 items: items);
-            section.PropertyChanged += OnSettingSectionPropertyChanged;
             SandboxSettingSections.Add(section);
         }
     }
@@ -1297,6 +1284,7 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
             return;
         }
 
+        var resetCount = _resetCount;
         IsExportingLogs = true;
         string fullZipPath;
         try
@@ -1311,12 +1299,24 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
         catch (Exception ex)
         {
             _logger.Error(ex, "Failed to create tutorial support payload");
-            ShowTutorialGrowl(InfoType.Error, $"{LocalizationHelper.GetString("Error.GenerateSupportPayloadException")}\n{ex.Message}");
+            if (resetCount == _resetCount)
+            {
+                ShowTutorialGrowl(InfoType.Error, $"{LocalizationHelper.GetString("Error.GenerateSupportPayloadException")}\n{ex.Message}");
+            }
+
             return;
         }
         finally
         {
-            IsExportingLogs = false;
+            if (resetCount == _resetCount)
+            {
+                IsExportingLogs = false;
+            }
+        }
+
+        if (resetCount != _resetCount)
+        {
+            return;
         }
 
         var msg = $"{LocalizationHelper.GetString("Error.GenerateSupportPayloadSuccessful")}\n{fullZipPath}\n{LocalizationHelper.GetString("Toolbox.TutorialChallenge.Level.ExportLogs.EmptyPackageNote")}";
