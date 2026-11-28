@@ -553,9 +553,16 @@ public class RemoteControlService
             return;
         }
 
-        _runningState.BeginRun(RunOwner.TaskQueue);
-
         await Execute.OnUIThreadAsync(async () => {
+            // 远程启动流程只在真正开始执行处认领一次运行（与 LinkStartWithTasks 等其它入口一样，
+            // 避免外层认领与实际启动分离、或被第二次认领拒绝）
+            if (!_runningState.BeginRun(RunOwner.TaskQueue, out var claim))
+            {
+                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("TaskQueue.Running"), UiLogColor.Warning);
+                _logger.Warning("RemoteControl LinkStart rejected: run claim rejected");
+                return;
+            }
+
             // 虽然更改时已经保存过了，不过保险起见还是在点击开始之后再保存一次(任务及基建列表)
             // Instances.TaskQueueViewModel.TaskItemSelectionChanged();
             // TaskQueueViewModel.InfrastTask.InfrastOrderSelectionChanged();
@@ -568,11 +575,11 @@ public class RemoteControlService
             // 一般是点了“停止”按钮了
             if (_runningState.GetStopping())
             {
-                Instances.TaskQueueViewModel.SetStopped();
+                Instances.TaskQueueViewModel.SetStopped(claim);
                 return;
             }
 
-            if (!await Instances.TaskQueueViewModel.ConnectToConnectionTarget())
+            if (!await Instances.TaskQueueViewModel.ConnectToConnectionTarget(claim))
             {
                 return;
             }
@@ -580,7 +587,14 @@ public class RemoteControlService
             // 一般是点了“停止”按钮了
             if (_runningState.GetStopping())
             {
-                Instances.TaskQueueViewModel.SetStopped();
+                Instances.TaskQueueViewModel.SetStopped(claim);
+                return;
+            }
+
+            // 连接期间本轮可能已被停止、且状态被新运行认领：失效令牌不得继续提交任务或启动 Core
+            if (!_runningState.IsClaimActive(claim))
+            {
+                _logger.Warning("RemoteControl LinkStart aborted: run claim is no longer active");
                 return;
             }
 
@@ -709,7 +723,7 @@ public class RemoteControlService
             if (count == 0)
             {
                 Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("TaskQueue.UnselectedTask"));
-                Instances.TaskQueueViewModel.SetStopped();
+                Instances.TaskQueueViewModel.SetStopped(claim);
                 return;
             }
 
@@ -725,7 +739,7 @@ public class RemoteControlService
             {
                 Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("Error.UnknownErrorOccurs"));
                 await Instances.TaskQueueViewModel.Stop();
-                Instances.TaskQueueViewModel.SetStopped();
+                Instances.TaskQueueViewModel.SetStopped(claim);
             }
         });
 

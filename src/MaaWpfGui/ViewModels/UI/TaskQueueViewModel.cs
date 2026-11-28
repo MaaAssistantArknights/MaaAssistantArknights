@@ -21,6 +21,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
@@ -2323,7 +2324,7 @@ public class TaskQueueViewModel : Screen
         ResetTaskSelection();
     }
 
-    internal async Task<bool> ConnectToConnectionTarget()
+    internal async Task<bool> ConnectToConnectionTarget(RunningState.RunClaim? claim = null)
     {
         string errMsg = string.Empty;
         bool windowNotFound = false;
@@ -2340,7 +2341,7 @@ public class TaskQueueViewModel : Screen
 
             if (_runningState.GetStopping())
             {
-                SetStopped();
+                SetStopped(claim);
                 return false;
             }
 
@@ -2351,7 +2352,7 @@ public class TaskQueueViewModel : Screen
         if (!connected && SettingsViewModel.ConnectSettings.IsPCConnectConfig)
         {
             AddLog(errMsg, UiLogColor.Error);
-            SetStopped();
+            SetStopped(claim);
             return false;
         }
 
@@ -2364,7 +2365,7 @@ public class TaskQueueViewModel : Screen
 
             if (_runningState.GetStopping())
             {
-                SetStopped();
+                SetStopped(claim);
                 return false;
             }
 
@@ -2379,7 +2380,7 @@ public class TaskQueueViewModel : Screen
 
             if (_runningState.GetStopping())
             {
-                SetStopped();
+                SetStopped(claim);
                 return false;
             }
 
@@ -2396,7 +2397,7 @@ public class TaskQueueViewModel : Screen
 
             if (_runningState.GetStopping())
             {
-                SetStopped();
+                SetStopped(claim);
                 return false;
             }
 
@@ -2412,7 +2413,7 @@ public class TaskQueueViewModel : Screen
 
             if (_runningState.GetStopping())
             {
-                SetStopped();
+                SetStopped(claim);
                 return false;
             }
 
@@ -2425,7 +2426,7 @@ public class TaskQueueViewModel : Screen
         }
 
         AddLog(errMsg, UiLogColor.Error);
-        SetStopped();
+        SetStopped(claim);
         return false;
     }
 
@@ -2546,6 +2547,14 @@ public class TaskQueueViewModel : Screen
             return;
         }
 
+        // 先原子认领运行归属，再改动共享日志与任务状态：并发入口认领失败时
+        // 不能把正在运行的轮次的日志/进度/任务映射清掉
+        if (!_runningState.BeginRun(RunOwner.TaskQueue, out var claim))
+        {
+            _logger.Warning("LinkStart rejected: run claim rejected");
+            return;
+        }
+
         _taskStartTime = DateTime.Now;
         ClearLog();
 
@@ -2572,6 +2581,10 @@ public class TaskQueueViewModel : Screen
         if (!Instances.VersionUpdateDialogViewModel.IsDebugVersion() && uiVersion != coreVersion)
         {
             AddLog(LocalizationHelper.GetStringFormat("VersionUpdate.VersionMismatch", uiVersion, coreVersion), UiLogColor.Error);
+
+            // 已认领运行归属，提前返回前必须用令牌结束本次认领，否则开始按钮会一直不可用；
+            // 若认领已被其他路径收尾/新运行接管，EndRun 会跳过、不会清掉新运行
+            _runningState.EndRun(claim);
             return;
         }
 
@@ -2588,13 +2601,17 @@ public class TaskQueueViewModel : Screen
         _mainTasksTotalCount = 0;
         ResetTaskItemStatuses();
 
-        // 所有提前 return 都要放在进入运行态之前，否则会导致无法再次点击开始
-        _runningState.BeginRun(RunOwner.TaskQueue);
-
         // 虽然更改时已经保存过了，不过保险起见在点击开始之后再次保存任务和基建列表
         // TaskItemSelectionChanged();
         // InfrastTask.InfrastOrderSelectionChanged();
         await Task.Run(() => SettingsViewModel.GameSettings.RunScript(GameSettingsUserControlModel.StartWithScriptKey));
+
+        // 启动前脚本/连接期间本轮可能已被停止、且状态被新运行认领：失效令牌不得继续提交任务或启动 Core
+        if (!_runningState.IsClaimActive(claim))
+        {
+            _logger.Warning("LinkStart aborted: run claim is no longer active");
+            return;
+        }
 
         AddLog(LocalizationHelper.GetString("Connection.Connecting"));
 
@@ -2609,11 +2626,11 @@ public class TaskQueueViewModel : Screen
         // 一般是点了“停止”按钮了
         if (_runningState.GetStopping())
         {
-            SetStopped();
+            SetStopped(claim);
             return;
         }
 
-        if (!await ConnectToConnectionTarget())
+        if (!await ConnectToConnectionTarget(claim))
         {
             return;
         }
@@ -2621,7 +2638,13 @@ public class TaskQueueViewModel : Screen
         // 一般是点了“停止”按钮了
         if (_runningState.GetStopping())
         {
-            SetStopped();
+            SetStopped(claim);
+            return;
+        }
+
+        if (!_runningState.IsClaimActive(claim))
+        {
+            _logger.Warning("LinkStart aborted: run claim is no longer active");
             return;
         }
 
@@ -2692,7 +2715,7 @@ public class TaskQueueViewModel : Screen
         {
             // 有任务序列化失败则整轮不启动（失败任务已各自记录错误并标记条目），与 AsstStart 失败的 ｢出现未知错误｣ 区分开
             Instances.AsstProxy.AsstStop();
-            SetStopped();
+            SetStopped(claim);
             return;
         }
 
@@ -2700,7 +2723,7 @@ public class TaskQueueViewModel : Screen
         {
             AddLog(LocalizationHelper.GetString("TaskQueue.UnselectedTask"));
             Instances.AsstProxy.AsstStop();
-            SetStopped();
+            SetStopped(claim);
             return;
         }
 
@@ -2712,7 +2735,7 @@ public class TaskQueueViewModel : Screen
         {
             // 本轮所有任务都不需要 core 执行（例如更新数据仅勾选干员识别且从一图流 OpenAPI 获取），直接收尾
             Instances.AsstProxy.AsstStop();
-            SetStopped();
+            SetStopped(claim);
             return;
         }
 
@@ -2729,7 +2752,7 @@ public class TaskQueueViewModel : Screen
         {
             AddLog(LocalizationHelper.GetString("Error.UnknownErrorOccurs"));
             await Stop();
-            SetStopped();
+            SetStopped(claim);
         }
 
         AchievementTrackerHelper.Instance.MissionStartCountAdd();
@@ -2823,7 +2846,7 @@ public class TaskQueueViewModel : Screen
 
             // Core 可能仍挂起并补发迟到 TaskChainStopped，若此后放行新任务，回调会把新运行的归属清掉，故重启前禁止再开任务
             Bootstrapper.MarkRequiresRestart();
-            SetStopped();
+            SetStopped(force: true);
             return false;
         }
 
@@ -2918,8 +2941,15 @@ public class TaskQueueViewModel : Screen
 
         if (runScript)
         {
-            // 脚本运行期间持有 InterruptLock，防止等待空闲的自动更新安装/定时启动放行打断收尾
-            RunningState.Instance.LockInterrupt();
+            // 脚本运行期间持有 InterruptLock，防止等待空闲的自动更新安装/定时启动放行打断收尾。
+            // 等空闲与取得 InterruptLock 之间可能被新开始入口插入，用原子保留避免新一轮启动
+            // 与结束脚本并发；已被新一轮抢先开始则放弃本次发射
+            if (!RunningState.Instance.TryLockInterruptOnIdle())
+            {
+                _logger.Warning("Manual stop: new run started during idle wait, skip stop script");
+                return false;
+            }
+
             try
             {
                 await RunStopScriptOnceAsync();
@@ -2935,26 +2965,26 @@ public class TaskQueueViewModel : Screen
 
     /// <summary>
     /// 重置 UI 状态为已停止（仅重置状态，不执行结束脚本；脚本发射归 <see cref="StopManuallyAsync"/> 与自然完成回调）。
+    /// 资格判定与状态迁移在 <see cref="RunningState.TryEndRunForStop"/> 内原子完成：迟到的停止/收尾回调
+    /// 不会清掉后来者认领的新运行。
     /// </summary>
-    /// <returns>是否实际执行了状态重置（false 表示被幂等保护跳过）。</returns>
-    public bool SetStopped()
+    /// <param name="claim">发起停止方持有的认领令牌；没有时传 <see langword="null"/>。</param>
+    /// <param name="force">是否允许在非停止请求下强制收口（Core 已停止、停止超时）。</param>
+    /// <param name="caller">调用方名称。</param>
+    /// <returns>是否实际执行了状态重置（false 表示被幂等保护跳过或已由其他回调收口）。</returns>
+    public bool SetStopped(RunningState.RunClaim? claim = null, bool force = false, [CallerMemberName] string caller = "")
     {
-        // 幂等保护：已经空闲且不在停止中，跳过
-        // 防止超时 SetStopped 后 Core 延迟回调再次触发导致打断新任务
-        if (_runningState.GetIdle() && !_runningState.GetStopping())
+        if (!_runningState.TryEndRunForStop(claim, force, caller))
         {
             return false;
         }
 
-        SleepManagement.AllowSleep();
-        if (!_runningState.GetIdle() || _runningState.GetStopping())
-        {
-            AddLog(LocalizationHelper.GetString("TaskQueue.Stopped"), splitMode: LogCardSplitMode.Both);
-        }
-
         Waiting = false;
-        _runningState.SetStopping(false);
-        _runningState.SetIdle(true);
+        AddLog(LocalizationHelper.GetString("TaskQueue.Stopped"), splitMode: LogCardSplitMode.Both);
+
+        // Idle 切换已按最新状态对齐休眠；这里再调用一次保持原有的直接放行语义，
+        // 若此刻已有新运行认领则 AllowSleep 会自行跳过
+        SleepManagement.AllowSleep();
 
         return true;
     }

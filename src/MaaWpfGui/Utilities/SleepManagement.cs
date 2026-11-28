@@ -75,17 +75,32 @@ public static class SleepManagement
         Continuous = 0x80000000,
     }
 
+    /// <summary>
+    /// 按当前运行状态重新对齐系统休眠保持：空闲时放行、运行中按配置保持唤醒。
+    /// 内部会同步派发到 UI 线程，调用方不得持有 RunningState 的转换锁；每次调用都按执行时的
+    /// 实时状态判定，即使与另一次状态切换交错，也不会把“已结束运行”的保持唤醒留在系统上。
+    /// </summary>
+    public static void ReconcileWithRunState() => Execute.OnUIThreadSync(() =>
+    {
+        if (RunningState.Instance.GetIdle())
+        {
+            ApplyAllowSleep();
+        }
+        else
+        {
+            ApplyBlockSleep(allowBlockSleep: null, blockSleepWithScreenOn: null);
+        }
+    });
+
     public static void AllowSleep() => Execute.OnUIThreadSync(() =>
     {
-        if (!_isBlockingSleep)
+        // 空闲切换后调用方可能已把状态让给新的运行：此时不能解除新的运行刚申请的保持唤醒
+        if (!RunningState.Instance.GetIdle())
         {
             return;
         }
 
-        _isBlockingSleep = false;
-
-        _logger.Information("Allowing system to sleep");
-        SetThreadExecutionState(ExecutionState.Continuous);
+        ApplyAllowSleep();
     });
 
     public static void BlockSleep(bool? allowBlockSleep = null, bool? blockSleepWithScreenOn = null) => Execute.OnUIThreadSync(() =>
@@ -96,6 +111,24 @@ public static class SleepManagement
             return;
         }
 
+        ApplyBlockSleep(allowBlockSleep, blockSleepWithScreenOn);
+    });
+
+    private static void ApplyAllowSleep()
+    {
+        if (!_isBlockingSleep)
+        {
+            return;
+        }
+
+        _isBlockingSleep = false;
+
+        _logger.Information("Allowing system to sleep");
+        SetThreadExecutionState(ExecutionState.Continuous);
+    }
+
+    private static void ApplyBlockSleep(bool? allowBlockSleep, bool? blockSleepWithScreenOn)
+    {
         if (!(allowBlockSleep ?? ConfigFactory.CurrentConfig.Gui.RuntimeSettings.BlockSleep))
         {
             return;
@@ -108,7 +141,7 @@ public static class SleepManagement
         ExecutionState state = ExecutionState.Continuous | ExecutionState.SystemRequired |
             (keepDisplayOn ? ExecutionState.DisplayRequired : 0);
         SetThreadExecutionState(state);
-    });
+    }
 
     /// <summary>
     /// Creates an independently owned system-required power request.

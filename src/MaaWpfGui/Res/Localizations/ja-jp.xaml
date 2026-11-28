@@ -754,6 +754,7 @@ MAA を新しい独立したフォルダーに解凍するか、MAA に属さな
     <system:String x:Key="Common.Ok">はい</system:String>
     <system:String x:Key="Common.Select">選択</system:String>
     <system:String x:Key="Common.Skipped">スキップ</system:String>
+    <system:String x:Key="Common.StartBlocked">他のタスクが実行中か終了処理中です。しばらくしてからもう一度お試しください</system:String>
     <system:String x:Key="Common.Stop">停止</system:String>
     <system:String x:Key="Common.Stop.CurrentTaskFormat">実行中の{0}を停止</system:String>
     <system:String x:Key="Common.Success">成功</system:String>
@@ -2550,6 +2551,7 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="Toolbox.MiniGame.SecretFront.Event2">遊侠</system:String>
     <system:String x:Key="Toolbox.MiniGame.SecretFront.Event3">揺蕩う影</system:String>
     <system:String x:Key="Toolbox.MiniGame.SecretFront.Tip">小隊選択画面で開始します。セーブデータがある場合は手動で削除する必要があります。ゲーム内の ｢前の小隊からのデータを引き継ぐ｣ にチェックすることを推奨します。</system:String>
+    <system:String x:Key="Toolbox.MiniGame.StartBlocked">他のタスクが実行中か終了処理中です。しばらくしてからミニゲームを開始してください</system:String>
     <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol">{key=Toolbox.MiniGame.SPA}</system:String>
     <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Alliance.Tip">このシーズンは未公開で、利用できません</system:String>
     <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Cleared">この試合はクリア</system:String>

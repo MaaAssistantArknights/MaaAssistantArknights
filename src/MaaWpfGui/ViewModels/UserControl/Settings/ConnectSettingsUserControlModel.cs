@@ -648,129 +648,135 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
     [UsedImplicitly]
     public async Task TestLinkAndGetImage()
     {
-        if (!_runningState.GetIdle())
-        {
-            return;
-        }
-
         if (Bootstrapper.TryGetTaskBlockReason() is { } reason)
         {
             TestLinkInfo = reason;
             return;
         }
 
-        _runningState.SetIdle(false);
-
-        var errMsg = string.Empty;
-        TestLinkInfo = LocalizationHelper.GetString("Connection.Connecting");
-        Instances.AsstProxy.Connected = false;
-        var caught = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
-        if (!caught)
+        // 连接测试也占用运行归属：用 BeginRun 原子认领，避免与任务/小游戏并发，也避免在
+        // 结束脚本等中断锁定期间启动；认领失败时给出可见提示
+        if (!_runningState.BeginRun(RunOwner.None, out var claim))
         {
-            TestLinkInfo = errMsg;
-            _runningState.SetIdle(true);
+            TestLinkInfo = LocalizationHelper.GetString("Common.StartBlocked");
             return;
         }
 
         try
         {
-            TestLinkImage = await Instances.AsstProxy.AsstGetImageAsync(forceScreencap: true);
+            var errMsg = string.Empty;
+            TestLinkInfo = LocalizationHelper.GetString("Connection.Connecting");
+            Instances.AsstProxy.Connected = false;
+            var caught = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
+            if (!caught)
+            {
+                TestLinkInfo = errMsg;
+                return;
+            }
+
+            try
+            {
+                TestLinkImage = await Instances.AsstProxy.AsstGetImageAsync(forceScreencap: true);
+            }
+            finally
+            {
+                if (ShowWindowRestoreButton)
+                {
+                    Instances.AsstProxy.RestoreGameWindowPosition();
+                }
+            }
+
+            if (TestLinkImage is null)
+            {
+                TestLinkInfo = LocalizationHelper.GetString("Connection.ImageIsNull");
+                return;
+            }
+
+            switch (ConnectConfig)
+            {
+                case ConnectConfig.MuMuEmulator12:
+                    if (ExtraConfig is MuMu12Extra muMu12Extra && muMu12Extra.Enable && ScreencapMethod != "MumuExtras")
+                    {
+                        var mumuExtrasMsg = string.IsNullOrEmpty(muMu12Extra.EmulatorPath)
+                            ? LocalizationHelper.GetString("Connection.MuMu.EmulatorPathEmptyError")
+                            : LocalizationHelper.GetString("Connection.MuMu.ExtrasNotEnabledMessage");
+                        TestLinkInfo = $"{mumuExtrasMsg}\n{ScreencapTestCost}";
+                        return;
+                    }
+
+                    break;
+
+                case ConnectConfig.LDPlayer:
+                    if (ExtraConfig is LDPlayerExtra ldPlayerExtra && ldPlayerExtra.Enable && ScreencapMethod != "LDExtras")
+                    {
+                        var ldExtrasMsg = string.IsNullOrEmpty(ldPlayerExtra.EmulatorPath)
+                            ? LocalizationHelper.GetString("Connection.LdPlayer.EmulatorPathEmptyError")
+                            : LocalizationHelper.GetString("Connection.LdPlayer.ExtrasNotEnabledMessage");
+                        TestLinkInfo = $"{ldExtrasMsg}\n{ScreencapTestCost}";
+                        return;
+                    }
+
+                    break;
+
+                case ConnectConfig.ModAVD:
+                    if (ExtraConfig is ModAvdExtra { RootPath: not "" } && ScreencapMethod != "ModAvdExtras")
+                    {
+                        TestLinkInfo = $"{LocalizationHelper.GetString("Connection.ModAVD.ExtrasNotEnabledMessage")}\n{ScreencapTestCost}";
+                        return;
+                    }
+
+                    break;
+            }
+
+            TestLinkInfo = ScreencapTestCost;
+
+            if (_imagePopupWindow == null)
+            {
+                const double TotalWindowWidth = 800;
+
+                var nc = SystemParameters.WindowNonClientFrameThickness;
+                var rb = SystemParameters.WindowResizeBorderThickness;
+
+                double contentWidth = TotalWindowWidth - (nc.Left + nc.Right + rb.Left + rb.Right);
+                double contentHeight = contentWidth * 9.0 / 16.0;
+
+                double totalWindowHeight = contentHeight + (nc.Top + nc.Bottom + rb.Top + rb.Bottom);
+                _imagePopupWindow = new() {
+                    Width = TotalWindowWidth,
+                    Height = totalWindowHeight,
+                    ResizeMode = ResizeMode.NoResize,
+                    Content = new Image {
+                        Source = TestLinkImage,
+                    },
+                };
+                _imagePopupWindow.Loaded += (_, _) => {
+                    WindowManager.MoveWindowToRootCenter(_imagePopupWindow);
+                };
+                _imagePopupWindow.Closed += (_, _) => {
+                    _imagePopupWindow = null;
+                };
+                var img = (Image)_imagePopupWindow.Content;
+                img.MouseLeftButtonUp += (_, _) => {
+                    AchievementTrackerHelper.Instance.Unlock(AchievementIds.OneMoreLook);
+                    _ = TestLinkAndGetImage();
+                };
+            }
+            else
+            {
+                if (_imagePopupWindow.Content is Image image)
+                {
+                    image.Source = TestLinkImage;
+                }
+            }
+
+            AchievementTrackerHelper.Instance.Unlock(AchievementIds.ConnectionTester);
+            WindowManager.ShowWindow(_imagePopupWindow);
         }
         finally
         {
-            if (ShowWindowRestoreButton)
-            {
-                Instances.AsstProxy.RestoreGameWindowPosition();
-            }
-
-            _runningState.SetIdle(true);
+            // 只结束本次测试认领的运行；令牌已失效（被其他路径收尾或被新运行接管）时不会清掉新运行
+            _runningState.EndRun(claim);
         }
-
-        if (TestLinkImage is null)
-        {
-            TestLinkInfo = LocalizationHelper.GetString("Connection.ImageIsNull");
-            return;
-        }
-
-        switch (ConnectConfig)
-        {
-            case ConnectConfig.MuMuEmulator12:
-                if (ExtraConfig is MuMu12Extra muMu12Extra && muMu12Extra.Enable && ScreencapMethod != "MumuExtras")
-                {
-                    var mumuExtrasMsg = string.IsNullOrEmpty(muMu12Extra.EmulatorPath)
-                        ? LocalizationHelper.GetString("Connection.MuMu.EmulatorPathEmptyError")
-                        : LocalizationHelper.GetString("Connection.MuMu.ExtrasNotEnabledMessage");
-                    TestLinkInfo = $"{mumuExtrasMsg}\n{ScreencapTestCost}";
-                    return;
-                }
-
-                break;
-
-            case ConnectConfig.LDPlayer:
-                if (ExtraConfig is LDPlayerExtra ldPlayerExtra && ldPlayerExtra.Enable && ScreencapMethod != "LDExtras")
-                {
-                    var ldExtrasMsg = string.IsNullOrEmpty(ldPlayerExtra.EmulatorPath)
-                        ? LocalizationHelper.GetString("Connection.LdPlayer.EmulatorPathEmptyError")
-                        : LocalizationHelper.GetString("Connection.LdPlayer.ExtrasNotEnabledMessage");
-                    TestLinkInfo = $"{ldExtrasMsg}\n{ScreencapTestCost}";
-                    return;
-                }
-
-                break;
-
-            case ConnectConfig.ModAVD:
-                if (ExtraConfig is ModAvdExtra { RootPath: not "" } && ScreencapMethod != "ModAvdExtras")
-                {
-                    TestLinkInfo = $"{LocalizationHelper.GetString("Connection.ModAVD.ExtrasNotEnabledMessage")}\n{ScreencapTestCost}";
-                    return;
-                }
-
-                break;
-        }
-
-        TestLinkInfo = ScreencapTestCost;
-
-        if (_imagePopupWindow == null)
-        {
-            const double TotalWindowWidth = 800;
-
-            var nc = SystemParameters.WindowNonClientFrameThickness;
-            var rb = SystemParameters.WindowResizeBorderThickness;
-
-            double contentWidth = TotalWindowWidth - (nc.Left + nc.Right + rb.Left + rb.Right);
-            double contentHeight = contentWidth * 9.0 / 16.0;
-
-            double totalWindowHeight = contentHeight + (nc.Top + nc.Bottom + rb.Top + rb.Bottom);
-            _imagePopupWindow = new() {
-                Width = TotalWindowWidth,
-                Height = totalWindowHeight,
-                ResizeMode = ResizeMode.NoResize,
-                Content = new Image {
-                    Source = TestLinkImage,
-                },
-            };
-            _imagePopupWindow.Loaded += (_, _) => {
-                WindowManager.MoveWindowToRootCenter(_imagePopupWindow);
-            };
-            _imagePopupWindow.Closed += (_, _) => {
-                _imagePopupWindow = null;
-            };
-            var img = (Image)_imagePopupWindow.Content;
-            img.MouseLeftButtonUp += (_, _) => {
-                AchievementTrackerHelper.Instance.Unlock(AchievementIds.OneMoreLook);
-                _ = TestLinkAndGetImage();
-            };
-        }
-        else
-        {
-            if (_imagePopupWindow.Content is Image image)
-            {
-                image.Source = TestLinkImage;
-            }
-        }
-
-        AchievementTrackerHelper.Instance.Unlock(AchievementIds.ConnectionTester);
-        WindowManager.ShowWindow(_imagePopupWindow);
     }
 
     private BitmapImage? _testLinkImage;

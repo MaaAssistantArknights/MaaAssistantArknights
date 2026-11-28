@@ -261,76 +261,269 @@ public class RunningState
     private bool _idle = true;
     private RunOwner _runOwner;
 
+    // 每次成功认领分配单调递增的令牌：清理路径只能结束自己那一笔运行，
+    // 避免“旧操作在等待/连接结束后收尾时把后来者刚认领的运行清掉”
+    private long _runClaimSequence;
+    private long _activeRunClaimId;
+
+    // 运行归属、空闲状态与中断锁的检查/变更共用同一把锁：开始入口可能来自 UI、远程控制、热键等
+    // 多个线程，若先 GetIdle/CanInterrupt 再 BeginRun，两个调用方都会通过检查并依次接管归属，
+    // 完成事件随即被错误归因；空闲切入与中断锁定也必须与认领互斥，否则收尾期间仍会被插入新运行
+    private readonly Lock _runTransitionLock = new();
+
+    /// <summary>
+    /// 一轮运行的认领令牌。由 <see cref="BeginRun"/> 分配，只能用于 <see cref="EndRun"/> 结束它自己那一笔运行。
+    /// </summary>
+    /// <param name="Id">令牌序号；0 表示无效令牌。</param>
+    public readonly record struct RunClaim(long Id);
+
     /// <summary>
     /// 当前运行轮次的发起入口归属，由开始入口经 <see cref="BeginRun"/> 声明，回到空闲时清零。
     /// </summary>
-    public RunOwner Owner
+    public RunOwner Owner => _runOwner;
+
+    /// <summary>
+    /// 原子地认领本轮运行：仅当当前可安全打断（空闲且中断未锁定）时声明归属并进入运行态。
+    /// 检查与声明在同一把锁内完成，所有开始入口都必须经此认领；已有运行、中断锁定（结束脚本、
+    /// 关机倒计时等收尾）或已被其他入口抢先认领时返回 <see langword="false"/>，状态保持不变。
+    /// </summary>
+    /// <param name="owner">发起运行的入口归属。</param>
+    /// <param name="claim">认领成功后返回本轮运行令牌；失败时为默认值。</param>
+    /// <param name="caller">调用方名称。</param>
+    /// <returns>认领成功返回 <see langword="true"/>。</returns>
+    public bool BeginRun(RunOwner owner, out RunClaim claim, [CallerMemberName] string caller = "")
     {
-        get => _runOwner;
-        private set {
-            if (_runOwner == value)
+        lock (_runTransitionLock)
+        {
+            if (!CanInterrupt())
             {
-                return;
+                claim = default;
+                _logger.Information("BeginRun rejected: owner={Owner} (called from {Caller})", owner, caller);
+                return false;
             }
 
-            var oldState = new StateSnapshot(_idle, _inited, _stopping, _runOwner);
-            _runOwner = value;
-            RaiseStateChanged(oldState);
+            _logger.Information("BeginRun: owner={Owner} (called from {Caller})", owner, caller);
+            _activeRunClaimId = ++_runClaimSequence;
+            claim = new RunClaim(_activeRunClaimId);
+            ApplyRunState(owner);
+        }
+
+        ReconcileSleepState();
+        return true;
+    }
+
+    /// <summary>
+    /// 结束指定令牌对应的本轮运行并回到空闲；令牌已失效（运行已被其他路径收尾或又被新一轮认领）时
+    /// 不做任何变更，避免清掉其他入口新认领的运行。
+    /// </summary>
+    /// <param name="claim">本操作开始时由 <see cref="BeginRun"/> 返回的令牌。</param>
+    /// <returns>是否实际结束并回到空闲。</returns>
+    public bool EndRun(RunClaim claim)
+    {
+        if (claim.Id == 0)
+        {
+            return false;
+        }
+
+        lock (_runTransitionLock)
+        {
+            if (_idle || _activeRunClaimId != claim.Id)
+            {
+                _logger.Information(
+                    "EndRun ignored: claim={ClaimId}, activeClaim={ActiveClaimId}, idle={Idle}",
+                    claim.Id,
+                    _activeRunClaimId,
+                    _idle);
+                return false;
+            }
+
+            ApplyIdleState(true);
+        }
+
+        ReconcileSleepState();
+        return true;
+    }
+
+    /// <summary>
+    /// 当前令牌是否仍对应运行中的这一笔认领。
+    /// </summary>
+    /// <param name="claim">认领令牌。</param>
+    /// <returns>令牌有效且仍是活动认领时返回 <see langword="true"/>。</returns>
+    public bool IsClaimActive(RunClaim claim)
+    {
+        if (claim.Id == 0)
+        {
+            return false;
+        }
+
+        lock (_runTransitionLock)
+        {
+            return !_idle && _activeRunClaimId == claim.Id;
         }
     }
 
     /// <summary>
-    /// 声明本轮运行的入口归属并进入运行态；已在运行时调用则归属由新入口接管。
+    /// 当前活动认领令牌快照；空闲或未认领时为 <see langword="null"/>。
+    /// </summary>
+    public RunClaim? ActiveClaim
+    {
+        get {
+            lock (_runTransitionLock)
+            {
+                return _idle || _activeRunClaimId == 0 ? null : new RunClaim(_activeRunClaimId);
+            }
+        }
+    }
+
+    /// <summary>
+    /// 在持有转换锁的情况下执行一次提交动作：仅当令牌仍是活动认领、未在停止中且无中断锁定时才执行。
+    /// 供“校验完认领后立即提交任务/启动 Core”的收尾动作使用，避免停止请求插入到校验与提交之间。
+    /// </summary>
+    /// <param name="claim">提交方持有的认领令牌。</param>
+    /// <param name="action">实际的提交动作。</param>
+    /// <returns>是否实际执行了提交动作。</returns>
+    public bool TryInvokeWithActiveClaim(RunClaim claim, Action action)
+    {
+        lock (_runTransitionLock)
+        {
+            if (_idle || _activeRunClaimId != claim.Id || _stopping || IsInterruptLocked())
+            {
+                return false;
+            }
+
+            action();
+            return true;
+        }
+    }
+
+    /// <summary>
+    /// 停止/收尾回调结束当前运行：资格判定与状态迁移在同一把锁内原子完成。
+    /// 传入 <paramref name="claim"/> 时仅当该令牌仍是活动认领才生效；未传令牌时默认只处理
+    /// 针对当前运行的停止请求（<paramref name="force"/> 供 Core 已停止/停止超时等强制收口使用），
+    /// 避免迟到的停止回调清掉后来者认领的新运行。
+    /// </summary>
+    /// <param name="claim">发起停止方持有的认领令牌；无令牌时传 <see langword="null"/>。</param>
+    /// <param name="force">是否允许在非停止请求下强制收口（Core 已停止、停止超时）。</param>
+    /// <param name="caller">调用方名称。</param>
+    /// <returns>是否实际结束并回到空闲。</returns>
+    public bool TryEndRunForStop(RunClaim? claim, bool force = false, [CallerMemberName] string caller = "")
+    {
+        lock (_runTransitionLock)
+        {
+            if (_idle && !_stopping)
+            {
+                return false;
+            }
+
+            if (claim.HasValue)
+            {
+                if (_idle || _activeRunClaimId != claim.Value.Id)
+                {
+                    _logger.Information(
+                        "TryEndRunForStop ignored: claim={ClaimId}, activeClaim={ActiveClaimId}, idle={Idle} (called from {Caller})",
+                        claim.Value.Id,
+                        _activeRunClaimId,
+                        _idle,
+                        caller);
+                    return false;
+                }
+            }
+            else if (!force)
+            {
+                if (!_stopping || _stoppingClaimId != _activeRunClaimId)
+                {
+                    _logger.Information(
+                        "TryEndRunForStop ignored: stopping={Stopping}, stopClaim={StopClaimId}, activeClaim={ActiveClaimId} (called from {Caller})",
+                        _stopping,
+                        _stoppingClaimId,
+                        _activeRunClaimId,
+                        caller);
+                    return false;
+                }
+            }
+
+            ApplyIdleState(true);
+        }
+
+        ReconcileSleepState();
+        return true;
+    }
+
+    /// <summary>
+    /// 在锁内把本轮运行置为运行态并广播；休眠管理不在此处调用。
     /// </summary>
     /// <param name="owner">发起运行的入口归属。</param>
-    /// <param name="caller">调用方名称。</param>
-    public void BeginRun(RunOwner owner, [CallerMemberName] string caller = "")
+    private void ApplyRunState(RunOwner owner)
     {
-        _logger.Information("BeginRun: owner={Owner} (called from {Caller})", owner, caller);
-        if (_idle)
+        // 空闲起点直接写字段，归属与离开空闲合并为一次广播；避免先经 Owner 单独广播出
+        // ｢空闲但已有归属｣ 的中间快照
+        var oldState = new StateSnapshot(_idle, _inited, _stopping, _runOwner);
+        _runOwner = owner;
+        _idle = false;
+        StartTimeoutTimer();
+        RaiseStateChanged(oldState);
+    }
+
+    /// <summary>
+    /// 应用空闲状态及其伴生状态（归属/令牌重置、计时器），调用方须持有 <see cref="_runTransitionLock"/>。
+    /// 休眠管理会同步派发到 UI 线程，不在锁内调用。
+    /// </summary>
+    /// <param name="value">新的空闲状态。</param>
+    private void ApplyIdleState(bool value)
+    {
+        var oldState = new StateSnapshot(_idle, _inited, _stopping, _runOwner);
+        _idle = value;
+        if (value)
         {
-            // 空闲起点直接写字段，归属与离开空闲合并为一次广播；避免先经 Owner setter 单独
-            // 广播出 ｢空闲但已有归属｣ 的中间快照
-            _runOwner = owner;
+            // 回到空闲即本轮结束：归属、令牌与停止中在同一快照内清零。直接 SetIdle(true) 收尾
+            // 的链路（工具箱各工具连接失败、测试连接等）不经 SetStopped，若不清 Stopping
+            // 会留下 ｢空闲但停止中｣ 的死锁态——三页开始/停止按钮全部不可用
+            _runOwner = RunOwner.None;
+            _activeRunClaimId = 0;
+            _stopping = false;
+            _stoppingClaimId = 0;
+            StopTimeoutTimer();
+            ClearRunDeadline();
         }
         else
         {
-            Owner = owner;
+            StartTimeoutTimer();
         }
 
-        SetIdle(false);
+        RaiseStateChanged(oldState);
     }
 
     public bool Idle
     {
         get => _idle;
         set {
-            if (_idle == value)
+            bool changed;
+            lock (_runTransitionLock)
             {
-                return;
+                changed = _idle != value;
+                if (changed)
+                {
+                    // 变更与广播在同一把锁内完成：否则 SetIdle(false) 可能在别的开始入口通过
+                    // CanInterrupt 之后才生效，或在认领成功后把归属清掉，造成重叠运行或归属丢失
+                    ApplyIdleState(value);
+                }
             }
 
-            var oldState = new StateSnapshot(_idle, _inited, _stopping, _runOwner);
-            _idle = value;
-            if (value)
+            if (changed)
             {
-                // 回到空闲即本轮结束：归属与停止中在同一快照内清零。直接 SetIdle(true) 收尾
-                // 的链路（工具箱各工具连接失败、测试连接等）不经 SetStopped，若不清 Stopping
-                // 会留下 ｢空闲但停止中｣ 的死锁态——三页开始/停止按钮全部不可用
-                _runOwner = RunOwner.None;
-                _stopping = false;
-                StopTimeoutTimer();
-                ClearRunDeadline();
-                SleepManagement.AllowSleep();
+                ReconcileSleepState();
             }
-            else
-            {
-                StartTimeoutTimer();
-                SleepManagement.BlockSleep();
-            }
-
-            RaiseStateChanged(oldState);
         }
+    }
+
+    /// <summary>
+    /// 按最新运行状态对齐系统休眠保持。休眠管理会同步派发到 UI 线程，必须在
+    /// <see cref="_runTransitionLock"/> 之外调用，且其内部按执行时的实时状态判定，
+    /// 这样出锁后的调用即使与另一次状态切换交错，也不会留下错误的保持唤醒。
+    /// </summary>
+    private static void ReconcileSleepState()
+    {
+        SleepManagement.ReconcileWithRunState();
     }
 
     /// <summary>
@@ -355,12 +548,44 @@ public class RunningState
     /// 锁定中断（引用计数 +1）。
     /// 锁定期间（关机/休眠倒计时、结束后脚本、退出游戏、杀模拟器等），
     /// <see cref="CanInterrupt"/> 返回 false，<see cref="UntilIdleAsync"/> 会持续等待。
+    /// 计数变更与 <see cref="BeginRun"/> 的认领共用 <see cref="_runTransitionLock"/>，
+    /// 保证 ｢检查可打断｣ 与 ｢声明运行归属｣ 之间不会被中断锁定插入。
     /// </summary>
     /// <param name="caller">调用方名称。</param>
     public void LockInterrupt([CallerMemberName] string caller = "")
     {
-        var newValue = Interlocked.Increment(ref _interruptLockDepth);
+        int newValue;
+        lock (_runTransitionLock)
+        {
+            newValue = Interlocked.Increment(ref _interruptLockDepth);
+        }
+
         _logger.Information("InterruptLock: depth={Depth} (called from {Caller})", newValue, caller);
+    }
+
+    /// <summary>
+    /// 若当前恰好可打断（空闲且中断未锁定），在同一把锁内原子地取得中断锁并返回 <see langword="true"/>。
+    /// 供 ｢等待空闲后还要执行收尾脚本｣ 的路径使用：避免 <see cref="UntilIdleAsync"/> 返回后、
+    /// 真正 <see cref="LockInterrupt"/> 之前被新的开始入口插入。
+    /// </summary>
+    /// <param name="caller">调用方名称。</param>
+    /// <returns>是否成功取得中断锁。</returns>
+    public bool TryLockInterruptOnIdle([CallerMemberName] string caller = "")
+    {
+        int newValue;
+        lock (_runTransitionLock)
+        {
+            if (!CanInterrupt())
+            {
+                _logger.Information("TryLockInterruptOnIdle rejected (called from {Caller})", caller);
+                return false;
+            }
+
+            newValue = Interlocked.Increment(ref _interruptLockDepth);
+        }
+
+        _logger.Information("InterruptLock: depth={Depth} (called from {Caller}, reserved on idle)", newValue, caller);
+        return true;
     }
 
     /// <summary>
@@ -369,13 +594,20 @@ public class RunningState
     /// <param name="caller">调用方名称。</param>
     public void UnlockInterrupt([CallerMemberName] string caller = "")
     {
-        var newValue = Interlocked.Decrement(ref _interruptLockDepth);
+        int newValue;
+        lock (_runTransitionLock)
+        {
+            newValue = Interlocked.Decrement(ref _interruptLockDepth);
+            if (newValue < 0)
+            {
+                // 仅当值仍为该负数时才归零，避免与并发 LockInterrupt 竞态抹掉合法的锁
+                Interlocked.CompareExchange(ref _interruptLockDepth, 0, newValue);
+            }
+        }
+
         if (newValue < 0)
         {
             _logger.Warning("InterruptLock unlock: depth underflow, clamping to 0 (called from {Caller})", caller);
-
-            // 仅当值仍为该负数时才归零，避免与并发 LockInterrupt 竞态抹掉合法的锁
-            Interlocked.CompareExchange(ref _interruptLockDepth, 0, newValue);
         }
         else
         {
@@ -436,14 +668,31 @@ public class RunningState
 
     private bool _stopping;
 
+    // 发起停止请求时对应的运行令牌：停止/收尾回调只有仍针对这笔运行时才允许结束状态，
+    // 避免迟到的回调把后来者认领的新运行清掉
+    private long _stoppingClaimId;
+
     public bool Stopping
     {
         get => _stopping;
         set {
-            if (_stopping != value)
+            lock (_runTransitionLock)
             {
+                if (_stopping == value)
+                {
+                    return;
+                }
+
+                if (value && _idle)
+                {
+                    // 空闲时的迟到停止请求没有可停止的运行：直接忽略，避免留下 ｢空闲但停止中｣ 的死锁态
+                    _logger.Information("Ignore stopping request while idle");
+                    return;
+                }
+
                 var oldState = new StateSnapshot(_idle, _inited, _stopping, _runOwner);
                 _stopping = value;
+                _stoppingClaimId = value ? _activeRunClaimId : 0;
                 RaiseStateChanged(oldState);
             }
         }

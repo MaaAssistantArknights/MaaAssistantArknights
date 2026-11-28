@@ -2089,32 +2089,49 @@ public partial class CopilotViewModel : Screen
         {
             AddLog(Localization.GetString("Copilot.AutoSquad.Tip"), LogColor.Message);
         }*/
-        _runningState.BeginRun(RunOwner.Copilot);
+        if (!_runningState.BeginRun(RunOwner.Copilot, out var claim))
+        {
+            _logger.Warning("Copilot start rejected: another run is active or interrupting");
+            return;
+        }
 
         Instances.OverlayViewModel.LogItemsSource = LogItemViewModels;
 
         // 统一前置校验：先按 CopilotTabIndex 分发，再判断对应选项（UseCopilotList 等）
         if (!await ValidateStartAsync())
         {
-            Instances.TaskQueueViewModel.SetStopped();
+            Instances.TaskQueueViewModel.SetStopped(claim);
             return;
         }
 
         await RunStartsWithScriptAsync();
 
+        // 启动前脚本期间本轮可能已被停止/被新运行接管：失效令牌不得继续连接或提交
+        if (!_runningState.IsClaimActive(claim))
+        {
+            _logger.Warning("Copilot start aborted: run claim is no longer active");
+            return;
+        }
+
         if (!await ConnectToEmulatorAsync())
         {
             // Core 从未 start，Stop() 的轮询立即结束、走不到超时强制 SetStopped，需显式收尾
             await Stop();
-            Instances.TaskQueueViewModel.SetStopped();
+            Instances.TaskQueueViewModel.SetStopped(claim);
             return;
         }
 
         // 连接期间用户可能已点停止，需在此处拦截
         if (_runningState.GetStopping())
         {
-            Instances.TaskQueueViewModel.SetStopped();
+            Instances.TaskQueueViewModel.SetStopped(claim);
             AddLog(LocalizationHelper.GetString("TaskQueue.Stopped"));
+            return;
+        }
+
+        if (!_runningState.IsClaimActive(claim))
+        {
+            _logger.Warning("Copilot start aborted: run claim is no longer active");
             return;
         }
 
@@ -2143,7 +2160,7 @@ public partial class CopilotViewModel : Screen
                 _logger.Warning("Failed to stop Asst");
             }
 
-            Instances.TaskQueueViewModel.SetStopped();
+            Instances.TaskQueueViewModel.SetStopped(claim);
 
             // 中性兜底与已报告的具体原因连打：原因在前、结论在后，互不冲突
             AddLog(LocalizationHelper.GetString("Copilot.StartFailed"), UiLogColor.Error, showTime: false);

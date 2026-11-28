@@ -26,6 +26,7 @@ using HandyControl.Controls;
 using JetBrains.Annotations;
 using MaaWpfGui.Configuration.Factory;
 using MaaWpfGui.Constants;
+using MaaWpfGui.Constants.Enums;
 using MaaWpfGui.Helper;
 using MaaWpfGui.States;
 using MaaWpfGui.Utilities;
@@ -374,34 +375,25 @@ public class StartSettingsUserControlModel : PropertyChangedBase
 
     private void WaitForConnectionTargetStart(int delay, ConnectionTargetLaunchSettings settings)
     {
-        bool idle = _runningState.GetIdle();
-        _runningState.SetIdle(false);
-        try
+        for (var i = 0; i < delay; ++i)
         {
-            for (var i = 0; i < delay; ++i)
+            if (_runningState.GetStopping())
             {
-                if (_runningState.GetStopping())
-                {
-                    _logger.Information("Stop waiting for the {TargetName} to start", settings.LogName);
-                    return;
-                }
-
-                if (i % 10 == 0)
-                {
-                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString(settings.WaitTextKey) + ": " + (delay - i) + "s");
-                    _logger.Information("Waiting for the {TargetName} to start: {RemainingSeconds}s", settings.LogName, delay - i);
-                }
-
-                Thread.Sleep(1000);
+                _logger.Information("Stop waiting for the {TargetName} to start", settings.LogName);
+                return;
             }
 
-            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("Settings.Startup.WaitForEmulatorFinish"));
-            _logger.Information("Waiting for the {TargetName} is over", settings.LogName);
+            if (i % 10 == 0)
+            {
+                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString(settings.WaitTextKey) + ": " + (delay - i) + "s");
+                _logger.Information("Waiting for the {TargetName} to start: {RemainingSeconds}s", settings.LogName, delay - i);
+            }
+
+            Thread.Sleep(1000);
         }
-        finally
-        {
-            _runningState.SetIdle(idle);
-        }
+
+        Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("Settings.Startup.WaitForEmulatorFinish"));
+        _logger.Information("Waiting for the {TargetName} is over", settings.LogName);
     }
 
     /// <summary>
@@ -446,51 +438,77 @@ public class StartSettingsUserControlModel : PropertyChangedBase
             return;
         }
 
-        int delay = test ? 0 : settings.WaitSeconds;
-        try
+        // 空闲时才原子认领一次运行状态：与任务开始共用 CanInterrupt 检查，收尾脚本/关机倒计时等
+        // 中断锁定期间不启动连接目标；已有其他运行时保持原行为（只拉起进程，不改动运行状态）
+        RunningState.RunClaim claim = default;
+        bool claimed = false;
+        if (_runningState.GetIdle())
         {
-            var (fileName, arguments) = ResolveShortcut(settings.Path, settings.AddCommand);
-            using Process process = new Process {
-                StartInfo = new ProcessStartInfo(fileName, arguments) {
-                    UseShellExecute = false,
-                },
-            };
-
-            _logger.Information(
-                "Try to start {TargetName}:\nfileName: {FileName}\narguments: {Arguments}",
-                settings.LogName,
-                fileName,
-                arguments);
-            process.Start();
-        }
-        catch (Exception)
-        {
-            _logger.Information(
-                "Start {TargetName} error, try to start using the shell:\npath: {Path}\narguments: {Arguments}",
-                settings.LogName,
-                settings.Path,
-                settings.AddCommand);
-            try
+            if (!_runningState.BeginRun(RunOwner.None, out claim))
             {
-                Process.Start(new ProcessStartInfo(settings.Path, settings.AddCommand) { UseShellExecute = true, });
-            }
-            catch (Exception e)
-            {
-                if (e is Win32Exception { NativeErrorCode: 740 })
-                {
-                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString(settings.StartFailedTextKey), UiLogColor.Warning);
-                    _logger.Warning("Insufficient permissions to start the {TargetName}: {Path}", settings.LogName, settings.Path);
-                }
-                else
-                {
-                    _logger.Warning("{TargetName} start failed with error: {ErrorMessage}", settings.LogName, e.Message);
-                }
-
+                _logger.Information("Skip starting {TargetName}: run claim rejected", settings.LogName);
                 return;
             }
+
+            claimed = true;
         }
 
-        WaitForConnectionTargetStart(delay, settings);
+        try
+        {
+            int delay = test ? 0 : settings.WaitSeconds;
+            try
+            {
+                var (fileName, arguments) = ResolveShortcut(settings.Path, settings.AddCommand);
+                using Process process = new Process {
+                    StartInfo = new ProcessStartInfo(fileName, arguments) {
+                        UseShellExecute = false,
+                    },
+                };
+
+                _logger.Information(
+                    "Try to start {TargetName}:\nfileName: {FileName}\narguments: {Arguments}",
+                    settings.LogName,
+                    fileName,
+                    arguments);
+                process.Start();
+            }
+            catch (Exception)
+            {
+                _logger.Information(
+                    "Start {TargetName} error, try to start using the shell:\npath: {Path}\narguments: {Arguments}",
+                    settings.LogName,
+                    settings.Path,
+                    settings.AddCommand);
+                try
+                {
+                    Process.Start(new ProcessStartInfo(settings.Path, settings.AddCommand) { UseShellExecute = true, });
+                }
+                catch (Exception e)
+                {
+                    if (e is Win32Exception { NativeErrorCode: 740 })
+                    {
+                        Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString(settings.StartFailedTextKey), UiLogColor.Warning);
+                        _logger.Warning("Insufficient permissions to start the {TargetName}: {Path}", settings.LogName, settings.Path);
+                    }
+                    else
+                    {
+                        _logger.Warning("{TargetName} start failed with error: {ErrorMessage}", settings.LogName, e.Message);
+                    }
+
+                    return;
+                }
+            }
+
+            WaitForConnectionTargetStart(delay, settings);
+        }
+        finally
+        {
+            // 只结束本次操作认领的那一笔；认领已被其他路径收尾/新运行接管时 EndRun 会跳过，不会清掉新运行
+            if (claimed)
+            {
+                _runningState.EndRun(claim);
+            }
+        }
     }
 
     /// <summary>
