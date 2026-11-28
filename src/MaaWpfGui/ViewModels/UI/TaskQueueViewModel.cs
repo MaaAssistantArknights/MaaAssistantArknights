@@ -2548,7 +2548,7 @@ public class TaskQueueViewModel : Screen
 
         // 先原子认领运行归属，再改动共享日志与任务状态：并发入口认领失败时
         // 不能把正在运行的轮次的日志/进度/任务映射清掉
-        if (!_runningState.BeginRun(RunOwner.TaskQueue))
+        if (!_runningState.BeginRun(RunOwner.TaskQueue, out var claim))
         {
             _logger.Warning("LinkStart rejected: run claim rejected");
             return;
@@ -2581,8 +2581,9 @@ public class TaskQueueViewModel : Screen
         {
             AddLog(LocalizationHelper.GetStringFormat("VersionUpdate.VersionMismatch", uiVersion, coreVersion), UiLogColor.Error);
 
-            // 已认领运行归属，提前返回前必须复位，否则开始按钮会一直不可用
-            _runningState.SetIdle(true);
+            // 已认领运行归属，提前返回前必须用令牌结束本次认领，否则开始按钮会一直不可用；
+            // 若认领已被其他路径收尾/新运行接管，EndRun 会跳过、不会清掉新运行
+            _runningState.EndRun(claim);
             return;
         }
 

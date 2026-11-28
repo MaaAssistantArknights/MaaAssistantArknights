@@ -656,7 +656,7 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
 
         // 连接测试也占用运行归属：用 BeginRun 原子认领，避免与任务/小游戏并发，也避免在
         // 结束脚本等中断锁定期间启动；认领失败时给出可见提示
-        if (!_runningState.BeginRun(RunOwner.None))
+        if (!_runningState.BeginRun(RunOwner.None, out var claim))
         {
             TestLinkInfo = LocalizationHelper.GetString("Common.StartBlocked");
             return;
@@ -774,8 +774,8 @@ public class ConnectSettingsUserControlModel : PropertyChangedBase
         }
         finally
         {
-            // 只结束本次测试认领的运行；归属已被其他路径收尾时 EndRun 会跳过，不会清掉新运行
-            _runningState.EndRun(RunOwner.None);
+            // 只结束本次测试认领的运行；令牌已失效（被其他路径收尾或被新运行接管）时不会清掉新运行
+            _runningState.EndRun(claim);
         }
     }
 

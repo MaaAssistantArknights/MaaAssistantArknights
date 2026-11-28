@@ -261,10 +261,21 @@ public class RunningState
     private bool _idle = true;
     private RunOwner _runOwner;
 
+    // 每次成功认领分配单调递增的令牌：清理路径只能结束自己那一笔运行，
+    // 避免“旧操作在等待/连接结束后收尾时把后来者刚认领的运行清掉”
+    private long _runClaimSequence;
+    private long _activeRunClaimId;
+
     // 运行归属、空闲状态与中断锁的检查/变更共用同一把锁：开始入口可能来自 UI、远程控制、热键等
     // 多个线程，若先 GetIdle/CanInterrupt 再 BeginRun，两个调用方都会通过检查并依次接管归属，
     // 完成事件随即被错误归因；空闲切入与中断锁定也必须与认领互斥，否则收尾期间仍会被插入新运行
     private readonly Lock _runTransitionLock = new();
+
+    /// <summary>
+    /// 一轮运行的认领令牌。由 <see cref="BeginRun"/> 分配，只能用于 <see cref="EndRun"/> 结束它自己那一笔运行。
+    /// </summary>
+    /// <param name="Id">令牌序号；0 表示无效令牌。</param>
+    public readonly record struct RunClaim(long Id);
 
     /// <summary>
     /// 当前运行轮次的发起入口归属，由开始入口经 <see cref="BeginRun"/> 声明，回到空闲时清零。
@@ -277,48 +288,59 @@ public class RunningState
     /// 关机倒计时等收尾）或已被其他入口抢先认领时返回 <see langword="false"/>，状态保持不变。
     /// </summary>
     /// <param name="owner">发起运行的入口归属。</param>
+    /// <param name="claim">认领成功后返回本轮运行令牌；失败时为默认值。</param>
     /// <param name="caller">调用方名称。</param>
     /// <returns>认领成功返回 <see langword="true"/>。</returns>
-    public bool BeginRun(RunOwner owner, [CallerMemberName] string caller = "")
+    public bool BeginRun(RunOwner owner, out RunClaim claim, [CallerMemberName] string caller = "")
     {
         lock (_runTransitionLock)
         {
             if (!CanInterrupt())
             {
+                claim = default;
                 _logger.Information("BeginRun rejected: owner={Owner} (called from {Caller})", owner, caller);
                 return false;
             }
 
             _logger.Information("BeginRun: owner={Owner} (called from {Caller})", owner, caller);
+            _activeRunClaimId = ++_runClaimSequence;
+            claim = new RunClaim(_activeRunClaimId);
             ApplyRunState(owner);
         }
 
-        // 休眠管理内部会同步派发到 UI 线程，必须在锁外调用：否则后台线程持锁等 UI、
-        // UI 线程同时等锁会互相等待冻结界面
-        SleepManagement.BlockSleep();
+        ReconcileSleepState();
         return true;
     }
 
     /// <summary>
-    /// 以指定归属结束本轮运行并回到空闲；仅当归属仍是 <paramref name="owner"/> 时生效，
-    /// 避免清掉其他入口新认领的运行。
+    /// 结束指定令牌对应的本轮运行并回到空闲；令牌已失效（运行已被其他路径收尾或又被新一轮认领）时
+    /// 不做任何变更，避免清掉其他入口新认领的运行。
     /// </summary>
-    /// <param name="owner">结束方声明时的运行归属。</param>
+    /// <param name="claim">本操作开始时由 <see cref="BeginRun"/> 返回的令牌。</param>
     /// <returns>是否实际结束并回到空闲。</returns>
-    public bool EndRun(RunOwner owner)
+    public bool EndRun(RunClaim claim)
     {
+        if (claim.Id == 0)
+        {
+            return false;
+        }
+
         lock (_runTransitionLock)
         {
-            if (_idle || _runOwner != owner)
+            if (_idle || _activeRunClaimId != claim.Id)
             {
-                _logger.Information("EndRun ignored: idle={Idle}, current owner={CurrentOwner}, expected owner={Owner}", _idle, _runOwner, owner);
+                _logger.Information(
+                    "EndRun ignored: claim={ClaimId}, activeClaim={ActiveClaimId}, idle={Idle}",
+                    claim.Id,
+                    _activeRunClaimId,
+                    _idle);
                 return false;
             }
 
             ApplyIdleState(true);
         }
 
-        SleepManagement.AllowSleep();
+        ReconcileSleepState();
         return true;
     }
 
@@ -338,7 +360,7 @@ public class RunningState
     }
 
     /// <summary>
-    /// 应用空闲状态及其伴生状态（归属重置、计时器），调用方须持有 <see cref="_runTransitionLock"/>。
+    /// 应用空闲状态及其伴生状态（归属/令牌重置、计时器），调用方须持有 <see cref="_runTransitionLock"/>。
     /// 休眠管理会同步派发到 UI 线程，不在锁内调用。
     /// </summary>
     /// <param name="value">新的空闲状态。</param>
@@ -348,10 +370,11 @@ public class RunningState
         _idle = value;
         if (value)
         {
-            // 回到空闲即本轮结束：归属与停止中在同一快照内清零。直接 SetIdle(true) 收尾
+            // 回到空闲即本轮结束：归属、令牌与停止中在同一快照内清零。直接 SetIdle(true) 收尾
             // 的链路（工具箱各工具连接失败、测试连接等）不经 SetStopped，若不清 Stopping
             // 会留下 ｢空闲但停止中｣ 的死锁态——三页开始/停止按钮全部不可用
             _runOwner = RunOwner.None;
+            _activeRunClaimId = 0;
             _stopping = false;
             StopTimeoutTimer();
             ClearRunDeadline();
@@ -380,21 +403,21 @@ public class RunningState
                 }
             }
 
-            if (!changed)
+            if (changed)
             {
-                return;
-            }
-
-            // 休眠管理内部会同步派发到 UI 线程，必须在锁外调用
-            if (value)
-            {
-                SleepManagement.AllowSleep();
-            }
-            else
-            {
-                SleepManagement.BlockSleep();
+                ReconcileSleepState();
             }
         }
+    }
+
+    /// <summary>
+    /// 按最新运行状态对齐系统休眠保持。休眠管理会同步派发到 UI 线程，必须在
+    /// <see cref="_runTransitionLock"/> 之外调用，且其内部按执行时的实时状态判定，
+    /// 这样出锁后的调用即使与另一次状态切换交错，也不会留下错误的保持唤醒。
+    /// </summary>
+    private static void ReconcileSleepState()
+    {
+        SleepManagement.ReconcileWithRunState();
     }
 
     /// <summary>

@@ -804,10 +804,11 @@ public class AsstProxy
                     }
                 }
 
+                RunningState.RunClaim startupClaim = default;
                 if (runDirectly)
                 {
                     // 如果是直接运行模式，就先让按钮显示为运行；认领失败说明已有入口抢先开始，跳过本次自动运行
-                    if (!_runningState.BeginRun(RunOwner.TaskQueue))
+                    if (!_runningState.BeginRun(RunOwner.TaskQueue, out startupClaim))
                     {
                         _logger.Warning("Startup auto-run skipped: run claim rejected");
                         return;
@@ -825,8 +826,13 @@ public class AsstProxy
 
                 if (runDirectly)
                 {
-                    // 重置按钮状态，不影响LinkStart判断
-                    _runningState.SetIdle(true);
+                    // 只结束本次启动自动运行认领的那一笔；已被其他路径收尾或被新运行接管时不再继续
+                    if (!_runningState.EndRun(startupClaim))
+                    {
+                        _logger.Warning("Startup auto-run skipped: run claim lost");
+                        return;
+                    }
+
                     await Instances.TaskQueueViewModel.LinkStart();
                 }
             });
@@ -1664,17 +1670,11 @@ public class AsstProxy
                     && taskStatus.Type is TaskType.MiniGame or TaskType.Reclamation or TaskType.StrongholdProtocol)
                 && taskList.All(taskId => _tasksStatus.TryGetValue(taskId, out var taskStatus) && taskStatus.Status == TaskStatus.Completed);
 
-            if (runOwner == RunOwner.Copilot)
+            if (runOwner == RunOwner.Copilot && SettingsViewModel.GameSettings.CopilotWithScript)
             {
-                if (SettingsViewModel.GameSettings.CopilotWithScript)
-                {
-                    // 与手动停止入口共享发射权（copilot 日志走下方 AddLog，不进任务日志）
-                    _ = Instances.TaskQueueViewModel.RunStopScriptOnceAsync(showLog: false);
-                    if (!string.IsNullOrWhiteSpace(SettingsViewModel.GameSettings.EndsWithScript))
-                    {
-                        Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString(GameSettingsUserControlModel.EndWithScriptKey));
-                    }
-                }
+                // 与手动停止入口共享发射权（copilot 日志走 copilot 通道，不进任务日志）。
+                // 结束脚本异步执行期间必须继续持有中断锁，否则本方法 finally 释放锁后新一轮可在脚本执行中启动
+                _ = RunCopilotEndScriptWithInterruptLockAsync();
             }
 
             bool buyWine = _tasksStatus.Any(t => t.Value.Type == TaskType.Mall) && Instances.SettingsViewModel.DidYouBuyWine();
@@ -1781,6 +1781,32 @@ public class AsstProxy
                     LocalizationHelper.GetString("Common.Ok"),
                     () => Instances.SettingsViewModel.GetDrunk());
             }
+        }
+        finally
+        {
+            _runningState.UnlockInterrupt();
+        }
+    }
+
+    /// <summary>
+    /// Copilot 自然完成后的结束脚本执行包装：异步脚本运行期间持有中断锁，
+    /// 使新的开始入口在脚本结束前无法认领运行，避免脚本与新一轮任务并发。
+    /// </summary>
+    /// <returns>Task</returns>
+    private async Task RunCopilotEndScriptWithInterruptLockAsync()
+    {
+        _runningState.LockInterrupt();
+        try
+        {
+            await Instances.TaskQueueViewModel.RunStopScriptOnceAsync(showLog: false);
+            if (!string.IsNullOrWhiteSpace(SettingsViewModel.GameSettings.EndsWithScript))
+            {
+                Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString(GameSettingsUserControlModel.EndWithScriptKey));
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.Error(ex, "Failed to run copilot end script");
         }
         finally
         {

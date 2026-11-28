@@ -553,7 +553,7 @@ public class RemoteControlService
             return;
         }
 
-        if (!_runningState.BeginRun(RunOwner.TaskQueue))
+        if (!_runningState.BeginRun(RunOwner.TaskQueue, out _))
         {
             Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("TaskQueue.Running"), UiLogColor.Warning);
             _logger.Warning("RemoteControl LinkStart rejected: run claim rejected");

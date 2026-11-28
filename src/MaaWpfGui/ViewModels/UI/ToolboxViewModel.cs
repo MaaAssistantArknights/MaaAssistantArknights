@@ -401,7 +401,7 @@ public class ToolboxViewModel : Screen
             return;
         }
 
-        if (!_runningState.BeginRun(RunOwner.Toolbox))
+        if (!_runningState.BeginRun(RunOwner.Toolbox, out var claim))
         {
             RecruitInfo = LocalizationHelper.GetString("Common.StartBlocked");
             return;
@@ -413,7 +413,7 @@ public class ToolboxViewModel : Screen
         if (!recruitCaught)
         {
             RecruitInfo = errMsg;
-            _runningState.SetIdle(true);
+            _runningState.EndRun(claim);
             return;
         }
 
@@ -1244,7 +1244,7 @@ public class ToolboxViewModel : Screen
             return;
         }
 
-        if (!_runningState.BeginRun(RunOwner.Toolbox))
+        if (!_runningState.BeginRun(RunOwner.Toolbox, out var claim))
         {
             DepotInfo = LocalizationHelper.GetString("Common.StartBlocked");
             return;
@@ -1256,7 +1256,7 @@ public class ToolboxViewModel : Screen
         if (!caught)
         {
             DepotInfo = errMsg;
-            _runningState.SetIdle(true);
+            _runningState.EndRun(claim);
             return;
         }
 
@@ -2105,7 +2105,7 @@ public class ToolboxViewModel : Screen
             return;
         }
 
-        if (!_runningState.BeginRun(RunOwner.Toolbox))
+        if (!_runningState.BeginRun(RunOwner.Toolbox, out var claim))
         {
             OperBoxInfo = LocalizationHelper.GetString("Common.StartBlocked");
             return;
@@ -2114,11 +2114,11 @@ public class ToolboxViewModel : Screen
         if (useYituliuApi)
         {
             await StartOperBoxFromYituliuApiAsync();
-            _runningState.SetIdle(true);
+            _runningState.EndRun(claim);
         }
         else
         {
-            await StartOperBoxFromCoreAsync();
+            await StartOperBoxFromCoreAsync(claim);
         }
     }
 
@@ -2126,8 +2126,9 @@ public class ToolboxViewModel : Screen
     /// 连接模拟器并开始 core 本地识别。点击即清空旧识别数据；
     /// 运行状态只在连接失败时于此复位，识别完成由 core 回调收尾。
     /// </summary>
+    /// <param name="claim">本次开始操作认领的运行令牌。</param>
     /// <returns>Task</returns>
-    private async Task StartOperBoxFromCoreAsync()
+    private async Task StartOperBoxFromCoreAsync(RunningState.RunClaim claim)
     {
         ResetOperBoxRecognitionState();
         string errMsg = string.Empty;
@@ -2136,7 +2137,7 @@ public class ToolboxViewModel : Screen
         if (!caught)
         {
             OperBoxInfo = errMsg;
-            _runningState.SetIdle(true);
+            _runningState.EndRun(claim);
             return;
         }
 
@@ -2449,7 +2450,7 @@ public class ToolboxViewModel : Screen
             return;
         }
 
-        if (!_runningState.BeginRun(RunOwner.Toolbox))
+        if (!_runningState.BeginRun(RunOwner.Toolbox, out var claim))
         {
             GachaInfo = LocalizationHelper.GetString("Common.StartBlocked");
             return;
@@ -2461,7 +2462,7 @@ public class ToolboxViewModel : Screen
         if (!caught)
         {
             GachaInfo = errMsg;
-            _runningState.SetIdle(true);
+            _runningState.EndRun(claim);
             return;
         }
 
@@ -2752,10 +2753,8 @@ public class ToolboxViewModel : Screen
             // 点击按钮开始 Peep
             Peeping = true;
 
-            AchievementTrackerHelper.Instance.Unlock(AchievementIds.PeekScreen);
-
             // 如果没任务在运行，需要先连接，并标记是由 Peep() 方法启动的 Peep
-            if (!_runningState.BeginRun(RunOwner.Toolbox))
+            if (!_runningState.BeginRun(RunOwner.Toolbox, out var claim))
             {
                 // 认领失败（运行中或收尾/关机倒计时等中断锁定中）：不能在没有连接的情况下
                 // 继续启动计时器，复位 Peep 状态并提示用户
@@ -2769,7 +2768,7 @@ public class ToolboxViewModel : Screen
             if (!caught)
             {
                 GachaInfo = errMsg;
-                _runningState.SetIdle(true);
+                _runningState.EndRun(claim);
                 return;
             }
 
@@ -2779,6 +2778,9 @@ public class ToolboxViewModel : Screen
             _peepImageCount = 0;
             _peepImageNewestCount = 0;
             _peepImageTimer.Start();
+
+            // 认领成功、连接建立且截图会话真正开始后才解锁成就：点击被拒/连接失败不应计入
+            AchievementTrackerHelper.Instance.Unlock(AchievementIds.PeekScreen);
         }
         finally
         {
@@ -3758,7 +3760,7 @@ public class ToolboxViewModel : Screen
         // 运行归属的检查与认领必须原子：UI 与远程控制会并发进入本骨架，
         // 需在锁内确认可安全打断（空闲且未处于收尾等中断锁定）后再声明归属，
         // 避免完成事件被归因到 ｢牛杂｣
-        if (!_runningState.BeginRun(RunOwner.MiniGame))
+        if (!_runningState.BeginRun(RunOwner.MiniGame, out var claim))
         {
             Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("Toolbox.MiniGame.StartBlocked"), UiLogColor.Warning);
             return;
@@ -3773,7 +3775,7 @@ public class ToolboxViewModel : Screen
         if (!caught)
         {
             Instances.TaskQueueViewModel.AddLog(errMsg, UiLogColor.Error);
-            _runningState.SetIdle(true);
+            _runningState.EndRun(claim);
             return;
         }
 
@@ -3786,7 +3788,7 @@ public class ToolboxViewModel : Screen
         caught = submit();
         if (!caught)
         {
-            _runningState.SetIdle(true);
+            _runningState.EndRun(claim);
         }
         else
         {
