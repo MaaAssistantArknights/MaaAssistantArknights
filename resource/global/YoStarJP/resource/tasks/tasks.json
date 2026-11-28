@@ -231,7 +231,7 @@
         "text": ["全て"]
     },
     "InfrastTrainingIdle": {
-        "text": ["待機中"],
+        "text": ["待機中", "未使用"],
         "roi": [325, 637, 180, 50]
     },
     "InfrastTrainingMasteryPage": {
