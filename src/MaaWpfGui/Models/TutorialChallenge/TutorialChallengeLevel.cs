@@ -86,12 +86,12 @@ public class TutorialChallengeLevel
     /// <summary>
     /// Initializes a new instance of the <see cref="TutorialChallengeLevel"/> class.
     /// </summary>
-    /// <param name="id">关卡标识，用于推导本地化 key（TutorialChallenge.Level.{id}.Title / .Goal）与进度存档的通关键。</param>
+    /// <param name="id">关卡标识，用于推导本地化 key（Toolbox.TutorialChallenge.Level.{id}.Title / .Goal）与进度存档的通关键。</param>
     /// <param name="sandboxFactory">初始沙盒任务列表工厂，每次进入关卡重新调用。</param>
     /// <param name="goalPredicate">终态判定谓词，输入为当前沙盒任务列表与关卡视图模型（可读取窗口级沙盒状态，如定时设置）。</param>
     /// <param name="panelKinds">本关开放的沙盒场景列表；不传时退化为仅任务队列。</param>
     /// <param name="smartPredicate">可选的更优解判定；达成 <paramref name="goalPredicate"/> 但不满足此项时，提示更优解法。</param>
-    /// <param name="smartHintKey">更优解提示的本地化 key；null 时回退 <c>TutorialChallenge.SmartSolutionHint</c>。</param>
+    /// <param name="smartHintKey">更优解提示的本地化 key；null 时回退 <c>Toolbox.TutorialChallenge.SmartSolutionHint</c>。</param>
     /// <param name="addableTaskTypes">｢+｣ 添加任务菜单列出的任务类型；null 表示按本关首个场景取默认全集（None: Fight；Fight: StartUp+Fight；DepotMaintain: StartUp+DepotMaintain+Fight；Recruit: StartUp+Recruit+Fight）。</param>
     /// <param name="settingSectionKinds">本关设置页投放的分区种类白名单；null 表示不构建设置分区（配合 <see cref="TutorialChallengePanelKind.Settings"/> 使用，无关分区不出现）。</param>
     /// <param name="sandboxTimerSlots">本关设置页定时分区的初始定时槽；null 表示默认 1 空槽。</param>
@@ -113,7 +113,7 @@ public class TutorialChallengeLevel
         SandboxFactory = sandboxFactory;
         GoalPredicate = goalPredicate;
         SmartPredicate = smartPredicate;
-        SmartHintKey = smartHintKey ?? "TutorialChallenge.SmartSolutionHint";
+        SmartHintKey = smartHintKey ?? "Toolbox.TutorialChallenge.SmartSolutionHint";
         AddableTaskTypes = addableTaskTypes ?? DefaultAddableTaskTypes(panelKinds);
         SettingSectionKinds = settingSectionKinds;
         SandboxTimerSlots = sandboxTimerSlots;
@@ -193,12 +193,12 @@ public class TutorialChallengeLevel
     /// <summary>
     /// Gets 关卡名本地化 key。
     /// </summary>
-    public string TitleKey => $"TutorialChallenge.Level.{Id}.Title";
+    public string TitleKey => $"Toolbox.TutorialChallenge.Level.{Id}.Title";
 
     /// <summary>
     /// Gets 关卡目标描述本地化 key。
     /// </summary>
-    public string GoalKey => $"TutorialChallenge.Level.{Id}.Goal";
+    public string GoalKey => $"Toolbox.TutorialChallenge.Level.{Id}.Goal";
 
     /// <summary>
     /// 本关是否开放指定场景。

@@ -348,7 +348,7 @@
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
                             Foreground="{DynamicResource SecondaryTextBrush}"
-                            Text="{DynamicResource TutorialChallenge.SelectTaskHint}"
+                            Text="{DynamicResource Toolbox.TutorialChallenge.SelectTaskHint}"
                             Visibility="{c:Binding 'SelectedTask == null'}" />
 
                         <!--  已选中但无对应模拟面板（开始唤醒等未模拟类型）  -->
@@ -356,7 +356,7 @@
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
                             Foreground="{DynamicResource SecondaryTextBrush}"
-                            Text="{DynamicResource TutorialChallenge.NoSimulatedPanel}"
+                            Text="{DynamicResource Toolbox.TutorialChallenge.NoSimulatedPanel}"
                             Visibility="{c:Binding 'SelectedTask != null and !ShowFightPanel and !ShowDepotMaintainPanel and !ShowRecruitPanel'}" />
 
                         <!--

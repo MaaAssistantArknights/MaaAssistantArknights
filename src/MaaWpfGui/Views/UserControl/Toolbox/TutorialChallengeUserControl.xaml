@@ -26,33 +26,33 @@
                 <hc:ButtonGroup VerticalAlignment="Center">
                     <RadioButton
                         MinWidth="44"
-                        Content="{DynamicResource TutorialChallenge.Filter.All}"
+                        Content="{DynamicResource Toolbox.TutorialChallenge.Filter.All}"
                         IsChecked="{Binding IsStatusAll}" />
                     <RadioButton
                         MinWidth="44"
-                        Content="{DynamicResource TutorialChallenge.Filter.Uncompleted}"
+                        Content="{DynamicResource Toolbox.TutorialChallenge.Filter.Uncompleted}"
                         IsChecked="{Binding IsStatusUncompleted}" />
                     <RadioButton
                         MinWidth="44"
-                        Content="{DynamicResource TutorialChallenge.Filter.Completed}"
+                        Content="{DynamicResource Toolbox.TutorialChallenge.Filter.Completed}"
                         IsChecked="{Binding IsStatusCompleted}" />
                 </hc:ButtonGroup>
                 <hc:ButtonGroup Margin="12,0,0,0" VerticalAlignment="Center">
                     <RadioButton
                         MinWidth="44"
-                        Content="{DynamicResource TutorialChallenge.Filter.All}"
+                        Content="{DynamicResource Toolbox.TutorialChallenge.Filter.All}"
                         IsChecked="{Binding IsDifficultyAll}" />
                     <RadioButton
                         MinWidth="44"
-                        Content="{DynamicResource TutorialChallenge.Difficulty.Low}"
+                        Content="{DynamicResource Toolbox.TutorialChallenge.Difficulty.Low}"
                         IsChecked="{Binding IsDifficultyLow}" />
                     <RadioButton
                         MinWidth="44"
-                        Content="{DynamicResource TutorialChallenge.Difficulty.Medium}"
+                        Content="{DynamicResource Toolbox.TutorialChallenge.Difficulty.Medium}"
                         IsChecked="{Binding IsDifficultyMedium}" />
                     <RadioButton
                         MinWidth="44"
-                        Content="{DynamicResource TutorialChallenge.Difficulty.High}"
+                        Content="{DynamicResource Toolbox.TutorialChallenge.Difficulty.High}"
                         IsChecked="{Binding IsDifficultyHigh}" />
                 </hc:ButtonGroup>
             </StackPanel>
@@ -73,7 +73,7 @@
                     VerticalAlignment="Center"
                     Background="Transparent"
                     Orientation="Horizontal"
-                    ToolTip="{DynamicResource TutorialChallenge.Coin}">
+                    ToolTip="{DynamicResource Toolbox.TutorialChallenge.Coin}">
                     <!--  牛牛币图标暂用成就牛牛奖章，后续换专属资源  -->
                     <Path
                         Width="16"
@@ -90,7 +90,7 @@
                 <Button
                     Margin="8,0,0,0"
                     Command="{s:Action OpenShop}"
-                    Content="{DynamicResource TutorialChallenge.Shop.Title}" />
+                    Content="{DynamicResource Toolbox.TutorialChallenge.Shop.Title}" />
             </StackPanel>
         </Grid>
         <hc:ScrollViewer
@@ -172,13 +172,13 @@
                                         <controls:TextBlock
                                             HorizontalAlignment="Center"
                                             Foreground="{DynamicResource TextIconBrush}"
-                                            Text="{DynamicResource TutorialChallenge.Completed}" />
+                                            Text="{DynamicResource Toolbox.TutorialChallenge.Completed}" />
                                     </Border>
                                     <Button
                                         Margin="8,0,0,0"
                                         Command="{s:Action StartLevel}"
                                         CommandParameter="{Binding}"
-                                        Content="{DynamicResource TutorialChallenge.Enter}" />
+                                        Content="{DynamicResource Toolbox.TutorialChallenge.Enter}" />
                                 </StackPanel>
                             </Grid>
                         </Border>

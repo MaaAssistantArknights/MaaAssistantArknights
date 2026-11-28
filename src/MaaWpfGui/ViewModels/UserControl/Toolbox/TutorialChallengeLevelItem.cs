@@ -51,7 +51,7 @@ public class TutorialChallengeLevelItem(TutorialChallengeLevel level) : Property
     /// <summary>
     /// Gets 难度档位本地化文本。
     /// </summary>
-    public string DifficultyText => LocalizationHelper.GetString($"TutorialChallenge.Difficulty.{level.Difficulty}");
+    public string DifficultyText => LocalizationHelper.GetString($"Toolbox.TutorialChallenge.Difficulty.{level.Difficulty}");
 
     /// <summary>
     /// Gets 通关奖励牛牛币图标的占位集合，长度即难度值（1-3），仅用于 ItemsControl 平铺渲染 N 个图标。

@@ -108,7 +108,7 @@
                                         IsEnabled="{Binding CanExportLogs}">
                                         <Grid>
                                             <TextBlock Text="{DynamicResource Error.GenerateSupportPayload}" Visibility="{c:Binding !IsExportingLogs}" />
-                                            <TextBlock Text="{DynamicResource TutorialChallenge.Level.ExportLogs.Generating}" Visibility="{c:Binding IsExportingLogs}" />
+                                            <TextBlock Text="{DynamicResource Toolbox.TutorialChallenge.Level.ExportLogs.Generating}" Visibility="{c:Binding IsExportingLogs}" />
                                         </Grid>
                                     </Button>
                                     <Button

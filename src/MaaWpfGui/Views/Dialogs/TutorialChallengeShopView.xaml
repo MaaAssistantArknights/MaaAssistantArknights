@@ -7,7 +7,7 @@
     xmlns:dialogs_vms="clr-namespace:MaaWpfGui.ViewModels.Dialogs"
     xmlns:hc="https://handyorg.github.io/handycontrol"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    Title="{DynamicResource TutorialChallenge.Shop.Title}"
+    Title="{DynamicResource Toolbox.TutorialChallenge.Shop.Title}"
     Width="480"
     Height="360"
     MinWidth="360"
@@ -19,5 +19,5 @@
         HorizontalAlignment="Center"
         VerticalAlignment="Center"
         Foreground="{DynamicResource SecondaryTextBrush}"
-        Text="{DynamicResource TutorialChallenge.Shop.Placeholder}" />
+        Text="{DynamicResource Toolbox.TutorialChallenge.Shop.Placeholder}" />
 </hc:Window>

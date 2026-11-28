@@ -107,7 +107,7 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
         if (IsDragDropUpdateLevel && Bootstrapper.IsUserAdministrator())
         {
             // 管理员权限下 OLE 拖拽本身无法进入（Windows 限制低权限源向高权限进程投递），进关卡即提示本关无法以拖拽完成
-            ShowTutorialGrowl(InfoType.Warning, LocalizationHelper.GetString("TutorialChallenge.Level.DragDropUpdate.AdminBlocked"));
+            ShowTutorialGrowl(InfoType.Warning, LocalizationHelper.GetString("Toolbox.TutorialChallenge.Level.DragDropUpdate.AdminBlocked"));
         }
 
         BuildSandbox();
@@ -795,11 +795,11 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
             if (full.Version.Equals(currentVersion, StringComparison.OrdinalIgnoreCase)
                 && full.Arch.Equals(normalizedArch, StringComparison.OrdinalIgnoreCase))
             {
-                MarkIdentified(FullPackageIdentified, () => FullPackageIdentified = true, "TutorialChallenge.Level.DragDropUpdate.Identified.FullPackage");
+                MarkIdentified(FullPackageIdentified, () => FullPackageIdentified = true, "Toolbox.TutorialChallenge.Level.DragDropUpdate.Identified.FullPackage");
             }
             else
             {
-                ShowTutorialGrowl(InfoType.Warning, LocalizationHelper.GetString("TutorialChallenge.Level.DragDropUpdate.WrongVersion"));
+                ShowTutorialGrowl(InfoType.Warning, LocalizationHelper.GetString("Toolbox.TutorialChallenge.Level.DragDropUpdate.WrongVersion"));
             }
 
             return;
@@ -810,11 +810,11 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
             if (ota.To.Equals(currentVersion, StringComparison.OrdinalIgnoreCase)
                 && ota.Arch.Equals(normalizedArch, StringComparison.OrdinalIgnoreCase))
             {
-                MarkIdentified(OtaPackageIdentified, () => OtaPackageIdentified = true, "TutorialChallenge.Level.DragDropUpdate.Identified.OtaPackage");
+                MarkIdentified(OtaPackageIdentified, () => OtaPackageIdentified = true, "Toolbox.TutorialChallenge.Level.DragDropUpdate.Identified.OtaPackage");
             }
             else
             {
-                ShowTutorialGrowl(InfoType.Warning, LocalizationHelper.GetString("TutorialChallenge.Level.DragDropUpdate.WrongVersion"));
+                ShowTutorialGrowl(InfoType.Warning, LocalizationHelper.GetString("Toolbox.TutorialChallenge.Level.DragDropUpdate.WrongVersion"));
             }
 
             return;
@@ -825,12 +825,12 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
         bool isResourcePackage = await Task.Run(() => ResourceUpdater.IsResourcePackage(packagePath, out dt));
         if (isResourcePackage && dt == VersionUpdateSettingsUserControlModel.Instance.ResourceDateTime)
         {
-            MarkIdentified(ResourcePackageIdentified, () => ResourcePackageIdentified = true, "TutorialChallenge.Level.DragDropUpdate.Identified.ResourcePackage");
+            MarkIdentified(ResourcePackageIdentified, () => ResourcePackageIdentified = true, "Toolbox.TutorialChallenge.Level.DragDropUpdate.Identified.ResourcePackage");
             return;
         }
 
         ShowTutorialGrowl(InfoType.Warning, LocalizationHelper.GetString(
-            isResourcePackage ? "TutorialChallenge.Level.DragDropUpdate.WrongVersion" : "TutorialChallenge.Level.DragDropUpdate.Unknown"));
+            isResourcePackage ? "Toolbox.TutorialChallenge.Level.DragDropUpdate.WrongVersion" : "Toolbox.TutorialChallenge.Level.DragDropUpdate.Unknown"));
     }
 
     /// <summary>
@@ -841,7 +841,7 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
     /// <param name="identifiedKey">首次识别的本地化 key。</param>
     private void MarkIdentified(bool alreadyIdentified, Action mark, string identifiedKey)
     {
-        var key = alreadyIdentified ? "TutorialChallenge.Level.DragDropUpdate.AlreadyIdentified" : identifiedKey;
+        var key = alreadyIdentified ? "Toolbox.TutorialChallenge.Level.DragDropUpdate.AlreadyIdentified" : identifiedKey;
         ShowTutorialGrowl(InfoType.Success, LocalizationHelper.GetString(key));
         if (!alreadyIdentified)
         {
@@ -1129,7 +1129,7 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
 
             var section = new TutorialChallengeSettingSection(
                 TutorialChallengeSettingSectionKind.Decoy,
-                "TutorialChallenge.Level.SettingsSearch.DecoySection",
+                "Toolbox.TutorialChallenge.Level.SettingsSearch.DecoySection",
                 isAdvanced: false,
                 items: items,
                 displayText: GenerateDecoyItemText());
@@ -1147,7 +1147,7 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
     {
         if (item is { IsChecked: true, IsTarget: false })
         {
-            var msg = LocalizationHelper.GetString("TutorialChallenge.Level.SettingsSearch.WrongPick");
+            var msg = LocalizationHelper.GetString("Toolbox.TutorialChallenge.Level.SettingsSearch.WrongPick");
             GrowlHelper.Show(InfoType.Info, msg, () => Growl.Info(msg, "TutorialChallenge"));
         }
 
@@ -1293,7 +1293,7 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
                 return path;
             });
 
-            var msg = $"{LocalizationHelper.GetString("Error.GenerateSupportPayloadSuccessful")}\n{fullZipPath}\n{LocalizationHelper.GetString("TutorialChallenge.Level.ExportLogs.EmptyPackageNote")}";
+            var msg = $"{LocalizationHelper.GetString("Error.GenerateSupportPayloadSuccessful")}\n{fullZipPath}\n{LocalizationHelper.GetString("Toolbox.TutorialChallenge.Level.ExportLogs.EmptyPackageNote")}";
 
             // 成功提示含完整 zip 路径，需时间看清，常驻不自动消失
             var growlInfo = new GrowlInfo {
