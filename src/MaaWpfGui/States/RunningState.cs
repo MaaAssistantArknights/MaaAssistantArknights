@@ -345,6 +345,77 @@ public class RunningState
     }
 
     /// <summary>
+    /// 当前令牌是否仍对应运行中的这一笔认领。
+    /// </summary>
+    /// <param name="claim">认领令牌。</param>
+    /// <returns>令牌有效且仍是活动认领时返回 <see langword="true"/>。</returns>
+    public bool IsClaimActive(RunClaim claim)
+    {
+        if (claim.Id == 0)
+        {
+            return false;
+        }
+
+        lock (_runTransitionLock)
+        {
+            return !_idle && _activeRunClaimId == claim.Id;
+        }
+    }
+
+    /// <summary>
+    /// 停止/收尾回调结束当前运行：资格判定与状态迁移在同一把锁内原子完成。
+    /// 传入 <paramref name="claim"/> 时仅当该令牌仍是活动认领才生效；未传令牌时默认只处理
+    /// 针对当前运行的停止请求（<paramref name="force"/> 供 Core 已停止/停止超时等强制收口使用），
+    /// 避免迟到的停止回调清掉后来者认领的新运行。
+    /// </summary>
+    /// <param name="claim">发起停止方持有的认领令牌；无令牌时传 <see langword="null"/>。</param>
+    /// <param name="force">是否允许在非停止请求下强制收口（Core 已停止、停止超时）。</param>
+    /// <param name="caller">调用方名称。</param>
+    /// <returns>是否实际结束并回到空闲。</returns>
+    public bool TryEndRunForStop(RunClaim? claim, bool force = false, [CallerMemberName] string caller = "")
+    {
+        lock (_runTransitionLock)
+        {
+            if (_idle && !_stopping)
+            {
+                return false;
+            }
+
+            if (claim.HasValue)
+            {
+                if (_idle || _activeRunClaimId != claim.Value.Id)
+                {
+                    _logger.Information(
+                        "TryEndRunForStop ignored: claim={ClaimId}, activeClaim={ActiveClaimId}, idle={Idle} (called from {Caller})",
+                        claim.Value.Id,
+                        _activeRunClaimId,
+                        _idle,
+                        caller);
+                    return false;
+                }
+            }
+            else if (!force)
+            {
+                if (!_stopping || _stoppingClaimId != _activeRunClaimId)
+                {
+                    _logger.Information(
+                        "TryEndRunForStop ignored: stopping={Stopping}, stopClaim={StopClaimId}, activeClaim={ActiveClaimId} (called from {Caller})",
+                        _stopping,
+                        _stoppingClaimId,
+                        _activeRunClaimId,
+                        caller);
+                    return false;
+                }
+            }
+
+            ApplyIdleState(true);
+        }
+
+        ReconcileSleepState();
+        return true;
+    }
+
+    /// <summary>
     /// 在锁内把本轮运行置为运行态并广播；休眠管理不在此处调用。
     /// </summary>
     /// <param name="owner">发起运行的入口归属。</param>
@@ -376,6 +447,7 @@ public class RunningState
             _runOwner = RunOwner.None;
             _activeRunClaimId = 0;
             _stopping = false;
+            _stoppingClaimId = 0;
             StopTimeoutTimer();
             ClearRunDeadline();
         }
@@ -562,14 +634,31 @@ public class RunningState
 
     private bool _stopping;
 
+    // 发起停止请求时对应的运行令牌：停止/收尾回调只有仍针对这笔运行时才允许结束状态，
+    // 避免迟到的回调把后来者认领的新运行清掉
+    private long _stoppingClaimId;
+
     public bool Stopping
     {
         get => _stopping;
         set {
-            if (_stopping != value)
+            lock (_runTransitionLock)
             {
+                if (_stopping == value)
+                {
+                    return;
+                }
+
+                if (value && _idle)
+                {
+                    // 空闲时的迟到停止请求没有可停止的运行：直接忽略，避免留下 ｢空闲但停止中｣ 的死锁态
+                    _logger.Information("Ignore stopping request while idle");
+                    return;
+                }
+
                 var oldState = new StateSnapshot(_idle, _inited, _stopping, _runOwner);
                 _stopping = value;
+                _stoppingClaimId = value ? _activeRunClaimId : 0;
                 RaiseStateChanged(oldState);
             }
         }

@@ -21,6 +21,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
@@ -2323,7 +2324,7 @@ public class TaskQueueViewModel : Screen
         ResetTaskSelection();
     }
 
-    internal async Task<bool> ConnectToConnectionTarget()
+    internal async Task<bool> ConnectToConnectionTarget(RunningState.RunClaim? claim = null)
     {
         string errMsg = string.Empty;
         bool windowNotFound = false;
@@ -2351,7 +2352,7 @@ public class TaskQueueViewModel : Screen
         if (!connected && SettingsViewModel.ConnectSettings.IsPCConnectConfig)
         {
             AddLog(errMsg, UiLogColor.Error);
-            SetStopped();
+            SetStopped(claim);
             return false;
         }
 
@@ -2425,7 +2426,7 @@ public class TaskQueueViewModel : Screen
         }
 
         AddLog(errMsg, UiLogColor.Error);
-        SetStopped();
+        SetStopped(claim);
         return false;
     }
 
@@ -2618,11 +2619,11 @@ public class TaskQueueViewModel : Screen
         // 一般是点了“停止”按钮了
         if (_runningState.GetStopping())
         {
-            SetStopped();
+            SetStopped(claim);
             return;
         }
 
-        if (!await ConnectToConnectionTarget())
+        if (!await ConnectToConnectionTarget(claim))
         {
             return;
         }
@@ -2630,7 +2631,7 @@ public class TaskQueueViewModel : Screen
         // 一般是点了“停止”按钮了
         if (_runningState.GetStopping())
         {
-            SetStopped();
+            SetStopped(claim);
             return;
         }
 
@@ -2701,7 +2702,7 @@ public class TaskQueueViewModel : Screen
         {
             // 有任务序列化失败则整轮不启动（失败任务已各自记录错误并标记条目），与 AsstStart 失败的 ｢出现未知错误｣ 区分开
             Instances.AsstProxy.AsstStop();
-            SetStopped();
+            SetStopped(claim);
             return;
         }
 
@@ -2709,7 +2710,7 @@ public class TaskQueueViewModel : Screen
         {
             AddLog(LocalizationHelper.GetString("TaskQueue.UnselectedTask"));
             Instances.AsstProxy.AsstStop();
-            SetStopped();
+            SetStopped(claim);
             return;
         }
 
@@ -2721,7 +2722,7 @@ public class TaskQueueViewModel : Screen
         {
             // 本轮所有任务都不需要 core 执行（例如更新数据仅勾选干员识别且从一图流 OpenAPI 获取），直接收尾
             Instances.AsstProxy.AsstStop();
-            SetStopped();
+            SetStopped(claim);
             return;
         }
 
@@ -2738,7 +2739,7 @@ public class TaskQueueViewModel : Screen
         {
             AddLog(LocalizationHelper.GetString("Error.UnknownErrorOccurs"));
             await Stop();
-            SetStopped();
+            SetStopped(claim);
         }
 
         AchievementTrackerHelper.Instance.MissionStartCountAdd();
@@ -2832,7 +2833,7 @@ public class TaskQueueViewModel : Screen
 
             // Core 可能仍挂起并补发迟到 TaskChainStopped，若此后放行新任务，回调会把新运行的归属清掉，故重启前禁止再开任务
             Bootstrapper.MarkRequiresRestart();
-            SetStopped();
+            SetStopped(force: true);
             return false;
         }
 
@@ -2951,27 +2952,24 @@ public class TaskQueueViewModel : Screen
 
     /// <summary>
     /// 重置 UI 状态为已停止（仅重置状态，不执行结束脚本；脚本发射归 <see cref="StopManuallyAsync"/> 与自然完成回调）。
+    /// 资格判定与状态迁移在 <see cref="RunningState.TryEndRunForStop"/> 内原子完成：迟到的停止/收尾回调
+    /// 不会清掉后来者认领的新运行。
     /// </summary>
-    /// <returns>是否实际执行了状态重置（false 表示被幂等保护跳过）。</returns>
-    public bool SetStopped()
+    /// <param name="claim">发起停止方持有的认领令牌；没有时传 <see langword="null"/>。</param>
+    /// <param name="force">是否允许在非停止请求下强制收口（Core 已停止、停止超时）。</param>
+    /// <param name="caller">调用方名称。</param>
+    /// <returns>是否实际执行了状态重置（false 表示被幂等保护跳过或已由其他回调收口）。</returns>
+    public bool SetStopped(RunningState.RunClaim? claim = null, bool force = false, [CallerMemberName] string caller = "")
     {
-        // 幂等保护：已经空闲且不在停止中，跳过
-        // 防止超时 SetStopped 后 Core 延迟回调再次触发导致打断新任务
-        if (_runningState.GetIdle() && !_runningState.GetStopping())
+        if (!_runningState.TryEndRunForStop(claim, force, caller))
         {
             return false;
         }
 
-        if (!_runningState.GetIdle() || _runningState.GetStopping())
-        {
-            AddLog(LocalizationHelper.GetString("TaskQueue.Stopped"), splitMode: LogCardSplitMode.Both);
-        }
-
         Waiting = false;
-        _runningState.SetStopping(false);
-        _runningState.SetIdle(true);
+        AddLog(LocalizationHelper.GetString("TaskQueue.Stopped"), splitMode: LogCardSplitMode.Both);
 
-        // SetIdle(true) 内部会按最新空闲状态更新休眠；这里再调用一次保持原有的直接放行语义，
+        // Idle 切换已按最新状态对齐休眠；这里再调用一次保持原有的直接放行语义，
         // 若此刻已有新运行认领则 AllowSleep 会自行跳过
         SleepManagement.AllowSleep();
 

@@ -407,51 +407,64 @@ public class ToolboxViewModel : Screen
             return;
         }
 
-        string errMsg = string.Empty;
-        RecruitInfo = LocalizationHelper.GetString("Connection.Connecting");
-        var recruitCaught = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
-        if (!recruitCaught)
+        // 认领后的逻辑统一 try/finally：异常/提交失败必须释放认领，避免界面卡在运行中；
+        // 提交成功（AsstStart）后责任转移给 Core 回调收尾
+        bool handedOff = false;
+        try
         {
-            RecruitInfo = errMsg;
-            _runningState.EndRun(claim);
-            return;
+            string errMsg = string.Empty;
+            RecruitInfo = LocalizationHelper.GetString("Connection.Connecting");
+            var recruitCaught = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
+            if (!recruitCaught)
+            {
+                RecruitInfo = errMsg;
+                return;
+            }
+
+            RecruitInfo = LocalizationHelper.GetString("Recognition.Identifying");
+
+            var levelList = new List<int>();
+
+            if (ChooseLevel3)
+            {
+                levelList.Add(3);
+            }
+
+            if (ChooseLevel4)
+            {
+                levelList.Add(4);
+            }
+
+            if (ChooseLevel5)
+            {
+                levelList.Add(5);
+            }
+
+            if (ChooseLevel6)
+            {
+                levelList.Add(6);
+            }
+
+            var task = new AsstRecruitTask() {
+                SelectList = levelList,
+                ConfirmList = [-1], // 仅公招识别时将-1加入comfirm_level
+                SetRecruitTime = RecruitAutoSetTime,
+                ChooseLevel3Time = ChooseLevel3Time,
+                ChooseLevel4Time = ChooseLevel4Time,
+                ServerType = Instances.SettingsViewModel.ServerType,
+            };
+            var (type, taskParams) = task.Serialize();
+            bool ret = Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.RecruitCalc, type, taskParams);
+            ret &= Instances.AsstProxy.AsstStart();
+            handedOff = ret;
         }
-
-        RecruitInfo = LocalizationHelper.GetString("Recognition.Identifying");
-
-        var levelList = new List<int>();
-
-        if (ChooseLevel3)
+        finally
         {
-            levelList.Add(3);
+            if (!handedOff)
+            {
+                _runningState.EndRun(claim);
+            }
         }
-
-        if (ChooseLevel4)
-        {
-            levelList.Add(4);
-        }
-
-        if (ChooseLevel5)
-        {
-            levelList.Add(5);
-        }
-
-        if (ChooseLevel6)
-        {
-            levelList.Add(6);
-        }
-
-        var task = new AsstRecruitTask() {
-            SelectList = levelList,
-            ConfirmList = [-1], // 仅公招识别时将-1加入comfirm_level
-            SetRecruitTime = RecruitAutoSetTime,
-            ChooseLevel3Time = ChooseLevel3Time,
-            ChooseLevel4Time = ChooseLevel4Time,
-            ServerType = Instances.SettingsViewModel.ServerType,
-        };
-        var (type, taskParams) = task.Serialize();
-        bool ret = Instances.AsstProxy.AsstAppendTaskWithEncoding(AsstProxy.TaskType.RecruitCalc, type, taskParams);
-        ret &= Instances.AsstProxy.AsstStart();
     }
 
     public bool RecruitmentShowPotential
@@ -1250,17 +1263,27 @@ public class ToolboxViewModel : Screen
             return;
         }
 
-        string errMsg = string.Empty;
-        DepotInfo = LocalizationHelper.GetString("Connection.Connecting");
-        bool caught = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
-        if (!caught)
+        bool handedOff = false;
+        try
         {
-            DepotInfo = errMsg;
-            _runningState.EndRun(claim);
-            return;
-        }
+            string errMsg = string.Empty;
+            DepotInfo = LocalizationHelper.GetString("Connection.Connecting");
+            bool caught = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
+            if (!caught)
+            {
+                DepotInfo = errMsg;
+                return;
+            }
 
-        StartDepotRecognitionTask();
+            handedOff = StartDepotRecognitionTask();
+        }
+        finally
+        {
+            if (!handedOff)
+            {
+                _runningState.EndRun(claim);
+            }
+        }
     }
 
     #endregion Depot
@@ -2111,14 +2134,24 @@ public class ToolboxViewModel : Screen
             return;
         }
 
-        if (useYituliuApi)
+        bool handedOff = false;
+        try
         {
-            await StartOperBoxFromYituliuApiAsync();
-            _runningState.EndRun(claim);
+            if (useYituliuApi)
+            {
+                await StartOperBoxFromYituliuApiAsync();
+            }
+            else
+            {
+                handedOff = await StartOperBoxFromCoreAsync();
+            }
         }
-        else
+        finally
         {
-            await StartOperBoxFromCoreAsync(claim);
+            if (!handedOff)
+            {
+                _runningState.EndRun(claim);
+            }
         }
     }
 
@@ -2126,9 +2159,8 @@ public class ToolboxViewModel : Screen
     /// 连接模拟器并开始 core 本地识别。点击即清空旧识别数据；
     /// 运行状态只在连接失败时于此复位，识别完成由 core 回调收尾。
     /// </summary>
-    /// <param name="claim">本次开始操作认领的运行令牌。</param>
-    /// <returns>Task</returns>
-    private async Task StartOperBoxFromCoreAsync(RunningState.RunClaim claim)
+    /// <returns>是否已把任务提交给 Core（提交成功后收尾归 Core 回调，调用方无需释放认领）。</returns>
+    private async Task<bool> StartOperBoxFromCoreAsync()
     {
         ResetOperBoxRecognitionState();
         string errMsg = string.Empty;
@@ -2137,11 +2169,10 @@ public class ToolboxViewModel : Screen
         if (!caught)
         {
             OperBoxInfo = errMsg;
-            _runningState.EndRun(claim);
-            return;
+            return false;
         }
 
-        StartOperBoxRecognitionTask();
+        return StartOperBoxRecognitionTask();
     }
 
     /// <summary>
@@ -2456,22 +2487,34 @@ public class ToolboxViewModel : Screen
             return;
         }
 
-        string errMsg = string.Empty;
-        GachaInfo = LocalizationHelper.GetString("Connection.Connecting");
-        bool caught = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg) && Instances.AsstProxy.AsstStartGacha(once));
-        if (!caught)
+        bool handedOff = false;
+        try
         {
-            GachaInfo = errMsg;
-            _runningState.EndRun(claim);
-            return;
+            string errMsg = string.Empty;
+            GachaInfo = LocalizationHelper.GetString("Connection.Connecting");
+            bool caught = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg) && Instances.AsstProxy.AsstStartGacha(once));
+            if (!caught)
+            {
+                GachaInfo = errMsg;
+                return;
+            }
+
+            handedOff = true;
+
+            _gachaTimer.Interval = TimeSpan.FromSeconds(5);
+            _gachaTimer.Start();
+
+            RefreshGachaTip(null, null);
+            IsGachaInProgress = true;
+            _ = Peep();
         }
-
-        _gachaTimer.Interval = TimeSpan.FromSeconds(5);
-        _gachaTimer.Start();
-
-        RefreshGachaTip(null, null);
-        IsGachaInProgress = true;
-        _ = Peep();
+        finally
+        {
+            if (!handedOff)
+            {
+                _runningState.EndRun(claim);
+            }
+        }
     }
 
     private void RefreshGachaTip(object? sender, EventArgs? e)
@@ -2753,34 +2796,58 @@ public class ToolboxViewModel : Screen
             // 点击按钮开始 Peep
             Peeping = true;
 
-            // 如果没任务在运行，需要先连接，并标记是由 Peep() 方法启动的 Peep
-            if (!_runningState.BeginRun(RunOwner.Toolbox, out var claim))
+            // 空闲时认领并连接；已有任务运行时沿用现有连接直接截图（不抢运行归属）
+            RunningState.RunClaim claim = default;
+            bool claimed = false;
+            bool handedOff = false;
+            try
             {
-                // 认领失败（运行中或收尾/关机倒计时等中断锁定中）：不能在没有连接的情况下
-                // 继续启动计时器，复位 Peep 状态并提示用户
-                Peeping = false;
-                GachaInfo = LocalizationHelper.GetString("Common.StartBlocked");
-                return;
-            }
+                if (_runningState.GetIdle())
+                {
+                    if (_runningState.BeginRun(RunOwner.Toolbox, out claim))
+                    {
+                        claimed = true;
+                    }
+                    else if (_runningState.GetIdle())
+                    {
+                        // 仍空闲说明认领被中断锁拦下（收尾/关机倒计时）：没有可用连接，复位并提示
+                        Peeping = false;
+                        GachaInfo = LocalizationHelper.GetString("Common.StartBlocked");
+                        return;
+                    }
 
-            string errMsg = string.Empty;
-            bool caught = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
-            if (!caught)
+                    // 否则是被并发入口抢先认领出了新运行：按“已有任务运行”路径继续，使用现有连接
+                }
+
+                if (claimed)
+                {
+                    string errMsg = string.Empty;
+                    bool caught = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
+                    if (!caught)
+                    {
+                        GachaInfo = errMsg;
+                        return;
+                    }
+
+                    IsPeepInProgress = true;
+                }
+
+                PeepScreenFpf = 0;
+                _peepImageCount = 0;
+                _peepImageNewestCount = 0;
+                _peepImageTimer.Start();
+
+                // 认领成功、连接建立且截图会话真正开始后才解锁成就：点击被拒/连接失败不应计入
+                AchievementTrackerHelper.Instance.Unlock(AchievementIds.PeekScreen);
+                handedOff = true;
+            }
+            finally
             {
-                GachaInfo = errMsg;
-                _runningState.EndRun(claim);
-                return;
+                if (claimed && !handedOff)
+                {
+                    _runningState.EndRun(claim);
+                }
             }
-
-            IsPeepInProgress = true;
-
-            PeepScreenFpf = 0;
-            _peepImageCount = 0;
-            _peepImageNewestCount = 0;
-            _peepImageTimer.Start();
-
-            // 认领成功、连接建立且截图会话真正开始后才解锁成就：点击被拒/连接失败不应计入
-            AchievementTrackerHelper.Instance.Unlock(AchievementIds.PeekScreen);
         }
         finally
         {
@@ -3766,33 +3833,46 @@ public class ToolboxViewModel : Screen
             return;
         }
 
-        Instances.TaskQueueViewModel.ClearLog();
-
-        Instances.OverlayViewModel.LogItemsSource = Instances.TaskQueueViewModel.LogItemViewModels;
-
-        string errMsg = string.Empty;
-        var caught = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
-        if (!caught)
+        bool handedOff = false;
+        try
         {
-            Instances.TaskQueueViewModel.AddLog(errMsg, UiLogColor.Error);
-            _runningState.EndRun(claim);
-            return;
+            Instances.TaskQueueViewModel.ClearLog();
+
+            Instances.OverlayViewModel.LogItemsSource = Instances.TaskQueueViewModel.LogItemViewModels;
+
+            string errMsg = string.Empty;
+            var caught = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
+            if (!caught)
+            {
+                Instances.TaskQueueViewModel.AddLog(errMsg, UiLogColor.Error);
+                return;
+            }
+
+            if (_runningState.GetStopping())
+            {
+                Instances.TaskQueueViewModel.SetStopped(claim);
+                return;
+            }
+
+            // 连接期间本轮可能已被停止、且状态被新运行认领：失效令牌不得再提交，否则任务会挂到新运行上
+            if (!_runningState.IsClaimActive(claim))
+            {
+                _logger.Warning("Mini game start aborted: run claim is no longer active");
+                return;
+            }
+
+            handedOff = submit();
+            if (handedOff)
+            {
+                AchievementTrackerHelper.Instance.Unlock(AchievementIds.SlackingOff);
+            }
         }
-
-        if (_runningState.GetStopping())
+        finally
         {
-            Instances.TaskQueueViewModel.SetStopped();
-            return;
-        }
-
-        caught = submit();
-        if (!caught)
-        {
-            _runningState.EndRun(claim);
-        }
-        else
-        {
-            AchievementTrackerHelper.Instance.Unlock(AchievementIds.SlackingOff);
+            if (!handedOff)
+            {
+                _runningState.EndRun(claim);
+            }
         }
     }
 

@@ -1462,7 +1462,10 @@ public class AsstProxy
                 {
                     // 手动停止、掉线、强制定时启动统一走到这里，把未定稿的作战日报 session 定稿
                     DailyReportCollector.OnQueueStopped();
-                    Instances.TaskQueueViewModel.SetStopped();
+
+                    // Core 已停止：允许在非停止请求（掉线/异常）下强制收口；迟到的回调由
+                    // TryEndRunForStop 的停止请求/运行令牌校验拦下，不会清掉后来者认领的新运行
+                    Instances.TaskQueueViewModel.SetStopped(force: true);
                 }
 
                 // UpdateTaskStatus(taskId, TaskStatus.Completed);
