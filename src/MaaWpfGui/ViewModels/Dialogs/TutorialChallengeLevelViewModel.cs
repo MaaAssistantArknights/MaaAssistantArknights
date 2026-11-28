@@ -1034,6 +1034,7 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
         SettingsSearchText = string.Empty;
         ShowAdvancedSettings = false;
         SandboxSchedule.Reset();
+        SandboxTimerSettingsModel.Refresh();
         SandboxDepotMaintainTaskModel.RegenerateFakeDepot();
         if (IsSettingsSearchLevel)
         {
@@ -1738,8 +1739,13 @@ public class TutorialChallengeSandboxSchedule
     /// </summary>
     public void Reset()
     {
-        Settings.ForceScheduledStart = false;
-        Settings.ShowWindowBeforeForceScheduledStart = false;
+        var defaults = new TimerSettings();
+        Settings.ForceScheduledStart = defaults.ForceScheduledStart;
+        Settings.ShowWindowBeforeForceScheduledStart = defaults.ShowWindowBeforeForceScheduledStart;
+        Settings.CustomConfig = defaults.CustomConfig;
+        Settings.NotifyBeforeScheduledStart = defaults.NotifyBeforeScheduledStart;
+        Settings.ScheduledStartNotificationMinutes = defaults.ScheduledStartNotificationMinutes;
+        Settings.ScheduledWakeUp = defaults.ScheduledWakeUp;
         RebuildTimerList();
         _evaluate();
     }
