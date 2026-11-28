@@ -4,15 +4,19 @@
 
 #include "Controller/Controller.h"
 #include "KarlanPlanner.h"
+#include "Task/ProcessTask.h"
+#include "Utils/Logger.hpp"
 #include "Vision/Matcher.h"
 #include "Vision/MiniGame/KarlanBoardAnalyzer.h"
 
 namespace asst
 {
+static constexpr std::string_view OrderBoardTask = "MiniGame@OS@OrderBoard";
+
 bool KarlanTaskPlugin::verify(AsstMsg msg, const json::value& details) const
 {
     return msg == AsstMsg::SubTaskStart && details.get("subtask", std::string()) == "ProcessTask" &&
-           details.get("details", "task", "") == "MiniGame@OS@OrderBoard";
+           details.get("details", "task", "") == OrderBoardTask;
 }
 
 static std::optional<Rect> action_button(const cv::Mat& frame, bool collect)
@@ -25,25 +29,22 @@ static std::optional<Rect> action_button(const cv::Mat& frame, bool collect)
     return std::nullopt;
 }
 
-static bool same_targets(const karlan::Orders& a, const karlan::Orders& b)
-{
-    for (size_t row = 0; row < a.size(); ++row) {
-        if (!std::ranges::equal(a[row], b[row], [](const auto& left, const auto& right) {
-                return left.target == right.target && left.resource == right.resource;
-            })) {
-            return false;
-        }
-    }
-    return true;
-}
-
 bool KarlanTaskPlugin::_run()
 {
-    // Play one hand. The task graph owns end-of-turn OCR, settlement and legacy fallback.
-    const auto first = ctrler()->get_image();
-    const auto stage = karlan::BoardAnalyzer(first).stage();
-    if (!stage || need_exit()) {
+    auto& process = static_cast<ProcessTask&>(*m_task_ptr); // verify() matches only this process task callback.
+    process.remove_override_next(OrderBoardTask);
+    const auto stage = karlan::BoardAnalyzer(ctrler()->get_image()).stage();
+    if (need_exit()) {
+        return false;
+    }
+    if (!stage) {
+        LogWarn << __FUNCTION__ << "stage not recognized, using legacy card selection";
         return true;
+    }
+    // ProcessTask runs its next node even if a plugin fails. After a click, only a verified
+    // end-of-turn or settlement screen may take over while hand consumption is uncertain.
+    if (!process.override_next(OrderBoardTask, { "MiniGame@OS@CheckPointsUsed", "MiniGame@OS@ClickToContinue" })) {
+        return false;
     }
     const auto& rule = karlan::rules(*stage);
     int production = rule.initial_yield;
@@ -69,6 +70,7 @@ bool KarlanTaskPlugin::_run()
         }
         auto board = view.read(rule, position, production);
         if (!board) {
+            stable_orders.reset();
             if (view.hand().empty()) {
                 return true;
             }
@@ -86,8 +88,8 @@ bool KarlanTaskPlugin::_run()
             sleep(400);
             continue;
         }
-        if (!stable_orders || !same_targets(*stable_orders, board->orders)) {
-            // Replacement labels slide in. Require two matching reads before spending a card.
+        if (stable_orders != board->orders) {
+            // Quantities can keep changing after the new order's resource and target appear.
             stable_orders = board->orders;
             unavailable.clear();
             ++retries;
@@ -136,8 +138,8 @@ bool KarlanTaskPlugin::_run()
             sleep(250);
         }
         if (!consumed) {
-            LogWarn << __FUNCTION__ << "card consumption not confirmed";
-            return true;
+            LogWarn << __FUNCTION__ << "card consumption not confirmed, waiting for a turn boundary";
+            return false;
         }
         LogInfo << "Karlan stage" << *stage << "tile" << *position << (action->collect ? "collect" : "move")
                 << action->card;
@@ -156,7 +158,9 @@ bool KarlanTaskPlugin::_run()
         }
     }
     if (!need_exit()) {
-        LogWarn << __FUNCTION__ << "unrecognized hand, resuming task graph";
+        // No action is outstanding at this point; the legacy selector can safely take over.
+        process.remove_override_next(OrderBoardTask);
+        LogWarn << __FUNCTION__ << "unrecognized hand, using legacy card selection";
     }
     return !need_exit();
 }

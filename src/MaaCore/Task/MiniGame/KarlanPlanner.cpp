@@ -44,6 +44,7 @@ static double score(const Orders& orders)
     return total;
 }
 
+// Consecutive harvests grant the bonus to every resource, in addition to this tile's production.
 static void deliver(Orders& orders, Resource resource, int amount, int combo_bonus = 0)
 {
     for (auto& order : orders) {

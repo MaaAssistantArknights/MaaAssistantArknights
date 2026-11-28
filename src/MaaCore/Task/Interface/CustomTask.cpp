@@ -17,6 +17,8 @@ asst::CustomTask::CustomTask(const AsstCallback& callback, Assistant* inst) :
 {
     LogTraceFunction;
     m_custom_task_ptr->register_plugin<ScreenshotTaskPlugin>();
+    m_custom_task_ptr->register_plugin<KarlanTaskPlugin>()->set_retry_times(0);
+    m_subtasks.emplace_back(m_custom_task_ptr);
 }
 
 bool asst::CustomTask::set_params(const json::value& params)
@@ -39,12 +41,7 @@ bool asst::CustomTask::set_params(const json::value& params)
         std::string task_name = t.as_string();
         std::string resolved_task = task_name;
 
-        if (task_name == "MiniGame@OS@Begin") {
-            if (!m_custom_task_ptr->find_plugin<KarlanTaskPlugin>()) {
-                m_custom_task_ptr->register_plugin<KarlanTaskPlugin>()->set_retry_times(0);
-            }
-        }
-        else if (parse_and_register_secretfront(task_name, resolved_task)) {
+        if (parse_and_register_secretfront(task_name, resolved_task)) {
             Log.info("Parsed and registered SecretFront task: ", task_name, " -> ", resolved_task);
         }
         else if (parse_and_register_auto_raise_potential(task_name, params)) {
@@ -68,7 +65,6 @@ bool asst::CustomTask::set_params(const json::value& params)
         tasks.emplace_back(std::move(resolved_task));
     }
     m_custom_task_ptr->set_tasks(std::move(tasks));
-    m_subtasks.emplace_back(m_custom_task_ptr);
     return true;
 }
 

@@ -41,6 +41,7 @@ struct Requirement
     Resource resource;
     int delivered;
     int target;
+    bool operator==(const Requirement&) const = default;
 };
 
 using Orders = std::array<std::vector<Requirement>, 3>;
