@@ -1602,6 +1602,15 @@ public class AsstProxy
                 // （更新数据/仓库维护展开的链不在白名单、copilot 启动失败残留条目误判轮次归属）。
                 // 归属快照须在 SetIdle(true) 清零之前取得
                 var runOwner = _runningState.Owner;
+
+                // ｢超级监工｣ 只认本轮实际完成的迷你游戏任务：按 finished_tasks 逐项校验任务类型与完成状态，
+                // 不依赖共享的运行归属（其他入口可能改写归属）；任一任务出错即视为本轮未成功完成，
+                // 避免部分失败、或归属被改写时误解锁成就
+                bool miniGameRunCompleted = taskList is { Length: > 0 }
+                    && taskList.Any(taskId => _tasksStatus.TryGetValue(taskId, out var taskStatus)
+                        && taskStatus.Type is TaskType.MiniGame or TaskType.Reclamation or TaskType.StrongholdProtocol)
+                    && taskList.All(taskId => _tasksStatus.TryGetValue(taskId, out var taskStatus) && taskStatus.Status == TaskStatus.Completed);
+
                 if (runOwner == RunOwner.Copilot)
                 {
                     if (SettingsViewModel.GameSettings.CopilotWithScript)
@@ -1700,6 +1709,12 @@ public class AsstProxy
                 {
                     var message = LocalizationHelper.GetString("Asst.TaskQueue.CompleteTask") + LocalizationHelper.GetString(TaskChainLocalizationKey(taskChain));
                     Instances.NotificationService.Notify(NotificationSource.Copilot, new(NotificationKind.TaskComplete, message, message));
+                }
+
+                // ｢超级监工｣：本轮迷你游戏任务全部成功完成且日志悬浮窗仍开启；主队列分支的判定保持不变
+                if (miniGameRunCompleted && Instances.OverlayViewModel.IsCreated)
+                {
+                    AchievementTrackerHelper.Instance.Unlock(AchievementIds.LogSupervisor);
                 }
 
                 if (buyWine)
