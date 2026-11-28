@@ -2101,8 +2101,8 @@ MAA は非インストール型のアプリケーションであり、レジス�
     <system:String x:Key="TaskQueue.DepotMaintain.Preset">プリセット</system:String>
     <system:String x:Key="TaskQueue.DepotMaintain.PresetActivitySkipConflict">｢{key=TaskQueue.DepotMaintain.SkipDuringActivity}｣ が有効のため、取り込んだプランはイベント期間中は実行されません</system:String>
     <system:String x:Key="TaskQueue.DepotMaintain.PresetCertificate">購買資格証（赤チケ）</system:String>
-    <system:String x:Key="TaskQueue.DepotMaintain.PresetChip1">低級チップ（全職業）</system:String>
-    <system:String x:Key="TaskQueue.DepotMaintain.PresetChip2">上級チップ組（全職業）</system:String>
+    <system:String x:Key="TaskQueue.DepotMaintain.PresetChip1">初級SoC（全職業）</system:String>
+    <system:String x:Key="TaskQueue.DepotMaintain.PresetChip2">中級SoC（全職業）</system:String>
     <system:String x:Key="TaskQueue.DepotMaintain.PresetCurrentActivity">現在のイベント</system:String>
     <system:String x:Key="TaskQueue.DepotMaintain.PresetLmd">龍門幣</system:String>
     <system:String x:Key="TaskQueue.DepotMaintain.PresetPermanent">常設ステージ</system:String>
@@ -2563,7 +2563,7 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="Toolbox.TutorialChallenge.Filter.Uncompleted">未クリア</system:String>
     <system:String x:Key="Toolbox.TutorialChallenge.Level.AddFight.Goal">理性を消費するタスクがほしい。</system:String>
     <system:String x:Key="Toolbox.TutorialChallenge.Level.AddFight.Title">{key=TaskQueue.Task.Fight}</system:String>
-    <system:String x:Key="Toolbox.TutorialChallenge.Level.ChipStock.Goal">初級 SoC を各 {0} 個、中級 SoC を各 {1} 個まで補充してください。挑戦してみましょう：最少でいくつのタスクで達成できるでしょうか？</system:String>
+    <system:String x:Key="Toolbox.TutorialChallenge.Level.ChipStock.Goal">全職業の初級SoCを各 {0} 個、中級SoCを各 {1} 個まで補充してください。最少でいくつのタスクで達成できるでしょうか？</system:String>
     <system:String x:Key="Toolbox.TutorialChallenge.Level.ChipStock.Tip">もっと楽な解き方もあります。｢{key=TaskQueue.Task.DepotMaintain}｣ タスクを 1 つ使い、｢{key=TaskQueue.DepotMaintain.PresetChip1}｣ と ｢{key=TaskQueue.DepotMaintain.PresetChip2}｣ のプリセットをインポートするだけで、すべての目標を満たせます。</system:String>
     <system:String x:Key="Toolbox.TutorialChallenge.Level.ChipStock.Title">チップフルセット</system:String>
     <system:String x:Key="Toolbox.TutorialChallenge.Level.DailyReconnect.Goal">夜通しローグライクを周回する（例：23:00 から翌 8:00 まで）と、午前 4:00 を跨ぐ際に瞬断で落ちます。キューがその時刻にゲームを自動で再起動し、ローグライクを続きから完了させるようにします。</system:String>
@@ -2598,7 +2598,6 @@ MAA のメインウィンドウにもパッケージをドロップして更新�
     <system:String x:Key="Toolbox.TutorialChallenge.Level.RecruitRobot.Title">ロボット</system:String>
     <system:String x:Key="Toolbox.TutorialChallenge.Level.ScheduledStart.Goal">毎日午後 5 時に自動でプレイを開始したい。17:00 のタイマー起動を設定しましょう。</system:String>
     <system:String x:Key="Toolbox.TutorialChallenge.Level.ScheduledStart.Title">タイマー起動</system:String>
-    <system:String x:Key="Toolbox.TutorialChallenge.Level.SettingsSearch.DecoySection">その他</system:String>
     <system:String x:Key="Toolbox.TutorialChallenge.Level.SettingsSearch.Goal">設定項目が多すぎて見つからない？検索ボックスで ｢maa｣ を含む設定項目をすべて絞り込み、対象をすべてチェックしましょう。</system:String>
     <system:String x:Key="Toolbox.TutorialChallenge.Level.SettingsSearch.Title">設定検索</system:String>
     <system:String x:Key="Toolbox.TutorialChallenge.Level.SettingsSearch.WrongPick">これは MAA 関連の設定ではありません。もう一度探してみましょう。</system:String>
@@ -2606,7 +2605,7 @@ MAA のメインウィンドウにもパッケージをドロップして更新�
     <system:String x:Key="Toolbox.TutorialChallenge.Level.StagePriority.Title">代替ステージの優先度</system:String>
     <system:String x:Key="Toolbox.TutorialChallenge.Level.TargetDrop.Goal">初級源岩が 10 個ほしい。1-7 で 10 個集めてくる。</system:String>
     <system:String x:Key="Toolbox.TutorialChallenge.Level.TargetDrop.Title">{key=TaskQueue.Fight.AssignedMaterial}</system:String>
-    <system:String x:Key="Toolbox.TutorialChallenge.Level.TimerOnce.Goal">ゲームが 10 時から 16 時までメンテナンスに入り、12:00 のタイマーは実行できないとします。16:00 のタイマーを追加しましょう——もしかするとチェックボックスには別の状態があるかもしれません。</system:String>
+    <system:String x:Key="Toolbox.TutorialChallenge.Level.TimerOnce.Goal">ゲームが 10 時から 16 時までメンテナンスに入り、12:00 のタイマーは実行できないとします。16:00 のタイマーを追加しましょう。チェックボックスにはほかの状態もあるかもしれません。</system:String>
     <system:String x:Key="Toolbox.TutorialChallenge.Level.TimerOnce.Title">単発タイマー</system:String>
     <system:String x:Key="Toolbox.TutorialChallenge.NoSimulatedPanel">このタスクタイプにはシミュレートされた設定がありません</system:String>
     <system:String x:Key="Toolbox.TutorialChallenge.Reset">リセット</system:String>

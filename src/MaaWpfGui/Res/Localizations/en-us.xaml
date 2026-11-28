@@ -2559,7 +2559,7 @@ Only level rewards can be farmed; to get the Engraved Medal, all ｢Key Objectiv
     <system:String x:Key="Toolbox.TutorialChallenge.Enter">Enter</system:String>
     <system:String x:Key="Toolbox.TutorialChallenge.Filter.All">All</system:String>
     <system:String x:Key="Toolbox.TutorialChallenge.Filter.Completed">Completed</system:String>
-    <system:String x:Key="Toolbox.TutorialChallenge.Filter.Uncompleted">Uncleared</system:String>
+    <system:String x:Key="Toolbox.TutorialChallenge.Filter.Uncompleted">Incomplete</system:String>
     <system:String x:Key="Toolbox.TutorialChallenge.Level.AddFight.Goal">Need a task to burn my Sanity.</system:String>
     <system:String x:Key="Toolbox.TutorialChallenge.Level.AddFight.Title">{key=TaskQueue.Task.Fight}</system:String>
     <system:String x:Key="Toolbox.TutorialChallenge.Level.ChipStock.Goal">Top up every chip to {0} and every chip pack to {1}. Give it a try: what is the minimum number of tasks you need?</system:String>
@@ -2597,7 +2597,6 @@ You can also drop update packages into the main MAA window to install updates. W
     <system:String x:Key="Toolbox.TutorialChallenge.Level.RecruitRobot.Title">Robot Tag</system:String>
     <system:String x:Key="Toolbox.TutorialChallenge.Level.ScheduledStart.Goal">Want the game to start automatically every day at 5 PM. Set up a 17:00 scheduled start.</system:String>
     <system:String x:Key="Toolbox.TutorialChallenge.Level.ScheduledStart.Title">Scheduled Start</system:String>
-    <system:String x:Key="Toolbox.TutorialChallenge.Level.SettingsSearch.DecoySection">Misc</system:String>
     <system:String x:Key="Toolbox.TutorialChallenge.Level.SettingsSearch.Goal">Too many settings to find? Use the search box to filter every setting item containing "maa" and check them all.</system:String>
     <system:String x:Key="Toolbox.TutorialChallenge.Level.SettingsSearch.Title">Settings Search</system:String>
     <system:String x:Key="Toolbox.TutorialChallenge.Level.SettingsSearch.WrongPick">That's not an MAA-related setting. Keep looking.</system:String>
