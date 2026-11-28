@@ -84,7 +84,7 @@ public static class TutorialChallengeLevels
         new(
             id: "ChipStock",
             sandboxFactory: () => [new StartUpTask()],
-            goalPredicate: (tasks, _) => IsChipStockByAnyPresets(tasks) || IsChipStockByFightTasks(tasks),
+            goalPredicate: (tasks, _) => CoversChipStockTargets(tasks),
             panelKinds: [TutorialChallengePanelKind.DepotMaintain, TutorialChallengePanelKind.Fight],
             smartSolution: ((tasks, _) => IsChipStockByPresets(tasks), "Toolbox.TutorialChallenge.Level.ChipStock.Tip"),
             goalArgs: () => [PresetDefaultCount("Chip1"), PresetDefaultCount("Chip2")],
@@ -171,35 +171,22 @@ public static class TutorialChallengeLevels
                 && plan.DropCount == expectedPlan.DropCount)));
     }
 
-    /// <summary>
-    /// 芯片全套库存的达成判定：所有库存保持任务的计划并集覆盖 芯片（Chip1）与芯片组（Chip2）两个预设展开的全部目标。
-    /// </summary>
-    /// <param name="tasks">沙盒任务列表。</param>
-    /// <returns>覆盖全部芯片目标时返回 true。</returns>
-    private static bool IsChipStockByAnyPresets(IReadOnlyList<BaseTask> tasks)
+    private static bool CoversChipStockTargets(IReadOnlyList<BaseTask> tasks)
     {
-        var expected = ExpandChipPresets();
-        var plans = tasks.OfType<DepotMaintainTask>().SelectMany(task => task.PlanList).ToList();
-        return expected.All(expectedPlan
-            => plans.Any(plan => plan.Stage == expectedPlan.Stage
-                && plan.DropId == expectedPlan.DropId
-                && plan.DropCount == expectedPlan.DropCount));
-    }
+        var targets = tasks.OfType<DepotMaintainTask>()
+            .SelectMany(task => task.PlanList)
+            .Select(plan => (plan.Stage, plan.DropId, plan.DropCount))
+            .ToHashSet();
 
-    /// <summary>
-    /// 芯片全套库存的朴素解判定：逐材料配置的理智作战任务覆盖全部芯片目标（首个关卡为该材料的预设关卡，按库存目标模式）。
-    /// </summary>
-    /// <param name="tasks">沙盒任务列表。</param>
-    /// <returns>覆盖全部芯片目标时返回 true。</returns>
-    private static bool IsChipStockByFightTasks(IReadOnlyList<BaseTask> tasks)
-    {
-        var expected = ExpandChipPresets();
-        return expected.All(expectedPlan => tasks.OfType<FightTask>().Any(fight =>
-            fight.StagePlan is [var first, ..] && first == expectedPlan.Stage
-            && fight.EnableTargetDrop == true
-            && fight.IsInventoryTarget
-            && fight.DropId == expectedPlan.DropId
-            && fight.DropCount == expectedPlan.DropCount));
+        foreach (var fight in tasks.OfType<FightTask>())
+        {
+            if (fight.EnableTargetDrop == true && fight.IsInventoryTarget && fight.StagePlan is [var stage, ..])
+            {
+                targets.Add((stage, fight.DropId, fight.DropCount));
+            }
+        }
+
+        return targets.IsSupersetOf(ExpandChipPresets());
     }
 
     /// <summary>
