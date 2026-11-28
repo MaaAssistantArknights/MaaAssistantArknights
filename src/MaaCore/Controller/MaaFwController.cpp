@@ -326,21 +326,30 @@ bool MaaFwController::screencap_impl(cv::Mat& image_payload, bool move_cursor)
     if (move_cursor && m_screen_size.second > 0) {
         if (m_main_screen_recognition) {
             // 主界面情况下鼠标移动到窗口中心，等待主界面的视差动画，300ms
-            inject_input_event(
-                InputEvent {
-                    .type = InputEvent::Type::TOUCH_MOVE,
-                    .point = { m_screen_size.first / 2, m_screen_size.second / 2 },
-                });
-            std::this_thread::sleep_for(std::chrono::milliseconds(300));
+            if (inject_input_event(
+                    InputEvent {
+                        .type = InputEvent::Type::TOUCH_MOVE,
+                        .point = { m_screen_size.first / 2, m_screen_size.second / 2 },
+                    })) {
+                std::this_thread::sleep_for(std::chrono::milliseconds(300));
+            }
+            else {
+                LogWarn << "Failed to move cursor to screen center before screencap, "
+                           "cursor may appear in the screenshot";
+            }
         }
         else {
-            inject_input_event(
-                InputEvent {
-                    .type = InputEvent::Type::TOUCH_MOVE,
-                    .point = { 0, m_screen_size.second - 1 },
-                });
-            // 游戏自绘光标跟随真实光标，渲染存在帧延迟，等待其画到挪动终点后再截图，避免光标被截进识别区
-            std::this_thread::sleep_for(std::chrono::milliseconds(34));
+            if (inject_input_event(
+                    InputEvent {
+                        .type = InputEvent::Type::TOUCH_MOVE,
+                        .point = { 0, m_screen_size.second - 1 },
+                    })) {
+                // 游戏自绘光标跟随真实光标，渲染存在帧延迟，等待其画到挪动终点后再截图，避免光标被截进识别区
+                std::this_thread::sleep_for(std::chrono::milliseconds(34));
+            }
+            else {
+                LogWarn << "Failed to move cursor away before screencap, cursor may appear in the screenshot";
+            }
         }
     }
 
