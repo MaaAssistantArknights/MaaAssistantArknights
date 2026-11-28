@@ -38,12 +38,20 @@ public:
     ProcessTask& set_times_limit(std::string name, int limit, TimesLimitType type = TimesLimitType::Pre);
     ProcessTask& set_post_delay(std::string name, int delay);
     ProcessTask& set_reusable_image(const cv::Mat& reusable);
+    ProcessTask& reset_exec_times(std::string_view name);
     // 设定某个任务的 next 列表, 返回值表示是否成功覆盖; 任务名需要为实际执行任务名, 不支持@, #next 等语法
     bool override_next(std::string_view name, std::vector<std::string> next_tasks);
     // 移除某个任务的 next 列表覆盖, 返回值表示是否成功移除; 任务名需要为实际执行任务名, 不支持@, #next 等语法
     bool remove_override_next(std::string_view name);
 
     const std::string& get_last_task_name() const noexcept { return m_last_task_name; }
+
+    // 提供只读执行次数，使组合任务能区分“明确命中失败节点”和其他流程停止原因。
+    int get_exec_times(const std::string& task_name) const noexcept
+    {
+        const auto iter = m_exec_times.find(task_name);
+        return iter == m_exec_times.cend() ? 0 : iter->second;
+    }
 
     const auto& get_last_hit() const noexcept { return m_last_hit_detail; }
 
