@@ -1027,7 +1027,6 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
     {
         EnableAdvancedSettings = false;
         SelectedTab = 0;
-        IsCompleted = false;
         ExportLogsClicked = false;
         FullPackageIdentified = false;
         OtaPackageIdentified = false;
@@ -1044,6 +1043,9 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
         AssignSectionGridRows();
         OnSettingItemValueChanged();
         BuildSandbox();
+
+        // 完成态最后复位：重建途中各沙盒状态变更会回调判定，提前复位会被尚未重建的旧沙盒重新判为通关
+        IsCompleted = false;
     }
 
     /// <summary>
