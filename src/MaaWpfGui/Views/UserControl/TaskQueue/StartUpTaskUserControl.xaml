@@ -5,7 +5,6 @@
     xmlns:c="clr-namespace:CalcBinding;assembly=CalcBinding"
     xmlns:controls="clr-namespace:MaaWpfGui.Styles.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:dd="urn:gong-wpf-dragdrop"
     xmlns:enums="clr-namespace:MaaWpfGui.Constants.Enums"
     xmlns:extra="clr-namespace:MaaWpfGui.Models.EmulatorConnectionExtra"
     xmlns:hc="https://handyorg.github.io/handycontrol"
@@ -15,15 +14,14 @@
     xmlns:s="https://github.com/canton7/Stylet"
     xmlns:settings_vms="clr-namespace:MaaWpfGui.ViewModels.UserControl.Settings"
     xmlns:taskQueue_vms="clr-namespace:MaaWpfGui.ViewModels.UserControl.TaskQueue"
-    xmlns:ui_vms="clr-namespace:MaaWpfGui.ViewModels.UI"
     d:Background="White"
     d:DataContext="{d:DesignInstance {x:Type taskQueue_vms:StartUpTaskUserControlModel}}"
     d:DesignWidth="220"
     s:View.ActionTarget="{Binding}"
     mc:Ignorable="d">
     <StackPanel>
-        <StackPanel d:Visibility="Visible" Visibility="{c:Binding 'ConnectConfig != enums:ConnectConfig.PC', Source={x:Static settings_vms:ConnectSettingsUserControlModel.Instance}}">
-            <StackPanel d:Visibility="Visible" Visibility="{c:Binding 'ClientType == enums:ClientType.Official or ClientType == enums:ClientType.Bilibili or ClientType == enums:ClientType.Txwy or ClientType == enums:ClientType.KR', Source={x:Static settings_vms:GameSettingsUserControlModel.Instance}}">
+        <StackPanel d:Visibility="Visible" Visibility="{c:Binding IsNotPcConnectConfig}">
+            <StackPanel d:Visibility="Visible" Visibility="{c:Binding IsOfficialLikeClient}">
                 <StackPanel
                     Margin="0,5"
                     HorizontalAlignment="Left"
@@ -39,8 +37,7 @@
                     <TextBox
                         Grid.Column="0"
                         hc:BorderElement.CornerRadius="4,0,0,4"
-                        IsReadOnly="{c:Binding !Run.Idle,
-                                               Source={x:Static helper:Instances.SettingsViewModel}}"
+                        IsReadOnly="{c:Binding !IsQueueIdle}"
                         Text="{Binding AccountName, UpdateSourceTrigger=PropertyChanged}" />
                     <Button
                         Grid.Column="1"
@@ -68,8 +65,7 @@
             d:Visibility="Visible"
             Content="{DynamicResource Connection.LaunchClient}"
             IsChecked="{Binding StartGame, Source={x:Static settings_vms:GameSettingsUserControlModel.Instance}}"
-            Visibility="{c:Binding 'ConnectConfig != enums:ConnectConfig.PC',
-                                   Source={x:Static settings_vms:ConnectSettingsUserControlModel.Instance}}" />
+            Visibility="{c:Binding IsNotPcConnectConfig}" />
         <hc:ComboBox
             Margin="0,5"
             hc:InfoElement.Title="{DynamicResource Settings.Game.ClientType}"

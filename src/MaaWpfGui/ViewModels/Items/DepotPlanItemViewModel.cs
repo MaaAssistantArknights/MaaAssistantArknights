@@ -26,6 +26,7 @@ namespace MaaWpfGui.ViewModels.Items;
 /// <summary>
 /// 库存维持ItemModel
 /// </summary>
+/// <param name="owner">提供关卡与材料列表的库存保持面板。</param>
 /// <param name="stage">关卡名</param>
 /// <param name="dropId">掉落物id</param>
 /// <param name="dropName">掉落物名称</param>
@@ -35,18 +36,13 @@ namespace MaaWpfGui.ViewModels.Items;
 /// <param name="useStone">是否碎石</param>
 /// <param name="stoneCount">碎石数量</param>
 /// <param name="taskId">任务AsstId</param>
-public partial class DepotPlanItemViewModel(string stage, string dropId, string? dropName = null, int dropCount = 0, bool useMedicine = false, int medicineCount = 0, bool useStone = false, int stoneCount = 0, int taskId = 0) : PropertyChangedBase
+public partial class DepotPlanItemViewModel(DepotMaintainTaskUserControlModel owner, string stage = "", string dropId = "", string? dropName = null, int dropCount = 0, bool useMedicine = false, int medicineCount = 0, bool useStone = false, int stoneCount = 0, int taskId = 0) : PropertyChangedBase
 {
-    public DepotPlanItemViewModel()
-        : this(string.Empty, string.Empty, null, 0, false, 0, false, 0, 0)
-    {
-    }
-
     public bool IsExpanded { get; set => SetAndNotify(ref field, value); }
 
     public int Index { get; set; }
 
-    public string Title => $"{Index + 1}: {DepotMaintainTaskUserControlModel.Instance.StageListSource.FirstOrDefault(i => i.Value == Stage)?.Display ?? Stage} - {DropName} x{DropCount.FormatNumber(false)}";
+    public string Title => $"{Index + 1}: {owner.StageListSource.FirstOrDefault(i => i.Value == Stage)?.Display ?? Stage} - {DropName} x{DropCount.FormatNumber(false)}";
 
     /// <summary>
     /// 增删 plan 或语言切换后刷新 Title 显示（序号/关卡名/材料名）。
@@ -81,7 +77,7 @@ public partial class DepotPlanItemViewModel(string stage, string dropId, string?
     [UsedImplicitly]
     public void DropsListDropDownClosed()
     {
-        if (FightTaskUserControlModel.Instance.DropsList.FirstOrDefault(i => i.Display == DropName) is { } item)
+        if (owner.DropsList.FirstOrDefault(i => i.Display == DropName) is { } item)
         {
             DropId = item.Value;
         }

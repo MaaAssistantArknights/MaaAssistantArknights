@@ -267,6 +267,16 @@
     <system:String x:Key="Achievement.ScheduleMaster2.Conditions">{key=Settings.Schedule.Title} 100 次</system:String>
     <system:String x:Key="Achievement.ScheduleMaster2.Description">您已熟知 PRTS 的自动化部署。</system:String>
     <system:String x:Key="Achievement.ScheduleMaster2.Title">泛用型自动化解决方案0.3.2.9f2</system:String>
+    <system:String x:Key="Achievement.SimulationSpaceMedal.Description">“您完成了大量模拟空间，感谢您对工业知识的热情。”</system:String>
+    <system:String x:Key="Achievement.SimulationSpaceMedal1.Conditions">通关 5 个{key=Toolbox.TutorialChallenge.Title}关卡</system:String>
+    <system:String x:Key="Achievement.SimulationSpaceMedal1.Description">{key=Achievement.SimulationSpaceMedal.Description}</system:String>
+    <system:String x:Key="Achievement.SimulationSpaceMedal1.Title">模拟空间奖章 I</system:String>
+    <system:String x:Key="Achievement.SimulationSpaceMedal2.Conditions">通关 10 个{key=Toolbox.TutorialChallenge.Title}关卡</system:String>
+    <system:String x:Key="Achievement.SimulationSpaceMedal2.Description">{key=Achievement.SimulationSpaceMedal.Description}</system:String>
+    <system:String x:Key="Achievement.SimulationSpaceMedal2.Title">模拟空间奖章 II</system:String>
+    <system:String x:Key="Achievement.SimulationSpaceMedal3.Conditions">通关 20 个{key=Toolbox.TutorialChallenge.Title}关卡</system:String>
+    <system:String x:Key="Achievement.SimulationSpaceMedal3.Description">{key=Achievement.SimulationSpaceMedal.Description}</system:String>
+    <system:String x:Key="Achievement.SimulationSpaceMedal3.Title">模拟空间奖章 III</system:String>
     <system:String x:Key="Achievement.SlackingOff.Conditions">启动一次{key=Toolbox.MiniGame.Title}</system:String>
     <system:String x:Key="Achievement.SlackingOff.Description">正事做累了，玩点别的。</system:String>
     <system:String x:Key="Achievement.SlackingOff.Title">不务正业</system:String>
@@ -2588,6 +2598,67 @@ MAA 会从自选编队中每阶选 2 名六星干员，优先顺序如下：
     <system:String x:Key="Toolbox.MiniGame.TL.WartimePressCommittee.Tip" xml:space="preserve">请从活动报纸选择界面（可见报纸名称与 ｢开始组版｣ 按钮）的状态开始。</system:String>
     <system:String x:Key="Toolbox.MiniGame.Title">牛杂</system:String>
     <system:String x:Key="Toolbox.Title">小工具</system:String>
+    <system:String x:Key="Toolbox.TutorialChallenge.Coin">牛牛币</system:String>
+    <system:String x:Key="Toolbox.TutorialChallenge.Completed">已通关</system:String>
+    <system:String x:Key="Toolbox.TutorialChallenge.Difficulty.High">高</system:String>
+    <system:String x:Key="Toolbox.TutorialChallenge.Difficulty.Low">低</system:String>
+    <system:String x:Key="Toolbox.TutorialChallenge.Difficulty.Medium">中</system:String>
+    <system:String x:Key="Toolbox.TutorialChallenge.Enter">进入</system:String>
+    <system:String x:Key="Toolbox.TutorialChallenge.Filter.All">全部</system:String>
+    <system:String x:Key="Toolbox.TutorialChallenge.Filter.Completed">已通关</system:String>
+    <system:String x:Key="Toolbox.TutorialChallenge.Filter.Uncompleted">未通关</system:String>
+    <system:String x:Key="Toolbox.TutorialChallenge.Level.AddFight.Goal">需要个任务帮我消耗理智。</system:String>
+    <system:String x:Key="Toolbox.TutorialChallenge.Level.AddFight.Title">{key=TaskQueue.Task.Fight}</system:String>
+    <system:String x:Key="Toolbox.TutorialChallenge.Level.ChipStock.Goal">芯片每种补到 {0} 个、芯片组每种补到 {1} 个。试试看，最少用几个任务能办到？</system:String>
+    <system:String x:Key="Toolbox.TutorialChallenge.Level.ChipStock.Tip">还有一种更省事的解法，用一个 ｢{key=TaskQueue.Task.DepotMaintain}｣ 任务，导入 ｢{key=TaskQueue.DepotMaintain.PresetChip1}｣ 与 ｢{key=TaskQueue.DepotMaintain.PresetChip2}｣ 两个预设即可覆盖全部目标。</system:String>
+    <system:String x:Key="Toolbox.TutorialChallenge.Level.ChipStock.Title">芯片全套</system:String>
+    <system:String x:Key="Toolbox.TutorialChallenge.Level.DailyReconnect.Goal">整夜挂机刷肉鸽（比如 23:00 挂到次日 8:00），跨过凌晨 4:00 会闪断掉线。让队列到点自动重启游戏，把肉鸽接着打完。</system:String>
+    <system:String x:Key="Toolbox.TutorialChallenge.Level.DailyReconnect.Tip">游戏公告写了 4:00-4:10 闪断更新，保险起见推荐填 4:10。</system:String>
+    <system:String x:Key="Toolbox.TutorialChallenge.Level.DailyReconnect.Title">跨日重连</system:String>
+    <system:String x:Key="Toolbox.TutorialChallenge.Level.DragDropUpdate.AdminBlocked">当前以管理员权限运行，系统不允许向高权限窗口拖拽文件，本关无法通过拖拽完成。</system:String>
+    <system:String x:Key="Toolbox.TutorialChallenge.Level.DragDropUpdate.AlreadyIdentified">这个类别已经识别过了，拖下一个吧。</system:String>
+    <system:String x:Key="Toolbox.TutorialChallenge.Level.DragDropUpdate.DropZone.FullPackage">完整更新包</system:String>
+    <system:String x:Key="Toolbox.TutorialChallenge.Level.DragDropUpdate.DropZone.OtaPackage">OTA 增量包（可选）</system:String>
+    <system:String x:Key="Toolbox.TutorialChallenge.Level.DragDropUpdate.DropZone.ResourcePackage">资源更新包</system:String>
+    <system:String x:Key="Toolbox.TutorialChallenge.Level.DragDropUpdate.DropZone.Tip">把更新包拖进本窗口任意位置</system:String>
+    <system:String x:Key="Toolbox.TutorialChallenge.Level.DragDropUpdate.Goal" xml:space="preserve">本关需要拖入完整更新包和资源更新包，OTA 增量包可选。
+完整包 ｢MAA-vX.Y.Z-win-{arch}.zip｣ 的目标版本 X.Y.Z 必须与当前 MAA 版本一致。
+资源包的文件名不限，压缩包内的资源版本必须与当前资源版本一致。
+实际导入 OTA 增量包 ｢MAAComponent-OTA-vA_vB-win-{arch}.zip｣ 时，起始版本 vA 必须与当前 MAA 版本一致。本关要求目标版本 vB 与当前 MAA 版本一致，方便已使用最新版的用户练习。
+完整包和 OTA 增量包文件名中的 {arch} 必须与本机架构一致。
+也可以把更新包拖进 MAA 主窗口进行更新。以管理员权限运行 MAA 时，Windows 会阻止拖入文件。</system:String>
+    <system:String x:Key="Toolbox.TutorialChallenge.Level.DragDropUpdate.Identified.FullPackage">识别为完整更新包，真实场景将注册并提示重启。</system:String>
+    <system:String x:Key="Toolbox.TutorialChallenge.Level.DragDropUpdate.Identified.OtaPackage">识别为 OTA 增量包，真实场景将注册并提示重启。</system:String>
+    <system:String x:Key="Toolbox.TutorialChallenge.Level.DragDropUpdate.Identified.ResourcePackage">识别为资源更新包，真实场景将直接导入并重载。</system:String>
+    <system:String x:Key="Toolbox.TutorialChallenge.Level.DragDropUpdate.Title">拖拽更新</system:String>
+    <system:String x:Key="Toolbox.TutorialChallenge.Level.DragDropUpdate.Unknown">不是可识别的更新包。</system:String>
+    <system:String x:Key="Toolbox.TutorialChallenge.Level.DragDropUpdate.WrongArchitecture">更新包架构不匹配，请使用适用于 {0} 的更新包。</system:String>
+    <system:String x:Key="Toolbox.TutorialChallenge.Level.DragDropUpdate.WrongVersion">更新包的目标版本与当前版本不一致。</system:String>
+    <system:String x:Key="Toolbox.TutorialChallenge.Level.ExportLogs.EmptyPackageNote">（教学演示，压缩包为空）</system:String>
+    <system:String x:Key="Toolbox.TutorialChallenge.Level.ExportLogs.Generating">生成中…</system:String>
+    <system:String x:Key="Toolbox.TutorialChallenge.Level.ExportLogs.Goal">遇到 bug 要反馈？生成一份错误报告。</system:String>
+    <system:String x:Key="Toolbox.TutorialChallenge.Level.ExportLogs.Title">导出日志</system:String>
+    <system:String x:Key="Toolbox.TutorialChallenge.Level.InventoryTarget.Goal">最近准备搓玉，先去 1-7 把固源岩库存补到 100 个。</system:String>
+    <system:String x:Key="Toolbox.TutorialChallenge.Level.InventoryTarget.Title">{key=TaskQueue.Fight.TargetInventory}</system:String>
+    <system:String x:Key="Toolbox.TutorialChallenge.Level.RecruitRobot.Goal">公招刷出 ｢支援机械｣ 词条想留给小车。让公招任务把 ｢支援机械｣ 词条保留下来。</system:String>
+    <system:String x:Key="Toolbox.TutorialChallenge.Level.RecruitRobot.Title">支援机械</system:String>
+    <system:String x:Key="Toolbox.TutorialChallenge.Level.ScheduledStart.Goal">每天下午五点自动开肝。设一个 17:00 的定时启动。</system:String>
+    <system:String x:Key="Toolbox.TutorialChallenge.Level.ScheduledStart.Title">定时启动</system:String>
+    <system:String x:Key="Toolbox.TutorialChallenge.Level.SettingsSearch.Goal">设置项太多找不到？用搜索框筛出所有含 ｢maa｣ 字样的设置项，把目标全部勾选。</system:String>
+    <system:String x:Key="Toolbox.TutorialChallenge.Level.SettingsSearch.Title">设置搜索</system:String>
+    <system:String x:Key="Toolbox.TutorialChallenge.Level.SettingsSearch.WrongPick">这个不是 MAA 相关设置，再找找看。</system:String>
+    <system:String x:Key="Toolbox.TutorialChallenge.Level.StagePriority.Goal">希望优先刷 AP-5，AP-5 没开时刷 CE-6，两者都没开就刷 1-7。</system:String>
+    <system:String x:Key="Toolbox.TutorialChallenge.Level.StagePriority.Title">备选关卡优先级</system:String>
+    <system:String x:Key="Toolbox.TutorialChallenge.Level.TargetDrop.Goal">想要 10 个固源岩，准备去 1-7 刷 10 个回来。</system:String>
+    <system:String x:Key="Toolbox.TutorialChallenge.Level.TargetDrop.Title">{key=TaskQueue.Fight.AssignedMaterial}</system:String>
+    <system:String x:Key="Toolbox.TutorialChallenge.Level.TimerOnce.Goal">假设游戏 10-16 点维护更新，12:00 的定时落在维护里无法执行。额外添加一条 16:00 的定时——或许勾选框还有别的状态能用。</system:String>
+    <system:String x:Key="Toolbox.TutorialChallenge.Level.TimerOnce.Title">仅一次定时</system:String>
+    <system:String x:Key="Toolbox.TutorialChallenge.NoSimulatedPanel">该任务类型暂无模拟设置</system:String>
+    <system:String x:Key="Toolbox.TutorialChallenge.Reset">重置</system:String>
+    <system:String x:Key="Toolbox.TutorialChallenge.SelectTaskHint">点亮任务的齿轮即可查看设置</system:String>
+    <system:String x:Key="Toolbox.TutorialChallenge.Shop.Placeholder">还没想好能放点什么</system:String>
+    <system:String x:Key="Toolbox.TutorialChallenge.Shop.Title">{key=Toolbox.TutorialChallenge.Coin}商城</system:String>
+    <system:String x:Key="Toolbox.TutorialChallenge.Title">牛币</system:String>
     <system:String x:Key="Tray.Exit">退出</system:String>
     <system:String x:Key="Tray.ForceShow">强制显示MAA</system:String>
     <system:String x:Key="Tray.Hide">隐藏托盘图标</system:String>

@@ -46,6 +46,7 @@ namespace MaaWpfGui.ViewModels.UserControl.TaskQueue;
 public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMaintainTaskUserControlModel.ISerialize
 {
     private readonly ILogger _logger = Log.ForContext<DepotMaintainTaskUserControlModel>();
+    private readonly GrowlHelper.WindowTarget? _growlTarget;
 
     /// <summary>
     /// 本轮已序列化（参与过计划评估）的库存保持任务。
@@ -60,44 +61,57 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
     }
 
     public DepotMaintainTaskUserControlModel()
+        : this(attachGlobalEvents: true)
     {
+    }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="DepotMaintainTaskUserControlModel"/> class.
+    /// </summary>
+    /// <param name="attachGlobalEvents">是否订阅全局事件（core 任务回调、仓库识别、关卡数据变化）。
+    /// 默认单例构造传 true；短生命周期派生 Model（如教程沙盒）传 false 以隔离真实任务事件与静态引用。</param>
+    /// <param name="growlTarget">显示任务提示的窗口。省略时使用主窗口。</param>
+    protected DepotMaintainTaskUserControlModel(bool attachGlobalEvents, GrowlHelper.WindowTarget? growlTarget = null)
+    {
+        _growlTarget = growlTarget;
         PlanList.CollectionChanged += PlanList_CollectionChanged;
 
-        // 仓库数据变化时刷新计划显示（当前库存数量）
-        if (Instances.ToolboxViewModel is { } toolbox)
+        if (attachGlobalEvents)
         {
-            toolbox.DepotResult.CollectionChanged += (in NotifyCollectionChangedEventArgs<ToolboxViewModel.DepotResultDate> _) => {
-                NotifyOfPropertyChange(nameof(PlanInfo));
-            };
+            // 仓库数据变化时刷新计划显示（当前库存数量）
+            if (DepotResultSource is { } depotResult)
+            {
+                depotResult.CollectionChanged += (in NotifyCollectionChangedEventArgs<ToolboxViewModel.DepotResultDate> _) => {
+                    NotifyOfPropertyChange(nameof(PlanInfo));
+                };
+            }
+
+            // 任务开始时用最新库存重算该 plan 的缺口；任务正常结束但未达标时记录临期药耗尽证明
+            Instances.AsstProxy.OnTaskStatusChanged += OnTaskStatusChanged;
+
+            // 关卡数据（本地缓存或 OTA）重载后刷新活动预设列表；触发可能在非 UI 线程，异步投递回 UI 线程
+            Instances.StageManager.StageDataChanged += (_, _) => _ = Execute.OnUIThreadAsync(RefreshActivityPresetList);
         }
 
-        // 任务开始时用最新库存重算该 plan 的缺口；任务正常结束但未达标时记录临期药耗尽证明
-        Instances.AsstProxy.OnTaskStatusChanged += OnTaskStatusChanged;
-
-        // 关卡数据（本地缓存或 OTA）重载后刷新活动预设列表；触发可能在非 UI 线程，异步投递回 UI 线程
-        Instances.StageManager.StageDataChanged += (_, _) => _ = Execute.OnUIThreadAsync(RefreshActivityPresetList);
         RefreshActivityPresetList();
-
-        // 语言切换时由 FightSettings.RebuildDropsList 显式调用 OnLanguageChanged
     }
 
     public void OnLanguageChanged()
     {
-        // 刷新预设列表的本地化显示
         PresetList.RefreshLocalization();
-
-        // DropsList 已由 RebuildDropsList 原地更新 Display（不增删项），ComboBox SelectedValue 不会丢失
-        // 刷新各 plan 的 DropName（包括未选择时的占位文本，也需随语言切换）
-        foreach (var plan in PlanList)
+        RefreshActivityPresetList();
+        if (GetCurrentTaskConfigOrNull<DepotMaintainTask>() is null)
         {
-            var newName = !string.IsNullOrEmpty(plan.DropId)
-                ? ItemListHelper.GetItemName(plan.DropId) ?? LocalizationHelper.GetString("Common.NotSelected")
-                : LocalizationHelper.GetString("Common.NotSelected");
-            plan.DropName = newName;
+            return;
         }
 
-        // 刷新关卡列表（关卡名随语言变化）
+        using var refresh = new UiRefreshingScope(this);
         RefreshStageList();
+        foreach (var plan in PlanList)
+        {
+            plan.DropName = DropsList.FirstOrDefault(item => item.Value == plan.DropId)?.Display ?? LocalizationHelper.GetString("Common.NotSelected");
+            plan.RefreshTitle();
+        }
     }
 
     private void OnTaskStatusChanged(int taskId, TaskItemStatus status)
@@ -315,11 +329,13 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
         set => SetTaskConfig<DepotMaintainTask>(t => t.UseExpiringMedicine == value, t => t.UseExpiringMedicine = value);
     }
 
+    public virtual ObservableCollection<CombinedData> DropsList => FightTaskUserControlModel.Instance.DropsList;
+
     public ObservableCollection<DepotPlanItemViewModel> PlanList { get; private set => SetAndNotify(ref field, value); } = [];
 
     public void AddPlan()
     {
-        PlanList.Add(new() { Index = PlanList.Count, });
+        PlanList.Add(new(this) { Index = PlanList.Count, });
     }
 
     public void RemovePlan(DepotPlanItemViewModel plan)
@@ -350,7 +366,7 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
     /// <summary>
     /// 预设列表。
     /// </summary>
-    public static LocalizedObservableList<string> PresetList { get; } = new(
+    public LocalizedObservableList<string> PresetList { get; } = new(
         ("Chip1", "TaskQueue.DepotMaintain.PresetChip1"),
         ("Chip2", "TaskQueue.DepotMaintain.PresetChip2"),
         ("CE6", "TaskQueue.DepotMaintain.PresetLmd"),
@@ -358,9 +374,9 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
         ("CA5", "TaskQueue.DepotMaintain.PresetSkillSummary"));
 
     /// <summary>
-    /// 预设数据：关卡 → [(掉落物 itemId, 掉落物名称), ...]。
+    /// 预设数据：预设 key → [(关卡, 掉落物 itemId 列表, 默认目标数量), ...]。
     /// </summary>
-    private static readonly Dictionary<string, (string Stage, string[] Drops, int DefaultCount)[]> PresetData = new() {
+    internal static readonly Dictionary<string, (string Stage, string[] Drops, int DefaultCount)[]> PresetData = new() {
         ["Chip1"] = [
             ("PR-A-1", ["3261", "3231"], 20),  // 医疗芯片、重装芯片
             ("PR-B-1", ["3251", "3241"], 20),  // 术师芯片、狙击芯片
@@ -423,7 +439,7 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
         // 快捷导入不干预运行语义， ｢活动期间跳过｣ 开启时仅提示，导入的计划在活动期间不会执行
         if (GetTaskConfig<DepotMaintainTask>().SkipDuringActivity)
         {
-            GrowlHelper.Warning(LocalizationHelper.GetString("TaskQueue.DepotMaintain.PresetActivitySkipConflict"));
+            GrowlHelper.Warning(LocalizationHelper.GetString("TaskQueue.DepotMaintain.PresetActivitySkipConflict"), _growlTarget);
         }
     }
 
@@ -449,7 +465,7 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
         foreach (var (stage, dropId, count) in plans)
         {
             var dropName = ItemListHelper.GetItemName(dropId) ?? LocalizationHelper.GetString("Common.NotSelected");
-            var plan = new DepotPlanItemViewModel(stage, dropId, dropName, count);
+            var plan = new DepotPlanItemViewModel(this, stage, dropId, dropName, count);
             plan.PropertyChanged += PlanItem_PropertyChanged;
             list.Add(plan);
         }
@@ -520,16 +536,22 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
     public string PlanInfo => string.Join("\n", PlanList.Select((t, i) => $"{i + 1}: {StageListSource.FirstOrDefault(i => i.Value == t.Stage)?.Display ?? t.Stage} - {t.DropName} {GetInventoryCountDisplay(t.DropId)}/{t.DropCount.FormatNumber(false)}"));
 
     /// <summary>
+    /// Gets 库存显示数据源（仓库识别缓存）。默认取全局仓库识别结果；
+    /// 短生命周期派生 Model（如教程沙盒）可覆写指向自建集合，隔离真实账号仓库数据。
+    /// </summary>
+    protected virtual ObservableList<ToolboxViewModel.DepotResultDate>? DepotResultSource => Instances.ToolboxViewModel?.DepotResult;
+
+    /// <summary>
     /// 获取指定掉落物当前库存数量，无数据时返回 "--"。
     /// </summary>
-    private static string GetCurrentInventoryCount(string dropId)
+    private string GetCurrentInventoryCount(string dropId)
     {
         if (string.IsNullOrEmpty(dropId))
         {
             return "--";
         }
 
-        var depot = Instances.ToolboxViewModel?.DepotResult;
+        var depot = DepotResultSource;
         if (depot == null || depot.Count == 0)
         {
             return "--";
@@ -550,7 +572,7 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
             return raw;
         }
 
-        var depot = Instances.ToolboxViewModel?.DepotResult;
+        var depot = DepotResultSource;
         if (depot == null || depot.Count == 0)
         {
             return raw;
@@ -646,12 +668,12 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
 
     private void RefreshStageList()
     {
-        if (TaskSettingVisibilityInfo.CurrentTask is not DepotMaintainTask current)
+        if (GetCurrentTaskConfigOrNull<DepotMaintainTask>() is not { } current)
         {
             return;
         }
 
-        using var refresh = new UiRefreshingScope();
+        using var refresh = new UiRefreshingScope(this);
         var stageList = Instances.StageManager.GetStageList().Where(i => i.Value != AnnihilationName).ToList();
         var listCurrent = current.PlanList.ToList();
 
@@ -686,15 +708,15 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
             return;
         }
 
-        using var refresh = new UiRefreshingScope();
+        using var refresh = new UiRefreshingScope(this);
         var list = new List<DepotPlanItemViewModel>();
         int index = 0;
         foreach (var plan in task.PlanList)
         {
             // 根据 DropId 从掉落列表恢复 DropName，避免初始化显示为"不选择"
-            var dropName = FightTaskUserControlModel.Instance.DropsList.FirstOrDefault(i => i.Value == plan.DropId)?.Display ?? LocalizationHelper.GetString("Common.NotSelected");
+            var dropName = DropsList.FirstOrDefault(i => i.Value == plan.DropId)?.Display ?? LocalizationHelper.GetString("Common.NotSelected");
 
-            var uiPlan = new DepotPlanItemViewModel(plan.Stage, plan.DropId, dropName, plan.DropCount, plan.UseMedicine, plan.MedicineCount, plan.UseStone, plan.StoneCount, plan.TaskId) {
+            var uiPlan = new DepotPlanItemViewModel(this, plan.Stage, plan.DropId, dropName, plan.DropCount, plan.UseMedicine, plan.MedicineCount, plan.UseStone, plan.StoneCount, plan.TaskId) {
                 Index = index,
             };
             list.Add(uiPlan);
@@ -929,25 +951,28 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
         }
     }
 
+    // UI 刷新嵌套深度按实例计数：真实与沙盒实例各自独立，跨实例嵌套刷新时互不影响对方的 IsRefreshingUI 生命周期
+    private int _uiRefreshDepth;
+
     /// <summary>
     /// UI 刷新作用域，防止刷新期间 ComboBox 等控件的绑定回写覆盖配置。
     /// </summary>
     private struct UiRefreshingScope : IDisposable
     {
-        private static int _depth = 0;
+        private readonly DepotMaintainTaskUserControlModel _owner;
 
-        public UiRefreshingScope()
+        public UiRefreshingScope(DepotMaintainTaskUserControlModel owner)
         {
-            ++_depth;
-            Instance.IsRefreshingUI = true;
+            _owner = owner;
+            ++_owner._uiRefreshDepth;
+            _owner.IsRefreshingUI = true;
         }
 
         readonly void IDisposable.Dispose()
         {
-            --_depth;
-            if (_depth == 0)
+            if (--_owner._uiRefreshDepth == 0)
             {
-                Instance.IsRefreshingUI = false;
+                _owner.IsRefreshingUI = false;
             }
         }
     }

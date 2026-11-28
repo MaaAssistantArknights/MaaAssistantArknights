@@ -105,7 +105,9 @@ public class IssueReportUserControlModel : PropertyChangedBase
     /// 清空图片缓存 仅删除 cache 目录和 debug 目录中的图片文件，保留文件夹结构
     /// </summary>
     /// <returns>Task</returns>
-    public async Task ClearImageCache()
+    public Task ClearImageCache() => ClearImageCache(null);
+
+    internal async Task ClearImageCache(GrowlHelper.WindowTarget? target)
     {
         var result = MessageBoxHelper.Show(
             LocalizationHelper.GetString("Error.ClearImageCache.Tip"),
@@ -145,18 +147,12 @@ public class IssueReportUserControlModel : PropertyChangedBase
                 return count;
             });
 
-            if (deletedCount > 0)
-            {
-                ShowGrowl(LocalizationHelper.GetString("Error.ClearImageCacheSuccessful"));
-            }
-            else
-            {
-                ShowGrowl(LocalizationHelper.GetString("Error.ClearImageCacheAlreadyEmpty"));
-            }
+            var messageKey = deletedCount > 0 ? "Error.ClearImageCacheSuccessful" : "Error.ClearImageCacheAlreadyEmpty";
+            ShowGrowl(LocalizationHelper.GetString(messageKey), target);
         }
         catch (Exception ex)
         {
-            ShowGrowl($"{LocalizationHelper.GetString("Error.ClearImageCacheException")}\n{ex.Message}");
+            ShowGrowl($"{LocalizationHelper.GetString("Error.ClearImageCacheException")}\n{ex.Message}", target);
             _logger.Error(ex, "Failed to clear image cache");
         }
         finally
@@ -460,14 +456,15 @@ public class IssueReportUserControlModel : PropertyChangedBase
         VersionUpdateSettingsUserControlModel.Instance.HasAcknowledgedNightlyWarning = true;
     }
 
-    private static void ShowGrowl(string message)
+    private static void ShowGrowl(string message, GrowlHelper.WindowTarget? target = null)
     {
         var growlInfo = new GrowlInfo {
             IsCustom = true,
             Message = message,
+            Token = target?.Token,
             IconKey = "HangoverGeometry",
             IconBrushKey = "PallasBrush",
         };
-        GrowlHelper.Info(growlInfo);
+        GrowlHelper.Show(InfoType.Info, message, () => Growl.Info(growlInfo), target);
     }
 }

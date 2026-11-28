@@ -12,8 +12,6 @@
 // </copyright>
 
 using System.Windows;
-using System.Windows.Input;
-using MaaWpfGui.ViewModels.UI;
 
 namespace MaaWpfGui.Views.UserControl.TaskQueue;
 
@@ -28,29 +26,6 @@ public partial class DepotMaintainTaskUserControl : System.Windows.Controls.User
     public DepotMaintainTaskUserControl()
     {
         InitializeComponent();
-    }
-
-    private void DragHandle_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-    {
-        TaskQueueViewModel.FightTask.IsStageItemDragging = true;
-
-        // 拖拽松开时可能不经过 Button，在 Window 层兜底恢复
-        var window = Window.GetWindow(this);
-        window?.PreviewMouseLeftButtonUp += Window_PreviewMouseLeftButtonUp;
-    }
-
-    private void DragHandle_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-    {
-        TaskQueueViewModel.FightTask.IsStageItemDragging = false;
-    }
-
-    private void Window_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-    {
-        TaskQueueViewModel.FightTask.IsStageItemDragging = false;
-        if (sender is Window window)
-        {
-            window.PreviewMouseLeftButtonUp -= Window_PreviewMouseLeftButtonUp;
-        }
     }
 
     /// <summary>

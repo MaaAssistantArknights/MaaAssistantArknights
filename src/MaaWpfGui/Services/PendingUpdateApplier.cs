@@ -168,6 +168,28 @@ internal static partial class PendingUpdateApplier
     }
 
     /// <summary>
+    /// 匹配完整更新包文件名并提取版本与架构，供调用方自行校验版本方向（同版本识别等不走升级方向校验的场景）。
+    /// </summary>
+    /// <param name="fileName">待匹配的文件名（不含目录）。</param>
+    /// <returns>匹配成功时返回 (Version, Arch)，不匹配返回 null。</returns>
+    public static (string Version, string Arch)? MatchFullPackageFileName(string fileName)
+    {
+        var m = FullPackageNameRegex().Match(fileName);
+        return m.Success ? (m.Groups["version"].Value, m.Groups["arch"].Value) : null;
+    }
+
+    /// <summary>
+    /// 匹配 OTA 更新包文件名并提取源版本、目标版本与架构，供调用方自行校验版本方向。
+    /// </summary>
+    /// <param name="fileName">待匹配的文件名（不含目录）。</param>
+    /// <returns>匹配成功时返回 (From, To, Arch)，不匹配返回 null。</returns>
+    public static (string From, string To, string Arch)? MatchOtaPackageFileName(string fileName)
+    {
+        var m = OtaPackageNameRegex().Match(fileName);
+        return m.Success ? (m.Groups["from"].Value, m.Groups["to"].Value, m.Groups["arch"].Value) : null;
+    }
+
+    /// <summary>
     /// 通过文件名检测拖入的压缩包是完整更新包还是 OTA 更新包，并校验架构与版本方向。
     /// 两种正则都不匹配时返回 <see cref="PackageInspectionStatus.NotMatched"/>（可能是资源包或无关文件）。
     /// </summary>
@@ -193,11 +215,9 @@ internal static partial class PendingUpdateApplier
             normalizedArchitecture);
 
         // ① 完整包：MAA-vX.X.X-win-x64.zip
-        Match fullPackageMatch = FullPackageNameRegex().Match(fileName);
-        if (fullPackageMatch.Success)
+        if (MatchFullPackageFileName(fileName) is { } fullPackage)
         {
-            string targetVersion = fullPackageMatch.Groups["version"].Value;
-            string packageArchitecture = fullPackageMatch.Groups["arch"].Value;
+            var (targetVersion, packageArchitecture) = fullPackage;
             bool architectureMatched = string.Equals(normalizedArchitecture, packageArchitecture, StringComparison.OrdinalIgnoreCase);
             bool isUpgradeTarget = IsUpgradeTarget(currentVersion, targetVersion)
                 || (allowSameVersion && VersionsMatch(currentVersion, targetVersion));
@@ -220,12 +240,9 @@ internal static partial class PendingUpdateApplier
         }
 
         // ② OTA 包：MAAComponent-OTA-vFROM_vTO-win-x64.zip
-        Match otaMatch = OtaPackageNameRegex().Match(fileName);
-        if (otaMatch.Success)
+        if (MatchOtaPackageFileName(fileName) is { } otaPackage)
         {
-            string sourceVersion = otaMatch.Groups["from"].Value;
-            string targetVersion = otaMatch.Groups["to"].Value;
-            string packageArchitecture = otaMatch.Groups["arch"].Value;
+            var (sourceVersion, targetVersion, packageArchitecture) = otaPackage;
 
             _logger.Information(
                 "Dropped package matched OTA pattern: sourceVersion={SourceVersion}, targetVersion={TargetVersion}, packageArchitecture={PackageArchitecture}",
@@ -999,7 +1016,7 @@ internal static partial class PendingUpdateApplier
         ConfigFactory.Root.Update.UpdatePackage = string.Empty;
     }
 
-    private static string NormalizeArchitecture(string architecture)
+    internal static string NormalizeArchitecture(string architecture)
     {
         return architecture.StartsWith("arm", StringComparison.OrdinalIgnoreCase)
             ? "arm64"

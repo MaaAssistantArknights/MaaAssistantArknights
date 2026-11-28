@@ -84,8 +84,14 @@ public static class ScrollViewerBinding
             return;
         }
 
+        // 绑定断开时属性回到默认值 NaN，表示没有滚动目标。
+        if (e.NewValue is not double target || double.IsNaN(target))
+        {
+            return;
+        }
+
         BindVerticalOffset(scrollViewer);
-        scrollViewer.ScrollToVerticalOffset((double)e.NewValue);
+        scrollViewer.ScrollToVerticalOffset(target);
     }
 
     private static void BindVerticalOffset(ScrollViewer scrollViewer)

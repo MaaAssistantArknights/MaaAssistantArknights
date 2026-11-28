@@ -266,6 +266,16 @@
     <system:String x:Key="Achievement.ScheduleMaster2.Conditions">スケジュール実行を 100 回実行する</system:String>
     <system:String x:Key="Achievement.ScheduleMaster2.Description">PRTSの自動化デプロイを熟知しました。</system:String>
     <system:String x:Key="Achievement.ScheduleMaster2.Title">汎用型自動化解決策0.3.2.9f2</system:String>
+    <system:String x:Key="Achievement.SimulationSpaceMedal.Description">｢多くの模擬空間をクリアしました。工業知識への情熱に感謝します。｣</system:String>
+    <system:String x:Key="Achievement.SimulationSpaceMedal1.Conditions">{key=Toolbox.TutorialChallenge.Title}を 5 ステージクリアする</system:String>
+    <system:String x:Key="Achievement.SimulationSpaceMedal1.Description">{key=Achievement.SimulationSpaceMedal.Description}</system:String>
+    <system:String x:Key="Achievement.SimulationSpaceMedal1.Title">模擬空間メダル I</system:String>
+    <system:String x:Key="Achievement.SimulationSpaceMedal2.Conditions">{key=Toolbox.TutorialChallenge.Title}を 10 ステージクリアする</system:String>
+    <system:String x:Key="Achievement.SimulationSpaceMedal2.Description">{key=Achievement.SimulationSpaceMedal.Description}</system:String>
+    <system:String x:Key="Achievement.SimulationSpaceMedal2.Title">模擬空間メダル II</system:String>
+    <system:String x:Key="Achievement.SimulationSpaceMedal3.Conditions">{key=Toolbox.TutorialChallenge.Title}を 20 ステージクリアする</system:String>
+    <system:String x:Key="Achievement.SimulationSpaceMedal3.Description">{key=Achievement.SimulationSpaceMedal.Description}</system:String>
+    <system:String x:Key="Achievement.SimulationSpaceMedal3.Title">模擬空間メダル III</system:String>
     <system:String x:Key="Achievement.SlackingOff.Conditions">{key=Toolbox.MiniGame.Title}を1回起動する</system:String>
     <system:String x:Key="Achievement.SlackingOff.Description">本業に疲れたら、ちょっと別の遊びを。</system:String>
     <system:String x:Key="Achievement.SlackingOff.Title">本業を怠る</system:String>
@@ -2101,8 +2111,8 @@ MAA は非インストール型のアプリケーションであり、レジス�
     <system:String x:Key="TaskQueue.DepotMaintain.Preset">プリセット</system:String>
     <system:String x:Key="TaskQueue.DepotMaintain.PresetActivitySkipConflict">｢{key=TaskQueue.DepotMaintain.SkipDuringActivity}｣ が有効のため、取り込んだプランはイベント期間中は実行されません</system:String>
     <system:String x:Key="TaskQueue.DepotMaintain.PresetCertificate">購買資格証（赤チケ）</system:String>
-    <system:String x:Key="TaskQueue.DepotMaintain.PresetChip1">低級チップ（全職業）</system:String>
-    <system:String x:Key="TaskQueue.DepotMaintain.PresetChip2">上級チップ組（全職業）</system:String>
+    <system:String x:Key="TaskQueue.DepotMaintain.PresetChip1">初級SoC（全職業）</system:String>
+    <system:String x:Key="TaskQueue.DepotMaintain.PresetChip2">中級SoC（全職業）</system:String>
     <system:String x:Key="TaskQueue.DepotMaintain.PresetCurrentActivity">現在のイベント</system:String>
     <system:String x:Key="TaskQueue.DepotMaintain.PresetLmd">龍門幣</system:String>
     <system:String x:Key="TaskQueue.DepotMaintain.PresetPermanent">常設ステージ</system:String>
@@ -2589,6 +2599,67 @@ MAA はカスタム編成から各ランク 2 人ずつ★6 オペレーター�
     <system:String x:Key="Toolbox.MiniGame.TL.WartimePressCommittee.Tip" xml:space="preserve">イベントの新聞選択画面が表示されている状態から開始してください。</system:String>
     <system:String x:Key="Toolbox.MiniGame.Title">便利機能</system:String>
     <system:String x:Key="Toolbox.Title">ツールボックス</system:String>
+    <system:String x:Key="Toolbox.TutorialChallenge.Coin">モーコイン</system:String>
+    <system:String x:Key="Toolbox.TutorialChallenge.Completed">クリア済み</system:String>
+    <system:String x:Key="Toolbox.TutorialChallenge.Difficulty.High">上級</system:String>
+    <system:String x:Key="Toolbox.TutorialChallenge.Difficulty.Low">初級</system:String>
+    <system:String x:Key="Toolbox.TutorialChallenge.Difficulty.Medium">中級</system:String>
+    <system:String x:Key="Toolbox.TutorialChallenge.Enter">進む</system:String>
+    <system:String x:Key="Toolbox.TutorialChallenge.Filter.All">すべて</system:String>
+    <system:String x:Key="Toolbox.TutorialChallenge.Filter.Completed">クリア済み</system:String>
+    <system:String x:Key="Toolbox.TutorialChallenge.Filter.Uncompleted">未クリア</system:String>
+    <system:String x:Key="Toolbox.TutorialChallenge.Level.AddFight.Goal">理性を消費するタスクがほしい。</system:String>
+    <system:String x:Key="Toolbox.TutorialChallenge.Level.AddFight.Title">{key=TaskQueue.Task.Fight}</system:String>
+    <system:String x:Key="Toolbox.TutorialChallenge.Level.ChipStock.Goal">全職業の初級SoCを各 {0} 個、中級SoCを各 {1} 個まで補充してください。最少でいくつのタスクで達成できるでしょうか？</system:String>
+    <system:String x:Key="Toolbox.TutorialChallenge.Level.ChipStock.Tip">もっと楽な解き方もあります。｢{key=TaskQueue.Task.DepotMaintain}｣ タスクを 1 つ使い、｢{key=TaskQueue.DepotMaintain.PresetChip1}｣ と ｢{key=TaskQueue.DepotMaintain.PresetChip2}｣ のプリセットをインポートするだけで、すべての目標を満たせます。</system:String>
+    <system:String x:Key="Toolbox.TutorialChallenge.Level.ChipStock.Title">チップフルセット</system:String>
+    <system:String x:Key="Toolbox.TutorialChallenge.Level.DailyReconnect.Goal">夜通しローグライクを周回する（例：23:00 から翌 8:00 まで）と、午前 4:00 を跨ぐ際に瞬断で落ちます。キューがその時刻にゲームを自動で再起動し、ローグライクを続きから完了させるようにします。</system:String>
+    <system:String x:Key="Toolbox.TutorialChallenge.Level.DailyReconnect.Tip">ゲームの告知に 4:00-4:10 の瞬断メンテとありました。念のため 4:10 を推奨します。</system:String>
+    <system:String x:Key="Toolbox.TutorialChallenge.Level.DailyReconnect.Title">日またぎ再接続</system:String>
+    <system:String x:Key="Toolbox.TutorialChallenge.Level.DragDropUpdate.AdminBlocked">管理者権限で実行中のため、Windows が高権限ウィンドウへのファイルドロップをブロックします。このレベルはドラッグでは達成できません。</system:String>
+    <system:String x:Key="Toolbox.TutorialChallenge.Level.DragDropUpdate.AlreadyIdentified">この種類はすでに認識済みです。次をドラッグしましょう。</system:String>
+    <system:String x:Key="Toolbox.TutorialChallenge.Level.DragDropUpdate.DropZone.FullPackage">完全アップデートパッケージ</system:String>
+    <system:String x:Key="Toolbox.TutorialChallenge.Level.DragDropUpdate.DropZone.OtaPackage">OTA 差分パッケージ（任意）</system:String>
+    <system:String x:Key="Toolbox.TutorialChallenge.Level.DragDropUpdate.DropZone.ResourcePackage">リソースアップデートパッケージ</system:String>
+    <system:String x:Key="Toolbox.TutorialChallenge.Level.DragDropUpdate.DropZone.Tip">このウィンドウの任意の場所にアップデートパッケージをドラッグ</system:String>
+    <system:String x:Key="Toolbox.TutorialChallenge.Level.DragDropUpdate.Goal" xml:space="preserve">完全アップデートパッケージとリソースアップデートパッケージをドロップするとクリアです。OTA 差分パッケージは任意です。
+完全パッケージ ｢MAA-vX.Y.Z-win-{arch}.zip｣ の更新先バージョン X.Y.Z は、現在の MAA のバージョンと一致する必要があります。
+リソースパッケージのファイル名は任意です。パッケージ内のリソースバージョンが現在のリソースバージョンと一致するものを選んでください。
+OTA 差分パッケージ ｢MAAComponent-OTA-vA_vB-win-{arch}.zip｣ で実際に更新する場合は、更新元の vA が現在の MAA のバージョンと一致する必要があります。このチャレンジでは、最新版をお使いの方も練習できるよう、更新先の vB が現在のバージョンと一致するものを使います。
+完全パッケージと OTA 差分パッケージのファイル名に含まれる {arch} は、お使いの PC のアーキテクチャと一致する必要があります。
+MAA のメインウィンドウにもパッケージをドロップして更新できます。MAA を管理者権限で実行していると、Windows がファイルのドロップをブロックします。</system:String>
+    <system:String x:Key="Toolbox.TutorialChallenge.Level.DragDropUpdate.Identified.FullPackage">完全アップデートパッケージとして認識しました。実際には登録され、再起動を促します。</system:String>
+    <system:String x:Key="Toolbox.TutorialChallenge.Level.DragDropUpdate.Identified.OtaPackage">OTA 差分パッケージとして認識しました。実際には登録され、再起動を促します。</system:String>
+    <system:String x:Key="Toolbox.TutorialChallenge.Level.DragDropUpdate.Identified.ResourcePackage">リソースアップデートパッケージとして認識しました。実際にはそのままインポートされ再読み込みされます。</system:String>
+    <system:String x:Key="Toolbox.TutorialChallenge.Level.DragDropUpdate.Title">ドラッグ更新</system:String>
+    <system:String x:Key="Toolbox.TutorialChallenge.Level.DragDropUpdate.Unknown">認識できるアップデートパッケージではありません。</system:String>
+    <system:String x:Key="Toolbox.TutorialChallenge.Level.DragDropUpdate.WrongArchitecture">パッケージのアーキテクチャが一致しません。{0} 用のパッケージを使ってください。</system:String>
+    <system:String x:Key="Toolbox.TutorialChallenge.Level.DragDropUpdate.WrongVersion">パッケージの更新先バージョンが現在のバージョンと一致しません。</system:String>
+    <system:String x:Key="Toolbox.TutorialChallenge.Level.ExportLogs.EmptyPackageNote">（チュートリアルのため、中身は空です）</system:String>
+    <system:String x:Key="Toolbox.TutorialChallenge.Level.ExportLogs.Generating">生成中…</system:String>
+    <system:String x:Key="Toolbox.TutorialChallenge.Level.ExportLogs.Goal">バグを報告したい？エラーレポートを 1 件生成しましょう。</system:String>
+    <system:String x:Key="Toolbox.TutorialChallenge.Level.ExportLogs.Title">ログのエクスポート</system:String>
+    <system:String x:Key="Toolbox.TutorialChallenge.Level.InventoryTarget.Goal">合成玉用に 1-7 で初級源岩の在庫を 100 個まで補充したい。</system:String>
+    <system:String x:Key="Toolbox.TutorialChallenge.Level.InventoryTarget.Title">{key=TaskQueue.Fight.TargetInventory}</system:String>
+    <system:String x:Key="Toolbox.TutorialChallenge.Level.RecruitRobot.Goal">公開求人で ｢ロボット｣ タグが出たらロボット用に取っておきたい。公開求人タスクに ｢ロボット｣ タグを残させましょう。</system:String>
+    <system:String x:Key="Toolbox.TutorialChallenge.Level.RecruitRobot.Title">ロボット</system:String>
+    <system:String x:Key="Toolbox.TutorialChallenge.Level.ScheduledStart.Goal">毎日午後 5 時に自動でプレイを開始したい。17:00 のタイマー起動を設定しましょう。</system:String>
+    <system:String x:Key="Toolbox.TutorialChallenge.Level.ScheduledStart.Title">タイマー起動</system:String>
+    <system:String x:Key="Toolbox.TutorialChallenge.Level.SettingsSearch.Goal">設定項目が多すぎて見つからない？検索ボックスで ｢maa｣ を含む設定項目をすべて絞り込み、対象をすべてチェックしましょう。</system:String>
+    <system:String x:Key="Toolbox.TutorialChallenge.Level.SettingsSearch.Title">設定検索</system:String>
+    <system:String x:Key="Toolbox.TutorialChallenge.Level.SettingsSearch.WrongPick">これは MAA 関連の設定ではありません。もう一度探してみましょう。</system:String>
+    <system:String x:Key="Toolbox.TutorialChallenge.Level.StagePriority.Goal">AP-5 を優先して周回したい。AP-5 が未開放の時は CE-6、両方とも未開放なら 1-7 にしたい。</system:String>
+    <system:String x:Key="Toolbox.TutorialChallenge.Level.StagePriority.Title">代替ステージの優先度</system:String>
+    <system:String x:Key="Toolbox.TutorialChallenge.Level.TargetDrop.Goal">初級源岩が 10 個ほしい。1-7 で 10 個集めてくる。</system:String>
+    <system:String x:Key="Toolbox.TutorialChallenge.Level.TargetDrop.Title">{key=TaskQueue.Fight.AssignedMaterial}</system:String>
+    <system:String x:Key="Toolbox.TutorialChallenge.Level.TimerOnce.Goal">ゲームが 10 時から 16 時までメンテナンスに入り、12:00 のタイマーは実行できないとします。16:00 のタイマーを追加しましょう。チェックボックスにはほかの状態もあるかもしれません。</system:String>
+    <system:String x:Key="Toolbox.TutorialChallenge.Level.TimerOnce.Title">単発タイマー</system:String>
+    <system:String x:Key="Toolbox.TutorialChallenge.NoSimulatedPanel">このタスクタイプにはシミュレートされた設定がありません</system:String>
+    <system:String x:Key="Toolbox.TutorialChallenge.Reset">リセット</system:String>
+    <system:String x:Key="Toolbox.TutorialChallenge.SelectTaskHint">タスクの歯車ボタンをオンにすると設定を確認できます</system:String>
+    <system:String x:Key="Toolbox.TutorialChallenge.Shop.Placeholder">何を置くかはまだ未定</system:String>
+    <system:String x:Key="Toolbox.TutorialChallenge.Shop.Title">{key=Toolbox.TutorialChallenge.Coin}ショップ</system:String>
+    <system:String x:Key="Toolbox.TutorialChallenge.Title">チュートリアルチャレンジ</system:String>
     <system:String x:Key="Tray.Exit">終了</system:String>
     <system:String x:Key="Tray.ForceShow">MAAの強制表示</system:String>
     <system:String x:Key="Tray.Hide">トレイアイコンを隠す</system:String>

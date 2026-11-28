@@ -16,19 +16,22 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
-using MaaWpfGui.ViewModels.Items;
+using System.Windows.Threading;
 
 namespace MaaWpfGui.Styles.Properties;
 
 /// <summary>
 /// 搜索高亮附加行为。
 /// 挂在 ScrollViewer 上，通过 SearchText 驱动关键词高亮；
-/// 通过 SectionFilter 接收集合，设置其中每个 <see cref="SettingItemViewModel.IsVisibleInSearch"/> 过滤分区。
+/// 通过 SectionFilter 接收集合，设置其中每个 <see cref="ISearchableSettingSection.IsVisibleInSearch"/> 过滤分区。
 /// 每次搜索实时遍历视觉树，只搜索当前可见的控件，确保不会搜索到被条件隐藏的子区域。
 /// </summary>
 public static class SearchHighlightBehavior
@@ -43,215 +46,177 @@ public static class SearchHighlightBehavior
             "SearchText",
             typeof(string),
             typeof(SearchHighlightBehavior),
-            new PropertyMetadata(string.Empty, OnSearchTextChanged));
+            new PropertyMetadata(string.Empty, OnSearchInputChanged));
 
     public static string GetSearchText(DependencyObject obj) => (string)obj.GetValue(SearchTextProperty);
 
     public static void SetSearchText(DependencyObject obj, string value) => obj.SetValue(SearchTextProperty, value);
 
     /// <summary>
-    /// 可过滤的 SettingItemViewModel 集合，绑定到 ViewModel 的 Settings。
-    /// 搜索时会设置每个条目的 IsVisibleInSearch 属性。
+    /// 可过滤的分区集合，绑定到 ViewModel 的分区列表。
+    /// 搜索时会设置每个 <see cref="ISearchableSettingSection"/> 条目的 IsVisibleInSearch 属性。
     /// </summary>
     public static readonly DependencyProperty SectionFilterProperty =
         DependencyProperty.RegisterAttached(
             "SectionFilter",
             typeof(IList),
             typeof(SearchHighlightBehavior),
-            new PropertyMetadata(null));
+            new PropertyMetadata(null, OnSearchInputChanged));
 
-    public static IList GetSectionFilter(DependencyObject obj) => (IList)obj.GetValue(SectionFilterProperty);
+    public static IList? GetSectionFilter(DependencyObject obj) => (IList?)obj.GetValue(SectionFilterProperty);
 
-    public static void SetSectionFilter(DependencyObject obj, IList value) => obj.SetValue(SectionFilterProperty, value);
+    public static void SetSectionFilter(DependencyObject obj, IList? value) => obj.SetValue(SectionFilterProperty, value);
 
     #endregion
 
-    // 当前高亮过的 TextBlock，用于统一清除
-    private static readonly List<TextBlock> _highlightedTextBlocks = [];
+    private static readonly ConditionalWeakTable<ScrollViewer, SearchState> _states = new();
 
-    // 搜索时被强行展开的 Expander（原本是收起的），清空搜索时还原
-    private static readonly List<Expander> _expandedBySearch = [];
+    internal static void Refresh(ScrollViewer viewer) => GetState(viewer).QueueSearch(resetExpansion: true);
 
-    // 当前附加的 Adorner 列表
-    private static readonly List<RainbowBorderAdorner> _adorners = [];
+    private static SearchState GetState(ScrollViewer viewer) => _states.GetValue(viewer, static key => new SearchState(key));
 
-    private static void OnSearchTextChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    private static void OnSearchInputChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (d is not ScrollViewer scrollViewer)
+        if (d is ScrollViewer viewer)
         {
-            return;
-        }
-
-        var contentGrid = scrollViewer.Content as Grid;
-        if (contentGrid == null)
-        {
-            return;
-        }
-
-        var searchText = (string)e.NewValue;
-        var sectionFilter = GetSectionFilter(scrollViewer);
-
-        if (string.IsNullOrEmpty(searchText))
-        {
-            ClearSearch(sectionFilter);
-        }
-        else
-        {
-            // 上一次搜索隐藏的分区也必须参与本次搜索。
-            foreach (var item in sectionFilter)
+            if (e.Property == SectionFilterProperty && e.OldValue is IList previous)
             {
-                if (item is SettingItemViewModel setting)
-                {
-                    setting.IsVisibleInSearch = true;
-                }
+                ShowAllSections(previous);
             }
 
-            // 先展开所有 Expander，等布局更新后再搜索
-            ExpandAllSections(contentGrid);
-            contentGrid.Dispatcher.BeginInvoke(
-                () => {
-                    if (GetSearchText(scrollViewer) == searchText)
+            GetState(viewer).QueueSearch(resetExpansion: e.Property == SectionFilterProperty);
+        }
+    }
+
+    private static void ShowAllSections(IList filter)
+    {
+        foreach (var section in filter.OfType<ISearchableSettingSection>())
+        {
+            section.IsVisibleInSearch = true;
+        }
+    }
+
+    private sealed class SearchState
+    {
+        private readonly ScrollViewer _viewer;
+        private readonly Dictionary<Expander, BindingBase?> _expandedBySearch = [];
+        private readonly List<(TextBlock Text, RainbowBorderAdorner? Adorner)> _highlights = [];
+        private DispatcherOperation? _pendingSearch;
+
+        public SearchState(ScrollViewer viewer)
+        {
+            _viewer = viewer;
+            viewer.Loaded += (_, _) => QueueSearch();
+            viewer.Unloaded += (_, _) => {
+                _pendingSearch?.Abort();
+                _pendingSearch = null;
+                ClearHighlights();
+                RestoreExpansion();
+            };
+        }
+
+        public void QueueSearch(bool resetExpansion = false)
+        {
+            if (resetExpansion)
+            {
+                RestoreExpansion();
+            }
+
+            if (_viewer.IsLoaded)
+            {
+                _pendingSearch ??= _viewer.Dispatcher.InvokeAsync(Search, DispatcherPriority.Loaded);
+            }
+        }
+
+        private void Search()
+        {
+            _pendingSearch = null;
+            ClearHighlights();
+            if (GetSectionFilter(_viewer) is not { } filter)
+            {
+                return;
+            }
+
+            var searchText = GetSearchText(_viewer);
+            ShowAllSections(filter);
+            if (string.IsNullOrEmpty(searchText) || _viewer.Content is not Grid content)
+            {
+                RestoreExpansion();
+                return;
+            }
+
+            foreach (var section in content.Children.OfType<Grid>())
+            {
+                foreach (var expander in section.Children.OfType<Expander>().Where(item => !item.IsExpanded))
+                {
+                    // 真实设置页用双向绑定保存折叠偏好，搜索期间临时解除绑定。
+                    var binding = BindingOperations.GetBindingBase(expander, Expander.IsExpandedProperty);
+                    if (_expandedBySearch.TryAdd(expander, binding) && binding != null)
                     {
-                        PerformSearch(contentGrid, searchText, sectionFilter);
+                        BindingOperations.ClearBinding(expander, Expander.IsExpandedProperty);
                     }
-                },
-                System.Windows.Threading.DispatcherPriority.Loaded);
-        }
-    }
 
-    private static void ExpandAllSections(Grid contentGrid)
-    {
-        foreach (var child in contentGrid.Children)
-        {
-            if (child is Grid sectionGrid)
+                    expander.SetCurrentValue(Expander.IsExpandedProperty, true);
+                }
+            }
+
+            // 先生成刚展开的分区内容，再统一写回结果，让导航按最终布局同步滚动位置。
+            content.UpdateLayout();
+            foreach (var grid in content.Children.OfType<Grid>())
             {
-                foreach (var sectionChild in sectionGrid.Children)
+                var row = Grid.GetRow(grid);
+                var section = filter.OfType<ISearchableSettingSection>().FirstOrDefault(item => item.GridRow == row);
+                if (section == null)
                 {
-                    if (sectionChild is Expander expander && !expander.IsExpanded)
+                    continue;
+                }
+
+                var matches = new List<TextBlock>();
+                CollectVisibleMatches(grid, searchText, matches);
+                foreach (var text in matches)
+                {
+                    text.SetCurrentValue(TextBlock.FontWeightProperty, FontWeights.Bold);
+                    RainbowBorderAdorner? adorner = null;
+                    if (AdornerLayer.GetAdornerLayer(text) is { } layer)
                     {
-                        _expandedBySearch.Add(expander);
-                        expander.IsExpanded = true;
+                        adorner = new RainbowBorderAdorner(text, CreateRainbowBrush());
+                        layer.Add(adorner);
                     }
+
+                    _highlights.Add((text, adorner));
                 }
+
+                section.IsVisibleInSearch = matches.Count > 0 || section.Display.Contains(searchText, StringComparison.OrdinalIgnoreCase);
             }
         }
-    }
 
-    private static void PerformSearch(Grid contentGrid, string searchText, IList sectionFilter)
-    {
-        ClearHighlights();
-
-        foreach (var child in contentGrid.Children)
+        private void ClearHighlights()
         {
-            if (child is not Grid sectionGrid)
+            foreach (var (text, adorner) in _highlights)
             {
-                continue;
+                adorner?.Remove();
+                text.InvalidateProperty(TextBlock.FontWeightProperty);
             }
 
-            var rowIndex = Grid.GetRow(sectionGrid);
-            var setting = FindSettingByRowIndex(sectionFilter, rowIndex);
-            if (setting == null)
+            _highlights.Clear();
+        }
+
+        private void RestoreExpansion()
+        {
+            foreach (var (expander, binding) in _expandedBySearch)
             {
-                continue;
-            }
-
-            // 在分区 Display 名称中搜索
-            bool found = setting.Display.Contains(searchText, StringComparison.OrdinalIgnoreCase);
-
-            // 遍历当前可见的子控件，高亮匹配项
-            var matchedBlocks = new List<TextBlock>();
-            CollectVisibleMatches(sectionGrid, searchText, matchedBlocks);
-
-            if (matchedBlocks.Count > 0)
-            {
-                found = true;
-                foreach (var tb in matchedBlocks)
+                if (binding == null)
                 {
-                    tb.FontWeight = FontWeights.Bold;
-                    AddRainbowAdorner(tb);
-                    _highlightedTextBlocks.Add(tb);
+                    expander.SetCurrentValue(Expander.IsExpandedProperty, false);
+                }
+                else
+                {
+                    expander.SetBinding(Expander.IsExpandedProperty, binding);
                 }
             }
 
-            setting.IsVisibleInSearch = found;
+            _expandedBySearch.Clear();
         }
-    }
-
-    private static void ClearSearch(IList sectionFilter)
-    {
-        ClearHighlights();
-        RestoreExpandedSections();
-
-        foreach (var item in sectionFilter)
-        {
-            if (item is SettingItemViewModel setting)
-            {
-                setting.IsVisibleInSearch = true;
-            }
-        }
-    }
-
-    private static SettingItemViewModel? FindSettingByRowIndex(IList sectionFilter, int rowIndex)
-    {
-        foreach (var item in sectionFilter)
-        {
-            if (item is SettingItemViewModel setting && setting.GridRow == rowIndex)
-            {
-                return setting;
-            }
-        }
-
-        return null;
-    }
-
-    /// <summary>
-    /// 还原搜索时被强行展开的 Expander。
-    /// </summary>
-    private static void RestoreExpandedSections()
-    {
-        foreach (var expander in _expandedBySearch)
-        {
-            expander.IsExpanded = false;
-        }
-
-        _expandedBySearch.Clear();
-    }
-
-    private static void ClearHighlights()
-    {
-        // 移除所有 Adorner
-        foreach (var adorner in _adorners)
-        {
-            adorner.Remove();
-        }
-
-        _adorners.Clear();
-
-        foreach (var tb in _highlightedTextBlocks)
-        {
-            tb.ClearValue(TextBlock.FontWeightProperty);
-        }
-
-        _highlightedTextBlocks.Clear();
-    }
-
-    /// <summary>
-    /// 为 TextBlock 添加彩虹流光边框 Adorner。
-    /// </summary>
-    private static void AddRainbowAdorner(TextBlock tb)
-    {
-        var layer = AdornerLayer.GetAdornerLayer(tb);
-        if (layer == null)
-        {
-            return;
-        }
-
-        // 每个 Adorner 创建独立的画刷和动画
-        var brush = CreateRainbowBrush();
-
-        var adorner = new RainbowBorderAdorner(tb, brush);
-        layer.Add(adorner);
-        _adorners.Add(adorner);
     }
 
     /// <summary>
@@ -370,8 +335,7 @@ public static class SearchHighlightBehavior
         public void Remove()
         {
             AdornedElement.IsVisibleChanged -= OnAdornedElementVisibilityChanged;
-            var layer = AdornerLayer.GetAdornerLayer(AdornedElement);
-            layer?.Remove(this);
+            (VisualTreeHelper.GetParent(this) as AdornerLayer)?.Remove(this);
         }
 
         private void OnAdornedElementVisibilityChanged(object sender, DependencyPropertyChangedEventArgs e)
