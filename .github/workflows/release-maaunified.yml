@@ -1,0 +1,482 @@
+name: Release MAAUnified Packages
+
+on:
+  release:
+    types:
+      - published
+  workflow_dispatch:
+    inputs:
+      release_tag:
+        description: Existing alpha/beta tag to attach MAAUnified packages to
+        required: true
+        type: string
+      prerelease:
+        description: The target release must be a prerelease
+        required: false
+        default: true
+        type: boolean
+      target_repository:
+        description: Repository that owns the target release
+        required: false
+        default: MaaAssistantArknights/MaaAssistantArknights
+        type: string
+      runtime_run_id:
+        description: Workflow run id that contains MAARuntime-* artifacts; auto-resolved for beta release events
+        required: false
+        type: string
+  workflow_call:
+    inputs:
+      release_tag:
+        required: true
+        type: string
+      prerelease:
+        required: true
+        type: boolean
+      target_repository:
+        required: true
+        type: string
+      runtime_run_id:
+        required: true
+        type: string
+    secrets:
+      release_token:
+        required: true
+      MAARELEASE_RELEASE:
+        required: false
+      HGUANDL_SIGN_CERT_P12:
+        required: false
+      HGUANDL_SIGN_CERT_PASSWD:
+        required: false
+      HGUANDL_APPSTORE_KEYID:
+        required: false
+      HGUANDL_APPSTORE_KEY:
+        required: false
+      HGUANDL_APPSTORE_ISSUER:
+        required: false
+
+permissions:
+  actions: read
+  contents: write
+
+jobs:
+  meta:
+    name: Resolve release metadata
+    if: ${{ github.event_name != 'release' || github.event.release.prerelease == true }}
+    runs-on: ubuntu-latest
+    outputs:
+      should_release: ${{ steps.out.outputs.should_release }}
+      tag: ${{ steps.out.outputs.tag }}
+      prerelease: ${{ steps.out.outputs.prerelease }}
+      target_repository: ${{ steps.out.outputs.target_repository }}
+      runtime_run_id: ${{ steps.out.outputs.runtime_run_id }}
+      version_prefix: ${{ steps.out.outputs.version_prefix }}
+      version_suffix: ${{ steps.out.outputs.version_suffix }}
+      assembly_version: ${{ steps.out.outputs.assembly_version }}
+      file_version: ${{ steps.out.outputs.file_version }}
+      informational_version: ${{ steps.out.outputs.informational_version }}
+    steps:
+      - id: out
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          case "${{ github.event_name }}" in
+            release)
+              tag="${{ github.event.release.tag_name }}"
+              prerelease="${{ github.event.release.prerelease }}"
+              target_repository="${{ github.repository }}"
+              runtime_run_id=""
+              ;;
+            workflow_dispatch)
+              tag="${{ inputs.release_tag }}"
+              prerelease="${{ inputs.prerelease }}"
+              target_repository="${{ inputs.target_repository }}"
+              runtime_run_id="${{ inputs.runtime_run_id }}"
+              ;;
+            workflow_call)
+              tag="${{ inputs.release_tag }}"
+              prerelease="${{ inputs.prerelease }}"
+              target_repository="${{ inputs.target_repository }}"
+              runtime_run_id="${{ inputs.runtime_run_id }}"
+              ;;
+            *)
+              echo "Unsupported event: ${{ github.event_name }}" >&2
+              exit 1
+              ;;
+          esac
+
+          if [[ -z "${tag}" ]]; then
+            echo "release tag is required" >&2
+            exit 1
+          fi
+
+          tag="${tag#refs/tags/}"
+          semver_tag="${tag#v}"
+          semver_tag_lower="${semver_tag,,}"
+
+          is_beta=false
+          is_alpha=false
+          if [[ "${semver_tag_lower}" =~ ^[0-9]+\.[0-9]+\.[0-9]+-beta([.-][0-9a-z]+)*$ ]]; then
+            is_beta=true
+          fi
+          if [[ "${semver_tag_lower}" =~ ^[0-9]+\.[0-9]+\.[0-9]+-alpha([.-][0-9a-z]+)*$ ]]; then
+            is_alpha=true
+          fi
+
+          if [[ "${{ github.event_name }}" == "release" && "${is_beta}" != "true" ]]; then
+            echo "Release event is not a beta prerelease tag; skipping MAAUnified assets for '${tag}'."
+            echo "should_release=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          if [[ "${is_beta}" != "true" && "${is_alpha}" != "true" ]]; then
+            echo "MAAUnified packages are only attached to alpha/beta tags by default; refusing '${tag}'." >&2
+            exit 1
+          fi
+          if [[ "${prerelease}" != "true" ]]; then
+            echo "MAAUnified alpha/beta packages must be attached to a GitHub prerelease." >&2
+            exit 1
+          fi
+
+          if [[ -z "${runtime_run_id}" ]]; then
+            echo "Resolving MAARuntime artifacts from the successful ci.yml run for ${tag}..."
+            # Tag push workflow runs currently expose the tag name as head_branch.
+            # If GitHub changes that shape or artifacts expire, pass runtime_run_id manually.
+            runtime_run_id="$(
+              gh api \
+                -X GET \
+                "repos/${GITHUB_REPOSITORY}/actions/workflows/ci.yml/runs" \
+                -f event=push \
+                -f status=success \
+                -f per_page=50 \
+                --jq ".workflow_runs[] | select(.head_branch == \"${tag}\") | .id" \
+                | head -n 1
+            )"
+          fi
+
+          if [[ -z "${runtime_run_id}" ]]; then
+            echo "Could not find a successful ci.yml run that produced MAARuntime-* artifacts for '${tag}'." >&2
+            echo "Auto-resolve checks successful ci.yml tag-push runs where head_branch equals '${tag}'." >&2
+            echo "Re-run this workflow manually with runtime_run_id set to the CI run id for the same tag." >&2
+            exit 1
+          fi
+
+          missing=()
+          for artifact in MAARuntime-linux-x86_64 MAARuntime-macos-arm64 MAARuntime-macos-x86_64; do
+            if ! gh api "repos/${GITHUB_REPOSITORY}/actions/runs/${runtime_run_id}/artifacts" --paginate \
+              --jq ".artifacts[] | select(.name == \"${artifact}\" and .expired == false) | .name" \
+              | grep -qx "${artifact}"; then
+              missing+=("${artifact}")
+            fi
+          done
+          if (( ${#missing[@]} > 0 )); then
+            printf 'Runtime run %s is missing required artifacts: %s\n' "${runtime_run_id}" "${missing[*]}" >&2
+            exit 1
+          fi
+
+          if [[ "${semver_tag}" =~ ^([0-9]+\.[0-9]+\.[0-9]+)(-([0-9A-Za-z][0-9A-Za-z.-]*))?$ ]]; then
+            version_prefix="${BASH_REMATCH[1]}"
+            version_suffix="${BASH_REMATCH[3]}"
+          else
+            echo "Invalid alpha/beta semver tag: ${tag}" >&2
+            exit 1
+          fi
+
+          echo "should_release=true" >> "$GITHUB_OUTPUT"
+          echo "tag=${tag}" >> "$GITHUB_OUTPUT"
+          echo "prerelease=${prerelease}" >> "$GITHUB_OUTPUT"
+          echo "target_repository=${target_repository}" >> "$GITHUB_OUTPUT"
+          echo "runtime_run_id=${runtime_run_id}" >> "$GITHUB_OUTPUT"
+          echo "version_prefix=${version_prefix}" >> "$GITHUB_OUTPUT"
+          echo "version_suffix=${version_suffix}" >> "$GITHUB_OUTPUT"
+          echo "assembly_version=${version_prefix}.0" >> "$GITHUB_OUTPUT"
+          echo "file_version=${version_prefix}.0" >> "$GITHUB_OUTPUT"
+          echo "informational_version=${tag}" >> "$GITHUB_OUTPUT"
+
+  build-and-upload:
+    name: Release ${{ matrix.name }}
+    needs: meta
+    if: needs.meta.outputs.should_release == 'true'
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: linux-x64
+            os: ubuntu-latest
+            rid: linux-x64
+            runtime_artifact: MAARuntime-linux-x86_64
+          - name: macos-arm64
+            os: macos-26
+            rid: osx-arm64
+            runtime_artifact: MAARuntime-macos-arm64
+          - name: macos-x64
+            os: macos-26
+            rid: osx-x64
+            runtime_artifact: MAARuntime-macos-x86_64
+
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          show-progress: false
+
+      - name: Initialize staging directory
+        shell: pwsh
+        run: |
+          $stagingDir = Join-Path $env:RUNNER_TEMP "maaunified-staging"
+          if (Test-Path $stagingDir) {
+            Remove-Item $stagingDir -Recurse -Force
+          }
+          New-Item -ItemType Directory -Path $stagingDir -Force | Out-Null
+          "MAAUNIFIED_STAGING_DIR=$stagingDir" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+
+      - name: Fetch required submodules
+        shell: bash
+        run: bash ./.github/scripts/sync-optional-submodules.sh --init --depth 1 src/MAAUnified
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: "10.0.x"
+
+      - name: Setup Python
+        if: runner.os == 'macOS'
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.x"
+
+      - name: Install dmgbuild (macOS)
+        if: runner.os == 'macOS'
+        shell: bash
+        run: python3 -m pip install dmgbuild
+
+      - name: Install AppImage packaging dependencies
+        if: runner.os == 'Linux'
+        shell: bash
+        run: |
+          sudo add-apt-repository universe
+          sudo apt update
+          sudo apt install -y libfuse2
+
+      - name: Restore app
+        run: dotnet restore src/MAAUnified/App/MAAUnified.App.csproj
+
+      - name: Download MaaCore runtime
+        uses: actions/download-artifact@v8
+        with:
+          name: ${{ matrix.runtime_artifact }}
+          path: install
+          run-id: ${{ needs.meta.outputs.runtime_run_id }}
+          github-token: ${{ github.token }}
+
+      - name: Resolve macOS signing availability
+        if: runner.os == 'macOS'
+        id: macos_signing
+        shell: bash
+        env:
+          SIGN_CERT_P12: ${{ secrets.HGUANDL_SIGN_CERT_P12 }}
+          SIGN_CERT_PASSWORD: ${{ secrets.HGUANDL_SIGN_CERT_PASSWD }}
+          APPSTORE_KEYID: ${{ secrets.HGUANDL_APPSTORE_KEYID }}
+          APPSTORE_KEY: ${{ secrets.HGUANDL_APPSTORE_KEY }}
+          APPSTORE_ISSUER: ${{ secrets.HGUANDL_APPSTORE_ISSUER }}
+        run: |
+          if [[ -n "$SIGN_CERT_P12" && -n "$SIGN_CERT_PASSWORD" && -n "$APPSTORE_KEYID" && -n "$APPSTORE_KEY" && -n "$APPSTORE_ISSUER" ]]; then
+            echo "available=true" >> "$GITHUB_OUTPUT"
+            echo "macOS signing and notarization secrets are available."
+          else
+            echo "available=false" >> "$GITHUB_OUTPUT"
+            echo "::warning title=macOS signing unavailable::macOS signing and notarization secrets are incomplete; producing an ad-hoc signed dmg that users may need to open manually."
+          fi
+
+      - name: Install Developer ID certificate
+        if: runner.os == 'macOS' && steps.macos_signing.outputs.available == 'true'
+        uses: apple-actions/import-codesign-certs@v7
+        with:
+          p12-file-base64: ${{ secrets.HGUANDL_SIGN_CERT_P12 }}
+          p12-password: ${{ secrets.HGUANDL_SIGN_CERT_PASSWD }}
+
+      - name: Publish MAAUnified app
+        shell: bash
+        run: >
+          dotnet publish src/MAAUnified/App/MAAUnified.App.csproj -c Release -r ${{ matrix.rid }}
+          --self-contained true -o "$MAAUNIFIED_STAGING_DIR/bin"
+          -p:VersionPrefix=${{ needs.meta.outputs.version_prefix }}
+          -p:VersionSuffix=${{ needs.meta.outputs.version_suffix }}
+          -p:AssemblyVersion=${{ needs.meta.outputs.assembly_version }}
+          -p:FileVersion=${{ needs.meta.outputs.file_version }}
+          -p:InformationalVersion="${{ needs.meta.outputs.informational_version }}"
+          -p:MaaUnifiedReleaseChannel=formal
+          -p:MaaUnifiedDiagnosticsProfile=minimal
+
+      - name: Merge MaaCore runtime
+        shell: bash
+        run: |
+          staging_dir="$MAAUNIFIED_STAGING_DIR"
+          mkdir -p "$staging_dir"
+          cp -a install/. "$staging_dir/"
+          if [[ "$RUNNER_OS" == "Linux" ]]; then
+            test -f "$staging_dir/libMaaCore.so"
+          else
+            test -f "$staging_dir/libMaaCore.dylib"
+          fi
+          test -d "$staging_dir/resource"
+
+      - name: Remove non-runtime artifacts from release package
+        shell: bash
+        run: |
+          staging_dir="$MAAUNIFIED_STAGING_DIR"
+          find "$staging_dir/bin" -type f -name '*.pdb' -delete
+          rm -f "$staging_dir/AsstCaller.h" "$staging_dir/AsstPort.h"
+
+      - name: Prepare portable writable directories (Linux)
+        if: runner.os == 'Linux'
+        shell: bash
+        run: |
+          staging_dir="$MAAUNIFIED_STAGING_DIR"
+          mkdir -p \
+            "$staging_dir/config" \
+            "$staging_dir/data" \
+            "$staging_dir/cache" \
+            "$staging_dir/debug" \
+            "$staging_dir/update-packages"
+
+      - name: Validate staging layout (Linux)
+        if: runner.os == 'Linux'
+        shell: bash
+        run: |
+          staging_dir="$MAAUNIFIED_STAGING_DIR"
+          test -x "$staging_dir/bin/MAAUnified"
+          test -d "$staging_dir/resource"
+          test -f "$staging_dir/libMaaCore.so"
+          test -d "$staging_dir/config"
+          test -d "$staging_dir/data"
+          test -d "$staging_dir/cache"
+          test -d "$staging_dir/debug"
+          test -d "$staging_dir/update-packages"
+          ! test -e "$staging_dir/MAAUnified"
+          ! test -e "$staging_dir/MAAUnified.sh"
+          ! find "$staging_dir" -maxdepth 1 -type f \( -name 'System.*.dll' -o -name 'Avalonia.*.dll' \) | grep -q .
+          ! find "$staging_dir/bin" -type f -name '*.pdb' | grep -q .
+
+      - name: Validate staging layout (macOS)
+        if: runner.os == 'macOS'
+        shell: bash
+        run: |
+          staging_dir="$MAAUNIFIED_STAGING_DIR"
+          test -x "$staging_dir/bin/MAAUnified"
+          test -f "$staging_dir/libMaaCore.dylib"
+          test -d "$staging_dir/resource"
+          ! test -e "$staging_dir/MAAUnified.command"
+          ! find "$staging_dir" -maxdepth 1 -type f \( -name 'System.*.dll' -o -name 'Avalonia.*.dll' \) | grep -q .
+          ! find "$staging_dir/bin" -type f -name '*.pdb' | grep -q .
+
+      - name: Package (Linux)
+        if: runner.os == 'Linux'
+        shell: bash
+        run: |
+          mkdir -p release
+          name="MAAUnified-${{ needs.meta.outputs.tag }}-${{ matrix.name }}"
+          bash src/MAAUnified/CI/create-linux-appimage.sh "$MAAUNIFIED_STAGING_DIR" release MAAUnified x86_64
+          cp "release/MAAUnified.AppImage" "$MAAUNIFIED_STAGING_DIR/MAAUnified.AppImage"
+          (
+            cd "$MAAUNIFIED_STAGING_DIR"
+            zip -qr "$GITHUB_WORKSPACE/release/${name}.zip" .
+          )
+          test -f "release/${name}.zip"
+          unzip -Z1 "release/${name}.zip" | grep -qx 'MAAUnified.AppImage'
+          unzip -Z1 "release/${name}.zip" | grep -qx 'bin/MAAUnified'
+          unzip -Z1 "release/${name}.zip" | grep -q '^resource/'
+          unzip -Z1 "release/${name}.zip" | grep -q '^libMaaCore\.so'
+          ! unzip -Z1 "release/${name}.zip" | grep -q '^usr/share/maaunified/'
+          rm -f "release/MAAUnified.AppImage"
+          ! find release -type f -name '*linux*.tar.gz' | grep -q .
+
+      - name: Package (macOS)
+        id: macos_package
+        if: runner.os == 'macOS'
+        shell: bash
+        env:
+          MACOS_CODESIGN_ENABLED: ${{ steps.macos_signing.outputs.available }}
+          MACOS_ADHOC_CODESIGN_ENABLED: ${{ steps.macos_signing.outputs.available != 'true' }}
+        run: |
+          mkdir -p release
+          name="MAAUnified-${{ needs.meta.outputs.tag }}-${{ matrix.name }}"
+          bash src/MAAUnified/CI/create-macos-app-dmg.sh \
+            "$MAAUNIFIED_STAGING_DIR" \
+            release \
+            "$name" \
+            "${{ needs.meta.outputs.version_prefix }}" \
+            "${{ needs.meta.outputs.informational_version }}"
+          signing_status_file="release/.${name}.signing-status"
+          signing_status="unknown"
+          if [[ -f "$signing_status_file" ]]; then
+            signing_status="$(cat "$signing_status_file")"
+          fi
+          echo "signing_status=$signing_status" >> "$GITHUB_OUTPUT"
+          if [[ "$signing_status" != "developer-id" ]]; then
+            echo "::warning title=macOS package is not notarized::macOS package signing status is '$signing_status'; notarization will be skipped."
+          fi
+          test -f "release/${name}.dmg"
+          ! find release -type f -name '*macos*.tar.gz' | grep -q .
+          ! find release -name 'MAAUnified.command' | grep -q .
+          rm -rf release/MAAUnified.app
+
+      - name: Notarize macOS dmg
+        if: runner.os == 'macOS' && steps.macos_package.outputs.signing_status == 'developer-id'
+        shell: bash
+        env:
+          APPSTORE_KEYID: ${{ secrets.HGUANDL_APPSTORE_KEYID }}
+          APPSTORE_KEY: ${{ secrets.HGUANDL_APPSTORE_KEY }}
+          ISSUER_ID: ${{ secrets.HGUANDL_APPSTORE_ISSUER }}
+        run: |
+          cd release
+          echo "$APPSTORE_KEY" > "AuthKey_${APPSTORE_KEYID}.p8"
+          dmg="MAAUnified-${{ needs.meta.outputs.tag }}-${{ matrix.name }}.dmg"
+          xcrun notarytool submit -k "AuthKey_${APPSTORE_KEYID}.p8" -d "$APPSTORE_KEYID" -i "$ISSUER_ID" --wait "$dmg"
+          rm -f "AuthKey_${APPSTORE_KEYID}.p8"
+          xcrun stapler staple "$dmg"
+          spctl -a -t open --context context:primary-signature -v "$dmg"
+
+      - name: Upload workflow artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: MAAUnified-release-${{ matrix.name }}
+          path: |
+            release/*.zip
+            release/*.dmg
+
+      - name: Upload release asset (workflow_call)
+        if: github.event_name == 'workflow_call'
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_name: ${{ needs.meta.outputs.target_repository }}
+          repo_token: ${{ secrets.release_token }}
+          file_glob: true
+          file: release/*
+          tag: ${{ needs.meta.outputs.tag }}
+          prerelease: true
+          overwrite: true
+
+      - name: Upload release asset (workflow_dispatch cross-repository)
+        if: github.event_name == 'workflow_dispatch' && needs.meta.outputs.target_repository != github.repository
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_name: ${{ needs.meta.outputs.target_repository }}
+          repo_token: ${{ secrets.MAARELEASE_RELEASE }}
+          file_glob: true
+          file: release/*
+          tag: ${{ needs.meta.outputs.tag }}
+          prerelease: true
+          overwrite: true
+
+      - name: Upload release asset (current repository)
+        if: github.event_name != 'workflow_call' && (github.event_name != 'workflow_dispatch' || needs.meta.outputs.target_repository == github.repository)
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_name: ${{ needs.meta.outputs.target_repository }}
+          repo_token: ${{ github.token }}
+          file_glob: true
+          file: release/*
+          tag: ${{ needs.meta.outputs.tag }}
+          prerelease: true
+          overwrite: true

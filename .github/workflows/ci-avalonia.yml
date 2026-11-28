@@ -31,6 +31,8 @@ jobs:
             os: ubuntu-latest
           - name: windows-x64
             os: windows-2025-vs2026
+          - name: macos-arm64
+            os: macos-latest
 
     steps:
       - uses: actions/checkout@v7
@@ -49,6 +51,21 @@ jobs:
       - name: Restore tests
         run: dotnet restore src/MAAUnified/Tests/MAAUnified.Tests.csproj
 
+      - name: Verify C# formatting
+        if: matrix.name == 'linux-x64'
+        shell: bash
+        run: |
+          for project in Tests App Application Platform Compat; do
+            dotnet format "src/MAAUnified/$project/MAAUnified.$project.csproj" --verify-no-changes --no-restore
+          done
+
+      - name: Run macOS full MAAUnified test gate
+        if: matrix.name == 'macos-arm64'
+        run: >
+          dotnet test src/MAAUnified/Tests/MAAUnified.Tests.csproj -c Release --no-restore --disable-build-servers -m:1
+          --results-directory TestResults/${{ matrix.name }}
+          --logger "trx;LogFileName=full-maaunified-tests.trx"
+
       - name: Run Linux baseline consistency gate
         if: matrix.name == 'linux-x64'
         run: >
@@ -56,13 +73,6 @@ jobs:
           --results-directory TestResults/${{ matrix.name }}
           --logger "trx;LogFileName=baseline-consistency.trx"
           --filter "FullyQualifiedName~BaselineContractTests|FullyQualifiedName~BaselineCoverageTests|FullyQualifiedName~BaselineRenderSyncTests|FullyQualifiedName~ParityMatrixSyncTests"
-
-      - name: Run Linux full MAAUnified test gate
-        if: matrix.name == 'linux-x64'
-        run: >
-          dotnet test src/MAAUnified/Tests/MAAUnified.Tests.csproj -c Release --no-restore --disable-build-servers -m:1
-          --results-directory TestResults/${{ matrix.name }}
-          --logger "trx;LogFileName=full-maaunified-tests.trx"
 
       - name: Run Windows platform capability contract gate
         if: matrix.name == 'windows-x64'
