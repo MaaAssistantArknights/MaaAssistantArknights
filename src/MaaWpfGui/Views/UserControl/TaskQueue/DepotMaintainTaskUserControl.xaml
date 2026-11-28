@@ -76,7 +76,7 @@
                                     Visibility="{c:Binding 'ActivityPresetList.Count > 0'}" />
                                 <Menu
                                     ItemContainerStyle="{StaticResource PresetMenuItemStyle}"
-                                    ItemsSource="{x:Static taskQueue_vms:DepotMaintainTaskUserControlModel.PresetList}"
+                                    ItemsSource="{Binding PresetList}"
                                     MenuItem.Click="{s:Action PresetMenuClick}">
                                     <Menu.ItemsPanel>
                                         <ItemsPanelTemplate>
@@ -93,7 +93,7 @@
                                         Text="{DynamicResource TaskQueue.DepotMaintain.PresetCurrentActivity}" />
                                     <Menu
                                         ItemContainerStyle="{StaticResource PresetMenuItemStyle}"
-                                        ItemsSource="{Binding DataContext.ActivityPresetList, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}"
+                                        ItemsSource="{Binding ActivityPresetList}"
                                         MenuItem.Click="{s:Action PresetMenuClick}">
                                         <Menu.ItemsPanel>
                                             <ItemsPanelTemplate>
@@ -238,7 +238,6 @@
                                         <TextBox
                                             Height="30"
                                             hc:InfoElement.Placeholder="{DynamicResource TaskQueue.Stage.Label.Default}"
-                                            IsEnabled="{c:Binding !IsFightStageItemDragging}"
                                             Text="{Binding Stage, UpdateSourceTrigger=PropertyChanged}"
                                             ToolTip="{DynamicResource TaskQueue.CustomStageCode.Tip}"
                                             Visibility="{c:Binding 'DataContext.IsStageManually',
@@ -263,7 +262,7 @@
                                                 DropDownClosed="{s:Action DropsListDropDownClosed}"
                                                 IsEditable="True"
                                                 IsTextSearchEnabled="False"
-                                                ItemsSource="{Binding DropsList, Source={x:Static ui_vms:TaskQueueViewModel.FightTask}}"
+                                                ItemsSource="{Binding DataContext.DropsList, RelativeSource={RelativeSource AncestorType=UserControl}}"
                                                 Loaded="{s:Action MakeComboBoxSearchable,
                                                                   Target={x:Type ui_vms:SettingsViewModel}}"
                                                 SelectedValue="{Binding DropId}"

@@ -46,8 +46,7 @@ public class TimerSettingsUserControlModel : PropertyChangedBase
     /// <summary>
     /// Initializes a new instance of the <see cref="TimerSettingsUserControlModel"/> class.
     /// </summary>
-    /// <param name="attachGlobalEvents">是否订阅全局定时状态（成就检查与计划任务同步）。默认单例构造传 true；
-    /// 短生命周期派生 Model（如教程沙盒）传 false 以隔离真实定时器的计划任务注册。</param>
+    /// <param name="attachGlobalEvents">是否订阅定时项与队列状态变化，并在启动时同步系统计划任务。</param>
     protected TimerSettingsUserControlModel(bool attachGlobalEvents)
     {
         if (attachGlobalEvents)

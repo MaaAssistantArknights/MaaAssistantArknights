@@ -89,35 +89,29 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
             // 任务开始时用最新库存重算该 plan 的缺口；任务正常结束但未达标时记录临期药耗尽证明
             Instances.AsstProxy.OnTaskStatusChanged += OnTaskStatusChanged;
 
-            // 理智面板拖拽关卡规划项时联动禁用手输关卡框；本类型为 Instance 单例，订阅后无需取消订阅
-            FightTaskUserControlModel.Instance.PropertyChanged += ForwardFightStageItemDraggingChanged;
-
             // 关卡数据（本地缓存或 OTA）重载后刷新活动预设列表；触发可能在非 UI 线程，异步投递回 UI 线程
             Instances.StageManager.StageDataChanged += (_, _) => _ = Execute.OnUIThreadAsync(RefreshActivityPresetList);
         }
 
         RefreshActivityPresetList();
-
-        // 语言切换时由 FightSettings.RebuildDropsList 显式调用 OnLanguageChanged
     }
 
     public void OnLanguageChanged()
     {
-        // 刷新预设列表的本地化显示
         PresetList.RefreshLocalization();
-
-        // DropsList 已由 RebuildDropsList 原地更新 Display（不增删项），ComboBox SelectedValue 不会丢失
-        // 刷新各 plan 的 DropName（包括未选择时的占位文本，也需随语言切换）
-        foreach (var plan in PlanList)
+        RefreshActivityPresetList();
+        if (GetCurrentTaskConfigOrNull<DepotMaintainTask>() is null)
         {
-            var newName = !string.IsNullOrEmpty(plan.DropId)
-                ? ItemListHelper.GetItemName(plan.DropId) ?? LocalizationHelper.GetString("Common.NotSelected")
-                : LocalizationHelper.GetString("Common.NotSelected");
-            plan.DropName = newName;
+            return;
         }
 
-        // 刷新关卡列表（关卡名随语言变化）
+        using var refresh = new UiRefreshingScope(this);
         RefreshStageList();
+        foreach (var plan in PlanList)
+        {
+            plan.DropName = DropsList.FirstOrDefault(item => item.Value == plan.DropId)?.Display ?? LocalizationHelper.GetString("Common.NotSelected");
+            plan.RefreshTitle();
+        }
     }
 
     private void OnTaskStatusChanged(int taskId, TaskItemStatus status)
@@ -335,11 +329,13 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
         set => SetTaskConfig<DepotMaintainTask>(t => t.UseExpiringMedicine == value, t => t.UseExpiringMedicine = value);
     }
 
+    public virtual ObservableCollection<CombinedData> DropsList => FightTaskUserControlModel.Instance.DropsList;
+
     public ObservableCollection<DepotPlanItemViewModel> PlanList { get; private set => SetAndNotify(ref field, value); } = [];
 
     public void AddPlan()
     {
-        PlanList.Add(new() { Index = PlanList.Count, });
+        PlanList.Add(new(this) { Index = PlanList.Count, });
     }
 
     public void RemovePlan(DepotPlanItemViewModel plan)
@@ -370,7 +366,7 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
     /// <summary>
     /// 预设列表。
     /// </summary>
-    public static LocalizedObservableList<string> PresetList { get; } = new(
+    public LocalizedObservableList<string> PresetList { get; } = new(
         ("Chip1", "TaskQueue.DepotMaintain.PresetChip1"),
         ("Chip2", "TaskQueue.DepotMaintain.PresetChip2"),
         ("CE6", "TaskQueue.DepotMaintain.PresetLmd"),
@@ -401,7 +397,7 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
     /// <summary>
     /// 活动预设默认目标数量，导入后按个人兑换计划调整。
     /// </summary>
-    internal const int ActivityPresetDefaultCount = 200;
+    private const int ActivityPresetDefaultCount = 200;
 
     /// <summary>
     /// 当前进行中活动的预设列表（Display 为活动名，Value 为 <see cref="StageManager.ActivityList"/> 的 key），
@@ -469,7 +465,7 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
         foreach (var (stage, dropId, count) in plans)
         {
             var dropName = ItemListHelper.GetItemName(dropId) ?? LocalizationHelper.GetString("Common.NotSelected");
-            var plan = new DepotPlanItemViewModel(stage, dropId, dropName, count);
+            var plan = new DepotPlanItemViewModel(this, stage, dropId, dropName, count);
             plan.PropertyChanged += PlanItem_PropertyChanged;
             list.Add(plan);
         }
@@ -718,9 +714,9 @@ public class DepotMaintainTaskUserControlModel : TaskSettingsViewModel, DepotMai
         foreach (var plan in task.PlanList)
         {
             // 根据 DropId 从掉落列表恢复 DropName，避免初始化显示为"不选择"
-            var dropName = FightTaskUserControlModel.Instance.DropsList.FirstOrDefault(i => i.Value == plan.DropId)?.Display ?? LocalizationHelper.GetString("Common.NotSelected");
+            var dropName = DropsList.FirstOrDefault(i => i.Value == plan.DropId)?.Display ?? LocalizationHelper.GetString("Common.NotSelected");
 
-            var uiPlan = new DepotPlanItemViewModel(plan.Stage, plan.DropId, dropName, plan.DropCount, plan.UseMedicine, plan.MedicineCount, plan.UseStone, plan.StoneCount, plan.TaskId) {
+            var uiPlan = new DepotPlanItemViewModel(this, plan.Stage, plan.DropId, dropName, plan.DropCount, plan.UseMedicine, plan.MedicineCount, plan.UseStone, plan.StoneCount, plan.TaskId) {
                 Index = index,
             };
             list.Add(uiPlan);

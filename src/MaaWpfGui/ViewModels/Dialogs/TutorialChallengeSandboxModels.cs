@@ -14,12 +14,14 @@
 #nullable enable
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using MaaWpfGui.Configuration.Global;
 using MaaWpfGui.Configuration.Single.MaaTask;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Utilities;
+using MaaWpfGui.Utilities.ValueType;
 using MaaWpfGui.ViewModels.UI;
 using MaaWpfGui.ViewModels.UserControl.Settings;
 using MaaWpfGui.ViewModels.UserControl.TaskQueue;
@@ -63,8 +65,15 @@ public sealed class SandboxFightTaskModel : FightTaskUserControlModel
     /// <inheritdoc/> 沙盒队列恒空闲，不受真实队列运行态联动
     public override bool IsQueueIdle => true;
 
-    /// <inheritdoc/> 沙盒面板不联动真实理智面板的拖拽禁用
-    public override bool IsFightStageItemDragging => false;
+    internal void OnLanguageChanged()
+    {
+        RefreshLocalization();
+        RefreshActivityInfo();
+        if (GetCurrentTaskConfigOrNull<FightTask>() is { } fight)
+        {
+            RefreshUI(fight);
+        }
+    }
 
     /// <inheritdoc/> 转发关卡 VM 的拖拽态（教程侧拖拽逻辑写在关卡 VM 上）
     public override bool IsStageItemDragging
@@ -131,9 +140,6 @@ public sealed class SandboxRecruitTaskModel(TutorialChallengeLevelViewModel owne
     /// <inheritdoc/> 沙盒队列恒空闲，不受真实队列运行态联动
     public override bool IsQueueIdle => true;
 
-    /// <inheritdoc/> 沙盒面板不联动真实理智面板的拖拽禁用
-    public override bool IsFightStageItemDragging => false;
-
     /// <summary>
     /// 关卡 VM 侧状态变化时转发为本 Model 的绑定通知。
     /// </summary>
@@ -164,6 +170,9 @@ public sealed class SandboxRecruitTaskModel(TutorialChallengeLevelViewModel owne
 /// <param name="owner">所属关卡 VM。</param>
 public sealed class SandboxDepotMaintainTaskModel(TutorialChallengeLevelViewModel owner) : DepotMaintainTaskUserControlModel(attachGlobalEvents: false, growlTarget: owner.GrowlTarget)
 {
+    /// <inheritdoc/>
+    public override ObservableCollection<CombinedData> DropsList => owner.SandboxFightTaskModel.DropsList;
+
     /// <inheritdoc/> 库存显示不读真实仓库识别缓存，指向关卡 VM 的共享伪造库存
     protected override ObservableList<ToolboxViewModel.DepotResultDate>? DepotResultSource => owner.FakeDepotResult;
 
@@ -181,9 +190,6 @@ public sealed class SandboxDepotMaintainTaskModel(TutorialChallengeLevelViewMode
 
     /// <inheritdoc/> 沙盒队列恒空闲，不受真实队列运行态联动
     public override bool IsQueueIdle => true;
-
-    /// <inheritdoc/> 沙盒面板不联动真实理智面板的拖拽禁用
-    public override bool IsFightStageItemDragging => false;
 
     /// <summary>
     /// 关卡 VM 侧状态变化时转发为本 Model 的绑定通知。

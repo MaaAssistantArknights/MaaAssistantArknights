@@ -87,8 +87,10 @@ public partial class FightTaskUserControlModel : TaskSettingsViewModel, FightTas
                 toolboxViewModel.DepotResult.CollectionChanged += OnDepotResultCollectionChanged;
             }
 
-            // 本类型为 Instance 单例，构造仅执行一次，订阅后无需取消订阅
-            LocalizationHelper.LanguageChanged += RefreshLocalization;
+            LocalizationHelper.LanguageChanged += () => {
+                RefreshLocalization();
+                DepotMaintainTaskUserControlModel.Instance.OnLanguageChanged();
+            };
         }
 
         foreach (var i in WeeklyScheduleSource)
@@ -96,14 +98,13 @@ public partial class FightTaskUserControlModel : TaskSettingsViewModel, FightTas
             i.PropertyChanged += (_, __) => SaveWeeklySchedule();
         }
 
-        var item = new StagePlanItem(this);
-        item.PropertyChanged += (_, __) => SaveStagePlan();
-        StagePlan.Add(item);
-        InitDrops();
+        AddStageToPlan();
+        InitDrops(attachGlobalEvents ? ConfigFactory.CurrentConfig.TaskQueue.OfType<FightTask>() : []);
     }
 
-    private void RefreshLocalization()
+    internal void RefreshLocalization()
     {
+        using var refresh = new UiRefreshingScope(this);
         RebuildDropsList();
         SeriesList.RefreshLocalization();
         AnnihilationModeList.RefreshLocalization();
@@ -821,7 +822,7 @@ public partial class FightTaskUserControlModel : TaskSettingsViewModel, FightTas
         "30165", // 重相位对映体
     ];
 
-    private void InitDrops()
+    private void InitDrops(IEnumerable<FightTask> tasks)
     {
         AllDrops.Add(new() { Display = LocalizationHelper.GetString("Common.NotSelected"), Value = string.Empty });
         foreach (var (val, value) in ItemListHelper.ArkItems)
@@ -882,9 +883,9 @@ public partial class FightTaskUserControlModel : TaskSettingsViewModel, FightTas
             }
         }
 
-        foreach (var task in ConfigFactory.CurrentConfig.TaskQueue.OfType<FightTask>())
+        foreach (var task in tasks)
         {
-            if (AllDrops.FirstOrDefault(i => i.Value == task.DropId) is not { } item)
+            if (task.DropId is null || !allDropsDict.ContainsKey(task.DropId))
             {
                 task.DropId = string.Empty;
             }
@@ -902,10 +903,10 @@ public partial class FightTaskUserControlModel : TaskSettingsViewModel, FightTas
     private void RebuildDropsList()
     {
         // 提前记录当前选中的掉落 ID，避免重建后丢失
-        var savedDropId = GetTaskConfig<FightTask>().DropId;
+        var savedDropId = GetCurrentTaskConfigOrNull<FightTask>()?.DropId;
         ItemListHelper.Reload();
         AllDrops.Clear();
-        InitDrops();
+        InitDrops(TaskConfigQueue.OfType<FightTask>());
 
         // 恢复选中状态
         if (!string.IsNullOrEmpty(savedDropId) && AllDrops.Any(i => i.Value == savedDropId))
@@ -914,9 +915,6 @@ public partial class FightTaskUserControlModel : TaskSettingsViewModel, FightTas
         }
 
         RefreshDropName();
-
-        // 通知 DepotMaintain 刷新各 plan 的 DropName
-        DepotMaintainTaskUserControlModel.Instance.OnLanguageChanged();
     }
 
     /// <summary>
@@ -1199,7 +1197,7 @@ public partial class FightTaskUserControlModel : TaskSettingsViewModel, FightTas
 
     public ObservableCollection<WeeklyScheduleItem> WeeklyScheduleSource { get; set; } = [.. Enum.GetValues<DayOfWeek>().Select(i => new WeeklyScheduleItem(i))];
 
-    private static string ToUpperAndCheckStage(string value)
+    private string ToUpperAndCheckStage(string value)
     {
         if (string.IsNullOrEmpty(value))
         {
@@ -1212,12 +1210,7 @@ public partial class FightTaskUserControlModel : TaskSettingsViewModel, FightTas
             return stage;
         }
 
-        if (Instance.StageListSource == null)
-        {
-            return value;
-        }
-
-        foreach (var item in Instance.StageListSource)
+        foreach (var item in StageListSource)
         {
             if (upperValue.Equals(item.Value, StringComparison.CurrentCultureIgnoreCase) || upperValue.Equals(item.Display, StringComparison.CurrentCultureIgnoreCase))
             {
@@ -1693,7 +1686,7 @@ public partial class FightTaskUserControlModel : TaskSettingsViewModel, FightTas
                     // 从后往前删
                     if (value.Length != 3)
                     {
-                        value = ToUpperAndCheckStage(value);
+                        value = owner.ToUpperAndCheckStage(value);
                     }
                 }
 

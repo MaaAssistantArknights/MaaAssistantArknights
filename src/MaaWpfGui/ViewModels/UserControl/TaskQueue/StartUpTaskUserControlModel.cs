@@ -46,7 +46,7 @@ public class StartUpTaskUserControlModel : TaskSettingsViewModel, StartUpTaskUse
     public virtual bool IsNotPcConnectConfig => ConnectSettingsUserControlModel.Instance.ConnectConfig != ConnectConfig.PC;
 
     /// <summary>
-    /// Gets a value indicating whether 当前客户端为国服系（官服/B 服/台服/韩服，账号相关设置仅对这些客户端显示）。
+    /// Gets a value indicating whether 当前客户端支持切换账号（官服、B 服、台服或韩服）。
     /// 默认转发真实游戏设置，通知由跨实例属性依赖机制接管；沙盒子类可覆写为固定演示值。
     /// </summary>
     [PropertyDependsOn(typeof(GameSettingsUserControlModel), nameof(GameSettingsUserControlModel.ClientType))]

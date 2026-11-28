@@ -294,7 +294,7 @@ public class RecruitTaskUserControlModel : TaskSettingsViewModel, RecruitTaskUse
     /// <summary>
     /// 刷新构造时缓存的本地化列表文本。
     /// </summary>
-    private void RefreshLocalization()
+    internal void RefreshLocalization()
     {
         AutoRecruitSelectExtraTagsList.RefreshLocalization();
     }

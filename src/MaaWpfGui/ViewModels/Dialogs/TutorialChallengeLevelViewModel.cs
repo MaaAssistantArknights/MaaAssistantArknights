@@ -1572,7 +1572,10 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
         NotifyOfPropertyChange(nameof(Goal));
         NotifyOfPropertyChange(nameof(WindowTitle));
 
-        // 沙盒 Model 的关卡/掉落/周计划等展示随真实面板的本地化刷新机制更新，这里只刷新关卡自有显示
+        SandboxFightTaskModel.OnLanguageChanged();
+        SandboxDepotMaintainTaskModel.OnLanguageChanged();
+        SandboxRecruitTaskModel.RefreshLocalization();
+
         foreach (var item in SandboxItems)
         {
             item.RefreshDisplayName();

@@ -13,7 +13,6 @@
     xmlns:s="https://github.com/canton7/Stylet"
     xmlns:taskQueue="clr-namespace:MaaWpfGui.Configuration.Single.MaaTask"
     xmlns:taskQueueViews="clr-namespace:MaaWpfGui.Views.UserControl.TaskQueue"
-    xmlns:taskQueue_vms="clr-namespace:MaaWpfGui.ViewModels.UserControl.TaskQueue"
     xmlns:ui_vms="clr-namespace:MaaWpfGui.ViewModels.UI"
     d:DataContext="{d:DesignInstance {x:Type dialogs_vms:TutorialChallengeLevelViewModel}}"
     mc:Ignorable="d">
@@ -384,7 +383,7 @@
                     </Grid>
                 </hc:ScrollViewer>
                 <hc:ButtonGroup
-                    Grid.Row="2"
+                    Grid.Row="1"
                     Margin="8,0,8,8"
                     HorizontalAlignment="Center"
                     Orientation="Horizontal">

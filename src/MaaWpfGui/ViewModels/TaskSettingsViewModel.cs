@@ -23,7 +23,6 @@ using MaaWpfGui.Helper;
 using MaaWpfGui.Models;
 using MaaWpfGui.States;
 using MaaWpfGui.Utilities;
-using MaaWpfGui.ViewModels.UserControl.TaskQueue;
 using Stylet;
 
 namespace MaaWpfGui.ViewModels;
@@ -77,11 +76,6 @@ public abstract class TaskSettingsViewModel : PropertyChangedBase
     public virtual bool IsQueueIdle => RunControlState.Instance.Idle;
 
     /// <summary>
-    /// 理智作战面板的关卡规划项是否正在被拖拽。默认转发全局 Fight 面板的拖拽状态，子类可覆写为自有状态（如沙盒恒不在拖拽）。
-    /// </summary>
-    public virtual bool IsFightStageItemDragging => FightTaskUserControlModel.Instance.IsStageItemDragging;
-
-    /// <summary>
     /// 将全局任务设置可见性信息（普通/高级切换、当前任务运行状态）的变更转发为本 Model 的属性通知，
     /// 使任务控件 XAML 经 DataContext 绑定转发属性时仍能收到变更通知。
     /// </summary>
@@ -89,10 +83,10 @@ public abstract class TaskSettingsViewModel : PropertyChangedBase
     {
         switch (e.PropertyName)
         {
-            case nameof(EnableAdvancedSettings):
+            case nameof(TaskSettingVisibilityInfo.EnableAdvancedSettings):
                 NotifyOfPropertyChange(nameof(EnableAdvancedSettings));
                 break;
-            case nameof(IsCurrentTaskRunning):
+            case nameof(TaskSettingVisibilityInfo.IsCurrentTaskRunning):
                 NotifyOfPropertyChange(nameof(IsCurrentTaskRunning));
                 break;
         }
@@ -107,20 +101,6 @@ public abstract class TaskSettingsViewModel : PropertyChangedBase
         if (e.PropertyName == nameof(RunControlState.Idle))
         {
             NotifyOfPropertyChange(nameof(IsQueueIdle));
-        }
-    }
-
-    /// <summary>
-    /// 将全局 Fight 面板关卡拖拽状态的变更转发为本 Model 的 <see cref="IsFightStageItemDragging"/> 通知。
-    /// 订阅由需要该状态的子类（DepotMaintain 面板）在构造时挂接，此处只做通知转发。
-    /// </summary>
-    /// <param name="sender">事件发送者。</param>
-    /// <param name="e">属性变更参数。</param>
-    protected void ForwardFightStageItemDraggingChanged(object? sender, PropertyChangedEventArgs e)
-    {
-        if (e.PropertyName == nameof(FightTaskUserControlModel.IsStageItemDragging))
-        {
-            NotifyOfPropertyChange(nameof(IsFightStageItemDragging));
         }
     }
 

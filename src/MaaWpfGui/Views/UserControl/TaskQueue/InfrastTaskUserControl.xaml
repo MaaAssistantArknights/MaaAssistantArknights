@@ -11,7 +11,6 @@
     xmlns:helper="clr-namespace:MaaWpfGui.Helper"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:s="https://github.com/canton7/Stylet"
-    xmlns:task="clr-namespace:MaaWpfGui.Configuration.Single.MaaTask"
     xmlns:taskQueue_vms="clr-namespace:MaaWpfGui.ViewModels.UserControl.TaskQueue"
     d:Background="White"
     d:DataContext="{d:DesignInstance {x:Type taskQueue_vms:InfrastTaskUserControlModel}}"
@@ -20,7 +19,7 @@
     mc:Ignorable="d">
     <StackPanel>
         <!--  常规设置  -->
-        <StackPanel Visibility="{c:Binding '!TaskSettingVisibilities.EnableAdvancedSettings'}">
+        <StackPanel Visibility="{c:Binding !EnableAdvancedSettings}">
             <StackPanel Margin="0,4">
                 <StackPanel Margin="0,0,0,5" Orientation="Horizontal">
                     <controls:TextBlock
