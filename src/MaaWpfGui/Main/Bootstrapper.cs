@@ -102,6 +102,8 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
                 "fastdeploy_ppocr_maa.dll",
                 "MaaCore.dll",
                 "onnxruntime_maa.dll",
+                "onnxruntime_providers_openvino.dll",
+                "onnxruntime_providers_shared.dll",
                 "opencv_world4_maa.dll",
 
                 // Dawn（WebGPU 推理后端）的 D3D12 后端运行时加载的 DXC shader 编译器
@@ -132,7 +134,10 @@ public class Bootstrapper : Bootstrapper<RootViewModel>
 
             return [.. dllFiles
                 .Select(Path.GetFileName)
-                .Where(fileName => !maaDlls.Contains(fileName) && !fileName.Contains("maa", StringComparison.OrdinalIgnoreCase))];
+                .Where(fileName => !maaDlls.Contains(fileName) &&
+                    !fileName.Contains("maa", StringComparison.OrdinalIgnoreCase) &&
+                    !fileName.StartsWith("openvino", StringComparison.OrdinalIgnoreCase) &&
+                    !fileName.StartsWith("tbb", StringComparison.OrdinalIgnoreCase))];
         }
         catch (Exception)
         {

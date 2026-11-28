@@ -33,10 +33,11 @@ static constexpr double TemplThresholdDefault = 0.8;
 enum class StaticOptionKey
 {
     Invalid = 0,
-    CpuOCR = 1, // use CPU to OCR, no value. It does not support switching after the resource is loaded.
-    GpuOCR = 2, // use GPU to OCR. value is a device id integer (DirectML on Windows, CPU elsewhere), or
-                // "webgpu:<id>" / "directml:<id>"; "luid:<hex>" is also accepted for DirectML on Windows.
-                // It does not support switching after the resource is loaded.
+    CpuOCR = 1,        // use CPU to OCR, no value. It does not support switching after the resource is loaded.
+    GpuOCR = 2,        // use GPU to OCR. value is a device id integer (DirectML on Windows, CPU elsewhere), or
+                       // "webgpu:<id>" / "directml:<id>" / "openvino:cpu|npu|hybrid"; "luid:<hex>" is also accepted
+                       // for DirectML on Windows. It does not support switching after the resource is loaded.
+    OpenVINOProbe = 3, // capability query only: "cpu" | "npu". Does not change the active device.
 };
 
 enum class InstanceOptionKey

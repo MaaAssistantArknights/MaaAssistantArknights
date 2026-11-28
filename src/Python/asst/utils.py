@@ -15,6 +15,7 @@ class StaticOptionType(IntEnum):
     invalid = 0
     cpu_ocr = 1
     gpu_ocr = 2
+    openvino_probe = 3
 
 
 @unique
