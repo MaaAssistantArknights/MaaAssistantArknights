@@ -372,7 +372,8 @@ bool MaaFwController::screencap_impl(cv::Mat& image_payload, bool move_cursor)
     }
 
     if ((is_first_screencap && ret) || m_screencap_times == 0) {
-        auto filtered_cost = m_screencap_cost | std::views::filter([](auto num) { return num > 0; });
+        // 失败样本记 -1；0ms 成功样本也是有效用时，一并纳入统计，保证与下方有效次数口径一致
+        auto filtered_cost = m_screencap_cost | std::views::filter([](auto num) { return num >= 0; });
         // 过滤后的有效截图用时次数
         auto filtered_count = m_screencap_cost.size() - std::ranges::count(m_screencap_cost, -1);
         if (filtered_count > 0) {
