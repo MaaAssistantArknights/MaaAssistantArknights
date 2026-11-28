@@ -260,7 +260,7 @@
         "isAscii": true,
         "text": [],
         "next": ["ClickedCorrectStageOrSwipe", "#self"],
-        "ocrReplaceDoc": "和 ClickedCorrectStage 同步，但去除 OPERATION",
+        "ocrReplaceDoc": "和 ClickedCorrectStage 同步，但不含详情页前缀与尾部句点、星号清理",
         "ocrReplace": [
             ["-\\]", "-1"],
             [" ", ""],
@@ -271,11 +271,12 @@
             ["t", "T"],
             [":", ""],
             ["'", ""],
+            ["-I$", "-1"],
+            ["^O(?=-\\d)", "0"],
             ["(H\\d+)O(?=-)", "${1}0"],
             ["(-\\d+)O", "${1}0"],
             ["([A-Z])0(?=-)", "${1}O"],
-            [".*?([A-Z]{2}-EX-\\d+)", "$1"],
-            ["-I$", "-1"]
+            [".*?([A-Z]{2}-EX-\\d+)", "$1"]
         ],
         "specialParams": [0, 0, 160, 180, 30, 255]
     },
@@ -296,9 +297,8 @@
         "fullMatch": true,
         "isAscii": true,
         "text": [],
-        "ocrReplaceDoc": "和 ClickStageName 同步",
+        "ocrReplaceDoc": "和 ClickStageName 同步，并清理详情页前缀与尾部句点、星号",
         "ocrReplace": [
-            ["(O|D)?PERATION", ""],
             ["-\\]", "-1"],
             [" ", ""],
             ["s", "S"],
@@ -309,12 +309,16 @@
             [":", ""],
             ["'", ""],
             ["\\*$", ""],
+            ["\\.$", ""],
+            ["^.*?ATION", ""],
+            ["-I$", "-1"],
+            ["^O(?=-\\d)", "0"],
             ["(H\\d+)O(?=-)", "${1}0"],
             ["(-\\d+)O", "${1}0"],
             ["([A-Z])0(?=-)", "${1}O"],
             [".*?([A-Z]{2}-EX-\\d+)", "$1"]
         ],
-        "roi": [845, 72, 220, 40]
+        "roi": [880, 72, 185, 40]
     },
     "StageNavigationByTemplateMatchBegin": {
         "doc": "模板匹配导航入口（对应 OCR 的 StageNavigationBegin）",
