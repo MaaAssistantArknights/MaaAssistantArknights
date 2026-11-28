@@ -125,7 +125,6 @@ bool MaaFwController::connect_with_extras(
             avd_extras["avd"] = std::move(avd_config);
             config_arg["extras"] = std::move(avd_extras);
         }
-        using namespace asst::utils::path_literals;
         m_unit_handle = create_func(
             adb_path.c_str(),
             address.c_str(),
@@ -136,8 +135,10 @@ bool MaaFwController::connect_with_extras(
             // MuMu 触控走 MumuController（TouchMode::MumuExtras）。
             extras.get("input_methods", MaaAdbInputMethod::AdbShell),
             config_arg.dumps().c_str(),
-            // MaaAgentBinary目录
-            utils::path_to_utf8_string(ResDir.get() / "minitouch"_p).c_str());
+            // agent 目录：MaaFramework 会在该目录下自行拼接 minitouch/<arch>/minitouch、
+            // maatouch/universal/maatouch、minicap/<arch>/... 等子路径，须传资源根目录。
+            // AVDExtras 时期只支持 adb input 触控、不读该目录，传错路径的问题由此遗留
+            utils::path_to_utf8_string(ResDir.get()).c_str());
     } break;
     case ControlUnitType::MaaAndroidNativeControlUnit: {
         auto create_func = get_function<MaaFwControlUnitAPI*(const char*)>("MaaAndroidNativeControlUnitCreate");
