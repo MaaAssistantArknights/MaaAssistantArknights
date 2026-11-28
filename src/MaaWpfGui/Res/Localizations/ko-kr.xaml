@@ -2549,6 +2549,7 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="Toolbox.MiniGame.SecretFront.Event2">레인저</system:String>
     <system:String x:Key="Toolbox.MiniGame.SecretFront.Event3">수상한 그림자</system:String>
     <system:String x:Key="Toolbox.MiniGame.SecretFront.Tip">소대 선택 화면에서 시작합니다. 기존 세이브 데이터가 있으면 수동으로 삭제해야 합니다.\n게임 내  ｢이전 소대의 데이터 전승받기｣  옵션을 체크하는 것을 권장합니다.</system:String>
+    <system:String x:Key="Toolbox.MiniGame.StartBlocked">다른 작업이 실행 중이거나 마무리 중입니다. 잠시 후 미니게임을 시작하세요</system:String>
     <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol">{key=Toolbox.MiniGame.SPA}</system:String>
     <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Alliance.Tip">이 시즌은 미개방으로 사용할 수 없습니다</system:String>
     <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Cleared">이번 판 클리어</system:String>

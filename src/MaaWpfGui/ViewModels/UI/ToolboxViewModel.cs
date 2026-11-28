@@ -401,9 +401,13 @@ public class ToolboxViewModel : Screen
             return;
         }
 
+        if (!_runningState.BeginRun(RunOwner.Toolbox))
+        {
+            return;
+        }
+
         string errMsg = string.Empty;
         RecruitInfo = LocalizationHelper.GetString("Connection.Connecting");
-        _runningState.BeginRun(RunOwner.Toolbox);
         var recruitCaught = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
         if (!recruitCaught)
         {
@@ -1239,7 +1243,11 @@ public class ToolboxViewModel : Screen
             return;
         }
 
-        _runningState.BeginRun(RunOwner.Toolbox);
+        if (!_runningState.BeginRun(RunOwner.Toolbox))
+        {
+            return;
+        }
+
         string errMsg = string.Empty;
         DepotInfo = LocalizationHelper.GetString("Connection.Connecting");
         bool caught = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
@@ -2095,7 +2103,11 @@ public class ToolboxViewModel : Screen
             return;
         }
 
-        _runningState.BeginRun(RunOwner.Toolbox);
+        if (!_runningState.BeginRun(RunOwner.Toolbox))
+        {
+            return;
+        }
+
         if (useYituliuApi)
         {
             await StartOperBoxFromYituliuApiAsync();
@@ -2434,7 +2446,10 @@ public class ToolboxViewModel : Screen
             return;
         }
 
-        _runningState.BeginRun(RunOwner.Toolbox);
+        if (!_runningState.BeginRun(RunOwner.Toolbox))
+        {
+            return;
+        }
 
         string errMsg = string.Empty;
         GachaInfo = LocalizationHelper.GetString("Connection.Connecting");
@@ -2736,9 +2751,8 @@ public class ToolboxViewModel : Screen
             AchievementTrackerHelper.Instance.Unlock(AchievementIds.PeekScreen);
 
             // 如果没任务在运行，需要先连接，并标记是由 Peep() 方法启动的 Peep
-            if (_runningState.GetIdle())
+            if (_runningState.BeginRun(RunOwner.Toolbox))
             {
-                _runningState.BeginRun(RunOwner.Toolbox);
                 string errMsg = string.Empty;
                 bool caught = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
                 if (!caught)
@@ -3731,9 +3745,18 @@ public class ToolboxViewModel : Screen
             return;
         }
 
+        // 运行归属的检查与认领必须原子：UI 与远程控制会并发进入本骨架，
+        // 需在锁内确认可安全打断（空闲且未处于收尾等中断锁定）后再声明归属，
+        // 避免完成事件被归因到 ｢牛杂｣
+        if (!_runningState.BeginRun(RunOwner.MiniGame))
+        {
+            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("Toolbox.MiniGame.StartBlocked"), UiLogColor.Warning);
+            return;
+        }
+
         Instances.TaskQueueViewModel.ClearLog();
 
-        _runningState.BeginRun(RunOwner.MiniGame);
+        Instances.OverlayViewModel.LogItemsSource = Instances.TaskQueueViewModel.LogItemViewModels;
 
         string errMsg = string.Empty;
         var caught = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));

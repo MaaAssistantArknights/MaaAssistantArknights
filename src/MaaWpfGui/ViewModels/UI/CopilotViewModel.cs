@@ -2089,7 +2089,11 @@ public partial class CopilotViewModel : Screen
         {
             AddLog(Localization.GetString("Copilot.AutoSquad.Tip"), LogColor.Message);
         }*/
-        _runningState.BeginRun(RunOwner.Copilot);
+        if (!_runningState.BeginRun(RunOwner.Copilot))
+        {
+            _logger.Warning("Copilot start rejected: another run is active or interrupting");
+            return;
+        }
 
         Instances.OverlayViewModel.LogItemsSource = LogItemViewModels;
 

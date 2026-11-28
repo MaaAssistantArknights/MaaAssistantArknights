@@ -2549,6 +2549,7 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="Toolbox.MiniGame.SecretFront.Event2">游侠</system:String>
     <system:String x:Key="Toolbox.MiniGame.SecretFront.Event3">诡影迷踪</system:String>
     <system:String x:Key="Toolbox.MiniGame.SecretFront.Tip" xml:space="preserve">在选小队界面开始，如有存档须手动删除。&#10;第一次打自己看完把教程关了。&#10;推荐勾选游戏内 ｢继承上一支队伍发回的数据｣</system:String>
+    <system:String x:Key="Toolbox.MiniGame.StartBlocked">当前有其他任务正在运行或收尾中，请稍后再启动小游戏</system:String>
     <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol">{key=Toolbox.MiniGame.SPA}</system:String>
     <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Alliance.Tip">该赛季未开放，无法使用</system:String>
     <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Cleared">本局通关</system:String>

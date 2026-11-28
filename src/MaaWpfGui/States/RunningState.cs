@@ -261,75 +261,89 @@ public class RunningState
     private bool _idle = true;
     private RunOwner _runOwner;
 
+    // 运行归属、空闲状态与中断锁的检查/变更共用同一把锁：开始入口可能来自 UI、远程控制、热键等
+    // 多个线程，若先 GetIdle/CanInterrupt 再 BeginRun，两个调用方都会通过检查并依次接管归属，
+    // 完成事件随即被错误归因；空闲切入与中断锁定也必须与认领互斥，否则收尾期间仍会被插入新运行
+    private readonly Lock _runTransitionLock = new();
+
     /// <summary>
     /// 当前运行轮次的发起入口归属，由开始入口经 <see cref="BeginRun"/> 声明，回到空闲时清零。
     /// </summary>
-    public RunOwner Owner
+    public RunOwner Owner => _runOwner;
+
+    /// <summary>
+    /// 原子地认领本轮运行：仅当当前可安全打断（空闲且中断未锁定）时声明归属并进入运行态。
+    /// 检查与声明在同一把锁内完成，所有开始入口都必须经此认领；已有运行、中断锁定（结束脚本、
+    /// 关机倒计时等收尾）或已被其他入口抢先认领时返回 <see langword="false"/>，状态保持不变。
+    /// </summary>
+    /// <param name="owner">发起运行的入口归属。</param>
+    /// <param name="caller">调用方名称。</param>
+    /// <returns>认领成功返回 <see langword="true"/>。</returns>
+    public bool BeginRun(RunOwner owner, [CallerMemberName] string caller = "")
     {
-        get => _runOwner;
-        private set {
-            if (_runOwner == value)
+        lock (_runTransitionLock)
+        {
+            if (!CanInterrupt())
             {
-                return;
+                _logger.Information("BeginRun rejected: owner={Owner} (called from {Caller})", owner, caller);
+                return false;
             }
 
+            _logger.Information("BeginRun: owner={Owner} (called from {Caller})", owner, caller);
+
+            // 空闲起点直接写字段，归属与离开空闲合并为一次广播；避免先经 Owner 单独广播出
+            // ｢空闲但已有归属｣ 的中间快照
             var oldState = new StateSnapshot(_idle, _inited, _stopping, _runOwner);
-            _runOwner = value;
+            _runOwner = owner;
+            ApplyIdleState(false);
             RaiseStateChanged(oldState);
+            return true;
         }
     }
 
     /// <summary>
-    /// 声明本轮运行的入口归属并进入运行态；已在运行时调用则归属由新入口接管。
+    /// 应用空闲状态及其伴生状态（归属重置、计时器、休眠管理），调用方须持有 <see cref="_runTransitionLock"/>。
     /// </summary>
-    /// <param name="owner">发起运行的入口归属。</param>
-    /// <param name="caller">调用方名称。</param>
-    public void BeginRun(RunOwner owner, [CallerMemberName] string caller = "")
+    /// <param name="value">新的空闲状态。</param>
+    private void ApplyIdleState(bool value)
     {
-        _logger.Information("BeginRun: owner={Owner} (called from {Caller})", owner, caller);
-        if (_idle)
+        _idle = value;
+        if (value)
         {
-            // 空闲起点直接写字段，归属与离开空闲合并为一次广播；避免先经 Owner setter 单独
-            // 广播出 ｢空闲但已有归属｣ 的中间快照
-            _runOwner = owner;
+            // 回到空闲即本轮结束：归属与停止中在同一快照内清零。直接 SetIdle(true) 收尾
+            // 的链路（工具箱各工具连接失败、测试连接等）不经 SetStopped，若不清 Stopping
+            // 会留下 ｢空闲但停止中｣ 的死锁态——三页开始/停止按钮全部不可用
+            _runOwner = RunOwner.None;
+            _stopping = false;
+            StopTimeoutTimer();
+            ClearRunDeadline();
+            SleepManagement.AllowSleep();
         }
         else
         {
-            Owner = owner;
+            StartTimeoutTimer();
+            SleepManagement.BlockSleep();
         }
-
-        SetIdle(false);
     }
 
     public bool Idle
     {
         get => _idle;
         set {
-            if (_idle == value)
+            lock (_runTransitionLock)
             {
-                return;
-            }
+                if (_idle == value)
+                {
+                    return;
+                }
 
-            var oldState = new StateSnapshot(_idle, _inited, _stopping, _runOwner);
-            _idle = value;
-            if (value)
-            {
-                // 回到空闲即本轮结束：归属与停止中在同一快照内清零。直接 SetIdle(true) 收尾
-                // 的链路（工具箱各工具连接失败、测试连接等）不经 SetStopped，若不清 Stopping
-                // 会留下 ｢空闲但停止中｣ 的死锁态——三页开始/停止按钮全部不可用
-                _runOwner = RunOwner.None;
-                _stopping = false;
-                StopTimeoutTimer();
-                ClearRunDeadline();
-                SleepManagement.AllowSleep();
-            }
-            else
-            {
-                StartTimeoutTimer();
-                SleepManagement.BlockSleep();
-            }
+                var oldState = new StateSnapshot(_idle, _inited, _stopping, _runOwner);
 
-            RaiseStateChanged(oldState);
+                // 变更与广播在同一把锁内完成：否则 SetIdle(false) 可能在别的开始入口通过
+                // CanInterrupt 之后才生效，或在认领成功后把归属清掉，造成重叠运行或归属丢失
+                ApplyIdleState(value);
+                RaiseStateChanged(oldState);
+            }
         }
     }
 
@@ -355,11 +369,18 @@ public class RunningState
     /// 锁定中断（引用计数 +1）。
     /// 锁定期间（关机/休眠倒计时、结束后脚本、退出游戏、杀模拟器等），
     /// <see cref="CanInterrupt"/> 返回 false，<see cref="UntilIdleAsync"/> 会持续等待。
+    /// 计数变更与 <see cref="BeginRun"/> 的认领共用 <see cref="_runTransitionLock"/>，
+    /// 保证「检查可打断」与「声明运行归属」之间不会被中断锁定插入。
     /// </summary>
     /// <param name="caller">调用方名称。</param>
     public void LockInterrupt([CallerMemberName] string caller = "")
     {
-        var newValue = Interlocked.Increment(ref _interruptLockDepth);
+        int newValue;
+        lock (_runTransitionLock)
+        {
+            newValue = Interlocked.Increment(ref _interruptLockDepth);
+        }
+
         _logger.Information("InterruptLock: depth={Depth} (called from {Caller})", newValue, caller);
     }
 
@@ -369,13 +390,20 @@ public class RunningState
     /// <param name="caller">调用方名称。</param>
     public void UnlockInterrupt([CallerMemberName] string caller = "")
     {
-        var newValue = Interlocked.Decrement(ref _interruptLockDepth);
+        int newValue;
+        lock (_runTransitionLock)
+        {
+            newValue = Interlocked.Decrement(ref _interruptLockDepth);
+            if (newValue < 0)
+            {
+                // 仅当值仍为该负数时才归零，避免与并发 LockInterrupt 竞态抹掉合法的锁
+                Interlocked.CompareExchange(ref _interruptLockDepth, 0, newValue);
+            }
+        }
+
         if (newValue < 0)
         {
             _logger.Warning("InterruptLock unlock: depth underflow, clamping to 0 (called from {Caller})", caller);
-
-            // 仅当值仍为该负数时才归零，避免与并发 LockInterrupt 竞态抹掉合法的锁
-            Interlocked.CompareExchange(ref _interruptLockDepth, 0, newValue);
         }
         else
         {

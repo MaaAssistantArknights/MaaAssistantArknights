@@ -2588,8 +2588,13 @@ public class TaskQueueViewModel : Screen
         _mainTasksTotalCount = 0;
         ResetTaskItemStatuses();
 
-        // 所有提前 return 都要放在进入运行态之前，否则会导致无法再次点击开始
-        _runningState.BeginRun(RunOwner.TaskQueue);
+        // 所有提前 return 都要放在进入运行态之前，否则会导致无法再次点击开始；
+        // 认领失败说明并发入口已抢先开始运行，本次不再继续
+        if (!_runningState.BeginRun(RunOwner.TaskQueue))
+        {
+            _logger.Warning("LinkStart rejected: run claim rejected");
+            return;
+        }
 
         // 虽然更改时已经保存过了，不过保险起见在点击开始之后再次保存任务和基建列表
         // TaskItemSelectionChanged();
