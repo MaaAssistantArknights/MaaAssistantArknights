@@ -11,6 +11,12 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
+using System.Windows;
+using System.Windows.Controls;
+using MaaWpfGui.ViewModels.Dialogs;
+using MaaWpfGui.Views.UserControl.TutorialChallenge;
+using Growl = HandyControl.Controls.Growl;
+
 namespace MaaWpfGui.Views.Dialogs;
 
 /// <summary>
@@ -24,5 +30,38 @@ public partial class TutorialChallengeLevelView
     public TutorialChallengeLevelView()
     {
         InitializeComponent();
+        DataContextChanged += OnLevelChanged;
+        Closed += (_, _) => Growl.Unregister(TutorialGrowlPanel);
+    }
+
+    private void OnLevelChanged(object sender, DependencyPropertyChangedEventArgs e)
+    {
+        SandboxTabs.Items.Clear();
+        if (e.NewValue is not TutorialChallengeLevelViewModel level)
+        {
+            return;
+        }
+
+        if (level.ShowTaskQueuePanel)
+        {
+            AddTab("TaskQueue.Farming", new TutorialChallengeTaskQueueUserControl { DataContext = level });
+        }
+
+        if (level.ShowSettingsPanel)
+        {
+            AddTab("Settings.Title", new TutorialChallengeSettingsUserControl { DataContext = level });
+        }
+
+        if (SandboxTabs.HasItems)
+        {
+            SandboxTabs.SetCurrentValue(TabControl.SelectedIndexProperty, 0);
+        }
+    }
+
+    private void AddTab(string headerKey, FrameworkElement page)
+    {
+        var tab = new TabItem { Content = page };
+        tab.SetResourceReference(HeaderedContentControl.HeaderProperty, headerKey);
+        SandboxTabs.Items.Add(tab);
     }
 }

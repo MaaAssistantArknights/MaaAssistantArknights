@@ -212,19 +212,13 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
     public RecruitTask? SelectedRecruitTask => SelectedTask as RecruitTask;
 
     /// <summary>
-    /// Gets 或设置 当前选中的页签下标（指向 <see cref="SandboxPages"/>，任务队列页在前、设置页在后）。
+    /// Gets 或设置当前选中的页签下标，重置关卡时回到首页。
     /// </summary>
     public int SelectedTab
     {
         get;
         set => SetAndNotify(ref field, value);
     }
-
-    /// <summary>
-    /// Gets 关卡页签集合，由 <see cref="BuildSandbox"/> 按本关场景动态生成（任务队列页 + 设置页），
-    /// 单页关卡只含自己的页签，进关默认落在首个页签内容上。
-    /// </summary>
-    public ObservableCollection<TutorialChallengeSandboxPage> SandboxPages { get; } = [];
 
     /// <summary>
     /// Gets 窗口级定时设置沙盒状态（形状对齐真实设置页的定时执行区，数据仅存于本关卡窗口生命周期内）。
@@ -269,6 +263,11 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
     /// Gets 高级分区分隔条在内容 Grid 中的行号，即普通分区总数（普通分区恒占前段行，分隔条插在两类分区边界，对齐真实设置页）。
     /// </summary>
     public int AdvancedSettingsDividerRow => SandboxSettingSections.Count(section => !section.IsAdvanced);
+
+    /// <summary>
+    /// Gets a value indicating whether 本关提供高级设置分区。
+    /// </summary>
+    public bool HasAdvancedSettings => SandboxSettingSections.Any(section => section.IsAdvanced);
 
     /// <summary>
     /// Gets a value indicating whether 存在因搜索或高级开关而当前可见的高级分区（控制 ｢高级设置｣ 分隔线显隐）。
@@ -600,6 +599,8 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
         }
 
         NotifyOfPropertyChange(nameof(AdvancedSettingsDividerRow));
+        NotifyOfPropertyChange(nameof(HasAdvancedSettings));
+        NotifyOfPropertyChange(nameof(HasVisibleAdvancedSettings));
     }
 
     #endregion 设置分区导航与滚动视图联动
@@ -658,8 +659,7 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
     public bool ShowRecruitPanel => _level.HasPanel(TutorialChallengePanelKind.Recruit) && SelectedRecruitTask != null;
 
     /// <summary>
-    /// Gets a value indicating whether 任务队列页是否显示：本关声明了任一真任务面板（None/Fight/DepotMaintain/Recruit）时显示。
-    /// `Schedule` 已由 settingSectionKinds 接管定时分区，不算任务面板。
+    /// Gets a value indicating whether 本关包含任务队列页。
     /// </summary>
     public bool ShowTaskQueuePanel => PanelKinds.Any(kind => kind is TutorialChallengePanelKind.None
         or TutorialChallengePanelKind.Fight
@@ -677,13 +677,15 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
     public bool IsSettingsSearchLevel => _level.Id == "SettingsSearch";
 
     /// <summary>
-    /// Gets a value indicating whether 全部含 ｢maa｣ 字样的目标干扰项均已勾选（SettingsSearch 关卡的判定源）。
+    /// Gets a value indicating whether 本关的目标项全部勾选，且干扰项全部未勾选。
     /// </summary>
-    public bool SandboxDecoyTargetsAllChecked => SandboxSettingSections
-        .Where(section => section.Kind == TutorialChallengeSettingSectionKind.Decoy)
-        .SelectMany(section => section.Items)
-        .Where(item => item.IsTarget)
-        .All(item => item.IsChecked);
+    public bool SandboxDecoyTargetsAllChecked
+    {
+        get {
+            var items = SandboxSettingSections.SelectMany(section => section.Items);
+            return items.Any(item => item.IsTarget) && items.All(item => item.IsChecked == item.IsTarget);
+        }
+    }
 
     /// <summary>
     /// Gets a value indicating whether 本关开放拖拽投放区场景。
@@ -1149,10 +1151,9 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
 
             var section = new TutorialChallengeSettingSection(
                 TutorialChallengeSettingSectionKind.Decoy,
-                "Toolbox.TutorialChallenge.Level.SettingsSearch.DecoySection",
+                GenerateDecoyItemText(),
                 isAdvanced: false,
-                items: items,
-                displayText: GenerateDecoyItemText());
+                items: items);
             section.PropertyChanged += OnSettingSectionPropertyChanged;
             SandboxSettingSections.Add(section);
         }
@@ -1366,31 +1367,6 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
         {
             SandboxItems.Add(new TutorialChallengeSandboxItem(task));
         }
-
-        RebuildSandboxPages();
-        SelectedTab = 0;
-    }
-
-    /// <summary>
-    /// 按本关场景重建页签集合：任务队列场景（声明了任一真任务面板）生成任务队列页，设置场景生成设置页。
-    /// 重建后回到首个页签，单页关卡进关即选中唯一页签，不再被隐藏页签占走默认选中位。
-    /// </summary>
-    private void RebuildSandboxPages()
-    {
-        SandboxPages.Clear();
-        if (ShowTaskQueuePanel)
-        {
-            SandboxPages.Add(new TutorialChallengeSandboxPage(
-                TutorialChallengeSandboxPageKind.TaskQueue,
-                "TaskQueue.Farming"));
-        }
-
-        if (ShowSettingsPanel)
-        {
-            SandboxPages.Add(new TutorialChallengeSandboxPage(
-                TutorialChallengeSandboxPageKind.Settings,
-                "Settings.Title"));
-        }
     }
 
     private void OnSandboxItemsChanged(object? sender, NotifyCollectionChangedEventArgs e)
@@ -1585,58 +1561,10 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
         {
             section.RefreshDisplay();
         }
-
-        foreach (var page in SandboxPages)
-        {
-            page.RefreshLocalization();
-        }
     }
 }
 
 #pragma warning disable SA1402 // 关卡沙盒 UI 态小类集中放本文件
-/// <summary>
-/// 关卡页签类别，主视图按其选择页内容模板。
-/// </summary>
-public enum TutorialChallengeSandboxPageKind
-{
-    /// <summary>
-    /// 任务队列页（沙盒任务列表 + 随齿轮切换的任务设置面板）。
-    /// </summary>
-    TaskQueue,
-
-    /// <summary>
-    /// 设置页（沙盒设置骨架：搜索 + 分区导航 + 分区内容）。
-    /// </summary>
-    Settings,
-}
-
-/// <summary>
-/// 关卡页签描述项：页签头文本随语言热切换刷新，主视图按 <see cref="Kind"/> 投放对应 UserControl。
-/// </summary>
-/// <param name="kind">页签类别。</param>
-/// <param name="headerKey">页签头本地化 key。</param>
-public class TutorialChallengeSandboxPage(TutorialChallengeSandboxPageKind kind, string headerKey) : PropertyChangedBase
-{
-    /// <summary>
-    /// Gets 页签类别。
-    /// </summary>
-    public TutorialChallengeSandboxPageKind Kind { get; } = kind;
-
-    /// <summary>
-    /// Gets 页签头文本。
-    /// </summary>
-    public string Header
-    {
-        get;
-        private set => SetAndNotify(ref field, value);
-    } = LocalizationHelper.GetString(headerKey);
-
-    /// <summary>
-    /// 语言切换后按构造的本地化 key 刷新页签头。
-    /// </summary>
-    public void RefreshLocalization() => Header = LocalizationHelper.GetString(headerKey);
-}
-
 /// <summary>
 /// 沙盒任务条目。仅承载选中态等 UI 状态，配置字段直接读写所包装的任务实例，形状对齐真实队列的条目视图模型。
 /// </summary>
@@ -1792,31 +1720,19 @@ public enum TutorialChallengeSettingSectionKind
 /// </summary>
 public class TutorialChallengeSettingSection(
     TutorialChallengeSettingSectionKind kind,
-    string displayKey,
+    string title,
     bool isAdvanced,
-    IReadOnlyList<TutorialChallengeDecoyItem>? items = null,
-    string? displayText = null) : PropertyChangedBase, ISearchableSettingSection
+    IReadOnlyList<TutorialChallengeDecoyItem>? items = null) : PropertyChangedBase, ISearchableSettingSection
 {
-    /// <summary>
-    /// Gets 分区标识（种类名的字符串形式）。
-    /// </summary>
-    public string Key { get; } = kind.ToString();
-
     /// <summary>
     /// Gets 分区种类。
     /// </summary>
     public TutorialChallengeSettingSectionKind Kind { get; } = kind;
 
     /// <summary>
-    /// Gets 分区标题本地化 key（构造的 displayText 为空时作为取串来源）。
+    /// Gets 分区标题。干扰分区直接显示随机文本，其他分区按当前语言显示本地化标题。
     /// </summary>
-    public string DisplayKey { get; } = displayKey;
-
-    /// <summary>
-    /// Gets 分区标题：构造的 displayText 非空时原样显示（干扰分区用随机文本，
-    /// 不随语言切换），否则回退为 <see cref="DisplayKey"/> 的本地化串（随语言切换刷新）。
-    /// </summary>
-    public string Display => displayText ?? LocalizationHelper.GetString(DisplayKey);
+    public string Display => Kind == TutorialChallengeSettingSectionKind.Decoy ? title : LocalizationHelper.GetString(title);
 
     /// <summary>
     /// Gets 本分区持有的干扰 CheckBox 项（仅 <see cref="TutorialChallengeSettingSectionKind.Decoy"/> 分区非空）。

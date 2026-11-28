@@ -9,7 +9,6 @@
     xmlns:hc="https://handyorg.github.io/handycontrol"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:s="https://github.com/canton7/Stylet"
-    xmlns:tutorialChallenge="clr-namespace:MaaWpfGui.Views.UserControl.TutorialChallenge"
     Title="{Binding WindowTitle}"
     Width="800"
     Height="560"
@@ -66,54 +65,20 @@
             </StackPanel>
         </Grid>
 
-        <!--  双页签布局对齐真实主窗口（TabControlInLine）：页签集合由 VM 按关卡场景动态生成（单页关卡只建自己的页签，不占隐藏页签位），任务队列页为既有操作场，设置页为沙盒设置骨架；两页皆无时整控隐藏（如拖拽更新关只留投放区）  -->
         <TabControl
+            x:Name="SandboxTabs"
             Grid.Row="1"
             Background="{DynamicResource RegionBrushOpacity25}"
             BorderThickness="0,1,0,0"
-            ItemsSource="{Binding SandboxPages}"
             SelectedIndex="{Binding SelectedTab}"
             Style="{StaticResource TabControlInLine}"
-            Visibility="{c:Binding 'ShowTaskQueuePanel or ShowSettingsPanel'}">
+            Visibility="{c:Binding HasItems,
+                                   RelativeSource={RelativeSource Self}}">
             <TabControl.ItemContainerStyle>
                 <Style BasedOn="{StaticResource TabItemInLine}" TargetType="TabItem">
                     <Setter Property="Background" Value="{DynamicResource RegionBrushOpacity25}" />
                 </Style>
             </TabControl.ItemContainerStyle>
-            <TabControl.ItemTemplate>
-                <DataTemplate DataType="{x:Type dialogs_vms:TutorialChallengeSandboxPage}">
-                    <TextBlock Text="{Binding Header}" />
-                </DataTemplate>
-            </TabControl.ItemTemplate>
-            <TabControl.ContentTemplate>
-                <DataTemplate DataType="{x:Type dialogs_vms:TutorialChallengeSandboxPage}">
-                    <!--  页签条目只是页描述对象，内容显式绑回窗口 VM；按 Kind 用 DataTrigger 换内容模板（Setter.Value 直接赋 DataTemplate，不经 CalcBinding）  -->
-                    <ContentControl Content="{Binding DataContext, RelativeSource={RelativeSource AncestorType=hc:Window}}">
-                        <ContentControl.Style>
-                            <Style TargetType="ContentControl">
-                                <Setter Property="ContentTemplate">
-                                    <Setter.Value>
-                                        <DataTemplate>
-                                            <tutorialChallenge:TutorialChallengeTaskQueueUserControl />
-                                        </DataTemplate>
-                                    </Setter.Value>
-                                </Setter>
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding Kind}" Value="{x:Static dialogs_vms:TutorialChallengeSandboxPageKind.Settings}">
-                                        <Setter Property="ContentTemplate">
-                                            <Setter.Value>
-                                                <DataTemplate>
-                                                    <tutorialChallenge:TutorialChallengeSettingsUserControl />
-                                                </DataTemplate>
-                                            </Setter.Value>
-                                        </Setter>
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </ContentControl.Style>
-                    </ContentControl>
-                </DataTemplate>
-            </TabControl.ContentTemplate>
         </TabControl>
 
         <!--  更新包投放区：仅 ｢拖拽更新｣ 关卡显示，整窗任意位置均可拖入；独立于 TabControl（该关无任务/设置页），描边框仅作状态清单展示，下方三项识别状态  -->
@@ -159,12 +124,16 @@
             </StackPanel>
         </Border>
 
-        <ScrollViewer
+        <hc:ScrollViewer
             Grid.Row="1"
             HorizontalAlignment="Right"
             VerticalAlignment="Top"
+            IsInertiaEnabled="True"
             VerticalScrollBarVisibility="Hidden">
-            <StackPanel Margin="0,0,0,5" hc:Growl.Token="TutorialChallenge" />
-        </ScrollViewer>
+            <StackPanel
+                x:Name="TutorialGrowlPanel"
+                Margin="0,0,0,5"
+                hc:Growl.Token="TutorialChallenge" />
+        </hc:ScrollViewer>
     </Grid>
 </hc:Window>

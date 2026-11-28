@@ -21,139 +21,136 @@
             </CollectionViewSource.GroupDescriptions>
         </CollectionViewSource>
 
-        <DataTemplate x:Key="SandboxSettingSectionTemplate" DataType="{x:Type dialogs_vms:TutorialChallengeSettingSection}">
-            <Expander
-                Background="Transparent"
-                Header="{Binding Display}"
-                IsExpanded="True">
-                <Border
-                    BorderBrush="{DynamicResource BorderBrush}"
-                    BorderThickness="1,0,1,1"
-                    CornerRadius="0,0,4,4">
-                    <Grid>
-                        <!--  定时执行分区：复用真实 TimerSettingsUserControl，DataContext 挂回窗口 VM 的沙盒 Timer Model；外层沿分区 DataContext 判 Kind 显隐  -->
-                        <StackPanel Margin="0,20" HorizontalAlignment="Center">
-                            <StackPanel.Style>
-                                <Style TargetType="StackPanel">
-                                    <Setter Property="Visibility" Value="Collapsed" />
+        <DataTemplate x:Key="ScheduleSectionTemplate">
+            <settings:TimerSettingsUserControl
+                Margin="0,20"
+                HorizontalAlignment="Center"
+                DataContext="{Binding DataContext.SandboxTimerSettingsModel, RelativeSource={RelativeSource AncestorType=hc:Window}}" />
+        </DataTemplate>
+
+        <DataTemplate x:Key="IssueReportSectionTemplate">
+            <StackPanel
+                MaxWidth="450"
+                Margin="0,20"
+                HorizontalAlignment="Center"
+                DataContext="{Binding DataContext, RelativeSource={RelativeSource AncestorType=hc:Window}}">
+                <controls:TextBlock
+                    MaxWidth="450"
+                    Margin="5"
+                    HorizontalAlignment="Center"
+                    Block.TextAlignment="Center"
+                    Text="{DynamicResource Error.CheckHelpBeforeReportingIssue}"
+                    TextWrapping="Wrap" />
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <StackPanel
+                        Grid.Column="0"
+                        Margin="5"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center">
+                        <controls:TextBlock Margin="5" HorizontalAlignment="Center">
+                            <Hyperlink
+                                Cursor="Hand"
+                                NavigateUri="{Binding Source={x:Static constants:MaaUrls.HelpUri}}"
+                                TextDecorations="None">
+                                <TextBlock Style="{StaticResource HyperlinkTextBlockStyle}" Text="{DynamicResource Error.Help}" />
+                            </Hyperlink>
+                        </controls:TextBlock>
+                        <controls:TextBlock Margin="5" HorizontalAlignment="Center">
+                            <Hyperlink
+                                Command="{s:Action SetAcknowledgedNightlyWarning}"
+                                Cursor="Hand"
+                                NavigateUri="{Binding Source={x:Static constants:MaaUrls.GitHubIssues}}"
+                                TextDecorations="None">
+                                <TextBlock Style="{StaticResource HyperlinkTextBlockStyle}" Text="{DynamicResource Error.Issue}" />
+                            </Hyperlink>
+                        </controls:TextBlock>
+                    </StackPanel>
+                    <StackPanel
+                        Grid.Column="1"
+                        Margin="5"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center">
+                        <Button
+                            Margin="5,2"
+                            HorizontalAlignment="Left"
+                            Command="{s:Action ExportLogs}"
+                            IsEnabled="{Binding CanExportLogs}">
+                            <Grid>
+                                <TextBlock Text="{DynamicResource Error.GenerateSupportPayload}" Visibility="{c:Binding !IsExportingLogs}" />
+                                <TextBlock Text="{DynamicResource Toolbox.TutorialChallenge.Level.ExportLogs.Generating}" Visibility="{c:Binding IsExportingLogs}" />
+                            </Grid>
+                        </Button>
+                        <Button
+                            Margin="5,2"
+                            HorizontalAlignment="Left"
+                            Command="{s:Action OpenDebugFolder}"
+                            Content="{DynamicResource Error.OpenDebugFolder}" />
+                        <StackPanel Margin="5,2" Orientation="Horizontal">
+                            <Button
+                                HorizontalAlignment="Left"
+                                Command="{s:Action ClearImageCache}"
+                                Content="{DynamicResource Error.ClearImageCache}"
+                                IsEnabled="{Binding CanClearImageCache}" />
+                            <controls:TooltipBlock TooltipText="{DynamicResource Error.ClearImageCache.Tip}" />
+                        </StackPanel>
+                    </StackPanel>
+                </Grid>
+            </StackPanel>
+        </DataTemplate>
+
+        <DataTemplate x:Key="DecoySectionTemplate">
+            <ItemsControl
+                Margin="0,20"
+                HorizontalAlignment="Center"
+                ItemsSource="{Binding Items}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate DataType="{x:Type dialogs_vms:TutorialChallengeDecoyItem}">
+                        <CheckBox
+                            Margin="10,5"
+                            Content="{Binding Text}"
+                            IsChecked="{Binding IsChecked}" />
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </DataTemplate>
+
+        <DataTemplate x:Key="SandboxSectionTemplate">
+            <Grid
+                Grid.Row="{Binding GridRow}"
+                Margin="0,5,0,0"
+                Visibility="{c:Binding IsVisible}">
+                <Expander
+                    Background="Transparent"
+                    Header="{Binding Display}"
+                    IsExpanded="True">
+                    <Border
+                        BorderBrush="{DynamicResource BorderBrush}"
+                        BorderThickness="1,0,1,1"
+                        CornerRadius="0,0,4,4">
+                        <ContentPresenter Content="{Binding DataContext, RelativeSource={RelativeSource AncestorType=Expander}}">
+                            <ContentPresenter.Style>
+                                <Style TargetType="ContentPresenter">
                                     <Style.Triggers>
                                         <DataTrigger Binding="{Binding Kind}" Value="{x:Static dialogs_vms:TutorialChallengeSettingSectionKind.Schedule}">
-                                            <Setter Property="Visibility" Value="Visible" />
+                                            <Setter Property="ContentTemplate" Value="{StaticResource ScheduleSectionTemplate}" />
                                         </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </StackPanel.Style>
-                            <settings:TimerSettingsUserControl DataContext="{Binding DataContext.SandboxTimerSettingsModel, RelativeSource={RelativeSource AncestorType=hc:Window}}" />
-                        </StackPanel>
-
-                        <!--  问题反馈分区：结构照抄真实 IssueReportUserControl（去掉更新提示态与 reports 按钮）；外层沿分区 DataContext 判 Kind，内层 Grid 挂回窗口 VM 读沙盒态。生成按钮保留沙盒 ExportLogs 动作与 ｢生成中…｣ 文案切换，Enable 用沙盒 CanExportLogs  -->
-                        <StackPanel
-                            MaxWidth="450"
-                            Margin="0,20"
-                            HorizontalAlignment="Center">
-                            <StackPanel.Style>
-                                <Style TargetType="StackPanel">
-                                    <Setter Property="Visibility" Value="Collapsed" />
-                                    <Style.Triggers>
                                         <DataTrigger Binding="{Binding Kind}" Value="{x:Static dialogs_vms:TutorialChallengeSettingSectionKind.IssueReport}">
-                                            <Setter Property="Visibility" Value="Visible" />
+                                            <Setter Property="ContentTemplate" Value="{StaticResource IssueReportSectionTemplate}" />
                                         </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </StackPanel.Style>
-                            <controls:TextBlock
-                                MaxWidth="450"
-                                Margin="5"
-                                HorizontalAlignment="Center"
-                                Block.TextAlignment="Center"
-                                Text="{DynamicResource Error.CheckHelpBeforeReportingIssue}"
-                                TextWrapping="Wrap" />
-                            <Grid HorizontalAlignment="Stretch" DataContext="{Binding DataContext, RelativeSource={RelativeSource AncestorType=hc:Window}}">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition />
-                                    <ColumnDefinition />
-                                </Grid.ColumnDefinitions>
-                                <StackPanel
-                                    Grid.Column="0"
-                                    Margin="5"
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center">
-                                    <controls:TextBlock Margin="5" HorizontalAlignment="Center">
-                                        <Hyperlink
-                                            Cursor="Hand"
-                                            NavigateUri="{Binding Source={x:Static constants:MaaUrls.HelpUri}}"
-                                            TextDecorations="None">
-                                            <TextBlock Style="{StaticResource HyperlinkTextBlockStyle}" Text="{DynamicResource Error.Help}" />
-                                        </Hyperlink>
-                                    </controls:TextBlock>
-                                    <controls:TextBlock Margin="5" HorizontalAlignment="Center">
-                                        <Hyperlink
-                                            Command="{s:Action SetAcknowledgedNightlyWarning}"
-                                            Cursor="Hand"
-                                            NavigateUri="{Binding Source={x:Static constants:MaaUrls.GitHubIssues}}"
-                                            TextDecorations="None">
-                                            <TextBlock Style="{StaticResource HyperlinkTextBlockStyle}" Text="{DynamicResource Error.Issue}" />
-                                        </Hyperlink>
-                                    </controls:TextBlock>
-                                </StackPanel>
-                                <StackPanel
-                                    Grid.Column="1"
-                                    Margin="5"
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center">
-                                    <Button
-                                        Margin="5,2"
-                                        HorizontalAlignment="Left"
-                                        Command="{s:Action ExportLogs}"
-                                        IsEnabled="{Binding CanExportLogs}">
-                                        <Grid>
-                                            <TextBlock Text="{DynamicResource Error.GenerateSupportPayload}" Visibility="{c:Binding !IsExportingLogs}" />
-                                            <TextBlock Text="{DynamicResource Toolbox.TutorialChallenge.Level.ExportLogs.Generating}" Visibility="{c:Binding IsExportingLogs}" />
-                                        </Grid>
-                                    </Button>
-                                    <Button
-                                        Margin="5,2"
-                                        HorizontalAlignment="Left"
-                                        Command="{s:Action OpenDebugFolder}"
-                                        Content="{DynamicResource Error.OpenDebugFolder}" />
-                                    <StackPanel Margin="5,2" Orientation="Horizontal">
-                                        <Button
-                                            HorizontalAlignment="Left"
-                                            Command="{s:Action ClearImageCache}"
-                                            Content="{DynamicResource Error.ClearImageCache}"
-                                            IsEnabled="{Binding CanClearImageCache}" />
-                                        <controls:TooltipBlock TooltipText="{DynamicResource Error.ClearImageCache.Tip}" />
-                                    </StackPanel>
-                                </StackPanel>
-                            </Grid>
-                        </StackPanel>
-
-                        <!--  ｢设置搜索｣ 关卡干扰分区：随机 CheckBox 群，CheckBox 的 IsChecked 直接写回项实例  -->
-                        <StackPanel Margin="0,20" HorizontalAlignment="Center">
-                            <StackPanel.Style>
-                                <Style TargetType="StackPanel">
-                                    <Setter Property="Visibility" Value="Collapsed" />
-                                    <Style.Triggers>
                                         <DataTrigger Binding="{Binding Kind}" Value="{x:Static dialogs_vms:TutorialChallengeSettingSectionKind.Decoy}">
-                                            <Setter Property="Visibility" Value="Visible" />
+                                            <Setter Property="ContentTemplate" Value="{StaticResource DecoySectionTemplate}" />
                                         </DataTrigger>
                                     </Style.Triggers>
                                 </Style>
-                            </StackPanel.Style>
-                            <ItemsControl ItemsSource="{Binding Items}">
-                                <ItemsControl.ItemTemplate>
-                                    <DataTemplate DataType="{x:Type dialogs_vms:TutorialChallengeDecoyItem}">
-                                        <CheckBox
-                                            Margin="10,5"
-                                            Content="{Binding Text}"
-                                            IsChecked="{Binding IsChecked}" />
-                                    </DataTemplate>
-                                </ItemsControl.ItemTemplate>
-                            </ItemsControl>
-                        </StackPanel>
-                    </Grid>
-                </Border>
-            </Expander>
+                            </ContentPresenter.Style>
+                        </ContentPresenter>
+                    </Border>
+                </Expander>
+            </Grid>
         </DataTemplate>
     </UserControl.Resources>
     <Grid Margin="8,5">
@@ -162,7 +159,6 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <!--  左侧导航栏（搜索 + 分区列表 + 高级开关），骨架对齐真实设置页  -->
         <Grid Grid.Column="0" Margin="5">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
@@ -225,7 +221,8 @@
                 HorizontalAlignment="Stretch"
                 hc:BorderElement.CornerRadius="0,0,4,4"
                 BorderThickness="1,0,1,1"
-                Command="{s:Action ToggleAdvancedSettings}">
+                Command="{s:Action ToggleAdvancedSettings}"
+                Visibility="{c:Binding HasAdvancedSettings}">
                 <Grid>
                     <TextBlock
                         Text="{DynamicResource Settings.Advanced.Show}"
@@ -241,10 +238,6 @@
             </Button>
         </Grid>
 
-        <!--
-            右侧分区内容：结构对齐真实设置页——分区容器是内容 Grid 的直接子元素（由 code-behind 按 SandboxSettingSections 动态生成），
-            顶部预留高级分隔条行；未命中搜索或未展开高级分区整体折叠
-        -->
         <hc:ScrollViewer
             x:Name="SandboxSettingsScrollViewer"
             Grid.Column="1"
@@ -259,7 +252,6 @@
             properties:SearchHighlightBehavior.SectionFilter="{Binding SandboxSettingSections}"
             IsInertiaEnabled="True"
             PanningMode="Both">
-            <!--  RowDefinitions 由 code-behind 按分区数动态生成（RebuildSettingSectionGrids）  -->
             <Grid x:Name="SandboxSettingsContentGrid">
                 <hc:Divider
                     x:Name="SandboxAdvancedDivider"

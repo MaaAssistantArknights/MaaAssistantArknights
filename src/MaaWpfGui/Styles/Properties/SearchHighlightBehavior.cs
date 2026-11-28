@@ -20,6 +20,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
@@ -98,7 +99,7 @@ public static class SearchHighlightBehavior
     private sealed class SearchState
     {
         private readonly ScrollViewer _viewer;
-        private readonly HashSet<Expander> _expandedBySearch = [];
+        private readonly Dictionary<Expander, BindingBase?> _expandedBySearch = [];
         private readonly List<(TextBlock Text, RainbowBorderAdorner? Adorner)> _highlights = [];
         private DispatcherOperation? _pendingSearch;
 
@@ -148,7 +149,13 @@ public static class SearchHighlightBehavior
             {
                 foreach (var expander in section.Children.OfType<Expander>().Where(item => !item.IsExpanded))
                 {
-                    _expandedBySearch.Add(expander);
+                    // 真实设置页用双向绑定保存折叠偏好，搜索期间临时解除绑定。
+                    var binding = BindingOperations.GetBindingBase(expander, Expander.IsExpandedProperty);
+                    if (_expandedBySearch.TryAdd(expander, binding) && binding != null)
+                    {
+                        BindingOperations.ClearBinding(expander, Expander.IsExpandedProperty);
+                    }
+
                     expander.SetCurrentValue(Expander.IsExpandedProperty, true);
                 }
             }
@@ -196,9 +203,16 @@ public static class SearchHighlightBehavior
 
         private void RestoreExpansion()
         {
-            foreach (var expander in _expandedBySearch)
+            foreach (var (expander, binding) in _expandedBySearch)
             {
-                expander.SetCurrentValue(Expander.IsExpandedProperty, false);
+                if (binding == null)
+                {
+                    expander.SetCurrentValue(Expander.IsExpandedProperty, false);
+                }
+                else
+                {
+                    expander.SetBinding(Expander.IsExpandedProperty, binding);
+                }
             }
 
             _expandedBySearch.Clear();
