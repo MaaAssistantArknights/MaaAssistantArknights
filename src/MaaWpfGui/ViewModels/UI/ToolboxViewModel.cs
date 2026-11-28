@@ -403,6 +403,7 @@ public class ToolboxViewModel : Screen
 
         if (!_runningState.BeginRun(RunOwner.Toolbox))
         {
+            RecruitInfo = LocalizationHelper.GetString("Common.StartBlocked");
             return;
         }
 
@@ -1245,6 +1246,7 @@ public class ToolboxViewModel : Screen
 
         if (!_runningState.BeginRun(RunOwner.Toolbox))
         {
+            DepotInfo = LocalizationHelper.GetString("Common.StartBlocked");
             return;
         }
 
@@ -2105,6 +2107,7 @@ public class ToolboxViewModel : Screen
 
         if (!_runningState.BeginRun(RunOwner.Toolbox))
         {
+            OperBoxInfo = LocalizationHelper.GetString("Common.StartBlocked");
             return;
         }
 
@@ -2448,6 +2451,7 @@ public class ToolboxViewModel : Screen
 
         if (!_runningState.BeginRun(RunOwner.Toolbox))
         {
+            GachaInfo = LocalizationHelper.GetString("Common.StartBlocked");
             return;
         }
 
@@ -2751,19 +2755,25 @@ public class ToolboxViewModel : Screen
             AchievementTrackerHelper.Instance.Unlock(AchievementIds.PeekScreen);
 
             // 如果没任务在运行，需要先连接，并标记是由 Peep() 方法启动的 Peep
-            if (_runningState.BeginRun(RunOwner.Toolbox))
+            if (!_runningState.BeginRun(RunOwner.Toolbox))
             {
-                string errMsg = string.Empty;
-                bool caught = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
-                if (!caught)
-                {
-                    GachaInfo = errMsg;
-                    _runningState.SetIdle(true);
-                    return;
-                }
-
-                IsPeepInProgress = true;
+                // 认领失败（运行中或收尾/关机倒计时等中断锁定中）：不能在没有连接的情况下
+                // 继续启动计时器，复位 Peep 状态并提示用户
+                Peeping = false;
+                GachaInfo = LocalizationHelper.GetString("Common.StartBlocked");
+                return;
             }
+
+            string errMsg = string.Empty;
+            bool caught = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
+            if (!caught)
+            {
+                GachaInfo = errMsg;
+                _runningState.SetIdle(true);
+                return;
+            }
+
+            IsPeepInProgress = true;
 
             PeepScreenFpf = 0;
             _peepImageCount = 0;

@@ -290,23 +290,61 @@ public class RunningState
             }
 
             _logger.Information("BeginRun: owner={Owner} (called from {Caller})", owner, caller);
-
-            // 空闲起点直接写字段，归属与离开空闲合并为一次广播；避免先经 Owner 单独广播出
-            // ｢空闲但已有归属｣ 的中间快照
-            var oldState = new StateSnapshot(_idle, _inited, _stopping, _runOwner);
-            _runOwner = owner;
-            ApplyIdleState(false);
-            RaiseStateChanged(oldState);
-            return true;
+            ApplyRunState(owner);
         }
+
+        // 休眠管理内部会同步派发到 UI 线程，必须在锁外调用：否则后台线程持锁等 UI、
+        // UI 线程同时等锁会互相等待冻结界面
+        SleepManagement.BlockSleep();
+        return true;
     }
 
     /// <summary>
-    /// 应用空闲状态及其伴生状态（归属重置、计时器、休眠管理），调用方须持有 <see cref="_runTransitionLock"/>。
+    /// 以指定归属结束本轮运行并回到空闲；仅当归属仍是 <paramref name="owner"/> 时生效，
+    /// 避免清掉其他入口新认领的运行。
+    /// </summary>
+    /// <param name="owner">结束方声明时的运行归属。</param>
+    /// <returns>是否实际结束并回到空闲。</returns>
+    public bool EndRun(RunOwner owner)
+    {
+        lock (_runTransitionLock)
+        {
+            if (_idle || _runOwner != owner)
+            {
+                _logger.Information("EndRun ignored: idle={Idle}, current owner={CurrentOwner}, expected owner={Owner}", _idle, _runOwner, owner);
+                return false;
+            }
+
+            ApplyIdleState(true);
+        }
+
+        SleepManagement.AllowSleep();
+        return true;
+    }
+
+    /// <summary>
+    /// 在锁内把本轮运行置为运行态并广播；休眠管理不在此处调用。
+    /// </summary>
+    /// <param name="owner">发起运行的入口归属。</param>
+    private void ApplyRunState(RunOwner owner)
+    {
+        // 空闲起点直接写字段，归属与离开空闲合并为一次广播；避免先经 Owner 单独广播出
+        // ｢空闲但已有归属｣ 的中间快照
+        var oldState = new StateSnapshot(_idle, _inited, _stopping, _runOwner);
+        _runOwner = owner;
+        _idle = false;
+        StartTimeoutTimer();
+        RaiseStateChanged(oldState);
+    }
+
+    /// <summary>
+    /// 应用空闲状态及其伴生状态（归属重置、计时器），调用方须持有 <see cref="_runTransitionLock"/>。
+    /// 休眠管理会同步派发到 UI 线程，不在锁内调用。
     /// </summary>
     /// <param name="value">新的空闲状态。</param>
     private void ApplyIdleState(bool value)
     {
+        var oldState = new StateSnapshot(_idle, _inited, _stopping, _runOwner);
         _idle = value;
         if (value)
         {
@@ -317,32 +355,44 @@ public class RunningState
             _stopping = false;
             StopTimeoutTimer();
             ClearRunDeadline();
-            SleepManagement.AllowSleep();
         }
         else
         {
             StartTimeoutTimer();
-            SleepManagement.BlockSleep();
         }
+
+        RaiseStateChanged(oldState);
     }
 
     public bool Idle
     {
         get => _idle;
         set {
+            bool changed;
             lock (_runTransitionLock)
             {
-                if (_idle == value)
+                changed = _idle != value;
+                if (changed)
                 {
-                    return;
+                    // 变更与广播在同一把锁内完成：否则 SetIdle(false) 可能在别的开始入口通过
+                    // CanInterrupt 之后才生效，或在认领成功后把归属清掉，造成重叠运行或归属丢失
+                    ApplyIdleState(value);
                 }
+            }
 
-                var oldState = new StateSnapshot(_idle, _inited, _stopping, _runOwner);
+            if (!changed)
+            {
+                return;
+            }
 
-                // 变更与广播在同一把锁内完成：否则 SetIdle(false) 可能在别的开始入口通过
-                // CanInterrupt 之后才生效，或在认领成功后把归属清掉，造成重叠运行或归属丢失
-                ApplyIdleState(value);
-                RaiseStateChanged(oldState);
+            // 休眠管理内部会同步派发到 UI 线程，必须在锁外调用
+            if (value)
+            {
+                SleepManagement.AllowSleep();
+            }
+            else
+            {
+                SleepManagement.BlockSleep();
             }
         }
     }
@@ -370,7 +420,7 @@ public class RunningState
     /// 锁定期间（关机/休眠倒计时、结束后脚本、退出游戏、杀模拟器等），
     /// <see cref="CanInterrupt"/> 返回 false，<see cref="UntilIdleAsync"/> 会持续等待。
     /// 计数变更与 <see cref="BeginRun"/> 的认领共用 <see cref="_runTransitionLock"/>，
-    /// 保证「检查可打断」与「声明运行归属」之间不会被中断锁定插入。
+    /// 保证 ｢检查可打断｣ 与 ｢声明运行归属｣ 之间不会被中断锁定插入。
     /// </summary>
     /// <param name="caller">调用方名称。</param>
     public void LockInterrupt([CallerMemberName] string caller = "")
@@ -382,6 +432,31 @@ public class RunningState
         }
 
         _logger.Information("InterruptLock: depth={Depth} (called from {Caller})", newValue, caller);
+    }
+
+    /// <summary>
+    /// 若当前恰好可打断（空闲且中断未锁定），在同一把锁内原子地取得中断锁并返回 <see langword="true"/>。
+    /// 供 ｢等待空闲后还要执行收尾脚本｣ 的路径使用：避免 <see cref="UntilIdleAsync"/> 返回后、
+    /// 真正 <see cref="LockInterrupt"/> 之前被新的开始入口插入。
+    /// </summary>
+    /// <param name="caller">调用方名称。</param>
+    /// <returns>是否成功取得中断锁。</returns>
+    public bool TryLockInterruptOnIdle([CallerMemberName] string caller = "")
+    {
+        int newValue;
+        lock (_runTransitionLock)
+        {
+            if (!CanInterrupt())
+            {
+                _logger.Information("TryLockInterruptOnIdle rejected (called from {Caller})", caller);
+                return false;
+            }
+
+            newValue = Interlocked.Increment(ref _interruptLockDepth);
+        }
+
+        _logger.Information("InterruptLock: depth={Depth} (called from {Caller}, reserved on idle)", newValue, caller);
+        return true;
     }
 
     /// <summary>

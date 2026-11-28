@@ -754,6 +754,7 @@
     <system:String x:Key="Common.Ok">好的</system:String>
     <system:String x:Key="Common.Select">選擇</system:String>
     <system:String x:Key="Common.Skipped">跳過</system:String>
+    <system:String x:Key="Common.StartBlocked">目前有其他任務正在執行或收尾中，請稍後再試</system:String>
     <system:String x:Key="Common.Stop">停止</system:String>
     <system:String x:Key="Common.Stop.CurrentTaskFormat">停止目前執行的 {0}</system:String>
     <system:String x:Key="Common.Success">成功</system:String>

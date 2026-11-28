@@ -754,6 +754,7 @@ Click "{key=Common.Confirm}" to attempt installing/updating VC++ runtime and exi
     <system:String x:Key="Common.Ok">OK</system:String>
     <system:String x:Key="Common.Select">Select</system:String>
     <system:String x:Key="Common.Skipped">Skipped</system:String>
+    <system:String x:Key="Common.StartBlocked">Another task is running or finishing up. Try again later.</system:String>
     <system:String x:Key="Common.Stop">Stop</system:String>
     <system:String x:Key="Common.Stop.CurrentTaskFormat">Stop the running {0}</system:String>
     <system:String x:Key="Common.Success">Success</system:String>

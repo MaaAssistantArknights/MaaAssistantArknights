@@ -2546,6 +2546,14 @@ public class TaskQueueViewModel : Screen
             return;
         }
 
+        // 先原子认领运行归属，再改动共享日志与任务状态：并发入口认领失败时
+        // 不能把正在运行的轮次的日志/进度/任务映射清掉
+        if (!_runningState.BeginRun(RunOwner.TaskQueue))
+        {
+            _logger.Warning("LinkStart rejected: run claim rejected");
+            return;
+        }
+
         _taskStartTime = DateTime.Now;
         ClearLog();
 
@@ -2572,6 +2580,9 @@ public class TaskQueueViewModel : Screen
         if (!Instances.VersionUpdateDialogViewModel.IsDebugVersion() && uiVersion != coreVersion)
         {
             AddLog(LocalizationHelper.GetStringFormat("VersionUpdate.VersionMismatch", uiVersion, coreVersion), UiLogColor.Error);
+
+            // 已认领运行归属，提前返回前必须复位，否则开始按钮会一直不可用
+            _runningState.SetIdle(true);
             return;
         }
 
@@ -2587,14 +2598,6 @@ public class TaskQueueViewModel : Screen
 
         _mainTasksTotalCount = 0;
         ResetTaskItemStatuses();
-
-        // 所有提前 return 都要放在进入运行态之前，否则会导致无法再次点击开始；
-        // 认领失败说明并发入口已抢先开始运行，本次不再继续
-        if (!_runningState.BeginRun(RunOwner.TaskQueue))
-        {
-            _logger.Warning("LinkStart rejected: run claim rejected");
-            return;
-        }
 
         // 虽然更改时已经保存过了，不过保险起见在点击开始之后再次保存任务和基建列表
         // TaskItemSelectionChanged();
@@ -2923,8 +2926,15 @@ public class TaskQueueViewModel : Screen
 
         if (runScript)
         {
-            // 脚本运行期间持有 InterruptLock，防止等待空闲的自动更新安装/定时启动放行打断收尾
-            RunningState.Instance.LockInterrupt();
+            // 脚本运行期间持有 InterruptLock，防止等待空闲的自动更新安装/定时启动放行打断收尾。
+            // 等空闲与取得 InterruptLock 之间可能被新开始入口插入，用原子保留避免新一轮启动
+            // 与结束脚本并发；已被新一轮抢先开始则放弃本次发射
+            if (!RunningState.Instance.TryLockInterruptOnIdle())
+            {
+                _logger.Warning("Manual stop: new run started during idle wait, skip stop script");
+                return false;
+            }
+
             try
             {
                 await RunStopScriptOnceAsync();
@@ -2951,7 +2961,6 @@ public class TaskQueueViewModel : Screen
             return false;
         }
 
-        SleepManagement.AllowSleep();
         if (!_runningState.GetIdle() || _runningState.GetStopping())
         {
             AddLog(LocalizationHelper.GetString("TaskQueue.Stopped"), splitMode: LogCardSplitMode.Both);
@@ -2960,6 +2969,10 @@ public class TaskQueueViewModel : Screen
         Waiting = false;
         _runningState.SetStopping(false);
         _runningState.SetIdle(true);
+
+        // SetIdle(true) 内部会按最新空闲状态更新休眠；这里再调用一次保持原有的直接放行语义，
+        // 若此刻已有新运行认领则 AllowSleep 会自行跳过
+        SleepManagement.AllowSleep();
 
         return true;
     }

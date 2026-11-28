@@ -754,6 +754,7 @@ MAA を新しい独立したフォルダーに解凍するか、MAA に属さな
     <system:String x:Key="Common.Ok">はい</system:String>
     <system:String x:Key="Common.Select">選択</system:String>
     <system:String x:Key="Common.Skipped">スキップ</system:String>
+    <system:String x:Key="Common.StartBlocked">他のタスクが実行中か終了処理中です。しばらくしてからもう一度お試しください</system:String>
     <system:String x:Key="Common.Stop">停止</system:String>
     <system:String x:Key="Common.Stop.CurrentTaskFormat">実行中の{0}を停止</system:String>
     <system:String x:Key="Common.Success">成功</system:String>

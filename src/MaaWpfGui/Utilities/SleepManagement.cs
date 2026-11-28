@@ -77,6 +77,12 @@ public static class SleepManagement
 
     public static void AllowSleep() => Execute.OnUIThreadSync(() =>
     {
+        // 空闲切换后调用方可能已把状态让给新的运行：此时不能解除新的运行刚申请的保持唤醒
+        if (!RunningState.Instance.GetIdle())
+        {
+            return;
+        }
+
         if (!_isBlockingSleep)
         {
             return;
