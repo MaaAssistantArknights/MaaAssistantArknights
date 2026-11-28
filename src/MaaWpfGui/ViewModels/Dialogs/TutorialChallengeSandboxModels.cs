@@ -218,16 +218,17 @@ public sealed class SandboxDepotMaintainTaskModel(TutorialChallengeLevelViewMode
     }
 
     /// <summary>
-    /// 按库存保持静态预设的物品范围生成一组伪造库存，数量随机 0–29。
+    /// 按库存保持静态预设的物品范围生成一组伪造库存，数量随机 0–29 且低于该物品的预设目标；
+    /// 判定要求每种物品都有补库存计划，进关即达标的物品会让 ｢补到目标｣ 的文案与判定冲突。
     /// </summary>
     /// <returns>伪造库存条目集合。</returns>
     internal static ObservableList<ToolboxViewModel.DepotResultDate> GenerateFakeDepot() => [.. PresetData.Values
-        .SelectMany(stages => stages.SelectMany(stage => stage.Drops))
-        .Distinct()
-        .Select(id => new ToolboxViewModel.DepotResultDate {
-            Id = id,
-            Name = ItemListHelper.GetItemName(id),
-            Count = Random.Shared.Next(0, 30),
+        .SelectMany(stages => stages.SelectMany(stage => stage.Drops.Select(id => (Id: id, Target: stage.DefaultCount))))
+        .DistinctBy(item => item.Id)
+        .Select(item => new ToolboxViewModel.DepotResultDate {
+            Id = item.Id,
+            Name = ItemListHelper.GetItemName(item.Id),
+            Count = Random.Shared.Next(0, Math.Min(30, item.Target)),
         })];
 }
 

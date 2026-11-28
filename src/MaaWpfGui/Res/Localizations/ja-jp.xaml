@@ -2563,7 +2563,8 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="Toolbox.TutorialChallenge.Filter.Uncompleted">未クリア</system:String>
     <system:String x:Key="Toolbox.TutorialChallenge.Level.AddFight.Goal">理性を消費するタスクがほしい。</system:String>
     <system:String x:Key="Toolbox.TutorialChallenge.Level.AddFight.Title">{key=TaskQueue.Task.Fight}</system:String>
-    <system:String x:Key="Toolbox.TutorialChallenge.Level.ChipStock.Goal">初級 SoC を各 20 個、中級 SoC を各 32 個まで補充してください。挑戦してみましょう：最少でいくつのタスクで達成できるでしょうか？</system:String>
+    <system:String x:Key="Toolbox.TutorialChallenge.Level.ChipStock.Goal">初級 SoC を各 {0} 個、中級 SoC を各 {1} 個まで補充してください。挑戦してみましょう：最少でいくつのタスクで達成できるでしょうか？</system:String>
+    <system:String x:Key="Toolbox.TutorialChallenge.Level.ChipStock.Tip">もっと楽な解き方もあります。｢{key=TaskQueue.Task.DepotMaintain}｣ タスクを 1 つ使い、｢{key=TaskQueue.DepotMaintain.PresetChip1}｣ と ｢{key=TaskQueue.DepotMaintain.PresetChip2}｣ のプリセットをインポートするだけで、すべての目標を満たせます。</system:String>
     <system:String x:Key="Toolbox.TutorialChallenge.Level.ChipStock.Title">チップフルセット</system:String>
     <system:String x:Key="Toolbox.TutorialChallenge.Level.DailyReconnect.Goal">夜通しローグライクを周回する（例：23:00 から翌 8:00 まで）と、午前 4:00 を跨ぐ際に瞬断で落ちます。キューがその時刻にゲームを自動で再起動し、ローグライクを続きから完了させるようにします。</system:String>
     <system:String x:Key="Toolbox.TutorialChallenge.Level.DailyReconnect.Tip">ゲームの告知に 4:00-4:10 の瞬断メンテとありました。念のため 4:10 を推奨します。</system:String>
@@ -2606,7 +2607,6 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="Toolbox.TutorialChallenge.SelectTaskHint">タスクの歯車ボタンをオンにすると設定を確認できます</system:String>
     <system:String x:Key="Toolbox.TutorialChallenge.Shop.Placeholder">何を置くかはまだ未定</system:String>
     <system:String x:Key="Toolbox.TutorialChallenge.Shop.Title">{key=Toolbox.TutorialChallenge.Coin}ショップ</system:String>
-    <system:String x:Key="Toolbox.TutorialChallenge.SmartSolutionHint">もっと楽な解き方もあります。｢{key=TaskQueue.Task.DepotMaintain}｣ タスクを 1 つ使い、｢{key=TaskQueue.DepotMaintain.PresetChip1}｣ と ｢{key=TaskQueue.DepotMaintain.PresetChip2}｣ のプリセットをインポートするだけで、すべての目標を満たせます。</system:String>
     <system:String x:Key="Toolbox.TutorialChallenge.Title">チュートリアルチャレンジ</system:String>
     <system:String x:Key="Tray.Exit">終了</system:String>
     <system:String x:Key="Tray.ForceShow">MAAの強制表示</system:String>

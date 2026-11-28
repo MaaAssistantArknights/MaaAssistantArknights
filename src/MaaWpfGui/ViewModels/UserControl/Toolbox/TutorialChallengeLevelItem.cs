@@ -41,7 +41,7 @@ public class TutorialChallengeLevelItem(TutorialChallengeLevel level) : Property
     /// <summary>
     /// Gets 关卡目标描述。
     /// </summary>
-    public string Goal => LocalizationHelper.GetString(level.GoalKey);
+    public string Goal => level.Goal;
 
     /// <summary>
     /// Gets 难度档位。

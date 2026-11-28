@@ -85,8 +85,9 @@ public static class TutorialChallengeLevels
             id: "ChipStock",
             sandboxFactory: () => [new StartUpTask()],
             goalPredicate: (tasks, _) => IsChipStockByAnyPresets(tasks) || IsChipStockByFightTasks(tasks),
-            panelKinds: [TutorialChallengePanelKind.DepotMaintain],
-            smartPredicate: (tasks, _) => IsChipStockByPresets(tasks),
+            panelKinds: [TutorialChallengePanelKind.DepotMaintain, TutorialChallengePanelKind.Fight],
+            smartSolution: ((tasks, _) => IsChipStockByPresets(tasks), "Toolbox.TutorialChallenge.Level.ChipStock.Tip"),
+            goalArgs: () => [PresetDefaultCount("Chip1"), PresetDefaultCount("Chip2")],
             difficulty: TutorialChallengeDifficulty.Medium),
 
         new(
@@ -105,9 +106,9 @@ public static class TutorialChallengeLevels
                 && vm.SandboxSchedule.TimerList.Count(timer => timer.IsEnabled == true) == 1
                 && vm.SandboxSchedule.TimerList.Any(timer => timer.IsEnabled == true && timer.Hour >= 4)
                 && vm.SandboxSchedule.ForceScheduledStart,
-            smartPredicate: (_, vm) => vm.SandboxSchedule.TimerList.Any(timer =>
-                timer.IsEnabled == true && timer.Hour == 4 && timer.Minute == 10),
-            smartHintKey: "Toolbox.TutorialChallenge.Level.DailyReconnect.Tip",
+            smartSolution: (
+                (_, vm) => vm.SandboxSchedule.TimerList.Any(timer => timer.IsEnabled == true && timer.Hour == 4 && timer.Minute == 10),
+                "Toolbox.TutorialChallenge.Level.DailyReconnect.Tip"),
             panelKinds: [TutorialChallengePanelKind.None, TutorialChallengePanelKind.Settings],
             settingSectionKinds: [TutorialChallengeSettingSectionKind.Schedule],
             difficulty: TutorialChallengeDifficulty.Medium),
@@ -199,6 +200,13 @@ public static class TutorialChallengeLevels
             && fight.DropId == expectedPlan.DropId
             && fight.DropCount == expectedPlan.DropCount));
     }
+
+    /// <summary>
+    /// 取库存保持预设的默认目标数量（同一预设内各关卡目标一致）。
+    /// </summary>
+    /// <param name="preset">预设 key。</param>
+    /// <returns>该预设的默认目标数量。</returns>
+    private static int PresetDefaultCount(string preset) => DepotMaintainTaskUserControlModel.PresetData[preset][0].DefaultCount;
 
     /// <summary>
     /// 将 Chip1 与 Chip2 预设展开为 (关卡, 物品, 目标数量) 计划清单，期望值与 DepotMaintain 预设数据同源。

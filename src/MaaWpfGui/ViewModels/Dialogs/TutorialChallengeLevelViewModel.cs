@@ -150,7 +150,7 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
     public SandboxRecruitTaskModel SandboxRecruitTaskModel { get; }
 
     /// <summary>
-    /// Gets 沙盒共享的伪造库存：物品范围取库存保持静态预设展开的全部掉落物，数值随机 0–29，
+    /// Gets 沙盒共享的伪造库存：物品范围取库存保持静态预设展开的全部掉落物，数值随机且低于预设目标，
     /// 进关构造与关卡重置时重新生成；DepotMaintain 沙盒面板的库存显示与 Fight 沙盒面板的目标库存显示同源于此，同物品数字一致。
     /// </summary>
     public ObservableList<ToolboxViewModel.DepotResultDate> FakeDepotResult { get; } = SandboxDepotMaintainTaskModel.GenerateFakeDepot();
@@ -628,7 +628,7 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
     /// <summary>
     /// Gets 关卡目标描述。
     /// </summary>
-    public string Goal => LocalizationHelper.GetString(_level.GoalKey);
+    public string Goal => _level.Goal;
 
     /// <summary>
     /// Gets 操作场窗口标题（模块名 - 关卡名）。
@@ -1500,9 +1500,9 @@ public class TutorialChallengeLevelViewModel : PropertyChangedBase
     {
         IsCompleted = true;
 
-        if (_level.SmartPredicate is { } smart && !smart(tasks, this))
+        if (_level.SmartSolution is { } smart && !smart.Predicate(tasks, this))
         {
-            var msg = LocalizationHelper.GetString(_level.SmartHintKey);
+            var msg = LocalizationHelper.GetString(smart.HintKey);
             GrowlHelper.Show(InfoType.Info, msg, () => Growl.Info(msg, "TutorialChallenge"));
         }
 

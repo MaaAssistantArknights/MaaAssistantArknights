@@ -2562,7 +2562,8 @@ Only level rewards can be farmed; to get the Engraved Medal, all ｢Key Objectiv
     <system:String x:Key="Toolbox.TutorialChallenge.Filter.Uncompleted">Uncleared</system:String>
     <system:String x:Key="Toolbox.TutorialChallenge.Level.AddFight.Goal">Need a task to burn my Sanity.</system:String>
     <system:String x:Key="Toolbox.TutorialChallenge.Level.AddFight.Title">{key=TaskQueue.Task.Fight}</system:String>
-    <system:String x:Key="Toolbox.TutorialChallenge.Level.ChipStock.Goal">Top up every chip to 20 and every chip pack to 32. Give it a try: what is the minimum number of tasks you need?</system:String>
+    <system:String x:Key="Toolbox.TutorialChallenge.Level.ChipStock.Goal">Top up every chip to {0} and every chip pack to {1}. Give it a try: what is the minimum number of tasks you need?</system:String>
+    <system:String x:Key="Toolbox.TutorialChallenge.Level.ChipStock.Tip">There is an easier way: use a single {key=TaskQueue.Task.DepotMaintain} task and import the {key=TaskQueue.DepotMaintain.PresetChip1} and {key=TaskQueue.DepotMaintain.PresetChip2} presets to cover all targets.</system:String>
     <system:String x:Key="Toolbox.TutorialChallenge.Level.ChipStock.Title">Full Chip Stock</system:String>
     <system:String x:Key="Toolbox.TutorialChallenge.Level.DailyReconnect.Goal">Leave Auto I.S. running overnight (e.g. from 23:00 to 08:00 the next day); the game briefly disconnects when crossing 04:00. Make the queue automatically restart the game at that time and finish the run.</system:String>
     <system:String x:Key="Toolbox.TutorialChallenge.Level.DailyReconnect.Tip">The game announced a 04:00-04:10 flash update window; filling in 04:10 is safer.</system:String>
@@ -2605,7 +2606,6 @@ Only level rewards can be farmed; to get the Engraved Medal, all ｢Key Objectiv
     <system:String x:Key="Toolbox.TutorialChallenge.SelectTaskHint">Toggle a task's gear button to view its settings</system:String>
     <system:String x:Key="Toolbox.TutorialChallenge.Shop.Placeholder">Nothing here yet — still deciding what to stock</system:String>
     <system:String x:Key="Toolbox.TutorialChallenge.Shop.Title">{key=Toolbox.TutorialChallenge.Coin} Shop</system:String>
-    <system:String x:Key="Toolbox.TutorialChallenge.SmartSolutionHint">There is an easier way: use a single {key=TaskQueue.Task.DepotMaintain} task and import the {key=TaskQueue.DepotMaintain.PresetChip1} and {key=TaskQueue.DepotMaintain.PresetChip2} presets to cover all targets.</system:String>
     <system:String x:Key="Toolbox.TutorialChallenge.Title">Tutorial Challenges</system:String>
     <system:String x:Key="Tray.Exit">Exit</system:String>
     <system:String x:Key="Tray.ForceShow">Force display of MAA</system:String>

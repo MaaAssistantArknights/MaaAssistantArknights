@@ -2562,7 +2562,8 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="Toolbox.TutorialChallenge.Filter.Uncompleted">未通关</system:String>
     <system:String x:Key="Toolbox.TutorialChallenge.Level.AddFight.Goal">需要个任务帮我消耗理智。</system:String>
     <system:String x:Key="Toolbox.TutorialChallenge.Level.AddFight.Title">{key=TaskQueue.Task.Fight}</system:String>
-    <system:String x:Key="Toolbox.TutorialChallenge.Level.ChipStock.Goal">芯片每种补到 20 个、芯片组每种补到 32 个。试试看，最少用几个任务能办到？</system:String>
+    <system:String x:Key="Toolbox.TutorialChallenge.Level.ChipStock.Goal">芯片每种补到 {0} 个、芯片组每种补到 {1} 个。试试看，最少用几个任务能办到？</system:String>
+    <system:String x:Key="Toolbox.TutorialChallenge.Level.ChipStock.Tip">还有一种更省事的解法，用一个 ｢{key=TaskQueue.Task.DepotMaintain}｣ 任务，导入 ｢{key=TaskQueue.DepotMaintain.PresetChip1}｣ 与 ｢{key=TaskQueue.DepotMaintain.PresetChip2}｣ 两个预设即可覆盖全部目标。</system:String>
     <system:String x:Key="Toolbox.TutorialChallenge.Level.ChipStock.Title">芯片全套</system:String>
     <system:String x:Key="Toolbox.TutorialChallenge.Level.DailyReconnect.Goal">整夜挂机刷肉鸽（比如 23:00 挂到次日 8:00），跨过凌晨 4:00 会闪断掉线。让队列到点自动重启游戏，把肉鸽接着打完。</system:String>
     <system:String x:Key="Toolbox.TutorialChallenge.Level.DailyReconnect.Tip">游戏公告写了 4:00-4:10 闪断更新，保险起见推荐填 4:10。</system:String>
@@ -2605,7 +2606,6 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="Toolbox.TutorialChallenge.SelectTaskHint">点亮任务的齿轮即可查看设置</system:String>
     <system:String x:Key="Toolbox.TutorialChallenge.Shop.Placeholder">还没想好能放点什么</system:String>
     <system:String x:Key="Toolbox.TutorialChallenge.Shop.Title">{key=Toolbox.TutorialChallenge.Coin}商城</system:String>
-    <system:String x:Key="Toolbox.TutorialChallenge.SmartSolutionHint">还有一种更省事的解法，用一个 ｢{key=TaskQueue.Task.DepotMaintain}｣ 任务，导入 ｢{key=TaskQueue.DepotMaintain.PresetChip1}｣ 与 ｢{key=TaskQueue.DepotMaintain.PresetChip2}｣ 两个预设即可覆盖全部目标。</system:String>
     <system:String x:Key="Toolbox.TutorialChallenge.Title">牛币</system:String>
     <system:String x:Key="Tray.Exit">退出</system:String>
     <system:String x:Key="Tray.ForceShow">强制显示MAA</system:String>
