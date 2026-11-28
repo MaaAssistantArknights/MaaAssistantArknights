@@ -2566,6 +2566,7 @@ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Notifications\Settin
     <system:String x:Key="Toolbox.MiniGame.SecretFront.Event2">遊俠</system:String>
     <system:String x:Key="Toolbox.MiniGame.SecretFront.Event3">詭影迷蹤</system:String>
     <system:String x:Key="Toolbox.MiniGame.SecretFront.Tip">在選擇小隊介面開始，如有存檔須手動刪除。&#10;第一次打請先看完教學後關閉。&#10;推薦勾選遊戲內 ｢繼承上一支隊伍發回的資料｣。</system:String>
+    <system:String x:Key="Toolbox.MiniGame.StartBlocked">目前有其他任務正在執行或收尾中，請稍後再啟動小遊戲</system:String>
     <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol">{key=Toolbox.MiniGame.SPA}</system:String>
     <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Alliance.Tip">該賽季未開放，無法使用</system:String>
     <system:String x:Key="Toolbox.MiniGame.StrongholdProtocol.Cleared">本局通關</system:String>
