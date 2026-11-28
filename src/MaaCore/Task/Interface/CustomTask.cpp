@@ -3,6 +3,7 @@
 #include "Config/TaskData.h"
 #include "Task/MiniGame/AutoRaisePotentialTaskPlugin.h"
 #include "Task/MiniGame/EventShopTaskPlugin.h"
+#include "Task/MiniGame/KarlanTaskPlugin.h"
 #include "Task/MiniGame/MaterialSynthesisTaskPlugin.h"
 #include "Task/MiniGame/PixelPaintTaskPlugin.h"
 #include "Task/MiniGame/SecretFrontTaskPlugin.h"
@@ -16,6 +17,8 @@ asst::CustomTask::CustomTask(const AsstCallback& callback, Assistant* inst) :
 {
     LogTraceFunction;
     m_custom_task_ptr->register_plugin<ScreenshotTaskPlugin>();
+    m_custom_task_ptr->register_plugin<KarlanTaskPlugin>()->set_retry_times(0);
+    m_subtasks.emplace_back(m_custom_task_ptr);
 }
 
 bool asst::CustomTask::set_params(const json::value& params)
@@ -62,7 +65,6 @@ bool asst::CustomTask::set_params(const json::value& params)
         tasks.emplace_back(std::move(resolved_task));
     }
     m_custom_task_ptr->set_tasks(std::move(tasks));
-    m_subtasks.emplace_back(m_custom_task_ptr);
     return true;
 }
 
