@@ -419,6 +419,26 @@
                     Content="{DynamicResource Connection.WindowMinimize}"
                     Visibility="{c:Binding ShowAdvancedConnectSettings and DataContext.ShowWindowMinimizeButton,
                                            ElementName=Root}" />
+                <Button
+                    Height="30"
+                    Margin="5"
+                    HorizontalAlignment="Center"
+                    Command="{s:Action ToggleGameWindowSize}"
+                    IsEnabled="{Binding Run.Idle, Source={x:Static helper:Instances.SettingsViewModel}}"
+                    ToolTip="{DynamicResource Connection.WindowResize.Tip}"
+                    Visibility="{c:Binding ShowAdvancedConnectSettings and DataContext.IsPCConnectConfig,
+                                           ElementName=Root}">
+                    <Button.Style>
+                        <Style BasedOn="{StaticResource {x:Type Button}}" TargetType="Button">
+                            <Setter Property="Content" Value="{DynamicResource Connection.WindowResize}" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsGameWindowResized}" Value="True">
+                                    <Setter Property="Content" Value="{DynamicResource Connection.WindowResize.Restore}" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
             </StackPanel>
             <controls:TextBlock
                 Margin="5"
