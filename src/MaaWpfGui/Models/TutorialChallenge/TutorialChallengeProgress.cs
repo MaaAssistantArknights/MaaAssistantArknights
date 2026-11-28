@@ -63,7 +63,7 @@ public static class TutorialChallengeProgress
         var data = JsonDataHelper.Get<ProgressData>(JsonDataKey.TutorialChallengeProgress);
         if (data?.ClearedLevels is { } list)
         {
-            // 只认已注册的关卡，关卡下线或文件被手改时牛牛币不会多于关卡总数
+            // 下线关卡的旧记录不计入通关数和奖章进度。
             var registered = TutorialChallengeLevels.All.Select(level => level.Id).ToHashSet();
             _clearedLevels = [.. list.Where(registered.Contains)];
         }

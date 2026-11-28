@@ -18,4 +18,5 @@ public enum AchievementReleasePhase
     Phase1 = 1,
     Phase2 = 2,
     Phase3 = 3,
+    Phase4 = 4,
 }

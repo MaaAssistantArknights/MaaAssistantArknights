@@ -53,6 +53,7 @@ public class AchievementTrackerHelper : PropertyChangedBase
     private const AchievementReleasePhase FirstReleasePhase = AchievementReleasePhase.Phase1;
     private const AchievementReleasePhase SecondReleasePhase = AchievementReleasePhase.Phase2;
     private const AchievementReleasePhase ThirdReleasePhase = AchievementReleasePhase.Phase3;
+    private const AchievementReleasePhase FourthReleasePhase = AchievementReleasePhase.Phase4;
 
     private Dictionary<string, Achievement> _achievements = [];
 
@@ -598,9 +599,9 @@ public class AchievementTrackerHelper : PropertyChangedBase
         BasicUsage(id: AchievementIds.RoguelikeGamePass2, group: AchievementIds.RoguelikeGamePassGroup, target: 5, groupIndex: 2),
         BasicUsage(id: AchievementIds.RoguelikeGamePass3, group: AchievementIds.RoguelikeGamePassGroup, target: 10, groupIndex: 3),
 
-        BasicUsage(id: AchievementIds.SimulationSpaceMedal1, group: AchievementIds.SimulationSpaceGroup, target: 5, groupIndex: 1), // 模拟空间通关数
-        BasicUsage(id: AchievementIds.SimulationSpaceMedal2, group: AchievementIds.SimulationSpaceGroup, target: 10, groupIndex: 2),
-        BasicUsage(id: AchievementIds.SimulationSpaceMedal3, group: AchievementIds.SimulationSpaceGroup, target: 20, groupIndex: 3), // 为将来扩关卡预留，现有关卡数不足 20
+        BasicUsage(id: AchievementIds.SimulationSpaceMedal1, group: AchievementIds.SimulationSpaceGroup, target: 5, groupIndex: 1, releasePhase: FourthReleasePhase),
+        BasicUsage(id: AchievementIds.SimulationSpaceMedal2, group: AchievementIds.SimulationSpaceGroup, target: 10, groupIndex: 2, releasePhase: FourthReleasePhase),
+        BasicUsage(id: AchievementIds.SimulationSpaceMedal3, group: AchievementIds.SimulationSpaceGroup, target: 20, isHidden: true, groupIndex: 3, releasePhase: FourthReleasePhase), // 关卡数达到 20 后公开此奖章
 
         BasicUsage(id: AchievementIds.RoguelikeN04, group: AchievementIds.RoguelikeNGroup, groupIndex: 1), // 肉鸽 难度 通关
         BasicUsage(id: AchievementIds.RoguelikeN08, group: AchievementIds.RoguelikeNGroup, groupIndex: 2),

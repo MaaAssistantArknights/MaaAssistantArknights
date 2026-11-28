@@ -24,6 +24,7 @@ public static class AchievementReleasePhaseExtensions
         { AchievementReleasePhase.Phase1, new DateOnly(2025, 6, 10) },
         { AchievementReleasePhase.Phase2, new DateOnly(2026, 1, 5) },
         { AchievementReleasePhase.Phase3, new DateOnly(2026, 3, 27) },
+        { AchievementReleasePhase.Phase4, new DateOnly(2026, 11, 28) },
     };
 
     public static DateOnly ReleaseDate(this AchievementReleasePhase phase)
