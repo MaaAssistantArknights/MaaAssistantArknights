@@ -118,9 +118,12 @@ bool MaaFwController::connect_with_extras(
 
         json::object config_arg = extras.get("config", json::object {});
         if (config == "AVD") {
-            config_arg |= json::object {
-                { "extras", json::object { { "avd", json::object { { "enable", true } } } } },
-            };
+            // 深合并而非整体覆盖，保留调用方在 config.extras / config.extras.avd 里已传入的其它条目
+            json::object avd_extras = config_arg.get("extras", json::object {});
+            json::object avd_config = avd_extras.get("avd", json::object {});
+            avd_config["enable"] = true;
+            avd_extras["avd"] = std::move(avd_config);
+            config_arg["extras"] = std::move(avd_extras);
         }
         m_unit_handle = create_func(
             adb_path.c_str(),
